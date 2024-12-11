@@ -17,8 +17,9 @@ import { Controller, FieldError, FieldValues, UseControllerProps } from 'react-h
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
-import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
+import { GroupBase, SelectInstance, OptionsOrGroups, SingleValue } from 'react-select';
 import { Error } from '../../Typography';
+import { hookFormSelectUniquePropertyValidation } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -47,7 +48,11 @@ export function AnimalTypeSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+        rules={{
+          required: { value: true, message: t('common:REQUIRED') },
+          // @ts-ignore
+          validate: hookFormSelectUniquePropertyValidation(typeOptions, 'label', 'Already exists'),
+        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
@@ -71,6 +76,8 @@ export type AnimalBreedSelectProps = {
   isTypeSelected?: boolean;
   breedSelectRef?: RefObject<SelectInstance>;
   isDisabled?: boolean;
+  error?: FieldError;
+  onBreedChange?: (Option: Option | null) => void;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({
@@ -80,25 +87,37 @@ export function AnimalBreedSelect<T extends FieldValues>({
   isTypeSelected,
   breedSelectRef,
   isDisabled = false,
+  error,
+  onBreedChange,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <CreatableSelect
-          ref={breedSelectRef}
-          options={breedOptions}
-          label={t('ADD_ANIMAL.BREED')}
-          optional
-          controlShouldRenderValue={isTypeSelected}
-          placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
-          isDisabled={!isTypeSelected || isDisabled}
-          onChange={(option) => onChange(option)}
-          value={value || null}
-        />
-      )}
-    />
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        rules={{
+          validate: hookFormSelectUniquePropertyValidation(breedOptions, 'label', 'Already exists'),
+        }}
+        render={({ field: { onChange, value } }) => (
+          <CreatableSelect
+            ref={breedSelectRef}
+            options={breedOptions}
+            label={t('ADD_ANIMAL.BREED')}
+            optional
+            controlShouldRenderValue={isTypeSelected}
+            placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
+            isDisabled={!isTypeSelected || isDisabled}
+            onChange={(option) => {
+              onChange(option);
+              // @ts-ignore
+              onBreedChange?.(option);
+            }}
+            value={value || null}
+          />
+        )}
+      />
+      {error && <Error>{error.message}</Error>}
+    </div>
   );
 }

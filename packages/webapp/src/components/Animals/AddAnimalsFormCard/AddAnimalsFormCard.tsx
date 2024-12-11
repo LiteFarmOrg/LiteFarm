@@ -110,6 +110,10 @@ export default function AddAnimalsFormCard({
         control={control}
         breedOptions={filteredBreeds}
         isTypeSelected={!!watchAnimalType}
+        onBreedChange={(option) => {
+          trigger(`${namePrefix}${BasicsFields.BREED}`);
+        }}
+        error={get(errors, `${namePrefix}${BasicsFields.BREED}`)}
       />
 
       <div className={styles.countAndSexDetailsWrapper}>

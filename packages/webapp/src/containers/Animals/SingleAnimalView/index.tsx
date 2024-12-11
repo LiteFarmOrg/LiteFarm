@@ -175,6 +175,10 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   };
 
   const getInventoryId = () => {
+    if (!selectedAnimal && !selectedBatch) {
+      return '';
+    }
+
     const animalOrBatch = AnimalOrBatchKeys[selectedAnimal ? 'ANIMAL' : 'BATCH'];
     return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
   };

@@ -32,6 +32,7 @@ import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
 import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
+import { formatTranslationKey } from '../../util/util.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -392,30 +393,33 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
     .withGraphFetched(relations);
 };
 
-// Post loop checks
+// Checks for duplicates - no migration was made for pre-existing duplicates on beta
+// Translation key would normally be used to check for duplicates
 const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_id, trx) => {
   if (newTypesSet.size) {
-    const record = await CustomAnimalTypeModel.getTypesByFarmAndTypes(
-      farm_id,
-      [...newTypesSet],
-      trx,
-    );
-
-    if (record.length) {
-      throw customError('Animal type already exists', 409);
-    }
+    const customTypes = await CustomAnimalTypeModel.query(trx).where('farm_id', farm_id);
+    const formattedCustomTypes = customTypes.map((ct) => formatTranslationKey(ct.type));
+    newTypesSet.forEach((newType) => {
+      if ([...formattedCustomTypes].includes(formatTranslationKey(newType))) {
+        throw customError('Animal type already exists', 409);
+      }
+    });
   }
 
   if (newBreedsSet.size) {
     const typeBreedPairs = [...newBreedsSet].map((breed) => breed.split('/'));
-    const record = await CustomAnimalBreedModel.getBreedsByFarmAndTypeBreedPairs(
-      farm_id,
-      typeBreedPairs,
-      trx,
-    );
-
-    if (record.length) {
-      throw customError('Animal breed already exists', 409);
+    const customBreeds = await CustomAnimalBreedModel.query(trx).where('farm_id', farm_id);
+    for (const newBreed of typeBreedPairs) {
+      const [typeColumn, typeId, breed] = newBreed;
+      if (
+        [...customBreeds].some(
+          (cb) =>
+            cb[typeColumn] === +typeId &&
+            formatTranslationKey(cb.breed) === formatTranslationKey(breed),
+        )
+      ) {
+        throw customError('Animal breed already exists', 409);
+      }
     }
   }
 };

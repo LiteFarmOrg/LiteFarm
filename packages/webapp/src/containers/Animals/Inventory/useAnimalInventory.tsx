@@ -141,12 +141,12 @@ const formatAnimalsData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
   locationsMap: { [key: string]: string },
+  showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animals
-    .filter(
-      (animal: Animal) =>
-        // filter out removed animals
-        !animal.animal_removal_reason_id,
+    .filter((animal: Animal) =>
+      // filter out removed animals
+      showRemoved ? true : !animal.animal_removal_reason_id,
     )
     .map((animal: Animal) => {
       return {
@@ -178,12 +178,12 @@ const formatAnimalBatchesData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
   locationsMap: { [key: string]: string },
+  showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animalBatches
-    .filter(
-      (batch: AnimalBatch) =>
-        // filter out removed animals
-        !batch.animal_removal_reason_id,
+    .filter((batch: AnimalBatch) =>
+      // filter out removed animals
+      showRemoved ? true : !batch.animal_removal_reason_id,
     )
     .map((batch: AnimalBatch) => {
       return {
@@ -216,6 +216,7 @@ interface BuildInventoryArgs {
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
   locationsMap: { [key: string]: string };
+  showRemoved: boolean;
 }
 
 export const buildInventory = ({
@@ -226,6 +227,7 @@ export const buildInventory = ({
   defaultAnimalBreeds,
   defaultAnimalTypes,
   locationsMap,
+  showRemoved,
 }: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
@@ -235,6 +237,7 @@ export const buildInventory = ({
       defaultAnimalBreeds,
       defaultAnimalTypes,
       locationsMap,
+      showRemoved,
     ),
     ...formatAnimalBatchesData(
       animalBatches,
@@ -243,6 +246,7 @@ export const buildInventory = ({
       defaultAnimalBreeds,
       defaultAnimalTypes,
       locationsMap,
+      showRemoved,
     ),
   ];
 
@@ -251,7 +255,7 @@ export const buildInventory = ({
   return sortedInventory;
 };
 
-const useAnimalInventory = () => {
+const useAnimalInventory = (showRemoved = false) => {
   const { data, isLoading } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
@@ -298,6 +302,7 @@ const useAnimalInventory = () => {
         defaultAnimalBreeds,
         defaultAnimalTypes,
         locationsMap,
+        showRemoved,
       });
     }
     return [];

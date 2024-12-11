@@ -91,6 +91,7 @@ interface AnimalInventoryProps {
   showLinks?: boolean;
   isCompleteView?: boolean;
   hideNoResultsBlock?: boolean;
+  showRemoved?: boolean;
 }
 
 const BaseAnimalInventory = ({
@@ -249,6 +250,7 @@ export default function AnimalInventory({
   showLinks = true,
   isCompleteView,
   hideNoResultsBlock,
+  showRemoved = false,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -268,7 +270,7 @@ export default function AnimalInventory({
 
   const zIndexBase = theme.zIndex.drawer;
 
-  const { inventory, isLoading } = useAnimalInventory();
+  const { inventory, isLoading } = useAnimalInventory(showRemoved);
   const totalInventoryCount = inventory.length;
   const animalCount = preSelectedIds.reduce((acc, cur) => {
     return acc + (inventory.find((animalOrBatch) => animalOrBatch.id === cur)?.count || 0);

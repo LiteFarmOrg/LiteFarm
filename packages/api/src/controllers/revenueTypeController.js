@@ -18,6 +18,7 @@ import baseController from './baseController.js';
 import RevenueTypeModel from '../models/revenueTypeModel.js';
 import SaleModel from '../models/saleModel.js';
 import { transaction, Model } from 'objection';
+import { formatTranslationKey } from '../util/util.js';
 
 const revenueTypeController = {
   addType() {
@@ -26,7 +27,7 @@ const revenueTypeController = {
       try {
         const farm_id = req.headers.farm_id;
         const data = req.body;
-        data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
+        data.revenue_translation_key = formatTranslationKey(data.revenue_name);
         //prevent empty strings
         data.custom_description = data.custom_description || null;
 
@@ -181,7 +182,7 @@ const revenueTypeController = {
           return res.status(409).send();
         }
 
-        data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
+        data.revenue_translation_key = formatTranslationKey(data.revenue_name);
 
         const result = await baseController.patch(RevenueTypeModel, revenue_type_id, data, req, {
           trx,

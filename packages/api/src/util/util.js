@@ -54,3 +54,12 @@ export const checkAndTrimString = (input) => {
   }
   return input.trim();
 };
+
+/**
+ * Format transaltion key
+ * @param {String} key
+ * @returns {String} - Formatted key
+ */
+export const formatTranslationKey = (key) => {
+  return key.toUpperCase().trim().replaceAll(' ', '_');
+};

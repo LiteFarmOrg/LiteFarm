@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -32,6 +33,7 @@ import styles from './styles.module.scss';
 import {
   hookFormMinValidation,
   hookFormMaxCharsValidation,
+  hookFormMaxValidation,
 } from '../../Form/hookformValidationUtils';
 import LockedInput from '../../Form/LockedInput';
 import {
@@ -92,6 +94,11 @@ const GeneralDetails = ({
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
+  useEffect(() => {
+    // Prevent the error from persisting when returning from animal basics
+    trigger(`${namePrefix}${DetailsFields.COUNT}`);
+  }, []);
+
   const sexInputs =
     animalOrBatch === AnimalOrBatchKeys.ANIMAL ? (
       <div>
@@ -121,6 +128,7 @@ const GeneralDetails = ({
               message: t('common:REQUIRED'),
             },
             min: hookFormMinValidation(1),
+            max: hookFormMaxValidation(1000000000),
           }}
           onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
           disabled={mode === 'readonly'}

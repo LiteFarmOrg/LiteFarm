@@ -236,6 +236,20 @@ class Animal extends baseModel {
     );
   }
 
+  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate) {
+    return Animal.query()
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date');
+        builder
+          .where('deleted', false)
+          .where('complete_date', '>', completedDate)
+          .where('task_type_id', taskTypeId);
+      })
+      .whereIn('id', animalIds);
+  }
+
   static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
     let unrelatedTaskIds = [];
     const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);

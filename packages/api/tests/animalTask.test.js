@@ -101,6 +101,14 @@ const checkMovementPurposeRelationships = (expectedRelationships, actualRelation
   );
 };
 
+const getAnimalLocations = async (animalOrBatch, ids) => {
+  return knex(animalOrBatch === 'animal' ? 'animal' : 'animal_batch')
+    .select('id', 'location_id')
+    .whereIn('id', ids);
+};
+
+const getAnimalOrBatchIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
+
 describe('Animal task tests', () => {
   let user_id, farm_id, location_id, task_type_id, planting_management_plan_id;
   let animal1, animal2, animal3, animal4, batch1, batch2, batch3, batch4;
@@ -841,6 +849,43 @@ describe('Animal task tests', () => {
           }
         };
 
+        const checkAnimalMovementWithSpecificCompleteDate = async ({
+          locationId,
+          animals = [],
+          batches = [],
+          completeDate,
+          expectedAnimalLocations = {},
+          expectedBatchLocations = {},
+        }) => {
+          const { task_id } = await animalTaskFactory({
+            locations: [{ location_id: locationId }],
+            animals: animals.map(({ id }) => ({ id })),
+            animal_batches: batches.map(({ id }) => ({ id })),
+            ...createFakeMovementTask(),
+          });
+
+          await completeMovementTaskReq(
+            {
+              ...fakeCompletionData,
+              complete_date: completeDate,
+              ...createMovementTaskForReqBody(),
+            },
+            task_id,
+          );
+
+          const [updatedAnimals, updatedBatches] = await Promise.all([
+            getAnimalLocations('animal', getAnimalOrBatchIds(animals)),
+            getAnimalLocations('batch', getAnimalOrBatchIds(batches)),
+          ]);
+
+          updatedAnimals.forEach(({ id, location_id }) => {
+            expect(location_id).toBe(expectedAnimalLocations[id]);
+          });
+          updatedBatches.forEach(({ id, location_id }) => {
+            expect(location_id).toBe(expectedBatchLocations[id]);
+          });
+        };
+
         test('should complete an animal task without purpose relations and no updates', async () => {
           await checkCompletedMovementTask(null, null, null, null);
         });
@@ -889,6 +934,88 @@ describe('Animal task tests', () => {
 
         test('should complete a movement task with deleting other_purpose', async () => {
           await checkCompletedMovementTask([otherPurpose], faker.lorem.word(), [otherPurpose], '');
+        });
+
+        test(`should complete a movement task without updating animals' location if there's newer completed task`, async () => {
+          const [[animalA], [animalB], [animalC]] = await Promise.all(
+            new Array(3).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
+          );
+          const [[batchA], [batchB]] = await Promise.all(
+            new Array(2)
+              .fill()
+              .map(() => mocks.animal_batchFactory({ promisedFarm: [{ farm_id }] })),
+          );
+
+          // Record a task completed a week ago
+          const dateWeekAgo = new Date();
+          dateWeekAgo.setDate(dateWeekAgo.getDate() - 7);
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location_id,
+            animals: [animalA, animalB],
+            completeDate: toLocal8601Extended(dateWeekAgo),
+            expectedAnimalLocations: { [animalA.id]: location_id, [animalB.id]: location_id },
+          });
+
+          // Record a task completed a month ago
+          const dateMonthAgo = new Date();
+          dateMonthAgo.setMonth(dateMonthAgo.getMonth() - 1);
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location2Id,
+            animals: [animalA, animalB],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(dateMonthAgo),
+            expectedAnimalLocations: { [animalA.id]: location_id, [animalB.id]: location_id },
+            expectedBatchLocations: { [batchA.id]: location2Id, [batchB.id]: location2Id },
+          });
+
+          // Move some animals today
+          const [{ location_id: location3Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location3Id,
+            animals: [animalA],
+            batches: [batchA],
+            completeDate: toLocal8601Extended(new Date()),
+            expectedAnimalLocations: { [animalA.id]: location3Id },
+            expectedBatchLocations: { [batchA.id]: location3Id },
+          });
+
+          // Record yesterday's movement
+          const dateYesterday = new Date();
+          dateYesterday.setDate(dateYesterday.getDate() - 1);
+          const [{ location_id: location4Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location4Id,
+            animals: [animalA, animalB, animalC],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(dateYesterday),
+            expectedAnimalLocations: {
+              [animalA.id]: location3Id,
+              [animalB.id]: location4Id,
+              [animalC.id]: location4Id,
+            },
+            expectedBatchLocations: { [batchA.id]: location3Id, [batchB.id]: location4Id },
+          });
+
+          // Move animals again today
+          const [{ location_id: location5Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location5Id,
+            animals: [animalA, animalB, animalC],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(new Date()),
+            expectedAnimalLocations: {
+              [animalA.id]: location5Id,
+              [animalB.id]: location5Id,
+              [animalC.id]: location5Id,
+            },
+            expectedBatchLocations: { [batchA.id]: location5Id, [batchB.id]: location5Id },
+          });
         });
 
         test('should not complete a movement task with an invalid purpose id', async () => {

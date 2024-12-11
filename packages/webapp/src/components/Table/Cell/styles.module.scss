@@ -45,6 +45,7 @@
   height: 32px;
   width: 32px;
   padding: 4px;
+  margin-right: 8px; // lines up following text for cells with and without iconBorder
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
 }
 

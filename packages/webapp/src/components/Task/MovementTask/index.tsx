@@ -50,12 +50,16 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
 
   useEffect(() => {
     if (!purposeOptions.length) return;
-    const purposeIds = getValues('movement_task.purpose_ids');
-    if (purposeIds?.length) {
-      const filteredPurposes = purposeOptions.filter(({ id }) => purposeIds.includes(id));
-      setValue(PURPOSE, filteredPurposes);
+
+    // Reset purposes to initial task values
+    if (disabled) {
+      const purposeIds = getValues('movement_task.purpose_ids');
+      if (purposeIds?.length) {
+        const filteredPurposes = purposeOptions.filter(({ id }) => purposeIds.includes(id));
+        setValue(PURPOSE, filteredPurposes);
+      }
     }
-  }, [purposes]);
+  }, [purposes, disabled]);
 
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;

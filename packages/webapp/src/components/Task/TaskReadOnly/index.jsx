@@ -366,6 +366,7 @@ export default function PureTaskReadOnly({
             }
             showLinks={false}
             showOnlySelected={true}
+            showRemoved={isCompleted || isAbandoned}
           />
         </div>
       ) : null}

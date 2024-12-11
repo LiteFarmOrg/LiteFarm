@@ -146,7 +146,7 @@ const formatAnimalsData = (
   return animals
     .filter((animal: Animal) =>
       // filter out removed animals
-      showRemoved ? true : !animal.animal_removal_reason_id,
+      showRemoved || !animal.animal_removal_reason_id,
     )
     .map((animal: Animal) => {
       return {

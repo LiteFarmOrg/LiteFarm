@@ -127,12 +127,9 @@ export default function AddAnimalsFormCard({
               value: true,
               message: t('common:REQUIRED'),
             },
-            max: shouldCreateIndividualProfiles
-              ? hookFormMaxValidation(
-                  ANIMAL_COUNT_LIMIT,
-                  t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
-                )
-              : undefined,
+            max: hookFormMaxValidation(
+              shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : 1000000000,
+            ),
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${BasicsFields.COUNT}`)}

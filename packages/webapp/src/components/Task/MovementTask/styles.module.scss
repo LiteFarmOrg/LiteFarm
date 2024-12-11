@@ -18,6 +18,7 @@
   flex-direction: column;
   gap: 24px;
   margin-bottom: -8px;
+  z-index: 1; // make sure clear all remains clickable
 }
 
 .readonly {

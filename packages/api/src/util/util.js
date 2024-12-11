@@ -56,7 +56,7 @@ export const checkAndTrimString = (input) => {
 };
 
 /**
- * Format transaltion key
+ * Format transaltion key - (same as frontend util)
  * @param {String} key
  * @returns {String} - Formatted key
  */

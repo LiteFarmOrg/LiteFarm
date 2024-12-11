@@ -59,11 +59,6 @@
     "EGGS": "Eier",
     "FAT": "Fett",
     "MEAT": "Fleisch",
-    "OTHER": "Andere",
-    "RECREATIONAL_OR_CULTURAL_USE": "Kulturelle oder Freizeitnutzung"
-  },
-  "COUNT": {
-    "MAX": "MISSING",
     "ANIMAL_FIBERS_AND_SKINS": "Tierfasern und Felle",
     "LABOUR_AND_DRAFT": "Arbeitsaufwand und Entwurf",
     "BREEDING": "Zucht",

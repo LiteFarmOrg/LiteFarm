@@ -55,19 +55,6 @@
     "PIGS": "Cerdos"
   },
   "USE": {
-    "MILK": "MISSING",
-    "EGGS": "MISSING",
-    "FAT": "MISSING",
-    "MEAT": "MISSING",
-    "ANIMAL_FIBERS_AND_SKINS": "MISSING",
-    "LABOUR_AND_DRAFT": "MISSING",
-    "BREEDING": "MISSING",
-    "RECREATIONAL_OR_CULTURAL_USE": "MISSING",
-    "COMPANIONSHIP": "MISSING",
-    "OTHER": "MISSING"
-  },
-  "COUNT": {
-    "MAX": "MISSING",
     "MILK": "Leche",
     "EGGS": "Huevos",
     "FAT": "Grasa",

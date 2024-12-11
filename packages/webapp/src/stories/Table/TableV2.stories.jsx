@@ -285,3 +285,15 @@ export const extraRowSpacing = {
     extraRowSpacing: true,
   },
 };
+
+export const RemovedRows = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10).map((item, index) =>
+      index === 1 || index === 5 ? { ...item, removed: true } : item,
+    ),
+    minRows: 10,
+    shouldFixTableLayout: true,
+  },
+};

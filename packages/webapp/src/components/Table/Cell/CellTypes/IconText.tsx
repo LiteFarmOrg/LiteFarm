@@ -44,7 +44,7 @@ const IconText = ({
           </div>
           {highlightedText && (
             <div className={clsx(styles.highlightedText, styles.overflowHidden)}>
-              {highlightedText}
+              <p>{highlightedText}</p>
             </div>
           )}
         </div>

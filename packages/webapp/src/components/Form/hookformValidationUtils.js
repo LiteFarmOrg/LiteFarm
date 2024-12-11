@@ -89,6 +89,15 @@ export const hookFormUniquePropertyWithStatusValidation = ({
 };
 
 /**
+ * Format translation key - (same as backend util)
+ * @param {String} key
+ * @returns {String} - Formatted key
+ */
+const formatTranslationKey = (key) => {
+  return key.toUpperCase().trim().replaceAll(' ', '_');
+};
+
+/**
  * Validates if a value is unique within an array of objects based on a specified property.
  *
  * @param {Array} objArr - The array of objects to search for duplicates in.
@@ -102,9 +111,8 @@ export const hookFormSelectUniquePropertyValidation = (objArr, property, message
     if (!value?.__isNew__) {
       return true;
     }
-    const otherOptions = objArr.filter((option) => !(option.value === value?.value));
-    const alreadyExists = otherOptions.some((item) => {
-      return item[property] === value?.label;
+    const alreadyExists = objArr.some((item) => {
+      return formatTranslationKey(item[property]) === formatTranslationKey(value?.label);
     });
     if (alreadyExists) {
       return message;

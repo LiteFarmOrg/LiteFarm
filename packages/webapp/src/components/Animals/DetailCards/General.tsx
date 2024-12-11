@@ -42,6 +42,7 @@ import {
   AnimalBreedSelect,
 } from '../AddAnimalsFormCard/AnimalSelect';
 import { parseUniqueDefaultId } from '../../../util/animal';
+import { BATCH_COUNT_LIMIT } from '../../../containers/Animals/AddAnimals/utils';
 
 export type AnimalUseOptions = {
   default_type_id: number | null;
@@ -128,7 +129,7 @@ const GeneralDetails = ({
               message: t('common:REQUIRED'),
             },
             min: hookFormMinValidation(1),
-            max: hookFormMaxValidation(1000000000),
+            max: hookFormMaxValidation(BATCH_COUNT_LIMIT),
           }}
           onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
           disabled={mode === 'readonly'}

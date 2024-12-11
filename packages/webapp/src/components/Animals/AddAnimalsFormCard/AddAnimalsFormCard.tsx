@@ -35,6 +35,10 @@ import {
 } from './AnimalSelect';
 import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
 import clsx from 'clsx';
+import {
+  ANIMAL_COUNT_LIMIT,
+  BATCH_COUNT_LIMIT,
+} from '../../../containers/Animals/AddAnimals/utils';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -68,7 +72,6 @@ export default function AddAnimalsFormCard({
     formState: { errors },
   } = useFormContext();
 
-  const ANIMAL_COUNT_LIMIT = 1000;
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}${BasicsFields.COUNT}`);
   const watchAnimalType = watch(`${namePrefix}${BasicsFields.TYPE}`);
@@ -128,7 +131,7 @@ export default function AddAnimalsFormCard({
               message: t('common:REQUIRED'),
             },
             max: hookFormMaxValidation(
-              shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : 1000000000,
+              shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : BATCH_COUNT_LIMIT,
             ),
             min: hookFormMinValidation(1),
           }}

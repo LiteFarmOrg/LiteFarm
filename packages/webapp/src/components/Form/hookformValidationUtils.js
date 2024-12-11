@@ -87,3 +87,28 @@ export const hookFormUniquePropertyWithStatusValidation = ({
     return true;
   };
 };
+
+/**
+ * Validates if a value is unique within an array of objects based on a specified property.
+ *
+ * @param {Array} objArr - The array of objects to search for duplicates in.
+ * @param {string} property - The property within each object to check for uniqueness.
+ * @param {string} message - The error message to return if the value is not unique.
+ * @returns {(value: any) => string|boolean} A validation function that takes a value to validate and returns
+ * either the error message (if not unique) or `true` (if unique).
+ */
+export const hookFormSelectUniquePropertyValidation = (objArr, property, message) => {
+  return (value) => {
+    if (!value?.__isNew__) {
+      return true;
+    }
+    const otherOptions = objArr.filter((option) => !(option.value === value?.value));
+    const alreadyExists = otherOptions.some((item) => {
+      return item[property] === value?.label;
+    });
+    if (alreadyExists) {
+      return message;
+    }
+    return true;
+  };
+};

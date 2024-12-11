@@ -144,9 +144,10 @@ const formatAnimalsData = (
   showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animals
-    .filter((animal: Animal) =>
-      // filter out removed animals
-      showRemoved || !animal.animal_removal_reason_id,
+    .filter(
+      (animal: Animal) =>
+        // filter out removed animals
+        showRemoved || !animal.animal_removal_reason_id,
     )
     .map((animal: Animal) => {
       return {
@@ -181,9 +182,10 @@ const formatAnimalBatchesData = (
   showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animalBatches
-    .filter((batch: AnimalBatch) =>
-      // filter out removed animals
-      showRemoved ? true : !batch.animal_removal_reason_id,
+    .filter(
+      (batch: AnimalBatch) =>
+        // filter out removed animals
+        showRemoved || !batch.animal_removal_reason_id,
     )
     .map((batch: AnimalBatch) => {
       return {

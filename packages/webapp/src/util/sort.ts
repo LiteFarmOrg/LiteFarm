@@ -26,6 +26,12 @@ type Comparable<T extends string | number> = {
   [key in T]?: any;
 };
 
+export type DescendingComparator<T extends string | number> = (
+  a: Comparable<T>,
+  b: Comparable<T>,
+  orderBy: T,
+) => number;
+
 /**
  * Comparator function for descending sorting of an array of objects based on a specific property.
  *
@@ -34,11 +40,7 @@ type Comparable<T extends string | number> = {
  * @param {string} orderBy - The property by which to compare the objects.
  * @returns {number} - A negative number if a should come before b, a positive number if b should come before a, or 0 if they are equal.
  */
-export function descendingComparator<T extends string | number>(
-  a: Comparable<T>,
-  b: Comparable<T>,
-  orderBy: T,
-): number {
+export const descendingComparator: DescendingComparator<string | number> = (a, b, orderBy) => {
   if (!hasValue(b[orderBy]) && hasValue(a[orderBy])) {
     return 1;
   }
@@ -52,7 +54,7 @@ export function descendingComparator<T extends string | number>(
     return 1;
   }
   return 0;
-}
+};
 
 /**
  * Returns a comparator function for sorting an array of objects in either ascending or descending order based on a specific property.

@@ -399,9 +399,9 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
 const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_id, trx) => {
   if (newTypesSet.size) {
     const customTypes = await CustomAnimalTypeModel.query(trx).where('farm_id', farm_id);
-    const formattedCustomTypes = customTypes.map((ct) => upperCaseTrim(ct.type));
+    const formattedCustomTypes = [...customTypes].map((ct) => upperCaseTrim(ct.type));
     newTypesSet.forEach((newType) => {
-      if ([...formattedCustomTypes].includes(upperCaseTrim(newType))) {
+      if (formattedCustomTypes.includes(upperCaseTrim(newType))) {
         throw customError('Animal type already exists', 409);
       }
     });

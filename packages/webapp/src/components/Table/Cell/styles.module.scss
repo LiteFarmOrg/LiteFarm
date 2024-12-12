@@ -53,8 +53,7 @@
   box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
   height: 32px;
   width: 32px;
-  padding: 4px;
-  margin-right: 8px; // lines up following text for cells with and without iconBorder
+  margin: 4px;
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
 }
 
@@ -92,4 +91,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.removed {
+  padding-right: 2px;
 }

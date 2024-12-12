@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "Explanation",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Please describe the reason for this movement"
     },
+    "NEED_ANIMAL_LOCATION": "You'll need a location or area where animals can be moved to in order to move animals. Go to the map to create an animal location.",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NO_ANIMAL_LOCATION": "No eligible animal locations",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
     "NOTES_LABEL": "Anything specific to add related to this task?",
     "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",

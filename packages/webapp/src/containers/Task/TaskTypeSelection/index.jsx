@@ -9,6 +9,7 @@ import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
+import { animalLocationsSelector } from '../../locationSlice';
 
 function TaskTypeSelection({ history, match, location }) {
   const userFarm = useSelector(userFarmSelector);
@@ -43,6 +44,8 @@ function TaskTypeSelection({ history, match, location }) {
   const hasCurrentManagementPlans =
     useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
 
+  const hasAnimalMovementLocations = useSelector(animalLocationsSelector)?.length > 0;
+
   return (
     <>
       <HookFormPersistProvider>
@@ -60,6 +63,7 @@ function TaskTypeSelection({ history, match, location }) {
           shouldShowPlantTaskSpotLight={!planting_task}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
           hasCurrentManagementPlans={hasCurrentManagementPlans}
+          hasAnimalMovementLocations={hasAnimalMovementLocations}
           hasAnimals={animalsExistOnFarm}
         />
       </HookFormPersistProvider>

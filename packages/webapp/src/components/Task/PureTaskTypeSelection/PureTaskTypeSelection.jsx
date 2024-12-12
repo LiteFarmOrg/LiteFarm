@@ -31,6 +31,7 @@ import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModa
 import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
+import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -67,6 +68,7 @@ export const PureTaskTypeSelection = ({
   shouldShowPlantTaskSpotLight,
   updatePlantTaskSpotlight,
   hasCurrentManagementPlans,
+  hasAnimalMovementLocations,
   hasAnimals,
 }) => {
   const { t } = useTranslation();
@@ -90,6 +92,7 @@ export const PureTaskTypeSelection = ({
 
   const [showPlantTaskModal, setShowPlantTaskModal] = useState();
   const goToCatalogue = () => history.push('/crop_catalogue');
+  const goToMap = () => history.push('/map');
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setShowPlantTaskModal(true);
@@ -102,11 +105,17 @@ export const PureTaskTypeSelection = ({
     hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
   };
 
+  const [showNoAnimalLocationsModal, setShowNoAnimalLocationsModal] = useState();
+  const onMovementTaskClick = (task_type_id) => {
+    hasAnimalMovementLocations ? onSelectTask(task_type_id) : setShowNoAnimalLocationsModal(true);
+  };
+
   const onTileClick = (taskType) => {
     if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
     if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
       return onHarvestTransplantTaskClick(taskType.task_type_id);
     }
+    if (isTaskType(taskType, 'MOVEMENT_TASK')) return onMovementTaskClick(taskType.task_type_id);
     return onSelectTask(taskType.task_type_id);
   };
 
@@ -219,6 +228,12 @@ export const PureTaskTypeSelection = ({
         <NoCropManagementPlanModal
           dismissModal={() => setShowNoManagementPlanModal(false)}
           goToCatalogue={goToCatalogue}
+        />
+      )}
+      {showNoAnimalLocationsModal && (
+        <NoAnimalLocationsModal
+          dismissModal={() => setShowNoManagementPlanModal(false)}
+          goToMap={goToMap}
         />
       )}
     </>

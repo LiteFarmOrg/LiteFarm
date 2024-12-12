@@ -78,26 +78,32 @@ export const animalDescendingComparator: DescendingComparator<string | number> =
   b,
   orderBy,
 ) => {
-  if (orderBy !== 'identification') {
-    return descendingComparator(a, b, orderBy);
+  if (orderBy === 'identification') {
+    if (a.name && !b.name) {
+      return 1;
+    }
+    if (b.name && !a.name) {
+      return -1;
+    }
+
+    if (!a.name && !b.name) {
+      if (a.identifier && !b.identifier) {
+        return 1;
+      }
+      if (b.identifier && !a.identifier) {
+        return -1;
+      }
+    }
+
+    let key = 'internal_identifier';
+    if (a.name && b.name) {
+      key = 'name';
+    } else if (a.identifier && b.identifier) {
+      key = 'identifier';
+    }
+
+    return descendingComparator(a, b, key);
   }
 
-  if (a.name && !b.name) {
-    return -1;
-  }
-  if (b.name && !a.name) {
-    return 1;
-  }
-  if (a.identifier && !b.identifier) {
-    return -1;
-  }
-  if (b.identifier && !a.identifier) {
-    return 1;
-  }
-
-  return (
-    (a.name && b.name && a.name.localeCompare(b.name)) ||
-    (a.identifier && b.identifier && a.identifier.localeCompare(b.identifier)) ||
-    a.internal_identifier - b.internal_identifier
-  );
+  return descendingComparator(a, b, orderBy);
 };

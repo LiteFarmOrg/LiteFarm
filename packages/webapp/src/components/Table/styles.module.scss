@@ -169,6 +169,10 @@
     padding: 0 12px;
     height: 40px;
   }
+
+  &.afterCheckbox > div:first-child {
+    margin-left: -12px;
+  }
 }
 
 .loadMoreCell {

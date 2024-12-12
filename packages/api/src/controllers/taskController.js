@@ -31,6 +31,8 @@ import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
 import { ANIMAL_TASKS } from '../util/animal.js';
@@ -138,8 +140,8 @@ async function updateTaskWithCompletedData(
     }
 
     case 'animal_movement_task': {
-      const { locations, animals, animal_batches } = await TaskModel.query(trx)
-        .select('task_id')
+      const { task_type_id, locations, animals, animal_batches } = await TaskModel.query(trx)
+        .select('task_type_id')
         .withGraphFetched(
           '[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]',
         )
@@ -157,8 +159,33 @@ async function updateTaskWithCompletedData(
         data.animal_batches = animal_batches;
       }
 
-      data.animals?.forEach((animal) => (animal.location_id = locationId));
-      data.animal_batches?.forEach((batch) => (batch.location_id = locationId));
+      const updateEntityLocations = async (entities, getNewerCompletedTasks) => {
+        if (!entities?.length) {
+          return;
+        }
+
+        const entitiesWithNewerCompletedTasks = await getNewerCompletedTasks(
+          entities.map(({ id }) => id),
+          task_type_id,
+          data.complete_date,
+        );
+
+        entities.forEach((entity) => {
+          const newerCompletedTasks =
+            entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
+
+          // If there's no newer completed task, update the location
+          if (!newerCompletedTasks.length) {
+            entity.location_id = locationId;
+          }
+        });
+      };
+
+      await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
+      await updateEntityLocations(
+        data.animal_batches,
+        AnimalBatchModel.getBatchesWithNewerCompletedTasks,
+      );
 
       if (!data.animal_movement_task) {
         data.animal_movement_task = {};

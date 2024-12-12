@@ -100,8 +100,10 @@ export default function PureCompleteStepOne({
     setValue(ANIMAL_IDS, selectedAnimalIds);
   };
 
+  const hasAnimals = selectedTask.animals?.length || selectedTask.animal_batches?.length;
+
   useEffect(() => {
-    if (!changesRequired) {
+    if (hasAnimals && !changesRequired) {
       setValue(
         ANIMAL_IDS,
         formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches),
@@ -135,7 +137,7 @@ export default function PureCompleteStepOne({
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
       <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
 
-      {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
+      {hasAnimals ? (
         <div className={styles.animalInventorySection}>
           <AnimalInventory
             view={View.TASK_SUMMARY}
@@ -197,5 +199,5 @@ const taskComponents = {
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
-  MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
 };

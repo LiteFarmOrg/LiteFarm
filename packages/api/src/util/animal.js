@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { raw } from 'objection';
 import knex from './knex.js';
 import baseController from '../controllers/baseController.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
@@ -26,6 +25,7 @@ import TaskModel from '../models/taskModel.js';
 import { checkIsArray, customError } from './customErrors.js';
 
 export const ANIMAL_TASKS = ['animal_movement_task'];
+export const ANIMAL_CREATE_LIMIT = 1000;
 
 /**
  * Assigns internal identifiers to records.
@@ -194,44 +194,6 @@ export const checkAnimalAndBatchIds = async (animalIds, batchIds, farmId, isRequ
     );
   }
 };
-
-export async function isOnOrAfterBirthAndBroughtInDates(date, animalIds, batchIds) {
-  const animalRelevantDate = await AnimalModel.query()
-    .select(raw('GREATEST(birth_date, brought_in_date)').as('date'))
-    .whereIn('id', [...new Set(animalIds)])
-    .whereNotNull('birth_date')
-    .orWhereNotNull('brought_in_date')
-    .first();
-
-  const batchRelevantDate = await AnimalBatchModel.query()
-    .select(raw('GREATEST(birth_date, brought_in_date)').as('date'))
-    .whereIn('id', [...new Set(batchIds)])
-    .whereNotNull('birth_date')
-    .orWhereNotNull('brought_in_date')
-    .first();
-
-  if (!animalRelevantDate && !batchRelevantDate) {
-    return true;
-  }
-
-  const latestRelevantDate = new Date(
-    Math.max(
-      animalRelevantDate?.date?.getTime() ?? -Infinity,
-      batchRelevantDate?.date?.getTime() ?? -Infinity,
-    ),
-  );
-
-  const latestRelevantDateAtMidnight = new Date(
-    latestRelevantDate.getFullYear(),
-    latestRelevantDate.getMonth(),
-    latestRelevantDate.getDate(),
-  );
-
-  const [y, m, d] = date.split('-');
-  const inputDateAtMidnight = new Date(y, m - 1, d);
-
-  return inputDateAtMidnight >= latestRelevantDateAtMidnight;
-}
 
 export const handleIncompleteTasksForAnimalsAndBatches = async (
   req,

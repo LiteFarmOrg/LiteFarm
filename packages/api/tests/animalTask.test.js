@@ -101,6 +101,14 @@ const checkMovementPurposeRelationships = (expectedRelationships, actualRelation
   );
 };
 
+const getAnimalLocations = async (animalOrBatch, ids) => {
+  return knex(animalOrBatch === 'animal' ? 'animal' : 'animal_batch')
+    .select('id', 'location_id')
+    .whereIn('id', ids);
+};
+
+const getAnimalOrBatchIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
+
 describe('Animal task tests', () => {
   let user_id, farm_id, location_id, task_type_id, planting_management_plan_id;
   let animal1, animal2, animal3, animal4, batch1, batch2, batch3, batch4;
@@ -419,43 +427,6 @@ describe('Animal task tests', () => {
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
         expect(res.status).toBe(400);
         expect(res.error.text).toBe('must have due date');
-      });
-
-      test(`should create a(n) ${type} with a due date equal to the animals' birth and brought-in dates`, async () => {
-        const today = new Date();
-        const todayInYYYYMMDD = toLocal8601Extended(today);
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          due_date: todayInYYYYMMDD,
-          related_animal_ids: [animalBornToday.id, animalBroughtInToday.id],
-        });
-        await checkValidPostRequest(type, data);
-      });
-
-      test(`should not create a(n) ${type} with a due date earlier than the animal's birth date`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          due_date: yesterdayInYYYYMMDD,
-        });
-        data.related_animal_ids = [...data.related_animal_ids, animalBornToday.id];
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(
-          `due_date must be on or after the animals' birth and brought-in dates`,
-        );
-      });
-
-      test(`should not create a(n) ${type} with a due date earlier than the animal's brought-in date`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          due_date: yesterdayInYYYYMMDD,
-        });
-        data.related_animal_ids = [...data.related_animal_ids, animalBroughtInToday.id];
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(
-          `due_date must be on or after the animals' birth and brought-in dates`,
-        );
       });
 
       if (type !== 'custom_task') {
@@ -788,40 +759,6 @@ describe('Animal task tests', () => {
           expect(patchRes.status).toBe(400);
           expect(patchRes.error.text).toBe('must have completion date');
         });
-
-        test(`should not complete an animal task with a complete date earlier than the animal's birth date`, async () => {
-          const { task_id } = await animalTaskFactory({
-            ...fakeTaskData[type](),
-            animals: [{ id: animalBornToday.id }],
-          });
-          const patchRes = await completeTaskRequest(
-            { user_id, farm_id },
-            { ...fakeCompletionData, complete_date: yesterdayInYYYYMMDD },
-            task_id,
-            type,
-          );
-          expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(
-            `complete_date must be on or after the animals' birth and brought-in dates`,
-          );
-        });
-
-        test(`should not complete an animal task with a complete date earlier than the animal's brought-in date`, async () => {
-          const { task_id } = await animalTaskFactory({
-            ...fakeTaskData[type](),
-            animals: [{ id: animalBroughtInToday.id }],
-          });
-          const patchRes = await completeTaskRequest(
-            { user_id, farm_id },
-            { ...fakeCompletionData, complete_date: yesterdayInYYYYMMDD },
-            task_id,
-            type,
-          );
-          expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(
-            `complete_date must be on or after the animals' birth and brought-in dates`,
-          );
-        });
       });
 
       describe('animal movement task tests', () => {
@@ -912,6 +849,43 @@ describe('Animal task tests', () => {
           }
         };
 
+        const checkAnimalMovementWithSpecificCompleteDate = async ({
+          locationId,
+          animals = [],
+          batches = [],
+          completeDate,
+          expectedAnimalLocations = {},
+          expectedBatchLocations = {},
+        }) => {
+          const { task_id } = await animalTaskFactory({
+            locations: [{ location_id: locationId }],
+            animals: animals.map(({ id }) => ({ id })),
+            animal_batches: batches.map(({ id }) => ({ id })),
+            ...createFakeMovementTask(),
+          });
+
+          await completeMovementTaskReq(
+            {
+              ...fakeCompletionData,
+              complete_date: completeDate,
+              ...createMovementTaskForReqBody(),
+            },
+            task_id,
+          );
+
+          const [updatedAnimals, updatedBatches] = await Promise.all([
+            getAnimalLocations('animal', getAnimalOrBatchIds(animals)),
+            getAnimalLocations('batch', getAnimalOrBatchIds(batches)),
+          ]);
+
+          updatedAnimals.forEach(({ id, location_id }) => {
+            expect(location_id).toBe(expectedAnimalLocations[id]);
+          });
+          updatedBatches.forEach(({ id, location_id }) => {
+            expect(location_id).toBe(expectedBatchLocations[id]);
+          });
+        };
+
         test('should complete an animal task without purpose relations and no updates', async () => {
           await checkCompletedMovementTask(null, null, null, null);
         });
@@ -962,6 +936,88 @@ describe('Animal task tests', () => {
           await checkCompletedMovementTask([otherPurpose], faker.lorem.word(), [otherPurpose], '');
         });
 
+        test(`should complete a movement task without updating animals' location if there's newer completed task`, async () => {
+          const [[animalA], [animalB], [animalC]] = await Promise.all(
+            new Array(3).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
+          );
+          const [[batchA], [batchB]] = await Promise.all(
+            new Array(2)
+              .fill()
+              .map(() => mocks.animal_batchFactory({ promisedFarm: [{ farm_id }] })),
+          );
+
+          // Record a task completed a week ago
+          const dateWeekAgo = new Date();
+          dateWeekAgo.setDate(dateWeekAgo.getDate() - 7);
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location_id,
+            animals: [animalA, animalB],
+            completeDate: toLocal8601Extended(dateWeekAgo),
+            expectedAnimalLocations: { [animalA.id]: location_id, [animalB.id]: location_id },
+          });
+
+          // Record a task completed a month ago
+          const dateMonthAgo = new Date();
+          dateMonthAgo.setMonth(dateMonthAgo.getMonth() - 1);
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location2Id,
+            animals: [animalA, animalB],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(dateMonthAgo),
+            expectedAnimalLocations: { [animalA.id]: location_id, [animalB.id]: location_id },
+            expectedBatchLocations: { [batchA.id]: location2Id, [batchB.id]: location2Id },
+          });
+
+          // Move some animals today
+          const [{ location_id: location3Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location3Id,
+            animals: [animalA],
+            batches: [batchA],
+            completeDate: toLocal8601Extended(new Date()),
+            expectedAnimalLocations: { [animalA.id]: location3Id },
+            expectedBatchLocations: { [batchA.id]: location3Id },
+          });
+
+          // Record yesterday's movement
+          const dateYesterday = new Date();
+          dateYesterday.setDate(dateYesterday.getDate() - 1);
+          const [{ location_id: location4Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location4Id,
+            animals: [animalA, animalB, animalC],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(dateYesterday),
+            expectedAnimalLocations: {
+              [animalA.id]: location3Id,
+              [animalB.id]: location4Id,
+              [animalC.id]: location4Id,
+            },
+            expectedBatchLocations: { [batchA.id]: location3Id, [batchB.id]: location4Id },
+          });
+
+          // Move animals again today
+          const [{ location_id: location5Id }] = await mocks.locationFactory({
+            promisedFarm: [{ farm_id }],
+          });
+          await checkAnimalMovementWithSpecificCompleteDate({
+            locationId: location5Id,
+            animals: [animalA, animalB, animalC],
+            batches: [batchA, batchB],
+            completeDate: toLocal8601Extended(new Date()),
+            expectedAnimalLocations: {
+              [animalA.id]: location5Id,
+              [animalB.id]: location5Id,
+              [animalC.id]: location5Id,
+            },
+            expectedBatchLocations: { [batchA.id]: location5Id, [batchB.id]: location5Id },
+          });
+        });
+
         test('should not complete a movement task with an invalid purpose id', async () => {
           const { task_id } = await animalTaskFactory(createFakeMovementTask());
           const unknownPurposeId = 123456;
@@ -1006,55 +1062,6 @@ describe('Animal task tests', () => {
           expect(patchRes.error.text).toBe('location deleted');
         });
       });
-    });
-  });
-
-  const animalTaskTranslationKeys = ['MOVEMENT_TASK', 'custom_task'];
-  describe.each(animalTaskTranslationKeys)('Patch task due date test', (key) => {
-    let task_id;
-
-    beforeAll(async () => {
-      const [{ task_type_id }] = await mocks.task_typeFactory(
-        {},
-        {
-          task_name: faker.lorem.word(),
-          task_translation_key: key,
-          farm_id: key === 'custom_task' ? farm_id : null,
-        },
-      );
-      ({ task_id } = await animalTaskFactory({
-        task_type_id,
-        due_date: faker.date.future().toISOString().split('T')[0],
-        animals: [{ id: animalBornToday.id }, { id: animalBroughtInToday.id }],
-      }));
-    });
-
-    test(`should update ${key}'s due_date to a date equal to the animals' birth and brought-in dates`, async () => {
-      const today = new Date();
-      const todayInYYYYMMDD = toLocal8601Extended(today);
-      const res = await patchTaskDateRequest(
-        { user_id, farm_id },
-        { due_date: `${todayInYYYYMMDD}T00:00:00.000` },
-        task_id,
-      );
-      expect(res.status).toBe(200);
-      const [{ due_date }] = await knex('task').select('due_date').where({ task_id });
-
-      const expectedDueDate = new Date(today);
-      expectedDueDate.setUTCHours(0, 0, 0, 0);
-      expect(due_date.toISOString()).toBe(expectedDueDate.toISOString());
-    });
-
-    test(`should not update ${key}'s due_date to a date earlier than the animal's birth and brought-in date`, async () => {
-      const res = await patchTaskDateRequest(
-        { user_id, farm_id },
-        { due_date: `${yesterdayInYYYYMMDD}T00:00:00.000` },
-        task_id,
-      );
-      expect(res.status).toBe(400);
-      expect(res.error.text).toBe(
-        `due_date must be on or after the animals' birth and brought-in dates`,
-      );
     });
   });
 });

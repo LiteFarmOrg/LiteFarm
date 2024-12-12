@@ -39,6 +39,7 @@ import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 import AnimalBatchSexDetailModel from '../src/models/animalBatchSexDetailModel.js';
 import AnimalBatchUseRelationshipModel from '../src/models/animalBatchUseRelationshipModel.js';
+import { ANIMAL_CREATE_LIMIT } from '../src/util/animal.js';
 import {
   batchGetRequest,
   batchPostRequest,
@@ -269,6 +270,37 @@ describe('Animal Batch Tests', () => {
         expect(res.body[2].internal_identifier).toBe(3);
 
         res.body.forEach((animalBatch) => expect(animalBatch.farm_id).toBe(mainFarm.farm_id));
+      }
+    });
+
+    test('Users should not be able to create animal batch beyond ANIMAL_CREATE_LIMIT', async () => {
+      const roles = [1, 2, 5];
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const [animalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [mainFarm],
+        });
+
+        const animalBatches = [];
+
+        for (let i = 0; i < ANIMAL_CREATE_LIMIT + 1; i++) {
+          animalBatches.push(
+            mocks.fakeAnimalBatch({
+              custom_type_id: animalBreed.custom_type_id,
+              custom_breed_id: animalBreed.id,
+              count: 6,
+            }),
+          );
+        }
+
+        const res = await postRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          animalBatches,
+        );
+        expect(res.status).toBe(400);
       }
     });
 

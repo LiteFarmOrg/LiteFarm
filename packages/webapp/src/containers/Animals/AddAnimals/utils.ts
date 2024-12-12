@@ -31,6 +31,9 @@ import {
 } from '../../../components/Animals/AddAnimalsSummaryCard/types';
 import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../Inventory/useAnimalInventory';
 
+export const ANIMAL_COUNT_LIMIT = 1000;
+export const BATCH_COUNT_LIMIT = 1000000000;
+
 const formatFormTypeOrBreed = (
   typeOrBreed: 'type' | 'breed',
   data?: { label: string; value: string; __isNew__?: boolean },

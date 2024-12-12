@@ -79,11 +79,11 @@ type DBAnimalMovementTask = {
 interface FormAnimalMovementTask {
   animalIds: string[];
   movement_task: {
-    purpose_ids: number[]; // React Select component actually 'purposes' but I wanted to reserve that for the select component format
+    purpose_ids: number[]; // For processing by component
     other_purpose_explanation?: string | null;
   };
-  animal_movement_task: DBAnimalMovementTask['animal_movement_task']; // Otherwise going back and forth between readonly and edit the form will crash
 }
+
 type DBSoilAmendmentTask = {
   soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
   [key: string]: any;
@@ -244,9 +244,19 @@ export const getSubtaskName = (translationKey: string) => {
   return subtaskNames[translationKey] || translationKey.toLowerCase();
 };
 
+const isFormAnimalMovementTask = (
+  task: DBAnimalMovementTask | FormAnimalMovementTask,
+): task is FormAnimalMovementTask => {
+  return 'movement_task' in task;
+};
+
 export const formatMovementTaskToFormStructure = (
-  task: DBAnimalMovementTask,
+  task: DBAnimalMovementTask | FormAnimalMovementTask,
 ): FormAnimalMovementTask => {
+  if (isFormAnimalMovementTask(task)) {
+    return task;
+  }
+
   const taskClone = structuredClone(task);
   const { animal_movement_task, animals, animal_batches, ...rest } = taskClone;
 
@@ -268,7 +278,6 @@ export const formatMovementTaskToFormStructure = (
       purpose_ids,
       other_purpose_explanation,
     },
-    animal_movement_task,
   };
 };
 

@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
 import { Label } from '../../Typography';
 import ImagePicker from '../../ImagePicker';
+import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
 
 export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
   const MEASUREMENT = 'units.measurement';
@@ -56,6 +57,9 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
 
   const { farm_image_thumbnail_url: thumbnailUrl } = userFarm;
   const { field: imageFileField } = useController({ control, name: IMAGE_FILE });
+  const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
+    fileUrls: [thumbnailUrl],
+  });
 
   const disabled = !isDirty || !isValid;
 
@@ -129,11 +133,13 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
       <div>
         <input type="checkbox" style={{ display: 'none' }} {...register(SHOULD_REMOVE_IMAGE)} />
         <Label>{t('PROFILE.FARM.FARM_IMAGE')}</Label>
-        <ImagePicker
-          defaultUrl={thumbnailUrl}
-          onSelectImage={handleSelectImage}
-          onRemoveImage={handleRemoveImage}
-        />
+        {!isLoading && (
+          <ImagePicker
+            defaultUrl={authenticatedImageUrl}
+            onSelectImage={handleSelectImage}
+            onRemoveImage={handleRemoveImage}
+          />
+        )}
       </div>
     </ProfileLayout>
   );

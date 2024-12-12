@@ -183,7 +183,7 @@ function TaskCustomLocations({ history, location }) {
     );
     const hasWildManagementPlans = formData.show_wild_crop && wildManagementPlanTiles.length;
     const hasManagementPlans = hasLocationManagementPlans || hasWildManagementPlans;
-    if (!readOnlyPinCoordinates?.length || !hasManagementPlans) {
+    if (!hasManagementPlans) {
       dispatch(setManagementPlansData([]));
       if (animalsExistOnFarm) {
         return history.push('/add_task/task_animal_selection', location?.state);

@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
@@ -82,7 +82,7 @@ import {
   createCompleteHarvestQuantityTaskUrl,
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
-import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
 import {
   formatAnimalIdsForReqBody,
@@ -565,12 +565,16 @@ const getPostTaskReqBody = (
   );
 };
 
-const getTaskCompletePathname = (task_id, task_translation_key) => {
+const getTaskCompletePathname = (
+  task_id,
+  task_translation_key,
+  isCustomTaskWithAnimals = false,
+) => {
   if (taskTypeActionMap[task_translation_key]) {
     return taskTypeActionMap[task_translation_key].completeUrl(task_id);
   } else {
     // Custom tasks
-    return createCompleteTaskUrl(task_id);
+    return createCompleteTaskUrl(task_id, isCustomTaskWithAnimals);
   }
 };
 
@@ -609,11 +613,17 @@ export function* createTaskSaga({ payload }) {
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       if (alreadyCompleted) {
+        const isCustomTaskWithAnimals =
+          isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
         yield call(onReqSuccessSaga, {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),
-          pathname: getTaskCompletePathname(task_id, task_translation_key),
+          pathname: getTaskCompletePathname(task_id, task_translation_key, isCustomTaskWithAnimals),
         });
         if (isCustomTask) {
+          yield put(
+            setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
+          );
+          yield delay(500);
           yield put(setFormData({ task_id, taskType }));
         }
       } else {

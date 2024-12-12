@@ -33,8 +33,12 @@ import {
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
 } from './AnimalSelect';
-import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
 import clsx from 'clsx';
+import {
+  ANIMAL_COUNT_LIMIT,
+  BATCH_COUNT_LIMIT,
+} from '../../../containers/Animals/AddAnimals/utils';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -67,6 +71,7 @@ export default function AddAnimalsFormCard({
     resetField,
     formState: { errors },
   } = useFormContext();
+
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}${BasicsFields.COUNT}`);
   const watchAnimalType = watch(`${namePrefix}${BasicsFields.TYPE}`);
@@ -129,6 +134,9 @@ export default function AddAnimalsFormCard({
               value: true,
               message: t('common:REQUIRED'),
             },
+            max: hookFormMaxValidation(
+              shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : BATCH_COUNT_LIMIT,
+            ),
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${BasicsFields.COUNT}`)}
@@ -156,7 +164,13 @@ export default function AddAnimalsFormCard({
         label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
         tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
-        onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
+        onChange={(e) => {
+          onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked);
+          // Trigger validation after the change is reflected in the form state
+          setTimeout(() => {
+            trigger(`${namePrefix}${BasicsFields.COUNT}`);
+          }, 0);
+        }}
       />
       {!shouldCreateIndividualProfiles && (
         // @ts-ignore

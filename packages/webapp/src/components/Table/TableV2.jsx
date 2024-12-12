@@ -206,10 +206,13 @@ export default function TableV2(props) {
                   )}
                 >
                   {shouldShowCheckbox && (
-                    <TableCell padding="checkbox" className={styles.checkboxCell}>
+                    <TableCell
+                      padding="checkbox"
+                      className={styles.checkboxCell}
+                      onClick={(event) => handleCheckboxClick(event, row)}
+                    >
                       <Checkbox
                         color="primary"
-                        onClick={(event) => handleCheckboxClick(event, row)}
                         checked={isItemSelected}
                         className={styles.checkbox}
                       />

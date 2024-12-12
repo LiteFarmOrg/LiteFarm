@@ -146,12 +146,12 @@ export default function ImagePicker({
                 accept="image/*"
                 disabled={isDisabled}
               >
-                <TextButton type="button">
+                <TextButton type="button" className={styles.editButton}>
                   <EditIcon />
                   {t('UPLOADER.CHANGE_IMAGE')}
                 </TextButton>
               </PureFilePickerWrapper>
-              <TextButton type="button" onClick={removeImage}>
+              <TextButton type="button" onClick={removeImage} className={styles.editButton}>
                 <TrashIcon />
                 {t('UPLOADER.REMOVE_IMAGE')}
               </TextButton>

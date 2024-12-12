@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "Erklärung",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Bitte beschreiben Sie den Grund für diese Bewegung"
     },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "Du brauchst einen Ort oder ein Gebiet, wo Tiere bewegt werden können. Gehe zur Karte, um einen Tierstandort zu erstellen.",
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
+    "NO_ANIMAL_LOCATION": "Keine zugelassenen Tierstandorte",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
     "NOTES_LABEL": "Gibt es etwas Spezielles, das zu dieser Aufgabe hinzugefügt werden sollte?",
     "NOTES_PLACEHOLDER": "Anweisungen oder Spezifikationen für den Beauftragten hinzufügen",
@@ -1613,7 +1615,7 @@
     "SLAUGHTERED_FOR_SALE": "Zum Verkauf geschlachtet",
     "SOLD": "Verkauft",
     "WHY": "Teilen Sie uns mit, warum Sie diese Tiere entfernen",
-    "WILL_BE_ARCHIVED": "Diese Tiere werden archiviert und für zukünftige Referenz zugänglich sein",
+    "WILL_BE_ARCHIVED": "Diese Tiere werden aus deinem aktiven Inventar entfernt",
     "WILL_BE_PERMANENTLY_REMOVED": "Diese Tiere werden dauerhaft aus Ihrem Bauernhof entfernt"
   },
   "REPEAT_PLAN": {
@@ -1951,10 +1953,10 @@
     "ADD_TASK": "Erstellen Sie eine Aufgabe",
     "ADD_TASK_FLOW": "Aufgabenerstellung",
     "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
-    "ANIMALS": "",
-    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMALS": "Tiere",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Mindestens ein Tier muss ausgewählt werden, um diese Aufgabe abzuschließen. Um alle Tiere zu entfernen, verlassen Sie stattdessen die Aufgabe.",
     "ANIMAL_MOVING_TO_LOCATION": "Verschieben nach:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Tiere in dieser Aufgabe",
     "CARD": {
       "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
       "MULTIPLE_LOCATIONS": "Mehrere Standorte",
@@ -2023,7 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "Die genutzte Erntemenge darf nicht größer sein als die zu verteilende Menge",
     "RATE_THIS_TASK": "Bewerten Sie diese Aufgabe",
     "REMOVE_HARVEST_USE": "Entfernen",
-    "SELECT_ANIMALS": "",
+    "SELECT_ANIMALS": "Tiere auswählen",
     "SELECT_DATE": "Wählen Sie das Datum der Aufgabe",
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",

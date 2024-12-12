@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "ਵਿਆਖਿਆ",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਚਲਹਾਅ ਦਾ ਕਾਰਨ ਦਰਜ ਕਰੋ"
     },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "ਤੁਹਾਨੂੰ ਜਾਨਵਰਾਂ ਨੂੰ ਲਿਜਾਣ ਲਈ ਇੱਕ ਸਥਾਨ ਜਾਂ ਖੇਤਰ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਨਕਸ਼ੇ 'ਤੇ ਜਾ ਕੇ ਜਾਨਵਰ ਸਥਾਨ ਬਣਾਓ।",
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
+    "NO_ANIMAL_LOCATION": "ਜਾਨਵਰਾਂ ਲਈ ਕੌਈ ਯੋਗ ਸਥਾਨ ਨਹੀਂ ਹੈ",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
     "NOTES_LABEL": "ਇਸ ਕੰਮ ਨਾਲ ਸੰਬੰਧਤ ਕੁਝ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
     "NOTES_PLACEHOLDER": "ਜਿੰਮੇਵਾਰ ਲਈ ਕੋਈ ਹਦਾਇਤਾਂ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਸ਼ਾਮਲ ਕਰੋ",
@@ -1613,7 +1615,7 @@
     "SLAUGHTERED_FOR_SALE": "ਵਿਕਰੀ ਲਈ ਜਬਾਹ ਕੀਤਾ ਗਿਆ",
     "SOLD": "ਵੇਚਿਆ ਗਿਆ",
     "WHY": "ਸਾਨੂੰ ਦੱਸੋ ਕਿ ਤੁਸੀਂ ਇਹ ਜਾਨਵਰ ਕਿਉਂ ਹਟਾ ਰਹੇ ਹੋ",
-    "WILL_BE_ARCHIVED": "ਇਹ ਜਾਨਵਰ ਸੰਗ੍ਰਹਿਤ ਕੀਤੇ ਜਾਣਗੇ ਅਤੇ ਭਵਿੱਖ ਦੇ ਹਵਾਲੇ ਲਈ ਉਪਲਬਧ ਹੋਣਗੇ",
+    "WILL_BE_ARCHIVED": "ਇਹ ਜਾਨਵਰ ਤੁਹਾਡੇ ਮੌਜੂਦਾ ਸਟਾਕ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤੇ ਜਾਣਗੇ",
     "WILL_BE_PERMANENTLY_REMOVED": "ਇਹ ਜਾਨਵਰ ਤੁਹਾਡੇ ਫਾਰਮ ਤੋਂ ਸਥਾਈ ਤੌਰ 'ਤੇ ਹਟਾਏ ਜਾਣਗੇ"
   },
   "REPEAT_PLAN": {
@@ -1656,7 +1658,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "ਸਮਝ ਗਿਆ",
-    "DESCRIPTION": "",
+    "DESCRIPTION": "ਕੋਈ ਜਲਦੀ ਹੀ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੇਗਾ।",
     "TITLE": "ਮਦਦ ਦੀ ਬੇਨਤੀ ਸਪੁਰਦ ਕੀਤੀ ਗਈ"
   },
   "REVENUE": {
@@ -1951,14 +1953,14 @@
     "ADD_TASK": "ਇੱਕ ਕਾਰਜ ਬਣਾਓ",
     "ADD_TASK_FLOW": "ਕਾਰਜ ਰਚਨਾ",
     "AMOUNT_TO_ALLOCATE": "ਅਲਾਟ ਕਰਨ ਲਈ ਰਕਮ",
-    "ANIMALS": "",
-    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMALS": "ਪਸ਼ੂ",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "ਇਸ ਕੰਮ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਪਸ਼ੂ ਚੁਣਨਾ ਜ਼ਰੂਰੀ ਹੈ। ਸਾਰੇ ਪਸ਼ੂਆਂ ਨੂੰ ਹਟਾਉਣ ਲਈ, ਬਦਲੇ ਵਿੱਚ ਕੰਮ ਛੱਡੋ।",
     "ANIMAL_MOVING_TO_LOCATION": "ਇੱਥੇ ਲੈ ਜਾ ਰਿਹਾ ਹੈ:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "ਇਸ ਕੰਮ ਵਿੱਚ ਪਸ਼ੂ।",
     "CARD": {
       "MULTIPLE_CROPS": "ਕਈ ਫਸਲਾਂ",
       "MULTIPLE_LOCATIONS": "ਕਈ ਸਥਾਨਾਂ",
-      "NO_LOCATION": ""
+      "NO_LOCATION": "ਕੋਈ ਸਥਾਨ ਨਹੀਂ।"
     },
     "COMPLETE": {
       "DATE": "ਮੁਕੰਮਲ ਹੋਣ ਦੀ ਮਿਤੀ",
@@ -2014,7 +2016,7 @@
     "HOW_WILL_HARVEST_BE_USED": "ਵਾਢੀ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕੀਤੀ ਜਾਵੇਗੀ?",
     "IRRIGATION_LOCATION": "ਇੱਕ ਸਿੰਚਾਈ ਸਥਾਨ ਚੁਣੋ",
     "LOCATIONS": "ਸਥਾਨ",
-    "NO_LOCATIONS_FOR_TASK": "",
+    "NO_LOCATIONS_FOR_TASK": "ਇਸ ਕੰਮ ਲਈ ਕੋਈ ਵਿਸ਼ੇਸ਼ ਸਥਾਨ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ।",
     "NO_TASKS_TO_DISPLAY": "ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਨ ਲਈ ਕੋਈ ਕੰਮ ਨਹੀਂ ਹਨ।",
     "NO_WORK_DONE": "ਕੋਈ ਕੰਮ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ",
     "PAGE_TITLE": "ਕੰਮ",
@@ -2023,7 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "ਵਰਤੇ ਗਏ ਵਾਢੀ ਦੀ ਮਾਤਰਾ ਨਿਰਧਾਰਤ ਕੀਤੀ ਰਕਮ ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੋ ਸਕਦੀ",
     "RATE_THIS_TASK": "ਇਸ ਕੰਮ ਨੂੰ ਦਰਜਾ ਦਿਓ",
     "REMOVE_HARVEST_USE": "ਹਟਾਓ",
-    "SELECT_ANIMALS": "",
+    "SELECT_ANIMALS": "ਪਸ਼ੂ ਚੁਣੋ",
     "SELECT_DATE": "ਕੰਮ ਦੀ ਮਿਤੀ ਚੁਣੋ",
     "SELECT_TASK_LOCATIONS": "ਕੰਮ ਦੇ ਟਿਕਾਣੇ ਚੁਣੋ",
     "SELECT_WILD_CROP": "ਇਹ ਕੰਮ ਜੰਗਲੀ ਫਸਲ ਨੂੰ ਨਿਸ਼ਾਨਾ ਬਣਾਉਂਦਾ ਹੈ",

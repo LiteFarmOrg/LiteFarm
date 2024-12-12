@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "व्याख्या",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "कृपया इस स्थानांतरण के कारण का वर्णन करें"
     },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "आपको एक ऐसी जगह की ज़रूरत है जहाँ जानवरों को ले जाया जा सके। यह स्थान बनाने के लिए मैप पर जाएँ।",
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
+    "NO_ANIMAL_LOCATION": "जानवरों के लिए सही स्थान नहीं है",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
     "NOTES_LABEL": "क्या इस कार्य से संबंधित कुछ विशेष जोड़ना है?",
     "NOTES_PLACEHOLDER": "निर्देश या असाइन किए गए व्यक्ति के लिए कोई विशेष विवरण जोड़ें",
@@ -1613,7 +1615,7 @@
     "SLAUGHTERED_FOR_SALE": "बिक्री के लिए वध किया गया",
     "SOLD": "बेचा गया",
     "WHY": "हमें बताएं कि आप इन जानवरों को क्यों हटा रहे हैं",
-    "WILL_BE_ARCHIVED": "इन जानवरों को संग्रहित किया जाएगा और भविष्य के संदर्भ के लिए सुलभ रहेगा",
+    "WILL_BE_ARCHIVED": "ये जानवर आपकी मौजूदा जानवरों की सूची से हटा दिए जाएंगे",
     "WILL_BE_PERMANENTLY_REMOVED": "इन जानवरों को आपके फ़ार्म से स्थायी रूप से हटा दिया जाएगा"
   },
   "REPEAT_PLAN": {
@@ -1656,7 +1658,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "समझ लिया",
-    "DESCRIPTION": "",
+    "DESCRIPTION": "कोई आपसे जल्द ही संपर्क करेगा।",
     "TITLE": "सहायता अनुरोध सबमिट किया गया"
   },
   "REVENUE": {
@@ -1951,14 +1953,14 @@
     "ADD_TASK": "एक कार्य बनाएँ",
     "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
-    "ANIMALS": "",
-    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMALS": "जानवर",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "इस कार्य को पूरा करने के लिए कम से कम एक जानवर का चयन करना आवश्यक है। सभी जानवरों को हटाने के लिए, कार्य को छोड़ दें।",
     "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
       "MULTIPLE_LOCATIONS": "कई स्थान",
-      "NO_LOCATION": ""
+      "NO_LOCATION": "कोई स्थान नहीं।"
     },
     "COMPLETE": {
       "DATE": "समाप्ति तिथि",
@@ -2014,7 +2016,7 @@
     "HOW_WILL_HARVEST_BE_USED": "फसल का उपयोग कैसे किया जाएगा?",
     "IRRIGATION_LOCATION": "एक सिंचाई स्थान चुनें",
     "LOCATIONS": "स्थान(ओं)",
-    "NO_LOCATIONS_FOR_TASK": "",
+    "NO_LOCATIONS_FOR_TASK": "इस कार्य के लिए किसी विशेष स्थान की आवश्यकता नहीं है।",
     "NO_TASKS_TO_DISPLAY": "दिखाने के लिए कोई कार्य नहीं हैं।",
     "NO_WORK_DONE": "कोई कार्य नहीं किया गया",
     "PAGE_TITLE": "कार्य",
@@ -2023,7 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "फसल उपयोग की मात्रा आवंटित राशि से अधिक नहीं हो सकती",
     "RATE_THIS_TASK": "इस कार्य को रेट करें",
     "REMOVE_HARVEST_USE": "हटाएं",
-    "SELECT_ANIMALS": "",
+    "SELECT_ANIMALS": "जानवर चुनें।",
     "SELECT_DATE": "कार्य तिथि चुनें",
     "SELECT_TASK_LOCATIONS": "कार्य स्थान(ओं) का चयन करें",
     "SELECT_WILD_CROP": "यह कार्य एक जंगली फसल को लक्षित करता है",

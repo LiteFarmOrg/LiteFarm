@@ -52,14 +52,14 @@
   "TYPE": {
     "CATTLE": "Gado",
     "CHICKEN": "Galinha",
-    "PIGS": "Porcos"
+    "PIGS": "Suíno"
   },
   "USE": {
     "MILK": "Leite",
     "EGGS": "Ovos",
     "FAT": "Gordura",
     "MEAT": "Carne",
-    "ANIMAL_FIBERS_AND_SKINS": "Fibras e peles de animais",
+    "ANIMAL_FIBERS_AND_SKINS": "Fibras e peles",
     "LABOUR_AND_DRAFT": "Trabalho e Tração",
     "BREEDING": "Reprodução",
     "RECREATIONAL_OR_CULTURAL_USE": "Uso Recreativo ou Cultural",

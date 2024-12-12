@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "Explicación",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Describa el motivo de este movimiento"
     },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "Necesitas una ubicación o área a la cual sea posible mover animales. Ve al mapa para crear una ubicación para animales.",
     "NEED_MANAGEMENT_PLAN": "Necesitará un plan de cultivo que está activo o planificado antes de poder programar una tarea de cosecha o una tarea de trasplante. Vaya al catálogo de cultivos para crear un plan ahora.",
+    "NO_ANIMAL_LOCATION": "No hay ninguna ubicación elegible para animales",
     "NO_MANAGEMENT_PLAN": "No hay ningun plan de cultivo de cultivos elegibles",
     "NOTES_LABEL": "¿Algo específico que añadir en relación con esta tarea?",
     "NOTES_PLACEHOLDER": "Añada instrucciones o datos específicos para el/la asignado/a",
@@ -319,7 +321,7 @@
       "TITLE": "Filtrar animales"
     },
     "REMOVE_ANIMAL": "Eliminar animales",
-    "SEARCH_INVENTORY_PLACEHOLDER": "Buscar en su inventario",
+    "SEARCH_INVENTORY_PLACEHOLDER": "Buscar en tu inventario",
     "SHOWING_RESULTS_WITH_COUNT_one": "Mostrando {{count}} resultados",
     "SHOWING_RESULTS_WITH_COUNT_many": "Mostrando {{count}} resultados",
     "SHOWING_RESULTS_WITH_COUNT_other": "Mostrando {{count}} resultados",
@@ -1613,7 +1615,7 @@
     "SLAUGHTERED_FOR_SALE": "Faenados para la venta",
     "SOLD": "Vendidos",
     "WHY": "Indique por qué retira estos animales",
-    "WILL_BE_ARCHIVED": "Estos animales se archivarán y estarán accesibles para futuras consultas",
+    "WILL_BE_ARCHIVED": "Estos animales serán eliminados de tu inventario activo",
     "WILL_BE_PERMANENTLY_REMOVED": "Estos animales serán retirados permanentemente de su finca"
   },
   "REPEAT_PLAN": {
@@ -1951,10 +1953,10 @@
     "ADD_TASK": "Crear una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
-    "ANIMALS": "",
-    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMALS": "Animales",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Al menos un animal debe estar seleccionado para poder completar esta tarea. Si desea eliminar todos los animales, abandone la tarea.",
     "ANIMAL_MOVING_TO_LOCATION": "Moviendo a:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animales en esta tarea",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones",
@@ -2023,7 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
-    "SELECT_ANIMALS": "",
+    "SELECT_ANIMALS": "Seleccionar animales",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

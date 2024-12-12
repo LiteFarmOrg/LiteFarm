@@ -88,13 +88,18 @@ export const hookFormUniquePropertyWithStatusValidation = ({
   };
 };
 
+export const upperCaseTrim = (a) => {
+  return a.toUpperCase().trim();
+};
+
 /**
- * Format translation key - (same as backend util)
+ * Check for duplicate or matching strings - (same as backend util)
+ * TODO: consider localeCompare() or not caring about case sensitivity
  * @param {String} key
  * @returns {String} - Formatted key
  */
-const formatTranslationKey = (key) => {
-  return key.toUpperCase().trim().replaceAll(' ', '_');
+export const compareUpperCaseTrim = (a, b) => {
+  return upperCaseTrim(a) === upperCaseTrim(b);
 };
 
 /**
@@ -106,13 +111,13 @@ const formatTranslationKey = (key) => {
  * @returns {(value: any) => string|boolean} A validation function that takes a value to validate and returns
  * either the error message (if not unique) or `true` (if unique).
  */
-export const hookFormSelectUniquePropertyValidation = (objArr, property, message) => {
+export const hookFormUniqueOptionValidation = (objArr, property, message) => {
   return (value) => {
     if (!value?.__isNew__) {
       return true;
     }
     const alreadyExists = objArr.some((item) => {
-      return formatTranslationKey(item[property]) === formatTranslationKey(value?.label);
+      return compareUpperCaseTrim(item[property], value?.label);
     });
     if (alreadyExists) {
       return message;

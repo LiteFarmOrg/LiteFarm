@@ -91,7 +91,7 @@ const getAnimalBreedLabel = (key: string) => {
   return t(`BREED.${key}`, { ns: 'animal' });
 };
 
-const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
+export const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
   if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
     if (animalOrBatch.name && animalOrBatch.identifier) {
       return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;

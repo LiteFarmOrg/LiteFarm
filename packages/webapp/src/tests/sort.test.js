@@ -14,7 +14,9 @@
  */
 
 import { expect, describe, test } from 'vitest';
-import { descendingComparator, getComparator } from '../util/sort';
+import _ from 'lodash-es';
+import { descendingComparator, getComparator, animalDescendingComparator } from '../util/sort';
+import { chooseIdentification } from '../containers/Animals/Inventory/useAnimalInventory';
 
 describe('Sort test', () => {
   describe('descendingComparator test', () => {
@@ -108,6 +110,32 @@ describe('Sort test', () => {
       const asc = [-1, 0, 0, 1, 2, 2, 2, 2, 5, null];
       expect(sortable.sort(getComparator('asc', 'value'))).toEqual(createSortable(asc));
       expect(sortable.sort(getComparator('desc', 'value'))).toEqual(createSortable(asc.reverse()));
+    });
+
+    test('Sort animals using animalDescendingComparator', () => {
+      const expectedSortedAnimalsAsc = [
+        { name: 'Farm', identifier: 'identifier 2', internal_identifier: 2 },
+        { name: 'Java', identifier: null, internal_identifier: 4 },
+        { name: 'Lite', identifier: 'identifier 1', internal_identifier: 9 },
+        { name: 'Script', identifier: null, internal_identifier: 5 },
+        { name: null, identifier: 'identifier 5', internal_identifier: 7 },
+        { name: null, identifier: 'identifier 6', internal_identifier: 6 },
+        { name: null, identifier: null, internal_identifier: 1 },
+        { name: null, internal_identifier: 3 },
+        { name: null, internal_identifier: 8 },
+        { name: null, identifier: null, internal_identifier: 10 },
+      ].map((data) => ({ ...data, identification: chooseIdentification(data) }));
+
+      const shuffledAnimals1 = _.shuffle(expectedSortedAnimalsAsc);
+      const shuffledAnimals2 = _.shuffle(expectedSortedAnimalsAsc);
+      const sortedAnimalsAsc = shuffledAnimals1.sort(
+        getComparator('asc', 'identification', animalDescendingComparator),
+      );
+      const sortedAnimalsDesc = shuffledAnimals2.sort(
+        getComparator('desc', 'identification', animalDescendingComparator),
+      );
+      expect(sortedAnimalsAsc).toEqual(expectedSortedAnimalsAsc);
+      expect(sortedAnimalsDesc).toEqual(expectedSortedAnimalsAsc.reverse());
     });
   });
 });

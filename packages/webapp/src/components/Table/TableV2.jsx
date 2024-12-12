@@ -102,6 +102,7 @@ export default function TableV2(props) {
     spacerRowHeight,
     headerClass,
     extraRowSpacing,
+    comparator,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -155,7 +156,7 @@ export default function TableV2(props) {
     () =>
       data
         .slice()
-        .sort(getComparator(order, orderBy))
+        .sort(getComparator(order, orderBy, comparator))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, data],
   );

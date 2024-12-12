@@ -17,6 +17,7 @@ import type { ReactElement, ReactNode, ChangeEvent } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
 import { ClassValue } from 'clsx';
+import { DescendingComparator } from '../../util/sort';
 
 export enum TableKind {
   V1 = 'v1',
@@ -86,4 +87,5 @@ export type TableV2Props<RowData extends TableRowData> = {
   spacerRowHeight?: number;
   headerClass?: ClassValue;
   extraRowSpacing?: boolean;
+  comparator?: DescendingComparator<string | number>;
 };

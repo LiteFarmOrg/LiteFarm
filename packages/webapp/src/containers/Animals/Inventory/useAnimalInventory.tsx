@@ -32,7 +32,6 @@ import {
   DefaultAnimalBreed,
   DefaultAnimalType,
 } from '../../../store/api/types';
-import { getComparator, orderEnum } from '../../../util/sort';
 import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
@@ -40,11 +39,15 @@ import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
 import { useSelector } from 'react-redux';
 import { locationsSelector } from '../../locationSlice';
 import { Location } from '../../../types';
+import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
 
 export type AnimalInventoryItem = {
   id: string;
   iconName: AnimalTypeIconKey;
   identification: string;
+  identifier?: string | null;
+  internal_identifier: number;
+  name: string | null;
   type: string;
   breed: string;
   path: string;
@@ -90,7 +93,7 @@ const getAnimalBreedLabel = (key: string) => {
   return t(`BREED.${key}`, { ns: 'animal' });
 };
 
-const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
+export const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
   if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
     if (animalOrBatch.name && animalOrBatch.identifier) {
       return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;
@@ -158,11 +161,14 @@ const formatAnimalsData = (
           ? 'REMOVED_ANIMAL'
           : getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
         identification: chooseIdentification(animal),
+        identifier: animal.identifier,
+        internal_identifier: animal.internal_identifier,
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
         path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
+        name: animal.name,
         location: animal.location_id ? locationsMap[animal.location_id] : '',
         // preserve some untransformed data for filtering
         sex_id: animal.sex_id,
@@ -198,10 +204,12 @@ const formatAnimalBatchesData = (
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
         iconName: !!batch.animal_removal_reason_id ? 'REMOVED_ANIMAL' : 'BATCH',
         identification: chooseIdentification(batch),
+        internal_identifier: batch.internal_identifier,
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
         path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
+        name: batch.name,
         batch: true,
         location: batch.location_id ? locationsMap[batch.location_id] : '',
         // preserve some untransformed data for filtering
@@ -260,7 +268,9 @@ export const buildInventory = ({
     ),
   ];
 
-  const sortedInventory = inventory.sort(getComparator(orderEnum.ASC, 'identification'));
+  const sortedInventory = inventory.sort(
+    getComparator(orderEnum.ASC, 'identification', animalDescendingComparator),
+  );
 
   return sortedInventory;
 };

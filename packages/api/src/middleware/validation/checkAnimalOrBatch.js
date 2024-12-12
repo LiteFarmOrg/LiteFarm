@@ -32,7 +32,7 @@ import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
 import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
-import { formatTranslationKey } from '../../util/util.js';
+import { compareUpperCaseTrim, upperCaseTrim } from '../../util/util.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -398,9 +398,9 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
 const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_id, trx) => {
   if (newTypesSet.size) {
     const customTypes = await CustomAnimalTypeModel.query(trx).where('farm_id', farm_id);
-    const formattedCustomTypes = customTypes.map((ct) => formatTranslationKey(ct.type));
+    const formattedCustomTypes = customTypes.map((ct) => upperCaseTrim(ct.type));
     newTypesSet.forEach((newType) => {
-      if ([...formattedCustomTypes].includes(formatTranslationKey(newType))) {
+      if ([...formattedCustomTypes].includes(upperCaseTrim(newType))) {
         throw customError('Animal type already exists', 409);
       }
     });
@@ -413,9 +413,7 @@ const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_
       const [typeColumn, typeId, breed] = newBreed;
       if (
         [...customBreeds].some(
-          (cb) =>
-            cb[typeColumn] === +typeId &&
-            formatTranslationKey(cb.breed) === formatTranslationKey(breed),
+          (cb) => cb[typeColumn] === +typeId && compareUpperCaseTrim(cb.breed, breed),
         )
       ) {
         throw customError('Animal breed already exists', 409);

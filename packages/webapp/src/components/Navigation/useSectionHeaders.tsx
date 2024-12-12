@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL } from '../../util/siteMapConstants';
+import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, ANIMALS_URL } from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
@@ -56,7 +56,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle,
-    [ADD_ANIMALS_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
+    [ADD_ANIMALS_URL]: animalInventoryTitle,
   };
 
   return HEADERS_BY_PATH[path] ?? null;

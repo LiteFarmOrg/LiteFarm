@@ -22,6 +22,7 @@ import { Trans } from 'react-i18next';
 import Badge from '../../../components/Badge';
 import { ReactComponent as SendIcon } from '../../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
+import { BETA_BADGE_LINK } from '../../../util/constants';
 
 export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }) {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }
             <Trans
               key={'animals_beta_step_1_content'}
               i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
-              components={{ a: <a href="#" /> }}
+              components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
             />,
           ],
           selector: '#animalsBeta',

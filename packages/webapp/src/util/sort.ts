@@ -59,17 +59,17 @@ export const descendingComparator: DescendingComparator<string | number> = (a, b
  *
  * @param {'asc' | 'desc'} order - The sorting order, either 'asc' for ascending or 'desc' for descending.
  * @param {string} orderBy - The property by which to compare the objects.
- * @param {function} customDecendingComparator - The decending comparator to use.
+ * @param {function} comparator - The decending comparator to use.
  * @returns {function} - A comparator function for use with the `Array.prototype.sort()` method.
  */
 export function getComparator<T extends string | number>(
   order: 'asc' | 'desc',
   orderBy: T,
-  customDecendingComparator: DescendingComparator<T> = descendingComparator,
+  comparator: DescendingComparator<T> = descendingComparator,
 ): (a: Comparable<T>, b: Comparable<T>) => number {
   return order === 'desc'
-    ? (a: Comparable<T>, b: Comparable<T>) => customDecendingComparator(a, b, orderBy)
-    : (a: Comparable<T>, b: Comparable<T>) => -customDecendingComparator(a, b, orderBy);
+    ? (a: Comparable<T>, b: Comparable<T>) => comparator(a, b, orderBy)
+    : (a: Comparable<T>, b: Comparable<T>) => -comparator(a, b, orderBy);
 }
 
 // Ideally, the type of "a" and "b" should be AnimalInventoryItem.

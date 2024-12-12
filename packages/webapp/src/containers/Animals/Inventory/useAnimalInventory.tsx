@@ -226,10 +226,6 @@ interface BuildInventoryArgs {
   locationsMap: { [key: string]: string };
 }
 
-const sortAnimalsIDs = (inventory: AnimalInventoryItem[]) => {
-  return inventory.sort(getComparator(orderEnum.ASC, 'identification', animalDescendingComparator));
-};
-
 export const buildInventory = ({
   animals,
   animalBatches,
@@ -258,7 +254,9 @@ export const buildInventory = ({
     ),
   ];
 
-  const sortedInventory = sortAnimalsIDs(inventory);
+  const sortedInventory = inventory.sort(
+    getComparator(orderEnum.ASC, 'identification', animalDescendingComparator),
+  );
 
   return sortedInventory;
 };

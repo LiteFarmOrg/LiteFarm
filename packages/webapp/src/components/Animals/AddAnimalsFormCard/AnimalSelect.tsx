@@ -47,7 +47,9 @@ export function AnimalTypeSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+        rules={{
+          required: { value: true, message: t('common:REQUIRED') },
+        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
@@ -58,6 +60,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
             }}
             value={value}
             isDisabled={isDisabled}
+            isClearable={false}
           />
         )}
       />
@@ -71,6 +74,8 @@ export type AnimalBreedSelectProps = {
   isTypeSelected?: boolean;
   breedSelectRef?: RefObject<SelectInstance>;
   isDisabled?: boolean;
+  error?: FieldError;
+  onBreedChange?: (Option: Option | null) => void;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({
@@ -80,25 +85,35 @@ export function AnimalBreedSelect<T extends FieldValues>({
   isTypeSelected,
   breedSelectRef,
   isDisabled = false,
+  error,
+  onBreedChange,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <CreatableSelect
-          ref={breedSelectRef}
-          options={breedOptions}
-          label={t('ADD_ANIMAL.BREED')}
-          optional
-          controlShouldRenderValue={isTypeSelected}
-          placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
-          isDisabled={!isTypeSelected || isDisabled}
-          onChange={(option) => onChange(option)}
-          value={value || null}
-        />
-      )}
-    />
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CreatableSelect
+            ref={breedSelectRef}
+            options={breedOptions}
+            label={t('ADD_ANIMAL.BREED')}
+            optional
+            controlShouldRenderValue={isTypeSelected}
+            placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
+            isDisabled={!isTypeSelected || isDisabled}
+            onChange={(option) => {
+              onChange(option);
+              // @ts-ignore
+              onBreedChange?.(option);
+            }}
+            value={value || null}
+            isClearable={false}
+          />
+        )}
+      />
+      {error && <Error>{error.message}</Error>}
+    </div>
   );
 }

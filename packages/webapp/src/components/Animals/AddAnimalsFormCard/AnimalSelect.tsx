@@ -17,9 +17,9 @@ import { Controller, FieldError, FieldValues, UseControllerProps } from 'react-h
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
-import { GroupBase, SelectInstance, OptionsOrGroups, SingleValue } from 'react-select';
+import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
-import { hookFormSelectUniquePropertyValidation } from '../../Form/hookformValidationUtils';
+import { hookFormUniqueOptionValidation } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -50,8 +50,9 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
+          // prettier-ignore
           // @ts-ignore
-          validate: hookFormSelectUniquePropertyValidation(typeOptions, 'label', 'Already exists'),
+          validate: hookFormUniqueOptionValidation(typeOptions, 'label', t('ANIMAL.DUPLICATE_NAME')),
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
@@ -97,7 +98,11 @@ export function AnimalBreedSelect<T extends FieldValues>({
         name={name}
         control={control}
         rules={{
-          validate: hookFormSelectUniquePropertyValidation(breedOptions, 'label', 'Already exists'),
+          validate: hookFormUniqueOptionValidation(
+            breedOptions,
+            'label',
+            t('ANIMAL.DUPLICATE_NAME'),
+          ),
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect

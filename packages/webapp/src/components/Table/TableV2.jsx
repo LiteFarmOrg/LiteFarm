@@ -228,11 +228,7 @@ export default function TableV2(props) {
                     return (
                       <TableCell
                         key={id}
-                        className={clsx(
-                          styles.tableCell,
-                          dense && styles.dense,
-                          shouldShowCheckbox && id === 'identification' && styles.afterCheckbox,
-                        )}
+                        className={clsx(styles.tableCell, dense && styles.dense)}
                         align={align || 'left'}
                         {...columnProps}
                       >

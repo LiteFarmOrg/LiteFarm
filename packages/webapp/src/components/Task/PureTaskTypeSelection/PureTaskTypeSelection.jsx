@@ -232,7 +232,7 @@ export const PureTaskTypeSelection = ({
       )}
       {showNoAnimalLocationsModal && (
         <NoAnimalLocationsModal
-          dismissModal={() => setShowNoManagementPlanModal(false)}
+          dismissModal={() => setShowNoAnimalLocationsModal(false)}
           goToMap={goToMap}
         />
       )}

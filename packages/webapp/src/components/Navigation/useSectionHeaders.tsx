@@ -19,6 +19,7 @@ import type { Pathname } from 'history';
 import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
+import { BETA_BADGE_LINK } from '../../util/constants';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
@@ -46,7 +47,10 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
       <Badge
         title={t('BADGE.BETA.TITLE')}
         content={
-          <Trans i18nKey={'BADGE.BETA.ANIMALS_CONTENT'} components={{ a: <a href="#" /> }} />
+          <Trans
+            i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
+            components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
+          />
         }
         id="animalsBeta"
         classes={{ iconButton: styles.badge }}

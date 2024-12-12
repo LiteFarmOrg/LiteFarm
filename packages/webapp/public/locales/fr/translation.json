@@ -13,7 +13,7 @@
     "ANIMALS_UNSPECIFIED_other": "{{count}} non spécifié",
     "BATCH_NAME": "Nom du lot",
     "BATCH_NAME_PLACEHOLDER": "Tapez le nom du lot",
-    "BREED": "Élevage",
+    "BREED": "Race",
     "BREED_PLACEHOLDER_DISABLED": "Sélectionnez d'abord un type",
     "CREATE_INDIVIDUAL_PROFILES": "Créer des profils d'animaux individuels",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Sélectionnez cette option si vous souhaitez suivre et gérer chaque animal séparément",
@@ -208,7 +208,9 @@
       "OTHER_PURPOSE_EXPLANATION_LABEL": "Explication",
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Veuillez décrire la raison de ce mouvement"
     },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "Vous aurez besoin d'un emplacement ou d'une zone où les animaux peuvent être déplacés. Allez sur la carte pour créer un emplacement animal.",
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
+    "NO_ANIMAL_LOCATION": "Aucun emplacement animal éligible",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
     "NOTES_LABEL": "Quelque chose de spécifique à ajouter à cette tâche?",
     "NOTES_PLACEHOLDER": "Ajouter des instructions ou des précisions pour le responsable",
@@ -280,7 +282,7 @@
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Avez-vous un autre type d'animal ou une race différente?",
     "ADD_MORE_BUTTON": "Ajouter plus d'animaux",
-    "ANIMAL_BREED": "Élevage",
+    "ANIMAL_BREED": "Race",
     "ANIMAL_COUNT_one": "{{count}} animal",
     "ANIMAL_COUNT_other": "{{count}} animaux",
     "ANIMAL_GROUPS": "Groupe",
@@ -1613,7 +1615,7 @@
     "SLAUGHTERED_FOR_SALE": "Abattu pour vendre",
     "SOLD": "Vendu",
     "WHY": "Dites-nous pourquoi vous retirez ces animaux",
-    "WILL_BE_ARCHIVED": "Ces animaux seront archivés et accessibles pour référence future",
+    "WILL_BE_ARCHIVED": "Ces animaux seront retirés de votre inventaire",
     "WILL_BE_PERMANENTLY_REMOVED": "Ces animaux seront définitivement retirés de votre ferme"
   },
   "REPEAT_PLAN": {
@@ -1656,7 +1658,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "J'ai compris",
-    "DESCRIPTION": "",
+    "DESCRIPTION": "Quelqu'un sera bientôt en contact.",
     "TITLE": "Demande d'aide soumise"
   },
   "REVENUE": {
@@ -1951,14 +1953,14 @@
     "ADD_TASK": "Créer une tâche",
     "ADD_TASK_FLOW": "création de tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
-    "ANIMALS": "",
-    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMALS": "Animaux",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Au moins un animal doit être sélectionné pour accomplir cette tâche. Pour supprimer tous les animaux, abandonnez la tâche.",
     "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements",
-      "NO_LOCATION": ""
+      "NO_LOCATION": "Aucun emplacement"
     },
     "COMPLETE": {
       "DATE": "Date d'achèvement",
@@ -2014,7 +2016,7 @@
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée ?",
     "IRRIGATION_LOCATION": "Sélectionner un emplacement d’irrigation",
     "LOCATIONS": "Emplacement(s)",
-    "NO_LOCATIONS_FOR_TASK": "",
+    "NO_LOCATIONS_FOR_TASK": "Aucun emplacement spécifique requis pour cette tâche",
     "NO_TASKS_TO_DISPLAY": "Il n'y a aucune tâche à afficher.",
     "NO_WORK_DONE": "Aucun travail n'a été terminé",
     "PAGE_TITLE": "Tâches",
@@ -2023,7 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "La quantité de récolte utilisée ne peut pas dépasser la quantité à allouer",
     "RATE_THIS_TASK": "Évaluez cette tâche",
     "REMOVE_HARVEST_USE": "Supprimer",
-    "SELECT_ANIMALS": "",
+    "SELECT_ANIMALS": "Sélectionnez les animaux",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",

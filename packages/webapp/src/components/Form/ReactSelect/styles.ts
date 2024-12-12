@@ -107,7 +107,7 @@ export const styles: StylesConfig = {
       backgroundColor: 'transparent',
       color: 'white',
     },
-    display: state.isDisabled ? 'none' : 'block',
+    display: state.isDisabled ? 'none' : 'flex',
   }),
 
   multiValueLabel: (provided) => ({

@@ -22,6 +22,7 @@ export type IconTextProps = {
   text: string | number | null | undefined;
   subtext: string | number | null | undefined;
   highlightedText: string | number | null | undefined;
+  photoUrl: string | null;
   removed?: boolean;
 };
 
@@ -32,13 +33,18 @@ const IconText = ({
   subtext,
   highlightedText,
   removed,
+  photoUrl,
 }: IconTextProps) => {
   return (
     <div className={styles.iconTextContainer}>
-      <Icon
-        iconName={iconName}
-        className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
-      />
+      {photoUrl && iconName !== 'REMOVED_ANIMAL' ? (
+        <img src={photoUrl} className={styles.photoUrl} />
+      ) : (
+        <Icon
+          iconName={iconName}
+          className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
+        />
+      )}
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
         <div className={clsx(styles.mainText, removed && styles.removed)}>
           <div

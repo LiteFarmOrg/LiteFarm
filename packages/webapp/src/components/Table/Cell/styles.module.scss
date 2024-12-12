@@ -33,18 +33,27 @@
   gap: 8px;
 }
 
+.photoUrl,
+.iconBorder {
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  border-radius: 8px;
+}
+
+.photoUrl {
+  border: 1px solid #fff;
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.15);
+}
+
 .iconTextIcon {
   background: transparent;
 }
 
 .iconBorder {
-  border-radius: 8px;
   border: 1px solid var(--Colors-Primary-Primary-teal-100);
   background: white;
   box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
-  height: 32px;
-  width: 32px;
-  margin: 4px;
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
 }
 

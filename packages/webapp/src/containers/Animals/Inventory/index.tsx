@@ -305,6 +305,7 @@ export default function AnimalInventory({
             iconName={d.iconName}
             iconBorder={!d.batch && !d.removed}
             removed={d.removed}
+            photoUrl={d.photo_url}
             subtext={isDesktop ? null : `${d.type} / ${d.breed}`}
             highlightedText={d.batch ? d.count : null}
           />

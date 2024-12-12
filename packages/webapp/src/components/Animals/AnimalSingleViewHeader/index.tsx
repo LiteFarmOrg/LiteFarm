@@ -57,7 +57,7 @@ const AnimalImageWithCount = ({ isCompactView, photoUrl, count }: AnimalImageWit
   return (
     <div className={clsx(styles.animalImageWithCount, isCompactView && styles.compactView)}>
       <div className={styles.animalImageWrapper}>
-        {photoUrl ? <img src={photoUrl} className={styles.animalImage} /> : null}
+        {photoUrl ? <img loading="lazy" src={photoUrl} className={styles.animalImage} /> : null}
       </div>
       {count && <span className={styles.batchCount}>{count}</span>}
     </div>

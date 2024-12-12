@@ -19,7 +19,7 @@
     "OTHER": "Otro",
     "CONTACT_METHOD_HEADER": "Método de contacto preferido",
     "SUBJECT": "Su solicitud de ayuda a LiteFarm a las",
-    "OOO_RESPONSE": ""
+    "OOO_RESPONSE": "Gracias por contactarnos. Por favor, tenga en cuenta que nuestro equipo está fuera de la oficina hasta el {{oooEndDate}}. Responderemos a su mensaje tan pronto como sea posible una vez que regresemos. ¡Gracias por su comprensión! Puede encontrar un resumen de tu solicitud más abajo."
   },
   "INVITE": {
     "GREAT_FOLK": "Las personas de",

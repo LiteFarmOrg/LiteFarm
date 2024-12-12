@@ -308,6 +308,7 @@ export default function AnimalInventory({
             photoUrl={d.photo_url}
             subtext={isDesktop ? null : `${d.type} / ${d.breed}`}
             highlightedText={d.batch ? d.count : null}
+            className={view !== View.TASK_SUMMARY ? styles.cellAfterCheckbox : ''}
           />
         ),
       },

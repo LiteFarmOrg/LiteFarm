@@ -17,9 +17,9 @@
 
 import i18n from '../../locales/i18n';
 
-export const hookFormMaxValidation = (max = 9999) => ({
+export const hookFormMaxValidation = (max = 9999, message = '') => ({
   value: max,
-  message: i18n.t('common:MAX_ERROR', { value: max + 1 }),
+  message: message || i18n.t('common:MAX_ERROR', { value: max + 1 }),
 });
 export const hookFormMinValidation = (min) => ({
   value: min,

@@ -25,6 +25,7 @@ import TaskModel from '../models/taskModel.js';
 import { checkIsArray, customError } from './customErrors.js';
 
 export const ANIMAL_TASKS = ['animal_movement_task'];
+export const ANIMAL_CREATE_LIMIT = 1000;
 
 /**
  * Assigns internal identifiers to records.

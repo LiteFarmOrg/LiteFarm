@@ -32,6 +32,7 @@ import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
 import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
+import { ANIMAL_CREATE_LIMIT } from '../../util/animal.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -441,6 +442,9 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
 
       checkIsArray(req.body, 'Request body');
 
+      if (req.body.length > ANIMAL_CREATE_LIMIT) {
+        return res.status(400).send(`Animal creation limit (${ANIMAL_CREATE_LIMIT}) exceeded.`);
+      }
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
 

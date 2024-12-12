@@ -38,6 +38,7 @@ import mocks from './mock.factories.js';
 import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 import AnimalUseRelationshipModel from '../src/models/animalUseRelationshipModel.js';
+import { ANIMAL_CREATE_LIMIT } from '../src/util/animal.js';
 import {
   animalGetRequest,
   animalPostRequest,
@@ -361,6 +362,38 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+
+    test('Should not be able to add >1000 animals', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const [animalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [mainFarm],
+        });
+
+        const animals = [];
+        for (let i = 0; i < ANIMAL_CREATE_LIMIT + 1; i++) {
+          animals.push(
+            mocks.fakeAnimal({
+              custom_type_id: animalBreed.custom_type_id,
+              custom_breed_id: animalBreed.id,
+            }),
+          );
+        }
+
+        const res = await postRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          animals,
+        );
+
+        expect(res.status).toBe(400);
+      }
     });
 
     describe('Create new types and/or breeds while creating animals', () => {

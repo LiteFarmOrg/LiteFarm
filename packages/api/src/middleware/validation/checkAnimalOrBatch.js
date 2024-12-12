@@ -395,7 +395,7 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
 };
 
 // Checks for duplicates - no migration was made for pre-existing duplicates on beta
-// Translation key would normally be used to check for duplicates
+// Currently the only endpoint checking case
 const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_id, trx) => {
   if (newTypesSet.size) {
     const customTypes = await CustomAnimalTypeModel.query(trx).where('farm_id', farm_id);

@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { AnimalInventoryItem } from '../containers/Animals/Inventory/useAnimalInventory';
-
 const hasValue = (value: string | number) => value || value === 0;
 
 export enum orderEnum {
@@ -67,22 +65,19 @@ export const descendingComparator: DescendingComparator<string | number> = (a, b
 export function getComparator<T extends string | number>(
   order: 'asc' | 'desc',
   orderBy: T,
-  customDecendingComparator: (
-    a: Comparable<T>,
-    b: Comparable<T>,
-    orderBy: T,
-  ) => number = descendingComparator,
+  customDecendingComparator: DescendingComparator<T> = descendingComparator,
 ): (a: Comparable<T>, b: Comparable<T>) => number {
   return order === 'desc'
     ? (a: Comparable<T>, b: Comparable<T>) => customDecendingComparator(a, b, orderBy)
     : (a: Comparable<T>, b: Comparable<T>) => -customDecendingComparator(a, b, orderBy);
 }
 
-export function animalDescendingComparator(
-  a: AnimalInventoryItem,
-  b: AnimalInventoryItem,
-  orderBy: keyof AnimalInventoryItem,
-) {
+// Ideally, the type of "a" and "b" should be AnimalInventoryItem.
+export const animalDescendingComparator: DescendingComparator<string | number> = (
+  a,
+  b,
+  orderBy,
+) => {
   if (orderBy !== 'identification') {
     return descendingComparator(a, b, orderBy);
   }
@@ -105,4 +100,4 @@ export function animalDescendingComparator(
     (a.identifier && b.identifier && a.identifier.localeCompare(b.identifier)) ||
     a.internal_identifier - b.internal_identifier
   );
-}
+};

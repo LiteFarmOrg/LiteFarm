@@ -45,26 +45,33 @@ export function FilterDateRange({
   const [showDateFilter, setShowDateFilter] = useState(!!(defaultFromDate || defaultToDate));
   const onSwitchClick = () => {
     setDirty?.();
+    let fromDate;
+    let toDate;
     if (showDateFilter) {
       onDirty?.();
       setShowDateFilter(false);
-      setFromDate('');
-      setToDate('');
     } else {
       setShowDateFilter(true);
-      setFromDate(() => {
-        if (defaultFromDate) return defaultFromDate;
-        if (!defaultToDate) return getDateInputFormat();
-      });
-      setToDate(() => {
-        if (defaultToDate) return defaultToDate;
-        if (!defaultFromDate) {
-          const toDate = new Date();
-          toDate.setDate(toDate.getDate() + 7);
-          return getDateInputFormat(toDate);
-        }
-      });
+      if (defaultFromDate) {
+        fromDate = defaultFromDate;
+      } else if (!defaultToDate) {
+        fromDate = getDateInputFormat();
+      }
+      if (defaultToDate) {
+        toDate = defaultToDate;
+      } else if (!defaultFromDate) {
+        const date = new Date();
+        date.setDate(date.getDate() + 7);
+        toDate = getDateInputFormat(date);
+      }
     }
+    setFromDate(fromDate ?? '');
+    setToDate(toDate ?? '');
+    const filterState = {
+      fromDate,
+      toDate,
+    };
+    onChange(filterState);
   };
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);

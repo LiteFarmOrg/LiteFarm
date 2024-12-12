@@ -17,13 +17,13 @@
 
 import i18n from '../../locales/i18n';
 
-export const hookFormMaxValidation = (max = 9999) => ({
+export const hookFormMaxValidation = (max = 9999, message = '') => ({
   value: max,
-  message: i18n.t('common:MAX_ERROR', { value: max }),
+  message: message || i18n.t('common:MAX_ERROR', { value: max + 1 }),
 });
 export const hookFormMinValidation = (min) => ({
   value: min,
-  message: i18n.t('common:MIN_ERROR', { value: min }),
+  message: i18n.t('common:MIN_ERROR', { value: min - 1 }),
 });
 export const hookFormMaxLengthValidation = (length = 60) => ({
   value: length,

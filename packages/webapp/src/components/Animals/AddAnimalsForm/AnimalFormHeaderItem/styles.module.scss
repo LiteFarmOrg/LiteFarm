@@ -1,0 +1,210 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin';
+
+// Set up desktop and mobile layout
+.mainContent {
+  display: grid;
+  align-content: center;
+  align-items: center;
+  grid-column-gap: 8px;
+
+  grid-template-areas: 'icon text remove count';
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+
+  @include xs-breakpoint {
+    grid-template-areas:
+      'icon count remove'
+      'icon text remove';
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+.iconWrapper {
+  grid-area: icon;
+}
+
+.infoText {
+  grid-area: text;
+
+  @include xs-breakpoint {
+    align-self: start;
+  }
+}
+
+.count {
+  grid-area: count;
+
+  @include xs-breakpoint {
+    align-self: end;
+  }
+}
+
+.remove {
+  grid-area: remove;
+}
+
+.hidden {
+  display: none;
+}
+
+.spanAll {
+  // On desktop the active remove warning extends all the way to right
+  grid-column: 3 / -1;
+
+  // On mobile the active remove warning covers the whole container AND the collapse icon
+  @include xs-breakpoint {
+    position: absolute;
+    top: 8px;
+    left: 0;
+  }
+}
+
+/* --------------------------------- */
+
+// Main component styles
+.mainContent {
+  height: 64px;
+  background-color: var(--White);
+}
+
+.icon {
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
+  border-radius: 8px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.07);
+}
+
+.infoText {
+  font-size: 14px;
+  line-height: 24px;
+
+  // Truncate type + breed
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.count {
+  color: var(--Colors-Primary-Primary-teal-700);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.countBadge {
+  padding: 4px;
+  border-radius: 2px;
+  background: var(--Colors-Accent---singles-Purple-light);
+  box-shadow: 1px 1px 0px 0px #fff;
+
+  margin-left: 8px;
+
+  color: var(--Colors-Accent---singles-Purple-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* --------------------------------- */
+
+// Remove section styles
+.remove {
+  width: 100%;
+  max-width: fit-content;
+  margin-left: auto;
+
+  @include xs-breakpoint {
+    margin-right: 0;
+    max-width: none;
+  }
+}
+
+.removeLink,
+.inlineRemoveWarning,
+.inlineButtonContainer,
+.inlineIconText {
+  display: flex;
+  align-items: center;
+}
+
+// IconLink
+.removeLink {
+  span {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 14px;
+    padding-inline: 4px 16px;
+  }
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    padding: 4px;
+
+    span {
+      padding-inline: 0px;
+    }
+  }
+}
+
+.inlineRemoveWarning {
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 8px;
+  border-radius: 4px;
+  background: #fff3f2;
+
+  .trashIcon {
+    @include svgColorFill(var(--Colors-Accent---singles-Red-dark));
+    background-color: transparent;
+  }
+}
+
+.inlineIconText,
+.inlineRemoveText {
+  // Truncate remove confirmation
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.inlineRemoveText {
+  color: var(--Colors-Accent---singles-Red-dark);
+  font-size: 14px;
+}
+
+.inlineButtonContainer {
+  gap: 16px;
+
+  @include xs-breakpoint {
+    gap: 8px;
+  }
+}
+
+.inlineButton {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.yesButton {
+  background: var(--Colors-Accent---singles-Red-full);
+  color: var(--Colors-Accent---singles-Red-light);
+}
+
+.noButton {
+  background: #ffc1bf;
+  color: var(--Colors-Accent---singles-Red-dark);
+}

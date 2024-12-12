@@ -17,7 +17,6 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 import {
@@ -88,7 +87,7 @@ export default function ManageExpenseTypes({ history }) {
 
         return {
           key: expense_type_id,
-          icon: icons['OTHER'],
+          iconName: 'OTHER',
           label: expense_name,
           className: labelIconStyles.boldLabelIcon,
           description: custom_description,

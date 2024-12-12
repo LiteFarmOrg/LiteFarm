@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
@@ -37,11 +37,11 @@ import {
   TYPE,
 } from '../constants';
 
-import { DATE_RANGE, SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
 import { tasksSelector } from '../../taskSlice';
 import { locationsSelector } from '../../locationSlice';
 import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
+import { FilterType } from '../../../components/Filter/types';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
@@ -55,12 +55,14 @@ const TasksFilterPage = ({ onGoBack }) => {
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
 
+  const [tempFilter, setTempFilter] = useState({});
+
   useEffect(() => {
     dispatch(getTaskTypes());
   }, []);
 
   const taskTypes = useMemo(() => {
-    const supportedTaskTypes = getSupportedTaskTypesSet(true);
+    const supportedTaskTypes = getSupportedTaskTypesSet(true, true);
     let taskTypes = {};
     for (const type of defaultTaskTypes) {
       if (type.deleted === false && supportedTaskTypes.has(type.task_translation_key)) {
@@ -106,10 +108,8 @@ const TasksFilterPage = ({ onGoBack }) => {
     }, {});
   }, [tasks.length]);
 
-  const filterRef = useRef({});
-
   const handleApply = () => {
-    dispatch(setTasksFilter(filterRef.current));
+    dispatch(setTasksFilter(tempFilter));
     onGoBack?.();
   };
 
@@ -117,6 +117,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.STATUS'),
       filterKey: STATUS,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: statuses.map((status) => ({
         value: status.toLowerCase(),
         default: tasksFilter[STATUS][status.toLowerCase()]?.active ?? false,
@@ -126,7 +127,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.TYPE'),
       filterKey: TYPE,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: Object.values(taskTypes).map((type) => ({
         value: type.task_type_id,
         default: tasksFilter[TYPE][type.task_type_id]?.active ?? false,
@@ -136,7 +137,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.LOCATION'),
       filterKey: LOCATION,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: locations.map(({ location_id, name }) => ({
         value: location_id,
         default: tasksFilter[LOCATION][location_id]?.active ?? false,
@@ -146,7 +147,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.ASSIGNEE'),
       filterKey: ASSIGNEE,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: Object.keys(assignees).map((user_id) => ({
         value: user_id,
         default: tasksFilter[ASSIGNEE][user_id]?.active ?? false,
@@ -156,7 +157,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     {
       subject: t('TASK.FILTER.CROP'),
       filterKey: CROP,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: Object.entries(cropVarietyEntities).map(([crop_variety_id, name]) => ({
         value: crop_variety_id,
         default: tasksFilter[CROP][crop_variety_id]?.active ?? false,
@@ -165,7 +166,8 @@ const TasksFilterPage = ({ onGoBack }) => {
     },
     {
       subject: t('TASK.FILTER.DATE_RANGE'),
-      type: DATE_RANGE,
+      filterKey: FilterType.DATE_RANGE,
+      type: FilterType.DATE_RANGE,
       defaultFromDate: tasksFilter[FROM_DATE],
       defaultToDate: tasksFilter[TO_DATE],
     },
@@ -175,8 +177,9 @@ const TasksFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
       onGoBack={onGoBack}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
     />
   );
 };

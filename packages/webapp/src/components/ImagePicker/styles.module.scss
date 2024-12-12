@@ -1,0 +1,112 @@
+/*
+*  Copyright 2024 LiteFarm.org
+*  This file is part of LiteFarm.
+*
+*  LiteFarm is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  LiteFarm is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+*  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+*/
+
+@import '../../assets/mixin.scss';
+
+.imageContainer {
+  display: flex;
+  align-items: start;
+
+  img {
+    max-width: 150px;
+    max-height: 75px;
+    object-fit: cover;
+  }
+}
+
+.imageContainer.disabled,
+.dropContainer.disabled,
+.filePickerWrapper.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.imageContainer.disabled {
+  @include svgColorFill(var(--Colors-Neutral-Neutral-200));
+
+  button {
+    color: var(--Colors-Neutral-Neutral-200);
+  }
+}
+
+.imageActions {
+  margin-left: 8px;
+  gap: 4px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--teal700);
+    font-weight: 400;
+  }
+}
+
+.filePickerBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #634d00;
+  border: 1px solid var(--grey600);
+  border-radius: 4px;
+  padding: 12px 24px;
+}
+
+.filePickerWrapper {
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.dropContainer {
+  display: none;
+  height: 145px;
+  background-color: var(--grey100);
+  border: 1px dashed var(--grey500);
+  border-radius: 4px;
+
+  .cameraIcon {
+    width: 40px;
+    height: 40px;
+    path {
+      stroke: #abc7c1;
+    }
+  }
+
+  .flexWrapper {
+    display: flex;
+    gap: 4px;
+  }
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.dropContainerActive {
+  background-color: var(--teal100);
+  border: 1px solid var(--teal500);
+}
+
+.editButton {
+  svg {
+    width: 22px;
+  }
+}

@@ -35,7 +35,7 @@ export default function PureTaskComplete({
   const { t } = useTranslation();
 
   // Prepare dates
-  const date_due = getDateInputFormat(persistedFormData.due_date);
+  const date_due = getDateInputFormat(persistedFormData?.due_date);
   const date_today = getDateInputFormat();
   const dueDateDisabled = date_due >= date_today;
 
@@ -73,7 +73,7 @@ export default function PureTaskComplete({
 
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
 
-  let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
+  let task_type_name = persistedFormData?.taskType?.task_translation_key.toLowerCase();
 
   const format = (formData) => {
     let completeDate = '';
@@ -97,15 +97,21 @@ export default function PureTaskComplete({
         completion_notes: notes,
         complete_date: completeDate,
       },
-      task_translation_key: persistedFormData?.taskType.task_translation_key,
-      isCustomTaskType: !!persistedFormData?.taskType.farm_id,
+      task_translation_key: persistedFormData?.taskType?.task_translation_key,
+      isCustomTaskType: !!persistedFormData?.taskType?.farm_id,
     };
+
+    // Include animalIds if need_changes is true and animalIds are present (otherwise omit property to keep associated animals unchanged)
+    if (persistedFormData?.need_changes && formData.animalIds) {
+      data.animalIds = formData.animalIds;
+    }
+
     const isFieldWork = task_type_name === 'field_work_task';
     const isOtherFieldWork =
       isFieldWork && persistedFormData?.field_work_task?.field_work_task_type.value === 'OTHER';
 
     // Won't send task type details if need_changes is false
-    if (persistedFormData?.need_changes && !isOtherFieldWork) {
+    if (!data.isCustomTaskType && persistedFormData?.need_changes && !isOtherFieldWork) {
       data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
     } else if (isOtherFieldWork) {
       data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };
@@ -119,8 +125,8 @@ export default function PureTaskComplete({
         actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
       };
     }
-    if (isIrrigationLocation && persistedFormData.locations?.length) {
-      data.location_id = persistedFormData.locations[0].location_id;
+    if (isIrrigationLocation && persistedFormData?.locations?.length) {
+      data.location_id = persistedFormData?.locations[0].location_id;
     }
 
     // Won't send task type details if need_changes is false

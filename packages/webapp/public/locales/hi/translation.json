@@ -1,4 +1,68 @@
 {
+  "ADD_ANIMAL": {
+    "ADD_ANIMALS": "जानवर जोड़ें",
+    "ADD_ANIMALS_FLOW": "जानवरों का जोड़",
+    "ADD_ANIMALS_TITLE": "जानवर जोड़ें",
+    "ADD_DETAILS_INFO": "नीचे अपने जानवरों का विवरण भरें या इसे सहेजकर बाद में जारी रखें।",
+    "ADD_TO_INVENTORY": "अपनी सूची में जानवर जोड़ें",
+    "ANIMAL_BASICS": "जानवर की बुनियादी जानकारी",
+    "ANIMAL_DETAILS": "जानवर का विवरण",
+    "ANIMALS_TOTAL_one": "कुल {{count}} जानवर",
+    "ANIMALS_TOTAL_other": "कुल {{count}} जानवर",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} अनिर्दिष्ट",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} अनिर्दिष्ट",
+    "BATCH_NAME": "बैच का नाम",
+    "BATCH_NAME_PLACEHOLDER": "बैच का नाम टाइप करें",
+    "BREED": "नस्ल",
+    "BREED_PLACEHOLDER_DISABLED": "कृपया पहले एक प्रकार चुनें",
+    "CREATE_INDIVIDUAL_PROFILES": "व्यक्तिगत जानवरों की प्रोफ़ाइल बनाएं",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "इस विकल्प का चयन करें यदि आप प्रत्येक जानवर को अलग से ट्रैक और प्रबंधित करना चाहते हैं।",
+    "EDIT_BASIC_INFO": "बुनियादी जानकारी संपादित करें",
+    "GENERAL_DETAILS": "सामान्य विवरण",
+    "GENERAL_DETAILS_BATCH": "बैच के सामान्य विवरण",
+    "GROUP_NAME": "समूह का नाम",
+    "GROUP_NAME_PLACEHOLDER": "समूह का नाम टाइप करें",
+    "ORIGIN": "मूल",
+    "ORIGIN_BATCH": "बैच का मूल",
+    "OTHER_DETAILS": "अन्य विवरण",
+    "OTHER_DETAILS_BATCH": "बैच के अन्य विवरण",
+    "OUT_OF_COUNT_one": "{{count}} में से {{animalNumber}}",
+    "OUT_OF_COUNT_other": "{{count}} में से {{animalNumber}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "बैच का नाम टाइप करें",
+      "DAM": "एक मातृ का नाम टाइप करें",
+      "NAME": "एक नाम टाइप करें",
+      "OTHER_DETAILS": "विवरण दर्ज करें",
+      "OTHER_USE": "अन्य उपयोग का वर्णन करें",
+      "PRICE": "इसकी लागत कितनी थी?",
+      "SIRE": "एक पिता का नाम टाइप करें",
+      "SUPPLIER": "आपूर्तिकर्ता का नाम टाइप करें",
+      "TAG_COLOUR": "टैग का रंग क्या है?",
+      "TAG_NUMBER": "टैग संख्या टाइप करें",
+      "TAG_TYPE": "टैग का प्रकार क्या है?",
+      "TAG_TYPE_INFO": "कृपया अपने टैग के प्रकार का वर्णन करें"
+    },
+    "REMOVE_CONFIRM": "क्या आप वाकई हटाना चाहते हैं?",
+    "SELECT_SEXES": "लिंग चुनें",
+    "SEX_DETAIL": "लिंग का विवरण",
+    "SEX_DETAIL_ERROR_one": "अधिकतम जानवरों की संख्या: {{count}}",
+    "SEX_DETAIL_ERROR_other": "अधिकतम जानवरों की संख्या: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "आपके पास {{count}} से अधिक जानवर नहीं हो सकते",
+    "SEX_DETAIL_ERROR_POPOVER_other": "आपके पास {{count}} से अधिक जानवर नहीं हो सकते",
+    "SPECIFY_SEX": "लिंग निर्दिष्ट करें",
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "अपने जानवरों के लिए और विवरण जोड़ें",
+      "ALL_DONE": "सब हो गया!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} व्यक्तिगत जानवर",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} व्यक्तिगत जानवर",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} बैच",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} बैच",
+      "HERE_IS_SUMMARY": "यह आपके जोड़े गए जानवरों का सारांश है:",
+      "MAIN": "आपने सफलतापूर्वक {{animalCount}} {{and}} {{batchCount}} अपनी सूची में जोड़े।"
+    },
+    "TYPE": "प्रकार",
+    "UNIQUE_DETAILS": "विशिष्ट विवरण"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "पता आवश्यक है",
     "DISABLE_GEO_LOCATION": "अपने वर्तमान स्थान का पता लगाने के लिए स्थान सेवाओं को सक्षम करना होगा",
@@ -53,6 +117,7 @@
     "ASSIGN_TASK": "टास्क सौंपें",
     "ASSIGNEE": "सौंपने वाला",
     "CANCEL": "टास्क निर्माण रद्द करें",
+    "CANT_FIND_INFO_TASK": "आप अपने स्वयं के कस्टम कार्य प्रकार भी बना सकते हैं!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "अनुमानित जल उपयोग",
       "IS_PERMITTED": "क्या सफाई एजेंट अनुमत सब्सटेंस सूची में है?",
@@ -99,6 +164,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "यह कार्य आपके स्थान की सिंचाई के लिए है। यदि आप सिंचाई स्थापित करना चाहते हैं, तो इसके बजाय एक क्षेत्र कार्य कार्य बनाएं।",
       "CALCULATE_WATER_USAGE": "जल उपयोग की गणना करें",
+      "CALCULATE_WATER_USAGE_WARNING": "जंगली फसलों के लिए, गहराई के अनुसार पानी के उपयोग का अनुमान उपलब्ध नहीं है।",
       "DEFAULT_APPLICATION_DEPTH": "इस स्थान के लिए डिफ़ॉल्ट अनुप्रयोग गहराई निर्धारित करें",
       "DEFAULT_LOCATION_FLOW_RATE": "इस स्थान के लिए डिफ़ॉल्ट प्रवाह दर निर्धारित करें",
       "DEPTH": "गहराई",
@@ -135,9 +201,19 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "सिंचाई का कौन सा प्रकार?"
     },
-    "MANAGE_CUSTOM_TASKS": "कस्टम कार्यों का प्रबंधन करें",
+    "MANAGE_CUSTOM_TASKS": "अपने कस्टम कार्यों का प्रबंधन करें",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "इस स्थानांतरण का उद्देश्य क्या है?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "इस स्थानांतरण के उद्देश्य का चयन करें",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "व्याख्या",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "कृपया इस स्थानांतरण के कारण का वर्णन करें"
+    },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "आपको एक ऐसी जगह की ज़रूरत है जहाँ जानवरों को ले जाया जा सके। यह स्थान बनाने के लिए मैप पर जाएँ।",
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
+    "NO_ANIMAL_LOCATION": "जानवरों के लिए सही स्थान नहीं है",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
+    "NOTES_LABEL": "क्या इस कार्य से संबंधित कुछ विशेष जोड़ना है?",
+    "NOTES_PLACEHOLDER": "निर्देश या असाइन किए गए व्यक्ति के लिए कोई विशेष विवरण जोड़ें",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "जैविक नियंत्रण",
       "FLAME_WEEDING": "लौ निराई",
@@ -196,10 +272,63 @@
     "TASK": "कार्य",
     "TASK_NOTES_CHAR_LIMIT": "नोट्स 10,000 अक्षरों से कम होने चाहिए",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "इस कार्य के बारे में बताएं",
+    "THIS_TASK_IS_COMPLETED": "यह कार्य पहले ही पूरा हो चुका है।",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "'सहेजें' पर क्लिक करने से यह कार्य तुरंत सहेजा जाएगा। इसके बाद इसे पूरा करने के लिए आपको प्रेरित किया जाएगा।",
     "TRANSPLANT_METHOD": "प्रत्यारोपण विधि",
     "WAGE_OVERRIDE": "मजदूरी अधिलेखन",
     "WHAT_PLANTING_METHOD": "प्रत्यारोपण की विधि क्या है?",
     "WILD_CROP": "जंगली फसलें"
+  },
+  "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "क्या आपके पास कोई और जानवर का प्रकार या अलग नस्ल है?",
+    "ADD_MORE_BUTTON": "और जानवर जोड़ें",
+    "ANIMAL_BREED": "नस्ल",
+    "ANIMAL_COUNT_one": "{{count}} जानवर",
+    "ANIMAL_COUNT_other": "{{count}} जानवर",
+    "ANIMAL_GROUPS": "समूह",
+    "ANIMAL_ID": "पहचान संख्या (ID)",
+    "ANIMAL_IDENTIFICATION": "पहचान",
+    "ANIMAL_LOCATIONS": "स्थान",
+    "ANIMAL_SEXES": "लिंग",
+    "ANIMAL_TYPE": "प्रकार",
+    "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "जानवर की तस्वीर",
+      "BATCH_IMAGE": "बैच की तस्वीर",
+      "BATCH_NAME": "बैच का नाम",
+      "DAM": "मातृ",
+      "DATE_OF_BIRTH": "जन्म तिथि",
+      "LITEFARM_ID": "लाइटफार्म आईडी",
+      "ORGANIC_STATUS": "जैविक स्थिति",
+      "OTHER_DETAILS_ANIMAL": "अन्य जानवर का विवरण",
+      "OTHER_DETAILS_BATCH": "बैच का विवरण",
+      "OTHER_USE": "अन्य उपयोग",
+      "SIRE": "पिता",
+      "SUPPLIER": "आपूर्तिकर्ता",
+      "TAG_COLOUR": "टैग का रंग",
+      "TAG_NUMBER": "टैग संख्या",
+      "TAG_TYPE": "टैग का प्रकार",
+      "WEANING_DATE": "दूध छुड़ाने की तारीख"
+    },
+    "BATCH": "बैच",
+    "BETA_SPOTLIGHT_HEADING": "नई जानवर सुविधा का परिचय",
+    "EDIT_ANIMAL_FLOW": "संपादन",
+    "FILTER": {
+      "BATCHES": "बैच",
+      "BATCHES_OR_INDIVIDUALS": "बैच या व्यक्तिगत",
+      "FEMALE": "महिला",
+      "INDIVIDUALS": "व्यक्तिगत",
+      "MALE": "पुरुष",
+      "TITLE": "जानवरों को फ़िल्टर करें"
+    },
+    "REMOVE_ANIMAL": "जानवरों को हटाएं",
+    "SEARCH_INVENTORY_PLACEHOLDER": "अपनी सूची में खोजें",
+    "SHOWING_RESULTS_WITH_COUNT_one": "{{count}} परिणाम दिखा रहा है",
+    "SHOWING_RESULTS_WITH_COUNT_many": "{{count}} परिणाम दिखा रहा है",
+    "SHOWING_RESULTS_WITH_COUNT_other": "{{count}} परिणाम दिखा रहा है",
+    "TABS": {
+      "BASIC_INFO": "मूल जानकारी",
+      "TASKS": "कार्य"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "बेड की लंबाई",
@@ -822,7 +951,7 @@
     },
     "TUTORIALS": "नक्शे के ट्यूटोरियल",
     "UNABLE_TO_RETIRE": {
-      "BODY": "आप केवल उन स्थानों को सेवानिवृत्त कर सकते हैं जिनमें कोई सक्रिय या योजनाबद्ध फसल या कार्य नहीं है।",
+      "BODY": "आप केवल उन स्थानों को सेवानिवृत्त कर सकते हैं जहां कोई सक्रिय या नियोजित फसलें, जानवर या कार्य नहीं हैं।",
       "TITLE": "सेवानिवृत्त करने में असमर्थ"
     },
     "WATER_VALVE": {
@@ -853,13 +982,18 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "फ़ाइलें 10MB से बड़ी नहीं हो सकतीं।",
+    "BODY": "फ़ाइलें {{size}} MB से बड़ी नहीं हो सकतीं।",
     "TITLE": "फ़ाइल आकार बहुत बड़ा है"
   },
   "FILTER": {
+    "CLEAR": "साफ़ करें",
     "CLEAR_ALL": "साफ़ करें",
     "CLEAR_ALL_FILTERS": "सभी साफ़ करें",
-    "SELECT_ALL": "सभी चुनें"
+    "SELECT_ALL": "सभी चुनें",
+    "SELECTED_one": "{{count}} चयनित",
+    "SELECTED_other": "{{count}} चयनित",
+    "SHOWING_ALL": "सभी दिखाएं",
+    "SHOWING_ALL_DEFAULT": "सभी दिखा रहा है"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -921,6 +1055,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "स्क्रीनशॉट या फाइल अपलोड करें",
     "EMAIL": "ईमेल",
+    "FEEDBACK_INVITATION": "मदद प्राप्त करें या हमें प्रतिक्रिया दें",
+    "SEND_US_FEEDBACK": "हमें अपनी प्रतिक्रिया भेजें",
     "MESSAGE_LABEL": "संदेश",
     "OPTIONS": {
       "OTHER": "कुछ और",
@@ -930,7 +1066,6 @@
     },
     "PREFERRED_CONTACT": "पसंदीदा संपर्क विधि",
     "REQUIRED_LABEL": "आवश्यक फील्ड",
-    "TITLE": "सहायता का अनुरोध",
     "TYPE_SUPPORT_LABEL": "समर्थन का प्रकार",
     "TYPE_SUPPORT_PLACEHOLDER": "समर्थन का प्रकार चुनें",
     "WHATSAPP": "व्हाट्सएप",
@@ -938,6 +1073,11 @@
   },
   "HOME": {
     "GREETING": "नमस्ते, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} अन्य",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} अन्य",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} अन्य"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1260,6 +1400,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "वास्तविक राजस्व",
+    "ANIMALS": "जानवर",
+    "ANIMALS_GROUPS": "समूह",
+    "ANIMALS_INVENTORY": "सूची",
+    "ANIMALS_LOCATION": "स्थान",
     "CERTIFICATIONS": "पशु",
     "CROPS": "फसलें",
     "DOCUMENTS": "इन्वेंटरी",
@@ -1458,6 +1602,22 @@
     "LITEFARM_UPDATED": "लाइटफार्म v{{version}} अब उपलब्ध है!",
     "NOTES": "रिलीज़ नोट्स"
   },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "गलती से बनाया गया",
+    "CULLED": "छांटा गया",
+    "EXPLANATION": "व्याख्या",
+    "MORE_DETAILS": "क्या आप और विवरण देना चाहते हैं?",
+    "NATURAL_DEATH": "प्राकृतिक मृत्यु",
+    "REMOVAL_REASONS": "हटाने के कारण",
+    "REMOVE_ANIMALS": "जानवरों को हटाएं",
+    "REMOVED_AND_ARCHIVED": "इन जानवरों को सफलतापूर्वक आपके फ़ार्म से हटा दिया गया है और यह आपकी ऐतिहासिक सूची में उपलब्ध होंगे।",
+    "SLAUGHTERED_FOR_CONSUMPTION": "खपत के लिए वध किया गया",
+    "SLAUGHTERED_FOR_SALE": "बिक्री के लिए वध किया गया",
+    "SOLD": "बेचा गया",
+    "WHY": "हमें बताएं कि आप इन जानवरों को क्यों हटा रहे हैं",
+    "WILL_BE_ARCHIVED": "ये जानवर आपकी मौजूदा जानवरों की सूची से हटा दिए जाएंगे",
+    "WILL_BE_PERMANENTLY_REMOVED": "इन जानवरों को आपके फ़ार्म से स्थायी रूप से हटा दिया जाएगा"
+  },
   "REPEAT_PLAN": {
     "AFTER": "बाद में",
     "COMPLETION": "समापन",
@@ -1498,7 +1658,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "समझ लिया",
-    "DESCRIPTION": "कोई व्यक्ति 48 घंटों के भीतर आपसे संपर्क करेगा।",
+    "DESCRIPTION": "कोई आपसे जल्द ही संपर्क करेगा।",
     "TITLE": "सहायता अनुरोध सबमिट किया गया"
   },
   "REVENUE": {
@@ -1610,6 +1770,11 @@
     "CLEAR_TERMS_AND_FILTERS": "नई संभावनाओं की खोज के लिए विभिन्न शर्तों का अन्वेषण करें या बस फ़िल्टर को साफ़ करें?",
     "NO_RESULTS_FOR": "माफ़ कीजिए, हम आपके खोज शब्द <1>'{{searchTerm}}'</1> के लिए कोई परिणाम नहीं ढूंढ पाए।",
     "ZERO": "0 परिणाम"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "जानवर समूह",
+    "ANIMALS_INVENTORY": "जानवर सूची",
+    "ANIMALS_LOCATION": "जानवर स्थान"
   },
   "SENSOR": {
     "BRAND": "ब्रांड",
@@ -1768,6 +1933,7 @@
         "LABOUR_ISSUE": "श्रम मुद्दा",
         "MACHINERY_ISSUE": "मशीनरी मुद्दा",
         "MARKET_PROBLEM": "बाजार समस्या",
+        "NO_ANIMALS": "स्वतः परित्यक्त: इस कार्य के लिए कोई जानवर नहीं है",
         "OTHER": "अन्य",
         "SCHEDULING_ISSUE": "शेड्यूलिंग मुद्दा",
         "WEATHER": "मौसम"
@@ -1787,9 +1953,14 @@
     "ADD_TASK": "एक कार्य बनाएँ",
     "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
+    "ANIMALS": "जानवर",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "इस कार्य को पूरा करने के लिए कम से कम एक जानवर का चयन करना आवश्यक है। सभी जानवरों को हटाने के लिए, कार्य को छोड़ दें।",
+    "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
-      "MULTIPLE_LOCATIONS": "कई स्थान"
+      "MULTIPLE_LOCATIONS": "कई स्थान",
+      "NO_LOCATION": "कोई स्थान नहीं।"
     },
     "COMPLETE": {
       "DATE": "समाप्ति तिथि",
@@ -1845,6 +2016,7 @@
     "HOW_WILL_HARVEST_BE_USED": "फसल का उपयोग कैसे किया जाएगा?",
     "IRRIGATION_LOCATION": "एक सिंचाई स्थान चुनें",
     "LOCATIONS": "स्थान(ओं)",
+    "NO_LOCATIONS_FOR_TASK": "इस कार्य के लिए किसी विशेष स्थान की आवश्यकता नहीं है।",
     "NO_TASKS_TO_DISPLAY": "दिखाने के लिए कोई कार्य नहीं हैं।",
     "NO_WORK_DONE": "कोई कार्य नहीं किया गया",
     "PAGE_TITLE": "कार्य",
@@ -1853,6 +2025,7 @@
     "QUANTITY_CANNOT_EXCEED": "फसल उपयोग की मात्रा आवंटित राशि से अधिक नहीं हो सकती",
     "RATE_THIS_TASK": "इस कार्य को रेट करें",
     "REMOVE_HARVEST_USE": "हटाएं",
+    "SELECT_ANIMALS": "जानवर चुनें।",
     "SELECT_DATE": "कार्य तिथि चुनें",
     "SELECT_TASK_LOCATIONS": "कार्य स्थान(ओं) का चयन करें",
     "SELECT_WILD_CROP": "यह कार्य एक जंगली फसल को लक्षित करता है",
@@ -1885,6 +2058,13 @@
     "MAYBE_LATER": "शायद बाद में यह मिलेगा।",
     "UNKNOWN_RECORD": "अज्ञात रिकॉर्ड"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "चित्र बदलें",
+    "CLICK_TO_UPLOAD": "अपलोड करने के लिए क्लिक करें",
+    "DRAG_DROP": "या खींचकर छोड़ें",
+    "REMOVE_IMAGE": "चित्र हटाएं",
+    "UPLOAD_IMAGE": "चित्र अपलोड करें"
+  },
   "WAGE": {
     "ERROR": "वेतन एक वैध, गैर-ऋणात्मक दशमलव संख्या होना चाहिए",
     "HOURLY_WAGE": "घंटे का वेतन",
@@ -1900,5 +2080,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "वर्ष चुनें"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "बीटा",
+      "ANIMALS_CONTENT": "हमारी नई जानवर प्रबंधन सुविधा पर एक नज़र डालें—अब बीटा में! इस सुविधा को परिष्कृत करने के लिए आपकी प्रतिक्रिया बहुत महत्वपूर्ण है। कृपया किसी भी बग या सुझाव को साझा करें जो आप पाते हैं। लाइटफार्म को बेहतर बनाने में मदद के लिए हम आपके आभारी हैं! बीटा के बारे में और जानने के लिए <a>यहां</a> क्लिक करें।"
+    }
   }
 }

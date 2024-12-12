@@ -1,4 +1,4 @@
-name: "Automated Tests"
+name: API Unit Tests
 
 on:
   pull_request:
@@ -7,7 +7,8 @@ on:
       - "patch/**"
 
 jobs:
-  automated_tests:
+  api_unit_tests:
+    name: API Unit Tests
     runs-on: ubuntu-20.04
     container: node:18.16.1
     services:

@@ -5,9 +5,13 @@ import { colors } from '../../assets/theme';
 import CancelFlowModal from '../Modals/CancelFlowModal';
 import PropTypes from 'prop-types';
 
-export function CancelButton({ onCancel, cancelModalTitle }) {
+export function CancelButton({
+  onCancel,
+  cancelModalTitle,
+  showConfirmCancelModal,
+  setShowConfirmCancelModal,
+}) {
   const { t } = useTranslation();
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   return (
     <>
       {showConfirmCancelModal && (
@@ -21,7 +25,7 @@ export function CancelButton({ onCancel, cancelModalTitle }) {
         data-cy="cancel-flow"
         sm
         style={{ color: colors.teal700 }}
-        onClick={() => (!!cancelModalTitle ? setShowConfirmCancelModal(true) : onCancel())}
+        onClick={() => (cancelModalTitle ? setShowConfirmCancelModal(true) : onCancel())}
       >
         {t('common:CANCEL')}
       </Semibold>

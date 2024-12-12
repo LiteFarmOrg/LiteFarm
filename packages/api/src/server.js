@@ -39,7 +39,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.6.8',
+    release: '3.7.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -124,6 +124,18 @@ import logger from './common/logger.js';
 // import routes
 import loginRoutes from './routes/loginRoute.js';
 
+import defaultAnimalTypeRoute from './routes/defaultAnimalTypeRoute.js';
+import customAnimalTypeRoute from './routes/customAnimalTypeRoute.js';
+import defaultAnimalBreedRoute from './routes/defaultAnimalBreedRoute.js';
+import customAnimalBreedRoute from './routes/customAnimalBreedRoute.js';
+import animalRoute from './routes/animalRoute.js';
+import animalBatchRoute from './routes/animalBatchRoute.js';
+import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
+import animalIdentifierTypeRoute from './routes/animalIdentifierTypeRoute.js';
+import animalSexRoute from './routes/animalSexRoute.js';
+import animalOriginRoute from './routes/animalOriginRoute.js';
+import animalRemovalReasonRoute from './routes/animalRemovalReasonRoute.js';
+import animalUseRoute from './routes/animalUseRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -132,6 +144,7 @@ import taskTypeRoutes from './routes/taskTypeRoute.js';
 import soilAmendmentMethodRoute from './routes/soilAmendmentMethodRoute.js';
 import soilAmendmentPurposeRoute from './routes/soilAmendmentPurposeRoute.js';
 import soilAmendmentFertiliserTypeRoute from './routes/soilAmendmentFertiliserTypeRoute.js';
+import animalMovementPurposeRoute from './routes/animalMovementPurposeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
@@ -267,6 +280,18 @@ app
   .use(checkJwt)
 
   // routes
+  .use('/default_animal_types', defaultAnimalTypeRoute)
+  .use('/custom_animal_types', customAnimalTypeRoute)
+  .use('/default_animal_breeds', defaultAnimalBreedRoute)
+  .use('/custom_animal_breeds', customAnimalBreedRoute)
+  .use('/animals', animalRoute)
+  .use('/animal_batches', animalBatchRoute)
+  .use('/animal_identifier_types', animalIdentifierTypeRoute)
+  .use('/animal_identifier_colors', animalIdentifierColorRoute)
+  .use('/animal_sexes', animalSexRoute)
+  .use('/animal_origins', animalOriginRoute)
+  .use('/animal_removal_reasons', animalRemovalReasonRoute)
+  .use('/animal_uses', animalUseRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
@@ -278,6 +303,7 @@ app
   .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
   .use('/soil_amendment_methods', soilAmendmentMethodRoute)
   .use('/soil_amendment_fertiliser_types', soilAmendmentFertiliserTypeRoute)
+  .use('/animal_movement_purposes', animalMovementPurposeRoute)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)

@@ -1,0 +1,69 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin';
+
+.iconContainer {
+  width: 40px; // width of the larger (batch) icon
+  display: flex;
+  justify-content: center;
+}
+
+.animalIcon {
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
+  border-radius: 8px;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
+}
+
+.summaryCard {
+  display: flex;
+  padding: 10px 16px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+
+  border-radius: 4px;
+  background: var(--White);
+}
+
+.typeAndBreed,
+.detailText {
+  color: var(--Colors-Primary-Primary-teal-900);
+  line-height: normal;
+  letter-spacing: -0.352px;
+}
+
+.detailText {
+  font-weight: 700;
+}
+
+.batchDetail {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.countBadge {
+  padding: 4px;
+  border-radius: 2px;
+  background: var(--Colors-Accent---singles-Purple-light);
+
+  .countValue {
+    color: var(--Colors-Accent---singles-Purple-full);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: normal;
+  }
+}

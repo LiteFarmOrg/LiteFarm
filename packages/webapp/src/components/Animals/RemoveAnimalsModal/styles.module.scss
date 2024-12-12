@@ -1,0 +1,147 @@
+/*
+*  Copyright 2024 LiteFarm.org
+*  This file is part of LiteFarm.
+*
+*  LiteFarm is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  LiteFarm is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+*  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+*/
+
+form > * {
+  margin-top: 24px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+fieldset {
+  all: unset;
+  width: 100%;
+}
+
+.mobileOption {
+  display: flex;
+  cursor: pointer;
+  margin-top: 4px;
+  height: 40px;
+
+  input {
+    appearance: none;
+  }
+
+  &Label {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+
+  &LabelGreen {
+    border: 1px solid var(--Colors-Primary-Primary-teal-600);
+    color: var(--Colors-Primary-Primary-teal-600);
+  }
+
+  &LabelRed {
+    @extend .textRed;
+    border: 1px solid var(--Colors-Accent---singles-Red-light);
+  }
+}
+
+input:checked {
+  + .mobileOptionLabelGreen {
+    font-weight: 700;
+    background-color: var(--Colors-Secondary-Secondary-green-100);
+  }
+  + .mobileOptionLabelRed {
+    @extend .textRed;
+    border-color: var(--Colors-Accent---singles-Red-full);
+    background-color: var(--Colors-Accent---singles-Red-light);
+    font-weight: 700;
+  }
+}
+
+.dropDownOption {
+  padding: 8px 32px;
+}
+
+.dropDownOptionGreen {
+  color: var(--Colors-Primary-Primary-teal-600);
+}
+
+.dropDownOptionRed {
+  @extend .textRed;
+
+  &:hover {
+    background-color: var(--Colors-Accent---singles-Red-light);
+  }
+}
+
+.reactSelect:focus-within {
+  border-radius: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.textRed {
+  color: var(--Colors-Accent---singles-Red-full);
+}
+
+.archivedMessage {
+  text-align: center;
+  color: var(--Colors-Neutral-Neutral-600);
+}
+
+.removalMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--grey100);
+  padding: 8px 16px;
+  border: 1px solid var(--brown700);
+  border-radius: 4px;
+
+  svg {
+    color: var(--brown700);
+  }
+
+  p {
+    width: 264px;
+    text-align: center;
+  }
+}
+
+.successMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    color: var(--Colors-Neutral-Neutral-600);
+  }
+  p {
+    font-weight: 600;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 1rem;
+
+  button {
+    flex: 1;
+  }
+}
+
+.placeholderHidden {
+  color: transparent;
+}

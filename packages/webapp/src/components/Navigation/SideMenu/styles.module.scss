@@ -345,16 +345,8 @@
       }
 
       .icon {
-        &:not(.cropsIcon) {
-          path {
-            stroke: var(--teal700);
-          }
-        }
-
-        .cropsIcon {
-          path {
-            fill: var(--teal700);
-          }
+        path {
+          stroke: var(--teal700);
         }
       }
 
@@ -374,16 +366,8 @@
     }
 
     .icon {
-      &:not(.cropsIcon) {
-        path {
-          stroke: var(--teal50);
-        }
-      }
-
-      .cropsIcon {
-        path {
-          fill: var(--teal50);
-        }
+      path {
+        stroke: var(--teal50);
       }
     }
 
@@ -410,16 +394,8 @@
       }
 
       .icon {
-        &:not(.cropsIcon) {
-          path {
-            stroke: var(--teal50);
-          }
-        }
-
-        .cropsIcon {
-          path {
-            fill: var(--teal50);
-          }
+        path {
+          stroke: var(--teal50);
         }
       }
 

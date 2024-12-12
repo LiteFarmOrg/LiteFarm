@@ -3,7 +3,6 @@ import { logout } from '../../../util/jwt';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
-import { ReactComponent as HelpIcon } from '../../../assets/images/navbar/help.svg';
 import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
 import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
 import { ReactComponent as LaunchIcon } from '../../../assets/images/icon_launch.svg';
@@ -33,13 +32,24 @@ import {
 } from '@mui/material';
 import Alert from '../../../containers/Navigation/Alert';
 import { useTranslation } from 'react-i18next';
+import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
-const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
+const TopMenu = ({
+  history,
+  isMobile,
+  showNavActions,
+  onClickBurger,
+  showNav,
+  isFeedbackSurveyOpen,
+  setFeedbackSurveyOpen,
+}) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
+  const sectionHeader = useSectionHeader(history.location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -98,13 +108,6 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
       onClick: () => handleClick('/farm_selection'),
       icon: <SwitchFarmIcon />,
       label: t('PROFILE_FLOATER.SWITCH'),
-      externalLink: false,
-    },
-    {
-      id: 'help',
-      onClick: () => handleClick('/help'),
-      icon: <HelpIcon />,
-      label: t('PROFILE_FLOATER.HELP'),
       externalLink: false,
     },
     {
@@ -208,7 +211,9 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   const showMainNavigation = (
     <>
       {isMobile && burgerMenuIcon}
-      <Typography sx={{ flexGrow: 1 }} />
+      <Typography component="div" sx={{ flexGrow: 1 }} className={styles.sectionHeader}>
+        {!isMobile && sectionHeader}
+      </Typography>
       <IconButton
         data-cy="home-notificationButton"
         edge="end"
@@ -239,6 +244,10 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
       >
         <ProfilePicture />
       </IconButton>
+      <FeedbackSurvey
+        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      />
       {isMobile ? drawerMenu : floaterMenu}
     </>
   );
@@ -256,14 +265,16 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   };
 
   return (
-    <AppBar position="sticky" className={styles.appBar}>
-      <Toolbar
-        className={clsx(styles.toolbar, (!showNavigation || isMobile) && styles.centerContent)}
-      >
-        {!showNavigation ? <Logo /> : showMainNavigation}
-        {showNavigation && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
-      </Toolbar>
-    </AppBar>
+    showNav && (
+      <AppBar position="sticky" className={styles.appBar}>
+        <Toolbar
+          className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
+        >
+          {!showNavActions ? <Logo /> : showMainNavigation}
+          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+        </Toolbar>
+      </AppBar>
+    )
   );
 };
 export default TopMenu;

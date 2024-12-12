@@ -17,11 +17,13 @@ export default function PureNavigation({
   showNotificationSpotlight,
   resetSpotlight,
   history,
-  isFarmSelected,
-  hidden,
+  showNav,
+  showNavActions,
   children,
   isCompactSideMenu,
   setIsCompactSideMenu,
+  isFeedbackSurveyOpen,
+  setFeedbackSurveyOpen,
 }) {
   // This namespacing is needed for translations to work throughout the app
   const { t } = useTranslation([
@@ -51,11 +53,9 @@ export default function PureNavigation({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return hidden ? (
-    children
-  ) : (
+  return (
     <>
-      {isFarmSelected && (
+      {showNavActions && showNav && (
         <>
           <SideMenu
             history={history}
@@ -79,8 +79,11 @@ export default function PureNavigation({
         <TopMenu
           history={history}
           isMobile={isMobile}
-          showNavigation={isFarmSelected}
+          showNavActions={showNavActions}
           onClickBurger={openSideMenu}
+          showNav={showNav}
+          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
         />
         {children}
       </div>
@@ -92,8 +95,8 @@ PureNavigation.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  isFarmSelected: PropTypes.bool,
-  hidden: PropTypes.bool,
+  showNav: PropTypes.bool,
+  showNavActions: PropTypes.bool,
   isCompactSideMenu: PropTypes.bool,
   setIsCompactSideMenu: PropTypes.func,
 };

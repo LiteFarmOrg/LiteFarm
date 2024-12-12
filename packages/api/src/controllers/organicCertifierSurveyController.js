@@ -161,8 +161,16 @@ const organicCertifierSurveyController = {
         });
       }
       const organicCertifierSurvey = await knex('organicCertifierSurvey')
-        .where({ farm_id })
+        .where({ farm_id, interested: true })
         .first();
+
+      // Skip the whole flow in case this Farm is not pursuing any cert.
+      if (organicCertifierSurvey === undefined) {
+        return res
+          .status(400)
+          .json({ message: 'You are not currently pursuing any certifications.' });
+      }
+
       const certification = organicCertifierSurvey.certification_id
         ? await knex('certifications')
             .where({ certification_id: organicCertifierSurvey.certification_id })

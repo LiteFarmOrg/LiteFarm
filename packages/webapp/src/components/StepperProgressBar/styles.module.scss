@@ -1,0 +1,115 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.lightMode {
+  --line: var(--Colors-Primary-Primary-teal-700);
+  --active-line: var(--Colors-Primary-Primary-teal-400);
+  --completed-line: var(--Colors-Primary-Primary-teal-900);
+  --text: var(--Colors-Primary-Primary-teal-900);
+}
+
+.darkMode {
+  --background: var(--Colors-Primary-Primary-teal-900);
+  --line: var(--Colors-Primary-Primary-teal-700);
+  --active-line: var(--Colors-Primary-Primary-teal-400);
+  --completed-line: var(--Colors-Secondary-Secondary-green-50);
+  --text: var(--Colors-Neutral-Neutral-50);
+}
+
+.wrapper {
+  color: var(--text);
+  background-color: var(--background);
+
+  &.isMobile {
+    padding-top: 12px;
+
+    &:has(> .title) {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .title {
+      font-size: 16px;
+      padding-left: 8px;
+    }
+  }
+}
+
+.root {
+  background-color: var(--background);
+  height: 48px;
+  padding-top: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.mobile {
+  padding-top: 4px;
+  padding-bottom: 8px;
+  padding-right: 0px;
+  padding-left: 0px;
+  height: fit-content;
+}
+
+.mobileLine {
+  left: -50%;
+  right: 50%;
+  top: 10px;
+}
+
+.line {
+  border-color: var(--line);
+  padding-bottom: 3px;
+}
+
+.activeLine .line {
+  border-color: var(--active-line);
+}
+
+.completedLine .line {
+  border-color: var(--completed-line);
+}
+
+.icon {
+  padding-top: 4px;
+}
+
+.label.label {
+  font-style: normal;
+  padding-bottom: 2px;
+  color: var(--text);
+}
+
+.label .activeLabel {
+  padding-bottom: 2px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mobileLabel.label,
+.mobileLabel.activeLabel {
+  padding-bottom: 0px;
+  font-size: 10px;
+  z-index: 1; // render above line
+
+  .icon {
+    padding-top: 0px;
+  }
+
+  /* label text */
+  span span {
+    margin-top: 0px;
+  }
+}

@@ -22,6 +22,9 @@
   @include fontFamily();
   margin: 0;
   display: inline-block;
+  border: none;
+  background-color: transparent;
+  align-self: flex-start;
 }
 
 .editLinkContainer {

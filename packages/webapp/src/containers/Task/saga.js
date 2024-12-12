@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
@@ -64,6 +64,11 @@ import {
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
 } from '../slice/taskSlice/transplantTaskSlice';
+import {
+  getAnimalMovementTasksSuccess,
+  onLoadingAnimalMovementTaskFail,
+  onLoadingAnimalMovementTaskStart,
+} from '../slice/taskSlice/animalMovementTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -72,7 +77,20 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
-import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
+import {
+  createBeforeCompleteTaskUrl,
+  createCompleteHarvestQuantityTaskUrl,
+  createCompleteTaskUrl,
+} from '../../util/siteMapConstants';
+import { setFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
+import {
+  formatAnimalIdsForReqBody,
+  getCompleteMovementTaskBody,
+  getEndpoint,
+  getMovementTaskBody,
+} from './sagaUtils';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -81,6 +99,7 @@ const taskTypeEndpoint = [
   'soil_amendment_task',
   'harvest_tasks',
   'irrigation_task',
+  'animal_movement_task',
 ];
 
 // TypeScript complains without payload.
@@ -279,36 +298,49 @@ const taskTypeActionMap = {
   CLEANING_TASK: {
     success: (tasks) => put(getCleaningTasksSuccess(tasks)),
     fail: onLoadingCleaningTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   FIELD_WORK_TASK: {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   IRRIGATION_TASK: {
     success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
     fail: onLoadingIrrigationTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   SOIL_AMENDMENT_TASK: {
     success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   HARVEST_TASK: {
     success: (tasks) => put(getHarvestTasksSuccess(tasks)),
     fail: onLoadingHarvestTaskFail,
+    completeUrl: (id) => createCompleteHarvestQuantityTaskUrl(id),
   },
   PLANT_TASK: {
     success: (tasks) =>
       call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingPlantTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   TRANSPLANT_TASK: {
     success: (tasks) =>
       call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingTransplantTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
+  MOVEMENT_TASK: {
+    success: (tasks) => put(getAnimalMovementTasksSuccess(tasks)),
+    fail: onLoadingAnimalMovementTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
 };
 
@@ -323,6 +355,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
+  yield put(onLoadingAnimalMovementTaskStart());
 }
 
 function* handleGetTasksSuccess(tasks, successAction) {
@@ -337,7 +370,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
+      tasksByTranslationKey[task_translation_key].push(task[getSubtaskName(task_translation_key)]);
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
@@ -379,7 +412,7 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
   yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
-const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return getObjectInnerValues(
     produce(data, (data) => {
       const propertiesToRemove = taskTypeEndpoint.filter((taskType) => taskType !== endpoint);
@@ -393,6 +426,13 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
             .planting_management_plan_id,
       }));
       delete data['show_wild_crop'];
+      if (data.animalIds) {
+        // Format animalIds for the request body
+        const { related_animal_ids, related_batch_ids } = formatAnimalIdsForReqBody(data.animalIds);
+        data.related_animal_ids = related_animal_ids;
+        data.related_batch_ids = related_batch_ids;
+        delete data['animalIds'];
+      }
     }),
   );
 };
@@ -506,6 +546,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
+  MOVEMENT_TASK: getMovementTaskBody,
 };
 
 const getPostTaskReqBody = (
@@ -524,11 +565,23 @@ const getPostTaskReqBody = (
   );
 };
 
+const getTaskCompletePathname = (
+  task_id,
+  task_translation_key,
+  isCustomTaskWithAnimals = false,
+) => {
+  if (taskTypeActionMap[task_translation_key]) {
+    return taskTypeActionMap[task_translation_key].completeUrl(task_id);
+  } else {
+    // Custom tasks
+    return createCompleteTaskUrl(task_id, isCustomTaskWithAnimals);
+  }
+};
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  let { returnPath, setShowCannotCreateModal, ...data } = payload;
-
+  let { alreadyCompleted, returnPath, setShowCannotCreateModal, ...data } = payload;
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -537,11 +590,7 @@ export function* createTaskSaga({ payload }) {
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = isCustomTask
-    ? 'custom_task'
-    : isHarvest
-    ? 'harvest_tasks'
-    : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTask, task_translation_key);
   try {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
@@ -560,11 +609,29 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
+      const { task_id, taskType } =
+        task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
-      yield call(onReqSuccessSaga, {
-        message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: returnPath ?? '/tasks',
-      });
+      if (alreadyCompleted) {
+        const isCustomTaskWithAnimals =
+          isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
+        yield call(onReqSuccessSaga, {
+          message: i18n.t('message:TASK.CREATE.SUCCESS'),
+          pathname: getTaskCompletePathname(task_id, task_translation_key, isCustomTaskWithAnimals),
+        });
+        if (isCustomTask) {
+          yield put(
+            setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
+          );
+          yield delay(500);
+          yield put(setFormData({ task_id, taskType }));
+        }
+      } else {
+        yield call(onReqSuccessSaga, {
+          message: i18n.t('message:TASK.CREATE.SUCCESS'),
+          pathname: returnPath ?? '/tasks',
+        });
+      }
     }
   } catch (e) {
     console.log(e);
@@ -717,6 +784,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
+  MOVEMENT_TASK: getCompleteMovementTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -726,7 +794,13 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
-  const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTaskType, task_translation_key);
+
+  if (data.animalIds) {
+    const formattedAnimalIds = formatAnimalIdsForReqBody(data.animalIds);
+    data.taskData = { ...data.taskData, ...formattedAnimalIds };
+  }
+
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)
     : data.taskData;
@@ -745,6 +819,10 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',
       });
+
+      if (task_translation_key === 'MOVEMENT_TASK') {
+        yield put(api.util.invalidateTags(['Animals', 'AnimalBatches']));
+      }
     }
   } catch (e) {
     console.log(e);

@@ -31,13 +31,13 @@ import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
-const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
 const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const Finances = React.lazy(() => import('./FinancesRoutes'));
+const Animals = React.lazy(() => import('./AnimalsRoutes'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('../containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('../containers/InviteSignUp'));
@@ -236,6 +236,7 @@ const TaskDetails = React.lazy(() => import('../containers/Task/TaskDetails'));
 const TaskTypeSelection = React.lazy(() => import('../containers/Task/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('../containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('../containers/Task/TaskCrops'));
+const TaskAnimals = React.lazy(() => import('../containers/Task/TaskAnimalInventory'));
 const TaskLocations = React.lazy(() => import('../containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('../containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('../containers/Task/ManageCustomTasks'));
@@ -278,7 +279,7 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu }) => {
+const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -511,7 +512,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -553,7 +554,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -588,6 +588,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -609,6 +610,17 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances/*" exact component={Finances} />
+            <Route
+              path="/animals/*"
+              exact
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -629,7 +641,6 @@ const Routes = ({ isCompactSideMenu }) => {
 
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
@@ -785,7 +796,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -877,6 +888,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -898,6 +910,17 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances" component={Finances} />
+            <Route
+              path="/animals/*"
+              exact
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -930,7 +953,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
@@ -958,7 +981,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
@@ -976,6 +998,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -995,6 +1018,17 @@ const Routes = ({ isCompactSideMenu }) => {
               path="/notifications/:notification_id/read_only"
               exact
               component={NotificationReadOnly}
+            />
+            <Route
+              path="/animals/*"
+              exact
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

@@ -37,6 +37,7 @@ const LocationPicker = ({
   maxZoomRef,
   getMaxZoom,
   maxZoom,
+  disabled = false,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -326,6 +327,7 @@ const LocationPicker = ({
           selectedLocationIds={selectedLocationIds}
         />
       )}
+      {disabled && <div className={styles.layerMask} />}
     </div>
   );
 };
@@ -340,6 +342,7 @@ LocationPicker.prototype = {
   ),
   maxZoomRef: PropTypes.object,
   getMaxZoom: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default LocationPicker;

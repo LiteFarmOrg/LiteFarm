@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Collapse } from '@mui/material';
+import Pill from '../Pill';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './styles.module.scss';
@@ -29,10 +30,12 @@ export default function ExpandableItem({
   isExpanded,
   onClick,
   mainContent,
+  pillBody,
   expandedContent,
   iconClickOnly = true,
   classes = {},
   itemKey,
+  leftCollapseIcon = false,
 }) {
   const onElementClick = () => {
     if (!iconClickOnly) {
@@ -49,31 +52,48 @@ export default function ExpandableItem({
   const id = `expanded-content-${itemKey}`;
 
   return (
-    <>
+    <div className={clsx(classes.container, isExpanded && classes.expandedContainer)}>
       <div
         className={clsx(
-          styles.mainContentWithIcon,
+          classes.alwaysVisibleContent,
           !iconClickOnly && styles.clickable,
-          classes.mainContentWithIcon,
+          pillBody && styles.pillAlwaysVisibleContent,
         )}
         onClick={onElementClick}
-        aria-controls={id}
-        aria-expanded={isExpanded}
       >
-        <div className={clsx(styles.mainContentWrapper, classes.mainContentWrapper)}>
-          {mainContent}
-        </div>
         <div
-          onClick={onIconClick}
-          className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
+          className={clsx(
+            styles.mainContentWithIcon,
+            classes.mainContentWithIcon,
+            isExpanded && classes.expandedMainContentWithIcon,
+            pillBody && styles.pillMainContentWithIcon,
+          )}
+          aria-controls={id}
+          aria-expanded={isExpanded}
         >
-          {icons[isExpanded ? 'up' : 'down']}
+          <div
+            className={clsx(
+              styles.mainContentWrapper,
+              classes.mainContentWrapper,
+              leftCollapseIcon && styles.leftCollapse,
+              pillBody && styles.pillMainContentWrapper,
+            )}
+          >
+            {mainContent}
+          </div>
+          <div
+            onClick={onIconClick}
+            className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
+          >
+            {icons[isExpanded ? 'up' : 'down']}
+          </div>
         </div>
+        {pillBody && leftCollapseIcon && <Pill body={pillBody} className={styles.pill} />}
       </div>
       <Collapse id={id} in={isExpanded} timeout="auto" unmountOnExit>
         {expandedContent}
       </Collapse>
-    </>
+    </div>
   );
 }
 
@@ -81,10 +101,16 @@ ExpandableItem.propTypes = {
   isExpanded: PropTypes.bool,
   onClick: PropTypes.func,
   mainContent: PropTypes.node,
+  pillBody: PropTypes.string,
   expandedContent: PropTypes.node,
   iconClickOnly: PropTypes.bool,
   classes: PropTypes.shape({
+    container: PropTypes.string,
+    alwaysVisibleContent: PropTypes.string,
+    expandedContainer: PropTypes.string,
+    expandedMainContentWithIcon: PropTypes.string,
     mainContentWithIcon: PropTypes.string,
+    mainContentWrapper: PropTypes.string,
     icon: PropTypes.string,
   }),
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

@@ -16,6 +16,17 @@
 // Type of string has the dual purpose of being used in routes parameter pathing
 //   as well as accomodating UUID types.
 
+// Animals
+export const ANIMALS_URL = '/animals';
+export const ANIMALS_INVENTORY_URL = '/animals/inventory';
+export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
+export const createSingleAnimalViewURL = (id: string | number): string => {
+  return `/animals/${id}`;
+};
+export const createSingleAnimalTasksURL = (id: string | number): string => {
+  return `${createSingleAnimalViewURL(id)}/tasks`;
+};
+
 // Finances
 
 export const FINANCES_URL = '/finances';
@@ -45,7 +56,7 @@ export const createEditRevenueDetailsUrl = (id: string | number): string => {
   return `${createRevenueDetailsUrl(id)}/edit`;
 };
 export const createManagementPlanEstimatedRevenueURL = (id: string | number): string => {
-  return `${ESTIMATED_REVENUE_URL}/plan/${id}}`;
+  return `${ESTIMATED_REVENUE_URL}/plan/${id}`;
 };
 export const createReadonlyCustomExpenseURL = (id: string | number): string => {
   return `/finances/readonly_custom_expense/${id}`;
@@ -60,4 +71,20 @@ export const createEditCustomRevenueUrl = (id: string | number): string => {
 
 export const createReadonlyCustomRevenueUrl = (id: string | number): string => {
   return `/finances/readonly_custom_revenue/${id}`;
+};
+
+// Tasks
+// First complete page for cleaning, field work, irrigation, pest, planting, soil amendment, transplant tasks
+export const createBeforeCompleteTaskUrl = (id: string | number): string => {
+  return `/tasks/${id}/before_complete`;
+};
+
+// First complete page harvest tasks
+export const createCompleteHarvestQuantityTaskUrl = (id: string | number): string => {
+  return `/tasks/${id}/complete_harvest_quantity`;
+};
+
+// First complete page for custom tasks
+export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
+  return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
 };

@@ -13,13 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { expect } from '@storybook/jest';
-import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
+import { within, userEvent, waitForElementToBeRemoved } from '@storybook/test';
 import CardsCarrousel from '../../components/CardsCarrousel';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as LabourIcon } from '../../assets/images/finance/Labour-icn.svg';
-import { ReactComponent as SeedsIcon } from '../../assets/images/finance/Seeds-icn.svg';
-import { ReactComponent as UtilitesIcon } from '../../assets/images/finance/Utilities-icn.svg';
+import Icon from '../../components/Icons';
 
 export default {
   title: 'Components/CardsCarrousel',
@@ -40,7 +38,7 @@ const MOCK_CARDS = [
     id: 'first-card',
     label: 'first-card',
     inactiveBackgroundColor: 'var(--teal900)',
-    inactiveIcon: <LabourIcon aria-label={ICON_LABELS[0]} />,
+    inactiveIcon: <Icon iconName="LABOUR" circle aria-label={ICON_LABELS[0]} />,
     activeContent: <p>{CONTENTS[0]}</p>,
     note: 'Note for first card',
     noteColor: 'var(--teal700)',
@@ -49,7 +47,7 @@ const MOCK_CARDS = [
     id: 'second-card',
     label: 'second-card',
     inactiveBackgroundColor: 'var(--teal700)',
-    inactiveIcon: <SeedsIcon aria-label={ICON_LABELS[1]} />,
+    inactiveIcon: <Icon iconName="SEEDS_AND_PLANTS" circle aria-label={ICON_LABELS[1]} />,
     activeContent: <p>{CONTENTS[1]}</p>,
     note: 'Note for second card',
     noteColor: 'var(--teal600)',
@@ -58,7 +56,7 @@ const MOCK_CARDS = [
     id: 'third-card',
     label: 'third-card',
     inactiveBackgroundColor: 'var(--teal600)',
-    inactiveIcon: <UtilitesIcon aria-label={ICON_LABELS[2]} />,
+    inactiveIcon: <Icon iconName="UTILITIES" circle aria-label={ICON_LABELS[2]} />,
     activeContent: <p>{CONTENTS[2]}</p>,
     note: 'Note for third card',
     noteColor: 'var(--teal900)',

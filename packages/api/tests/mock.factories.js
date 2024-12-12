@@ -69,14 +69,20 @@ function fakeFarm(defaultData = {}) {
 }
 
 async function userFarmFactory(
-  { promisedUser = usersFactory(), promisedFarm = farmFactory() } = {},
+  { promisedUser = usersFactory(), promisedFarm = farmFactory(), roleId } = {},
   userFarm = fakeUserFarm(),
 ) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
   const [{ user_id }] = user;
   const [{ farm_id }] = farm;
   return knex('userFarm')
-    .insert({ user_id, farm_id, has_consent: true, ...userFarm })
+    .insert({
+      user_id,
+      farm_id,
+      has_consent: true,
+      ...userFarm,
+      role_id: roleId || userFarm.role_id,
+    })
     .returning('*');
 }
 
@@ -1095,9 +1101,12 @@ function fakeFertilizer(defaultData = {}) {
 }
 
 async function taskFactory(
-  { promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {},
+  { promisedUser = usersFactory(), promisedTaskType, promisedFarm } = {},
   task = fakeTask(),
 ) {
+  if (!promisedTaskType) {
+    promisedTaskType = task_typeFactory({ promisedFarm });
+  }
   const [user, taskType] = await Promise.all([promisedUser, promisedTaskType]);
   const [{ user_id }] = user;
   const [{ task_type_id }] = taskType;
@@ -1762,6 +1771,39 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function animal_movement_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  animal_movement_task = fakeAnimalMovementTask(),
+) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('animal_movement_task')
+    .insert({ task_id, ...animal_movement_task })
+    .returning('*');
+}
+
+function fakeAnimalMovementTask(defaultData = {}) {
+  return defaultData;
+}
+
+async function animal_movement_purposeFactory(key = faker.lorem.word()) {
+  return knex('animal_movement_purpose')
+    .insert({ key, id: key === 'OTHER' ? 14 : undefined })
+    .returning('*');
+}
+
+async function animal_movement_task_purpose_relationshipFactory({
+  promisedTask = taskFactory(),
+  promisedPurpose = animal_movement_purposeFactory(),
+  other_purpose = null,
+} = {}) {
+  const [[{ task_id }], [{ id: purpose_id }]] = await Promise.all([promisedTask, promisedPurpose]);
+
+  return knex('animal_movement_task_purpose_relationship')
+    .insert({ task_id, purpose_id, other_purpose })
+    .returning('*');
+}
+
 async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
@@ -2239,6 +2281,270 @@ async function revenue_typeFactory(
     .returning('*');
 }
 
+function fakeCustomAnimalType(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    type: name,
+    ...defaultData,
+  };
+}
+
+async function custom_animal_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalType = fakeCustomAnimalType(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('custom_animal_type')
+    .insert({ farm_id, ...animalType, ...base })
+    .returning('*');
+}
+
+async function default_animal_typeFactory() {
+  return knex('default_animal_type').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+function fakeCustomAnimalBreed(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    breed: name,
+    ...defaultData,
+  };
+}
+
+async function custom_animal_breedFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedCustomAnimalType = custom_animal_typeFactory({ promisedFarm }),
+    promisedDefaultAnimalType = default_animal_typeFactory({ promisedFarm }),
+    properties = {},
+  } = {},
+  animalBreed = fakeCustomAnimalBreed(properties),
+  customType = true,
+) {
+  const [farm, user, customAnimalType, defaultAnimalType] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedCustomAnimalType,
+    promisedDefaultAnimalType,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: custom_type_id }] = customAnimalType;
+  const [{ id: default_type_id }] = defaultAnimalType;
+  const type = customType ? { custom_type_id } : { default_type_id };
+  const base = baseProperties(user_id);
+  return knex('custom_animal_breed')
+    .insert({ farm_id, ...type, ...animalBreed, ...base })
+    .returning('*');
+}
+
+async function default_animal_breedFactory(promisedAnimalType = default_animal_typeFactory()) {
+  const [animalType] = await promisedAnimalType;
+  return knex('default_animal_breed')
+    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
+    .returning('*');
+}
+
+function fakeAnimal(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    name,
+    ...defaultData,
+  };
+}
+
+async function animalFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    properties = {},
+  } = {},
+  animal = fakeAnimal(properties),
+) {
+  const [farm, user, defaultAnimalType] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+
+  const base = baseProperties(user_id);
+
+  return knex('animal')
+    .insert({ farm_id, default_type_id, ...animal, ...base })
+    .returning('*');
+}
+
+function fakeAnimalBatch(defaultData = {}) {
+  const name = faker.lorem.word();
+  const count = faker.datatype.number({ min: 2 });
+  return {
+    name,
+    count,
+    sex_detail: [],
+    ...defaultData,
+  };
+}
+
+async function animal_batchFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    promisedDefaultAnimalBreed = default_animal_breedFactory(),
+    properties = {},
+  } = {},
+  animalBatch = fakeAnimalBatch(properties),
+) {
+  const [farm, user, defaultAnimalType, defaultAnimalBreed] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+    promisedDefaultAnimalBreed,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+  const [{ id: default_breed_id }] = defaultAnimalBreed;
+
+  const base = baseProperties(user_id);
+  return knex
+    .transaction(async (trx) => {
+      const sex_detail = animalBatch.sex_detail;
+      delete animalBatch.sex_detail;
+
+      const batch = await trx
+        .insert({ farm_id, default_type_id, default_breed_id, ...animalBatch, ...base })
+        .into('animal_batch')
+        .returning('*');
+
+      let details = [];
+      for (const detail of sex_detail) {
+        const res = await trx
+          .insert({ ...detail, animal_batch_id: batch[0].id })
+          .into('animal_batch_sex_detail')
+          .returning('*');
+        details.push(res[0]);
+      }
+      batch[0].sex_detail = details;
+      return batch;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+async function animal_identifier_typeFactory(rows = 1, key = faker.lorem.word()) {
+  return knex('animal_identifier_type')
+    .insert(Array(rows).fill({ key, id: key === 'OTHER' ? 3 : undefined }))
+    .returning('*');
+}
+
+async function animal_identifier_colorFactory() {
+  return knex('animal_identifier_color').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_sexFactory() {
+  return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_originFactory(key = faker.lorem.word()) {
+  return knex('animal_origin')
+    .insert({ key, id: key === 'BROUGHT_IN' ? 1 : undefined })
+    .returning('*');
+}
+
+function fakeAnimalGroup(defaultData = {}) {
+  const name = faker.lorem.word();
+  const notes = faker.lorem.word();
+  return {
+    name,
+    notes,
+    ...defaultData,
+  };
+}
+
+async function animal_groupFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalGroup = fakeAnimalGroup(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+
+  const base = baseProperties(user_id);
+  return knex('animal_group')
+    .insert({
+      farm_id,
+      ...animalGroup,
+      ...base,
+    })
+    .returning('*');
+}
+
+async function animal_group_relationshipFactory({
+  promisedAnimal = animalFactory(),
+  promisedGroup = animal_groupFactory(),
+} = {}) {
+  const [animal, group] = await Promise.all([promisedAnimal, promisedGroup]);
+  const [{ id: groupId }] = group;
+  const [{ id: animalId }] = animal;
+  return knex('animal_group_relationship')
+    .insert({
+      animal_group_id: groupId,
+      animal_id: animalId,
+    })
+    .returning('*');
+}
+
+async function animal_batch_group_relationshipFactory({
+  promisedBatch = animal_batchFactory(),
+  promisedGroup = animal_groupFactory(),
+} = {}) {
+  const [batch, group] = await Promise.all([promisedBatch, promisedGroup]);
+  const [{ id: groupId }] = group;
+  const [{ id: batchId }] = batch;
+  return knex('animal_batch_group_relationship')
+    .insert({
+      animal_group_id: groupId,
+      animal_batch_id: batchId,
+    })
+    .returning('*');
+}
+
+async function animal_removal_reasonFactory() {
+  return knex('animal_removal_reason').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_useFactory(key = faker.lorem.word()) {
+  return knex('animal_use')
+    .insert({ key, id: key === 'OTHER' ? 10 : undefined })
+    .returning('*');
+}
+
+async function animal_type_use_relationshipFactory({
+  promisedDefaultAnimalType = default_animal_typeFactory(),
+  promisedAnimalUse = animal_useFactory(),
+} = {}) {
+  const [defaultAnimalType, animalUse] = await Promise.all([
+    promisedDefaultAnimalType,
+    promisedAnimalUse,
+  ]);
+  const [{ id: defaultTypeId }] = defaultAnimalType;
+  const [{ id: animalUseId }] = animalUse;
+
+  return knex('animal_type_use_relationship')
+    .insert({
+      default_type_id: defaultTypeId,
+      animal_use_id: animalUseId,
+    })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2310,6 +2616,10 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
+  animal_movement_taskFactory,
+  fakeAnimalMovementTask,
+  animal_movement_purposeFactory,
+  animal_movement_task_purpose_relationshipFactory,
   saleFactory,
   fakeSale,
   locationFactory,
@@ -2374,5 +2684,26 @@ export default {
   populateDefaultRevenueTypes,
   revenue_typeFactory,
   fakeRevenueType,
+  custom_animal_typeFactory,
+  fakeCustomAnimalType,
+  default_animal_typeFactory,
+  custom_animal_breedFactory,
+  fakeCustomAnimalBreed,
+  default_animal_breedFactory,
+  fakeAnimal,
+  fakeAnimalBatch,
+  animalFactory,
+  animal_batchFactory,
+  animal_identifier_typeFactory,
+  animal_identifier_colorFactory,
+  animal_sexFactory,
+  animal_originFactory,
+  fakeAnimalGroup,
+  animal_groupFactory,
+  animal_group_relationshipFactory,
+  animal_batch_group_relationshipFactory,
+  animal_removal_reasonFactory,
+  animal_useFactory,
+  animal_type_use_relationshipFactory,
   baseProperties,
 };

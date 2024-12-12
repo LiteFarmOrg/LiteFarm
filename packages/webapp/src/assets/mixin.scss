@@ -53,6 +53,7 @@
 }
 
 // Custom icons from figma use a variety of strokes and fills
+// Does not work with multi-color icons or icons with background color (ex. BATCH)
 @mixin svgColorFill($newColor) {
   svg {
     path {

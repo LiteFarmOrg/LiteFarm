@@ -75,7 +75,7 @@
 
   svg {
     transform: translate(0px, 3px);
-    margin-right: 8px,
+    margin-right: 8px;
   }
 }
 
@@ -97,4 +97,8 @@
   button:nth-of-type(2) {
     flex-grow: 2;
   }
+}
+
+.section {
+  margin-bottom: 24px;
 }

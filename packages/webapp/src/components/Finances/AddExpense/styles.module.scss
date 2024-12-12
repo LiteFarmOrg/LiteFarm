@@ -27,7 +27,7 @@
   font-size: 14px;
 }
 
-p.iconLink {
+button.iconLink {
   display: flex;
   align-items: start;
   height: 16px;
@@ -51,6 +51,7 @@ p.iconLink {
 .type {
   line-height: 20px;
   margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .box {

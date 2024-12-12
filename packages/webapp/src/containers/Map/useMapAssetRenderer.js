@@ -371,7 +371,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
-    const { line_points: points, name, type, width } = line;
+    const { line_points: points, type, width } = line;
     let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);

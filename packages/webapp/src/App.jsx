@@ -24,10 +24,12 @@ import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
+import { ANIMALS_URL } from './util/siteMapConstants';
 
 function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
-  const FULL_WIDTH_ROUTES = ['/map'];
+  const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+  const FULL_WIDTH_ROUTES = ['/map', ANIMALS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
 
   return (
@@ -37,6 +39,8 @@ function App() {
           history={history}
           isCompactSideMenu={isCompactSideMenu}
           setIsCompactSideMenu={setIsCompactSideMenu}
+          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
         >
           <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
             <OfflineDetector />
@@ -49,9 +53,14 @@ function App() {
                 root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
                 containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
               }}
-              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+              // https://notistack.com/features/customization#custom-component
+              Components={{ common: NotistackSnackbar }}
             >
-              <Routes isCompactSideMenu={isCompactSideMenu} />
+              <Routes
+                isCompactSideMenu={isCompactSideMenu}
+                isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+                setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+              />
             </SnackbarProvider>
           </div>
         </Navigation>

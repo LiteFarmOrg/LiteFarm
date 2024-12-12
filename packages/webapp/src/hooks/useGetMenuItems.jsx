@@ -16,6 +16,7 @@
 import { ReactComponent as MapIcon } from '../assets/images/nav/map.svg';
 import { ReactComponent as TasksIcon } from '../assets/images/nav/tasks.svg';
 import { ReactComponent as CropsIcon } from '../assets/images/nav/crops.svg';
+import { ReactComponent as AnimalsIcon } from '../assets/images/nav/animals.svg';
 import { ReactComponent as FinancesIcon } from '../assets/images/nav/finances.svg';
 import { ReactComponent as InsightsIcon } from '../assets/images/nav/insights.svg';
 import { ReactComponent as DocumentsIcon } from '../assets/images/nav/documents.svg';
@@ -26,15 +27,16 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
-import styles from '../components/Navigation/SideMenu/styles.module.scss';
 import {
   ACTUAL_REVENUE_URL,
+  ANIMALS_INVENTORY_URL,
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
   FINANCES_URL,
   LABOUR_URL,
   OTHER_EXPENSE_URL,
 } from '../util/siteMapConstants';
+import Badge from '../components/Badge';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -46,9 +48,16 @@ export const useGetMenuItems = () => {
       { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks', key: 'tasks' },
       {
         label: t('MENU.CROPS'),
-        icon: <CropsIcon className={styles.cropsIcon} />,
+        icon: <CropsIcon />,
         path: '/crop_catalogue',
         key: 'crops',
+      },
+      {
+        label: t('MENU.ANIMALS'),
+        icon: <AnimalsIcon />,
+        path: ANIMALS_INVENTORY_URL,
+        key: 'animals',
+        badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
       },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];

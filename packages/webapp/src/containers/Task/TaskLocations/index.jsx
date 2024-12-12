@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -9,6 +8,7 @@ import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import {
+  animalLocationsSelector,
   cropLocationEntitiesSelector,
   cropLocationsSelector,
   locationsSelector,
@@ -22,12 +22,16 @@ import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
+import { getProgress } from '../util';
+import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   const isSoilAmendmentLocation = useIsTaskType('SOIL_AMENDMENT_TASK');
+  const isAnimalLocation = useIsTaskType('MOVEMENT_TASK');
+  const isCustomLocation = useIsTaskType('CUSTOM_TASK');
 
   if (isHarvestLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
@@ -43,6 +47,14 @@ export default function TaskLocationsSwitch({ history, match, location }) {
 
   if (isSoilAmendmentLocation) {
     return <TaskSoilAmendmentLocations history={history} location={location} />;
+  }
+
+  if (isAnimalLocation) {
+    return <TaskAnimalLocations history={history} location={location} />;
+  }
+
+  if (isCustomLocation) {
+    return <TaskCustomLocations history={history} location={location} />;
   }
 
   return <TaskAllLocations history={history} location={location} />;
@@ -136,6 +148,66 @@ function TaskSoilAmendmentLocations({ history, location }) {
   );
 }
 
+function TaskAnimalLocations({ history, location }) {
+  const { t } = useTranslation();
+  const animalLocations = useSelector(animalLocationsSelector);
+  const onContinue = () => {
+    history.push('/add_task/task_details', location.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={animalLocations}
+      history={history}
+      isMulti={false}
+      title={t('TASK.ANIMAL_MOVING_TO_LOCATION')}
+      onContinue={onContinue}
+      location={location}
+      isAnimalTask={true}
+    />
+  );
+}
+
+function TaskCustomLocations({ history, location }) {
+  const dispatch = useDispatch();
+  const locations = useSelector(locationsSelector);
+  const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
+  const activeAndCurrentManagementPlansByLocationIds =
+    useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
+  const { animalsExistOnFarm } = useAnimalsExist();
+
+  const onContinue = (formData) => {
+    const hasLocationManagementPlans = formData.locations.some(
+      ({ location_id }) => activeAndCurrentManagementPlansByLocationIds[location_id]?.length,
+    );
+    const hasWildManagementPlans = formData.show_wild_crop && wildManagementPlanTiles.length;
+    const hasManagementPlans = hasLocationManagementPlans || hasWildManagementPlans;
+    if (!hasManagementPlans) {
+      dispatch(setManagementPlansData([]));
+      if (animalsExistOnFarm) {
+        return history.push('/add_task/task_animal_selection', location?.state);
+      }
+      return history.push('/add_task/task_details', location?.state);
+    }
+    history.push('/add_task/task_crops', location?.state);
+  };
+
+  const progress = getProgress('CUSTOM_TASK', 'task_locations');
+
+  return (
+    <TaskLocations
+      locations={locations}
+      history={history}
+      onContinue={onContinue}
+      readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
+      optionalLocation
+      progress={progress}
+    />
+  );
+}
+
 function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
@@ -182,6 +254,9 @@ function TaskLocations({
   onContinue,
   readOnlyPinCoordinates,
   location,
+  isAnimalTask = false,
+  optionalLocation,
+  progress,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
@@ -207,6 +282,9 @@ function TaskLocations({
         maxZoom={maxZoom}
         defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
+        isAnimalTask={isAnimalTask}
+        optionalLocation={optionalLocation}
+        progress={progress}
       />
     </HookFormPersistProvider>
   );

@@ -1,4 +1,18 @@
 {
+  "ANIMALS": {
+    "FAILED_CREATE_ANIMALS": "Failed to create animals",
+    "FAILED_CREATE_BATCHES": "Failed to create batches",
+    "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
+    "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
+    "FAILED_UPDATE_ANIMAL": "Failed to update animal",
+    "FAILED_UPDATE_BATCH": "Failed to update batch",
+    "SUCCESS_CREATE_ANIMALS": "Successfully created animals",
+    "SUCCESS_CREATE_BATCHES": "Successfully created batches",
+    "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",
+    "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches",
+    "SUCCESS_UPDATE_ANIMAL": "Successfully updated animal",
+    "SUCCESS_UPDATE_BATCH": "Successfully updated batch"
+  },
   "ASSIGN_TASK": {
     "ERROR": "Failed to assign tasks",
     "SUCCESS": "Successfully assigned tasks"
@@ -40,7 +54,9 @@
     "ERROR": {
       "ADD": "Failed to add new expenses",
       "DELETE": "Failed to delete expenses",
-      "UPDATE": "Failed to update expenses!"
+      "UPDATE": "Failed to update expenses!",
+      "EXPENSE_DELETED": "This expense no longer exists",
+      "EXPENSE_TYPE_DELETED": "This expense type has been deleted"
     },
     "SUCCESS": {
       "ADD": "Successfully added new expenses!",
@@ -68,6 +84,11 @@
     },
     "SUCCESS": {
       "UPDATE": "Successfully updated farm info!"
+    }
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Something went wrong while submitting your feedback. Please try again."
     }
   },
   "LOG_HARVEST": {
@@ -141,7 +162,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Failed to update revenue"
+      "EDIT": "Failed to update revenue",
+      "REVENUE_TYPE_DELETED": "This revenue type has been deleted"
     },
     "SUCCESS": {
       "EDIT": "Revenue successfully updated"
@@ -163,7 +185,8 @@
     "ERROR": {
       "ADD": "Failed to add sale",
       "DELETE": "Failed to delete new sale",
-      "UPDATE": "Failed to update sale"
+      "UPDATE": "Failed to update sale",
+      "SALE_DELETED": "This sale no longer exists"
     },
     "SUCCESS": {
       "ADD": "Successfully added sale",

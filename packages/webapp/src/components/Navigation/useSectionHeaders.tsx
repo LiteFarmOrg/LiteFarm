@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL } from '../../util/siteMapConstants';
+import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, ANIMALS_URL } from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
@@ -40,9 +40,9 @@ interface PathHeaderKVP {
 export function useSectionHeader(path: Pathname): string | React.ReactElement | null {
   const { t } = useTranslation(['translation']);
 
-  const animalInventoryTitle = (
+  const animalInventoryTitle = (title = t('SECTION_HEADER.ANIMALS_INVENTORY')) => (
     <div className={styles.animalInventoryTitle}>
-      <div className={styles.text}>{t('SECTION_HEADER.ANIMALS_INVENTORY')}</div>
+      <div className={styles.text}>{title}</div>
       <Badge
         title={t('BADGE.BETA.TITLE')}
         content={
@@ -55,8 +55,8 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   );
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
-    [ANIMALS_INVENTORY_URL]: animalInventoryTitle,
-    [ADD_ANIMALS_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
+    [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
+    [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
   };
 
   return HEADERS_BY_PATH[path] ?? null;

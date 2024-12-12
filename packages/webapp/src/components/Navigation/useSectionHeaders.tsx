@@ -40,9 +40,9 @@ interface PathHeaderKVP {
 export function useSectionHeader(path: Pathname): string | React.ReactElement | null {
   const { t } = useTranslation(['translation']);
 
-  const animalInventoryTitle = (
+  const animalInventoryTitle = (title = t('SECTION_HEADER.ANIMALS_INVENTORY')) => (
     <div className={styles.animalInventoryTitle}>
-      <div className={styles.text}>{t('SECTION_HEADER.ANIMALS_INVENTORY')}</div>
+      <div className={styles.text}>{title}</div>
       <Badge
         title={t('BADGE.BETA.TITLE')}
         content={
@@ -55,8 +55,8 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   );
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
-    [ANIMALS_INVENTORY_URL]: animalInventoryTitle,
-    [ADD_ANIMALS_URL]: animalInventoryTitle,
+    [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
+    [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
   };
 
   return HEADERS_BY_PATH[path] ?? null;

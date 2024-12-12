@@ -32,6 +32,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
+import { useSectionHeader } from '../../../components/Navigation/useSectionHeaders';
 
 export const STEPS = {
   BASICS: 'basics',
@@ -124,9 +125,11 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
+  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+
   return (
     <ContextForm
-      stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
+      stepperProgressBarTitle={isMobile && animalInventoryTitle}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}
       hasSummaryWithinForm={true}

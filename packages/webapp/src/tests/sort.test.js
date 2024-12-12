@@ -115,27 +115,27 @@ describe('Sort test', () => {
     test('Sort animals using animalDescendingComparator', () => {
       const expectedSortedAnimalsAsc = [
         { name: 'Farm', identifier: 'identifier 2', internal_identifier: 2 },
-        { name: 'Java', identifier: 'identifier 3', internal_identifier: 4 },
+        { name: 'Java', identifier: null, internal_identifier: 4 },
         { name: 'Lite', identifier: 'identifier 1', internal_identifier: 9 },
-        { name: 'Script', identifier: 'identifier 4', internal_identifier: 5 },
+        { name: 'Script', identifier: null, internal_identifier: 5 },
         { name: null, identifier: 'identifier 5', internal_identifier: 7 },
         { name: null, identifier: 'identifier 6', internal_identifier: 6 },
         { name: null, identifier: null, internal_identifier: 1 },
-        { name: null, identifier: null, internal_identifier: 3 },
-        { name: null, identifier: null, internal_identifier: 8 },
+        { name: null, internal_identifier: 3 },
+        { name: null, internal_identifier: 8 },
         { name: null, identifier: null, internal_identifier: 10 },
       ].map((data) => ({ ...data, identification: chooseIdentification(data) }));
 
       const shuffledAnimals1 = _.shuffle(expectedSortedAnimalsAsc);
       const shuffledAnimals2 = _.shuffle(expectedSortedAnimalsAsc);
-      const sortedAnimalsASC = shuffledAnimals1.sort(
+      const sortedAnimalsAsc = shuffledAnimals1.sort(
         getComparator('asc', 'identification', animalDescendingComparator),
       );
-      const sortedAnimalsDESC = shuffledAnimals2.sort(
+      const sortedAnimalsDesc = shuffledAnimals2.sort(
         getComparator('desc', 'identification', animalDescendingComparator),
       );
-      expect(sortedAnimalsASC).toEqual(expectedSortedAnimalsAsc);
-      expect(sortedAnimalsDESC).toEqual(expectedSortedAnimalsAsc.reverse());
+      expect(sortedAnimalsAsc).toEqual(expectedSortedAnimalsAsc);
+      expect(sortedAnimalsDesc).toEqual(expectedSortedAnimalsAsc.reverse());
     });
   });
 });

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { AnimalInventoryItem } from '../containers/Animals/Inventory/useAnimalInventory';
+
 const hasValue = (value: string | number) => value || value === 0;
 
 export enum orderEnum {
@@ -21,7 +23,7 @@ export enum orderEnum {
 }
 
 type Comparable<T extends string | number> = {
-  [key in T]: any;
+  [key in T]?: any;
 };
 
 /**
@@ -57,13 +59,48 @@ export function descendingComparator<T extends string | number>(
  *
  * @param {'asc' | 'desc'} order - The sorting order, either 'asc' for ascending or 'desc' for descending.
  * @param {string} orderBy - The property by which to compare the objects.
+ * @param {function} customDecendingComparator - The decending comparator to use.
  * @returns {function} - A comparator function for use with the `Array.prototype.sort()` method.
  */
 export function getComparator<T extends string | number>(
   order: 'asc' | 'desc',
   orderBy: T,
+  customDecendingComparator: (
+    a: Comparable<T>,
+    b: Comparable<T>,
+    orderBy: T,
+  ) => number = descendingComparator,
 ): (a: Comparable<T>, b: Comparable<T>) => number {
   return order === 'desc'
-    ? (a: Comparable<T>, b: Comparable<T>) => descendingComparator(a, b, orderBy)
-    : (a: Comparable<T>, b: Comparable<T>) => -descendingComparator(a, b, orderBy);
+    ? (a: Comparable<T>, b: Comparable<T>) => customDecendingComparator(a, b, orderBy)
+    : (a: Comparable<T>, b: Comparable<T>) => -customDecendingComparator(a, b, orderBy);
+}
+
+export function animalDescendingComparator(
+  a: AnimalInventoryItem,
+  b: AnimalInventoryItem,
+  orderBy: keyof AnimalInventoryItem,
+) {
+  if (orderBy !== 'identification') {
+    return descendingComparator(a, b, orderBy);
+  }
+
+  if (a.name && !b.name) {
+    return -1;
+  }
+  if (b.name && !a.name) {
+    return 1;
+  }
+  if (a.identifier && !b.identifier) {
+    return -1;
+  }
+  if (b.identifier && !a.identifier) {
+    return 1;
+  }
+
+  return (
+    (a.name && b.name && a.name.localeCompare(b.name)) ||
+    (a.identifier && b.identifier && a.identifier.localeCompare(b.identifier)) ||
+    a.internal_identifier - b.internal_identifier
+  );
 }

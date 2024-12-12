@@ -64,6 +64,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
             }}
             value={value}
             isDisabled={isDisabled}
+            isClearable={false}
           />
         )}
       />
@@ -119,6 +120,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
               onBreedChange?.(option);
             }}
             value={value || null}
+            isClearable={false}
           />
         )}
       />

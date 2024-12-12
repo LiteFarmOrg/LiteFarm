@@ -211,7 +211,7 @@ const TopMenu = ({
   const showMainNavigation = (
     <>
       {isMobile && burgerMenuIcon}
-      <Typography sx={{ flexGrow: 1 }} className={styles.sectionHeader}>
+      <Typography component="div" sx={{ flexGrow: 1 }} className={styles.sectionHeader}>
         {!isMobile && sectionHeader}
       </Typography>
       <IconButton

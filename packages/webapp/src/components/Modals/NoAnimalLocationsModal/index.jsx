@@ -9,7 +9,7 @@ export function NoAnimalLocationsModal({ dismissModal, goToMap }) {
   return (
     <ModalComponent
       title={t('ADD_TASK.NO_ANIMAL_LOCATION')}
-      contents={[t('ADD_TASK.NEED_ANIMAL_LOCATION')]}
+      contents={[t('ADD_TASK.NEED_ANIMAL_LOCATION_MOVEMENT')]}
       dismissModal={dismissModal}
       buttonGroup={
         <>

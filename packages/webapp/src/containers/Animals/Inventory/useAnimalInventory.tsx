@@ -32,7 +32,6 @@ import {
   DefaultAnimalBreed,
   DefaultAnimalType,
 } from '../../../store/api/types';
-import { getComparator, orderEnum } from '../../../util/sort';
 import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
@@ -45,6 +44,7 @@ export type AnimalInventoryItem = {
   id: string;
   iconName: AnimalTypeIconKey;
   identification: string;
+  identifier?: string | null;
   internal_identifier: number;
   name: string | null;
   type: string;
@@ -155,6 +155,7 @@ const formatAnimalsData = (
         id: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
         iconName: getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
         identification: chooseIdentification(animal),
+        identifier: animal.identifier,
         internal_identifier: animal.internal_identifier,
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
@@ -231,19 +232,16 @@ export const animalIDComparator = (a: AnimalInventoryItem, b: AnimalInventoryIte
   if (b.name && !a.name) {
     return 1;
   }
-  if (a.identification && !b.identification) {
+  if (a.identifier && !b.identifier) {
     return -1;
   }
-  if (b.identification && !a.identification) {
+  if (b.identifier && !a.identifier) {
     return 1;
   }
 
   return (
-    (a.name && b.name && (a.name.length - b.name.length || a.name.localeCompare(b.name))) ||
-    (a.identification &&
-      b.identification &&
-      (a.identification.length - b.identification.length ||
-        a.identification.localeCompare(b.identification))) ||
+    (a.name && b.name && a.name.localeCompare(b.name)) ||
+    (a.identifier && b.identifier && a.identifier.localeCompare(b.identifier)) ||
     a.internal_identifier - b.internal_identifier
   );
 };

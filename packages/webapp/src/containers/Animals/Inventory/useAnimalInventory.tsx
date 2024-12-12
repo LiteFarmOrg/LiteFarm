@@ -59,6 +59,7 @@ export type AnimalInventoryItem = {
   default_breed_id: number | null;
   location_id?: string | null;
   tasks: Animal['tasks'];
+  removed?: boolean;
 };
 
 const { t } = i18n;
@@ -141,17 +142,20 @@ const formatAnimalsData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
   locationsMap: { [key: string]: string },
+  showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animals
     .filter(
       (animal: Animal) =>
         // filter out removed animals
-        !animal.animal_removal_reason_id,
+        showRemoved || !animal.animal_removal_reason_id,
     )
     .map((animal: Animal) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
-        iconName: getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
+        iconName: !!animal.animal_removal_reason_id
+          ? 'REMOVED_ANIMAL'
+          : getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
         identification: chooseIdentification(animal),
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
@@ -167,6 +171,7 @@ const formatAnimalsData = (
         default_breed_id: animal.default_breed_id,
         location_id: animal.location_id,
         tasks: animal.tasks,
+        removed: !!animal.animal_removal_reason_id,
       };
     });
 };
@@ -178,17 +183,18 @@ const formatAnimalBatchesData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
   locationsMap: { [key: string]: string },
+  showRemoved: boolean,
 ): AnimalInventoryItem[] => {
   return animalBatches
     .filter(
       (batch: AnimalBatch) =>
         // filter out removed animals
-        !batch.animal_removal_reason_id,
+        showRemoved || !batch.animal_removal_reason_id,
     )
     .map((batch: AnimalBatch) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-        iconName: 'BATCH',
+        iconName: !!batch.animal_removal_reason_id ? 'REMOVED_ANIMAL' : 'BATCH',
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
@@ -204,6 +210,7 @@ const formatAnimalBatchesData = (
         default_breed_id: batch.default_breed_id,
         location_id: batch.location_id,
         tasks: batch.tasks,
+        removed: !!batch.animal_removal_reason_id,
       };
     });
 };
@@ -216,6 +223,7 @@ interface BuildInventoryArgs {
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
   locationsMap: { [key: string]: string };
+  showRemoved: boolean;
 }
 
 export const buildInventory = ({
@@ -226,6 +234,7 @@ export const buildInventory = ({
   defaultAnimalBreeds,
   defaultAnimalTypes,
   locationsMap,
+  showRemoved,
 }: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
@@ -235,6 +244,7 @@ export const buildInventory = ({
       defaultAnimalBreeds,
       defaultAnimalTypes,
       locationsMap,
+      showRemoved,
     ),
     ...formatAnimalBatchesData(
       animalBatches,
@@ -243,6 +253,7 @@ export const buildInventory = ({
       defaultAnimalBreeds,
       defaultAnimalTypes,
       locationsMap,
+      showRemoved,
     ),
   ];
 
@@ -251,7 +262,7 @@ export const buildInventory = ({
   return sortedInventory;
 };
 
-const useAnimalInventory = () => {
+const useAnimalInventory = (showRemoved = false) => {
   const { data, isLoading } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
@@ -298,6 +309,7 @@ const useAnimalInventory = () => {
         defaultAnimalBreeds,
         defaultAnimalTypes,
         locationsMap,
+        showRemoved,
       });
     }
     return [];

@@ -203,6 +203,7 @@ export default function TableV2(props) {
                     onRowClick && styles.clickable,
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                     extraRowSpacing && styles.extraRowSpacing,
+                    row.removed && styles.removedRow,
                   )}
                 >
                   {shouldShowCheckbox && (

@@ -44,7 +44,7 @@
   box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
   height: 32px;
   width: 32px;
-  padding: 4px;
+  margin: 4px;
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
 }
 
@@ -73,7 +73,6 @@
   padding: 4px;
   border-radius: 2px;
   background: var(--Colors-Accent---singles-Purple-light);
-  box-shadow: 1px 1px 0px 0px #fff;
   color: var(--Colors-Accent---singles-Purple-full);
   font-size: 12px;
   font-weight: 700;
@@ -83,4 +82,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.removed {
+  padding-right: 2px;
 }

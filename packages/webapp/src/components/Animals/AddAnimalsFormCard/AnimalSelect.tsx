@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
 import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
-import { hookFormUniqueOptionValidation } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -50,9 +49,6 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
-          // prettier-ignore
-          // @ts-ignore
-          validate: hookFormUniqueOptionValidation(typeOptions, 'label', t('ANIMAL.DUPLICATE_NAME')),
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
@@ -98,13 +94,6 @@ export function AnimalBreedSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        rules={{
-          validate: hookFormUniqueOptionValidation(
-            breedOptions,
-            'label',
-            t('ANIMAL.DUPLICATE_NAME'),
-          ),
-        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             ref={breedSelectRef}

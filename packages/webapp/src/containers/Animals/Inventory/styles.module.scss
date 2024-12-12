@@ -135,3 +135,7 @@
   width: calc(100% - 20px); // icon width 16px + gap 4px
   @include truncateText();
 }
+
+.cellAfterCheckbox {
+  margin-left: -12px;
+}

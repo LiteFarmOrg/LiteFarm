@@ -22,6 +22,7 @@ export type IconTextProps = {
   text: string | number | null | undefined;
   subtext: string | number | null | undefined;
   highlightedText: string | number | null | undefined;
+  removed?: boolean;
 };
 
 const IconText = ({
@@ -30,6 +31,7 @@ const IconText = ({
   text,
   subtext,
   highlightedText,
+  removed,
 }: IconTextProps) => {
   return (
     <div className={styles.iconTextContainer}>
@@ -38,8 +40,14 @@ const IconText = ({
         className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
       />
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
-        <div className={clsx(styles.mainText)}>
-          <div className={clsx(styles.overflowText, subtext && styles.withSubtextMainText)}>
+        <div className={clsx(styles.mainText, removed && styles.removed)}>
+          <div
+            className={clsx(
+              styles.overflowText,
+              subtext && styles.withSubtextMainText,
+              removed && styles.removed,
+            )}
+          >
             {text}
           </div>
           {highlightedText && (
@@ -48,7 +56,13 @@ const IconText = ({
             </div>
           )}
         </div>
-        <div className={clsx(styles.overflowText, subtext && styles.withSubtextSubtext)}>
+        <div
+          className={clsx(
+            styles.overflowText,
+            subtext && styles.withSubtextSubtext,
+            removed && styles.removed,
+          )}
+        >
           {subtext}
         </div>
       </div>

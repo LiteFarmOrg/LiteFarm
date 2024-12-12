@@ -76,7 +76,6 @@
     & * {
       color: var(--Colors-Neutral-Neutral-300);
       font-style: italic;
-      padding-right: 2px; // compensate for italic glyphs being cut off by overflow: hidden
     }
   }
 }

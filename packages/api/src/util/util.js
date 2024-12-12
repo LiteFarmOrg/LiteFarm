@@ -71,8 +71,9 @@ export const upperCaseTrim = (a) => {
 /**
  * Check for duplicate or matching strings - (same as frontend util)
  * TODO: consider localeCompare() or not caring about case sensitivity
- * @param {String} key
- * @returns {String} - Formatted key
+ * @param {String} a
+ * @param {String} b
+ * @returns {Boolean}
  */
 export const compareUpperCaseTrim = (a, b) => {
   return upperCaseTrim(a) === upperCaseTrim(b);

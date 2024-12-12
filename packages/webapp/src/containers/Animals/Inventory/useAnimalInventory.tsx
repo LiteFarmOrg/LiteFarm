@@ -39,6 +39,7 @@ import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
 import { useSelector } from 'react-redux';
 import { locationsSelector } from '../../locationSlice';
 import { Location } from '../../../types';
+import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
 
 export type AnimalInventoryItem = {
   id: string;
@@ -225,29 +226,8 @@ interface BuildInventoryArgs {
   locationsMap: { [key: string]: string };
 }
 
-export const animalIDComparator = (a: AnimalInventoryItem, b: AnimalInventoryItem) => {
-  if (a.name && !b.name) {
-    return -1;
-  }
-  if (b.name && !a.name) {
-    return 1;
-  }
-  if (a.identifier && !b.identifier) {
-    return -1;
-  }
-  if (b.identifier && !a.identifier) {
-    return 1;
-  }
-
-  return (
-    (a.name && b.name && a.name.localeCompare(b.name)) ||
-    (a.identifier && b.identifier && a.identifier.localeCompare(b.identifier)) ||
-    a.internal_identifier - b.internal_identifier
-  );
-};
-
 const sortAnimalsIDs = (inventory: AnimalInventoryItem[]) => {
-  return inventory.sort(animalIDComparator);
+  return inventory.sort(getComparator(orderEnum.ASC, 'identification', animalDescendingComparator));
 };
 
 export const buildInventory = ({

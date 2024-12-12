@@ -102,6 +102,7 @@ export default function TableV2(props) {
     spacerRowHeight,
     headerClass,
     extraRowSpacing,
+    comparator,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -151,20 +152,14 @@ export default function TableV2(props) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = useMemo(() => {
-    const column = columns.find((col) => col.id == orderBy);
-    const comparator = column && column.comparator;
-    return data
-      .slice()
-      .sort(
-        comparator
-          ? order === 'desc'
-            ? (a, b) => -comparator(a, b)
-            : comparator
-          : getComparator(order, orderBy),
-      )
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  }, [order, orderBy, page, rowsPerPage, data]);
+  const visibleRows = useMemo(
+    () =>
+      data
+        .slice()
+        .sort(getComparator(order, orderBy, comparator))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, data],
+  );
 
   return (
     <Box sx={{ width: '100%' }}>

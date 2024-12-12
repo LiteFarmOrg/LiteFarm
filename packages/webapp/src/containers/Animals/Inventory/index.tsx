@@ -24,7 +24,7 @@ import { Paper, useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
-import useAnimalInventory, { animalIDComparator } from './useAnimalInventory';
+import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventoryItem } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
@@ -309,7 +309,6 @@ export default function AnimalInventory({
             highlightedText={d.batch ? d.count : null}
           />
         ),
-        comparator: (a: any, b: any) => animalIDComparator(a, b),
       },
       {
         id: isDesktop ? 'type' : null,

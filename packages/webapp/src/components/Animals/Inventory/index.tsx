@@ -29,6 +29,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
+import { animalDescendingComparator } from '../../../util/sort';
 
 export type SearchProps = {
   searchString: string | null | undefined;
@@ -151,6 +152,7 @@ const PureAnimalInventory = ({
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
             extraRowSpacing={extraRowSpacing}
+            comparator={animalDescendingComparator}
           />
         ) : (
           <NoSearchResults

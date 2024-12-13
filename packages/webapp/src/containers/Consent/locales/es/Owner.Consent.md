@@ -166,7 +166,7 @@ Si tiene algún comentario o queja sobre sus derechos como participante en la in
 
 Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca 
 
-Consentimiento   
+**Consentimiento**   
 
 Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.  
 

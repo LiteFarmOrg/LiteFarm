@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Formulario de consentimiento informado y política de privacidad (propietario y administrador de la finca)
 
@@ -82,6 +82,10 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Datos específicos de la explotación: unidades preferidas (por ejemplo, métricas o imperiales); divisa; si la explotación solicita la certificación; certificador; atributos de la cama; atributos de la fila.
 
+- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación. 
+
+- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento 
+
 **Datos de uso**
 
 Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuarios(as), patrones de tráfico y cómo los(as) usuarios(as) responden a las diversas funciones del sitio) para mejorar la calidad de los servicios que brindamos. Este tipo de datos incluye: cuando Ud. inicia sesión en LiteFarm, las páginas que solicita, cuánto tiempo visita el sitio, cómo interactúa con la aplicación y detalles técnicos sobre su dispositivo (por ejemplo, navegador, tipo de pantalla y procesador). Estos datos se asociarán con su nombre de usuario en LiteFarm (si ha iniciado sesión en la aplicación) o su dirección IP (si no ha iniciado sesión). Podríamos utilizar software como Google Analytics para recopilar y analizar estos datos, pero en estos casos, toda la información personal será anónima.
@@ -152,18 +156,18 @@ El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licenci
 
 Sobre la aplicación, comuníquese con:
 
-- Gerente de producto: Kevin Cussen (litefarm.team@ubc.ca)
+Gerente de producto: litefarm.team@ubc.ca 
 
-Sobre a este estudio, comuníquese con la investigadora principal:
+Sobre este estudio, comuníquese con la investigadora principal: 
 
-- Investigadora principal: Dra. Hannah Wittman (hannah.wittman@ubc.ca)
+Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )  
 
-**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**
+**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participan en este estudio**  
 
-Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca
+Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca 
 
-**Consentimiento**
+**Consentimiento**   
 
-Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.
+Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.  
 
 Número de Identificación (ID) de la aprobación ética otorgada al estudio UBC: H19-01482

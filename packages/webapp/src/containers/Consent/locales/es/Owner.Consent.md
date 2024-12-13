@@ -162,7 +162,7 @@ Sobre este estudio, comuníquese con la investigadora principal:
 
 Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )  
 
-**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participan en este estudio**  
+**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**  
 
 Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca 
 

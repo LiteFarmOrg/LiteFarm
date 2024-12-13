@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager)
 
@@ -83,6 +83,10 @@ LiteFarm uses the management information that you enter into the app to generate
 - Worker details: number of registered workers; hourly pay; email address; role; name, etc.
 
 - Farm specific details: preferred units (e.g. metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
+  
+- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details 
+
+- Animal movements information: location, reason for movement and date of movement 
 
 **Usage Data**
 

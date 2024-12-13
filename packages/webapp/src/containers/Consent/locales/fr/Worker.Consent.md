@@ -142,7 +142,7 @@ Concernant la recherche universitaire, merci de contacter :
 
 Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
 
-Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude: 
+**Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude :**
 
 Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.  
 

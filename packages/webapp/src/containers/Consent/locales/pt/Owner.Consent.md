@@ -166,7 +166,7 @@ Com relação a este estudo, contate:
 
 Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
 
-Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo   
+**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**   
 
 Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598. 
 

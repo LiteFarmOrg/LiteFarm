@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager)
 
@@ -84,6 +84,10 @@ LiteFarm uses the management information that you enter into the app to generate
 
 - Farm specific details: preferred units (e.g. metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
 
+- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details 
+
+- Animal movements information: location, reason for movement and date of movement 
+
 **Usage Data**
 
 We collect usage data (i.e., general statistics about users, traffic patterns, and how users respond to various site features) to improve the quality of services we provide to you. This type of data includes: when you log in to LiteFarm, pages you request, how long you visit the site for, how you interact with the app, and technical details about your device (e.g., browser, screen type, and processor). This data will either be associated with your LiteFarm username (if you are logged into the app) or your IP address (if you are not logged in). We may use software such as Google Analytics to collect and analyze _usage data_, but in these cases, all personal information will be _anonymized_.
@@ -154,17 +158,19 @@ At this time, the LiteFarm application is free to use. The software itself is li
 
 **For further information**
 
-With respect to the application, please contact:
+For further information  
 
-- Product Manager: Kevin Cussen (litefarm.team@ubc.ca)
+With respect to the application, please contact: 
 
-With respect to this study, please contact the principal investigator:
+Product Manager: litefarm.team@ubc.ca 
 
-- Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+With respect to this study, please contact the principal investigator: 
 
-**If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
+Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study  
+
+Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
 
 **Consent**
 

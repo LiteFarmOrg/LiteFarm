@@ -75,12 +75,12 @@ function OnboardingFlow({
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        <Route path="/farm_selection" exact component={<ChooseFarm />} />
-        <Route path="/welcome" exact component={<WelcomeScreen />} />
-        <Route path="/add_farm" exact component={<AddFarm />} />
+        <Route path="/farm_selection" exact children={<ChooseFarm />} />
+        <Route path="/welcome" exact children={<WelcomeScreen />} />
+        <Route path="/add_farm" exact children={<AddFarm />} />
 
-        {step_one && <Route path="/role_selection" exact component={<RoleSelection />} />}
-        {step_two && !step_five && <Route path="/consent" exact component={<ConsentForm />} />}
+        {step_one && <Route path="/role_selection" exact children={<RoleSelection />} />}
+        {step_two && !step_five && <Route path="/consent" exact children={<ConsentForm />} />}
         {step_five && !has_consent && (
           <Route path="/consent" exact>
             <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
@@ -90,26 +90,26 @@ function OnboardingFlow({
           <Route
             path="/certification/interested_in_organic"
             exact
-            component={<InterestedOrganic />}
+            children={<InterestedOrganic />}
           />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/selection" exact component={<CertificationSelection />} />
+          <Route path="/certification/selection" exact children={<CertificationSelection />} />
         )}
         {(step_four || interested) && (
           <Route
             path="/certification/certifier/selection"
             exact
-            component={<CertifierSelectionMenu />}
+            children={<CertifierSelectionMenu />}
           />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/certifier/request" exact component={<RequestCertifier />} />
+          <Route path="/certification/certifier/request" exact children={<RequestCertifier />} />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/summary" exact component={<SetCertificationSummary />} />
+          <Route path="/certification/summary" exact children={<SetCertificationSummary />} />
         )}
-        {step_four && <Route path="/outro" exact component={<Outro />} />}
+        {step_four && <Route path="/outro" exact children={<Outro />} />}
 
         <Route>
           <>

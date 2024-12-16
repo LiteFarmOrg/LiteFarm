@@ -1,5 +1,5 @@
+/* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
-import React from 'react';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
 import SensorDetail from '../containers/LocationDetails/PointDetails/SensorDetail';
 import UpdateSensor from '../containers/LocationDetails/PointDetails/SensorDetail/EditSensor';
@@ -11,10 +11,10 @@ export default function SensorDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route path="/sensor/:location_id/tasks" exact component={LocationTasks} />
-      <Route path="/sensor/:location_id/readings" exact component={SensorReadings} />
-      <Route path="/sensor/:location_id/details" exact component={SensorDetail} />
-      {isAdmin && <Route path="/sensor/:location_id/edit" exact component={UpdateSensor} />}
+      <Route path="/sensor/:location_id/tasks" exact children={<LocationTasks />} />
+      <Route path="/sensor/:location_id/readings" exact children={<SensorReadings />} />
+      <Route path="/sensor/:location_id/details" exact children={<SensorDetail />} />
+      {isAdmin && <Route path="/sensor/:location_id/edit" exact children={<UpdateSensor />} />}
     </>
   );
 }

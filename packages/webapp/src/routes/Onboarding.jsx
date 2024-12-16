@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
@@ -27,29 +28,33 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
+const InterestedOrganic = React.lazy(
+  () =>
+    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-  ),
-);
-
-const CertifierSelectionMenu = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-  ),
+const CertificationSelection = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+    ),
 );
 
-const SetCertificationSummary = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-  ),
+const CertifierSelectionMenu = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+    ),
 );
 
-const RequestCertifier = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+const SetCertificationSummary = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+    ),
+);
+
+const RequestCertifier = React.lazy(
+  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 function OnboardingFlow({
@@ -70,39 +75,41 @@ function OnboardingFlow({
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
-        <Route path="/welcome" exact component={WelcomeScreen} />
-        <Route path="/add_farm" exact component={AddFarm} />
+        <Route path="/farm_selection" exact component={<ChooseFarm />} />
+        <Route path="/welcome" exact component={<WelcomeScreen />} />
+        <Route path="/add_farm" exact component={<AddFarm />} />
 
-        {step_one && <Route path="/role_selection" exact component={RoleSelection} />}
-        {step_two && !step_five && <Route path="/consent" exact component={ConsentForm} />}
+        {step_one && <Route path="/role_selection" exact component={<RoleSelection />} />}
+        {step_two && !step_five && <Route path="/consent" exact component={<ConsentForm />} />}
         {step_five && !has_consent && (
-          <Route
-            path="/consent"
-            exact
-            component={() => <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />}
-          />
+          <Route path="/consent" exact>
+            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
+          </Route>
         )}
         {step_three && (
-          <Route path="/certification/interested_in_organic" exact component={InterestedOrganic} />
+          <Route
+            path="/certification/interested_in_organic"
+            exact
+            component={<InterestedOrganic />}
+          />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/selection" exact component={CertificationSelection} />
+          <Route path="/certification/selection" exact component={<CertificationSelection />} />
         )}
         {(step_four || interested) && (
           <Route
             path="/certification/certifier/selection"
             exact
-            component={CertifierSelectionMenu}
+            component={<CertifierSelectionMenu />}
           />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+          <Route path="/certification/certifier/request" exact component={<RequestCertifier />} />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/summary" exact component={SetCertificationSummary} />
+          <Route path="/certification/summary" exact component={<SetCertificationSummary />} />
         )}
-        {step_four && <Route path="/outro" exact component={Outro} />}
+        {step_four && <Route path="/outro" exact component={<Outro />} />}
 
         <Route>
           <>

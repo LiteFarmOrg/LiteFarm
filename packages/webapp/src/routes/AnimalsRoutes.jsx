@@ -13,50 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
   ANIMALS_INVENTORY_URL,
   ADD_ANIMALS_URL,
   createSingleAnimalViewURL,
-  // createSingleAnimalTasksURL,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
-// const SingleAnimalTasks = React.lazy(() =>
-//   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
-// );
 
 const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
   <Switch>
-    <Route
-      path={ANIMALS_INVENTORY_URL}
-      exact
-      render={(props) => (
-        <Inventory
-          isCompactSideMenu={isCompactSideMenu}
-          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-          {...props}
-        />
-      )}
-    />
-    <Route
-      path={ADD_ANIMALS_URL}
-      exact
-      render={(props) => <AddAnimals isCompactSideMenu={isCompactSideMenu} {...props} />}
-    />
-    <Route
-      path={createSingleAnimalViewURL(':id')}
-      exact
-      render={(props) => <SingleAnimalView isCompactSideMenu={isCompactSideMenu} {...props} />}
-    />
-    {/* Temporarily removed for Animals v1 release */}
-    {/* <Route
-      path={createSingleAnimalTasksURL(':id')}
-      exact
-      render={(props) => <SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} {...props} />}
-    /> */}
+    <Route path={ANIMALS_INVENTORY_URL} exact>
+      <Inventory
+        isCompactSideMenu={isCompactSideMenu}
+        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      />
+    </Route>
+    <Route path={ADD_ANIMALS_URL} exact>
+      <AddAnimals isCompactSideMenu={isCompactSideMenu} />
+    </Route>
+    <Route path={createSingleAnimalViewURL(':id')} exact>
+      <SingleAnimalView isCompactSideMenu={isCompactSideMenu} />
+    </Route>
   </Switch>
 );
 

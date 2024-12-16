@@ -1,5 +1,5 @@
+/* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
-import React from 'react';
 import EditFarmSiteBoundaryDetailForm from '../containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/EditFarmSiteBoundary';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -12,16 +12,16 @@ export default function FarmSiteBoundaryDetailsRoutes() {
       <Route
         path="/farm_site_boundary/:location_id/details"
         exact
-        component={EditFarmSiteBoundaryDetailForm}
+        children={<EditFarmSiteBoundaryDetailForm />}
       />
       {isAdmin && (
         <Route
           path="/farm_site_boundary/:location_id/edit"
           exact
-          component={EditFarmSiteBoundaryDetailForm}
+          children={<EditFarmSiteBoundaryDetailForm />}
         />
       )}
-      <Route path="/farm_site_boundary/:location_id/tasks" exact component={LocationTasks} />
+      <Route path="/farm_site_boundary/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

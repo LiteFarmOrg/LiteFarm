@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
@@ -82,47 +83,47 @@ const EditCustomRevenue = React.lazy(
 
 const FinancesRoutes = () => (
   <Switch>
-    <Route path={FINANCES_HOME_URL} exact component={Finances} />
-    <Route path={ACTUAL_REVENUE_URL} exact component={ActualRevenue} />
+    <Route path={FINANCES_HOME_URL} exact children={<Finances />} />
+    <Route path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
     <Route
       path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
       exact
-      component={UpdateEstimatedCropRevenue}
+      children={<UpdateEstimatedCropRevenue />}
     />
-    <Route path={REVENUE_TYPES_URL} exact component={RevenueTypes} />
-    <Route path={ADD_REVENUE_URL} exact component={AddSale} />
-    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact component={ManageRevenueTypes} />
-    <Route path={createRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
-    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
-    <Route path={ESTIMATED_REVENUE_URL} exact component={EstimatedRevenue} />
-    <Route path={LABOUR_URL} exact component={Labour} />
-    <Route path={OTHER_EXPENSE_URL} exact component={OtherExpense} />
-    <Route path={createExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
-    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
-    <Route path={EXPENSE_CATEGORIES_URL} exact component={ExpenseCategories} />
-    <Route path={ADD_EXPENSE_URL} exact component={AddExpense} />
-    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact component={ManageExpenseTypes} />
-    <Route path={ADD_CUSTOM_EXPENSE_URL} exact component={AddCustomExpense} />
+    <Route path={REVENUE_TYPES_URL} exact children={<RevenueTypes />} />
+    <Route path={ADD_REVENUE_URL} exact children={<AddSale />} />
+    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact children={<ManageRevenueTypes />} />
+    <Route path={createRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={ESTIMATED_REVENUE_URL} exact children={<EstimatedRevenue />} />
+    <Route path={LABOUR_URL} exact children={<Labour />} />
+    <Route path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
+    <Route path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={EXPENSE_CATEGORIES_URL} exact children={<ExpenseCategories />} />
+    <Route path={ADD_EXPENSE_URL} exact children={<AddExpense />} />
+    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
+    <Route path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
     <Route
       path={createReadonlyCustomExpenseURL(':expense_type_id')}
       exact
-      component={ReadOnlyCustomExpense}
+      children={<ReadOnlyCustomExpense />}
     />
     <Route
       path={createEditCustomExpenseURL(':expense_type_id')}
       exact
-      component={EditCustomExpense}
+      children={<EditCustomExpense />}
     />
-    <Route path={ADD_CUSTOM_REVENUE_URL} exact component={AddCustomRevenue} />
+    <Route path={ADD_CUSTOM_REVENUE_URL} exact children={<AddCustomRevenue />} />
     <Route
       path={createReadonlyCustomRevenueUrl(':revenue_type_id')}
       exact
-      component={ReadOnlyCustomRevenue}
+      children={<ReadOnlyCustomRevenue />}
     />
     <Route
       path={createEditCustomRevenueUrl(':revenue_type_id')}
       exact
-      component={EditCustomRevenue}
+      children={<EditCustomRevenue />}
     />
     <Route render={() => <Redirect to={'/'} />} />
   </Switch>

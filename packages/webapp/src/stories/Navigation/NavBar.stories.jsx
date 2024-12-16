@@ -1,8 +1,4 @@
-import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import history from './../../history';
 import PureNavigation from '../../components/Navigation';
 
 const store = {

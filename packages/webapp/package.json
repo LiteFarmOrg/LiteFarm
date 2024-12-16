@@ -64,7 +64,7 @@
     "react-load-script": "^0.0.6",
     "react-redux": "^7.2.9",
     "react-redux-form": "^1.16.14",
-    "react-router-dom": "^4.3.1",
+    "react-router": "^7.0.2",
     "react-select": "^5.7.0",
     "react-table": "^6.11.5",
     "recharts": "^2.1.16",

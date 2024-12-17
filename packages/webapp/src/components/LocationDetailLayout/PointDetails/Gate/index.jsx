@@ -20,7 +20,6 @@ export default function PureGateWrapper(props) {
 
 export function PureGate({
   history,
-  match,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
@@ -40,7 +39,6 @@ export function PureGate({
   return (
     <PureLocationDetailLayout
       history={history}
-      match={match}
       locationType={'gate'}
       locationCategory={'point'}
       isCreateLocationPage={isCreateLocationPage}

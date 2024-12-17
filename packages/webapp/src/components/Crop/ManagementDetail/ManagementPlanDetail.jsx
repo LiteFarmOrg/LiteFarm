@@ -13,16 +13,10 @@ import { getDateInputFormat } from '../../../util/moment';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
+import { useParams } from 'react-router-dom';
 
-export default function PureManagementDetail({
-  onBack,
-  variety,
-  plan,
-  isAdmin,
-  history,
-  match,
-  system,
-}) {
+export default function PureManagementDetail({ onBack, variety, plan, isAdmin, history, system }) {
+  let { variety_id, management_plan_id } = useParams();
   const { t } = useTranslation();
 
   const title = plan?.name;
@@ -85,9 +79,7 @@ export default function PureManagementDetail({
             <Button
               fullLength
               onClick={() =>
-                history.push(
-                  `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/edit`,
-                )
+                history.push(`/crop/${variety_id}/management_plan/${management_plan_id}/edit`)
               }
             >
               {t('common:EDIT')}
@@ -110,11 +102,11 @@ export default function PureManagementDetail({
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
           },
         ]}
       />
@@ -222,6 +214,5 @@ PureManagementDetail.prototype = {
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
   history: PropTypes.object,
-  match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

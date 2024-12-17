@@ -19,10 +19,11 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
+import { useParams } from 'react-router-dom';
 
-export default function SensorDetail({ history, match }) {
+export default function SensorDetail({ history }) {
+  let { location_id } = useParams();
   const dispatch = useDispatch();
-  const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);

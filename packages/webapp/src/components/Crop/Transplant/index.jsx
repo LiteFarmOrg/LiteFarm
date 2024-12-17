@@ -1,5 +1,4 @@
 import Button from '../../Form/Button';
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
@@ -9,14 +8,15 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import { getTransplantPaths } from '../getAddManagementPlanPath';
+import { useParams } from 'react-router-dom';
 
 export default function PureTransplant({
   can_be_cover_crop,
   useHookFormPersist,
   persistedFormData,
-  match,
   history,
 }) {
+  let { variety_id } = useParams();
   const { t } = useTranslation();
 
   const progress = 25;
@@ -37,7 +37,6 @@ export default function PureTransplant({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const variety_id = match?.params?.variety_id;
   const { submitPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
     history?.push(submitPath);
@@ -119,5 +118,4 @@ PureTransplant.prototype = {
   onCancel: PropTypes.func,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  match: PropTypes.object,
 };

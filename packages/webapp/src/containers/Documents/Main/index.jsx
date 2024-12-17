@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
 import { archiveDocument } from '../saga';
+import { useParams } from 'react-router-dom';
 
-export default function MainDocument({ history, match }) {
-  const { document_id } = match.params;
+export default function MainDocument({ history }) {
+  const { document_id } = useParams();
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();
   const document = useSelector(documentSelector(document_id));

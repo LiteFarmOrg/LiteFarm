@@ -20,9 +20,10 @@ import { updateCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector, allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
+import { useParams } from 'react-router-dom';
 
-function EditCustomExpense({ history, match }) {
-  const expense_type_id = match.params.expense_type_id;
+function EditCustomExpense({ history }) {
+  let { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));

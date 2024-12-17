@@ -12,18 +12,17 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
+import { useParams } from 'react-router-dom';
 
 export default function PureManagementPlanName({
   onSubmit,
   onError,
-  match,
   history,
   persistedFormData,
   useHookFormPersist,
   managementPlanCount,
 }) {
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
 
   const NAME = 'name';
   const NOTES = 'notes';
@@ -122,7 +121,6 @@ export default function PureManagementPlanName({
 
 PureManagementPlanName.prototype = {
   history: PropTypes.object,
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

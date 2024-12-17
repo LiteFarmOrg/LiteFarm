@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import ForecastInfo from './ForecastInfo';
@@ -12,11 +12,12 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
+import { useParams } from 'react-router-dom';
 
-function SensorReadings({ history, match }) {
+function SensorReadings({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { location_id } = match?.params;
+  const { location_id } = useParams();
   const [readingTypes, setReadingTypes] = useState([]);
   const [locationData, setLocationData] = useState();
 

@@ -22,7 +22,7 @@ import {
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
 
-export default function TaskManagement({ history, match, location }) {
+export default function TaskManagement({ history, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const { t } = useTranslation();

@@ -13,13 +13,13 @@ import { getManagementPlansAndTasks } from '../../saga';
 import { deleteManagementPlan } from '../saga';
 import { checkManagementPlanDependencies } from '../saga';
 import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
+import { useParams } from 'react-router-dom';
 
-export default function ManagementTasks({ history, match, location }) {
+export default function ManagementTasks({ history, location }) {
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  let { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   const [showCannotDeleteModal, setShowCannotDeleteModal] = useState(false);
@@ -88,7 +88,6 @@ export default function ManagementTasks({ history, match, location }) {
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
-        match={match}
         location={location}
         eligibleForDeletion={eligibleForDeletion}
       >

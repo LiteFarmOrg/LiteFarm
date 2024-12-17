@@ -5,15 +5,17 @@ import { patchFarmDefaultInitialLocation, postManagementPlan } from '../../saga'
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
+import { useParams } from 'react-router-dom';
 
-export default function ManagementPlanName({ history, match }) {
+export default function ManagementPlanName({ history }) {
+  let { variety_id } = useParams();
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     const { management_plan, farm } = formatManagementPlanFormData(data);
     dispatch(
       postManagementPlan({
         ...management_plan,
-        crop_variety_id: match.params.variety_id,
+        crop_variety_id: variety_id,
         assignee_user_id: data.assignee.value,
         repeat_crop_plan: data.repeat_crop_plan || false,
       }),
@@ -21,16 +23,13 @@ export default function ManagementPlanName({ history, match }) {
     farm && dispatch(patchFarmDefaultInitialLocation(farm));
   };
   const onError = () => {};
-  const managementPlans = useSelector(
-    managementPlansByCropVarietyIdSelector(match?.params?.variety_id),
-  );
+  const managementPlans = useSelector(managementPlansByCropVarietyIdSelector(variety_id));
 
   return (
     <HookFormPersistProvider>
       <PureManagementPlanName
         onSubmit={onSubmit}
         onError={onError}
-        match={match}
         history={history}
         managementPlanCount={managementPlans.length + 1}
       />

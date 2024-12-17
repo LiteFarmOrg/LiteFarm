@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import moment from 'moment';
 import {
-  expenseSelector,
   expenseTypeTileContentsSelector,
   expenseTypeByIdSelector,
   expenseByIdSelector,
@@ -14,16 +13,17 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
+import { useLocation, useParams } from 'react-router-dom';
 
-const ExpenseDetail = ({ history, match }) => {
+const ExpenseDetail = ({ history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useHookFormPersist(); // To clear form history after editing
+  let location = useLocation();
+  const isEditing = location.pathname.endsWith('/edit');
 
-  const isEditing = match.path.endsWith('/edit');
-
-  const { expense_id } = match.params;
+  let { expense_id } = useParams();
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));

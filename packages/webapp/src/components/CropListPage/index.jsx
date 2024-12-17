@@ -18,7 +18,6 @@ export default function PureCropList({
   pastCrops,
   plannedCrops,
   history,
-  match,
   isAdmin,
   title,
   location,
@@ -38,19 +37,18 @@ export default function PureCropList({
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
-        match={match}
         tabs={[
           {
             label: t('FARM_MAP.TAB.CROPS'),
-            path: match.url,
+            path: location.pathname,
           },
           {
             label: t('FARM_MAP.TAB.TASKS'),
-            path: match.url.replace('crops', 'tasks'),
+            path: location.pathname.replace('crops', 'tasks'),
           },
           {
             label: t('FARM_MAP.TAB.DETAILS'),
-            path: match.url.replace('crops', 'details'),
+            path: location.pathname.replace('crops', 'details'),
           },
         ]}
       />

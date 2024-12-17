@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux';
 export default function PureLocationTasks({
   location,
   history,
-  match,
   hasCrops,
   tasks,
   count,
@@ -61,23 +60,23 @@ export default function PureLocationTasks({
   const routerTabs = [
     {
       label: t('FARM_MAP.TAB.TASKS'),
-      path: match.url,
+      path: location.pathname,
     },
     {
       label: t('FARM_MAP.TAB.DETAILS'),
-      path: match.url.replace('tasks', 'details'),
+      path: location.pathname.replace('tasks', 'details'),
     },
   ];
 
   if (hasCrops) {
     routerTabs.splice(0, 0, {
       label: t('FARM_MAP.TAB.CROPS'),
-      path: match.url.replace('tasks', 'crops'),
+      path: location.pathname.replace('tasks', 'crops'),
     });
   } else if (hasReadings) {
     routerTabs.splice(0, 0, {
       label: t('FARM_MAP.TAB.READINGS'),
-      path: match.url.replace('tasks', 'readings'),
+      path: location.pathname.replace('tasks', 'readings'),
     });
   }
 
@@ -87,7 +86,6 @@ export default function PureLocationTasks({
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
-        match={match}
         tabs={routerTabs}
       />
       <TaskCount

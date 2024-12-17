@@ -6,13 +6,14 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getRowMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useMatch, useParams } from 'react-router-dom';
 
-export default function RowMethod({ history, match, location }) {
+export default function RowMethod({ history, location }) {
+  let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
-  const variety_id = match.params.variety_id;
   const crop_variety = useSelector(cropVarietySelector(variety_id));
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const isFinalPage = match.path === '/crop/:variety_id/add_management_plan/row_method';
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/row_method') ? true : false;
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
     already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);

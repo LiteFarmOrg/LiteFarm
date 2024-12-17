@@ -1,25 +1,16 @@
-import { useMemo } from 'react';
-import { barnEnum, fenceEnum, fieldEnum, greenhouseEnum, surfaceWaterEnum } from '../constants';
+import { fieldEnum } from '../constants';
 import moment from 'moment';
+import { useMatch } from 'react-router-dom';
 
-const isCreateLocationPage = (match) => match.path.includes('/create_location/');
-const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
-const isEditLocationPage = (match) => /\w*\/:location_id\/edit/.test(match.path);
-export const useLocationPageType = (match) => {
-  return useMemo(
-    () => ({
-      isCreateLocationPage: isCreateLocationPage(match),
-      isViewLocationPage: isViewLocationPage(match) || false,
-      isEditLocationPage: isEditLocationPage(match) || false,
-    }),
-    [match],
-  );
-};
-
-const boolToString = (bool) => {
-  if (bool === true) return 'true';
-  else if (bool === false) return 'false';
-  else return undefined;
+export const useLocationPageType = () => {
+  const isCreateLocationPage = useMatch('/create_location/') ? true : false;
+  const isViewLocationPage = useMatch('/:location_id/details') ? true : false;
+  const isEditLocationPage = useMatch('/:location_id/edit/') ? true : false;
+  return {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  };
 };
 
 export const getFormData = (location) => {

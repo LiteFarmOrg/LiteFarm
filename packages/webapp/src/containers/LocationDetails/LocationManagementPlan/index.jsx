@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
@@ -9,11 +9,12 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
-function LocationManagementPlan({ history, match, location }) {
+function LocationManagementPlan({ history, location }) {
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const pastCrops = useSelector(expiredManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
@@ -38,7 +39,6 @@ function LocationManagementPlan({ history, match, location }) {
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
         history={history}
-        match={match}
         title={name}
         location={location}
       />

@@ -4,11 +4,12 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMemo } from 'react';
 import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
+import { useMatch, useParams } from 'react-router-dom';
 
-export default function BedPlan({ history, match, location }) {
-  const variety_id = match.params.variety_id;
+export default function BedPlan({ history, location }) {
+  let { variety_id } = useParams();
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_guidance') ? true : false;
   const system = useSelector(measurementSelector);
-  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/bed_guidance';
   const { submitPath } = useMemo(() => getBedGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>

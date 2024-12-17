@@ -8,11 +8,15 @@ import { certifierSurveySelector } from '../../../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import TransplantSpotlight from './TransplantSpotlight';
 import { cropVarietySelector } from '../../../cropVarietySlice.js';
+import { useMatch, useParams } from 'react-router-dom';
 
-export default function PlantingLocation({ history, match }) {
-  const isFinalLocationPage =
-    match?.path === '/crop/:variety_id/add_management_plan/choose_final_planting_location';
-  const variety_id = match.params.variety_id;
+export default function PlantingLocation({ history }) {
+  let { variety_id } = useParams();
+  const isFinalLocationPage = useMatch(
+    '/crop/:variety_id/add_management_plan/choose_final_planting_location',
+  )
+    ? true
+    : false;
   const crop = useSelector(cropVarietySelector(variety_id));
   const cropLocations = useSelector(cropLocationsSelector);
   const { default_initial_location_id } = useSelector(userFarmSelector);

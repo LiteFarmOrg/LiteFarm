@@ -1,6 +1,5 @@
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -10,10 +9,10 @@ import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
+import { useParams } from 'react-router-dom';
 
 function PureCropDetail({
   history,
-  match,
   variety,
   isEditing,
   onBack,
@@ -23,6 +22,7 @@ function PureCropDetail({
   isAdmin,
   location,
 }) {
+  let { variety_id } = useParams();
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -61,16 +61,15 @@ function PureCropDetail({
           <RouterTab
             classes={{ container: { margin: '24px 0 26px 0' } }}
             history={history}
-            match={match}
             tabs={[
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-                path: `/crop/${match.params.variety_id}/management`,
+                path: `/crop/${variety_id}/management`,
                 state: location?.state,
               },
               {
                 label: t('CROP_DETAIL.DETAIL_TAB'),
-                path: `/crop/${match.params.variety_id}/detail`,
+                path: `/crop/${variety_id}/detail`,
                 state: location?.state,
               },
             ]}

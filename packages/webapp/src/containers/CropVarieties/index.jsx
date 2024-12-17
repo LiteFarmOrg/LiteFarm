@@ -25,12 +25,14 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
+import { useParams } from 'react-router-dom';
 
-export default function CropVarieties({ history, match, location }) {
+export default function CropVarieties({ history, location }) {
+  let { crop_id: strCropId } = useParams();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const crop_id = Number(match.params.crop_id);
+  const crop_id = Number(strCropId);
   const crop = useSelector(cropSelector(crop_id));
 
   const [filterString, setFilterString] = useState('');

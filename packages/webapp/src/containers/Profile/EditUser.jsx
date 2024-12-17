@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmEntitiesSelector, userFarmSelector } from '../userFarmSlice';
 import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from './People/saga';
 import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function EditUser({ history, match }) {
+export default function EditUser({ history }) {
   const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
   const userFarmsEntities = useSelector(userFarmEntitiesSelector);
-  const { user_id } = match.params;
+  const { user_id } = useParams();
   const userFarm = userFarmsEntities[farm_id]?.[user_id];
   const userFarmEmails = Object.values(userFarmsEntities[farm_id]).map((user) =>
     user.email.toLowerCase(),

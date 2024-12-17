@@ -12,10 +12,10 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
+import { useParams } from 'react-router-dom';
 
 export default function PureCropManagement({
   history,
-  match,
   onBack,
   variety,
   onAddManagementPlan,
@@ -23,6 +23,7 @@ export default function PureCropManagement({
   isAdmin,
   location,
 }) {
+  let { variety_id } = useParams();
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
   const [plansForModal, setPlansForModal] = useState([]);
@@ -69,16 +70,15 @@ export default function PureCropManagement({
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}
-        match={match}
         tabs={[
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-            path: `/crop/${match.params.variety_id}/management`,
+            path: `/crop/${variety_id}/management`,
             state: location?.state,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
-            path: `/crop/${match.params.variety_id}/detail`,
+            path: `/crop/${variety_id}/detail`,
             state: location?.state,
           },
         ]}
@@ -164,7 +164,6 @@ PureCropManagement.propTypes = {
     }),
   ),
   history: PropTypes.object,
-  match: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,
   onAddManagementPlan: PropTypes.func,

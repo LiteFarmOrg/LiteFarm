@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
@@ -28,10 +28,12 @@ import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions 
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
+import { useLocation, useParams } from 'react-router-dom';
 
-function RevenueDetail({ history, match }) {
-  const isEditing = match.path.endsWith('/edit');
-  const { sale_id } = match.params;
+function RevenueDetail({ history }) {
+  let location = useLocation();
+  const isEditing = location.pathname.endsWith('/edit');
+  const { sale_id } = useParams();
 
   // To clear form history after editing
   useHookFormPersist();

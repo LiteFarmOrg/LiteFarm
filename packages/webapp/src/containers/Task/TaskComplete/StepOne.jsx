@@ -8,14 +8,15 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useParams } from 'react-router-dom';
 
-function TaskCompleteStepOne({ history, match, location }) {
+function TaskCompleteStepOne({ history, location }) {
   const {
     units: { measurement: system },
     country_id,
   } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
-  const task_id = match.params.task_id;
+  let { task_id } = useParams();
   const task = useSelector(taskWithProductSelector(task_id));
   const selectedTaskType = task?.taskType;
   const products = useSelector(productsForTaskTypeSelector(selectedTaskType));

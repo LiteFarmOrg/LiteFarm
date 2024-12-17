@@ -13,6 +13,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import { useParams } from 'react-router-dom';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -25,11 +26,11 @@ export default function PureManagementTasks({
   isAdmin,
   hasPendingTasks,
   history,
-  match,
   children,
   location,
   eligibleForDeletion,
 }) {
+  let { variety_id, management_plan_id } = useParams();
   const { t } = useTranslation();
 
   const title = plan?.name;
@@ -111,12 +112,12 @@ export default function PureManagementTasks({
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
             state: location?.state,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
             state: location?.state,
           },
         ]}

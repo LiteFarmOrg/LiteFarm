@@ -17,7 +17,7 @@ import { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
-export default function EstimatedRevenue({ history, match }) {
+export default function EstimatedRevenue({ history }) {
   const { t } = useTranslation();
   const onGoBack = () => history.push(FINANCES_HOME_URL);
   const managementPlans = useSelector(managementPlansSelector);

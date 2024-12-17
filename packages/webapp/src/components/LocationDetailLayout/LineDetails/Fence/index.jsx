@@ -26,7 +26,6 @@ export default function PureFenceWrapper(props) {
 
 export function PureFence({
   history,
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -55,7 +54,6 @@ export function PureFence({
   return (
     <PureLocationDetailLayout
       history={history}
-      match={match}
       system={system}
       locationType={'fence'}
       locationCategory={'line'}

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -23,10 +23,7 @@ import {
   userFarmSelector,
 } from '../../userFarmSlice';
 import { productsForTaskTypeSelector } from '../../productSlice';
-import {
-  setFormData,
-  setPersistedPaths,
-} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
@@ -40,9 +37,10 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
+import { useParams } from 'react-router-dom';
 
-function TaskReadOnly({ history, match, location }) {
-  const task_id = match.params.task_id;
+function TaskReadOnly({ history, location }) {
+  let { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);

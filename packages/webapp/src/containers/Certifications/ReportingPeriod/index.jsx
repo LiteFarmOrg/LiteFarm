@@ -5,7 +5,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
-function CertificationReportingPeriod({ history, match }) {
+function CertificationReportingPeriod({ history }) {
   const { email } = useSelector(userFarmSelector);
   const { interested } = useSelector(certifierSurveySelector);
   const onError = (error) => {

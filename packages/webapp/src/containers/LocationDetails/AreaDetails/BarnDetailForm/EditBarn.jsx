@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PureBarn from '../../../../components/LocationDetailLayout/AreaDetails/Barn';
 import { deleteBarnLocation, editBarnLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -8,20 +8,18 @@ import { barnSelector } from '../../../barnSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import {
-  currentManagementPlansByLocationIdSelector,
-  plannedManagementPlansByLocationIdSelector,
-} from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
+import { useParams } from 'react-router-dom';
 
-function EditBarnDetailForm({ history, match }) {
+function EditBarnDetailForm({ history }) {
+  let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editBarnLocation({ ...data, ...match.params, figure_id: barn.figure_id }));
+      dispatch(editBarnLocation({ ...data, location_id, figure_id: barn.figure_id }));
   };
-  const barn = useSelector(barnSelector(match.params.location_id));
+  const barn = useSelector(barnSelector(location_id));
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -29,15 +27,10 @@ function EditBarnDetailForm({ history, match }) {
     }
   }, [history?.location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
-  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
     // approach 1: redux store check for dependencies
     // if (activeCrops.length === 0 && plannedCrops.length === 0) {
@@ -65,7 +58,6 @@ function EditBarnDetailForm({ history, match }) {
     <>
       <PureBarn
         history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={barn}

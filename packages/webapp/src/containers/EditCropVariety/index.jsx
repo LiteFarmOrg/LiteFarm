@@ -1,20 +1,17 @@
-import React from 'react';
 import PureEditCropVariety from '../../components/EditCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-// import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
-// import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
-import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropVarietySelector } from '../cropVarietySlice';
 import { patchVarietal } from '../AddCropVariety/saga';
+import { useParams } from 'react-router-dom';
 
-function EditCropVarietyForm({ history, match }) {
+function EditCropVarietyForm({ history }) {
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
-  const { variety_id } = match.params;
+  const { variety_id } = useParams();
   const cropVariety = useSelector(cropVarietySelector(variety_id));
   const { interested } = useSelector(certifierSurveySelector, shallowEqual);
 

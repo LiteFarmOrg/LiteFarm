@@ -14,9 +14,10 @@ import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModa
 import UnableToRetireCropModal from '../../../components/Modals/CropModals/UnableToRetireCropModal';
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
+import { useParams } from 'react-router-dom';
 
-function CropDetail({ history, match, location }) {
-  const { variety_id } = match.params;
+function CropDetail({ history, location }) {
+  let { variety_id } = useParams();
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
   const { crop_id } = selectedVariety;
@@ -61,7 +62,6 @@ function CropDetail({ history, match, location }) {
     <CropVarietySpotlight>
       <PureCropDetail
         history={history}
-        match={match}
         variety={selectedVariety}
         isInterestedInOrganic={interested}
         onBack={goBack}

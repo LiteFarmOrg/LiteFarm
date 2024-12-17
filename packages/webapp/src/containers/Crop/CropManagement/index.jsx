@@ -34,15 +34,16 @@ import { useEffect } from 'react';
 import { getManagementPlans } from '../../saga';
 import { getTasks, getTaskTypes } from '../../Task/saga';
 import { isAdminSelector } from '../../userFarmSlice';
+import { useParams } from 'react-router-dom';
 
 const seedingTypeIsSeedMap = {
   SEED: true,
   SEEDLING_OR_PLANTING_STOCK: false,
 };
 
-function CropManagement({ history, match, location }) {
+function CropManagement({ history, location }) {
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  let { variety_id } = useParams();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
@@ -119,7 +120,6 @@ function CropManagement({ history, match, location }) {
       <PureCropManagement
         history={history}
         variety={selectedVariety}
-        match={match}
         onBack={goBack}
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}

@@ -20,27 +20,20 @@ import { DetailsFields } from '../AddAnimals/types';
 import { generateFormDate } from './utils';
 import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../types';
 import { generateUniqueAnimalId } from '../../../util/animal';
-import { CustomRouteComponentProps } from '../../../types';
+import { useParams } from 'react-router-dom';
 
-interface RouteParams {
-  id: string;
-}
-
-interface UseInitialAnimalDataProps extends CustomRouteComponentProps<RouteParams> {}
-
-export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
+export const useInitialAnimalData = () => {
+  let { id } = useParams();
   const { selectedAnimal, isFetchingAnimals } = useGetAnimalsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
-      selectedAnimal: data?.find(
-        (animal) => animal.internal_identifier === Number(match.params.id),
-      ),
+      selectedAnimal: data?.find((animal) => animal.internal_identifier === Number(id)),
       isFetchingAnimals: isFetching,
     }),
   });
 
   const { selectedBatch, isFetchingBatches } = useGetAnimalBatchesQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
-      selectedBatch: data?.find((batch) => batch.internal_identifier === Number(match.params.id)),
+      selectedBatch: data?.find((batch) => batch.internal_identifier === Number(id)),
       isFetchingBatches: isFetching,
     }),
   });

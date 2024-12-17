@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import PureAbandonTask from '../../../components/Task/AbandonTask';
 import {
   ABANDON_DATE_SELECTED,
@@ -12,8 +13,8 @@ import { taskSelector } from '../../taskSlice';
 import { isAdminSelector, loginSelector } from '../../userFarmSlice';
 import { abandonTask } from '../saga';
 
-function TaskAbandon({ history, match, location }) {
-  const { task_id } = match.params;
+function TaskAbandon({ history, location }) {
+  const { task_id } = useParams();
   const task = useSelector(taskSelector(task_id));
   const { user_id } = useSelector(loginSelector);
   const isAdmin = useSelector(isAdminSelector);

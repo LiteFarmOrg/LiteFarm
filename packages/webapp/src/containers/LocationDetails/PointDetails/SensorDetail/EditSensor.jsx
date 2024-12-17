@@ -21,10 +21,11 @@ import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-export default function UpdateSensor({ history, match }) {
+export default function UpdateSensor({ history }) {
+  let { location_id } = useParams();
   const dispatch = useDispatch();
-  const location_id = match.params.location_id;
   const sensorInfo = useSelector(sensorsSelector(location_id));
   const system = useSelector(measurementSelector);
   const user = useSelector(userFarmSelector);
@@ -91,7 +92,6 @@ export default function UpdateSensor({ history, match }) {
         onSubmit={onSubmit}
         onBack={onBack}
         history={history}
-        match={match}
         system={system}
         filter={filter}
         filterRef={filterRef}

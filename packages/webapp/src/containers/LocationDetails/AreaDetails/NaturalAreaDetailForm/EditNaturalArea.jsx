@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PureNaturalArea from '../../../../components/LocationDetailLayout/AreaDetails/NaturalArea';
 import { deleteNaturalAreaLocation, editNaturalAreaLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -8,12 +8,10 @@ import { naturalAreaSelector } from '../../../naturalAreaSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import {
-  currentManagementPlansByLocationIdSelector,
-  plannedManagementPlansByLocationIdSelector,
-} from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
+import { useParams } from 'react-router-dom';
 
-function EditNaturalAreaDetailForm({ history, match }) {
+function EditNaturalAreaDetailForm({ history }) {
+  let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -22,12 +20,12 @@ function EditNaturalAreaDetailForm({ history, match }) {
       dispatch(
         editNaturalAreaLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: naturalArea.figure_id,
         }),
       );
   };
-  const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
+  const naturalArea = useSelector(naturalAreaSelector(location_id));
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -35,15 +33,10 @@ function EditNaturalAreaDetailForm({ history, match }) {
     }
   }, [history?.location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
-  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
     // approach 1: redux store check for dependencies
     // if (activeCrops.length === 0 && plannedCrops.length === 0) {
@@ -71,7 +64,6 @@ function EditNaturalAreaDetailForm({ history, match }) {
     <>
       <PureNaturalArea
         history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={naturalArea}

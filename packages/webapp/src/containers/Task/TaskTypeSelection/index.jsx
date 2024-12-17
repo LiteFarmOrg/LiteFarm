@@ -11,7 +11,7 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { animalLocationsSelector } from '../../locationSlice';
 
-function TaskTypeSelection({ history, match, location }) {
+function TaskTypeSelection({ history, location }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);

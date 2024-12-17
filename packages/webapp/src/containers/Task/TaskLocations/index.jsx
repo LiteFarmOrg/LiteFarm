@@ -25,7 +25,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
-export default function TaskLocationsSwitch({ history, match, location }) {
+export default function TaskLocationsSwitch({ history, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');

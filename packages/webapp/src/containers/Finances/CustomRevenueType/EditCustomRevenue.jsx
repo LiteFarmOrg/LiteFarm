@@ -21,9 +21,10 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
+import { useParams } from 'react-router-dom';
 
-function EditCustomRevenue({ history, match }) {
-  const { revenue_type_id } = match.params;
+function EditCustomRevenue({ history }) {
+  let { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));

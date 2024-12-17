@@ -5,13 +5,14 @@ import { postCropAndVarietal, postVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropSelector } from '../cropSlice';
+import { useParams } from 'react-router-dom';
 
-function ComplianceInfoForm({ history, match }) {
+function ComplianceInfoForm({ history }) {
+  //TODO: create two different route for creating crop / crop_variety
+  let { crop_id } = useParams();
   const dispatch = useDispatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  //TODO: create two different route for creating crop / crop_variety
-  const crop_id = match.params.crop_id;
   const crop = useSelector(cropSelector(crop_id));
   const isNewCrop = crop_id === 'new';
 
@@ -37,7 +38,6 @@ function ComplianceInfoForm({ history, match }) {
     history.back();
   };
 
-
   return (
     <HookFormPersistProvider>
       <ComplianceInfo
@@ -45,7 +45,6 @@ function ComplianceInfoForm({ history, match }) {
         onSubmit={onSubmit}
         onError={onError}
         onGoBack={onGoBack}
-        match={match}
         crop={crop}
       />
     </HookFormPersistProvider>

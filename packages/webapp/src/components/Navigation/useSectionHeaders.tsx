@@ -28,7 +28,7 @@ interface PathHeaderKVP {
 /**
  * Retrieves the translated section header based on the provided path.
  *
- * @param {Pathname} path - The pathname to match against specific sections.
+ * @param {Pathname} path - The pathname key to choose section header.
  * @returns {string | React.ReactElement | null} Returns the translated section header if the path matches a known section, otherwise returns null.
  *
  * @example

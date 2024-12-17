@@ -1,4 +1,3 @@
-import React from 'react';
 import PureCeremonial from '../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { postCeremonialLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostCeremonialDetailForm({ history, match }) {
+function PostCeremonialDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +17,6 @@ function PostCeremonialDetailForm({ history, match }) {
   return (
     <PureCeremonial
       history={history}
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

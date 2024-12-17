@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import {
@@ -7,9 +8,8 @@ import {
 } from '../../managementPlanSlice';
 import { completeManagementPlan } from './saga';
 
-export default function CompleteManagementPlan({ match, history, location }) {
-  const management_plan_id = match.params.management_plan_id;
-  const crop_variety_id = match.params.variety_id;
+export default function CompleteManagementPlan({ history, location }) {
+  let { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const [management_plan] = useSelector(
     managementPlanByManagementPlanIDSelector(management_plan_id),
@@ -17,8 +17,8 @@ export default function CompleteManagementPlan({ match, history, location }) {
   const status = management_plan?.complete_date
     ? 'completed'
     : management_plan?.abandon_date
-    ? 'abandoned'
-    : '';
+      ? 'abandoned'
+      : '';
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();
 

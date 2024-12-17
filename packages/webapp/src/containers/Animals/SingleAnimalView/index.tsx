@@ -45,22 +45,19 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
-import { CustomRouteComponentProps, Location } from '../../../types';
+import { Location } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
 
 export const STEPS = {
   DETAILS: 'details',
 } as const;
 
-interface RouteParams {
-  id: string;
-}
-
-interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
+interface AddAnimalsProps {
   isCompactSideMenu: boolean;
 }
 
-function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAnimalsProps) {
+//@ts-ignore
+function SingleAnimalView({ isCompactSideMenu, history, location }) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   // Header logic + display
@@ -81,11 +78,11 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   // const routerTabs = [
   //   {
   //     label: t('ANIMAL.TABS.BASIC_INFO'),
-  //     path: match.url,
+  //     path: location.pathname,
   //   },
   //   {
   //     label: t('ANIMAL.TABS.TASKS'),
-  //     path: `${match.url}/tasks`,
+  //     path: `${location.pathname}/tasks`,
   //   },
   // ];
 
@@ -101,11 +98,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   ];
 
   const { defaultFormValues, selectedAnimal, selectedBatch, isFetchingAnimalsOrBatches } =
-    useInitialAnimalData({
-      history,
-      match,
-      location,
-    });
+    useInitialAnimalData();
 
   const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
   const locationText = locations?.find(
@@ -222,7 +215,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
             {/* <Tab
               tabs={routerTabs}
               variant={TabVariants.UNDERLINE}
-              isSelected={(tab) => tab.path === match.url}
+              isSelected={(tab) => tab.path === location.pathname}
               onClick={(tab) => history.push(tab.path)}
             /> */}
           </>

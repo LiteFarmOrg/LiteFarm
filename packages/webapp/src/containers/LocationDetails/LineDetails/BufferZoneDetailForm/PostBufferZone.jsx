@@ -6,7 +6,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostBufferZoneDetailForm({ history, match }) {
+function PostBufferZoneDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +18,6 @@ function PostBufferZoneDetailForm({ history, match }) {
   return (
     <PureBufferZone
       history={history}
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

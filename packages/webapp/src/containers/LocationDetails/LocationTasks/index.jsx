@@ -1,22 +1,18 @@
-import React, { useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import {
   manualFilteredTaskCardContentSelector,
-  taskCardContentSelector,
   getTaskStatus,
 } from '../../Task/taskCardContentSelector';
-import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
-import {
-  cropLocationByIdSelector,
-  locationByIdSelector,
-  locationsSelector,
-} from '../../locationSlice';
+import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
+import { useParams } from 'react-router-dom';
 
-export default function LocationTasks({ history, match, location: { pathname } }) {
+export default function LocationTasks({ history, location: { pathname } }) {
   const isAdmin = useSelector(isAdminSelector);
-  const { user_id, farm_id } = useSelector(userFarmSelector);
-  const { location_id } = match.params;
+
+  const { location_id } = useParams();
   const location = useSelector(locationByIdSelector(location_id));
 
   useEffect(() => {
@@ -62,7 +58,6 @@ export default function LocationTasks({ history, match, location: { pathname } }
       {location && !location?.deleted && (
         <PureLocationTasks
           history={history}
-          match={match}
           location={location}
           isAdmin={isAdmin}
           tasks={tasks}

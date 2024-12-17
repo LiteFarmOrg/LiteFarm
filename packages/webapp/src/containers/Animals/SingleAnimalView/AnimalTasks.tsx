@@ -14,22 +14,22 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
 // TODO: Most likely to be scoped after movement tasks. It is not part of this user story.
-const AnimalTasks = ({ match, history }: RouteComponentProps) => {
+// @ts-ignore
+const AnimalTasks = ({ history }) => {
   const { t } = useTranslation();
 
   const routerTabs = [
     {
       label: t('ANIMAL.TABS.BASIC_INFO'),
-      path: match.url.replace('/tasks', ''),
+      path: location.pathname.replace('/tasks', ''),
     },
     {
       label: t('ANIMAL.TABS.TASKS'),
-      path: match.url,
+      path: location.pathname,
     },
   ];
 
@@ -42,7 +42,7 @@ const AnimalTasks = ({ match, history }: RouteComponentProps) => {
       <Tab
         tabs={routerTabs}
         variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
+        isSelected={(tab) => tab.path === location.pathname}
         onClick={(tab) => history.push(tab.path)}
       />
       <div>AnimalTasks</div>

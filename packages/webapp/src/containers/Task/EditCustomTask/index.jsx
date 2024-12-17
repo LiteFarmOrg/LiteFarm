@@ -5,7 +5,7 @@ import { deleteTaskType } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { taskTypeSelector } from '../../taskTypeSlice';
 
-function EditCustomTask({ history, match }) {
+function EditCustomTask({ history }) {
   const dispatch = useDispatch();
   const onGoBackPath = '/add_task/manage_custom_tasks';
   const onEditPath = '/add_task/edit_custom_task_update';

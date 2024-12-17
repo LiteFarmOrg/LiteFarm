@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -27,10 +27,11 @@ import {
 } from '../../managementPlanSlice.js';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
+import { useParams } from 'react-router-dom';
 
-function RepeatCropPlan({ history, match }) {
+function RepeatCropPlan({ history }) {
   const dispatch = useDispatch();
-  const { management_plan_id, variety_id } = match.params;
+  const { management_plan_id, variety_id } = useParams();
   useEffect(() => {
     dispatch(
       setPersistedPaths([

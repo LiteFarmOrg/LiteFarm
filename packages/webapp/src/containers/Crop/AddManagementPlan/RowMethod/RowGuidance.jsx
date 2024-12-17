@@ -4,11 +4,12 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMemo } from 'react';
 import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
+import { useMatch, useParams } from 'react-router-dom';
 
-export default function RowGuidance({ history, match, location }) {
-  const variety_id = match.params.variety_id;
+export default function RowGuidance({ history, location }) {
+  let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
-  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/row_guidance';
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/row_guidance') ? true : false;
   const { submitPath } = useMemo(() => getRowGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>

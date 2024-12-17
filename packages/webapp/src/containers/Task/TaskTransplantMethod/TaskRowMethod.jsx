@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskRowMethod({ history, match, location }) {
+export default function TaskRowMethod({ history, location }) {
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(

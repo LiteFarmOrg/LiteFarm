@@ -22,9 +22,10 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
+import { useParams } from 'react-router-dom';
 
-function ReadOnlyCustomRevenue({ history, match }) {
-  const { revenue_type_id } = match.params;
+function ReadOnlyCustomRevenue({ history }) {
+  let { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));

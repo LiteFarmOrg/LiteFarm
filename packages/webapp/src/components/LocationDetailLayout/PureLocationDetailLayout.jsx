@@ -9,10 +9,10 @@ import AreaDetails from './AreaDetails/AreaDetails';
 import LineDetails from './LineDetails/LineDetails';
 import PointDetails from './PointDetails/PointDetails';
 import RouterTab from '../RouterTab';
+import { useParams } from 'react-router-dom';
 
 export function PureLocationDetailLayout({
   history,
-  match,
   system,
   locationType,
   locationCategory,
@@ -29,6 +29,7 @@ export function PureLocationDetailLayout({
   showPerimeter,
   tabs,
 }) {
+  let { location_id } = useParams();
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',
@@ -49,7 +50,7 @@ export function PureLocationDetailLayout({
 
   const routerTabs = tabs.map((tab) => ({
     label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
-    path: `/${locationType}/${match.params.location_id}/${tab}`,
+    path: `/${locationType}/${location_id}/${tab}`,
   }));
 
   const details = useMemo(() => {
@@ -103,7 +104,7 @@ export function PureLocationDetailLayout({
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+            onEdit={() => history.push(`/${locationType}/${location_id}/edit`)}
             onRetire={handleRetire}
             isAdmin={isAdmin}
           />
@@ -116,7 +117,6 @@ export function PureLocationDetailLayout({
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
           history={history}
-          match={match}
           onCancel={historyCancel}
           formMethods={formMethods}
         />
@@ -124,7 +124,6 @@ export function PureLocationDetailLayout({
           <RouterTab
             classes={{ container: { margin: '6px 0 26px 0' } }}
             history={history}
-            match={match}
             tabs={routerTabs}
           />
         )}

@@ -13,7 +13,7 @@ import {
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 
-function TaskDetails({ history, match, location }) {
+function TaskDetails({ history, location }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import {
   PureCompleteManagementPlan,
   SOMETHING_ELSE,
@@ -11,9 +12,8 @@ import {
 import { abandonManagementPlan } from './saga';
 import { useAbandonReasonOptions } from './useAbandonReasonOptions';
 
-export default function AbandonManagementPlan({ match, history, location }) {
-  const management_plan_id = match.params.management_plan_id;
-  const crop_variety_id = match.params.variety_id;
+export default function AbandonManagementPlan({ history, location }) {
+  let { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();
@@ -25,8 +25,8 @@ export default function AbandonManagementPlan({ match, history, location }) {
   const status = management_plan?.complete_date
     ? 'completed'
     : management_plan?.abandon_date
-    ? 'abandoned'
-    : '';
+      ? 'abandoned'
+      : '';
 
   const onGoBack = () => {
     history.push(`/crop/${crop_variety_id}/management`, location?.state);

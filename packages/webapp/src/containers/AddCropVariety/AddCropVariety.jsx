@@ -10,11 +10,12 @@ import ImagePickerWrapper from '../ImagePickerWrapper';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { AddLink } from '../../components/Typography';
+import { useParams } from 'react-router-dom';
 
-function AddCropVarietyForm({ history, match }) {
+function AddCropVarietyForm({ history }) {
+  let { crop_id } = useParams();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
-  const crop_id = match.params.crop_id;
   const existingCropInfo = useSelector(cropSelector(crop_id));
   const { interested } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -52,7 +53,6 @@ function AddCropVarietyForm({ history, match }) {
   return (
     <HookFormPersistProvider>
       <PureAddCropVariety
-        match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}
         isSeekingCert={interested}

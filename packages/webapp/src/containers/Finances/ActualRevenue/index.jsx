@@ -27,7 +27,7 @@ import {
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
 
-export default function ActualRevenue({ history, match }) {
+export default function ActualRevenue({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBack = () => history.push(FINANCES_HOME_URL);

@@ -7,12 +7,11 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getManagementPlansAndTasks } from '../../saga';
+import { useParams } from 'react-router-dom';
 
-export default function ManagementDetails({ history, match }) {
-  const variety_id = match.params.variety_id;
+export default function ManagementDetails({ history }) {
+  let { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
-
-  const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   useEffect(() => {
@@ -44,7 +43,6 @@ export default function ManagementDetails({ history, match }) {
         variety={variety}
         plan={plan}
         history={history}
-        match={match}
         system={system}
       />
       {showSpotlight && <FirstManagementPlanSpotlight />}

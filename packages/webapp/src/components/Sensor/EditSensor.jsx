@@ -255,6 +255,5 @@ UpdateSensor.prototype = {
   disabled: PropTypes.bool,
   onSubmit: PropTypes.func,
   history: PropTypes.object,
-  match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

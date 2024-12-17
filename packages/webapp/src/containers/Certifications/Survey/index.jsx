@@ -9,7 +9,7 @@ import { exportCertificationData } from '../saga';
 import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 
-function CertificationSurveyPage({ history, match }) {
+function CertificationSurveyPage({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onExport = (exportData) => {

@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 export default function LocationPageHeader({
   history,
   isCreateLocationPage,
-  match,
   isViewLocationPage,
   isEditLocationPage,
   title,

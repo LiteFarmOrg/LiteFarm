@@ -1,5 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import produce from 'immer';
 import PureUpdateEstimatedCropRevenue from '../../../components/Finances/UpdateEstimatedCropRevenue';
@@ -7,11 +5,10 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import { patchEstimatedCropRevenue } from '../saga';
+import { useParams } from 'react-router-dom';
 
-function UpdateEstimatedCropRevenue({ history, match }) {
-  const { management_plan_id } = match.params;
-  const { t } = useTranslation();
-
+function UpdateEstimatedCropRevenue({ history }) {
+  const { management_plan_id } = useParams();
   const dispatch = useDispatch();
   const managementPlan = useSelector(managementPlanSelector(management_plan_id));
   const system = useSelector(measurementSelector);

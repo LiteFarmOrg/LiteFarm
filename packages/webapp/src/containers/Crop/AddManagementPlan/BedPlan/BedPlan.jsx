@@ -5,11 +5,13 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getBedMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
+import { useMatch, useParams } from 'react-router-dom';
 
-export default function BedPlan({ history, match, location }) {
+export default function BedPlan({ history, location }) {
+  let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
-  const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
-  const isFinalPage = match.path === '/crop/:variety_id/add_management_plan/bed_method';
+  const crop_variety = useSelector(cropVarietySelector(variety_id));
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_method') ? true : false;
   const { submitPath } = useMemo(
     () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],
@@ -17,7 +19,6 @@ export default function BedPlan({ history, match, location }) {
   return (
     <HookFormPersistProvider>
       <PureBedPlan
-        match={match}
         history={history}
         system={system}
         crop_variety={crop_variety}

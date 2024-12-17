@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import PureTaskDate from '../../../components/Task/TaskDate';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useIsTaskType } from '../useIsTaskType';
@@ -6,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getProgress } from '../util';
 
-function TaskDate({ history, match, location }) {
+function TaskDate({ history, location }) {
   const onGoBack = () => {
     history.back();
   };

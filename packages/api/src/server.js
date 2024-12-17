@@ -252,6 +252,19 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
   next();
 };
 
+const getAllowedOrigin = () => {
+  switch (environment) {
+    case 'development':
+      return 'http://localhost:3000';
+    case 'integration':
+      return 'https://beta.litefarm.org';
+    case 'production':
+      return 'https://app.litefarm.org';
+    default:
+      return 'https://app.litefarm.org';
+  }
+};
+
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
@@ -260,7 +273,8 @@ app
   // prevent CORS errors
   .use(cors())
   .use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    const origin = getAllowedOrigin();
+    res.header('Access-Control-Allow-Origin', origin);
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept, Authorization',

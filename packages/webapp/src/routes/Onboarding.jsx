@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Navigate, Route, Switch } from 'react-router';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -113,16 +113,22 @@ function OnboardingFlow({
 
         <Route>
           <>
-            {!step_one && <Redirect to={'/add_farm'} />}
-            {step_four && !has_consent && <Redirect to={'/consent'} />}
-            {!farm_id && hasUserFarms && <Redirect to={'/farm_selection'} />}
-            {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
-            {step_one && !step_two && <Redirect to={'/role_selection'} />}
-            {step_two && !step_three && <Redirect to={'/consent'} />}
-            {step_one && step_three && !step_four && (
-              <Redirect to={'/certification/interested_in_organic'} />
+            {!step_one && <Route render={() => <Navigate to={'/add_farm'} />} />}
+            {step_four && !has_consent && <Route render={() => <Navigate to={'/consent'} />} />}
+            {!farm_id && hasUserFarms && (
+              <Route render={() => <Navigate to={'/farm_selection'} />} />
             )}
-            {step_one && step_four && !step_five && <Redirect to={'/outro'} />}
+            {(!farm_id || !step_one) && !hasUserFarms && (
+              <Route render={() => <Navigate to={'/welcome'} />} />
+            )}
+            {step_one && !step_two && <Route render={() => <Navigate to={'/role_selection'} />} />}
+            {step_two && !step_three && <Route render={() => <Navigate to={'/consent'} />} />}
+            {step_one && step_three && !step_four && (
+              <Route render={() => <Navigate to={'/certification/interested_in_organic'} />} />
+            )}
+            {step_one && step_four && !step_five && (
+              <Route render={() => <Navigate to={'/outro'} />} />
+            )}
           </>
         </Route>
       </Switch>

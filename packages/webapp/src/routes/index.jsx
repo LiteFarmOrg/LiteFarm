@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Navigate, Route, Switch } from 'react-router';
 import Spinner from '../components/Spinner';
 
 // Components that have already been set up with code splitting
@@ -320,7 +320,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               <ConsentForm goForwardTo={'/outro'} goBackTo={null} />
             </Route>
             <Route path="/outro" exact children={<JoinFarmSuccessScreen />} />
-            {!has_consent && <Route render={() => <Redirect to={'/consent'} />} />}
+            {!has_consent && <Route render={() => <Navigate to={'/consent'} />} />}
           </Switch>
         </Suspense>
       );
@@ -334,7 +334,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/consent" exact>
               <ConsentForm goForwardTo={'/'} goBackTo={null} />
             </Route>
-            {!has_consent && <Route render={() => <Redirect to={'/consent'} />} />}
+            {!has_consent && <Route render={() => <Navigate to={'/consent'} />} />}
           </Switch>
         </Suspense>
       );
@@ -641,7 +641,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/unknown_record" exact children={<UnknownRecord />} />
             <Route
               // TODO: Change to 404
-              render={() => <Redirect to={'/'} />}
+              render={() => <Navigate to={'/'} />}
             />
           </Switch>
         </Suspense>
@@ -954,7 +954,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               )}
             />
             <Route path="/unknown_record" exact children={<UnknownRecord />} />
-            <Route render={() => <Redirect to={'/'} />} />
+            <Route render={() => <Navigate to={'/'} />} />
           </Switch>
         </Suspense>
       );
@@ -1070,7 +1070,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               )}
             />
             <Route path="/unknown_record" exact children={<UnknownRecord />} />
-            <Route render={() => <Redirect to={'/consent'} />} />
+            <Route render={() => <Navigate to={'/consent'} />} />
           </Switch>
         </Suspense>
       );
@@ -1088,7 +1088,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
           <Route path="/" exact children={<CustomSignUp />} />
           <Route
             //TODO: change to 404
-            render={() => <Redirect to={'/'} />}
+            render={() => <Navigate to={'/'} />}
           />
         </Switch>
       </Suspense>

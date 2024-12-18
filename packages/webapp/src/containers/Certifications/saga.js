@@ -4,7 +4,7 @@ import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { startExportModal } from '../ChooseFarm/chooseFarmFlowSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const exportUrl = () => `${url}/organic_certifier_survey/request_export`;
 

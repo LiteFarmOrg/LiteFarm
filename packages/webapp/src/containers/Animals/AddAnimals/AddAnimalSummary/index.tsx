@@ -25,7 +25,7 @@ import {
 import useQueries from '../../../../hooks/api/useQueries';
 import { formatDBAnimalsToSummary, formatDBBatchesToSummary } from '../../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../../store/api/types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 type AddAnimalSummaryProps = {
   formResultData: { animals: Animal[]; batches: AnimalBatch[] };

@@ -8,7 +8,7 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function TaskCompleteStepOne({ location }) {
   let navigate = useNavigate();

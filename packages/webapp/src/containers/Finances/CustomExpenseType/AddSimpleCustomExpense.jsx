@@ -20,7 +20,7 @@ import { addCustomExpenseType } from '../saga';
 import { allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function AddCustomExpense() {
   let navigate = useNavigate();

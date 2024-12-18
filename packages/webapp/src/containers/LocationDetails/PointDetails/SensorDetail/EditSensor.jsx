@@ -21,7 +21,7 @@ import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function UpdateSensor() {
   let navigate = useNavigate();

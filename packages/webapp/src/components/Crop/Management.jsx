@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function PureCropManagement({
   onBack,

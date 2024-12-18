@@ -20,7 +20,7 @@ import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/convert-units/unit';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function PurePlantingDate({
   useHookFormPersist,

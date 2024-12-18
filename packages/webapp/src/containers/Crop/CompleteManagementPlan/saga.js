@@ -26,7 +26,7 @@ import { getTasks } from '../../Task/saga';
 import { updateManagementPlanSuccess } from '../../managementPlanSlice';
 import { axios, getHeader } from '../../saga';
 import { loginSelector } from '../../userFarmSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const completeManagementPlan = createAction(`completeManagementPlanSaga`);
 

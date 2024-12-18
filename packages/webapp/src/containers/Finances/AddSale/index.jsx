@@ -26,7 +26,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function AddSale() {
   let navigate = useNavigate();

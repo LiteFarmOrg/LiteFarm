@@ -35,7 +35,7 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 const TopMenu = ({
   isMobile,

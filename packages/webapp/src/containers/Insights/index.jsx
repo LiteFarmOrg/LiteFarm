@@ -37,7 +37,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Insights = () => {
   let navigate = useNavigate();

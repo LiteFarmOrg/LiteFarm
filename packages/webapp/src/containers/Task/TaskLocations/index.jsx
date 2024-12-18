@@ -24,7 +24,7 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function TaskLocationsSwitch({ location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');

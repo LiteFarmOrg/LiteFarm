@@ -18,7 +18,7 @@ import Table from '../../../Table';
 import { TableKind } from '../../../Table/types';
 import styles from './styles.module.scss';
 import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) => [
   {

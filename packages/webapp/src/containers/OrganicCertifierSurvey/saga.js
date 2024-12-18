@@ -15,7 +15,7 @@ import { getCertificationsSuccess } from './certificationSlice';
 import { getCertifiersSuccess } from './certifierSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import i18n from '../../locales/i18n';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';

@@ -20,7 +20,7 @@ import { finishSendHelp, postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const supportUrl = () => `${url}/support_ticket`;
 

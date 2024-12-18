@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
 import SensorDetail from '../containers/LocationDetails/PointDetails/SensorDetail';
 import UpdateSensor from '../containers/LocationDetails/PointDetails/SensorDetail/EditSensor';

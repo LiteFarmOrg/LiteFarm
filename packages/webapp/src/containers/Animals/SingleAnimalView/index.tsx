@@ -47,7 +47,7 @@ import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
 import { Location } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const STEPS = {
   DETAILS: 'details',

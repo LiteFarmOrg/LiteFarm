@@ -19,7 +19,7 @@ import { url } from '../../apiConfig';
 import { loginSuccess } from '../userFarmSlice';
 import { decodeToken } from 'react-jwt';
 import { axios } from '../saga';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const resetPasswordUrl = () => `${url}/password_reset`;
 

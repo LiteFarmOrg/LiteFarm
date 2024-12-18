@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import EditSurfaceWaterDetailForm from '../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/EditSurfaceWater';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';

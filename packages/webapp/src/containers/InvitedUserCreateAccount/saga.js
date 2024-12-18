@@ -13,7 +13,7 @@ import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSl
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { purgeState } from '../../store/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;

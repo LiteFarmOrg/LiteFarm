@@ -25,7 +25,7 @@ import { axios, fetchAllSaga, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const patchConsent = createAction('patchConsentSaga');
 

@@ -21,7 +21,7 @@ import { axios, getHeader, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { archiveDocumentSuccess, postDocumentSuccess, putDocumentSuccess } from '../documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const postDocument = createAction(`postDocumentSaga`);
 

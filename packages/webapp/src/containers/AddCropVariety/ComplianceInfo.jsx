@@ -4,7 +4,7 @@ import { postCropAndVarietal, postVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropSelector } from '../cropSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function ComplianceInfoForm() {
   let navigate = useNavigate();

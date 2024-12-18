@@ -30,7 +30,7 @@ import {
 import { createAction } from '@reduxjs/toolkit';
 import { axios, getHeader } from '../saga';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const patchUserFarmStatusWithIdTokenUrl = (farm_id) =>
   `${url}/user_farm/accept_invitation/farm/${farm_id}`;

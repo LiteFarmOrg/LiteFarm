@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import EditBufferZoneDetailForm from '../containers/LocationDetails/LineDetails/BufferZoneDetailForm/EditBufferZone';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';

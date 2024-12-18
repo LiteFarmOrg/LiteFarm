@@ -24,7 +24,7 @@ import { axios } from '../saga';
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { purgeState } from '../../store/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;

@@ -21,7 +21,7 @@ import {
   getNotificationSuccess /*, clearAlerts as clearAlertsReducer*/,
 } from '../notificationSlice';
 import { notificationsUrl, clearAlertsUrl } from '../../apiConfig';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const getNotification = createAction('getNotificationSaga');
 

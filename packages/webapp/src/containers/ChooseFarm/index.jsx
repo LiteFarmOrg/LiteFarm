@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 import { selectFarmAndFetchAll } from '../saga';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 function ChooseFarm() {
   let navigate = useNavigate();

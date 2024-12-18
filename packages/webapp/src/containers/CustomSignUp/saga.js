@@ -24,7 +24,7 @@ import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey, setPasswordResetError } from '../customSignUpSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;

@@ -8,7 +8,7 @@ import { bufferZoneSelector } from '../../../bufferZoneSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router';
 
 function EditBufferZoneDetailForm() {
   let location = useLocation();

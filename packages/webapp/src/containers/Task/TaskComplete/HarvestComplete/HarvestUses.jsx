@@ -7,7 +7,7 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
 import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function HarvestUses({ location }) {
   let navigate = useNavigate();

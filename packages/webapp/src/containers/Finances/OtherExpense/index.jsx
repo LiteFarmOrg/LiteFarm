@@ -31,7 +31,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
 import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const OtherExpense = () => {
   let navigate = useNavigate();

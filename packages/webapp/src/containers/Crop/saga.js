@@ -32,7 +32,7 @@ import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const DEC = 10;
 

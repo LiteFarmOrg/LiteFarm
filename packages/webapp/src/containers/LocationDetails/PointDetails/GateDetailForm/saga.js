@@ -12,7 +12,7 @@ import {
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import { setMapCache } from '../../../Map/mapCacheSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 export const postGateLocation = createAction(`postGateLocationSaga`);
 

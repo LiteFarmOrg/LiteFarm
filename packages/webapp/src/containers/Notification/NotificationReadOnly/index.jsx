@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import PureNotificationReadOnly from '../../../components/Notifications';
 import { notificationSelector, relatedNotificationSelector } from '../../notificationSlice';
 

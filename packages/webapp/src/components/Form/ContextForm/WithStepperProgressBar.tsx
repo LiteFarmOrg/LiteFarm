@@ -27,7 +27,7 @@ import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
-import { useBlocker } from 'react-router-dom';
+import { useBlocker } from 'react-router';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;

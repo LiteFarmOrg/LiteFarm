@@ -10,7 +10,7 @@ import {
   resetAndUnLockFormData,
 } from './hookFormPersistSlice';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType } from 'react-router';
 
 export default function useHookFormPersist(getValues = () => ({}), persistedPathNames = []) {
   let navigate = useNavigate();

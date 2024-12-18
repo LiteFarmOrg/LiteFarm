@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import TabComponent, { BaseTab, TabProps, Variant } from './Tab';
 
 type Tab = BaseTab & {

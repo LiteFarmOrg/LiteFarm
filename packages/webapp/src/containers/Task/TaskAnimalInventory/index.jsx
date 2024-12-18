@@ -19,7 +19,7 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function TaskAnimalInventory({ location }) {
   let navigate = useNavigate();

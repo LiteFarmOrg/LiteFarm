@@ -34,7 +34,7 @@ import { useEffect } from 'react';
 import { getManagementPlans } from '../../saga';
 import { getTasks, getTaskTypes } from '../../Task/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 const seedingTypeIsSeedMap = {
   SEED: true,

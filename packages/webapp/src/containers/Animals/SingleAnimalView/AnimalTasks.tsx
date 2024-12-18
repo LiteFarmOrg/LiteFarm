@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 

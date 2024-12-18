@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import EditFieldDetailForm from '../containers/LocationDetails/AreaDetails/FieldDetailForm/EditField';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';

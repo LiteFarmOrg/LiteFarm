@@ -14,7 +14,7 @@ import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModa
 import UnableToRetireCropModal from '../../../components/Modals/CropModals/UnableToRetireCropModal';
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function CropDetail({ location }) {
   let navigate = useNavigate();

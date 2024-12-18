@@ -21,7 +21,7 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function EditCustomRevenue() {
   let navigate = useNavigate();

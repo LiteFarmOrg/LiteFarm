@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
 import {
   ANIMALS_INVENTORY_URL,
   ADD_ANIMALS_URL,

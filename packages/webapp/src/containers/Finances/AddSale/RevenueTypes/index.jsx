@@ -24,7 +24,7 @@ import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlig
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/siteMapConstants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function RevenueTypes({ useHookFormPersist }) {
   let navigate = useNavigate();

@@ -4,7 +4,7 @@ import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCre
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { acceptInvitationWithSSO } from '../saga';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 export default function InvitedUserCreateAccountWithSSO() {
   let location = useLocation();

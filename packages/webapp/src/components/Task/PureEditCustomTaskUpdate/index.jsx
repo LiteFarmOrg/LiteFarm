@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import PageTitle from '../../PageTitle/v2';

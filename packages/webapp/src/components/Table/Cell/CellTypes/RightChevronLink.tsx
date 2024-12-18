@@ -14,7 +14,7 @@
  */
 import { IconButton } from '@mui/material';
 import { BsChevronRight } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styles from '../styles.module.scss';
 
 export type RightChevronLinkProps = {

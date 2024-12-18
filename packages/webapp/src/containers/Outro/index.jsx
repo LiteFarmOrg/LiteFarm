@@ -3,7 +3,7 @@ import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { patchOutroStep } from './saga';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function Outro() {
   let navigate = useNavigate();

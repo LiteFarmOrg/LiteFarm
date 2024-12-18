@@ -20,7 +20,7 @@ import { DetailsFields } from '../AddAnimals/types';
 import { generateFormDate } from './utils';
 import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../types';
 import { generateUniqueAnimalId } from '../../../util/animal';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 export const useInitialAnimalData = () => {
   let { id } = useParams();

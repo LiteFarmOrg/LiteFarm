@@ -7,7 +7,7 @@ import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function InviteUser() {
   let navigate = useNavigate();

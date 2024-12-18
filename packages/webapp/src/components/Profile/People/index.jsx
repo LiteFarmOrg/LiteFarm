@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Table from '../../Table';
 import { TableKind } from '../../Table/types';
 import ProfileLayout from '../ProfileLayout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function PurePeople({ users, isAdmin }) {
   let navigate = useNavigate();

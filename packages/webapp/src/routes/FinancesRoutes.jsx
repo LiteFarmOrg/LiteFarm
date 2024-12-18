@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router';
 import {
   ACTUAL_REVENUE_URL,
   ADD_CUSTOM_EXPENSE_URL,

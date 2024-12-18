@@ -6,7 +6,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
 import PureRowForm from './PureRowForm';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function PureRowMethod({
   system,

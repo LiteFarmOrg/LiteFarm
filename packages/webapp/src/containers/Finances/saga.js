@@ -60,7 +60,7 @@ import {
   MANAGE_CUSTOM_REVENUES_URL,
   OTHER_EXPENSE_URL,
 } from '../../util/siteMapConstants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const getSales = createAction('getSales');
 

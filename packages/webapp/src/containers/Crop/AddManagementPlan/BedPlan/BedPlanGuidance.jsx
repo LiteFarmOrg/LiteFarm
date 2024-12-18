@@ -4,7 +4,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMemo } from 'react';
 import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
-import { useMatch, useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router';
 
 export default function BedPlan({ location }) {
   let { variety_id } = useParams();

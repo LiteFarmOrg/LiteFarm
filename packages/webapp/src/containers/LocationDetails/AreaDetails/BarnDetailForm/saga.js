@@ -11,7 +11,7 @@ import {
 } from '../../../barnSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 export const postBarnLocation = createAction(`postBarnLocationSaga`);
 

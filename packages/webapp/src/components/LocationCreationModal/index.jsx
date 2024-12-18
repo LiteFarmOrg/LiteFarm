@@ -22,7 +22,7 @@ import { Info, Semibold } from '../Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import { setMapAddDrawerShow } from '../../containers/Map/mapAddDrawerSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function LocationCreationModal({ title, body, dismissModal, isAdmin }) {
   let navigate = useNavigate();

@@ -2,7 +2,7 @@ import PureTaskComplete from '../../../components/Task/TaskComplete';
 import { useDispatch } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { completeTask } from '../saga';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function TaskComplete({ location }) {
   let navigate = useNavigate();

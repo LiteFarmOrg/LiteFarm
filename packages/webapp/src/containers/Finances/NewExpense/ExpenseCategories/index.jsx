@@ -9,7 +9,7 @@ import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_EXPENSE_URL, MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useState } from 'react';
 
 const ExpenseCategories = () => {

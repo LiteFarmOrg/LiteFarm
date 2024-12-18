@@ -22,7 +22,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { Paper } from '@mui/material';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';

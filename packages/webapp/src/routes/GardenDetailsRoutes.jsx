@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import EditGardenDetailForm from '../containers/LocationDetails/AreaDetails/GardenDetailForm/EditGarden';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';

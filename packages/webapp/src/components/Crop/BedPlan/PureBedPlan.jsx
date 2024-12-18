@@ -7,7 +7,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PureBedForm } from './PureBedForm';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function PureBedPlan({
   system,

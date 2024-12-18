@@ -90,7 +90,7 @@ import {
   getMovementTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const taskTypeEndpoint = [
   'cleaning_task',

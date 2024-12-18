@@ -18,7 +18,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
-import { Pathname } from 'react-router-dom';
+import { Pathname } from 'react-router';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {

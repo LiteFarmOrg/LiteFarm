@@ -20,7 +20,7 @@ import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
 import { archiveDocument } from '../saga';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function MainDocument() {
   let navigate = useNavigate();

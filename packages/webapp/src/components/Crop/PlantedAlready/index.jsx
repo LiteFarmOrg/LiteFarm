@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { getDateDifference, getDateInputFormat } from '../../../util/moment';
 import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function PurePlantedAlready({
   useHookFormPersist,

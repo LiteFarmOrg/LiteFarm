@@ -7,7 +7,7 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
 import { putOrganicCertifierSurvey } from '../saga';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function UpdateSetCertificationSummary() {
   let navigate = useNavigate();

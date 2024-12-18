@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import PureContainerForm from './PureContainerForm';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,

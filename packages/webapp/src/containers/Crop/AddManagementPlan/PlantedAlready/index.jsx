@@ -4,7 +4,7 @@ import PurePlantedAlready from '../../../../components/Crop/PlantedAlready';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 function PlantedAlready({ location }) {
   let { variety_id } = useParams();

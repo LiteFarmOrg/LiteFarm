@@ -12,7 +12,7 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function SensorReadings() {
   let navigate = useNavigate();

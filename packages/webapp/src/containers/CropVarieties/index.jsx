@@ -25,7 +25,7 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function CropVarieties({ location }) {
   let navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { purgeState } from '../store/store';
 import { CUSTOM_SIGN_UP } from '../containers/CustomSignUp/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const getAccessToken = () => {
   return localStorage.getItem('id_token');

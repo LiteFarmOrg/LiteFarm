@@ -8,7 +8,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlanGuidanceForm } from './PurePlanGuidanceForm';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function PurePlanGuidance({
   system,

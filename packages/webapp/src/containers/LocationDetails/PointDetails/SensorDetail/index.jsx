@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function SensorDetail() {
   let navigate = useNavigate();

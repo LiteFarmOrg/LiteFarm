@@ -151,7 +151,7 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api } from '../store/api/apiSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;

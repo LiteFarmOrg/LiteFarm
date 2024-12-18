@@ -10,7 +10,7 @@ import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function ManagementPlanSelector({ location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');

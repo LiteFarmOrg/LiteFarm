@@ -10,7 +10,7 @@ import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { animalLocationsSelector } from '../../locationSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function TaskTypeSelection({ location }) {
   let navigate = useNavigate();

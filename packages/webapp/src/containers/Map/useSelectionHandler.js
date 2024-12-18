@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneObject } from '../../util';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 /**
  *

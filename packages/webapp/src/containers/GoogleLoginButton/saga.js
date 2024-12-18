@@ -9,7 +9,7 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 import { inlineErrors } from '../CustomSignUp/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const loginUrl = () => `${url}/google`;
 

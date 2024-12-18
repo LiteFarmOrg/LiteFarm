@@ -32,7 +32,7 @@ export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
 export const retireSensor = createAction('retireSensorSaga');
 import { setMapCache } from '../../../Map/mapCacheSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export function* patchSensorSaga({ payload: sensorData }) {
   let navigate = useNavigate();

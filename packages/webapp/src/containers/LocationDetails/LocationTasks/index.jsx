@@ -7,7 +7,7 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function LocationTasks({ location: { pathname } }) {
   let navigate = useNavigate();

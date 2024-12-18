@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export function useStartAddCropVarietyFlow() {
   let navigate = useNavigate();

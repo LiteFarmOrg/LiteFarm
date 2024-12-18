@@ -21,7 +21,7 @@ import {
 } from '../../../components/Task/AssignTask/constants';
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function TaskManagement({ location }) {
   let navigate = useNavigate();

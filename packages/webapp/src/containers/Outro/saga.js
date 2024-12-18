@@ -19,7 +19,7 @@ import { loginSelector, patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { axios, getHeader } from '../saga';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 

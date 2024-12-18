@@ -9,7 +9,7 @@ import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function PureCropDetail({ variety, isEditing, isInterestedInOrganic, onEdit, isAdmin, location }) {
   let navigate = useNavigate();

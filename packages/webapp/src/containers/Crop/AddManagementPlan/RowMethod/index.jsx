@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getRowMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useMatch, useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router';
 
 export default function RowMethod({ location }) {
   let { variety_id } = useParams();

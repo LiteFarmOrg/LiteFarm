@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import PureAbandonTask from '../../../components/Task/AbandonTask';
 import {
   ABANDON_DATE_SELECTED,

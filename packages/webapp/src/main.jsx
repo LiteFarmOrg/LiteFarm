@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';

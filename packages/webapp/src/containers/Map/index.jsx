@@ -77,7 +77,7 @@ import {
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function Map({ isCompactSideMenu }) {
   let navigate = useNavigate();

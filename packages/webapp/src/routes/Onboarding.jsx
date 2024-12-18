@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';

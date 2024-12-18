@@ -32,7 +32,7 @@ import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,

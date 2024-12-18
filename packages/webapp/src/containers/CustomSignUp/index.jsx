@@ -15,7 +15,7 @@ import { CREATE_USER_ACCOUNT, CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE } from './cons
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));

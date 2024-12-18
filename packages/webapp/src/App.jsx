@@ -21,7 +21,7 @@ import Navigation from './containers/Navigation';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
-import Routes from './routes';
+import AllRoutes from './routes';
 import { ANIMALS_URL } from './util/siteMapConstants';
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
               // https://notistack.com/features/customization#custom-component
               Components={{ common: NotistackSnackbar }}
             >
-              <Routes
+              <AllRoutes
                 isCompactSideMenu={isCompactSideMenu}
                 isFeedbackSurveyOpen={isFeedbackSurveyOpen}
                 setFeedbackSurveyOpen={setFeedbackSurveyOpen}

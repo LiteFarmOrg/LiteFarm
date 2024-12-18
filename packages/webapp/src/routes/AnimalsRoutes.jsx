@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import {
   ANIMALS_INVENTORY_URL,
   ADD_ANIMALS_URL,
@@ -26,7 +26,7 @@ const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
 
 const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
-  <Switch>
+  <Routes>
     <Route path={ANIMALS_INVENTORY_URL} exact>
       <Inventory
         isCompactSideMenu={isCompactSideMenu}
@@ -39,7 +39,7 @@ const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
     <Route path={createSingleAnimalViewURL(':id')} exact>
       <SingleAnimalView isCompactSideMenu={isCompactSideMenu} />
     </Route>
-  </Switch>
+  </Routes>
 );
 
 export default AnimalsRoutes;

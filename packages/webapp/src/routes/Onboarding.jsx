@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Navigate, Route, Switch } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -74,7 +74,7 @@ function OnboardingFlow({
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Suspense fallback={<Spinner />}>
-      <Switch>
+      <Routes>
         <Route path="/farm_selection" exact children={<ChooseFarm />} />
         <Route path="/welcome" exact children={<WelcomeScreen />} />
         <Route path="/add_farm" exact children={<AddFarm />} />
@@ -131,7 +131,7 @@ function OnboardingFlow({
             )}
           </>
         </Route>
-      </Switch>
+      </Routes>
     </Suspense>
   );
 }

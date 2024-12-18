@@ -11,9 +11,10 @@ import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { DocumentUploader } from '../DocumentUploader';
 import { updateDocument } from '../saga';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function EditDocument({ history }) {
+export default function EditDocument() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { document_id } = useParams();
 
@@ -26,7 +27,7 @@ export default function EditDocument({ history }) {
     }
   }, []);
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = (data) => {

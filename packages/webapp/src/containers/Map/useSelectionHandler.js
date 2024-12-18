@@ -2,14 +2,15 @@ import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../history';
 import { cloneObject } from '../../util';
+import { useNavigate } from 'react-router-dom';
 
 /**
  *
  * Do not modify, copy or reuse
  */
 const useSelectionHandler = () => {
+  let navigate = useNavigate();
   const initOverlappedLocations = {
     area: [],
     line: [],
@@ -42,10 +43,8 @@ const useSelectionHandler = () => {
         overlappedLocations.point.length === 0
       ) {
         containsCrops(overlappedLocations.area[0].type)
-          ? history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
-            )
-          : history.push(
+          ? navigate(`/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`)
+          : navigate(
               `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
             );
       } else if (
@@ -53,9 +52,7 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 1 &&
         overlappedLocations.point.length === 0
       ) {
-        history.push(
-          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`,
-        );
+        navigate(`/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`);
       } else {
         if (overlappedLocations.point.length === 1) {
           if (
@@ -69,11 +66,11 @@ const useSelectionHandler = () => {
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
           } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
-            history.push(
+            navigate(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );
           } else {
-            history.push(
+            navigate(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
             );
           }

@@ -5,7 +5,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskBedGuidance({ history, location }) {
+export default function TaskBedGuidance({ location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(
     managementPlanSelector(persistedFormData.managementPlans[0].management_plan_id),
@@ -16,7 +16,6 @@ export default function TaskBedGuidance({ history, location }) {
     <HookFormPersistProvider>
       <PurePlanGuidance
         system={system}
-        history={history}
         isBed={true}
         variety_id={crop_variety_id}
         isFinalPage={true}

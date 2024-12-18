@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { useMatch, useParams } from 'react-router-dom';
 
-export default function BedPlan({ history, location }) {
+export default function BedPlan({ location }) {
   let { variety_id } = useParams();
   const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_guidance') ? true : false;
   const system = useSelector(measurementSelector);
@@ -15,7 +15,6 @@ export default function BedPlan({ history, location }) {
     <HookFormPersistProvider>
       <PurePlanGuidance
         system={system}
-        history={history}
         isBed={true}
         variety_id={variety_id}
         isFinalPage={isFinalPage}

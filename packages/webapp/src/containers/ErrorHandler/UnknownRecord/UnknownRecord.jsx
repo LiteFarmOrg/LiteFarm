@@ -21,6 +21,7 @@ import { ReactComponent as DoesNotExistSplash } from '../../../assets/images/doe
 import { Title } from '../../../components/Typography';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as Sunglasses } from '../../../assets/images/miscs/smiling-face-with-sunglasses-emoji.svg';
+import { useNavigate, useNavigationType } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   line: {
@@ -29,15 +30,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UnknownRecord({ history }) {
+export default function UnknownRecord() {
+  let navigate = useNavigate();
+  let navType = useNavigationType();
   const { t } = useTranslation();
   const classes = useStyles();
   const goBack = () => {
-    if (history.action === 'POP') {
-      history.push('/home');
+    if (navType === 'POP') {
+      navigate('/home');
       return;
     } else {
-      history.back();
+      navigate(-1);
     }
   };
 

@@ -62,5 +62,4 @@ useSortedRevenueTypes.propTypes = {
     selectorType: PropTypes.string,
   }),
   useHookFormPersist: PropTypes.func,
-  history: PropTypes.object,
 };

@@ -1,13 +1,15 @@
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Table from '../../Table';
 import { TableKind } from '../../Table/types';
 import ProfileLayout from '../ProfileLayout';
+import { useNavigate } from 'react-router-dom';
 
-export default function PurePeople({ users, history, isAdmin }) {
+export default function PurePeople({ users, isAdmin }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'role']);
   const [searchString, setSearchString] = useState('');
   const onChange = (e) => {
@@ -98,7 +100,7 @@ export default function PurePeople({ users, history, isAdmin }) {
     return {
       onClick: (e) => {
         if (isClickable) {
-          history.push(`/user/${rowInfo.original.user_id}`);
+          navigate(`/user/${rowInfo.original.user_id}`);
         }
       },
       style: isClickable ? clickableStyle : normalTextStyle,
@@ -106,8 +108,7 @@ export default function PurePeople({ users, history, isAdmin }) {
   };
   return (
     <ProfileLayout
-      onSubmit={() => history.push('/invite_user')}
-      history={history}
+      onSubmit={() => navigate('/invite_user')}
       buttonGroup={
         isAdmin && (
           <Button data-cy="people-inviteUser" fullLength type={'submit'}>
@@ -139,5 +140,4 @@ export default function PurePeople({ users, history, isAdmin }) {
 }
 PurePeople.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object,
 };

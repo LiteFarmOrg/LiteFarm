@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Main } from '../../Typography';
@@ -21,17 +21,14 @@ import { ManagementPlanCard } from '../../CardWithStatus/ManagementPlanCard/Mana
 import { CardWithStatusContainer } from '../../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import useWindowInnerHeight from '../../../containers/hooks/useWindowInnerHeight';
 import styles from './styles.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const MODAL_MARGIN = 32;
 const MODAL_PADDING = 24;
 const TITLE_HEIGHT = 42;
 
-export default function CropPlansModal({
-  history,
-  variety,
-  managementPlanCardContents,
-  dismissModal,
-}) {
+export default function CropPlansModal({ variety, managementPlanCardContents, dismissModal }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const infoRef = useRef(null);
 
@@ -71,9 +68,9 @@ export default function CropPlansModal({
                 key={index}
                 {...managementPlan}
                 onClick={() =>
-                  history.push(
+                  navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    { state: location.state },
                   )
                 }
               />
@@ -101,7 +98,6 @@ CropPlansModal.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ).isRequired,
-  history: PropTypes.object.isRequired,
   variety: PropTypes.object.isRequired,
   dismissModal: PropTypes.func.isRequired,
 };

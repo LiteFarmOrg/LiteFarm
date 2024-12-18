@@ -12,15 +12,15 @@ import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/convert-units/unit';
 import { getPlantingMethodPaths } from '../getAddManagementPlanPath';
 import { PurePlantingMethod } from './PurePlantingMethod';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PureManagementPlanPlantingMethod({
   useHookFormPersist,
   persistedFormData,
-  history,
   isFinalPlantingMethod,
   system,
 }) {
+  let navigate = useNavigate();
   let { variety_id } = useParams();
   const { t } = useTranslation();
 
@@ -70,7 +70,7 @@ export default function PureManagementPlanPlantingMethod({
   const onError = () => {};
 
   const onSubmit = () =>
-    history.push(
+    navigate(
       getPlantingMethodPaths(
         variety_id,
         persistedFormData,
@@ -79,7 +79,7 @@ export default function PureManagementPlanPlantingMethod({
         is_planting_method_known,
       ).submitPath,
     );
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 
@@ -141,7 +141,6 @@ export default function PureManagementPlanPlantingMethod({
 }
 
 PureManagementPlanPlantingMethod.prototype = {
-  history: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

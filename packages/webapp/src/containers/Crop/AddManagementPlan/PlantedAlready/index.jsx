@@ -6,19 +6,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useParams } from 'react-router-dom';
 
-function PlantedAlready({ history, location }) {
+function PlantedAlready({ location }) {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const cropVariety = useSelector(cropVarietySelector(variety_id));
 
   return (
     <HookFormPersistProvider>
-      <PurePlantedAlready
-        system={system}
-        cropVariety={cropVariety}
-        history={history}
-        location={location}
-      />
+      <PurePlantedAlready system={system} cropVariety={cropVariety} location={location} />
     </HookFormPersistProvider>
   );
 }

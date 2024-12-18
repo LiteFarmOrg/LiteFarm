@@ -1,13 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 /**
  *
  * @param dispatch
- * @param history
  * @param state
  * @return {(function(): void)|*}
  */
-export const onAddTask = (dispatch, history, state) => () => {
+export const onAddTask = (dispatch, state) => () => {
+  let navigate = useNavigate();
   //TODO: remove all persistedPath in add task flow
   dispatch(
     setPersistedPaths([
@@ -30,5 +31,5 @@ export const onAddTask = (dispatch, history, state) => () => {
       '/add_task/task_animal_selection',
     ]),
   );
-  history.push('/add_task/task_type_selection', state);
+  navigate('/add_task/task_type_selection', { state });
 };

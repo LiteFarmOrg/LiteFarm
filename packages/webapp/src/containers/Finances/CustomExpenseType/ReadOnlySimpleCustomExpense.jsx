@@ -21,9 +21,10 @@ import { retireCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { createEditCustomExpenseURL } from '../../../util/siteMapConstants';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ReadOnlyCustomExpense({ history }) {
+function ReadOnlyCustomExpense() {
+  let navigate = useNavigate();
   let { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -38,11 +39,11 @@ function ReadOnlyCustomExpense({ history }) {
     : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const handleEdit = () => {
-    history.push(createEditCustomExpenseURL(expense_type_id));
+    navigate(createEditCustomExpenseURL(expense_type_id));
   };
 
   const onRetire = () => {

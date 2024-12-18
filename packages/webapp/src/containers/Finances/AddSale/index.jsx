@@ -26,8 +26,10 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+import { useNavigate } from 'react-router-dom';
 
 function AddSale() {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
 
@@ -47,7 +49,7 @@ function AddSale() {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

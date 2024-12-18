@@ -13,13 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Router } from 'react-router-dom';
-import history from './history';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';
@@ -156,7 +154,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
               <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                <Router history={history}>
+                <Router>
                   <>
                     <App />
                   </>

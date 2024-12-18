@@ -12,8 +12,10 @@ import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import { useNavigate } from 'react-router-dom';
 
-function TaskDetails({ history, location }) {
+function TaskDetails({ location }) {
+  let navigate = useNavigate();
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 
@@ -39,11 +41,11 @@ function TaskDetails({ history, location }) {
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = () => {
-    history.push('/add_task/task_assignment', location?.state);
+    navigate('/add_task/task_assignment', { state: location?.state });
   };
 
   const onError = () => {};

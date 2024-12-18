@@ -2,7 +2,6 @@ import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess } from '../userFarmSlice';
-import history from '../../history';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { ENTER_PASSWORD_PAGE } from '../CustomSignUp/constants';
@@ -10,12 +9,14 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 import { inlineErrors } from '../CustomSignUp/constants';
+import { useNavigate } from 'react-router-dom';
 
 const loginUrl = () => `${url}/google`;
 
 export const loginWithGoogle = createAction(`loginWithGoogleSaga`);
 
 export function* loginWithGoogleSaga({ payload: google_id_token }) {
+  let navigate = useNavigate();
   try {
     const header = {
       headers: {
@@ -39,18 +40,13 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
     } else if (id_token === '') {
       // The user has an account with a password
-      history.push(
-        {
-          pathname: '/',
-        },
-        { component: ENTER_PASSWORD_PAGE, user },
-      );
+      navigate('/', { state: { component: ENTER_PASSWORD_PAGE, user } });
     } else {
       yield put(loginSuccess(user));
       if (isSignUp) {
-        history.push('/welcome');
+        navigate('/welcome');
       } else {
-        history.push('/farm_selection');
+        navigate('/farm_selection');
       }
     }
   } catch (e) {

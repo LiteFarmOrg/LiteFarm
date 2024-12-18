@@ -22,14 +22,15 @@ import {
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { axios, fetchAllSaga, getHeader } from '../saga';
-import history from '../../history';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const patchConsent = createAction('patchConsentSaga');
 
 export function* patchConsentSaga({ payload }) {
+  let navigate = useNavigate();
   const userFarm = yield select(userFarmSelector);
   const { user_id, farm_id, step_three, step_three_end, status, farm_name } = userFarm;
   const patchStepUrl = (farm_id, user_id) =>
@@ -58,14 +59,14 @@ export function* patchConsentSaga({ payload }) {
     if (isInvitationFlow) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
       yield call(fetchAllSaga);
-      history.push('/outro', { farm_id, farm_name });
+      navigate('/outro', { state: { farm_id, farm_name } });
     } else if (payload.goForwardTo === '/') {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
       yield call(fetchAllSaga);
-      history.push(payload.goForwardTo);
+      navigate(payload.goForwardTo);
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
-      history.push(payload.goForwardTo);
+      navigate(payload.goForwardTo);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.AGREEMENT')));

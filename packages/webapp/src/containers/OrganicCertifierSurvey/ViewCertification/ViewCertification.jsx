@@ -1,20 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
-import PureViewSupportedCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
-import PureViewUnsupportedCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
-import PureViewNotInterestedInCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
+import PureViewSupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
+import PureViewNotInterestedInCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
 
 import { certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { getAllSupportedCertifications, getAllSupportedCertifiers, getCertificationSurveys } from '../saga';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+  getCertificationSurveys,
+} from '../saga';
 import { useTranslation } from 'react-i18next';
 import { resetAndUnLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useCertificationName } from '../useCertificationName';
+import { useNavigate } from 'react-router-dom';
 
-export default function ViewCertification({ history }) {
+export default function ViewCertification() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -28,14 +31,14 @@ export default function ViewCertification({ history }) {
   const certifier = useSelector(certifierSelector);
   const isNotSupported = survey?.requested_certification || survey?.requested_certifier;
   const onExport = () => {
-    history.push('/certification/report_period');
+    navigate('/certification/report_period');
   };
   const onAddCertification = () => {
     dispatch(resetAndUnLockFormData());
-    history.push('/certification/interested_in_organic');
+    navigate('/certification/interested_in_organic');
   };
   const onChangePreference = onAddCertification;
-  const showSuccessSnackBar = history.location?.state?.success;
+  const showSuccessSnackBar = location?.state?.success;
 
   return (
     <>

@@ -1,7 +1,4 @@
-import React from 'react';
-import {
-  PureSetCertificationSummary,
-} from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
+import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCertificationName } from '../useCertificationName';
 import { useCertifiers } from '../useCertifiers';
@@ -10,15 +7,17 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
 import { putOrganicCertifierSurvey } from '../saga';
+import { useNavigate } from 'react-router-dom';
 
-export default function UpdateSetCertificationSummary({ history }) {
+export default function UpdateSetCertificationSummary() {
+  let navigate = useNavigate();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const requestCertifierPath = '/certification/certifier/request';
   const selectCertifierPath = '/certification/certifier/selection';
   const dispatch = useDispatch();
   const onSubmit = () => {
     const data = getOrganicSurveyReqBody(persistedFormData);
-    const callback = () => history.push('/certification', { success: true });
+    const callback = () => navigate('/certification', { state: { success: true } });
     dispatch(putOrganicCertifierSurvey({ survey: data, callback }));
   };
   const { certifierName, isRequestedCertifier } = useCertifierName();
@@ -26,8 +25,8 @@ export default function UpdateSetCertificationSummary({ history }) {
   const certifiers = useCertifiers();
   const onGoBack = () => {
     isRequestedCertifier || certifiers.length < 1
-      ? history.push(requestCertifierPath)
-      : history.push(selectCertifierPath);
+      ? navigate(requestCertifierPath)
+      : navigate(selectCertifierPath);
   };
 
   useHookFormPersist(() => ({}), [requestCertifierPath, selectCertifierPath]);

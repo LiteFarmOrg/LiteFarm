@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   UseFormHandleSubmit,
   FieldValues,
@@ -21,17 +21,16 @@ import {
   UseFormReset,
   UseFormGetValues,
 } from 'react-hook-form';
-import { History } from 'history';
 import StepperProgressBar, { StepperProgressBarProps } from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
+import { useBlocker } from 'react-router-dom';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
-  history: History;
   steps: { formContent: ReactNode; title: string }[];
   activeStepIndex: number;
   cancelModalTitle: string;
@@ -63,7 +62,6 @@ interface WithStepperProgressBarProps {
 
 export const WithStepperProgressBar = ({
   children,
-  history,
   steps,
   activeStepIndex,
   cancelModalTitle,
@@ -85,10 +83,6 @@ export const WithStepperProgressBar = ({
   showCancelFlow,
   setShowCancelFlow,
 }: WithStepperProgressBarProps) => {
-  const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
-    unblock: undefined,
-    retry: undefined,
-  });
   const [isSaving, setIsSaving] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
@@ -96,16 +90,8 @@ export const WithStepperProgressBar = ({
 
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
-  useEffect(() => {
-    if (isSummaryPage || !isDirty) {
-      return;
-    }
-    const unblock = history.block((tx) => {
-      setTransition({ unblock, retry: tx.retry });
-    });
-
-    return () => unblock();
-  }, [isSummaryPage, isDirty, history]);
+  // Updated from ^ to use react router: https://reactrouter.com/6.28.0/hooks/use-blocker
+  let blocker = useBlocker(() => !(isSummaryPage || !isDirty));
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
@@ -134,8 +120,8 @@ export const WithStepperProgressBar = ({
 
   const handleCancel = () => {
     try {
-      transition.unblock?.();
-      transition.retry?.();
+      blocker.reset?.();
+      blocker.proceed?.();
     } catch (e) {
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
@@ -145,7 +131,7 @@ export const WithStepperProgressBar = ({
   };
 
   const handleDismissModal = () => {
-    setTransition({ unblock: undefined, retry: undefined });
+    blocker.reset?.();
     setShowCancelFlow?.(false);
   };
 
@@ -170,7 +156,7 @@ export const WithStepperProgressBar = ({
           />
         </FloatingContainer>
       )}
-      {(transition.unblock || showCancelFlow) && (
+      {(blocker.reset || showCancelFlow) && (
         <CancelFlowModal
           flow={cancelModalTitle}
           dismissModal={handleDismissModal}

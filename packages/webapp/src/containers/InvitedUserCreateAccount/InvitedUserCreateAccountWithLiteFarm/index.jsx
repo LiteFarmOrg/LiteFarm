@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCreateAccount';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { acceptInvitationWithLiteFarm } from '../saga';
+import { useLocation } from 'react-router-dom';
 
-export default function InvitedUserCreateAccountWithLiteFarm({ history }) {
+export default function InvitedUserCreateAccountWithLiteFarm() {
+  let location = useLocation();
   const { t } = useTranslation();
-  const { invite_token, email, name, gender, birth_year } = history.location.state;
+  const { invite_token, email, name, gender, birth_year } = location.state;
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     dispatch(acceptInvitationWithLiteFarm({ invite_token, user: { ...data, email } }));
@@ -26,7 +25,3 @@ export default function InvitedUserCreateAccountWithLiteFarm({ history }) {
     />
   );
 }
-
-InvitedUserCreateAccountWithLiteFarm.prototype = {
-  history: PropTypes.object,
-};

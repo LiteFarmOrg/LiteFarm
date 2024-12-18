@@ -8,14 +8,14 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import { getTransplantPaths } from '../getAddManagementPlanPath';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PureTransplant({
   can_be_cover_crop,
   useHookFormPersist,
   persistedFormData,
-  history,
 }) {
+  let navigate = useNavigate();
   let { variety_id } = useParams();
   const { t } = useTranslation();
 
@@ -39,9 +39,9 @@ export default function PureTransplant({
 
   const { submitPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
-    history?.push(submitPath);
+    navigate(submitPath);
   };
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 

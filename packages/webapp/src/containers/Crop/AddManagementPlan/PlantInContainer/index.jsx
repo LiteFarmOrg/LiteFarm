@@ -8,7 +8,7 @@ import { getContainerMethodPaths } from '../../../../components/Crop/getAddManag
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useMatch, useParams } from 'react-router-dom';
 
-export default function PlantInContainer({ history, location }) {
+export default function PlantInContainer({ location }) {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(variety_id));
@@ -26,7 +26,6 @@ export default function PlantInContainer({ history, location }) {
   return (
     <HookFormPersistProvider>
       <PurePlantInContainer
-        history={history}
         system={system}
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}

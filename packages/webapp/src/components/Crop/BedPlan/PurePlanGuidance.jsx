@@ -8,6 +8,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlanGuidanceForm } from './PurePlanGuidanceForm';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 function PurePlanGuidance({
   system,
@@ -16,12 +17,10 @@ function PurePlanGuidance({
   isBed,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  history,
   submitPath,
   location,
-  onGoBack = () => history.back(),
-  onSubmit = () => history.push(submitPath, location?.state),
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const {
     register,
@@ -36,6 +35,8 @@ function PurePlanGuidance({
     shouldUnregister: false,
     mode: 'onChange',
   });
+  const onGoBack = () => navigate(-1);
+  const onSubmit = () => navigate(submitPath, { state: location?.state });
   const { historyCancel } = useHookFormPersist(getValues);
 
   return (

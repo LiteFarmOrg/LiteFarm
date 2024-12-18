@@ -19,19 +19,21 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
+import { useNavigate } from 'react-router-dom';
 
-function TaskAnimalInventory({ history, location }) {
+function TaskAnimalInventory({ location }) {
+  let navigate = useNavigate();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onContinue = () => {
     isCustomTask
-      ? history.push('/add_task/task_details', location?.state)
-      : history.push('/add_task/task_locations', location?.state);
+      ? navigate('/add_task/task_details', { state: location?.state })
+      : navigate('/add_task/task_locations', { state: location?.state });
   };
 
   const theme = useTheme();
@@ -42,7 +44,6 @@ function TaskAnimalInventory({ history, location }) {
       <PureTaskAnimalInventory
         onGoBack={onGoBack}
         onContinue={onContinue}
-        history={history}
         isDesktop={isDesktop}
         isRequired={!isCustomTask}
         progress={progress}

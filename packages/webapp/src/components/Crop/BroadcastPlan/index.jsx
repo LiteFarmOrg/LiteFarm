@@ -9,19 +9,20 @@ import { cloneObject } from '../../../util';
 import { getBroadcastMethodPaths } from '../getAddManagementPlanPath';
 import { PureBroadcastForm } from './PureBroadcastForm';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 function PureBroadcastPlan({
   persistedFormData,
   useHookFormPersist,
   system,
   variety_id,
-  history,
   locationSize,
   yieldPerArea,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   location,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const {
     register,
@@ -39,8 +40,8 @@ function PureBroadcastPlan({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const { submitPath } = useMemo(() => getBroadcastMethodPaths(variety_id, isFinalPage), []);
-  const onSubmit = () => history.push(submitPath, location?.state);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath, { state: location?.state });
+  const onGoBack = () => navigate(-1);
 
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =

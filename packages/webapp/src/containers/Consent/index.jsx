@@ -23,6 +23,7 @@ import MalayalamOwnerConsent from './locales/ml/Owner.Consent.md';
 import MalayalamWorkerConsent from './locales/ml/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
+import { useNavigate } from 'react-router-dom';
 
 const languageConsent = {
   en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },
@@ -40,8 +41,8 @@ const getLanguageConsent = (language) => languageConsent[language] || languageCo
 function ConsentForm({
   goBackTo = '/role_selection',
   goForwardTo = '/certification/interested_in_organic',
-  history,
 }) {
+  let navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);
@@ -65,7 +66,7 @@ function ConsentForm({
     },
   });
   const goBack = () => {
-    history.push(goBackTo);
+    navigate(goBackTo);
   };
 
   const updateConsent = (data) => {
@@ -92,5 +93,4 @@ export default ConsentForm;
 ConsentForm.prototype = {
   goBackTo: PropTypes.string,
   goForwardTo: PropTypes.string,
-  history: PropTypes.object,
 };

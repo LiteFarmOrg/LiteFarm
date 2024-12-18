@@ -8,9 +8,11 @@ import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import produce from 'immer';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-export default function ManagementDetails({ history }) {
+export default function ManagementDetails() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
   let { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
@@ -18,15 +20,15 @@ export default function ManagementDetails({ history }) {
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace(`/crop/${variety_id}/management`);
+      navigate(`/crop/${variety_id}/management`, { replace: true });
     }
-  }, [plan, history]);
+  }, [plan, navigate]);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management_plan/${management_plan_id}/details`);
+    navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/details`);
   };
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const system = useSelector(measurementSelector);
   const onSubmit = (data) => {

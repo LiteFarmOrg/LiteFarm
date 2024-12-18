@@ -22,9 +22,10 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ReadOnlyCustomRevenue({ history }) {
+function ReadOnlyCustomRevenue() {
+  let navigate = useNavigate();
   let { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
@@ -39,11 +40,11 @@ function ReadOnlyCustomRevenue({ history }) {
     : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const handleEdit = () => {
-    history.push(createEditCustomRevenueUrl(revenue_type_id));
+    navigate(createEditCustomRevenueUrl(revenue_type_id));
   };
 
   const onRetire = () => {

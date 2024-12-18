@@ -4,7 +4,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { updateUser } from '../../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 
-export default function Account({ history }) {
+export default function Account() {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const onSubmit = (data) => {
@@ -16,5 +16,5 @@ export default function Account({ history }) {
 
     dispatch(updateUser(getProcessedFormData(parsedData)));
   };
-  return <PureAccount history={history} userFarm={userFarm} onSubmit={onSubmit} />;
+  return <PureAccount userFarm={userFarm} onSubmit={onSubmit} />;
 }

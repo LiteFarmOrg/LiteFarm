@@ -1,4 +1,3 @@
-import React from 'react';
 import PureFence from '../../../../components/LocationDetailLayout/LineDetails/Fence';
 import { postFenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostFenceDetailForm({ history }) {
+function PostFenceDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -17,7 +16,6 @@ function PostFenceDetailForm({ history }) {
 
   return (
     <PureFence
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

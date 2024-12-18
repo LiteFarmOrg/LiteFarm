@@ -1,6 +1,4 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from './CompactPreview';
@@ -61,9 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
+export default function PurePreviewPopup({ location, sensorReadings, styleOverride }) {
   const classes = useStyles();
-  const { t } = useTranslation();
   const { reading_types = [] } = useSelector(sensorReadingTypesByLocationSelector(location.id));
 
   const displayPopup =
@@ -95,7 +92,6 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
                     location={location}
                     readings={sensorReadings}
                     readingType={reading_type}
-                    history={history}
                   />
                 );
               }
@@ -111,5 +107,4 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
 
 PurePreviewPopup.prototype = {
   location: PropTypes.object,
-  history: PropTypes.func,
 };

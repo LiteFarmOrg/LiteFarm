@@ -1,4 +1,3 @@
-import React from 'react';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -13,9 +12,10 @@ import { getDateInputFormat } from '../../../util/moment';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function PureManagementDetail({ onBack, variety, plan, isAdmin, history, system }) {
+export default function PureManagementDetail({ onBack, variety, plan, isAdmin, system }) {
+  let navigate = useNavigate();
   let { variety_id, management_plan_id } = useParams();
   const { t } = useTranslation();
 
@@ -79,7 +79,7 @@ export default function PureManagementDetail({ onBack, variety, plan, isAdmin, h
             <Button
               fullLength
               onClick={() =>
-                history.push(`/crop/${variety_id}/management_plan/${management_plan_id}/edit`)
+                navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/edit`)
               }
             >
               {t('common:EDIT')}
@@ -98,7 +98,6 @@ export default function PureManagementDetail({ onBack, variety, plan, isAdmin, h
 
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
@@ -213,6 +212,5 @@ PureManagementDetail.prototype = {
   variety: PropTypes.object,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
-  history: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

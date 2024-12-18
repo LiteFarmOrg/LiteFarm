@@ -2,17 +2,19 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import PureAddCustomTask from '../../../components/Task/PureAddCustomTask';
 import { addCustomTaskType } from '../saga';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function AddCustomTask({ history }) {
+function AddCustomTask() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSave = (payload) => {
     dispatch(addCustomTaskType(payload));
-    history.back();
+    navigate(-1);
   };
 
   return (

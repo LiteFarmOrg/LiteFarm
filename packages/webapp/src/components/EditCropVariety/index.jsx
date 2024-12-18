@@ -295,7 +295,6 @@ export default function PureEditCropVariety({
 }
 
 PureEditCropVariety.prototype = {
-  history: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

@@ -19,9 +19,10 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function SensorDetail({ history }) {
+export default function SensorDetail() {
+  let navigate = useNavigate();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const sensorInfo = useSelector(sensorsSelector(location_id));
@@ -33,7 +34,7 @@ export default function SensorDetail({ history }) {
 
   useEffect(() => {
     if (sensorInfo === undefined || sensorInfo?.deleted) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     } else {
       dispatch(getSensorReadingTypes({ location_id }));
       const partner_id = sensorInfo?.partner_id;
@@ -54,7 +55,6 @@ export default function SensorDetail({ history }) {
     <>
       {sensorInfo && !sensorInfo.deleted && (
         <PureSensorDetail
-          history={history}
           isAdmin={isAdmin}
           system={system}
           sensorInfo={sensorInfo}

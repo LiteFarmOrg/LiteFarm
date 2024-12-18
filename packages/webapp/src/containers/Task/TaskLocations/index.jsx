@@ -24,8 +24,9 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
+import { useNavigate } from 'react-router-dom';
 
-export default function TaskLocationsSwitch({ history, location }) {
+export default function TaskLocationsSwitch({ location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
@@ -34,33 +35,34 @@ export default function TaskLocationsSwitch({ history, location }) {
   const isCustomLocation = useIsTaskType('CUSTOM_TASK');
 
   if (isHarvestLocation) {
-    return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
+    return <TaskActiveAndPlannedCropLocations location={location} />;
   }
 
   if (isTransplantLocation) {
-    return <TaskTransplantLocations history={history} location={location} />;
+    return <TaskTransplantLocations location={location} />;
   }
 
   if (isIrrigationLocation) {
-    return <TaskIrrigationLocations history={history} location={location} />;
+    return <TaskIrrigationLocations location={location} />;
   }
 
   if (isSoilAmendmentLocation) {
-    return <TaskSoilAmendmentLocations history={history} location={location} />;
+    return <TaskSoilAmendmentLocations location={location} />;
   }
 
   if (isAnimalLocation) {
-    return <TaskAnimalLocations history={history} location={location} />;
+    return <TaskAnimalLocations location={location} />;
   }
 
   if (isCustomLocation) {
-    return <TaskCustomLocations history={history} location={location} />;
+    return <TaskCustomLocations location={location} />;
   }
 
-  return <TaskAllLocations history={history} location={location} />;
+  return <TaskAllLocations location={location} />;
 }
 
-function TaskActiveAndPlannedCropLocations({ history, location }) {
+function TaskActiveAndPlannedCropLocations({ location }) {
+  let navigate = useNavigate();
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
@@ -73,13 +75,12 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', { state: location?.state });
   };
 
   return (
     <TaskLocations
       locations={activeAndPlannedLocations}
-      history={history}
       isMulti={true}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
@@ -88,17 +89,17 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
   );
 }
 
-function TaskTransplantLocations({ history, location }) {
+function TaskTransplantLocations({ location }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/planting_method', location.state);
+    navigate('/add_task/planting_method', { state: location.state });
   };
 
   return (
     <TaskLocations
       locations={cropLocations}
-      history={history}
       isMulti={false}
       title={t('TASK.TRANSPLANT_LOCATIONS')}
       onContinue={onContinue}
@@ -107,18 +108,18 @@ function TaskTransplantLocations({ history, location }) {
   );
 }
 
-function TaskIrrigationLocations({ history, location }) {
+function TaskIrrigationLocations({ location }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const onContinue = () => {
-    history.push('/add_task/task_crops', location.state);
+    navigate('/add_task/task_crops', { state: location.state });
   };
 
   return (
     <TaskLocations
       locations={cropLocations}
-      history={history}
       isMulti={false}
       title={t('TASK.IRRIGATION_LOCATION')}
       onContinue={onContinue}
@@ -129,17 +130,17 @@ function TaskIrrigationLocations({ history, location }) {
 }
 
 //This goes to all crop locations, multiSelect, not wildCrops with pins
-function TaskSoilAmendmentLocations({ history, location }) {
+function TaskSoilAmendmentLocations({ location }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/task_crops', location.state);
+    navigate('/add_task/task_crops', { state: location.state });
   };
 
   return (
     <TaskLocations
       locations={cropLocations}
-      history={history}
       isMulti={true}
       title={t('TASK.SOIL_AMENDMENT_LOCATION')}
       onContinue={onContinue}
@@ -148,17 +149,17 @@ function TaskSoilAmendmentLocations({ history, location }) {
   );
 }
 
-function TaskAnimalLocations({ history, location }) {
+function TaskAnimalLocations({ location }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const animalLocations = useSelector(animalLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/task_details', location.state);
+    navigate('/add_task/task_details', { state: location.state });
   };
 
   return (
     <TaskLocations
       locations={animalLocations}
-      history={history}
       isMulti={false}
       title={t('TASK.ANIMAL_MOVING_TO_LOCATION')}
       onContinue={onContinue}
@@ -168,7 +169,8 @@ function TaskAnimalLocations({ history, location }) {
   );
 }
 
-function TaskCustomLocations({ history, location }) {
+function TaskCustomLocations({ location }) {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
@@ -186,11 +188,11 @@ function TaskCustomLocations({ history, location }) {
     if (!hasManagementPlans) {
       dispatch(setManagementPlansData([]));
       if (animalsExistOnFarm) {
-        return history.push('/add_task/task_animal_selection', location?.state);
+        return navigate('/add_task/task_animal_selection', { state: location?.state });
       }
-      return history.push('/add_task/task_details', location?.state);
+      return navigate('/add_task/task_details', { state: location?.state });
     }
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', { state: location?.state });
   };
 
   const progress = getProgress('CUSTOM_TASK', 'task_locations');
@@ -198,7 +200,6 @@ function TaskCustomLocations({ history, location }) {
   return (
     <TaskLocations
       locations={locations}
-      history={history}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
@@ -208,7 +209,8 @@ function TaskCustomLocations({ history, location }) {
   );
 }
 
-function TaskAllLocations({ history, location }) {
+function TaskAllLocations({ location }) {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -230,15 +232,14 @@ function TaskAllLocations({ history, location }) {
       !hasManagementPlans
     ) {
       dispatch(setManagementPlansData([]));
-      return history.push('/add_task/task_details', location?.state);
+      return navigate('/add_task/task_details', { state: location?.state });
     }
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', { state: location?.state });
   };
 
   return (
     <TaskLocations
       locations={locations}
-      history={history}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
@@ -247,7 +248,6 @@ function TaskAllLocations({ history, location }) {
 }
 
 function TaskLocations({
-  history,
   locations,
   isMulti,
   title,
@@ -258,13 +258,14 @@ function TaskLocations({
   optionalLocation,
   progress,
 }) {
+  let navigate = useNavigate();
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
   const managementPlan = location?.state?.management_plan_id
     ? useSelector(managementPlanSelector(location.state.management_plan_id))
     : null;
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

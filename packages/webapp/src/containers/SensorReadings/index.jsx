@@ -12,9 +12,10 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function SensorReadings({ history }) {
+function SensorReadings() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { location_id } = useParams();
@@ -35,7 +36,7 @@ function SensorReadings({ history }) {
   // Handles unknown records and keeping readingTypes up to date
   useEffect(() => {
     if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     } else {
       setReadingTypes(reading_types.reading_types);
     }
@@ -59,12 +60,11 @@ function SensorReadings({ history }) {
         <div className={styles.container}>
           <PageTitle
             title={sensorInfo?.name || ''}
-            onGoBack={() => history.push('/map')}
+            onGoBack={() => navigate('/map')}
             style={{ marginBottom: '24px' }}
           />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
-            history={history}
             tabs={[
               {
                 label: t('SENSOR.VIEW_HEADER.READINGS'),

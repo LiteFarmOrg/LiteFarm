@@ -1,19 +1,11 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LineDetails from '../LineDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
 import { area_total_area, line_width } from '../../../../util/convert-units/unit';
-import LocationButtons from '../../LocationButtons';
-
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
-import RouterTab from '../../../RouterTab';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
-import { FieldDetailsChildren } from '../../AreaDetails/Field';
 
 export default function PureBufferZoneWrapper(props) {
   return (
@@ -24,7 +16,6 @@ export default function PureBufferZoneWrapper(props) {
 }
 
 export function PureBufferZone({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -49,7 +40,6 @@ export function PureBufferZone({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'buffer_zone'}
       locationCategory={'line'}

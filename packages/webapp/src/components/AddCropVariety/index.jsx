@@ -277,7 +277,6 @@ export default function PureAddCropVariety({
 }
 
 PureAddCropVariety.prototype = {
-  history: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

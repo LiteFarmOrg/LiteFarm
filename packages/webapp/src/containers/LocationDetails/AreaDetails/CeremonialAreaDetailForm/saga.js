@@ -11,11 +11,13 @@ import {
 } from '../../../ceremonialSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import history from '../../../../history';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const postCeremonialLocation = createAction(`postCeremonialLocationSaga`);
 
 export function* postCeremonialLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -36,18 +38,15 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.CA')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -55,6 +54,8 @@ export function* postCeremonialLocationSaga({ payload: data }) {
 export const editCeremonialLocation = createAction(`editCeremonialLocationSaga`);
 
 export function* editCeremonialLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -75,18 +76,15 @@ export function* editCeremonialLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.CA')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -94,6 +92,8 @@ export function* editCeremonialLocationSaga({ payload: data }) {
 export const deleteCeremonialLocation = createAction(`deleteCeremonialLocationSaga`);
 
 export function* deleteCeremonialLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -106,18 +106,15 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: {
           retire: true,
         },
       },
-    );
+    });
     console.log(e);
   }
 }

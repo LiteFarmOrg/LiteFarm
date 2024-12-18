@@ -28,9 +28,10 @@ import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions 
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-function RevenueDetail({ history }) {
+function RevenueDetail() {
+  let navigate = useNavigate();
   let location = useLocation();
   const isEditing = location.pathname.endsWith('/edit');
   const { sale_id } = useParams();
@@ -45,9 +46,9 @@ function RevenueDetail({ history }) {
 
   useEffect(() => {
     if (!sale) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [sale, history]);
+  }, [sale, navigate]);
 
   // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.retired ? revenueType : []);
@@ -60,7 +61,7 @@ function RevenueDetail({ history }) {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
-    history.push(createEditRevenueDetailsUrl(sale_id));
+    navigate(createEditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {
@@ -68,7 +69,7 @@ function RevenueDetail({ history }) {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onTypeChange = (typeId, setValue) => {

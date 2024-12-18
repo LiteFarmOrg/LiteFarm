@@ -26,7 +26,7 @@ import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
 import { useSectionHeader } from '../../../../components/Navigation/useSectionHeaders';
-import { History } from 'history';
+import { useLocation } from 'react-router-dom';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -53,12 +53,12 @@ const formatAnimalTypes = (
 };
 
 interface KPIProps {
-  history: History;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
 }
 
-function KPI({ history, selectedTypeIds, onTypeClick }: KPIProps) {
+function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
+  let location = useLocation();
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
@@ -77,7 +77,7 @@ function KPI({ history, selectedTypeIds, onTypeClick }: KPIProps) {
     return types;
   }, [data, isLoading, onTypeClick]);
 
-  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+  const animalInventoryTitle = useSectionHeader(location.pathname) || '';
 
   return (
     <PureTileDashboard

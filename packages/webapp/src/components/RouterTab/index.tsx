@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PropTypes from 'prop-types';
-import { History } from 'history';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TabComponent, { BaseTab, TabProps, Variant } from './Tab';
 
 type Tab = BaseTab & {
@@ -21,11 +21,14 @@ type Tab = BaseTab & {
   state?: string;
 };
 
-type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & { history: History };
+type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'>;
 
-export default function RouterTab({ history, ...props }: RouterTabProps) {
-  const isSelected = (tab: Tab) => history.location.pathname?.toLowerCase().includes(tab.path);
-  const onClick = (tab: Tab) => !isSelected(tab) && history.replace(tab.path, tab.state);
+export default function RouterTab({ ...props }: RouterTabProps) {
+  let navigate = useNavigate();
+  let location = useLocation();
+  const isSelected = (tab: Tab) => location.pathname?.toLowerCase().includes(tab.path);
+  const onClick = (tab: Tab) =>
+    !isSelected(tab) && navigate(tab.path, { replace: true, state: tab.state });
 
   return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;
 }
@@ -37,7 +40,6 @@ RouterTab.prototype = {
     state: PropTypes.string,
     format: PropTypes.func,
   }),
-  history: PropTypes.object,
   classes: PropTypes.object,
   variant: PropTypes.oneOf(Object.values(Variant)),
 };

@@ -8,9 +8,10 @@ import { fieldSelector } from '../../../fieldSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-function EditFieldDetailForm({ history }) {
+function EditFieldDetailForm() {
+  let location = useLocation();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -22,10 +23,10 @@ function EditFieldDetailForm({ history }) {
   const field = useSelector(fieldSelector(location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error) {
+    if (location?.state?.error) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
@@ -56,7 +57,6 @@ function EditFieldDetailForm({ history }) {
   return (
     <>
       <PureField
-        history={history}
         submitForm={submitForm}
         system={system}
         persistedFormData={field}

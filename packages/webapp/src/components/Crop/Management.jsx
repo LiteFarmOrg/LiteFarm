@@ -1,7 +1,7 @@
 import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -12,10 +12,9 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PureCropManagement({
-  history,
   onBack,
   variety,
   onAddManagementPlan,
@@ -23,6 +22,7 @@ export default function PureCropManagement({
   isAdmin,
   location,
 }) {
+  let navigate = useNavigate();
   let { variety_id } = useParams();
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
@@ -69,7 +69,6 @@ export default function PureCropManagement({
       <CropHeader variety={variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
@@ -121,9 +120,9 @@ export default function PureCropManagement({
             return (
               <ManagementPlanCard
                 onClick={() =>
-                  history.push(
+                  navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    { state: location.state },
                   )
                 }
                 {...managementPlan}
@@ -137,7 +136,6 @@ export default function PureCropManagement({
       )}
       {!!plansForModal.length && (
         <CropPlansModal
-          history={history}
           variety={variety}
           managementPlanCardContents={plansForModal}
           dismissModal={dismissCropPlansModal}
@@ -163,7 +161,6 @@ PureCropManagement.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ),
-  history: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,
   onAddManagementPlan: PropTypes.func,

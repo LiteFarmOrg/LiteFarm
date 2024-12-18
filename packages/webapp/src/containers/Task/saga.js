@@ -4,7 +4,6 @@ import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
-import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   addManyTasksFromGetReq,
@@ -91,6 +90,7 @@ import {
   getMovementTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -833,6 +833,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
+  let navigate = useNavigate();
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_id, patchData, returnPath } = data;
@@ -842,7 +843,7 @@ export function* abandonTaskSaga({ payload: data }) {
     if (result) {
       yield put(putTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
-      history.push(returnPath ?? '/tasks');
+      navigate(returnPath ?? '/tasks');
     }
   } catch (e) {
     console.log(e);
@@ -894,6 +895,7 @@ export function* getTaskTypesSaga() {
 export const deleteTaskType = createAction('deleteTaskTypeSaga');
 
 export function* deleteTaskTypeSaga({ payload: id }) {
+  let navigate = useNavigate();
   const { taskTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -902,7 +904,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
     if (result) {
       yield put(deleteTaskTypeSuccess(id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
-      history.back();
+      navigate(-1);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));
@@ -957,6 +959,7 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
 export const deleteTask = createAction('deleteTasksSaga');
 
 export function* deleteTaskSaga({ payload: data }) {
+  let navigate = useNavigate();
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_id } = data;
@@ -965,7 +968,7 @@ export function* deleteTaskSaga({ payload: data }) {
     const result = yield call(axios.delete, `${taskUrl}/${task_id}`, header);
     if (result) {
       const task_type = yield select(taskTypeSelector(result.data.task_type_id));
-      history.back();
+      navigate(-1);
       if (task_type.task_translation_key === 'TRANSPLANT_TASK') {
         yield put(deleteTransplantTaskSuccess(result.data.task_id));
       }

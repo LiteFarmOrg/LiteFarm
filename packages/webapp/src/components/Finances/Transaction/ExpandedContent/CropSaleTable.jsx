@@ -12,13 +12,13 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import Table from '../../../Table';
 import { TableKind } from '../../../Table/types';
-import history from '../../../../history';
 import styles from './styles.module.scss';
 import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
 const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) => [
   {
@@ -71,6 +71,7 @@ const FooterCell = ({ t, quantityTotal, totalAmount }) => (
 );
 
 export default function CropSaleTable({ data, currencySymbol, mobileView }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const { items, amount, relatedId } = data;
   const quantityUnit = items?.[0]?.quantityUnit;
@@ -94,7 +95,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
           ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityWithUnit} />
           : null
       }
-      onClickMore={() => history.push(createRevenueDetailsUrl(relatedId))}
+      onClickMore={() => navigate(createRevenueDetailsUrl(relatedId))}
     />
   );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { farmSiteBoundaryEnum } from '../../../../containers/constants';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
@@ -13,7 +12,6 @@ export default function PureFarmSiteBoundaryWrapper(props) {
 }
 
 export function PureFarmSiteBoundary({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -37,7 +35,6 @@ export function PureFarmSiteBoundary({
   };
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'farm_site_boundary'}
       locationCategory={'area'}

@@ -1,23 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import PureJoinFarmSuccessScreen from '../../components/JoinFarmSuccessScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseFarmFlowSelector, endInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { deselectFarmSuccess, loginSelector } from '../userFarmSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function JoinFarmSuccessScreen({ history }) {
+export default function JoinFarmSuccessScreen() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const { showSpotLight, skipChooseFarm } = useSelector(chooseFarmFlowSelector);
-  const { farm_name } = history.location.state || {};
+  const { farm_name } = location.state || {};
   const onClick = () => {
     if (skipChooseFarm) {
       dispatch(endInvitationFlow(farm_id));
-      history.push('/');
+      navigate('/');
     } else {
       dispatch(endInvitationFlow(farm_id));
       dispatch(deselectFarmSuccess());
-      history.push('/farm_selection', { farm_id });
+      navigate('/farm_selection', { state: { farm_id } });
     }
   };
   return (
@@ -28,7 +29,3 @@ export default function JoinFarmSuccessScreen({ history }) {
     />
   );
 }
-
-JoinFarmSuccessScreen.prototype = {
-  history: PropTypes.object,
-};

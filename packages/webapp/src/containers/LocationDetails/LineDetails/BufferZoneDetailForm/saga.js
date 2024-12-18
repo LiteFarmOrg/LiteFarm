@@ -9,13 +9,15 @@ import {
   getLocationObjectFromBufferZone,
   postBufferZoneSuccess,
 } from '../../../bufferZoneSlice';
-import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const postBufferZoneLocation = createAction(`postBufferZoneLocationSaga`);
 
 export function* postBufferZoneLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -36,18 +38,15 @@ export function* postBufferZoneLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push('/map');
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BZ')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -55,6 +54,8 @@ export function* postBufferZoneLocationSaga({ payload: data }) {
 export const editBufferZoneLocation = createAction(`editBufferZoneLocationSaga`);
 
 export function* editBufferZoneLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -75,18 +76,15 @@ export function* editBufferZoneLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BZ')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -94,6 +92,8 @@ export function* editBufferZoneLocationSaga({ payload: data }) {
 export const deleteBufferZoneLocation = createAction(`deleteBufferZoneLocationSaga`);
 
 export function* deleteBufferZoneLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -106,18 +106,15 @@ export function* deleteBufferZoneLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: {
           retire: true,
         },
       },
-    );
+    });
     console.log(e);
   }
 }

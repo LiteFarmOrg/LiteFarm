@@ -13,11 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, Component, useMemo } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import history from '../../history';
 // images
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
@@ -38,8 +37,10 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const Insights = () => {
+  let navigate = useNavigate();
   const farm = useSelector(userFarmSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
@@ -84,7 +85,7 @@ const Insights = () => {
   }, []);
 
   const handleClick = (route) => {
-    history.push(`/Insights/${route}`);
+    navigate(`/Insights/${route}`);
   };
 
   const renderItem = (item, index, currentData) => (

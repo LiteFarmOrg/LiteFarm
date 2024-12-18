@@ -12,11 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
-import history from '../../../../history';
 import {
   createExpenseDetailsUrl,
   createRevenueDetailsUrl,
@@ -45,6 +45,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
 };
 
 export default function ExpandedContent({ data, currencySymbol, mobileView }) {
+  let navigate = useNavigate();
   const { transactionType } = data;
 
   const { t } = useTranslation();
@@ -58,7 +59,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
 
   return (
     <div className={styles.expandedContent}>
-      <TextButton className={styles.toDetail} onClick={() => history.push(getDetailPageLink(data))}>
+      <TextButton className={styles.toDetail} onClick={() => navigate(getDetailPageLink(data))}>
         {toDetailText}
         <BsChevronRight />
       </TextButton>

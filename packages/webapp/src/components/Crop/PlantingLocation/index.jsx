@@ -14,19 +14,20 @@ import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
 import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
+import { useNavigate } from 'react-router-dom';
 
 export default function PurePlantingLocation({
   persistedFormData,
   useHookFormPersist,
   isFinalLocationPage,
   variety_id,
-  history,
   cropLocations,
   default_initial_location_id,
   farmCenterCoordinate,
   isCropOrganic,
   isPursuingCertification,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
     defaultValues: cloneObject(persistedFormData),
@@ -107,7 +108,7 @@ export default function PurePlantingLocation({
   };
 
   const proceedToNextStep = () =>
-    history.push(
+    navigate(
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
 
@@ -146,7 +147,7 @@ export default function PurePlantingLocation({
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
     ``;
   };
 
@@ -242,7 +243,6 @@ PurePlantingLocation.prototype = {
   useHookFormPersist: PropTypes.func,
   isFinalLocationPage: PropTypes.bool,
   variety_id: PropTypes.string,
-  history: PropTypes.object,
   locations: PropTypes.object,
   farmCenterCoordinate: PropTypes.object,
   isCropOrganic: PropTypes.bool,

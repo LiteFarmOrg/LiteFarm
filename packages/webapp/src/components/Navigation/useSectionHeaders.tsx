@@ -15,10 +15,10 @@
 
 import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL } from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
-import type { Pathname } from 'history';
 import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
+import { Pathname } from 'react-router-dom';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {

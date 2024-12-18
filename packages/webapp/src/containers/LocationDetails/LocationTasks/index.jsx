@@ -7,9 +7,10 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function LocationTasks({ history, location: { pathname } }) {
+export default function LocationTasks({ location: { pathname } }) {
+  let navigate = useNavigate();
   const isAdmin = useSelector(isAdminSelector);
 
   const { location_id } = useParams();
@@ -17,7 +18,7 @@ export default function LocationTasks({ history, location: { pathname } }) {
 
   useEffect(() => {
     if (location === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [location]);
 
@@ -57,7 +58,6 @@ export default function LocationTasks({ history, location: { pathname } }) {
     <>
       {location && !location?.deleted && (
         <PureLocationTasks
-          history={history}
           location={location}
           isAdmin={isAdmin}
           tasks={tasks}

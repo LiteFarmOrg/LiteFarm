@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
@@ -8,8 +7,10 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { exportCertificationData } from '../saga';
 import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
+import { useNavigate } from 'react-router-dom';
 
-function CertificationSurveyPage({ history }) {
+function CertificationSurveyPage() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onExport = (exportData) => {
@@ -30,8 +31,8 @@ function CertificationSurveyPage({ history }) {
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
         onExport={onExport}
-        handleGoBack={() => history.back()}
-        handleCancel={() => history.push('/certification')}
+        handleGoBack={() => navigate(-1)}
+        handleCancel={() => navigate('/certification')}
         certifierSurvey={certifierSurvey}
         interested={interested}
         certifier={certifier}

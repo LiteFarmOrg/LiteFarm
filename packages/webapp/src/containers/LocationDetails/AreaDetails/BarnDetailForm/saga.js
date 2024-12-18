@@ -11,11 +11,13 @@ import {
 } from '../../../barnSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import history from '../../../../history';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const postBarnLocation = createAction(`postBarnLocationSaga`);
 
 export function* postBarnLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -36,18 +38,15 @@ export function* postBarnLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BARN')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -55,6 +54,8 @@ export function* postBarnLocationSaga({ payload: data }) {
 export const editBarnLocation = createAction(`editBarnLocationSaga`);
 
 export function* editBarnLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -75,18 +76,15 @@ export function* editBarnLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.BARN')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -94,6 +92,8 @@ export function* editBarnLocationSaga({ payload: data }) {
 export const deleteBarnLocation = createAction(`deleteBarnLocationSaga`);
 
 export function* deleteBarnLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -106,18 +106,15 @@ export function* deleteBarnLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: {
           retire: true,
         },
       },
-    );
+    });
     console.log(e);
   }
 }

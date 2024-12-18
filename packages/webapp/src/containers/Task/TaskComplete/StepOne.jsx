@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector, shallowEqual } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -8,9 +8,10 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function TaskCompleteStepOne({ history, location }) {
+function TaskCompleteStepOne({ location }) {
+  let navigate = useNavigate();
   const {
     units: { measurement: system },
     country_id,
@@ -23,11 +24,11 @@ function TaskCompleteStepOne({ history, location }) {
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {
-    history.push(persistedPaths[0], location?.state);
+    navigate(persistedPaths[0], { state: location?.state });
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const dispatch = useDispatch();

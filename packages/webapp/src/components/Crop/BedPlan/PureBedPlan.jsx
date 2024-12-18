@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Form from '../../Form';
@@ -8,9 +7,9 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PureBedForm } from './PureBedForm';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 function PureBedPlan({
-  history,
   system,
   crop_variety,
   useHookFormPersist,
@@ -18,9 +17,9 @@ function PureBedPlan({
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  onGoBack = () => history.back(),
   location,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const {
     register,
@@ -36,8 +35,8 @@ function PureBedPlan({
     mode: 'onChange',
   });
   const { historyCancel } = useHookFormPersist(getValues);
-
-  const onSubmit = () => history.push(submitPath, location?.state);
+  const onGoBack = () => navigate(-1);
+  const onSubmit = () => navigate(submitPath, { state: location?.state });
 
   return (
     <Form

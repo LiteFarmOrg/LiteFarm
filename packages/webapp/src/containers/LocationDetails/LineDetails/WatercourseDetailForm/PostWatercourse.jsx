@@ -1,4 +1,3 @@
-import React from 'react';
 import PureWatercourse from '../../../../components/LocationDetailLayout/LineDetails/Watercourse';
 import { postWatercourseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostWatercourseDetailForm({ history }) {
+function PostWatercourseDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -17,7 +16,6 @@ function PostWatercourseDetailForm({ history }) {
 
   return (
     <PureWatercourse
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

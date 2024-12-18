@@ -14,19 +14,19 @@
  */
 
 import Layout from '../Layout';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 import { colors } from '../../assets/theme';
 import Button from '../../components/Form/Button';
 import { Semibold, Text } from '../Typography';
 import { getNotificationCardDate } from '../../util/moment.js';
-import history from '../../history';
 import useTranslationUtil from '../../util/useTranslationUtil';
 import NotificationTimeline from './NotificationTimeline';
 import { createSensorErrorDownload, SENSOR_BULK_UPLOAD_FAIL } from '../../util/sensor';
+import { useNavigate } from 'react-router-dom';
 
 function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const { getNotificationTitle, getNotificationBody } = useTranslationUtil();
 
@@ -68,7 +68,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       route = '/';
     }
 
-    history.push(route, notification.context);
+    navigate(route, { state: notification.context });
   };
 
   return (

@@ -14,12 +14,10 @@
  */
 
 import { Suspense, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
-
 import Navigation from './containers/Navigation';
-import history from './history';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
@@ -27,16 +25,16 @@ import Routes from './routes';
 import { ANIMALS_URL } from './util/siteMapConstants';
 
 function App() {
+  let location = useLocation();
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = ['/map', ANIMALS_URL];
-  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
+  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
 
   return (
     <div className={clsx(styles.container)}>
       <Suspense fallback={null}>
         <Navigation
-          history={history}
           isCompactSideMenu={isCompactSideMenu}
           setIsCompactSideMenu={setIsCompactSideMenu}
           isFeedbackSurveyOpen={isFeedbackSurveyOpen}

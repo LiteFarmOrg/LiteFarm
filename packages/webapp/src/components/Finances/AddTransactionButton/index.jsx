@@ -19,7 +19,6 @@ import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
-import history from '../../../history';
 import DropdownButton from '../../Form/DropDownButton';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
@@ -29,19 +28,21 @@ import {
   EXPENSE_CATEGORIES_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
 const Menu = forwardRef((props, ref) => {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleAddRevenueClick = () => {
     dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
-    history.push(REVENUE_TYPES_URL);
+    navigate(REVENUE_TYPES_URL);
   };
 
   const handleAddExpenseClick = () => {
     dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
-    history.push(EXPENSE_CATEGORIES_URL);
+    navigate(EXPENSE_CATEGORIES_URL);
   };
 
   return (

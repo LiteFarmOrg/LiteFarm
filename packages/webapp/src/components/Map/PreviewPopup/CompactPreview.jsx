@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
@@ -11,6 +11,7 @@ import {
   getTemperatureValue,
 } from './utils';
 import { isTouchDevice } from '../../../util/device';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompactPreview({ location, readings, readingType, history }) {
+export default function CompactPreview({ location, readings, readingType }) {
+  let navigate = useNavigate();
   const classes = useStyles();
   const { t } = useTranslation();
   const { units } = useSelector(userFarmSelector);
@@ -50,7 +52,7 @@ export default function CompactPreview({ location, readings, readingType, histor
   }
 
   const loadReadingView = () => {
-    history.push(`/${location.type}/${location.id}/readings`);
+    navigate(`/${location.type}/${location.id}/readings`);
   };
 
   let sensorData = [];

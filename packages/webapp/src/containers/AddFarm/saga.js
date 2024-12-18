@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import history from '../../history';
 import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import {
@@ -29,6 +28,7 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { useNavigate } from 'react-router-dom';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
@@ -36,6 +36,7 @@ const patchStepUrl = (farm_id, user_id) =>
   `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 export const postFarm = createAction('postFarmSaga');
 export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededError, ...farm } }) {
+  let navigate = useNavigate();
   const { user_id } = yield select(loginSelector);
   yield put(setLoadingStart());
   let addFarmData = {
@@ -68,7 +69,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
       }),
     );
     yield put(selectFarmSuccess({ farm_id }));
-    history.push('/role_selection');
+    navigate('/role_selection');
     const {
       data: { farm_token },
     } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
@@ -90,6 +91,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
 
 export const patchFarm = createAction('patchFarmSaga');
 export function* patchFarmSaga({ payload: { showFarmNameCharacterLimitExceededError, ...farm } }) {
+  let navigate = useNavigate();
   const { user_id, farm_id, step_one } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -111,7 +113,7 @@ export function* patchFarmSaga({ payload: { showFarmNameCharacterLimitExceededEr
       yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
     }
     yield put(patchFarmSuccess({ ...farm, user_id, step_one: true }));
-    history.push('/role_selection');
+    navigate('/role_selection');
   } catch (e) {
     const isFarmNameError =
       e?.response?.status === 400 &&

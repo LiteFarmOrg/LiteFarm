@@ -1,11 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import PointDetails from '../PointDetails';
-import { useForm } from 'react-hook-form';
-import LocationButtons from '../../LocationButtons';
-
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
@@ -19,7 +11,6 @@ export default function PureGateWrapper(props) {
 }
 
 export function PureGate({
-  history,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
@@ -38,7 +29,6 @@ export function PureGate({
   };
   return (
     <PureLocationDetailLayout
-      history={history}
       locationType={'gate'}
       locationCategory={'point'}
       isCreateLocationPage={isCreateLocationPage}

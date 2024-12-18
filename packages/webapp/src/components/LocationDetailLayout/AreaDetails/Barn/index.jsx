@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { barnEnum } from '../../../../containers/constants';
@@ -18,7 +17,6 @@ export default function PureBarnWrapper(props) {
 }
 
 export function PureBarn({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -48,7 +46,6 @@ export function PureBarn({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'barn'}
       locationCategory={'area'}

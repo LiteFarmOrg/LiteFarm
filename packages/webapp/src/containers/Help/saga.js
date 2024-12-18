@@ -16,17 +16,18 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import history from '../../history';
 import { finishSendHelp, postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { useNavigate } from 'react-router-dom';
 
 const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);
 
 export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
+  let navigate = useNavigate();
   try {
     const formData = new FormData();
     formData.append('_file_', file);
@@ -40,7 +41,7 @@ export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
     if (result) {
       yield put(postHelpRequestSuccess());
       onSuccess();
-      history.push('/');
+      navigate('/');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     }

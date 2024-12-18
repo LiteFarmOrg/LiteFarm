@@ -1,7 +1,5 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LineDetails from '../LineDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Label } from '../../../Typography';
 import {
   area_total_area,
@@ -25,7 +23,6 @@ export default function PureWatercourseWrapper(props) {
 }
 
 export function PureWatercourse({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -54,7 +51,6 @@ export function PureWatercourse({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'watercourse'}
       locationCategory={'line'}

@@ -1,4 +1,3 @@
-import React from 'react';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
@@ -10,6 +9,7 @@ import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
 import { AddLink } from '../Typography';
+import { useNavigate } from 'react-router-dom';
 
 export default function PureCropList({
   onFilterChange,
@@ -17,11 +17,11 @@ export default function PureCropList({
   activeCrops,
   pastCrops,
   plannedCrops,
-  history,
   isAdmin,
   title,
   location,
 }) {
+  let navigate = useNavigate();
   const isSearchable = true;
   const { t } = useTranslation();
 
@@ -33,10 +33,9 @@ export default function PureCropList({
   } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
   return (
     <Layout>
-      <PageTitle title={title} onGoBack={() => history.push('/map')} />
+      <PageTitle title={title} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('FARM_MAP.TAB.CROPS'),
@@ -85,14 +84,15 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {activeCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   status={'active'}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
+                      state: {
+                        returnPath: location?.pathname,
+                      },
                     })
                   }
                 />
@@ -109,14 +109,15 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   status={'planned'}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
+                      state: {
+                        returnPath: location?.pathname,
+                      },
                     })
                   }
                 />
@@ -133,13 +134,14 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {pastCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
+                      state: {
+                        returnPath: location?.pathname,
+                      },
                     })
                   }
                 />

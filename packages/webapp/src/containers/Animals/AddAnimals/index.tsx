@@ -15,7 +15,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
@@ -40,10 +39,9 @@ export const STEPS = {
 
 interface AddAnimalsProps {
   isCompactSideMenu: boolean;
-  history: History;
 }
 
-function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
+function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -132,7 +130,6 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       hasSummaryWithinForm={true}
       isCompactSideMenu={isCompactSideMenu}
       variant={Variant.STEPPER_PROGRESS_BAR}
-      history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}
       cancelModalTitle={t('ADD_ANIMAL.ADD_ANIMALS_FLOW')}

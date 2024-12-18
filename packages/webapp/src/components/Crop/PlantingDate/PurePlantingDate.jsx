@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Info, Main } from '../../Typography';
@@ -20,15 +20,16 @@ import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/convert-units/unit';
+import { useNavigate } from 'react-router-dom';
 
 export default function PurePlantingDate({
   useHookFormPersist,
   persistedFormData,
   crop_variety,
-  history,
   system,
   language,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const SEED_DATE = 'crop_management_plan.seed_date';
@@ -64,14 +65,14 @@ export default function PurePlantingDate({
       seedIsMain
         ? SEED_DATE
         : plantingIsMain
-        ? PLANT_DATE
-        : transplantIsMain
-        ? TRANSPLANT_DATE
-        : harvestIsMain
-        ? HARVEST_DATE
-        : terminationIsMain
-        ? TERMINATION_DATE
-        : SEED_DATE,
+          ? PLANT_DATE
+          : transplantIsMain
+            ? TRANSPLANT_DATE
+            : harvestIsMain
+              ? HARVEST_DATE
+              : terminationIsMain
+                ? TERMINATION_DATE
+                : SEED_DATE,
     [],
   );
 
@@ -87,8 +88,8 @@ export default function PurePlantingDate({
     const dateLabel = seedIsMain
       ? t('MANAGEMENT_PLAN.SEEDING_DATE')
       : plantingIsMain
-      ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
-      : t('common:DATE');
+        ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
+        : t('common:DATE');
 
     const subtitleMap = {
       [SEED_DATE]: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
@@ -233,8 +234,8 @@ export default function PurePlantingDate({
     () => getPlantingDatePaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath);
+  const onGoBack = () => navigate(-1);
 
   const onError = () => {};
 
@@ -415,7 +416,6 @@ export default function PurePlantingDate({
 }
 
 PurePlantingDate.prototype = {
-  history: PropTypes.object,
   crop_variety: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.shape({

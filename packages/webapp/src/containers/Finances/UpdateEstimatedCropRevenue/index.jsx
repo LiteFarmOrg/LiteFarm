@@ -5,9 +5,10 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import { patchEstimatedCropRevenue } from '../saga';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function UpdateEstimatedCropRevenue({ history }) {
+function UpdateEstimatedCropRevenue() {
+  let navigate = useNavigate();
   const { management_plan_id } = useParams();
   const dispatch = useDispatch();
   const managementPlan = useSelector(managementPlanSelector(management_plan_id));
@@ -29,7 +30,7 @@ function UpdateEstimatedCropRevenue({ history }) {
     <PureUpdateEstimatedCropRevenue
       system={system}
       managementPlan={managementPlan}
-      onGoBack={() => history.back()}
+      onGoBack={() => navigate(-1)}
       onSubmit={onSubmit}
     />
   );

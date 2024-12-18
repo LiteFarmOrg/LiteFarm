@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,12 +14,14 @@ import { isTaskType } from '../../Task/useIsTaskType';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
-import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
+import { getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
-export default function EstimatedRevenue({ history }) {
+export default function EstimatedRevenue() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
-  const onGoBack = () => history.push(FINANCES_HOME_URL);
+  const onGoBack = () => navigate(FINANCES_HOME_URL);
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
@@ -92,7 +94,6 @@ export default function EstimatedRevenue({ history }) {
               key={crop_variety_id}
               cropVarietyId={crop_variety_id}
               managementPlans={plans}
-              history={history}
               style={{ marginBottom: '16px' }}
             />
           ),

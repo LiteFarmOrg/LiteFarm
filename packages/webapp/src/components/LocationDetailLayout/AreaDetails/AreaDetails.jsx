@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input from '../../Form/Input';
@@ -8,16 +8,14 @@ import Unit from '../../Form/Unit';
 import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { area_perimeter, area_total_area } from '../../../util/convert-units/unit';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { useLocation } from 'react-router-dom';
 
 export default function AreaDetails({
   name,
   showPerimeter,
-  history,
   children,
   system,
-  isCreateLocationPage,
   isViewLocationPage,
-  isEditLocationPage,
   total_area,
   perimeter,
 }) {
@@ -30,6 +28,7 @@ export default function AreaDetails({
     control,
     formState: { errors },
   } = useFormContext();
+  const location = useLocation();
   const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
     const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
@@ -43,10 +42,10 @@ export default function AreaDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
-      setErrorMessage(history?.location?.state?.error);
+    if (location?.state?.error && !location?.state?.error?.retire) {
+      setErrorMessage(location?.state?.error);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   return (
     <>

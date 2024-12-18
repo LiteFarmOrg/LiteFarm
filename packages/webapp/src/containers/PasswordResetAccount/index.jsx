@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword } from './saga';
@@ -6,10 +6,13 @@ import { decodeToken } from 'react-jwt';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function PasswordResetAccount({ history }) {
+function PasswordResetAccount() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
-  const reset_token = history.location.state;
+  const reset_token = location.state;
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   const { i18n } = useTranslation();
@@ -20,7 +23,7 @@ function PasswordResetAccount({ history }) {
 
   useEffect(() => {
     if (!reset_token) {
-      history.push('/');
+      navigate('/');
     } else {
       setEmail(getEmailFromToken(reset_token));
     }
@@ -44,14 +47,14 @@ function PasswordResetAccount({ history }) {
     let timeout;
     if (hasTimeoutStarted) {
       timeout = setTimeout(() => {
-        history.push('/farm_selection');
+        navigate('/farm_selection');
       }, 10000);
     }
     return () => clearTimeout(timeout);
   }, [hasTimeoutStarted]);
 
   const modalOnClick = () => {
-    history.push('/farm_selection');
+    navigate('/farm_selection');
     setShowModal(false);
   };
 

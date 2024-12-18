@@ -9,13 +9,15 @@ import {
   getLocationObjectFromFence,
   postFenceSuccess,
 } from '../../../fenceSlice';
-import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const postFenceLocation = createAction(`postFenceLocationSaga`);
 
 export function* postFenceLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -36,18 +38,15 @@ export function* postFenceLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push('/map');
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.FENCE')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -55,6 +54,8 @@ export function* postFenceLocationSaga({ payload: data }) {
 export const editFenceLocation = createAction(`editFenceLocationSaga`);
 
 export function* editFenceLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -75,18 +76,15 @@ export function* editFenceLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.FENCE')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -94,6 +92,8 @@ export function* editFenceLocationSaga({ payload: data }) {
 export const deleteFenceLocation = createAction(`deleteFenceLocationSaga`);
 
 export function* deleteFenceLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -109,18 +109,15 @@ export function* deleteFenceLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: {
           retire: true,
         },
       },
-    );
+    });
     console.log(e);
   }
 }

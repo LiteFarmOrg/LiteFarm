@@ -5,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostWaterValveDetailForm({ history }) {
+function PostWaterValveDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -16,7 +16,6 @@ function PostWaterValveDetailForm({ history }) {
 
   return (
     <PureWaterValve
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

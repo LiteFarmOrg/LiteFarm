@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -8,21 +8,21 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import PureContainerForm from './PureContainerForm';
-
+import { useNavigate } from 'react-router-dom';
 export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
   system,
-  history,
   crop_variety,
   isFinalPage,
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   location,
-  onSubmit = () => history.push(submitPath, location?.state),
-  onGoBack = () => history.back(),
 }) {
+  let navigate = useNavigate();
+  const onSubmit = () => navigate(submitPath, { state: location?.state });
+  const onGoBack = () => navigate(-1);
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
     if (isFinalPage) return 75;
@@ -95,7 +95,6 @@ export default function PurePlantInContainer({
 }
 
 PurePlantInContainer.prototype = {
-  history: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,

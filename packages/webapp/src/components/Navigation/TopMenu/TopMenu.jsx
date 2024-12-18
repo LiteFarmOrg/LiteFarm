@@ -16,7 +16,6 @@ import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,
   Toolbar,
-  Menu,
   MenuList,
   MenuItem,
   Popper,
@@ -36,9 +35,9 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const TopMenu = ({
-  history,
   isMobile,
   showNavActions,
   onClickBurger,
@@ -46,10 +45,12 @@ const TopMenu = ({
   isFeedbackSurveyOpen,
   setFeedbackSurveyOpen,
 }) => {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
-  const sectionHeader = useSectionHeader(history.location.pathname);
+  const sectionHeader = useSectionHeader(location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -61,15 +62,15 @@ const TopMenu = ({
 
   const handleClick = (link) => {
     closeMenu();
-    history.push(link);
+    navigate(link);
   };
 
   const notificationIconClick = () => {
     const url = '/notifications';
-    if (history.location.pathname === url) {
+    if (location.pathname === url) {
       // TODO click should update contents; is there better way than full page refresh?
       closeMenu();
-      history.go();
+      navigate(0);
     } else {
       handleClick(url);
     }
@@ -271,7 +272,7 @@ const TopMenu = ({
           className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
         >
           {!showNavActions ? <Logo /> : showMainNavigation}
-          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+          {showNavActions && isMobile && <Logo withoutWords onClick={() => navigate('/')} />}
         </Toolbar>
       </AppBar>
     )

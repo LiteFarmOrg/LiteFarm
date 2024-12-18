@@ -14,9 +14,10 @@ import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModa
 import UnableToRetireCropModal from '../../../components/Modals/CropModals/UnableToRetireCropModal';
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function CropDetail({ history, location }) {
+function CropDetail({ location }) {
+  let navigate = useNavigate();
   let { variety_id } = useParams();
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
@@ -33,7 +34,9 @@ function CropDetail({ history, location }) {
   const hasNoManagementPlans = currentMPs.length < 1 && plannedMPs.length < 1;
 
   const goBack = () => {
-    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
+    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, {
+      state: location.state,
+    });
   };
 
   const warningModal = () => {
@@ -50,7 +53,7 @@ function CropDetail({ history, location }) {
 
   const handleEdit = () => {
     if (hasNoManagementPlans) {
-      history.push(`/crop/${variety_id}/edit_crop_variety`);
+      navigate(`/crop/${variety_id}/edit_crop_variety`);
     } else {
       setShowEditModal(true);
     }
@@ -61,7 +64,6 @@ function CropDetail({ history, location }) {
   return (
     <CropVarietySpotlight>
       <PureCropDetail
-        history={history}
         variety={selectedVariety}
         isInterestedInOrganic={interested}
         onBack={goBack}
@@ -80,7 +82,7 @@ function CropDetail({ history, location }) {
       {showEditModal && (
         <EditCropVarietyModal
           dismissModal={() => setShowEditModal(false)}
-          handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
+          handleEdit={() => navigate(`/crop/${variety_id}/edit_crop_variety`)}
         />
       )}
     </CropVarietySpotlight>

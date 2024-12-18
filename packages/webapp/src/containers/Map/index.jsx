@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -77,8 +77,11 @@ import {
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Map({ history, isCompactSideMenu }) {
+export default function Map({ isCompactSideMenu }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
@@ -101,7 +104,7 @@ export default function Map({ history, isCompactSideMenu }) {
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
-    history?.location?.state?.hideLocationPin ?? false,
+    location?.state?.hideLocationPin ?? false,
   );
 
   const initialLineData = {
@@ -117,12 +120,12 @@ export default function Map({ history, isCompactSideMenu }) {
   useEffect(() => {
     return () => {
       persistedPathsSet.size &&
-        !persistedPathsSet.has(history.location.pathname) &&
+        !persistedPathsSet.has(location.pathname) &&
         dispatch(resetAndUnLockFormData());
     };
   }, [persistedPathsSet]);
   useEffect(() => {
-    if (!history.location.state?.isStepBack) {
+    if (!location.state?.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
     return () => {
@@ -142,7 +145,7 @@ export default function Map({ history, isCompactSideMenu }) {
   }, [bulkSensorsUploadResponse?.showTransitionModal]);
 
   useEffect(() => {
-    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD_SUCCESS) {
+    if (location.state?.notification_type === SENSOR_BULK_UPLOAD_SUCCESS) {
       dispatch(setMapFilterShowAll(farm_id));
     }
   }, []);
@@ -326,12 +329,12 @@ export default function Map({ history, isCompactSideMenu }) {
     let mapBounds = new maps.LatLngBounds();
     const bounds = drawAssets(map, maps, mapBounds);
 
-    if (history.location.state?.isStepBack) {
+    if (location.state?.isStepBack) {
       reconstructOverlay();
     }
 
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
+    if (location.state?.cameraInfo) {
+      const { zoom, location } = location.state.cameraInfo;
       if (zoom && location) {
         map.setZoom(zoom);
         map.setCenter(location);
@@ -402,7 +405,7 @@ export default function Map({ history, isCompactSideMenu }) {
   const mapWrapperRef = useRef();
 
   const handleShowVideo = () => {
-    history.push('/map/videos');
+    navigate('/map/videos');
   };
 
   const handleCloseSuccessHeader = () => {
@@ -443,7 +446,7 @@ export default function Map({ history, isCompactSideMenu }) {
         dispatch(upsertFormData(locationData));
         dispatch(setIsRedrawing(false));
       }
-      history.push(`/create_location/${drawingState.type}`);
+      navigate(`/create_location/${drawingState.type}`);
     }
   };
 
@@ -455,7 +458,7 @@ export default function Map({ history, isCompactSideMenu }) {
     } else {
       dispatch(upsertFormData({ ...lineData }));
     }
-    history.push(`/create_location/${drawingState.type}`);
+    navigate(`/create_location/${drawingState.type}`);
   };
 
   const isLineWithWidth = (type = drawingState.type) => {
@@ -551,7 +554,7 @@ export default function Map({ history, isCompactSideMenu }) {
             </div>
           )}
         </div>
-        <LocationSelectionModal history={history} />
+        <LocationSelectionModal />
 
         {!drawingState.type && (
           <PureMapFooter

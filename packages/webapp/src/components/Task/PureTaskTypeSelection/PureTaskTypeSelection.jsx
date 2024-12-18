@@ -32,6 +32,7 @@ import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
+import { useNavigate } from 'react-router-dom';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -57,7 +58,6 @@ const icons = {
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
-  history,
   location,
   persistedFormData,
   useHookFormPersist,
@@ -71,6 +71,7 @@ export const PureTaskTypeSelection = ({
   hasAnimalMovementLocations,
   hasAnimals,
 }) => {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
     defaultValues: persistedFormData,
@@ -91,8 +92,8 @@ export const PureTaskTypeSelection = ({
   };
 
   const [showPlantTaskModal, setShowPlantTaskModal] = useState();
-  const goToCatalogue = () => history.push('/crop_catalogue');
-  const goToMap = () => history.push('/map');
+  const goToCatalogue = () => navigate('/crop_catalogue');
+  const goToMap = () => navigate('/map');
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setShowPlantTaskModal(true);

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { AddLink, Main } from '../../Typography';
 import Button from '../../Form/Button';
@@ -15,19 +15,10 @@ import { ReactComponent as Exchange } from '../../../assets/images/log/v2/Exchan
 import { ReactComponent as Seed } from '../../../assets/images/log/v2/Seed.svg';
 import { ReactComponent as Custom } from '../../../assets/images/log/v2/Custom.svg';
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
-export default function PureHarvestUseType({
-  onGoBack,
-  onNext,
-  useTypes,
-  defaultData,
-  farm,
-  addUseType,
-  showUseTypeRequiredError,
-  history,
-  isEdit,
-  selectedLog,
-}) {
+export default function PureHarvestUseType({ onNext, useTypes, defaultData, farm, isEdit }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const [selectedUseTypes, setSelectedUseTypes] = useState([]);
   useEffect(() => {
@@ -60,7 +51,7 @@ export default function PureHarvestUseType({
   }, [isEdit]);
   return (
     <TitleLayout
-      onGoBack={() => history.push('/harvest_log')}
+      onGoBack={() => navigate('/harvest_log')}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
@@ -85,10 +76,7 @@ export default function PureHarvestUseType({
         selectedUseTypes={selectedUseTypes}
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
-        <AddLink
-          onClick={() => history.push('./add_harvest_use_type')}
-          style={{ paddingTop: '16px' }}
-        >
+        <AddLink onClick={() => navigate('./add_harvest_use_type')} style={{ paddingTop: '16px' }}>
           {t('LOG_HARVEST.ADD_CUSTOM_HARVEST_USE')}
         </AddLink>
       )}
@@ -125,6 +113,7 @@ function UseTypeMatrix({ useTypes, onClick, selectedUseTypes }) {
               selectedUseTypes.includes(type.harvest_use_type_id) && styles.selectedMatrixItem,
             )}
             onClick={() => onClick(type.harvest_use_type_id)}
+            key={i}
           >
             {buttonImg}
             <div className={styles.buttonName}>{useTypeName}</div>

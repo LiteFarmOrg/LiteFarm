@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { useMatch, useParams } from 'react-router-dom';
 
-export default function RowGuidance({ history, location }) {
+export default function RowGuidance({ location }) {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/row_guidance') ? true : false;
@@ -15,7 +15,6 @@ export default function RowGuidance({ history, location }) {
     <HookFormPersistProvider>
       <PurePlanGuidance
         system={system}
-        history={history}
         isBed={false}
         isFinalPage={isFinalPage}
         variety_id={variety_id}

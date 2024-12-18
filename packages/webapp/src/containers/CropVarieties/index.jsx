@@ -25,9 +25,10 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function CropVarieties({ history, location }) {
+export default function CropVarieties({ location }) {
+  let navigate = useNavigate();
   let { crop_id: strCropId } = useParams();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
@@ -78,10 +79,10 @@ export default function CropVarieties({ history, location }) {
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
-  const onGoBack = () => history.push('/crop_catalogue');
+  const onGoBack = () => navigate('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
-    history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
+    navigate(`/crop/${varietyId}/management`, { state: { returnPath: location.pathname } });
   };
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();

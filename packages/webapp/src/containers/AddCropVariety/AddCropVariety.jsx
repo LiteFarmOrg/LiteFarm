@@ -1,4 +1,3 @@
-import React from 'react';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
@@ -10,9 +9,10 @@ import ImagePickerWrapper from '../ImagePickerWrapper';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { AddLink } from '../../components/Typography';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function AddCropVarietyForm({ history }) {
+function AddCropVarietyForm() {
+  let navigate = useNavigate();
   let { crop_id } = useParams();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function AddCropVarietyForm({ history }) {
     console.log(error);
   };
   const onContinue = (data) => {
-    history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
+    navigate(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
 
   const farmCropVarieties = useSelector(cropVarietiesSelector);
@@ -62,7 +62,7 @@ function AddCropVarietyForm({ history }) {
             <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.back()}
+        handleGoBack={() => navigate(-1)}
         farmCropVarieties={farmCropVarieties}
       />
     </HookFormPersistProvider>

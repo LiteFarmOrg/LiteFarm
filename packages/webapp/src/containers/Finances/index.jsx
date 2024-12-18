@@ -36,7 +36,6 @@ import { managementPlansSelector } from '../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
-import { setIsFetchingData } from './actions';
 import { fetchAllData } from './saga';
 import { isFetchingDataSelector } from './selectors';
 import styles from './styles.module.scss';
@@ -47,7 +46,7 @@ import { useTheme } from '@mui/styles';
 
 const moment = extendMoment(Moment);
 
-const Finances = ({ history }) => {
+const Finances = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
@@ -149,7 +148,6 @@ const Finances = ({ history }) => {
           otherExpense={otherExpense}
           estimatedRevenue={estimatedRevenue}
           currencySymbol={currencySymbol}
-          history={history}
         />
         <AddTransactionButton />
       </div>

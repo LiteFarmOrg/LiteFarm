@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { useParams } from 'react-router-dom';
 
-export default function PlantingDate({ history }) {
+export default function PlantingDate() {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const language_preference = getLanguageFromLocalStorage();
@@ -16,7 +16,6 @@ export default function PlantingDate({ history }) {
       <PurePlantingOrHarvestDate
         system={system}
         crop_variety={crop_variety}
-        history={history}
         language={language_preference}
       />
     </HookFormPersistProvider>

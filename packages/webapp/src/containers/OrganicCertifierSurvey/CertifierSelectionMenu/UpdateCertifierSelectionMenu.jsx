@@ -1,39 +1,36 @@
-import React from 'react';
-import {
-  PureCertifierSelectionScreen,
-} from '../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
+import { PureCertifierSelectionScreen } from '../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../../history';
 import { certifiersByCertificationSelector } from '../certifierSlice';
 import { certifierSurveySelector } from '../slice';
 import { setCertifierId } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { useCertificationName } from '../useCertificationName';
+import { useNavigate } from 'react-router-dom';
 
 export default function CertifierSelectionMenu() {
+  let navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
   const summaryPath = '/certification/summary';
   const certificationSelectionPath = '/certification/selection';
   const requestCertifierPath = '/certification/certifier/request';
-  const { persistedData } = useHookFormPersist(() => ({}), [
-    summaryPath,
-    certificationSelectionPath,
-    requestCertifierPath,
-  ]);
+  const { persistedData } = useHookFormPersist(
+    () => ({}),
+    [summaryPath, certificationSelectionPath, requestCertifierPath],
+  );
   const certification_id = persistedData.certification_id ?? survey.certification_id;
   const { certificationName } = useCertificationName();
   const certifiers = useSelector(certifiersByCertificationSelector(certification_id));
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    history.push(summaryPath);
+    navigate(summaryPath);
   };
 
   const onBack = () => {
-    history.push(certificationSelectionPath);
+    navigate(certificationSelectionPath);
   };
   const onRequestCertifier = () => {
-    history.push(requestCertifierPath);
+    navigate(requestCertifierPath);
   };
   const onSelectCertifier = (certifier_id) => {
     dispatch(setCertifierId(certifier_id));

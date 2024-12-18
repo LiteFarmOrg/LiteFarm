@@ -6,7 +6,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostFieldDetailForm({ history }) {
+function PostFieldDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -17,7 +17,6 @@ function PostFieldDetailForm({ history }) {
 
   return (
     <PureField
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

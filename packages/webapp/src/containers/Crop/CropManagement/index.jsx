@@ -34,21 +34,22 @@ import { useEffect } from 'react';
 import { getManagementPlans } from '../../saga';
 import { getTasks, getTaskTypes } from '../../Task/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const seedingTypeIsSeedMap = {
   SEED: true,
   SEEDLING_OR_PLANTING_STOCK: false,
 };
 
-function CropManagement({ history, location }) {
+function CropManagement({ location }) {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   let { variety_id } = useParams();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
   const goBack = () => {
-    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
+    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
     const estimated_seeds_unit = { value: 'kg', label: 'kg' };
@@ -103,7 +104,7 @@ function CropManagement({ history, location }) {
         addManagementPlanNamePath(variety_id),
       ]),
     );
-    history.push(plantedAlreadyPath(variety_id));
+    navigate(plantedAlreadyPath(variety_id));
   };
 
   useEffect(() => {
@@ -118,7 +119,6 @@ function CropManagement({ history, location }) {
   return (
     <CropVarietySpotlight>
       <PureCropManagement
-        history={history}
         variety={selectedVariety}
         onBack={goBack}
         onAddManagementPlan={onAddManagementPlan}

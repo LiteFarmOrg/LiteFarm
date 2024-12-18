@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { History } from 'history';
 import { AddAnimalsSummaryCard } from '../../../../components/Animals/AddAnimalsSummaryCard';
 import { ANIMALS_INVENTORY_URL } from '../../../../util/siteMapConstants';
 import {
@@ -26,13 +25,14 @@ import {
 import useQueries from '../../../../hooks/api/useQueries';
 import { formatDBAnimalsToSummary, formatDBBatchesToSummary } from '../../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../../store/api/types';
+import { useNavigate } from 'react-router-dom';
 
 type AddAnimalSummaryProps = {
-  history: History;
   formResultData: { animals: Animal[]; batches: AnimalBatch[] };
 };
 
-const AddAnimalSummary = ({ formResultData, history }: AddAnimalSummaryProps) => {
+const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
+  let navigate = useNavigate();
   const { data: config, isLoading } = useQueries([
     { label: 'defaultTypes', hook: useGetDefaultAnimalTypesQuery },
     { label: 'customTypes', hook: useGetCustomAnimalTypesQuery },
@@ -45,7 +45,7 @@ const AddAnimalSummary = ({ formResultData, history }: AddAnimalSummaryProps) =>
     <AddAnimalsSummaryCard
       animalsInfo={isLoading ? [] : formatDBAnimalsToSummary(formResultData.animals, config)}
       batchInfo={isLoading ? [] : formatDBBatchesToSummary(formResultData.batches, config)}
-      onContinue={() => history.push(ANIMALS_INVENTORY_URL)}
+      onContinue={() => navigate(ANIMALS_INVENTORY_URL)}
     />
   );
 };

@@ -26,9 +26,9 @@ import Pill from '../../../Filter/Pill';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function PureSensorDetail({
-  history,
   isAdmin,
   system,
   sensorInfo,
@@ -38,6 +38,7 @@ export default function PureSensorDetail({
   showCannotRetireModal,
   setShowCannotRetireModal,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const { location_id, name, brand_name, depth, external_id, model, point, sensor_reading_types } =
@@ -60,14 +61,9 @@ export default function PureSensorDetail({
 
   return (
     <div style={{ padding: '24px 16px 24px 24px' }}>
-      <PageTitle
-        title={name}
-        onGoBack={() => history.push('/map')}
-        style={{ marginBottom: '24px' }}
-      />
+      <PageTitle title={name} onGoBack={() => navigate('/map')} style={{ marginBottom: '24px' }} />
       <RouterTab
         classes={{ container: { margin: '30px 8px 26px 0px' } }}
-        history={history}
         tabs={[
           {
             label: t('SENSOR.VIEW_HEADER.READINGS'),
@@ -206,7 +202,7 @@ export default function PureSensorDetail({
 
           <Button
             type={'submit'}
-            onClick={() => history.push(`/sensor/${location_id}/edit`)} // Change accordingly
+            onClick={() => navigate(`/sensor/${location_id}/edit`)} // Change accordingly
             style={{ width: '50%' }}
           >
             {t(`SENSOR.DETAIL.EDIT`)}

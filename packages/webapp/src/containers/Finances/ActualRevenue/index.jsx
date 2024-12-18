@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
@@ -26,14 +26,16 @@ import {
   FINANCES_HOME_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
-export default function ActualRevenue({ history }) {
+export default function ActualRevenue() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBack = () => history.push(FINANCES_HOME_URL);
+  const onGoBack = () => navigate(FINANCES_HOME_URL);
   const onAddRevenue = () => {
     dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
-    history.push(REVENUE_TYPES_URL);
+    navigate(REVENUE_TYPES_URL);
   };
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
@@ -87,7 +89,6 @@ export default function ActualRevenue({ history }) {
         <ActualRevenueItem
           key={item.sale.sale_id}
           revenueItem={item}
-          history={history}
           style={{ marginBottom: '16px' }}
         />
       ))}

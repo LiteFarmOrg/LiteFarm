@@ -20,14 +20,16 @@ import { addCustomExpenseType } from '../saga';
 import { allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
+import { useNavigate } from 'react-router-dom';
 
-function AddCustomExpense({ history }) {
+function AddCustomExpense() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const expenseTypes = useSelector(allExpenseTypeSelector);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = (payload) => {

@@ -27,9 +27,10 @@ import {
 } from '../../managementPlanSlice.js';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function RepeatCropPlan({ history }) {
+function RepeatCropPlan() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { management_plan_id, variety_id } = useParams();
   useEffect(() => {
@@ -57,9 +58,9 @@ function RepeatCropPlan({ history }) {
   const firstTaskDate = getDateInputFormat(sortedTasks[0].complete_date || sortedTasks[0].due_date);
 
   const onContinue = () => {
-    history.push(
+    navigate(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
-      { origStartDate: firstTaskDate },
+      { state: { origStartDate: firstTaskDate } },
     );
   };
 
@@ -70,7 +71,7 @@ function RepeatCropPlan({ history }) {
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
         origStartDateType={sortedTasks[0].complete_date ? 'completion' : 'due'}
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         onContinue={onContinue}
         persistedFormData={persistedFormData}
       />

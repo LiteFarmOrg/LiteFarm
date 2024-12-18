@@ -9,28 +9,13 @@ import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function PureCropDetail({
-  history,
-  variety,
-  isEditing,
-  onBack,
-  isInterestedInOrganic,
-  onRetire,
-  onEdit,
-  isAdmin,
-  location,
-}) {
+function PureCropDetail({ variety, isEditing, isInterestedInOrganic, onEdit, isAdmin, location }) {
+  let navigate = useNavigate();
   let { variety_id } = useParams();
   const { t } = useTranslation();
-  const {
-    handleSubmit,
-    register,
-    watch,
-    control,
-    formState: { errors, isValid },
-  } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
+  const { register, watch, control } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
   const LIFECYCLE = 'lifecycle';
   const ORGANIC = 'organic';
   const TREATED = 'treated';
@@ -55,12 +40,11 @@ function PureCropDetail({
         )
       }
     >
-      <CropHeader onBackClick={() => history.back()} variety={variety} />
+      <CropHeader onBackClick={() => navigate(-1)} variety={variety} />
       {!isEditing && (
         <>
           <RouterTab
             classes={{ container: { margin: '24px 0 26px 0' } }}
-            history={history}
             tabs={[
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),

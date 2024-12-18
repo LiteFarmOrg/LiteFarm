@@ -2,7 +2,7 @@ import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
@@ -14,11 +14,11 @@ import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 import useGenderOptions from '../../../hooks/useGenderOptions';
 import useLanguageOptions from '../../../hooks/useLanguageOptions';
+import { useNavigate } from 'react-router-dom';
 
 export default function PureEditUser({
   userFarm,
   onUpdate,
-  history,
   isAdmin,
   onActivate,
   onRevoke,
@@ -26,6 +26,7 @@ export default function PureEditUser({
   userFarmEmails,
   isCurrentUser,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const ROLE = 'role_id';
   const WAGE = 'wage.amount';
@@ -150,7 +151,7 @@ export default function PureEditUser({
     >
       <PageTitle
         style={{ marginBottom: '32px' }}
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         title={t('PROFILE.ACCOUNT.EDIT_USER')}
       />
       <Input

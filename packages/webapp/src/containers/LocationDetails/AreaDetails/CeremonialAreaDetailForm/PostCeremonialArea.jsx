@@ -5,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostCeremonialDetailForm({ history }) {
+function PostCeremonialDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -16,7 +16,6 @@ function PostCeremonialDetailForm({ history }) {
 
   return (
     <PureCeremonial
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

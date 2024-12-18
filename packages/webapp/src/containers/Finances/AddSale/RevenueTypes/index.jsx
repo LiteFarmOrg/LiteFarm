@@ -24,8 +24,10 @@ import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlig
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
-export default function RevenueTypes({ useHookFormPersist, history }) {
+export default function RevenueTypes({ useHookFormPersist }) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'revenue']);
   const revenueTypes = useSortedRevenueTypes();
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -33,7 +35,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
   const getOnTileClickFunc = (setValue) => {
     return (typeId) => {
       setValue('revenue_type_id', typeId);
-      history.push(ADD_REVENUE_URL);
+      navigate(ADD_REVENUE_URL);
     };
   };
 
@@ -68,9 +70,9 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         leadText={t('SALE.ADD_SALE.WHICH_TYPE_TO_RECORD')}
         cancelTitle={t('SALE.ADD_SALE.FLOW')}
         types={revenueTypes}
-        onGoBack={history.back}
+        onGoBack={() => navigate(-1)}
         progressValue={33}
-        onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_REVENUES_URL)}
+        onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_REVENUES_URL)}
         getFormatListItemDataFunc={getFormatListItemDataFunc}
         listItemType={listItemTypes.ICON_DESCRIPTION}
         useHookFormPersist={useHookFormPersist}
@@ -89,5 +91,4 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
 
 RevenueTypes.propTypes = {
   useHookFormPersist: PropTypes.func,
-  history: PropTypes.object,
 };

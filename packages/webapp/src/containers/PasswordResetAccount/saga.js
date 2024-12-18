@@ -16,10 +16,10 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
 import { decodeToken } from 'react-jwt';
 import { axios } from '../saga';
+import { useNavigate } from 'react-router-dom';
 
 const resetPasswordUrl = () => `${url}/password_reset`;
 
@@ -28,6 +28,7 @@ export const resetPassword = createAction(`resetPasswordSaga`);
 export function* resetPasswordSaga({
   payload: { reset_token, password, onPasswordResetSuccess, email },
 }) {
+  let navigate = useNavigate();
   try {
     const result = yield call(
       axios.put,
@@ -49,7 +50,7 @@ export function* resetPasswordSaga({
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
-    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
+    navigate('/expired', { state: { translation_key: 'RESET_PASSWORD', email } });
   }
 }
 

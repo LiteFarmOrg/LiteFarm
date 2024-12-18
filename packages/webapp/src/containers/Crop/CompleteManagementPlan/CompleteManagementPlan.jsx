@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import {
@@ -8,7 +8,8 @@ import {
 } from '../../managementPlanSlice';
 import { completeManagementPlan } from './saga';
 
-export default function CompleteManagementPlan({ history, location }) {
+export default function CompleteManagementPlan({ location }) {
+  let navigate = useNavigate();
   let { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const [management_plan] = useSelector(
@@ -23,10 +24,9 @@ export default function CompleteManagementPlan({ history, location }) {
   const dispatch = useDispatch();
 
   const onGoBack = () => {
-    history.push(
-      `/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`,
-      location?.state,
-    );
+    navigate(`/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`, {
+      state: location?.state,
+    });
   };
   const onSubmit = (data, displayCannotCompleteModal) => {
     dispatch(

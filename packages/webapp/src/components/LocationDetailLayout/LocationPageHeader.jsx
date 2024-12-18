@@ -1,5 +1,4 @@
 import PageTitle from '../PageTitle/v2';
-import React from 'react';
 import {
   setPosition,
   setPositionSelector,
@@ -9,9 +8,9 @@ import {
 import { upsertFormData } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function LocationPageHeader({
-  history,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
@@ -19,6 +18,7 @@ export default function LocationPageHeader({
   onCancel,
   formMethods,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentZoomLevel = useSelector(setZoomLevelSelector);
@@ -28,11 +28,14 @@ export default function LocationPageHeader({
     dispatch(setPosition(null));
     if (isCreateLocationPage) {
       dispatch(upsertFormData(formMethods.getValues()));
-      history.replace('/map', { isStepBack: true, hideLocationPin: true });
+      navigate('/map', { replace: true, state: { isStepBack: true, hideLocationPin: true } });
     }
     isViewLocationPage &&
-      history.replace('/map', { cameraInfo: { zoom: currentZoomLevel, location: position } });
-    isEditLocationPage && history.back();
+      navigate('/map', {
+        replace: true,
+        state: { cameraInfo: { zoom: currentZoomLevel, location: position } },
+      });
+    isEditLocationPage && navigate(-1);
   };
   return (
     <PageTitle

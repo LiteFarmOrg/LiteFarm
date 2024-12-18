@@ -1,4 +1,3 @@
-import React from 'react';
 import PureBufferZone from '../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { postBufferZoneLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostBufferZoneDetailForm({ history }) {
+function PostBufferZoneDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -17,7 +16,6 @@ function PostBufferZoneDetailForm({ history }) {
 
   return (
     <PureBufferZone
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

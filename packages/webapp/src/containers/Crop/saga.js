@@ -29,10 +29,10 @@ import {
   onLoadingManagementPlanStart,
 } from '../managementPlanSlice';
 import i18n from '../../locales/i18n';
-import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
 import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
+import { useNavigate } from 'react-router-dom';
 
 const DEC = 10;
 
@@ -142,6 +142,7 @@ export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
 export const patchManagementPlan = createAction(`patchManagementPlanSaga`);
 
 export function* patchManagementPlanSaga({ payload: managementPlan }) {
+  let navigate = useNavigate();
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -155,7 +156,7 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
     );
     yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:PLAN.SUCCESS.EDIT')));
-    history.push(
+    navigate(
       `/crop/${managementPlan.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/details`,
     );
   } catch (e) {
@@ -167,6 +168,7 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
 export const deleteManagementPlan = createAction(`deleteManagementPlanSaga`);
 
 export function* deleteManagementPlanSaga({ payload }) {
+  let navigate = useNavigate();
   const { management_plan_id, variety_id } = payload;
 
   const { managementPlanURL } = apiConfig;
@@ -178,7 +180,7 @@ export function* deleteManagementPlanSaga({ payload }) {
 
     yield put(deleteManagementPlanSuccess(management_plan_id));
 
-    history.push(`/crop/${variety_id}/management`);
+    navigate(`/crop/${variety_id}/management`);
 
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.DELETE')));
   } catch (e) {

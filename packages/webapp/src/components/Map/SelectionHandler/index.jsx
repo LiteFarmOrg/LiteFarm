@@ -12,6 +12,7 @@ import { isTouchDevice } from '../../../util/device';
 import { useSelector } from 'react-redux';
 import { sensorReadingTypesByMultipleLocations } from '../../../containers/sensorReadingTypesSlice';
 import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -107,7 +108,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PureSelectionHandler({ locations, history, sensorReadings }) {
+export default function PureSelectionHandler({ locations, sensorReadings }) {
+  let navigate = useNavigate();
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -166,11 +168,11 @@ export default function PureSelectionHandler({ locations, history, sensorReading
 
   const loadEditView = (location) => {
     if (containsCrops(location.type)) {
-      history.push(`/${location.type}/${location.id}/crops`);
+      navigate(`/${location.type}/${location.id}/crops`);
     } else if (location.type === SENSOR) {
-      history.push(`/${location.type}/${location.id}/readings`);
+      navigate(`/${location.type}/${location.id}/readings`);
     } else {
-      history.push(`/${location.type}/${location.id}/details`);
+      navigate(`/${location.type}/${location.id}/details`);
     }
   };
 
@@ -238,7 +240,6 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                           location={location}
                           readings={sensorReadings}
                           readingType={type}
-                          history={history}
                         />
                       </div>
                     );
@@ -254,5 +255,4 @@ export default function PureSelectionHandler({ locations, history, sensorReading
 
 PureSelectionHandler.prototype = {
   locations: PropTypes.array,
-  history: PropTypes.func,
 };

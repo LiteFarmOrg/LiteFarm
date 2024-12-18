@@ -16,17 +16,15 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
 import { decodeToken } from 'react-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
 import { axios } from '../saga';
-
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { purgeState } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
@@ -34,22 +32,24 @@ const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 export const validateResetToken = createAction('validateResetTokenSaga');
 
 export function* validateResetTokenSaga({ payload: { reset_token } }) {
+  let navigate = useNavigate();
   try {
     const result = yield call(axios.get, validateResetTokenUrl(), {
       headers: {
         Authorization: `Bearer ${reset_token}`,
       },
     });
-    history.push('/password_reset', reset_token);
+    navigate('/password_reset', { state: reset_token });
   } catch (e) {
     const { email } = decodeToken(reset_token);
-    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
+    navigate('/expired', { state: { translation_key: 'RESET_PASSWORD', email } });
   }
 }
 
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload }) {
+  let navigate = useNavigate();
   const { invite_token, language } = payload;
   try {
     const result = yield call(
@@ -69,14 +69,14 @@ export function* patchUserFarmStatusSaga({ payload }) {
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));
-    history.push('/consent');
+    navigate('/consent');
   } catch (e) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
       console.log(e);
       localStorage.setItem('litefarm_lang', language);
       i18n.changeLanguage(language);
-      history.push('/accept_invitation/sign_up', invite_token);
+      navigate('/accept_invitation/sign_up', { state: invite_token });
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);
       const { email } = decodeToken(invite_token);
@@ -85,8 +85,10 @@ export function* patchUserFarmStatusSaga({ payload }) {
         e.response.data === 'Invitation link is used'
           ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
           : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
-      history.push(`/?email=${encodeURIComponent(email)}`, {
-        error: i18n.t(translateKey),
+      navigate(`/?email=${encodeURIComponent(email)}`, {
+        state: {
+          error: i18n.t(translateKey),
+        },
       });
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));

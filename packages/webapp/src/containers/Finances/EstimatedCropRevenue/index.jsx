@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanTileDate } from '../../../util/moment';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -8,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapConstants';
+import { useNavigate } from 'react-router-dom';
 
-const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...props }) => {
-  const dispatch = useDispatch();
+const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const cropVariety = useSelector(cropVarietySelector(cropVarietyId));
@@ -42,7 +42,7 @@ const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...prop
           amount: plan.estimated_revenue || 0,
           isPlan: true,
           onClickForward: () =>
-            history.push(createManagementPlanEstimatedRevenueURL(plan.management_plan_id)),
+            navigate(createManagementPlanEstimatedRevenueURL(plan.management_plan_id)),
         };
       })}
       isDropDown

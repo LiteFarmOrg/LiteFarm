@@ -27,7 +27,6 @@ function SideMenu(props) {
 export default SideMenu;
 
 SideMenu.propTypes = {
-  history: PropTypes.object,
   closeDrawer: PropTypes.func,
   classes: PropTypes.shape({
     container: PropTypes.string,

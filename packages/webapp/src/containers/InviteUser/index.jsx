@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
-import history from '../../history';
 import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 function InviteUser() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const roles = useSelector(rolesSelector);
@@ -22,9 +23,7 @@ function InviteUser() {
   };
   const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const onGoBack = () => {
-    history.push({
-      pathname: '/people',
-    });
+    navigate('/people');
   };
   const userFarmEntities = useSelector(userFarmEntitiesSelector);
   const userFarmEmails = Object.values(userFarmEntities[farm_id]).map((user) => {
@@ -82,9 +81,7 @@ function InviteUser() {
       dispatch(addPseudoWorker(user));
     }
 
-    history.push({
-      pathname: '/people',
-    });
+    navigate('/people');
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
@@ -20,7 +20,6 @@ export default function PureGardenWrapper(props) {
 }
 
 export function PureGarden({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -54,7 +53,6 @@ export function PureGarden({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'garden'}
       locationCategory={'area'}

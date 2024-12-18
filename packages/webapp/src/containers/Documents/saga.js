@@ -20,8 +20,8 @@ import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { archiveDocumentSuccess, postDocumentSuccess, putDocumentSuccess } from '../documentSlice';
-import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const postDocument = createAction(`postDocumentSaga`);
 
@@ -50,6 +50,7 @@ export function* postDocumentSaga({ payload: documentData }) {
 export const archiveDocument = createAction(`archiveDocumentSaga`);
 
 export function* archiveDocumentSaga({ payload: { document_id, archived } }) {
+  let navigate = useNavigate();
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -64,14 +65,14 @@ export function* archiveDocumentSaga({ payload: { document_id, archived } }) {
     if (result) {
       yield put(archiveDocumentSuccess(document_id));
       yield put(enqueueSuccessSnackbar(i18n.t(`message:ATTACHMENTS.SUCCESS.${archivedStr}`)));
-      history.back();
+      navigate(-1);
     } else {
       yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
-      history.go(0);
+      navigate(0);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t(`message:ATTACHMENTS.ERROR.FAILED_${archivedStr}`)));
-    history.go(0);
+    navigate(0);
     console.log(e);
   }
 }
@@ -79,6 +80,7 @@ export function* archiveDocumentSaga({ payload: { document_id, archived } }) {
 export const updateDocument = createAction(`updateDocumentSaga`);
 
 export function* updateDocumentSaga({ payload: { document_id, documentData } }) {
+  let navigate = useNavigate();
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -91,7 +93,7 @@ export function* updateDocumentSaga({ payload: { document_id, documentData } }) 
     );
     yield put(putDocumentSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.UPDATE')));
-    history.push('/documents');
+    navigate('/documents');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.UPDATE')));
     console.log(e);

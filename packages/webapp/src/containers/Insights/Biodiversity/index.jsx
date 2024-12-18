@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
@@ -27,9 +27,10 @@ import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { getBiodiversityData } from '../actions';
 import BiodiversityLoadingModal from '../../../components/Modals/BiodiversityLoadingModal/BiodiversityLoadingModal';
-import history from '../../../history';
+import { useNavigate } from 'react-router-dom';
 
 const Biodiversity = () => {
+  let navigate = useNavigate();
   const biodiversityData = useSelector(biodiversitySelector);
   const biodiversityLoading = useSelector(biodiversityLoadingSelector);
   const biodiversityError = useSelector(biodiversityErrorSelector);
@@ -60,7 +61,7 @@ const Biodiversity = () => {
   });
 
   const dismissModal = () => {
-    history.push('/Insights');
+    navigate('/Insights');
   };
 
   return (
@@ -77,10 +78,7 @@ const Biodiversity = () => {
       </div>
       <hr className={insightStyles.defaultLine} />
       {biodiversityLoading || biodiversityError ? (
-        <BiodiversityLoadingModal
-          dismissModal={dismissModal}
-          loadingError={biodiversityError}
-        />
+        <BiodiversityLoadingModal dismissModal={dismissModal} loadingError={biodiversityError} />
       ) : (
         biodiversityInfoItems
       )}

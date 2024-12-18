@@ -4,10 +4,12 @@ import { useIsTaskType } from '../useIsTaskType';
 import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getProgress } from '../util';
+import { useNavigate } from 'react-router-dom';
 
-function TaskDate({ history, location }) {
+function TaskDate({ location }) {
+  let navigate = useNavigate();
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const isMovementTask = useIsTaskType('MOVEMENT_TASK');
@@ -71,7 +73,7 @@ function TaskDate({ history, location }) {
       }
     }
 
-    history.push(getNextStepPath(), location?.state);
+    navigate(getNextStepPath(), { state: location?.state });
   };
 
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_date') : undefined;

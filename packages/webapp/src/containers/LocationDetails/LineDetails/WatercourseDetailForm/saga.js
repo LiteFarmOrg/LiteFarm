@@ -9,13 +9,15 @@ import {
   getLocationObjectFromWatercourse,
   postWatercourseSuccess,
 } from '../../../watercourseSlice';
-import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const postWatercourseLocation = createAction(`postWatercourseLocationSaga`);
 
 export function* postWatercourseLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -39,18 +41,15 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push('/map');
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
           .t('FARM_MAP.MAP_FILTER.WATERCOURSE')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -58,6 +57,8 @@ export function* postWatercourseLocationSaga({ payload: data }) {
 export const editWatercourseLocation = createAction(`editWatercourseLocationSaga`);
 
 export function* editWatercourseLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -81,18 +82,15 @@ export function* editWatercourseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
           .t('FARM_MAP.MAP_FILTER.WATERCOURSE')
           .toLowerCase()}`,
       },
-    );
+    });
     console.log(e);
   }
 }
@@ -100,6 +98,8 @@ export function* editWatercourseLocationSaga({ payload: data }) {
 export const deleteWatercourseLocation = createAction(`deleteWatercourseLocationSaga`);
 
 export function* deleteWatercourseLocationSaga({ payload: data }) {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -115,18 +115,15 @@ export function* deleteWatercourseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    navigate('/map');
   } catch (e) {
-    history.push(
-      {
-        pathname: history.location.pathname,
-      },
-      {
+    navigate(location.pathname, {
+      state: {
         error: {
           retire: true,
         },
       },
-    );
+    });
     console.log(e);
   }
 }

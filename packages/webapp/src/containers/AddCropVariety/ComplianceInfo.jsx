@@ -1,13 +1,13 @@
-import React from 'react';
 import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropSelector } from '../cropSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function ComplianceInfoForm({ history }) {
+function ComplianceInfoForm() {
+  let navigate = useNavigate();
   //TODO: create two different route for creating crop / crop_variety
   let { crop_id } = useParams();
   const dispatch = useDispatch();
@@ -35,18 +35,12 @@ function ComplianceInfoForm({ history }) {
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (
     <HookFormPersistProvider>
-      <ComplianceInfo
-        history={history}
-        onSubmit={onSubmit}
-        onError={onError}
-        onGoBack={onGoBack}
-        crop={crop}
-      />
+      <ComplianceInfo onSubmit={onSubmit} onError={onError} onGoBack={onGoBack} crop={crop} />
     </HookFormPersistProvider>
   );
 }

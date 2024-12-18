@@ -1,4 +1,3 @@
-import React from 'react';
 import PureGarden from '../../../../components/LocationDetailLayout/AreaDetails/Garden';
 import { postGardenLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostGardenDetailForm({ history }) {
+function PostGardenDetailForm() {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -17,7 +16,6 @@ function PostGardenDetailForm({ history }) {
 
   return (
     <PureGarden
-      history={history}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

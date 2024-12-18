@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { getNotificationCardDate } from '../../../util/moment';
 import useTranslationUtil from '../../../util/useTranslationUtil';
 import { useTranslation } from 'react-i18next';
-import history from '../../../history';
 import MoreRecentNotificationWarning from '../MoreRecentNotificationWarning';
+import { useNavigate } from 'react-router-dom';
 
 function NotificationTimeline({ activeNotificationId, relatedNotifications, style }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const { getNotificationTitle } = useTranslationUtil();
   const [sortedRelatedNotifications, setSortedRelatedNotifications] = useState([]);
@@ -54,7 +55,7 @@ function NotificationTimeline({ activeNotificationId, relatedNotifications, styl
               styles.timelineItem,
               activeNotificationId === notification.notification_id && styles.activeItem,
             )}
-            onClick={() => history.push(`/notifications/${notification.notification_id}/read_only`)}
+            onClick={() => navigate(`/notifications/${notification.notification_id}/read_only`)}
           >
             {getNotificationCardDate(notification.created_at)} |{' '}
             {getNotificationTitle(notification.title)}

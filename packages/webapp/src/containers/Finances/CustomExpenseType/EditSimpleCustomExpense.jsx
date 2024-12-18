@@ -20,9 +20,10 @@ import { updateCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector, allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function EditCustomExpense({ history }) {
+function EditCustomExpense() {
+  let navigate = useNavigate();
   let { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ function EditCustomExpense({ history }) {
   });
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = (payload) => {

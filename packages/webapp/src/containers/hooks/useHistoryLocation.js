@@ -13,18 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useLayoutEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function useHistoryLocation(history) {
-  const [historyLocation, setHistoryLocation] = useState(history.location);
+function useHistoryLocation() {
+  let location = useLocation();
+  const [historyLocation, setHistoryLocation] = useState(location);
 
   // Set up a listener to update the historyLocation state synchronously
   // after DOM mutations, ensuring immediate processing of history events.
   useLayoutEffect(() => {
-    const unlisten = history.listen(({ location }) => {
-      setHistoryLocation(location);
-    });
-    return () => unlisten();
-  }, [history]);
+    setHistoryLocation(location);
+  }, [location]);
 
   return historyLocation;
 }

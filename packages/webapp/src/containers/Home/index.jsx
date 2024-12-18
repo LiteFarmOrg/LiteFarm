@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -19,7 +19,7 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 
-export default function Home({ history }) {
+export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);

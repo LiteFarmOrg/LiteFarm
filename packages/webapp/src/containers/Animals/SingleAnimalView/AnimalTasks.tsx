@@ -14,12 +14,14 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
 // TODO: Most likely to be scoped after movement tasks. It is not part of this user story.
 // @ts-ignore
-const AnimalTasks = ({ history }) => {
+const AnimalTasks = () => {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const routerTabs = [
@@ -43,7 +45,7 @@ const AnimalTasks = ({ history }) => {
         tabs={routerTabs}
         variant={TabVariants.UNDERLINE}
         isSelected={(tab) => tab.path === location.pathname}
-        onClick={(tab) => history.push(tab.path)}
+        onClick={(tab) => navigate(tab.path)}
       />
       <div>AnimalTasks</div>
     </div>

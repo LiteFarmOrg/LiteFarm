@@ -11,7 +11,7 @@ import {
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
@@ -21,15 +21,15 @@ import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/c
 import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
-const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
+const MenuItem = forwardRef(({ onClick, path, children, className }, ref) => {
+  let navigate = useNavigate();
+  let location = useLocation();
   return (
     <ListItemButton
-      onClick={onClick ?? (() => history.push(path))}
+      onClick={onClick ?? (() => navigate(path))}
       className={clsx(
         styles.listItem,
-        matchPath(history.location.pathname, path)
-          ? styles.activeListItem
-          : styles.inactiveListItem,
+        matchPath(location.pathname, path) ? styles.activeListItem : styles.inactiveListItem,
         className,
       )}
       ref={ref}
@@ -59,7 +59,8 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
+const SideMenuContent = ({ closeDrawer, isCompact, hasBeenExpanded }) => {
+  let navigate = useNavigate();
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -67,7 +68,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const { mainActions, adminActions } = useGetMenuItems();
 
   const handleClick = (link) => {
-    history.push(link);
+    navigate(link);
     closeDrawer?.();
   };
 
@@ -101,12 +102,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
         {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {
           if (!subMenu) {
             return (
-              <MenuItem
-                history={history}
-                key={key}
-                path={path}
-                onClick={() => onMenuItemClick(path)}
-              >
+              <MenuItem key={key} path={path} onClick={() => onMenuItemClick(path)}>
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
                 <ListItemText
                   primary={label}
@@ -124,7 +120,6 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           return (
             <React.Fragment key={key}>
               <MenuItem
-                history={history}
                 onClick={() => toggleExpanded(key)}
                 path={path}
                 ref={(el) => (expandableItemsRef.current[key] = el)}
@@ -160,7 +155,6 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                 {subMenu.map(({ label: subMenuLabel, path: subMenuPath, key: subMenuKey }) => {
                   return (
                     <MenuItem
-                      history={history}
                       key={subMenuKey}
                       path={subMenuPath}
                       className={styles.subItem}
@@ -181,7 +175,6 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
         {adminActions.map(({ icon, label, path, key }) => {
           return (
             <MenuItem
-              history={history}
               key={key}
               path={path}
               className={styles.adminActionListItem}
@@ -204,14 +197,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   );
 };
 
-const PureSideMenu = ({
-  history,
-  isMobile,
-  isDrawerOpen,
-  onDrawerClose,
-  isCompact,
-  setIsCompact,
-}) => {
+const PureSideMenu = ({ isMobile, isDrawerOpen, onDrawerClose, isCompact, setIsCompact }) => {
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
   const selectedLanguage = getLanguageFromLocalStorage();
 
@@ -242,7 +228,7 @@ const PureSideMenu = ({
           drawerContent: styles.drawerContent,
         }}
       >
-        <SideMenuContent history={history} closeDrawer={onDrawerClose} />
+        <SideMenuContent closeDrawer={onDrawerClose} />
       </Drawer>
     </div>
   ) : (
@@ -258,13 +244,12 @@ const PureSideMenu = ({
       >
         <CollapseMenuIcon />
       </IconButton>
-      <SideMenuContent history={history} isCompact={isCompact} hasBeenExpanded={hasBeenExpanded} />
+      <SideMenuContent isCompact={isCompact} hasBeenExpanded={hasBeenExpanded} />
     </>
   );
 };
 
 PureSideMenu.propTypes = {
-  history: PropTypes.object.isRequired,
   isMobile: PropTypes.bool.isRequired,
   isDrawerOpen: PropTypes.bool,
   onDrawerClose: PropTypes.func,

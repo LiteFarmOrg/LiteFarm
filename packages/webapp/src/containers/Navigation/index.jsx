@@ -21,15 +21,16 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router-dom';
 
-const Navigation = ({ history, children, ...props }) => {
+const Navigation = ({ children, ...props }) => {
+  const location = useLocation();
   const dispatch = useDispatch();
-  const historyLocation = useHistoryLocation(history);
+  const historyLocation = useHistoryLocation();
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
-    matchPath(history.location.pathname, path),
+    matchPath(location.pathname, path),
   );
   const isLoginPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   // Hides the top navigation bar with logo on the login component
@@ -47,7 +48,6 @@ const Navigation = ({ history, children, ...props }) => {
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}
         resetSpotlight={resetSpotlight}
-        history={history}
         showNavActions={showNavActions}
         showNav={showNav}
         {...props}

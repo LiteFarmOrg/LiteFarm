@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
@@ -13,7 +13,6 @@ import { expiredDocumentSelector, validDocumentSelector } from '../documentSlice
 import { useFilterDocuments, useSortByName, useStringFilteredDocuments } from './util';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import DocumentsFilterPage from '../Filter/Documents';
 import { documentsFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
@@ -22,8 +21,10 @@ import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSl
 import { Underlined } from '../../components/Typography';
 import { resetDocumentsFilter } from '../filterSlice';
 import Drawer from '../../components/Drawer';
+import { useNavigate } from 'react-router-dom';
 
-export default function Documents({ history }) {
+export default function Documents() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();
@@ -68,12 +69,12 @@ export default function Documents({ history }) {
   } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const tileClick = (document_id) => {
-    history.push(`/documents/${document_id}`);
+    navigate(`/documents/${document_id}`);
   };
 
   const onUpload = () => {
     dispatch(setPersistedPaths(['/documents/add_document']));
-    history.push('/documents/add_document');
+    navigate('/documents/add_document');
   };
   const resetFilter = () => dispatch(resetDocumentsFilter());
   return (

@@ -23,10 +23,9 @@ const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div style={{ display: 'flex' }}>
-      <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
+      <PureSideMenu isMobile={false} />
       <div style={{ width: '100%' }}>
         <TopMenu
-          history={{ location: { pathname: '' } }}
           isMobile={undefined}
           showNavActions={undefined}
           onClickBurger={undefined}

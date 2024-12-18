@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import { gateEnum as pointEnum } from '../../../containers/constants';
@@ -6,15 +6,10 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 
-export default function PointDetails({
-  name,
-  children,
-  history,
-  isCreateLocationPage,
-  isViewLocationPage,
-  isEditLocationPage,
-}) {
+export default function PointDetails({ name, children, isViewLocationPage }) {
+  let location = useLocation();
   const { t } = useTranslation();
   const {
     register,
@@ -35,10 +30,10 @@ export default function PointDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error) {
-      setErrorMessage(history?.location?.state?.error);
+    if (location?.state?.error) {
+      setErrorMessage(location?.state?.error);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   return (
     <>

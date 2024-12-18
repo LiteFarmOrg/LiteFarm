@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -13,7 +13,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -25,11 +25,11 @@ export default function PureManagementTasks({
   plan,
   isAdmin,
   hasPendingTasks,
-  history,
   children,
   location,
   eligibleForDeletion,
 }) {
+  let navigate = useNavigate();
   let { variety_id, management_plan_id } = useParams();
   const { t } = useTranslation();
 
@@ -37,7 +37,7 @@ export default function PureManagementTasks({
   const hasTasks = !!children?.length;
 
   const onRepeatPlan = (crop_id, plan_id) => {
-    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
+    navigate(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
@@ -76,7 +76,7 @@ export default function PureManagementTasks({
         )
       }
     >
-      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
+      <CropHeader onBackClick={() => navigate(-1)} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>
@@ -108,17 +108,16 @@ export default function PureManagementTasks({
 
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
             path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
-            state: location?.state,
+            state: { state: location?.state },
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
             path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
-            state: location?.state,
+            state: { state: location?.state },
           },
         ]}
       />

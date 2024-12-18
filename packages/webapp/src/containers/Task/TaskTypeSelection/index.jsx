@@ -10,8 +10,10 @@ import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { animalLocationsSelector } from '../../locationSlice';
+import { useNavigate } from 'react-router-dom';
 
-function TaskTypeSelection({ history, location }) {
+function TaskTypeSelection({ location }) {
+  let navigate = useNavigate();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
@@ -28,13 +30,13 @@ function TaskTypeSelection({ history, location }) {
   }, []);
 
   const onCustomTask = () => {
-    history.push(customTaskPath, location?.state);
+    navigate(customTaskPath, { state: location?.state });
   };
 
-  const onContinue = () => history.push(continuePath, location?.state);
+  const onContinue = () => navigate(continuePath, { state: location?.state });
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onError = () => {};
@@ -50,7 +52,6 @@ function TaskTypeSelection({ history, location }) {
     <>
       <HookFormPersistProvider>
         <PureTaskTypeSelection
-          history={history}
           location={location}
           onCustomTask={onCustomTask}
           handleGoBack={handleGoBack}

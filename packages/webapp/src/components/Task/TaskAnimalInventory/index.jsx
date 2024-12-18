@@ -22,6 +22,7 @@ import Button from '../../Form/Button';
 import { Main } from '../../Typography';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
+import { useLocation } from 'react-router-dom';
 
 export const ANIMAL_IDS = 'animalIds';
 
@@ -30,13 +31,13 @@ export default function PureTaskAnimalInventory({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
-  history,
   isDesktop,
   isRequired = true,
   progress = 43,
 }) {
+  let location = useLocation();
   const { t } = useTranslation();
-  const preSelectedIds = persistedFormData.animalIds || history.location?.state?.animal_ids;
+  const preSelectedIds = persistedFormData.animalIds || location?.state?.animal_ids;
 
   const { register, handleSubmit, getValues, watch, setValue } = useForm({
     mode: 'onChange',
@@ -101,7 +102,6 @@ export default function PureTaskAnimalInventory({
         <AnimalInventory
           onSelect={onSelect}
           view={View.TASK}
-          history={history}
           preSelectedIds={preSelectedIds}
           showLinks={false}
         />

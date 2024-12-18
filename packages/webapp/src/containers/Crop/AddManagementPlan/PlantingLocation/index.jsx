@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -10,7 +10,7 @@ import TransplantSpotlight from './TransplantSpotlight';
 import { cropVarietySelector } from '../../../cropVarietySlice.js';
 import { useMatch, useParams } from 'react-router-dom';
 
-export default function PlantingLocation({ history }) {
+export default function PlantingLocation() {
   let { variety_id } = useParams();
   const isFinalLocationPage = useMatch(
     '/crop/:variety_id/add_management_plan/choose_final_planting_location',
@@ -33,7 +33,6 @@ export default function PlantingLocation({ history }) {
         <PurePlantingLocation
           isFinalLocationPage={isFinalLocationPage}
           variety_id={variety_id}
-          history={history}
           cropLocations={cropLocations}
           default_initial_location_id={default_initial_location_id}
           farmCenterCoordinate={grid_points}

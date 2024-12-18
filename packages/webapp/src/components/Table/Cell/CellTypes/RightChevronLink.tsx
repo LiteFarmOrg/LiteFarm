@@ -14,7 +14,7 @@
  */
 import { IconButton } from '@mui/material';
 import { BsChevronRight } from 'react-icons/bs';
-import history from '../../../../history';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles.module.scss';
 
 export type RightChevronLinkProps = {
@@ -22,8 +22,9 @@ export type RightChevronLinkProps = {
 };
 
 const RightChevronLink = ({ path }: RightChevronLinkProps) => {
+  let navigate = useNavigate();
   return (
-    <IconButton color="info" className={styles.rightChevronLink} onClick={() => history.push(path)}>
+    <IconButton color="info" className={styles.rightChevronLink} onClick={() => navigate(path)}>
       <BsChevronRight />
     </IconButton>
   );

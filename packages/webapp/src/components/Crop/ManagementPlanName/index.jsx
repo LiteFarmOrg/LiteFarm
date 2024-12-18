@@ -12,16 +12,16 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PureManagementPlanName({
   onSubmit,
   onError,
-  history,
   persistedFormData,
   useHookFormPersist,
   managementPlanCount,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const NAME = 'name';
@@ -58,7 +58,7 @@ export default function PureManagementPlanName({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 
@@ -120,7 +120,6 @@ export default function PureManagementPlanName({
 }
 
 PureManagementPlanName.prototype = {
-  history: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

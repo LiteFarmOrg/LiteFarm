@@ -8,9 +8,10 @@ import { residenceSelector } from '../../../residenceSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-function EditResidenceDetailForm({ history }) {
+function EditResidenceDetailForm() {
+  let location = useLocation();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -22,10 +23,10 @@ function EditResidenceDetailForm({ history }) {
   const residence = useSelector(residenceSelector(location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
@@ -57,7 +58,6 @@ function EditResidenceDetailForm({ history }) {
   return (
     <>
       <PureResidence
-        history={history}
         submitForm={submitForm}
         system={system}
         persistedFormData={residence}

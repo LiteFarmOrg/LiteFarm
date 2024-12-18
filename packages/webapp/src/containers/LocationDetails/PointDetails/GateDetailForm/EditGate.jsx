@@ -8,9 +8,10 @@ import { gateSelector } from '../../../gateSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-function EditGateDetailForm({ history }) {
+function EditGateDetailForm() {
+  let location = useLocation();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -22,10 +23,10 @@ function EditGateDetailForm({ history }) {
   const gate = useSelector(gateSelector(location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
@@ -57,7 +58,6 @@ function EditGateDetailForm({ history }) {
   return (
     <>
       <PureGate
-        history={history}
         submitForm={submitForm}
         system={system}
         persistedFormData={gate}

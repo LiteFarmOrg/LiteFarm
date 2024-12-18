@@ -19,9 +19,11 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { postRepeatCropPlan } from '../saga';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-function RepeatCropPlanConfirmation({ history }) {
+function RepeatCropPlanConfirmation() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const { management_plan_id, variety_id } = useParams();
@@ -42,11 +44,11 @@ function RepeatCropPlanConfirmation({ history }) {
   return (
     <HookFormPersistProvider>
       <PureRepeatCropPlanConfirmation
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         onSubmit={onSubmit}
         persistedFormData={persistedFormData}
         tasks={tasks}
-        origStartDate={history.location.state.origStartDate}
+        origStartDate={location.state.origStartDate}
       />
     </HookFormPersistProvider>
   );

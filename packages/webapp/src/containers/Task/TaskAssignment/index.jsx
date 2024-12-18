@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import Checkbox from '../../../components/Form/Checkbox';
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
@@ -21,8 +21,10 @@ import {
 } from '../../../components/Task/AssignTask/constants';
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
+import { useNavigate } from 'react-router-dom';
 
-export default function TaskManagement({ history, location }) {
+export default function TaskManagement({ location }) {
+  let navigate = useNavigate();
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const { t } = useTranslation();
@@ -137,7 +139,7 @@ export default function TaskManagement({ history, location }) {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onError = () => {
@@ -146,7 +148,7 @@ export default function TaskManagement({ history, location }) {
 
   const dismissModal = () => {
     setShowCannotCreateModal(false);
-    history.push('/tasks');
+    navigate('/tasks');
   };
 
   // Only creating user or assigned user can complete task -- see TaskReadOnly

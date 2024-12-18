@@ -8,9 +8,10 @@ import { watercourseSelector } from '../../../watercourseSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-function EditWatercourseDetailForm({ history }) {
+function EditWatercourseDetailForm() {
+  let location = useLocation();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -28,10 +29,10 @@ function EditWatercourseDetailForm({ history }) {
   const watercourse = useSelector(watercourseSelector(location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
@@ -63,7 +64,6 @@ function EditWatercourseDetailForm({ history }) {
   return (
     <>
       <PureWatercourse
-        history={history}
         submitForm={submitForm}
         system={system}
         persistedFormData={watercourse}

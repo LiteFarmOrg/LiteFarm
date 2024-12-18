@@ -6,9 +6,10 @@ import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { cropVarietySelector } from '../cropVarietySlice';
 import { patchVarietal } from '../AddCropVariety/saga';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function EditCropVarietyForm({ history }) {
+function EditCropVarietyForm() {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
   const { variety_id } = useParams();
@@ -40,7 +41,7 @@ function EditCropVarietyForm({ history }) {
           <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
         </ImagePickerWrapper>
       }
-      handleGoBack={() => history.back()}
+      handleGoBack={() => navigate(-1)}
       cropVariety={cropVariety}
     />
   );

@@ -18,7 +18,6 @@ import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
 import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
-import history from '../history';
 import i18n from '../locales/i18n';
 import { store } from '../store/store.ts';
 import { APP_VERSION } from '../util/constants';
@@ -152,6 +151,7 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api } from '../store/api/apiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -268,12 +268,13 @@ export function* getDocumentsSaga() {
 export const getFarmInfo = createAction(`getFarmInfoSaga`);
 
 export function* getFarmInfoSaga() {
+  let navigate = useNavigate();
   try {
     let userFarm = yield select(userFarmSelector);
 
     //TODO potential bug
     if (!userFarm.farm_id) {
-      history.push('/add_farm');
+      navigate('/add_farm');
       return;
     }
     localStorage.setItem('role_id', userFarm.role_id);
@@ -588,8 +589,9 @@ export function* checkAppVersionSaga() {
 }
 
 export function* fetchAllSaga() {
+  let navigate = useNavigate();
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
-  if (!has_consent) return history.push('/consent');
+  if (!has_consent) return navigate('/consent');
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [
@@ -637,11 +639,12 @@ export function* clearOldFarmStateSaga() {
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
+  let navigate = useNavigate();
   try {
     yield put(selectFarmSuccess(farm));
     const userFarm = yield select(userFarmSelector);
-    if (!userFarm.has_consent) return history.push('/consent');
-    history.push({ pathname: '/' });
+    if (!userFarm.has_consent) return navigate('/consent');
+    navigate('/');
     yield call(clearOldFarmStateSaga);
     yield call(fetchAllSaga);
   } catch (e) {
@@ -650,7 +653,8 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
 }
 
 export function* onReqSuccessSaga({ pathname, state, message }) {
-  history.push(pathname, state);
+  let navigate = useNavigate();
+  navigate(pathname, { state });
   yield delay(100);
   if (message) {
     yield put(enqueueSuccessSnackbar(message));

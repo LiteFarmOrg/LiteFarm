@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureWelcomeScreen from '../../components/WelcomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { getUserFarms } from '../ChooseFarm/saga';
 import { userLogReducerSelector } from '../userLogSlice';
+import { useNavigate } from 'react-router-dom';
 
-export default function WelcomeScreen({ history }) {
+export default function WelcomeScreen() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const hasUserFarm = useSelector(userFarmLengthSelector);
   const { loaded, loading } = useSelector(userFarmStatusSelector);
@@ -21,10 +23,10 @@ export default function WelcomeScreen({ history }) {
   }, []);
 
   useEffect(() => {
-    loaded && hasUserFarm && history.push('/farm_selection');
+    loaded && hasUserFarm && navigate('/farm_selection');
   }, [loaded, hasUserFarm]);
   const onClick = () => {
-    history.push('./add_farm');
+    navigate('./add_farm');
   };
   return <PureWelcomeScreen onClick={onClick} />;
 }

@@ -20,8 +20,7 @@ import PureAnimalInventory, {
 } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { Paper, useMediaQuery } from '@mui/material';
-import { History } from 'history';
+import { useMediaQuery } from '@mui/material';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
@@ -50,6 +49,7 @@ import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
 import { onAddTask } from '../../Task/onAddTask';
+import { useNavigate } from 'react-router-dom';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -77,7 +77,6 @@ type CommonPureAnimalInventoryProps = Pick<
   | 'isFilterActive'
   | 'clearFilters'
   | 'isLoading'
-  | 'history'
 >;
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
@@ -86,7 +85,6 @@ interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
   setFeedbackSurveyOpen: () => void;
   containerHeight: number;
-  history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
   isCompleteView?: boolean;
@@ -188,7 +186,6 @@ const TaskAnimalInventory = ({
 
 const MainAnimalInventory = ({
   setFeedbackSurveyOpen,
-  history,
   onTypeClick,
   selectedTypeIds,
   actionMenuAndRemoveModal,
@@ -196,26 +193,23 @@ const MainAnimalInventory = ({
   ...commonProps
 }: {
   setFeedbackSurveyOpen: () => void;
-  history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
   actionMenuAndRemoveModal: ReactNode;
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
+  let navigate = useNavigate();
   return (
     <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
       <FixedHeaderContainer
-        header={
-          <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
-        }
+        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
         kind={ContainerKind.PAPER}
       >
         <BaseAnimalInventory
-          history={history}
           {...commonProps}
           onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
-            history.push(row.path);
+            navigate(row.path);
           }}
           tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
           showSearchBarAndFilter={true}
@@ -245,7 +239,6 @@ export default function AnimalInventory({
   view = View.DEFAULT,
   isCompactSideMenu,
   setFeedbackSurveyOpen,
-  history,
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
@@ -418,7 +411,7 @@ export default function AnimalInventory({
     {
       label: t(`common:CREATE_A_TASK`),
       iconName: 'TASK_CREATION',
-      onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+      onClick: () => onAddTask(dispatch, { animal_ids: selectedInventoryIds })(),
       visible: true,
     },
     {
@@ -478,7 +471,6 @@ export default function AnimalInventory({
     isFilterActive: isFilterActive,
     clearFilters: clearFilters,
     isLoading: isLoading,
-    history: history,
     hideNoResultsBlock,
   };
 

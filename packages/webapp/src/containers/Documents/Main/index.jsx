@@ -20,15 +20,16 @@ import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
 import { archiveDocument } from '../saga';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function MainDocument({ history }) {
+export default function MainDocument() {
+  let navigate = useNavigate();
   const { document_id } = useParams();
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();
   const document = useSelector(documentSelector(document_id));
   const onGoBack = () => {
-    history.push('/documents');
+    navigate('/documents');
   };
 
   const onSetArchive = () => {
@@ -36,7 +37,7 @@ export default function MainDocument({ history }) {
   };
 
   const onUpdate = () => {
-    history.push(`/documents/${document_id}/edit_document`);
+    navigate(`/documents/${document_id}/edit_document`);
   };
 
   return (

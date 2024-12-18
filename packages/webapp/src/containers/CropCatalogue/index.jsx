@@ -10,7 +10,7 @@ import { cropsSelector } from '../cropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCropsAndManagementPlans } from '../saga';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
@@ -32,8 +32,10 @@ import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
 import Drawer from '../../components/Drawer';
+import { useNavigate } from 'react-router-dom';
 
-export default function CropCatalogue({ history }) {
+export default function CropCatalogue() {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -86,7 +88,7 @@ export default function CropCatalogue({ history }) {
         '/crop/new/add_crop_variety/compliance',
       ]),
     );
-    history.push('/crop/new');
+    navigate('/crop/new');
   };
   const resetFilter = () => dispatch(resetCropCatalogueFilter());
   return (
@@ -142,7 +144,7 @@ export default function CropCatalogue({ history }) {
                     src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
+                    onClick={() => navigate(`/crop_varieties/crop/${cropVariety.crop_id}`)}
                     cropCount={{
                       noPlans: noPlansCount,
                     }}
@@ -177,7 +179,7 @@ export default function CropCatalogue({ history }) {
                     src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
+                    onClick={() => navigate(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
                   />
                 );
               })}

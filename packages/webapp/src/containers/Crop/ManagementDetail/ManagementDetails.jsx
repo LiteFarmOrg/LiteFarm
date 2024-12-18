@@ -7,23 +7,27 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getManagementPlansAndTasks } from '../../saga';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-export default function ManagementDetails({ history }) {
+export default function ManagementDetails() {
+  let navigate = useNavigate();
+  let location = useLocation();
   let { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace(`/crop/${variety_id}/management_plan/${management_plan_id}/tasks`);
+      navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/tasks`, {
+        replace: true,
+      });
     }
-  }, [plan, history]);
+  }, [plan, navigate]);
 
   const isAdmin = useSelector(isAdminSelector);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management`);
+    navigate(`/crop/${variety_id}/management`);
   };
 
   const dispatch = useDispatch();
@@ -31,7 +35,7 @@ export default function ManagementDetails({ history }) {
     dispatch(getManagementPlansAndTasks());
   }, []);
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const system = useSelector(measurementSelector);
 
@@ -42,7 +46,6 @@ export default function ManagementDetails({ history }) {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
-        history={history}
         system={system}
       />
       {showSpotlight && <FirstManagementPlanSpotlight />}

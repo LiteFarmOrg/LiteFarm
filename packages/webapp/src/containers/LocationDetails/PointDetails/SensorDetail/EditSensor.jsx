@@ -21,9 +21,10 @@ import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function UpdateSensor({ history }) {
+export default function UpdateSensor() {
+  let navigate = useNavigate();
   let { location_id } = useParams();
   const dispatch = useDispatch();
   const sensorInfo = useSelector(sensorsSelector(location_id));
@@ -83,7 +84,7 @@ export default function UpdateSensor({ history }) {
   };
 
   const onBack = () => {
-    history.push(`/sensor/${location_id}/details`);
+    navigate(`/sensor/${location_id}/details`);
   };
 
   return (
@@ -91,7 +92,6 @@ export default function UpdateSensor({ history }) {
       <EditSensor
         onSubmit={onSubmit}
         onBack={onBack}
-        history={history}
         system={system}
         filter={filter}
         filterRef={filterRef}

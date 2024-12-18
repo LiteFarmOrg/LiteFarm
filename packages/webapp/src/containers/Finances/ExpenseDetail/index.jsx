@@ -13,9 +13,10 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-const ExpenseDetail = ({ history }) => {
+const ExpenseDetail = () => {
+  let navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -30,9 +31,9 @@ const ExpenseDetail = ({ history }) => {
 
   useEffect(() => {
     if (!expense) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [expense, history]);
+  }, [expense, navigate]);
 
   const currentExpenseType = useSelector(expenseTypeByIdSelector(expense.expense_type_id));
 
@@ -65,7 +66,7 @@ const ExpenseDetail = ({ history }) => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    history.push(createEditExpenseDetailsUrl(expense_id));
+    navigate(createEditExpenseDetailsUrl(expense_id));
   };
 
   const onRetire = () => {
@@ -73,7 +74,7 @@ const ExpenseDetail = ({ history }) => {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

@@ -1,5 +1,4 @@
 import Button from '../../Form/Button';
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -7,14 +6,10 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod';
+import { useNavigate } from 'react-router-dom';
 
-export function PureTaskPlantingMethod({
-  useHookFormPersist,
-  persistedFormData,
-  history,
-  entryPath,
-  location,
-}) {
+export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, location }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const {
@@ -36,8 +31,9 @@ export function PureTaskPlantingMethod({
 
   const onError = () => {};
 
-  const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`, location.state);
-  const onGoBack = () => history.back();
+  const onSubmit = () =>
+    navigate(`/add_task/${planting_method.toLowerCase()}`, { state: location.state });
+  const onGoBack = () => navigate(-1);
   const { historyCancel } = useHookFormPersist(getValues);
 
   const disabled = !isValid;
@@ -71,7 +67,6 @@ export function PureTaskPlantingMethod({
 }
 
 PureTaskPlantingMethod.prototype = {
-  history: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PureHarvestCompleteQuantity from '../../../../components/Task/TaskComplete/HarvestComplete/Quantity';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -6,9 +6,10 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { taskWithProductSelector } from '../../../taskSlice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function HarvestCompleteQuantity({ history, location }) {
+function HarvestCompleteQuantity({ location }) {
+  let navigate = useNavigate();
   const system = useSelector(measurementSelector);
   let { task_id } = useParams();
   const persistedPaths = [`/tasks/${task_id}/harvest_uses`];
@@ -27,11 +28,11 @@ function HarvestCompleteQuantity({ history, location }) {
   }, []);
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/harvest_uses`, location?.state);
+    navigate(`/tasks/${task_id}/harvest_uses`, { state: location?.state });
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

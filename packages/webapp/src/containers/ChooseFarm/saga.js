@@ -29,8 +29,8 @@ import {
 } from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { axios, getHeader } from '../saga';
-import history from '../../history';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
+import { useNavigate } from 'react-router-dom';
 
 const patchUserFarmStatusWithIdTokenUrl = (farm_id) =>
   `${url}/user_farm/accept_invitation/farm/${farm_id}`;
@@ -52,6 +52,7 @@ export function* getUserFarmsSaga() {
 export const patchUserFarmStatusWithIDToken = createAction('patchUserFarmStatusWithIDTokenSaga');
 
 export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
+  let navigate = useNavigate();
   try {
     const { farm_id, user_id } = userFarm;
     const header = getHeader(user_id, farm_id);
@@ -59,7 +60,7 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
     const { user: resUserFarm } = result.data;
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
-    history.push('/consent');
+    navigate('/consent');
   } catch (e) {
     console.log(e);
   }

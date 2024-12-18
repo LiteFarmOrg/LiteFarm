@@ -4,7 +4,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { measurementSelector } from '../../../userFarmSlice';
 import { useMatch } from 'react-router-dom';
 
-export default function PlantingMethod({ history }) {
+export default function PlantingMethod() {
   const system = useSelector(measurementSelector);
   const isFinalPlantingMethod = useMatch(
     '/crop/:variety_id/add_management_plan/final_planting_method',
@@ -14,7 +14,6 @@ export default function PlantingMethod({ history }) {
   return (
     <HookFormPersistProvider>
       <PureManagementPlanPlantingMethod
-        history={history}
         system={system}
         isFinalPlantingMethod={isFinalPlantingMethod}
       />

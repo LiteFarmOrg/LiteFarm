@@ -22,10 +22,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { Paper } from '@mui/material';
-import history from '../../../history';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
@@ -78,11 +77,10 @@ const FixedHeaderContainer = ({
   classes = {},
   kind = ContainerKind.OVERFLOW,
 }: FixedHeaderContainerProps) => {
+  let location = useLocation();
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
-  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) =>
-    matchPath(history.location.pathname, path),
-  );
+  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
 
   useLayoutEffect(() => {
     if (kind === ContainerKind.OVERFLOW) {

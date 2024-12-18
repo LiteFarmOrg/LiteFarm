@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -12,14 +12,15 @@ import { seedYield } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
 import { getNextHarvestPaths } from '../getAddManagementPlanPath';
+import { useNavigate } from 'react-router-dom';
 
 export default function PureNextHarvest({
   system,
   persistedFormData,
   useHookFormPersist,
   crop_variety,
-  history,
 }) {
+  let navigate = useNavigate();
   const { t } = useTranslation();
 
   const {
@@ -57,8 +58,8 @@ export default function PureNextHarvest({
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath);
+  const onGoBack = () => navigate(-1);
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import Layout from '../Layout';
@@ -254,6 +254,5 @@ UpdateSensor.prototype = {
   onBack: PropTypes.func,
   disabled: PropTypes.bool,
   onSubmit: PropTypes.func,
-  history: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

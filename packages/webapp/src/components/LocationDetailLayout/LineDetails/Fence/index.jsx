@@ -1,16 +1,10 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LineDetails from '../LineDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
-import LocationButtons from '../../LocationButtons';
-
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
@@ -25,7 +19,6 @@ export default function PureFenceWrapper(props) {
 }
 
 export function PureFence({
-  history,
   submitForm,
   system,
   isCreateLocationPage,
@@ -53,7 +46,6 @@ export function PureFence({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       system={system}
       locationType={'fence'}
       locationCategory={'line'}

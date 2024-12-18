@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import { fenceEnum as lineEnum } from '../../../containers/constants';
@@ -6,19 +6,13 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 
-export default function LineDetails({
-  name,
-  history,
-  children,
-  isCreateLocationPage,
-  isViewLocationPage,
-  isEditLocationPage,
-}) {
+export default function LineDetails({ name, children, isViewLocationPage }) {
+  let location = useLocation();
   const { t } = useTranslation();
   const {
     register,
-    setValue,
     formState: { errors },
   } = useFormContext();
   const [errorMessage, setErrorMessage] = useState();
@@ -35,10 +29,10 @@ export default function LineDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
-      setErrorMessage(history?.location?.state?.error);
+    if (location?.state?.error && !location?.state?.error?.retire) {
+      setErrorMessage(location?.state?.error);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function EditUser({ history }) {
+export default function EditUser() {
   const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -55,7 +55,6 @@ export default function EditUser({ history }) {
       isAdmin={isAdmin}
       onUpdate={onUpdate}
       onRevoke={onRevoke}
-      history={history}
       onInvite={onInvite}
       userFarmEmails={userFarmEmails}
       isCurrentUser={isCurrentUser}

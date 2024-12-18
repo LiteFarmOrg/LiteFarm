@@ -25,7 +25,7 @@ import { Label } from '../../Typography';
 import ImagePicker from '../../ImagePicker';
 import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
 
-export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
+export default function PureFarm({ userFarm, onSubmit, isAdmin }) {
   const MEASUREMENT = 'units.measurement';
   const IMAGE_FILE = 'imageFile';
   const SHOULD_REMOVE_IMAGE = 'shouldRemoveImage';
@@ -77,7 +77,6 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
   return (
     <ProfileLayout
       onSubmit={handleSubmit(onSubmit)}
-      history={history}
       buttonGroup={
         isAdmin && (
           <Button fullLength type={'submit'} disabled={disabled}>

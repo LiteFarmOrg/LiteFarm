@@ -9,9 +9,10 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function LocationManagementPlan({ history, location }) {
+function LocationManagementPlan({ location }) {
+  let navigate = useNavigate();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = useParams();
@@ -25,7 +26,7 @@ function LocationManagementPlan({ history, location }) {
   };
 
   const onAddCrop = () => {
-    history.push(`/crop_catalogue`);
+    navigate(`/crop_catalogue`);
   };
   const { name } = useSelector(cropLocationByIdSelector(location_id));
 
@@ -38,7 +39,6 @@ function LocationManagementPlan({ history, location }) {
         pastCrops={filteredManagementPlans(filter, pastCrops, t)}
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
-        history={history}
         title={name}
         location={location}
       />

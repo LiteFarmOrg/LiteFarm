@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { PureRequestCertifier } from '../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../../history';
 import { certifiersSelector } from '../certifierSlice';
 import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useCertificationName } from '../useCertificationName';
+import { useNavigate } from 'react-router-dom';
 
 export default function RequestCertifier() {
+  let navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
 
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export default function RequestCertifier() {
   const selectCertifierPath = '/certification/certifier/selection';
 
   const onSubmit = (data) => {
-    history.push(summaryPath);
+    navigate(summaryPath);
   };
   const certifiers = useSelector(certifiersSelector);
   const certifiersByCertificationId = useMemo(
@@ -31,8 +32,8 @@ export default function RequestCertifier() {
 
   const onGoBack = () => {
     certification_id === 0 || certifiersByCertificationId.length < 1
-      ? history.push(selectCertificationPath)
-      : history.push(selectCertifierPath);
+      ? navigate(selectCertificationPath)
+      : navigate(selectCertifierPath);
   };
 
   return (

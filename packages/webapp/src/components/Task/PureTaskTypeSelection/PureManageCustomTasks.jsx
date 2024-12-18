@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Form from '../../Form';
@@ -11,10 +10,8 @@ import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom
 export const PureManageCustomTasks = ({
   handleGoBack,
   onAddCustomTask,
-  onError,
   persistedFormData,
   useHookFormPersist,
-  history,
   onEditCustomTask,
   customTasks,
 }) => {
@@ -53,25 +50,25 @@ export const PureManageCustomTasks = ({
           {customTasks
             .sort((firstEl, secondEl) => firstEl.task_name.localeCompare(secondEl.task_name))
             .map(({ task_translation_key, task_type_id, task_name }) => {
-            return (
-              <div
-                onClick={() => {
-                  onTileClick(task_type_id);
-                }}
-                key={task_type_id}
-              >
+              return (
                 <div
-                  className={clsx(
-                    styles.typeContainer,
-                    selected_task_type === task_type_id && styles.typeContainerSelected,
-                  )}
+                  onClick={() => {
+                    onTileClick(task_type_id);
+                  }}
+                  key={task_type_id}
                 >
-                  <CustomTask />
-                  <div className={styles.taskTypeLabelContainer}>{task_name}</div>
+                  <div
+                    className={clsx(
+                      styles.typeContainer,
+                      selected_task_type === task_type_id && styles.typeContainerSelected,
+                    )}
+                  >
+                    <CustomTask />
+                    <div className={styles.taskTypeLabelContainer}>{task_name}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </Form>
     </>

@@ -1,4 +1,3 @@
-import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -6,8 +5,10 @@ import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { DocumentUploader } from '../DocumentUploader';
+import { useNavigate } from 'react-router-dom';
 
-function AddDocument({ history }) {
+function AddDocument() {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
@@ -15,7 +16,7 @@ function AddDocument({ history }) {
   };
 
   const onBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const deleteImage = (url) => {

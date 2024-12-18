@@ -8,7 +8,6 @@ import {
   postCropVarietySuccess,
   putCropVarietySuccess,
 } from '../cropVarietySlice';
-import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
@@ -16,10 +15,12 @@ import {
   deleteManagementPlansSuccess,
   managementPlansByCropVarietyIdSelector,
 } from '../managementPlanSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
 export function* postVarietalSaga({ payload: varietal }) {
+  let navigate = useNavigate();
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -27,7 +28,7 @@ export function* postVarietalSaga({ payload: varietal }) {
   try {
     const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
-    history.push(`/crop/${result.data.crop_variety_id}/management`);
+    navigate(`/crop/${result.data.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     //TODO remove toastr messages
@@ -44,6 +45,7 @@ export function* postVarietalSaga({ payload: varietal }) {
 export const postCropAndVarietal = createAction(`postCropAndVarietalSaga`);
 
 export function* postCropAndVarietalSaga({ payload: cropData }) {
+  let navigate = useNavigate();
   const { cropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -91,7 +93,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
     const result = yield call(axios.post, `${cropURL}/crop_variety`, data, header);
     yield put(postCropVarietySuccess(result.data.variety));
     yield put(postCropSuccess(result.data.crop));
-    history.push(`/crop/${result.data.variety.crop_variety_id}/management`);
+    navigate(`/crop/${result.data.variety.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     if (e.response.data.violationError) {
@@ -105,6 +107,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
 export const patchVarietal = createAction(`patchVarietalSaga`);
 
 export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
+  let navigate = useNavigate();
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -117,8 +120,8 @@ export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
       header,
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
-    history.back();
-    history.replace(`/crop/${variety_id}/detail`);
+    navigate(-1);
+    navigate(`/crop/${variety_id}/detail`, { replace: true });
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
     if (
@@ -135,6 +138,7 @@ export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
 export const deleteVarietal = createAction('deleteVarietalSaga');
 
 export function* deleteVarietalSaga({ payload: { variety_id } }) {
+  let navigate = useNavigate();
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -147,7 +151,7 @@ export function* deleteVarietalSaga({ payload: { variety_id } }) {
       ),
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE')));
-    history.push('/crop_catalogue');
+    navigate('/crop_catalogue');
     yield put(deleteCropVarietySuccess(variety_id));
   } catch (e) {
     console.log('failed to delete crop variety');

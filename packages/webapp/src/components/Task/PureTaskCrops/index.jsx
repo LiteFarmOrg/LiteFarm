@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -26,8 +26,6 @@ const PureTaskCrops = ({
   isRequired,
   defaultManagementPlanId,
   progress = 57,
-  history,
-  location,
 }) => {
   const { t } = useTranslation();
 

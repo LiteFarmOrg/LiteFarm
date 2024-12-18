@@ -8,19 +8,14 @@ import {
   customSignUp,
   sendResetPasswordEmail,
 } from './saga';
-import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
-import {
-  CREATE_USER_ACCOUNT,
-  CUSTOM_SIGN_UP,
-  ENTER_PASSWORD_PAGE,
-  inlineErrors,
-} from './constants';
+import { CREATE_USER_ACCOUNT, CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE } from './constants';
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -33,6 +28,8 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const {
     register,
     handleSubmit,
@@ -43,7 +40,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = history.location?.state || {};
+  const { user, component: componentToShow } = location?.state || {};
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: validEmailRegex });
@@ -67,7 +64,7 @@ function CustomSignUp() {
     setShowResetModal(false);
   };
   useEffect(() => {
-    const params = new URLSearchParams(history.location.search.substring(1));
+    const params = new URLSearchParams(location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue, ready]);
 
@@ -96,12 +93,7 @@ function CustomSignUp() {
 
   useEffect(() => {
     if (!componentToShow) {
-      history.replace(
-        {
-          pathname: '/',
-        },
-        { user: { email }, component: CUSTOM_SIGN_UP },
-      );
+      navigate('/', { replace: true, state: { user: { email }, component: CUSTOM_SIGN_UP } });
     }
   }, [componentToShow, email]);
 
@@ -120,26 +112,13 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      { user: { email }, component: CUSTOM_SIGN_UP },
-    );
+    navigate('/', { state: { user: { email }, component: CUSTOM_SIGN_UP } });
   };
   const createUserAccountOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      {
-        component: CUSTOM_SIGN_UP,
-        user: { email },
-      },
-    );
+    navigate('/', { state: { component: CUSTOM_SIGN_UP, user: { email } } });
   };
 
-  const errorMessage = history.location.state?.error;
+  const errorMessage = location.state?.error;
   return (
     <>
       <Suspense fallback={<Spinner />}>

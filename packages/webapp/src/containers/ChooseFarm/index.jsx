@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useState } from 'react';
-import history from '../../history';
+import { useEffect, useState } from 'react';
 import {
   deselectFarmSuccess,
   loginSelector,
@@ -29,8 +28,11 @@ import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 import { selectFarmAndFetchAll } from '../saga';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ChooseFarm() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -53,11 +55,11 @@ function ChooseFarm() {
   // TODO: move redirect to login with google saga
   const { loaded } = useSelector(userFarmStatusSelector);
   useEffect(() => {
-    loaded && farms.length === 0 && history.push('/welcome');
+    loaded && farms.length === 0 && navigate('/welcome');
   }, [farms, loaded]);
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onProceed = () => {
@@ -78,7 +80,7 @@ function ChooseFarm() {
 
   const onCreateFarm = () => {
     dispatch(deselectFarmSuccess());
-    history.push('/add_farm');
+    navigate('/add_farm');
   };
 
   const onFilterChange = (e) => {
@@ -86,7 +88,7 @@ function ChooseFarm() {
   };
 
   useEffect(() => {
-    const { farm_id } = history.location.state || {};
+    const { farm_id } = location.state || {};
     if (farm_id) {
       setFarmId(farm_id);
     }

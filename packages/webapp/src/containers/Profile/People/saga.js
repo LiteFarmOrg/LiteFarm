@@ -14,7 +14,7 @@ import { axios, getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
-import history from '../../../history';
+import { useNavigate } from 'react-router-dom';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchWageUrl = (farm_id, user_id) => `${userFarmUrl}/wage/farm/${farm_id}/user/${user_id}`;
@@ -39,6 +39,7 @@ export function* getAllUserFarmsByFarmIDSaga() {
 export const deactivateUser = createAction('deactivateUserSaga');
 
 export function* deactivateUserSaga({ payload: target_user_id }) {
+  let navigate = useNavigate();
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -55,7 +56,7 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.REVOKE')));
-    history.back();
+    navigate(-1);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.REVOKE')));
   }
@@ -64,6 +65,7 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
 export const reactivateUser = createAction('reactivateUserSaga');
 
 export function* reactivateUserSaga({ payload: target_user_id }) {
+  let navigate = useNavigate();
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const user = yield select(getUserFarmSelector(farm_id, target_user_id));
@@ -82,7 +84,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.RESTORE')));
-    history.back();
+    navigate(-1);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESTORE')));
   }
@@ -91,6 +93,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
 export const updateUserFarm = createAction('updateUserFarmSaga');
 
 export function* updateUserFarmSaga({ payload: user }) {
+  let navigate = useNavigate();
   let target_user_id = user.user_id;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -103,7 +106,7 @@ export function* updateUserFarmSaga({ payload: user }) {
     const results = yield all(patchRequests);
     yield put(putUserSuccess({ ...user, farm_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
-    history.back();
+    navigate(-1);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);
@@ -113,11 +116,12 @@ export function* updateUserFarmSaga({ payload: user }) {
 export const invitePseudoUser = createAction('invitePseudoUserSaga');
 
 export function* invitePseudoUserSaga({ payload: user }) {
+  let navigate = useNavigate();
   let target_user_id = user.user_id;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    history.back();
+    navigate(-1);
     delete user.user_id;
     const result = yield call(
       axios.post,
@@ -133,7 +137,7 @@ export function* invitePseudoUserSaga({ payload: user }) {
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
   } catch (e) {
-    history.push(`/user/${target_user_id}`);
+    navigate(`/user/${target_user_id}`);
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
     console.error(e);
   }

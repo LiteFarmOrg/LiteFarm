@@ -21,9 +21,10 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function EditCustomRevenue({ history }) {
+function EditCustomRevenue() {
+  let navigate = useNavigate();
   let { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ function EditCustomRevenue({ history }) {
     : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = (payload) => {

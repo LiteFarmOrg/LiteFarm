@@ -13,9 +13,11 @@ import { getManagementPlansAndTasks } from '../../saga';
 import { deleteManagementPlan } from '../saga';
 import { checkManagementPlanDependencies } from '../saga';
 import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-export default function ManagementTasks({ history, location }) {
+export default function ManagementTasks() {
+  let navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
   let { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
@@ -26,9 +28,9 @@ export default function ManagementTasks({ history, location }) {
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [plan, history]);
+  }, [plan, navigate]);
 
   const isAdmin = useSelector(isAdminSelector);
 
@@ -37,22 +39,20 @@ export default function ManagementTasks({ history, location }) {
   }, []);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management`, location?.state);
+    navigate(`/crop/${variety_id}/management`, { state: location?.state });
   };
 
   const onCompleted = () => {
-    history.push(
-      `/crop/${variety_id}/${management_plan_id}/complete_management_plan`,
-      location?.state,
-    );
+    navigate(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`, {
+      state: location?.state,
+    });
   };
   const onAbandon = () =>
-    history.push(
-      `/crop/${variety_id}/${management_plan_id}/abandon_management_plan`,
-      location?.state,
-    );
+    navigate(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`, {
+      state: location?.state,
+    });
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
@@ -78,7 +78,7 @@ export default function ManagementTasks({ history, location }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(dispatch, history, {
+        onAddTask={onAddTask(dispatch, {
           pathname: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
           management_plan_id: management_plan_id,
         })}
@@ -87,7 +87,6 @@ export default function ManagementTasks({ history, location }) {
         variety={variety}
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
-        history={history}
         location={location}
         eligibleForDeletion={eligibleForDeletion}
       >
@@ -95,7 +94,9 @@ export default function ManagementTasks({ history, location }) {
           <TaskCard
             key={task.task_id}
             onClick={() =>
-              history.push(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
+              navigate(`/tasks/${task.task_id}/read_only`, {
+                state: { pathname: location.pathname },
+              })
             }
             style={{ marginBottom: '14px' }}
             {...task}

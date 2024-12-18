@@ -7,7 +7,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
 import { useParams } from 'react-router-dom';
 
-export default function ManagementPlanName({ history }) {
+export default function ManagementPlanName() {
   let { variety_id } = useParams();
   const dispatch = useDispatch();
   const onSubmit = (data) => {
@@ -30,7 +30,6 @@ export default function ManagementPlanName({ history }) {
       <PureManagementPlanName
         onSubmit={onSubmit}
         onError={onError}
-        history={history}
         managementPlanCount={managementPlans.length + 1}
       />
     </HookFormPersistProvider>

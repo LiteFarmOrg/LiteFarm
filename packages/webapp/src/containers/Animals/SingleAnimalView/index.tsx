@@ -20,7 +20,7 @@ import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+// import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
 import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import { addNullstoMissingFields } from './utils';
@@ -47,6 +47,7 @@ import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
 import { Location } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -56,8 +57,8 @@ interface AddAnimalsProps {
   isCompactSideMenu: boolean;
 }
 
-//@ts-ignore
-function SingleAnimalView({ isCompactSideMenu, history, location }) {
+function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
+  let navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   // Header logic + display
@@ -107,9 +108,9 @@ function SingleAnimalView({ isCompactSideMenu, history, location }) {
 
   useEffect(() => {
     if (!isFetchingAnimalsOrBatches && !selectedAnimal && !selectedBatch) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [selectedAnimal, selectedBatch, history]);
+  }, [selectedAnimal, selectedBatch, navigate]);
 
   // Form submission
   const [updateAnimals] = useUpdateAnimalsMutation();
@@ -186,7 +187,7 @@ function SingleAnimalView({ isCompactSideMenu, history, location }) {
     const result = await onConfirmRemoveAnimals(formData);
 
     if (!result.error) {
-      history.back();
+      navigate(-1);
     }
   };
 
@@ -202,7 +203,7 @@ function SingleAnimalView({ isCompactSideMenu, history, location }) {
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
-                onBack={history.back}
+                onBack={() => navigate(-1)}
                 /* @ts-ignore */
                 animalOrBatch={defaultFormValues}
                 locationText={locationText}
@@ -216,7 +217,7 @@ function SingleAnimalView({ isCompactSideMenu, history, location }) {
               tabs={routerTabs}
               variant={TabVariants.UNDERLINE}
               isSelected={(tab) => tab.path === location.pathname}
-              onClick={(tab) => history.push(tab.path)}
+              onClick={(tab) => navigate(tab.path)}
             /> */}
           </>
         }
@@ -227,7 +228,6 @@ function SingleAnimalView({ isCompactSideMenu, history, location }) {
             hasSummaryWithinForm={false}
             isCompactSideMenu={isCompactSideMenu}
             variant={Variant.STEPPER_PROGRESS_BAR}
-            history={history}
             getSteps={getFormSteps}
             defaultFormValues={defaultFormValues}
             cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}

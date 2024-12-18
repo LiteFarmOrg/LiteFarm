@@ -8,7 +8,7 @@ import { getRowMethodPaths } from '../../../../components/Crop/getAddManagementP
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useMatch, useParams } from 'react-router';
 
-export default function RowMethod({ location }) {
+export default function RowMethod() {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(variety_id));
@@ -29,7 +29,6 @@ export default function RowMethod({ location }) {
         isFinalPage={isFinalPage}
         isHistoricalPage={isHistoricalPage}
         submitPath={submitPath}
-        location={location}
       />
     </HookFormPersistProvider>
   );

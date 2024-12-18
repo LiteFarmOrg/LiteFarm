@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
@@ -22,6 +22,7 @@ import styles from './styles.module.scss';
 // @ts-ignore
 const AnimalTasks = () => {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
 
   const routerTabs = [

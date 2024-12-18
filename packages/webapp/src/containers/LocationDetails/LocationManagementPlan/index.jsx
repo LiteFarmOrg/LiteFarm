@@ -11,7 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
-function LocationManagementPlan({ location }) {
+function LocationManagementPlan() {
   let navigate = useNavigate();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
@@ -40,7 +40,6 @@ function LocationManagementPlan({ location }) {
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
         title={name}
-        location={location}
       />
     </>
   );

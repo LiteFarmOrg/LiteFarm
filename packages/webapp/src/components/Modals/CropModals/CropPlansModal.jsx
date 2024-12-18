@@ -21,7 +21,7 @@ import { ManagementPlanCard } from '../../CardWithStatus/ManagementPlanCard/Mana
 import { CardWithStatusContainer } from '../../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import useWindowInnerHeight from '../../../containers/hooks/useWindowInnerHeight';
 import styles from './styles.module.scss';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const MODAL_MARGIN = 32;
 const MODAL_PADDING = 24;
@@ -29,6 +29,7 @@ const TITLE_HEIGHT = 42;
 
 export default function CropPlansModal({ variety, managementPlanCardContents, dismissModal }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
   const infoRef = useRef(null);
 

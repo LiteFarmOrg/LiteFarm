@@ -6,10 +6,11 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { taskWithProductSelector } from '../../../taskSlice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function HarvestCompleteQuantity({ location }) {
+function HarvestCompleteQuantity() {
   let navigate = useNavigate();
+  let location = useLocation();
   const system = useSelector(measurementSelector);
   let { task_id } = useParams();
   const persistedPaths = [`/tasks/${task_id}/harvest_uses`];

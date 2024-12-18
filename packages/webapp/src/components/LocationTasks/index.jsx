@@ -9,17 +9,18 @@ import PageBreak from '../PageBreak';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { onAddTask } from '../../containers/Task/onAddTask';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PureLocationTasks({
-  location,
   hasCrops,
   tasks,
   count,
   hasReadings,
   isAdmin,
+  farmLocation,
 }) {
   const navigate = useNavigate();
+  let location = useLocation();
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -82,10 +83,10 @@ export default function PureLocationTasks({
 
   return (
     <Layout>
-      <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
+      <PageTitle title={farmLocation.name} onGoBack={() => navigate('/map')} />
       <RouterTab classes={{ container: { margin: '30px 0 26px 0' } }} tabs={routerTabs} />
       <TaskCount
-        handleAddTask={onAddTask(dispatch, { location })}
+        handleAddTask={onAddTask(dispatch, { farmLocation })}
         count={count}
         isAdmin={isAdmin}
       />

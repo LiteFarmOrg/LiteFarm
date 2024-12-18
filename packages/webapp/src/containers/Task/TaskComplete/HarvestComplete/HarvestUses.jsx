@@ -7,10 +7,11 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
 import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function HarvestUses({ location }) {
+function HarvestUses() {
   let navigate = useNavigate();
+  let location = useLocation();
   const system = useSelector(measurementSelector);
   let { task_id } = useParams();
   const persistedPaths = [

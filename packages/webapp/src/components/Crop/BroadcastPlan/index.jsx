@@ -9,7 +9,7 @@ import { cloneObject } from '../../../util';
 import { getBroadcastMethodPaths } from '../getAddManagementPlanPath';
 import { PureBroadcastForm } from './PureBroadcastForm';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 function PureBroadcastPlan({
   persistedFormData,
@@ -20,9 +20,9 @@ function PureBroadcastPlan({
   yieldPerArea,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation(['translation']);
   const {
     register,

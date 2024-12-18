@@ -21,10 +21,11 @@ import {
 } from '../../../components/Task/AssignTask/constants';
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-export default function TaskManagement({ location }) {
+export default function TaskManagement() {
   let navigate = useNavigate();
+  let location = useLocation();
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const { t } = useTranslation();

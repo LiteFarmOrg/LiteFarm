@@ -14,10 +14,11 @@ import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModa
 import UnableToRetireCropModal from '../../../components/Modals/CropModals/UnableToRetireCropModal';
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function CropDetail({ location }) {
+function CropDetail() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { variety_id } = useParams();
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
@@ -70,7 +71,6 @@ function CropDetail({ location }) {
         onRetire={() => warningModal()}
         onEdit={handleEdit}
         isAdmin={isAdmin}
-        location={location}
       />
       {showWarningBox && (
         <RetireCropWarning

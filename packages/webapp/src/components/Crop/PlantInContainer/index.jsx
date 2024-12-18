@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import PureContainerForm from './PureContainerForm';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
@@ -18,9 +18,9 @@ export default function PurePlantInContainer({
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const onSubmit = () => navigate(submitPath, { state: location?.state });
   const onGoBack = () => navigate(-1);
   const progress = useMemo(() => {

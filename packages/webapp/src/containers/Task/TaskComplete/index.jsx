@@ -2,10 +2,11 @@ import PureTaskComplete from '../../../components/Task/TaskComplete';
 import { useDispatch } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { completeTask } from '../saga';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function TaskComplete({ location }) {
+function TaskComplete() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { task_id } = useParams();
   const dispatch = useDispatch();
   const persistedPaths = [`/tasks/${task_id}/before_complete`, `/tasks/${task_id}/harvest_uses`];

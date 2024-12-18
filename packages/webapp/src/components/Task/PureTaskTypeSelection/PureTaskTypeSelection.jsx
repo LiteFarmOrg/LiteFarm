@@ -32,7 +32,7 @@ import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -58,7 +58,6 @@ const icons = {
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
-  location,
   persistedFormData,
   useHookFormPersist,
   onContinue,
@@ -72,6 +71,7 @@ export const PureTaskTypeSelection = ({
   hasAnimals,
 }) => {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
     defaultValues: persistedFormData,

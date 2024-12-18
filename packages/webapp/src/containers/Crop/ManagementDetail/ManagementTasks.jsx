@@ -87,7 +87,6 @@ export default function ManagementTasks() {
         variety={variety}
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
-        location={location}
         eligibleForDeletion={eligibleForDeletion}
       >
         {taskCardContents.map((task) => (

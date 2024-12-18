@@ -9,7 +9,7 @@ import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
 import { AddLink } from '../Typography';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PureCropList({
   onFilterChange,
@@ -19,9 +19,9 @@ export default function PureCropList({
   plannedCrops,
   isAdmin,
   title,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const isSearchable = true;
   const { t } = useTranslation();
 

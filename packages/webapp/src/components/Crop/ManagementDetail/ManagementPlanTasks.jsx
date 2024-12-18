@@ -13,7 +13,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -26,10 +26,10 @@ export default function PureManagementTasks({
   isAdmin,
   hasPendingTasks,
   children,
-  location,
   eligibleForDeletion,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   let { variety_id, management_plan_id } = useParams();
   const { t } = useTranslation();
 

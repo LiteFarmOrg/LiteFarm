@@ -19,10 +19,11 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-function TaskAnimalInventory({ location }) {
+function TaskAnimalInventory() {
   let navigate = useNavigate();
+  let location = useLocation();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 

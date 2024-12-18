@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import {
   PureCompleteManagementPlan,
   SOMETHING_ELSE,
@@ -12,8 +12,9 @@ import {
 import { abandonManagementPlan } from './saga';
 import { useAbandonReasonOptions } from './useAbandonReasonOptions';
 
-export default function AbandonManagementPlan({ location }) {
+export default function AbandonManagementPlan() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));

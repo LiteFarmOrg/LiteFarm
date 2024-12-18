@@ -12,10 +12,11 @@ import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-function TaskDetails({ location }) {
+function TaskDetails() {
   let navigate = useNavigate();
+  let location = useLocation();
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 

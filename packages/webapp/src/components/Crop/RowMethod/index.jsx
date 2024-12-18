@@ -6,7 +6,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
 import PureRowForm from './PureRowForm';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PureRowMethod({
   system,
@@ -17,9 +17,9 @@ export default function PureRowMethod({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   isHistoricalPage,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const onGoBack = () => navigate(-1);
   const { t } = useTranslation();
   const {

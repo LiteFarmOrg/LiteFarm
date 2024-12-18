@@ -7,26 +7,27 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-export default function LocationTasks({ location: { pathname } }) {
+export default function LocationTasks() {
   let navigate = useNavigate();
+  let location = useLocation();
   const isAdmin = useSelector(isAdminSelector);
 
   const { location_id } = useParams();
-  const location = useSelector(locationByIdSelector(location_id));
+  const farmLocation = useSelector(locationByIdSelector(location_id));
 
   useEffect(() => {
-    if (location === undefined) {
+    if (farmLocation === undefined) {
       navigate('/unknown_record', { replace: true });
     }
-  }, [location]);
+  }, [farmLocation]);
 
   const areCropEnabled = ['field', 'garden', 'greenhouse', 'buffer_zone'];
   const areReadingEnabled = ['sensor'];
 
-  const hasCrops = areCropEnabled.includes(pathname.split('/')[1]);
-  const hasReadings = areReadingEnabled.includes(pathname.split('/')[1]);
+  const hasCrops = areCropEnabled.includes(location.pathname.split('/')[1]);
+  const hasReadings = areReadingEnabled.includes(location.pathname.split('/')[1]);
 
   const filter = (taskList) => {
     const activeStatus = ['planned', 'late'];
@@ -56,9 +57,9 @@ export default function LocationTasks({ location: { pathname } }) {
 
   return (
     <>
-      {location && !location?.deleted && (
+      {farmLocation && !farmLocation?.deleted && (
         <PureLocationTasks
-          location={location}
+          farmLocation={farmLocation}
           isAdmin={isAdmin}
           tasks={tasks}
           count={count}

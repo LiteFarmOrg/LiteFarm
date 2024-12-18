@@ -8,10 +8,11 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function TaskCompleteStepOne({ location }) {
+function TaskCompleteStepOne() {
   let navigate = useNavigate();
+  let location = useLocation();
   const {
     units: { measurement: system },
     country_id,

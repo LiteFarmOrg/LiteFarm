@@ -25,10 +25,11 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-export default function CropVarieties({ location }) {
+export default function CropVarieties() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { crop_id: strCropId } = useParams();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);

@@ -34,15 +34,16 @@ import { useEffect } from 'react';
 import { getManagementPlans } from '../../saga';
 import { getTasks, getTaskTypes } from '../../Task/saga';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 const seedingTypeIsSeedMap = {
   SEED: true,
   SEEDLING_OR_PLANTING_STOCK: false,
 };
 
-function CropManagement({ location }) {
+function CropManagement() {
   let navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
   let { variety_id } = useParams();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
@@ -124,7 +125,6 @@ function CropManagement({ location }) {
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}
         isAdmin={isAdmin}
-        location={location}
       />
       <RepeatedCropPlanSpotlight
         repeatingPlanCreated={hasRepeatingPlans}

@@ -14,10 +14,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { resetAndUnLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useCertificationName } from '../useCertificationName';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function ViewCertification() {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {

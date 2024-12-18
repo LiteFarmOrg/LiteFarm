@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskBedPlan({ location }) {
+export default function TaskBedPlan() {
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(
@@ -22,7 +22,6 @@ export default function TaskBedPlan({ location }) {
         isFinalPage={true}
         submitPath={'/add_task/bed_guidance'}
         prefix={'transplant_task.planting_management_plan'}
-        location={location}
       />
     </HookFormPersistProvider>
   );

@@ -8,7 +8,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlanGuidanceForm } from './PurePlanGuidanceForm';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 function PurePlanGuidance({
   system,
@@ -18,9 +18,9 @@ function PurePlanGuidance({
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation(['translation']);
   const {
     register,

@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, location }) {
+export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
 
   const {

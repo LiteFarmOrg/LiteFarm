@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { getBedMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { useMatch, useParams } from 'react-router';
 
-export default function BedPlan({ location }) {
+export default function BedPlan() {
   let { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(variety_id));
@@ -23,7 +23,6 @@ export default function BedPlan({ location }) {
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         submitPath={submitPath}
-        location={location}
       />
     </HookFormPersistProvider>
   );

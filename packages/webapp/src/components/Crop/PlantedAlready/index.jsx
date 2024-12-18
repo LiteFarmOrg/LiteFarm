@@ -13,16 +13,16 @@ import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { getDateDifference, getDateInputFormat } from '../../../util/moment';
 import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PurePlantedAlready({
   useHookFormPersist,
   persistedFormData,
   system,
   cropVariety,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   const { t } = useTranslation();
 
   const {

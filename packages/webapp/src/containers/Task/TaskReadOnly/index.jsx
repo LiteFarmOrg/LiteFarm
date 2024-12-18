@@ -37,10 +37,11 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
-function TaskReadOnly({ location }) {
+function TaskReadOnly() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);

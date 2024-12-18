@@ -4,10 +4,11 @@ import { useIsTaskType } from '../useIsTaskType';
 import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getProgress } from '../util';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-function TaskDate({ location }) {
+function TaskDate() {
   let navigate = useNavigate();
+  let location = useLocation();
   const onGoBack = () => {
     navigate(-1);
   };

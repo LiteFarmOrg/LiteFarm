@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import {
@@ -8,8 +8,9 @@ import {
 } from '../../managementPlanSlice';
 import { completeManagementPlan } from './saga';
 
-export default function CompleteManagementPlan({ location }) {
+export default function CompleteManagementPlan() {
   let navigate = useNavigate();
+  let location = useLocation();
   let { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const [management_plan] = useSelector(

@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams, useLocation } from 'react-router';
 
 export default function PureCropManagement({
   onBack,
@@ -20,9 +20,9 @@ export default function PureCropManagement({
   onAddManagementPlan,
   managementPlanCardContents,
   isAdmin,
-  location,
 }) {
   let navigate = useNavigate();
+  let location = useLocation();
   let { variety_id } = useParams();
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');

@@ -7,7 +7,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMatch, useParams } from 'react-router';
 
-function BroadcastPlan({ location }) {
+function BroadcastPlan() {
   let { variety_id } = useParams();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const cropVariety = useSelector(cropVarietySelector(variety_id));
@@ -32,7 +32,6 @@ function BroadcastPlan({ location }) {
         isFinalPage={isFinalPage}
         locationSize={planLocation.total_area}
         yieldPerArea={yieldPerArea}
-        location={location}
       />
     </HookFormPersistProvider>
   );

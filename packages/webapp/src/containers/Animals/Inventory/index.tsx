@@ -49,7 +49,7 @@ import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
 import { onAddTask } from '../../Task/onAddTask';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const HEIGHTS = {
   filterAndSearch: 64,

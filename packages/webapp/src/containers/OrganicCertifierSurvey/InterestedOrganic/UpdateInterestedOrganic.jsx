@@ -4,7 +4,7 @@ import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getOrganicSurveyReqBody } from '../SetCertificationSummary/utils/getOrganicSurveyReqBody';
 import { putOrganicCertifierSurvey } from '../saga';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function UpdateInterestedOrganic() {
   let navigate = useNavigate();

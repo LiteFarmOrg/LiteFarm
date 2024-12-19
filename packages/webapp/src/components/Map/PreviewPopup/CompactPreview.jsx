@@ -11,7 +11,7 @@ import {
   getTemperatureValue,
 } from './utils';
 import { isTouchDevice } from '../../../util/device';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const useStyles = makeStyles((theme) => ({
   container: {

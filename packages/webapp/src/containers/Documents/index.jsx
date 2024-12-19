@@ -21,7 +21,7 @@ import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSl
 import { Underlined } from '../../components/Typography';
 import { resetDocumentsFilter } from '../filterSlice';
 import Drawer from '../../components/Drawer';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function Documents() {
   let navigate = useNavigate();

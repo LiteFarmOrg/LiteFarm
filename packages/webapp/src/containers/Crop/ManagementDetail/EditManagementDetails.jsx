@@ -8,7 +8,7 @@ import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import produce from 'immer';
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 export default function ManagementDetails() {
   let navigate = useNavigate();

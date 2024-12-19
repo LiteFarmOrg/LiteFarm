@@ -11,12 +11,11 @@ import {
 } from '../../../naturalAreaSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 export const postNaturalAreaLocation = createAction(`postNaturalAreaLocationSaga`);
 
 export function* postNaturalAreaLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
@@ -38,14 +37,10 @@ export function* postNaturalAreaLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.NA')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n.t('FARM_MAP.MAP_FILTER.NA').toLowerCase()}`,
     });
     console.log(e);
   }
@@ -54,7 +49,6 @@ export function* postNaturalAreaLocationSaga({ payload: data }) {
 export const editNaturalAreaLocation = createAction(`editNaturalAreaLocationSaga`);
 
 export function* editNaturalAreaLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
@@ -76,14 +70,12 @@ export function* editNaturalAreaLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.NA')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.NA')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -92,7 +84,6 @@ export function* editNaturalAreaLocationSaga({ payload: data }) {
 export const deleteNaturalAreaLocation = createAction(`deleteNaturalAreaLocationSaga`);
 
 export function* deleteNaturalAreaLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
@@ -106,13 +97,11 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: {
-          retire: true,
-        },
+    history.push(location.pathname, {
+      error: {
+        retire: true,
       },
     });
     console.log(e);

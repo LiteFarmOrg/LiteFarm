@@ -11,12 +11,11 @@ import {
 } from '../../../surfaceWaterSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 export const postSurfaceWaterLocation = createAction(`postSurfaceWaterLocationSaga`);
 
 export function* postSurfaceWaterLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
@@ -41,14 +40,12 @@ export function* postSurfaceWaterLocationSaga({ payload: data }) {
     );
     yield put(canShowSuccessHeader(true));
 
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -57,7 +54,6 @@ export function* postSurfaceWaterLocationSaga({ payload: data }) {
 export const editSurfaceWaterLocation = createAction(`editSurfaceWaterLocationSaga`);
 
 export function* editSurfaceWaterLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
@@ -82,14 +78,12 @@ export function* editSurfaceWaterLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -98,7 +92,6 @@ export function* editSurfaceWaterLocationSaga({ payload: data }) {
 export const deleteSurfaceWaterLocation = createAction(`deleteSurfaceWaterLocationSaga`);
 
 export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
@@ -115,13 +108,11 @@ export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: {
-          retire: true,
-        },
+    history.push(location.pathname, {
+      error: {
+        retire: true,
       },
     });
     console.log(e);

@@ -5,7 +5,7 @@ import { certifierSurveySelector } from '../slice';
 import { setCertifierId } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { useCertificationName } from '../useCertificationName';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function CertifierSelectionMenu() {
   let navigate = useNavigate();

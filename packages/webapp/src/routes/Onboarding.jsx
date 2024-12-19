@@ -15,7 +15,8 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
+import { CompatRoute, Navigate } from 'react-router-dom-v5-compat';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -74,64 +75,78 @@ function OnboardingFlow({
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Suspense fallback={<Spinner />}>
-      <Routes>
-        <Route path="/farm_selection" exact children={<ChooseFarm />} />
-        <Route path="/welcome" exact children={<WelcomeScreen />} />
-        <Route path="/add_farm" exact children={<AddFarm />} />
+      <Switch>
+        <CompatRoute path="/farm_selection" exact children={<ChooseFarm />} />
+        <CompatRoute path="/welcome" exact children={<WelcomeScreen />} />
+        <CompatRoute path="/add_farm" exact children={<AddFarm />} />
 
-        {step_one && <Route path="/role_selection" exact children={<RoleSelection />} />}
-        {step_two && !step_five && <Route path="/consent" exact children={<ConsentForm />} />}
+        {step_one && <CompatRoute path="/role_selection" exact children={<RoleSelection />} />}
+        {step_two && !step_five && <CompatRoute path="/consent" exact children={<ConsentForm />} />}
         {step_five && !has_consent && (
-          <Route path="/consent" exact>
+          <CompatRoute path="/consent" exact>
             <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
-          </Route>
+          </CompatRoute>
         )}
         {step_three && (
-          <Route
+          <CompatRoute
             path="/certification/interested_in_organic"
             exact
             children={<InterestedOrganic />}
           />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/selection" exact children={<CertificationSelection />} />
+          <CompatRoute
+            path="/certification/selection"
+            exact
+            children={<CertificationSelection />}
+          />
         )}
         {(step_four || interested) && (
-          <Route
+          <CompatRoute
             path="/certification/certifier/selection"
             exact
             children={<CertifierSelectionMenu />}
           />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/certifier/request" exact children={<RequestCertifier />} />
+          <CompatRoute
+            path="/certification/certifier/request"
+            exact
+            children={<RequestCertifier />}
+          />
         )}
         {(step_four || interested) && (
-          <Route path="/certification/summary" exact children={<SetCertificationSummary />} />
+          <CompatRoute path="/certification/summary" exact children={<SetCertificationSummary />} />
         )}
-        {step_four && <Route path="/outro" exact children={<Outro />} />}
+        {step_four && <CompatRoute path="/outro" exact children={<Outro />} />}
 
-        <Route>
+        <CompatRoute>
           <>
-            {!step_one && <Route render={() => <Navigate to={'/add_farm'} />} />}
-            {step_four && !has_consent && <Route render={() => <Navigate to={'/consent'} />} />}
+            {!step_one && <CompatRoute render={() => <Navigate to={'/add_farm'} />} />}
+            {step_four && !has_consent && (
+              <CompatRoute render={() => <Navigate to={'/consent'} />} />
+            )}
             {!farm_id && hasUserFarms && (
-              <Route render={() => <Navigate to={'/farm_selection'} />} />
+              <CompatRoute render={() => <Navigate to={'/farm_selection'} />} />
             )}
             {(!farm_id || !step_one) && !hasUserFarms && (
-              <Route render={() => <Navigate to={'/welcome'} />} />
+              <CompatRoute render={() => <Navigate to={'/welcome'} />} />
             )}
-            {step_one && !step_two && <Route render={() => <Navigate to={'/role_selection'} />} />}
-            {step_two && !step_three && <Route render={() => <Navigate to={'/consent'} />} />}
+            {step_one && !step_two && (
+              <CompatRoute render={() => <Navigate to={'/role_selection'} />} />
+            )}
+            {step_two && !step_three && <CompatRoute render={() => <Navigate to={'/consent'} />} />}
             {step_one && step_three && !step_four && (
-              <Route render={() => <Navigate to={'/certification/interested_in_organic'} />} />
+              <CompatRoute
+                render={() => <Navigate to={'/certification/interested_in_organic'} />}
+              />
             )}
             {step_one && step_four && !step_five && (
-              <Route render={() => <Navigate to={'/outro'} />} />
+              <CompatRoute render={() => <Navigate to={'/outro'} />} />
             )}
           </>
-        </Route>
-      </Routes>
+        </CompatRoute>
+      </Switch>
     </Suspense>
   );
 }

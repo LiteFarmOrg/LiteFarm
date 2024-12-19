@@ -17,7 +17,8 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom-v5-compat';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';
@@ -79,6 +80,7 @@ import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './polyfillDateTimeFormat';
+import { BrowserRouter } from 'react-router-dom';
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {
@@ -154,11 +156,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
               <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                <Router>
-                  <>
-                    <App />
-                  </>
-                </Router>
+                <BrowserRouter>
+                  <CompatRouter>
+                    <>
+                      <App />
+                    </>
+                  </CompatRouter>
+                </BrowserRouter>
               </ErrorBoundary>
             </GoogleOAuthProvider>
           </>

@@ -21,7 +21,7 @@ import { ManagementPlanCard } from '../../CardWithStatus/ManagementPlanCard/Mana
 import { CardWithStatusContainer } from '../../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import useWindowInnerHeight from '../../../containers/hooks/useWindowInnerHeight';
 import styles from './styles.module.scss';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 const MODAL_MARGIN = 32;
 const MODAL_PADDING = 24;

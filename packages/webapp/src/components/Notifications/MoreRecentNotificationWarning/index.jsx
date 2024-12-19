@@ -2,7 +2,7 @@ import { Text } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 function MoreRecentNotificationWarning({ notificationId, entityType }) {
   let navigate = useNavigate();

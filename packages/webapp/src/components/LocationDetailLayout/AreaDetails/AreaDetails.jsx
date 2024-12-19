@@ -8,7 +8,7 @@ import Unit from '../../Form/Unit';
 import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { area_perimeter, area_total_area } from '../../../util/convert-units/unit';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom-v5-compat';
 
 export default function AreaDetails({
   name,

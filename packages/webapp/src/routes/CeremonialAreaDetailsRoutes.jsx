@@ -1,5 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import EditCeremonialAreaForm from '../containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/EditCeremonialArea';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -9,19 +10,19 @@ export default function CeremonialAreaDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route
+      <CompatRoute
         path="/ceremonial_area/:location_id/details"
         exact
         children={<EditCeremonialAreaForm />}
       />
       {isAdmin && (
-        <Route
+        <CompatRoute
           path="/ceremonial_area/:location_id/edit"
           exact
           children={<EditCeremonialAreaForm />}
         />
       )}
-      <Route path="/ceremonial_area/:location_id/tasks" exact children={<LocationTasks />} />
+      <CompatRoute path="/ceremonial_area/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

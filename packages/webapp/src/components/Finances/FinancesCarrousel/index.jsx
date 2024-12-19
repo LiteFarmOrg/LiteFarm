@@ -30,7 +30,7 @@ import {
   LABOUR_URL,
   OTHER_EXPENSE_URL,
 } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 ChartJS.register(ArcElement, Tooltip);
 

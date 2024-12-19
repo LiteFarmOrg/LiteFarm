@@ -21,7 +21,7 @@ import { retireCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { createEditCustomExpenseURL } from '../../../util/siteMapConstants';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 function ReadOnlyCustomExpense() {
   let navigate = useNavigate();

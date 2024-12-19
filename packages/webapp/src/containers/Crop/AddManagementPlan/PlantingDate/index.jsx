@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom-v5-compat';
 
 export default function PlantingDate() {
   let { variety_id } = useParams();

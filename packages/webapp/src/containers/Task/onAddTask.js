@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 /**

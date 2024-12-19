@@ -4,7 +4,7 @@ import { certificationsSelector } from '../certificationSlice';
 import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useGetCertifiers } from '../useCertifiers';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function CertificationSelection() {
   let navigate = useNavigate();

@@ -5,7 +5,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getBedMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
-import { useMatch, useParams } from 'react-router';
+import { useMatch, useParams } from 'react-router-dom-v5-compat';
 
 export default function BedPlan() {
   let { variety_id } = useParams();

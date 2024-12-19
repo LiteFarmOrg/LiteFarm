@@ -12,7 +12,7 @@ import {
   putOrganicCertifierSurvey,
 } from '../saga';
 import { setInterested } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function OnboardingInterestedOrganic() {
   let navigate = useNavigate();

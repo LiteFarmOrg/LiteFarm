@@ -4,7 +4,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMemo } from 'react';
 import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
-import { useMatch, useParams } from 'react-router';
+import { useMatch, useParams } from 'react-router-dom-v5-compat';
 
 export default function RowGuidance() {
   let { variety_id } = useParams();

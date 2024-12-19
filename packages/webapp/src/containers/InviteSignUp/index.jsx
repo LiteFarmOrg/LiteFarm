@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import Button from '../../components/Form/Button';
 import { isChrome } from '../../util';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 function InviteSignUp() {
   let navigate = useNavigate();

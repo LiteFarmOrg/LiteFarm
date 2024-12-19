@@ -5,7 +5,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import { patchEstimatedCropRevenue } from '../saga';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 function UpdateEstimatedCropRevenue() {
   let navigate = useNavigate();

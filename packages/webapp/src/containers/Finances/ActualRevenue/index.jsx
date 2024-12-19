@@ -26,7 +26,7 @@ import {
   FINANCES_HOME_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function ActualRevenue() {
   let navigate = useNavigate();

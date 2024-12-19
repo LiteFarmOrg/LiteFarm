@@ -26,7 +26,7 @@ import Pill from '../../../Filter/Pill';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function PureSensorDetail({
   isAdmin,

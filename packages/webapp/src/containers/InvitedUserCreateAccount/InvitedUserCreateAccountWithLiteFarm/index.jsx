@@ -2,7 +2,7 @@ import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCre
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { acceptInvitationWithLiteFarm } from '../saga';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom-v5-compat';
 
 export default function InvitedUserCreateAccountWithLiteFarm() {
   let location = useLocation();

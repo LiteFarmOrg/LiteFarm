@@ -14,7 +14,7 @@
  */
 
 import { Suspense, useState } from 'react';
-import { matchPath, useLocation } from 'react-router';
+import { matchPath, useLocation } from 'react-router-dom-v5-compat';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import Navigation from './containers/Navigation';

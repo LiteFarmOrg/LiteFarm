@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { getUserFarms } from '../ChooseFarm/saga';
 import { userLogReducerSelector } from '../userLogSlice';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function WelcomeScreen() {
   let navigate = useNavigate();

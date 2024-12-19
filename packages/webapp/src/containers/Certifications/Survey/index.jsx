@@ -7,7 +7,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { exportCertificationData } from '../saga';
 import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 function CertificationSurveyPage() {
   let navigate = useNavigate();

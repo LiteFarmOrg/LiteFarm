@@ -28,7 +28,7 @@ import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions 
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 function RevenueDetail() {
   let navigate = useNavigate();

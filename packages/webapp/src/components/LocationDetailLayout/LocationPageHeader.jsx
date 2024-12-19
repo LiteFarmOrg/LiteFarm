@@ -8,7 +8,7 @@ import {
 import { upsertFormData } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function LocationPageHeader({
   isCreateLocationPage,

@@ -4,7 +4,7 @@ import { useIsTaskType } from '../useIsTaskType';
 import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getProgress } from '../util';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 function TaskDate() {
   let navigate = useNavigate();

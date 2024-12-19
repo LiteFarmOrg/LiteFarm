@@ -1,6 +1,6 @@
 import { fieldEnum } from '../constants';
 import moment from 'moment';
-import { useMatch } from 'react-router';
+import { useMatch } from 'react-router-dom-v5-compat';
 
 export const useLocationPageType = () => {
   const isCreateLocationPage = useMatch('/create_location/') ? true : false;

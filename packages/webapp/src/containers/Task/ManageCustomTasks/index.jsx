@@ -2,7 +2,7 @@ import { PureManageCustomTasks } from '../../../components/Task/PureTaskTypeSele
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { userCreatedTaskTypesSelector } from '../../taskTypeSlice';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 function ManageCustomTasks() {
   let navigate = useNavigate();

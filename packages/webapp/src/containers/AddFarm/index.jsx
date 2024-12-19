@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const AddFarm = () => {
   let navigate = useNavigate();

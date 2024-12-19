@@ -24,7 +24,7 @@ import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey, setPasswordResetError } from '../customSignUpSlice';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -34,18 +34,15 @@ const resetPasswordUrl = () => `${url}/password_reset/send_email`;
 export const customSignUp = createAction(`customSignUpSaga`);
 
 export function* customSignUpSaga({ payload: { email } }) {
-  let navigate = useNavigate();
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
       localStorage.setItem('litefarm_lang', result.data.language);
-      navigate('/', {
-        state: {
-          component: ENTER_PASSWORD_PAGE,
-          user: {
-            first_name: result.data.first_name,
-            email: result.data.email,
-          },
+      history.push('/', {
+        component: ENTER_PASSWORD_PAGE,
+        user: {
+          first_name: result.data.first_name,
+          email: result.data.email,
         },
       });
     } else if (result.data.invited) {
@@ -53,11 +50,9 @@ export function* customSignUpSaga({ payload: { email } }) {
     } else if (result.data.expired) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.expired }));
     } else if (!result.data.exists && !result.data.sso) {
-      navigate('/', {
-        state: {
-          component: CREATE_USER_ACCOUNT,
-          user: { email },
-        },
+      history.push('/', {
+        component: CREATE_USER_ACCOUNT,
+        user: { email },
       });
     } else if (result.data.sso) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.sso }));
@@ -70,7 +65,6 @@ export function* customSignUpSaga({ payload: { email } }) {
 export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga`);
 
 export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...user } }) {
-  let navigate = useNavigate();
   try {
     const screenSize = {
       screen_width: window.innerWidth,
@@ -89,7 +83,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
     localStorage.setItem('id_token', id_token);
 
     yield put(loginSuccess({ user_id }));
-    navigate('/farm_selection');
+    history.push('/farm_selection');
   } catch (e) {
     if (e.response?.status === 401) {
       showPasswordError();
@@ -103,7 +97,6 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
 export const customCreateUser = createAction(`customCreateUserSaga`);
 
 export function* customCreateUserSaga({ payload: data }) {
-  let navigate = useNavigate();
   try {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
@@ -134,7 +127,7 @@ export function* customCreateUserSaga({ payload: data }) {
 
       localStorage.setItem('litefarm_lang', language_preference);
       yield put(loginSuccess({ user_id }));
-      navigate('/farm_selection');
+      history.push('/farm_selection');
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.INVITE')));

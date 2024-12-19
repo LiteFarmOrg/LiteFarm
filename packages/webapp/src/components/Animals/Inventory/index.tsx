@@ -29,7 +29,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 import { animalDescendingComparator } from '../../../util/sort';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export type SearchProps = {
   searchString: string | null | undefined;

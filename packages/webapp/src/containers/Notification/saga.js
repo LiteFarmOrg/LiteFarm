@@ -21,7 +21,7 @@ import {
   getNotificationSuccess /*, clearAlerts as clearAlertsReducer*/,
 } from '../notificationSlice';
 import { notificationsUrl, clearAlertsUrl } from '../../apiConfig';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 export const getNotification = createAction('getNotificationSaga');
 
@@ -40,7 +40,6 @@ export function* getNotificationSaga() {
 export const readNotification = createAction('readNotificationSaga');
 
 export function* readNotificationSaga({ payload }) {
-  let navigate = useNavigate();
   const { user_id, farm_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
   try {
@@ -50,7 +49,7 @@ export function* readNotificationSaga({ payload }) {
       { notification_ids: [payload], status: 'Read' },
       header,
     );
-    navigate(`/notifications/${payload}/read_only`);
+    history.push(`/notifications/${payload}/read_only`);
   } catch (e) {
     console.error(e);
   }

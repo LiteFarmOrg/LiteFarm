@@ -9,14 +9,13 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 import { inlineErrors } from '../CustomSignUp/constants';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 const loginUrl = () => `${url}/google`;
 
 export const loginWithGoogle = createAction(`loginWithGoogleSaga`);
 
 export function* loginWithGoogleSaga({ payload: google_id_token }) {
-  let navigate = useNavigate();
   try {
     const header = {
       headers: {
@@ -40,13 +39,13 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
     } else if (id_token === '') {
       // The user has an account with a password
-      navigate('/', { state: { component: ENTER_PASSWORD_PAGE, user } });
+      history.push('/', { component: ENTER_PASSWORD_PAGE, user });
     } else {
       yield put(loginSuccess(user));
       if (isSignUp) {
-        navigate('/welcome');
+        history.push('/welcome');
       } else {
-        navigate('/farm_selection');
+        history.push('/farm_selection');
       }
     }
   } catch (e) {

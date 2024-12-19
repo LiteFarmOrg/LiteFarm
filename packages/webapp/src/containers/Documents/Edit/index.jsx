@@ -11,7 +11,7 @@ import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { DocumentUploader } from '../DocumentUploader';
 import { updateDocument } from '../saga';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 export default function EditDocument() {
   let navigate = useNavigate();

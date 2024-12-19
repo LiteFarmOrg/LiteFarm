@@ -11,12 +11,11 @@ import {
 } from '../../../gardenSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 export const postGardenLocation = createAction(`postGardenLocationSaga`);
 
 export function* postGardenLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -37,14 +36,12 @@ export function* postGardenLocationSaga({ payload: data }) {
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GARDEN'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GARDEN')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.GARDEN')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -53,7 +50,6 @@ export function* postGardenLocationSaga({ payload: data }) {
 export const editGardenLocation = createAction(`editGardenLocationSaga`);
 
 export function* editGardenLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
@@ -78,14 +74,12 @@ export function* editGardenLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GARDEN')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.GARDEN')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -94,7 +88,6 @@ export function* editGardenLocationSaga({ payload: data }) {
 export const deleteGardenLocation = createAction(`deleteGardenLocationSaga`);
 
 export function* deleteGardenLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
@@ -111,13 +104,11 @@ export function* deleteGardenLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: {
-          retire: true,
-        },
+    history.push(location.pathname, {
+      error: {
+        retire: true,
       },
     });
     console.log(e);

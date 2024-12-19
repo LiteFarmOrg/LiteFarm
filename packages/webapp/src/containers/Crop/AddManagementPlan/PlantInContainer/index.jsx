@@ -6,7 +6,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
 import { getContainerMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useMatch, useParams } from 'react-router';
+import { useMatch, useParams } from 'react-router-dom-v5-compat';
 
 export default function PlantInContainer() {
   let { variety_id } = useParams();

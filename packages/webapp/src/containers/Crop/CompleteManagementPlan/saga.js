@@ -26,12 +26,11 @@ import { getTasks } from '../../Task/saga';
 import { updateManagementPlanSuccess } from '../../managementPlanSlice';
 import { axios, getHeader } from '../../saga';
 import { loginSelector } from '../../userFarmSlice';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 export const completeManagementPlan = createAction(`completeManagementPlanSaga`);
 
 export function* completeManagementPlanSaga({ payload }) {
-  let navigate = useNavigate();
   const { displayCannotCompleteModal, ...managementPlan } = payload;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -43,7 +42,7 @@ export function* completeManagementPlanSaga({ payload }) {
       header,
     );
     yield put(updateManagementPlanSuccess(managementPlan));
-    navigate(`/crop/${managementPlan.crop_variety_id}/management`);
+    history.push(`/crop/${managementPlan.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.COMPLETE')));
   } catch (e) {
     if (e.response.data === CANNOT_COMPLETE_ABANDONED_PLAN) {
@@ -57,7 +56,6 @@ export function* completeManagementPlanSaga({ payload }) {
 export const abandonManagementPlan = createAction(`abandonManagementPlanSaga`);
 
 export function* abandonManagementPlanSaga({ payload }) {
-  let navigate = useNavigate();
   const { displayCannotAbandonModal, ...managementPlan } = payload;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -69,7 +67,7 @@ export function* abandonManagementPlanSaga({ payload }) {
       header,
     );
     yield put(updateManagementPlanSuccess(managementPlan));
-    navigate(`/crop/${managementPlan.crop_variety_id}/management`);
+    history.push(`/crop/${managementPlan.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.ABANDON')));
     yield put(getTasks());
   } catch (e) {

@@ -8,7 +8,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
 import { postOrganicCertifierSurvey, putOrganicCertifierSurvey } from '../saga';
 import { certifierSurveySelector } from '../slice';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function OnboardingSetCertificationSummary() {
   let navigate = useNavigate();

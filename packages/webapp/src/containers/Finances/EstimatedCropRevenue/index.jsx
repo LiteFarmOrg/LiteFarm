@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
   let navigate = useNavigate();

@@ -21,7 +21,7 @@ import { ReactComponent as DoesNotExistSplash } from '../../../assets/images/doe
 import { Title } from '../../../components/Typography';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as Sunglasses } from '../../../assets/images/miscs/smiling-face-with-sunglasses-emoji.svg';
-import { useNavigate, useNavigationType } from 'react-router';
+import { useNavigate, useNavigationType } from 'react-router-dom-v5-compat';
 
 const useStyles = makeStyles((theme) => ({
   line: {

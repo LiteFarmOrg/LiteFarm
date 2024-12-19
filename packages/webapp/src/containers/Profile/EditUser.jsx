@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmEntitiesSelector, userFarmSelector } from '../userFarmSlice';
 import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from './People/saga';
 import { useMemo } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom-v5-compat';
 
 export default function EditUser() {
   const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);

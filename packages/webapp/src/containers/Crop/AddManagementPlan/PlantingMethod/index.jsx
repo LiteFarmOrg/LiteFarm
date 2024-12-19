@@ -2,7 +2,7 @@ import PureManagementPlanPlantingMethod from '../../../../components/Crop/Planti
 import { useSelector } from 'react-redux';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { measurementSelector } from '../../../userFarmSlice';
-import { useMatch } from 'react-router';
+import { useMatch } from 'react-router-dom-v5-compat';
 
 export default function PlantingMethod() {
   const system = useSelector(measurementSelector);

@@ -2,7 +2,7 @@ import PureJoinFarmSuccessScreen from '../../components/JoinFarmSuccessScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseFarmFlowSelector, endInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { deselectFarmSuccess, loginSelector } from '../userFarmSlice';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 export default function JoinFarmSuccessScreen() {
   let navigate = useNavigate();

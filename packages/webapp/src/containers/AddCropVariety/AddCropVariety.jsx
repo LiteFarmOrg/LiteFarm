@@ -9,7 +9,7 @@ import ImagePickerWrapper from '../ImagePickerWrapper';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { AddLink } from '../../components/Typography';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 function AddCropVarietyForm() {
   let navigate = useNavigate();

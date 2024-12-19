@@ -11,12 +11,11 @@ import {
 } from '../../../greenhouseSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 export const postGreenhouseLocation = createAction(`postGreenhouseLocationSaga`);
 
 export function* postGreenhouseLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const formData = data.formData;
   const { locationURL } = apiConfig;
@@ -41,14 +40,12 @@ export function* postGreenhouseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GREENHOUSE')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.GREENHOUSE')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -57,7 +54,6 @@ export function* postGreenhouseLocationSaga({ payload: data }) {
 export const editGreenhouseLocation = createAction(`editGreenhouseLocationSaga`);
 
 export function* editGreenhouseLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
@@ -82,14 +78,12 @@ export function* editGreenhouseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GREENHOUSE')
-          .toLowerCase()}`,
-      },
+    history.push(location.pathname, {
+      error: `${i18n.t('message:MAP.FAIL_PATCH')} ${i18n
+        .t('FARM_MAP.MAP_FILTER.GREENHOUSE')
+        .toLowerCase()}`,
     });
     console.log(e);
   }
@@ -98,7 +92,6 @@ export function* editGreenhouseLocationSaga({ payload: data }) {
 export const deleteGreenhouseLocation = createAction(`deleteGreenhouseLocationSaga`);
 
 export function* deleteGreenhouseLocationSaga({ payload: data }) {
-  let navigate = useNavigate();
   let location = useLocation();
   const { location_id } = data;
   const { locationURL } = apiConfig;
@@ -115,13 +108,11 @@ export function* deleteGreenhouseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    navigate('/map');
+    history.push('/map');
   } catch (e) {
-    navigate(location.pathname, {
-      state: {
-        error: {
-          retire: true,
-        },
+    history.push(location.pathname, {
+      error: {
+        retire: true,
       },
     });
     console.log(e);

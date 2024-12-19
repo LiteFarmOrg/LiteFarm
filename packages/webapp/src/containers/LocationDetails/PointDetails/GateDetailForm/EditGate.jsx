@@ -8,7 +8,7 @@ import { gateSelector } from '../../../gateSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom-v5-compat';
 
 function EditGateDetailForm() {
   let location = useLocation();

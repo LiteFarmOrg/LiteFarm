@@ -16,7 +16,7 @@ import useDateRangeSelector from '../../../components/DateRangeSelector/useDateR
 import { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function EstimatedRevenue() {
   let navigate = useNavigate();

@@ -2,7 +2,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import PureAddCustomTask from '../../../components/Task/PureAddCustomTask';
 import { addCustomTaskType } from '../saga';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 function AddCustomTask() {
   let navigate = useNavigate();

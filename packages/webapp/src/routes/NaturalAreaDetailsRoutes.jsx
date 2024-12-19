@@ -1,5 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import EditNaturalAreaDetailForm from '../containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/EditNaturalArea';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -9,19 +10,19 @@ export default function NaturalAreaDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route
+      <CompatRoute
         path="/natural_area/:location_id/details"
         exact
         children={<EditNaturalAreaDetailForm />}
       />
       {isAdmin && (
-        <Route
+        <CompatRoute
           path="/natural_area/:location_id/edit"
           exact
           children={<EditNaturalAreaDetailForm />}
         />
       )}
-      <Route path="/natural_area/:location_id/tasks" exact children={<LocationTasks />} />
+      <CompatRoute path="/natural_area/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

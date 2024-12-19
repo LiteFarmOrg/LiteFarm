@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { downloadExport } from './saga';
 import i18n from '../../locales/i18n';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom-v5-compat';
 
 export default function DownloadExport() {
   const { id, from, to } = useParams();

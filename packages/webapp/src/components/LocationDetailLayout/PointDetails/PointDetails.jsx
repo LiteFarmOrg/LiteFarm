@@ -6,7 +6,7 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom-v5-compat';
 
 export default function PointDetails({ name, children, isViewLocationPage }) {
   let location = useLocation();

@@ -13,7 +13,7 @@ import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSl
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { purgeState } from '../../store/store';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -23,7 +23,6 @@ export const acceptInvitationWithSSO = createAction(`acceptInvitationWithSSOSaga
 export function* acceptInvitationWithSSOSaga({
   payload: { google_id_token, invite_token, user: userForm },
 }) {
-  let navigate = useNavigate();
   try {
     yield put(onLoadingUserFarmsStart());
     const header = {
@@ -52,17 +51,15 @@ export function* acceptInvitationWithSSOSaga({
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
-    navigate('/consent');
+    history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      navigate(`/?email=${encodeURIComponent(userForm.email)}`, {
-        state: {
-          error:
-            e.response.data === 'Invitation link is used'
-              ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
-              : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
-        },
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error:
+          e.response.data === 'Invitation link is used'
+            ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
+            : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
@@ -73,7 +70,6 @@ export function* acceptInvitationWithSSOSaga({
 export const acceptInvitationWithLiteFarm = createAction(`acceptInvitationWithLiteFarmSaga`);
 
 export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, user: userForm } }) {
-  let navigate = useNavigate();
   try {
     yield put(onLoadingUserFarmsStart());
     const header = {
@@ -100,17 +96,15 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
-    navigate('/consent');
+    history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      navigate(`/?email=${encodeURIComponent(userForm.email)}`, {
-        state: {
-          error:
-            e.response.data === 'Invitation link is used'
-              ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
-              : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
-        },
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error:
+          e.response.data === 'Invitation link is used'
+            ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
+            : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));

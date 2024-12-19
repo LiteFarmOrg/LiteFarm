@@ -1,5 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import EditResidenceDetailForm from '../containers/LocationDetails/AreaDetails/ResidenceDetailForm/EditResidence';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -9,11 +10,19 @@ export default function ResidenceDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route path="/residence/:location_id/details" exact children={<EditResidenceDetailForm />} />
+      <CompatRoute
+        path="/residence/:location_id/details"
+        exact
+        children={<EditResidenceDetailForm />}
+      />
       {isAdmin && (
-        <Route path="/residence/:location_id/edit" exact children={<EditResidenceDetailForm />} />
+        <CompatRoute
+          path="/residence/:location_id/edit"
+          exact
+          children={<EditResidenceDetailForm />}
+        />
       )}
-      <Route path="/residence/:location_id/tasks" exact children={<LocationTasks />} />
+      <CompatRoute path="/residence/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

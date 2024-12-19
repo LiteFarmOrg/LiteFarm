@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { getBiodiversityData } from '../actions';
 import BiodiversityLoadingModal from '../../../components/Modals/BiodiversityLoadingModal/BiodiversityLoadingModal';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const Biodiversity = () => {
   let navigate = useNavigate();

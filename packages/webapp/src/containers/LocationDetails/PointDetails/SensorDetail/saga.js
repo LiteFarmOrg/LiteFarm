@@ -32,10 +32,9 @@ export const getSensorReadingTypes = createAction('getSensorReadingTypesSaga');
 export const getSensorBrand = createAction('getSensorBrandSaga');
 export const retireSensor = createAction('retireSensorSaga');
 import { setMapCache } from '../../../Map/mapCacheSlice';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 export function* patchSensorSaga({ payload: sensorData }) {
-  let navigate = useNavigate();
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -47,7 +46,7 @@ export function* patchSensorSaga({ payload: sensorData }) {
       header,
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:SENSOR.SUCCESSFUL_UPDATE')));
-    navigate(`/map`);
+    history.push(`/map`);
   } catch (e) {
     console.log('Failed to update sensor to database');
     yield put(enqueueErrorSnackbar(i18n.t('message:SENSOR.ERROR_UPDATE')));
@@ -87,7 +86,6 @@ export function* getSensorBrandSaga({ payload: { location_id, partner_id } }) {
 }
 
 export function* retireSensorSaga({ payload: { sensorInfo, onFailureWithIncompleteTasks } }) {
-  let navigate = useNavigate();
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const { location_id } = sensorInfo;
@@ -104,7 +102,7 @@ export function* retireSensorSaga({ payload: { sensorInfo, onFailureWithIncomple
     yield put(enqueueErrorSnackbar(i18n.t('SENSOR.RETIRE.RETIRE_FAILURE')));
     console.log(error);
   }
-  navigate('/map');
+  history.push('/map');
 }
 
 export default function* sensorDetailSaga() {

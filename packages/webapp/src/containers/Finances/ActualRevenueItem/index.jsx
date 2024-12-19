@@ -4,7 +4,7 @@ import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanCardDate } from '../../../util/moment';
 import { setSelectedSale } from '../actions';
 import { createRevenueDetailsUrl } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const ActualRevenueItem = ({ revenueItem, ...props }) => {
   let navigate = useNavigate();

@@ -26,7 +26,7 @@ import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
 import { useSectionHeader } from '../../../../components/Navigation/useSectionHeaders';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom-v5-compat';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],

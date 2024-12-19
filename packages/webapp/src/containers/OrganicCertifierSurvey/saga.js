@@ -15,7 +15,7 @@ import { getCertificationsSuccess } from './certificationSlice';
 import { getCertifiersSuccess } from './certifierSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import i18n from '../../locales/i18n';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
@@ -125,7 +125,6 @@ export function* putOrganicCertifierSurveySaga({ payload }) {
 export const patchStepFour = createAction(`patchStepFourSaga`);
 
 export function* patchStepFourSaga({ payload }) {
-  let navigate = useNavigate();
   const survey = yield select(certifierSurveySelector);
   try {
     const { user_id, farm_id } = yield select(loginSelector);
@@ -136,7 +135,7 @@ export function* patchStepFourSaga({ payload }) {
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
     yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
-    navigate('/outro');
+    history.push('/outro');
 
     // callback && callback();
   } catch (e) {

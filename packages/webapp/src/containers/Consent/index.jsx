@@ -23,7 +23,7 @@ import MalayalamOwnerConsent from './locales/ml/Owner.Consent.md';
 import MalayalamWorkerConsent from './locales/ml/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 const languageConsent = {
   en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },

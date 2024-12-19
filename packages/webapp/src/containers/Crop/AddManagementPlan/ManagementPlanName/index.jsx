@@ -5,7 +5,7 @@ import { patchFarmDefaultInitialLocation, postManagementPlan } from '../../saga'
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom-v5-compat';
 
 export default function ManagementPlanName() {
   let { variety_id } = useParams();

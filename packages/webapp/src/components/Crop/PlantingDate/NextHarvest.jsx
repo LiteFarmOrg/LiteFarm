@@ -12,7 +12,7 @@ import { seedYield } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
 import { getNextHarvestPaths } from '../getAddManagementPlanPath';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function PureNextHarvest({
   system,

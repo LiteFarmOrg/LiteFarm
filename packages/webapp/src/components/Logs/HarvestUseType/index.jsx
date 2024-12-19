@@ -15,7 +15,7 @@ import { ReactComponent as Exchange } from '../../../assets/images/log/v2/Exchan
 import { ReactComponent as Seed } from '../../../assets/images/log/v2/Seed.svg';
 import { ReactComponent as Custom } from '../../../assets/images/log/v2/Custom.svg';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 export default function PureHarvestUseType({ onNext, useTypes, defaultData, farm, isEdit }) {
   let navigate = useNavigate();

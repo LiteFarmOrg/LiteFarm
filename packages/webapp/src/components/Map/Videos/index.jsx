@@ -5,7 +5,7 @@ import PointVideo from '../../../assets/videos/AddingPoints.mp4';
 import styles from './styles.module.scss';
 import TitleLayout from '../../Layout/TitleLayout';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 const VIDEO_START_TIME = '#t=0.001';
 
 function PureVideoView() {

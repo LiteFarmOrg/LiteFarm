@@ -19,12 +19,11 @@ import { loginSelector, patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { axios, getHeader } from '../saga';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 
 export function* patchOutroStepSaga() {
-  let navigate = useNavigate();
   const { userFarmUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -42,7 +41,7 @@ export function* patchOutroStepSaga() {
       header,
     );
     yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
-    navigate('/');
+    history.push('/');
     yield put(resetAndUnLockFormData());
   } catch (e) {
     console.error('failed to update table');

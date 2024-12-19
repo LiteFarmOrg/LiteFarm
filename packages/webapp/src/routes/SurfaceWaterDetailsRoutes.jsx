@@ -1,5 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import EditSurfaceWaterDetailForm from '../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/EditSurfaceWater';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -9,19 +10,19 @@ export default function SurfaceWaterDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route
+      <CompatRoute
         path="/surface_water/:location_id/details"
         exact
         children={<EditSurfaceWaterDetailForm />}
       />
       {isAdmin && (
-        <Route
+        <CompatRoute
           path="/surface_water/:location_id/edit"
           exact
           children={<EditSurfaceWaterDetailForm />}
         />
       )}
-      <Route path="/surface_water/:location_id/tasks" exact children={<LocationTasks />} />
+      <CompatRoute path="/surface_water/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

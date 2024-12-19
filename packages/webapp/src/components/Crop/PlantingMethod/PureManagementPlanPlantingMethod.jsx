@@ -12,7 +12,7 @@ import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/convert-units/unit';
 import { getPlantingMethodPaths } from '../getAddManagementPlanPath';
 import { PurePlantingMethod } from './PurePlantingMethod';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 export default function PureManagementPlanPlantingMethod({
   useHookFormPersist,

@@ -7,7 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getManagementPlansAndTasks } from '../../saga';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 export default function ManagementDetails() {
   let navigate = useNavigate();

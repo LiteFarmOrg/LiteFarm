@@ -22,7 +22,7 @@ import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 function ReadOnlyCustomRevenue() {
   let navigate = useNavigate();

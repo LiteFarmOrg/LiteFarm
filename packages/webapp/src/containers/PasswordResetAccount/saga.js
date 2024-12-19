@@ -19,7 +19,7 @@ import { url } from '../../apiConfig';
 import { loginSuccess } from '../userFarmSlice';
 import { decodeToken } from 'react-jwt';
 import { axios } from '../saga';
-import { useNavigate } from 'react-router';
+import history from '@src/history';
 
 const resetPasswordUrl = () => `${url}/password_reset`;
 
@@ -28,7 +28,6 @@ export const resetPassword = createAction(`resetPasswordSaga`);
 export function* resetPasswordSaga({
   payload: { reset_token, password, onPasswordResetSuccess, email },
 }) {
-  let navigate = useNavigate();
   try {
     const result = yield call(
       axios.put,
@@ -50,7 +49,7 @@ export function* resetPasswordSaga({
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
-    navigate('/expired', { state: { translation_key: 'RESET_PASSWORD', email } });
+    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 

@@ -21,7 +21,7 @@ export const getEndpoint = (isCustomTask, taskTranslationKey) => {
     return 'custom_task';
   }
   const endpoints = {
-    HARVEST_TASK: 'harvest_tasks',
+    HARVEST_TASK: 'harvest_task',
     MOVEMENT_TASK: 'animal_movement_task',
   };
   return endpoints[taskTranslationKey] || taskTranslationKey.toLowerCase();

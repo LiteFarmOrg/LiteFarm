@@ -590,7 +590,7 @@ export function* createTaskSaga({ payload }) {
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = getEndpoint(isCustomTask, task_translation_key);
+  const endpoint = getEndpoint(isCustomTask, task_translation_key, true);
   try {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,

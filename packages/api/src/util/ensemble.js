@@ -96,6 +96,7 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
     data: { esids },
   };
 
+  // partial or complete failures (at least some esids failed to claim)
   const onError = (error) => {
     if (error.response?.data && error.response?.status) {
       return { ...error.response.data, status: error.response.status };
@@ -104,6 +105,7 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
     }
   };
 
+  // full success (all esids successfully claimed)
   const onResponse = (response) => {
     return {
       success: esids,
@@ -131,27 +133,27 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     .where({ farm_id: farmId, partner_id: 1 })
     .first();
   if (existingIntegration?.webhook_id) {
-    return existingIntegration.webhook_id;
-  } else {
-    const axiosObject = {
-      method: 'post',
-      url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
-      data: {
-        url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
-        authorization_header: authHeader,
-        frequency: 15,
-      },
-    };
-    const onError = (error) => {
-      console.log(error);
-      throw new Error('Failed to register webhook with ESCI');
-    };
-    const onResponse = async (response) => {
-      await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
-      return { ...response.data, status: response.status };
-    };
-    return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
+    return;
   }
+
+  const axiosObject = {
+    method: 'post',
+    url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
+    data: {
+      url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
+      authorization_header: authHeader,
+      frequency: 15,
+    },
+  };
+  const onError = (error) => {
+    console.log(error);
+    throw new Error('Failed to register webhook with ESCI');
+  };
+  const onResponse = async (response) => {
+    await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
+    return { ...response.data, status: response.status };
+  };
+  await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
 /**

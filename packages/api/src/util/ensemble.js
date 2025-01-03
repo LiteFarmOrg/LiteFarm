@@ -61,6 +61,26 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
+const ENSEMBLE_BRAND = 'Ensemble Scientific';
+
+// Return Ensemble Scientific IDs (esids) from sensor data
+const extractEsids = (data) =>
+  data
+    .filter((sensor) => sensor.brand === 'Ensemble Scientific' && sensor.external_id)
+    .map((sensor) => sensor.external_id);
+
+// Function to encapsulate the logic for claiming sensors
+async function registerFarmAndClaimSensors(farm_id, access_token, esids) {
+  // Register farm as an organization with Ensemble
+  const organization = await createOrganization(farm_id, access_token);
+
+  // Create a webhook for the organization
+  await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+
+  // Register sensors with Ensemble and return Ensemble API results
+  return await bulkSensorClaim(access_token, organization.organization_uuid, esids);
+}
+
 /**
  * Sends a request to the Ensemble API for an organization to claim sensors
  * @param {String} accessToken - a JWT token for accessing the Ensemble API
@@ -250,12 +270,10 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await IntegratingPartners.getAccessAndRefreshTokens(
-      'Ensemble Scientific',
-    );
+    const { refresh_token } = await IntegratingPartners.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
     await IntegratingPartners.patchAccessAndRefreshTokens(
-      'Ensemble Scientific',
+      ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
     );
@@ -281,7 +299,7 @@ async function authenticateToGetTokens() {
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
     await IntegratingPartners.patchAccessAndRefreshTokens(
-      'Ensemble Scientific',
+      ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
     );
@@ -330,9 +348,9 @@ async function unclaimSensor(org_id, external_id, access_token) {
 }
 
 export {
-  bulkSensorClaim,
-  registerOrganizationWebhook,
-  createOrganization,
+  ENSEMBLE_BRAND,
+  extractEsids,
+  registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
 };

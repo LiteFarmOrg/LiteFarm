@@ -27,20 +27,22 @@ interface HeaderWithBackAndCloseProps {
 
 const HeaderWithBackAndClose = ({ title, onCancel, onGoBack }: HeaderWithBackAndCloseProps) => {
   return (
-    <div className={styles.container}>
-      <div className={styles.leftContainer}>
-        {onGoBack && (
-          <TextButton onClick={onGoBack}>
-            <Icon iconName="CHEVRON_LEFT" className={styles.backButton} />
+    <div className={styles.headerWrapper}>
+      <div className={styles.container}>
+        <div className={styles.leftContainer}>
+          {onGoBack && (
+            <TextButton onClick={onGoBack}>
+              <Icon iconName="CHEVRON_LEFT" className={styles.backButton} />
+            </TextButton>
+          )}
+          <div className={typeof title === 'string' ? styles.textTitle : ''}>{title}</div>
+        </div>
+        {onCancel && (
+          <TextButton className={styles.closeButtonContainer} onClick={onCancel}>
+            <XIcon className={styles.closeButton} />
           </TextButton>
         )}
-        <div className={typeof title === 'string' ? styles.textTitle : ''}>{title}</div>
       </div>
-      {onCancel && (
-        <TextButton className={styles.closeButtonContainer} onClick={onCancel}>
-          <XIcon className={styles.closeButton} />
-        </TextButton>
-      )}
     </div>
   );
 };

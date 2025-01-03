@@ -22,3 +22,54 @@
     padding-bottom: 104px; // button height 72px + button top 16px + button bottom 16px
   }
 }
+
+/*----------------------------------------
+  HeaderWithBackAndClose
+----------------------------------------*/
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.leftContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backButton {
+  padding: 0;
+  min-width: 24px;
+  min-height: 24px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  path {
+    stroke: var(--Colors-Neutral-Neutral-600);
+    stroke-width: 2px;
+  }
+}
+
+.textTitle {
+  letter-spacing: -0.352px;
+}
+
+.closeButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.closeButton {
+  width: 12px;
+  height: 12px;
+}

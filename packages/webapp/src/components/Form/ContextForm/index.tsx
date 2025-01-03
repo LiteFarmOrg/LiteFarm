@@ -21,11 +21,13 @@ import { WithStepperProgressBar } from './WithStepperProgressBar';
 export enum Variant {
   PAGE_TITLE = 'page_title',
   STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
+  SIMPLE_HEADER = 'simple_header',
 }
 
 const COMPONENTS = {
   [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
   [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
+  [Variant.SIMPLE_HEADER]: (props: any) => <WithStepperProgressBar {...props} />,
 };
 
 interface ContextFormProps {
@@ -107,6 +109,7 @@ export const ContextForm = ({
       setIsEditing={setIsEditing}
       showCancelFlow={showCancelFlow}
       setShowCancelFlow={setShowCancelFlow}
+      variant={variant}
       {...form}
       {...props}
     >

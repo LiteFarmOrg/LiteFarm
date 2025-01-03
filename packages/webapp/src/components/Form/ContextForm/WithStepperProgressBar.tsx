@@ -27,6 +27,8 @@ import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import HeaderWithBackAndClose from './HeaderWithBackAndClose';
+import { Variant } from '.';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
@@ -59,6 +61,7 @@ interface WithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
+  variant: Variant;
 }
 
 export const WithStepperProgressBar = ({
@@ -84,6 +87,7 @@ export const WithStepperProgressBar = ({
   setIsEditing,
   showCancelFlow,
   setShowCancelFlow,
+  variant,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -156,6 +160,9 @@ export const WithStepperProgressBar = ({
       title={stepperProgressBarTitle}
       steps={steps.map(({ title }) => title)}
       activeStep={activeStepIndex}
+      onGoBack={onGoBack}
+      onCancel={onCancel}
+      variant={variant}
     >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
@@ -184,15 +191,37 @@ export const WithStepperProgressBar = ({
 type StepperProgressBarWrapperProps = StepperProgressBarProps & {
   children: ReactNode;
   isSingleStep: boolean;
+  onGoBack: () => void;
+  onCancel: () => void;
+  variant: Variant;
 };
 
 const StepperProgressBarWrapper = ({
   children,
   isSingleStep,
+  onGoBack,
+  onCancel,
+  variant,
   ...stepperProgressBarProps
 }: StepperProgressBarWrapperProps) => {
   if (isSingleStep) {
     return <>{children}</>;
+  }
+
+  if (variant === Variant.SIMPLE_HEADER) {
+    return (
+      <FixedHeaderContainer
+        header={
+          <HeaderWithBackAndClose
+            title={stepperProgressBarProps.title}
+            onGoBack={onGoBack}
+            onCancel={onCancel}
+          />
+        }
+      >
+        {children}
+      </FixedHeaderContainer>
+    );
   }
 
   return (

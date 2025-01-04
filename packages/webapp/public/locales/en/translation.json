@@ -1782,6 +1782,8 @@
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
+      "ADD_ANOTHER_ARRAY": "Add another array",
+      "ADD_SENSORS": "Add sensors",
       "ARRAY_NAME": "Array name",
       "ARRAY_NUMBER": "Array {{number}}",
       "BRAND": "Brand",

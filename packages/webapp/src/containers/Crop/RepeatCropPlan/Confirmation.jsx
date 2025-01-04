@@ -19,7 +19,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { postRepeatCropPlan } from '../saga';
-import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 function RepeatCropPlanConfirmation() {
   let navigate = useNavigate();

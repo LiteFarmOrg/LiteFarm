@@ -6,7 +6,7 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router';
 
 export default function LineDetails({ name, children, isViewLocationPage }) {
   let location = useLocation();

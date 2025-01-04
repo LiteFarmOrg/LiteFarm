@@ -12,7 +12,7 @@ import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 function TaskDetails() {
   let navigate = useNavigate();

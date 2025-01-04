@@ -2,7 +2,7 @@ import PureTransplant from '../../../components/Crop/Transplant';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useSelector } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router';
 
 function TransplantForm() {
   let { variety_id } = useParams();

@@ -22,7 +22,7 @@ import Button from '../../Form/Button';
 import { Main } from '../../Typography';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router';
 
 export const ANIMAL_IDS = 'animalIds';
 

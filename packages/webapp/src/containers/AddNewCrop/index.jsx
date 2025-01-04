@@ -3,7 +3,7 @@ import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function AddNewCrop() {
   let navigate = useNavigate();

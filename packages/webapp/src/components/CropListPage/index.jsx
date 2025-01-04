@@ -9,7 +9,7 @@ import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
 import { AddLink } from '../Typography';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PureCropList({
   onFilterChange,

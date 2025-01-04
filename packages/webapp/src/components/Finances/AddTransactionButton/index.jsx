@@ -28,7 +28,7 @@ import {
   EXPENSE_CATEGORIES_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 const Menu = forwardRef((props, ref) => {
   let navigate = useNavigate();

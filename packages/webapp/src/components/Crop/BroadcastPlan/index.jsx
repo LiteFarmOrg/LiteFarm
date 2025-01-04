@@ -9,7 +9,7 @@ import { cloneObject } from '../../../util';
 import { getBroadcastMethodPaths } from '../getAddManagementPlanPath';
 import { PureBroadcastForm } from './PureBroadcastForm';
 import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 function PureBroadcastPlan({
   persistedFormData,

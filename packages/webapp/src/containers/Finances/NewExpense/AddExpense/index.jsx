@@ -5,7 +5,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import PureAddExpense from '../../../../components/Finances/AddExpense';
 import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
 
 const AddExpense = () => {

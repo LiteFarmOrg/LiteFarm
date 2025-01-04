@@ -9,7 +9,7 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 function LocationManagementPlan() {
   let navigate = useNavigate();

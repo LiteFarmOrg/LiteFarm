@@ -21,7 +21,7 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
-import { matchPath, useLocation } from 'react-router-dom-v5-compat';
+import { matchPath, useLocation } from 'react-router';
 
 const Navigation = ({ children, ...props }) => {
   const location = useLocation();

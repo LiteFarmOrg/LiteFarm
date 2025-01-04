@@ -18,7 +18,6 @@ import { useTranslation, Trans } from 'react-i18next';
 import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
-import { Pathname } from 'react-router-dom-v5-compat';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
@@ -28,7 +27,7 @@ interface PathHeaderKVP {
 /**
  * Retrieves the translated section header based on the provided path.
  *
- * @param {Pathname} path - The pathname key to choose section header.
+ * @param {string} path - The pathname key to choose section header.
  * @returns {string | React.ReactElement | null} Returns the translated section header if the path matches a known section, otherwise returns null.
  *
  * @example
@@ -37,7 +36,7 @@ interface PathHeaderKVP {
  * console.log(sectionHeader); // Output: 'Translated Animals Section Header'
  */
 
-export function useSectionHeader(path: Pathname): string | React.ReactElement | null {
+export function useSectionHeader(path: string): string | React.ReactElement | null {
   const { t } = useTranslation(['translation']);
 
   const animalInventoryTitle = (

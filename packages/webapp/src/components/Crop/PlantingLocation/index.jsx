@@ -14,7 +14,7 @@ import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
 import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 export default function PurePlantingLocation({
   persistedFormData,

@@ -8,7 +8,7 @@ import AreaDetails from './AreaDetails/AreaDetails';
 import LineDetails from './LineDetails/LineDetails';
 import PointDetails from './PointDetails/PointDetails';
 import RouterTab from '../RouterTab';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 export function PureLocationDetailLayout({
   system,

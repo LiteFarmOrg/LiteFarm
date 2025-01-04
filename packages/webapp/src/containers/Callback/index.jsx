@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 function Callback() {
   let navigate = useNavigate();

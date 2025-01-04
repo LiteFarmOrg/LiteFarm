@@ -49,7 +49,7 @@ import Drawer from '../../components/Drawer';
 import FloatingActionButton from '../../components/Button/FloatingActionButton';
 import styles from './styles.module.scss';
 import LocationCreationModal from '../../components/LocationCreationModal';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function TaskPage() {
   let navigate = useNavigate();

@@ -8,7 +8,7 @@ import { certifierSurveySelector } from '../../../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import TransplantSpotlight from './TransplantSpotlight';
 import { cropVarietySelector } from '../../../cropVarietySlice.js';
-import { useMatch, useParams } from 'react-router-dom-v5-compat';
+import { useMatch, useParams } from 'react-router';
 
 export default function PlantingLocation() {
   let { variety_id } = useParams();

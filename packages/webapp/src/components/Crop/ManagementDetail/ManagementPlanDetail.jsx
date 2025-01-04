@@ -12,7 +12,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 export default function PureManagementDetail({ onBack, variety, plan, isAdmin, system }) {
   let navigate = useNavigate();

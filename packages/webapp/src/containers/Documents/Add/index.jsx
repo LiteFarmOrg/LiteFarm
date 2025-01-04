@@ -5,7 +5,7 @@ import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { DocumentUploader } from '../DocumentUploader';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function AddDocument() {
   let navigate = useNavigate();

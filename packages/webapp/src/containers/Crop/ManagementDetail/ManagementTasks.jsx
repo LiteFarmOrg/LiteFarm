@@ -13,7 +13,7 @@ import { getManagementPlansAndTasks } from '../../saga';
 import { deleteManagementPlan } from '../saga';
 import { checkManagementPlanDependencies } from '../saga';
 import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
-import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 export default function ManagementTasks() {
   let navigate = useNavigate();

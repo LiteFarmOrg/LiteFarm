@@ -37,7 +37,7 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
-import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 function TaskReadOnly() {
   let navigate = useNavigate();

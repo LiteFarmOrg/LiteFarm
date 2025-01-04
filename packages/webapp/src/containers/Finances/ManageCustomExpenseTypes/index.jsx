@@ -28,7 +28,7 @@ import {
   createEditCustomExpenseURL,
   createReadonlyCustomExpenseURL,
 } from '../../../util/siteMapConstants';
-import { useLocation, useNavigate, useNavigationType } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useNavigationType } from 'react-router';
 
 const addCustomTypePath = ADD_CUSTOM_EXPENSE_URL;
 

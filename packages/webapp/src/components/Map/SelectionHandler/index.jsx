@@ -12,7 +12,7 @@ import { isTouchDevice } from '../../../util/device';
 import { useSelector } from 'react-redux';
 import { sensorReadingTypesByMultipleLocations } from '../../../containers/sensorReadingTypesSlice';
 import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   container: {

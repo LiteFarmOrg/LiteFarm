@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 import useGenderOptions from '../../../hooks/useGenderOptions';
 import useLanguageOptions from '../../../hooks/useLanguageOptions';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 export default function PureEditUser({
   userFarm,

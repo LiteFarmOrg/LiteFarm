@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData }) {
   let navigate = useNavigate();

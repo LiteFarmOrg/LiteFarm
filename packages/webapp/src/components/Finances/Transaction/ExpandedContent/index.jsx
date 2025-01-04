@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import {
   createExpenseDetailsUrl,

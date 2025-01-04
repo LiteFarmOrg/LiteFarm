@@ -6,7 +6,7 @@ import { getNotificationCardDate } from '../../../util/moment';
 import useTranslationUtil from '../../../util/useTranslationUtil';
 import { useTranslation } from 'react-i18next';
 import MoreRecentNotificationWarning from '../MoreRecentNotificationWarning';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function NotificationTimeline({ activeNotificationId, relatedNotifications, style }) {
   let navigate = useNavigate();

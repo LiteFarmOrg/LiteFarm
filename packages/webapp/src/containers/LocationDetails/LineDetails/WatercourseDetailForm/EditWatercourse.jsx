@@ -8,7 +8,7 @@ import { watercourseSelector } from '../../../watercourseSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useLocation, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useParams } from 'react-router';
 
 function EditWatercourseDetailForm() {
   let location = useLocation();

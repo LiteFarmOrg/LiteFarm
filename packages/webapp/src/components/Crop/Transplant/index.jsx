@@ -8,7 +8,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import { getTransplantPaths } from '../getAddManagementPlanPath';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 export default function PureTransplant({
   can_be_cover_crop,

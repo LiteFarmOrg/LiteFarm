@@ -13,7 +13,7 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
-import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 const ExpenseDetail = () => {
   let navigate = useNavigate();

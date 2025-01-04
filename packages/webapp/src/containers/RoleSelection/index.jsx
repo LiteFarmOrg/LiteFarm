@@ -4,7 +4,7 @@ import { patchRole } from '../AddFarm/saga';
 import { roleToId } from './roleMap';
 import { useTranslation } from 'react-i18next';
 import { userFarmSelector } from '../userFarmSlice';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function RoleSelection() {
   let navigate = useNavigate();

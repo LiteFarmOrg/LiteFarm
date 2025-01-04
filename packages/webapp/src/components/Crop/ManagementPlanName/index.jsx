@@ -12,7 +12,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { cloneObject } from '../../../util';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 export default function PureManagementPlanName({
   onSubmit,

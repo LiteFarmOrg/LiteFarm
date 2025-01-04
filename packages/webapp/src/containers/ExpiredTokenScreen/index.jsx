@@ -4,7 +4,7 @@ import PureExpiredTokenScreen from '../../components/ExpiredTokenScreen';
 import ResetPassword from '../ResetPassword';
 import { sendResetPasswordEmail } from '../CustomSignUp/saga';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function ExpiredTokenScreen() {
   let navigate = useNavigate();

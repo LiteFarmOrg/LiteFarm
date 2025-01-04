@@ -16,7 +16,7 @@
 import styles from './styles.module.scss';
 import InfoBoxComponent from '../InfoBoxComponent';
 import { BsChevronLeft } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 export default function PageTitle({
   title,

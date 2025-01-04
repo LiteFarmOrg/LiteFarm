@@ -23,7 +23,7 @@ import { getNotificationCardDate } from '../../util/moment.js';
 import useTranslationUtil from '../../util/useTranslationUtil';
 import NotificationTimeline from './NotificationTimeline';
 import { createSensorErrorDownload, SENSOR_BULK_UPLOAD_FAIL } from '../../util/sensor';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
   let navigate = useNavigate();

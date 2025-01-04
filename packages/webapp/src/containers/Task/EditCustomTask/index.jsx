@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteTaskType } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { taskTypeSelector } from '../../taskTypeSlice';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router';
 
 function EditCustomTask() {
   let navigate = useNavigate();

@@ -9,7 +9,7 @@ import PageBreak from '../PageBreak';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { onAddTask } from '../../containers/Task/onAddTask';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function PureLocationTasks({
   hasCrops,

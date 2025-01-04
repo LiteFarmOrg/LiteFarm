@@ -6,7 +6,7 @@ import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { cropVarietySelector } from '../cropVarietySlice';
 import { patchVarietal } from '../AddCropVariety/saga';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 function EditCropVarietyForm() {
   let navigate = useNavigate();

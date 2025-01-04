@@ -15,8 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { CompatRoute, Navigate } from 'react-router-dom-v5-compat';
-import { Route, Switch } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router';
 import {
   ACTUAL_REVENUE_URL,
   ADD_CUSTOM_EXPENSE_URL,
@@ -83,59 +82,51 @@ const EditCustomRevenue = React.lazy(
 );
 
 const FinancesRoutes = () => (
-  <Switch>
-    <CompatRoute path={FINANCES_HOME_URL} exact children={<Finances />} />
-    <CompatRoute path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
-    <CompatRoute
+  <Routes>
+    <Route path={FINANCES_HOME_URL} exact children={<Finances />} />
+    <Route path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
+    <Route
       path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
       exact
       children={<UpdateEstimatedCropRevenue />}
     />
-    <CompatRoute path={REVENUE_TYPES_URL} exact children={<RevenueTypes />} />
-    <CompatRoute path={ADD_REVENUE_URL} exact children={<AddSale />} />
-    <CompatRoute path={MANAGE_CUSTOM_REVENUES_URL} exact children={<ManageRevenueTypes />} />
-    <CompatRoute path={createRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
-    <CompatRoute
-      path={createEditRevenueDetailsUrl(':sale_id')}
-      exact
-      children={<RevenueDetail />}
-    />
-    <CompatRoute path={ESTIMATED_REVENUE_URL} exact children={<EstimatedRevenue />} />
-    <CompatRoute path={LABOUR_URL} exact children={<Labour />} />
-    <CompatRoute path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
-    <CompatRoute path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
-    <CompatRoute
-      path={createEditExpenseDetailsUrl(':expense_id')}
-      exact
-      children={<ExpenseDetail />}
-    />
-    <CompatRoute path={EXPENSE_CATEGORIES_URL} exact children={<ExpenseCategories />} />
-    <CompatRoute path={ADD_EXPENSE_URL} exact children={<AddExpense />} />
-    <CompatRoute path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
-    <CompatRoute path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
-    <CompatRoute
+    <Route path={REVENUE_TYPES_URL} exact children={<RevenueTypes />} />
+    <Route path={ADD_REVENUE_URL} exact children={<AddSale />} />
+    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact children={<ManageRevenueTypes />} />
+    <Route path={createRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={ESTIMATED_REVENUE_URL} exact children={<EstimatedRevenue />} />
+    <Route path={LABOUR_URL} exact children={<Labour />} />
+    <Route path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
+    <Route path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={EXPENSE_CATEGORIES_URL} exact children={<ExpenseCategories />} />
+    <Route path={ADD_EXPENSE_URL} exact children={<AddExpense />} />
+    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
+    <Route path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
+    <Route
       path={createReadonlyCustomExpenseURL(':expense_type_id')}
       exact
       children={<ReadOnlyCustomExpense />}
     />
-    <CompatRoute
+    <Route
       path={createEditCustomExpenseURL(':expense_type_id')}
       exact
       children={<EditCustomExpense />}
     />
-    <CompatRoute path={ADD_CUSTOM_REVENUE_URL} exact children={<AddCustomRevenue />} />
-    <CompatRoute
+    <Route path={ADD_CUSTOM_REVENUE_URL} exact children={<AddCustomRevenue />} />
+    <Route
       path={createReadonlyCustomRevenueUrl(':revenue_type_id')}
       exact
       children={<ReadOnlyCustomRevenue />}
     />
-    <CompatRoute
+    <Route
       path={createEditCustomRevenueUrl(':revenue_type_id')}
       exact
       children={<EditCustomRevenue />}
     />
-    <CompatRoute render={() => <Navigate to={'/'} />} />
-  </Switch>
+    <Route render={() => <Navigate to={'/'} />} />
+  </Routes>
 );
 
 export default FinancesRoutes;

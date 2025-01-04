@@ -1,6 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { Route } from 'react-router';
 import EditGreenhouseDetailForm from '../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/EditGreenhouse';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';
@@ -11,24 +10,16 @@ export default function GreenhouseDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <CompatRoute
+      <Route
         path="/greenhouse/:location_id/details"
         exact
         children={<EditGreenhouseDetailForm />}
       />
       {isAdmin && (
-        <CompatRoute
-          path="/greenhouse/:location_id/edit"
-          exact
-          children={<EditGreenhouseDetailForm />}
-        />
+        <Route path="/greenhouse/:location_id/edit" exact children={<EditGreenhouseDetailForm />} />
       )}
-      <CompatRoute
-        path="/greenhouse/:location_id/crops"
-        exact
-        children={<LocationManagementPlan />}
-      />
-      <CompatRoute path="/greenhouse/:location_id/tasks" exact children={<LocationTasks />} />
+      <Route path="/greenhouse/:location_id/crops" exact children={<LocationManagementPlan />} />
+      <Route path="/greenhouse/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

@@ -27,7 +27,7 @@ import {
 } from '../../managementPlanSlice.js';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router';
 
 function RepeatCropPlan() {
   let navigate = useNavigate();

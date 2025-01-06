@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router';
 import Spinner from '../components/Spinner';
 
@@ -29,6 +29,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import { useLocalStorage } from 'usehooks-ts';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
@@ -328,9 +329,10 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   const isOnboardingFlow = !hasSelectedFarm || !hasFinishedOnBoardingFlow;
+  const [auth, setAuth, removeAuth] = useLocalStorage('id_token');
 
-  const AuthWrapper = () => {
-    return isAuthenticated() ? <Outlet /> : <Navigate to="/" />;
+  const AuthWrapper = ({ auth }) => {
+    return auth ? <Outlet /> : <Navigate to="/" />;
   };
 
   // const AuthenticatedRoutes = ({isInvitationFlow, isOnboardingFlow, userFarm}) => {
@@ -651,13 +653,13 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
   //   //         <Route path="/insights/biodiversity" exact element={<Biodiversity />} />
   //   //         <Route path="/insights/prices" exact element={<Prices />} />
   //   //         <Route path="/farm_selection" exact element={<ChooseFarm />} />
-  //   //         <Route path="/callback" element={<Callback />} />
+  //   //         <Route path="/callback" setAuth={setAuth} element={<Callback />} />
   //   //         <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
   //   //         <Route
   //   //           path="/accept_invitation/create_account"
-  //   //           element={<InvitedUserCreateAccount />}
+  //   //           element={<InvitedUserCreateAccount setAuth={setAuth} />}
   //   //         />
-  //   //         <Route path="/password_reset" element={<PasswordResetAccount />} />
+  //   //         <Route path="/password_reset" element={<PasswordResetAccount setAuth={setAuth}/>} />
   //   //         <Route path={'/expired'} element={<ExpiredTokenScreen />} />
   //   //         <Route path="/invite_user" exact element={<InviteUser />} />
   //   //         <Route path="/certification" exact element={<ViewCertification />} />
@@ -1011,13 +1013,13 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
   //   //         <Route path="/insights/biodiversity" exact element={<Biodiversity />} />
   //   //         <Route path="/insights/prices" exact element={<Prices />} />
   //   //         <Route path="/farm_selection" exact element={<ChooseFarm />} />
-  //   //         <Route path="/callback" element={<Callback />} />
+  //   //         <Route path="/callback" setAuth={setAuth} element={<Callback />} />
   //   //         <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
   //   //         <Route
   //   //           path="/accept_invitation/create_account"
-  //   //           element={<InvitedUserCreateAccount />}
+  //   //           element={<InvitedUserCreateAccount setAuth={setAuth} />}
   //   //         />
-  //   //         <Route path="/password_reset" element={<PasswordResetAccount />} />
+  //   //         <Route path="/password_reset" element={<PasswordResetAccount setAuth={setAuth} />} />
   //   //         <Route path={'/expired'} element={<ExpiredTokenScreen />} />
   //   //         <Route path="/invite_user" exact element={<InviteUser />} />
   //   //         <Route path="/certification" exact element={<ViewCertification />} />
@@ -1182,13 +1184,13 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
   //   //         <Route path="/insights/labourhappiness" exact element={<LabourHappiness />} />
   //   //         <Route path="/insights/biodiversity" exact element={<Biodiversity />} />
   //   //         <Route path="/insights/prices" exact element={<Prices />} />
-  //   //         <Route path="/callback" element={<Callback />} />
+  //   //         <Route path="/callback" setAuth={setAuth} element={<Callback />} />
   //   //         <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
   //   //         <Route
   //   //           path="/accept_invitation/create_account"
-  //   //           element={<InvitedUserCreateAccount />}
+  //   //           element={<InvitedUserCreateAccount setAuth={setAuth} />}
   //   //         />
-  //   //         <Route path="/password_reset" element={<PasswordResetAccount />} />
+  //   //         <Route path="/password_reset" element={<PasswordResetAccount setAuth={setAuth} />} />
   //   //         <Route path={'/expired'} element={<ExpiredTokenScreen />} />
   //   //         <Route path="/tasks" exact element={<Tasks />} />
   //   //         <Route path="/tasks/:task_id/read_only" exact element={<TaskReadOnly />} />
@@ -1266,9 +1268,8 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
   //   //   );
   //   // }
   // }
-
-  const ChooseHome = () => {
-    if (isAuthenticated()) {
+  const ChooseHome = ({ auth }) => {
+    if (auth) {
       if (isInvitationFlow) {
         if (!hasSelectedFarm) {
           return <Navigate to="/farm_selection" />;
@@ -1301,19 +1302,17 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
         }
       }
     } else {
-      return <CustomSignUp />;
+      return <CustomSignUp setAuth={setAuth} />;
     }
   };
-  let bool = isAuthenticated();
-  console.log(bool);
 
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
         {/* Authenticated Routes */}
-        <Route element={<AuthWrapper />}>
+        <Route element={<AuthWrapper auth={auth} />}>
           {isInvitationFlow && <Route path="farm_selection" element={<ChooseFarm />} />}
-          {isOnboardingFlow && <Route exact path="farm_selection" element={<ChooseFarm />} />}
+          {isOnboardingFlow && <Route path="farm_selection" element={<ChooseFarm />} />}
           {isOnboardingFlow && <Route path="welcome" element={<WelcomeScreen />} />}
           {isOnboardingFlow && <Route path="add_farm" element={<AddFarm />} />}
           {isOnboardingFlow && step_one && (
@@ -1360,17 +1359,20 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
         </Route>
         {/* Unauthenticated Routes */}
         <Route path="render_survey'" element={<RenderSurvey />} />
-        <Route path="callback" element={<Callback />} />
+        <Route path="callback" setAuth={setAuth} element={<Callback />} />
         <Route path="accept_invitation/sign_up" element={<InviteSignUp />} />
-        <Route path="accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
-        <Route path="password_reset" element={<PasswordResetAccount />} />
+        <Route
+          path="accept_invitation/create_account"
+          element={<InvitedUserCreateAccount setAuth={setAuth} />}
+        />
+        <Route path="password_reset" element={<PasswordResetAccount setAuth={setAuth} />} />
         <Route path="expired" element={<ExpiredTokenScreen />} />
         {/* <Route path="/*"
           //TODO: change to 404
           element={() => <Navigate to="/" />}
         /> */}
         {/* Mixed Authentication Routes */}
-        <Route path="/" element={<ChooseHome />} />
+        <Route path="/" element={<ChooseHome auth={auth} />} />
       </Routes>
     </Suspense>
   );

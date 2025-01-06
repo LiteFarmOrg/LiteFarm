@@ -69,40 +69,39 @@ function OnboardingFlow({
     hookFormPersistSelector,
     (pre, next) => pre.interested === next.interested,
   );
-
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
-    // <Suspense fallback={<Spinner />}>
-    <Routes>
-      <Route path="/farm_selection" element={<ChooseFarm />} />
-      <Route path="/welcome" element={<WelcomeScreen />} />
-      <Route path="/add_farm" element={<AddFarm />} />
+    <Suspense fallback={<Spinner />}>
+      <Routes>
+        <Route path="/farm_selection" element={<ChooseFarm />} />
+        <Route path="/welcome" element={<WelcomeScreen />} />
+        <Route path="/add_farm" element={<AddFarm />} />
 
-      {step_one && <Route path="/role_selection" element={<RoleSelection />} />}
-      {step_two && !step_five && <Route path="/consent" element={<ConsentForm />} />}
-      {step_five && !has_consent && (
-        <Route path="/consent">
-          <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
-        </Route>
-      )}
-      {step_three && (
-        <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
-      )}
-      {(step_four || interested) && (
-        <Route path="/certification/selection" element={<CertificationSelection />} />
-      )}
-      {(step_four || interested) && (
-        <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
-      )}
-      {(step_four || interested) && (
-        <Route path="/certification/certifier/request" element={<RequestCertifier />} />
-      )}
-      {(step_four || interested) && (
-        <Route path="/certification/summary" element={<SetCertificationSummary />} />
-      )}
-      {step_four && <Route path="/outro" element={<Outro />} />}
+        {step_one && <Route path="/role_selection" element={<RoleSelection />} />}
+        {step_two && !step_five && <Route path="/consent" element={<ConsentForm />} />}
+        {step_five && !has_consent && (
+          <Route path="/consent">
+            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
+          </Route>
+        )}
+        {step_three && (
+          <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
+        )}
+        {(step_four || interested) && (
+          <Route path="/certification/selection" element={<CertificationSelection />} />
+        )}
+        {(step_four || interested) && (
+          <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
+        )}
+        {(step_four || interested) && (
+          <Route path="/certification/certifier/request" element={<RequestCertifier />} />
+        )}
+        {(step_four || interested) && (
+          <Route path="/certification/summary" element={<SetCertificationSummary />} />
+        )}
+        {step_four && <Route path="/outro" element={<Outro />} />}
 
-      {/* <Route>
+        {/* <Route>
           <>
             {!step_one && <Route render={() => <Navigate to={'/add_farm'} />} />}
             {step_four && !has_consent && (
@@ -128,8 +127,8 @@ function OnboardingFlow({
             )}
           </>
         </Route> */}
-    </Routes>
-    // </Suspense>
+      </Routes>
+    </Suspense>
   );
 }
 

@@ -15,7 +15,7 @@ const loginUrl = () => `${url}/google`;
 
 export const loginWithGoogle = createAction(`loginWithGoogleSaga`);
 
-export function* loginWithGoogleSaga({ payload: google_id_token }) {
+export function* loginWithGoogleSaga({ payload: { payload: google_id_token, setAuth } }) {
   try {
     const header = {
       headers: {
@@ -30,7 +30,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       header,
     );
     const { id_token, user, isSignUp, isInvited } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
     if (i18n.language !== getLanguageFromLocalStorage()) {
       i18n.changeLanguage(getLanguageFromLocalStorage());

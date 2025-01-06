@@ -68,7 +68,7 @@ export function* customSignUpSaga({ payload: { email, navigate } }) {
 export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga`);
 
 export function* customLoginWithPasswordSaga({
-  payload: { showPasswordError, navigate, ...user },
+  payload: { showPasswordError, navigate, setAuth, ...user },
 }) {
   try {
     const screenSize = {
@@ -85,7 +85,7 @@ export function* customLoginWithPasswordSaga({
       id_token,
       user: { user_id },
     } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
 
     yield put(loginSuccess({ user_id }));
     navigate('/farm_selection');
@@ -101,7 +101,7 @@ export function* customLoginWithPasswordSaga({
 
 export const customCreateUser = createAction(`customCreateUserSaga`);
 
-export function* customCreateUserSaga({ payload: { data, navigate } }) {
+export function* customCreateUserSaga({ payload: { data, navigate, setAuth } }) {
   try {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
@@ -128,7 +128,7 @@ export function* customCreateUserSaga({ payload: { data, navigate } }) {
         id_token,
         user: { user_id, language_preference },
       } = result.data;
-      localStorage.setItem('id_token', id_token);
+      setAuth(id_token);
 
       localStorage.setItem('litefarm_lang', language_preference);
       yield put(loginSuccess({ user_id }));

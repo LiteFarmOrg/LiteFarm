@@ -48,7 +48,7 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload }) {
-  const { invite_token, language } = payload;
+  const { invite_token, language, setAuth } = payload;
   try {
     const result = yield call(
       axios.patch,
@@ -61,7 +61,7 @@ export function* patchUserFarmStatusSaga({ payload }) {
       },
     );
     const { user: userFarm, id_token } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
     localStorage.setItem('litefarm_lang', userFarm.language_preference);
     i18n.changeLanguage(userFarm.language_preference);
     purgeState();

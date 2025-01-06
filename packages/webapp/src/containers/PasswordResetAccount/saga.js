@@ -26,7 +26,7 @@ const resetPasswordUrl = () => `${url}/password_reset`;
 export const resetPassword = createAction(`resetPasswordSaga`);
 
 export function* resetPasswordSaga({
-  payload: { reset_token, password, onPasswordResetSuccess, email },
+  payload: { reset_token, password, onPasswordResetSuccess, email, setAuth },
 }) {
   try {
     const result = yield call(
@@ -41,7 +41,7 @@ export function* resetPasswordSaga({
     );
 
     const { id_token } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
 
     const decoded = decodeToken(id_token);
     const { user_id } = decoded;

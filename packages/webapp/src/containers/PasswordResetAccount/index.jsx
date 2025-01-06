@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { useLocation, useNavigate } from 'react-router';
 
-function PasswordResetAccount() {
+function PasswordResetAccount({ setAuth }) {
   let navigate = useNavigate();
   let location = useLocation();
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function PasswordResetAccount() {
   const { i18n } = useTranslation();
   const onSubmit = (data) => {
     const { password } = data;
-    dispatch(resetPassword({ reset_token, password, onPasswordResetSuccess, email }));
+    dispatch(resetPassword({ reset_token, password, onPasswordResetSuccess, email, setAuth }));
   };
 
   useEffect(() => {

@@ -21,7 +21,7 @@ const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
 export const acceptInvitationWithSSO = createAction(`acceptInvitationWithSSOSaga`);
 
 export function* acceptInvitationWithSSOSaga({
-  payload: { google_id_token, invite_token, user: userForm },
+  payload: { google_id_token, invite_token, user: userForm, setAuth },
 }) {
   try {
     yield put(onLoadingUserFarmsStart());
@@ -46,7 +46,7 @@ export function* acceptInvitationWithSSOSaga({
       header,
     );
     const { id_token, user: resUserFarm } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
     localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));

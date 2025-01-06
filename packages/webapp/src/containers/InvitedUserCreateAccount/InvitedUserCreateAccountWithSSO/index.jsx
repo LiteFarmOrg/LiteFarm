@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { acceptInvitationWithSSO } from '../saga';
 import { useLocation } from 'react-router-dom-v5-compat';
 
-export default function InvitedUserCreateAccountWithSSO() {
+export default function InvitedUserCreateAccountWithSSO({ setAuth }) {
   let location = useLocation();
   const { t } = useTranslation(['translation', 'common']);
   const { google_id_token, invite_token, email, name, gender, birth_year } = location.state;
@@ -17,6 +17,7 @@ export default function InvitedUserCreateAccountWithSSO() {
         google_id_token,
         invite_token,
         user: { ...data, email },
+        setAuth,
       }),
     );
   };

@@ -4,7 +4,7 @@ import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
 import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
-function Callback() {
+function Callback({ setAuth }) {
   let navigate = useNavigate();
   let location = useLocation();
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ function Callback() {
         patchUserFarmStatus({
           invite_token: params.get('invite_token'),
           language: params.get('language'),
+          setAuth,
         }),
       );
     } else {

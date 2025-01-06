@@ -27,7 +27,7 @@ const PureCustomSignUpStyle = {
   },
 };
 
-function CustomSignUp() {
+function CustomSignUp({ setAuth }) {
   let navigate = useNavigate();
   let location = useLocation();
   const {
@@ -104,11 +104,11 @@ function CustomSignUp() {
   };
 
   const onSignUp = (user) => {
-    dispatch(customCreateUser(user));
+    dispatch(customCreateUser({ setAuth, user }));
   };
 
   const onLogin = (password, showPasswordError) => {
-    dispatch(customLoginWithPassword({ email, password, showPasswordError }));
+    dispatch(customLoginWithPassword({ email, password, showPasswordError, setAuth }));
   };
 
   const enterPasswordOnGoBack = () => {
@@ -147,7 +147,9 @@ function CustomSignUp() {
           classes={PureCustomSignUpStyle}
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
-          GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
+          GoogleLoginButton={
+            <GoogleLoginButton className={'google-login-button'} setAuth={setAuth} />
+          }
           isChrome={isChrome()}
           errorMessage={errorMessage}
           inputs={[

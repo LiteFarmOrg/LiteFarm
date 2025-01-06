@@ -9,7 +9,7 @@ export default {
   component: GoogleLoginButton,
 };
 
-const Template = (args) => <GoogleLoginButton {...args} />;
+const Template = (args) => <GoogleLoginButton setAuth={() => {}} {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

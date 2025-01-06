@@ -10,7 +10,7 @@ export default {
   component: PureResetPasswordAccount,
 };
 
-const Template = (args) => <PureResetPasswordAccount {...args} />;
+const Template = (args) => <PureResetPasswordAccount setAuth={() => {}} {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

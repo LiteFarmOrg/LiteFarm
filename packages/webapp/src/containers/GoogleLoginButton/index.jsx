@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux';
 import { loginWithGoogle } from './saga';
 import { useTranslation } from 'react-i18next';
 
-function GoogleLoginButton({ disabled }) {
+function GoogleLoginButton({ disabled, setAuth }) {
   const dispatch = useDispatch();
   const onSuccess = (res) => {
-    dispatch(loginWithGoogle(res.credential));
+    dispatch(loginWithGoogle({ google_id_token: res.credential, setAuth }));
   };
   const onFailure = (res) => {
     console.log(res);

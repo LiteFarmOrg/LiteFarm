@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import { acceptInvitationWithLiteFarm } from '../saga';
 import { useLocation } from 'react-router-dom-v5-compat';
 
-export default function InvitedUserCreateAccountWithLiteFarm() {
+export default function InvitedUserCreateAccountWithLiteFarm({ setAuth }) {
   let location = useLocation();
   const { t } = useTranslation();
   const { invite_token, email, name, gender, birth_year } = location.state;
   const dispatch = useDispatch();
   const onSubmit = (data) => {
-    dispatch(acceptInvitationWithLiteFarm({ invite_token, user: { ...data, email } }));
+    dispatch(acceptInvitationWithLiteFarm({ invite_token, user: { ...data, email }, setAuth }));
   };
   return (
     <PureInvitedUserCreateAccountPage

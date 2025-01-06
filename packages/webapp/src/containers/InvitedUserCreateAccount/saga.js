@@ -21,7 +21,7 @@ const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
 export const acceptInvitationWithSSO = createAction(`acceptInvitationWithSSOSaga`);
 
 export function* acceptInvitationWithSSOSaga({
-  payload: { google_id_token, invite_token, user: userForm },
+  payload: { google_id_token, invite_token, user: userForm, setAuth },
 }) {
   try {
     yield put(onLoadingUserFarmsStart());
@@ -46,7 +46,7 @@ export function* acceptInvitationWithSSOSaga({
       header,
     );
     const { id_token, user: resUserFarm } = result.data;
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
     localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
@@ -69,7 +69,9 @@ export function* acceptInvitationWithSSOSaga({
 
 export const acceptInvitationWithLiteFarm = createAction(`acceptInvitationWithLiteFarmSaga`);
 
-export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, user: userForm } }) {
+export function* acceptInvitationWithLiteFarmSaga({
+  payload: { invite_token, user: userForm, setAuth },
+}) {
   try {
     yield put(onLoadingUserFarmsStart());
     const header = {
@@ -90,7 +92,7 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUserFarm } = result.data;
 
-    localStorage.setItem('id_token', id_token);
+    setAuth(id_token);
     localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
 
     purgeState();

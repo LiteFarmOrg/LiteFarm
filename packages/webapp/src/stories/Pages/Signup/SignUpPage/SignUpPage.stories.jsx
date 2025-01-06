@@ -13,20 +13,20 @@ export default {
 const Template = (args) => <PureCustomSignUp {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = { GoogleLoginButton: <GoogleLoginButton /> };
+Primary.args = { GoogleLoginButton: <GoogleLoginButton setAuth={() => {}} /> };
 Primary.parameters = {
   ...chromaticSmallScreen,
 };
 
 export const Not_Chrome = Template.bind({});
-Not_Chrome.args = { GoogleLoginButton: <GoogleLoginButton />, isChrome: false };
+Not_Chrome.args = { GoogleLoginButton: <GoogleLoginButton setAuth={() => {}} />, isChrome: false };
 Not_Chrome.parameters = {
   ...chromaticSmallScreen,
 };
 
 export const Invalid_token = Template.bind({});
 Invalid_token.args = {
-  GoogleLoginButton: <GoogleLoginButton />,
+  GoogleLoginButton: <GoogleLoginButton setAuth={() => {}} />,
   isChrome: false,
   errorMessage: 'This invitation has already been used, please log in to access this farm',
 };

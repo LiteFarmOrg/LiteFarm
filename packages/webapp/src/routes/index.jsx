@@ -17,13 +17,13 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { CompatRoute, Navigate } from 'react-router-dom-v5-compat';
+import { useLocalStorage } from 'usehooks-ts';
 import Spinner from '../components/Spinner';
 
 // Components that have already been set up with code splitting
 import OnboardingFlow from './Onboarding';
 import CustomSignUp from '../containers/CustomSignUp';
 import { useSelector } from 'react-redux';
-import { isAuthenticated } from '../util/jwt';
 
 // action
 import { userFarmSelector } from '../containers/userFarmSlice';
@@ -286,7 +286,13 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
+const AllRoutes = ({
+  isCompactSideMenu,
+  isFeedbackSurveyOpen,
+  setFeedbackSurveyOpen,
+  auth,
+  setAuth,
+}) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -309,7 +315,7 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
     userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
-  if (isAuthenticated()) {
+  if (auth) {
     role_id = Number(role_id);
     // TODO check every step
     if (isInvitationFlow) {
@@ -600,13 +606,16 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
             <CompatRoute path="/insights/biodiversity" exact children={<Biodiversity />} />
             <CompatRoute path="/insights/prices" exact children={<Prices />} />
             <CompatRoute path="/farm_selection" exact children={<ChooseFarm />} />
-            <CompatRoute path="/callback" children={<Callback />} />
+            <CompatRoute path="/callback" children={<Callback setAuth={setAuth} />} />
             <CompatRoute path="/accept_invitation/sign_up" children={<InviteSignUp />} />
             <CompatRoute
               path="/accept_invitation/create_account"
-              children={<InvitedUserCreateAccount />}
+              children={<InvitedUserCreateAccount setAuth={setAuth} />}
             />
-            <CompatRoute path="/password_reset" children={<PasswordResetAccount />} />
+            <CompatRoute
+              path="/password_reset"
+              children={<PasswordResetAccount setAuth={setAuth} />}
+            />
             <CompatRoute path={'/expired'} children={<ExpiredTokenScreen />} />
             <CompatRoute path="/invite_user" exact children={<InviteUser />} />
             <CompatRoute path="/certification" exact children={<ViewCertification />} />
@@ -960,13 +969,16 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
             <CompatRoute path="/insights/biodiversity" exact children={<Biodiversity />} />
             <CompatRoute path="/insights/prices" exact children={<Prices />} />
             <CompatRoute path="/farm_selection" exact children={<ChooseFarm />} />
-            <CompatRoute path="/callback" children={<Callback />} />
+            <CompatRoute path="/callback" children={<Callback setAuth={setAuth} />} />
             <CompatRoute path="/accept_invitation/sign_up" children={<InviteSignUp />} />
             <CompatRoute
               path="/accept_invitation/create_account"
-              children={<InvitedUserCreateAccount />}
+              children={<InvitedUserCreateAccount setAuth={setAuth} />}
             />
-            <CompatRoute path="/password_reset" children={<PasswordResetAccount />} />
+            <CompatRoute
+              path="/password_reset"
+              children={<PasswordResetAccount setAuth={setAuth} />}
+            />
             <CompatRoute path={'/expired'} children={<ExpiredTokenScreen />} />
             <CompatRoute path="/invite_user" exact children={<InviteUser />} />
             <CompatRoute path="/certification" exact children={<ViewCertification />} />
@@ -1131,13 +1143,16 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
             <CompatRoute path="/insights/labourhappiness" exact children={<LabourHappiness />} />
             <CompatRoute path="/insights/biodiversity" exact children={<Biodiversity />} />
             <CompatRoute path="/insights/prices" exact children={<Prices />} />
-            <CompatRoute path="/callback" children={<Callback />} />
+            <CompatRoute path="/callback" children={<Callback setAuth={setAuth} />} />
             <CompatRoute path="/accept_invitation/sign_up" children={<InviteSignUp />} />
             <CompatRoute
               path="/accept_invitation/create_account"
-              children={<InvitedUserCreateAccount />}
+              children={<InvitedUserCreateAccount setAuth={setAuth} />}
             />
-            <CompatRoute path="/password_reset" children={<PasswordResetAccount />} />
+            <CompatRoute
+              path="/password_reset"
+              children={<PasswordResetAccount setAuth={setAuth} />}
+            />
             <CompatRoute path={'/expired'} children={<ExpiredTokenScreen />} />
             <CompatRoute path="/tasks" exact children={<Tasks />} />
             <CompatRoute path="/tasks/:task_id/read_only" exact children={<TaskReadOnly />} />
@@ -1214,20 +1229,23 @@ const AllRoutes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyO
         </Suspense>
       );
     }
-  } else if (!isAuthenticated()) {
+  } else if (!auth) {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
           <CompatRoute path={'/render_survey'} exact children={<RenderSurvey />} />
-          <CompatRoute path="/callback" children={<Callback />} />
+          <CompatRoute path="/callback" children={<Callback setAuth={setAuth} />} />
           <CompatRoute path="/accept_invitation/sign_up" children={<InviteSignUp />} />
           <CompatRoute
             path="/accept_invitation/create_account"
-            children={<InvitedUserCreateAccount />}
+            children={<InvitedUserCreateAccount setAuth={setAuth} />}
           />
-          <CompatRoute path="/password_reset" children={<PasswordResetAccount />} />
+          <CompatRoute
+            path="/password_reset"
+            children={<PasswordResetAccount setAuth={setAuth} />}
+          />
           <CompatRoute path={'/expired'} children={<ExpiredTokenScreen />} />
-          <CompatRoute path="/" exact children={<CustomSignUp />} />
+          <CompatRoute path="/" exact children={<CustomSignUp setAuth={setAuth} />} />
           <CompatRoute
             //TODO: change to 404
             render={() => <Navigate to={'/'} />}

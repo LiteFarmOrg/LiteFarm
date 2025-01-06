@@ -23,6 +23,7 @@ import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDe
 import styles from './styles.module.scss';
 import AllRoutes from './routes';
 import { ANIMALS_URL } from './util/siteMapConstants';
+import { useLocalStorage } from 'usehooks-ts';
 
 function App() {
   let location = useLocation();
@@ -30,6 +31,7 @@ function App() {
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = ['/map', ANIMALS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
+  const [auth, setAuth, removeAuth] = useLocalStorage('id_token');
 
   return (
     <div className={clsx(styles.container)}>
@@ -58,6 +60,8 @@ function App() {
                 isCompactSideMenu={isCompactSideMenu}
                 isFeedbackSurveyOpen={isFeedbackSurveyOpen}
                 setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                auth={auth}
+                setAuth={setAuth}
               />
             </SnackbarProvider>
           </div>

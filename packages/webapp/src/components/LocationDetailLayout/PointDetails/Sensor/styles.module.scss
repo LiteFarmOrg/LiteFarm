@@ -12,6 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+@import '../../../../assets/mixin.scss';
+
 .container {
   background: var(--grey100);
   border: 1px solid var(--grey400);
@@ -40,9 +42,107 @@
   display: flex;
   align-items: center;
 
-
   color: var(--teal700);
   font-size: 16px;
   font-weight: 700;
-  
+}
+
+/*----------------------------------------
+  V2
+----------------------------------------*/
+.formsWrapper {
+  padding: 16px 8px;
+}
+
+.formsTitle {
+  color: var(--Colors-Neutral-Neutral-600);
+  font-weight: 600;
+  line-height: 18px;
+  padding-bottom: 24px;
+}
+
+.form {
+  border: solid 1px var(--Colors-Neutral-Neutral-200);
+  border-radius: 8px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &:focus-within {
+    border-color: var(--inputActive);
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 24px;
+  }
+
+  &.sensor {
+    gap: 16px;
+
+    .formTitle {
+      font-weight: 400;
+    }
+  }
+}
+
+.formTitle {
+  color: #000;
+  font-weight: 600;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Arrays
+.latLong,
+.installation {
+  display: flex;
+  gap: 20px;
+
+  > div {
+    flex: 1;
+  }
+}
+
+.latLongPicker {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: -4px;
+  margin-bottom: 12px;
+}
+
+.appendFormButton {
+  @include fontFamily();
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  height: 32px;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Sensors
+.arraySensors {
+  margin-bottom: 32px;
+}
+
+.arraySensorsArrayName {
+  color: #000;
+  font-weight: 600;
+  padding-bottom: 16px;
 }

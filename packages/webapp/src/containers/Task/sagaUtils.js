@@ -16,12 +16,12 @@
 import { parseInventoryId } from '../../util/animal';
 import { getPostTaskBody } from './saga';
 
-export const getEndpoint = (isCustomTask, taskTranslationKey) => {
+export const getEndpoint = (isCustomTask, taskTranslationKey, isCreatingTask = false) => {
   if (isCustomTask) {
     return 'custom_task';
   }
   const endpoints = {
-    HARVEST_TASK: 'harvest_tasks',
+    HARVEST_TASK: isCreatingTask ? 'harvest_tasks' : 'harvest_task',
     MOVEMENT_TASK: 'animal_movement_task',
   };
   return endpoints[taskTranslationKey] || taskTranslationKey.toLowerCase();

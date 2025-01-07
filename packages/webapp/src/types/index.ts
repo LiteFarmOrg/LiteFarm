@@ -37,3 +37,5 @@ export interface Location {
 
   [key: string]: any;
 }
+
+export type System = 'metric' | 'imperial';

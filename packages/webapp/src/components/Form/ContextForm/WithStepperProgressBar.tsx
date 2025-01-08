@@ -81,7 +81,7 @@ export const WithStepperProgressBar = ({
   handleSubmit,
   reset,
   getValues,
-  formState: { isValid, isDirty },
+  formState: { isValid, isDirty, errors },
   setFormResultData,
   isEditing,
   setIsEditing,
@@ -153,6 +153,11 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
+  // Disable the button if the form is invalid or saving. On the final step, we check for errors
+  // since isValid may be true even if there are errors in hidden/collapsed fields.
+  // Reference: https://github.com/react-hook-form/react-hook-form/issues/7178
+  const isContinueDisabled = !isValid || isSaving || (isFinalStep && !!Object.keys(errors).length);
+
   return (
     <StepperProgressBarWrapper
       isSingleStep={isSingleStep}
@@ -173,7 +178,7 @@ export const WithStepperProgressBar = ({
             onPrevious={isSingleStep ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
-            isDisabled={!isValid || isSaving}
+            isDisabled={isContinueDisabled}
           />
         </FloatingContainer>
       )}

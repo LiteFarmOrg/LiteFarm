@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
-import { Main } from '../../../../Typography';
+import { IconLink, Main } from '../../../../Typography';
 import SensorForm from './SensorForm';
 import { System } from '../../../../../types';
 import {
@@ -25,6 +25,11 @@ import {
   FormFields,
   SensorFields,
 } from '../../../../../containers/LocationDetails/PointDetails/SensorDetail/V2/types';
+import useExpandable from '../../../../Expandable/useExpandableItem';
+import ExpandableItem from '../../../../Expandable/ExpandableItem';
+import { ReactComponent as TrashIcon } from '../../../../../assets/images/animals/trash_icon_new.svg';
+import { ReactComponent as CheckIcon } from '../../../../../assets/images/check-circle.svg';
+import { ReactComponent as WarningIcon } from '../../../../../assets/images/warning.svg';
 import styles from '../styles.module.scss';
 
 // TODO: Finalize the default values
@@ -43,9 +48,20 @@ export interface SensorsFormProps {
 }
 
 const SensorsForm = ({ system }: SensorsFormProps) => {
+  const { expandedIds, toggleExpanded } = useExpandable(
+    // @ts-ignore
+    { isSingleExpandable: true },
+  );
+
   const { t } = useTranslation();
 
-  const { control, watch, setValue } = useFormContext<FormFields>();
+  const {
+    control,
+    watch,
+    setValue,
+    trigger,
+    formState: { isValid, errors },
+  } = useFormContext<FormFields>();
 
   const { update } = useFieldArray({
     control,
@@ -74,7 +90,7 @@ const SensorsForm = ({ system }: SensorsFormProps) => {
       }
     });
   }, []);
-
+  console.log(errors, isValid);
   return (
     <div className={styles.formsWrapper}>
       <Main className={styles.formsTitle}>{t('SENSOR.DETAIL.SENSOR_DETAILS')}</Main>
@@ -86,21 +102,50 @@ const SensorsForm = ({ system }: SensorsFormProps) => {
               {array.array_name || t('SENSOR.DETAIL.ARRAY_NUMBER', { number: index + 1 })}
             </Main>
             {array.sensors.map((sensor, sensorIndex) => {
-              const namePrefix = `${ARRAYS}[${index}].${ArrayFields.SENSORS}[${sensorIndex}].`;
+              const namePrefix = `${ARRAYS}.${index}.${ArrayFields.SENSORS}[${sensorIndex}].`;
               const onRemove = () => {
                 const newSensors = array.sensors.slice();
                 newSensors.splice(sensorIndex, 1);
                 update(index, { ...array, sensors: newSensors });
                 setValue(`${ARRAYS}.${index}.${ArrayFields.SENSOR_COUNT}`, newSensors.length);
               };
+              const key = `${index}-${sensor.id}`;
+              const isExpanded = expandedIds.includes(key);
+              const sensorErrors =
+                errors?.[ARRAYS]?.[index]?.[ArrayFields.SENSORS]?.[sensorIndex] || {};
+              const errorCount = Object.keys(sensorErrors).length;
+              const onClick = () => {
+                trigger(`${ARRAYS}.${index}.${ArrayFields.SENSORS}`);
+                toggleExpanded(key);
+              };
 
               return (
-                <SensorForm
-                  key={`${index}-${sensor.id}`}
-                  index={sensorIndex}
-                  namePrefix={namePrefix}
-                  system={system}
-                  onRemove={array.sensors.length > 1 ? onRemove : undefined}
+                <ExpandableItem
+                  itemKey={key}
+                  classes={{
+                    container: styles.expandableContainer,
+                    expandedContainer: styles.expandedContainer,
+                    mainContentWithIcon: styles.expandableHeader,
+                  }}
+                  isExpanded={isExpanded}
+                  iconClickOnly={false}
+                  onClick={onClick}
+                  leftCollapseIcon
+                  mainContent={
+                    <MainContent
+                      isExpanded={isExpanded}
+                      onRemove={onRemove}
+                      isRemovable={array.sensors.length > 1}
+                      errorCount={errorCount}
+                    >
+                      <Main>{t('SENSOR.DETAIL.SENSOR_NUMBER', { number: sensorIndex + 1 })}</Main>
+                    </MainContent>
+                  }
+                  expandedContent={
+                    <div className={styles.sensorFormWrapper}>
+                      <SensorForm key={key} namePrefix={namePrefix} system={system} />
+                    </div>
+                  }
                 />
               );
             })}
@@ -112,3 +157,39 @@ const SensorsForm = ({ system }: SensorsFormProps) => {
 };
 
 export default SensorsForm;
+
+const MainContent = ({ isExpanded, isRemovable, onRemove, errorCount, children }) => {
+  const { t } = useTranslation();
+
+  const renderStatusOrAction = () => {
+    if (isExpanded) {
+      return isRemovable ? (
+        <IconLink
+          className={styles.removeLink}
+          onClick={onRemove}
+          icon={<TrashIcon />}
+          isIconClickable
+          underlined={false}
+        >
+          {t('common:REMOVE')}
+        </IconLink>
+      ) : null;
+    }
+
+    return errorCount ? (
+      <div className={styles.errorCount}>
+        <WarningIcon />
+        {errorCount}
+      </div>
+    ) : (
+      <CheckIcon className={styles.check} />
+    );
+  };
+
+  return (
+    <div className={styles.mainContent}>
+      {children}
+      {renderStatusOrAction()}
+    </div>
+  );
+};

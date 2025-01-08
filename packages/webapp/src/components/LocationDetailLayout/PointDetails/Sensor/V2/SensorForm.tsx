@@ -15,24 +15,20 @@
 import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../../../Typography';
 import Unit from '../../../../Form/Unit';
 import { container_planting_depth } from '../../../../../util/convert-units/unit';
 import Input from '../../../../Form/Input';
 import ReactSelect from '../../../../Form/ReactSelect';
-import SmallButton from '../../../../Form/Button/SmallButton';
 import { System } from '../../../../../types';
 import { SensorFields } from '../../../../../containers/LocationDetails/PointDetails/SensorDetail/V2/types';
 import styles from '../styles.module.scss';
 
 interface SensorFormProps {
-  index: number;
   namePrefix?: string;
   system: System;
-  onRemove?: () => void;
 }
 
-const SensorForm = ({ index, namePrefix = '', system, onRemove }: SensorFormProps) => {
+const SensorForm = ({ namePrefix = '', system }: SensorFormProps) => {
   const { t } = useTranslation();
 
   const NAME = `${namePrefix}${SensorFields.NAME}`;
@@ -47,18 +43,12 @@ const SensorForm = ({ index, namePrefix = '', system, onRemove }: SensorFormProp
 
   // TODO: Add errors
   return (
-    <div className={clsx(styles.form, styles.sensor)}>
-      <div className={styles.formHeader}>
-        <Main className={styles.formTitle}>
-          {t('SENSOR.DETAIL.SENSOR_NUMBER', { number: index + 1 })}
-        </Main>
-        {onRemove && <SmallButton variant="remove" onClick={onRemove} />}
-      </div>
+    <div className={clsx(styles.sensorForm)}>
       {/* @ts-ignore */}
       <Input
         label={t('SENSOR.DETAIL.SENSOR_NAME')}
         placeholder={t('SENSOR.DETAIL.GIVE_SENSOR_NAME')}
-        hookFormRegister={register(NAME)}
+        hookFormRegister={register(NAME, { required: true })}
       />
       <ReactSelect
         isMulti={true}
@@ -99,7 +89,7 @@ const SensorForm = ({ index, namePrefix = '', system, onRemove }: SensorFormProp
         label={t('SENSOR.DETAIL.SENSOR_ID')}
         placeholder={t('SENSOR.DETAIL.ENTER_SENSOR_ID')}
         optional={true}
-        hookFormRegister={register(SENSOR_ID)}
+        hookFormRegister={register(SENSOR_ID, { required: true })}
       />
     </div>
   );

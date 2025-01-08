@@ -45,11 +45,11 @@ const ArrayForm = ({ index, namePrefix = '', fields = [], onPlaceOnMapClick }: A
   const {
     control,
     register,
-    formState: { defaultValues },
+    formState: { defaultValues, errors },
   } = useFormContext();
 
   const defaultFormValues = defaultValues?.[ARRAYS]?.[index] || {};
-
+  console.log(errors);
   // TODO: Add validations and errors
   return (
     <div className={styles.form}>
@@ -60,7 +60,7 @@ const ArrayForm = ({ index, namePrefix = '', fields = [], onPlaceOnMapClick }: A
       <Input
         label={t('SENSOR.DETAIL.ARRAY_NAME')}
         placeholder={t('SENSOR.DETAIL.GIVE_ARRAY_NAME')}
-        hookFormRegister={register(ARRAY_NAME)}
+        hookFormRegister={register(ARRAY_NAME, { required: true })}
         optional
       />
       <NumberInput

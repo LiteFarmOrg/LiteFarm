@@ -73,8 +73,120 @@
   gap: 8px;
   justify-content: center;
   margin-bottom: 8px;
-  
+
   @include lg-breakpoint {
     margin-bottom: 0px;
   }
+}
+
+/*----------------------------------------
+  MainContent
+----------------------------------------*/
+.mainContent,
+.errorCount,
+.removeLink,
+.inlineRemoveWarning,
+.inlineButtonContainer,
+.inlineIconText {
+  display: flex;
+  align-items: center;
+}
+
+.mainContent {
+  height: 64px;
+  position: relative;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.children {
+  white-space: nowrap;
+}
+
+.errorCount {
+  gap: 4px;
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.check {
+  color: var(--Colors-Secondary-Secondary-green-600);
+}
+
+// REMOVE
+.removeLink {
+  align-self: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    padding: 4px;
+
+    span {
+      padding-inline: 0px;
+    }
+  }
+}
+
+.inlineRemoveWarning {
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 8px;
+  border-radius: 4px;
+  background: #fff3f2;
+
+  .trashIcon {
+    @include svgColorFill(var(--Colors-Accent---singles-Red-dark));
+    background-color: transparent;
+  }
+
+  // On mobile the active remove warning covers the whole container AND the collapse icon
+  @include xs-breakpoint {
+    position: absolute;
+    right: -16px;
+    width: calc(100% + 64px);
+  }
+}
+
+.inlineRemoveWarning,
+.inlineIconText,
+.inlineRemoveText {
+  // Truncate remove confirmation
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.inlineRemoveText {
+  color: var(--Colors-Accent---singles-Red-dark);
+  font-size: 14px;
+}
+
+.inlineButtonContainer {
+  gap: 16px;
+
+  @include xs-breakpoint {
+    gap: 8px;
+  }
+}
+
+.inlineButton {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.yesButton {
+  background: var(--Colors-Accent---singles-Red-full);
+  color: var(--Colors-Accent---singles-Red-light);
+}
+
+.noButton {
+  background: #ffc1bf;
+  color: var(--Colors-Accent---singles-Red-dark);
 }

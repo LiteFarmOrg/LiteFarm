@@ -388,6 +388,7 @@ export default function Map({ history, isCompactSideMenu }) {
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
+      // Sensor is selected
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
       setShowBulkSensorUploadModal(true);
       dispatch(resetBulkUploadSensorsInfoFile());
@@ -439,6 +440,7 @@ export default function Map({ history, isCompactSideMenu }) {
     setShowingConfirmButtons(false);
     if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
+      // The coordinates are set here
       if (Object.keys(overlayData).length === 0 || isRedrawing === true) {
         dispatch(upsertFormData(locationData));
         dispatch(setIsRedrawing(false));

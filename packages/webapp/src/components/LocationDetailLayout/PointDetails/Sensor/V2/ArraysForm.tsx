@@ -14,12 +14,11 @@
  */
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
 import { Main } from '../../../../Typography';
 import TextButton from '../../../../Form/Button/TextButton';
 import { ReactComponent as PlusCircleIcon } from '../../../../../assets/images/plus-circle.svg';
 import ArrayForm from './ArrayForm';
-import { sensorDefaultValues } from './SensorsForm';
+import { sensorDefaultValues } from './ArraySensorsForm';
 import { Location } from '../../../../../types';
 import {
   ArrayFields,
@@ -33,7 +32,7 @@ export const arrayDefaultValues = {
   [ArrayFields.LATITUDE]: '',
   [ArrayFields.LONGITUDE]: '',
   [ArrayFields.FIELD]: '',
-  [ArrayFields.SENSORS]: [{ ...sensorDefaultValues, id: uuidv4() }],
+  [ArrayFields.SENSORS]: [sensorDefaultValues],
 };
 
 export interface ArraysFormProps {

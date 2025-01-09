@@ -21,7 +21,6 @@ export type FormFields = {
 
 // TODO: Confirm names and types
 export const SensorFields = {
-  ID: 'id',
   NAME: 'sensor_name',
   TYPES: 'sensor_types',
   PLACEMENT: 'sensor_placement',
@@ -50,7 +49,6 @@ export type ArrayFormFields = {
 };
 
 export type SensorFormFields = {
-  [SensorFields.ID]: string;
   [SensorFields.NAME]: string;
   [SensorFields.TYPES]: string[];
   [SensorFields.PLACEMENT]: string;

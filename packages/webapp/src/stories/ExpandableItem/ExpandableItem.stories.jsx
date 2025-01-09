@@ -23,6 +23,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
 import { AnimalFormHeaderItem } from '../../components/Animals/AddAnimalsForm/AnimalFormHeaderItem';
+import MainContent from '../../components/Expandable/MainContent';
 
 export default {
   title: 'Components/Expandable',
@@ -278,8 +279,45 @@ export const PillInTitleExpandable = {
   ),
 };
 
-const PillBodyClasses = {
-  mainContentWrapper: styles.mainContentWrapper,
-  mainContentWithIcon: styles.mainContentWithIcon,
-  alwaysVisibleContent: styles.alwaysVisibleContent,
+const ExpandableWithDefaultMainContent = ({ index, errorCount, isExpanded, onClick }) => {
+  return (
+    <Expandable
+      isExpanded={isExpanded}
+      mainContent={
+        <MainContent
+          isExpanded={isExpanded}
+          onRemove={() => console.log('removed!')}
+          isRemovable={true}
+          errorCount={errorCount}
+        >
+          {`Main content ${index}`}
+        </MainContent>
+      }
+      expandedContent={`Error count ${index}`}
+      iconClickOnly={false}
+      key={index}
+      leftCollapseIcon
+      onClick={onClick}
+    />
+  );
+};
+
+export const WithDefaultMainContent = {
+  render: () => {
+    const { expandedIds, toggleExpanded } = useExpandable();
+
+    return (
+      <div>
+        {[0, 1, 2].map((num) => (
+          <ExpandableWithDefaultMainContent
+            key={num}
+            index={num}
+            errorCount={num}
+            isExpanded={expandedIds.includes(num)}
+            onClick={() => toggleExpanded(num)}
+          />
+        ))}
+      </div>
+    );
+  },
 };

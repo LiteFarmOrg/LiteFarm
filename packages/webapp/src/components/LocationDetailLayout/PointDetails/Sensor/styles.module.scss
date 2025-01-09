@@ -170,32 +170,3 @@
   gap: 8px;
   padding-inline: 16px;
 }
-
-.mainContent {
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.errorCount {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.check {
-  color: var(--Colors-Secondary-Secondary-green-600);
-}
-
-.removeLink {
-  display: flex;
-  align-items: center;
-  align-self: center;
-  gap: 4px;
-  font-size: 14px;
-  color: var(--Colors-Neutral-Neutral-900);
-}

@@ -45,11 +45,11 @@ const ArrayForm = ({ index, namePrefix = '', fields = [], onPlaceOnMapClick }: A
   const {
     control,
     register,
-    formState: { defaultValues, errors },
+    formState: { defaultValues },
   } = useFormContext();
 
   const defaultFormValues = defaultValues?.[ARRAYS]?.[index] || {};
-  console.log(errors);
+
   // TODO: Add validations and errors
   return (
     <div className={styles.form}>

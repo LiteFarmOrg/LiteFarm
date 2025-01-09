@@ -68,7 +68,7 @@ export const up = async function (knex) {
   await knex.schema.createTable('sensor_array', (table) => {
     // Other locations seem to use .onDelete('CASCADE') but I don't think it is appropriate
     table.uuid('location_id').primary().references('location_id').inTable('location').notNullable();
-    table.uuid('field_location_id').references('location_id').inTable('location').notNullable();
+    table.uuid('field_location_id').references('location_id').inTable('field').notNullable();
   });
 
   // Create sensor table
@@ -89,6 +89,7 @@ export const up = async function (knex) {
       ['external_id', 'sensor_manufacturer_id', 'external_id', 'sensor_manufacturer_id'],
       'external_data_check',
     );
+    table.string('model');
     // combining depth and elevation
     table.float('depth_elevation').nullable();
     // removing defaultTo('cm')

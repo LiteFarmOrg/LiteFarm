@@ -77,11 +77,7 @@ export const up = async function (knex) {
     table.string('key').notNullable();
   });
 
-  await knex('sensor_status').insert([
-    { key: 'ONLINE_OK' },
-    { key: 'ONLINE_WARNING' },
-    { key: 'NOT_CONNECTED' },
-  ]);
+  await knex('sensor_status').insert([{ key: 'ONLINE' }, { key: 'OFFLINE' }]);
 
   // Create sensor table
   await knex.schema.createTable('sensor', (table) => {
@@ -162,6 +158,7 @@ export const down = async function (knex) {
   await knex.schema.dropTable('sensor_reading_mode');
   await knex.schema.dropTable('sensor_reading_type');
   await knex.schema.dropTable('sensor');
+  await knex.schema.dropTable('sensor_status');
   await knex.schema.dropTable('sensor_array');
   await knex.schema.dropTable('sensor_manufacturer');
   await knex.schema.dropTable('farm_inbound_integration');

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 LiteFarm.org
+ *  Copyright (c) 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -70,6 +70,18 @@ export const up = async function (knex) {
     table.uuid('location_id').primary().references('location_id').inTable('location').notNullable();
     table.uuid('field_location_id').references('location_id').inTable('field').notNullable();
   });
+
+  // Add inbound integration type
+  await knex.schema.createTable('sensor_status', (table) => {
+    table.increments('id').primary();
+    table.string('key').notNullable();
+  });
+
+  await knex('sensor_status').insert([
+    { key: 'ONLINE_OK' },
+    { key: 'ONLINE_WARNING' },
+    { key: 'NOT_CONNECTED' },
+  ]);
 
   // Create sensor table
   await knex.schema.createTable('sensor', (table) => {

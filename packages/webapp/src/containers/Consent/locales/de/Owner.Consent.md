@@ -84,7 +84,7 @@ LiteFarm nutzt die Managementinformationen, die Sie in die App eingeben, um Erke
 
 - Farmspezifische Details: bevorzugte Einheiten (z.B. metrische oder imperiale); Währung; ob der Betrieb eine Zertifizierung anstrebt; Zertifizierer; Beet-Eigenschaften; Reihenattribute.
 
-- • Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
+- Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
 
 - Informationen über Tierverbringungen: Standort, Grund für die Verbringung und Datum der Verbringung.
 

@@ -16,7 +16,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import history from '../../history';
 import { finishSendHelp, postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -40,7 +39,6 @@ export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
     if (result) {
       yield put(postHelpRequestSuccess());
       onSuccess();
-      history.push('/');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     }

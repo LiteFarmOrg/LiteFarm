@@ -84,7 +84,7 @@ LiteFarm nutzt die Managementinformationen, die Sie in die App eingeben, um Erke
 
 - Farmspezifische Details: bevorzugte Einheiten (z.B. metrische oder imperiale); Währung; ob der Betrieb eine Zertifizierung anstrebt; Zertifizierer; Beet-Eigenschaften; Reihenattribute.
 
-- •	Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
+- • Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
 
 - Informationen über Tierverbringungen: Standort, Grund für die Verbringung und Datum der Verbringung.
 
@@ -157,8 +157,6 @@ Wenn Sie ein LiteFarm-Konto erstellen, werden wir Ihnen gelegentlich E-Mails sen
 Derzeit ist die LiteFarm-Anwendung kostenlos nutzbar. Die Software selbst ist unter der GNU General Public License v3 lizenziert, einer gratis und Open-Source-Lizenz (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 
 **Für weitere Informationen**
-
-For further information 
 
 Bezüglich der Anwendung, bitte kontaktieren Sie:
 

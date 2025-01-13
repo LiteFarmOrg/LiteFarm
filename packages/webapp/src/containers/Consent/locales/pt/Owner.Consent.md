@@ -2,7 +2,7 @@
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Produtores Rurais e Gerentes Rurais)
 
-Te damos as boas-vindas ao LiteFarm!
+Bem-vindo à LiteFarm!
 
 Entendemos que sua privacidade e a proteção de seus dados são importantes para você. Criamos este Formulário de Consentimento Informado e Política de Privacidade para ajudar você a entender como e quando coletaremos, usaremos e compartilharemos suas informações, e para garantir que teremos seu consentimento para fazer isso. Tenha em mente que você precisará consentir com nossa coleta e uso de seus dados, conforme descrito neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, para cada propriedade rural à qual você está associado através de sua conta na plataforma LiteFarm. Caso não concorde com nossas práticas descritas neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, você não poderá usar a plataforma LiteFarm.
 
@@ -12,7 +12,7 @@ O LiteFarm é um projeto de pesquisa científica participativa sediado na Univer
 
 #### Quem faz parte da equipe LiteFarm?
 
-A equipe LiteFarm é um grupo interdisciplinar de cientistas, pesquisadores, produtores rurais, designers e profissionais de software. Inicialmente, a equipe foi formada na Universidade da Colúmbia Britânica (UBC) e cresceu para incluir uma rede participativa de indivíduos e organizações. Hannah Wittman (hannah.wittman@ubc.ca), bem como o Dr. Sean Smukler, Diretor do Centro de Sistemas Alimentares Sustentáveis da UBC Farm.
+A equipe LiteFarm é um grupo interdisciplinar de cientistas, pesquisadores, produtores rurais, designers e profissionais de software. Inicialmente, a equipe foi formada na Universidade da Colúmbia Britânica (UBC) e cresceu para incluir uma rede participativa de indivíduos e organizações. Os pesquisadores principais são a Dra. Zia Mehrabi (Universidade do Colorado) e a Dra. Hannah Wittman (hannah.wittman@ubc.ca), bem como o Dr. Sean Smukler, Diretor do Centro de Sistemas Alimentares Sustentáveis da UBC Farm.
 
 #### Quem financia a LiteFarm?
 
@@ -84,9 +84,9 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 - Detalhes específicos da propriedade: unidades preferidas (ex: métrica ou imperial), moeda corrente, se o proprietário está buscando certificação, certificadora, atributos dos canteiros e das linhas de cultivo.
 
-- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
+- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação.
 
-- Animal movements information: location, reason for movement and date of movement
+- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação.
 
 **Dados de uso**
 
@@ -142,15 +142,15 @@ O seu uso no aplicativo LiteFarm é totalmente voluntário. Se você decidir usa
 
 **O que acontece se eu retirar meu consentimento?**
 
-Se você retirar seu consentimento enviando um e-mail para litefarm.team@ubc.ca, sua(s) conta(s) na plataforma LiteFarm será(ão) marcada(s) como inativa(s) e você não poderá usar a plataforma LiteFarm. No entanto, suas informações não serão excluídas, caso queira retornar posteriormente. Você pode solicitar que seus dados sejam excluídos de forma permanente e irrevogável enviando uma solicitação para litefarm.team@ubc.ca.
+Se você retirar seu consentimento enviando um e-mail para litefarm.team@ubc.ca, sua(s) conta(s) na plataforma LiteFarm será(ão) marcada(s) como inativa(s) e você não poderá usar a plataforma LiteFarm. No entanto, suas informações não serão excluídas, caso queira retornar posteriormente. Você pode solicitar que seus dados sejam excluídos de forma permanente e irrevogável enviando uma solicitação para litefarm.team@ubc.ca. Se você planeja retirar o consentimento e deseja uma cópia de seus dados, solicite-a quando retirar o consentimento.
 
 **Como fazemos alterações na Política de Privacidade?**
 
-Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
+Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. Depois de um mês, sua conta e seus dados serão marcados como inativos. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
 
 **Com faremos contato com você?**
 
-Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma.
+Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma. Você poderá escolher os tipos de comunicação que deseja receber, ou então poderá desativar todas as comunicações visitando a página da LiteFarm para cancelamento de inscrições.
 
 **Licenciamento**
 
@@ -158,19 +158,17 @@ O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Lice
 
 **Para mais informações**
 
-For further information 
-
 Com relação ao aplicativo, contate:
 
-Product Manager: litefarm.team@ubc.ca
+Gerente de Produto: litefarm.team@ubc.ca
 
 Com relação a este estudo, contate:
 
-Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
+Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
-**If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study** 
+**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598.
 
 **Consentimento**
 

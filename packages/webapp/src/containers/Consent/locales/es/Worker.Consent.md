@@ -2,7 +2,7 @@
 
 #### Formulario de consentimiento informado y política de privacidad (trabajadores agrícolas)
 
-Bienvenido(a) a LiteFarm!
+Te damos la bienvenida a LiteFarm!
 
 Nosotros entendemos que su privacidad y la protección de sus datos son importantes para Ud. Creamos este Formulario de Consentimiento Informado y Política de Privacidad para ayudarle a comprender cómo y cuándo recopilamos, usamos y compartimos su información, y para asegurarnos de que tenemos su consentimiento para hacerlo. Por favor considere que a través de su cuenta en la plataforma LiteFarm, como se describe en este Formulario, deberá dar su consentimiento para que recopilemos y usemos sus datos para cada finca con la que Ud. esté asociado(a). Si Ud. no está de acuerdo con nuestras prácticas como se describe en este Formulario, no podrá utilizar la plataforma LiteFarm.
 
@@ -42,7 +42,7 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 **Información sobre la Administración de la Finca**
 
-LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Ya que nuestra investigación se basa en datos anónimos, éstos no pueden ser rastreados hasta Ud. o su finca. Estos datos incluyen:
+LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Debido a que estos datos se anonimizan cuando se utilizan en nuestra investigación, no se pueden rastrear hasta usted o su granja. Estos datos incluyen:
 
 - Información sobre las actividades realizadas en la propiedad: duración, campo, cultivos impactados, insumos de recursos y/o materiales, fechas de actividades, notas, estado de la actividad, etc.
 
@@ -64,9 +64,9 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Información relacionada con la realización de tareas, incluyendo: fecha, duración del trabajo, estado de ánimo (feliz, muy feliz, triste, muy triste, neutral), notas de trabajo.
 
-- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación. 
+- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
 
-- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento 
+- Animal movements information: location, reason for movement and date of movement
 
 **Datos de Uso**
 
@@ -106,7 +106,7 @@ Nuestro objetivo es conservar sus datos indefinidamente en aras de la productivi
 
 **¿Cuáles son sus derechos con respecto a su información personal?**
 
-Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. Para cualquier información o solicitud de este tipo, póngase en contacto con litefarm.team@ubc.ca.
+tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. Para cualquier información o solicitud de este tipo, póngase en contacto con litefarm.team@ubc.ca.
 
 **¿Qué sucede si Ud. retira el consentimiento?**
 
@@ -128,18 +128,17 @@ El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licenci
 
 **Para más información**
 
-Sobre la aplicación, comuníquese con: 
+Sobre la aplicación, comuníquese con:
 
-Gerente de producto: litefarm.team@ubc.ca 
+Product Manager: litefarm.team@ubc.ca
 
-Sobre este estudio, comuníquese con la investigadora principal: 
+Sobre este estudio, comuníquese con la investigadora principal:
 
-Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )  
+Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
 
-**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**  
+**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participan en este estudio**
 
-Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca 
-
+Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
 
 **Consentimiento**
 

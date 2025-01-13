@@ -1,4 +1,4 @@
-##### Version 6: 31. Mai 2024
+##### Version 7: 12. Dezember 2024
 
 #### Einverständniserklärung und Datenschutzerklärung (Farmbesitzer und Farmmanager)
 
@@ -84,6 +84,10 @@ LiteFarm nutzt die Managementinformationen, die Sie in die App eingeben, um Erke
 
 - Farmspezifische Details: bevorzugte Einheiten (z.B. metrische oder imperiale); Währung; ob der Betrieb eine Zertifizierung anstrebt; Zertifizierer; Beet-Eigenschaften; Reihenattribute.
 
+- •	Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
+
+- Informationen über Tierverbringungen: Standort, Grund für die Verbringung und Datum der Verbringung.
+
 **Nutzungsdaten**
 
 Wir sammeln Nutzungsdaten (d.h. allgemeine Statistiken über Benutzer, Verkehrsmuster und wie Benutzer auf verschiedene Funktionen der Website reagieren), um die Qualität der von uns angebotenen Dienstleistungen zu verbessern. Diese Art von Daten umfasst: wann Sie sich bei LiteFarm einloggen, welche Seiten Sie anfordern, wie lange Sie die Website besuchen, wie Sie mit der App interagieren, sowie technische Details über Ihr Gerät (z.B. Browser, Bildschirmtyp und Prozessor). Diese Daten werden entweder Ihrem LiteFarm Benutzernamen zugeordnet (wenn Sie in der App eingeloggt sind) oder Ihrer IP-Adresse (wenn Sie nicht eingeloggt sind). Wir können Software wie Google Analytics verwenden, um _Nutzungsdaten_ zu sammeln und zu analysieren, aber in diesen Fällen werden alle persönlichen Informationen _anonymisiert_.
@@ -154,17 +158,19 @@ Derzeit ist die LiteFarm-Anwendung kostenlos nutzbar. Die Software selbst ist un
 
 **Für weitere Informationen**
 
+For further information 
+
 Bezüglich der Anwendung, bitte kontaktieren Sie:
 
-- Produktmanager: Kevin Cussen (litefarm.team@ubc.ca)
+Produktmanager: litefarm.team@ubc.ca
 
 In Bezug auf diese Studie wenden Sie sich bitte an den leitenden Forscher:
 
-- Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
 
-**Sollten Sie während der Teilnahme an dieser Studie irgendwelche Bedenken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben**
+Sollten Sie während der Teilnahme an dieser Studie irgendwelche Be- denken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben
 
-Wenden Sie sich bei Beschwerden als Forschungsteilnehmer an die Beschwerdestelle für Forschungsteilnehmer im UBC Office of Research Ethics unter 604-822-8598. Bei Anrufen aus dem Ausland können Sie eine E-Mail an RSIL@ors.ubc.ca senden oder gebührenfrei unter 1-877-822-8598 anrufen.
+Wenden Sie sich bei Beschwerden als Forschungsteilnehmer an die Beschw- erdestelle für Forschungsteilnehmer im UBC Office of Research Ethics unter 604-822-8598. Bei Anrufen aus dem Ausland können Sie eine E-Mail an RSIL@ors.ubc.ca senden oder gebührenfrei unter 1-877-822-8598 anrufen.
 
 **Einwilligung**
 

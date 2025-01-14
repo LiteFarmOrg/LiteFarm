@@ -164,9 +164,9 @@ Produktmanager: litefarm.team@ubc.ca
 
 In Bezug auf diese Studie wenden Sie sich bitte an den leitenden Forscher:
 
-Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
+Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
-Sollten Sie während der Teilnahme an dieser Studie irgendwelche Be- denken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben
+**Sollten Sie während der Teilnahme an dieser Studie irgendwelche Bedenken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben**
 
 Wenden Sie sich bei Beschwerden als Forschungsteilnehmer an die Beschw- erdestelle für Forschungsteilnehmer im UBC Office of Research Ethics unter 604-822-8598. Bei Anrufen aus dem Ausland können Sie eine E-Mail an RSIL@ors.ubc.ca senden oder gebührenfrei unter 1-877-822-8598 anrufen.
 

@@ -6,8 +6,6 @@ import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
-import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
-import { dismissHelpRequestModal, showHelpRequestModalSelector } from './homeSlice';
 import {
   chooseFarmFlowSelector,
   endExportModal,
@@ -28,8 +26,6 @@ export default function Home({ history }) {
   const showSwitchFarmModal = useSelector(switchFarmSelector);
   const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
   const dismissExportModal = () => dispatch(endExportModal(userFarm.farm_id));
-  const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
-  const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
     fileUrls: [userFarm.farm_image_url],
   });
@@ -46,13 +42,6 @@ export default function Home({ history }) {
     >
       {userFarm ? <WeatherBoard /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
-
-      {showHelpRequestModal && (
-        <RequestConfirmationComponent
-          onClick={showRequestConfirmationModalOnClick}
-          dismissModal={showRequestConfirmationModalOnClick}
-        />
-      )}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
     </PureHome>

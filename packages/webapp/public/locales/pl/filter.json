@@ -1,0 +1,41 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "Lokalizacja",
+    "STATUS": "Status",
+    "SUPPLIERS": "Dostawcy",
+    "ACTIVE": "Aktywny",
+    "ABANDONED": "Porzucony",
+    "COMPLETE": "Zakończony",
+    "PLANNED": "Planowny",
+    "NEEDS_PLAN": "Wymaga planu"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "Środek czyszczący",
+    "CROP_COMPLIANCE": "Zgodność upraw",
+    "FERTILIZING_PRODUCT": "Środek nawożący",
+    "OTHER": "Inne",
+    "PEST_CONTROL_PRODUCT": "Środek ochrony roślin",
+    "SOIL_AMENDMENT": "Zmiany w glebie",
+    "SOIL_SAMPLE_RESULTS": "Wyniki próbek gleby",
+    "WATER_SAMPLE_RESULTS": "Wyniki próbek wody",
+    "UNCATEGORIZED": "Nieskategoryzowane",
+    "RECEIPTS": "Paragony",
+    "INVOICES": "Faktury"
+  },
+  "TASKS": {
+    "LOCATION": "Lokalizacja",
+    "STATUS": "Status",
+    "SUPPLIERS": "Dostawcy",
+    "ACTIVE": "Aktywne",
+    "ABANDONED": "Porzucony",
+    "COMPLETED": "Zakończony",
+    "LATE": "Opóźniony",
+    "PLANNED": "Planowany",
+    "FOR_REVIEW": "Do przeglądu"
+  },
+  "FILTER": {
+    "VALID_ON": "Ważne na",
+    "FROM_DATE": "Od",
+    "TO_DATE": "Do"
+  }
+}

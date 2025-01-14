@@ -82,9 +82,9 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Datos específicos de la explotación: unidades preferidas (por ejemplo, métricas o imperiales); divisa; si la explotación solicita la certificación; certificador; atributos de la cama; atributos de la fila.
 
-- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación. 
+- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación.
 
-- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento 
+- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento
 
 **Datos de uso**
 
@@ -156,18 +156,18 @@ El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licenci
 
 Sobre la aplicación, comuníquese con:
 
-Gerente de producto: litefarm.team@ubc.ca 
+Gerente de producto: litefarm.team@ubc.ca
 
-Sobre este estudio, comuníquese con la investigadora principal: 
+Sobre este estudio, comuníquese con la investigadora principal:
 
-Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )  
+Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
 
-**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**  
+**Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**
 
-Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca 
+Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca
 
-**Consentimiento**   
+**Consentimiento**
 
-Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.  
+Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.
 
 Número de Identificación (ID) de la aprobación ética otorgada al estudio UBC: H19-01482

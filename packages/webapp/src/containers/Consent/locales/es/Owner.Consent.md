@@ -32,8 +32,6 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 - Información de contacto (nombre, dirección, número de teléfono, dirección de correo electrónico)
 
-- Información demográfica (género, año de nacimiento, preferencia de idioma, país, moneda)
-
 - Información comercial (nombre de la finca y dirección)
 
 - Fotos
@@ -46,7 +44,7 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 **Información sobre la Administración de la Finca**
 
-LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Debido a que estos datos se anonimizan cuando se utilizan en nuestra investigación, no se pueden rastrear hasta usted o su granja. Estos datos incluyen:
+LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Ya que nuestra investigación se basa en datos anónimos, éstos no pueden ser rastreados hasta Ud. o su finca. Estos datos incluyen:
 
 - Información sobre la ubicación de la explotación: ubicación de los campos, incluido el tamaño, nombre del campo, cultivos plantados en cada uno; estado ecológico, y otros atributos específicos del tipo de ubicación.
 
@@ -84,9 +82,9 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Datos específicos de la explotación: unidades preferidas (por ejemplo, métricas o imperiales); divisa; si la explotación solicita la certificación; certificador; atributos de la cama; atributos de la fila.
 
-- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
+- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación.
 
-- Animal movements information: location, reason for movement and date of movement
+- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento
 
 **Datos de uso**
 
@@ -97,9 +95,7 @@ Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuari
 Usamos sus datos principalmente de tres formas:
 
 - Para mejorar los servicios de visualización de datos agrícolas que le proporcionamos: Como se ha descrito anteriormente, utilizamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que proporciona.
-
 - Para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración: LiteFarm utiliza los datos de gestión que Ud. ingresa en la aplicación (consulte más arriba la sección "Información de Administración de la Finca" para obtener una lista completa), junto con algoritmos incorporados y algunos datos públicos (por ejemplo, información de la estación meteorológica local, coeficientes de cultivos, contenido de nutrientes de cultivos y fertilizantes, datos de presencia de especies y datos topográficos) para generar conocimiento sobre los beneficios / impactos financieros, ambientales y sociales de sus decisiones de gestión.
-
 - Para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles: junto con nuestros colaboradores académicos(as) utilizaremos sus datos de gestión agrícola de manera anónima (consulte más arriba la sección "Información de administración agrícola" para obtener una lista completa) para llevar a cabo investigación académica sobre actividades agronómicas, ecológicas y sistemas de alimentación. Parte de esta investigación será realizada por estudiantes universitarios y de posgrado.
 
 Evaluaremos rigurosamente cada propuesta de proyecto para asegurarnos de que sus datos se utilicen de manera efectiva para avanzar en el conocimiento sobre sistemas de alimentación sostenibles, ayudar a los(as) agricultores(as) a tomar decisiones de gestión sostenible e influir en las políticas públicas en beneficio de los(as) agricultores(as). Lo(La) mantendremos informado(a) sobre los proyectos de investigación a través de su correo electrónico (a menos que prefiera no participar), y Ud. siempre podrá comunicarse con nosotros para obtener más información sobre la investigación que sus datos están ayudando a hacer posible.
@@ -142,11 +138,11 @@ El uso de LiteFarm es totalmente voluntario. Si decide utilizar LiteFarm, puede 
 
 **¿Qué sucede si Ud. retira el consentimiento?**
 
-Si retira su consentimiento enviando un correo electrónico a litefarm.team@ubc.ca, su(s) cuenta(s) en la plataforma LiteFarm se marcará(n) como inactiva(s) y no podrá(n) utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee volver más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a litefarm.team@ubc.ca.
+Si retira su consentimiento enviando un correo electrónico a litefarm.team@ubc.ca, su(s) cuenta(s) en la plataforma LiteFarm se marcará(n) como inactiva(s) y no podrá(n) utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee volver más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a litefarm.team@ubc.ca. Si tiene previsto retirar su consentimiento y desea una copia de sus datos, solicítela cuando retire su consentimiento.
 
 **¿Cómo realizamos cambios en la Política de privacidad?**
 
-Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
+Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Después de un mes, su cuenta y sus datos se marcarán como inactivos. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
 
 **¿Cuándo nos comunicaremos con usted?**
 
@@ -160,15 +156,15 @@ El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licenci
 
 Sobre la aplicación, comuníquese con:
 
-Product Manager: litefarm.team@ubc.ca
+Gerente de producto: litefarm.team@ubc.ca
 
-Sobre a este estudio, comuníquese con la investigadora principal:
+Sobre este estudio, comuníquese con la investigadora principal:
 
-Hannah Wittman (hannah.wittman@ubc.ca)
+Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
 
 **Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca
 
 **Consentimiento**
 

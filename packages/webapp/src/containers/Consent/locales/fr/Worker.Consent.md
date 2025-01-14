@@ -4,7 +4,9 @@
 
 Bienvenue à LiteFarm !
 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Si vous n'acceptez pas nos pratiques telles qu'elles sont décrites dans ce Formulaire de Consentement Éclairé et cette Politique de Confidentialité, vous ne pourrez pas utiliser la plateforme LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.
+
+Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
 
 #### C’est quoi l’application LiteFarm ?
 
@@ -16,7 +18,7 @@ L'équipe LiteFarm est un groupe interdisciplinaire de scientifiques, de cherche
 
 #### Qui finance LiteFarm ?
 
-LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nos bailleurs de fonds externes n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Notre modèle de financement repose actuellement sur les dons et les subventions.
+LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nos bailleurs de fonds externes n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Présentement, les donateurs et bourses de recherche fournissent le financement pour le logiciel et l'équipe LiteFarm.
 
 #### Pourquoi menons-nous ce projet ?
 
@@ -28,11 +30,15 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 **Informations personnelles**
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. Ceci comprend :
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
+
+Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
 - Les informations démographiques (sexe, année de naissance, préférence linguistique, pays, devise)
+
+- Les informations sur l'entreprise (nom de la ferme, adresse de la ferme, coordonnées de la ferme)
 
 - Les photos
 
@@ -64,9 +70,9 @@ LiteFarm utilise les informations de gestion que vous entrez dans l'application 
 
 - Les informations relatives à l'achèvement des tâches: date ; durée du travail; humeur (heureuse, très heureuse, triste, très triste, neutre); notes sur le travail
 
-- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
+- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification.
 
-- Animal movements information: location, reason for movement and date of movement
+- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement.
 
 **Données d'utilisation**
 
@@ -86,7 +92,7 @@ Nous ne partageons aucune information personnelle avec des services d'analyse ti
 
 **Comment nous utilisons les « cookies » ?**
 
-Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Vous pouvez choisir d'accepter ou de refuser les cookies. La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
+Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Elles ne sont pas partagées avec d'autres sites et ne sont pas utilisées à des fins publicitaires. Vous pouvez choisir d'accepter ou de refuser les cookies. La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
 
 **Où stockons-nous vos données ?**
 
@@ -130,15 +136,15 @@ Présentement, l'application LiteFarm est gratuite. Le logiciel lui-même est so
 
 Concernant de la plateforme, merci de contacter :
 
-Product Manager: litefarm.team@ubc.ca
+Chef de produit: litefarm.team@ubc.ca
 
 Concernant la recherche universitaire, merci de contacter :
 
-Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
+Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude :**
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.
 
 **Consentement**
 

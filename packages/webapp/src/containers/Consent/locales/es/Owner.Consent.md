@@ -32,6 +32,8 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 - Información de contacto (nombre, dirección, número de teléfono, dirección de correo electrónico)
 
+- Información demográfica (género, año de nacimiento, preferencia de idioma, país, moneda)
+
 - Información comercial (nombre de la finca y dirección)
 
 - Fotos
@@ -95,7 +97,9 @@ Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuari
 Usamos sus datos principalmente de tres formas:
 
 - Para mejorar los servicios de visualización de datos agrícolas que le proporcionamos: Como se ha descrito anteriormente, utilizamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que proporciona.
+
 - Para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración: LiteFarm utiliza los datos de gestión que Ud. ingresa en la aplicación (consulte más arriba la sección "Información de Administración de la Finca" para obtener una lista completa), junto con algoritmos incorporados y algunos datos públicos (por ejemplo, información de la estación meteorológica local, coeficientes de cultivos, contenido de nutrientes de cultivos y fertilizantes, datos de presencia de especies y datos topográficos) para generar conocimiento sobre los beneficios / impactos financieros, ambientales y sociales de sus decisiones de gestión.
+
 - Para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles: junto con nuestros colaboradores académicos(as) utilizaremos sus datos de gestión agrícola de manera anónima (consulte más arriba la sección "Información de administración agrícola" para obtener una lista completa) para llevar a cabo investigación académica sobre actividades agronómicas, ecológicas y sistemas de alimentación. Parte de esta investigación será realizada por estudiantes universitarios y de posgrado.
 
 Evaluaremos rigurosamente cada propuesta de proyecto para asegurarnos de que sus datos se utilicen de manera efectiva para avanzar en el conocimiento sobre sistemas de alimentación sostenibles, ayudar a los(as) agricultores(as) a tomar decisiones de gestión sostenible e influir en las políticas públicas en beneficio de los(as) agricultores(as). Lo(La) mantendremos informado(a) sobre los proyectos de investigación a través de su correo electrónico (a menos que prefiera no participar), y Ud. siempre podrá comunicarse con nosotros para obtener más información sobre la investigación que sus datos están ayudando a hacer posible.
@@ -142,7 +146,7 @@ Si retira su consentimiento enviando un correo electrónico a litefarm.team@ubc.
 
 **¿Cómo realizamos cambios en la Política de privacidad?**
 
-Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Después de un mes, su cuenta y sus datos se marcarán como inactivos. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
+Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
 
 **¿Cuándo nos comunicaremos con usted?**
 

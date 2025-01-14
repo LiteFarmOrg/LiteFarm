@@ -22,6 +22,19 @@ import { useTranslation } from 'react-i18next';
 import { ClearIndicator, MultiValueRemove, MenuOpenDropdownIndicator } from './components';
 import scss from './styles.module.scss';
 
+const upperCaseTrim = (a: String) => {
+  return a.toUpperCase().trim();
+};
+
+/**
+ * Check for duplicate or matching strings - (same as backend util)
+ * TODO: consider localeCompare() or not caring about case sensitivity
+ **/
+
+export const compareUpperCaseTrim = (a: String, b: String) => {
+  return upperCaseTrim(a) === upperCaseTrim(b);
+};
+
 type CreatableSelectProps<
   Option = unknown,
   IsMulti extends boolean = false,
@@ -54,9 +67,19 @@ const CreatableSelect = React.forwardRef((props, ref) => {
     optional,
     components,
     createPromptText = t('common:CREATE'),
-    placeholder = t('common:SELECT') + '...',
+    placeholder = t('common:SELECT_OR_ADD_YOUR_OWN'),
+    options,
     ...restProps
   } = props;
+  const isValidNewOption = (inputValue: string) => {
+    return (
+      inputValue.trim().length > 0 &&
+      !options?.some((opt) => {
+        // @ts-ignore
+        return compareUpperCaseTrim(opt?.label, inputValue);
+      })
+    );
+  };
 
   return (
     <div data-cy="react-select" className={scss.container} style={style}>
@@ -75,6 +98,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
         isClearable
         placeholder={placeholder}
         formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
+        isValidNewOption={isValidNewOption}
         styles={{
           ...(baseStyles as any),
           ...styles,
@@ -86,6 +110,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
           ...components,
         }}
         ref={ref}
+        options={options}
         {...restProps}
       />
     </div>

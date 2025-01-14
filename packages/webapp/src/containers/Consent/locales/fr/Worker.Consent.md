@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
 
@@ -70,6 +70,10 @@ LiteFarm utilise les informations de gestion que vous entrez dans l'application 
 
 - Les informations relatives à l'achèvement des tâches: date ; durée du travail; humeur (heureuse, très heureuse, triste, très triste, neutre); notes sur le travail
 
+- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification.
+
+- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement.
+
 **Données d'utilisation**
 
 Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur). Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser ces données, mais dans ces cas, toutes les informations personnelles seront anonymisées.
@@ -132,11 +136,11 @@ Présentement, l'application LiteFarm est gratuite. Le logiciel lui-même est so
 
 Concernant de la plateforme, merci de contacter :
 
-- Chef de produit: Kevin Cussen (litefarm.team@ubc.ca)
+Chef de produit: litefarm.team@ubc.ca
 
 Concernant la recherche universitaire, merci de contacter :
 
-- Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude :**
 

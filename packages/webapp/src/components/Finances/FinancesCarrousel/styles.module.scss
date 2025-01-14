@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -50,26 +50,37 @@
   text-align: center;
   width: 50%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
   @media (min-width: 768px) {
     padding: 24px 16px;
   }
 
   &.loss {
-    .profitLossTitle, .profitLossStat {
-      color: var(--red700)
+    .profitLossTitle,
+    .profitLossStat {
+      color: var(--red700);
     }
   }
 }
 
 .revenueContainer {
-  background-color: #3EA397;
+  background-color: #3ea397;
 }
 
 .expenseContainer {
   padding: 4px;
 }
 
-.revenueTitle, .labourExpensesTitle, .otherExpensesTitle, .expenseTitle, .profitLossTitle {
+.revenueTitle,
+.labourExpensesTitle,
+.otherExpensesTitle,
+.expenseTitle,
+.profitLossTitle {
   @include fontFamily();
   font-size: 14px;
   line-height: 18px;
@@ -77,26 +88,31 @@
   white-space: nowrap;
 }
 
-.revenueTitle, .expenseTitle, .revenueStat, .expenseStat {
-  text-shadow: 0px 0.5px 0px #11615D;
+.revenueTitle,
+.expenseTitle,
+.revenueStat,
+.expenseStat {
+  text-shadow: 0px 0.5px 0px #11615d;
 }
 
-.profitLossTitle, .profitLossStat {
-  text-shadow: 0px 0.5px 0px #A7CFC9;
+.profitLossTitle,
+.profitLossStat {
+  text-shadow: 0px 0.5px 0px #a7cfc9;
 }
 
 .revenueContainer {
-  color: #54FF8E;
+  color: #54ff8e;
 }
 
-.expenseTitle, .expenseStat {
-  color: #FFD900;
+.expenseTitle,
+.expenseStat {
+  color: #ffd900;
 }
 
-.profitLossTitle, .profitLossStat {
-  color: #3EA397;
+.profitLossTitle,
+.profitLossStat {
+  color: #3ea397;
 }
-
 
 .stat {
   font-weight: 700;
@@ -106,7 +122,7 @@
 }
 
 .totalExpensesContainer {
-  background-color: #FFFAF0;
+  background-color: #fffaf0;
   flex-grow: 1;
   padding: 4px;
   text-align: left;
@@ -114,7 +130,7 @@
 }
 
 .expensesStatsContainer {
-  background-color: #FFF4D9;
+  background-color: #fff4d9;
   flex-grow: 1;
   padding: 12px 8px;
   text-align: left;
@@ -169,10 +185,13 @@
 
 .totalExpensesStat {
   color: var(--red700);
-  text-shadow: 0px 1px 0px #FFC1BF;
+  text-shadow: 0px 1px 0px #ffc1bf;
 }
 
-.labourExpensesContainer, .otherExpensesContainer, .estimatedRevenueContainer, .revenueContainer {
+.labourExpensesContainer,
+.otherExpensesContainer,
+.estimatedRevenueContainer,
+.revenueContainer {
   display: flex;
   align-items: center;
   width: 100%;
@@ -182,8 +201,9 @@
   text-align: left;
 }
 
-.labourExpensesContainer, .otherExpensesContainer {
-  background-color: #FFEFCF;
+.labourExpensesContainer,
+.otherExpensesContainer {
+  background-color: #ffefcf;
 }
 
 .labourExpensesContainer {
@@ -194,11 +214,13 @@
   color: var(--brown700);
 }
 
-.labourExpensesTitle, .labourExpensesStat {
+.labourExpensesTitle,
+.labourExpensesStat {
   text-shadow: 0px 0.5px 0px var(--brown700);
 }
 
-.otherExpensesTitle, .otherExpensesStat {
+.otherExpensesTitle,
+.otherExpensesStat {
   text-shadow: 0px 0.5px 0px var(--yellow700);
 }
 
@@ -221,11 +243,82 @@
 
 .estimatedRevenueContainer {
   margin-left: 16px;
-  background-color: #ABEBC1;
+  background-color: #abebc1;
 }
 
 .clickableContainer:hover {
   background-color: color-mix(in srgb, var(--grey900), transparent 75%);
   color: var(--teal100);
   text-shadow: none;
+}
+
+.profitLossIconRedLight {
+  background: rgba(255, 255, 255, 0.6);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+  }
+  @include svgColorFill(var(--Colors-Accent---singles-Red-full));
+}
+.profitLossIconLight {
+  background: rgba(255, 255, 255, 0.6);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+  }
+  @include svgColorFill(#3ea397);
+}
+.profitLossIconRedDark {
+  background: rgba(255, 255, 255, 0.5);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+  }
+  @include svgColorFill(var(--Colors-Accent---singles-Red-full));
+}
+.profitLossIconDark {
+  background: rgba(40, 43, 54, 0.5);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+  }
+  @include svgColorFill(#30d9c7);
+}
+.expenseIconDark {
+  background: #cc9191;
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 25px;
+  }
+  @include svgColorFill(white);
+}
+.harvestRevenueInactive {
+  background: rgba(255, 255, 255, 0.5);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 20px;
+    height: 28px;
+  }
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+}
+.harvestRevenueActive {
+  background: rgba(255, 255, 255, 0.5);
+  width: 56px;
+  height: 56px;
+  svg {
+    width: 31px;
+    height: 42px;
+  }
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
 }

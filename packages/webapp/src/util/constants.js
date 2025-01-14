@@ -8,8 +8,11 @@ export const DO_CDN_URL = `https://${
 export const SUPPORT_EMAIL = 'support@litefarm.org';
 
 // Changing this forces logout and updates the new release card
-export const APP_VERSION = '3.6.5';
+export const APP_VERSION = '3.7.0';
 export const VERSION_RELEASE_NOTES_LINK =
-  'https://www.litefarm.org/post/exciting-improvements-enhanced-soil-amendment-task-management-in-litefarm';
+  'https://www.litefarm.org/post/start-2025-right-manage-crops-and-animals-seamlessly-with-litefarm';
 
-export const CONSENT_VERSION = '6.0';
+export const CONSENT_VERSION = '7.1';
+
+export const BETA_BADGE_LINK =
+  'https://www.litefarm.org/post/beta-features-on-litefarm-your-feedback-matters';

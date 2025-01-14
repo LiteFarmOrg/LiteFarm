@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  PureCompleteManagementPlan,
-} from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
+import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

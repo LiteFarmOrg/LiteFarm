@@ -24,7 +24,7 @@ import knex from '../src/util/knex.js';
 import server from './../src/server.js';
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
-import insightHelpers from '../src/controllers/insightHelpers.js';
+import * as insightHelpers from '../src/controllers/insightHelpers.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
@@ -33,11 +33,10 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
-import { faker } from '@faker-js/faker';
 import moment from 'moment';
 import insigntController from '../src/controllers/insightController';
 
-xdescribe('insights test', () => {
+describe('insights test', () => {
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 
   afterAll(async (done) => {
@@ -270,6 +269,9 @@ xdescribe('insights test', () => {
         done();
       });
 
+      // FIXME: these tests are incomplete and skipped, seems a mocks.cropSaleFactory
+      // doesn't exist anywhere in the project, perhaps someone forgot to push
+      // that implementation.
       xtest('queryCropSalesNearByStartDateAndFarmId test', async (done) => {
         const startdate = moment('2020-12-01').format('YYYY-MM-DD');
         const gridPoint0 = { lat: 62.990967, lng: -71.463767 };

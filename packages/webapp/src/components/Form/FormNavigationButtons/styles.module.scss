@@ -1,0 +1,75 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin.scss';
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px 32px;
+  border-radius: 16px;
+  background: var(--White);
+  box-shadow: 0px 2px 4px 0px rgba(43, 48, 58, 0.1);
+
+  font-size: 12px;
+  font-style: normal;
+  line-height: 20px;
+
+  // desktop (floating)
+  @include sm-breakpoint {
+    width: 380px;
+  }
+
+  // mobile (drawer)
+  @include xs-breakpoint {
+    border-radius: 0px 0px 16px 16px;
+    box-shadow: 0px -2px 4px 0px rgba(102, 115, 138, 0.1);
+  }
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-block: 4px;
+}
+
+.button {
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.informationalText {
+  color: var(--Colors-Neutral-Neutral-400);
+  margin-bottom: -8px;
+}
+
+.contextualContent {
+  color: var(--Colors-Accent---singles-Brown-full);
+  margin-top: -8px;
+}
+
+/* This logic requires passing bold text in a <b> tag, which
+is consistent with our previous use of the Trans component. */
+.contextualContent *:not(b) {
+  font-weight: 300;
+}

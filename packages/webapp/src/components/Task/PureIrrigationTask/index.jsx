@@ -5,7 +5,8 @@ import { Controller } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
-import styles from '../../Typography/typography.module.scss';
+import typographyStyles from '../../Typography/typography.module.scss';
+import styles from './styles.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
@@ -16,6 +17,7 @@ import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskT
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
+import { BsFillExclamationCircleFill } from 'react-icons/bs';
 
 export default function PureIrrigationTask({
   system,
@@ -199,6 +201,7 @@ export default function PureIrrigationTask({
     !measurement_type ||
     (measurement_type === 'DEPTH' && !location);
 
+  const calculatorLinkIsDisabled = measurement_type === 'DEPTH' && !location;
   return (
     <>
       <Controller
@@ -251,7 +254,7 @@ export default function PureIrrigationTask({
       />
       <div style={{ paddingBlock: '10px' }} />
 
-      <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
+      <Label className={typographyStyles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
 
@@ -303,16 +306,42 @@ export default function PureIrrigationTask({
         onKeyDown={numberOnKeyDown}
         onChangeUnitOption={() => setEstimatedWaterUsageComputed(true)}
       />
-      {!disabled && (
-        <>
-          <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
-            {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-            <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
-              {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
-            </Underlined>
-          </Label>
-        </>
-      )}
+      {!disabled &&
+        (!calculatorLinkIsDisabled ? (
+          <>
+            <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
+              {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+              <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
+                {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+              </Underlined>
+            </Label>
+          </>
+        ) : (
+          <>
+            <div className={styles.waterCalculatorWrapper}>
+              <Label
+                style={{
+                  marginBottom: `${disabled ? 36 : 0}px`,
+                  color: 'var(--Colors-Neutral-Neutral-300)',
+                }}
+              >
+                {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+                {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+              </Label>
+              <div className={styles.waterCalculatorWarningWrapper}>
+                <BsFillExclamationCircleFill />
+                <Label
+                  style={{
+                    marginBottom: `${disabled ? 36 : 0}px`,
+                    color: 'var(--Colors-Accent---singles-Red-full)',
+                  }}
+                >
+                  {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE_WARNING')}
+                </Label>
+              </div>
+            </div>
+          </>
+        ))}
 
       {!waterCalculatorDisabled && (
         <WaterUsageCalculatorModal

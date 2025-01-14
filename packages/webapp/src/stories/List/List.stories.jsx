@@ -16,18 +16,11 @@ import React from 'react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import List from '../../components/List';
 import { listItemTypes } from '../../components/List/constants';
-import { icons as revenueIcons } from '../../containers/Finances/AddSale/RevenueTypes';
-import { icons as expenseIcons } from '../../containers/Finances/NewExpense/ExpenseCategories';
 
 export default {
   title: 'Components/List/List',
   component: List,
   decorators: componentDecorators,
-};
-
-const icons = {
-  ...revenueIcons,
-  ...expenseIcons,
 };
 
 const expenseTypes = [
@@ -171,7 +164,7 @@ export const IconDescriptionCheckboxListItemsAsChildren = {
     listItemData: expenseTypes.map((item, index) => {
       return {
         listItemKey: item.expense_type_id,
-        icon: icons[item.farm_id ? 'OTHER' : item.expense_translation_key],
+        iconName: item.farm_id ? 'OTHER' : item.expense_translation_key,
         label: item.expense_name,
         onClick: () => console.log('clicked!'),
         selected: false,
@@ -187,7 +180,7 @@ export const IconDescriptionChevronListItemsAsChildren = {
     listItemData: revenueTypes.map((item, index) => {
       return {
         listItemKey: item.revenue_type_id,
-        icon: icons[item.farm_id ? 'OTHER' : item.revenue_translation_key],
+        iconName: item.farm_id ? 'CUSTOM' : item.revenue_translation_key,
         label: item.revenue_name,
         onClick: () => console.log('clicked!'),
         description: item.custom_description,
@@ -202,7 +195,7 @@ export const IconDescriptionListItemsAsChildren = {
     listItemData: revenueTypes.map((item, index) => {
       return {
         listItemKey: item.revenue_type_id,
-        icon: icons[item.farm_id ? 'CUSTOM' : item.revenue_translation_key],
+        iconName: item.farm_id ? 'CUSTOM' : item.revenue_translation_key,
         label: item.revenue_name,
         onClick: () => console.log('clicked!'),
         description: item.custom_description,

@@ -13,6 +13,7 @@ type TypographyProps = {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   children?: ReactNode;
   className?: string;
+  id?: string;
 };
 
 export const Underlined = ({
@@ -32,6 +33,7 @@ type IconLinkProps = TypographyProps & {
   icon?: ReactNode;
   isIconClickable?: boolean;
   underlined?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 export const IconLink = ({
   children = 'IconLink',
@@ -44,10 +46,11 @@ export const IconLink = ({
   ...props
 }: IconLinkProps) => {
   return (
-    <p
+    <button
       style={style}
       className={clsx(styles.addLinkContainer, className, isIconClickable && styles.clickable)}
       onClick={isIconClickable ? onClick : undefined}
+      type="button"
       {...props}
     >
       {icon}{' '}
@@ -57,8 +60,12 @@ export const IconLink = ({
       >
         {children}
       </span>
-    </p>
+    </button>
   );
+};
+
+type AddLinkProps = TypographyProps & {
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const AddLink = ({
@@ -67,7 +74,7 @@ export const AddLink = ({
   style,
   onClick,
   ...props
-}: TypographyProps) => {
+}: AddLinkProps) => {
   return (
     <IconLink className={className} style={style} onClick={onClick} icon={'+'} {...props}>
       {children}
@@ -77,6 +84,7 @@ export const AddLink = ({
 
 type SubtractLinkProps = TypographyProps & {
   color?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 export const SubtractLink = ({
   children = 'SubtractLink',

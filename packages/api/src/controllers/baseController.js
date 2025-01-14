@@ -191,19 +191,19 @@ export default {
       .upsertGraph(removeAdditionalPropertiesWithRelations(model, data), { insertMissing: true });
   },
 
+  // send back the resource that was just created
+  async insertGraphWithResponse(model, data, req, { trx, context = {} } = {}) {
+    return await model
+      .query(trx)
+      .context({ user_id: req?.auth?.user_id, ...context })
+      .insertGraph(removeAdditionalPropertiesWithRelations(model, data))
+      .returning('*');
+  },
+
   // fetch an object and all of its related objects
   // see http://vincit.github.io/objection.js/#eager-loading
   async eager(model, subModel, trx) {
     return await model.query(trx).eager(subModel);
-  },
-
-  /**
-   * Format transaltion key
-   * @param {String} key
-   * @returns {String} - Formatted key
-   */
-  formatTranslationKey(key) {
-    return key.toUpperCase().trim().replaceAll(' ', '_');
   },
 
   /**
@@ -262,4 +262,3 @@ export default {
     return query.first();
   },
 };
-//export trx;

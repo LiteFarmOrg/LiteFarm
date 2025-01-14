@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,7 +15,6 @@
 
 import ReleaseBadge from '../../components/ReleaseBadge';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
 
 export default {
@@ -24,14 +23,7 @@ export default {
   decorators: componentDecorators,
 };
 
-const Wrapper = ({ children }) => <div className={styles.wrapper}>{children}</div>;
-
-const Template = (args) => (
-  <Wrapper>
-    <Main>Resize window to see mobile / desktop view</Main>
-    <ReleaseBadge {...args} className={styles.badge} />
-  </Wrapper>
-);
+const Template = (args) => <ReleaseBadge {...args} className={styles.badge} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

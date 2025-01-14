@@ -145,3 +145,24 @@ export const truncateText = (text, length) => {
   }
   return '';
 };
+
+/**
+ * Capitalizes the first letter of a string.
+ * @param {string} text - The input text.
+ * @returns {string} The input text with the first letter capitalized, or an empty string if the input text is empty.
+ */
+export const uppercaseTheFirstLetter = (text) => {
+  if (!text) {
+    return '';
+  }
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
+/**
+ * Calculates the sum of values in an object.
+ * @param {Object} obj - The object whose values need to be summed.
+ * @returns {number} The sum of all values in the object.
+ */
+export const sumObjectValues = (obj) => {
+  return Object.values(obj).reduce((total, current) => total + current, 0);
+};

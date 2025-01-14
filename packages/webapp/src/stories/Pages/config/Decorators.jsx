@@ -97,6 +97,12 @@ export const componentDecoratorsWithoutPadding = [
   },
 ];
 
+export const componentDecoratorsFullHeight = [
+  (story) => {
+    return <div style={{ height: '100vh' }}>{story()}</div>;
+  },
+];
+
 export const v2TableDecorator = [
   (story) => {
     return (

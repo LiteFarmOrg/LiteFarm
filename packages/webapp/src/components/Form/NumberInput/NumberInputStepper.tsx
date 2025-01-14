@@ -14,8 +14,8 @@
  */
 
 import styles from './stepper.module.scss';
-import { ReactComponent as IncrementIcon } from '../../../assets/images/number-input-increment.svg';
-import { ReactComponent as DecrementIcon } from '../../../assets/images/number-input-decrement.svg';
+import { ReactComponent as IncrementIcon } from '../../../assets/images/chevron-up.svg';
+import { ReactComponent as DecrementIcon } from '../../../assets/images/chevron-down-2.svg';
 import { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import clsx from 'clsx';
 

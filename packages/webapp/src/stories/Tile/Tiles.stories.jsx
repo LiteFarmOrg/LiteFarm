@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
+import { within } from '@storybook/test';
 import { componentDecorators } from '../Pages/config/Decorators';
 import Tiles from '../../components/Tile/Tiles';
 import IconLabelTile from '../../components/Tile/IconLabelTile';

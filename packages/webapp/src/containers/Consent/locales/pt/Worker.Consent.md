@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Trabalhadores Agrícolas)
 
@@ -64,6 +64,10 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 - Informações relacionadas à conclusão das tarefas, incluindo: data, duração do trabalho, humor (feliz, muito feliz, triste, muito triste, neutro), notas de trabalho.
 
+- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação.
+
+- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação.
+
 **Dados de uso**
 
 Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita osite, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex. navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar e analisar dados; porém, nesses casos, todas as informações pessoais serão anonimizadas
@@ -126,11 +130,11 @@ O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Lice
 
 Com relação ao aplicativo, contate:
 
-- Gerente de Produto: Kevin Cussen (litefarm.team@ubc.ca)
+Gerente de Produto: litefarm.team@ubc.ca
 
 Com relação a este estudo, contate:
 
-- Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+Pesquisadora principal: Dr. Hannah Wittman hannah.wittman@ubc.ca
 
 **Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**
 

@@ -33,7 +33,7 @@ import {
   getManagementPlanAndPlantingMethodSuccessSaga,
   getManagementPlansAndTasksSaga,
 } from '../saga';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import apiConfig from './../../apiConfig';
 import {
   setDateRange,
@@ -111,7 +111,17 @@ export function* updateSaleSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
-    yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
+    switch (e.response.data) {
+      case 'sale deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.SALE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      case 'revenue type deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.REVENUE_TYPE_DELETED')));
+        break;
+      default:
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
+    }
   }
 }
 
@@ -336,7 +346,17 @@ export function* editExpenseSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
+    switch (e.response.data) {
+      case 'expense deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      case 'expense type deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_TYPE_DELETED')));
+        break;
+      default:
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
+    }
   }
 }
 
@@ -457,6 +477,7 @@ export function* downloadFinanceReportSaga({ payload: data }) {
   const { financeReportUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const { farm_name } = yield select(userFarmSelector);
   try {
     const result = yield call(
       axios.post,
@@ -470,7 +491,13 @@ export function* downloadFinanceReportSaga({ payload: data }) {
     const blob = new Blob([result.data], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    saveAs(blob, `finance-report.xlsx`);
+
+    const fileName = farm_name
+      ? `${farm_name} ${i18n.t('FINANCES.REPORT.FILE_TITLE')} ${
+          data.config.dateFilter.startDate
+        } - ${data.config.dateFilter.endDate}.xlsx`
+      : `finance-report.xlsx`;
+    saveAs(blob, fileName);
   } catch (e) {
     console.log(e);
   }

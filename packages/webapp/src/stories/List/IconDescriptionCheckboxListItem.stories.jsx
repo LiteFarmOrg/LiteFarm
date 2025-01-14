@@ -15,7 +15,6 @@
 import React from 'react';
 import IconDescriptionListItem from '../../components/List/ListItems/IconDescription/IconDescriptionListItem';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
   title: 'Components/List/IconDescriptionCheckboxListItem',
@@ -27,7 +26,7 @@ export const Default = {
   args: {
     actionIcon: 'checkbox',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilities',
     onClick: () => console.log('clicked!'),
     selected: false,
@@ -40,7 +39,7 @@ export const Selected = {
   args: {
     actionIcon: 'checkbox',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilities',
     onClick: () => console.log('clicked!'),
     selected: true,
@@ -54,7 +53,7 @@ export const SimpleCustomTypeMaxCharText = {
   args: {
     actionIcon: 'checkbox',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pellentesque metus nec neque sed.',
     onClick: () => console.log('clicked!'),
@@ -68,7 +67,7 @@ export const NoDescription = {
   args: {
     actionIcon: 'checkbox',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilites',
     selected: false,
     onClick: () => console.log('clicked!'),

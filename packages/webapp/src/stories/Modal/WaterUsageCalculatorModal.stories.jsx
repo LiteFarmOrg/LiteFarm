@@ -14,8 +14,8 @@
  */
 import React, { Suspense, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { screen, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { screen, userEvent } from '@storybook/test';
+import { expect } from '@storybook/test';
 import { convert } from '../../util/convert-units/convert';
 import WaterUsageCalculatorModal from '../../components/Modals/WaterUsageCalculatorModal';
 import { componentDecorators } from '../Pages/config/Decorators';

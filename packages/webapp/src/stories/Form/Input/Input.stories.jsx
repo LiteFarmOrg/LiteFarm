@@ -2,8 +2,8 @@ import React from 'react';
 import Input from '../../../components/Form/Input';
 import { Underlined } from '../../../components/Typography';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/test';
+import { expect } from '@storybook/test';
 
 export default {
   title: 'Components/Input',

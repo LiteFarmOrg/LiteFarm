@@ -12,9 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import { v2TableDecorator } from '../Pages/config/Decorators';
-import Table from '../../components/Table/v2';
+import Table from '../../components/Table';
+import { TableKind } from '../../components/Table/types';
+import { useState } from 'react';
+import TextButton from '../../components/Form/Button/TextButton';
 
 export default {
   title: 'Components/Tables/V2',
@@ -73,16 +76,16 @@ const getCropSalesColumns = (mobileView = true) => {
 
 const getCropSalesData = (length) => {
   return [
-    { crop: 'White corn, Corn', quantity: 2124, revenue: 8796.0 },
-    { crop: 'Koto, Buckwheat', quantity: 724, revenue: 692.5 },
-    { crop: 'Lutz green leaf, Beetroot', quantity: 58, revenue: 210.0 },
-    { crop: 'Cox’s orange pippin, Apple', quantity: 48, revenue: 340.0 },
-    { crop: 'Macoun, Apples', quantity: 124, revenue: 1234.0 },
-    { crop: 'Butter Boy Hybrid, Butternut ', quantity: 24, revenue: 785.5 },
-    { crop: 'King Edward, Potato', quantity: 58, revenue: 237.0 },
-    { crop: 'Blanco Veneto, Celeriac', quantity: 56, revenue: 895.0 },
-    { crop: 'Hollow Crown, Parsnips ', quantity: 23, revenue: 354.0 },
-    { crop: 'Early White Hybrid, Cauliflower', quantity: 87, revenue: 789.5 },
+    { id: 1, crop: 'White corn, Corn', quantity: 2124, revenue: 8796.0 },
+    { id: 2, crop: 'Koto, Buckwheat', quantity: 724, revenue: 692.5 },
+    { id: 3, crop: 'Lutz green leaf, Beetroot', quantity: 58, revenue: 210.0 },
+    { id: 4, crop: 'Cox’s orange pippin, Apple', quantity: 48, revenue: 340.0 },
+    { id: 5, crop: 'Macoun, Apples', quantity: 124, revenue: 1234.0 },
+    { id: 6, crop: 'Butter Boy Hybrid, Butternut ', quantity: 24, revenue: 785.5 },
+    { id: 7, crop: 'King Edward, Potato', quantity: 58, revenue: 237.0 },
+    { id: 8, crop: 'Blanco Veneto, Celeriac', quantity: 56, revenue: 895.0 },
+    { id: 9, crop: 'Hollow Crown, Parsnips ', quantity: 23, revenue: 354.0 },
+    { id: 10, crop: 'Early White Hybrid, Cauliflower', quantity: 87, revenue: 789.5 },
   ].slice(0, length);
 };
 
@@ -109,8 +112,9 @@ const FooterCell = () => (
   </div>
 );
 
-export const CropSalesMobileView = {
+export const WithCustomFooterCell = {
   args: {
+    kind: TableKind.V2,
     columns: getCropSalesColumns(),
     data: getCropSalesData(10),
     minRows: 10,
@@ -119,8 +123,9 @@ export const CropSalesMobileView = {
   },
 };
 
-export const CropSalesDesktopView = {
+export const WithNormalFooter = {
   args: {
+    kind: TableKind.V2,
     columns: getCropSalesColumns(false),
     data: getCropSalesData(10),
     minRows: 10,
@@ -128,53 +133,14 @@ export const CropSalesDesktopView = {
   },
 };
 
-const getEmployeesLabourColumns = () => {
-  return [
-    {
-      id: 'employee',
-      label: 'Employee',
-      Footer: 'DAILY TOTAL',
-    },
-    {
-      id: 'time',
-      label: 'Time',
-      format: (d) => `${d.time} h`,
-      align: 'right',
-      Footer: <b>89 h</b>,
-    },
-    {
-      id: 'labourCost',
-      label: 'Labour cost',
-      format: (d) => {
-        const sign = '$';
-        return (
-          <span>
-            {sign}
-            {Math.abs(d.labourCost).toFixed(2)}
-          </span>
-        );
-      },
-      align: 'right',
-      Footer: <b>$3732.50</b>,
-    },
-  ];
-};
-
-const getEmployeesLabourData = (length) => {
-  return [
-    { employee: 'Sue D.', time: 1.25, labourCost: 0.0 },
-    { employee: 'L.F. C.', time: 77.5, labourCost: 3692.5 },
-    { employee: 'Joey.', time: 2.75, labourCost: 0.0 },
-    { employee: 'Farmie.', time: 7.5, labourCost: 40.0 },
-  ].slice(0, length);
-};
-
-export const EmployeesLabour = {
+export const AlternatingRowColor = {
   args: {
-    columns: getEmployeesLabourColumns(),
-    data: getEmployeesLabourData(10),
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
     minRows: 10,
-    onClickMore: () => console.log('Go to labour page'),
+    shouldFixTableLayout: true,
+    alternatingRowColor: true,
   },
 };
 
@@ -231,8 +197,9 @@ const getTasksLabourData = (length) => {
   ].slice(0, length);
 };
 
-export const TasksLabour = {
+export const WithOnClickMore = {
   args: {
+    kind: TableKind.V2,
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,
@@ -240,12 +207,93 @@ export const TasksLabour = {
   },
 };
 
-export const TasksLabourWithPagination = {
+export const WithPagination = {
   args: {
+    kind: TableKind.V2,
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,
     onClickMore: () => console.log('Go to labour page'),
     showPagination: true,
+  },
+};
+
+export const withCheckboxes = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    minRows: 10,
+    shouldFixTableLayout: true,
+    handleSelectAllClick: () => console.log('all checked!'),
+  },
+  render: (props) => {
+    const [selectedIds, setSelectedIds] = useState([]);
+    const data = getCropSalesData(10);
+    const onCheck = (e, { id }) => {
+      setSelectedIds((prevSelectedTypeIds) => {
+        const isSelected = prevSelectedTypeIds.includes(id);
+        const newSelectedIds = isSelected
+          ? selectedIds.filter((selectedId) => id !== selectedId)
+          : [...prevSelectedTypeIds, id];
+
+        return newSelectedIds;
+      });
+    };
+    const handleSelectAllClick = (e) => {
+      if (e.target.checked) {
+        setSelectedIds(data.map(({ id }) => id));
+      } else {
+        setSelectedIds([]);
+      }
+    };
+
+    return (
+      <Table
+        {...props}
+        data={data}
+        onCheck={onCheck}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={selectedIds}
+        onRowClick={(e, rowData) => {
+          console.log(`Row id ${rowData.id} is clicked!`);
+        }}
+      />
+    );
+  },
+};
+
+export const stickyHeader = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+    handleSelectAllClick: () => console.log('all checked!'),
+    stickyHeader: true,
+    maxHeight: 200,
+  },
+};
+
+export const extraRowSpacing = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    maxHeight: 200,
+    extraRowSpacing: true,
+  },
+};
+
+export const RemovedRows = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10).map((item, index) =>
+      index === 1 || index === 5 ? { ...item, removed: true } : item,
+    ),
+    minRows: 10,
+    shouldFixTableLayout: true,
   },
 };

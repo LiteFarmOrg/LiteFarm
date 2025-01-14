@@ -50,6 +50,7 @@ export function PureCertificationSelection({
     const certificationRadioOptions = certifications.map((certification) => ({
       label: t(`certifications:${certification.certification_translation_key}`),
       value: certification.certification_id,
+      'data-cy': `certification_type-${certification.certification_translation_key}`,
     }));
     return [
       ...certificationRadioOptions,
@@ -68,7 +69,12 @@ export function PureCertificationSelection({
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button data-cy='certificationSelection-continue' type={'submit'} fullLength disabled={disabled}>
+          <Button
+            data-cy="certificationSelection-continue"
+            type={'submit'}
+            fullLength
+            disabled={disabled}
+          >
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -80,7 +86,6 @@ export function PureCertificationSelection({
         style={{ marginBottom: '20px' }}
       />
       <RadioGroup
-        data-cy='certificationSelection-type'
         name={CERTIFICATION_ID}
         hookFormControl={control}
         radios={radioOptions}

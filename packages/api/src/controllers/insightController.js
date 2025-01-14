@@ -252,7 +252,8 @@ const insightController = {
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT crop_variety.crop_id
         FROM "crop_variety"
-        where crop_variety.farm_id = ?)
+        WHERE crop_variety.farm_id = ?)
+        AND s.deleted = FALSE
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`,
       [startDate, farmID],

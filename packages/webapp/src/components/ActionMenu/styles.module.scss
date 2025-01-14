@@ -1,0 +1,116 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+@import '../../assets/mixin.scss';
+
+@mixin calculate-icon-group-width($iconCount) {
+  // gap between iconGroup is 8px
+  width: calc((100% - 8px * (#{$iconCount} - 1)) / #{$iconCount});
+}
+
+.actionMenu {
+  font-family: 'Open Sans';
+
+  @include sm-breakpoint {
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 4px 0px #00000040;
+
+    &.iconCount_4 {
+      width: 424px;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 4px 4px 0px 0px;
+  font-weight: 700;
+  background-color: var(--Colors-Primary-Primary-teal-700);
+  border-bottom: 1px solid #ffffff1a;
+}
+
+.textButtons {
+  display: flex;
+  gap: 16px;
+
+  button {
+    color: var(--Btn-primary-pristine);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+    @include fontFamily();
+  }
+}
+
+.headerLeftText {
+  color: var(--Colors-Accent-Accent-yellow-50);
+  margin-right: 16px;
+}
+
+.iconButtons {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 8px 16px;
+  color: var(--Btn-primary-pristine);
+  background-color: var(--Colors-Primary-Primary-teal-900);
+}
+
+.iconGroup {
+  text-align: center;
+
+  &.iconCount_4 {
+    @include calculate-icon-group-width(4);
+  }
+
+  button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--Colors-Accent---singles-Icon-action);
+    box-shadow: 0px 2px 2px 0px #00000040;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--Colors-Secondary-Secondary-green-700);
+
+        @include svgColorFill(var(--Btn-primary-hover))
+      }
+    }
+
+    &:active {
+      background-color: var(--Btn-primary-pristine);
+
+      @include svgColorFill(var(--Colors-Secondary-Secondary-green-900))
+    }
+  }
+}
+
+.icon {
+  background: none;
+}
+
+.iconLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+}

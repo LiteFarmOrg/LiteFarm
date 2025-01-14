@@ -16,8 +16,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import NumberInputRHF from '../../../components/Form/NumberInput';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/test';
+import { expect } from '@storybook/test';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const meta: Meta<typeof NumberInputRHF> = {

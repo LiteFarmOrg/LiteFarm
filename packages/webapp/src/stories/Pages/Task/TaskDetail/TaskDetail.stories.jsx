@@ -1,5 +1,5 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 import decorators from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 import PureTaskDetails from '../../../../components/Task/PureTaskDetails';

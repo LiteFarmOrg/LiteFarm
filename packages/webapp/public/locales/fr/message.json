@@ -1,4 +1,18 @@
 {
+  "ANIMALS": {
+    "FAILED_CREATE_ANIMALS": "Impossible de créer des animaux",
+    "FAILED_CREATE_BATCHES": "Échec de la création des lots",
+    "FAILED_REMOVE_ANIMALS": "Échec de la suppression des animaux sélectionnés",
+    "FAILED_REMOVE_BATCHES": "Échec de la suppression des lots sélectionnés",
+    "FAILED_UPDATE_ANIMAL": "Échec de la mise à jour de l'animal",
+    "FAILED_UPDATE_BATCH": "Échec de la mise à jour du lot",
+    "SUCCESS_CREATE_ANIMALS": "Animaux créés avec succès",
+    "SUCCESS_CREATE_BATCHES": "Lots créés avec succès",
+    "SUCCESS_REMOVE_ANIMALS": "Animaux sélectionnés supprimés avec succès",
+    "SUCCESS_REMOVE_BATCHES": "Les lots sélectionnés ont été supprimés avec succès",
+    "SUCCESS_UPDATE_ANIMAL": "Animal mis à jour avec succès",
+    "SUCCESS_UPDATE_BATCH": "Vente mise à jour"
+  },
   "ASSIGN_TASK": {
     "ERROR": "Erreur à l'attribution des tâches",
     "SUCCESS": "Tâches attribuées"
@@ -40,7 +54,9 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter de nouvelles dépenses",
       "DELETE": "Impossible de supprimer les dépenses",
-      "UPDATE": "Impossible de mettre à jour les dépenses"
+      "UPDATE": "Impossible de mettre à jour les dépenses",
+      "EXPENSE_DELETED": "Cette dépense n'existe plus",
+      "EXPENSE_TYPE_DELETED": "Ce type de dépense a été supprimé"
     },
     "SUCCESS": {
       "ADD": "Nouvelles dépenses ajoutées",
@@ -68,6 +84,11 @@
     },
     "SUCCESS": {
       "UPDATE": "Informations sur l'exploitation mises à jour !"
+    }
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Une erreur s'est produite lors de l'envoi de votre commentaire. Veuillez réessayer."
     }
   },
   "LOG_HARVEST": {
@@ -141,7 +162,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Impossible de mettre à jour le chiffre d'affaires"
+      "EDIT": "Impossible de mettre à jour le chiffre d'affaires",
+      "REVENUE_TYPE_DELETED": "Ce type de revenu a été supprimé"
     },
     "SUCCESS": {
       "EDIT": "Chiffre d'affaires mis à jour"
@@ -163,7 +185,8 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter la vente",
       "DELETE": "Impossible de supprimer la vente",
-      "UPDATE": "Impossible de mettre à jour la vente"
+      "UPDATE": "Impossible de mettre à jour la vente",
+      "SALE_DELETED": "Cette vente n'existe plus"
     },
     "SUCCESS": {
       "ADD": "Vente ajoutée",

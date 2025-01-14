@@ -72,9 +72,8 @@ export default function FloatingButtonMenu({
   };
 
   return (
-    <div className={clsx(styles.buttonWrapper, classes.button)}>
+    <div ref={anchorRef} className={clsx(styles.buttonWrapper, classes.button)}>
       <FloatingActionButton
-        ref={anchorRef}
         id="composition-button"
         aria-controls={open ? 'composition-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}

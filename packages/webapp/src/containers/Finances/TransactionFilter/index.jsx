@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Drawer from '../../../components/Drawer';
@@ -32,17 +32,30 @@ const TransactionFilter = () => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [tempTransactionsFilter, setTempTransactionsFilter] = useState({});
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('transactions', true));
 
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();
 
-  const handleApply = () => {
-    dispatch(setTransactionsFilter(filterRef.current));
-    setIsFilterOpen(false);
+  const handleChangeFilters = (filterKey, filterState) => {
+    // Check if filterState (filterKey "EXPENSE_TYPE" or "REVENUE_TYPE") has active filters:
+    const hasActiveFilters = Object.values(filterState).some((filter) => {
+      return filter.active === true;
+    });
+
+    // If filterState has no active filters, reset the value of its filterKey on 'tempTransactionsFilter' to undefined:
+    setTempTransactionsFilter((prevState) => ({
+      ...prevState,
+      [filterKey]: !hasActiveFilters ? undefined : filterState,
+    }));
   };
 
-  const filterRef = useRef({});
+  const handleApply = () => {
+    dispatch(setTransactionsFilter(tempTransactionsFilter));
+    setIsFilterOpen(false);
+    setIsDirty(false);
+  };
 
   return (
     <div>
@@ -61,8 +74,10 @@ const TransactionFilter = () => {
           <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
           <TransactionFilterContent
             transactionsFilter={transactionsFilter}
-            filterRef={filterRef}
-            onChange={() => !isDirty && setIsDirty(true)}
+            onChange={(filterKey, filterState) => {
+              !isDirty && setIsDirty(true);
+              handleChangeFilters(filterKey, filterState);
+            }}
           />
         </>
       </Drawer>

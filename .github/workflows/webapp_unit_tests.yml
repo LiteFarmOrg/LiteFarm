@@ -1,4 +1,4 @@
-name: "Webapp Unit Tests"
+name: Webapp Unit Tests
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
 
 jobs:
   webapp_unit_tests:
+    name: Webapp Unit Tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,7 +18,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.26.1
+          version: latest
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests

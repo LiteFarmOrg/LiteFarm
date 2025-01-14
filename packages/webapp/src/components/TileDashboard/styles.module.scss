@@ -1,0 +1,72 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/mixin';
+
+.container {
+  display: flex;
+  width: 100%;
+  padding: 8px 16px;
+  flex-direction: column;
+
+  border-bottom: 1px solid #0e2926;
+  background: var(--Colors-Primary-Primary-teal-900, #16423d);
+}
+
+.title {
+  color: var(--Colors-Primary-Primary-teal-50, #ebf5f4);
+  font-family: 'Open Sans';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: capitalize;
+  height: 24px;
+  margin-bottom: 8px;
+
+  // hide on tablet + desktop
+  @include sm-breakpoint {
+    display: none;
+  }
+}
+
+.mainContent {
+  display: flex;
+  flex-flow: row nowrap;
+  display: flex;
+  padding: 8px 0px;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.flexContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  gap: 4px;
+}
+
+.flexItem {
+  width: 90px;
+  flex: 1 0 auto;
+  overflow-x: hidden;
+
+  @include lg-breakpoint {
+    flex: 0 0 auto;
+  }
+}

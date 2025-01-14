@@ -15,8 +15,6 @@
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import PureFinanceTypeSelection from '../../../components/Finances/PureFinanceTypeSelection';
-import { icons } from '../../../containers/Finances/NewExpense/ExpenseCategories';
-import { icons as revenueTypeIcons } from '../../../containers/Finances/AddSale/RevenueTypes';
 import { listItemTypes } from '../../../components/List/constants';
 
 export default {
@@ -157,7 +155,7 @@ export const Expense = {
 
       return {
         key: expense_translation_key,
-        icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+        iconName: farm_id ? 'OTHER' : expense_translation_key,
         label: expense_name,
         onClick: () => console.log(`${expense_name} clicked!`),
         description: custom_description,
@@ -216,7 +214,7 @@ export const Revenue = {
 
       return {
         key: revenue_translation_key,
-        icon: farm_id ? revenueTypeIcons['CUSTOM'] : revenueTypeIcons['CROP_SALE'],
+        iconName: farm_id ? 'CUSTOM' : 'CROP_SALE',
         label: revenue_name,
         onClick: () => console.log(`${revenue_name} clicked!`),
         description: custom_description,

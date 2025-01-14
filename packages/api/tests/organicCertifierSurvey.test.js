@@ -822,7 +822,7 @@ describe('organic certification Tests', () => {
 
         await mocks.organicCertifierSurveyFactory(
           { promisedUserFarm: [{ farm_id, user_id }] },
-          mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }),
+          mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1, interested: true }),
         );
         [{ crop_id }] = await mocks.cropFactory(
           { promisedFarm: [{ farm_id }], createdUser: [{ user_id }] },

@@ -29,3 +29,18 @@ export const TASK_TYPES = {
 export const TASK_TYPE_PRODUCT_MAP = {
   SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
 };
+
+export const ANIMAL_TASKS = ['MOVEMENT_TASK'];
+
+export const TASK_STEPS = {
+  CUSTOM_TASK: {
+    task_type_selection: 1,
+    task_date: 2,
+    task_locations: 3,
+    task_crops: 4,
+    task_animal_selection: 5,
+    task_details: 6,
+    task_assignment: 7,
+    end: 8,
+  },
+};

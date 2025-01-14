@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "Angus",
+    "CHAROLAIS": "Charolais",
+    "COBB_500": "Cobb 500",
+    "CORNISH_CROSS": "Cornish Cross",
+    "DUROC": "Duroc",
+    "HEREFORD": "Hareford",
+    "LANDRACE": "Landrace",
+    "LEGHORN": "Leghorn",
+    "PLYMOUTH_ROCK": "Plymouth Rock",
+    "RHODE_ISLAND_RED": "Rhode Island Red",
+    "ROSS_308": "Ross 308",
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "Nascido no sítio",
+    "BROUGHT_IN": "Trazido de"
+  },
+  "PURPOSE": {
+    "GRAZING": "Pastejo",
+    "MILKING": "Ordenha",
+    "MANURE_MANAGEMENT": "Manejo de esterco",
+    "PEST_OR_DISEASE_CONTROL": "Controle de pragas e doenças",
+    "BREEDING": "Reprodução",
+    "FEEDING": "Alimentação",
+    "VETERINARY_CARE": "Cuidado veterinário",
+    "BIRTHING": "Parto",
+    "WEANING": "Desmame",
+    "TRANSPORTATION": "Transporte",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "Manejo comportamental e social",
+    "EXERCISE": "Exercício",
+    "QUARANTINE": "Quarentena",
+    "OTHER": "Outro"
+  },
+  "SEX": {
+    "MALE": "Macho",
+    "FEMALE": "Fêmea"
+  },
+  "TAG_COLOR": {
+    "BLUE": "Azul",
+    "GREEN": "Verde",
+    "ORANGE": "Laranja",
+    "RED": "Vermelho",
+    "WHITE": "Branco",
+    "YELLOW": "Amarelo"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "Etiqueta de orelha",
+    "LEG_BAND": "Faixa de perna"
+  },
+  "TYPE": {
+    "CATTLE": "Gado",
+    "CHICKEN": "Galinha",
+    "PIGS": "Suíno"
+  },
+  "USE": {
+    "MILK": "Leite",
+    "EGGS": "Ovos",
+    "FAT": "Gordura",
+    "MEAT": "Carne",
+    "ANIMAL_FIBERS_AND_SKINS": "Fibras e peles",
+    "LABOUR_AND_DRAFT": "Trabalho e Tração",
+    "BREEDING": "Reprodução",
+    "RECREATIONAL_OR_CULTURAL_USE": "Uso Recreativo ou Cultural",
+    "COMPANIONSHIP": "Companhia",
+    "OTHER": "Outro"
+  }
+}

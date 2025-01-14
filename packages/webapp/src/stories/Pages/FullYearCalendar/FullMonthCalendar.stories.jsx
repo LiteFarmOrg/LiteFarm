@@ -12,5 +12,5 @@ const Template = (args) => <FullMonthCalendarView {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   date: '07-30-2021',
-  stage: 'harvest_date'
+  stage: 'harvest_date',
 };

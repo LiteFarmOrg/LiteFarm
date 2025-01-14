@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector, shallowEqual } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -6,6 +6,8 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { taskWithProductSelector } from '../../taskSlice';
 import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useDispatch } from 'react-redux';
+import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function TaskCompleteStepOne({ history, match, location }) {
   const {
@@ -26,6 +28,13 @@ function TaskCompleteStepOne({ history, match, location }) {
   const onGoBack = () => {
     history.back();
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
+    );
+  }, []);
 
   return (
     <HookFormPersistProvider>

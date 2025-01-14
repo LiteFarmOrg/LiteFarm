@@ -30,6 +30,8 @@ const PureTaskAssignment = ({
   shouldSetWage,
   handleSubmit,
   getValues,
+  additionalContent,
+  progress = 86,
 }) => {
   const { t } = useTranslation();
   const wageOverride = watch(WAGE_OVERRIDE);
@@ -108,7 +110,7 @@ const PureTaskAssignment = ({
           onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
-          value={86}
+          value={progress}
         />
 
         <AssignTask
@@ -123,6 +125,7 @@ const PureTaskAssignment = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
+          additionalContent={additionalContent}
         />
       </Form>
     </>

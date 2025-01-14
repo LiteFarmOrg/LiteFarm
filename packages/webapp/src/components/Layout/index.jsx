@@ -4,25 +4,41 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Footer from '../Footer';
 
-const Layout = ({ classes = {}, children, buttonGroup, hasWhiteBackground, isSVG }) => {
+const Layout = ({
+  classes = {},
+  children,
+  buttonGroup,
+  hasWhiteBackground,
+  isSVG,
+  fullWidthContent = false,
+  footer = true,
+}) => {
   return (
     <>
       <div
-        className={clsx(styles.container, isSVG && styles.svgContainer)}
-        style={{ paddingBottom: hasWhiteBackground ? '104px' : undefined, ...classes.container }}
+        className={clsx(
+          styles.container,
+          !fullWidthContent && styles.padding,
+          isSVG && styles.svgContainer,
+          hasWhiteBackground && styles.paddingBottom,
+          !footer && styles.marginBottom,
+        )}
+        style={{ ...classes.container }}
       >
         {children}
       </div>
-      <Footer
-        style={{
-          bottom: 0,
-          position: hasWhiteBackground ? 'sticky' : 'relative',
-          ...classes.footer,
-        }}
-        hasWhiteBackground={hasWhiteBackground}
-      >
-        {buttonGroup}
-      </Footer>
+      {footer && (
+        <Footer
+          style={{
+            bottom: 0,
+            position: hasWhiteBackground ? 'sticky' : 'relative',
+            ...classes.footer,
+          }}
+          hasWhiteBackground={hasWhiteBackground}
+        >
+          {buttonGroup}
+        </Footer>
+      )}
     </>
   );
 };

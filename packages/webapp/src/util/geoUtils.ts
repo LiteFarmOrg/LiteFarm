@@ -15,41 +15,42 @@
 
 import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon';
 import { point, polygon } from '@turf/helpers';
-import { useSelector } from 'react-redux';
-import { areaSelector } from '../containers/locationSlice';
 
-interface Pt {
+export interface Point {
   lat: number;
   lng: number;
 }
 
-interface Location {
-  location_id: number;
-  name: string;
-  type: string;
-  grid_points: Pt[];
+export interface Location {
+  location_id: string;
+  grid_points: Point[];
 }
 
-export const useFarmAreasThatContainPoint = (pt: Pt): Location[] => {
-  const farmAreas = useSelector(areaSelector);
+/**
+ * Filters locations that contain the specified point.
+ *
+ * @param locations - array of locations to filter
+ * @param pt - The point to check within the locations
+ * @returns filtered array of locations containing the point
+ */
 
-  const flattenedFarmAreas = Object.values(farmAreas).flat();
-
-  if (!flattenedFarmAreas.length) {
+export const getLocationsContainingPoint = (locations: Location[], pt: Point): Location[] => {
+  if (!locations.length) {
     return [];
   }
 
-  const geometriesThatContainPoint = [];
+  const filteredLocations: Location[] = [];
 
-  for (const farmArea of flattenedFarmAreas) {
+  for (const currentLocation of locations) {
     try {
       // turf expects [lng, lat] for points and polygon coordinates
-      const coordinates = farmArea.grid_points.map((p: Pt) => [p.lng, p.lat]);
+      const coordinates = currentLocation.grid_points.map((p: Point) => [p.lng, p.lat]);
 
       // polygon must be closed (first and last point equivalent)
       const isClosed =
         coordinates[0][0] === coordinates[coordinates.length - 1][0] &&
         coordinates[0][1] === coordinates[coordinates.length - 1][1];
+
       const closedCoordinates = isClosed ? coordinates : [...coordinates, coordinates[0]];
 
       const pointIsInArea = booleanPointInPolygon(
@@ -58,13 +59,13 @@ export const useFarmAreasThatContainPoint = (pt: Pt): Location[] => {
       );
 
       if (pointIsInArea) {
-        geometriesThatContainPoint.push(farmArea);
+        filteredLocations.push(currentLocation);
       }
     } catch (error) {
       // turf can throw an error if the polygon is invalid
-      console.error(`Error processing location_id: ${farmArea.location_id}`, error);
+      console.error(`Error processing location_id: ${currentLocation.location_id}`, error);
     }
   }
 
-  return geometriesThatContainPoint;
+  return filteredLocations;
 };

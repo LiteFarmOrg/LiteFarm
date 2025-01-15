@@ -21,51 +21,86 @@ export interface Point {
   lng: number;
 }
 
-export interface Location {
-  location_id: string;
+export interface PointLocation {
+  point: Point;
+}
+
+export interface AreaLocation {
   grid_points: Point[];
 }
 
-/**
- * Filters locations that contain the specified point.
- *
- * @param locations - array of locations to filter
- * @param pt - The point to check within the locations
- * @returns filtered array of locations containing the point
- */
+// turf expects [lng, lat] for all points and polygon coordinates
+type TurfPoint = [lng: number, lat: number];
 
-export const getLocationsContainingPoint = (locations: Location[], pt: Point): Location[] => {
-  if (!locations.length) {
+export const getAreaLocationsContainingPoint = (
+  areaLocations: AreaLocation[],
+  pt: Point,
+): AreaLocation[] => {
+  if (!areaLocations.length) {
     return [];
   }
 
-  const filteredLocations: Location[] = [];
+  const filteredAreas: AreaLocation[] = [];
 
-  for (const currentLocation of locations) {
-    try {
-      // turf expects [lng, lat] for points and polygon coordinates
-      const coordinates = currentLocation.grid_points.map((p: Point) => [p.lng, p.lat]);
+  try {
+    const locationPoint = point([pt.lng, pt.lat]);
 
-      // polygon must be closed (first and last point equivalent)
-      const isClosed =
-        coordinates[0][0] === coordinates[coordinates.length - 1][0] &&
-        coordinates[0][1] === coordinates[coordinates.length - 1][1];
+    for (const area of areaLocations) {
+      const coordinates = area.grid_points.map((p: Point): TurfPoint => [p.lng, p.lat]);
 
-      const closedCoordinates = isClosed ? coordinates : [...coordinates, coordinates[0]];
+      // for necessity of wrapping coordinates in an array, see
+      // https://github.com/Turfjs/turf/issues/1583
+      const areaPolygon = polygon([closePolygon(coordinates)]);
 
-      const pointIsInArea = booleanPointInPolygon(
-        point([pt.lng, pt.lat]),
-        polygon([closedCoordinates]),
-      );
+      const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
 
       if (pointIsInArea) {
-        filteredLocations.push(currentLocation);
+        filteredAreas.push(area);
       }
-    } catch (error) {
-      // turf can throw an error if the polygon is invalid
-      console.error(`Error processing location_id: ${currentLocation.location_id}`, error);
     }
+  } catch (error) {
+    // turf will throw an error if any point or polygon is invalid
+    console.error(error);
   }
 
-  return filteredLocations;
+  return filteredAreas;
+};
+
+export const getPointLocationsWithinPolygon = (
+  pointLocations: PointLocation[],
+  gridPoints: Point[],
+): PointLocation[] => {
+  if (!pointLocations.length) {
+    return [];
+  }
+  const filteredPoints: PointLocation[] = [];
+
+  try {
+    const coordinates = gridPoints.map((p: Point): TurfPoint => [p.lng, p.lat]);
+    const areaPolygon = polygon([closePolygon(coordinates)]);
+
+    for (const location of pointLocations) {
+      const locationPoint = point([location.point.lng, location.point.lat]);
+      const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
+
+      if (pointIsInArea) {
+        filteredPoints.push(location);
+      }
+    }
+  } catch (error) {
+    // turf will throw an error if any point or polygon is invalid
+    console.error(error);
+  }
+
+  return filteredPoints;
+};
+
+// turf requires that all polygons be closed (first and last point equivalent)
+const closePolygon = (coordinates: TurfPoint[]): TurfPoint[] => {
+  const first = coordinates[0];
+  const last = coordinates[coordinates.length - 1];
+
+  const isClosed = first[0] === last[0] && first[1] === last[1];
+
+  return isClosed ? coordinates : [...coordinates, first];
 };

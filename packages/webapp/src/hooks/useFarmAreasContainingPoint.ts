@@ -15,7 +15,12 @@
 
 import { useSelector } from 'react-redux';
 import { areaSelector } from '../containers/locationSlice';
-import { getLocationsContainingPoint, Point } from '../util/geoUtils';
+import { sensorSelector } from '../containers/sensorSlice';
+import {
+  getAreaLocationsContainingPoint,
+  getPointLocationsWithinPolygon,
+  Point,
+} from '../util/geoUtils';
 
 export const useFarmAreasContainingPoint = (coordinates: Point) => {
   const farmAreas = useSelector(areaSelector);
@@ -23,5 +28,11 @@ export const useFarmAreasContainingPoint = (coordinates: Point) => {
   // areaSelector returns an object whose keys are the location type
   const flattenedFarmAreas = Object.values(farmAreas).flat();
 
-  return getLocationsContainingPoint(flattenedFarmAreas, coordinates);
+  return getAreaLocationsContainingPoint(flattenedFarmAreas, coordinates);
+};
+
+export const useFarmSensorsContainedWithinArea = (gridPoints: Point[]) => {
+  const farmSensors = useSelector(sensorSelector);
+
+  return getPointLocationsWithinPolygon(farmSensors, gridPoints);
 };

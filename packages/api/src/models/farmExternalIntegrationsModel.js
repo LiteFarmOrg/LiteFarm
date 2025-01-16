@@ -100,6 +100,20 @@ class FarmExternalIntegrations extends Model {
       .where('partner_id', partnerId)
       .first();
   }
+
+  static async upsertOrganizationIntegration({ farm_id, partner_id, organization_uuid }) {
+    const existingIntegration = await this.query().findOne({ farm_id, partner_id });
+
+    if (existingIntegration) {
+      return this.query().patch({ organization_uuid }).where({ farm_id, partner_id });
+    } else {
+      return this.query().insert({
+        farm_id,
+        partner_id,
+        organization_uuid,
+      });
+    }
+  }
 }
 
 export default FarmExternalIntegrations;

@@ -35,6 +35,8 @@ router.post(
   SensorController.addSensors,
 );
 
+router.post('/associate_esci_org', SensorController.associateEnsembleOrganization);
+
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post(

@@ -29,6 +29,7 @@ import { transaction, Model } from 'objection';
 
 import {
   ENSEMBLE_BRAND,
+  getEnsembleOrganizations,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
@@ -82,6 +83,43 @@ const sensorController = {
       res.status(200).send(brand_name_response.partner_name);
     } catch (error) {
       res.status(404).send('Partner not found');
+    }
+  },
+  async associateEnsembleOrganization(req, res) {
+    const { farm_id } = req.headers;
+    const { organization_uuid } = req.body;
+
+    if (!organization_uuid || !organization_uuid.length) {
+      return res.status(400).send('Organization uuid required');
+    }
+
+    try {
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        ENSEMBLE_BRAND,
+      );
+
+      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
+
+      const organization = allRegisteredOrganizations.find(
+        ({ uuid }) => uuid === organization_uuid,
+      );
+
+      if (!organization) {
+        return res.status(404).send('Organization not found');
+      }
+
+      await FarmExternalIntegrationsModel.upsertOrganizationIntegration({
+        farm_id,
+        partner_id: 1,
+        organization_uuid,
+      });
+
+      return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
     }
   },
   async addSensors(req, res) {

@@ -23,7 +23,7 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 9
+          version: latest
 
       - name: Install pnpm dependencies
         run: pnpm install

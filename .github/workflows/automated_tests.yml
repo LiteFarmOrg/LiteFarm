@@ -10,7 +10,7 @@ jobs:
   api_unit_tests:
     name: API Unit Tests
     runs-on: ubuntu-20.04
-    container: node:lts
+    container: node:20.17
     services:
       postgres:
         image: postgres:13

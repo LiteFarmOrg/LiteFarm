@@ -21,24 +21,21 @@ export const up = async function (knex) {
   // WARNING: will delete all existing sensor data
   await knex.schema.dropTable('sensor_reading');
 
-  // Add inbound integration type
+  // Create inbound integration type
   await knex.schema.createTable('inbound_integration_type', (table) => {
     table.increments('id').primary();
     table.string('type').notNullable();
   });
 
-  await knex('inbound_integration_type').insert([
-    { type: 'SENSOR_READING' },
-    { type: 'IRRIGATION_PRESCRIPTION' },
-  ]);
+  const integrationTypes = await knex('inbound_integration_type')
+    .insert([{ type: 'SENSOR_READING' }, { type: 'IRRIGATION_PRESCRIPTION' }])
+    .returning('*');
 
-  const sensorIntegrationType = await knex('inbound_integration_type')
-    .select()
-    .where('type', '=', 'SENSOR_READING')
-    .first();
+  const sensorIntegrationType = integrationTypes.find((it) => it.type === 'SENSOR_READING');
 
-  // Create farm inbound integration
+  // Update farm inbound integration
   await knex.schema.renameTable('farm_external_integration', 'farm_inbound_integration');
+  // All pre-existing at this time are of type SENSOR_READING
   await knex.schema.alterTable('farm_inbound_integration', (table) => {
     table
       .integer('type_id')
@@ -47,6 +44,7 @@ export const up = async function (knex) {
       .notNullable()
       .defaultTo(sensorIntegrationType.id);
   });
+  // Remove default setting
   await knex.schema.alterTable('farm_inbound_integration', (table) => {
     table.dropForeign('type_id');
     table
@@ -60,9 +58,9 @@ export const up = async function (knex) {
   // Create sensor manufacturer table
   await knex.schema.createTable('sensor_manufacturer', (table) => {
     table.increments('id').primary();
-    // Would duplicate name on integrating_partner if integrating_partner_id exists
+    // Will duplicate name on integrating_partner if integrating_partner_id exists
     table.string('name').notNullable();
-    // Assuming we will be using null values to indicate defaults
+    // Using null values to indicate defaults
     table.uuid('farm_id').references('farm_id').inTable('farm').nullable();
     table
       .integer('integrating_partner_id')
@@ -73,13 +71,13 @@ export const up = async function (knex) {
 
   // Create sensor_array table
   await knex.schema.createTable('sensor_array', (table) => {
-    // Other locations seem to use .onDelete('CASCADE') but I don't think it is appropriate here
+    // Other locations seem to use .onDelete('CASCADE') but I don't know if it is appropriate anywmore
     table.uuid('location_id').primary().references('location_id').inTable('location').notNullable();
-    // Cannot be required as old data does not have it
-    table.uuid('field_location_id').references('location_id').inTable('field').nullable();
+    // Existing sensors will have null values for field location
+    table.uuid('associated_location_id').references('location_id').inTable('location').nullable();
   });
 
-  // Add inbound integration type
+  // Create sensor status type
   await knex.schema.createTable('sensor_status', (table) => {
     table.increments('id').primary();
     table.string('key').notNullable();
@@ -87,14 +85,14 @@ export const up = async function (knex) {
 
   await knex('sensor_status').insert([{ key: 'ONLINE' }, { key: 'OFFLINE' }]);
 
-  // Create sensor table
+  // Update sensor table
   await knex.schema.renameTable('sensor', 'sensor_deleting');
   await knex.schema.createTable('sensor', (table) => {
     table.increments('id').primary();
     table.string('name').nullable();
-    // Contrains sensor to arrays instead of all locations
+    // Constrains sensor to arrays instead of all locations
     table.uuid('location_id').references('location_id').inTable('sensor_array').notNullable();
-    // changed from notNullable
+    // Changed from notNullable
     table.string('external_id').nullable();
     table
       .integer('sensor_manufacturer_id')
@@ -112,7 +110,7 @@ export const up = async function (knex) {
     table.float('depth_elevation').nullable();
     // removing defaultTo('cm')
     table.enu('depth_elevation_unit', ['cm', 'm', 'in', 'ft']).nullable();
-    // New way to check both null or both not null
+    // New more succint way to check both null or both not null
     table.check(
       '(?? IS NULL) = (?? IS NULL)',
       ['depth_elevation', 'depth_elevation_unit'],
@@ -161,95 +159,111 @@ export const up = async function (knex) {
     table.float('value').notNullable();
   });
 
-  const integratingPartners = await knex('integrating_partner').select();
-  const farmInboundIntegrations = await knex('farm_inbound_integration').select();
-  const sensors = await knex('sensor_deleting').select();
-  const sensorReadingModes = await knex('sensor_reading_type_deleting').select();
-  const readingTypes = await knex('partner_reading_type').select();
+  const prevSensors = await knex('sensor_deleting').select();
 
-  // map integrating partner to sensor_manufacturer
-  const newManufacturers = farmInboundIntegrations.reduce((acc, cv) => {
-    const partner = integratingPartners.find((part) => part.partner_id === cv.partner_id);
-    if (!partner) {
-      throw Error('Partner association not found');
-    }
-    const manufacturer = {
-      name: partner.partner_name,
-      farm_id: cv.farm_id,
-      integrating_partner_id: cv.partner_id,
-    };
-    acc.push(manufacturer);
-    return acc;
-  }, []);
+  // Skip data migration - Early return mostly for api tests
+  if (prevSensors.length > 0) {
+    const integratingPartners = await knex('integrating_partner').select();
+    const farmInboundIntegrations = await knex('farm_inbound_integration').select();
+    const prevSensorReadingModes = await knex('sensor_reading_type_deleting').select();
+    const readingTypes = await knex('partner_reading_type').select();
 
-  const insertedManufacturers = await knex('sensor_manufacturer')
-    .insert(newManufacturers)
-    .returning('*');
+    // Create manufacturer data - using map integrating partner to sensor_manufacturer
+    const manufacturers = farmInboundIntegrations.map((fii) => {
+      const partner = integratingPartners.find((ip) => ip.partner_id === fii.partner_id);
+      if (!partner) {
+        throw Error('Partner association not found');
+      }
+      return {
+        name: partner.partner_name,
+        farm_id: fii.farm_id,
+        integrating_partner_id: fii.partner_id,
+      };
+    });
 
-  // all existing sensors assumed to be an array of 1, user can re-configure as needed
-  const sensorLocationIds = [];
-  const newArrays = sensors.reduce((acc, cv) => {
-    const array = {
-      location_id: cv.location_id,
-    };
-    sensorLocationIds.push(cv.location_id);
-    acc.push(array);
-    return acc;
-  }, []);
-  await knex('sensor_array').insert(newArrays);
-  const sensorLocations = await knex('location').select().whereIn('location_id', sensorLocationIds);
-
-  const newSensors = sensors.reduce((acc, cv) => {
-    const location = sensorLocations.find((loc) => loc.location_id === cv.location_id);
-    if (!location) {
-      throw Error('Location association not found');
-    }
-    const newManufacturer = insertedManufacturers.find((man) => man.farm_id === location.farm_id);
-    const valueUnit = {};
-    if (cv.depth > 0) {
-      valueUnit.value = -cv.depth;
-      valueUnit.unit = cv.depth_unit;
-    } else if (cv.elevation > 0) {
-      valueUnit.value = cv.elevation;
-      valueUnit.unit = cv.depth_unit;
+    let insertedManufacturers = [];
+    if (manufacturers.length) {
+      insertedManufacturers = await knex('sensor_manufacturer')
+        .insert(manufacturers)
+        .returning('*');
     } else {
-      valueUnit.value = cv.depth ? cv.depth : null;
-      valueUnit.unit = cv.depth ? cv.depth_unit : null;
+      console.log('No manufacturerers exist');
     }
-    const sensor = {
-      name: null,
-      location_id: cv.location_id,
-      external_id: cv.external_id,
-      sensor_manufacturer_id: newManufacturer?.id,
-      model: cv.model,
-      depth_elevation: valueUnit.value,
-      depth_elevation_unit: valueUnit.unit,
-    };
-    acc.push(sensor);
-    return acc;
-  }, []);
 
-  const insertedNewSensors = await knex('sensor').insert(newSensors).returning('*');
+    // Create sensor array data - all existing sensors assumed to be a sensor_array of length 1, user can re-configure as needed
+    const sensorArrays = prevSensors.map((s) => {
+      return {
+        location_id: s.location_id,
+      };
+    });
 
-  const newModes = sensorReadingModes.reduce((acc, cv) => {
-    const sensor = insertedNewSensors.find((sens) => sens.location_id === cv.location_id);
-    const prevReadingType = readingTypes.find(
-      (type) => type.partner_reading_type_id === cv.partner_reading_type_id,
-    );
-    const newReadingType = newReadingTypes.find(
-      (type) => type.type === prevReadingType.readable_value,
-    );
-    if (!sensor || !newReadingType) {
-      throw Error('Sensor or new reading type association not found');
+    if (sensorArrays.length) {
+      await knex('sensor_array').insert(sensorArrays).returning('*');
+    } else {
+      throw Error('No sensor arrays exist');
     }
-    const mode = {
-      sensor_id: sensor.id,
-      sensor_reading_type_id: newReadingType.id,
-    };
-    acc.push(mode);
-    return acc;
-  }, []);
-  await knex('sensor_reading_mode').insert(newModes);
+
+    // Migrate sensors data
+    const sensorLocations = await knex('location')
+      .select()
+      .whereIn(
+        'location_id',
+        prevSensors.map((s) => s.location_id),
+      );
+
+    const newSensors = prevSensors.map((s) => {
+      const location = sensorLocations.find((loc) => loc.location_id === s.location_id);
+      if (!location) {
+        throw Error('Location association not found');
+      }
+      const newManufacturer = insertedManufacturers.find((man) => man.farm_id === location.farm_id);
+      const valueUnit = {};
+      // Determine depth and unit
+      if (s.depth >= 0 && s.depth != null) {
+        valueUnit.value = -s.depth;
+        valueUnit.unit = s.depth_unit;
+      } else if (s.elevation >= 0 && s.elevation != null) {
+        valueUnit.value = s.elevation;
+        valueUnit.unit = s.depth_unit;
+      } else {
+        valueUnit.value = s.depth ? s.depth : null;
+        valueUnit.unit = s.depth ? s.depth_unit : null;
+      }
+      return {
+        name: null,
+        location_id: s.location_id,
+        external_id: s.external_id,
+        sensor_manufacturer_id: newManufacturer?.id,
+        model: s.model,
+        depth_elevation: valueUnit.value,
+        depth_elevation_unit: valueUnit.unit,
+      };
+    });
+    let insertedNewSensors = [];
+    if (newSensors.length) {
+      insertedNewSensors = await knex('sensor').insert(newSensors).returning('*');
+    } else {
+      throw Error('No sensors exist');
+    }
+
+    const newSensorReadingModes = prevSensorReadingModes.map((m) => {
+      const sensor = insertedNewSensors.find((sens) => sens.location_id === m.location_id);
+      const prevReadingType = readingTypes.find(
+        (type) => type.partner_reading_type_id === m.partner_reading_type_id,
+      );
+      const newReadingType = newReadingTypes.find(
+        (type) => type.type === prevReadingType.readable_value,
+      );
+      if (!sensor || !newReadingType) {
+        throw Error('Sensor or new reading type association not found');
+      }
+      return {
+        sensor_id: sensor.id,
+        sensor_reading_type_id: newReadingType.id,
+      };
+    });
+    await knex('sensor_reading_mode').insert(newSensorReadingModes);
+  }
 
   await knex.schema.dropTable('sensor_reading_type_deleting');
   await knex.schema.dropTable('sensor_deleting');
@@ -261,7 +275,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
-  // WARNING: Will delete all existing sensor readinf data
+  // WARNING: Will delete all existing sensor reading data
   await knex.schema.dropTable('sensor_reading');
 
   // Recreate farm_external_integration - from /20220610171713_create-farm-external-integrations-table.js
@@ -339,24 +353,7 @@ export const down = async function (knex) {
     table.float('elevation');
     table.string('model');
   });
-  const manufacturers = await knex('sensor_manufacturer').select();
-  const sensors = await knex('sensor_deleting').select();
-  const newSensors = sensors.reduce((acc, cv) => {
-    const manufacturer = manufacturers.find((man) => man.id === cv.sensor_manufacturer_id);
-    const sensor = {
-      location_id: cv.location_id,
-      // 0 is no itegrating partner id in the integration partner table
-      partner_id: manufacturer?.integrating_partner_id ?? 0,
-      external_id: cv.external_id,
-      model: cv.model,
-      depth: cv.depth_elevation <= 0 ? -cv.depth_elevation : null,
-      depth_unit: cv.depth_elevation_unit,
-      elevation: cv.depth_elevation > 0 ? cv.depth_elevation : null,
-    };
-    acc.push(sensor);
-    return acc;
-  }, []);
-  const insertedNewSensors = await knex('sensor').insert(newSensors).returning('*');
+
   // Rebuild sensor reading type - from /20220715214935_sensor_as_standard_location.js
   await knex.schema.renameTable('sensor_reading_type', 'sensor_reading_type_deleting');
   await knex.schema.createTable('sensor_reading_type', function (table) {
@@ -371,27 +368,60 @@ export const down = async function (knex) {
       .inTable('partner_reading_type');
     table.uuid('location_id').references('location_id').inTable('sensor').onDelete('CASCADE');
   });
-  const sensorModes = await knex('sensor_reading_mode').select();
-  const readingTypesDeleting = await knex('sensor_reading_type_deleting').select();
-  const newModes = sensorModes.reduce((acc, cv) => {
-    const sensor = sensors.find((sens) => sens.id === cv.sensor_id);
-    const newSensor = insertedNewSensors.find((sens) => sens.location_id === sensor.location_id);
-    const deletingType = readingTypesDeleting.find((type) => type.id === cv.sensor_reading_type_id);
-    const partner = partnerReadingTypes.find(
-      (partner) =>
-        partner.partner_id === newSensor.partner_id && deletingType.type === partner.readable_value,
-    );
-    if (!sensor || !partner) {
-      throw Error('Sensor or partner association not found');
+
+  const prevSensors = await knex('sensor_deleting').select();
+  // Skip data migration - Early return mostly for api tests
+  if (prevSensors.length) {
+    // Recreate and migrate old sensors data format
+    const manufacturers = await knex('sensor_manufacturer').select();
+    const newSensors = prevSensors.map((s) => {
+      const manufacturer = manufacturers.find((m) => m.id === s.sensor_manufacturer_id);
+      return {
+        location_id: s.location_id,
+        // 0 is no itegrating partner id in the integration partner table
+        partner_id: manufacturer?.integrating_partner_id ?? 0,
+        external_id: s.external_id,
+        model: s.model,
+        depth: s.depth_elevation <= 0 && s.depth_elevation != null ? -s.depth_elevation : null,
+        depth_unit: s.depth_elevation_unit ? s.depth_elevation_unit : 'cm',
+        elevation: s.depth_elevation > 0 && s.depth_elevation != null ? s.depth_elevation : null,
+      };
+    });
+
+    let insertedNewSensors = [];
+    if (newSensors.length) {
+      insertedNewSensors = await knex('sensor').insert(newSensors).returning('*');
+    } else {
+      throw Error('No sensors exist');
     }
-    const mode = {
-      partner_reading_type_id: partner.partner_reading_type_id,
-      location_id: sensor.location_id,
-    };
-    acc.push(mode);
-    return acc;
-  }, []);
-  await knex('sensor_reading_type').insert(newModes);
+
+    // Recreate and migrate old sensor reading modes
+    const sensorModes = await knex('sensor_reading_mode').select();
+    const readingTypesDeleting = await knex('sensor_reading_type_deleting').select();
+    const newModes = sensorModes.map((sm) => {
+      const sensor = prevSensors.find((s) => s.id === sm.sensor_id);
+      const newSensor = insertedNewSensors.find((s) => s.location_id === sensor.location_id);
+      const deletingType = readingTypesDeleting.find((rt) => rt.id === sm.sensor_reading_type_id);
+      const partner = partnerReadingTypes.find(
+        (prt) =>
+          prt.partner_id === newSensor.partner_id && deletingType.type === prt.readable_value,
+      );
+      if (!sensor || !partner) {
+        throw Error('Sensor or partner association not found');
+      }
+      return {
+        partner_reading_type_id: partner.partner_reading_type_id,
+        location_id: sensor.location_id,
+      };
+    });
+
+    if (newModes.length) {
+      await knex('sensor_reading_type').insert(newModes);
+    } else {
+      console.log('No sensor modes exist');
+    }
+  }
+
   // Rebuild sensor reading type - from /20220715214935_sensor_as_standard_location.js
   await knex.schema.createTable('sensor_reading', function (table) {
     table.uuid('reading_id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
@@ -409,6 +439,7 @@ export const down = async function (knex) {
     table.boolean('valid').notNullable().defaultTo(true);
   });
 
+  // Drop unused tables
   await knex.schema.dropTable('inbound_integration_type');
   await knex.schema.dropTable('sensor_reading_mode');
   await knex.schema.dropTable('sensor_reading_type_deleting');

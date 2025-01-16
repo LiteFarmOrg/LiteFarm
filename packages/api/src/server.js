@@ -255,7 +255,7 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
 const getAllowedOrigin = () => {
   switch (environment) {
     case 'development':
-      return 'http://localhost:3000';
+      return '*';
     case 'integration':
       return 'https://beta.litefarm.org';
     case 'production':

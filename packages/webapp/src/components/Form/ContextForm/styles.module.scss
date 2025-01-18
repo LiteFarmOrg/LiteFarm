@@ -22,3 +22,25 @@
     padding-bottom: 104px; // button height 72px + button top 16px + button bottom 16px
   }
 }
+
+.loadingScreen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingText {
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.loadingMessage {
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}

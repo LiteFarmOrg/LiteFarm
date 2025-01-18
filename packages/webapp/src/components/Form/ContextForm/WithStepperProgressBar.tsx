@@ -27,12 +27,18 @@ import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import Loading from './Loading';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
   history: History;
-  steps: { formContent: ReactNode; title: string }[];
+  steps: {
+    formContent: ReactNode;
+    title: string;
+    onContinueAction?: () => Promise<void>;
+    dataName?: string;
+  }[];
   activeStepIndex: number;
   cancelModalTitle: string;
   isCompactSideMenu: boolean;
@@ -90,6 +96,7 @@ export const WithStepperProgressBar = ({
     retry: undefined,
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
   const isSingleStep = steps.length === 1;
@@ -107,6 +114,13 @@ export const WithStepperProgressBar = ({
     return () => unblock();
   }, [isSummaryPage, isDirty, history]);
 
+  useEffect(() => {
+    // Reset loading state whenever the step changes
+    if (isLoading) {
+      setIsLoading(false);
+    }
+  }, [activeStepIndex]);
+
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
     (hasSummaryWithinForm && activeStepIndex === steps.length - 2);
@@ -123,6 +137,20 @@ export const WithStepperProgressBar = ({
   };
 
   const onContinue = async () => {
+    const { onContinueAction } = steps[activeStepIndex];
+
+    if (onContinueAction) {
+      setIsLoading(true);
+      try {
+        // Execute the custom action for the current step before proceeding to the next one
+        await onContinueAction();
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        return;
+      }
+    }
+
     if (isFinalStep) {
       setIsSaving(true);
       await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
@@ -148,6 +176,10 @@ export const WithStepperProgressBar = ({
     setTransition({ unblock: undefined, retry: undefined });
     setShowCancelFlow?.(false);
   };
+
+  if (isLoading) {
+    return <Loading dataName={steps[activeStepIndex].dataName} />;
+  }
 
   return (
     <StepperProgressBarWrapper

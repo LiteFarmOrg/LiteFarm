@@ -1,70 +1,111 @@
 @import '@assets/mixin.scss';
 
+// .container {
+//   display: flex;
+//   order: 3;
+//   height: 64px;
+//   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+// }
+
 .container {
   display: flex;
-  order: 3;
-  height: 64px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px 32px;
+  border-radius: 16px;
+  background: var(--White);
+  box-shadow: 0px 2px 4px 0px rgba(43, 48, 58, 0.1);
+
+  font-size: 12px;
+  font-style: normal;
+  line-height: 20px;
+
+  // desktop (floating)
+  @include sm-breakpoint {
+    width: 380px;
+  }
+
+  // mobile (drawer)
+  @include xs-breakpoint {
+    border-radius: 0px 0px 16px 16px;
+    box-shadow: 0px -2px 4px 0px rgba(102, 115, 138, 0.1);
+  }
+}
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-block: 4px;
 }
 
 .button {
-  flex-grow: 1;
-  text-align: center;
-  border: 1px solid var(--grey400);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  cursor: pointer;
-
-  .svg {
-    fill: var(--grey600);
+  svg {
+    width: 16px;
+    height: 16px;
   }
 }
+// .button {
+//   flex-grow: 1;
+//   text-align: center;
+//   border: 1px solid var(--grey400);
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: white;
+//   cursor: pointer;
 
-.spotlighted {
-  border-top: 8px solid var(--teal700);
-  padding-bottom: 7px;
+//   .svg {
+//     fill: var(--grey600);
+//   }
+// }
 
-  .svg {
-    fill: var(--teal700);
-  }
-}
+// .spotlighted {
+//   border-top: 8px solid var(--teal700);
+//   padding-bottom: 7px;
 
-.spotlightTitle {
-  color: var(--teal700);
-  font-weight: 600;
-  text-align: left;
-  @include fontFamily();
-  font-size: 16px;
-  line-height: 20px;
-  margin-bottom: 8px;
-}
+//   .svg {
+//     fill: var(--teal700);
+//   }
+// }
 
-.spotlightText {
-  margin-bottom: 8px;
-  text-align: left;
-  @include fontFamily();
-  font-size: 14px;
-  line-height: 20px;
-}
+// .spotlightTitle {
+//   color: var(--teal700);
+//   font-weight: 600;
+//   text-align: left;
+//   @include fontFamily();
+//   font-size: 16px;
+//   line-height: 20px;
+//   margin-bottom: 8px;
+// }
 
-.spotlightButton {
-  @include fontFamily();
-  font-weight: 600;
-  color: var(--grey900);
-}
-button:focus {
-  outline: none;
-}
+// .spotlightText {
+//   margin-bottom: 8px;
+//   text-align: left;
+//   @include fontFamily();
+//   font-size: 14px;
+//   line-height: 20px;
+// }
 
-.circle {
-  position: absolute;
-  bottom: 0;
-  transform: translate(0, -47px);
-  width: 4px;
-  height: 4px;
-  border-radius: 2px;
-  background-color: var(--teal700);
-}
+// .spotlightButton {
+//   @include fontFamily();
+//   font-weight: 600;
+//   color: var(--grey900);
+// }
+// button:focus {
+//   outline: none;
+// }
+
+// .circle {
+//   position: absolute;
+//   bottom: 0;
+//   transform: translate(0, -47px);
+//   width: 4px;
+//   height: 4px;
+//   border-radius: 2px;
+//   background-color: var(--teal700);
+// }

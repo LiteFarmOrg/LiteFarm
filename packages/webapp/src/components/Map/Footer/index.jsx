@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
-import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
-import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
-import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
 import { locationEnum } from '../../../containers/Map/constants';
 import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
+import FloatingContainer from '../../FloatingContainer';
+import MapNavigationButtons from './Navigation';
 
 export default function PureMapFooter({
-  style,
   isAdmin,
   showSpotlight,
   resetSpotlight,
@@ -43,11 +39,11 @@ export default function PureMapFooter({
     point: [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor],
   },
   isMapFilterSettingActive = false,
+  isCompactSideMenu,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
-  const { container, button, svg, spotlighted } = styles;
   return (
     <TourProviderWrapper
       padding={0}
@@ -81,33 +77,20 @@ export default function PureMapFooter({
         },
       ]}
     >
-      <div className={clsx(container)} style={style}>
-        {isAdmin && (
-          <button
-            data-cy="map-addFeature"
-            className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
-            id="mapFirstStep"
-            onClick={onClickAdd}
-          >
-            <AddLogo className={svg} />
-          </button>
-        )}
-        <button
-          className={clsx(button, (stepSpotlighted === 1 || showMapFilter) && spotlighted)}
-          id="mapSecondStep"
-          onClick={handleClickFilter}
-        >
-          {isMapFilterSettingActive && <div className={styles.circle} />}
-          <FilterLogo className={svg} />
-        </button>
-        <button
-          className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)}
-          id="mapThirdStep"
-          onClick={onClickExport}
-        >
-          <ExportLogo className={svg} />
-        </button>
-      </div>
+      {isAdmin && (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <MapNavigationButtons
+            stepSpotlighted={stepSpotlighted}
+            showAddDrawer={showAddDrawer}
+            showMapFilter={showMapFilter}
+            showModal={showModal}
+            onClickAdd={onClickAdd}
+            handleClickFilter={handleClickFilter}
+            onClickExport={onClickExport}
+            isMapFilterSettingActive={isMapFilterSettingActive}
+          />
+        </FloatingContainer>
+      )}
       <MapDrawer
         key={'filter'}
         setShowMapDrawer={setShowMapFilter}

@@ -573,6 +573,7 @@ export default function Map({ history, isCompactSideMenu }) {
             onAddMenuClick={handleAddMenuClick}
             availableFilterSettings={availableFilterSettings}
             isMapFilterSettingActive={isMapFilterSettingActive}
+            isCompactSideMenu={isCompactSideMenu}
           />
         )}
         {showExportModal && (

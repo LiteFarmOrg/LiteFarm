@@ -39,6 +39,7 @@
   "EDITING": "Editing...",
   "ENTER_VALUE": "Enter value",
   "EXPORT": "Export",
+  "FETCHING_YOUR_DATA": "Sit back, we’re fetching your {{dataName}} data",
   "FINISH": "Finish",
   "FROM": "from",
   "GO_BACK": "Go back",

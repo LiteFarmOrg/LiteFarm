@@ -97,3 +97,41 @@ export const StepperFormWithSummaryPage: Story = {
     ],
   },
 };
+
+const asyncFunc = async (status: 'success' | 'fail') => {
+  console.log(`Simulating ${status === 'success' ? 'successful' : 'failed'} API call...`);
+
+  return new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      if (status === 'success') {
+        resolve();
+      } else {
+        reject(new Error('ERROR'));
+      }
+    }, 1500);
+  });
+};
+
+export const StepperFormWithCustomActionOnContinue: Story = {
+  args: {
+    ...stepperFormCommonProps,
+    hasSummaryWithinForm: true,
+    getSteps: () => [
+      {
+        title: 'Page 1',
+        FormContent: () => <div>Page 1</div>,
+        onContinueAction: () => asyncFunc('success'),
+        dataName: 'sensor',
+      },
+      {
+        title: 'Page 2',
+        FormContent: () => <div>Page 2</div>,
+        onContinueAction: () => asyncFunc('fail'),
+      },
+      {
+        title: 'Done',
+        FormContent: () => <div>Summary</div>,
+      },
+    ],
+  },
+};

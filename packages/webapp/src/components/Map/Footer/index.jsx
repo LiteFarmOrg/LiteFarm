@@ -5,7 +5,7 @@ import MapDrawer from '../../MapDrawer';
 import { locationEnum } from '../../../containers/Map/constants';
 import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
 import FloatingContainer from '../../FloatingContainer';
-import MapNavigationButtons from './Navigation';
+import MapNavigationButtons from './MapNavigationButtons';
 
 export default function PureMapFooter({
   isAdmin,

@@ -16,6 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { ContextForm, Variant } from '../../components/Form/ContextForm';
+import MeatballsMenu from '../../components/Menu/MeatballsMenu';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof ContextForm> = {
@@ -133,5 +134,32 @@ export const StepperFormWithCustomActionOnContinue: Story = {
         FormContent: () => <div>Summary</div>,
       },
     ],
+  },
+};
+
+export const SimpleTextHeader: Story = {
+  args: {
+    ...stepperFormCommonProps,
+    variant: Variant.SIMPLE_HEADER,
+    stepperProgressBarTitle: 'Simple Header',
+  },
+};
+
+export const SimpleDivHeader: Story = {
+  args: {
+    ...stepperFormCommonProps,
+    variant: Variant.SIMPLE_HEADER,
+    stepperProgressBarTitle: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span>Simple Header</span>
+        <MeatballsMenu
+          options={[
+            { label: 'Menu 1', onClick: () => console.log('Menu 1') },
+            { label: 'Menu 2', onClick: () => console.log('Menu 2') },
+          ]}
+          disabled={false}
+        />
+      </div>
+    ),
   },
 };

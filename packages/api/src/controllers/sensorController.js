@@ -85,7 +85,7 @@ const sensorController = {
       res.status(404).send('Partner not found');
     }
   },
-  async associateEnsembleOrganization(req, res) {
+  async linkEnsembleOrganization(req, res) {
     const { farm_id } = req.headers;
     const { organization_uuid } = req.body;
 

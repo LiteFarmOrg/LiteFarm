@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -47,46 +46,50 @@ const MapNavigationButtons = ({
 
   return (
     <div className={clsx(styles.container)}>
-      <div className={styles.buttonContainer}>
-        <Button
-          color="secondary"
-          data-cy="map-addFeature"
-          className={clsx(
-            styles.button,
-            (stepSpotlighted === 0 || showAddDrawer) && styles.spotlighted,
-          )}
-          id="mapFirstStep"
-          onClick={onClickAdd}
-          fullLength
-        >
+      <Button
+        color="secondary"
+        data-cy="map-addFeature"
+        className={clsx(
+          styles.button,
+          (stepSpotlighted === 0 || showAddDrawer) && styles.spotlighted,
+        )}
+        id="mapFirstStep"
+        onClick={onClickAdd}
+        sm
+      >
+        <div className={styles.buttonText}>
           <AddLogo className={styles.svg} />
-        </Button>
-        <Button
-          color="secondary"
-          className={clsx(
-            styles.button,
-            (stepSpotlighted === 1 || showMapFilter) && styles.spotlighted,
-          )}
-          id="mapSecondStep"
-          onClick={handleClickFilter}
-          fullLength
-        >
+          <div>Add Location</div>
+        </div>
+      </Button>
+      <Button
+        color="secondary"
+        className={clsx(
+          styles.button,
+          (stepSpotlighted === 1 || showMapFilter) && styles.spotlighted,
+        )}
+        id="mapSecondStep"
+        onClick={handleClickFilter}
+        sm
+      >
+        <div className={styles.buttonText}>
           {isMapFilterSettingActive && <div className={styles.circle} />}
           <FilterLogo className={styles.svg} />
-        </Button>
-        <Button
-          color="secondary"
-          className={clsx(
-            styles.button,
-            (stepSpotlighted === 2 || showModal) && styles.spotlighted,
-          )}
-          id="mapThirdStep"
-          onClick={onClickExport}
-          fullLength
-        >
+          <div>Filter Map</div>
+        </div>
+      </Button>
+      <Button
+        color="secondary"
+        className={clsx(styles.button, (stepSpotlighted === 2 || showModal) && styles.spotlighted)}
+        id="mapThirdStep"
+        onClick={onClickExport}
+        sm
+      >
+        <div className={styles.buttonText}>
           <ExportLogo className={styles.svg} />
-        </Button>
-      </div>
+          <div>Export Map</div>
+        </div>
+      </Button>
     </div>
   );
 };

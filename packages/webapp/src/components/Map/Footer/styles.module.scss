@@ -1,30 +1,67 @@
 @import '@assets/mixin.scss';
 
-// .container {
-//   display: flex;
-//   order: 3;
-//   height: 64px;
-//   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-// }
-
 .container {
   display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
+  // align-items: center;
+  justify-content: space-between;
 
-  padding: 16px 32px;
-  border-radius: 16px;
-  background: var(--White);
+  border-radius: 8px;
   box-shadow: 0px 2px 4px 0px rgba(43, 48, 58, 0.1);
 
-  font-size: 12px;
-  font-style: normal;
-  line-height: 20px;
+  .button {
+    border-radius: 0;
+    border: 0;
+    box-shadow: 0px 0px 1px 0px var(--Colors-Accent---singles-Blue-full);
+    outline: 0;
+    color: var(--Colors-Accent---singles-Blue-dark);
+    svg {
+      fill: var(--Colors-Accent---singles-Blue-dark);
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .button:hover {
+    color: var(--White);
+    background-color: var(--Colors-Accent---singles-Blue-dark);
+    box-shadow: none;
+    border: 0;
+    svg {
+      fill: var(--White);
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  
+  button:focus {
+    border-radius: 0;
+    border: 0;
+    box-shadow: 0px 0px 1px 0px var(--Colors-Accent---singles-Blue-full);
+    outline: 0;
+  }
+  
+  button:first-of-type {
+    border-radius: 8px 0 0 8px;
+    border: 0;
+
+    @include xs-breakpoint {
+      border-radius: 0 0 0 8px;
+    }
+  }
+  
+  button:last-of-type {
+    border-radius: 0 8px 8px 0;
+    border: 0;
+
+    @include xs-breakpoint {
+      border-radius: 0 0 8px 0;
+    }
+  }
 
   // desktop (floating)
   @include sm-breakpoint {
-    width: 380px;
+    width: 432px;
   }
 
   // mobile (drawer)
@@ -33,36 +70,14 @@
     box-shadow: 0px -2px 4px 0px rgba(102, 115, 138, 0.1);
   }
 }
-.buttonContainer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding-block: 4px;
-}
 
+.buttonText {
+  display: block;
+  margin: 4px 8px;
+}
 .button {
-  svg {
-    width: 16px;
-    height: 16px;
-  }
+  flex-grow: 1;
 }
-// .button {
-//   flex-grow: 1;
-//   text-align: center;
-//   border: 1px solid var(--grey400);
-//   height: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: white;
-//   cursor: pointer;
-
-//   .svg {
-//     fill: var(--grey600);
-//   }
-// }
 
 // .spotlighted {
 //   border-top: 8px solid var(--teal700);

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
@@ -14,7 +13,6 @@ export default function PureMapFooter({
   onClickAdd,
   onClickExport,
   handleClickFilter,
-  showModal,
   setShowMapFilter,
   showMapFilter,
   setShowAddDrawer,
@@ -42,7 +40,6 @@ export default function PureMapFooter({
   isCompactSideMenu,
 }) {
   const { t } = useTranslation();
-  const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
   return (
     <TourProviderWrapper
@@ -80,10 +77,6 @@ export default function PureMapFooter({
       {isAdmin && (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <MapNavigationButtons
-            stepSpotlighted={stepSpotlighted}
-            showAddDrawer={showAddDrawer}
-            showMapFilter={showMapFilter}
-            showModal={showModal}
             onClickAdd={onClickAdd}
             handleClickFilter={handleClickFilter}
             onClickExport={onClickExport}
@@ -122,7 +115,6 @@ PureMapFooter.prototype = {
   onClickAdd: PropTypes.func,
   onClickFilter: PropTypes.func,
   onClickExport: PropTypes.func,
-  showModal: PropTypes.bool,
   setShowMapFilter: PropTypes.func,
   showMapFilter: PropTypes.bool,
   drawerDefaultHeight: PropTypes.number,

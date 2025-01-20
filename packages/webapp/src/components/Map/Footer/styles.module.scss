@@ -38,7 +38,7 @@
     border-radius: 0;
     border: 0;
     box-shadow: 0px 0px 1px 0px var(--Colors-Accent---singles-Blue-full);
-    outline: 0;
+    outline: none;
   }
   
   button:first-of-type {
@@ -79,48 +79,13 @@
   flex-grow: 1;
 }
 
-// .spotlighted {
-//   border-top: 8px solid var(--teal700);
-//   padding-bottom: 7px;
-
-//   .svg {
-//     fill: var(--teal700);
-//   }
-// }
-
-// .spotlightTitle {
-//   color: var(--teal700);
-//   font-weight: 600;
-//   text-align: left;
-//   @include fontFamily();
-//   font-size: 16px;
-//   line-height: 20px;
-//   margin-bottom: 8px;
-// }
-
-// .spotlightText {
-//   margin-bottom: 8px;
-//   text-align: left;
-//   @include fontFamily();
-//   font-size: 14px;
-//   line-height: 20px;
-// }
-
-// .spotlightButton {
-//   @include fontFamily();
-//   font-weight: 600;
-//   color: var(--grey900);
-// }
-// button:focus {
-//   outline: none;
-// }
-
-// .circle {
-//   position: absolute;
-//   bottom: 0;
-//   transform: translate(0, -47px);
-//   width: 4px;
-//   height: 4px;
-//   border-radius: 2px;
-//   background-color: var(--teal700);
-// }
+// TODO: fix filter circle
+.circle {
+  position: absolute;
+  bottom: 0;
+  transform: translate(0, -47px);
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--teal700);
+}

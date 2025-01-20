@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
@@ -22,10 +21,6 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 
 export interface FormNavigationButtonsProps {
-  stepSpotlighted?: Number;
-  showAddDrawer?: Boolean;
-  showMapFilter?: Boolean;
-  showModal?: Boolean;
   isMapFilterSettingActive?: boolean;
   onClickAdd: () => void;
   handleClickFilter: () => void;
@@ -33,10 +28,6 @@ export interface FormNavigationButtonsProps {
 }
 
 const MapNavigationButtons = ({
-  stepSpotlighted,
-  showAddDrawer,
-  showMapFilter,
-  showModal,
   onClickAdd,
   handleClickFilter,
   onClickExport,
@@ -45,14 +36,11 @@ const MapNavigationButtons = ({
   const { t } = useTranslation();
 
   return (
-    <div className={clsx(styles.container)}>
+    <div className={styles.container}>
       <Button
         color="secondary"
         data-cy="map-addFeature"
-        className={clsx(
-          styles.button,
-          (stepSpotlighted === 0 || showAddDrawer) && styles.spotlighted,
-        )}
+        className={styles.button}
         id="mapFirstStep"
         onClick={onClickAdd}
         sm
@@ -64,10 +52,7 @@ const MapNavigationButtons = ({
       </Button>
       <Button
         color="secondary"
-        className={clsx(
-          styles.button,
-          (stepSpotlighted === 1 || showMapFilter) && styles.spotlighted,
-        )}
+        className={styles.button}
         id="mapSecondStep"
         onClick={handleClickFilter}
         sm
@@ -80,7 +65,7 @@ const MapNavigationButtons = ({
       </Button>
       <Button
         color="secondary"
-        className={clsx(styles.button, (stepSpotlighted === 2 || showModal) && styles.spotlighted)}
+        className={styles.button}
         id="mapThirdStep"
         onClick={onClickExport}
         sm

@@ -1782,6 +1782,7 @@
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
+      "ADD_SENSORS": "Add sensors",
       "BRAND": "Brand",
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",

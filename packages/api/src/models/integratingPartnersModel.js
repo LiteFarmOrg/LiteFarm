@@ -72,6 +72,12 @@ class IntegratingPartners extends Model {
       .where('partner_id', partner_id)
       .first();
   }
+  static async getPartnerId(partner_name) {
+    return await IntegratingPartners.query()
+      .select('partner_id')
+      .where('partner_name', partner_name)
+      .first();
+  }
 }
 
 export default IntegratingPartners;

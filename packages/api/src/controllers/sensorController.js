@@ -87,7 +87,13 @@ const sensorController = {
   },
   async linkEnsembleOrganization(req, res) {
     const { farm_id } = req.headers;
-    const { organization_uuid } = req.body;
+    const { integrating_partner_id, organization_uuid } = req.body;
+
+    const EnsemblePartnerId = IntegratingPartnersModel.getPartnerId(ENSEMBLE_BRAND);
+
+    if (integrating_partner_id !== EnsemblePartnerId) {
+      return res.status(400).send('Only Ensemble Scientific is supported');
+    }
 
     if (!organization_uuid || !organization_uuid.length) {
       return res.status(400).send('Organization uuid required');
@@ -110,7 +116,7 @@ const sensorController = {
 
       await FarmExternalIntegrationsModel.upsertOrganizationIntegration({
         farm_id,
-        partner_id: 1,
+        partner_id: EnsemblePartnerId,
         organization_uuid,
       });
 

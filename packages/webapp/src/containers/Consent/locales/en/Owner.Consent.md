@@ -84,9 +84,9 @@ LiteFarm uses the management information that you enter into the app to generate
 
 - Farm specific details: preferred units (e.g. metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
 
-- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details 
+- Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
 
-- Animal movements information: location, reason for movement and date of movement 
+- Animal movements information: location, reason for movement and date of movement
 
 **Usage Data**
 
@@ -158,17 +158,15 @@ At this time, the LiteFarm application is free to use. The software itself is li
 
 **For further information**
 
-For further information  
+With respect to the application, please contact:
 
-With respect to the application, please contact: 
+Product Manager: litefarm.team@ubc.ca
 
-Product Manager: litefarm.team@ubc.ca 
+With respect to this study, please contact the principal investigator:
 
-With respect to this study, please contact the principal investigator: 
+Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
-Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
-
-**If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**  
+**If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
 
 Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
 

@@ -16,9 +16,9 @@
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
-import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
-import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
-import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
+import { ReactComponent as AddLogo } from '../../../assets/images/map/addSkew.svg';
+import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter-funnel.svg';
+import { ReactComponent as ExportLogo } from '../../../assets/images/map/download.svg';
 
 export interface FormNavigationButtonsProps {
   isMapFilterSettingActive?: boolean;

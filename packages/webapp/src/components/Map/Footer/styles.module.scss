@@ -10,10 +10,15 @@
 
   .button {
     border-radius: 0;
+    @include svgColorFill(var(--Colors-Accent---singles-Blue-dark));
     svg {
       width: 24px;
       height: 24px;
     }
+  }
+
+  .button:hover, .button:active {
+    @include svgColorFill(var(--White));
   }
   
   button:first-of-type {

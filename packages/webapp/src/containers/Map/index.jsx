@@ -559,6 +559,7 @@ export default function Map({ history, isCompactSideMenu }) {
             showSpotlight={!showedSpotlight.map}
             resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
+            showModal={showExportModal}
             onClickExport={handleClickExport}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}

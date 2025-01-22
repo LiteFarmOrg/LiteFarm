@@ -14,6 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/addSkew.svg';
@@ -21,13 +22,19 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter-
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/download.svg';
 
 export interface FormNavigationButtonsProps {
-  isMapFilterSettingActive?: boolean;
+  showAddDrawer?: Boolean;
+  showMapFilter?: Boolean;
+  showModal?: Boolean;
+  isMapFilterSettingActive?: Boolean;
   onClickAdd: () => void;
   handleClickFilter: () => void;
   onClickExport?: () => void;
 }
 
 const MapNavigationButtons = ({
+  showAddDrawer,
+  showMapFilter,
+  showModal,
   onClickAdd,
   handleClickFilter,
   onClickExport,
@@ -40,19 +47,19 @@ const MapNavigationButtons = ({
       <Button
         color="location-menu"
         data-cy="map-addFeature"
-        className={styles.button}
+        className={clsx(styles.button, showAddDrawer && styles.selected)}
         id="mapFirstStep"
         onClick={onClickAdd}
         sm
       >
         <div className={styles.buttonText}>
           <AddLogo className={styles.svg} />
-          <div>Add Location</div>
+          <div className={styles.label}>Add Location</div>
         </div>
       </Button>
       <Button
         color="location-menu"
-        className={styles.button}
+        className={clsx(styles.button, showMapFilter && styles.selected)}
         id="mapSecondStep"
         onClick={handleClickFilter}
         sm
@@ -60,19 +67,19 @@ const MapNavigationButtons = ({
         <div className={styles.buttonText}>
           {isMapFilterSettingActive && <div className={styles.circle} />}
           <FilterLogo className={styles.svg} />
-          <div>Filter Map</div>
+          <div className={styles.label}>Filter Map</div>
         </div>
       </Button>
       <Button
         color="location-menu"
-        className={styles.button}
+        className={clsx(styles.button, showModal && styles.selected)}
         id="mapThirdStep"
         onClick={onClickExport}
         sm
       >
         <div className={styles.buttonText}>
           <ExportLogo className={styles.svg} />
-          <div>Export Map</div>
+          <div className={styles.label}>Export Map</div>
         </div>
       </Button>
     </div>

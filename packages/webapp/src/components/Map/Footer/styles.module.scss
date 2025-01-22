@@ -11,14 +11,28 @@
   .button {
     border-radius: 0;
     @include svgColorFill(var(--Colors-Accent---singles-Blue-dark));
+    .circle {
+      background-color: var(--Colors-Accent---singles-Blue-dark);
+    }
     svg {
       width: 24px;
       height: 24px;
     }
   }
 
-  .button:hover, .button:active {
+  // Copied from active status in Button
+  .selected {
+    background: var(--Colors-Accent---singles-Blue-dark);
+    border: var(--White);
+    box-shadow: none;
+    color: var(--White);
+  }
+
+  .button:hover, .button:active, .selected {
     @include svgColorFill(var(--White));
+    .circle {
+      background-color: var(--White);
+    }
   }
   
   button:first-of-type {
@@ -53,17 +67,21 @@
   display: block;
   margin: 4px 8px;
 }
+
 .button {
   flex-grow: 1;
 }
 
-// TODO: fix filter circle
+.label {
+  margin-top: -12px;
+  font-weight: 400;
+}
+
 .circle {
   position: absolute;
   bottom: 0;
-  transform: translate(0, -47px);
+  transform: translate(33px, -46px);
   width: 4px;
   height: 4px;
   border-radius: 2px;
-  background-color: var(--teal700);
 }

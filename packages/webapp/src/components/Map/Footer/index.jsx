@@ -11,6 +11,7 @@ export default function PureMapFooter({
   showSpotlight,
   resetSpotlight,
   onClickAdd,
+  showModal,
   onClickExport,
   handleClickFilter,
   setShowMapFilter,
@@ -77,6 +78,9 @@ export default function PureMapFooter({
       {isAdmin && (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <MapNavigationButtons
+            showAddDrawer={showAddDrawer}
+            showMapFilter={showMapFilter}
+            showModal={showModal}
             onClickAdd={onClickAdd}
             handleClickFilter={handleClickFilter}
             onClickExport={onClickExport}
@@ -114,6 +118,7 @@ PureMapFooter.prototype = {
   resetSpotlight: PropTypes.func,
   onClickAdd: PropTypes.func,
   onClickFilter: PropTypes.func,
+  showModal: PropTypes.bool,
   onClickExport: PropTypes.func,
   setShowMapFilter: PropTypes.func,
   showMapFilter: PropTypes.bool,

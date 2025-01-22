@@ -18,7 +18,15 @@ import styles from './button.module.scss';
 import clsx from 'clsx';
 
 export type ButtonProps = {
-  color?: 'primary' | 'secondary' | 'secondary-2' | 'secondary-cta' | 'warning' | 'error' | 'none';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'secondary-2'
+    | 'secondary-cta'
+    | 'location-menu'
+    | 'warning'
+    | 'error'
+    | 'none';
   children?: ReactNode;
   sm?: boolean;
   md?: boolean;

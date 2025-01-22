@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ const MapNavigationButtons = ({
   return (
     <div className={styles.container}>
       <Button
-        color="secondary"
+        color="location-menu"
         data-cy="map-addFeature"
         className={styles.button}
         id="mapFirstStep"
@@ -51,7 +51,7 @@ const MapNavigationButtons = ({
         </div>
       </Button>
       <Button
-        color="secondary"
+        color="location-menu"
         className={styles.button}
         id="mapSecondStep"
         onClick={handleClickFilter}
@@ -64,7 +64,7 @@ const MapNavigationButtons = ({
         </div>
       </Button>
       <Button
-        color="secondary"
+        color="location-menu"
         className={styles.button}
         id="mapThirdStep"
         onClick={onClickExport}

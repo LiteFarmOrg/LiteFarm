@@ -77,6 +77,26 @@
   --focus-box-shadow: none;
 }
 
+.btn.location-menu {
+  --background: var(--White);
+  --border: none;
+  --box-shadow: 0px 0px 1px 0px var(--Colors-Accent---singles-Blue-full);
+  --color: var(--Colors-Accent---singles-Blue-dark);
+
+  --hover-background: var(--Colors-Accent---singles-Blue-full);
+  --hover-border: none;
+  --hover-box-shadow: none;
+  --hover-color: var(--White);
+
+  --active-background: var(--Colors-Accent---singles-Blue-dark);
+  --active-border: none;
+  --active-color: var(--White);
+
+  --focus-border: none;
+  --focus-box-shadow: 0px 0px 1px 0px var(--Colors-Accent---singles-Blue-full);
+  --focus-outline: none;
+}
+
 .btn.error {
   --background: var(--error);
   --color: var(--White);

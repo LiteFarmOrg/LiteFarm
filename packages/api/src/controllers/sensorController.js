@@ -89,7 +89,9 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { integrating_partner_id, organization_uuid } = req.body;
 
-    const EnsemblePartnerId = IntegratingPartnersModel.getPartnerId(ENSEMBLE_BRAND);
+    const { partner_id: EnsemblePartnerId } = await IntegratingPartnersModel.getPartnerId(
+      ENSEMBLE_BRAND,
+    );
 
     if (integrating_partner_id !== EnsemblePartnerId) {
       return res.status(400).send('Only Ensemble Scientific is supported');

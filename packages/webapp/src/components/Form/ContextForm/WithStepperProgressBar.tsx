@@ -38,7 +38,7 @@ interface WithStepperProgressBarProps {
   steps: {
     formContent: ReactNode;
     title: string;
-    onContinueAction?: () => Promise<void>;
+    onContinueAction?: (values: any) => Promise<void>;
     dataName?: string;
   }[];
   activeStepIndex: number;
@@ -147,7 +147,7 @@ export const WithStepperProgressBar = ({
       setIsLoading(true);
       try {
         // Execute the custom action for the current step before proceeding to the next one
-        await onContinueAction();
+        await onContinueAction(getValues());
       } catch (error) {
         console.error(error);
         setIsLoading(false);

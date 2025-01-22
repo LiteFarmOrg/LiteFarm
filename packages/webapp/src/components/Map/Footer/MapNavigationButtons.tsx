@@ -54,7 +54,7 @@ const MapNavigationButtons = ({
       >
         <div className={styles.buttonText}>
           <AddLogo className={styles.svg} />
-          <div className={styles.label}>Add Location</div>
+          <div className={styles.label}>{t('FARM_MAP.ADD_LOCATION')}</div>
         </div>
       </Button>
       <Button
@@ -67,7 +67,7 @@ const MapNavigationButtons = ({
         <div className={styles.buttonText}>
           {isMapFilterSettingActive && <div className={styles.circle} />}
           <FilterLogo className={styles.svg} />
-          <div className={styles.label}>Filter Map</div>
+          <div className={styles.label}>{t('FARM_MAP.FILTER_MAP')}</div>
         </div>
       </Button>
       <Button
@@ -79,7 +79,7 @@ const MapNavigationButtons = ({
       >
         <div className={styles.buttonText}>
           <ExportLogo className={styles.svg} />
-          <div className={styles.label}>Export Map</div>
+          <div className={styles.label}>{t('FARM_MAP.EXPORT_MAP')}</div>
         </div>
       </Button>
     </div>

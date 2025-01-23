@@ -38,8 +38,8 @@ async function tableCleanup(knex) {
     .update({ default_initial_location_id: null });
   return knex.raw(`
     DELETE FROM "partner_reading_type";
-    DELETE FROM "farm_external_integration";
-    DELETE FROM "integrating_partner";
+    DELETE FROM "farm_addon";
+    DELETE FROM "addon";
     DELETE FROM "sensor_reading_type";
     DELETE FROM "sensor_reading";
     DELETE FROM "sensor";

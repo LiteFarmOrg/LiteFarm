@@ -64,9 +64,9 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 - Informações relacionadas à conclusão das tarefas, incluindo: data, duração do trabalho, humor (feliz, muito feliz, triste, muito triste, neutro), notas de trabalho.
 
-- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação. 
+- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação.
 
-- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação. 
+- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação.
 
 **Dados de uso**
 
@@ -128,17 +128,17 @@ O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Lice
 
 **Para mais informações**
 
-Com relação ao aplicativo, contate: 
+Com relação ao aplicativo, contate:
 
-Gerente de Produto: litefarm.team@ubc.ca  
+Gerente de Produto: litefarm.team@ubc.ca
 
-Com relação a este estudo, contate: 
+Com relação a este estudo, contate:
 
-Pesquisadora principal: Dr. Hannah Wittman  hannah.wittman@ubc.ca    
+Pesquisadora principal: Dr. Hannah Wittman hannah.wittman@ubc.ca
 
-**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**   
+**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**
 
-Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598. 
+Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598.
 
 **Consentimento**
 

@@ -70,9 +70,9 @@ LiteFarm utilise les informations de gestion que vous entrez dans l'application 
 
 - Les informations relatives à l'achèvement des tâches: date ; durée du travail; humeur (heureuse, très heureuse, triste, très triste, neutre); notes sur le travail
 
-- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification. 
+- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification.
 
-- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement. 
+- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement.
 
 **Données d'utilisation**
 
@@ -134,17 +134,17 @@ Présentement, l'application LiteFarm est gratuite. Le logiciel lui-même est so
 
 **Pour plus d'informations**
 
-Concernant de la plateforme, merci de contacter : 
+Concernant de la plateforme, merci de contacter :
 
-Chef de produit: litefarm.team@ubc.ca  
+Chef de produit: litefarm.team@ubc.ca
 
-Concernant la recherche universitaire, merci de contacter : 
+Concernant la recherche universitaire, merci de contacter :
 
-Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
+Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude :**
 
-Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.  
+Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.
 
 **Consentement**
 

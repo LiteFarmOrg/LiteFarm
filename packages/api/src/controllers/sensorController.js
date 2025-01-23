@@ -460,21 +460,6 @@ const sensorController = {
     }
   },
 
-  async getSensorsByFarmId(req, res) {
-    try {
-      const { farm_id } = req.params;
-      if (!farm_id) {
-        return res.status(400).send('No farm selected');
-      }
-      const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
-      res.status(200).send(data);
-    } catch (error) {
-      res.status(400).json({
-        error,
-      });
-    }
-  },
-
   // Note : API is called at the ensemble backend. the ensemble backend sends the same status code when we add sensors to the farm (register sensor API).
   // when we register some sensors, the add readings API is called and the same status code is passed in the response of register sensors (i.e 200).
   // For example, if we make that as 400 then the registered sensor API of the ensemble will send back 400 and the add sensor API will fail.

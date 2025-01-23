@@ -65,7 +65,9 @@
 }
 
 .buttonText {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 4px 8px;
   max-width: 100%;
 }
@@ -75,7 +77,7 @@
 }
 
 .label {
-  margin-top: -12px;
+  margin-top: -4px;
   font-weight: 400;
   // Menu item text too long
   overflow: hidden;
@@ -84,10 +86,12 @@
   line-height: normal;
 }
 
+.filterLogo {
+  // avoid layout shift for circle when filter active
+  margin-top: 4px;
+}
+
 .circle {
-  position: absolute;
-  bottom: 0;
-  transform: translate(33px, -46px);
   width: 4px;
   height: 4px;
   border-radius: 2px;

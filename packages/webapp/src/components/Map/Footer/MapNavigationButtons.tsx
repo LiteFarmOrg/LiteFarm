@@ -65,8 +65,10 @@ const MapNavigationButtons = ({
         sm
       >
         <div className={styles.buttonText}>
-          {isMapFilterSettingActive && <div className={styles.circle} />}
-          <FilterLogo className={styles.svg} />
+          {isMapFilterSettingActive && <span className={styles.circle} />}
+          <FilterLogo
+            className={clsx(!isMapFilterSettingActive && styles.filterLogo, styles.svg)}
+          />
           <div className={styles.label}>{t('FARM_MAP.FILTER_MAP')}</div>
         </div>
       </Button>

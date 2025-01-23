@@ -2,13 +2,14 @@
 
 .container {
   display: flex;
-  // align-items: center;
   justify-content: space-between;
 
   border-radius: 8px;
   box-shadow: 0px 2px 4px 0px rgba(43, 48, 58, 0.1);
 
   .button {
+    // Uneven button sizes if one string much longer than others
+    width: 34%;
     border-radius: 0;
     @include svgColorFill(var(--Colors-Accent---singles-Blue-dark));
     .circle {
@@ -66,6 +67,7 @@
 .buttonText {
   display: block;
   margin: 4px 8px;
+  max-width: 100%;
 }
 
 .button {
@@ -75,6 +77,11 @@
 .label {
   margin-top: -12px;
   font-weight: 400;
+  // Menu item text too long
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // Awkward multi-line text on small screens
+  line-height: normal;
 }
 
 .circle {

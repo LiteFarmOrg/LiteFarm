@@ -23,6 +23,7 @@ import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsMod
 import LocationModel from '../models/locationModel.js';
 import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
+import UserModel from '../models/userModel.js';
 import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 
 import { transaction, Model } from 'objection';
@@ -36,9 +37,30 @@ import {
   ENSEMBLE_UNITS_MAPPING,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
-import { sensorErrors } from '../../../shared/validation/sensorCSV.js';
+import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
+
+const getSensorTranslations = async (language) => {
+  // Remove country identifier from language preference
+  const parsedLanguage = language.includes('-') ? language.split('-')[0] : language;
+  let translations;
+  try {
+    translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
+      assert: { type: 'json' },
+    });
+    // Default to english in case where user language not supported
+    if (!translations) {
+      throw 'Translations not found';
+    }
+  } catch (error) {
+    console.log(error);
+    translations = await import(`../../../shared/locales/en/sensorCSV.json`, {
+      assert: { type: 'json' },
+    });
+  }
+  return translations.default;
+};
 
 const sensorController = {
   async getSensorReadingTypes(req, res) {
@@ -146,102 +168,20 @@ const sensorController = {
         ENSEMBLE_BRAND,
       );
 
-      const data = req.body;
+      //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
+      const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
 
-      // Extract Ensemble Scientific sensor IDs (esids)
-      const esids = extractEsids(data);
+      const translations = await getSensorTranslations(language_preference);
+      const { data, errors } = parseSensorCsv(
+        req.file.buffer.toString(),
+        language_preference,
+        translations,
+      );
 
-      let success = [];
-      let already_owned = [];
-      let does_not_exist = [];
-      let occupied = [];
-
-      if (esids.length > 0) {
-        ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
-          farm_id,
-          access_token,
-          esids,
-        ));
-      }
-
-      const registeredSensors = [];
-      const errorSensors = [];
-
-      // Iterate over each sensor in the data array
-      data.forEach((sensor, index) => {
-        if (sensor.brand !== ENSEMBLE_BRAND) {
-          // All non-ESCI sensors should be considered successfully registered
-          registeredSensors.push(sensor);
-        } else if (
-          success.includes(sensor.external_id) ||
-          already_owned.includes(sensor.external_id)
-        ) {
-          registeredSensors.push(sensor);
-        } else if (does_not_exist.includes(sensor.external_id)) {
-          errorSensors.push({
-            row: index + 2,
-            column: 'External_ID',
-            translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
-            variables: { sensorId: sensor.external_id },
-          });
-        } else if (occupied.includes(sensor.external_id)) {
-          errorSensors.push({
-            row: index + 2,
-            column: 'External_ID',
-            translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
-            variables: { sensorId: sensor.external_id },
-          });
-        } else {
-          // We know that it is an ESID but it was not returned in the expected format from the API
-          errorSensors.push({
-            row: index + 2,
-            column: 'External_ID',
-            translation_key: sensorErrors.INTERNAL_ERROR,
-            variables: { sensorId: sensor.external_id },
-          });
-        }
-      });
-
-      // Save sensors in database
-      const sensorLocations = [];
-      for (const sensor of registeredSensors) {
-        try {
-          const value = await SensorModel.createSensor(
-            sensor,
-            farm_id,
-            user_id,
-            esids.includes(sensor.external_id) ? 1 : 0,
-          );
-          sensorLocations.push({ status: 'fulfilled', value });
-        } catch (error) {
-          sensorLocations.push({ status: 'rejected', reason: error });
-        }
-      }
-
-      const successSensors = sensorLocations.reduce((prev, curr, idx) => {
-        if (curr.status === 'fulfilled') {
-          prev.push(curr.value);
-        } else {
-          // These are sensors that were not saved to the database as locations
-          errorSensors.push({
-            row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
-            translation_key: sensorErrors.INTERNAL_ERROR,
-            variables: {
-              sensorId: registeredSensors[idx].external_id || registeredSensors[idx].name,
-            },
-          });
-        }
-        return prev;
-      }, []);
-
-      if (successSensors.length < data.length) {
-        return sendResponse(
+      if (errors.length > 0) {
+        return await sendResponse(
           () => {
-            return res.status(400).send({
-              error_type: 'unable_to_claim_all_sensors',
-              success: successSensors, // We need the full sensor objects to update the redux store
-              errorSensors,
-            });
+            return res.status(400).send({ error_type: 'validation_failure', errors });
           },
           async () => {
             return await sendSensorNotification(
@@ -250,30 +190,162 @@ const sensorController = {
               SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
               {
                 error_download: {
-                  errors: errorSensors,
+                  errors,
                   file_name: 'sensor-upload-outcomes.txt',
-                  success: successSensors.map((s) => s.sensor?.external_id || s.name), // Notification download needs an array of only ESIDs
-                  error_type: 'claim',
+                  error_type: 'validation',
+                },
+              },
+            );
+          },
+        );
+      } else if (!data.length > 0) {
+        return await sendResponse(
+          () => {
+            return res.status(400).send({ error_type: 'empty_file' });
+          },
+          async () => {
+            return await sendSensorNotification(
+              user_id,
+              farm_id,
+              SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+              {
+                error_download: {
+                  errors: [],
+                  file_name: 'sensor-upload-outcomes.txt',
+                  error_type: 'generic',
                 },
               },
             );
           },
         );
       } else {
-        return sendResponse(
-          () => {
-            return res
-              .status(200)
-              .send({ message: 'Successfully uploaded!', sensors: successSensors });
-          },
-          async () => {
-            return await sendSensorNotification(
-              user_id,
+        // Extract Ensemble Scientific sensor IDs (esids)
+        const esids = extractEsids(data);
+
+        let success = [];
+        let already_owned = [];
+        let does_not_exist = [];
+        let occupied = [];
+
+        if (esids.length > 0) {
+          ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
+            farm_id,
+            access_token,
+            esids,
+          ));
+        }
+
+        const registeredSensors = [];
+        const errorSensors = [];
+
+        // Iterate over each sensor in the data array
+        data.forEach((sensor, index) => {
+          if (sensor.brand !== ENSEMBLE_BRAND) {
+            // All non-ESCI sensors should be considered successfully registered
+            registeredSensors.push(sensor);
+          } else if (
+            success.includes(sensor.external_id) ||
+            already_owned.includes(sensor.external_id)
+          ) {
+            registeredSensors.push(sensor);
+          } else if (does_not_exist.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else if (occupied.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else {
+            // We know that it is an ESID but it was not returned in the expected format from the API
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: sensor.external_id },
+            });
+          }
+        });
+
+        // Save sensors in database
+        const sensorLocations = [];
+        for (const sensor of registeredSensors) {
+          try {
+            const value = await SensorModel.createSensor(
+              sensor,
               farm_id,
-              SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
+              user_id,
+              esids.includes(sensor.external_id) ? 1 : 0,
             );
-          },
-        );
+            sensorLocations.push({ status: 'fulfilled', value });
+          } catch (error) {
+            sensorLocations.push({ status: 'rejected', reason: error });
+          }
+        }
+
+        const successSensors = sensorLocations.reduce((prev, curr, idx) => {
+          if (curr.status === 'fulfilled') {
+            prev.push(curr.value);
+          } else {
+            // These are sensors that were not saved to the database as locations
+            errorSensors.push({
+              row: data.findIndex((elem) => elem === registeredSensors[idx]) + 2,
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: {
+                sensorId: registeredSensors[idx].external_id || registeredSensors[idx].name,
+              },
+            });
+          }
+          return prev;
+        }, []);
+
+        if (successSensors.length < data.length) {
+          return sendResponse(
+            () => {
+              return res.status(400).send({
+                error_type: 'unable_to_claim_all_sensors',
+                success: successSensors, // We need the full sensor objects to update the redux store
+                errorSensors,
+              });
+            },
+            async () => {
+              return await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_FAIL,
+                {
+                  error_download: {
+                    errors: errorSensors,
+                    file_name: 'sensor-upload-outcomes.txt',
+                    success: successSensors.map((s) => s.sensor?.external_id || s.name), // Notification download needs an array of only ESIDs
+                    error_type: 'claim',
+                  },
+                },
+              );
+            },
+          );
+        } else {
+          return sendResponse(
+            () => {
+              return res
+                .status(200)
+                .send({ message: 'Successfully uploaded!', sensors: successSensors });
+            },
+            async () => {
+              return await sendSensorNotification(
+                user_id,
+                farm_id,
+                SensorNotificationTypes.SENSOR_BULK_UPLOAD_SUCCESS,
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       console.log(e);

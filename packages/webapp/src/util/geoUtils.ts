@@ -42,25 +42,26 @@ export const getAreaLocationsContainingPoint = (
 
   const filteredAreas: AreaLocation[] = [];
 
-  try {
-    const locationPoint = point([pt.lng, pt.lat]);
+  const locationPoint = safeCreatePoint([pt.lng, pt.lat]);
 
-    for (const area of areaLocations) {
-      const coordinates = area.grid_points.map((p: Point): TurfPoint => [p.lng, p.lat]);
+  if (!locationPoint) {
+    return [];
+  }
 
-      // for necessity of wrapping coordinates in an array, see
-      // https://github.com/Turfjs/turf/issues/1583
-      const areaPolygon = polygon([closePolygon(coordinates)]);
+  for (const area of areaLocations) {
+    const coordinates = area.grid_points.map((p: Point): TurfPoint => [p.lng, p.lat]);
 
-      const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
+    const areaPolygon = safeCreatePolygon(coordinates);
 
-      if (pointIsInArea) {
-        filteredAreas.push(area);
-      }
+    if (!areaPolygon) {
+      continue;
     }
-  } catch (error) {
-    // turf will throw an error if any point or polygon is invalid
-    console.error(error);
+
+    const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
+
+    if (pointIsInArea) {
+      filteredAreas.push(area);
+    }
   }
 
   return filteredAreas;
@@ -75,21 +76,25 @@ export const getPointLocationsWithinPolygon = (
   }
   const filteredPoints: PointLocation[] = [];
 
-  try {
-    const coordinates = gridPoints.map((p: Point): TurfPoint => [p.lng, p.lat]);
-    const areaPolygon = polygon([closePolygon(coordinates)]);
+  const coordinates = gridPoints.map((p: Point): TurfPoint => [p.lng, p.lat]);
+  const areaPolygon = safeCreatePolygon(coordinates);
 
-    for (const location of pointLocations) {
-      const locationPoint = point([location.point.lng, location.point.lat]);
-      const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
+  if (!areaPolygon) {
+    return [];
+  }
 
-      if (pointIsInArea) {
-        filteredPoints.push(location);
-      }
+  for (const location of pointLocations) {
+    const locationPoint = safeCreatePoint([location.point.lng, location.point.lat]);
+
+    if (!locationPoint) {
+      continue;
     }
-  } catch (error) {
-    // turf will throw an error if any point or polygon is invalid
-    console.error(error);
+
+    const pointIsInArea = booleanPointInPolygon(locationPoint, areaPolygon);
+
+    if (pointIsInArea) {
+      filteredPoints.push(location);
+    }
   }
 
   return filteredPoints;
@@ -103,4 +108,26 @@ const closePolygon = (coordinates: TurfPoint[]): TurfPoint[] => {
   const isClosed = first[0] === last[0] && first[1] === last[1];
 
   return isClosed ? coordinates : [...coordinates, first];
+};
+
+const safeCreatePoint = (coordinates: TurfPoint): ReturnType<typeof point> | null => {
+  try {
+    return point(coordinates);
+  } catch (error) {
+    // turf will throw an error if the point is invalid
+    console.error(error);
+    return null;
+  }
+};
+
+const safeCreatePolygon = (coordinates: TurfPoint[]): ReturnType<typeof polygon> | null => {
+  try {
+    // for necessity of wrapping coordinates in an array, see
+    // https://github.com/Turfjs/turf/issues/1583
+    return polygon([closePolygon(coordinates)]);
+  } catch (error) {
+    // turf will throw an error if the polygon is invalid
+    console.error(error);
+    return null;
+  }
 };

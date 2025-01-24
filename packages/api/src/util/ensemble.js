@@ -24,7 +24,7 @@ dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
 import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
-import IntegratingPartners from '../models/integratingPartnersModel.js';
+import Addon from '../models/addonModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
@@ -250,11 +250,9 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await IntegratingPartners.getAccessAndRefreshTokens(
-      'Ensemble Scientific',
-    );
+    const { refresh_token } = await Addon.getAccessAndRefreshTokens('Ensemble Scientific');
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
-    await IntegratingPartners.patchAccessAndRefreshTokens(
+    await Addon.patchAccessAndRefreshTokens(
       'Ensemble Scientific',
       response.data?.access,
       response.data?.access,
@@ -280,7 +278,7 @@ async function authenticateToGetTokens() {
     const username = process.env.ENSEMBLE_USERNAME;
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
-    await IntegratingPartners.patchAccessAndRefreshTokens(
+    await Addon.patchAccessAndRefreshTokens(
       'Ensemble Scientific',
       response.data?.access,
       response.data?.access,

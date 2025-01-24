@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 
-import IntegratingPartners from './integratingPartnersModel.js';
+import Addon from './addonModel.js';
 import Farm from './farmModel.js';
 
 class FarmExternalIntegrations extends Model {
@@ -71,11 +71,11 @@ class FarmExternalIntegrations extends Model {
         },
       },
       partner: {
-        modelClass: IntegratingPartners,
+        modelClass: Addon,
         relation: Model.HasOneRelation,
         join: {
           from: 'farm_external_integration.partner_id',
-          to: 'integrating_partner.partner_id',
+          to: 'addon.id',
         },
       },
     };

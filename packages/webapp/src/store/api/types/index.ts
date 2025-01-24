@@ -251,6 +251,7 @@ export interface Sensor {
   depth: number;
   depth_unit: 'cm'; // to be confirmed
   last_seen: string;
+  profile_id: string;
   location_id: string; //backwards compatibility only
 }
 

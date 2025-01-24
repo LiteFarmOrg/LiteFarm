@@ -218,6 +218,7 @@ const sensorController = {
             },
             depth: device.latest_position.depth,
             depth_unit: 'cm', // to be confirmed
+            profile_id: device.profile_id,
 
             // The following only for backwards compatibility until old sensor flow is removed
             location_id: device.esid,

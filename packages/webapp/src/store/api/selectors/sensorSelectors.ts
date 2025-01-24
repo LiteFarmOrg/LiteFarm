@@ -29,13 +29,8 @@ export const sensorArraysSelector = createSelector(
 
 export const standaloneSensorsSelector = createSelector(
   [api.endpoints.getSensors.select()],
-  (sensorResult) => {
-    const profileSensorIds =
-      sensorResult.data?.profiles.flatMap((profile) => profile.sensors) || [];
-    return (
-      sensorResult.data?.sensors
-        .filter((sensor) => !profileSensorIds.includes(sensor.external_id))
-        .map((sensor) => ({ ...sensor, type: 'sensor' })) || []
-    );
-  },
+  (sensorResult) =>
+    sensorResult.data?.sensors
+      .filter((sensor) => sensor.profile_id === null)
+      .map((sensor) => ({ ...sensor, type: 'sensor' })),
 );

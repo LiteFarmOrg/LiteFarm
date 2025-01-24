@@ -31,15 +31,20 @@ import { transaction, Model } from 'objection';
 import {
   ENSEMBLE_BRAND,
   getEnsembleOrganizations,
+  getOrganizationDevices,
+  calculateProfilePoint,
+  enrichWithMockData,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
+  ENSEMBLE_READING_TYPES_MAPPING,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
+import FarmModel from '../models/farmModel.js';
 
 const getSensorTranslations = async (language) => {
   // Remove country identifier from language preference
@@ -145,6 +150,107 @@ const sensorController = {
       });
 
       return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
+  async getSensors(req, res) {
+    const { farm_id } = req.headers;
+
+    try {
+      const { partner_id: EnsemblePartnerId } = await IntegratingPartnersModel.getPartnerId(
+        ENSEMBLE_BRAND,
+      );
+
+      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
+        ENSEMBLE_BRAND,
+      );
+
+      const farmIntegration = await FarmExternalIntegrationsModel.getOrganizationId(
+        farm_id,
+        EnsemblePartnerId,
+      );
+
+      if (!farmIntegration) {
+        return res.status(404).send('Farm not linked to Ensemble organization');
+      }
+
+      const farmEnsembleOrganizationid = farmIntegration.organization_uuid;
+
+      // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
+      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
+
+      const organization = allRegisteredOrganizations.find(
+        ({ uuid }) => uuid === farmEnsembleOrganizationid,
+      );
+
+      const devices = await getOrganizationDevices(organization.pk, access_token);
+
+      if (!devices.length) {
+        return res.status(404).send('No devices found');
+      }
+
+      const sensors = [];
+      const profilesMap = {};
+
+      // See below
+      const farm = await FarmModel.query().findById(farm_id);
+      const farmCenterCoordinates = farm.grid_points;
+
+      for (const incomingDevice of devices) {
+        if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
+          // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles. Then please delete the enriching function and the FarmModel query
+          const device = enrichWithMockData(incomingDevice, farmCenterCoordinates);
+
+          const sensor = {
+            name: device.name,
+            external_id: device.esid,
+            sensor_reading_types: device.parameter_types.map(
+              (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
+            ),
+            last_seen: device.last_seen,
+            point: {
+              lat: device.latest_position.coordinates.lat,
+              lng: device.latest_position.coordinates.lng,
+            },
+            depth: device.latest_position.depth,
+            depth_unit: 'cm', // to be confirmed
+
+            // The following only for backwards compatibility until old sensor flow is removed
+            location_id: device.esid,
+          };
+          sensors.push(sensor);
+
+          if (device.profile_id) {
+            if (!profilesMap[device.profile_id]) {
+              profilesMap[device.profile_id] = [];
+            }
+            profilesMap[device.profile_id].push({
+              external_id: sensor.external_id,
+              // used to calculate profile.point
+              latest_position: device.latest_position,
+            });
+          }
+        }
+      }
+
+      const profiles = Object.entries(profilesMap).map(([id, sensors]) => ({
+        id,
+        sensors: sensors.map(({ external_id }) => external_id),
+        point: calculateProfilePoint(sensors),
+
+        // The following only for backwards compatibility until old sensor flow is removed
+        location_id: id,
+        name: `Profile ${id}`,
+      }));
+
+      return res.status(200).send({
+        sensors,
+        profiles,
+      });
     } catch (error) {
       console.log(error);
       return res.status(400).json({

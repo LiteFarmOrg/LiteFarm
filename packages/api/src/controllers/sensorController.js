@@ -175,7 +175,7 @@ const sensorController = {
       );
 
       if (!farmIntegration) {
-        return res.status(404).send('Farm not linked to Ensemble organization');
+        return res.status(200).send({ sensors: [], profiles: [] });
       }
 
       const farmEnsembleOrganizationid = farmIntegration.organization_uuid;
@@ -190,7 +190,7 @@ const sensorController = {
       const devices = await getOrganizationDevices(organization.pk, access_token);
 
       if (!devices.length) {
-        return res.status(404).send('No devices found');
+        return res.status(200).send({ sensors: [], profiles: [] });
       }
 
       const sensors = [];

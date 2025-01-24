@@ -12,16 +12,34 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
+import { useGetSensorsQuery } from '../../store/api/apiSlice';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { location_id } = match?.params;
+  const { location_id } = match?.params || {};
   const [readingTypes, setReadingTypes] = useState([]);
   const [locationData, setLocationData] = useState();
 
-  const sensorInfo = useSelector(sensorsSelector(location_id));
+  // Grandfathered sensors
+  const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
+
+  // New sensors (location_id only for backwards compatibility)
+  const { sensorInfo: sensorInfoFromQuery, arrayInfo: arrayInfoFromQuery } = useGetSensorsQuery(
+    undefined,
+    {
+      selectFromResult: ({ data }) => ({
+        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
+        arrayInfo: data?.profiles?.find((profile) => profile.location_id === location_id),
+      }),
+    },
+  );
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || arrayInfoFromQuery;
+
+  // Grandfathered sensors
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
+
   const { loading, sensorDataByLocationIds } = useSelector(bulkSensorsReadingsSliceSelector);
 
   //Keeps sensor readings up to date for location
@@ -33,16 +51,16 @@ function SensorReadings({ history, match }) {
 
   // Handles unknown records and keeping readingTypes up to date
   useEffect(() => {
-    if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
+    if (sensorInfo === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
     } else {
-      setReadingTypes(reading_types.reading_types);
+      setReadingTypes(reading_types?.reading_types);
     }
   }, [sensorInfo, reading_types]);
 
   //Runs the saga update store
   useEffect(() => {
-    if (location_id && readingTypes.length) {
+    if (location_id && readingTypes?.length) {
       dispatch(
         getSensorsReadings({
           locationIds: [location_id],
@@ -84,7 +102,7 @@ function SensorReadings({ history, match }) {
               <Spinner />
             </div>
           )}
-          {!loading && readingTypes.includes(TEMPERATURE) && locationData?.temperature && (
+          {!loading && readingTypes?.includes(TEMPERATURE) && locationData?.temperature && (
             <ForecastInfo data={locationData.temperature} />
           )}
           {!loading && locationData && readingTypes?.length > 0

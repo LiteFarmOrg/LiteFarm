@@ -19,11 +19,27 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
+import { useGetSensorsQuery } from '../../../../store/api/apiSlice';
 
 export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
-  const sensorInfo = useSelector(sensorsSelector(location_id));
+  // Grandfathered sensors
+  const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
+
+  // New sensors (location_id only for backwards compatibility)
+  const { sensorInfo: sensorInfoFromQuery, arrayInfo: arrayInfoFromQuery } = useGetSensorsQuery(
+    undefined,
+    {
+      selectFromResult: ({ data }) => ({
+        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
+        arrayInfo: data?.profiles?.find((profile) => profile.location_id === location_id),
+      }),
+    },
+  );
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || arrayInfoFromQuery;
+
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
 

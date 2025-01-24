@@ -115,7 +115,7 @@ export default function PureSensorDetail({
       <label>{t('SENSOR.READING.TYPES')}</label>
       <div className={clsx(styles.container)}>
         <div className={clsx(styles.pillContainer)}>
-          {sensor_reading_types.map((type) => {
+          {sensor_reading_types?.map((type) => {
             return (
               <Pill
                 key={type}

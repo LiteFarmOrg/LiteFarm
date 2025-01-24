@@ -21,11 +21,28 @@ import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { useSelector, useDispatch } from 'react-redux';
+import { useGetSensorsQuery } from '../../../../store/api/apiSlice';
 
 export default function UpdateSensor({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
-  const sensorInfo = useSelector(sensorsSelector(location_id));
+
+  // Grandfathered sensors
+  const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
+
+  // New sensors (location_id only for backwards compatibility)
+  const { sensorInfo: sensorInfoFromQuery, arrayInfo: arrayInfoFromQuery } = useGetSensorsQuery(
+    undefined,
+    {
+      selectFromResult: ({ data }) => ({
+        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
+        arrayInfo: data?.profiles?.find((profile) => profile.location_id === location_id),
+      }),
+    },
+  );
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || arrayInfoFromQuery;
+
   const system = useSelector(measurementSelector);
   const user = useSelector(userFarmSelector);
 
@@ -40,15 +57,17 @@ export default function UpdateSensor({ history, match }) {
   const statuses = [SOIL_WATER_CONTENT, SOIL_WATER_POTENTIAL, TEMPERATURE];
 
   const initialReadingTypes = sensorInfo.sensor_reading_types;
-  const contains_soil_water_content = initialReadingTypes.includes(SOIL_WATER_CONTENT.toLowerCase())
+  const contains_soil_water_content = initialReadingTypes?.includes(
+    SOIL_WATER_CONTENT.toLowerCase(),
+  )
     ? true
     : false;
-  const contains_soil_water_potential = initialReadingTypes.includes(
+  const contains_soil_water_potential = initialReadingTypes?.includes(
     SOIL_WATER_POTENTIAL.toLowerCase(),
   )
     ? true
     : false;
-  const contains_temperature = initialReadingTypes.includes(TEMPERATURE.toLowerCase())
+  const contains_temperature = initialReadingTypes?.includes(TEMPERATURE.toLowerCase())
     ? true
     : false;
 

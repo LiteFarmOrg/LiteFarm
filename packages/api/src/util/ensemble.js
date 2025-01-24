@@ -23,7 +23,7 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import FarmAddonModel from '../models/farmAddonModel.js';
 import Addon from '../models/addonModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
@@ -107,8 +107,8 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
 
 async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
   const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
-  const existingIntegration = await FarmExternalIntegrationsModel.query()
-    .where({ farm_id: farmId, partner_id: 1 })
+  const existingIntegration = await FarmAddonModel.query()
+    .where({ farm_id: farmId, addon_id: 1 })
     .first();
   if (existingIntegration?.webhook_id) {
     return existingIntegration.webhook_id;
@@ -127,7 +127,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
       throw new Error('Failed to register webhook with ESCI');
     };
     const onResponse = async (response) => {
-      await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
+      await FarmAddonModel.updateWebhookId(farmId, response.data.id);
       return { ...response.data, status: response.status };
     };
     return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
@@ -139,13 +139,13 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
  * @param farmId
  * @param accessToken
  * @async
- * @return {Promise<{details: string, status: number}|FarmExternalIntegrations>}
+ * @return {Promise<{details: string, status: number}|FarmAddon>}
  */
 async function createOrganization(farmId, accessToken) {
   try {
     const data = await FarmModel.getFarmById(farmId);
-    const existingIntegration = await FarmExternalIntegrationsModel.query()
-      .where({ farm_id: farmId, partner_id: 1 })
+    const existingIntegration = await FarmAddonModel.query()
+      .where({ farm_id: farmId, addon_id: 1 })
       .first();
     if (!existingIntegration) {
       const axiosObject = {
@@ -162,10 +162,10 @@ async function createOrganization(farmId, accessToken) {
 
       const response = await ensembleAPICall(accessToken, axiosObject, onError);
 
-      return await FarmExternalIntegrationsModel.query().insert({
+      return await FarmAddonModel.query().insert({
         farm_id: farmId,
-        partner_id: 1,
-        organization_uuid: response.data.uuid,
+        addon_id: 1,
+        org_uuid: response.data.uuid,
       });
     } else {
       return existingIntegration;

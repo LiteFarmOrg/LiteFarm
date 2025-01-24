@@ -19,7 +19,7 @@ import SensorModel from '../models/sensorModel.js';
 import SensorReadingModel from '../models/sensorReadingModel.js';
 import AddonModel from '../models/addonModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import FarmAddonModel from '../models/farmAddonModel.js';
 import LocationModel from '../models/locationModel.js';
 import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
@@ -626,7 +626,7 @@ const sensorController = {
       const { access_token } = await AddonModel.getAccessAndRefreshTokens('Ensemble Scientific');
       let unclaimResponse;
       if (partner_name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+        const external_integrations_response = await FarmAddonModel.getOrganizationId(
           farm_id,
           partner_id,
         );

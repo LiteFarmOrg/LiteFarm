@@ -22,6 +22,7 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter-
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/download.svg';
 
 export interface FormNavigationButtonsProps {
+  isAdmin?: Boolean;
   showAddDrawer?: Boolean;
   showMapFilter?: Boolean;
   showModal?: Boolean;
@@ -32,6 +33,7 @@ export interface FormNavigationButtonsProps {
 }
 
 const MapNavigationButtons = ({
+  isAdmin,
   showAddDrawer,
   showMapFilter,
   showModal,
@@ -44,19 +46,21 @@ const MapNavigationButtons = ({
 
   return (
     <div className={styles.container}>
-      <Button
-        color="location-menu"
-        data-cy="map-addFeature"
-        className={clsx(styles.button, showAddDrawer && styles.selected)}
-        id="mapFirstStep"
-        onClick={onClickAdd}
-        sm
-      >
-        <div className={styles.buttonText}>
-          <AddLogo className={styles.svg} />
-          <div className={styles.label}>{t('FARM_MAP.ADD_LOCATION')}</div>
-        </div>
-      </Button>
+      {isAdmin && (
+        <Button
+          color="location-menu"
+          data-cy="map-addFeature"
+          className={clsx(styles.button, showAddDrawer && styles.selected)}
+          id="mapFirstStep"
+          onClick={onClickAdd}
+          sm
+        >
+          <div className={styles.buttonText}>
+            <AddLogo className={styles.svg} />
+            <div className={styles.label}>{t('FARM_MAP.ADD_LOCATION')}</div>
+          </div>
+        </Button>
+      )}
       <Button
         color="location-menu"
         className={clsx(styles.button, showMapFilter && styles.selected)}

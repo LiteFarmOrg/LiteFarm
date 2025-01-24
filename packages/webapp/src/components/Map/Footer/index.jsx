@@ -75,19 +75,18 @@ export default function PureMapFooter({
         },
       ]}
     >
-      {isAdmin && (
-        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-          <MapNavigationButtons
-            showAddDrawer={showAddDrawer}
-            showMapFilter={showMapFilter}
-            showModal={showModal}
-            onClickAdd={onClickAdd}
-            handleClickFilter={handleClickFilter}
-            onClickExport={onClickExport}
-            isMapFilterSettingActive={isMapFilterSettingActive}
-          />
-        </FloatingContainer>
-      )}
+      <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+        <MapNavigationButtons
+          isAdmin={isAdmin}
+          showAddDrawer={showAddDrawer}
+          showMapFilter={showMapFilter}
+          showModal={showModal}
+          onClickAdd={onClickAdd}
+          handleClickFilter={handleClickFilter}
+          onClickExport={onClickExport}
+          isMapFilterSettingActive={isMapFilterSettingActive}
+        />
+      </FloatingContainer>
       <MapDrawer
         key={'filter'}
         setShowMapDrawer={setShowMapFilter}

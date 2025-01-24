@@ -228,3 +228,44 @@ export type SoilAmendmentProduct = Product & {
     moisture_content_percent?: number;
   };
 };
+
+// As specified by Ensemble
+type SensorTypes =
+  | 'Weather station'
+  | 'Soil Water Potential Sensor'
+  | 'IR Temperature Sensor'
+  | 'Wind speed sensor'
+  | 'Drip line pressure sensor';
+
+// Awaiting list from Ensemble
+type SensorReadingTypes = 'soil_water_potential' | 'temperature';
+
+export interface Sensor {
+  name: SensorTypes;
+  external_id: string; // esid
+  sensor_reading_types: SensorReadingTypes[];
+  point: {
+    lat: number;
+    lng: number;
+  };
+  depth: number;
+  depth_unit: 'cm'; // to be confirmed
+  last_seen: string;
+  location_id: string; //backwards compatibility only
+}
+
+export interface SensorArray {
+  id: string;
+  sensors: Sensor['external_id'][];
+  point: {
+    lat: number;
+    lng: number;
+  };
+  location_id: string; // backwards compatibility only
+  name: string; // backwards compatibility only
+}
+
+export interface SensorData {
+  sensors: Sensor[];
+  profiles: SensorArray[];
+}

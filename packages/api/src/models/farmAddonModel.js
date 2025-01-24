@@ -93,7 +93,7 @@ class FarmAddon extends Model {
 
   static async getOrganizationId(farmId, addonId) {
     return FarmAddon.query()
-      .select('organization_uuid')
+      .select('org_uuid')
       .where('farm_id', farmId)
       .where('addon_id', addonId)
       .first();

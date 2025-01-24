@@ -101,7 +101,7 @@ const sensorController = {
     try {
       const { partner_id } = req.params;
       const brand_name_response = await AddonModel.getBrandName(partner_id);
-      res.status(200).send(brand_name_response.partner_name);
+      res.status(200).send(brand_name_response.name);
     } catch (error) {
       res.status(404).send('Partner not found');
     }
@@ -185,12 +185,12 @@ const sensorController = {
           const organization = await createOrganization(farm_id, access_token);
 
           // register webhook for sensor readings
-          await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+          await registerOrganizationWebhook(farm_id, organization.org_uuid, access_token);
 
           // Register sensors with Ensemble
           ({ success, already_owned, does_not_exist, occupied } = await bulkSensorClaim(
             access_token,
-            organization.organization_uuid,
+            organization.org_uuid,
             esids,
           ));
         }
@@ -620,17 +620,17 @@ const sensorController = {
       const { external_id, partner_id } = sensor[0];
 
       const brand = await baseController.getByFieldId(AddonModel, 'id', partner_id);
-      const { partner_name } = brand[0];
+      const { name } = brand[0];
 
       const user_id = req.auth.user_id;
       const { access_token } = await AddonModel.getAccessAndRefreshTokens('Ensemble Scientific');
       let unclaimResponse;
-      if (partner_name != 'No Integrating Partner' && external_id != '') {
+      if (name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmAddonModel.getOrganizationId(
           farm_id,
           partner_id,
         );
-        const org_id = external_integrations_response.organization_uuid;
+        const org_id = external_integrations_response.org_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
 
         if (unclaimResponse?.status != 200) {

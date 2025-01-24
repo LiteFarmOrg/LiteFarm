@@ -61,12 +61,12 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
-// Based on discussion with Ensemble, the profile point will be pulled from the sensor with the deepest depth (to be revisited)
+// Based on discussion with Ensemble, the profile point will be pulled from the sensor with the shallowest depth (to be revisited)
 const calculateProfilePoint = (sensors) => {
   let selectedSensor = sensors[0];
 
   for (const sensor of sensors) {
-    if (sensor.latest_position.depth < selectedSensor.latest_position.depth) {
+    if (Math.abs(sensor.latest_position.depth) < Math.abs(selectedSensor.latest_position.depth)) {
       selectedSensor = sensor;
     }
   }
@@ -96,7 +96,7 @@ const enrichWithMockData = (
   device.profile_id = Math.random() > 0.5 ? 1 : null;
 
   if (device.profile_id === 1) {
-    const depths = [-10, -20, -30, -40, -50, -60];
+    const depths = [10, 20, 30, -10, -20, -30];
     const randomDepth = depths[Math.floor(Math.random() * depths.length)];
 
     // This is based on my speculation of what this data will look like. I have not seen real data yet.
@@ -111,7 +111,7 @@ const enrichWithMockData = (
     const randomOffset = () => (Math.random() - 0.5) * 0.0001; // ~10m in degrees
 
     device.latest_position = {
-      depth: -10,
+      depth: 10,
       coordinates: {
         lat: grid_points.lat + randomOffset(),
         lng: grid_points.lng + randomOffset(),

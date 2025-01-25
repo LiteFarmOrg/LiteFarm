@@ -32,5 +32,5 @@ export const standaloneSensorsSelector = createSelector(
   (sensorResult) =>
     sensorResult.data?.sensors
       .filter((sensor) => sensor.profile_id === null)
-      .map((sensor) => ({ ...sensor, type: 'sensor' })),
+      .map((sensor) => ({ ...sensor, type: 'sensor' })) || [],
 );

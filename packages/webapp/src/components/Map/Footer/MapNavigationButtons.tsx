@@ -21,12 +21,12 @@ import { ReactComponent as AddLogo } from '../../../assets/images/map/addSkew.sv
 import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter-funnel.svg';
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/download.svg';
 
-export interface FormNavigationButtonsProps {
-  isAdmin?: Boolean;
-  showAddDrawer?: Boolean;
-  showMapFilter?: Boolean;
-  showModal?: Boolean;
-  isMapFilterSettingActive?: Boolean;
+export interface MapNavigationButtonsProps {
+  isAdmin?: boolean;
+  showAddDrawer?: boolean;
+  showMapFilter?: boolean;
+  showModal?: boolean;
+  isMapFilterSettingActive?: boolean;
   onClickAdd: () => void;
   handleClickFilter: () => void;
   onClickExport?: () => void;
@@ -41,7 +41,7 @@ const MapNavigationButtons = ({
   handleClickFilter,
   onClickExport,
   isMapFilterSettingActive,
-}: FormNavigationButtonsProps) => {
+}: MapNavigationButtonsProps) => {
   const { t } = useTranslation();
 
   return (

@@ -9,7 +9,7 @@
 
   .button {
     // Uneven button sizes if one string much longer than others
-    width: 34%;
+    width: calc(100% / 3);
     border-radius: 0;
     @include svgColorFill(var(--Colors-Accent---singles-Blue-dark));
     .circle {
@@ -40,7 +40,7 @@
     border-radius: 8px 0 0 8px;
 
     @include xs-breakpoint {
-      border-radius: 0 0 0 8px;
+      border-radius: 0;
     }
   }
   
@@ -48,7 +48,7 @@
     border-radius: 0 8px 8px 0;
 
     @include xs-breakpoint {
-      border-radius: 0 0 8px 0;
+      border-radius: 0;
     }
   }
 
@@ -80,6 +80,7 @@
   margin-top: -4px;
   font-weight: 400;
   // Menu item text too long
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   // Awkward multi-line text on small screens

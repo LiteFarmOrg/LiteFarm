@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
 import Partners from './Partners';
+import EsciDevices from './EsciDevices';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
@@ -63,7 +64,7 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
       FormContent: () => <Partners />,
       onContinueAction: linkEsci,
     },
-    { FormContent: () => <div>ESCI devices view</div> },
+    { FormContent: EsciDevices },
   ];
 
   const defaultFormValues = {

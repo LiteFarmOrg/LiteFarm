@@ -78,3 +78,110 @@
     font-size: 16px;
   }
 }
+
+// Esci divices page
+.diviceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// Sensors table
+.tableContainerClass {
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+}
+
+.headerClass:global(.MuiTableCell-head) {
+  color: var(--Colors-Neutral-Neutral-300);
+  font-size: 16px;
+  font-weight: 400;
+  padding: 0 4px;
+  border: none;
+  background: var(--Colors-Backgrounds-Background-color);
+
+  :global(.MuiTableSortLabel-root) {
+    padding: 0;
+  }
+}
+
+.headerClass:global(.MuiTableCell-head),
+.tbodyClass:global(.MuiTableBody-root) td:global(.MuiTableCell-root) {
+  &:nth-child(1) {
+    padding-left: 16px;
+  }
+
+  &:nth-child(3) {
+    padding-right: 16px;
+  }
+}
+
+.tbodyClass:global(.MuiTableBody-root) {
+  &:before {
+    line-height: 0px;
+  }
+
+  td:global(.MuiTableCell-root) {
+    font-size: 16px;
+    border: none;
+
+    &:nth-child(1) {
+      font-weight: 600;
+      color: var(--Colors-Neutral-Neutral-900);
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+      color: var(--Colors-Neutral-Neutral-500);
+    }
+  }
+}
+
+.sensorIdCell {
+  display: flex;
+  align-items: center;
+
+  svg {
+    // offset SVG to remove excess white space around it
+    margin-top: 8px;
+    margin-left: -6px;
+  }
+}
+
+// field list
+.fieldListLead {
+  color: var(--Colors-Neutral-Neutral-500, #66738a);
+  margin-bottom: 8px;
+}
+
+.fieldList {
+  list-style-position: outside;
+  padding: 4px 8px 4px 36px;
+  border-radius: 4px;
+  background: var(--Colors-Backgrounds-Background-color, #fafcfb);
+
+  li {
+    color: var(--Colors-Secondary-Secondary-green-900);
+    font-weight: 700;
+    line-height: 24px;
+  }
+}
+
+.seeOnMapButton {
+  width: fit-content;
+  display: flex;
+  height: 32px;
+  margin: 0 auto;
+  padding: 8px 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--Colors-Secondary-Secondary-green-900, #325442);
+}
+
+.mapPinIcon {
+  font-size: 16px;
+}

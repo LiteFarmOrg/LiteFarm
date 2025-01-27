@@ -38,7 +38,7 @@ async function tableCleanup(knex) {
     .update({ default_initial_location_id: null });
   return knex.raw(`
     DELETE FROM "partner_reading_type";
-    DELETE FROM "addon";
+    DELETE FROM "farm_addon";
     DELETE FROM "addon_partner";
     DELETE FROM "sensor_reading_type";
     DELETE FROM "sensor_reading";

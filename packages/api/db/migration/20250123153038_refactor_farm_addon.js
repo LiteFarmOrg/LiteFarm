@@ -20,8 +20,8 @@ export const up = async function (knex) {
     t.renameColumn('partner_name', 'name');
   });
 
-  await knex.schema.renameTable('farm_external_integration', 'addon');
-  await knex.schema.alterTable('addon', (t) => {
+  await knex.schema.renameTable('farm_external_integration', 'farm_addon');
+  await knex.schema.alterTable('farm_addon', (t) => {
     t.renameColumn('partner_id', 'addon_partner_id');
     t.renameColumn('organization_uuid', 'org_uuid');
     t.dropColumn('webhook_id');
@@ -30,10 +30,10 @@ export const up = async function (knex) {
 
   await knex('permissions').insert([
     { permission_id: 172, name: 'get:sensors', description: 'get sensors' },
-    { permission_id: 173, name: 'get:addon', description: 'get addons' },
-    { permission_id: 174, name: 'add:addon', description: 'add addons' },
-    { permission_id: 175, name: 'edit:addon', description: 'edit addons' },
-    { permission_id: 176, name: 'delete:addon', description: 'delete addons' },
+    { permission_id: 173, name: 'get:farm_addon', description: 'get farm_addon' },
+    { permission_id: 174, name: 'add:farm_addon', description: 'add farm_addon' },
+    { permission_id: 175, name: 'edit:farm_addon', description: 'edit farm_addon' },
+    { permission_id: 176, name: 'delete:farm_addon', description: 'delete farm_addon' },
   ]);
 
   // Farm workers CAN get sensors
@@ -65,7 +65,7 @@ export const down = async function (knex) {
     t.renameColumn('name', 'partner_name');
   });
 
-  await knex.schema.renameTable('addon', 'farm_external_integration');
+  await knex.schema.renameTable('farm_addon', 'farm_external_integration');
   await knex.schema.alterTable('farm_external_integration', (t) => {
     t.renameColumn('addon_partner_id', 'partner_id');
     t.renameColumn('org_uuid', 'organization_uuid');

@@ -27,6 +27,35 @@ export const up = async function (knex) {
     t.dropColumn('webhook_id');
     t.integer('org_pk').nullable();
   });
+
+  await knex('permissions').insert([
+    { permission_id: 172, name: 'get:sensors', description: 'get sensors' },
+    { permission_id: 173, name: 'get:farm_addon', description: 'get farm_addons' },
+    { permission_id: 174, name: 'add:farm_addon', description: 'add farm_addons' },
+    { permission_id: 175, name: 'edit:farm_addon', description: 'edit farm_addons' },
+    { permission_id: 176, name: 'delete:farm_addon', description: 'delete farm_addons' },
+  ]);
+
+  // Farm workers CAN get sensors
+  // Farm workers CANNOT get, add, edit, delete farm_addons
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 172 },
+    { role_id: 2, permission_id: 172 },
+    { role_id: 3, permission_id: 172 },
+    { role_id: 5, permission_id: 172 },
+    { role_id: 1, permission_id: 173 },
+    { role_id: 2, permission_id: 173 },
+    { role_id: 5, permission_id: 173 },
+    { role_id: 1, permission_id: 174 },
+    { role_id: 2, permission_id: 174 },
+    { role_id: 5, permission_id: 174 },
+    { role_id: 1, permission_id: 175 },
+    { role_id: 2, permission_id: 175 },
+    { role_id: 5, permission_id: 175 },
+    { role_id: 1, permission_id: 176 },
+    { role_id: 2, permission_id: 176 },
+    { role_id: 5, permission_id: 176 },
+  ]);
 };
 
 export const down = async function (knex) {
@@ -43,4 +72,6 @@ export const down = async function (knex) {
     t.dropColumn('org_pk');
     t.integer('webhook_id').nullable();
   });
+  await knex('rolePermissions').whereIn('permission_id', [172, 173, 174, 175, 176]).del();
+  await knex('permissions').whereIn('permission_id', [172, 173, 174, 175, 176]).del();
 };

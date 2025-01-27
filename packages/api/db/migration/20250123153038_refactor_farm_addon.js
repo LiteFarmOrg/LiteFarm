@@ -37,7 +37,7 @@ export const up = async function (knex) {
   ]);
 
   // Farm workers CAN get sensors
-  // Farm workers CANNOT get, add, edit, delete farm_addons
+  // Farm workers CANNOT get, add, edit, delete addons
   await knex('rolePermissions').insert([
     { role_id: 1, permission_id: 172 },
     { role_id: 2, permission_id: 172 },

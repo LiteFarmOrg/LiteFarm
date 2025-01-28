@@ -75,10 +75,10 @@ async function registerFarmAndClaimSensors(farm_id, access_token, esids) {
   const organization = await createOrganization(farm_id, access_token);
 
   // Create a webhook for the organization
-  await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+  await registerOrganizationWebhook(farm_id, organization.org_uuid, access_token);
 
   // Register sensors with Ensemble and return Ensemble API results
-  return await bulkSensorClaim(access_token, organization.organization_uuid, esids);
+  return await bulkSensorClaim(access_token, organization.org_uuid, esids);
 }
 
 /**

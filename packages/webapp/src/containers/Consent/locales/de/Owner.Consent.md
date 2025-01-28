@@ -12,7 +12,7 @@ LiteFarm ist ein an der University of British Columbia entstandenes partizipativ
 
 #### Wer ist das LiteFarm Team?
 
-Das LiteFarm Team ist eine interdisziplinäre Gruppe von Wissenschaftlern, Researchern, Landwirten, Designern und Software-Fachleuten. Das Team wurde ursprünglich an der University of British Columbia (UBC) gegründet und hat sich zu einem partizipatorischen globalen Netzwerk von Einzelpersonen und Organisationen entwickelt. Die Projektleitenden sind Dr. Zia Mehrabi (University of Colorado) und Dr. Hannah Wittman (hannah. ittman@ubc.ca), sowie Dr. Sean Smukler, Direktor des Centre for Sustainable Food Systems (Zentrum für Nachhaltige Ernährungssysteme) bei UBC Farm.
+Das LiteFarm Team ist eine interdisziplinäre Gruppe von Wissenschaftlern, Researchern, Landwirten, Designern und Software-Fachleuten. Das Team wurde ursprünglich an der University of British Columbia (UBC) gegründet und hat sich zu einem partizipatorischen globalen Netzwerk von Einzelpersonen und Organisationen entwickelt. Die Projektleitenden sind Dr. Zia Mehrabi (University of Colorado) und Dr. Hannah Wittman (hannah.wittman@ubc.ca), sowie Dr. Sean Smukler, Direktor des Centre for Sustainable Food Systems (Zentrum für Nachhaltige Ernährungssysteme) bei UBC Farm.
 
 #### Wer finanziert LiteFarm?
 

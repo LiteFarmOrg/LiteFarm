@@ -4,9 +4,7 @@
 
 Bienvenue à LiteFarm !
 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.
-
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Si vous n'acceptez pas nos pratiques telles qu'elles sont décrites dans ce Formulaire de Consentement Éclairé et cette Politique de Confidentialité, vous ne pourrez pas utiliser la plateforme LiteFarm.
 
 #### C’est quoi l’application LiteFarm ?
 
@@ -30,15 +28,11 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 **Informations personnelles**
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
-
-Ceci comprend :
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
 - Les informations démographiques (sexe, année de naissance, préférence linguistique, pays, devise)
-
-- Les informations sur l'entreprise (nom de la ferme, adresse de la ferme, coordonnées de la ferme)
 
 - Les photos
 

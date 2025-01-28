@@ -29,9 +29,9 @@ import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 import { transaction, Model } from 'objection';
 
 import {
-  createOrganization,
-  registerOrganizationWebhook,
-  bulkSensorClaim,
+  ENSEMBLE_BRAND,
+  extractEsids,
+  registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
 } from '../util/ensemble.js';
@@ -118,7 +118,7 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await AddonModel.getAccessAndRefreshTokens('Ensemble Scientific');
+      const { access_token } = await AddonModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
@@ -171,65 +171,59 @@ const sensorController = {
           },
         );
       } else {
-        const esids = data.reduce((previous, current) => {
-          if (current.brand === 'Ensemble Scientific' && current.external_id) {
-            previous.push(current.external_id);
-          }
-          return previous;
-        }, []);
+        // Extract Ensemble Scientific sensor IDs (esids)
+        const esids = extractEsids(data);
+
         let success = [];
         let already_owned = [];
         let does_not_exist = [];
         let occupied = [];
+
         if (esids.length > 0) {
-          const organization = await createOrganization(farm_id, access_token);
-
-          // register webhook for sensor readings
-          await registerOrganizationWebhook(farm_id, organization.org_uuid, access_token);
-
-          // Register sensors with Ensemble
-          ({ success, already_owned, does_not_exist, occupied } = await bulkSensorClaim(
+          ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
+            farm_id,
             access_token,
-            organization.org_uuid,
             esids,
           ));
         }
-        // register organization
 
-        // Filter sensors by those successfully registered and those with errors
-        const { registeredSensors, errorSensors } = data.reduce(
-          (prev, curr, idx) => {
-            if (success?.includes(curr.external_id) || already_owned?.includes(curr.external_id)) {
-              prev.registeredSensors.push(curr);
-            } else if (curr.brand !== 'Ensemble Scientific') {
-              prev.registeredSensors.push(curr);
-            } else if (does_not_exist?.includes(curr.external_id)) {
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
-                variables: { sensorId: curr.external_id },
-              });
-            } else if (occupied?.includes(curr.external_id)) {
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
-                variables: { sensorId: curr.external_id },
-              });
-            } else {
-              // we know that it is an ESID but for some reason it was not returned in the expected format from the API
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.INTERNAL_ERROR,
-                variables: { sensorId: curr.external_id },
-              });
-            }
-            return prev;
-          },
-          { registeredSensors: [], errorSensors: [] },
-        );
+        const registeredSensors = [];
+        const errorSensors = [];
+
+        // Iterate over each sensor in the data array
+        data.forEach((sensor, index) => {
+          if (sensor.brand !== ENSEMBLE_BRAND) {
+            // All non-ESCI sensors should be considered successfully registered
+            registeredSensors.push(sensor);
+          } else if (
+            success.includes(sensor.external_id) ||
+            already_owned.includes(sensor.external_id)
+          ) {
+            registeredSensors.push(sensor);
+          } else if (does_not_exist.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else if (occupied.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else {
+            // We know that it is an ESID but it was not returned in the expected format from the API
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: sensor.external_id },
+            });
+          }
+        });
 
         // Save sensors in database
         const sensorLocations = [];
@@ -623,7 +617,7 @@ const sensorController = {
       const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await AddonModel.getAccessAndRefreshTokens('Ensemble Scientific');
+      const { access_token } = await AddonModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmAddonModel.getOrganizationId(

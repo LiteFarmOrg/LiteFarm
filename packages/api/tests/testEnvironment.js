@@ -39,7 +39,7 @@ async function tableCleanup(knex) {
   return knex.raw(`
     DELETE FROM "partner_reading_type";
     DELETE FROM "farm_addon";
-    DELETE FROM "addon";
+    DELETE FROM "addon_partner";
     DELETE FROM "sensor_reading_type";
     DELETE FROM "sensor_reading";
     DELETE FROM "sensor";

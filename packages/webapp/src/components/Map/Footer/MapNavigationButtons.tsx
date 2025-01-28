@@ -48,7 +48,7 @@ const MapNavigationButtons = ({
     <div className={styles.container}>
       {isAdmin && (
         <Button
-          color="location-menu"
+          color="accent"
           data-cy="map-addFeature"
           className={clsx(styles.button, showAddDrawer && styles.selected)}
           id="mapFirstStep"
@@ -62,7 +62,7 @@ const MapNavigationButtons = ({
         </Button>
       )}
       <Button
-        color="location-menu"
+        color="accent"
         className={clsx(styles.button, showMapFilter && styles.selected)}
         id="mapSecondStep"
         onClick={handleClickFilter}
@@ -75,7 +75,7 @@ const MapNavigationButtons = ({
         </span>
       </Button>
       <Button
-        color="location-menu"
+        color="accent"
         className={clsx(styles.button, showModal && styles.selected)}
         id="mapThirdStep"
         onClick={onClickExport}

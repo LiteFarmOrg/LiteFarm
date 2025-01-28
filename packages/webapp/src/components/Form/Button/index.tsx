@@ -23,7 +23,7 @@ export type ButtonProps = {
     | 'secondary'
     | 'secondary-2'
     | 'secondary-cta'
-    | 'location-menu'
+    | 'accent'
     | 'warning'
     | 'error'
     | 'none';

@@ -55,10 +55,10 @@ const MapNavigationButtons = ({
           onClick={onClickAdd}
           sm
         >
-          <div className={styles.buttonText}>
+          <span className={styles.buttonText}>
             <AddLogo className={styles.svg} />
-            <div className={styles.label}>{t('FARM_MAP.ADD_LOCATION')}</div>
-          </div>
+            <span className={styles.label}>{t('FARM_MAP.ADD_LOCATION')}</span>
+          </span>
         </Button>
       )}
       <Button
@@ -68,13 +68,13 @@ const MapNavigationButtons = ({
         onClick={handleClickFilter}
         sm
       >
-        <div className={styles.buttonText}>
+        <span className={styles.buttonText}>
           {isMapFilterSettingActive && <span className={styles.circle} />}
           <FilterLogo
             className={clsx(!isMapFilterSettingActive && styles.filterLogo, styles.svg)}
           />
-          <div className={styles.label}>{t('FARM_MAP.FILTER_MAP')}</div>
-        </div>
+          <span className={styles.label}>{t('FARM_MAP.FILTER_MAP')}</span>
+        </span>
       </Button>
       <Button
         color="location-menu"
@@ -83,10 +83,10 @@ const MapNavigationButtons = ({
         onClick={onClickExport}
         sm
       >
-        <div className={styles.buttonText}>
+        <span className={styles.buttonText}>
           <ExportLogo className={styles.svg} />
-          <div className={styles.label}>{t('FARM_MAP.EXPORT_MAP')}</div>
-        </div>
+          <span className={styles.label}>{t('FARM_MAP.EXPORT_MAP')}</span>
+        </span>
       </Button>
     </div>
   );

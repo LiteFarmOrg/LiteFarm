@@ -70,6 +70,11 @@
   align-items: center;
   margin: 4px 8px;
   max-width: 100%;
+
+  // mobile (drawer)
+  @include xs-breakpoint {
+    margin: 16px 8px;
+  }
 }
 
 .button {
@@ -83,16 +88,19 @@
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   // Awkward multi-line text on small screens
   line-height: normal;
-}
 
-.filterLogo {
-  // avoid layout shift for circle when filter active
-  margin-top: 4px;
+  // mobile (drawer)
+  @include xs-breakpoint {
+    display: none;
+  }
 }
 
 .circle {
+  position: absolute;
+  translate: 0 -2px;
   width: 4px;
   height: 4px;
   border-radius: 2px;

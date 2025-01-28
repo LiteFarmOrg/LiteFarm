@@ -66,6 +66,7 @@ interface WithStepperProgressBarProps {
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
   headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
+  showPreviousButton?: boolean;
 }
 
 export const WithStepperProgressBar = ({
@@ -92,6 +93,7 @@ export const WithStepperProgressBar = ({
   showCancelFlow,
   setShowCancelFlow,
   headerComponent = StepperProgressBar,
+  showPreviousButton = true,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -200,7 +202,7 @@ export const WithStepperProgressBar = ({
           <FormNavigationButtons
             onContinue={onContinue}
             onCancel={onCancel}
-            onPrevious={isSingleStep ? undefined : onGoBack}
+            onPrevious={isSingleStep || !showPreviousButton ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
             isDisabled={!isValid || isSaving}

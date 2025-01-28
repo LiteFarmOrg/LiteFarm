@@ -24,7 +24,7 @@ dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
-import Addon from '../models/addonModel.js';
+import AddonPartner from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
@@ -130,7 +130,7 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
 async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
   const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
   const existingIntegration = await FarmAddonModel.query()
-    .where({ farm_id: farmId, addon_id: 1 })
+    .where({ farm_id: farmId, addon_partner_id: 1 })
     .first();
   if (existingIntegration?.webhook_id) {
     return;
@@ -167,7 +167,7 @@ async function createOrganization(farmId, accessToken) {
   try {
     const data = await FarmModel.getFarmById(farmId);
     const existingIntegration = await FarmAddonModel.query()
-      .where({ farm_id: farmId, addon_id: 1 })
+      .where({ farm_id: farmId, addon_partner_id: 1 })
       .first();
     if (!existingIntegration) {
       const axiosObject = {
@@ -186,7 +186,7 @@ async function createOrganization(farmId, accessToken) {
 
       return await FarmAddonModel.query().insert({
         farm_id: farmId,
-        addon_id: 1,
+        addon_partner_id: 1,
         org_uuid: response.data.uuid,
       });
     } else {
@@ -272,9 +272,9 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await Addon.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+    const { refresh_token } = await AddonPartner.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
-    await Addon.patchAccessAndRefreshTokens(
+    await AddonPartner.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -300,7 +300,7 @@ async function authenticateToGetTokens() {
     const username = process.env.ENSEMBLE_USERNAME;
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
-    await Addon.patchAccessAndRefreshTokens(
+    await AddonPartner.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,

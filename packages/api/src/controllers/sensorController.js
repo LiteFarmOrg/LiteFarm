@@ -17,7 +17,7 @@ import baseController from '../controllers/baseController.js';
 
 import SensorModel from '../models/sensorModel.js';
 import SensorReadingModel from '../models/sensorReadingModel.js';
-import AddonModel from '../models/addonModel.js';
+import AddonPartnerModel from '../models/addonPartnerModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import LocationModel from '../models/locationModel.js';
@@ -100,7 +100,7 @@ const sensorController = {
   async getBrandName(req, res) {
     try {
       const { partner_id } = req.params;
-      const brand_name_response = await AddonModel.getBrandName(partner_id);
+      const brand_name_response = await AddonPartnerModel.getBrandName(partner_id);
       res.status(200).send(brand_name_response.name);
     } catch (error) {
       res.status(404).send('Partner not found');
@@ -118,7 +118,7 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await AddonModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
@@ -613,11 +613,11 @@ const sensorController = {
       const sensor = await baseController.getByFieldId(SensorModel, 'location_id', location_id);
       const { external_id, partner_id } = sensor[0];
 
-      const brand = await baseController.getByFieldId(AddonModel, 'id', partner_id);
+      const brand = await baseController.getByFieldId(AddonPartnerModel, 'id', partner_id);
       const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await AddonModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmAddonModel.getOrganizationId(

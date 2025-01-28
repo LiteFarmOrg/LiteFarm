@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 
-import Addon from './addonModel.js';
+import AddonPartner from './addonPartnerModel.js';
 import Farm from './farmModel.js';
 
 class FarmAddon extends Model {
@@ -34,7 +34,7 @@ class FarmAddon extends Model {
    * @returns {string[]} Names of the primary key fields.
    */
   static get idColumn() {
-    return ['farm_id', 'addon_id'];
+    return ['farm_id', 'addon_partner_id'];
   }
 
   /**
@@ -47,7 +47,7 @@ class FarmAddon extends Model {
       type: 'object',
       properties: {
         farm_id: { type: 'string' },
-        addon_id: { type: 'integer' },
+        addon_partner_id: { type: 'integer' },
         org_uuid: { type: 'string' },
         org_pk: { type: 'integer' },
       },
@@ -71,11 +71,11 @@ class FarmAddon extends Model {
         },
       },
       addon: {
-        modelClass: Addon,
+        modelClass: AddonPartner,
         relation: Model.HasOneRelation,
         join: {
-          from: 'farm_addon.addon_id',
-          to: 'addon.id',
+          from: 'farm_addon.addon_partner_id',
+          to: 'addon_partner.id',
         },
       },
     };
@@ -91,11 +91,11 @@ class FarmAddon extends Model {
     return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
   }
 
-  static async getOrganizationId(farmId, addonId) {
+  static async getOrganizationId(farmId, addonPartnerId) {
     return FarmAddon.query()
       .select('org_uuid')
       .where('farm_id', farmId)
-      .where('addon_id', addonId)
+      .where('addon_partner_id', addonPartnerId)
       .first();
   }
 }

@@ -15,14 +15,14 @@
 
 import Model from './baseFormatModel.js';
 
-class Addon extends Model {
+class AddonPartner extends Model {
   /**
    * Identifies the database table for this Model.
    * @static
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'addon';
+    return 'addon_partner';
   }
 
   /**
@@ -55,20 +55,20 @@ class Addon extends Model {
   }
 
   static async getAccessAndRefreshTokens(name) {
-    return await Addon.query()
+    return await AddonPartner.query()
       .select('access_token', 'refresh_token')
       .where({ name, deactivated: false })
       .first();
   }
 
   static async patchAccessAndRefreshTokens(name, access_token, refresh_token) {
-    return await Addon.query()
+    return await AddonPartner.query()
       .patch({ access_token, refresh_token })
       .where({ name, deactivated: false });
   }
   static async getBrandName(id) {
-    return await Addon.query().select('name').where('id', id).first();
+    return await AddonPartner.query().select('name').where('id', id).first();
   }
 }
 
-export default Addon;
+export default AddonPartner;

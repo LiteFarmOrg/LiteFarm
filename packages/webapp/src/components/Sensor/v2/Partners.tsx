@@ -16,6 +16,7 @@
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
+import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Main } from '../../Typography';
 import EsciLogo from '../../../assets/images/partners/esci_logo.png';
 import styles from './styles.module.scss';
@@ -60,9 +61,9 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
         <div className={styles.sensorSetup}>
           <div>{t('SENSOR.ESCI.CONNECT_NEW_SENSOR')}</div>
           <div className={styles.idInputWrapper}>
+            <InputBaseLabel label={t('SENSOR.ESCI.ENTER_ID')} />
             {/* @ts-ignore */}
             <Input
-              label={t('SENSOR.ESCI.ENTER_ID')}
               placeholder={t('SENSOR.ESCI.ORGANIZATION_ID')}
               type="text"
               hookFormRegister={register('partner.organization_uuid', { required: true })}

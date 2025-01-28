@@ -63,6 +63,9 @@
 }
 
 .idInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin-top: 4px;
   padding: 16px;
   border-radius: 4px;

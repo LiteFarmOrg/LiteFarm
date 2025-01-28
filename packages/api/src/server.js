@@ -39,7 +39,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.7.4',
+    release: '3.7.5',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -255,7 +255,7 @@ const rejectBodyInGetAndDelete = (req, res, next) => {
 const getAllowedOrigin = () => {
   switch (environment) {
     case 'development':
-      return 'http://localhost:3000';
+      return '*';
     case 'integration':
       return 'https://beta.litefarm.org';
     case 'production':

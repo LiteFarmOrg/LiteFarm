@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AddonPartnerModel from '../models/addonPartnerModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
 
-import { ENSEMBLE_BRAND, getEnsembleOrganisations } from '../util/ensemble.js';
+import { getEnsembleOrganisations } from '../util/ensemble.js';
 
 const farmAddonController = {
   async addFarmAddon(req, res) {
@@ -24,16 +23,6 @@ const farmAddonController = {
     const { addon_partner_id, org_uuid } = req.body;
 
     try {
-      const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
-
-      if (addon_partner_id !== EnsemblePartnerId) {
-        return res.status(400).send('Only Ensemble Scientific is supported');
-      }
-
-      if (!org_uuid || !org_uuid.length) {
-        return res.status(400).send('Organisation uuid required');
-      }
-
       const allRegisteredOrganisations = await getEnsembleOrganisations();
 
       const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);

@@ -30,6 +30,8 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
+    "@turf/boolean-point-in-polygon": "7.2.0",
+    "@turf/helpers": "7.2.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",

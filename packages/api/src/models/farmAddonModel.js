@@ -15,17 +15,17 @@
 
 import Model from './baseFormatModel.js';
 
-import IntegratingPartners from './integratingPartnersModel.js';
+import AddonPartner from './addonPartnerModel.js';
 import Farm from './farmModel.js';
 
-class FarmExternalIntegrations extends Model {
+class FarmAddon extends Model {
   /**
    * Identifies the database table for this Model.
    * @static
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'farm_external_integration';
+    return 'farm_addon';
   }
 
   /**
@@ -34,7 +34,7 @@ class FarmExternalIntegrations extends Model {
    * @returns {string[]} Names of the primary key fields.
    */
   static get idColumn() {
-    return ['farm_id', 'partner_id'];
+    return ['farm_id', 'addon_partner_id'];
   }
 
   /**
@@ -47,9 +47,9 @@ class FarmExternalIntegrations extends Model {
       type: 'object',
       properties: {
         farm_id: { type: 'string' },
-        partner_id: { type: 'integer' },
-        organization_uuid: { type: 'string' },
-        webhook_id: { type: 'integer' },
+        addon_partner_id: { type: 'integer' },
+        org_uuid: { type: 'string' },
+        org_pk: { type: 'integer' },
       },
       additionalProperties: false,
     };
@@ -70,12 +70,12 @@ class FarmExternalIntegrations extends Model {
           to: 'farm.farm_id',
         },
       },
-      partner: {
-        modelClass: IntegratingPartners,
+      addon: {
+        modelClass: AddonPartner,
         relation: Model.HasOneRelation,
         join: {
-          from: 'farm_external_integration.partner_id',
-          to: 'integrating_partner.partner_id',
+          from: 'farm_addon.addon_partner_id',
+          to: 'addon_partner.id',
         },
       },
     };
@@ -88,16 +88,14 @@ class FarmExternalIntegrations extends Model {
    * @return {Promise<*>}
    */
   static async updateWebhookId(farmId, webhookId) {
-    return FarmExternalIntegrations.query()
-      .patch({ webhook_id: webhookId })
-      .where('farm_id', farmId);
+    return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
   }
 
-  static async getOrganizationId(farmId, partnerId) {
-    return FarmExternalIntegrations.query()
-      .select('organization_uuid')
+  static async getOrganizationId(farmId, addonPartnerId) {
+    return FarmAddon.query()
+      .select('org_uuid')
       .where('farm_id', farmId)
-      .where('partner_id', partnerId)
+      .where('addon_partner_id', addonPartnerId)
       .first();
   }
 
@@ -116,4 +114,4 @@ class FarmExternalIntegrations extends Model {
   }
 }
 
-export default FarmExternalIntegrations;
+export default FarmAddon;

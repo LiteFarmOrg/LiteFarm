@@ -38,7 +38,11 @@ const Template = (args) => (
     }}
   >
     <div style={{ flexGrow: 1 }} />
-    <PureMapFooter {...args} availableFilterSettings={availableFilterSettings} />
+    <PureMapFooter
+      {...args}
+      availableFilterSettings={availableFilterSettings}
+      isCompactSideMenu={true}
+    />
   </div>
 );
 

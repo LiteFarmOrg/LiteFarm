@@ -15,14 +15,14 @@
 
 import Model from './baseFormatModel.js';
 
-class IntegratingPartners extends Model {
+class AddonPartner extends Model {
   /**
    * Identifies the database table for this Model.
    * @static
    * @returns {string} Names of the database table.
    */
   static get tableName() {
-    return 'integrating_partner';
+    return 'addon_partner';
   }
 
   /**
@@ -31,7 +31,7 @@ class IntegratingPartners extends Model {
    * @returns {string} Names of the primary key fields.
    */
   static get idColumn() {
-    return 'partner_id';
+    return 'id';
   }
 
   /**
@@ -43,8 +43,8 @@ class IntegratingPartners extends Model {
     return {
       type: 'object',
       properties: {
-        partner_id: { type: 'integer' },
-        partner_name: { type: 'string' },
+        id: { type: 'integer' },
+        name: { type: 'string' },
         access_token: { type: 'string' },
         refresh_token: { type: 'string' },
         root_url: { type: 'string' },
@@ -54,23 +54,20 @@ class IntegratingPartners extends Model {
     };
   }
 
-  static async getAccessAndRefreshTokens(partner_name) {
-    return await IntegratingPartners.query()
+  static async getAccessAndRefreshTokens(name) {
+    return await AddonPartner.query()
       .select('access_token', 'refresh_token')
-      .where({ partner_name, deactivated: false })
+      .where({ name, deactivated: false })
       .first();
   }
 
-  static async patchAccessAndRefreshTokens(partner_name, access_token, refresh_token) {
-    return await IntegratingPartners.query()
+  static async patchAccessAndRefreshTokens(name, access_token, refresh_token) {
+    return await AddonPartner.query()
       .patch({ access_token, refresh_token })
-      .where({ partner_name, deactivated: false });
+      .where({ name, deactivated: false });
   }
-  static async getBrandName(partner_id) {
-    return await IntegratingPartners.query()
-      .select('partner_name')
-      .where('partner_id', partner_id)
-      .first();
+  static async getBrandName(id) {
+    return await AddonPartner.query().select('name').where('id', id).first();
   }
   static async getPartnerId(partner_name) {
     return await IntegratingPartners.query()
@@ -80,4 +77,4 @@ class IntegratingPartners extends Model {
   }
 }
 
-export default IntegratingPartners;
+export default AddonPartner;

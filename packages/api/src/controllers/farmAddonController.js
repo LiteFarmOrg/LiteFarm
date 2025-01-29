@@ -34,9 +34,7 @@ const farmAddonController = {
         return res.status(400).send('Organisation uuid required');
       }
 
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
-
-      const allRegisteredOrganisations = await getEnsembleOrganisations(access_token);
+      const allRegisteredOrganisations = await getEnsembleOrganisations();
 
       const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
 

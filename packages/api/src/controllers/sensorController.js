@@ -135,8 +135,6 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
-
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
 
@@ -199,7 +197,6 @@ const sensorController = {
         if (esids.length > 0) {
           ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
             farm_id,
-            access_token,
             esids,
           ));
         }
@@ -619,7 +616,6 @@ const sensorController = {
       const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
         const external_integrations_response = await FarmAddonModel.getOrganisationIds(
@@ -627,7 +623,7 @@ const sensorController = {
           partner_id,
         );
         const org_id = external_integrations_response.org_uuid;
-        unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+        unclaimResponse = await unclaimSensor(org_id, external_id);
 
         if (unclaimResponse?.status != 200) {
           await trx.rollback();

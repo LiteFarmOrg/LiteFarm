@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
+import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
 
@@ -69,9 +70,10 @@ const PostSensor = ({ history }: PostSensorProps) => {
         history={history}
         getSteps={getFormSteps}
         defaultFormValues={defaultFormValues}
-        variant={Variant.SIMPLE_HEADER}
+        variant={Variant.STEPPER_PROGRESS_BAR}
         hasSummaryWithinForm={true}
         onSave={onSave}
+        headerComponent={PageTitle}
       />
     </div>
   );

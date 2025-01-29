@@ -27,7 +27,7 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.get('/', SensorController.getSensors);
+router.get('/', checkScope(['get:sensors']), SensorController.getSensors);
 router.post(
   '/',
   checkScope(['add:sensors']),

@@ -61,6 +61,13 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
+/**
+ * Retrieves a valid Ensemble organisation by its UUID.
+ * @param {uuid} org_uuid
+ * @returns {Object} - The organisation object.
+ * @throws {Object} - Throws an error with status 404 if the organisation is not found within the Ensemble organisations we have access to
+ * @async
+ */
 const getValidEnsembleOrg = async (org_uuid) => {
   const allRegisteredOrganisations = await getEnsembleOrganisations();
 
@@ -73,6 +80,12 @@ const getValidEnsembleOrg = async (org_uuid) => {
   return organisation;
 };
 
+/**
+ * Fetches Ensemble sensors and sensor arrays for a given farm
+ * @param {uuid} farm_id
+ * @returns {Object} - An object containing arrays of sensors and sensor arrays.
+ * @async
+ */
 const getEnsembleSensors = async (farm_id) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
@@ -118,6 +131,11 @@ const getEnsembleSensors = async (farm_id) => {
   return { sensors, sensor_arrays };
 };
 
+/**
+ * Creates a sensor object out of the incoming Ensemble device object
+ * @param {Object} device - The device to map
+ * @returns {Object} - The mapped sensor object
+ */
 const mapDeviceToSensor = (device) => {
   return {
     name: device.name,
@@ -139,6 +157,11 @@ const mapDeviceToSensor = (device) => {
   };
 };
 
+/**
+ * Creates sensor arrays from a lookup structure keyed by device profile ids
+ * @param {Object} sensorArrayMap - A lookup object where each key is a device.profile_id and the value is an array of sensor objects.
+ * @returns {Array} - An array of sensor array objects.
+ */
 const createSensorArrays = (sensorArrayMap) => {
   return Object.entries(sensorArrayMap).map(([id, sensors]) => ({
     id,
@@ -151,7 +174,11 @@ const createSensorArrays = (sensorArrayMap) => {
   }));
 };
 
-// Based on discussion with Ensemble, the sensor array point will be pulled from the sensor with the shallowest depth (to be revisited)
+/**
+ * Calculates the point for a sensor array based on the position of the sensor with the shallowest sensor depth (point closest to groound level)
+ * @param {Array} sensors - An array of sensors.
+ * @returns {Object} - An object containing latitude and longitude.
+ */
 const calculateSensorArrayPoint = (sensors) => {
   let selectedSensor = sensors[0];
 
@@ -323,6 +350,13 @@ async function getEnsembleOrganisations() {
   }
 }
 
+/**
+ * Retrieves all devices that belong to a given organisation
+ * @param {uuid} organisation_pk - The primary key of the organisation.
+ * @returns {Array} - An array of device objects.
+ * @throws {Error} - Throws an error if ESci API call fails
+ * @async
+ */
 async function getOrganisationDevices(organisation_pk) {
   try {
     const axiosObject = {

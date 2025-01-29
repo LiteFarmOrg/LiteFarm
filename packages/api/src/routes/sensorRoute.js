@@ -34,9 +34,6 @@ router.post(
   upload.single('sensors'),
   SensorController.addSensors,
 );
-
-router.post('/link_esci_org', SensorController.linkEnsembleOrganization);
-
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post(

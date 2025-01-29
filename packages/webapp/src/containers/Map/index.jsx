@@ -559,8 +559,8 @@ export default function Map({ history, isCompactSideMenu }) {
             showSpotlight={!showedSpotlight.map}
             resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
-            onClickExport={handleClickExport}
             showModal={showExportModal}
+            onClickExport={handleClickExport}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={(showAddDrawer) => {
@@ -573,6 +573,7 @@ export default function Map({ history, isCompactSideMenu }) {
             onAddMenuClick={handleAddMenuClick}
             availableFilterSettings={availableFilterSettings}
             isMapFilterSettingActive={isMapFilterSettingActive}
+            isCompactSideMenu={isCompactSideMenu}
           />
         )}
         {showExportModal && (

@@ -16,7 +16,7 @@
 import BaseModel from './baseModel.js';
 
 import Model from './baseFormatModel.js';
-import IntegratingPartners from './integratingPartnersModel.js';
+import AddonPartner from './addonPartnerModel.js';
 
 class PartnerReadingTypeModel extends BaseModel {
   /**
@@ -62,11 +62,11 @@ class PartnerReadingTypeModel extends BaseModel {
   static get relationMappings() {
     return {
       partner: {
-        modelClass: IntegratingPartners,
+        modelClass: AddonPartner,
         relation: Model.HasOneRelation,
         join: {
           from: 'partner_reading_type.partner_id',
-          to: 'integrating_partner.partner_id',
+          to: 'addon_partner.id',
         },
       },
     };

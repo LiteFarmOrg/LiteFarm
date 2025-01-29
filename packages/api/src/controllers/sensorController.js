@@ -17,9 +17,9 @@ import baseController from '../controllers/baseController.js';
 
 import SensorModel from '../models/sensorModel.js';
 import SensorReadingModel from '../models/sensorReadingModel.js';
-import IntegratingPartnersModel from '../models/integratingPartnersModel.js';
+import AddonPartnerModel from '../models/addonPartnerModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import FarmAddonModel from '../models/farmAddonModel.js';
 import LocationModel from '../models/locationModel.js';
 import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
@@ -106,79 +106,27 @@ const sensorController = {
   async getBrandName(req, res) {
     try {
       const { partner_id } = req.params;
-      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
-      res.status(200).send(brand_name_response.partner_name);
+      const brand_name_response = await AddonPartnerModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response.name);
     } catch (error) {
       res.status(404).send('Partner not found');
-    }
-  },
-  async linkEnsembleOrganization(req, res) {
-    const { farm_id } = req.headers;
-    const { integrating_partner_id, organization_uuid } = req.body;
-
-    const { partner_id: EnsemblePartnerId } = await IntegratingPartnersModel.getPartnerId(
-      ENSEMBLE_BRAND,
-    );
-
-    if (integrating_partner_id !== EnsemblePartnerId) {
-      return res.status(400).send('Only Ensemble Scientific is supported');
-    }
-
-    if (!organization_uuid || !organization_uuid.length) {
-      return res.status(400).send('Organization uuid required');
-    }
-
-    try {
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        ENSEMBLE_BRAND,
-      );
-
-      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
-
-      const organization = allRegisteredOrganizations.find(
-        ({ uuid }) => uuid === organization_uuid,
-      );
-
-      if (!organization) {
-        return res.status(404).send('Organization not found');
-      }
-
-      await FarmExternalIntegrationsModel.upsertOrganizationIntegration({
-        farm_id,
-        partner_id: EnsemblePartnerId,
-        organization_uuid,
-      });
-
-      return res.status(200).send();
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({
-        error,
-      });
     }
   },
   async getSensors(req, res) {
     const { farm_id } = req.headers;
 
     try {
-      const { partner_id: EnsemblePartnerId } = await IntegratingPartnersModel.getPartnerId(
-        ENSEMBLE_BRAND,
-      );
+      const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        ENSEMBLE_BRAND,
-      );
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
-      const farmIntegration = await FarmExternalIntegrationsModel.getOrganizationId(
-        farm_id,
-        EnsemblePartnerId,
-      );
+      const farmEnsembleAddon = await FarmAddonModel.getOrganizationId(farm_id, EnsemblePartnerId);
 
-      if (!farmIntegration) {
+      if (!farmEnsembleAddon) {
         return res.status(200).send({ sensors: [], profiles: [] });
       }
 
-      const farmEnsembleOrganizationid = farmIntegration.organization_uuid;
+      const farmEnsembleOrganizationid = farmEnsembleAddon.org_uuid;
 
       // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
       const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
@@ -271,9 +219,7 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        ENSEMBLE_BRAND,
-      );
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
@@ -753,24 +699,18 @@ const sensorController = {
       const sensor = await baseController.getByFieldId(SensorModel, 'location_id', location_id);
       const { external_id, partner_id } = sensor[0];
 
-      const brand = await baseController.getByFieldId(
-        IntegratingPartnersModel,
-        'partner_id',
-        partner_id,
-      );
-      const { partner_name } = brand[0];
+      const brand = await baseController.getByFieldId(AddonPartnerModel, 'id', partner_id);
+      const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        ENSEMBLE_BRAND,
-      );
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
-      if (partner_name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+      if (name != 'No Integrating Partner' && external_id != '') {
+        const external_integrations_response = await FarmAddonModel.getOrganizationId(
           farm_id,
           partner_id,
         );
-        const org_id = external_integrations_response.organization_uuid;
+        const org_id = external_integrations_response.org_uuid;
         unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
 
         if (unclaimResponse?.status != 200) {

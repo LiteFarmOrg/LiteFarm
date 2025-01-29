@@ -622,7 +622,7 @@ const sensorController = {
       const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmAddonModel.getOrganisationId(
+        const external_integrations_response = await FarmAddonModel.getOrganisationIds(
           farm_id,
           partner_id,
         );

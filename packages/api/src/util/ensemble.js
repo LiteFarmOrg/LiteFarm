@@ -66,22 +66,13 @@ const getEnsembleSensors = async (farm_id) => {
 
   const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
-  const farmEnsembleAddon = await FarmAddonModel.getOrganisationId(farm_id, EnsemblePartnerId);
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
 
   if (!farmEnsembleAddon) {
     return { sensors: [], sensor_arrays: [] };
   }
 
-  const farmEnsembleOrganisationid = farmEnsembleAddon.org_uuid;
-
-  // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
-  const allRegisteredOrganisations = await getEnsembleOrganisations(access_token);
-
-  const organisation = allRegisteredOrganisations.find(
-    ({ uuid }) => uuid === farmEnsembleOrganisationid,
-  );
-
-  const devices = await getOrganisationDevices(organisation.pk, access_token);
+  const devices = await getOrganisationDevices(farmEnsembleAddon.org_pk, access_token);
 
   if (!devices.length) {
     return { sensors: [], sensor_arrays: [] };

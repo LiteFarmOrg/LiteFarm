@@ -24,7 +24,7 @@ dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
-import AddonPartner from '../models/addonPartnerModel.js';
+import AddonPartnerModel from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
@@ -59,6 +59,90 @@ const ENSEMBLE_UNITS_MAPPING = {
     conversionKey: '%',
     system: 'all',
   },
+};
+
+const getEnsembleSensors = async (farm_id) => {
+  const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+  const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationId(farm_id, EnsemblePartnerId);
+
+  if (!farmEnsembleAddon) {
+    return { sensors: [], sensor_arrays: [] };
+  }
+
+  const farmEnsembleOrganisationid = farmEnsembleAddon.org_uuid;
+
+  // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
+  const allRegisteredOrganisations = await getEnsembleOrganisations(access_token);
+
+  const organisation = allRegisteredOrganisations.find(
+    ({ uuid }) => uuid === farmEnsembleOrganisationid,
+  );
+
+  const devices = await getOrganisationDevices(organisation.pk, access_token);
+
+  if (!devices.length) {
+    return { sensors: [], sensor_arrays: [] };
+  }
+
+  const sensors = [];
+  const sensorArrayMap = {};
+
+  // See below
+  const farm = await FarmModel.query().findById(farm_id);
+  const farmCenterCoordinates = farm.grid_points;
+
+  for (const incomingDevice of devices) {
+    if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
+      // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles. Then please delete the enriching function and the FarmModel query
+      const device = enrichWithMockData(incomingDevice, farmCenterCoordinates);
+
+      const sensor = {
+        name: device.name,
+        external_id: device.esid,
+        sensor_reading_types: device.parameter_types.map(
+          (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
+        ),
+        last_seen: device.last_seen,
+        point: {
+          lat: device.latest_position.coordinates.lat,
+          lng: device.latest_position.coordinates.lng,
+        },
+        depth: device.latest_position.depth,
+        depth_unit: 'cm', // to be confirmed
+        sensor_array_id: device.profile_id,
+
+        // The following only for backwards compatibility until old sensor flow is removed
+        location_id: device.esid,
+      };
+      sensors.push(sensor);
+
+      if (device.profile_id) {
+        if (!sensorArrayMap[device.profile_id]) {
+          sensorArrayMap[device.profile_id] = [];
+        }
+        sensorArrayMap[device.profile_id].push({
+          external_id: sensor.external_id,
+          // used to calculate sensor_array.point
+          latest_position: device.latest_position,
+        });
+      }
+    }
+  }
+
+  const sensor_arrays = Object.entries(sensorArrayMap).map(([id, sensors]) => ({
+    id,
+    sensors: sensors.map(({ external_id }) => external_id),
+    point: calculateSensorArrayPoint(sensors),
+
+    // The following only for backwards compatibility until old sensor flow is removed
+    location_id: id,
+    name: `Sensor Array ${id}`,
+  }));
+
+  return { sensors, sensor_arrays };
 };
 
 // Based on discussion with Ensemble, the sensor array point will be pulled from the sensor with the shallowest depth (to be revisited)
@@ -369,9 +453,9 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await AddonPartner.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+    const { refresh_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
-    await AddonPartner.patchAccessAndRefreshTokens(
+    await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -397,7 +481,7 @@ async function authenticateToGetTokens() {
     const username = process.env.ENSEMBLE_USERNAME;
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
-    await AddonPartner.patchAccessAndRefreshTokens(
+    await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -448,6 +532,7 @@ async function unclaimSensor(org_id, external_id, access_token) {
 
 export {
   ENSEMBLE_BRAND,
+  getEnsembleSensors,
   getEnsembleOrganisations,
   getOrganisationDevices,
   calculateSensorArrayPoint,

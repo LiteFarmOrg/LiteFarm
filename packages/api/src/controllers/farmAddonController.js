@@ -16,7 +16,7 @@
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
 
-import { ENSEMBLE_BRAND, getEnsembleOrganizations } from '../util/ensemble.js';
+import { ENSEMBLE_BRAND, getEnsembleOrganisations } from '../util/ensemble.js';
 
 const farmAddonController = {
   async addFarmAddon(req, res) {
@@ -31,17 +31,17 @@ const farmAddonController = {
       }
 
       if (!org_uuid || !org_uuid.length) {
-        return res.status(400).send('Organization uuid required');
+        return res.status(400).send('Organisation uuid required');
       }
 
       const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
-      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
+      const allRegisteredOrganisations = await getEnsembleOrganisations(access_token);
 
-      const organization = allRegisteredOrganizations.find(({ uuid }) => uuid === org_uuid);
+      const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
 
-      if (!organization) {
-        return res.status(404).send('Organization not found');
+      if (!organisation) {
+        return res.status(404).send('Organisation not found');
       }
 
       await FarmAddonModel.upsertFarmAddon({

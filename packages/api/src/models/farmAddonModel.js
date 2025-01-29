@@ -91,7 +91,7 @@ class FarmAddon extends Model {
     return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
   }
 
-  static async getOrganizationId(farmId, addonPartnerId) {
+  static async getOrganisationId(farmId, addonPartnerId) {
     return FarmAddon.query()
       .select('org_uuid')
       .where('farm_id', farmId)

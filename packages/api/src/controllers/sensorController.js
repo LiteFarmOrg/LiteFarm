@@ -30,8 +30,8 @@ import { transaction, Model } from 'objection';
 
 import {
   ENSEMBLE_BRAND,
-  getEnsembleOrganizations,
-  getOrganizationDevices,
+  getEnsembleOrganisations,
+  getOrganisationDevices,
   calculateSensorArrayPoint,
   enrichWithMockData,
   extractEsids,
@@ -120,22 +120,22 @@ const sensorController = {
 
       const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
-      const farmEnsembleAddon = await FarmAddonModel.getOrganizationId(farm_id, EnsemblePartnerId);
+      const farmEnsembleAddon = await FarmAddonModel.getOrganisationId(farm_id, EnsemblePartnerId);
 
       if (!farmEnsembleAddon) {
         return res.status(200).send({ sensors: [], sensor_arrays: [] });
       }
 
-      const farmEnsembleOrganizationid = farmEnsembleAddon.org_uuid;
+      const farmEnsembleOrganisationid = farmEnsembleAddon.org_uuid;
 
       // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
-      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
+      const allRegisteredOrganisations = await getEnsembleOrganisations(access_token);
 
-      const organisation = allRegisteredOrganizations.find(
-        ({ uuid }) => uuid === farmEnsembleOrganizationid,
+      const organisation = allRegisteredOrganisations.find(
+        ({ uuid }) => uuid === farmEnsembleOrganisationid,
       );
 
-      const devices = await getOrganizationDevices(organisation.pk, access_token);
+      const devices = await getOrganisationDevices(organisation.pk, access_token);
 
       if (!devices.length) {
         return res.status(200).send({ sensors: [], sensor_arrays: [] });
@@ -706,7 +706,7 @@ const sensorController = {
       const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmAddonModel.getOrganizationId(
+        const external_integrations_response = await FarmAddonModel.getOrganisationId(
           farm_id,
           partner_id,
         );

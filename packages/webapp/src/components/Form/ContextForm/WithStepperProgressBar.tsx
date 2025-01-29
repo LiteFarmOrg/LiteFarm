@@ -65,7 +65,7 @@ interface WithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
-  headerComponent?: (props: HeaderProps) => JSX.Element;
+  headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
 }
 
 export const WithStepperProgressBar = ({
@@ -226,7 +226,7 @@ type HeaderProps = StepperProgressBarProps & {
 type StepperProgressBarWrapperProps = HeaderProps & {
   children: ReactNode;
   isSingleStep: boolean;
-  headerComponent: (props: HeaderProps) => JSX.Element;
+  headerComponent: ((props: HeaderProps) => JSX.Element) | null;
 };
 
 const StepperProgressBarWrapper = ({
@@ -240,7 +240,7 @@ const StepperProgressBarWrapper = ({
   }
 
   return (
-    <FixedHeaderContainer header={headerComponent(stepperProgressBarProps)}>
+    <FixedHeaderContainer header={headerComponent && headerComponent(stepperProgressBarProps)}>
       {children}
     </FixedHeaderContainer>
   );

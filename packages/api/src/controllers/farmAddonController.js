@@ -24,16 +24,6 @@ const farmAddonController = {
     const { addon_partner_id, org_uuid } = req.body;
 
     try {
-      const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
-
-      if (addon_partner_id !== EnsemblePartnerId) {
-        return res.status(400).send('Only Ensemble Scientific is supported');
-      }
-
-      if (!org_uuid || !org_uuid.length) {
-        return res.status(400).send('Organization uuid required');
-      }
-
       const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
       const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);

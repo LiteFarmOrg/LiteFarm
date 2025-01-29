@@ -15,11 +15,16 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-
+import { checkFarmAddon } from '../middleware/validation/checkFarmAddon.js';
 import FarmAddonController from '../controllers/farmAddonController.js';
 
 const router = express.Router();
 
-router.post('/', checkScope(['add:farm_addon']), FarmAddonController.addFarmAddon);
+router.post(
+  '/',
+  checkScope(['add:farm_addon']),
+  checkFarmAddon(),
+  FarmAddonController.addFarmAddon,
+);
 
 export default router;

@@ -23,8 +23,8 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
-import IntegratingPartners from '../models/integratingPartnersModel.js';
+import FarmAddonModel from '../models/farmAddonModel.js';
+import AddonPartner from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
@@ -75,10 +75,10 @@ async function registerFarmAndClaimSensors(farm_id, access_token, esids) {
   const organization = await createOrganization(farm_id, access_token);
 
   // Create a webhook for the organization
-  await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
+  await registerOrganizationWebhook(farm_id, organization.org_uuid, access_token);
 
   // Register sensors with Ensemble and return Ensemble API results
-  return await bulkSensorClaim(access_token, organization.organization_uuid, esids);
+  return await bulkSensorClaim(access_token, organization.org_uuid, esids);
 }
 
 /**
@@ -129,8 +129,8 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
 
 async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
   const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
-  const existingIntegration = await FarmExternalIntegrationsModel.query()
-    .where({ farm_id: farmId, partner_id: 1 })
+  const existingIntegration = await FarmAddonModel.query()
+    .where({ farm_id: farmId, addon_partner_id: 1 })
     .first();
   if (existingIntegration?.webhook_id) {
     return;
@@ -150,7 +150,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     throw new Error('Failed to register webhook with ESCI');
   };
   const onResponse = async (response) => {
-    await FarmExternalIntegrationsModel.updateWebhookId(farmId, response.data.id);
+    await FarmAddonModel.updateWebhookId(farmId, response.data.id);
     return { ...response.data, status: response.status };
   };
   await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
@@ -161,13 +161,13 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
  * @param farmId
  * @param accessToken
  * @async
- * @return {Promise<{details: string, status: number}|FarmExternalIntegrations>}
+ * @return {Promise<{details: string, status: number}|FarmAddon>}
  */
 async function createOrganization(farmId, accessToken) {
   try {
     const data = await FarmModel.getFarmById(farmId);
-    const existingIntegration = await FarmExternalIntegrationsModel.query()
-      .where({ farm_id: farmId, partner_id: 1 })
+    const existingIntegration = await FarmAddonModel.query()
+      .where({ farm_id: farmId, addon_partner_id: 1 })
       .first();
     if (!existingIntegration) {
       const axiosObject = {
@@ -184,10 +184,10 @@ async function createOrganization(farmId, accessToken) {
 
       const response = await ensembleAPICall(accessToken, axiosObject, onError);
 
-      return await FarmExternalIntegrationsModel.query().insert({
+      return await FarmAddonModel.query().insert({
         farm_id: farmId,
-        partner_id: 1,
-        organization_uuid: response.data.uuid,
+        addon_partner_id: 1,
+        org_uuid: response.data.uuid,
       });
     } else {
       return existingIntegration;
@@ -272,9 +272,9 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await IntegratingPartners.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+    const { refresh_token } = await AddonPartner.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
-    await IntegratingPartners.patchAccessAndRefreshTokens(
+    await AddonPartner.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -300,7 +300,7 @@ async function authenticateToGetTokens() {
     const username = process.env.ENSEMBLE_USERNAME;
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
-    await IntegratingPartners.patchAccessAndRefreshTokens(
+    await AddonPartner.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,

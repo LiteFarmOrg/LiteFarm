@@ -28,8 +28,6 @@ import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import Loading from './Loading';
-import HeaderWithBackAndClose from './HeaderWithBackAndClose';
-import { Variant } from '.';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
@@ -67,7 +65,7 @@ interface WithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
-  variant: Variant;
+  headerComponent?: (props: HeaderProps) => JSX.Element;
 }
 
 export const WithStepperProgressBar = ({
@@ -93,7 +91,7 @@ export const WithStepperProgressBar = ({
   setIsEditing,
   showCancelFlow,
   setShowCancelFlow,
-  variant,
+  headerComponent = StepperProgressBar,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -194,7 +192,7 @@ export const WithStepperProgressBar = ({
       activeStep={activeStepIndex}
       onGoBack={onGoBack}
       onCancel={onCancel}
-      variant={variant}
+      headerComponent={headerComponent}
     >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
@@ -220,44 +218,29 @@ export const WithStepperProgressBar = ({
   );
 };
 
-type StepperProgressBarWrapperProps = StepperProgressBarProps & {
-  children: ReactNode;
-  isSingleStep: boolean;
+type HeaderProps = StepperProgressBarProps & {
   onGoBack: () => void;
   onCancel: () => void;
-  variant: Variant;
+};
+
+type StepperProgressBarWrapperProps = HeaderProps & {
+  children: ReactNode;
+  isSingleStep: boolean;
+  headerComponent: (props: HeaderProps) => JSX.Element;
 };
 
 const StepperProgressBarWrapper = ({
   children,
   isSingleStep,
-  onGoBack,
-  onCancel,
-  variant,
+  headerComponent,
   ...stepperProgressBarProps
 }: StepperProgressBarWrapperProps) => {
   if (isSingleStep) {
     return <>{children}</>;
   }
 
-  if (variant === Variant.SIMPLE_HEADER) {
-    return (
-      <FixedHeaderContainer
-        header={
-          <HeaderWithBackAndClose
-            title={stepperProgressBarProps.title}
-            onGoBack={onGoBack}
-            onCancel={onCancel}
-          />
-        }
-      >
-        {children}
-      </FixedHeaderContainer>
-    );
-  }
-
   return (
-    <FixedHeaderContainer header={<StepperProgressBar {...stepperProgressBarProps} />}>
+    <FixedHeaderContainer header={headerComponent(stepperProgressBarProps)}>
       {children}
     </FixedHeaderContainer>
   );

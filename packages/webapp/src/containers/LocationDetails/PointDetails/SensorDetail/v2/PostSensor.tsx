@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
+import Partners from './Partners';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
@@ -28,19 +29,21 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const linkOrganizationId = async () => {
+  const linkOrganizationId = async (values: any) => {
     // TODO: POST /farm_addon
     //       When failed: snackbar
 
     // Simulating the API call
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        // Successful
-        resolve();
-
-        // Failed
-        // reject(dispatch(enqueueErrorSnackbar('TODO: Error message')));
-      }, 1500);
+        if (values.partner.organization_uuid === '1') {
+          // Successful
+          resolve();
+        } else {
+          // Failed
+          reject(dispatch(enqueueErrorSnackbar('TODO: Failed to connect to ESCI')));
+        }
+      }, 500);
     });
   };
 
@@ -53,7 +56,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
 
   const getFormSteps = () => [
     {
-      FormContent: () => <div>Partner selection view</div>,
+      FormContent: () => <Partners />,
       onContinueAction: linkOrganizationId,
     },
     { FormContent: () => <div>ESCI devices view</div> },
@@ -74,6 +77,8 @@ const PostSensor = ({ history }: PostSensorProps) => {
         hasSummaryWithinForm={true}
         onSave={onSave}
         headerComponent={PageTitle}
+        showPreviousButton={false}
+        // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>
   );

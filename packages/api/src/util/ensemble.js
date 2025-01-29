@@ -61,6 +61,18 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
+const getValidEnsembleOrg = async (org_uuid) => {
+  const allRegisteredOrganisations = await getEnsembleOrganisations();
+
+  const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
+
+  if (!organisation) {
+    throw { status: 404, message: 'Organisation not found' };
+  }
+
+  return organisation;
+};
+
 const getEnsembleSensors = async (farm_id) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
@@ -525,6 +537,7 @@ export {
   ENSEMBLE_BRAND,
   getEnsembleSensors,
   getEnsembleOrganisations,
+  getValidEnsembleOrg,
   getOrganisationDevices,
   calculateSensorArrayPoint,
   enrichWithMockData,

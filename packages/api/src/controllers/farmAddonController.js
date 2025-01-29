@@ -14,8 +14,7 @@
  */
 
 import FarmAddonModel from '../models/farmAddonModel.js';
-
-import { getEnsembleOrganisations } from '../util/ensemble.js';
+import { getValidEnsembleOrg } from '../util/ensemble.js';
 
 const farmAddonController = {
   async addFarmAddon(req, res) {
@@ -23,13 +22,7 @@ const farmAddonController = {
     const { addon_partner_id, org_uuid } = req.body;
 
     try {
-      const allRegisteredOrganisations = await getEnsembleOrganisations();
-
-      const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
-
-      if (!organisation) {
-        return res.status(404).send('Organisation not found');
-      }
+      const organisation = await getValidEnsembleOrg(org_uuid);
 
       await FarmAddonModel.upsertFarmAddon({
         farm_id,
@@ -41,8 +34,8 @@ const farmAddonController = {
       return res.status(200).send();
     } catch (error) {
       console.log(error);
-      return res.status(400).json({
-        error,
+      return res.status(error.status || 400).json({
+        error: error.message || error,
       });
     }
   },

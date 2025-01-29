@@ -165,3 +165,11 @@ export const StepperFormWithCustomHeader: Story = {
     ),
   },
 };
+
+export const StepperFormWithoutHeader: Story = {
+  args: {
+    ...stepperFormCommonProps,
+    variant: Variant.STEPPER_PROGRESS_BAR,
+    headerComponent: null,
+  },
+};

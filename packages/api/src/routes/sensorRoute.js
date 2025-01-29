@@ -35,7 +35,7 @@ router.post(
   SensorController.addSensors,
 );
 
-router.post('/link_esci_org', SensorController.linkEnsembleOrganization);
+router.post('/farm_addon', checkScope(['add:farm_addon']), SensorController.addFarmAddon);
 
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);

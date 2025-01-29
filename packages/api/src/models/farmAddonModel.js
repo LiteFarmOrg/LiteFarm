@@ -99,16 +99,16 @@ class FarmAddon extends Model {
       .first();
   }
 
-  static async upsertOrganizationIntegration({ farm_id, partner_id, organization_uuid }) {
-    const existingIntegration = await this.query().findOne({ farm_id, partner_id });
+  static async upsertFarmAddon({ farm_id, addon_partner_id, org_uuid }) {
+    const existingAddon = await this.query().findOne({ farm_id, addon_partner_id });
 
-    if (existingIntegration) {
-      return this.query().patch({ organization_uuid }).where({ farm_id, partner_id });
+    if (existingAddon) {
+      return this.query().patch({ org_uuid }).where({ farm_id, addon_partner_id });
     } else {
       return this.query().insert({
         farm_id,
-        partner_id,
-        organization_uuid,
+        addon_partner_id,
+        org_uuid,
       });
     }
   }

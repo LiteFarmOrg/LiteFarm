@@ -107,41 +107,35 @@ const sensorController = {
       res.status(404).send('Partner not found');
     }
   },
-  async linkEnsembleOrganization(req, res) {
+  async addFarmAddon(req, res) {
     const { farm_id } = req.headers;
-    const { integrating_partner_id, organization_uuid } = req.body;
+    const { addon_partner_id, org_uuid } = req.body;
 
-    const { partner_id: EnsemblePartnerId } = await IntegratingPartnersModel.getPartnerId(
-      ENSEMBLE_BRAND,
-    );
+    const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
-    if (integrating_partner_id !== EnsemblePartnerId) {
+    if (addon_partner_id !== EnsemblePartnerId) {
       return res.status(400).send('Only Ensemble Scientific is supported');
     }
 
-    if (!organization_uuid || !organization_uuid.length) {
+    if (!org_uuid || !org_uuid.length) {
       return res.status(400).send('Organization uuid required');
     }
 
     try {
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        ENSEMBLE_BRAND,
-      );
+      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
 
       const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
 
-      const organization = allRegisteredOrganizations.find(
-        ({ uuid }) => uuid === organization_uuid,
-      );
+      const organization = allRegisteredOrganizations.find(({ uuid }) => uuid === org_uuid);
 
       if (!organization) {
         return res.status(404).send('Organization not found');
       }
 
-      await FarmExternalIntegrationsModel.upsertOrganizationIntegration({
+      await FarmAddonModel.upsertFarmAddon({
         farm_id,
-        partner_id: EnsemblePartnerId,
-        organization_uuid,
+        addon_partner_id: EnsemblePartnerId,
+        org_uuid,
       });
 
       return res.status(200).send();

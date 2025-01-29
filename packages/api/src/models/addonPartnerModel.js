@@ -70,10 +70,7 @@ class AddonPartner extends Model {
     return await AddonPartner.query().select('name').where('id', id).first();
   }
   static async getPartnerId(partner_name) {
-    return await IntegratingPartners.query()
-      .select('partner_id')
-      .where('partner_name', partner_name)
-      .first();
+    return await AddonPartner.query().select('id').where('name', partner_name).first();
   }
 }
 

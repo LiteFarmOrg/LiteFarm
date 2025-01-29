@@ -34,9 +34,6 @@ router.post(
   upload.single('sensors'),
   SensorController.addSensors,
 );
-
-router.post('/farm_addon', checkScope(['add:farm_addon']), SensorController.addFarmAddon);
-
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post(

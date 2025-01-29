@@ -30,7 +30,6 @@ import { transaction, Model } from 'objection';
 
 import {
   ENSEMBLE_BRAND,
-  getEnsembleOrganizations,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
@@ -105,45 +104,6 @@ const sensorController = {
       res.status(200).send(brand_name_response.name);
     } catch (error) {
       res.status(404).send('Partner not found');
-    }
-  },
-  async addFarmAddon(req, res) {
-    const { farm_id } = req.headers;
-    const { addon_partner_id, org_uuid } = req.body;
-
-    const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
-
-    if (addon_partner_id !== EnsemblePartnerId) {
-      return res.status(400).send('Only Ensemble Scientific is supported');
-    }
-
-    if (!org_uuid || !org_uuid.length) {
-      return res.status(400).send('Organization uuid required');
-    }
-
-    try {
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
-
-      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
-
-      const organization = allRegisteredOrganizations.find(({ uuid }) => uuid === org_uuid);
-
-      if (!organization) {
-        return res.status(404).send('Organization not found');
-      }
-
-      await FarmAddonModel.upsertFarmAddon({
-        farm_id,
-        addon_partner_id: EnsemblePartnerId,
-        org_uuid,
-      });
-
-      return res.status(200).send();
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({
-        error,
-      });
     }
   },
   async addSensors(req, res) {

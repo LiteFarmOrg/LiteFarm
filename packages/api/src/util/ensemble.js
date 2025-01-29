@@ -81,59 +81,64 @@ const getEnsembleSensors = async (farm_id) => {
   const sensors = [];
   const sensorArrayMap = {};
 
-  // See below
   const farm = await FarmModel.query().findById(farm_id);
   const farmCenterCoordinates = farm.grid_points;
 
   for (const incomingDevice of devices) {
     if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
-      // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles. Then please delete the enriching function and the FarmModel query
+      // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles
       const device = enrichWithMockData(incomingDevice, farmCenterCoordinates);
 
-      const sensor = {
-        name: device.name,
-        external_id: device.esid,
-        sensor_reading_types: device.parameter_types.map(
-          (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
-        ),
-        last_seen: device.last_seen,
-        point: {
-          lat: device.latest_position.coordinates.lat,
-          lng: device.latest_position.coordinates.lng,
-        },
-        depth: device.latest_position.depth,
-        depth_unit: 'cm', // to be confirmed
-        sensor_array_id: device.profile_id,
-
-        // The following only for backwards compatibility until old sensor flow is removed
-        location_id: device.esid,
-      };
-      sensors.push(sensor);
+      sensors.push(mapDeviceToSensor(device));
 
       if (device.profile_id) {
         if (!sensorArrayMap[device.profile_id]) {
           sensorArrayMap[device.profile_id] = [];
         }
         sensorArrayMap[device.profile_id].push({
-          external_id: sensor.external_id,
-          // used to calculate sensor_array.point
+          external_id: device.external_id,
           latest_position: device.latest_position,
         });
       }
     }
   }
 
-  const sensor_arrays = Object.entries(sensorArrayMap).map(([id, sensors]) => ({
+  const sensor_arrays = createSensorArrays(sensorArrayMap);
+
+  return { sensors, sensor_arrays };
+};
+
+const mapDeviceToSensor = (device) => {
+  return {
+    name: device.name,
+    external_id: device.esid,
+    sensor_reading_types: device.parameter_types.map(
+      (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
+    ),
+    last_seen: device.last_seen,
+    point: {
+      lat: device.latest_position.coordinates.lat,
+      lng: device.latest_position.coordinates.lng,
+    },
+    depth: device.latest_position.depth,
+    depth_unit: 'cm', // to be confirmed
+    sensor_array_id: device.profile_id,
+
+    // For backwards compatibility
+    location_id: device.esid,
+  };
+};
+
+const createSensorArrays = (sensorArrayMap) => {
+  return Object.entries(sensorArrayMap).map(([id, sensors]) => ({
     id,
     sensors: sensors.map(({ external_id }) => external_id),
     point: calculateSensorArrayPoint(sensors),
 
-    // The following only for backwards compatibility until old sensor flow is removed
+    // For backwards compatibility
     location_id: id,
     name: `Sensor Array ${id}`,
   }));
-
-  return { sensors, sensor_arrays };
 };
 
 // Based on discussion with Ensemble, the sensor array point will be pulled from the sensor with the shallowest depth (to be revisited)

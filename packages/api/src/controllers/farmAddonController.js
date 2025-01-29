@@ -48,6 +48,7 @@ const farmAddonController = {
         farm_id,
         addon_partner_id,
         org_uuid,
+        org_pk: organization.pk,
       });
 
       return res.status(200).send();

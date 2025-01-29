@@ -25,17 +25,17 @@ function SensorReadings({ history, match }) {
   const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
 
   // New sensors (location_id only for backwards compatibility)
-  const { sensorInfo: sensorInfoFromQuery, arrayInfo: arrayInfoFromQuery } = useGetSensorsQuery(
-    undefined,
-    {
+  const { sensorInfo: sensorInfoFromQuery, sensorArrayInfo: sensorArrayInfoFromQuery } =
+    useGetSensorsQuery(undefined, {
       selectFromResult: ({ data }) => ({
         sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
-        arrayInfo: data?.profiles?.find((profile) => profile.location_id === location_id),
+        sensorArrayInfo: data?.sensor_arrays?.find(
+          (sensorArray) => sensorArray.location_id === location_id,
+        ),
       }),
-    },
-  );
+    });
 
-  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || arrayInfoFromQuery;
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || sensorArrayInfoFromQuery;
 
   // Grandfathered sensors
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));

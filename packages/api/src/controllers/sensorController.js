@@ -32,7 +32,7 @@ import {
   ENSEMBLE_BRAND,
   getEnsembleOrganizations,
   getOrganizationDevices,
-  calculateProfilePoint,
+  calculateSensorArrayPoint,
   enrichWithMockData,
   extractEsids,
   registerFarmAndClaimSensors,
@@ -123,7 +123,7 @@ const sensorController = {
       const farmEnsembleAddon = await FarmAddonModel.getOrganizationId(farm_id, EnsemblePartnerId);
 
       if (!farmEnsembleAddon) {
-        return res.status(200).send({ sensors: [], profiles: [] });
+        return res.status(200).send({ sensors: [], sensor_arrays: [] });
       }
 
       const farmEnsembleOrganizationid = farmEnsembleAddon.org_uuid;
@@ -131,18 +131,18 @@ const sensorController = {
       // Will no longer be necessary once the primary key is stored on the farm_integration/farm_addon table
       const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
 
-      const organization = allRegisteredOrganizations.find(
+      const organisation = allRegisteredOrganizations.find(
         ({ uuid }) => uuid === farmEnsembleOrganizationid,
       );
 
-      const devices = await getOrganizationDevices(organization.pk, access_token);
+      const devices = await getOrganizationDevices(organisation.pk, access_token);
 
       if (!devices.length) {
-        return res.status(200).send({ sensors: [], profiles: [] });
+        return res.status(200).send({ sensors: [], sensor_arrays: [] });
       }
 
       const sensors = [];
-      const profilesMap = {};
+      const sensorArrayMap = {};
 
       // See below
       const farm = await FarmModel.query().findById(farm_id);
@@ -166,7 +166,7 @@ const sensorController = {
             },
             depth: device.latest_position.depth,
             depth_unit: 'cm', // to be confirmed
-            profile_id: device.profile_id,
+            sensor_array_id: device.profile_id,
 
             // The following only for backwards compatibility until old sensor flow is removed
             location_id: device.esid,
@@ -174,31 +174,31 @@ const sensorController = {
           sensors.push(sensor);
 
           if (device.profile_id) {
-            if (!profilesMap[device.profile_id]) {
-              profilesMap[device.profile_id] = [];
+            if (!sensorArrayMap[device.profile_id]) {
+              sensorArrayMap[device.profile_id] = [];
             }
-            profilesMap[device.profile_id].push({
+            sensorArrayMap[device.profile_id].push({
               external_id: sensor.external_id,
-              // used to calculate profile.point
+              // used to calculate sensor_array.point
               latest_position: device.latest_position,
             });
           }
         }
       }
 
-      const profiles = Object.entries(profilesMap).map(([id, sensors]) => ({
+      const sensor_arrays = Object.entries(sensorArrayMap).map(([id, sensors]) => ({
         id,
         sensors: sensors.map(({ external_id }) => external_id),
-        point: calculateProfilePoint(sensors),
+        point: calculateSensorArrayPoint(sensors),
 
         // The following only for backwards compatibility until old sensor flow is removed
         location_id: id,
-        name: `Profile ${id}`,
+        name: `Sensor Array ${id}`,
       }));
 
       return res.status(200).send({
         sensors,
-        profiles,
+        sensor_arrays,
       });
     } catch (error) {
       console.log(error);

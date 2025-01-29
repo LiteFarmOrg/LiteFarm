@@ -61,8 +61,8 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
-// Based on discussion with Ensemble, the profile point will be pulled from the sensor with the shallowest depth (to be revisited)
-const calculateProfilePoint = (sensors) => {
+// Based on discussion with Ensemble, the sensor array point will be pulled from the sensor with the shallowest depth (to be revisited)
+const calculateSensorArrayPoint = (sensors) => {
   let selectedSensor = sensors[0];
 
   for (const sensor of sensors) {
@@ -450,7 +450,7 @@ export {
   ENSEMBLE_BRAND,
   getEnsembleOrganizations,
   getOrganizationDevices,
-  calculateProfilePoint,
+  calculateSensorArrayPoint,
   enrichWithMockData,
   extractEsids,
   registerFarmAndClaimSensors,

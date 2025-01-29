@@ -251,7 +251,7 @@ export interface Sensor {
   depth: number;
   depth_unit: 'cm'; // to be confirmed
   last_seen: string;
-  profile_id: string;
+  sensor_array_id: string | null;
   location_id: string; //backwards compatibility only
 }
 
@@ -268,5 +268,5 @@ export interface SensorArray {
 
 export interface SensorData {
   sensors: Sensor[];
-  profiles: SensorArray[];
+  sensor_arrays: SensorArray[];
 }

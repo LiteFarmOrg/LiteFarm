@@ -21,8 +21,8 @@ import { api } from '../apiSlice';
 export const sensorArraysSelector = createSelector(
   [api.endpoints.getSensors.select()],
   (sensorResult) =>
-    sensorResult.data?.profiles.map((profile) => ({
-      ...profile,
+    sensorResult.data?.sensor_arrays.map((sensorArray) => ({
+      ...sensorArray,
       type: 'sensor', // until icon exists for sensor_array
     })) || [],
 );
@@ -31,6 +31,6 @@ export const standaloneSensorsSelector = createSelector(
   [api.endpoints.getSensors.select()],
   (sensorResult) =>
     sensorResult.data?.sensors
-      .filter((sensor) => sensor.profile_id === null)
+      .filter((sensor) => sensor.sensor_array_id === null)
       .map((sensor) => ({ ...sensor, type: 'sensor' })) || [],
 );

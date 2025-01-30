@@ -288,5 +288,6 @@ export const {
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
   useGetSensorsQuery,
+  useLazyGetSensorsQuery,
   useAddFarmAddonMutation,
 } = api;

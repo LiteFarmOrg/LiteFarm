@@ -24,7 +24,7 @@ dotenv.config({ path: path.resolve(dir, '..', '..', '.env') });
 
 import FarmModel from '../models/farmModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
-import AddonPartner from '../models/addonPartnerModel.js';
+import AddonPartnerModel from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
@@ -61,6 +61,179 @@ const ENSEMBLE_UNITS_MAPPING = {
   },
 };
 
+/**
+ * Retrieves a valid Ensemble organisation by its UUID.
+ * @param {uuid} org_uuid
+ * @returns {Object} - The organisation object.
+ * @async
+ */
+const getValidEnsembleOrg = async (org_uuid) => {
+  const allRegisteredOrganisations = await getEnsembleOrganisations();
+
+  const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
+
+  return organisation;
+};
+
+/**
+ * Fetches Ensemble sensors and sensor arrays for a given farm
+ * @param {uuid} farm_id
+ * @returns {Object} - An object containing arrays of sensors and sensor arrays.
+ * @async
+ */
+const getEnsembleSensors = async (farm_id) => {
+  const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
+
+  if (!farmEnsembleAddon) {
+    return { sensors: [], sensor_arrays: [] };
+  }
+
+  const devices = await getOrganisationDevices(farmEnsembleAddon.org_pk);
+
+  if (!devices.length) {
+    return { sensors: [], sensor_arrays: [] };
+  }
+
+  const sensors = [];
+  const sensorArrayMap = {};
+
+  const farm = await FarmModel.query().findById(farm_id);
+  const farmCenterCoordinates = farm.grid_points;
+
+  for (const incomingDevice of devices) {
+    if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
+      // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles
+      const device = enrichWithMockData(incomingDevice, farmCenterCoordinates);
+
+      sensors.push(mapDeviceToSensor(device));
+
+      if (device.profile_id) {
+        if (!sensorArrayMap[device.profile_id]) {
+          sensorArrayMap[device.profile_id] = [];
+        }
+        sensorArrayMap[device.profile_id].push({
+          external_id: device.external_id,
+          latest_position: device.latest_position,
+        });
+      }
+    }
+  }
+
+  const sensor_arrays = createSensorArrays(sensorArrayMap);
+
+  return { sensors, sensor_arrays };
+};
+
+/**
+ * Creates a sensor object out of the incoming Ensemble device object
+ * @param {Object} device - The device to map
+ * @returns {Object} - The mapped sensor object
+ */
+const mapDeviceToSensor = (device) => {
+  return {
+    name: device.name,
+    external_id: device.esid,
+    sensor_reading_types: device.parameter_types.map(
+      (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
+    ),
+    last_seen: device.last_seen,
+    point: {
+      lat: device.latest_position.coordinates.lat,
+      lng: device.latest_position.coordinates.lng,
+    },
+    depth: device.latest_position.depth,
+    depth_unit: 'cm', // to be confirmed
+    sensor_array_id: device.profile_id,
+
+    // For backwards compatibility
+    location_id: device.esid,
+  };
+};
+
+/**
+ * Creates sensor arrays from a lookup structure keyed by device profile ids
+ * @param {Object} sensorArrayMap - A lookup object where each key is a device.profile_id and the value is an array of sensor objects.
+ * @returns {Array} - An array of sensor array objects.
+ */
+const createSensorArrays = (sensorArrayMap) => {
+  return Object.entries(sensorArrayMap).map(([id, sensors]) => ({
+    id,
+    sensors: sensors.map(({ external_id }) => external_id),
+    point: calculateSensorArrayPoint(sensors),
+
+    // For backwards compatibility
+    location_id: id,
+    name: `Sensor Array ${id}`,
+  }));
+};
+
+/**
+ * Calculates the point for a sensor array based on the position of the sensor with the shallowest sensor depth (point closest to ground level)
+ * @param {Array} sensors - An array of sensors.
+ * @returns {Object} - An object containing latitude and longitude.
+ */
+const calculateSensorArrayPoint = (sensors) => {
+  let selectedSensor = sensors[0];
+
+  for (const sensor of sensors) {
+    if (Math.abs(sensor.latest_position.depth) < Math.abs(selectedSensor.latest_position.depth)) {
+      selectedSensor = sensor;
+    }
+  }
+
+  return {
+    lat: selectedSensor.latest_position.coordinates.lat,
+    lng: selectedSensor.latest_position.coordinates.lng,
+  };
+};
+
+// This is awaiting the list of all potential reading_types from Ensemble. Please match to the frontend apiSlice type once confirmed
+const ENSEMBLE_READING_TYPES_MAPPING = {
+  'Soil Water Potential': 'soil_water_potential',
+  Temperature: 'temperature',
+};
+
+// Add mock data to a incoming Ensemble device to emulate positions (based on farm center) and randomly assigned profiles. Only necessary until we are receiving real data for this
+const enrichWithMockData = (
+  device,
+  grid_points = {
+    lat: 49.2504,
+    lng: -123.1119,
+  },
+) => {
+  device.last_seen = new Date().toISOString();
+
+  device.profile_id = Math.random() > 0.5 ? 1 : null;
+
+  if (device.profile_id === 1) {
+    const depths = [10, 20, 30, -10, -20, -30];
+    const randomDepth = depths[Math.floor(Math.random() * depths.length)];
+
+    // This is based on my speculation of what this data will look like. I have not seen real data yet.
+    device.latest_position = {
+      depth: randomDepth,
+      coordinates: {
+        lat: grid_points.lat,
+        lng: grid_points.lng,
+      },
+    };
+  } else {
+    const randomOffset = () => (Math.random() - 0.5) * 0.0001; // ~10m in degrees
+
+    device.latest_position = {
+      depth: 10,
+      coordinates: {
+        lat: grid_points.lat + randomOffset(),
+        lng: grid_points.lng + randomOffset(),
+      },
+    };
+  }
+
+  return device;
+};
+
 const ENSEMBLE_BRAND = 'Ensemble Scientific';
 
 // Return Ensemble Scientific IDs (esids) from sensor data
@@ -70,29 +243,28 @@ const extractEsids = (data) =>
     .map((sensor) => sensor.external_id);
 
 // Function to encapsulate the logic for claiming sensors
-async function registerFarmAndClaimSensors(farm_id, access_token, esids) {
-  // Register farm as an organization with Ensemble
-  const organization = await createOrganization(farm_id, access_token);
+async function registerFarmAndClaimSensors(farm_id, esids) {
+  // Register farm as an organisation with Ensemble
+  const organisation = await createOrganisation(farm_id);
 
-  // Create a webhook for the organization
-  await registerOrganizationWebhook(farm_id, organization.org_uuid, access_token);
+  // Create a webhook for the organisation
+  await registerOrganisationWebhook(farm_id, organisation.org_uuid);
 
   // Register sensors with Ensemble and return Ensemble API results
-  return await bulkSensorClaim(access_token, organization.org_uuid, esids);
+  return await bulkSensorClaim(organisation.org_uuid, esids);
 }
 
 /**
- * Sends a request to the Ensemble API for an organization to claim sensors
- * @param {String} accessToken - a JWT token for accessing the Ensemble API
- * @param {uuid} organizationId - a uuid for an Ensemble organization
+ * Sends a request to the Ensemble API for an organisation to claim sensors
+ * @param {uuid} organisationId - a uuid for an Ensemble organisation
  * @param {Array} esids - an array of ids for Ensemble devices
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function bulkSensorClaim(accessToken, organizationId, esids) {
+async function bulkSensorClaim(organisationId, esids) {
   const axiosObject = {
     method: 'post',
-    url: `${ensembleAPI}/organizations/${organizationId}/devices/bulkclaim/`,
+    url: `${ensembleAPI}/organizations/${organisationId}/devices/bulkclaim/`,
     data: { esids },
   };
 
@@ -115,19 +287,18 @@ async function bulkSensorClaim(accessToken, organizationId, esids) {
       detail: response.data.detail,
     };
   };
-  return await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
+  return await ensembleAPICall(axiosObject, onError, onResponse);
 }
 
 /**
- * Sends a request to the Ensemble API to register a webhook to an organization
+ * Sends a request to the Ensemble API to register a webhook to an organisation
  * @param {uuid} farmId - the uid for the farm the user is on
- * @param {uuid} organizationId - a uuid for the organization registered with Ensemble
- * @param {String} accessToken - a JWT token for accessing the Ensemble API
+ * @param {uuid} organisationId - a uuid for the organisation registered with Ensemble
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
 
-async function registerOrganizationWebhook(farmId, organizationId, accessToken) {
+async function registerOrganisationWebhook(farmId, organisationId) {
   const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
   const existingIntegration = await FarmAddonModel.query()
     .where({ farm_id: farmId, addon_partner_id: 1 })
@@ -138,7 +309,7 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
 
   const axiosObject = {
     method: 'post',
-    url: `${ensembleAPI}/organizations/${organizationId}/webhooks/`,
+    url: `${ensembleAPI}/organizations/${organisationId}/webhooks/`,
     data: {
       url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
       authorization_header: authHeader,
@@ -153,20 +324,20 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
     await FarmAddonModel.updateWebhookId(farmId, response.data.id);
     return { ...response.data, status: response.status };
   };
-  await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
+  await ensembleAPICall(axiosObject, onError, onResponse);
 }
 
-async function getEnsembleOrganizations(accessToken) {
+async function getEnsembleOrganisations() {
   try {
     const axiosObject = {
       method: 'get',
       url: `${ensembleAPI}/organizations/`,
     };
     const onError = () => {
-      throw new Error('Unable to fetch ESCI organization');
+      throw new Error('Unable to fetch ESCI organisation');
     };
 
-    const response = await ensembleAPICall(accessToken, axiosObject, onError);
+    const response = await ensembleAPICall(axiosObject, onError);
 
     return response.data;
   } catch (error) {
@@ -175,13 +346,37 @@ async function getEnsembleOrganizations(accessToken) {
 }
 
 /**
- * Creates a new ESCI organization if one does not already exist.
+ * Retrieves all devices that belong to a given organisation
+ * @param {uuid} organisation_pk - The primary key of the organisation.
+ * @returns {Array} - An array of device objects.
+ * @throws {Error} - Throws an error if ESci API call fails
+ * @async
+ */
+async function getOrganisationDevices(organisation_pk) {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/organizations/${organisation_pk}/devices/`,
+    };
+    const onError = () => {
+      throw new Error('Unable to fetch ESCI devices');
+    };
+
+    const response = await ensembleAPICall(axiosObject, onError);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
+ * Creates a new ESCI organisation if one does not already exist.
  * @param farmId
- * @param accessToken
  * @async
  * @return {Promise<{details: string, status: number}|FarmAddon>}
  */
-async function createOrganization(farmId, accessToken) {
+async function createOrganisation(farmId) {
   try {
     const data = await FarmModel.getFarmById(farmId);
     const existingIntegration = await FarmAddonModel.query()
@@ -197,10 +392,10 @@ async function createOrganization(farmId, accessToken) {
         },
       };
       const onError = () => {
-        throw new Error('Unable to create ESCI organization');
+        throw new Error('Unable to create ESCI organisation');
       };
 
-      const response = await ensembleAPICall(accessToken, axiosObject, onError);
+      const response = await ensembleAPICall(axiosObject, onError);
 
       return await FarmAddonModel.query().insert({
         farm_id: farmId,
@@ -212,13 +407,12 @@ async function createOrganization(farmId, accessToken) {
     }
   } catch (e) {
     console.log(e);
-    throw new Error('Unable to create ESCI organization');
+    throw new Error('Unable to create ESCI organisation');
   }
 }
 
 /**
  * Sends a request to the Ensemble API. On error, refreshes API tokens and retries the request.
- * @param {String} accessToken - a JWT token for accessing the Ensemble API
  * @param {Object} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
  * @param {Function} onError - a function for handling errors with the api call
  * @param {Function} onResponse -  a function to determine how to handle the response of the api call
@@ -226,14 +420,9 @@ async function createOrganization(farmId, accessToken) {
  * @returns {Object} - the response from the Ensemble API
  * @async
  */
-async function ensembleAPICall(
-  accessToken,
-  axiosObject,
-  onError,
-  onResponse = (r) => r,
-  retries = 1,
-) {
-  const axiosObjWithHeaders = { headers: getHeaders(accessToken), ...axiosObject };
+async function ensembleAPICall(axiosObject, onError, onResponse = (r) => r, retries = 1) {
+  const access_token = await fetchAccessToken();
+  const axiosObjWithHeaders = { headers: getHeaders(access_token), ...axiosObject };
   try {
     const response = await axios(axiosObjWithHeaders);
     return onResponse(response);
@@ -244,6 +433,16 @@ async function ensembleAPICall(
       return onError(error);
     }
   }
+}
+
+/**
+ * Fetches the Ensemble access token from the addon_partner table.
+ * @returns {string} - The access token.
+ * @async
+ */
+async function fetchAccessToken() {
+  const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+  return access_token;
 }
 
 /**
@@ -290,9 +489,9 @@ function isAuthError(error) {
  */
 async function refreshTokens() {
   try {
-    const { refresh_token } = await AddonPartner.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+    const { refresh_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
     const response = await axios.post(ensembleAPI + '/token/refresh/', { refresh: refresh_token });
-    await AddonPartner.patchAccessAndRefreshTokens(
+    await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -318,7 +517,7 @@ async function authenticateToGetTokens() {
     const username = process.env.ENSEMBLE_USERNAME;
     const password = process.env.ENSEMBLE_PASSWORD;
     const response = await axios.post(ensembleAPI + '/token/', { username, password });
-    await AddonPartner.patchAccessAndRefreshTokens(
+    await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
       response.data?.access,
@@ -330,10 +529,10 @@ async function authenticateToGetTokens() {
 }
 
 /**
- * Communicate with Ensemble API and unclaim a sensor from the litefarm organization
+ * Communicate with Ensemble API and unclaim a sensor from the litefarm organisation
  * @returns Response from Ensemble API
  */
-async function unclaimSensor(org_id, external_id, access_token) {
+async function unclaimSensor(org_id, external_id) {
   try {
     const onError = () => {
       throw new Error('Unable to unclaim sensor');
@@ -344,14 +543,10 @@ async function unclaimSensor(org_id, external_id, access_token) {
       url: `${ensembleAPI}/devices/${external_id}`,
     };
 
-    const { data: currentDeviceData } = await ensembleAPICall(
-      access_token,
-      getDeviceAxiosObject,
-      onError,
-    );
+    const { data: currentDeviceData } = await ensembleAPICall(getDeviceAxiosObject, onError);
 
-    if (currentDeviceData?.owner_organization?.uuid !== org_id) {
-      return { status: 200, data: { detail: 'Device not currently owned by this organization' } };
+    if (currentDeviceData?.owner_organisation?.uuid !== org_id) {
+      return { status: 200, data: { detail: 'Device not currently owned by this organisation' } };
     }
 
     const unclaimAxiosObject = {
@@ -360,7 +555,7 @@ async function unclaimSensor(org_id, external_id, access_token) {
       data: { esid: external_id },
     };
 
-    const response = await ensembleAPICall(access_token, unclaimAxiosObject, onError);
+    const response = await ensembleAPICall(unclaimAxiosObject, onError);
     return response;
   } catch (error) {
     return { status: 400, error };
@@ -369,9 +564,15 @@ async function unclaimSensor(org_id, external_id, access_token) {
 
 export {
   ENSEMBLE_BRAND,
-  getEnsembleOrganizations,
+  getEnsembleSensors,
+  getEnsembleOrganisations,
+  getValidEnsembleOrg,
+  getOrganisationDevices,
+  calculateSensorArrayPoint,
+  enrichWithMockData,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
+  ENSEMBLE_READING_TYPES_MAPPING,
 };

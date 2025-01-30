@@ -84,7 +84,7 @@ export default function PurePreviewPopup({ location, history, sensorReadings, st
             <div className={classes.title}>{location.name}</div>
           </div>
           <div className={classes.body}>
-            {reading_types.map((reading_type, idx) => {
+            {reading_types?.map((reading_type, idx) => {
               /**
                * Add other reading types in the if below when other compact components are added to CompactPreview
                */

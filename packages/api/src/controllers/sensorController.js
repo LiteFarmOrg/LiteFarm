@@ -34,6 +34,7 @@ import {
   registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
+  getEnsembleSensors,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
@@ -106,6 +107,22 @@ const sensorController = {
       res.status(404).send('Partner not found');
     }
   },
+  async getSensors(req, res) {
+    const { farm_id } = req.headers;
+    try {
+      const { sensors, sensor_arrays } = await getEnsembleSensors(farm_id);
+
+      return res.status(200).send({
+        sensors,
+        sensor_arrays,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
+    }
+  },
   async addSensors(req, res) {
     let timeLimit = 5000;
     const testTimerOverride = Number(req.query?.sensorUploadTimer);
@@ -118,8 +135,6 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
-
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
 
@@ -182,7 +197,6 @@ const sensorController = {
         if (esids.length > 0) {
           ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
             farm_id,
-            access_token,
             esids,
           ));
         }
@@ -412,21 +426,6 @@ const sensorController = {
     }
   },
 
-  async getSensorsByFarmId(req, res) {
-    try {
-      const { farm_id } = req.params;
-      if (!farm_id) {
-        return res.status(400).send('No farm selected');
-      }
-      const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
-      res.status(200).send(data);
-    } catch (error) {
-      res.status(400).json({
-        error,
-      });
-    }
-  },
-
   // Note : API is called at the ensemble backend. the ensemble backend sends the same status code when we add sensors to the farm (register sensor API).
   // when we register some sensors, the add readings API is called and the same status code is passed in the response of register sensors (i.e 200).
   // For example, if we make that as 400 then the registered sensor API of the ensemble will send back 400 and the add sensor API will fail.
@@ -617,15 +616,14 @@ const sensorController = {
       const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
       let unclaimResponse;
       if (name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmAddonModel.getOrganizationId(
+        const external_integrations_response = await FarmAddonModel.getOrganisationIds(
           farm_id,
           partner_id,
         );
         const org_id = external_integrations_response.org_uuid;
-        unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+        unclaimResponse = await unclaimSensor(org_id, external_id);
 
         if (unclaimResponse?.status != 200) {
           await trx.rollback();

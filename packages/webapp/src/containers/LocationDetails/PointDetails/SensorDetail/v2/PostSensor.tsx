@@ -19,6 +19,7 @@ import { ContextForm, Variant } from '../../../../../components/Form/ContextForm
 import Partners from './Partners';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
+import { useAddFarmAddonMutation } from '../../../../../store/api/apiSlice';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -29,22 +30,21 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const linkOrganisationId = async (values: any) => {
-    // TODO: POST /farm_addon
-    //       When failed: snackbar
+  const [addFarmAddon] = useAddFarmAddonMutation();
 
-    // Simulating the API call
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (values.partner.org_uuid === '1') {
-          // Successful
-          resolve();
-        } else {
-          // Failed
-          reject(dispatch(enqueueErrorSnackbar('TODO: Failed to connect to ESCI')));
-        }
-      }, 500);
-    });
+  const linkEsci = async (values: any) => {
+    const result = await addFarmAddon(values.partner);
+
+    if ('error' in result) {
+      const isInvalidId = 'data' in result.error && result.error.data === 'Organisation not found';
+      const errorMessage = isInvalidId
+        ? t('SENSOR.ESCI.ORGANISATION_ID_ERROR')
+        : t('SENSOR.ESCI.ORGANISATION_ID_GENERIC_ERROR');
+      dispatch(enqueueErrorSnackbar(errorMessage));
+
+      // This error prevents the page transition in WithStepperProgressBar's onContinue
+      throw Error(isInvalidId ? 'Invalid ESCI organisation ID' : 'ESCI Connection Error');
+    }
   };
 
   const onSave = async (data: any, onSuccess: () => void) => {
@@ -57,7 +57,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const getFormSteps = () => [
     {
       FormContent: () => <Partners />,
-      onContinueAction: linkOrganisationId,
+      onContinueAction: linkEsci,
     },
     { FormContent: () => <div>ESCI devices view</div> },
   ];

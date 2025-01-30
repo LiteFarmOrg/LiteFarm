@@ -70,7 +70,7 @@ const ENSEMBLE_UNITS_MAPPING = {
 const getValidEnsembleOrg = async (org_uuid) => {
   const allRegisteredOrganisations = await getEnsembleOrganisations();
 
-  const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
+  const organisation = allRegisteredOrganisations?.find(({ uuid }) => uuid === org_uuid);
 
   return organisation;
 };

@@ -29,14 +29,14 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const linkOrganizationId = async (values: any) => {
+  const linkOrganisationId = async (values: any) => {
     // TODO: POST /farm_addon
     //       When failed: snackbar
 
     // Simulating the API call
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        if (values.partner.organization_uuid === '1') {
+        if (values.partner.organisation_uuid === '1') {
           // Successful
           resolve();
         } else {
@@ -57,13 +57,13 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const getFormSteps = () => [
     {
       FormContent: () => <Partners />,
-      onContinueAction: linkOrganizationId,
+      onContinueAction: linkOrganisationId,
     },
     { FormContent: () => <div>ESCI devices view</div> },
   ];
 
   const defaultFormValues = {
-    partner: { integrating_partner_id: 1, organization_uuid: '' },
+    partner: { integrating_partner_id: 1, organisation_uuid: '' },
   };
 
   return (

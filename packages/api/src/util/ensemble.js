@@ -456,7 +456,7 @@ async function fetchAccessToken() {
 async function refreshAndRecall(axiosObject, onError, onResponse, retries) {
   const result = await refreshTokens();
   if (!result?.access || !result?.refresh) return result;
-  return ensembleAPICall(result.access, axiosObject, onError, onResponse, retries - 1);
+  return ensembleAPICall(axiosObject, onError, onResponse, retries - 1);
 }
 
 /**

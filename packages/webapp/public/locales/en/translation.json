@@ -1808,7 +1808,8 @@
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your ensemble scientific organisation ID",
       "ORGANISATION_ID": "ESCI organisation ID",
-      "ORGANISATION_ID_ERROR": "Invalid Organisation ID"
+      "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
+      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later."
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

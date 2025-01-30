@@ -73,10 +73,6 @@ const getValidEnsembleOrg = async (org_uuid) => {
 
   const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
 
-  if (!organisation) {
-    throw { status: 404, message: 'Organisation not found' };
-  }
-
   return organisation;
 };
 

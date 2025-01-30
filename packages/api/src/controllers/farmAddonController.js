@@ -24,6 +24,10 @@ const farmAddonController = {
     try {
       const organisation = await getValidEnsembleOrg(org_uuid);
 
+      if (!organisation) {
+        return res.status(404).send('Organisation not found');
+      }
+
       await FarmAddonModel.upsertFarmAddon({
         farm_id,
         addon_partner_id,
@@ -34,8 +38,8 @@ const farmAddonController = {
       return res.status(200).send();
     } catch (error) {
       console.log(error);
-      return res.status(error.status || 400).json({
-        error: error.message || error,
+      return res.status(400).json({
+        error,
       });
     }
   },

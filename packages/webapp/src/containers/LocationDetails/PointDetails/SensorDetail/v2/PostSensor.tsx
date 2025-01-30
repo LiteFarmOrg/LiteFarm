@@ -20,6 +20,7 @@ import Partners from './Partners';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
+import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -33,8 +34,8 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const [addFarmAddon] = useAddFarmAddonMutation();
   const [triggerGetSensors] = useLazyGetSensorsQuery();
 
-  const linkEsci = async (values: any) => {
-    const result = await addFarmAddon(values.partner);
+  const linkEsci = async (values: AddSensorsFormFields) => {
+    const result = await addFarmAddon(values[PARTNER]);
 
     if ('error' in result) {
       const isInvalidId = 'data' in result.error && result.error.data === 'Organisation not found';
@@ -48,7 +49,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
     }
   };
 
-  const onSave = async (data: any, onSuccess: () => void) => {
+  const onSave = async (data: AddSensorsFormFields, onSuccess: () => void) => {
     // Fetch sensors
     await triggerGetSensors();
 
@@ -65,7 +66,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
   ];
 
   const defaultFormValues = {
-    partner: { addon_partner_id: 1, org_uuid: '' },
+    [PARTNER]: { [FarmAddonField.PARTNER_ID]: 1, [FarmAddonField.ORG_UUID]: '' },
   };
 
   return (

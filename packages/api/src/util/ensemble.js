@@ -65,7 +65,6 @@ const ENSEMBLE_UNITS_MAPPING = {
  * Retrieves a valid Ensemble organisation by its UUID.
  * @param {uuid} org_uuid
  * @returns {Object} - The organisation object.
- * @throws {Object} - Throws an error with status 404 if the organisation is not found within the Ensemble organisations we have access to
  * @async
  */
 const getValidEnsembleOrg = async (org_uuid) => {
@@ -171,7 +170,7 @@ const createSensorArrays = (sensorArrayMap) => {
 };
 
 /**
- * Calculates the point for a sensor array based on the position of the sensor with the shallowest sensor depth (point closest to groound level)
+ * Calculates the point for a sensor array based on the position of the sensor with the shallowest sensor depth (point closest to ground level)
  * @param {Array} sensors - An array of sensors.
  * @returns {Object} - An object containing latitude and longitude.
  */

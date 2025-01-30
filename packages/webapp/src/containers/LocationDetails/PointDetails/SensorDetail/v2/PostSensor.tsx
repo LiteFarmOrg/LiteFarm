@@ -19,7 +19,7 @@ import { ContextForm, Variant } from '../../../../../components/Form/ContextForm
 import Partners from './Partners';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
-import { useAddFarmAddonMutation } from '../../../../../store/api/apiSlice';
+import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -31,6 +31,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
   const dispatch = useDispatch();
 
   const [addFarmAddon] = useAddFarmAddonMutation();
+  const [triggerGetSensors] = useLazyGetSensorsQuery();
 
   const linkEsci = async (values: any) => {
     const result = await addFarmAddon(values.partner);
@@ -48,9 +49,10 @@ const PostSensor = ({ history }: PostSensorProps) => {
   };
 
   const onSave = async (data: any, onSuccess: () => void) => {
-    // TODO: GET devices with useLazyQuery.
-    //       Once the data is returned, call onSuccess to navigate to the next view.
+    // Fetch sensors
+    await triggerGetSensors();
 
+    // Proceed to sensors view
     onSuccess();
   };
 

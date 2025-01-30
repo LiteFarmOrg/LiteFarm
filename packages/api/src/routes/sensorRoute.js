@@ -34,7 +34,6 @@ router.post(
   upload.single('sensors'),
   SensorController.addSensors,
 );
-
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post(

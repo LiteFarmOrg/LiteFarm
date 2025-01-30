@@ -156,6 +156,24 @@ async function registerOrganizationWebhook(farmId, organizationId, accessToken) 
   await ensembleAPICall(accessToken, axiosObject, onError, onResponse);
 }
 
+async function getEnsembleOrganizations(accessToken) {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/organizations/`,
+    };
+    const onError = () => {
+      throw new Error('Unable to fetch ESCI organization');
+    };
+
+    const response = await ensembleAPICall(accessToken, axiosObject, onError);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 /**
  * Creates a new ESCI organization if one does not already exist.
  * @param farmId
@@ -351,6 +369,7 @@ async function unclaimSensor(org_id, external_id, access_token) {
 
 export {
   ENSEMBLE_BRAND,
+  getEnsembleOrganizations,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,

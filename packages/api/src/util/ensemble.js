@@ -334,14 +334,17 @@ async function getEnsembleOrganisations() {
       url: `${ensembleAPI}/organizations/`,
     };
     const onError = () => {
-      throw new Error('Unable to fetch ESCI organisation');
+      const err = new Error('Unable to fetch ESCI organisations');
+      err.status = 500;
+      throw err;
     };
 
     const response = await ensembleAPICall(axiosObject, onError);
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw error;
   }
 }
 
@@ -501,7 +504,9 @@ async function refreshTokens() {
     if (isAuthError(error)) {
       return await authenticateToGetTokens();
     } else {
-      return { status: 500, detail: 'Failed to authenticate with Ensemble.' };
+      const err = new Error('Failed to authenticate with Ensemble.');
+      err.status = 500;
+      throw err;
     }
   }
 }
@@ -524,7 +529,9 @@ async function authenticateToGetTokens() {
     );
     return response.data;
   } catch (error) {
-    return { status: 500, detail: 'Failed to authenticate with Ensemble.' };
+    const err = new Error('Failed to authenticate with Ensemble.');
+    err.status = 500;
+    throw err;
   }
 }
 

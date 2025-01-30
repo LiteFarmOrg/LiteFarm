@@ -131,6 +131,9 @@ const PostWatercourseForm = React.lazy(() =>
   import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
+const PostSensorForm = React.lazy(() =>
+  import('../containers/LocationDetails/PointDetails/SensorDetail/v2/PostSensor'),
+);
 const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
@@ -533,6 +536,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route path="/create_location/sensor" exact component={PostSensorForm} />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -817,6 +821,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route path="/create_location/sensor" exact component={PostSensorForm} />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />

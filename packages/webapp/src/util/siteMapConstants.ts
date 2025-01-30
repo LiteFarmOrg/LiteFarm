@@ -88,3 +88,7 @@ export const createCompleteHarvestQuantityTaskUrl = (id: string | number): strin
 export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
   return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
 };
+
+// Maps
+export const MAP_URL = '/map';
+export const POST_SENSOR_URL = '/create_location/sensor';

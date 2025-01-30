@@ -16,6 +16,7 @@ import {
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
+import { useGetSensorsQuery } from '../../store/api/apiSlice';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
@@ -30,7 +31,10 @@ export default function Home({ history }) {
     fileUrls: [userFarm.farm_image_url],
   });
 
+  const { refetch: refetchSensors } = useGetSensorsQuery();
+
   useEffect(() => {
+    refetchSensors();
     dispatch(getAlert());
   }, []);
 

@@ -139,15 +139,15 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   const readingTypes = useSelector(sensorReadingTypesByMultipleLocations(locationSensors));
 
   const showDetails = (id) => {
-    let sensor = readingTypes.find((sensor) => sensor.location_id === id);
+    let sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
     return (
-      sensor?.reading_types.includes(TEMPERATURE) ||
-      sensor?.reading_types.includes(SOIL_WATER_POTENTIAL)
+      sensor?.reading_types?.includes(TEMPERATURE) ||
+      sensor?.reading_types?.includes(SOIL_WATER_POTENTIAL)
     );
   };
 
   const isSensor = (id) => {
-    const sensor = readingTypes.find((sensor) => sensor.location_id === id);
+    const sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
     return !!sensor?.reading_types;
   };
 
@@ -222,8 +222,8 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                 )}
               </div>
               {readingTypes
-                .find((sensor) => sensor.location_id === location.id)
-                ?.reading_types.map((type, rid) => {
+                ?.find((sensor) => sensor?.location_id === location.id)
+                ?.reading_types?.map((type, rid) => {
                   if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
                     return (
                       <div

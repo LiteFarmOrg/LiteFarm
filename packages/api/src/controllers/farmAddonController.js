@@ -13,10 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AddonPartnerModel from '../models/addonPartnerModel.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
-
-import { ENSEMBLE_BRAND, getEnsembleOrganizations } from '../util/ensemble.js';
+import { getValidEnsembleOrg } from '../util/ensemble.js';
 
 const farmAddonController = {
   async addFarmAddon(req, res) {
@@ -24,21 +22,17 @@ const farmAddonController = {
     const { addon_partner_id, org_uuid } = req.body;
 
     try {
-      const { access_token } = await AddonPartnerModel.getAccessAndRefreshTokens(ENSEMBLE_BRAND);
+      const organisation = await getValidEnsembleOrg(org_uuid);
 
-      const allRegisteredOrganizations = await getEnsembleOrganizations(access_token);
-
-      const organization = allRegisteredOrganizations.find(({ uuid }) => uuid === org_uuid);
-
-      if (!organization) {
-        return res.status(404).send('Organization not found');
+      if (!organisation) {
+        return res.status(404).send('Organisation not found');
       }
 
       await FarmAddonModel.upsertFarmAddon({
         farm_id,
         addon_partner_id,
         org_uuid,
-        org_pk: organization.pk,
+        org_pk: organisation.pk,
       });
 
       return res.status(200).send();

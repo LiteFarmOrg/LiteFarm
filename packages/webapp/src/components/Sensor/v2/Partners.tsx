@@ -74,12 +74,12 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
             <Input
               placeholder={t('SENSOR.ESCI.ORGANISATION_ID')}
               type="text"
-              hookFormRegister={register('partner.organisation_uuid', {
+              hookFormRegister={register('partner.org_uuid', {
                 required: true,
                 validate: (value) =>
                   validateUuidFormat(value, t('SENSOR.ESCI.ORGANISATION_ID_ERROR')),
               })}
-              errors={getInputErrors(errors, 'partner.organisation_uuid')}
+              errors={getInputErrors(errors, 'partner.org_uuid')}
             />
           </div>
         </div>

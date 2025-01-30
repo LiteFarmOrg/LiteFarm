@@ -36,7 +36,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
     // Simulating the API call
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        if (values.partner.organisation_uuid === '1') {
+        if (values.partner.org_uuid === '1') {
           // Successful
           resolve();
         } else {
@@ -63,7 +63,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
   ];
 
   const defaultFormValues = {
-    partner: { integrating_partner_id: 1, organisation_uuid: '' },
+    partner: { addon_partner_id: 1, org_uuid: '' },
   };
 
   return (

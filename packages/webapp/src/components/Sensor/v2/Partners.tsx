@@ -20,6 +20,11 @@ import Input, { getInputErrors } from '../../Form/Input';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Main } from '../../Typography';
 import EsciLogo from '../../../assets/images/partners/esci_logo.png';
+import {
+  AddSensorsFormFields,
+  FarmAddonField,
+  PARTNER,
+} from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import styles from './styles.module.scss';
 
 type PartnersProps = {
@@ -50,12 +55,14 @@ const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath:
   );
 };
 
+const ORG_UUID = `${PARTNER}.${FarmAddonField.ORG_UUID}` as const;
+
 const Partners = ({ hasActiveConnection }: PartnersProps) => {
   const { t } = useTranslation();
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<AddSensorsFormFields>();
 
   return (
     <div className={styles.wrapper}>
@@ -74,12 +81,12 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
             <Input
               placeholder={t('SENSOR.ESCI.ORGANISATION_ID')}
               type="text"
-              hookFormRegister={register('partner.org_uuid', {
+              hookFormRegister={register(ORG_UUID, {
                 required: true,
                 validate: (value) =>
                   validateUuidFormat(value, t('SENSOR.ESCI.ORGANISATION_ID_ERROR')),
               })}
-              errors={getInputErrors(errors, 'partner.org_uuid')}
+              errors={getInputErrors(errors, ORG_UUID)}
             />
           </div>
         </div>

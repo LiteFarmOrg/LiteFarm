@@ -1807,7 +1807,8 @@
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble scientific \"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter you ensemble scientific ID",
-      "ORGANIZATION_ID": "ESCI organisation ID"
+      "ORGANIZATION_ID": "ESCI organisation ID",
+      "ORGANIZATION_ID_ERROR": "Invalid Organisation ID"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

@@ -32,6 +32,7 @@ import gateActive from '../../assets/images/map/gate-active.png';
 import sensor from '../../assets/images/map/sensor.png';
 import sensorHover from '../../assets/images/map/sensor-hover.png';
 import sensorActive from '../../assets/images/map/sensor-active.png';
+import sensorArray from '../../assets/images/map/sensorArray.svg';
 
 export const areaStyles = {
   barn: {
@@ -145,19 +146,23 @@ export const icons = {
   gate: gate,
   water_valve: waterValve,
   sensor: sensor,
+  sensor_array: sensorArray,
 };
 export const hoverIcons = {
   gate: gateHover,
   water_valve: waterValveHover,
   sensor: sensorHover,
+  sensor_array: sensorArray,
 };
 export const activeIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
   sensor: sensorActive,
+  sensor_array: sensorArray,
 };
 export const selectedIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
   sensor: sensorActive,
+  sensor_array: sensorArray,
 };

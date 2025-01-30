@@ -15,7 +15,8 @@
 
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
+import { validate as uuidValidate } from 'uuid';
+import Input, { getInputErrors } from '../../Form/Input';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Main } from '../../Typography';
 import EsciLogo from '../../../assets/images/partners/esci_logo.png';
@@ -25,6 +26,10 @@ type PartnersProps = {
   hasActiveConnection: {
     esci: boolean;
   };
+};
+
+const validateUuidFormat = (value: string, errorMessage: string) => {
+  return uuidValidate(value) || errorMessage;
 };
 
 const PARTNERS = [{ name: 'Ensemble scientific', url: 'www.esci.io', logoPath: EsciLogo }];
@@ -47,7 +52,10 @@ const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath:
 
 const Partners = ({ hasActiveConnection }: PartnersProps) => {
   const { t } = useTranslation();
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div className={styles.wrapper}>
@@ -66,7 +74,12 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
             <Input
               placeholder={t('SENSOR.ESCI.ORGANIZATION_ID')}
               type="text"
-              hookFormRegister={register('partner.organization_uuid', { required: true })}
+              hookFormRegister={register('partner.organization_uuid', {
+                required: true,
+                validate: (value) =>
+                  validateUuidFormat(value, t('SENSOR.ESCI.ORGANIZATION_ID_ERROR')),
+              })}
+              errors={getInputErrors(errors, 'partner.organization_uuid')}
             />
           </div>
         </div>

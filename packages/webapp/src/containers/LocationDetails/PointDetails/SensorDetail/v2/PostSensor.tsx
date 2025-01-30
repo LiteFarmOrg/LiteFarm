@@ -78,6 +78,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
         onSave={onSave}
         headerComponent={PageTitle}
         showPreviousButton={false}
+        formMode="onChange"
         // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>

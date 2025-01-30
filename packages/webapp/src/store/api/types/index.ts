@@ -270,3 +270,8 @@ export interface SensorData {
   sensors: Sensor[];
   sensor_arrays: SensorArray[];
 }
+
+export interface FarmAddon {
+  addon_partner_id: number;
+  org_uuid: string;
+}

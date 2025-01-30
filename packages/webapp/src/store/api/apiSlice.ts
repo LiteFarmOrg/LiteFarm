@@ -35,6 +35,7 @@ import {
   url,
   animalMovementPurposesUrl,
   sensorUrl,
+  farmAddonUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -55,6 +56,7 @@ import type {
   AnimalUse,
   AnimalMovementPurpose,
   SensorData,
+  FarmAddon,
 } from './types';
 
 export const api = createApi({
@@ -91,6 +93,7 @@ export const api = createApi({
     'SoilAmendmentFertiliserTypes',
     'SoilAmendmentProduct',
     'Sensors',
+    'FarmAddon',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -246,6 +249,14 @@ export const api = createApi({
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['Sensors'],
     }),
+    addFarmAddon: build.mutation<void, FarmAddon>({
+      query: (body) => ({
+        url: `${farmAddonUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['FarmAddon'],
+    }),
   }),
 });
 
@@ -277,4 +288,5 @@ export const {
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
   useGetSensorsQuery,
+  useAddFarmAddonMutation,
 } = api;

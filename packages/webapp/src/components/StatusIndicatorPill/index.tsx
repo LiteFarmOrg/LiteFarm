@@ -90,7 +90,7 @@ export const StatusIndicatorPill = ({
       title={hoverContent}
       placement="bottom-end"
       classes={{
-        tooltip: styles.hoverDetails,
+        tooltip: styles.tooltipContainer,
       }}
       PopperProps={PopperProps}
       enterTouchDelay={0}

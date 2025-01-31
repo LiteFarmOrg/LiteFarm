@@ -48,7 +48,9 @@ const farmAddonController = {
       try {
         const { farm_id } = req.headers;
         const { addon_partner_id } = req.query;
-        const rows = await FarmAddonModel.query().where({ farm_id, addon_partner_id });
+        const rows = await FarmAddonModel.query()
+          .where({ farm_id, addon_partner_id })
+          .skipUndefined();
         if (!rows.length) {
           return res.sendStatus(404);
         }

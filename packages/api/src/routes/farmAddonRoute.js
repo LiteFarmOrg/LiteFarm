@@ -24,7 +24,7 @@ router.post(
   '/',
   checkScope(['add:farm_addon']),
   checkFarmAddon(),
-  FarmAddonController.addFarmAddon,
+  FarmAddonController.addFarmAddon(),
 );
 
 router.get('/', checkScope(['get:farm_addon']), FarmAddonController.getFarmAddon());

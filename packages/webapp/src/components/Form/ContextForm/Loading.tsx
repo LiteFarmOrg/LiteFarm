@@ -13,25 +13,52 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { CSSProperties } from 'react';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../Spinner';
+import FloatingContainer from '../../FloatingContainer';
+import type { CSSLength } from '../../../types';
 import styles from './styles.module.scss';
 
 interface LoadingProps {
   dataName?: string;
+  isCompactSideMenu: boolean;
+  verticalMargin?: CSSLength;
+  horizontalMargin?: CSSLength;
+  mobileMargin?: CSSLength;
 }
 
-const Loading = ({ dataName = '' }: LoadingProps) => {
+const Loading = ({
+  dataName = '',
+  isCompactSideMenu,
+  verticalMargin = '36px',
+  horizontalMargin = '64px',
+  mobileMargin = '16px',
+}: LoadingProps) => {
   const { t } = useTranslation(['translation', 'common']);
+  const style = {
+    '--vertical-margin': verticalMargin,
+    '--horizontal-margin': horizontalMargin,
+    '--mobile-margin': mobileMargin,
+  } as CSSProperties;
 
   return (
-    <div className={styles.loadingScreen}>
-      <div>
-        <Spinner />
+    <FloatingContainer isCompactSideMenu={isCompactSideMenu} distanceFromBottom={verticalMargin}>
+      <div
+        className={clsx(
+          styles.loadingScreen,
+          isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+        )}
+        style={style}
+      >
+        <div>
+          <Spinner />
+        </div>
+        <div className={styles.loadingText}>{t('common:LOADING')}</div>
+        <div className={styles.loadingMessage}>{t('common:FETCHING_YOUR_DATA', { dataName })}</div>
       </div>
-      <div className={styles.loadingText}>{t('common:LOADING')}</div>
-      <div className={styles.loadingMessage}>{t('common:FETCHING_YOUR_DATA', { dataName })}</div>
-    </div>
+    </FloatingContainer>
   );
 };
 

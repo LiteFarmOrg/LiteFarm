@@ -25,9 +25,10 @@ import styles from './styles.module.scss';
 
 interface PostSensorProps {
   history: History;
+  isCompactSideMenu: boolean;
 }
 
-const PostSensor = ({ history }: PostSensorProps) => {
+const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -82,6 +83,7 @@ const PostSensor = ({ history }: PostSensorProps) => {
         headerComponent={PageTitle}
         showPreviousButton={false}
         formMode="onChange"
+        isCompactSideMenu={isCompactSideMenu}
         // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>

@@ -78,3 +78,70 @@
     font-size: 16px;
   }
 }
+
+// TODO: LF-4693
+// Current connection
+.connectionInfo {
+  margin-top: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  border-radius: 4px;
+  background: var(--Box-bg);
+
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.activeConnection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .infoText {
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.manage {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  text-decoration: none;
+
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+
+  svg path {
+    fill: currentColor;
+  }
+
+  span {
+    padding: 0 20px;
+    text-align: center;
+  }
+}
+
+.toSensorSetupButton {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 8px;
+  border-radius: 4px;
+  background: #fff;
+
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+
+  svg path {
+    fill: currentColor;
+  }
+}

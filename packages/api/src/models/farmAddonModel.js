@@ -91,12 +91,27 @@ class FarmAddon extends Model {
     return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
   }
 
-  static async getOrganizationId(farmId, addonPartnerId) {
+  static async getOrganisationIds(farmId, addonPartnerId) {
     return FarmAddon.query()
-      .select('org_uuid')
+      .select('org_uuid', 'org_pk')
       .where('farm_id', farmId)
       .where('addon_partner_id', addonPartnerId)
       .first();
+  }
+
+  static async upsertFarmAddon({ farm_id, addon_partner_id, org_uuid, org_pk }) {
+    const existingAddon = await this.query().findOne({ farm_id, addon_partner_id });
+
+    if (existingAddon) {
+      return this.query().patch({ org_uuid, org_pk }).where({ farm_id, addon_partner_id });
+    } else {
+      return this.query().insert({
+        farm_id,
+        addon_partner_id,
+        org_uuid,
+        org_pk,
+      });
+    }
   }
 }
 

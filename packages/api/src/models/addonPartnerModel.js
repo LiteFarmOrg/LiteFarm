@@ -69,6 +69,9 @@ class AddonPartner extends Model {
   static async getBrandName(id) {
     return await AddonPartner.query().select('name').where('id', id).first();
   }
+  static async getPartnerId(partner_name) {
+    return await AddonPartner.query().select('id').where('name', partner_name).first();
+  }
 }
 
 export default AddonPartner;

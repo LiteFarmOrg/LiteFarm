@@ -13,20 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import checkScope from '../middleware/acl/checkScope.js';
-import { checkFarmAddon } from '../middleware/validation/checkFarmAddon.js';
-import FarmAddonController from '../controllers/farmAddonController.js';
-
-const router = express.Router();
-
-router.post(
-  '/',
-  checkScope(['add:farm_addon']),
-  checkFarmAddon(),
-  FarmAddonController.addFarmAddon,
-);
-
-router.get('/', checkScope(['get:farm_addon']), FarmAddonController.getFarmAddon());
-
-export default router;
+.formWrapper {
+  height: 100%;
+  background-color: var(--White);
+  padding: 24px;
+}

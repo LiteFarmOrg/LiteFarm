@@ -13,20 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import checkScope from '../middleware/acl/checkScope.js';
-import { checkFarmAddon } from '../middleware/validation/checkFarmAddon.js';
-import FarmAddonController from '../controllers/farmAddonController.js';
+import { useTranslation } from 'react-i18next';
+import Spinner from '../../Spinner';
+import styles from './styles.module.scss';
 
-const router = express.Router();
+interface LoadingProps {
+  dataName?: string;
+}
 
-router.post(
-  '/',
-  checkScope(['add:farm_addon']),
-  checkFarmAddon(),
-  FarmAddonController.addFarmAddon,
-);
+const Loading = ({ dataName = '' }: LoadingProps) => {
+  const { t } = useTranslation(['translation', 'common']);
 
-router.get('/', checkScope(['get:farm_addon']), FarmAddonController.getFarmAddon());
+  return (
+    <div className={styles.loadingScreen}>
+      <div>
+        <Spinner />
+      </div>
+      <div className={styles.loadingText}>{t('common:LOADING')}</div>
+      <div className={styles.loadingMessage}>{t('common:FETCHING_YOUR_DATA', { dataName })}</div>
+    </div>
+  );
+};
 
-export default router;
+export default Loading;

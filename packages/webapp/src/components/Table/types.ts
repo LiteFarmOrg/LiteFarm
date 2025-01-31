@@ -29,6 +29,7 @@ export enum CellKind {
   ICON_TEXT = 'iconText',
   PLAIN = 'plain',
   RIGHT_CHEVRON_LINK = 'rightChevronLink',
+  STATUS_INDICATOR_PILL = 'StatusIndicatorPill',
 }
 
 export enum Alignment {

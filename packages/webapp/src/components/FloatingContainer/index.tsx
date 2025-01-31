@@ -14,9 +14,8 @@
  */
 
 import clsx from 'clsx';
+import { CSSLength } from '../../types';
 import styles from './styles.module.scss';
-
-type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number}vh` | 'auto';
 
 interface FloatingContainerProps {
   isCompactSideMenu: boolean;

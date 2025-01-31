@@ -92,7 +92,7 @@ const getEnsembleSensors = async (farm_id) => {
 
   const devices = await getOrganisationDevices(farmEnsembleAddon.org_pk);
 
-  if (!devices.length) {
+  if (!devices?.length) {
     return { sensors: [], sensor_arrays: [] };
   }
 
@@ -362,7 +362,9 @@ async function getOrganisationDevices(organisation_pk) {
       url: `${ensembleAPI}/organizations/${organisation_pk}/devices/`,
     };
     const onError = () => {
-      throw new Error('Unable to fetch ESCI devices');
+      const err = new Error('Unable to fetch ESCI devices');
+      err.status = 500;
+      throw err;
     };
 
     const response = await ensembleAPICall(axiosObject, onError);
@@ -370,6 +372,7 @@ async function getOrganisationDevices(organisation_pk) {
     return response.data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 

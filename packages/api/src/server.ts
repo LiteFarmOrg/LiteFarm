@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.6.7',
+    release: '3.7.5',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -127,7 +127,6 @@ import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
 import animalIdentifierTypeRoute from './routes/animalIdentifierTypeRoute.js';
 import animalSexRoute from './routes/animalSexRoute.js';
 import animalOriginRoute from './routes/animalOriginRoute.js';
-import animalGroupRoute from './routes/animalGroupRoute.js';
 import animalRemovalReasonRoute from './routes/animalRemovalReasonRoute.js';
 import animalUseRoute from './routes/animalUseRoute.js';
 import cropRoutes from './routes/cropRoute.js';
@@ -138,6 +137,7 @@ import taskTypeRoutes from './routes/taskTypeRoute.js';
 import soilAmendmentMethodRoute from './routes/soilAmendmentMethodRoute.js';
 import soilAmendmentPurposeRoute from './routes/soilAmendmentPurposeRoute.js';
 import soilAmendmentFertiliserTypeRoute from './routes/soilAmendmentFertiliserTypeRoute.js';
+import animalMovementPurposeRoute from './routes/animalMovementPurposeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
@@ -171,6 +171,7 @@ import productRoute from './routes/productRoute.js';
 import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
+import farmAddonRoute from './routes/farmAddonRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -245,6 +246,19 @@ const rejectBodyInGetAndDelete: RequestHandler = (req, res, next) => {
   next();
 };
 
+const getAllowedOrigin = () => {
+  switch (environment) {
+    case 'development':
+      return '*';
+    case 'integration':
+      return 'https://beta.litefarm.org';
+    case 'production':
+      return 'https://app.litefarm.org';
+    default:
+      return 'https://app.litefarm.org';
+  }
+};
+
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
@@ -253,7 +267,8 @@ app
   // prevent CORS errors
   .use(cors())
   .use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    const origin = getAllowedOrigin();
+    res.header('Access-Control-Allow-Origin', origin);
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept, Authorization',
@@ -283,7 +298,6 @@ app
   .use('/animal_identifier_colors', animalIdentifierColorRoute)
   .use('/animal_sexes', animalSexRoute)
   .use('/animal_origins', animalOriginRoute)
-  .use('/animal_groups', animalGroupRoute)
   .use('/animal_removal_reasons', animalRemovalReasonRoute)
   .use('/animal_uses', animalUseRoute)
   .use('/location', locationRoute)
@@ -297,6 +311,7 @@ app
   .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
   .use('/soil_amendment_methods', soilAmendmentMethodRoute)
   .use('/soil_amendment_fertiliser_types', soilAmendmentFertiliserTypeRoute)
+  .use('/animal_movement_purposes', animalMovementPurposeRoute)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)
@@ -323,7 +338,8 @@ app
   .use('/product', productRoute)
   .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)
-  .use('/time_notification', timeNotificationRoute);
+  .use('/time_notification', timeNotificationRoute)
+  .use('/farm_addon', farmAddonRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

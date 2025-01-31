@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, get, useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
@@ -32,22 +33,43 @@ import styles from './styles.module.scss';
 import {
   hookFormMinValidation,
   hookFormMaxCharsValidation,
+  hookFormMaxValidation,
 } from '../../Form/hookformValidationUtils';
+import LockedInput from '../../Form/LockedInput';
+import {
+  AnimalTypeSelect,
+  Option as AnimalSelectOption,
+  AnimalBreedSelect,
+} from '../AddAnimalsFormCard/AnimalSelect';
+import { parseUniqueDefaultId } from '../../../util/animal';
+import { BATCH_COUNT_LIMIT } from '../../../containers/Animals/AddAnimals/utils';
+
+export type AnimalUseOptions = {
+  default_type_id: number | null;
+  uses: Option[DetailsFields.USE][];
+}[];
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
-  useOptions: Option[DetailsFields.USE][];
+  animalUseOptions: AnimalUseOptions;
   animalOrBatch: AnimalOrBatchKeys;
   sexDetailsOptions?: SexDetailsType;
+  typeOptions?: AnimalSelectOption[];
+  breedOptions?: AnimalSelectOption[];
+  onTypeChange?: (Option: AnimalSelectOption | null) => void;
 };
 
 const GeneralDetails = ({
   t,
   sexOptions,
-  useOptions,
+  animalUseOptions,
   animalOrBatch,
   sexDetailsOptions,
   namePrefix = '',
+  mode = 'add',
+  typeOptions = [],
+  onTypeChange,
+  breedOptions = [],
 }: GeneralDetailsProps) => {
   const {
     control,
@@ -55,33 +77,43 @@ const GeneralDetails = ({
     trigger,
     watch,
     getValues,
+    resetField,
     formState: { errors },
   } = useFormContext();
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
   const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
 
+  const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
+  const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
+
+  const filteredUses = watchAnimalType?.value
+    ? animalUseOptions.find(
+        ({ default_type_id }) => default_type_id === parseUniqueDefaultId(watchAnimalType?.value),
+      )?.uses
+    : animalUseOptions.find(({ default_type_id }) => default_type_id === null)?.uses;
+
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
-  const sexInputs = useMemo(() => {
-    if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
-      return (
-        <>
-          <div>
-            <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
-            {/* @ts-ignore */}
-            <RadioGroup
-              name={`${namePrefix}${DetailsFields.SEX}`}
-              radios={sexOptions}
-              hookFormControl={control}
-              row
-            />
-          </div>
-        </>
-      );
-    }
+  useEffect(() => {
+    // Prevent the error from persisting when returning from animal basics
+    trigger(`${namePrefix}${DetailsFields.COUNT}`);
+  }, []);
 
-    return (
+  const sexInputs =
+    animalOrBatch === AnimalOrBatchKeys.ANIMAL ? (
+      <div>
+        <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
+        {/* @ts-ignore */}
+        <RadioGroup
+          name={`${namePrefix}${DetailsFields.SEX}`}
+          radios={sexOptions}
+          hookFormControl={control}
+          row
+          disabled={mode === 'readonly'}
+        />
+      </div>
+    ) : (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
           name={`${namePrefix}${DetailsFields.COUNT}`}
@@ -97,8 +129,10 @@ const GeneralDetails = ({
               message: t('common:REQUIRED'),
             },
             min: hookFormMinValidation(1),
+            max: hookFormMaxValidation(BATCH_COUNT_LIMIT),
           }}
           onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
+          disabled={mode === 'readonly'}
         />
         <Controller
           name={`${namePrefix}${DetailsFields.SEX_DETAILS}`}
@@ -110,22 +144,29 @@ const GeneralDetails = ({
               return total <= watchBatchCount || 'Invalid sexDetails for count';
             },
           }}
-          render={({ field: { onChange, value } }) => {
-            return (
-              <SexDetails
-                initialDetails={value || sexDetailsOptions}
-                maxCount={watchBatchCount}
-                onConfirm={(details) => onChange(details)}
-              />
-            );
-          }}
+          render={({ field: { onChange, value } }) => (
+            <SexDetails
+              initialDetails={value || sexDetailsOptions}
+              maxCount={watchBatchCount}
+              onConfirm={onChange}
+              isDisabled={mode === 'readonly'}
+            />
+          )}
         />
       </div>
     );
-  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
-    <div className={styles.sectionWrapper}>
+    <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>
+      {(mode === 'readonly' || mode === 'edit') && (
+        <>
+          {/* @ts-ignore */}
+          <LockedInput
+            label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
+            placeholder={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
+          />
+        </>
+      )}
       {animalOrBatch === AnimalOrBatchKeys.BATCH && (
         <>
           {/* @ts-ignore */}
@@ -139,33 +180,28 @@ const GeneralDetails = ({
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
             errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BATCH_NAME}`)}
+            disabled={mode === 'readonly'}
           />
         </>
       )}
-      <Controller
-        control={control}
+      <AnimalTypeSelect
         name={`${namePrefix}${DetailsFields.TYPE}`}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ANIMAL.ANIMAL_TYPE')}
-            value={value}
-            onChange={onChange}
-            isDisabled
-          />
-        )}
-      />
-      <Controller
         control={control}
+        typeOptions={typeOptions}
+        onTypeChange={(option) => {
+          trigger(`${namePrefix}${DetailsFields.TYPE}`);
+          onTypeChange?.(option);
+          resetField(`${namePrefix}${DetailsFields.BREED}`, { defaultValue: null });
+        }}
+        error={get(errors, `${namePrefix}${DetailsFields.TYPE}`)}
+        isDisabled={mode !== 'edit'}
+      />
+      <AnimalBreedSelect
         name={`${namePrefix}${DetailsFields.BREED}`}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ANIMAL.ANIMAL_BREED')}
-            optional
-            value={value}
-            onChange={onChange}
-            isDisabled
-          />
-        )}
+        control={control}
+        breedOptions={filteredBreeds}
+        isTypeSelected={!!watchAnimalType}
+        isDisabled={mode !== 'edit'}
       />
       {sexInputs}
       <Controller
@@ -178,8 +214,9 @@ const GeneralDetails = ({
             isMulti
             value={value}
             onChange={onChange}
-            options={useOptions}
+            options={filteredUses}
             style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
+            isDisabled={mode === 'readonly'}
           />
         )}
       />
@@ -195,6 +232,7 @@ const GeneralDetails = ({
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
             errors={getInputErrors(errors, `${namePrefix}${DetailsFields.OTHER_USE}`)}
+            disabled={mode === 'readonly'}
           />
         </>
       )}

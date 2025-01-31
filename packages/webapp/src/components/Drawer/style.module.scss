@@ -23,6 +23,7 @@
   opacity: 0;
   visibility: hidden;
   z-index: 1109;
+
   &.openC {
     opacity: 1;
     visibility: visible;
@@ -35,21 +36,12 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  bottom: -100%;
-  left: 0;
-  right: 0;
-  transition: bottom 0.2s ease-in-out;
-  background-color: white;
+  transition: all 0.2s ease-in-out;
+  background-color: var(--White);
   border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   padding: 16px;
-  margin: auto;
   z-index: 1110;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
-
-  &.openD {
-    bottom: 0;
-  }
 
   &.fullHeight {
     height: 100%;
@@ -58,6 +50,30 @@
       max-height: 100%;
       flex-grow: 1;
     }
+  }
+}
+
+.bottomDrawer {
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  border-top-right-radius: 10px;
+  margin: auto;
+
+  &.openD {
+    bottom: 0;
+  }
+}
+
+.sideDrawer {
+  top: var(--global-navbar-height);
+  max-height: calc(100vh - var(--global-navbar-height));
+  right: -100%;
+  border-bottom-left-radius: 10px;
+  width: 416px;
+
+  &.openD {
+    right: 0;
   }
 }
 

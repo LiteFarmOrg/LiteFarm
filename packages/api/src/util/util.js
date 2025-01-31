@@ -54,3 +54,27 @@ export const checkAndTrimString = (input) => {
   }
   return input.trim();
 };
+
+/**
+ * Format translation key
+ * @param {String} key
+ * @returns {String} - Formatted key
+ */
+export const formatTranslationKey = (key) => {
+  return key.toUpperCase().trim().replaceAll(' ', '_');
+};
+
+export const upperCaseTrim = (a) => {
+  return a.toUpperCase().trim();
+};
+
+/**
+ * Check for duplicate or matching strings - (same as frontend util)
+ * TODO: consider localeCompare() or not caring about case sensitivity
+ * @param {String} a
+ * @param {String} b
+ * @returns {Boolean}
+ */
+export const compareUpperCaseTrim = (a, b) => {
+  return upperCaseTrim(a) === upperCaseTrim(b);
+};

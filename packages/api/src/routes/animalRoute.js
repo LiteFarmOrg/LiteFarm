@@ -19,21 +19,28 @@ const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import AnimalController from '../controllers/animalController.js';
-import AnimalModel from '../models/animalModel.js';
-import {
-  checkAnimalEntities,
-  validateAnimalBatchCreationBody,
-} from '../middleware/checkAnimalEntities.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
-import { checkRemoveAnimalOrBatch } from '../middleware/validation/checkAnimalOrBatch.js';
+import {
+  checkRemoveAnimalOrBatch,
+  checkEditAnimalOrBatch,
+  checkCreateAnimalOrBatch,
+  checkDeleteAnimalOrBatch,
+} from '../middleware/validation/checkAnimalOrBatch.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post(
   '/',
   checkScope(['add:animals']),
-  validateAnimalBatchCreationBody(),
+  checkCreateAnimalOrBatch('animal'),
   AnimalController.addAnimals(),
+);
+router.patch(
+  '/',
+  checkScope(['edit:animals']),
+  checkEditAnimalOrBatch('animal'),
+  // Can't use hasFarmAccess because body is an array & because of non-unique id field
+  AnimalController.editAnimals(),
 );
 router.patch(
   '/remove',
@@ -45,7 +52,7 @@ router.patch(
 router.delete(
   '/',
   checkScope(['delete:animals']),
-  checkAnimalEntities(AnimalModel),
+  checkDeleteAnimalOrBatch('animal'),
   AnimalController.deleteAnimals(),
 );
 router.post(

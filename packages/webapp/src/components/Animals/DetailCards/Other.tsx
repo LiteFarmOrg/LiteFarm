@@ -42,13 +42,14 @@ const OtherDetails = ({
   namePrefix = '',
   imageUploadTargetRoute,
   getOnFileUpload,
+  mode = 'add',
 }: OtherDetailsProps) => {
   const {
     control,
-    resetField,
     register,
     getValues,
     setValue,
+    resetField,
     formState: { errors },
   } = useFormContext();
 
@@ -59,7 +60,7 @@ const OtherDetails = ({
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
+    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`, { defaultValue: '' });
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);
@@ -84,6 +85,7 @@ const OtherDetails = ({
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
             hookFormRegister={register(`${namePrefix}${DetailsFields.WEANING_DATE}`)}
             optional
+            disabled={mode === 'readonly'}
           />
         </>
       )}
@@ -96,6 +98,7 @@ const OtherDetails = ({
             value={value}
             onChange={onChange}
             options={organicStatusOptions}
+            isDisabled={mode === 'readonly'}
           />
         )}
       />
@@ -108,13 +111,17 @@ const OtherDetails = ({
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
         errors={errors?.[`${namePrefix}${DetailsFields.OTHER_DETAILS}`]?.message}
+        disabled={mode === 'readonly'}
       />
-      <ImagePicker
-        label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
-        onFileUpload={onFileUpload}
-        onRemoveImage={handleRemoveImage}
-        defaultUrl={field.value}
-      />
+      {(!!field.value || mode !== 'readonly') && (
+        <ImagePicker
+          label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
+          onFileUpload={onFileUpload}
+          onRemoveImage={handleRemoveImage}
+          defaultUrl={field.value}
+          isDisabled={mode === 'readonly'}
+        />
+      )}
     </div>
   );
 };

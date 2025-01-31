@@ -31,7 +31,6 @@ import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
-const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
 const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
@@ -132,6 +131,9 @@ const PostWatercourseForm = React.lazy(() =>
   import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
+const PostSensorForm = React.lazy(() =>
+  import('../containers/LocationDetails/PointDetails/SensorDetail/v2/PostSensor'),
+);
 const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
@@ -237,6 +239,7 @@ const TaskDetails = React.lazy(() => import('../containers/Task/TaskDetails'));
 const TaskTypeSelection = React.lazy(() => import('../containers/Task/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('../containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('../containers/Task/TaskCrops'));
+const TaskAnimals = React.lazy(() => import('../containers/Task/TaskAnimalInventory'));
 const TaskLocations = React.lazy(() => import('../containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('../containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('../containers/Task/ManageCustomTasks'));
@@ -279,7 +282,7 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu }) => {
+const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -533,6 +536,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route path="/create_location/sensor" exact component={PostSensorForm} />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -554,7 +558,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -589,6 +592,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -613,7 +617,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -635,7 +645,6 @@ const Routes = ({ isCompactSideMenu }) => {
 
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
@@ -812,6 +821,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route path="/create_location/sensor" exact component={PostSensorForm} />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -883,6 +893,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -907,7 +918,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -969,7 +986,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
@@ -987,6 +1003,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -1010,7 +1027,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

@@ -101,6 +101,8 @@ export default function TableV2(props) {
     maxHeight,
     spacerRowHeight,
     headerClass,
+    extraRowSpacing,
+    comparator,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -154,7 +156,7 @@ export default function TableV2(props) {
     () =>
       data
         .slice()
-        .sort(getComparator(order, orderBy))
+        .sort(getComparator(order, orderBy, comparator))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, data],
   );
@@ -168,6 +170,7 @@ export default function TableV2(props) {
             styles.table,
             shouldFixTableLayout && styles.fixed,
             alternatingRowColor && styles.alternatingRowColorStyle,
+            extraRowSpacing && styles.extraRowSpacingTable,
           )}
           stickyHeader={stickyHeader && maxHeight ? true : false}
         >
@@ -200,13 +203,18 @@ export default function TableV2(props) {
                     styles.itemRow,
                     onRowClick && styles.clickable,
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
+                    extraRowSpacing && styles.extraRowSpacing,
+                    row.removed && styles.removedRow,
                   )}
                 >
                   {shouldShowCheckbox && (
-                    <TableCell padding="checkbox" className={styles.checkboxCell}>
+                    <TableCell
+                      padding="checkbox"
+                      className={styles.checkboxCell}
+                      onClick={(event) => handleCheckboxClick(event, row)}
+                    >
                       <Checkbox
                         color="primary"
-                        onClick={(event) => handleCheckboxClick(event, row)}
                         checked={isItemSelected}
                         className={styles.checkbox}
                       />
@@ -331,6 +339,7 @@ TableV2.propTypes = {
   spacerRowHeight: PropTypes.number,
   /** Cheating here  using any since it is not meshing well with ts type */
   headerClass: PropTypes.any,
+  extraRowSpacing: PropTypes.bool,
 };
 
 TableV2.defaultProps = {
@@ -342,4 +351,5 @@ TableV2.defaultProps = {
   defaultOrderBy: '',
   alternatingRowColor: false,
   showHeader: true,
+  extraRowSpacing: false,
 };

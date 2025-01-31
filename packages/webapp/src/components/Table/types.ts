@@ -17,6 +17,7 @@ import type { ReactElement, ReactNode, ChangeEvent } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
 import { ClassValue } from 'clsx';
+import { DescendingComparator } from '../../util/sort';
 
 export enum TableKind {
   V1 = 'v1',
@@ -74,7 +75,7 @@ export type TableV2Props<RowData extends TableRowData> = {
   FooterCell?: ReactComponentLike;
   onClickMore?: () => void;
   itemsToAddPerLoadMoreClick?: number;
-  onRowClick?: (event: ChangeEvent<HTMLElement>, row: RowData) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: RowData) => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
   showHeader?: boolean;
@@ -85,4 +86,6 @@ export type TableV2Props<RowData extends TableRowData> = {
   maxHeight?: number | string;
   spacerRowHeight?: number;
   headerClass?: ClassValue;
+  extraRowSpacing?: boolean;
+  comparator?: DescendingComparator<string | number>;
 };

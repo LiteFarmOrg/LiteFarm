@@ -14,10 +14,10 @@
     "BATCH_NAME": "Batch name",
     "BATCH_NAME_PLACEHOLDER": "Type in batch name",
     "BREED": "Breed",
-    "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
+    "EDIT_BASIC_INFO": "Edit basic info",
     "GENERAL_DETAILS": "General details",
     "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",
@@ -61,7 +61,6 @@
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
     },
     "TYPE": "Type",
-    "TYPE_PLACEHOLDER": "Select the animal type",
     "UNIQUE_DETAILS": "Unique details"
   },
   "ADD_FARM": {
@@ -118,6 +117,7 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "CANT_FIND_INFO_TASK": "You can also create your own custom task types!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
@@ -201,9 +201,19 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
-    "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "MANAGE_CUSTOM_TASKS": "Manage your custom tasks",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "Explanation",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Please describe the reason for this movement"
+    },
+    "NEED_ANIMAL_LOCATION_MOVEMENT": "You'll need a location or area where animals can be moved. Go to the map to create an animal location.",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NO_ANIMAL_LOCATION": "No eligible animal locations",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
+    "NOTES_LABEL": "Anything specific to add related to this task?",
+    "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",
@@ -287,6 +297,7 @@
       "BATCH_NAME": "Batch name",
       "DAM": "Dam",
       "DATE_OF_BIRTH": "Date of birth",
+      "LITEFARM_ID": "LiteFarm ID",
       "ORGANIC_STATUS": "Organic status",
       "OTHER_DETAILS_ANIMAL": "Other animal details",
       "OTHER_DETAILS_BATCH": "Batch details",
@@ -299,6 +310,8 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
+    "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
@@ -311,7 +324,11 @@
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
-    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
+    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results",
+    "TABS": {
+      "BASIC_INFO": "Basic info",
+      "TASKS": "Tasks"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -697,6 +714,7 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "Add Location",
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -759,7 +777,7 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -780,6 +798,7 @@
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again.",
       "ZERO_LENGTH_DETECTED": "Line with no length detected. Please draw again."
     },
+    "EXPORT_MAP": "Export Map",
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
@@ -809,6 +828,7 @@
       "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
+    "FILTER_MAP": "Filter Map",
     "GARDEN": {
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit garden",
@@ -934,7 +954,7 @@
     },
     "TUTORIALS": "Map Tutorials",
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
+      "BODY": "You can only retire locations that have no active or planned crops, no animals or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -1038,6 +1058,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
+    "FEEDBACK_INVITATION": "Get help or give us feedback",
+    "SEND_US_FEEDBACK": "Send us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",
@@ -1047,7 +1069,6 @@
     },
     "PREFERRED_CONTACT": "Preferred contact method",
     "REQUIRED_LABEL": "Required Field",
-    "TITLE": "Request Help",
     "TYPE_SUPPORT_LABEL": "Type of support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
     "WHATSAPP": "Whatsapp",
@@ -1597,7 +1618,7 @@
     "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
     "SOLD": "Sold",
     "WHY": "Tell us why you are removing these animals",
-    "WILL_BE_ARCHIVED": "These animals will be archived and accessible for future reference",
+    "WILL_BE_ARCHIVED": "These animals will be removed from your active inventory",
     "WILL_BE_PERMANENTLY_REMOVED": "These animals will be permanently removed from your farm"
   },
   "REPEAT_PLAN": {
@@ -1640,7 +1661,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
-    "DESCRIPTION": "Someone will be in touch within 48 hours.",
+    "DESCRIPTION": "Someone will be in touch soon.",
     "TITLE": "Help request submitted"
   },
   "REVENUE": {
@@ -1764,6 +1785,7 @@
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
+      "ADD_SENSORS": "Add sensors",
       "BRAND": "Brand",
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",
@@ -1915,6 +1937,7 @@
         "LABOUR_ISSUE": "Labour issue",
         "MACHINERY_ISSUE": "Machinery issue",
         "MARKET_PROBLEM": "Market problem",
+        "NO_ANIMALS": "Auto-abandoned: No animals for this task",
         "OTHER": "Other",
         "SCHEDULING_ISSUE": "Scheduling issue",
         "WEATHER": "Weather"
@@ -1934,9 +1957,14 @@
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
+    "ANIMALS": "Animals",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "At least one animal must be selected to complete this task. To remove all animals, abandon the task instead.",
+    "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animals in this task",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
-      "MULTIPLE_LOCATIONS": "Multiple locations"
+      "MULTIPLE_LOCATIONS": "Multiple locations",
+      "NO_LOCATION": "No location"
     },
     "COMPLETE": {
       "DATE": "Completion date",
@@ -1992,6 +2020,7 @@
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
     "IRRIGATION_LOCATION": "Select an irrigation location",
     "LOCATIONS": "Location(s)",
+    "NO_LOCATIONS_FOR_TASK": "No specific location required for this task",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",
     "PAGE_TITLE": "Tasks",
@@ -2000,6 +2029,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "SELECT_ANIMALS": "Select animals",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",
@@ -2054,5 +2084,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "Beta",
+      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving LiteFarm! You can learn more about beta <a>here</a>"
+    }
   }
 }

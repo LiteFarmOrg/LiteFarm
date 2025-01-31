@@ -1,9 +1,11 @@
+@import '@assets/mixin.scss';
+
 .floatLabelRight {
   float: right;
 }
 
 .consentTextContainer {
-  font-family: 'Open Sans', ' SansSerif', serif;
+  @include fontFamily();
   height: 0;
   flex-grow: 1;
   width: 100%;

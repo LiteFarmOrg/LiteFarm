@@ -45,6 +45,7 @@ type FixedHeaderContainerProps = {
   classes?: {
     paper?: string;
     divWrapper?: string;
+    wrapper?: string;
   };
 };
 
@@ -121,7 +122,7 @@ const FixedHeaderContainer = ({
   const Wrapper = kind === ContainerKind.OVERFLOW ? DivWrapper : PaperWrapper;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, classes.wrapper)}>
       {header}
       <Wrapper paperRef={paperRef} classes={classes} hasMaxWidth={!isFullWidth}>
         {childrenWithProps}

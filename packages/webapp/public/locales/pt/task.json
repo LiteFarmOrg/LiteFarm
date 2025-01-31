@@ -10,20 +10,16 @@
   "WEEDING": "Capina",
   "WASH_AND_PACK_TASK": "Lavar e empacotar",
   "PEST_CONTROL_TASK": "Controle de pragas",
-  "PEST_CONTROL_TASK_LOWER": "controle de pragas",
   "OTHER_TASK": "Outro",
   "BREAK_TASK": "Descanso",
   "SOIL_TASK": "Resultados da amostra de solo",
   "IRRIGATION_TASK": "Irrigar",
-  "IRRIGATION_TASK_LOWER": "irrigar",
   "TRANSPORT_TASK": "Transporte",
   "FIELD_WORK_TASK": "Trabalho de campo",
-  "FIELD_WORK_TASK_LOWER": "trabalho de campo",
   "PLANT_TASK": "Plantio",
   "TRANSPLANT_TASK": "Transplante",
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Limpar",
-  "CLEANING_TASK_LOWER": "limpar",
   "SOIL_AMENDMENT_TASK": "Adubação e correção de solo",
-  "SOIL_AMENDMENT_TASK_LOWER": "adubação e correção de solo"
+  "MOVEMENT_TASK": "Movimento"
 }

@@ -19,9 +19,9 @@ const supportedLanguages = [
   ['de', 'Deutsch'],
   ['fr', 'Français'],
   ['pt', 'Português'],
-  // ['hi', 'हिंदी'],
-  // ['ml', 'മലയാളം'],
-  // ['pa', 'ਪੰਜਾਬੀ'],
+  ['hi', 'हिंदी'],
+  ['ml', 'മലയാളം'],
+  ['pa', 'ਪੰਜਾਬੀ'],
 ];
 
 const useLanguageOptions = () => {

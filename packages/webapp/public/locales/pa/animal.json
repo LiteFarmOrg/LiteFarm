@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "ਐਂਗਸ",
+    "CHAROLAIS": "ਚਰੋਲੀਸਿਸ",
+    "COBB_500": "ਕੋਬ 500",
+    "CORNISH_CROSS": "ਕੋਰਨਿਸ਼ ਕਰਾਸ",
+    "DUROC": "ਡੂਰੋਕ",
+    "HEREFORD": "ਹੇਰਫ਼ਰਡ",
+    "LANDRACE": "ਲੈਂਡਰੇਸ",
+    "LEGHORN": "ਲੇਘੌਰਨ",
+    "PLYMOUTH_ROCK": "ਪਲਾਈਮਥ ਰਾਕ",
+    "RHODE_ISLAND_RED": "ਰੋਡ ਆਇਲੈਂਡ ਰੈੱਡ",
+    "ROSS_308": "ਰਾਸ 308",
+    "YORKSHIRE_LARGE_WHITE": "ਯਾਰਕਸ਼ਾਇਰ ਲਾਰਜ ਵਾਇਟ"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "ਖੇਤ ਵਿੱਚ ਪੈਦਾ ਹੋਇਆ",
+    "BROUGHT_IN": "ਵਿੱਚ ਲਿਆਂਦਾ ਗਿਆ"
+  },
+  "PURPOSE": {
+    "GRAZING": "ਚਰਾਉਣਾ",
+    "MILKING": "ਦੁੱਧ ਕੜ੍ਹਨਾ",
+    "MANURE_MANAGEMENT": "ਖਾਦ ਦਾ ਪ੍ਰਬੰਧਨ",
+    "PEST_OR_DISEASE_CONTROL": "ਕੀਟ ਜਾਂ ਬਿਮਾਰੀ ਦਾ ਨਿਯੰਤਰਣ",
+    "BREEDING": "ਪ੍ਰਜਨਨ",
+    "FEEDING": "ਖੁਰਾਕ ਦੇਣਾ",
+    "VETERINARY_CARE": "ਪਸ਼ੂ-ਚਿਕਿਤਸਾ ਸੇਵਾ",
+    "BIRTHING": "ਜਨਮ ਦੇਣਾ",
+    "WEANING": "ਛੁਟਕਾਰਾ",
+    "TRANSPORTATION": "ਆਵਾਜਾਈ",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "ਵਰਤੋਂ ਅਤੇ ਸਮਾਜਕ ਪ੍ਰਬੰਧਨ",
+    "EXERCISE": "ਕਸਰਤ",
+    "QUARANTINE": "ਇਕਾਂਤਵਾਸ",
+    "OTHER": "ਹੋਰ"
+  },
+  "SEX": {
+    "MALE": "ਨਰ",
+    "FEMALE": "ਮਾਦਾ"
+  },
+  "TAG_COLOR": {
+    "BLUE": "ਨੀਲਾ",
+    "GREEN": "ਹਰਾ",
+    "ORANGE": "ਸੰਤਰੀ",
+    "RED": "ਲਾਲ",
+    "WHITE": "ਚਿੱਟਾ",
+    "YELLOW": "ਪੀਲਾ"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "ਕੰਨ ਟੈਗ",
+    "LEG_BAND": "ਲੱਤ ਟੈਗ"
+  },
+  "TYPE": {
+    "CATTLE": "ਪਸ਼ੂ",
+    "CHICKEN": "ਮੁਰਗੀ",
+    "PIGS": "ਸੂਅਰ"
+  },
+  "USE": {
+    "MILK": "ਦੂਧ",
+    "EGGS": "ਅੰਡੇ",
+    "FAT": "ਚਰਬੀ",
+    "MEAT": "ਮਾਸ",
+    "ANIMAL_FIBERS_AND_SKINS": "ਜਾਨਵਰਾਂ ਦੇ ਰੇਸ਼ੇ ਅਤੇ ਚਮੜੀਆਂ",
+    "LABOUR_AND_DRAFT": "ਮਜ਼ਦੂਰੀ ਅਤੇ ਖਿੜਤ",
+    "BREEDING": "ਪ੍ਰਜਨਨ",
+    "RECREATIONAL_OR_CULTURAL_USE": "ਮਨੋਰੰਜਨ ਜਾਂ ਸਾਂਸਕ੍ਰਿਤਿਕ ਵਰਤੋਂ",
+    "COMPANIONSHIP": "ਸਾਥ",
+    "OTHER": "ਹੋਰ"
+  }
+}

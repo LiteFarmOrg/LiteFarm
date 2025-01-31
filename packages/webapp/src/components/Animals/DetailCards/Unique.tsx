@@ -14,6 +14,7 @@
  */
 
 import { Controller, useFormContext } from 'react-hook-form';
+import styles from './styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
 import {
@@ -21,7 +22,6 @@ import {
   type Option,
   type CommonDetailsProps,
 } from '../../../containers/Animals/AddAnimals/types';
-import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
@@ -33,6 +33,7 @@ const UniqueDetails = ({
   tagTypeOptions,
   tagColorOptions,
   namePrefix = '',
+  mode = 'add',
 }: UniqueDetailsProps) => {
   const {
     control,
@@ -58,6 +59,7 @@ const UniqueDetails = ({
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.NAME')}
         errors={getInputErrors(errors, `${namePrefix}${DetailsFields.NAME}`)}
+        disabled={mode === 'readonly'}
       />
       {/* @ts-ignore */}
       <Input
@@ -70,6 +72,7 @@ const UniqueDetails = ({
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
         errors={getInputErrors(errors, `${namePrefix}${DetailsFields.TAG_NUMBER}`)}
+        disabled={mode === 'readonly'}
       />
       <Controller
         control={control}
@@ -82,6 +85,7 @@ const UniqueDetails = ({
             onChange={onChange}
             options={tagColorOptions}
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_COLOUR')}
+            isDisabled={mode === 'readonly'}
           />
         )}
       />
@@ -96,6 +100,7 @@ const UniqueDetails = ({
             onChange={onChange}
             options={tagTypeOptions}
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
+            isDisabled={mode === 'readonly'}
           />
         )}
       />
@@ -106,11 +111,13 @@ const UniqueDetails = ({
             type="text"
             hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_TYPE_INFO}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+              shouldUnregister: true,
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
             errors={getInputErrors(errors, `${namePrefix}${DetailsFields.TAG_TYPE_INFO}`)}
+            disabled={mode === 'readonly'}
           />
         </>
       )}

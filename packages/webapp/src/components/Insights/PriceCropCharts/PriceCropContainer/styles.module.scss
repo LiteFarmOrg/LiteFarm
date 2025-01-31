@@ -1,6 +1,8 @@
+@import '@assets/mixin.scss';
+
 .svg {
   max-width: 100%;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   -webkit-tap-highlight-color: transparent;
   overflow: visible;
   color: var(--grey900)

@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.6.7",
+  "version": "3.7.5",
   "description": "LiteFarm Web application",
   "type": "module",
   "engines": {
@@ -22,6 +22,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.11.0",
+    "@formatjs/intl-datetimeformat": "^6.15.0",
     "@googlemaps/markerclusterer": "^2.0.14",
     "@mui/base": "5.0.0-beta.26",
     "@mui/icons-material": "^5.11.16",
@@ -32,6 +33,8 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
+    "@turf/boolean-point-in-polygon": "7.2.0",
+    "@turf/helpers": "7.2.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",
@@ -114,7 +117,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-storybook": "^0.8.0",
-    "happy-dom": "^12.9.1",
+    "happy-dom": "^15.10.2",
     "i18next-parser": "^5.4.0",
     "imap-simple": "^5.1.0",
     "lint-staged": "^12.5.0",

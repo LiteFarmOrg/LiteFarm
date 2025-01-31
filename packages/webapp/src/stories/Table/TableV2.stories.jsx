@@ -274,3 +274,26 @@ export const stickyHeader = {
     maxHeight: 200,
   },
 };
+
+export const extraRowSpacing = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    maxHeight: 200,
+    extraRowSpacing: true,
+  },
+};
+
+export const RemovedRows = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10).map((item, index) =>
+      index === 1 || index === 5 ? { ...item, removed: true } : item,
+    ),
+    minRows: 10,
+    shouldFixTableLayout: true,
+  },
+};

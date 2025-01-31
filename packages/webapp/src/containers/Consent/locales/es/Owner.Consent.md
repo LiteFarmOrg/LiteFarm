@@ -1,4 +1,4 @@
-##### Version 6: May 31, 2024
+##### Version 7: Dec 12, 2024
 
 #### Formulario de consentimiento informado y política de privacidad (propietario y administrador de la finca)
 
@@ -31,6 +31,8 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 "Información personal" describe cualquier tipo de información que pueda usarse para identificarlo(a) a usted o sus trabajadores. LiteFarm nunca revelará información personal a terceros. Esto incluye:
 
 - Información de contacto (nombre, dirección, número de teléfono, dirección de correo electrónico)
+
+- Información demográfica (género, año de nacimiento, preferencia de idioma, país, moneda)
 
 - Información comercial (nombre de la finca y dirección)
 
@@ -82,6 +84,10 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Datos específicos de la explotación: unidades preferidas (por ejemplo, métricas o imperiales); divisa; si la explotación solicita la certificación; certificador; atributos de la cama; atributos de la fila.
 
+- Información sobre los animales: nombres de animales o lotes de animales, tipos, razas, sexo, fecha de llegada o nacimiento y otros datos de identificación.
+
+- Información sobre los movimientos de los animales: ubicación, motivo del movimiento y fecha del movimiento
+
 **Datos de uso**
 
 Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuarios(as), patrones de tráfico y cómo los(as) usuarios(as) responden a las diversas funciones del sitio) para mejorar la calidad de los servicios que brindamos. Este tipo de datos incluye: cuando Ud. inicia sesión en LiteFarm, las páginas que solicita, cuánto tiempo visita el sitio, cómo interactúa con la aplicación y detalles técnicos sobre su dispositivo (por ejemplo, navegador, tipo de pantalla y procesador). Estos datos se asociarán con su nombre de usuario en LiteFarm (si ha iniciado sesión en la aplicación) o su dirección IP (si no ha iniciado sesión). Podríamos utilizar software como Google Analytics para recopilar y analizar estos datos, pero en estos casos, toda la información personal será anónima.
@@ -91,7 +97,9 @@ Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuari
 Usamos sus datos principalmente de tres formas:
 
 - Para mejorar los servicios de visualización de datos agrícolas que le proporcionamos: Como se ha descrito anteriormente, utilizamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que proporciona.
+
 - Para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración: LiteFarm utiliza los datos de gestión que Ud. ingresa en la aplicación (consulte más arriba la sección "Información de Administración de la Finca" para obtener una lista completa), junto con algoritmos incorporados y algunos datos públicos (por ejemplo, información de la estación meteorológica local, coeficientes de cultivos, contenido de nutrientes de cultivos y fertilizantes, datos de presencia de especies y datos topográficos) para generar conocimiento sobre los beneficios / impactos financieros, ambientales y sociales de sus decisiones de gestión.
+
 - Para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles: junto con nuestros colaboradores académicos(as) utilizaremos sus datos de gestión agrícola de manera anónima (consulte más arriba la sección "Información de administración agrícola" para obtener una lista completa) para llevar a cabo investigación académica sobre actividades agronómicas, ecológicas y sistemas de alimentación. Parte de esta investigación será realizada por estudiantes universitarios y de posgrado.
 
 Evaluaremos rigurosamente cada propuesta de proyecto para asegurarnos de que sus datos se utilicen de manera efectiva para avanzar en el conocimiento sobre sistemas de alimentación sostenibles, ayudar a los(as) agricultores(as) a tomar decisiones de gestión sostenible e influir en las políticas públicas en beneficio de los(as) agricultores(as). Lo(La) mantendremos informado(a) sobre los proyectos de investigación a través de su correo electrónico (a menos que prefiera no participar), y Ud. siempre podrá comunicarse con nosotros para obtener más información sobre la investigación que sus datos están ayudando a hacer posible.
@@ -138,7 +146,7 @@ Si retira su consentimiento enviando un correo electrónico a litefarm.team@ubc.
 
 **¿Cómo realizamos cambios en la Política de privacidad?**
 
-Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Después de un mes, su cuenta y sus datos se marcarán como inactivos. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
+Aunque es probable que la mayoría de los cambios sean menores, LiteFarm puede cambiar ocasionalmente su Política de Privacidad. Publicaremos una versión actualizada y revisada de la Política de Privacidad en el sitio web de LiteFarm (www.litefarm.org), y le notificaremos a través de la aplicación cuando hagamos algún cambio. Se le pedirá que acepte el nuevo formulario de consentimiento para continuar usando el software. Si no acepta los cambios, podrá descargar sus datos, pero no podrá ingresar ningún dato nuevo en la aplicación. Las revisiones entran en vigencia inmediatamente después de su publicación. El uso continuo de este sitio por parte suya después de cualquier cambio hecho en la Política de Privacidad se entenderá como aceptación a dicho cambio.
 
 **¿Cuándo nos comunicaremos con usted?**
 
@@ -152,11 +160,11 @@ El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licenci
 
 Sobre la aplicación, comuníquese con:
 
-- Gerente de producto: Kevin Cussen (litefarm.team@ubc.ca)
+Gerente de producto: litefarm.team@ubc.ca
 
-Sobre a este estudio, comuníquese con la investigadora principal:
+Sobre este estudio, comuníquese con la investigadora principal:
 
-- Investigadora principal: Dra. Hannah Wittman (hannah.wittman@ubc.ca)
+Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
 
 **Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**
 

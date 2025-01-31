@@ -56,3 +56,10 @@ Disabled.args = {
   isToggleVariant: true,
   disabled: true,
 };
+
+export const HideInnerText = Template.bind({});
+HideInnerText.args = {
+  leftLabel: 'Off',
+  label: 'On',
+  hideInnerText: true,
+};

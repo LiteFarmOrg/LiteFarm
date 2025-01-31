@@ -1,0 +1,17 @@
+{
+  "CSV_HEADER_TRANSLATIONS": {
+    "name": "പേര്",
+    "latitude": "അക്ഷാംശം",
+    "longitude": "രേഖാംശം",
+    "reading_types": "വായന_തരങ്ങൾ",
+    "external_id": "ബാഹ്യ_ഐഡി",
+    "depth": "ആഴം_സെ.മീ",
+    "brand": "ബ്രാൻഡ്",
+    "model": "മോഡൽ"
+  },
+  "READING_TYPE_TRANSLATIONS": {
+    "soil_water_content": "മണ്ണ്_ജലം_ഉള്ളടക്കം",
+    "soil_water_potential": "മണ്ണ്_ജലം_ ശേഷി",
+    "temperature": "താപനില"
+  }
+}

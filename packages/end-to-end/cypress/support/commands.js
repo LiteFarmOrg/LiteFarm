@@ -41,6 +41,10 @@ Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 100
   return checkVisibility();
 });
 
+Cypress.Commands.add('getVisible', (selector, ...args) => {
+  return cy.get(selector, ...args).filter(':visible');
+});
+
 Cypress.Commands.add(
   'loginOrCreateAccount',
   (email, password, fullName, language, crop_menu_name, map_menu_name, fieldString) => {

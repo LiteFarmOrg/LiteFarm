@@ -69,6 +69,15 @@
     border-top: solid 1px transparent;
     border-bottom: solid 1px var(--grey200);
   }
+
+  &.removedRow {
+    background: var(--Colors-Neutral-Neutral-50);
+
+    & * {
+      color: var(--Colors-Neutral-Neutral-300);
+      font-style: italic;
+    }
+  }
 }
 
 .itemRow {
@@ -118,6 +127,35 @@
 .headerLabel {
   &.active{
     color: var(--Colors-Secondary-Secondary-green-700);
+  }
+}
+
+.extraRowSpacing {
+  padding: 4px 8px;
+  border-spacing: 8px;
+  border: solid 1px var(---Colors-Neutral-Neutral-50);
+  
+  & > td {
+    border-top: solid 1px var(--Colors-Neutral-Neutral-50);
+    border-bottom: solid 1px var(--Colors-Neutral-Neutral-50);
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+      border: solid 1px var(--Colors-Neutral-Neutral-50);
+      border-right: none;
+    }
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+      border: solid 1px var(--Colors-Neutral-Neutral-50);
+      border-left: none;
+    }
+  };
+}
+
+.extraRowSpacingTable {
+  border-spacing: 0 4px;
+  .tableBody::before {
+    content: none;
   }
 }
 
@@ -222,7 +260,8 @@
 
 // checkbox
 .checkboxCell {
-  width: 32px;
+  width: 44px;
+  padding-right: 6px;
   text-align: center;
 
   span {

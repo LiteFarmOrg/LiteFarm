@@ -31,7 +31,7 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
       color: colors.grey900,
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontFamily: 'Open Sans, SansSerif, serif',
+      fontFamily: 'Open Sans, Manjari, SansSerif, serif',
     },
     childrenContainer: {
       userSelect: 'none',
@@ -70,7 +70,7 @@ export default function OverlayTooltip({
       arrow={true}
       classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
       enterTouchDelay={10}
-      leaveTouchDelay={900000}
+      leaveTouchDelay={5000}
     >
       <span className={classes.childrenContainer}>{icon || children}</span>
     </Tooltip>

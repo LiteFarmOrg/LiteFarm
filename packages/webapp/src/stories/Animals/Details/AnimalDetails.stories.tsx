@@ -23,12 +23,12 @@ import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import {
   sexOptions,
-  useOptions,
+  animalUseOptions,
   tagTypeOptions,
   tagColorOptions,
   organicStatusOptions,
   originOptions,
-  defaultValues,
+  addDefaults,
   getOnFileUpload,
 } from './mockData';
 
@@ -44,7 +44,7 @@ type Story = StoryObj<typeof AnimalCreationDetails>;
 export const Default: Story = {
   render: () => {
     const formMethods: FormMethods = useForm({
-      defaultValues,
+      defaultValues: addDefaults,
     });
 
     return (
@@ -54,7 +54,7 @@ export const Default: Story = {
             <AnimalDetails
               generalDetailProps={{
                 sexOptions,
-                useOptions,
+                animalUseOptions,
               }}
               uniqueDetailsProps={{
                 tagTypeOptions,

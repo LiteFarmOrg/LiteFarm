@@ -9,7 +9,7 @@ import React, { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
-import Button from '../Form/Button';
+import Button, { ButtonProps } from '../Form/Button';
 import styles from './styles.module.scss';
 
 const opositeSide = {
@@ -98,6 +98,7 @@ type TourContentBodyStep = {
   isOrdered?: boolean;
   list?: ReactNode[];
   buttonText?: ReactNode;
+  buttonProps?: ButtonProps;
   icon?: ReactNode;
   onNext?(): void;
 };
@@ -108,6 +109,7 @@ type TourProviderWrapperProps = ReactourChildrenWrapperProps &
   Omit<ProviderProps, 'children' | 'steps'> & {
     steps: Step[];
     onFinish?(): void;
+    showCloseButton?: boolean;
   };
 
 export function TourProviderWrapper({
@@ -115,6 +117,7 @@ export function TourProviderWrapper({
   children = <div />,
   open,
   onFinish,
+  showCloseButton = false,
   ...props
 }: TourProviderWrapperProps) {
   if (!open) return children;
@@ -151,10 +154,14 @@ export function TourProviderWrapper({
       }}
       showBadge={false}
       showNavigation={false}
-      showCloseButton={false}
+      showCloseButton={showCloseButton}
       defaultOpen={open}
       steps={processedSteps}
       className={styles.popover}
+      onClickClose={({ setIsOpen }) => {
+        setIsOpen(false);
+        onFinish?.();
+      }}
       {...props}
     >
       <ReactourChildrenWrapper open={open}>{children}</ReactourChildrenWrapper>
@@ -183,7 +190,7 @@ type TourContentBodyProps = {
 };
 
 export function TourContentBody({
-  step: { title, children, contents, isOrdered, list, buttonText, icon, onNext },
+  step: { title, children, contents, isOrdered, list, buttonText, buttonProps, icon, onNext },
   continuous,
   primaryProps,
   isLastStep,
@@ -202,6 +209,7 @@ export function TourContentBody({
     }
     onNext?.();
   };
+
   return (
     <>
       {!!title && (
@@ -247,6 +255,7 @@ export function TourContentBody({
             sm
             id={continuous ? 'next' : 'close'}
             {...primaryProps}
+            {...buttonProps}
           >
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>

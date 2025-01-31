@@ -49,6 +49,8 @@ import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca
 import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
 import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
 import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
+import { ReactComponent as LocationIcon } from '../../assets/images/location.svg';
+import { ReactComponent as RemovedAnimalIcon } from '../../assets/images/animals/removed-animal-icon.svg';
 
 // Animal Inventory KPI
 import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
@@ -63,6 +65,8 @@ import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/So
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
+import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
+import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
 import { FunctionComponent } from 'react';
 
 // Input
@@ -80,6 +84,7 @@ const animalTypeIcons = {
   GOAT: GoatIcon,
   RABBIT: RabbitIcon,
   SHEEP: SheepIcon,
+  REMOVED_ANIMAL: RemovedAnimalIcon,
 };
 
 // Animal type: type key
@@ -129,8 +134,12 @@ export const iconMap = {
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
+  EDIT: EditIcon,
+  CHEVRON_LEFT: ChevronLeft,
   // Input
   LOCKED: LockedIcon,
+
+  LOCATION: LocationIcon,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

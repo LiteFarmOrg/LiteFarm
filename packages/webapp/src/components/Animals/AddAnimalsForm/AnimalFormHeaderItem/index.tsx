@@ -25,7 +25,7 @@ import TextButton from '../../../Form/Button/TextButton';
 import { ReactComponent as TrashIcon } from '../../../../assets/images/animals/trash_icon_new.svg';
 import { AnimalTypeIconKey } from '../../../Icons/icons';
 
-type BaseFormHeader = {
+type AnimalFormHeaderItemProps = {
   type: string;
   breed?: string;
   iconKey: AnimalTypeIconKey;
@@ -35,19 +35,9 @@ type BaseFormHeader = {
   onRemove: () => void;
   isExpanded: boolean;
   count?: number;
+  isBatch: boolean;
+  sex?: string;
 };
-
-type AnimalFormHeader = BaseFormHeader & {
-  sex: string;
-  isBatch: false;
-};
-
-type BatchFormHeader = BaseFormHeader & {
-  sex?: never;
-  isBatch: true;
-};
-
-type AnimalFormHeaderItemProps = AnimalFormHeader | BatchFormHeader;
 
 export const AnimalFormHeaderItem = ({
   type,

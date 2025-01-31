@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../../components/Form/Button';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
@@ -65,36 +64,51 @@ Error.args = {
   children: 'Error',
 };
 
-export const PrimarySmall = Template.bind({});
-PrimarySmall.args = {
-  color: 'primary',
-  children: 'Primary',
-  sm: true,
-};
-
-export const SecondarySmall = Template.bind({});
-SecondarySmall.args = {
+export const Small = Template.bind({});
+Small.args = {
   color: 'secondary',
-  children: 'Secondary',
+  children: 'Small',
   sm: true,
 };
 
-export const DisabledSmall = Template.bind({});
-DisabledSmall.args = {
-  color: 'primary',
-  children: 'Disabled',
-  disabled: true,
-  sm: true,
+export const Medium = Template.bind({});
+Medium.args = {
+  color: 'secondary',
+  children: 'Medium',
+  md: true,
 };
 
-export const WithIconSmall = Template.bind({});
-WithIconSmall.args = {
+export const SmallWithIcon = Template.bind({});
+SmallWithIcon.args = {
   color: 'primary',
   sm: true,
   children: (
     <>
-      <span>Edit</span>
       <EditIcon style={{ width: '16px', height: '16px' }} />
+      <span>Edit</span>
+    </>
+  ),
+};
+
+export const MediumWithIcon = Template.bind({});
+MediumWithIcon.args = {
+  color: 'primary',
+  md: true,
+  children: (
+    <>
+      <EditIcon style={{ width: '20px', height: '20px' }} />
+      <span>Edit</span>
+    </>
+  ),
+};
+
+export const LargeDefaultWithIcon = Template.bind({});
+LargeDefaultWithIcon.args = {
+  color: 'primary',
+  children: (
+    <>
+      <EditIcon style={{ width: '24px', height: '24px' }} />
+      <span>Edit</span>
     </>
   ),
 };
@@ -105,8 +119,8 @@ WithIconDisabled.args = {
   disabled: true,
   children: (
     <>
+      <EditIcon style={{ width: '24px', height: '24px' }} />
       <span>Edit</span>
-      <EditIcon style={{ width: '16px', height: '16px' }} />
     </>
   ),
 };

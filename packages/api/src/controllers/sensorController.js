@@ -17,9 +17,9 @@ import baseController from '../controllers/baseController.js';
 
 import SensorModel from '../models/sensorModel.js';
 import SensorReadingModel from '../models/sensorReadingModel.js';
-import IntegratingPartnersModel from '../models/integratingPartnersModel.js';
+import AddonPartnerModel from '../models/addonPartnerModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
-import FarmExternalIntegrationsModel from '../models/farmExternalIntegrationsModel.js';
+import FarmAddonModel from '../models/farmAddonModel.js';
 import LocationModel from '../models/locationModel.js';
 import PointModel from '../models/pointModel.js';
 import FigureModel from '../models/figureModel.js';
@@ -29,11 +29,12 @@ import PartnerReadingTypeModel from '../models/PartnerReadingTypeModel.js';
 import { transaction, Model } from 'objection';
 
 import {
-  createOrganization,
-  registerOrganizationWebhook,
-  bulkSensorClaim,
+  ENSEMBLE_BRAND,
+  extractEsids,
+  registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
+  getEnsembleSensors,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
@@ -43,11 +44,17 @@ import knex from '../util/knex.js';
 const getSensorTranslations = async (language) => {
   // Remove country identifier from language preference
   const parsedLanguage = language.includes('-') ? language.split('-')[0] : language;
-  let translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
-    assert: { type: 'json' },
-  });
-  // Default to english in case where user language not supported
-  if (!translations) {
+  let translations;
+  try {
+    translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
+      assert: { type: 'json' },
+    });
+    // Default to english in case where user language not supported
+    if (!translations) {
+      throw 'Translations not found';
+    }
+  } catch (error) {
+    console.log(error);
     translations = await import(`../../../shared/locales/en/sensorCSV.json`, {
       assert: { type: 'json' },
     });
@@ -94,10 +101,26 @@ const sensorController = {
   async getBrandName(req, res) {
     try {
       const { partner_id } = req.params;
-      const brand_name_response = await IntegratingPartnersModel.getBrandName(partner_id);
-      res.status(200).send(brand_name_response.partner_name);
+      const brand_name_response = await AddonPartnerModel.getBrandName(partner_id);
+      res.status(200).send(brand_name_response.name);
     } catch (error) {
       res.status(404).send('Partner not found');
+    }
+  },
+  async getSensors(req, res) {
+    const { farm_id } = req.headers;
+    try {
+      const { sensors, sensor_arrays } = await getEnsembleSensors(farm_id);
+
+      return res.status(200).send({
+        sensors,
+        sensor_arrays,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
     }
   },
   async addSensors(req, res) {
@@ -112,10 +135,6 @@ const sensorController = {
     const { farm_id } = req.headers;
     const { user_id } = req.auth;
     try {
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        'Ensemble Scientific',
-      );
-
       //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
 
@@ -167,65 +186,58 @@ const sensorController = {
           },
         );
       } else {
-        const esids = data.reduce((previous, current) => {
-          if (current.brand === 'Ensemble Scientific' && current.external_id) {
-            previous.push(current.external_id);
-          }
-          return previous;
-        }, []);
+        // Extract Ensemble Scientific sensor IDs (esids)
+        const esids = extractEsids(data);
+
         let success = [];
         let already_owned = [];
         let does_not_exist = [];
         let occupied = [];
+
         if (esids.length > 0) {
-          const organization = await createOrganization(farm_id, access_token);
-
-          // register webhook for sensor readings
-          await registerOrganizationWebhook(farm_id, organization.organization_uuid, access_token);
-
-          // Register sensors with Ensemble
-          ({ success, already_owned, does_not_exist, occupied } = await bulkSensorClaim(
-            access_token,
-            organization.organization_uuid,
+          ({ success, already_owned, does_not_exist, occupied } = await registerFarmAndClaimSensors(
+            farm_id,
             esids,
           ));
         }
-        // register organization
 
-        // Filter sensors by those successfully registered and those with errors
-        const { registeredSensors, errorSensors } = data.reduce(
-          (prev, curr, idx) => {
-            if (success?.includes(curr.external_id) || already_owned?.includes(curr.external_id)) {
-              prev.registeredSensors.push(curr);
-            } else if (curr.brand !== 'Ensemble Scientific') {
-              prev.registeredSensors.push(curr);
-            } else if (does_not_exist?.includes(curr.external_id)) {
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
-                variables: { sensorId: curr.external_id },
-              });
-            } else if (occupied?.includes(curr.external_id)) {
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
-                variables: { sensorId: curr.external_id },
-              });
-            } else {
-              // we know that it is an ESID but for some reason it was not returned in the expected format from the API
-              prev.errorSensors.push({
-                row: idx + 2,
-                column: 'External_ID',
-                translation_key: sensorErrors.INTERNAL_ERROR,
-                variables: { sensorId: curr.external_id },
-              });
-            }
-            return prev;
-          },
-          { registeredSensors: [], errorSensors: [] },
-        );
+        const registeredSensors = [];
+        const errorSensors = [];
+
+        // Iterate over each sensor in the data array
+        data.forEach((sensor, index) => {
+          if (sensor.brand !== ENSEMBLE_BRAND) {
+            // All non-ESCI sensors should be considered successfully registered
+            registeredSensors.push(sensor);
+          } else if (
+            success.includes(sensor.external_id) ||
+            already_owned.includes(sensor.external_id)
+          ) {
+            registeredSensors.push(sensor);
+          } else if (does_not_exist.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_DOES_NOT_EXIST,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else if (occupied.includes(sensor.external_id)) {
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.SENSOR_ALREADY_OCCUPIED,
+              variables: { sensorId: sensor.external_id },
+            });
+          } else {
+            // We know that it is an ESID but it was not returned in the expected format from the API
+            errorSensors.push({
+              row: index + 2,
+              column: 'External_ID',
+              translation_key: sensorErrors.INTERNAL_ERROR,
+              variables: { sensorId: sensor.external_id },
+            });
+          }
+        });
 
         // Save sensors in database
         const sensorLocations = [];
@@ -408,21 +420,6 @@ const sensorController = {
       }
     } catch (error) {
       await trx.rollback();
-      res.status(400).json({
-        error,
-      });
-    }
-  },
-
-  async getSensorsByFarmId(req, res) {
-    try {
-      const { farm_id } = req.params;
-      if (!farm_id) {
-        return res.status(400).send('No farm selected');
-      }
-      const data = await baseController.getByFieldId(SensorModel, 'farm_id', farm_id);
-      res.status(200).send(data);
-    } catch (error) {
       res.status(400).json({
         error,
       });
@@ -615,25 +612,18 @@ const sensorController = {
       const sensor = await baseController.getByFieldId(SensorModel, 'location_id', location_id);
       const { external_id, partner_id } = sensor[0];
 
-      const brand = await baseController.getByFieldId(
-        IntegratingPartnersModel,
-        'partner_id',
-        partner_id,
-      );
-      const { partner_name } = brand[0];
+      const brand = await baseController.getByFieldId(AddonPartnerModel, 'id', partner_id);
+      const { name } = brand[0];
 
       const user_id = req.auth.user_id;
-      const { access_token } = await IntegratingPartnersModel.getAccessAndRefreshTokens(
-        'Ensemble Scientific',
-      );
       let unclaimResponse;
-      if (partner_name != 'No Integrating Partner' && external_id != '') {
-        const external_integrations_response = await FarmExternalIntegrationsModel.getOrganizationId(
+      if (name != 'No Integrating Partner' && external_id != '') {
+        const external_integrations_response = await FarmAddonModel.getOrganisationIds(
           farm_id,
           partner_id,
         );
-        const org_id = external_integrations_response.organization_uuid;
-        unclaimResponse = await unclaimSensor(org_id, external_id, access_token);
+        const org_id = external_integrations_response.org_uuid;
+        unclaimResponse = await unclaimSensor(org_id, external_id);
 
         if (unclaimResponse?.status != 200) {
           await trx.rollback();

@@ -1,3 +1,5 @@
+@import '@assets/mixin.scss';
+
 .pageWrapper {
   display: flex;
   flex-direction: column;
@@ -80,7 +82,7 @@
   border-radius: 4px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
   font-weight: 700;
-  font-family: "Open Sans", "SansSerif", sans-serif;
+  @include fontFamily();
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +96,7 @@
   border-radius: 4px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
   font-weight: 700;
-  font-family: "Open Sans", "SansSerif", sans-serif;
+  @include fontFamily();
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +109,7 @@
   border-radius: 4px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
   font-weight: 700;
-  font-family: "Open Sans", "SansSerif", sans-serif;
+  @include fontFamily();
   display: flex;
   justify-content: center;
   align-items: center;

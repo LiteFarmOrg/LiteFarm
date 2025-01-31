@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "एंगस",
+    "CHAROLAIS": "शारोलैस",
+    "COBB_500": "कॉब 500",
+    "CORNISH_CROSS": "कॉर्निश क्रॉस",
+    "DUROC": "ड्यूरॉक",
+    "HEREFORD": "हेरफोर्ड",
+    "LANDRACE": "लैंडरेस",
+    "LEGHORN": "लेगहॉर्न",
+    "PLYMOUTH_ROCK": "प्लीमाउथ रॉक",
+    "RHODE_ISLAND_RED": "रोड आइलैंड रेड",
+    "ROSS_308": "रॉस 308",
+    "YORKSHIRE_LARGE_WHITE": "यॉर्कशायर बड़ा सफेद"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "फार्म पर जन्मा",
+    "BROUGHT_IN": "लाया गया"
+  },
+  "PURPOSE": {
+    "GRAZING": "चराई",
+    "MILKING": "दूध दोहन",
+    "MANURE_MANAGEMENT": "गोबर प्रबंधन",
+    "PEST_OR_DISEASE_CONTROL": "कीट या बीमारी नियंत्रण",
+    "BREEDING": "प्रजनन",
+    "FEEDING": "खिलाना",
+    "VETERINARY_CARE": "पशु चिकित्सा देखभाल",
+    "BIRTHING": "जन्म देना",
+    "WEANING": "दूध छुड़ाना",
+    "TRANSPORTATION": "परिवहन",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "व्यवहार और सामाजिक प्रबंधन",
+    "EXERCISE": "व्यायाम",
+    "QUARANTINE": "संगरोध",
+    "OTHER": "अन्य"
+  },
+  "SEX": {
+    "MALE": "पुरुष",
+    "FEMALE": "महिला"
+  },
+  "TAG_COLOR": {
+    "BLUE": "नीला",
+    "GREEN": "हरा",
+    "ORANGE": "नारंगी",
+    "RED": "लाल",
+    "WHITE": "सफेद",
+    "YELLOW": "पीला"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "कान की टैग",
+    "LEG_BAND": "पैर की पट्टी"
+  },
+  "TYPE": {
+    "CATTLE": "पशु",
+    "CHICKEN": "मुर्गी",
+    "PIGS": "सुअर"
+  },
+  "USE": {
+    "MILK": "दूध",
+    "EGGS": "अंडे",
+    "FAT": "वसा",
+    "MEAT": "मांस",
+    "ANIMAL_FIBERS_AND_SKINS": "पशु रेशे और खाल",
+    "LABOUR_AND_DRAFT": "मजदूरी और मसौदा",
+    "BREEDING": "प्रजनन",
+    "RECREATIONAL_OR_CULTURAL_USE": "सांस्कृतिक या मनोरंजन उपयोग",
+    "COMPANIONSHIP": "संगति",
+    "OTHER": "अन्य"
+  }
+}

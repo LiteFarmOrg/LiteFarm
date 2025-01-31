@@ -27,14 +27,13 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.get('/:farm_id', SensorController.getSensorsByFarmId);
+router.get('/', checkScope(['get:sensors']), SensorController.getSensors);
 router.post(
   '/',
   checkScope(['add:sensors']),
   upload.single('sensors'),
   SensorController.addSensors,
 );
-
 router.delete('/:location_id', SensorController.deleteSensor);
 router.patch('/:location_id', SensorController.updateSensorbyID);
 router.post(

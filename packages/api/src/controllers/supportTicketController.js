@@ -37,6 +37,7 @@ const supportTicketController = {
         contact_method: capitalize(result.contact_method),
         contact: result[result.contact_method],
         locale: user.language_preference,
+        ...getOOOMessageReplacements(user.language_preference),
       };
       const email = data.contact_method === 'email' && data.email;
       if (email && email !== user.email) {
@@ -58,6 +59,16 @@ const supportTicketController = {
       });
     }
   },
+};
+
+const getOOOMessageReplacements = (locale) => {
+  const ooo_message_enabled = process.env.OOO_MESSAGE_ENABLED === 'true';
+  let ooo_end_date = process.env.OOO_END_DATE;
+  if (ooo_message_enabled && ooo_end_date) {
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    ooo_end_date = new Date(ooo_end_date).toLocaleDateString(locale, dateOptions);
+  }
+  return { ooo_message_enabled, ooo_end_date };
 };
 
 const capitalize = (string) => {

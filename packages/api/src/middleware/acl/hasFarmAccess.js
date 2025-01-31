@@ -84,6 +84,11 @@ async function fromTaskId(task_id) {
     .join('task_type', 'task.task_type_id', 'task_type.task_type_id')
     .where({ task_id })
     .first();
+
+  if (taskType?.farm_id) {
+    return { farm_id: taskType.farm_id };
+  }
+
   //TODO: planting transplant task authorization test
   if (['PLANT_TASK', 'TRANSPLANT_TASK'].includes(taskType?.task_translation_key)) {
     const task_type = taskType.task_translation_key.toLowerCase();

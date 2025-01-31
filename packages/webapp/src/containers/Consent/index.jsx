@@ -30,9 +30,9 @@ const languageConsent = {
   es: { worker: <SpanishWorkerConsent />, owner: <SpanishOwnerConsent /> },
   pt: { worker: <PortugueseWorkerConsent />, owner: <PortugueseOwnerConsent /> },
   de: { worker: <GermanWorkerConsent />, owner: <GermanOwnerConsent /> },
-  // hi: { worker: <HindiWorkerConsent />, owner: <HindiOwnerConsent /> },
-  // pa: { worker: <PunjabiWorkerConsent />, owner: <PunjabiOwnerConsent /> },
-  // ml: { worker: <MalayalamWorkerConsent />, owner: <MalayalamOwnerConsent /> },
+  hi: { worker: <HindiWorkerConsent />, owner: <HindiOwnerConsent /> },
+  pa: { worker: <PunjabiWorkerConsent />, owner: <PunjabiOwnerConsent /> },
+  ml: { worker: <MalayalamWorkerConsent />, owner: <MalayalamOwnerConsent /> },
 };
 
 const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;

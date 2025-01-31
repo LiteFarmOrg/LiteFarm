@@ -9,11 +9,17 @@ const snackbarSlice = createSlice({
   reducers: {
     enqueueSuccessSnackbar: (state, { payload: message }) => {
       const key = `success-${new Date().getTime()}`;
-      state.notifications = [...state.notifications, { message, key }];
+      state.notifications = [
+        ...state.notifications,
+        { message, key, options: { variant: 'common' } },
+      ];
     },
     enqueueErrorSnackbar: (state, { payload: message }) => {
       const key = `error-${new Date().getTime()}`;
-      state.notifications = [...state.notifications, { message, key }];
+      state.notifications = [
+        ...state.notifications,
+        { message, key, options: { variant: 'common', persist: true } },
+      ];
     },
     closeSnackbar: (state, { payload: key }) => {
       state.notifications = state.notifications.map((notification) => ({

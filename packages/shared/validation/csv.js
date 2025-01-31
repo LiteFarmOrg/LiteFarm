@@ -140,6 +140,7 @@ const parseCsv = (
                   .useParsedValForError
                   ? parsedVal
                   : val,
+                ...(currentValidator.additionalVariables ?? {}),
               },
             });
           }

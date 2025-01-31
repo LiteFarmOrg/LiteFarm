@@ -18,6 +18,7 @@ import baseController from '../controllers/baseController.js';
 import ExpenseTypeModel from '../models/expenseTypeModel.js';
 import FarmExpenseModel from '../models/farmExpenseModel.js';
 import { transaction, Model } from 'objection';
+import { formatTranslationKey } from '../util/util.js';
 
 const farmExpenseTypeController = {
   addFarmExpenseType() {
@@ -26,7 +27,7 @@ const farmExpenseTypeController = {
       try {
         const farm_id = req.headers.farm_id;
         const data = req.body;
-        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+        data.expense_translation_key = formatTranslationKey(data.expense_name);
         //prevent empty strings
         data.custom_description = data.custom_description || null;
 
@@ -168,7 +169,7 @@ const farmExpenseTypeController = {
           return res.status(409).send();
         }
 
-        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+        data.expense_translation_key = formatTranslationKey(data.expense_name);
         //prevent empty strings
         data.custom_description = data.custom_description || null;
 

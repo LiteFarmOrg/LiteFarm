@@ -16,7 +16,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import history from '../../history';
 import { finishSendHelp, postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -26,7 +25,7 @@ const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);
 
-export function* supportFileUploadSaga({ payload: { file, form } }) {
+export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
   try {
     const formData = new FormData();
     formData.append('_file_', file);
@@ -39,13 +38,13 @@ export function* supportFileUploadSaga({ payload: { file, form } }) {
     });
     if (result) {
       yield put(postHelpRequestSuccess());
-      history.push('/');
+      onSuccess();
     } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+      yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     }
     yield put(finishSendHelp());
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     yield put(finishSendHelp());
     console.log(e);
   }

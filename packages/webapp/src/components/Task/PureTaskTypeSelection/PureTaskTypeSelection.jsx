@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -21,14 +21,17 @@ import { ReactComponent as SocialEvent } from '../../../assets/images/task/Socia
 import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
 import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
+import { ReactComponent as Movement } from '../../../assets/images/task/Movement.svg';
 import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import Button from '../../Form/Button';
 import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
+import { ANIMAL_TASKS } from '../../../containers/Task/constants';
+import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
+import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -48,23 +51,25 @@ const icons = {
   FERTILIZE_TASK: <Fertilize />,
   COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
+  MOVEMENT_TASK: <Movement />,
 };
 
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
   history,
-
+  location,
   persistedFormData,
   useHookFormPersist,
   onContinue,
-  onError,
   taskTypes,
   customTasks,
   isAdmin,
   shouldShowPlantTaskSpotLight,
   updatePlantTaskSpotlight,
   hasCurrentManagementPlans,
+  hasAnimalMovementLocations,
+  hasAnimals,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -77,6 +82,9 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
+  const isMakingCropTask = !!location?.state?.management_plan_id;
+  const isMakingAnimalTask = !!location?.state?.animal_ids;
+
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
     onContinue();
@@ -84,6 +92,7 @@ export const PureTaskTypeSelection = ({
 
   const [showPlantTaskModal, setShowPlantTaskModal] = useState();
   const goToCatalogue = () => history.push('/crop_catalogue');
+  const goToMap = () => history.push('/map');
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setShowPlantTaskModal(true);
@@ -96,13 +105,38 @@ export const PureTaskTypeSelection = ({
     hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
   };
 
+  const [showNoAnimalLocationsModal, setShowNoAnimalLocationsModal] = useState();
+  const onMovementTaskClick = (task_type_id) => {
+    hasAnimalMovementLocations ? onSelectTask(task_type_id) : setShowNoAnimalLocationsModal(true);
+  };
+
   const onTileClick = (taskType) => {
     if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
     if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
       return onHarvestTransplantTaskClick(taskType.task_type_id);
     }
+    if (isTaskType(taskType, 'MOVEMENT_TASK')) return onMovementTaskClick(taskType.task_type_id);
     return onSelectTask(taskType.task_type_id);
   };
+
+  const shouldDisplayTaskType = (taskType) => {
+    const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
+    const { farm_id, task_translation_key } = taskType;
+
+    if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {
+      // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
+      if (isMakingCropTask) {
+        return !ANIMAL_TASKS.includes(task_translation_key);
+      }
+      // If trying to make a task through the animal inventory 'Create a task' action -- only include animal tasks in selection
+      if (isMakingAnimalTask) {
+        return ANIMAL_TASKS.includes(task_translation_key);
+      }
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <Form>
@@ -119,17 +153,14 @@ export const PureTaskTypeSelection = ({
 
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
-            ?.filter(({ farm_id, task_translation_key }) => {
-              const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
-              return farm_id === null && supportedTaskTypes.has(task_translation_key);
-            })
+            ?.filter(shouldDisplayTaskType)
             .sort((firstTaskType, secondTaskType) =>
               t(`task:${firstTaskType.task_translation_key}`).localeCompare(
                 t(`task:${secondTaskType.task_translation_key}`),
               ),
             )
             .map((taskType) => {
-              const { task_translation_key, task_type_id, farm_id } = taskType;
+              const { task_translation_key, task_type_id } = taskType;
               return (
                 <div
                   data-cy="task-selection"
@@ -153,7 +184,7 @@ export const PureTaskTypeSelection = ({
             ?.sort((firstTaskType, secondTaskType) =>
               firstTaskType.task_name.localeCompare(secondTaskType.task_name),
             )
-            .map(({ task_translation_key, task_type_id, task_name }) => {
+            .map(({ task_type_id, task_name }) => {
               return (
                 <div
                   onClick={() => {
@@ -175,9 +206,15 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <Button color={'secondary-2'} onClick={onCustomTask}>
-            {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
-          </Button>
+          <div className={styles.cantFindCustomTypeWrapper}>
+            <CantFindCustomType
+              customTypeMessages={{
+                info: t('ADD_TASK.CANT_FIND_INFO_TASK'),
+                manage: t('ADD_TASK.MANAGE_CUSTOM_TASKS'),
+              }}
+              onGoToManageCustomType={onCustomTask}
+            />
+          </div>
         )}
       </Form>
       {showPlantTaskModal && shouldShowPlantTaskSpotLight && (
@@ -191,6 +228,12 @@ export const PureTaskTypeSelection = ({
         <NoCropManagementPlanModal
           dismissModal={() => setShowNoManagementPlanModal(false)}
           goToCatalogue={goToCatalogue}
+        />
+      )}
+      {showNoAnimalLocationsModal && (
+        <NoAnimalLocationsModal
+          dismissModal={() => setShowNoAnimalLocationsModal(false)}
+          goToMap={goToMap}
         />
       )}
     </>

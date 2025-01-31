@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import UniqueDetails, { UniqueDetailsProps } from '../../../components/Animals/DetailCards/Unique';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { tagTypeOptions, tagColorOptions } from './mockData';
+import { tagTypeOptions, tagColorOptions, addDefaults, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<UniqueDetailsProps> = {
@@ -27,9 +27,13 @@ const meta: Meta<UniqueDetailsProps> = {
   component: UniqueDetails,
   decorators: [
     ...componentDecorators,
-    (Story) => {
+    (Story, { args }) => {
       const { t } = useTranslation();
-      const formMethods: FormMethods = useForm({ mode: 'onBlur' });
+      const formMethods: FormMethods = useForm({
+        mode: 'onBlur',
+        defaultValues:
+          args.mode === 'readonly' || args.mode === 'edit' ? defaultValues : addDefaults,
+      });
 
       return (
         <FormProvider {...formMethods}>
@@ -47,5 +51,23 @@ type Story = StoryObj<typeof UniqueDetails>;
 
 export const Unique: Story = {
   args: { tagTypeOptions, tagColorOptions },
+  render: (args, context) => <UniqueDetails {...args} {...context} />,
+};
+
+export const UniqueReadonly: Story = {
+  args: {
+    tagTypeOptions,
+    tagColorOptions,
+    mode: 'readonly',
+  },
+  render: (args, context) => <UniqueDetails {...args} {...context} />,
+};
+
+export const UniqueEdit: Story = {
+  args: {
+    tagTypeOptions,
+    tagColorOptions,
+    mode: 'edit',
+  },
   render: (args, context) => <UniqueDetails {...args} {...context} />,
 };

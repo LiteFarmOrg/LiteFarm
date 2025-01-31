@@ -37,7 +37,7 @@ export default function ListOption({
     {
       paddingBottom: '0.4rem',
       paddingTop: '0.5rem',
-      fontFamily: '"Open Sans"," SansSerif", serif',
+      fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
       fontSize: '16px',
       marginBottom: '0px',
       paddingRight: '10px',

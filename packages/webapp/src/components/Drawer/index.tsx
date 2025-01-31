@@ -14,23 +14,28 @@
  */
 
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
+export enum DesktopDrawerVariants {
+  DRAWER = 'drawer',
+  SIDE_DRAWER = 'sideDrawer',
+  MODAL = 'modal',
+}
+
 interface DrawerProps {
-  title: string;
+  title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
-  responsiveModal?: boolean;
+  desktopVariant?: DesktopDrawerVariants;
+  addBackdrop?: boolean;
   classes?: {
     modal?: string;
-    drawer?: string;
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
@@ -46,23 +51,19 @@ const Drawer = ({
   buttonGroup,
   classes = {
     modal: '',
-    drawer: '',
     drawerBackdrop: '',
     drawerHeader: '',
     drawerContent: '',
     drawerContainer: '',
   },
   fullHeight,
-  responsiveModal = true,
+  desktopVariant = DesktopDrawerVariants.MODAL,
+  addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  if (!isOpen) {
-    return null;
-  }
-
-  return isDesktop && responsiveModal ? (
+  return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
       className={classes.modal}
       title={title}
@@ -74,13 +75,22 @@ const Drawer = ({
     </ModalComponent>
   ) : (
     <>
-      <div
-        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
-        onClick={onClose}
-      ></div>
+      {addBackdrop && (
+        <div
+          className={clsx(
+            styles.drawerBackdrop,
+            isOpen ? styles.openC : '',
+            classes.drawerBackdrop,
+          )}
+          onClick={onClose}
+        ></div>
+      )}
       <div
         className={clsx(
           styles.drawer,
+          isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER
+            ? styles.sideDrawer
+            : styles.bottomDrawer,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,
@@ -98,18 +108,6 @@ const Drawer = ({
       </div>
     </>
   );
-};
-
-Drawer.propTypes = {
-  title: PropTypes.string,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  buttonGroup: PropTypes.node,
-  fullHeight: PropTypes.bool,
-  classes: PropTypes.object,
-  responsiveModal: PropTypes.bool,
 };
 
 export default Drawer;

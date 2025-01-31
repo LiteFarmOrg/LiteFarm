@@ -20,28 +20,49 @@ import NoSearchResults from '../../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../../components/Button/ClearFiltersButton';
-import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
+import type { AnimalInventoryItem } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
-import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
+import FloatingActionButton from '../../Button/FloatingActionButton';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import { sumObjectValues } from '../../../util';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
-
-const HEIGHTS = {
-  filterAndSearch: 64,
-  containerPadding: 32,
-};
-const usedHeight = sumObjectValues(HEIGHTS);
+import { animalDescendingComparator } from '../../../util/sort';
 
 export type SearchProps = {
   searchString: string | null | undefined;
   setSearchString: Dispatch<SetStateAction<string[]>>;
   placeHolderText: string;
   searchResultsText: string;
+};
+
+export type PureAnimalInventoryProps = {
+  filteredInventory: AnimalInventoryItem[];
+  animalsColumns: TableV2Column[];
+  zIndexBase: number;
+  isDesktop: boolean;
+  searchProps: SearchProps;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
+  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
+  selectedIds: string[];
+  totalInventoryCount: number;
+  isFilterActive: boolean;
+  clearFilters: () => void;
+  isLoading: boolean;
+  containerHeight?: number;
+  history: History;
+  tableMaxHeight?: number;
+  tableSpacerRowHeight: number;
+  showInventorySelection?: boolean;
+  showSearchBarAndFilter?: boolean;
+  alternatingRowColor?: boolean;
+  showTableHeader: boolean;
+  showActionFloaterButton: boolean;
+  extraRowSpacing?: boolean;
+  hideNoResultsBlock?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -53,92 +74,85 @@ const PureAnimalInventory = ({
   onSelectInventory,
   handleSelectAllClick,
   selectedIds,
+  onRowClick,
   totalInventoryCount,
   isFilterActive,
   clearFilters,
   isLoading,
-  containerHeight,
   history,
-}: {
-  filteredInventory: AnimalInventory[];
-  animalsColumns: TableV2Column[];
-  zIndexBase: number;
-  isDesktop: boolean;
-  searchProps: SearchProps;
-  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
-  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  selectedIds: string[];
-  totalInventoryCount: number;
-  isFilterActive: boolean;
-  clearFilters: () => void;
-  isLoading: boolean;
-  containerHeight?: number;
-  history: History;
-}) => {
+  tableMaxHeight,
+  tableSpacerRowHeight,
+  showInventorySelection = true,
+  showSearchBarAndFilter = true,
+  alternatingRowColor = true,
+  showTableHeader,
+  showActionFloaterButton,
+  extraRowSpacing,
+  hideNoResultsBlock,
+}: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
-
-  if (isLoading) {
-    return null;
-  }
 
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
-  const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
-
-  return (
+  return isLoading ? null : (
     <>
-      <div
-        className={clsx(
-          isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
-          styles.searchAndFilterCommon,
-        )}
-      >
-        <PureSearchBarWithBackdrop
-          value={searchString}
-          onChange={(e: any) => setSearchString(e.target.value)}
-          isSearchActive={!!searchString}
-          placeholderText={placeHolderText}
-          zIndexBase={zIndexBase}
-          isDesktop={isDesktop}
-          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
-        />
-        <AnimalsFilter isFilterActive={isFilterActive} />
+      {showSearchBarAndFilter && (
         <div
           className={clsx(
-            isDesktop ? styles.searchResultsDesktop : styles.searchResults,
-            styles.searchResultsText,
-            isFilterActive ? styles.filterActive : '',
+            isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
+            styles.searchAndFilterCommon,
           )}
         >
-          {searchResultsText}
-        </div>
-        <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
-          <ClearFiltersButton
-            type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
-            isFilterActive={isFilterActive}
-            onClick={clearFilters}
+          <PureSearchBarWithBackdrop
+            value={searchString}
+            onChange={(e: any) => setSearchString(e.target.value)}
+            isSearchActive={!!searchString}
+            placeholderText={placeHolderText}
+            zIndexBase={zIndexBase}
+            isDesktop={isDesktop}
+            className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
           />
+          <AnimalsFilter isFilterActive={isFilterActive} />
+          <div
+            className={clsx(
+              isDesktop ? styles.searchResultsDesktop : styles.searchResults,
+              styles.searchResultsText,
+              isFilterActive ? styles.filterActive : '',
+            )}
+          >
+            {searchResultsText}
+          </div>
+          <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
+            <ClearFiltersButton
+              type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
+              isFilterActive={isFilterActive}
+              onClick={clearFilters}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
-        {!totalInventoryCount || hasSearchResults ? (
+        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
           <Table
             kind={TableKind.V2}
-            alternatingRowColor={true}
+            alternatingRowColor={alternatingRowColor}
             columns={animalsColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
             minRows={totalInventoryCount}
             dense={false}
-            showHeader={isDesktop}
-            onCheck={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={selectedIds}
+            showHeader={showTableHeader}
+            onCheck={showInventorySelection ? onSelectInventory : undefined}
+            handleSelectAllClick={showInventorySelection ? handleSelectAllClick : undefined}
+            selectedIds={showInventorySelection ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
-            spacerRowHeight={isDesktop ? 96 : 120}
+            spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
+            onRowClick={onRowClick}
+            extraRowSpacing={extraRowSpacing}
+            comparator={animalDescendingComparator}
           />
         ) : (
           <NoSearchResults
@@ -148,15 +162,16 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      <FloatingButtonMenu
-        type={'add'}
-        options={[
-          {
-            label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push(ADD_ANIMALS_URL),
-          },
-        ]}
-      />
+      {showActionFloaterButton && (
+        <div className={styles.ctaButtonWrapper}>
+          <FloatingActionButton
+            // @ts-ignore
+            type={'add'}
+            onClick={() => history.push(ADD_ANIMALS_URL)}
+            aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
+          />
+        </div>
+      )}
     </>
   );
 };

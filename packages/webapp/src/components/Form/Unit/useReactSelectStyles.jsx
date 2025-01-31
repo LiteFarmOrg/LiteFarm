@@ -49,7 +49,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth } = {}) => {
         color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
         fontStyle: 'normal',
         fontWeight: 'normal',
-        fontFamily: '"Open Sans", "SansSerif", serif',
+        fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
         overflowX: 'hidden',
       }),
       placeholder: () => ({

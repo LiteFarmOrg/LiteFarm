@@ -1,6 +1,9 @@
 /*:global(.MuiSlider-mark[data-index="92"]) {*/
 /*    height: 30px;*/
 /*}*/
+
+@import '@assets/mixin.scss';
+
 .time {
     color: var(--teal700);
     font-size: 16px;
@@ -13,7 +16,7 @@
 .unit {
     color: var(--teal700);
     font-size: 12px;
-    font-family: "Open Sans", " SansSerif", serif;
+    @include fontFamily();
 }
 
 .rectangle {

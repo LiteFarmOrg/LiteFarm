@@ -14,8 +14,7 @@ import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
-  const genderOptions = useGenderOptions();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const GENDER = 'gender';
 

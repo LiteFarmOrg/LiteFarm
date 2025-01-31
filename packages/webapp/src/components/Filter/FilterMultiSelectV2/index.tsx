@@ -116,7 +116,7 @@ export const FilterMultiSelectV2 = ({
 
   useEffect(() => {
     if (shouldReset) {
-      setValue(options.filter((option) => option.default));
+      setValue([]);
     }
   }, [shouldReset]);
 

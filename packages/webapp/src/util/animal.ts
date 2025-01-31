@@ -58,7 +58,10 @@ export const generateUniqueAnimalId = (
 };
 
 export const parseUniqueDefaultId = (uniqueId: string): number | null => {
-  if (uniqueId.startsWith(ANIMAL_ID_PREFIX.CUSTOM)) {
+  if (
+    uniqueId.startsWith(ANIMAL_ID_PREFIX.CUSTOM) ||
+    !uniqueId.includes(ANIMAL_ID_PREFIX.DEFAULT)
+  ) {
     return null;
   }
   return Number(uniqueId.split('_')[1]);

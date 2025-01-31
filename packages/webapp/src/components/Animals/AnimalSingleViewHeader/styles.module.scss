@@ -1,0 +1,229 @@
+/*
+*  Copyright 2024 LiteFarm.org
+*  This file is part of LiteFarm.
+*
+*  LiteFarm is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  LiteFarm is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+*  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+*/
+
+@import '../../../assets/mixin';
+
+.containerWithButtons {
+  height: 80px;
+  padding: 8px 16px;
+  background: var(--Colors-Primary-Primary-teal-50);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  align-items: center;
+
+  .backButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 32px;
+  }
+
+  .backButtonIcon {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  &.compactView {
+    height: 52px;
+    padding: 0 16px;
+    color: var(--White, #fff);
+    background-color: var(--Colors-Primary-Primary-teal-900);
+
+    .backButton {
+      flex-basis: 24px;
+    }
+
+    .backButtonIcon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+
+      path {
+        stroke-width: 2;
+        stroke: var(--Colors-Primary-Primary-teal-50);
+      }
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  @include truncateText();
+}
+
+.desktopContent {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.compactContent {
+  padding-left: 8px;
+}
+
+.statusAndButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 16px;
+}
+
+.editingStatusButton,
+.editingStatusButton:disabled {
+  background: var(--Btn-primary-hover);
+  box-shadow: 1px 1px 0px 0px var(--Colors-Primary-Primary-teal-300);
+
+  &:not(:active:enabled):not([aria-expanded='true']):hover:enabled {
+    background: var(--Btn-primary-hover);
+    box-shadow: 1px 1px 0px 0px var(--Colors-Primary-Primary-teal-300);
+  }
+}
+
+.menuItem {
+  color: var(--Colors-Neutral-Neutral-500);
+  min-width: 210px;
+  letter-spacing: 0.4px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.menuItemIcon {
+  padding: 0;
+  min-height: 24px;
+  min-width: 24px;
+
+  svg {
+    width: 24px;
+  }
+
+  path {
+    stroke: currentColor;
+  }
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.animalImageWithCount {
+  position: relative;
+  margin: 0 32px;
+
+  &.compactView {
+    margin: 0 16px;
+  }
+}
+
+.animalImageWrapper {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+
+  border-radius: 16px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-600);
+  background-color: var(--White, #fff);
+  box-shadow: 1px 1px 1px 0px rgba(102, 115, 138, 0.3);
+  background-image: url('../../../assets/images/animals/animal-photo-default.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.animalImage {
+  width: 100%;
+}
+
+.batchCount {
+  position: absolute;
+  left: 48px;
+  bottom: 8px;
+
+  height: 24px;
+  min-width: 20px;
+  max-width: 44px;
+  padding: 4px;
+  border-radius: 2px;
+  background: var(--Colors-Accent---singles-Purple-light);
+  box-shadow: 1px 1px 0px 0px #fff;
+
+  color: var(--Colors-Accent---singles-Purple-full);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+
+  /* Counts with more than five digits will be visually cut off */
+  overflow: hidden;
+}
+
+.desktopBasicInfo {
+  display: flex;
+  align-items: center;
+
+  @include truncateText();
+}
+
+.nameAndType {
+  overflow: hidden;
+
+  > div {
+    @include truncateText();
+  }
+}
+
+.mobileHeaderMain {
+  padding: 4px 16px 8px 16px;
+  background: var(--Colors-Primary-Primary-teal-50);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobileMainHeaderLeft {
+  display: flex;
+  align-items: center;
+
+  &.withCount {
+    gap: 12px;
+  }
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 4px;
+
+  height: 32px;
+  padding: 8px 8px 8px 8px;
+  border-radius: 4px;
+
+  line-height: normal;
+  letter-spacing: -0.368px;
+
+  max-width: 140px;
+}
+
+.locationIcon {
+  min-width: 100%;
+  padding: 0;
+  background-color: transparent;
+}
+
+.locationText {
+  @include truncateText();
+}

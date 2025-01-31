@@ -46,7 +46,10 @@ const AnimalDetails = ({
   originProps,
   namePrefix,
 }: AnimalDetailsProps) => {
-  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const { expandedIds, toggleExpanded } = useExpandable(
+    // @ts-ignore
+    { isSingleExpandable: true },
+  );
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const commonProps = { t, namePrefix };
 

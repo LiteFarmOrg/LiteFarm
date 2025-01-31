@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
-import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
+import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
@@ -28,10 +28,11 @@ import {
   useGetAnimalOriginsQuery,
 } from '../../../store/api/apiSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
+import { useSectionHeader } from '../../../components/Navigation/useSectionHeaders';
 
 export const STEPS = {
   BASICS: 'basics',
@@ -55,7 +56,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   const onSave = async (
     data: any,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData: (data: any) => void,
   ) => {
     const details = data[STEPS.DETAILS] as AnimalDetailsFormFields[];
@@ -78,6 +79,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedAnimals.length) {
         animalsResult = await addAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
       }
     } catch (e) {
       console.error(e);
@@ -86,6 +88,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedBatches.length) {
         batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
       }
     } catch (e) {
       console.error(e);
@@ -97,7 +100,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     }
 
     setFormResultData({ animals: animalsResult, batches: batchesResult });
-    onGoForward();
+    onSuccess();
   };
 
   const getFormSteps = () => [
@@ -122,14 +125,16 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
+  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+
   return (
-    <MultiStepForm
-      stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
+    <ContextForm
+      stepperProgressBarTitle={isMobile && animalInventoryTitle}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}
       hasSummaryWithinForm={true}
       isCompactSideMenu={isCompactSideMenu}
-      variant={VARIANT.STEPPER_PROGRESS_BAR}
+      variant={Variant.STEPPER_PROGRESS_BAR}
       history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}

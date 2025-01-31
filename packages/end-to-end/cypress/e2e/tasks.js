@@ -53,7 +53,10 @@ describe('Tasks', () => {
     cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
 
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.get(`[aria-label="${translation['TASK']['ADD_TASK']}"]`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.waitForReact();
     cy.get(Selectors.TASK_SELECTION).contains(tasks['CLEANING_TASK']).should('exist').click();
 
@@ -92,7 +95,10 @@ describe('Tasks', () => {
   it('it should successfully create a field work task', () => {
     cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.get(`[aria-label="${translation['TASK']['ADD_TASK']}"]`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.waitForReact();
     cy.get(Selectors.TASK_SELECTION)
       .contains(tasks['FIELD_WORK_TASK'])
@@ -118,7 +124,7 @@ describe('Tasks', () => {
     cy.get(Selectors.ADD_TASK_CROPS_CONTINUE).should('exist').and('not.be.disabled').click();
 
     // Select type of work
-    cy.get(Selectors.REACT_SELECT).find('input').click({ force: true });
+    cy.getVisible(Selectors.REACT_SELECT).find('input').click({ force: true });
     cy.contains(translation['ADD_TASK']['FIELD_WORK_VIEW']['TYPE']['PRUNING']).click({
       force: true,
     });

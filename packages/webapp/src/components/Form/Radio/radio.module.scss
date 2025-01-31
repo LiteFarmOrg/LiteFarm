@@ -92,6 +92,6 @@
   color: var(--grey900);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
 }

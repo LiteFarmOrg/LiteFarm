@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .titleContainer {
   width: 100%;
   display: flex;
@@ -72,7 +74,7 @@
 
 .titleTextContainer {
   margin-left: 8px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-size: 20px;
   font-style: normal;
   font-weight: 400;

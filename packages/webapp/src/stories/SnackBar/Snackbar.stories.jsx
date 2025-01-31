@@ -22,7 +22,7 @@ function Page() {
       <Button
         onClick={() =>
           enqueueSnackbar('Upload success', {
-            persist: true,
+            variant: 'common',
             key: `success-${new Date().getTime()}`,
           })
         }
@@ -32,13 +32,25 @@ function Page() {
       <Button
         color={'secondary'}
         onClick={() =>
-          enqueueSnackbar('Upload success', {
-            persist: true,
+          enqueueSnackbar('Upload failed', {
+            variant: 'common',
             key: `error-${new Date().getTime()}`,
           })
         }
       >
         Error
+      </Button>
+      <Button
+        color={'secondary'}
+        onClick={() =>
+          enqueueSnackbar('Persist', {
+            variant: 'common',
+            key: `error-${new Date().getTime()}`,
+            persist: true,
+          })
+        }
+      >
+        Persist
       </Button>
     </Layout>
   );
@@ -52,7 +64,7 @@ const Template = (args) => {
         vertical: 'bottom',
         horizontal: 'center',
       }}
-      content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+      Components={{ common: NotistackSnackbar }}
     >
       <Page />
     </SnackbarProvider>

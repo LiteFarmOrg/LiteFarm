@@ -73,10 +73,11 @@ const Test = ({
   isSingleExpandable,
   iconClickOnly,
   leftCollapseIcon,
+  pillBody,
   transactionStyles = true,
 }) => {
   const { expandedIds, toggleExpanded } = useExpandable({ defaultExpandedIds, isSingleExpandable });
-
+  const classes = pillBody ? undefined : AnimalsContentClasses(transactionStyles);
   return data.map((values, index) => {
     const isExpanded = expandedIds.includes(index);
     return (
@@ -93,14 +94,10 @@ const Test = ({
           mainContent={<MainContent {...values} isExpanded={isExpanded} />}
           expandedContent={<div className={styles.expandedContent}>{values.expandedContent}</div>}
           iconClickOnly={iconClickOnly}
-          classes={{
-            mainContentWithIcon: transactionStyles
-              ? styles.expandableItem
-              : styles.animalsExpandableItem,
-            icon: transactionStyles ? '' : styles.animalsCollapseIcon,
-          }}
+          classes={classes}
           key={index}
           leftCollapseIcon={leftCollapseIcon}
+          pillBody={pillBody}
         />
       </div>
     );
@@ -245,6 +242,13 @@ const AnimalsMainContent = (props) => {
   return <AnimalFormHeaderItem {...props} />;
 };
 
+const AnimalsContentClasses = (transactionStyles) => {
+  return {
+    mainContentWithIcon: transactionStyles ? styles.expandableItem : styles.animalsExpandableItem,
+    icon: transactionStyles ? '' : styles.animalsCollapseIcon,
+  };
+};
+
 export const NestedExpandable = {
   render: () => (
     <Test
@@ -257,4 +261,25 @@ export const NestedExpandable = {
       transactionStyles={false}
     />
   ),
+};
+
+export const PillInTitleExpandable = {
+  render: () => (
+    <Test
+      data={[mockAnimalData]}
+      mainContent={() => 'Basic Title'}
+      defaultExpandedIds={[1]}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+      pillBody="Batch with 5 animals"
+      leftCollapseIcon={true}
+      transactionStyles={false}
+    />
+  ),
+};
+
+const PillBodyClasses = {
+  mainContentWrapper: styles.mainContentWrapper,
+  mainContentWithIcon: styles.mainContentWithIcon,
+  alwaysVisibleContent: styles.alwaysVisibleContent,
 };

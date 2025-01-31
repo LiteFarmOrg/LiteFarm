@@ -13,7 +13,9 @@ import PureHarvestingTask from '../HarvestingTask';
 import PurePestControlTask from '../PestControlTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PureMovementTask from '../MovementTask';
 import { defaultValues as soilAmendmentProductDefaultValues } from '../AddSoilAmendmentProducts';
+import { getProgress } from '../../../containers/Task/util';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -31,10 +33,11 @@ export default function PureTaskDetails({
 }) {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
-  const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
   const isIrrigationTask = isTaskType(selectedTaskType, 'IRRIGATION_TASK');
+  const isCustomTask = isTaskType(selectedTaskType, 'CUSTOM_TASK');
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_details') : isHarvest ? 67 : 71;
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
@@ -133,7 +136,7 @@ export default function PureTaskDetails({
           onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
-          value={isHarvest ? 67 : 71}
+          value={progress}
         />
 
         <Main
@@ -166,13 +169,14 @@ export default function PureTaskDetails({
         {!isHarvest && (
           <InputAutoSize
             style={{ paddingTop: '36px' }}
-            label={t('LOG_COMMON.NOTES')}
+            label={t('ADD_TASK.NOTES_LABEL')}
             optional={true}
             hookFormRegister={register(NOTES, {
               maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
             })}
             name={NOTES}
             errors={errors[NOTES]?.message}
+            placeholder={t('ADD_TASK.NOTES_PLACEHOLDER')}
           />
         )}
       </Form>
@@ -187,4 +191,5 @@ const taskComponents = {
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTask {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} createTask />,
+  MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
 };

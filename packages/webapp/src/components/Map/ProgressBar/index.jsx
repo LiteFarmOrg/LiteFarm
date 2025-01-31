@@ -18,14 +18,18 @@ const useStyles = makeStyles({
   },
 });
 
+const INCREMENT = 12.5;
+const MAX_PROGRESS = 100 + INCREMENT;
+
 export default function ProgressBar({ onDismiss, type = 'success' }) {
   const classes = useStyles();
-  const [progress, setProgress] = useState(0);
-
-  const INCREMENT = 12.5;
-  const MAX_PROGRESS = 100 + INCREMENT;
+  const [progress, setProgress] = useState(onDismiss ? 0 : MAX_PROGRESS);
 
   useEffect(() => {
+    if (!onDismiss) {
+      return;
+    }
+
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress >= MAX_PROGRESS) {
@@ -37,7 +41,7 @@ export default function ProgressBar({ onDismiss, type = 'success' }) {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [onDismiss]);
 
   useEffect(() => {
     if (progress >= MAX_PROGRESS) {

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .logContainer {
   width: 100%;
   max-width: 1024px;
@@ -57,7 +59,7 @@
   font-size: 3.3vw;
   line-height: 4.4vw;
   color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
 }
 
 .selectedMatrixItem {

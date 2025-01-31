@@ -9,6 +9,7 @@ const typesOfTask = [
   'harvest_task',
   'plant_task',
   'cleaning_task',
+  'animal_movement_task',
 ];
 
 const modelMapping = {
@@ -22,6 +23,7 @@ const modelMapping = {
   plant_task: modelValidation('plant_task'),
   transplant_task: modelValidation('transplant_task'),
   cleaning_task: modelValidation('cleaning_task'),
+  animal_movement_task: modelValidation('animal_movement_task'),
   custom_task: modelValidation('custom_task'),
 };
 

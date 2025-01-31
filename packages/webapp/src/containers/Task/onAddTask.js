@@ -27,6 +27,7 @@ export const onAddTask = (dispatch, history, state) => () => {
       '/add_task/bed_guidance',
       '/add_task/row_method',
       '/add_task/row_guidance',
+      '/add_task/task_animal_selection',
     ]),
   );
   history.push('/add_task/task_type_selection', state);

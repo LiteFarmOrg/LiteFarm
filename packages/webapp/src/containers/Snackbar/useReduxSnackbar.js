@@ -31,7 +31,6 @@ export function useReduxSnackbar() {
       // display snackbar using notistack
       enqueueSnackbar(message, {
         key,
-        persist: true,
         ...options,
         onClose: (event, reason, myKey) => {
           if (options.onClose) {

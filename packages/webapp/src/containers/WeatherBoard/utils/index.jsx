@@ -26,7 +26,7 @@ const index = {
     return { tempUnit: '', speedUnit: '' };
   },
   formatDate(lang, dte) {
-    return new Date(dte * 1000).toLocaleDateString(lang, {
+    return new Date(dte).toLocaleDateString(lang, {
       weekday: 'short',
       day: 'numeric',
       month: 'long',

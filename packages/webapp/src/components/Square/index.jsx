@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     padding: '4px',
     minWidth: '16px',
     height: '16px',
-    fontFamily: '"Open Sans"," SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
     color: 'white',
     fontWeight: 700,
     borderRadius: '4px',

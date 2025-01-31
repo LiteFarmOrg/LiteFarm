@@ -4,16 +4,27 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useIsTaskType } from '../useIsTaskType';
 import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
+import { getProgress } from '../util';
 
 function TaskDate({ history, match, location }) {
   const onGoBack = () => {
     history.back();
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isMovementTask = useIsTaskType('MOVEMENT_TASK');
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
 
   const tasks = location.state.management_plan_id
     ? useSelector(tasksByManagementPlanIdSelector(location.state.management_plan_id))
     : [];
+
+  const getNextStepPath = () => {
+    return isTransplantTask
+      ? '/add_task/task_crops'
+      : isMovementTask
+        ? '/add_task/task_animal_selection'
+        : '/add_task/task_locations';
+  };
 
   const onContinue = (date) => () => {
     if (tasks.length > 0) {
@@ -61,15 +72,14 @@ function TaskDate({ history, match, location }) {
       }
     }
 
-    history.push(
-      isTransplantTask ? '/add_task/task_crops' : '/add_task/task_locations',
-      location?.state,
-    );
+    history.push(getNextStepPath(), location?.state);
   };
+
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_date') : undefined;
 
   return (
     <HookFormPersistProvider>
-      <PureTaskDate onGoBack={onGoBack} onContinue={onContinue} />
+      <PureTaskDate onGoBack={onGoBack} onContinue={onContinue} progress={progress} />
     </HookFormPersistProvider>
   );
 }

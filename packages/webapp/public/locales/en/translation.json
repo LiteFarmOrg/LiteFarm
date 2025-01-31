@@ -1804,7 +1804,7 @@
     "ESCI": {
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
       "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESCI",
-      "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble scientific \"",
+      "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your ensemble scientific organisation ID",
       "ORGANISATION_ID": "ESCI organisation ID",

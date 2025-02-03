@@ -16,25 +16,36 @@
 import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { FaCheck } from 'react-icons/fa';
 import TextButton from '../Form/Button/TextButton';
 import { IconLink, Main } from '../Typography';
 import Icon from '../Icons';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
-import { ReactComponent as CheckIcon } from '../../assets/images/check-circle.svg';
+import { ReactComponent as CircledCheckIcon } from '../../assets/images/check-circle.svg';
 import { ReactComponent as WarningIcon } from '../../assets/images/warning.svg';
 import styles from './styles.module.scss';
 
+enum IconType {
+  SIMPLE = 'simple',
+  DECORATED = 'decorated',
+}
+
+const CHECK_ICONS = {
+  [IconType.SIMPLE]: <FaCheck className={styles.simpleCheck} />,
+  [IconType.DECORATED]: <CircledCheckIcon className={styles.circledCheck} />,
+};
+
 interface MainContentProps {
   isExpanded: boolean;
-  isRemovable: boolean;
-  onRemove: () => void;
+  iconType?: IconType;
+  onRemove?: () => void;
   errorCount: number;
   children: ReactNode;
 }
 
 const MainContent = ({
   isExpanded,
-  isRemovable,
+  iconType,
   onRemove,
   errorCount,
   children,
@@ -53,7 +64,9 @@ const MainContent = ({
   };
 
   const renderStatusOrAction = () => {
-    if (isExpanded) {
+    const checkIcon = iconType ? CHECK_ICONS[iconType] : null;
+
+    if (isExpanded && onRemove) {
       if (isRemoving) {
         return (
           <div className={clsx(styles.inlineRemoveWarning)}>
@@ -79,7 +92,7 @@ const MainContent = ({
         );
       }
 
-      return isRemovable ? (
+      return (
         <IconLink
           className={styles.removeLink}
           onClick={initiateRemoval}
@@ -89,7 +102,7 @@ const MainContent = ({
         >
           {t('common:REMOVE')}
         </IconLink>
-      ) : null;
+      );
     }
 
     return errorCount ? (
@@ -98,7 +111,7 @@ const MainContent = ({
         {errorCount}
       </div>
     ) : (
-      <CheckIcon className={styles.check} />
+      checkIcon
     );
   };
 

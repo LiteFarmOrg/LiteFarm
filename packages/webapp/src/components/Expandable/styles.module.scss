@@ -110,7 +110,15 @@
   font-weight: 600;
 }
 
-.check {
+.simpleCheck {
+  width: 10px;
+
+  path {
+    color: var(--Colors-Primary-Primary-teal-700);
+  }
+}
+
+.circledCheck {
   color: var(--Colors-Secondary-Secondary-green-600);
 }
 

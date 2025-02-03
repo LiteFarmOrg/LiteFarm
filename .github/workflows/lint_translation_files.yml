@@ -11,6 +11,7 @@ jobs:
   run-linters-in-webapp:
     name: Run linters in webapp
     runs-on: ubuntu-latest
+    container: node:20.17
     defaults:
       run:
         working-directory: packages/webapp/
@@ -44,7 +45,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20.17
 
       - name: Install dependencies for Node.js server
         run: npm install

@@ -14,11 +14,11 @@
  */
 
 import Model from './baseFormatModel.js';
-
 import AddonPartner from './addonPartnerModel.js';
 import Farm from './farmModel.js';
+import baseModel from './baseModel.js';
 
-class FarmAddon extends Model {
+class FarmAddon extends baseModel {
   /**
    * Identifies the database table for this Model.
    * @static
@@ -50,6 +50,7 @@ class FarmAddon extends Model {
         addon_partner_id: { type: 'integer' },
         org_uuid: { type: 'string' },
         org_pk: { type: 'integer' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

@@ -279,7 +279,14 @@ export const PillInTitleExpandable = {
   ),
 };
 
-const ExpandableWithDefaultMainContent = ({ index, errorCount, isExpanded, onClick }) => {
+const ExpandableWithDefaultMainContent = ({
+  index,
+  errorCount,
+  isExpanded,
+  onClick,
+  iconType,
+  ...props
+}) => {
   return (
     <Expandable
       isExpanded={isExpanded}
@@ -287,8 +294,9 @@ const ExpandableWithDefaultMainContent = ({ index, errorCount, isExpanded, onCli
         <MainContent
           isExpanded={isExpanded}
           onRemove={() => console.log('removed!')}
-          isRemovable={true}
           errorCount={errorCount}
+          iconType={iconType}
+          {...props}
         >
           {`Main content ${index}`}
         </MainContent>
@@ -302,7 +310,7 @@ const ExpandableWithDefaultMainContent = ({ index, errorCount, isExpanded, onCli
   );
 };
 
-export const WithDefaultMainContent = {
+export const WithDecoratedIconMainContent = {
   render: () => {
     const { expandedIds, toggleExpanded } = useExpandable();
 
@@ -315,6 +323,29 @@ export const WithDefaultMainContent = {
             errorCount={num}
             isExpanded={expandedIds.includes(num)}
             onClick={() => toggleExpanded(num)}
+            iconType="decorated"
+          />
+        ))}
+      </div>
+    );
+  },
+};
+
+export const WithSimpleIconMainContent = {
+  render: () => {
+    const { expandedIds, toggleExpanded } = useExpandable();
+
+    return (
+      <div>
+        {[0, 1, 2].map((num) => (
+          <ExpandableWithDefaultMainContent
+            key={num}
+            index={num}
+            errorCount={0}
+            isExpanded={expandedIds.includes(num)}
+            onClick={() => toggleExpanded(num)}
+            iconType="simple"
+            onRemove={undefined}
           />
         ))}
       </div>

@@ -13,7 +13,7 @@ import { BsX } from 'react-icons/bs';
 import { Close } from '@mui/icons-material';
 
 export default function ModalComponent({
-  title,
+  title = '',
   titleClassName,
   icon,
   contents,

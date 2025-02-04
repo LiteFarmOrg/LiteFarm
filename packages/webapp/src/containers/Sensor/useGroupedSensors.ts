@@ -22,17 +22,26 @@ import {
   roundToTwoDecimal,
 } from '../../util/convert-units/unit';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import { areaSelector } from '../locationSlice';
+import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUtils';
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
 import { SensorInSimpleTableFormat } from '../LocationDetails/PointDetails/SensorDetail/v2/types';
-import { System } from '../../types';
+import { Location, System } from '../../types';
 
 const STANDALONE = 'standalone' as const;
 
 export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
-  sensors: SensorInSimpleTableFormat[];
+  fields: Location['name'][];
   isSensorArray: boolean;
+  sensors: SensorInSimpleTableFormat[];
+};
+
+type FarmAreaLocation = Location & AreaLocation;
+
+const getAreaNamesForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
+  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name }) => name);
 };
 
 const formatSensorToSimpleTableFormat = (
@@ -51,21 +60,43 @@ const formatSensorToSimpleTableFormat = (
   };
 };
 
-const formatSensorToGroupedSensor = (sensor: SensorInSimpleTableFormat): GroupedSensors => {
+type SensorsMapKeys = SensorArray['id'] | typeof STANDALONE;
+type MappedSensors = { [key: SensorsMapKeys]: SensorInSimpleTableFormat[] };
+
+const formatSenorArrayToGroup = (
+  sensorArray: SensorArray,
+  mappedSensors: MappedSensors,
+  areaLocations: FarmAreaLocation[],
+) => {
+  return {
+    ...sensorArray,
+    sensors: mappedSensors[sensorArray.id],
+    isSensorArray: true,
+    fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+  };
+};
+
+const formatSensorToGroup = (
+  sensor: SensorInSimpleTableFormat,
+  areaLocations: FarmAreaLocation[],
+) => {
   return {
     id: `${sensor.sensor_array_id}_${sensor.id}`,
     sensors: [sensor],
     point: sensor.point,
     isSensorArray: false,
+    fields: getAreaNamesForPoint(sensor.point, areaLocations),
   };
 };
 
-type SensorsMapKeys = SensorArray['id'] | typeof STANDALONE;
-
-const formatSensorsToGroups = (getSensorsApiRes: SensorData, system: System): GroupedSensors[] => {
+const formatSensorsToGroups = (
+  getSensorsApiRes: SensorData,
+  system: System,
+  farmAreas: FarmAreaLocation[],
+): GroupedSensors[] => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
-  const mappedSensors: { [key: SensorsMapKeys]: SensorInSimpleTableFormat[] } = {};
+  const mappedSensors: MappedSensors = {};
 
   sensors.forEach((sensor) => {
     const key = sensor.sensor_array_id || STANDALONE;
@@ -76,18 +107,21 @@ const formatSensorsToGroups = (getSensorsApiRes: SensorData, system: System): Gr
     mappedSensors[key].push(formatSensorToSimpleTableFormat(sensor, system));
   });
 
-  const groupedSensors = sensor_arrays.map((sensorArray) => {
-    return { ...sensorArray, sensors: mappedSensors[sensorArray.id], isSensorArray: true };
-  });
-
-  return [...groupedSensors, ...mappedSensors[STANDALONE].map(formatSensorToGroupedSensor)];
+  return [
+    ...sensor_arrays.map((sensorArray) =>
+      formatSenorArrayToGroup(sensorArray, mappedSensors, farmAreas),
+    ),
+    ...mappedSensors[STANDALONE].map((sensor) => formatSensorToGroup(sensor, farmAreas)),
+  ];
 };
 
 const useGroupedSensors = () => {
   const { data } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
+  const farmAreas = useSelector(areaSelector);
+  const flattenedFarmAreas = Object.values(farmAreas).flat();
 
-  return data ? formatSensorsToGroups(data, system) : [];
+  return data ? formatSensorsToGroups(data, system, flattenedFarmAreas) : [];
 };
 
 export default useGroupedSensors;

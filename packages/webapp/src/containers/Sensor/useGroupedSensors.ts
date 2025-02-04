@@ -81,7 +81,7 @@ const formatSensorToGroup = (
   areaLocations: FarmAreaLocation[],
 ) => {
   return {
-    id: `${sensor.sensor_array_id}_${sensor.id}`,
+    id: `sensor_${sensor.id}`,
     sensors: [sensor],
     point: sensor.point,
     isSensorArray: false,

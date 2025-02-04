@@ -25,38 +25,22 @@ export enum Status {
   OFFLINE = 'OFFLINE',
 }
 
-export enum PillVariant {
-  SENSOR = 'SENSOR',
-}
-
 export interface StatusIndicatorPillProps {
   status: Status;
-  variant?: PillVariant;
+  pillText: string;
+  tooltipText?: string;
   showHoverTooltip?: boolean;
 }
 
-const statusTextMapping = {
-  [PillVariant.SENSOR]: {
-    [Status.ONLINE]: {
-      pillText: 'STATUS.ONLINE',
-      tooltipText: 'STATUS.SENSOR.ONLINE_TOOLTIP',
-    },
-    [Status.OFFLINE]: {
-      pillText: 'STATUS.OFFLINE',
-      tooltipText: 'STATUS.SENSOR.OFFLINE_TOOLTIP',
-    },
-  },
-};
-
 export const StatusIndicatorPill = ({
   status,
-  variant = PillVariant.SENSOR,
+  pillText,
+  tooltipText = '',
   showHoverTooltip = true,
 }: StatusIndicatorPillProps) => {
   const { t } = useTranslation();
 
   const isOnline = status === Status.ONLINE;
-  const { pillText, tooltipText } = statusTextMapping[variant][status];
 
   const hoverContent = <Main className={styles.hoverText}>{t(tooltipText)}</Main>;
 

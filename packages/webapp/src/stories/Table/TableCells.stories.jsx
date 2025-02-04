@@ -45,14 +45,18 @@ const getFakeColumns = () => {
     },
     {
       id: 'StatusIndicatorPill',
-      label: 'Status',
-      format: (d) => (
-        <Cell
-          kind={CellKind.STATUS_INDICATOR_PILL}
-          status={Math.random() < 1 / 4 ? Status.OFFLINE : Status.ONLINE}
-          showHoverTooltip={false}
-        />
-      ),
+      label: 'Availability',
+      format: (d) => {
+        const isAvailable = Math.random() < 3 / 4;
+        return (
+          <Cell
+            kind={CellKind.STATUS_INDICATOR_PILL}
+            status={isAvailable ? Status.ONLINE : Status.OFFLINE}
+            pillText={isAvailable ? 'Available' : 'Sold out'}
+            tooltipText={isAvailable ? 'This crop is available' : 'This crop is sold out'}
+          />
+        );
+      },
       sortable: false,
     },
     {

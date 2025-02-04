@@ -72,21 +72,27 @@ const Wrapper = ({ children, position = 'center' }: WrapperProps) => {
 
 type Story = StoryObj<typeof StatusIndicatorPill>;
 
-export const SensorOnline: Story = {
+export const Online: Story = {
   args: {
     status: Status.ONLINE,
+    pillText: 'Online',
+    tooltipText: 'Device has sent data in the last 12 hours',
   },
 };
 
-export const SensorOffline: Story = {
+export const Offline: Story = {
   args: {
     status: Status.OFFLINE,
+    pillText: 'Offline',
+    tooltipText: 'Device has not sent data in the last 12 hours',
   },
 };
 
-export const SensorNoHoverTooltip: Story = {
+export const HoverTooltipDisabled: Story = {
   args: {
     status: Status.OFFLINE,
+    pillText: 'Offline',
+    tooltipText: 'Device has not sent data in the last 12 hours',
     showHoverTooltip: false,
   },
 };

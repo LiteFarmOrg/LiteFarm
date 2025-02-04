@@ -25,7 +25,7 @@ import { ReactComponent as CircledCheckIcon } from '../../assets/images/check-ci
 import { ReactComponent as WarningIcon } from '../../assets/images/warning.svg';
 import styles from './styles.module.scss';
 
-enum IconType {
+export enum IconType {
   SIMPLE = 'simple',
   DECORATED = 'decorated',
 }

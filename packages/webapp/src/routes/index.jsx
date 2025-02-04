@@ -543,7 +543,13 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
-            <Route path={POST_SENSOR_URL} exact component={PostSensorForm} />
+            <Route
+              path={POST_SENSOR_URL}
+              exact
+              render={(props) => (
+                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -828,7 +834,13 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
-            <Route path={POST_SENSOR_URL} exact component={PostSensorForm} />
+            <Route
+              path={POST_SENSOR_URL}
+              exact
+              render={(props) => (
+                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />

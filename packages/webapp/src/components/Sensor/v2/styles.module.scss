@@ -13,8 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .wrapper {
   padding: 34px 8px 0 8px;
+
+  @include xs-breakpoint {
+    padding: 24px 0 0 0;
+  }
 }
 
 .lead {
@@ -50,7 +56,6 @@
 
     .url {
       color: #000;
-      font-family: 'Open Sans';
       font-size: 16px;
     }
   }
@@ -79,7 +84,6 @@
   }
 }
 
-// TODO: LF-4693
 // Current connection
 .connectionInfo {
   margin-top: 16px;

@@ -182,7 +182,9 @@ export const WithStepperProgressBar = ({
   };
 
   if (isLoading) {
-    return <Loading dataName={steps[activeStepIndex].dataName} />;
+    return (
+      <Loading dataName={steps[activeStepIndex].dataName} isCompactSideMenu={isCompactSideMenu} />
+    );
   }
 
   return (

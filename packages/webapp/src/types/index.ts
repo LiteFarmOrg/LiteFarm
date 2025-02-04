@@ -37,3 +37,5 @@ export interface Location {
 
   [key: string]: any;
 }
+
+export type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number}vh` | 'auto';

@@ -21,6 +21,7 @@ import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
 import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
+import { ESCI_PARTNER_ID } from './constants';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -67,7 +68,7 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   ];
 
   const defaultFormValues = {
-    [PARTNER]: { [FarmAddonField.PARTNER_ID]: 1, [FarmAddonField.ORG_UUID]: '' },
+    [PARTNER]: { [FarmAddonField.PARTNER_ID]: ESCI_PARTNER_ID, [FarmAddonField.ORG_UUID]: '' },
   };
 
   return (

@@ -13,49 +13,81 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useSelector } from 'react-redux';
+import i18n from '../../locales/i18n';
+import { measurementSelector } from '../userFarmSlice';
+import {
+  container_planting_depth,
+  convertFn,
+  roundToTwoDecimal,
+} from '../../util/convert-units/unit';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
+import { SensorInSimpleTableFormat } from '../LocationDetails/PointDetails/SensorDetail/v2/types';
+import { System } from '../../types';
 
-export type SensorWithId = Sensor & { id: string };
+const STANDALONE = 'standalone' as const;
 
-export type GroupedSensor = {
+export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
-  sensors: SensorWithId[];
+  sensors: SensorInSimpleTableFormat[];
+  isSensorArray: boolean;
 };
 
-const formatSensorToGroupedSensor = (sensor: SensorWithId): GroupedSensor => {
+const formatSensorToSimpleTableFormat = (
+  sensor: Sensor,
+  system: System,
+): SensorInSimpleTableFormat => {
+  const { external_id, depth, depth_unit, sensor_reading_types } = sensor;
+  const toUnit = container_planting_depth[system].defaultUnit;
+  const convertedDepth = convertFn(container_planting_depth, depth, depth_unit, toUnit);
+
+  return {
+    ...sensor,
+    id: external_id,
+    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${toUnit}`,
+    deviceTypes: sensor_reading_types.map((type) => i18n.t(`SENSOR.READING.${type.toUpperCase()}`)),
+  };
+};
+
+const formatSensorToGroupedSensor = (sensor: SensorInSimpleTableFormat): GroupedSensors => {
   return {
     id: `${sensor.sensor_array_id}_${sensor.id}`,
     sensors: [sensor],
     point: sensor.point,
+    isSensorArray: false,
   };
 };
 
-const formatSensors = (getSensorsApiRes: SensorData): GroupedSensor[] => {
+type SensorsMapKeys = SensorArray['id'] | typeof STANDALONE;
+
+const formatSensorsToGroups = (getSensorsApiRes: SensorData, system: System): GroupedSensors[] => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
-  const mappedSensors: { [key: SensorArray['id'] | 'standalone']: SensorWithId[] } = {};
+  const mappedSensors: { [key: SensorsMapKeys]: SensorInSimpleTableFormat[] } = {};
+
   sensors.forEach((sensor) => {
-    const key = sensor.sensor_array_id || 'standalone';
+    const key = sensor.sensor_array_id || STANDALONE;
     if (!mappedSensors[key]) {
       mappedSensors[key] = [];
     }
 
-    mappedSensors[key].push({ ...sensor, id: sensor.external_id });
+    mappedSensors[key].push(formatSensorToSimpleTableFormat(sensor, system));
   });
 
   const groupedSensors = sensor_arrays.map((sensorArray) => {
-    return { ...sensorArray, sensors: mappedSensors[sensorArray.id] };
+    return { ...sensorArray, sensors: mappedSensors[sensorArray.id], isSensorArray: true };
   });
 
-  return [...groupedSensors, ...mappedSensors['standalone'].map(formatSensorToGroupedSensor)];
+  return [...groupedSensors, ...mappedSensors[STANDALONE].map(formatSensorToGroupedSensor)];
 };
 
 const useGroupedSensors = () => {
   const { data } = useGetSensorsQuery();
+  const system = useSelector(measurementSelector);
 
-  return data ? formatSensors(data) : [];
+  return data ? formatSensorsToGroups(data, system) : [];
 };
 
 export default useGroupedSensors;

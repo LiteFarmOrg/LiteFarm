@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
 import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
+import { hookFormSelectOptionMaxLength } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -49,6 +50,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
+          validate: hookFormSelectOptionMaxLength,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
@@ -94,6 +96,9 @@ export function AnimalBreedSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
+        rules={{
+          validate: hookFormSelectOptionMaxLength,
+        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             ref={breedSelectRef}

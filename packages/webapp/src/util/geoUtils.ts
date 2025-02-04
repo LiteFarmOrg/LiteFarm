@@ -27,6 +27,7 @@ export interface PointLocation {
 
 export interface AreaLocation {
   grid_points: Point[];
+  [key: string]: any;
 }
 
 // turf expects [lng, lat] for all points and polygon coordinates

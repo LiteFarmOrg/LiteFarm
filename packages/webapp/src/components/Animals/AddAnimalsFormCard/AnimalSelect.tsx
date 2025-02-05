@@ -50,7 +50,8 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
-          validate: hookFormSelectOptionMaxLength as (selectedOption: any) => string | boolean,
+          // @ts-ignore
+          validate: hookFormSelectOptionMaxLength,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
@@ -97,7 +98,8 @@ export function AnimalBreedSelect<T extends FieldValues>({
         name={name}
         control={control}
         rules={{
-          validate: hookFormSelectOptionMaxLength as (selectedOption: any) => string | boolean,
+          // @ts-ignore
+          validate: hookFormSelectOptionMaxLength,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect

@@ -13,4 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const ESCI_PARTNER_ID = 1;
+import EsciLogo from '../../../../../assets/images/partners/esci_logo.png';
+
+export const PARTNERS = {
+  ESCI: { id: 1, name: 'Ensemble scientific', url: 'www.esci.io', logoPath: EsciLogo },
+};

@@ -1,0 +1,129 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin.scss';
+
+.expandableHeader {
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.expandableContainer {
+  background-color: var(--White);
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  box-shadow: 0px 1px 1px 0px #00000012;
+  border-radius: 4px;
+
+  &.active {
+    border-color: var(--Form-focus);
+  }
+}
+
+// MainContent
+.mainContent {
+  display: flex;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+.sensorIconWithNumber {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-radius: 2px;
+  border: 1px solid var(--Colors-Neutral-Neutral-200);
+  background: #fff;
+
+  @include truncateText();
+
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-top: -1px;
+
+    path {
+      stroke: var(--Colors-Neutral-Neutral-900);
+    }
+  }
+
+  .number {
+    width: 100%;
+    height: 10px;
+    margin-top: -4px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: -0.22px;
+    line-height: 100%;
+    text-align: center;
+    color: var(--Colors-Neutral-Neutral-900);
+    @include truncateText();
+  }
+}
+
+// Expanded content
+.expandedContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px 16px 16px 16px;
+}
+
+.fieldListLead {
+  color: var(--Colors-Neutral-Neutral-500);
+  margin-bottom: 8px;
+}
+
+.fieldList {
+  list-style-position: outside;
+  padding: 4px 8px 4px 36px;
+  border-radius: 4px;
+  background: var(--Colors-Backgrounds-Background-color);
+
+  li {
+    color: var(--Colors-Secondary-Secondary-green-900);
+    font-weight: 700;
+    line-height: 24px;
+  }
+}
+
+.seeOnMapButton {
+  width: fit-content;
+  display: flex;
+  height: 32px;
+  margin: 0 auto;
+  padding: 8px 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--Colors-Secondary-Secondary-green-900);
+}
+
+.mapPinIcon {
+  font-size: 16px;
+}
+
+.sensorGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

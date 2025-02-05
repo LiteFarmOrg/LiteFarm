@@ -201,6 +201,10 @@ const GeneralDetails = ({
         control={control}
         breedOptions={filteredBreeds}
         isTypeSelected={!!watchAnimalType}
+        onBreedChange={(option) => {
+          trigger(`${namePrefix}${DetailsFields.BREED}`);
+        }}
+        error={get(errors, `${namePrefix}${DetailsFields.BREED}`)}
         isDisabled={mode !== 'edit'}
       />
       {sexInputs}

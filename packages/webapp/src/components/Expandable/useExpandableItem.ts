@@ -13,12 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
-export default function useExpandable({ defaultExpandedIds = [], isSingleExpandable } = {}) {
-  const [expandedIds, setExpandedIds] = useState(defaultExpandedIds);
+interface UseExpandableProps {
+  defaultExpandedIds?: (string | number)[];
+  isSingleExpandable?: boolean;
+}
 
-  const expand = (id) => {
+export default function useExpandable({
+  defaultExpandedIds = [],
+  isSingleExpandable = false,
+}: UseExpandableProps = {}) {
+  const [expandedIds, setExpandedIds] = useState<(string | number)[]>(defaultExpandedIds);
+
+  const expand = (id: string | number) => {
     if (expandedIds.includes(id)) {
       return;
     }
@@ -26,7 +33,7 @@ export default function useExpandable({ defaultExpandedIds = [], isSingleExpanda
     setExpandedIds(newIds);
   };
 
-  const unExpand = (id) => {
+  const unExpand = (id: string | number) => {
     if (!expandedIds.includes(id)) {
       return;
     }
@@ -34,7 +41,7 @@ export default function useExpandable({ defaultExpandedIds = [], isSingleExpanda
     setExpandedIds(newIds);
   };
 
-  const toggleExpanded = (id) => {
+  const toggleExpanded = (id: string | number) => {
     expandedIds.includes(id) ? unExpand(id) : expand(id);
   };
 
@@ -44,8 +51,3 @@ export default function useExpandable({ defaultExpandedIds = [], isSingleExpanda
 
   return { expandedIds, expand, unExpand, toggleExpanded, resetExpanded };
 }
-
-useExpandable.propTypes = {
-  defaultExpandedIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-  isSingleExpandable: PropTypes.bool,
-};

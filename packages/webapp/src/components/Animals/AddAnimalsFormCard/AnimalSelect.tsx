@@ -50,13 +50,13 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
-          validate: hookFormSelectOptionMaxLength,
+          validate: hookFormSelectOptionMaxLength as (selectedOption: any) => string | boolean,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
             options={typeOptions}
-            onChange={(option) => {
+            onChange={(option: any) => {
               onChange(option);
               onTypeChange?.(option);
             }}
@@ -97,7 +97,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
         name={name}
         control={control}
         rules={{
-          validate: hookFormSelectOptionMaxLength,
+          validate: hookFormSelectOptionMaxLength as (selectedOption: any) => string | boolean,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
@@ -108,7 +108,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
             controlShouldRenderValue={isTypeSelected}
             placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
             isDisabled={!isTypeSelected || isDisabled}
-            onChange={(option) => {
+            onChange={(option: any) => {
               onChange(option);
               // @ts-ignore
               onBreedChange?.(option);

@@ -22,6 +22,7 @@ import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
 import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
 import { ESCI_PARTNER_ID } from './constants';
+import { SENSORS } from '../../../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -51,21 +52,16 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
     }
   };
 
-  const onSave = async (data: AddSensorsFormFields, onSuccess: () => void) => {
-    // Fetch sensors
-    await triggerGetSensors();
-
-    // Proceed to sensors view
-    onSuccess();
+  const onSave = async (data: AddSensorsFormFields) => {
+    await linkEsci(data);
   };
 
-  const getFormSteps = () => [
-    {
-      FormContent: () => <Partners />,
-      onContinueAction: linkEsci,
-    },
-    { FormContent: () => <div>ESCI devices view</div> },
-  ];
+  const onAfterSave = () => {
+    triggerGetSensors();
+    history.push(SENSORS);
+  };
+
+  const getFormSteps = () => [{ FormContent: Partners }];
 
   const defaultFormValues = {
     [PARTNER]: { [FarmAddonField.PARTNER_ID]: ESCI_PARTNER_ID, [FarmAddonField.ORG_UUID]: '' },
@@ -79,12 +75,13 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
         getSteps={getFormSteps}
         defaultFormValues={defaultFormValues}
         variant={Variant.STEPPER_PROGRESS_BAR}
-        hasSummaryWithinForm={true}
         onSave={onSave}
         headerComponent={PageTitle}
         showPreviousButton={false}
         formMode="onChange"
         isCompactSideMenu={isCompactSideMenu}
+        onAfterSave={onAfterSave}
+        showLoading
         // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>

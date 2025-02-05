@@ -110,7 +110,6 @@ export function AnimalBreedSelect<T extends FieldValues>({
             isDisabled={!isTypeSelected || isDisabled}
             onChange={(option: any) => {
               onChange(option);
-              // @ts-ignore
               onBreedChange?.(option);
             }}
             value={value || null}

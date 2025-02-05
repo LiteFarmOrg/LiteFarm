@@ -75,7 +75,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
     return (
       inputValue.trim().length > 0 &&
       !options?.some((opt) => {
-        // @ts-ignore
+        // @ts-expect-error
         return compareUpperCaseTrim(opt?.label, inputValue);
       })
     );

@@ -124,7 +124,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
 
   return (
     <>
-      {/* @ts-ignore */}
       <Drawer
         title={t('REMOVE_ANIMALS.REMOVE_ANIMALS')}
         isOpen={props.isOpen}
@@ -189,7 +188,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             )}
 
             {!isCreatedInError(selectedOption) && (
-              /* @ts-ignore */
+              /* @ts-expect-error */
               <Input
                 type={'date'}
                 label={t('common:DATE')}
@@ -209,7 +208,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                 </div>
               ) : (
                 <>
-                  {/*@ts-ignore*/}
+                  {/*@ts-expect-error*/}
                   <Input
                     hookFormRegister={register(EXPLANATION)}
                     label={t('REMOVE_ANIMALS.EXPLANATION')}

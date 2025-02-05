@@ -158,7 +158,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const isSensorArray = (id) => {
-    return !!locationSensorArrays.find((arr) => arr?.id === id);
+    return locationSensorArrays.some((sa) => sa?.id === id);
   };
 
   const handleMouseUp = (location, idx) => {

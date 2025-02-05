@@ -116,12 +116,15 @@ const formatSensorsToGroups = (
 };
 
 const useGroupedSensors = () => {
-  const { data } = useGetSensorsQuery();
+  const { data, isLoading } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
   const farmAreas = useSelector(areaSelector);
   const flattenedFarmAreas = Object.values(farmAreas).flat();
 
-  return data ? formatSensorsToGroups(data, system, flattenedFarmAreas) : [];
+  return {
+    isLoading,
+    data: !isLoading && data ? formatSensorsToGroups(data, system, flattenedFarmAreas) : [],
+  };
 };
 
 export default useGroupedSensors;

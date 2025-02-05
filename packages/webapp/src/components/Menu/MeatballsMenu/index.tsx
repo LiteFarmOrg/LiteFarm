@@ -15,7 +15,7 @@
 import { forwardRef, ReactNode } from 'react';
 import clsx from 'clsx';
 import { BsThreeDots } from 'react-icons/bs';
-import FloatingMenu from '../FloatingButtonMenu/FloatingMenu';
+import FloatingMenu, { FloatingMenuProps } from '../FloatingButtonMenu/FloatingMenu';
 import DropdownButton from '../../Form/DropDownButton';
 import styles from './styles.module.scss';
 
@@ -26,19 +26,17 @@ export type MeatballsMenuProps = {
 };
 
 const MeatballsMenu = ({ options, classes, disabled = false }: MeatballsMenuProps) => {
+  const Menu = forwardRef<HTMLUListElement, FloatingMenuProps>((menuProps, ref) => (
+    <FloatingMenu ref={ref} classes={{ menuItem: styles.menuItem }} {...menuProps} />
+  ));
+  Menu.displayName = 'Menu';
+
   return (
     <DropdownButton
       type={'v2'}
       noIcon
       classes={{ button: clsx(styles.menuButton, classes?.button) }}
-      Menu={forwardRef((menuProps, ref) => (
-        <FloatingMenu
-          ref={ref}
-          options={options}
-          classes={{ menuItem: styles.menuItem }}
-          {...menuProps}
-        />
-      ))}
+      Menu={Menu}
       menuPositionOffset={[0, 1]}
       disabled={disabled}
     >

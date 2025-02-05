@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { VscWarning } from 'react-icons/vsc';
 import { Info, Semibold } from '../../../Typography';
 import { Modal } from '../../index';
@@ -11,6 +11,20 @@ import Infoi from '../../../Tooltip/Infoi';
 import { IconButton } from '@mui/material';
 import { BsX } from 'react-icons/bs';
 import { Close } from '@mui/icons-material';
+
+export type ModalComponentProps = {
+  title: ReactNode;
+  titleClassName?: string;
+  icon?: React.ReactNode;
+  contents?: string[];
+  dismissModal: () => void;
+  buttonGroup?: React.ReactNode;
+  children?: React.ReactNode;
+  warning?: boolean;
+  error?: boolean;
+  tooltipContent?: string;
+  className?: string;
+};
 
 export default function ModalComponent({
   title,
@@ -24,7 +38,7 @@ export default function ModalComponent({
   error,
   tooltipContent,
   className = '',
-}) {
+}: ModalComponentProps) {
   if (warning && error) {
     console.error('warning and error cannot be true at the same time');
   }
@@ -60,9 +74,7 @@ export default function ModalComponent({
             <Close />
           </IconButton>
         </div>
-        {contents?.map((line, index) => (
-          <Info key={index}>{line}</Info>
-        ))}
+        {contents?.map((line, index) => <Info key={index}>{line}</Info>)}
 
         {children}
         {!!buttonGroup && <div className={styles.buttonGroup}>{buttonGroup}</div>}

@@ -17,17 +17,20 @@ import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import clsx from 'clsx';
 import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
-import { HoverPill, HoverPillProps } from '../../components/HoverPill';
+import {
+  HoverPillOverflowList,
+  HoverPillOverflowListProps,
+} from '../../components/HoverPillOverflowList';
 import styles from './styles.module.scss';
 
-type HoverPillStoryProps = HoverPillProps & {
+type HoverPillStoryProps = HoverPillOverflowListProps & {
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
 };
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<HoverPillStoryProps> = {
-  title: 'Components/HoverPill',
-  component: HoverPill,
+  title: 'Components/HoverPillOverflowList',
+  component: HoverPillOverflowList,
   argTypes: {
     position: {
       control: 'select',
@@ -66,16 +69,35 @@ const Wrapper = ({ children, position = 'center' }: WrapperProps) => {
   return <div className={clsx(styles.wrapper, styles[position])}>{children}</div>;
 };
 
-type Story = StoryObj<typeof HoverPill>;
+type Story = StoryObj<typeof HoverPillOverflowList>;
 
-export const Plural: Story = {
+export const NoItems: Story = {
   args: {
-    items: ['Heifers', 'Foot Rot treatment', 'Feeding change'],
+    items: [],
   },
 };
 
-export const Singular: Story = {
+export const NoItemsWithNoneText: Story = {
   args: {
-    items: ['Feeding change'],
+    items: [],
+    noneText: 'none',
+  },
+};
+
+export const OneItem: Story = {
+  args: {
+    items: ['Heifers'],
+  },
+};
+
+export const TwoItems: Story = {
+  args: {
+    items: ['Heifers', 'Foot Rot treatment'],
+  },
+};
+
+export const ThreeItems: Story = {
+  args: {
+    items: ['Heifers', 'Foot Rot treatment', 'Feeding change'],
   },
 };

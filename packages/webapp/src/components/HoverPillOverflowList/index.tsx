@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2024, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -18,16 +18,21 @@ import { Tooltip } from '@mui/material';
 import styles from './styles.module.scss';
 import { Semibold, Main } from '../Typography';
 
-export interface HoverPillProps {
+export interface HoverPillOverflowListProps {
   items: string[];
+  noneText?: string;
 }
 
-export const HoverPill = ({ items }: HoverPillProps) => {
+export const HoverPillOverflowList = ({ items, noneText = '' }: HoverPillOverflowListProps) => {
   const { t } = useTranslation();
+
+  if (items.length === 0) {
+    return <Main className={styles.itemText}>{noneText}</Main>;
+  }
 
   const hoverContent = (
     <>
-      {items.map((item, index) => (
+      {items.slice(1).map((item, index) => (
         <Main key={index} className={styles.detailText}>
           {item}
         </Main>
@@ -48,21 +53,26 @@ export const HoverPill = ({ items }: HoverPillProps) => {
   };
 
   return (
-    <Tooltip
-      title={hoverContent}
-      placement="bottom-end"
-      classes={{
-        tooltip: styles.hoverDetails,
-      }}
-      PopperProps={PopperProps}
-      enterTouchDelay={0}
-      leaveTouchDelay={900000}
-    >
-      <div className={styles.pill}>
-        <Semibold className={styles.pillText}>
-          {t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length })}
-        </Semibold>
-      </div>
-    </Tooltip>
+    <div className={styles.container}>
+      <Main className={styles.itemText}>{items[0]}</Main>
+      {items.length > 1 && (
+        <Tooltip
+          title={hoverContent}
+          placement="bottom-end"
+          classes={{
+            tooltip: styles.hoverDetails,
+          }}
+          PopperProps={PopperProps}
+          enterTouchDelay={0}
+          leaveTouchDelay={900000}
+        >
+          <div className={styles.pill}>
+            <Semibold className={styles.pillText}>
+              {t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length - 1 })}
+            </Semibold>
+          </div>
+        </Tooltip>
+      )}
+    </div>
   );
 };

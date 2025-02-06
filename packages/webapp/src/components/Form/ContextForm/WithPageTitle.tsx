@@ -52,7 +52,7 @@ export const WithPageTitle = ({
     <ClickAwayListener onClickAway={onClickAway} mouseEvent="onMouseDown" touchEvent="onTouchStart">
       <div>
         <Layout>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <MultiStepPageTitle
             title={title}
             onGoBack={onGoBack}

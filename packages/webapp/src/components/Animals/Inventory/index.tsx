@@ -165,7 +165,7 @@ const PureAnimalInventory = ({
       {showActionFloaterButton && (
         <div className={styles.ctaButtonWrapper}>
           <FloatingActionButton
-            // @ts-ignore
+            // @ts-expect-error
             type={'add'}
             onClick={() => history.push(ADD_ANIMALS_URL)}
             aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}

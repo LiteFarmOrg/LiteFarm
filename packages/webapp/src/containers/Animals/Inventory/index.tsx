@@ -121,7 +121,6 @@ const SelectedAnimalsSummaryInventory = ({
   expandableTitle: ReactNode;
   animalCountString: string | undefined;
 } & CommonPureAnimalInventoryProps) => {
-  // @ts-ignore
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isExpanded = expandedIds.includes(1);
   return (

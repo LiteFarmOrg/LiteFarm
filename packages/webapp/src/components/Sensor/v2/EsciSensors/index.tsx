@@ -54,7 +54,7 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
   );
 };
 
-const EsciDevices = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
+const EsciSensors = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable(
     // @ts-ignore
@@ -107,4 +107,4 @@ const EsciDevices = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
   );
 };
 
-export default EsciDevices;
+export default EsciSensors;

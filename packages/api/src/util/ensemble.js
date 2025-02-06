@@ -219,8 +219,7 @@ const enrichWithMockData = (
         lng: grid_points.lng,
       },
     };
-  }
-  if (device.profile_id === 2) {
+  } else if (device.profile_id === 2) {
     const depths = [10, 20, 30, -10, -20, -30];
     const randomDepth = depths[Math.floor(Math.random() * depths.length)];
     const randomOffset = () => (Math.random() - 0.5) * 0.00025; // ~25m in degrees

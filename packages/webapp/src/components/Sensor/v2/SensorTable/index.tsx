@@ -20,6 +20,14 @@ import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Tab
 import { SensorInSimpleTableFormat } from '../../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import styles from './styles.module.scss';
 
+const SUPPORTED_DEVICE_TYPES = [
+  'DRIP_LINE_PRESSURE_SENSOR',
+  'IR_TEMPERATURE_SENSOR',
+  'SOIL_WATER_POTENTIAL_SENSOR',
+  'WEATHER_STATION',
+  'WIND_SPEED_SENSOR',
+];
+
 export enum SensorTableVariant {
   SIMPLE = 'simple',
 }
@@ -42,7 +50,23 @@ const commonColumns: TableV2Column[] = [
     id: 'deviceType',
     label: i18n.t('SENSOR.DETAIL.DEVICE_TYPE'),
     sortable: false,
-    format: (d) => <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.name} />,
+    format: (d) => {
+      const key = d.name.toUpperCase().replaceAll(' ', '_');
+      // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
+      // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
+      // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL_SENSOR')
+      // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
+      // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
+      return (
+        <Cell
+          kind={CellKind.PLAIN}
+          className={styles.plainCell}
+          text={
+            SUPPORTED_DEVICE_TYPES.includes(key) ? i18n.t(`SENSOR.DEVICE_TYPES.${key}`) : d.name
+          }
+        />
+      );
+    },
   },
 ];
 

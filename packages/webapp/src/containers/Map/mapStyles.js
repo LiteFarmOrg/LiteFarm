@@ -29,12 +29,12 @@ import waterValveActive from '../../assets/images/map/water-valve-active.png';
 import gate from '../../assets/images/map/gate.png';
 import gateHover from '../../assets/images/map/gate-hover.png';
 import gateActive from '../../assets/images/map/gate-active.png';
-import sensor from '../../assets/images/map/sensorButton.svg';
-import sensorHover from '../../assets/images/map/sensorHoverButton.svg';
-import sensorActive from '../../assets/images/map/sensorActiveButton.svg';
-import sensorArray from '../../assets/images/map/sensorArrayButton.svg';
-import sensorArrayHover from '../../assets/images/map/sensorArrayHoverButton.svg';
-import sensorArrayActive from '../../assets/images/map/sensorArrayActiveButton.svg';
+import sensor from '../../assets/images/map/sensor.svg';
+import sensorHover from '../../assets/images/map/sensor-hover.svg';
+import sensorActive from '../../assets/images/map/sensor-active.svg';
+import sensorArray from '../../assets/images/map/sensor-array.svg';
+import sensorArrayHover from '../../assets/images/map/sensor-array-hover.svg';
+import sensorArrayActive from '../../assets/images/map/sensor-array-active.svg';
 
 export const areaStyles = {
   barn: {

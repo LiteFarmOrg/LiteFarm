@@ -1804,9 +1804,9 @@
     "ESCI": {
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
       "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESCI",
-      "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble scientific\"",
+      "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
-      "ENTER_ID": "Enter your ensemble scientific organisation ID",
+      "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
       "ORGANISATION_ID": "ESCI organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
       "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later."

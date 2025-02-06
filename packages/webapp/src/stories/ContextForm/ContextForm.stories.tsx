@@ -114,21 +114,48 @@ const asyncFunc = async (status: 'success' | 'fail') => {
   });
 };
 
-export const StepperFormWithCustomActionOnContinue: Story = {
+export const StepperSuccessFormWithLoading: Story = {
   args: {
     ...stepperFormCommonProps,
     hasSummaryWithinForm: true,
+    showLoading: true,
+    onSave: async (data: any, onSuccess: () => void) => {
+      await asyncFunc('success');
+      onSuccess();
+    },
     getSteps: () => [
       {
         title: 'Page 1',
         FormContent: () => <div>Page 1</div>,
-        onContinueAction: () => asyncFunc('success'),
         dataName: 'sensor',
       },
       {
         title: 'Page 2',
         FormContent: () => <div>Page 2</div>,
-        onContinueAction: () => asyncFunc('fail'),
+      },
+      {
+        title: 'Done',
+        FormContent: () => <div>Summary</div>,
+      },
+    ],
+  },
+};
+
+export const StepperFailedFormWithLoading: Story = {
+  args: {
+    ...stepperFormCommonProps,
+    hasSummaryWithinForm: true,
+    showLoading: true,
+    onSave: () => asyncFunc('fail'),
+    getSteps: () => [
+      {
+        title: 'Page 1',
+        FormContent: () => <div>Page 1</div>,
+        dataName: 'sensor',
+      },
+      {
+        title: 'Page 2',
+        FormContent: () => <div>Page 2</div>,
       },
       {
         title: 'Done',

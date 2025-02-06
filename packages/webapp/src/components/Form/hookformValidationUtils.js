@@ -87,3 +87,18 @@ export const hookFormUniquePropertyWithStatusValidation = ({
     return true;
   };
 };
+
+/**
+ * Validates whether the length of the selected option's label exceeds the specified maximum.
+ * Returns an error message if the length is greater than the allowed limit; otherwise, returns true.
+ *
+ * @param {string} Option - The option whose label length is being validated.
+ * @param {number} length - The maximum allowed length for the label.
+ * @returns {string | boolean} A validation function that checks the label's length
+ * and returns either an error message or `true` if the validation passes.
+ */
+export const hookFormSelectOptionMaxLength = (selectedOption, length = 255) => {
+  return (
+    selectedOption?.label.length <= length || i18n.t('common:CHAR_LIMIT_ERROR', { value: length })
+  );
+};

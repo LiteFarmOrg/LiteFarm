@@ -117,9 +117,9 @@ const sensorController = {
         sensor_arrays,
       });
     } catch (error) {
-      console.log(error);
-      return res.status(400).json({
-        error,
+      console.error(error);
+      return res.status(error.status || 400).json({
+        error: error.message || error,
       });
     }
   },

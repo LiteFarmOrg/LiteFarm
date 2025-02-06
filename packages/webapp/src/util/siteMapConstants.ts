@@ -92,3 +92,6 @@ export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean):
 // Maps
 export const MAP_URL = '/map';
 export const POST_SENSOR_URL = '/create_location/sensor';
+
+// Sensors
+export const SENSORS = '/sensors';

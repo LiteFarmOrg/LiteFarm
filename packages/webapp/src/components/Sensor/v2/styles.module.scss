@@ -16,10 +16,10 @@
 @import '../../../assets/mixin.scss';
 
 .wrapper {
-  padding: 34px 8px 0 8px;
+  padding: 34px 32px 0 32px;
 
   @include xs-breakpoint {
-    padding: 24px 0 0 0;
+    padding: 24px 24px 0 24px;
   }
 }
 

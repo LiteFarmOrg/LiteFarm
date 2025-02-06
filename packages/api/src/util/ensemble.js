@@ -70,7 +70,7 @@ const ENSEMBLE_UNITS_MAPPING = {
 const getValidEnsembleOrg = async (org_uuid) => {
   const allRegisteredOrganisations = await getEnsembleOrganisations();
 
-  const organisation = allRegisteredOrganisations.find(({ uuid }) => uuid === org_uuid);
+  const organisation = allRegisteredOrganisations?.find(({ uuid }) => uuid === org_uuid);
 
   return organisation;
 };
@@ -92,7 +92,7 @@ const getEnsembleSensors = async (farm_id) => {
 
   const devices = await getOrganisationDevices(farmEnsembleAddon.org_pk);
 
-  if (!devices.length) {
+  if (!devices?.length) {
     return { sensors: [], sensor_arrays: [] };
   }
 
@@ -334,14 +334,17 @@ async function getEnsembleOrganisations() {
       url: `${ensembleAPI}/organizations/`,
     };
     const onError = () => {
-      throw new Error('Unable to fetch ESCI organisation');
+      const err = new Error('Unable to fetch ESCI organisations');
+      err.status = 500;
+      throw err;
     };
 
     const response = await ensembleAPICall(axiosObject, onError);
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw error;
   }
 }
 
@@ -359,7 +362,9 @@ async function getOrganisationDevices(organisation_pk) {
       url: `${ensembleAPI}/organizations/${organisation_pk}/devices/`,
     };
     const onError = () => {
-      throw new Error('Unable to fetch ESCI devices');
+      const err = new Error('Unable to fetch ESCI devices');
+      err.status = 500;
+      throw err;
     };
 
     const response = await ensembleAPICall(axiosObject, onError);
@@ -367,6 +372,7 @@ async function getOrganisationDevices(organisation_pk) {
     return response.data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
@@ -456,7 +462,7 @@ async function fetchAccessToken() {
 async function refreshAndRecall(axiosObject, onError, onResponse, retries) {
   const result = await refreshTokens();
   if (!result?.access || !result?.refresh) return result;
-  return ensembleAPICall(result.access, axiosObject, onError, onResponse, retries - 1);
+  return ensembleAPICall(axiosObject, onError, onResponse, retries - 1);
 }
 
 /**
@@ -501,7 +507,9 @@ async function refreshTokens() {
     if (isAuthError(error)) {
       return await authenticateToGetTokens();
     } else {
-      return { status: 500, detail: 'Failed to authenticate with Ensemble.' };
+      const err = new Error('Failed to authenticate with Ensemble.');
+      err.status = 500;
+      throw err;
     }
   }
 }
@@ -524,7 +532,9 @@ async function authenticateToGetTokens() {
     );
     return response.data;
   } catch (error) {
-    return { status: 500, detail: 'Failed to authenticate with Ensemble.' };
+    const err = new Error('Failed to authenticate with Ensemble.');
+    err.status = 500;
+    throw err;
   }
 }
 

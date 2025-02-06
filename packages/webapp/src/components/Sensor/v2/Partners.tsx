@@ -20,7 +20,7 @@ import { validate as uuidValidate } from 'uuid';
 import Input, { getInputErrors } from '../../Form/Input';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Main } from '../../Typography';
-import EsciLogo from '../../../assets/images/partners/esci_logo.png';
+import { PARTNERS } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/constants';
 import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
 import {
   AddSensorsFormFields,
@@ -38,8 +38,6 @@ type PartnersProps = {
 const validateUuidFormat = (value: string, errorMessage: string) => {
   return uuidValidate(value) || errorMessage;
 };
-
-const PARTNERS = [{ name: 'Ensemble scientific', url: 'www.esci.io', logoPath: EsciLogo }];
 
 const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath: string }) => {
   return (
@@ -69,7 +67,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
   return (
     <div className={styles.wrapper}>
       <Main className={styles.lead}>{t('SENSOR.ESCI.CURRENT_SUPPORT')}</Main>
-      {PARTNERS.map((data) => (
+      {Object.values(PARTNERS).map((data) => (
         <Partner key={data.name} {...data} />
       ))}
       {hasActiveConnection.esci ? (

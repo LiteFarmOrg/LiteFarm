@@ -13,11 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PurePartners from '../../../../../components/Sensor/v2/Partners';
+import { useGetFarmAddonQuery } from '../../../../../store/api/apiSlice';
+import { PARTNERS } from './constants';
 
 const Partners = () => {
-  // TODO: LF-4693 GET /farm_addon?integrating_partner_id=1
+  const { isSuccess: hasEsciConnection } = useGetFarmAddonQuery(
+    `?addon_partner_id=${PARTNERS.ESCI.id}`,
+  );
 
-  return <PurePartners hasActiveConnection={{ esci: false }} />;
+  const hasActiveConnection = {
+    esci: hasEsciConnection,
+  };
+
+  return <PurePartners hasActiveConnection={hasActiveConnection} />;
 };
 
 export default Partners;

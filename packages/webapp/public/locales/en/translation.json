@@ -1801,6 +1801,13 @@
       "RETIRE": "Retire",
       "SEE_FULL_SENSOR_SETUP": "See full sensor setup"
     },
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "IR_TEMPERATURE_SENSOR": "IR Temperature Sensor",
+      "SOIL_WATER_POTENTIAL_SENSOR": "Soil Water Potential Sensor",
+      "WEATHER_STATION": "Weather station",
+      "WIND_SPEED_SENSOR": "Wind speed sensor"
+    },
     "ESCI": {
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
       "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESCI",

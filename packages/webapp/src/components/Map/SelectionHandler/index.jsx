@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
   sensorArrayIcon: {
     '& svg': {
       width: 24,
-      //height: 24,
     },
   },
   areaIcon: {

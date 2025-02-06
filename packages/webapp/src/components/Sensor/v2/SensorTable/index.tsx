@@ -42,9 +42,7 @@ const commonColumns: TableV2Column[] = [
     id: 'deviceType',
     label: i18n.t('SENSOR.DETAIL.DEVICE_TYPE'),
     sortable: false,
-    format: (d) => (
-      <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.deviceTypes.join(', ')} />
-    ),
+    format: (d) => <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.name} />,
   },
 ];
 

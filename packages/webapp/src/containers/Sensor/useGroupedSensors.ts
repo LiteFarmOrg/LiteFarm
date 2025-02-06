@@ -48,7 +48,7 @@ const formatSensorToSimpleTableFormat = (
   sensor: Sensor,
   system: System,
 ): SensorInSimpleTableFormat => {
-  const { external_id, depth, depth_unit, sensor_reading_types } = sensor;
+  const { external_id, depth, depth_unit } = sensor;
   const toUnit = container_planting_depth[system].defaultUnit;
   const convertedDepth = convertFn(container_planting_depth, depth, depth_unit, toUnit);
 
@@ -56,7 +56,6 @@ const formatSensorToSimpleTableFormat = (
     ...sensor,
     id: external_id,
     formattedDepth: `${roundToTwoDecimal(convertedDepth)}${toUnit}`,
-    deviceTypes: sensor_reading_types.map((type) => i18n.t(`SENSOR.READING.${type.toUpperCase()}`)),
   };
 };
 

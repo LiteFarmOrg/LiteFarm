@@ -204,8 +204,8 @@ const enrichWithMockData = (
   },
 ) => {
   device.last_seen = new Date().toISOString();
-
-  device.profile_id = Math.random() > 0.5 ? 1 : null;
+  const random = Math.random();
+  device.profile_id = random > 0.5 ? 1 : random > 0.25 ? 2 : null;
 
   if (device.profile_id === 1) {
     const depths = [10, 20, 30, -10, -20, -30];
@@ -217,6 +217,18 @@ const enrichWithMockData = (
       coordinates: {
         lat: grid_points.lat,
         lng: grid_points.lng,
+      },
+    };
+  } else if (device.profile_id === 2) {
+    const depths = [10, 20, 30, -10, -20, -30];
+    const randomDepth = depths[Math.floor(Math.random() * depths.length)];
+    const randomOffset = () => (Math.random() - 0.5) * 0.00025; // ~25m in degrees
+    // This is based on my speculation of what this data will look like. I have not seen real data yet.
+    device.latest_position = {
+      depth: randomDepth,
+      coordinates: {
+        lat: grid_points.lat + randomOffset(),
+        lng: grid_points.lng + randomOffset(),
       },
     };
   } else {

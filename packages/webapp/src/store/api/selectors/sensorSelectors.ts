@@ -23,7 +23,7 @@ export const sensorArraysSelector = createSelector(
   (sensorResult) =>
     sensorResult.data?.sensor_arrays.map((sensorArray) => ({
       ...sensorArray,
-      type: 'sensor', // until icon exists for sensor_array
+      type: 'sensor_array',
     })) || [],
 );
 

@@ -76,7 +76,9 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
         defaultFormValues={defaultFormValues}
         variant={Variant.STEPPER_PROGRESS_BAR}
         onSave={onSave}
-        headerComponent={PageTitle}
+        headerComponent={(props: any) => (
+          <PageTitle classNames={{ wrapper: styles.pageTitle }} {...props} />
+        )}
         showPreviousButton={false}
         formMode="onChange"
         isCompactSideMenu={isCompactSideMenu}

@@ -74,7 +74,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sensorArrayIcon: {
     '& svg': {
-      width: 32,
+      width: 24,
+      //height: 24,
     },
   },
   areaIcon: {
@@ -153,8 +154,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const isSensor = (id) => {
-    const sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
-    return !!sensor?.reading_types;
+    return locationSensors.some((sensor) => sensor?.id === id);
   };
 
   const isSensorArray = (id) => {

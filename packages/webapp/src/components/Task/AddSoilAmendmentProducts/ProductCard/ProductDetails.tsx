@@ -359,7 +359,7 @@ const ProductDetails = ({
 
       <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
         <div className={styles.productDetailsContent}>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             name={SUPPLIER}
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
@@ -381,7 +381,7 @@ const ProductDetails = ({
           {interested && inCanada && (
             <div className={styles.permitedSubstance}>
               <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
-              {/* @ts-ignore */}
+              {/* @ts-expect-error */}
               <RadioGroup
                 hookFormControl={control}
                 name={PERMITTED}

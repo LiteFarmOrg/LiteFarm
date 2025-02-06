@@ -17,31 +17,56 @@ import FarmAddonModel from '../models/farmAddonModel.js';
 import { getValidEnsembleOrg } from '../util/ensemble.js';
 
 const farmAddonController = {
-  async addFarmAddon(req, res) {
-    const { farm_id } = req.headers;
-    const { addon_partner_id, org_uuid } = req.body;
+  addFarmAddon() {
+    return async (req, res) => {
+      const { farm_id } = req.headers;
+      const { addon_partner_id, org_uuid } = req.body;
 
-    try {
-      const organisation = await getValidEnsembleOrg(org_uuid);
+      try {
+        const organisation = await getValidEnsembleOrg(org_uuid);
 
-      if (!organisation) {
-        return res.status(404).send('Organisation not found');
+        if (!organisation) {
+          return res.status(404).send('Organisation not found');
+        }
+
+        await FarmAddonModel.upsertFarmAddon({
+          farm_id,
+          addon_partner_id,
+          org_uuid,
+          org_pk: organisation.pk,
+        });
+
+        return res.status(200).send();
+      } catch (error) {
+        console.error(error);
+        return res.status(error.status || 400).json({
+          error: error.message || error,
+        });
       }
-
-      await FarmAddonModel.upsertFarmAddon({
-        farm_id,
-        addon_partner_id,
-        org_uuid,
-        org_pk: organisation.pk,
-      });
-
-      return res.status(200).send();
-    } catch (error) {
-      console.error(error);
-      return res.status(error.status || 400).json({
-        error: error.message || error,
-      });
-    }
+    };
+  },
+  getFarmAddon() {
+    return async (req, res) => {
+      try {
+        const { farm_id } = req.headers;
+        const { addon_partner_id } = req.query;
+        const rows = await FarmAddonModel.query()
+          .where({ farm_id, addon_partner_id })
+          .skipUndefined();
+        if (!rows.length) {
+          return res.sendStatus(404);
+        }
+        const result = rows.map(({ addon_partner_id, org_uuid }) => {
+          return { addon_partner_id, org_uuid };
+        });
+        return res.status(200).send(result);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
   },
 };
 

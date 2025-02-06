@@ -210,7 +210,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
                 onBack={history.back}
-                /* @ts-ignore */
+                /* @ts-expect-error */
                 animalOrBatch={defaultFormValues}
                 locationText={locationText}
                 defaultBreeds={defaultAnimalBreeds}

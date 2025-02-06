@@ -13,7 +13,7 @@
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node --import @swc-node/register/esm-register src/server.ts",
-    "start:prod": "npm run build && node dist/api/src/server.js",
+    "start:prod": "node dist/app/src/server.js",
     "build": "rimraf dist && tsc -p src/tsconfig.json",
     "dev": "set NODE_ENV=development && node --watch --import @swc-node/register/esm-register src/server.ts",
     "debug-email-template": "DEBUG=email-templates npm run dev",

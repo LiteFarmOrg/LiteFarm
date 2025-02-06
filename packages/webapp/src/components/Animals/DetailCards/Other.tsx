@@ -79,7 +79,7 @@ const OtherDetails = ({
     <div className={styles.sectionWrapper}>
       {animalOrBatch === AnimalOrBatchKeys.ANIMAL && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
@@ -102,7 +102,7 @@ const OtherDetails = ({
           />
         )}
       />
-      {/* @ts-ignore */}
+      {/* @ts-expect-error */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
         hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_DETAILS}`, {

@@ -1782,6 +1782,7 @@
   "SENSOR": {
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+    "CANOPY_TEMPERATURE": "Canopy temperature",
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
@@ -1833,6 +1834,7 @@
     "MONTHS_AGO": "{{time}} month(s) ago",
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
+    "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
     "READING": {
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
@@ -1854,6 +1856,7 @@
     },
     "SECONDS_AGO": "{{time}} second(s) ago",
     "SENSOR_ARRAY": "Sensor array",
+    "SENSOR_ARRAYS": "Sensor arrays",
     "SENSOR_FORECAST": {
       "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
       "TITLE": "Today's forecast",

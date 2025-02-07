@@ -52,7 +52,7 @@ export default function EnhancedTableHead({
             />
           </TableCell>
         )}
-        {columns.map(({ id, align, columnProps, label, sortable = true }) => {
+        {columns.map(({ id, align, columnProps, label, sortable = true, className }) => {
           if (!id) {
             return null;
           }
@@ -67,6 +67,7 @@ export default function EnhancedTableHead({
                 styles.tableCell,
                 styles.tableHead,
                 dense && styles.dense,
+                className,
               )}
               {...columnProps}
             >

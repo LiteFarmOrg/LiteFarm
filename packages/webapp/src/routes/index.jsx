@@ -566,6 +566,8 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
             <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
+            <Route path="/sensor_array/:location_id" component={SensorDetails} />
+            <Route path="/sensor_array/:location_id/edit" exact component={EditSensor} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
@@ -856,6 +858,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
+            <Route path="/sensor_array/:location_id" component={SensorDetails} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -994,6 +997,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
+            <Route path="/sensor_array/:location_id" component={SensorDetails} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />

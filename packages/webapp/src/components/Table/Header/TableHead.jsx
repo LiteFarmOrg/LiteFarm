@@ -71,29 +71,16 @@ export default function EnhancedTableHead({
               )}
               {...columnProps}
             >
-              <TableSortLabel
+              <LabelWrapper
+                id={id}
+                sortable={sortable}
                 active={active}
-                direction={active ? order : 'asc'}
-                onClick={sortable ? createSortHandler(id) : null}
-                IconComponent={active ? ArrowDownCircle : UnfoldCircle}
-                disabled={!sortable}
-                className={clsx(
-                  align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding,
-                )}
-                classes={{
-                  active: styles.sortLabelActive,
-                  icon: styles.icon,
-                }}
-                sx={[
-                  sortable && {
-                    '.MuiTableSortLabel-icon': {
-                      opacity: 'inherit !important',
-                    },
-                  },
-                ]}
+                order={order}
+                align={align}
+                createSortHandler={createSortHandler}
               >
                 <span className={clsx(styles.headerLabel, active && styles.active)}>{label}</span>
-              </TableSortLabel>
+              </LabelWrapper>
             </TableCell>
           );
         })}
@@ -101,6 +88,35 @@ export default function EnhancedTableHead({
     </TableHead>
   );
 }
+
+const LabelWrapper = ({ sortable, id, active, order, align, createSortHandler, children }) => {
+  if (!sortable) {
+    return children;
+  }
+
+  return (
+    <TableSortLabel
+      active={active}
+      direction={active ? order : 'asc'}
+      onClick={createSortHandler(id)}
+      IconComponent={active ? ArrowDownCircle : UnfoldCircle}
+      className={clsx(align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding)}
+      classes={{
+        active: styles.sortLabelActive,
+        icon: styles.icon,
+      }}
+      sx={[
+        {
+          '.MuiTableSortLabel-icon': {
+            opacity: 'inherit !important',
+          },
+        },
+      ]}
+    >
+      {children}
+    </TableSortLabel>
+  );
+};
 
 EnhancedTableHead.propTypes = {
   columns: PropTypes.array.isRequired,

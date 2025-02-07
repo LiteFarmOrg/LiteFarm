@@ -1557,6 +1557,7 @@
     },
     "FARM": {
       "ADDRESS": "Address",
+      "ADDONS": "Add-ons",
       "CHANGE_IMAGE": "Change Image",
       "CLICK_TO_UPLOAD": "Click to upload",
       "CURRENCY": "Currency",
@@ -1805,9 +1806,18 @@
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
       "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESCI",
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
+      "DISCONNECT": {
+        "DISCONNECT_ESCI": "Disconnect ESCI",
+        "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESCI. You can still access your sensors and associated data on your ESCI dashboard.",
+        "MODAL_CONFIRM": "Disconnect",
+        "MODAL_CANCEL": "Don't disconnect",
+        "MODAL_INFO": "You will not be able to access your ESCI sensors data until you reconnect",
+        "MODAL_TITLE": "Are you sure you want to disconnect your ESCI sensors?"
+      },
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
-      "ORGANISATION_ID": "ESCI organisation ID",
+      "ORGANISATION_ID": "Organisation ID:",
+      "ESCI_ORGANISATION_ID": "ESCI organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
       "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later."
     },

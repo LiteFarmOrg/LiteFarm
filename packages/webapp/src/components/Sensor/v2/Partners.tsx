@@ -92,7 +92,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
             <InputBaseLabel label={t('SENSOR.ESCI.ENTER_ID')} />
             {/* @ts-ignore */}
             <Input
-              placeholder={t('SENSOR.ESCI.ORGANISATION_ID')}
+              placeholder={t('SENSOR.ESCI.ESCI_ORGANISATION_ID')}
               type="text"
               hookFormRegister={register(ORG_UUID, {
                 required: true,

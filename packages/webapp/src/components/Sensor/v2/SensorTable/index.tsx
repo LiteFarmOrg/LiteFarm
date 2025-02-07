@@ -51,9 +51,9 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
   const { t } = useTranslation();
 
   const commonColumns: TableV2Column[] = useMemo(() => {
-    const getDeviceType = ({ name }: { name: Sensor['name'] }) => {
-      const key = name.toUpperCase().replaceAll(' ', '_');
-      return SUPPORTED_DEVICE_TYPES.includes(key) ? t(`SENSOR.DEVICE_TYPES.${key}`) : name;
+    const getDeviceType = (data: SensorInSimpleTableFormat) => {
+      const { deviceTypeKey: key } = data;
+      return SUPPORTED_DEVICE_TYPES.includes(key) ? t(`SENSOR.DEVICE_TYPES.${key}`) : key;
     };
 
     if (isCompact) {

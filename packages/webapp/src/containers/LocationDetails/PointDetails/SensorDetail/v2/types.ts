@@ -29,4 +29,5 @@ export type AddSensorsFormFields = {
 export type SensorInSimpleTableFormat = Sensor & {
   id: Sensor['external_id'];
   formattedDepth: string;
+  deviceTypeKey: string;
 };

@@ -14,7 +14,6 @@
  */
 
 import { useSelector } from 'react-redux';
-import i18n from '../../locales/i18n';
 import { measurementSelector } from '../userFarmSlice';
 import {
   container_planting_depth,
@@ -29,6 +28,8 @@ import { SensorInSimpleTableFormat } from '../LocationDetails/PointDetails/Senso
 import { Location, System } from '../../types';
 
 const STANDALONE = 'standalone' as const;
+
+export type SensorSummary = Record<Sensor['name'] | 'SENSOR_ARRAY', number>;
 
 export type GroupedSensors = {
   id: string;
@@ -56,6 +57,7 @@ const formatSensorToSimpleTableFormat = (
     ...sensor,
     id: external_id,
     formattedDepth: `${roundToTwoDecimal(convertedDepth)}${toUnit}`,
+    deviceTypeKey: sensor.name.toUpperCase().replaceAll(' ', '_'),
   };
 };
 
@@ -88,11 +90,30 @@ const formatSensorToGroup = (
   };
 };
 
-const formatSensorsToGroups = (
+const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
+  const summaryMap = sensors.reduce(
+    (acc, { name }) => {
+      if (!(name in acc)) {
+        acc[name] = 0;
+      }
+      acc[name] += 1;
+
+      return acc;
+    },
+    {} as Record<Sensor['name'], number>,
+  );
+
+  return {
+    SENSOR_ARRAY: sensor_arrays.length,
+    ...summaryMap,
+  };
+};
+
+const formatSensors = (
   getSensorsApiRes: SensorData,
   system: System,
   farmAreas: FarmAreaLocation[],
-): GroupedSensors[] => {
+): { groupedSensors: GroupedSensors[]; sensorSummary: SensorSummary } => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
   const mappedSensors: MappedSensors = { [STANDALONE]: [] };
@@ -106,15 +127,22 @@ const formatSensorsToGroups = (
     mappedSensors[key].push(formatSensorToSimpleTableFormat(sensor, system));
   });
 
-  return [
-    ...sensor_arrays.map((sensorArray) =>
-      formatSenorArrayToGroup(sensorArray, mappedSensors, farmAreas),
-    ),
-    ...mappedSensors[STANDALONE].map((sensor) => formatSensorToGroup(sensor, farmAreas)),
-  ];
+  return {
+    sensorSummary: getSummary(sensors, sensor_arrays),
+    groupedSensors: [
+      ...sensor_arrays.map((sensorArray) =>
+        formatSenorArrayToGroup(sensorArray, mappedSensors, farmAreas),
+      ),
+      ...mappedSensors[STANDALONE].map((sensor) => formatSensorToGroup(sensor, farmAreas)),
+    ],
+  };
 };
 
-const useGroupedSensors = () => {
+const useGroupedSensors = (): {
+  isLoading: boolean;
+  sensorSummary: SensorSummary;
+  groupedSensors: GroupedSensors[];
+} => {
   const { data, isLoading } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
   const farmAreas = useSelector(areaSelector);
@@ -122,7 +150,9 @@ const useGroupedSensors = () => {
 
   return {
     isLoading,
-    data: !isLoading && data ? formatSensorsToGroups(data, system, flattenedFarmAreas) : [],
+    ...(isLoading || !data
+      ? { sensorSummary: {} as SensorSummary, groupedSensors: [] }
+      : formatSensors(data, system, flattenedFarmAreas)),
   };
 };
 

@@ -12,11 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import PurePartners from '../../../../../components/Sensor/v2/Partners';
 
-.formWrapper {
-  height: 100%;
-}
+const Partners = () => {
+  // TODO: LF-4693 GET /farm_addon?integrating_partner_id=1
 
-.pageTitle {
-  padding: 24px 24px 0 24px;
-}
+  return <PurePartners hasActiveConnection={{ esci: false }} />;
+};
+
+export default Partners;

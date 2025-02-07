@@ -16,51 +16,55 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
+import Partners from './Partners';
 import PageTitle from '../../../../../components/PageTitle/v2';
 import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
+import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
+import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
+import { PARTNERS } from './constants';
+import { SENSORS } from '../../../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
   history: History;
+  isCompactSideMenu: boolean;
 }
 
-const PostSensor = ({ history }: PostSensorProps) => {
+const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const linkOrganizationId = async () => {
-    // TODO: POST /farm_addon
-    //       When failed: snackbar
+  const [addFarmAddon] = useAddFarmAddonMutation();
+  const [triggerGetSensors] = useLazyGetSensorsQuery();
 
-    // Simulating the API call
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        // Successful
-        resolve();
+  const linkEsci = async (values: AddSensorsFormFields) => {
+    const result = await addFarmAddon(values[PARTNER]);
 
-        // Failed
-        // reject(dispatch(enqueueErrorSnackbar('TODO: Error message')));
-      }, 1500);
-    });
+    if ('error' in result) {
+      const isInvalidId = 'data' in result.error && result.error.data === 'Organisation not found';
+      const errorMessage = isInvalidId
+        ? t('SENSOR.ESCI.ORGANISATION_ID_ERROR')
+        : t('SENSOR.ESCI.ORGANISATION_ID_GENERIC_ERROR');
+      dispatch(enqueueErrorSnackbar(errorMessage));
+
+      // This error prevents the page transition in WithStepperProgressBar's onContinue
+      throw Error(isInvalidId ? 'Invalid ESCI organisation ID' : 'ESCI Connection Error');
+    }
   };
 
-  const onSave = async (data: any, onSuccess: () => void) => {
-    // TODO: GET devices with useLazyQuery.
-    //       Once the data is returned, call onSuccess to navigate to the next view.
-
-    onSuccess();
+  const onSave = async (data: AddSensorsFormFields) => {
+    await linkEsci(data);
   };
 
-  const getFormSteps = () => [
-    {
-      FormContent: () => <div>Partner selection view</div>,
-      onContinueAction: linkOrganizationId,
-    },
-    { FormContent: () => <div>ESCI devices view</div> },
-  ];
+  const onAfterSave = () => {
+    triggerGetSensors();
+    history.push(SENSORS);
+  };
+
+  const getFormSteps = () => [{ FormContent: Partners }];
 
   const defaultFormValues = {
-    partner: { integrating_partner_id: 1, organization_uuid: '' },
+    [PARTNER]: { [FarmAddonField.PARTNER_ID]: PARTNERS.ESCI.id, [FarmAddonField.ORG_UUID]: '' },
   };
 
   return (
@@ -71,9 +75,16 @@ const PostSensor = ({ history }: PostSensorProps) => {
         getSteps={getFormSteps}
         defaultFormValues={defaultFormValues}
         variant={Variant.STEPPER_PROGRESS_BAR}
-        hasSummaryWithinForm={true}
         onSave={onSave}
-        headerComponent={PageTitle}
+        headerComponent={(props: any) => (
+          <PageTitle classNames={{ wrapper: styles.pageTitle }} {...props} />
+        )}
+        showPreviousButton={false}
+        formMode="onChange"
+        isCompactSideMenu={isCompactSideMenu}
+        onAfterSave={onAfterSave}
+        showLoading
+        // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>
   );

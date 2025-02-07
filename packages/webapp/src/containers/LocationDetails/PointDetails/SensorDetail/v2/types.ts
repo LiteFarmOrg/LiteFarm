@@ -13,10 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.formWrapper {
-  height: 100%;
-}
+import { FarmAddon } from '../../../../../store/api/types';
 
-.pageTitle {
-  padding: 24px 24px 0 24px;
-}
+export const PARTNER = 'partner';
+
+export const FarmAddonField = {
+  ORG_UUID: 'org_uuid',
+  PARTNER_ID: 'addon_partner_id',
+} as const;
+
+export type AddSensorsFormFields = {
+  [PARTNER]: FarmAddon;
+};

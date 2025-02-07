@@ -13,10 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.formWrapper {
-  height: 100%;
-}
+import EsciLogo from '../../../../../assets/images/partners/esci_logo.png';
 
-.pageTitle {
-  padding: 24px 24px 0 24px;
-}
+export const PARTNERS = {
+  ESCI: { id: 1, name: 'Ensemble Scientific', url: 'www.esci.io', logoPath: EsciLogo },
+};

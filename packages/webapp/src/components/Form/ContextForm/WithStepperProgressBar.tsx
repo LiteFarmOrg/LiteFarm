@@ -36,7 +36,6 @@ interface WithStepperProgressBarProps {
   steps: {
     formContent: ReactNode;
     title: string;
-    onContinueAction?: (values: any) => Promise<void>;
     dataName?: string;
   }[];
   activeStepIndex: number;
@@ -66,6 +65,9 @@ interface WithStepperProgressBarProps {
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
   headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
+  showPreviousButton?: boolean;
+  showLoading?: boolean;
+  onAfterSave?: () => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -92,6 +94,9 @@ export const WithStepperProgressBar = ({
   showCancelFlow,
   setShowCancelFlow,
   headerComponent = StepperProgressBar,
+  showPreviousButton = true,
+  showLoading,
+  onAfterSave,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -99,6 +104,7 @@ export const WithStepperProgressBar = ({
   });
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
   const isSingleStep = steps.length === 1;
@@ -106,7 +112,7 @@ export const WithStepperProgressBar = ({
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
   useEffect(() => {
-    if (isSummaryPage || !isDirty) {
+    if (isSummaryPage || !isDirty || isSaved) {
       return;
     }
     const unblock = history.block((tx) => {
@@ -114,7 +120,13 @@ export const WithStepperProgressBar = ({
     });
 
     return () => unblock();
-  }, [isSummaryPage, isDirty, history]);
+  }, [isSummaryPage, isDirty, history, isSaved]);
+
+  useEffect(() => {
+    if (isSaved && onAfterSave) {
+      onAfterSave();
+    }
+  }, [isSaved, onAfterSave]);
 
   useEffect(() => {
     // Reset loading state whenever the step changes
@@ -139,23 +151,16 @@ export const WithStepperProgressBar = ({
   };
 
   const onContinue = async () => {
-    const { onContinueAction } = steps[activeStepIndex];
-
-    if (onContinueAction) {
-      setIsLoading(true);
-      try {
-        // Execute the custom action for the current step before proceeding to the next one
-        await onContinueAction(getValues());
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-        return;
-      }
-    }
-
     if (isFinalStep) {
+      setIsLoading(true);
       setIsSaving(true);
-      await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
+      try {
+        await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
+        setIsSaved(true);
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
+      }
       setIsSaving(false);
       return;
     }
@@ -179,8 +184,10 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
-  if (isLoading) {
-    return <Loading dataName={steps[activeStepIndex].dataName} />;
+  if (showLoading && isLoading) {
+    return (
+      <Loading dataName={steps[activeStepIndex].dataName} isCompactSideMenu={isCompactSideMenu} />
+    );
   }
 
   return (
@@ -200,7 +207,7 @@ export const WithStepperProgressBar = ({
           <FormNavigationButtons
             onContinue={onContinue}
             onCancel={onCancel}
-            onPrevious={isSingleStep ? undefined : onGoBack}
+            onPrevious={isSingleStep || !showPreviousButton ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
             isDisabled={!isValid || isSaving}
@@ -235,7 +242,7 @@ const StepperProgressBarWrapper = ({
   headerComponent,
   ...stepperProgressBarProps
 }: StepperProgressBarWrapperProps) => {
-  if (isSingleStep) {
+  if (isSingleStep && !headerComponent) {
     return <>{children}</>;
   }
 

@@ -1,14 +1,15 @@
 import { Title } from '../../Typography';
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
 
-function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }) {
+function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label, classNames = {} }) {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   return (
-    <div className={styles.container} style={style}>
+    <div className={clsx(styles.container, classNames.wrapper)} style={style}>
       <div className={styles.leftContainer} style={{ overflow: 'hidden', wordBreak: 'break-word' }}>
         {onGoBack && (
           <button type={'button'} className={styles.buttonContainer} onClick={onGoBack}>
@@ -41,4 +42,7 @@ PageTitle.propTypes = {
   style: PropTypes.object,
   label: PropTypes.node,
   cancelModalTitle: PropTypes.string,
+  classNames: {
+    wrapper: PropTypes.string,
+  },
 };

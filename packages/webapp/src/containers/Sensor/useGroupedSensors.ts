@@ -95,7 +95,7 @@ const formatSensorsToGroups = (
 ): GroupedSensors[] => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
-  const mappedSensors: MappedSensors = {};
+  const mappedSensors: MappedSensors = { [STANDALONE]: [] };
 
   sensors.forEach((sensor) => {
     const key = sensor.sensor_array_id || STANDALONE;

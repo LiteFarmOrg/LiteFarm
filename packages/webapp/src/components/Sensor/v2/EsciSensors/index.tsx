@@ -17,6 +17,8 @@ import { Fragment } from 'react';
 import clsx from 'clsx';
 import { TFunction, useTranslation } from 'react-i18next';
 import { VscLocation } from 'react-icons/vsc';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 import { Main } from '../../../Typography';
 import TextButton from '../../../Form/Button/TextButton';
 import MainContent, { IconType } from '../../../Expandable/MainContent';
@@ -56,10 +58,9 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
 
 const EsciSensors = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
   const { t } = useTranslation();
-  const { expandedIds, toggleExpanded } = useExpandable(
-    // @ts-ignore
-    { isSingleExpandable: true },
-  );
+  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const theme = useTheme();
+  const isCompact = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <div className={styles.sensorGroups}>
@@ -88,7 +89,11 @@ const EsciSensors = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
               }
               expandedContent={
                 <div className={styles.expandedContent}>
-                  <SensorTable data={sensors} variant={SensorTableVariant.SIMPLE} />
+                  <SensorTable
+                    data={sensors}
+                    variant={SensorTableVariant.SIMPLE}
+                    isCompact={isCompact}
+                  />
                   <DetectedFields t={t} fields={fields} />
                   <TextButton
                     className={styles.seeOnMapButton}

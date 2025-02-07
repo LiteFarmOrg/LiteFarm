@@ -69,3 +69,36 @@
     }
   }
 }
+
+.depthColumn {
+  white-space: nowrap;
+}
+
+/* Compact layout styles */
+.idDeviceTypeCell {
+  @include truncateText();
+
+  width: 100%; // takes the remaining space
+  max-width: 0; // prevents expansion beyond table constraints
+}
+
+.idDeviceTypeCellContent {
+  padding: 4px 0;
+}
+
+.idWithIcon {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  span {
+    font-weight: 600;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.deviceType {
+  color: var(--Colors-Neutral-Neutral-500);
+
+  @include truncateText();
+}

@@ -13,11 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import i18n from '../../../../locales/i18n';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import Table from '../../../Table';
 import Cell from '../../../Table/Cell';
+import { ReactComponent as SensorIcon } from '../../../../assets/images/devices/signal-01.svg';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Table/types';
-import { SensorInSimpleTableFormat } from '../../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
+import { type SensorInSimpleTableFormat } from '../../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
+import { type Sensor } from '../../../../store/api/types';
 import styles from './styles.module.scss';
 
 const SUPPORTED_DEVICE_TYPES = [
@@ -27,77 +30,100 @@ const SUPPORTED_DEVICE_TYPES = [
   'WEATHER_STATION',
   'WIND_SPEED_SENSOR',
 ];
+// t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
+// t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
+// t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL_SENSOR')
+// t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
+// t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
 
 export enum SensorTableVariant {
   SIMPLE = 'simple',
 }
 
-const commonColumns: TableV2Column[] = [
-  {
-    id: 'external_id',
-    label: i18n.t('SENSOR.ESCI.ENSEMBLE_ESID'),
-    sortable: false,
-    format: (d) => (
-      <Cell
-        kind={CellKind.ICON_TEXT}
-        iconName="SENSOR"
-        text={d.external_id}
-        className={styles.sensorIdCell}
-      />
-    ),
-  },
-  {
-    id: 'deviceType',
-    label: i18n.t('SENSOR.DETAIL.DEVICE_TYPE'),
-    sortable: false,
-    format: (d) => {
-      const key = d.name.toUpperCase().replaceAll(' ', '_');
-      // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
-      // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-      // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL_SENSOR')
-      // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-      // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
-      return (
-        <Cell
-          kind={CellKind.PLAIN}
-          className={styles.plainCell}
-          text={
-            SUPPORTED_DEVICE_TYPES.includes(key) ? i18n.t(`SENSOR.DEVICE_TYPES.${key}`) : d.name
-          }
-        />
-      );
-    },
-  },
-];
-
-const simpleColumns: TableV2Column[] = [
-  ...commonColumns,
-  {
-    id: 'formattedDepth',
-    label: i18n.t('SENSOR.DEPTH'),
-    align: Alignment.RIGHT,
-    sortable: false,
-    format: (d) => (
-      <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.formattedDepth} />
-    ),
-  },
-];
-
-const columns = {
-  [SensorTableVariant.SIMPLE]: simpleColumns,
-};
-
 type SensorTableProps = {
   data: SensorInSimpleTableFormat[]; // Currently supports only the "SIMPLE" variant
   variant: SensorTableVariant;
   showHeader?: boolean;
+  isCompact: boolean;
 };
 
-const SensorTable = ({ data, variant, showHeader = true }: SensorTableProps) => {
+const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTableProps) => {
+  const { t } = useTranslation();
+
+  const commonColumns: TableV2Column[] = useMemo(() => {
+    const getDeviceType = ({ name }: { name: Sensor['name'] }) => {
+      const key = name.toUpperCase().replaceAll(' ', '_');
+      return SUPPORTED_DEVICE_TYPES.includes(key) ? t(`SENSOR.DEVICE_TYPES.${key}`) : name;
+    };
+
+    if (isCompact) {
+      return [
+        {
+          id: 'external_id',
+          label: t('SENSOR.ESCI.ENSEMBLE_ESID'),
+          sortable: false,
+          className: styles.idDeviceTypeCell,
+          format: (d) => (
+            <div className={styles.idDeviceTypeCellContent}>
+              <div className={styles.idWithIcon}>
+                <SensorIcon />
+                <span>{d.external_id}</span>
+              </div>
+              <div className={styles.deviceType}>{getDeviceType(d)}</div>
+            </div>
+          ),
+        },
+      ];
+    }
+
+    return [
+      {
+        id: 'external_id',
+        label: t('SENSOR.ESCI.ENSEMBLE_ESID'),
+        sortable: false,
+        format: (d) => (
+          <Cell
+            kind={CellKind.ICON_TEXT}
+            iconName="SENSOR"
+            text={d.external_id}
+            className={styles.sensorIdCell}
+          />
+        ),
+      },
+      {
+        id: 'deviceType',
+        label: t('SENSOR.DETAIL.DEVICE_TYPE'),
+        sortable: false,
+        format: (d) => (
+          <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={getDeviceType(d)} />
+        ),
+      },
+    ];
+  }, [isCompact, t]);
+
+  const getColumns = (): TableV2Column[] => {
+    if (variant === SensorTableVariant.SIMPLE) {
+      return [
+        ...commonColumns,
+        {
+          id: 'formattedDepth',
+          label: t('SENSOR.DEPTH'),
+          align: Alignment.RIGHT,
+          sortable: false,
+          className: styles.depthColumn,
+          format: (d) => (
+            <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.formattedDepth} />
+          ),
+        },
+      ];
+    }
+    return [];
+  };
+
   return (
     <Table
       kind={TableKind.V2}
-      columns={columns[variant]}
+      columns={getColumns()}
       data={data}
       headerClass={styles.headerClass}
       tbodyClass={styles.tbodyClass}

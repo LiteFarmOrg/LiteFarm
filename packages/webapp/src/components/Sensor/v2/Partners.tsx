@@ -39,7 +39,15 @@ const validateUuidFormat = (value: string, errorMessage: string) => {
   return uuidValidate(value) || errorMessage;
 };
 
-const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath: string }) => {
+export const Partner = ({
+  name,
+  url,
+  logoPath,
+}: {
+  name: string;
+  url: string;
+  logoPath: string;
+}) => {
   return (
     <div className={styles.partner}>
       <div className={styles.logo}>
@@ -74,7 +82,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
         <div className={styles.connectionInfo}>
           <div className={styles.activeConnection}>
             <Main className={styles.infoText}>{t('SENSOR.ESCI.ACTIVE_CONNECTION')}</Main>
-            <Link className={styles.manage} to="/farm">
+            <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
               <ExternalLinkIcon />
               <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
             </Link>

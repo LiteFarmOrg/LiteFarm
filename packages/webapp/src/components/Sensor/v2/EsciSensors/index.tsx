@@ -56,58 +56,65 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
   );
 };
 
-const EsciSensors = ({ data: groupedSensors }: { data: GroupedSensors[] }) => {
+const EsciSensors = ({ groupedSensors }: { groupedSensors: GroupedSensors[] }) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <div className={styles.sensorGroups}>
-      {groupedSensors.map(({ id, isSensorArray, sensors, fields }) => {
-        const isExpanded = expandedIds.includes(id);
+    <div className={styles.wrapper}>
+      <Main className={styles.title}>
+        {t('SENSOR.PARTNER_SENSOR_LIST', { partner: 'Ensemble' })}
+      </Main>
+      <div className={styles.sensorGroups}>
+        {groupedSensors.map(({ id, isSensorArray, sensors, fields }) => {
+          const isExpanded = expandedIds.includes(id);
 
-        return (
-          <Fragment key={id}>
-            <ExpandableItem
-              itemKey={id}
-              classes={{
-                container: clsx(styles.expandableContainer, isExpanded ? styles.active : ''),
-                mainContentWithIcon: styles.expandableHeader,
-              }}
-              isExpanded={isExpanded}
-              iconClickOnly={false}
-              onClick={() => toggleExpanded(id)}
-              leftCollapseIcon
-              mainContent={
-                <MainContent isExpanded={isExpanded} errorCount={0} iconType={IconType.SIMPLE}>
-                  <div className={styles.mainContent}>
-                    <SensorIconWithNumber number={sensors.length} />
-                    {isSensorArray ? t('SENSOR.SENSOR_ARRAY') : t('SENSOR.STANDALONE_SENSOR')}
+          return (
+            <Fragment key={id}>
+              <ExpandableItem
+                itemKey={id}
+                classes={{
+                  container: clsx(styles.expandableContainer, isExpanded ? styles.active : ''),
+                  mainContentWithIcon: styles.expandableHeader,
+                }}
+                isExpanded={isExpanded}
+                iconClickOnly={false}
+                onClick={() => toggleExpanded(id)}
+                leftCollapseIcon
+                mainContent={
+                  <MainContent isExpanded={isExpanded} errorCount={0} iconType={IconType.SIMPLE}>
+                    <div className={styles.mainContent}>
+                      <SensorIconWithNumber number={sensors.length} />
+                      <span>
+                        {isSensorArray ? t('SENSOR.SENSOR_ARRAY') : t('SENSOR.STANDALONE_SENSOR')}
+                      </span>
+                    </div>
+                  </MainContent>
+                }
+                expandedContent={
+                  <div className={styles.expandedContent}>
+                    <SensorTable
+                      data={sensors}
+                      variant={SensorTableVariant.SIMPLE}
+                      isCompact={isCompact}
+                    />
+                    <DetectedFields t={t} fields={fields} />
+                    <TextButton
+                      className={styles.seeOnMapButton}
+                      onClick={() => console.log('TODO: LF-4697')}
+                    >
+                      <VscLocation size={24} className={styles.mapPinIcon} />
+                      {t('common:SEE_ON_MAP')}
+                    </TextButton>
                   </div>
-                </MainContent>
-              }
-              expandedContent={
-                <div className={styles.expandedContent}>
-                  <SensorTable
-                    data={sensors}
-                    variant={SensorTableVariant.SIMPLE}
-                    isCompact={isCompact}
-                  />
-                  <DetectedFields t={t} fields={fields} />
-                  <TextButton
-                    className={styles.seeOnMapButton}
-                    onClick={() => console.log('TODO: LF-4697')}
-                  >
-                    <VscLocation size={24} className={styles.mapPinIcon} />
-                    {t('common:SEE_ON_MAP')}
-                  </TextButton>
-                </div>
-              }
-            />
-          </Fragment>
-        );
-      })}
+                }
+              />
+            </Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 };

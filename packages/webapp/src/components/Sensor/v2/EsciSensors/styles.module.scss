@@ -15,6 +15,18 @@
 
 @import '../../../../assets/mixin.scss';
 
+.wrapper {
+  padding: 0 24px 24px 24px;
+
+  @include xs-breakpoint {
+    padding: 0 16px 16px 16px;
+  }
+}
+
+.title {
+  padding: 16px 0;
+}
+
 .expandableHeader {
   align-items: center;
   padding-left: 16px;

@@ -24,11 +24,39 @@ import TextButton from '../../../Form/Button/TextButton';
 import MainContent, { IconType } from '../../../Expandable/MainContent';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
-import { type GroupedSensors } from '../../../../containers/Sensor/useGroupedSensors';
+import type {
+  SensorSummary,
+  GroupedSensors,
+} from '../../../../containers/Sensor/useGroupedSensors';
 import SensorTable, { SensorTableVariant } from '../SensorTable';
+import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/devices/signal-01.svg';
+import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
+import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location } from '../../../../types';
+import { Sensor } from '../../../../store/api/types';
 import styles from './styles.module.scss';
+
+const kpiTranslationMappings: {
+  key: Sensor['name'] | typeof SENSOR_ARRAY;
+  translationKey: string;
+}[] = [
+  { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' },
+  { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
+  { key: 'IR Temperature Sensor', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
+];
+
+const formatKpiLabel: OverviewStatsProps['format'] = (statsKey, label) => {
+  const Icon = statsKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
+  return (
+    <div className={styles.kpi}>
+      <span className={styles.iconWrapper}>
+        <Icon />
+      </span>
+      <span className={styles.text}>{label}</span>
+    </div>
+  );
+};
 
 const DetectedFields = ({ fields = [], t }: { fields: Location['name'][]; t: TFunction }) => {
   if (!fields.length) {
@@ -56,7 +84,12 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
   );
 };
 
-const EsciSensors = ({ groupedSensors }: { groupedSensors: GroupedSensors[] }) => {
+type EsciSensorsProps = {
+  groupedSensors: GroupedSensors[];
+  summary: SensorSummary;
+};
+
+const EsciSensors = ({ groupedSensors, summary }: EsciSensorsProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -67,6 +100,12 @@ const EsciSensors = ({ groupedSensors }: { groupedSensors: GroupedSensors[] }) =
       <Main className={styles.title}>
         {t('SENSOR.PARTNER_SENSOR_LIST', { partner: 'Ensemble' })}
       </Main>
+      <OverviewStats
+        stats={summary}
+        translationMappings={kpiTranslationMappings}
+        format={formatKpiLabel}
+        isCompact={isCompact}
+      />
       <div className={styles.sensorGroups}>
         {groupedSensors.map(({ id, isSensorArray, sensors, fields }) => {
           const isExpanded = expandedIds.includes(id);

@@ -26,10 +26,11 @@ import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUti
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
 import { SensorInSimpleTableFormat } from '../LocationDetails/PointDetails/SensorDetail/v2/types';
 import { Location, System } from '../../types';
+import { SENSOR_ARRAY } from '../SensorReadings/constants';
 
 const STANDALONE = 'standalone' as const;
 
-export type SensorSummary = Record<Sensor['name'] | 'SENSOR_ARRAY', number>;
+export type SensorSummary = Record<Sensor['name'] | 'sensor_array', number>;
 
 export type GroupedSensors = {
   id: string;
@@ -104,7 +105,7 @@ const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSumm
   );
 
   return {
-    SENSOR_ARRAY: sensor_arrays.length,
+    [SENSOR_ARRAY]: sensor_arrays.length,
     ...summaryMap,
   };
 };

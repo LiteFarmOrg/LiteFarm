@@ -1910,7 +1910,13 @@
   "STATUS": {
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "INVITED": "Invited"
+    "INVITED": "Invited",
+    "OFFLINE": "Offline",
+    "ONLINE": "Online",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "Device has not sent data for more than 12 hours",
+      "ONLINE_TOOLTIP": "Device has sent data within the last 12 hours"
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produced on",

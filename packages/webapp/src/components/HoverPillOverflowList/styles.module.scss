@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2024, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,6 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
+.container {
+  display: flex;
+  gap: 8px;
+}
+
+.itemText {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 16px;
+  font-weight: 400;
+}
 
 .pillText,
 .detailText {

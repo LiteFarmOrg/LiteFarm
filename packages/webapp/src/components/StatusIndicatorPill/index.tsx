@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,27 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@mui/material';
+import { ReactComponent as StatusIndicatorDot } from '../../assets/images/status-indicator-dot.svg';
 import styles from './styles.module.scss';
 import { Semibold, Main } from '../Typography';
 
-export interface HoverPillProps {
-  items: string[];
+export enum Status {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
 }
 
-export const HoverPill = ({ items }: HoverPillProps) => {
+export interface StatusIndicatorPillProps {
+  status: Status;
+  pillText: string;
+  tooltipText?: string;
+  showHoverTooltip?: boolean;
+}
+
+export const StatusIndicatorPill = ({
+  status,
+  pillText,
+  tooltipText = '',
+  showHoverTooltip = true,
+}: StatusIndicatorPillProps) => {
   const { t } = useTranslation();
 
-  const hoverContent = (
-    <>
-      {items.map((item, index) => (
-        <Main key={index} className={styles.detailText}>
-          {item}
-        </Main>
-      ))}
-    </>
-  );
+  const isOnline = status === Status.ONLINE;
+
+  const hoverContent = <Main className={styles.hoverText}>{t(tooltipText)}</Main>;
 
   // https://mui.com/material-ui/react-tooltip/#distance-from-anchor
   const PopperProps = {
@@ -47,22 +56,33 @@ export const HoverPill = ({ items }: HoverPillProps) => {
     ],
   };
 
-  return (
+  const statusPill = (
+    <div
+      className={clsx(
+        styles.pill,
+        isOnline ? styles.online : styles.offline,
+        showHoverTooltip && styles.hover,
+      )}
+    >
+      <StatusIndicatorDot />
+      <Semibold className={styles.pillText}>{t(pillText)}</Semibold>
+    </div>
+  );
+
+  return showHoverTooltip ? (
     <Tooltip
       title={hoverContent}
       placement="bottom-end"
       classes={{
-        tooltip: styles.hoverDetails,
+        tooltip: styles.tooltipContainer,
       }}
       PopperProps={PopperProps}
       enterTouchDelay={0}
       leaveTouchDelay={900000}
     >
-      <div className={styles.pill}>
-        <Semibold className={styles.pillText}>
-          {t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length })}
-        </Semibold>
-      </div>
+      {statusPill}
     </Tooltip>
+  ) : (
+    statusPill
   );
 };

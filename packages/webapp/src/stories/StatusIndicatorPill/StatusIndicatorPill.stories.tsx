@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -17,22 +17,26 @@ import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import clsx from 'clsx';
 import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
-import { HoverPill, HoverPillProps } from '../../components/HoverPill';
+import {
+  StatusIndicatorPill,
+  StatusIndicatorPillProps,
+  Status,
+} from '../../components/StatusIndicatorPill';
 import styles from './styles.module.scss';
 
-type HoverPillStoryProps = HoverPillProps & {
+type StatusIndicatorPillStoryProps = StatusIndicatorPillProps & {
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
 };
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<HoverPillStoryProps> = {
-  title: 'Components/HoverPill',
-  component: HoverPill,
+const meta: Meta<StatusIndicatorPillStoryProps> = {
+  title: 'Components/StatusIndicatorPill',
+  component: StatusIndicatorPill,
   argTypes: {
     position: {
       control: 'select',
       options: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center'],
-      description: 'Position of the hover pill within the Storybook frame',
+      description: 'Position of the status indicator pill within the Storybook frame',
     },
   },
   decorators: [
@@ -66,16 +70,29 @@ const Wrapper = ({ children, position = 'center' }: WrapperProps) => {
   return <div className={clsx(styles.wrapper, styles[position])}>{children}</div>;
 };
 
-type Story = StoryObj<typeof HoverPill>;
+type Story = StoryObj<typeof StatusIndicatorPill>;
 
-export const Plural: Story = {
+export const Online: Story = {
   args: {
-    items: ['Heifers', 'Foot Rot treatment', 'Feeding change'],
+    status: Status.ONLINE,
+    pillText: 'Online',
+    tooltipText: 'Device has sent data in the last 12 hours',
   },
 };
 
-export const Singular: Story = {
+export const Offline: Story = {
   args: {
-    items: ['Feeding change'],
+    status: Status.OFFLINE,
+    pillText: 'Offline',
+    tooltipText: 'Device has not sent data in the last 12 hours',
+  },
+};
+
+export const HoverTooltipDisabled: Story = {
+  args: {
+    status: Status.OFFLINE,
+    pillText: 'Offline',
+    tooltipText: 'Device has not sent data in the last 12 hours',
+    showHoverTooltip: false,
   },
 };

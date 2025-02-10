@@ -31,8 +31,16 @@ const FarmAddons = () => {
     esci: esciData?.org_uuid,
   };
 
+  const onDisconnect = {
+    esci: () => {}, // TODO: LF-4701
+  };
+
   return (
-    <PureFarmAddons hasActiveConnection={hasActiveConnection} organizationIds={organizationIds} />
+    <PureFarmAddons
+      hasActiveConnection={hasActiveConnection}
+      organizationIds={organizationIds}
+      onDisconnect={onDisconnect}
+    />
   );
 };
 

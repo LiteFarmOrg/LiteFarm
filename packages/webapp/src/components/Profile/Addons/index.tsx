@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../../Typography';
@@ -22,7 +23,7 @@ import { ReactComponent as BrokenLinkIcon } from '../../../assets/images/link-br
 import styles from './styles.module.scss';
 import { Partner } from '../../Sensor/v2/Partners';
 import Button from '../../Form/Button';
-import { useEffect } from 'react';
+import ModalComponent from '../../Modals/ModalComponent/v2';
 
 type PureFarmAddonsProps = {
   hasActiveConnection: {
@@ -31,9 +32,16 @@ type PureFarmAddonsProps = {
   organizationIds: {
     esci: string;
   };
+  onDisconnect: {
+    esci: () => void;
+  };
 };
 
-const PureFarmAddons = ({ hasActiveConnection, organizationIds }: PureFarmAddonsProps) => {
+const PureFarmAddons = ({
+  hasActiveConnection,
+  organizationIds,
+  onDisconnect,
+}: PureFarmAddonsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   useEffect(() => {
@@ -45,6 +53,8 @@ const PureFarmAddons = ({ hasActiveConnection, organizationIds }: PureFarmAddons
       }
     }
   }, []);
+
+  const [showDisconnectModal, setShowDisconnectModal] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -67,7 +77,12 @@ const PureFarmAddons = ({ hasActiveConnection, organizationIds }: PureFarmAddons
                 <Semibold className={styles.orgId}>{organizationIds.esci}</Semibold>
               </div>
               <Link className={styles.disconnect} to="/farm">
-                <Button sm color="secondary-2" className={styles.disconnectButton}>
+                <Button
+                  sm
+                  color="secondary-2"
+                  className={styles.disconnectButton}
+                  onClick={() => setShowDisconnectModal(true)}
+                >
                   <BrokenLinkIcon />
                   <span>{t('SENSOR.ESCI.DISCONNECT.DISCONNECT_ESCI')}</span>
                 </Button>
@@ -75,6 +90,41 @@ const PureFarmAddons = ({ hasActiveConnection, organizationIds }: PureFarmAddons
             </div>
           </div>
         </div>
+      )}
+      {hasActiveConnection.esci && showDisconnectModal && (
+        <ModalComponent
+          title={t('SENSOR.ESCI.DISCONNECT.MODAL_TITLE')}
+          dismissModal={() => {
+            onDisconnect.esci();
+            setShowDisconnectModal(false);
+          }}
+          className={styles.disconnectModal}
+          buttonGroup={
+            <div className={styles.modalButtonGroup}>
+              <Button
+                onClick={() => {
+                  setShowDisconnectModal(false);
+                }}
+                color="secondary-cta"
+                sm
+              >
+                {t('SENSOR.ESCI.DISCONNECT.MODAL_CANCEL')}
+              </Button>
+              <Button
+                onClick={() => {
+                  onDisconnect.esci();
+                  setShowDisconnectModal(false);
+                }}
+                color="primary"
+                sm
+              >
+                {t('SENSOR.ESCI.DISCONNECT.MODAL_CONFIRM')}
+              </Button>
+            </div>
+          }
+        >
+          {t('SENSOR.ESCI.DISCONNECT.MODAL_INFO')}
+        </ModalComponent>
       )}
     </div>
   );

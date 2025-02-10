@@ -156,3 +156,29 @@
   width: max-content;
   justify-self: center;
 }
+
+.disconnectModal {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 16px 24px;
+
+  h4 {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.352px;
+  }
+}
+
+.modalButtonGroup {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+
+  button {
+    justify-self: stretch;
+    width: 100%;
+  }
+}

@@ -14,6 +14,7 @@
  */
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { FieldValues } from 'react-hook-form';
 import { History } from 'history';
 import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
 import Partners from './Partners';
@@ -22,7 +23,7 @@ import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
 import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
 import { PARTNERS } from './constants';
-import { SENSORS } from '../../../../../util/siteMapConstants';
+import { createSensorsUrl } from '../../../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
 interface PostSensorProps {
@@ -56,9 +57,9 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
     await linkEsci(data);
   };
 
-  const onAfterSave = () => {
+  const onAfterSave = (values: FieldValues) => {
     triggerGetSensors();
-    history.push(SENSORS);
+    history.push(createSensorsUrl(+values[PARTNER]?.[FarmAddonField.PARTNER_ID]));
   };
 
   const getFormSteps = () => [{ FormContent: Partners }];

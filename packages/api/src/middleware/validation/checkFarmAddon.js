@@ -15,13 +15,11 @@
 
 import { validate } from 'uuid';
 import AddonPartnerModel from '../../models/addonPartnerModel.js';
-import FarmAddonModel from '../../models/farmAddonModel.js';
 import { ENSEMBLE_BRAND } from '../../util/ensemble.js';
 
 export function checkFarmAddon() {
   return async (req, res, next) => {
     try {
-      const { farm_id } = req.headers;
       const { addon_partner_id, org_uuid } = req.body;
 
       if (!org_uuid || !org_uuid.length) {
@@ -36,17 +34,6 @@ export function checkFarmAddon() {
 
       if (addon_partner_id !== EnsemblePartnerId) {
         return res.status(400).send('Only Ensemble Scientific is supported');
-      }
-
-      // Check if addon exists
-      const existingAddon = await FarmAddonModel.query()
-        .findOne({ farm_id, addon_partner_id })
-        .whereNotDeleted();
-
-      if (existingAddon) {
-        return res
-          .status(400)
-          .send('An existing addon with this partner already exists on your farm');
       }
 
       next();

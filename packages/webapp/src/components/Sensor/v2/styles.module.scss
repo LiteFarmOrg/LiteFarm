@@ -114,6 +114,7 @@
   gap: 4px;
   padding: 4px 12px;
   text-decoration: none;
+  flex-shrink: 0;
 
   color: var(--Colors-Neutral-Neutral-900);
   font-size: 14px;
@@ -140,7 +141,7 @@
   background: #fff;
 
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  color: var(--Colors-Neutral-Neutral-900);
   font-weight: 600;
   line-height: 24px;
   letter-spacing: 0.4px;

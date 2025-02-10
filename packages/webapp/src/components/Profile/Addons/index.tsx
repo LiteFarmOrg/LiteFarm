@@ -47,14 +47,14 @@ const PureFarmAddons = ({
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
-      const element = document.getElementById(hash.substring(1));
+      const element = document.getElementById(hash.slice(1));
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }, []);
 
-  const [modalContents, setModalContents] = useState<{
+  const [disconnectModalContents, setDisconnectModalContents] = useState<{
     title: string;
     infoText: string;
     onConfirm: () => void;
@@ -73,11 +73,11 @@ const PureFarmAddons = ({
           </Link>
           <div className={styles.addonDetails}>
             <Partner {...PARTNERS.ESCI} className={styles.partner} />
-            <Main className={styles.infoText}>{t('SENSOR.ESCI.DISCONNECT.INFO')}</Main>
+            <Main className={styles.infoText}>{t('ADDON.ESCI.INFO')}</Main>
 
             <div className={styles.addonConnectionInfo}>
               <div>
-                <Main className={styles.orgIdLabel}>{t('SENSOR.ESCI.ORGANISATION_ID')}</Main>
+                <Main className={styles.orgIdLabel}>{t('ADDON.ORGANISATION_ID')}</Main>
                 <Semibold className={styles.orgId}>{organizationIds.esci}</Semibold>
               </div>
               <Link className={styles.disconnect} to="/farm">
@@ -86,31 +86,31 @@ const PureFarmAddons = ({
                   color="secondary-2"
                   className={styles.disconnectButton}
                   onClick={() => {
-                    setModalContents({
-                      title: t('SENSOR.ESCI.DISCONNECT.MODAL_TITLE'),
-                      infoText: t('SENSOR.ESCI.DISCONNECT.MODAL_INFO'),
+                    setDisconnectModalContents({
+                      title: t('ADDON.ESCI.MODAL_TITLE'),
+                      infoText: t('ADDON.ESCI.MODAL_INFO'),
                       onConfirm: onDisconnect.esci,
                     });
                   }}
                 >
                   <BrokenLinkIcon />
-                  <span>{t('SENSOR.ESCI.DISCONNECT.DISCONNECT_ESCI')}</span>
+                  <span>{t('ADDON.ESCI.DISCONNECT_ESCI')}</span>
                 </Button>
               </Link>
             </div>
           </div>
         </div>
       )}
-      {modalContents && (
+      {disconnectModalContents && (
         <DisconnectModal
-          title={modalContents.title}
-          infoText={modalContents.infoText}
+          title={disconnectModalContents.title}
+          infoText={disconnectModalContents.infoText}
           onConfirm={() => {
-            modalContents.onConfirm();
-            setModalContents(null);
+            disconnectModalContents.onConfirm();
+            setDisconnectModalContents(null);
           }}
           onCancel={() => {
-            setModalContents(null);
+            setDisconnectModalContents(null);
           }}
         />
       )}
@@ -138,10 +138,10 @@ const DisconnectModal = ({ title, infoText, onConfirm, onCancel }: DisconnectMod
       buttonGroup={
         <div className={styles.modalButtonGroup}>
           <Button onClick={onCancel} color="secondary-cta" sm>
-            {t('SENSOR.ESCI.DISCONNECT.MODAL_CANCEL')}
+            {t('ADDON.DISCONNECT_MODAL.CANCEL')}
           </Button>
           <Button onClick={onConfirm} color="primary" sm>
-            {t('SENSOR.ESCI.DISCONNECT.MODAL_CONFIRM')}
+            {t('ADDON.DISCONNECT_MODAL.CONFIRM')}
           </Button>
         </div>
       }

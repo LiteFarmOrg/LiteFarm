@@ -47,7 +47,7 @@
   align-self: stretch;
 
   border-radius: 4px;
-  border: 1px solid var(--Colors-Backgrounds-Disabled -grey, #e7ebf2);
+  border: 1px solid var(--Colors-Backgrounds-Disabled-grey);
   background: var(--Colors-Backgrounds-Background-color);
 
   @include md-breakpoint {

@@ -18,3 +18,5 @@ import EsciLogo from '../../../../../assets/images/partners/esci_logo.png';
 export const PARTNERS = {
   ESCI: { id: 1, name: 'Ensemble Scientific', url: 'www.esci.io', logoPath: EsciLogo },
 };
+
+export const partnerIds = Object.values(PARTNERS).map(({ id }) => id);

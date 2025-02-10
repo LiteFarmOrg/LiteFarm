@@ -35,12 +35,16 @@ const FarmAddons = () => {
     esci: () => {}, // TODO: LF-4701
   };
 
+  const hasAnyActiveConnection = Object.values(hasActiveConnection).some(Boolean);
+
   return (
-    <PureFarmAddons
-      hasActiveConnection={hasActiveConnection}
-      organizationIds={organizationIds}
-      onDisconnect={onDisconnect}
-    />
+    hasAnyActiveConnection && (
+      <PureFarmAddons
+        hasActiveConnection={hasActiveConnection}
+        organizationIds={organizationIds}
+        onDisconnect={onDisconnect}
+      />
+    )
   );
 };
 

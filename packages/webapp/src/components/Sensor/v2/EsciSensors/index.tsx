@@ -27,7 +27,7 @@ import useExpandable from '../../../Expandable/useExpandableItem';
 import type {
   SensorSummary,
   GroupedSensors,
-} from '../../../../containers/Sensor/useGroupedSensors';
+} from '../../../../containers/SensorList/useGroupedSensors';
 import SensorTable, { SensorTableVariant } from '../SensorTable';
 import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/devices/signal-01.svg';

@@ -54,7 +54,11 @@ const PureFarmAddons = ({
     }
   }, []);
 
-  const [showDisconnectModal, setShowDisconnectModal] = useState(false);
+  const [modalContents, setModalContents] = useState<{
+    title: string;
+    infoText: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   return (
     <div className={styles.container}>
@@ -81,7 +85,13 @@ const PureFarmAddons = ({
                   sm
                   color="secondary-2"
                   className={styles.disconnectButton}
-                  onClick={() => setShowDisconnectModal(true)}
+                  onClick={() => {
+                    setModalContents({
+                      title: t('SENSOR.ESCI.DISCONNECT.MODAL_TITLE'),
+                      infoText: t('SENSOR.ESCI.DISCONNECT.MODAL_INFO'),
+                      onConfirm: onDisconnect.esci,
+                    });
+                  }}
                 >
                   <BrokenLinkIcon />
                   <span>{t('SENSOR.ESCI.DISCONNECT.DISCONNECT_ESCI')}</span>
@@ -91,43 +101,52 @@ const PureFarmAddons = ({
           </div>
         </div>
       )}
-      {hasActiveConnection.esci && showDisconnectModal && (
-        <ModalComponent
-          title={t('SENSOR.ESCI.DISCONNECT.MODAL_TITLE')}
-          dismissModal={() => {
-            onDisconnect.esci();
-            setShowDisconnectModal(false);
+      {modalContents && (
+        <DisconnectModal
+          title={modalContents.title}
+          infoText={modalContents.infoText}
+          onConfirm={() => {
+            modalContents.onConfirm();
+            setModalContents(null);
           }}
-          className={styles.disconnectModal}
-          buttonGroup={
-            <div className={styles.modalButtonGroup}>
-              <Button
-                onClick={() => {
-                  setShowDisconnectModal(false);
-                }}
-                color="secondary-cta"
-                sm
-              >
-                {t('SENSOR.ESCI.DISCONNECT.MODAL_CANCEL')}
-              </Button>
-              <Button
-                onClick={() => {
-                  onDisconnect.esci();
-                  setShowDisconnectModal(false);
-                }}
-                color="primary"
-                sm
-              >
-                {t('SENSOR.ESCI.DISCONNECT.MODAL_CONFIRM')}
-              </Button>
-            </div>
-          }
-        >
-          {t('SENSOR.ESCI.DISCONNECT.MODAL_INFO')}
-        </ModalComponent>
+          onCancel={() => {
+            setModalContents(null);
+          }}
+        />
       )}
     </div>
   );
 };
 
 export default PureFarmAddons;
+
+type DisconnectModalProps = {
+  title: string;
+  infoText: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+
+const DisconnectModal = ({ title, infoText, onConfirm, onCancel }: DisconnectModalProps) => {
+  const { t } = useTranslation(['translation', 'common']);
+
+  return (
+    <ModalComponent
+      title={title}
+      dismissModal={onCancel}
+      className={styles.disconnectModal}
+      buttonGroup={
+        <div className={styles.modalButtonGroup}>
+          <Button onClick={onCancel} color="secondary-cta" sm>
+            {t('SENSOR.ESCI.DISCONNECT.MODAL_CANCEL')}
+          </Button>
+          <Button onClick={onConfirm} color="primary" sm>
+            {t('SENSOR.ESCI.DISCONNECT.MODAL_CONFIRM')}
+          </Button>
+        </div>
+      }
+    >
+      {infoText}
+    </ModalComponent>
+  );
+};

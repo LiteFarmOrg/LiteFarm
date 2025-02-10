@@ -19,12 +19,12 @@ import PureEsciSensors from '../../components/Sensor/v2/EsciSensors';
 import useGroupedSensors from '../Sensor/useGroupedSensors';
 import { partnerIds } from '../LocationDetails/PointDetails/SensorDetail/v2/constants';
 
-interface SensorsProps {
+interface SensorListProps {
   isCompactSideMenu: boolean;
   history: History;
 }
 
-const Sensors = ({ isCompactSideMenu, history }: SensorsProps) => {
+const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
   const urlSearchParams = new URLSearchParams(history.location?.search);
   const partnerId = urlSearchParams.get('partner_id');
 
@@ -43,4 +43,4 @@ const Sensors = ({ isCompactSideMenu, history }: SensorsProps) => {
   return <PureEsciSensors groupedSensors={groupedSensors} summary={sensorSummary} />;
 };
 
-export default Sensors;
+export default SensorList;

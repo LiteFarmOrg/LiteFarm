@@ -84,12 +84,12 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
   );
 };
 
-type EsciSensorsProps = {
+type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
 };
 
-const EsciSensors = ({ groupedSensors, summary }: EsciSensorsProps) => {
+const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -158,4 +158,4 @@ const EsciSensors = ({ groupedSensors, summary }: EsciSensorsProps) => {
   );
 };
 
-export default EsciSensors;
+export default EsciSensorList;

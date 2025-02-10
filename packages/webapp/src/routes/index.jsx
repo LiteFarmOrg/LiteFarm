@@ -281,7 +281,7 @@ const TaskRowGuidance = React.lazy(
 const TaskContainerMethod = React.lazy(
   () => import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
-const SensorList = React.lazy(() => import('../containers/Sensors'));
+const SensorList = React.lazy(() => import('../containers/SensorList'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(
   () => import('../containers/Notification/NotificationReadOnly'),

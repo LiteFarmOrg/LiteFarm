@@ -21,11 +21,21 @@ export const up = async function (knex) {
   await knex.schema.alterTable('farm_addon', (t) => {
     t.increments('id').primary();
     t.boolean('deleted').notNullable().defaultTo(false);
-    t.string('created_by_user_id').references('user_id').inTable('users');
-    t.string('updated_by_user_id').references('user_id').inTable('users');
+    t.string('created_by_user_id')
+      .references('user_id')
+      .inTable('users')
+      .notNullable()
+      .defaultTo(1);
+    t.string('updated_by_user_id')
+      .references('user_id')
+      .inTable('users')
+      .notNullable()
+      .defaultTo(1);
     t.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     t.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
   });
+
+  // No need to check for duplicates and mark deleted due to prior composite index
 
   // Add the partial unique index using raw SQL
   // Knex partial indexes not working correctly

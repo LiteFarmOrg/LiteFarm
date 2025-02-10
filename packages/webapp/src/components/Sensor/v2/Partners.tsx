@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -43,13 +44,15 @@ export const Partner = ({
   name,
   url,
   logoPath,
+  className,
 }: {
   name: string;
   url: string;
   logoPath: string;
+  className?: string;
 }) => {
   return (
-    <div className={styles.partner}>
+    <div className={clsx(className, styles.partner)}>
       <div className={styles.logo}>
         <img src={logoPath} />
       </div>

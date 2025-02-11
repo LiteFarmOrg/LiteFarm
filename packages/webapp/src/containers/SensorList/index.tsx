@@ -15,7 +15,7 @@
 
 import { History } from 'history';
 import Loading from '../../components/Form/ContextForm/Loading';
-import PureEsciSensors from '../../components/Sensor/v2/EsciSensors';
+import PureEsciSensors from '../../components/Sensor/v2/EsciSensorList';
 import useGroupedSensors from './useGroupedSensors';
 import { partnerIds } from '../LocationDetails/PointDetails/SensorDetail/v2/constants';
 

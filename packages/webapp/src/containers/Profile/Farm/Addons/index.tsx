@@ -17,15 +17,15 @@ import { useGetFarmAddonQuery } from '../../../../store/api/apiSlice';
 import { PARTNERS } from '../../../LocationDetails/PointDetails/SensorDetail/v2/constants';
 
 const FarmAddons = () => {
-  const { isSuccess: hasESciConnection, data: ESciData } = useGetFarmAddonQuery(
+  const { isSuccess: hasEsciConnection, data: EsciData } = useGetFarmAddonQuery(
     `?addon_partner_id=${PARTNERS.ESCI.id}`,
   );
 
   const hasActiveConnection = {
-    esci: hasESciConnection,
+    esci: hasEsciConnection,
   };
 
-  const [esciData] = ESciData || [];
+  const [esciData] = EsciData || [];
 
   const organizationIds = {
     esci: esciData?.org_uuid,

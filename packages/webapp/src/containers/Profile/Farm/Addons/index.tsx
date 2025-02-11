@@ -17,7 +17,7 @@ import { useGetFarmAddonQuery } from '../../../../store/api/apiSlice';
 import { PARTNERS } from '../../../LocationDetails/PointDetails/SensorDetail/v2/constants';
 
 const FarmAddons = () => {
-  const { isSuccess: hasEsciConnection, data: EsciData } = useGetFarmAddonQuery(
+  const { isSuccess: hasEsciConnection, data: esciDataArray } = useGetFarmAddonQuery(
     `?addon_partner_id=${PARTNERS.ESCI.id}`,
   );
 
@@ -25,7 +25,7 @@ const FarmAddons = () => {
     esci: hasEsciConnection,
   };
 
-  const [esciData] = EsciData || [];
+  const [esciData] = esciDataArray || [];
 
   const organizationIds = {
     esci: esciData?.org_uuid,

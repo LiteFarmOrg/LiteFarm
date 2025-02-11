@@ -17,7 +17,7 @@ import { History } from 'history';
 import Loading from '../../components/Form/ContextForm/Loading';
 import PureEsciSensors from '../../components/Sensor/v2/EsciSensorList';
 import useGroupedSensors from './useGroupedSensors';
-import { partnerIds } from '../LocationDetails/PointDetails/SensorDetail/v2/constants';
+import { partnerIds, PARTNERS } from '../LocationDetails/PointDetails/SensorDetail/v2/constants';
 
 interface SensorListProps {
   isCompactSideMenu: boolean;
@@ -32,7 +32,10 @@ const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
   const { isLoading, groupedSensors, sensorSummary } = useGroupedSensors();
 
   if (isLoading) {
-    return <Loading isCompactSideMenu={isCompactSideMenu} />;
+    const dataName = partnerId
+      ? Object.values(PARTNERS).find(({ id }) => id === +partnerId)?.shortName
+      : '';
+    return <Loading dataName={dataName} isCompactSideMenu={isCompactSideMenu} />;
   }
 
   if (partnerId === null || !partnerIds.includes(+partnerId)) {

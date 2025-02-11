@@ -62,7 +62,7 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
     history.push(createSensorsUrl(+values[PARTNER]?.[FarmAddonField.PARTNER_ID]));
   };
 
-  const getFormSteps = () => [{ FormContent: Partners }];
+  const getFormSteps = () => [{ FormContent: Partners, dataName: PARTNERS.ESCI.shortName }];
 
   const defaultFormValues = {
     [PARTNER]: { [FarmAddonField.PARTNER_ID]: PARTNERS.ESCI.id, [FarmAddonField.ORG_UUID]: '' },

@@ -17,6 +17,7 @@ import Model from './baseFormatModel.js';
 import AddonPartner from './addonPartnerModel.js';
 import Farm from './farmModel.js';
 import baseModel from './baseModel.js';
+import baseController from '../controllers/baseController.js';
 
 class FarmAddon extends baseModel {
   /**
@@ -31,10 +32,10 @@ class FarmAddon extends baseModel {
   /**
    * Identifies the primary key fields for this Model.
    * @static
-   * @returns {string[]} Names of the primary key fields.
+   * @returns {string} Names of the primary key fields.
    */
   static get idColumn() {
-    return ['farm_id', 'addon_partner_id'];
+    return 'id';
   }
 
   /**
@@ -46,6 +47,7 @@ class FarmAddon extends baseModel {
     return {
       type: 'object',
       properties: {
+        id: { type: 'integer' },
         farm_id: { type: 'string' },
         addon_partner_id: { type: 'integer' },
         org_uuid: { type: 'string' },
@@ -100,18 +102,27 @@ class FarmAddon extends baseModel {
       .first();
   }
 
-  static async upsertFarmAddon({ farm_id, addon_partner_id, org_uuid, org_pk }) {
-    const existingAddon = await this.query().findOne({ farm_id, addon_partner_id });
+  static async upsertFarmAddon({ req, org_pk }) {
+    const { farm_id } = req.headers;
+    const { addon_partner_id, org_uuid } = req.body;
+
+    const existingAddon = await this.query()
+      .findOne({ farm_id, addon_partner_id })
+      .whereNotDeleted();
 
     if (existingAddon) {
-      return this.query().patch({ org_uuid, org_pk }).where({ farm_id, addon_partner_id });
+      return baseController.patch(FarmAddon, existingAddon.id, { org_uuid, org_pk }, req);
     } else {
-      return this.query().insert({
-        farm_id,
-        addon_partner_id,
-        org_uuid,
-        org_pk,
-      });
+      return baseController.post(
+        FarmAddon,
+        {
+          farm_id,
+          addon_partner_id,
+          org_uuid,
+          org_pk,
+        },
+        req,
+      );
     }
   }
 }

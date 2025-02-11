@@ -105,14 +105,16 @@ const MainContent = ({
       );
     }
 
-    return errorCount ? (
-      <div className={styles.errorCount}>
-        <WarningIcon />
-        {errorCount}
-      </div>
-    ) : (
-      checkIcon
-    );
+    if (errorCount) {
+      return (
+        <div className={styles.errorCount}>
+          <WarningIcon />
+          {errorCount}
+        </div>
+      );
+    }
+
+    return checkIcon;
   };
 
   return (

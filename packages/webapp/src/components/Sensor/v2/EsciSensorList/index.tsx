@@ -45,11 +45,14 @@ const kpiTranslationMappings: {
   { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
   { key: 'IR Temperature Sensor', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
 ];
+// t('SENSOR.SENSOR_ARRAYS')
+// t('SENSOR.READING.SOIL_WATER_POTENTIAL')
+// t('SENSOR.CANOPY_TEMPERATURE')
 
 const formatKpiLabel: OverviewStatsProps['format'] = (statsKey, label) => {
   const Icon = statsKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
   return (
-    <div className={styles.kpi}>
+    <div className={styles.kpiLabel}>
       <span className={styles.iconWrapper}>
         <Icon />
       </span>

@@ -301,7 +301,7 @@ const ExpandableWithDefaultMainContent = ({
           {`Main content ${index}`}
         </MainContent>
       }
-      expandedContent={`Error count ${index}`}
+      expandedContent={`Error count ${errorCount}`}
       iconClickOnly={false}
       key={index}
       leftCollapseIcon

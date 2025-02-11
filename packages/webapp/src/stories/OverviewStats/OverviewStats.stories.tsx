@@ -43,14 +43,14 @@ const translationMappings = [
   { key: 'Temperature', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
 ];
 
-export const Large: Story = {
+export const LargeScreen: Story = {
   args: {
     stats,
     translationMappings,
   },
 };
 
-export const Compact: Story = {
+export const CompactScreen: Story = {
   args: {
     stats,
     translationMappings,

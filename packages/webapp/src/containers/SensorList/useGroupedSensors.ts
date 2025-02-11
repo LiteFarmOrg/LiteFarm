@@ -30,7 +30,7 @@ import { SENSOR_ARRAY } from '../SensorReadings/constants';
 
 const STANDALONE = 'standalone' as const;
 
-export type SensorSummary = Record<Sensor['name'] | 'sensor_array', number>;
+export type SensorSummary = Record<Sensor['name'] | typeof SENSOR_ARRAY, number>;
 
 export type GroupedSensors = {
   id: string;
@@ -51,13 +51,13 @@ const formatSensorToSimpleTableFormat = (
   system: System,
 ): SensorInSimpleTableFormat => {
   const { external_id, depth, depth_unit } = sensor;
-  const toUnit = container_planting_depth[system].defaultUnit;
-  const convertedDepth = convertFn(container_planting_depth, depth, depth_unit, toUnit);
+  const displayUnit = container_planting_depth[system].defaultUnit;
+  const convertedDepth = convertFn(container_planting_depth, depth, depth_unit, displayUnit);
 
   return {
     ...sensor,
     id: external_id,
-    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${toUnit}`,
+    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${displayUnit}`,
     deviceTypeKey: sensor.name.toUpperCase().replaceAll(' ', '_'),
   };
 };
@@ -117,16 +117,18 @@ const formatSensors = (
 ): { groupedSensors: GroupedSensors[]; sensorSummary: SensorSummary } => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
-  const mappedSensors: MappedSensors = { [STANDALONE]: [] };
+  const mappedSensors = sensors.reduce<MappedSensors>(
+    (acc, sensor) => {
+      const key = sensor.sensor_array_id || STANDALONE;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(formatSensorToSimpleTableFormat(sensor, system));
 
-  sensors.forEach((sensor) => {
-    const key = sensor.sensor_array_id || STANDALONE;
-    if (!mappedSensors[key]) {
-      mappedSensors[key] = [];
-    }
-
-    mappedSensors[key].push(formatSensorToSimpleTableFormat(sensor, system));
-  });
+      return acc;
+    },
+    { [STANDALONE]: [] },
+  );
 
   return {
     sensorSummary: getSummary(sensors, sensor_arrays),
@@ -149,12 +151,12 @@ const useGroupedSensors = (): {
   const farmAreas = useSelector(areaSelector);
   const flattenedFarmAreas = Object.values(farmAreas).flat();
 
-  return {
-    isLoading,
-    ...(isLoading || !data
+  const sensorsData =
+    isLoading || !data
       ? { sensorSummary: {} as SensorSummary, groupedSensors: [] }
-      : formatSensors(data, system, flattenedFarmAreas)),
-  };
+      : formatSensors(data, system, flattenedFarmAreas);
+
+  return { isLoading, ...sensorsData };
 };
 
 export default useGroupedSensors;

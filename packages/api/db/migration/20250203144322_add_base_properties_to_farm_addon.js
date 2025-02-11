@@ -15,7 +15,7 @@
 
 export const up = async function (knex) {
   await knex.schema.alterTable('farm_addon', (t) => {
-    // Knex apparently does not rename indexes aliong with table names
+    // Knex apparently does not rename indexes along with table names
     t.dropPrimary('farm_external_integration_pkey');
   });
   await knex.schema.alterTable('farm_addon', (t) => {
@@ -48,6 +48,7 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  await knex('farm_addon').where({ deleted: true }).del();
   await knex.schema.alterTable('farm_addon', (t) => {
     t.dropIndex(['farm_id', 'addon_partner_id'], 'farm_addon_uniqueness_composite');
     t.dropPrimary();

@@ -17,7 +17,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Table from '../../../Table';
 import Cell from '../../../Table/Cell';
-import { ReactComponent as SensorIcon } from '../../../../assets/images/devices/signal-01.svg';
+import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Table/types';
 import { type SensorInSimpleTableFormat } from '../../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import { type Sensor } from '../../../../store/api/types';

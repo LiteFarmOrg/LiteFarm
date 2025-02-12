@@ -30,7 +30,7 @@ import type {
 } from '../../../../containers/SensorList/useGroupedSensors';
 import SensorTable, { SensorTableVariant } from '../SensorTable';
 import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
-import { ReactComponent as SensorIcon } from '../../../../assets/images/devices/signal-01.svg';
+import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
 import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location } from '../../../../types';

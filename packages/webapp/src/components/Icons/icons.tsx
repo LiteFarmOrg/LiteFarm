@@ -73,7 +73,7 @@ import { FunctionComponent } from 'react';
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
 
 // Devices
-import { ReactComponent as SensorIcon } from '../../assets/images/devices/signal-01.svg';
+import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
 
 // Animal type: icon map
 const animalTypeIcons = {

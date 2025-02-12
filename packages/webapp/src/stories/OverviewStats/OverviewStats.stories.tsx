@@ -16,7 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import OverviewStats, { OverviewStatsProps } from '../../components/OverviewStats';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SensorIcon } from '../../assets/images/devices/signal-01.svg';
+import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../assets/images/farmMapFilter/SensorArray.svg';
 import styles from './styles.module.scss';
 

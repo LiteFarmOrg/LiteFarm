@@ -40,7 +40,7 @@ import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
-// TODO: test import assertions eslint
+
 const getSensorTranslations = async (language) => {
   // Remove country identifier from language preference
   const parsedLanguage = language.includes('-') ? language.split('-')[0] : language;

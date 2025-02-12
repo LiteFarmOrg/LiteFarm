@@ -1812,8 +1812,7 @@
       "LONGITUDE": "Longitude",
       "MODEL": "Model",
       "NAME": "Sensor Name",
-      "RETIRE": "Retire",
-      "SEE_FULL_SENSOR_SETUP": "See full sensor setup"
+      "RETIRE": "Retire"
     },
     "ESCI": {
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
@@ -1823,7 +1822,8 @@
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
       "ORGANISATION_ID": "ESCI organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
-      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later."
+      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later.",
+      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

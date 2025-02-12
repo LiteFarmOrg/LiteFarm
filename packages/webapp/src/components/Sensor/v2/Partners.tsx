@@ -93,7 +93,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
           {/* {'TODO: LF-4696'} */}
           <Link className={styles.toSensorSetupButton} to="/TODO">
             <ExternalLinkIcon />
-            <span>{t('SENSOR.DETAIL.SEE_FULL_SENSOR_SETUP')}</span>
+            <span>{t('SENSOR.ESCI.SEE_ENSEMBLE_SENSOR_LIST')}</span>
           </Link>
         </div>
       ) : (

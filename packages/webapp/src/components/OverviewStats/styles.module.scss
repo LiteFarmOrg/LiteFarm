@@ -18,9 +18,15 @@
 .wrapper {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 
   &.isCompact {
     flex-direction: column;
+  }
+
+  &:not(.isCompact) .tile {
+    flex-basis: calc((100% - 8px * 2) / 3);
+    max-width: calc((100% - 8px * 2) / 3);
   }
 }
 

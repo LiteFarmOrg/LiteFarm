@@ -77,3 +77,32 @@ export const WithFormatFunction: Story = {
     format,
   },
 };
+
+const stats2 = {
+  ...stats,
+  Temperature2: 2,
+};
+
+const translationMappings2 = [
+  { key: 'SENSOR_ARRAY', translationKey: 'SENSOR.SENSOR_ARRAYS' },
+  { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
+  { key: 'Temperature', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
+  { key: 'Temperature2', translationKey: 'SENSOR.READING.TEMPERATURE' },
+];
+
+export const LargeScreenWithFourItems: Story = {
+  args: {
+    stats: stats2,
+    translationMappings: translationMappings2,
+    format,
+  },
+};
+
+export const CompactScreenWithFourItems: Story = {
+  args: {
+    isCompact: true,
+    stats: stats2,
+    translationMappings: translationMappings2,
+    format,
+  },
+};

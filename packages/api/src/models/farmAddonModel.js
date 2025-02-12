@@ -99,6 +99,7 @@ class FarmAddon extends baseModel {
       .select('org_uuid', 'org_pk')
       .where('farm_id', farmId)
       .where('addon_partner_id', addonPartnerId)
+      .whereNotDeleted()
       .first();
   }
 
@@ -106,6 +107,7 @@ class FarmAddon extends baseModel {
     const { farm_id } = req.headers;
     const { addon_partner_id, org_uuid } = req.body;
 
+    // With unique composite index only one can exist
     const existingAddon = await this.query()
       .findOne({ farm_id, addon_partner_id })
       .whereNotDeleted();

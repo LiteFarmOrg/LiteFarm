@@ -314,6 +314,7 @@ async function registerOrganisationWebhook(farmId, organisationId) {
   const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
   const existingIntegration = await FarmAddonModel.query()
     .where({ farm_id: farmId, addon_partner_id: 1 })
+    .whereNotDeleted()
     .first();
   if (existingIntegration?.webhook_id) {
     return;
@@ -399,6 +400,7 @@ async function createOrganisation(farmId) {
     const data = await FarmModel.getFarmById(farmId);
     const existingIntegration = await FarmAddonModel.query()
       .where({ farm_id: farmId, addon_partner_id: 1 })
+      .whereNotDeleted()
       .first();
     if (!existingIntegration) {
       const axiosObject = {
@@ -544,6 +546,7 @@ async function authenticateToGetTokens() {
     );
     return response.data;
   } catch (error) {
+    console.error(error);
     const err = new Error('Failed to authenticate with Ensemble.');
     err.status = 500;
     throw err;

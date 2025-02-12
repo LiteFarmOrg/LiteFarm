@@ -19,7 +19,7 @@ import { getValidEnsembleOrg } from '../util/ensemble.js';
 const farmAddonController = {
   addFarmAddon() {
     return async (req, res) => {
-        const { org_uuid } = req.body;
+      const { org_uuid } = req.body;
 
       try {
         const organisation = await getValidEnsembleOrg(org_uuid);
@@ -28,10 +28,10 @@ const farmAddonController = {
           return res.status(404).send('Organisation not found');
         }
 
-      await FarmAddonModel.upsertFarmAddon({
-        req,
-        org_pk: organisation.pk,
-      });
+        await FarmAddonModel.upsertFarmAddon({
+          req,
+          org_pk: organisation.pk,
+        });
 
         return res.status(200).send();
       } catch (error) {
@@ -49,7 +49,8 @@ const farmAddonController = {
         const { addon_partner_id } = req.query;
         const rows = await FarmAddonModel.query()
           .where({ farm_id, addon_partner_id })
-          .skipUndefined();
+          .skipUndefined()
+          .whereNotDeleted();
         if (!rows.length) {
           return res.sendStatus(404);
         }

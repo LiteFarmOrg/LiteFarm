@@ -46,7 +46,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,mjs}"
     ],
-    "globalSetup": "./jest-global-setup.cjs",
+    "globalSetup": "./jest-global-setup.ts",
     "setupFiles": [
       "dotenv/config"
     ]

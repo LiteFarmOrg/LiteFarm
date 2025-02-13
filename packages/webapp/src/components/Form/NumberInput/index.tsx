@@ -86,7 +86,7 @@ export default function NumberInput<T extends FieldValues>({
       {...inputProps}
       className={className}
       error={fieldState.error?.message}
-      onResetIconClick={reset}
+      onResetIconClick={() => reset(defaultValue)}
       leftSection={currencySymbol}
       rightSection={
         <>

@@ -128,6 +128,7 @@ export default function AddAnimalsFormCard({
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
+          defaultValue={1}
           showStepper
           rules={{
             required: {

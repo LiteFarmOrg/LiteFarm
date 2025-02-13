@@ -15,6 +15,7 @@
 
 import FarmAddonModel from '../models/farmAddonModel.js';
 import { getValidEnsembleOrg } from '../util/ensemble.js';
+import baseController from './baseController.js';
 
 const farmAddonController = {
   addFarmAddon() {
@@ -58,6 +59,20 @@ const farmAddonController = {
           return { addon_partner_id, org_uuid };
         });
         return res.status(200).send(result);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+  deleteFarmAddon() {
+    return async (req, res) => {
+      try {
+        const { id } = req.params;
+        await baseController.delete(FarmAddonModel, id, req);
+        return res.sendStatus(200);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

@@ -15,7 +15,7 @@
 import { forwardRef, ReactNode } from 'react';
 import clsx from 'clsx';
 import { BsThreeDots } from 'react-icons/bs';
-import FloatingMenu, { FloatingMenuProps } from '../FloatingButtonMenu/FloatingMenu';
+import FloatingMenu from '../FloatingButtonMenu/FloatingMenu';
 import DropdownButton from '../../Form/DropDownButton';
 import styles from './styles.module.scss';
 
@@ -25,9 +25,21 @@ export type MeatballsMenuProps = {
   disabled: boolean;
 };
 
+interface MenuProps {
+  autoFocusItem: boolean;
+  id: string;
+  'aria-labelledby': string;
+  onCloseMenu: () => void;
+}
+
 const MeatballsMenu = ({ options, classes, disabled = false }: MeatballsMenuProps) => {
-  const Menu = forwardRef<HTMLUListElement, FloatingMenuProps>((menuProps, ref) => (
-    <FloatingMenu ref={ref} classes={{ menuItem: styles.menuItem }} {...menuProps} />
+  const Menu = forwardRef<HTMLUListElement, MenuProps>((menuProps, ref) => (
+    <FloatingMenu
+      ref={ref}
+      options={options}
+      classes={{ menuItem: styles.menuItem }}
+      {...menuProps}
+    />
   ));
   Menu.displayName = 'Menu';
 

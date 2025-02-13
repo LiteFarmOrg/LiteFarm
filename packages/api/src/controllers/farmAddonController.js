@@ -19,8 +19,7 @@ import { getValidEnsembleOrg } from '../util/ensemble.js';
 const farmAddonController = {
   addFarmAddon() {
     return async (req, res) => {
-      const { farm_id } = req.headers;
-      const { addon_partner_id, org_uuid } = req.body;
+      const { org_uuid } = req.body;
 
       try {
         const organisation = await getValidEnsembleOrg(org_uuid);
@@ -30,9 +29,7 @@ const farmAddonController = {
         }
 
         await FarmAddonModel.upsertFarmAddon({
-          farm_id,
-          addon_partner_id,
-          org_uuid,
+          req,
           org_pk: organisation.pk,
         });
 
@@ -52,7 +49,8 @@ const farmAddonController = {
         const { addon_partner_id } = req.query;
         const rows = await FarmAddonModel.query()
           .where({ farm_id, addon_partner_id })
-          .skipUndefined();
+          .skipUndefined()
+          .whereNotDeleted();
         if (!rows.length) {
           return res.sendStatus(404);
         }

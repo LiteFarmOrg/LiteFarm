@@ -35,7 +35,7 @@ const CHECK_ICONS = {
   [IconType.DECORATED]: <CircledCheckIcon className={styles.circledCheck} />,
 };
 
-interface MainContentProps {
+export interface MainContentProps {
   isExpanded: boolean;
   iconType?: IconType;
   onRemove?: () => void;

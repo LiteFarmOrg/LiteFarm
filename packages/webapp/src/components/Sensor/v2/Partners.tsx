@@ -29,11 +29,10 @@ import {
   PARTNER,
 } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import styles from './styles.module.scss';
+import { AddonPartner } from '../../../types';
 
 type PartnersProps = {
-  hasActiveConnection: {
-    esci: boolean;
-  };
+  hasActiveConnection: Record<AddonPartner, boolean>;
 };
 
 const validateUuidFormat = (value: string, errorMessage: string) => {

@@ -39,3 +39,7 @@ export interface Location {
 }
 
 export type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number}vh` | 'auto';
+
+export enum AddonPartner {
+  esci = 'esci',
+}

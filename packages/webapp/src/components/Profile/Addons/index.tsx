@@ -24,17 +24,12 @@ import styles from './styles.module.scss';
 import { Partner } from '../../Sensor/v2/Partners';
 import Button from '../../Form/Button';
 import ModalComponent from '../../Modals/ModalComponent/v2';
+import { AddonPartner } from '../../../types';
 
 type PureFarmAddonsProps = {
-  hasActiveConnection: {
-    esci: boolean;
-  };
-  organizationIds: {
-    esci: string;
-  };
-  onDisconnect: {
-    esci: () => void;
-  };
+  hasActiveConnection: Record<AddonPartner, boolean>;
+  organizationIds: Record<AddonPartner, string>;
+  onDisconnect: Record<AddonPartner, () => void>;
 };
 
 const PureFarmAddons = ({

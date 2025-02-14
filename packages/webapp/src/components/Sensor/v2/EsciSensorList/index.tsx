@@ -68,7 +68,7 @@ const DetectedFields = ({ fields = [], t }: { fields: Location['name'][]; t: TFu
 
   return (
     <div>
-      <Main className={styles.fieldListLead}>{t('SENSOR.DETAIL.DITECTED_FIELD')}</Main>
+      <Main className={styles.fieldListLead}>{t('SENSOR.DETAIL.DETECTED_FIELD')}</Main>
       <ul className={styles.fieldList}>
         {fields.map((field) => {
           return <li key={field}>{field}</li>;

@@ -1782,6 +1782,7 @@
   "SENSOR": {
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+    "CANOPY_TEMPERATURE": "Canopy temperature",
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
@@ -1790,7 +1791,7 @@
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",
       "DEVICE_TYPE": "Device type",
-      "DITECTED_FIELD": "We detected the field location to be:",
+      "DETECTED_FIELD": "We detected the field location to be:",
       "EDIT": "Edit",
       "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "EXTERNAL_IDENTIFIER": "External Identifier",
@@ -1800,6 +1801,13 @@
       "NAME": "Sensor Name",
       "RETIRE": "Retire",
       "SEE_FULL_SENSOR_SETUP": "See full sensor setup"
+    },
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "IR_TEMPERATURE_SENSOR": "IR Temperature Sensor",
+      "SOIL_WATER_POTENTIAL_SENSOR": "Soil Water Potential Sensor",
+      "WEATHER_STATION": "Weather station",
+      "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
     "ESCI": {
       "ACTIVE_CONNECTION": "You have an active ESCI connection",
@@ -1826,6 +1834,7 @@
     "MONTHS_AGO": "{{time}} month(s) ago",
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
+    "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
     "READING": {
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
@@ -1846,6 +1855,8 @@
       "TITLE": "Retire sensor?"
     },
     "SECONDS_AGO": "{{time}} second(s) ago",
+    "SENSOR_ARRAY": "Sensor array",
+    "SENSOR_ARRAYS": "Sensor arrays",
     "SENSOR_FORECAST": {
       "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
       "TITLE": "Today's forecast",
@@ -1866,6 +1877,7 @@
       "TITLE": "Soil water potential",
       "Y_AXIS_LABEL": "in {{units}}"
     },
+    "STANDALONE_SENSOR": "Standalone Sensor",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "C": "Celsius (°C)",

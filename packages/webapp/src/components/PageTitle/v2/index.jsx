@@ -42,7 +42,7 @@ PageTitle.propTypes = {
   style: PropTypes.object,
   label: PropTypes.node,
   cancelModalTitle: PropTypes.string,
-  classNames: {
+  classNames: PropTypes.shape({
     wrapper: PropTypes.string,
-  },
+  }),
 };

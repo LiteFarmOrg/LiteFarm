@@ -18,11 +18,11 @@ import styles from '../styles.module.scss';
 
 export type IconTextProps = {
   iconName: IconName;
-  iconBorder: boolean;
-  text: string | number | null | undefined;
-  subtext: string | number | null | undefined;
-  highlightedText: string | number | null | undefined;
-  photoUrl: string | null;
+  iconBorder?: boolean;
+  text?: string | number | null;
+  subtext?: string | number | null;
+  highlightedText?: string | number | null;
+  photoUrl?: string | null;
   removed?: boolean;
   className?: string;
 };

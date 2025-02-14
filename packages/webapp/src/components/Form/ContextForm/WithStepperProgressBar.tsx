@@ -67,7 +67,7 @@ interface WithStepperProgressBarProps {
   headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
   showPreviousButton?: boolean;
   showLoading?: boolean;
-  onAfterSave?: () => void;
+  onAfterSave?: (values: FieldValues) => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -124,7 +124,7 @@ export const WithStepperProgressBar = ({
 
   useEffect(() => {
     if (isSaved && onAfterSave) {
-      onAfterSave();
+      onAfterSave(getValues());
     }
   }, [isSaved, onAfterSave]);
 

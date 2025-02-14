@@ -103,6 +103,8 @@ export default function TableV2(props) {
     headerClass,
     extraRowSpacing,
     comparator,
+    tableContainerClass,
+    tbodyClass,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -163,7 +165,7 @@ export default function TableV2(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TableContainer sx={{ maxHeight }}>
+      <TableContainer sx={{ maxHeight }} className={tableContainerClass}>
         <Table
           aria-labelledby="tableTitle"
           className={clsx(
@@ -188,7 +190,7 @@ export default function TableV2(props) {
               headerClass={headerClass}
             />
           )}
-          <TableBody className={styles.tableBody}>
+          <TableBody className={clsx(styles.tableBody, tbodyClass)}>
             {visibleRows.map((row, index) => {
               const isItemSelected = selectedIds?.includes(row.id);
 
@@ -220,7 +222,7 @@ export default function TableV2(props) {
                       />
                     </TableCell>
                   )}
-                  {columns.map(({ id, format, align, columnProps }) => {
+                  {columns.map(({ id, format, align, className, columnProps }) => {
                     if (!id) {
                       return null;
                     }
@@ -228,7 +230,7 @@ export default function TableV2(props) {
                     return (
                       <TableCell
                         key={id}
-                        className={clsx(styles.tableCell, dense && styles.dense)}
+                        className={clsx(styles.tableCell, dense && styles.dense, className)}
                         align={align || 'left'}
                         {...columnProps}
                       >
@@ -255,7 +257,7 @@ export default function TableV2(props) {
             )}
             {columns.some((column) => column.id && column.Footer) && (
               <TableRow className={styles.footer}>
-                {columns.map(({ id, align, columnProps, Footer }, index) => {
+                {columns.map(({ id, align, columnProps, className, Footer }, index) => {
                   if (!id) {
                     return null;
                   }
@@ -265,7 +267,7 @@ export default function TableV2(props) {
                       <TableCell
                         key={id}
                         align={align || 'left'}
-                        className={clsx(styles.tableCell, dense && styles.dense)}
+                        className={clsx(styles.tableCell, dense && styles.dense, className)}
                         {...columnProps}
                       >
                         {Footer}
@@ -313,6 +315,7 @@ TableV2.propTypes = {
       format: PropTypes.func,
       align: PropTypes.oneOf(['left', 'right']),
       Footer: PropTypes.node,
+      className: PropTypes.string,
       columnProps: PropTypes.object,
     }),
   ).isRequired,

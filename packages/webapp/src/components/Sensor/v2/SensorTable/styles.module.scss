@@ -1,0 +1,104 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin.scss';
+
+.tableContainerClass {
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+}
+
+.headerClass:global(.MuiTableCell-head) {
+  color: var(--Colors-Neutral-Neutral-300);
+  font-size: 16px;
+  font-weight: 400;
+  padding: 0 4px;
+  border: none;
+  background: var(--Colors-Backgrounds-Background-color);
+
+  :global(.MuiTableSortLabel-root) {
+    padding: 0;
+  }
+}
+
+.headerClass:global(.MuiTableCell-head),
+.tbodyClass:global(.MuiTableBody-root) td:global(.MuiTableCell-root) {
+  padding: 0 4px;
+
+  &:first-child {
+    padding-left: 16px;
+  }
+
+  &:last-child {
+    padding-right: 16px;
+  }
+}
+
+.tbodyClass:global(.MuiTableBody-root) {
+  &:before {
+    line-height: 0px;
+  }
+
+  td:global(.MuiTableCell-root) {
+    font-size: 16px;
+    border: none;
+
+    .sensorIdCell {
+      gap: 4px;
+
+      div {
+        font-weight: 600;
+        color: var(--Colors-Neutral-Neutral-900);
+      }
+    }
+
+    .plainCell {
+      color: var(--Colors-Neutral-Neutral-500);
+    }
+  }
+}
+
+.depthColumn {
+  white-space: nowrap;
+}
+
+/* Compact layout styles */
+.idDeviceTypeCell {
+  @include truncateText();
+
+  width: 100%; // takes the remaining space
+  max-width: 0; // prevents expansion beyond table constraints
+}
+
+.idDeviceTypeCellContent {
+  padding: 4px 0;
+}
+
+.idWithIcon {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  span {
+    font-weight: 600;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.deviceType {
+  color: var(--Colors-Neutral-Neutral-500);
+
+  @include truncateText();
+}

@@ -17,10 +17,11 @@ import styles from '../styles.module.scss';
 
 export type PlainCellProps = {
   text: string | number | null;
+  className?: string;
 };
 
-const Plain = ({ text }: PlainCellProps) => {
-  return <div className={clsx(styles.text, styles.overflowText)}>{text}</div>;
+const Plain = ({ text, className = '' }: PlainCellProps) => {
+  return <div className={clsx(styles.text, styles.overflowText, className)}>{text}</div>;
 };
 
 export default Plain;

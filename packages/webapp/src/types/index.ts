@@ -39,3 +39,5 @@ export interface Location {
 }
 
 export type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number}vh` | 'auto';
+
+export type System = 'metric' | 'imperial';

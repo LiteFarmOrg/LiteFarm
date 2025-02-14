@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { History } from 'history';
@@ -33,6 +34,8 @@ interface PostSensorProps {
 const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const [addFarmAddon] = useAddFarmAddonMutation();
   const [triggerGetSensors] = useLazyGetSensorsQuery();
@@ -84,6 +87,8 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
         isCompactSideMenu={isCompactSideMenu}
         onAfterSave={onAfterSave}
         showLoading
+        setIsEditing={setIsEditing}
+        isEditing={isEditing}
         // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>

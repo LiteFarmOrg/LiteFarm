@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { validate as uuidValidate } from 'uuid';
@@ -20,26 +22,36 @@ import Input, { getInputErrors } from '../../Form/Input';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Main } from '../../Typography';
 import { PARTNERS } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/constants';
+import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
 import {
   AddSensorsFormFields,
   FarmAddonField,
   PARTNER,
 } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import styles from './styles.module.scss';
+import { AddonPartner } from '../../../types';
 
 type PartnersProps = {
-  hasActiveConnection: {
-    esci: boolean;
-  };
+  hasActiveConnection: Record<AddonPartner, boolean>;
 };
 
 const validateUuidFormat = (value: string, errorMessage: string) => {
   return uuidValidate(value) || errorMessage;
 };
 
-const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath: string }) => {
+export const Partner = ({
+  name,
+  url,
+  logoPath,
+  className,
+}: {
+  name: string;
+  url: string;
+  logoPath: string;
+  className?: string;
+}) => {
   return (
-    <div className={styles.partner}>
+    <div className={clsx(className, styles.partner)}>
       <div className={styles.logo}>
         <img src={logoPath} />
       </div>
@@ -56,7 +68,7 @@ const Partner = ({ name, url, logoPath }: { name: string; url: string; logoPath:
 const ORG_UUID = `${PARTNER}.${FarmAddonField.ORG_UUID}` as const;
 
 const Partners = ({ hasActiveConnection }: PartnersProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const {
     register,
     formState: { errors },
@@ -69,7 +81,20 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
         <Partner key={data.name} {...data} />
       ))}
       {hasActiveConnection.esci ? (
-        <>{/* LF-4693 */}</>
+        <div className={styles.connectionInfo}>
+          <div className={styles.activeConnection}>
+            <Main className={styles.infoText}>{t('SENSOR.ESCI.ACTIVE_CONNECTION')}</Main>
+            <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
+              <ExternalLinkIcon />
+              <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
+            </Link>
+          </div>
+          {/* {'TODO: LF-4696'} */}
+          <Link className={styles.toSensorSetupButton} to="/TODO">
+            <ExternalLinkIcon />
+            <span>{t('SENSOR.ESCI.SEE_ENSEMBLE_SENSOR_LIST')}</span>
+          </Link>
+        </div>
       ) : (
         <div className={styles.sensorSetup}>
           <div>{t('SENSOR.ESCI.CONNECT_NEW_SENSOR')}</div>

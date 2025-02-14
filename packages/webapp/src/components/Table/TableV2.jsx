@@ -103,6 +103,8 @@ export default function TableV2(props) {
     headerClass,
     extraRowSpacing,
     comparator,
+    tableContainerClass,
+    tbodyClass,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -163,7 +165,7 @@ export default function TableV2(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TableContainer sx={{ maxHeight }}>
+      <TableContainer sx={{ maxHeight }} className={tableContainerClass}>
         <Table
           aria-labelledby="tableTitle"
           className={clsx(
@@ -188,7 +190,7 @@ export default function TableV2(props) {
               headerClass={headerClass}
             />
           )}
-          <TableBody className={styles.tableBody}>
+          <TableBody className={clsx(styles.tableBody, tbodyClass)}>
             {visibleRows.map((row, index) => {
               const isItemSelected = selectedIds?.includes(row.id);
 

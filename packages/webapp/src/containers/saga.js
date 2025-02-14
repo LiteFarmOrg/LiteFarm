@@ -629,6 +629,7 @@ export function* clearOldFarmStateSaga() {
       'CustomAnimalBreeds',
       'CustomAnimalTypes',
       'DefaultAnimalTypes', // needs to be cleared for KPI count
+      'FarmAddon',
     ]),
   );
 

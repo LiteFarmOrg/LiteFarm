@@ -119,6 +119,7 @@ export const ContextForm = ({
           formResultData={formResultData}
           history={history}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
         />
       </FormProvider>
     </Component>

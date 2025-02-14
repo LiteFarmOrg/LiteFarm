@@ -126,7 +126,7 @@ const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
                 onClick={() => toggleExpanded(id)}
                 leftCollapseIcon
                 mainContent={
-                  <MainContent isExpanded={isExpanded} errorCount={0} iconType={IconType.SIMPLE}>
+                  <MainContent isExpanded={isExpanded} iconType={IconType.SIMPLE}>
                     <div className={styles.mainContent}>
                       <SensorIconWithNumber number={sensors.length} />
                       <span>

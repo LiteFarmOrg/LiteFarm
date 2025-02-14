@@ -39,7 +39,7 @@ export interface MainContentProps {
   isExpanded: boolean;
   iconType?: IconType;
   onRemove?: () => void;
-  errorCount: number;
+  errorCount?: number;
   children: ReactNode;
 }
 

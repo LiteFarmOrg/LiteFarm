@@ -21,7 +21,7 @@ export const PARTNERS = {
     name: 'Ensemble Scientific',
     url: 'www.esci.io',
     logoPath: EsciLogo,
-    shortName: 'ESci', // TODO: Confirm
+    shortName: 'ESci',
   },
 };
 

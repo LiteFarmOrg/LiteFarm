@@ -49,8 +49,8 @@ const kpiTranslationMappings: {
 // t('SENSOR.READING.SOIL_WATER_POTENTIAL')
 // t('SENSOR.CANOPY_TEMPERATURE')
 
-const formatKpiLabel: OverviewStatsProps['format'] = (statsKey, label) => {
-  const Icon = statsKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
+const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
+  const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
   return (
     <div className={styles.kpiLabel}>
       <span className={styles.iconWrapper}>
@@ -106,7 +106,7 @@ const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
       <OverviewStats
         stats={summary}
         translationMappings={kpiTranslationMappings}
-        format={formatKpiLabel}
+        FormattedLabelComponent={FormatKpiLabel}
         isCompact={isCompact}
       />
       <div className={styles.sensorGroups}>

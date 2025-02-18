@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
@@ -21,11 +20,16 @@ import styles from './styles.module.scss';
 export type OverviewStatsProps = {
   stats: Record<string, number>;
   translationMappings: { key: string; translationKey: string }[];
-  format?: (key: string, label: string) => ReactNode;
+  FormattedLabelComponent?: ({ statKey, label }: { statKey: string; label: string }) => JSX.Element;
   isCompact?: boolean;
 };
 
-const OverviewStats = ({ stats, translationMappings, format, isCompact }: OverviewStatsProps) => {
+const OverviewStats = ({
+  stats,
+  translationMappings,
+  FormattedLabelComponent,
+  isCompact,
+}: OverviewStatsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -36,7 +40,13 @@ const OverviewStats = ({ stats, translationMappings, format, isCompact }: Overvi
 
         return (
           <div key={key} className={styles.tile}>
-            <span className={styles.category}>{format ? format(key, label) : label}</span>
+            <span className={styles.category}>
+              {FormattedLabelComponent ? (
+                <FormattedLabelComponent statKey={key} label={label} />
+              ) : (
+                label
+              )}
+            </span>
             <span className={styles.count}>{count}</span>
           </div>
         );

@@ -58,8 +58,8 @@ export const CompactScreen: Story = {
   },
 };
 
-const format: OverviewStatsProps['format'] = (statsKey, label) => {
-  const Icon = statsKey === 'SENSOR_ARRAY' ? SensorArrayIcon : SensorIcon;
+const FormattedLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
+  const Icon = statKey === 'SENSOR_ARRAY' ? SensorArrayIcon : SensorIcon;
   return (
     <div className={styles.labelWrapper}>
       <span className={styles.icon}>
@@ -74,7 +74,7 @@ export const WithFormatFunction: Story = {
   args: {
     stats,
     translationMappings,
-    format,
+    FormattedLabelComponent: FormattedLabel,
   },
 };
 
@@ -94,7 +94,7 @@ export const LargeScreenWithFourItems: Story = {
   args: {
     stats: stats2,
     translationMappings: translationMappings2,
-    format,
+    FormattedLabelComponent: FormattedLabel,
   },
 };
 
@@ -103,6 +103,6 @@ export const CompactScreenWithFourItems: Story = {
     isCompact: true,
     stats: stats2,
     translationMappings: translationMappings2,
-    format,
+    FormattedLabelComponent: FormattedLabel,
   },
 };

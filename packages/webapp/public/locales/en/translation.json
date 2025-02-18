@@ -279,6 +279,19 @@
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "WILD_CROP": "Wild crops"
   },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CONFIRM": "Disconnect",
+      "CANCEL": "Don't disconnect"
+    },
+    "ESCI": {
+      "MODAL_INFO": "You will not be able to access your ESCI sensors data until you reconnect",
+      "MODAL_TITLE": "Are you sure you want to disconnect your ESCI sensors?",
+      "DISCONNECT_ESCI": "Disconnect ESCI",
+      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESCI. You can still access your sensors and associated data on your ESCI dashboard."
+    },
+    "ORGANISATION_ID": "Organisation ID:"
+  },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
     "ADD_MORE_BUTTON": "Add more animals",
@@ -1557,6 +1570,7 @@
     },
     "FARM": {
       "ADDRESS": "Address",
+      "ADDONS": "Add-ons",
       "CHANGE_IMAGE": "Change Image",
       "CLICK_TO_UPLOAD": "Click to upload",
       "CURRENCY": "Currency",
@@ -1799,8 +1813,7 @@
       "LONGITUDE": "Longitude",
       "MODEL": "Model",
       "NAME": "Sensor Name",
-      "RETIRE": "Retire",
-      "SEE_FULL_SENSOR_SETUP": "See full sensor setup"
+      "RETIRE": "Retire"
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
@@ -1817,7 +1830,8 @@
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
       "ORGANISATION_ID": "ESCI organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
-      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later."
+      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later.",
+      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

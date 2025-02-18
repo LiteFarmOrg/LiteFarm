@@ -192,7 +192,6 @@ export const WithStepperProgressBar = ({
 
   return (
     <StepperProgressBarWrapper
-      isSingleStep={isSingleStep}
       {...stepperProgressBarConfig}
       title={stepperProgressBarTitle}
       steps={steps.map(({ title }) => title)}
@@ -232,17 +231,15 @@ type HeaderProps = StepperProgressBarProps & {
 
 type StepperProgressBarWrapperProps = HeaderProps & {
   children: ReactNode;
-  isSingleStep: boolean;
   headerComponent: ((props: HeaderProps) => JSX.Element) | null;
 };
 
 const StepperProgressBarWrapper = ({
   children,
-  isSingleStep,
   headerComponent,
   ...stepperProgressBarProps
 }: StepperProgressBarWrapperProps) => {
-  if (isSingleStep && !headerComponent) {
+  if (!headerComponent) {
     return <>{children}</>;
   }
 

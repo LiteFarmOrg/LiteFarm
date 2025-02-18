@@ -54,7 +54,7 @@ export type TableV1Props = {
 // Belongs in TableV2.jsx once converted to .ts
 export type TableV2Column = {
   id?: string | null;
-  format: (props: any) => ReactNode;
+  format?: (props: any) => ReactNode;
   align?: Alignment;
   Footer?: ReactElement;
   columnProps?: Object;

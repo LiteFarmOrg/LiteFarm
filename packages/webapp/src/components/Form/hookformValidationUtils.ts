@@ -117,5 +117,8 @@ const hookFormSelectOptionMaxLength = (selectedOption: { label: string }, length
 };
 
 export const validateOptionLength = (value: { label: string }) => {
+  if (!value) {
+    return true;
+  }
   return hookFormSelectOptionMaxLength(value);
 };

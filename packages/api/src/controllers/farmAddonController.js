@@ -62,8 +62,8 @@ const farmAddonController = {
         if (!rows.length) {
           return res.sendStatus(404);
         }
-        const result = rows.map(({ addon_partner_id, org_uuid }) => {
-          return { addon_partner_id, org_uuid };
+        const result = rows.map(({ id, addon_partner_id, org_uuid }) => {
+          return { id, addon_partner_id, org_uuid };
         });
         return res.status(200).send(result);
       } catch (error) {

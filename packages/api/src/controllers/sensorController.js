@@ -72,6 +72,7 @@ const sensorController = {
       );
       res.status(200).send(readingTypes);
     } catch (error) {
+      console.error(error);
       res.status(404).send('Sensor not found');
     }
   },
@@ -95,6 +96,7 @@ const sensorController = {
       });
       res.status(200).send(allReadingTypes);
     } catch (error) {
+      console.error(error);
       res.status(404).send('No sensors found');
     }
   },
@@ -104,6 +106,7 @@ const sensorController = {
       const brand_name_response = await AddonPartnerModel.getBrandName(partner_id);
       res.status(200).send(brand_name_response.name);
     } catch (error) {
+      console.error(error);
       res.status(404).send('Partner not found');
     }
   },
@@ -439,9 +442,8 @@ const sensorController = {
       const partnerId = parseInt(req.params.partner_id);
       const farmId = req.params.farm_id || '';
       if (!farmId.length) return res.status(400).send('farm id not found');
-      const {
-        rows: partnerSensorReadingTypes = [],
-      } = await PartnerReadingTypeModel.getPartnerReadingTypeByPartnerId(partnerId);
+      const { rows: partnerSensorReadingTypes = [] } =
+        await PartnerReadingTypeModel.getPartnerReadingTypeByPartnerId(partnerId);
       if (!partnerSensorReadingTypes.length)
         return res.status(400).send('partner not registered with the Litefarm');
       const readingTypeValidation = [];

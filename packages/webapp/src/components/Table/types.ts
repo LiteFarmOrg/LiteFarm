@@ -60,6 +60,7 @@ export type TableV2Column = {
   columnProps?: Object;
   label?: string;
   sortable?: boolean;
+  className?: string;
 };
 
 export type TableRowData = { id?: string | number };

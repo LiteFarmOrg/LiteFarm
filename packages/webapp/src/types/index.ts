@@ -43,3 +43,5 @@ export type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number
 export enum AddonPartner {
   esci = 'esci',
 }
+
+export type System = 'metric' | 'imperial';

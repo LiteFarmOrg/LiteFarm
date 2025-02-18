@@ -281,6 +281,7 @@ const TaskRowGuidance = React.lazy(
 const TaskContainerMethod = React.lazy(
   () => import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
+const SensorList = React.lazy(() => import('../containers/SensorList'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(
   () => import('../containers/Notification/NotificationReadOnly'),
@@ -640,6 +641,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                 />
               )}
             />
+            <Route
+              path="/sensors"
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -948,6 +954,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                 />
               )}
             />
+            <Route
+              path="/sensors"
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -1057,6 +1068,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                   {...props}
                 />
               )}
+            />
+            <Route
+              path="/sensors"
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

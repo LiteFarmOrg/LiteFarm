@@ -25,6 +25,7 @@ import { Partner } from '../../Sensor/v2/Partners';
 import Button from '../../Form/Button';
 import ModalComponent from '../../Modals/ModalComponent/v2';
 import { AddonPartner } from '../../../types';
+import { createSensorsUrl } from '../../../util/siteMapConstants';
 
 type PureFarmAddonsProps = {
   hasActiveConnection: Record<AddonPartner, boolean>;
@@ -61,8 +62,7 @@ const PureFarmAddons = ({
 
       {hasActiveConnection.esci && (
         <div id="esci-addon" className={styles.addonCard}>
-          {/* {'TODO: LF-4696'} */}
-          <Link className={styles.internalLink} to="/TODO">
+          <Link className={styles.internalLink} to={createSensorsUrl(PARTNERS.ESCI.id)}>
             <ExternalLinkIcon />
             <span>{t('SENSOR.ESCI.SEE_ENSEMBLE_SENSOR_LIST')}</span>
           </Link>

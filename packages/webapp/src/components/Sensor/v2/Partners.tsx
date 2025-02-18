@@ -30,6 +30,7 @@ import {
 } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
 import styles from './styles.module.scss';
 import { AddonPartner } from '../../../types';
+import { createSensorsUrl } from '../../../util/siteMapConstants';
 
 type PartnersProps = {
   hasActiveConnection: Record<AddonPartner, boolean>;
@@ -89,8 +90,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
               <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
             </Link>
           </div>
-          {/* {'TODO: LF-4696'} */}
-          <Link className={styles.toSensorSetupButton} to="/TODO">
+          <Link className={styles.toSensorSetupButton} to={createSensorsUrl(PARTNERS.ESCI.id)}>
             <ExternalLinkIcon />
             <span>{t('SENSOR.ESCI.SEE_ENSEMBLE_SENSOR_LIST')}</span>
           </Link>

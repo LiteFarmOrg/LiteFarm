@@ -65,7 +65,7 @@ const formatSensorToSimpleTableFormat = (
 type SensorsMapKeys = SensorArray['id'] | typeof STANDALONE;
 type MappedSensors = { [key: SensorsMapKeys]: SensorInSimpleTableFormat[] };
 
-const formatSenorArrayToGroup = (
+const formatSensorArrayToGroup = (
   sensorArray: SensorArray,
   mappedSensors: MappedSensors,
   areaLocations: FarmAreaLocation[],
@@ -134,7 +134,7 @@ const formatSensors = (
     sensorSummary: getSummary(sensors, sensor_arrays),
     groupedSensors: [
       ...sensor_arrays.map((sensorArray) =>
-        formatSenorArrayToGroup(sensorArray, mappedSensors, farmAreas),
+        formatSensorArrayToGroup(sensorArray, mappedSensors, farmAreas),
       ),
       ...mappedSensors[STANDALONE].map((sensor) => formatSensorToGroup(sensor, farmAreas)),
     ],

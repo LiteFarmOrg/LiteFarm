@@ -14,13 +14,9 @@
  */
 
 import { ReactNode, useState } from 'react';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
-import TextButton from '../Form/Button/TextButton';
-import { IconLink, Main } from '../Typography';
-import Icon from '../Icons';
-import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
+import { InlineWarning as InlineRemoveWarning, RemoveLink } from './InlineRemove';
 import { ReactComponent as CircledCheckIcon } from '../../assets/images/check-circle.svg';
 import { ReactComponent as WarningIcon } from '../../assets/images/warning.svg';
 import styles from './styles.module.scss';
@@ -68,41 +64,10 @@ const MainContent = ({
 
     if (isExpanded && onRemove) {
       if (isRemoving) {
-        return (
-          <div className={clsx(styles.inlineRemoveWarning)}>
-            <div className={styles.inlineIconText}>
-              <Icon iconName={'TRASH'} className={styles.trashIcon} />
-              <Main className={styles.inlineRemoveText}>{t('ADD_ANIMAL.REMOVE_CONFIRM')}</Main>
-            </div>
-            <div className={styles.inlineButtonContainer}>
-              <TextButton
-                className={clsx(styles.inlineButton, styles.yesButton)}
-                onClick={onRemove}
-              >
-                {t('common:YES')}
-              </TextButton>
-              <TextButton
-                className={clsx(styles.inlineButton, styles.noButton)}
-                onClick={cancelRemoval}
-              >
-                {t('common:NO')}
-              </TextButton>
-            </div>
-          </div>
-        );
+        return <InlineRemoveWarning onRemove={onRemove} onCancel={cancelRemoval} />;
       }
 
-      return (
-        <IconLink
-          className={styles.removeLink}
-          onClick={initiateRemoval}
-          icon={<TrashIcon />}
-          isIconClickable
-          underlined={false}
-        >
-          {t('common:REMOVE')}
-        </IconLink>
-      );
+      return <RemoveLink onClick={initiateRemoval} />;
     }
 
     if (errorCount) {

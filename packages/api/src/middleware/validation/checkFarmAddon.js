@@ -37,7 +37,7 @@ export function checkFarmAddon() {
         .whereNotDeleted();
 
       if (existingAddon) {
-        return res.sendStatus(409);
+        return res.status(409).send('Only one farm addon per partner allowed');
       }
 
       const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);

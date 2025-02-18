@@ -257,6 +257,10 @@ export const api = createApi({
       }),
       invalidatesTags: ['FarmAddon'],
     }),
+    getFarmAddon: build.query<FarmAddon[], string | void>({
+      query: (param = '') => `${farmAddonUrl}${param}`,
+      providesTags: ['FarmAddon'],
+    }),
   }),
 });
 
@@ -290,4 +294,5 @@ export const {
   useGetSensorsQuery,
   useLazyGetSensorsQuery,
   useAddFarmAddonMutation,
+  useGetFarmAddonQuery,
 } = api;

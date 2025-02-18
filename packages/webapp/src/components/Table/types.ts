@@ -54,7 +54,7 @@ export type TableV1Props = {
 // Belongs in TableV2.jsx once converted to .ts
 export type TableV2Column = {
   id?: string | null;
-  format: (props: any) => ReactNode;
+  format?: (props: any) => ReactNode;
   align?: Alignment;
   Footer?: ReactElement;
   columnProps?: Object;
@@ -87,6 +87,8 @@ export type TableV2Props<RowData extends TableRowData> = {
   maxHeight?: number | string;
   spacerRowHeight?: number;
   headerClass?: ClassValue;
+  tbodyClass?: ClassValue;
+  tableContainerClass?: ClassValue;
   extraRowSpacing?: boolean;
   comparator?: DescendingComparator<string | number>;
 };

@@ -29,7 +29,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
-import { POST_SENSOR_URL } from '../util/siteMapConstants';
+import { ADD_SENSORS_URL } from '../util/siteMapConstants';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
@@ -543,7 +543,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route
-              path={POST_SENSOR_URL}
+              path={ADD_SENSORS_URL}
               exact
               render={(props) => (
                 <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
@@ -841,7 +841,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route
-              path={POST_SENSOR_URL}
+              path={ADD_SENSORS_URL}
               exact
               render={(props) => (
                 <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />

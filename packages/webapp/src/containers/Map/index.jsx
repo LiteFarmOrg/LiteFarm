@@ -61,7 +61,7 @@ import {
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
-import { POST_SENSOR_URL } from '../../util/siteMapConstants';
+import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
 
 export default function Map({ history, isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -355,7 +355,7 @@ export default function Map({ history, isCompactSideMenu }) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
-      history.push(POST_SENSOR_URL);
+      history.push(ADD_SENSORS_URL);
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));

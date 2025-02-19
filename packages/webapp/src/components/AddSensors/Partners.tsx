@@ -18,19 +18,15 @@ import { Link } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { validate as uuidValidate } from 'uuid';
-import Input, { getInputErrors } from '../../Form/Input';
-import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
-import { Main } from '../../Typography';
-import { PARTNERS } from '../../../containers/AddSensors/constants';
-import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
-import {
-  AddSensorsFormFields,
-  FarmAddonField,
-  PARTNER,
-} from '../../../containers/AddSensors/types';
+import Input, { getInputErrors } from '../Form/Input';
+import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
+import { Main } from '../Typography';
+import { PARTNERS } from '../../containers/AddSensors/constants';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
+import { AddSensorsFormFields, FarmAddonField, PARTNER } from '../../containers/AddSensors/types';
 import styles from './styles.module.scss';
-import { AddonPartner } from '../../../types';
-import { createSensorsUrl } from '../../../util/siteMapConstants';
+import { AddonPartner } from '../../types';
+import { createSensorsUrl } from '../../util/siteMapConstants';
 
 type PartnersProps = {
   hasActiveConnection: Record<AddonPartner, boolean>;

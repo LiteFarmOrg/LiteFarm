@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import PurePartners from '../../components/Sensor/v2/Partners';
+import PurePartners from '../../components/AddSensors/Partners';
 import { useGetFarmAddonQuery } from '../../store/api/apiSlice';
 import { PARTNERS } from './constants';
 

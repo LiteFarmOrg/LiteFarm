@@ -21,7 +21,7 @@ import { PARTNERS } from '../../../containers/AddSensors/constants';
 import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
 import { ReactComponent as BrokenLinkIcon } from '../../../assets/images/link-broken.svg';
 import styles from './styles.module.scss';
-import { Partner } from '../../Sensor/v2/Partners';
+import { Partner } from '../../AddSensors/Partners';
 import Button from '../../Form/Button';
 import ModalComponent from '../../Modals/ModalComponent/v2';
 import { AddonPartner } from '../../../types';

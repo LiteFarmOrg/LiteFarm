@@ -27,12 +27,12 @@ import { PARTNERS } from './constants';
 import { createSensorsUrl } from '../../../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
-interface PostSensorProps {
+interface AddSensorProps {
   history: History;
   isCompactSideMenu: boolean;
 }
 
-const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
+const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -96,4 +96,4 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   );
 };
 
-export default PostSensor;
+export default AddSensor;

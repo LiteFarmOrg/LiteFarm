@@ -19,7 +19,7 @@ import Table from '../../../Table';
 import Cell from '../../../Table/Cell';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Table/types';
-import { type SensorInSimpleTableFormat } from '../../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
+import { type SensorInSimpleTableFormat } from '../../../../containers/AddSensors/types';
 import styles from './styles.module.scss';
 
 const SUPPORTED_DEVICE_TYPES = [

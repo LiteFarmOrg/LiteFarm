@@ -135,9 +135,7 @@ const PostWatercourseForm = React.lazy(
   () => import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
-const PostSensorForm = React.lazy(
-  () => import('../containers/LocationDetails/PointDetails/SensorDetail/v2/PostSensor'),
-);
+const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
 const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
@@ -548,7 +546,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               path={POST_SENSOR_URL}
               exact
               render={(props) => (
-                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
@@ -846,7 +844,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               path={POST_SENSOR_URL}
               exact
               render={(props) => (
-                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />

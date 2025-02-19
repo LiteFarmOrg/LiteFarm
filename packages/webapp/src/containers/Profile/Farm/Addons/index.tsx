@@ -14,7 +14,7 @@
  */
 import PureFarmAddons from '../../../../components/Profile/Addons';
 import { useGetFarmAddonQuery } from '../../../../store/api/apiSlice';
-import { PARTNERS } from '../../../LocationDetails/PointDetails/SensorDetail/v2/constants';
+import { PARTNERS } from '../../../AddSensors/constants';
 
 const FarmAddons = () => {
   const { isSuccess: hasEsciConnection, data: esciDataArray } = useGetFarmAddonQuery(

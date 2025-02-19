@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import EsciLogo from '../../../../../assets/images/partners/esci_logo.png';
+import EsciLogo from '../../assets/images/partners/esci_logo.png';
 
 export const PARTNERS = {
   ESCI: {

@@ -24,7 +24,7 @@ import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { areaSelector } from '../locationSlice';
 import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUtils';
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
-import { SensorInSimpleTableFormat } from '../LocationDetails/PointDetails/SensorDetail/v2/types';
+import { SensorInSimpleTableFormat } from '../AddSensors/types';
 import { Location, System } from '../../types';
 import { SENSOR_ARRAY } from '../SensorReadings/constants';
 

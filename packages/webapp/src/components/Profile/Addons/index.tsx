@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../../Typography';
-import { PARTNERS } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/constants';
+import { PARTNERS } from '../../../containers/AddSensors/constants';
 import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
 import { ReactComponent as BrokenLinkIcon } from '../../../assets/images/link-broken.svg';
 import styles from './styles.module.scss';

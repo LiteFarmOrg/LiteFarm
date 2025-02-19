@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FarmAddon, Sensor } from '../../../../../store/api/types';
+import { FarmAddon, Sensor } from '../../store/api/types';
 
 export const PARTNER = 'partner';
 

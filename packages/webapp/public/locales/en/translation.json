@@ -1828,10 +1828,12 @@
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
+      "NAME": "Ensemble Scientific",
       "ORGANISATION_ID": "ESci organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
       "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESci. Please try again later.",
-      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list"
+      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list",
+      "SHORT_NAME": "ESci"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

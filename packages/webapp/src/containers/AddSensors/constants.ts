@@ -14,14 +14,15 @@
  */
 
 import EsciLogo from '../../assets/images/partners/esci_logo.png';
+import i18n from '../../locales/i18n';
 
 export const PARTNERS = {
   ESCI: {
     id: 1,
-    name: 'Ensemble Scientific',
+    name: i18n.t('SENSOR.ESCI.NAME'),
     url: 'www.esci.io',
     logoPath: EsciLogo,
-    shortName: 'ESci',
+    shortName: i18n.t('SENSOR.ESCI.SHORT_NAME'),
   },
 };
 

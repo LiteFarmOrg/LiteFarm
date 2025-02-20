@@ -17,7 +17,6 @@ import Model from './baseFormatModel.js';
 import AddonPartner from './addonPartnerModel.js';
 import Farm from './farmModel.js';
 import baseModel from './baseModel.js';
-import baseController from '../controllers/baseController.js';
 
 class FarmAddon extends baseModel {
   /**
@@ -101,31 +100,6 @@ class FarmAddon extends baseModel {
       .where('addon_partner_id', addonPartnerId)
       .whereNotDeleted()
       .first();
-  }
-
-  static async upsertFarmAddon({ req, org_pk }) {
-    const { farm_id } = req.headers;
-    const { addon_partner_id, org_uuid } = req.body;
-
-    // With unique composite index only one can exist
-    const existingAddon = await this.query()
-      .findOne({ farm_id, addon_partner_id })
-      .whereNotDeleted();
-
-    if (existingAddon) {
-      return baseController.patch(FarmAddon, existingAddon.id, { org_uuid, org_pk }, req);
-    } else {
-      return baseController.post(
-        FarmAddon,
-        {
-          farm_id,
-          addon_partner_id,
-          org_uuid,
-          org_pk,
-        },
-        req,
-      );
-    }
   }
 }
 

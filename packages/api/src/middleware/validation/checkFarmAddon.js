@@ -15,11 +15,13 @@
 
 import { validate } from 'uuid';
 import AddonPartnerModel from '../../models/addonPartnerModel.js';
+import FarmAddonModel from '../../models/farmAddonModel.js';
 import { ENSEMBLE_BRAND } from '../../util/ensemble.js';
 
 export function checkFarmAddon() {
   return async (req, res, next) => {
     try {
+      const { farm_id } = req.headers;
       const { addon_partner_id, org_uuid } = req.body;
 
       if (!org_uuid || !org_uuid.length) {
@@ -28,6 +30,14 @@ export function checkFarmAddon() {
 
       if (!validate(org_uuid)) {
         return res.status(400).send('org_uuid invalid');
+      }
+
+      const existingAddon = await FarmAddonModel.query()
+        .findOne({ farm_id, addon_partner_id })
+        .whereNotDeleted();
+
+      if (existingAddon) {
+        return res.status(409).send('Only one farm addon per partner allowed');
       }
 
       const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);

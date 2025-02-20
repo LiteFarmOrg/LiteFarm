@@ -15,11 +15,13 @@
 
 import FarmAddonModel from '../models/farmAddonModel.js';
 import { getValidEnsembleOrg } from '../util/ensemble.js';
+import baseController from './baseController.js';
 
 const farmAddonController = {
   addFarmAddon() {
     return async (req, res) => {
-      const { org_uuid } = req.body;
+      const { farm_id } = req.headers;
+      const { addon_partner_id, org_uuid } = req.body;
 
       try {
         const organisation = await getValidEnsembleOrg(org_uuid);
@@ -28,10 +30,16 @@ const farmAddonController = {
           return res.status(404).send('Organisation not found');
         }
 
-        await FarmAddonModel.upsertFarmAddon({
+        await baseController.post(
+          FarmAddonModel,
+          {
+            farm_id,
+            addon_partner_id,
+            org_uuid,
+            org_pk: organisation.pk,
+          },
           req,
-          org_pk: organisation.pk,
-        });
+        );
 
         return res.status(200).send();
       } catch (error) {
@@ -54,10 +62,24 @@ const farmAddonController = {
         if (!rows.length) {
           return res.sendStatus(404);
         }
-        const result = rows.map(({ addon_partner_id, org_uuid }) => {
-          return { addon_partner_id, org_uuid };
+        const result = rows.map(({ id, addon_partner_id, org_uuid }) => {
+          return { id, addon_partner_id, org_uuid };
         });
         return res.status(200).send(result);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+  deleteFarmAddon() {
+    return async (req, res) => {
+      try {
+        const { id } = req.params;
+        await baseController.delete(FarmAddonModel, id, req);
+        return res.sendStatus(200);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

@@ -261,6 +261,13 @@ export const api = createApi({
       query: (param = '') => `${farmAddonUrl}${param}`,
       providesTags: ['FarmAddon'],
     }),
+    deleteFarmAddon: build.mutation<FarmAddon[], number>({
+      query: (id) => ({
+        url: `${farmAddonUrl}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['FarmAddon', 'Sensors'],
+    }),
   }),
 });
 
@@ -295,4 +302,5 @@ export const {
   useLazyGetSensorsQuery,
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
+  useDeleteFarmAddonMutation,
 } = api;

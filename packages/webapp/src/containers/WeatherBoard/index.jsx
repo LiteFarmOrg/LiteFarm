@@ -1,29 +1,42 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureWeatherBoard from '../../components/WeatherBoard';
-import { useDispatch, useSelector } from 'react-redux';
-import { weatherSelector } from './weatherSlice';
-import { getWeather } from './saga';
+import { useSelector } from 'react-redux';
 import utils from './utils';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { userFarmSelector } from '../userFarmSlice';
+import { useGetWeatherQuery } from './weatherApi';
 
 export default function WeatherBoard() {
-  const { error, loaded, date, humidity, iconName, temperature, wind, measurement, city } =
-    useSelector(weatherSelector);
+  const two_hours = 2 * 60 * 60 * 1000;
+  const currentTime = new Date().getTime();
+  const {
+    units: { measurement },
+    language_preference: lang,
+    grid_points: { lat, lng: lon },
+  } = useSelector(userFarmSelector);
+  const {
+    data,
+    error,
+    isSuccess: loaded,
+    refetch,
+  } = useGetWeatherQuery({ units: measurement, lang, lat, lon });
   const language_preference = getLanguageFromLocalStorage();
-  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getWeather());
+    if (currentTime - data?.lastUpdated > two_hours) {
+      refetch();
+    }
   }, []);
   const { t } = useTranslation();
   const { tempUnit, speedUnit } = utils.getUnits(measurement);
   const formattedForecast = {
-    humidity: `${t('WEATHER.HUMIDITY')}: ${humidity}`,
-    iconName,
-    date: utils.formatDate(language_preference, date ? date * 1000 : new Date()),
-    temperature: `${temperature}${tempUnit}`,
-    wind: `${t('WEATHER.WIND')}: ${wind} ${speedUnit}`,
-    city,
+    humidity: `${t('WEATHER.HUMIDITY')}: ${data?.humidity}`,
+    iconName: data?.iconName,
+    date: utils.formatDate(language_preference, data?.date ? data?.date * 1000 : new Date()),
+    temperature: `${data?.temperature}${tempUnit}`,
+    wind: `${t('WEATHER.WIND')}: ${data?.wind} ${speedUnit}`,
+    city: data?.city,
   };
 
   return loaded && !error ? <PureWeatherBoard {...formattedForecast} /> : <span />;

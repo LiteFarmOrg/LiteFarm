@@ -166,3 +166,14 @@ export const uppercaseTheFirstLetter = (text) => {
 export const sumObjectValues = (obj) => {
   return Object.values(obj).reduce((total, current) => total + current, 0);
 };
+
+/**
+ * Converts a string to translation key format.
+ * Converts the string to uppercase and replaces all spaces with underscores.
+ *
+ * @param {string} text - The input string to be converted.
+ * @returns {string} The converted string in translation key format.
+ */
+export const toTranslationKey = (text) => {
+  return text.toUpperCase().replaceAll(' ', '_');
+};

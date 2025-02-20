@@ -35,19 +35,30 @@ import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/far
 import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location } from '../../../../types';
 import { Sensor } from '../../../../store/api/types';
+import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
 
-const kpiTranslationMappings: {
-  key: Sensor['name'] | typeof SENSOR_ARRAY;
-  translationKey: string;
-}[] = [
+const kpiSensorTypes: Sensor['name'][] = [
+  'Weather station',
+  'Soil Water Potential Sensor',
+  'IR Temperature Sensor',
+  'Wind speed sensor',
+  'Drip line pressure sensor',
+];
+
+const kpiTranslationMappings = [
   { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' },
-  { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
-  { key: 'IR Temperature Sensor', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
+  ...kpiSensorTypes.map((name) => ({
+    key: name,
+    translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(name)}`,
+  })),
 ];
 // t('SENSOR.SENSOR_ARRAYS')
-// t('SENSOR.READING.SOIL_WATER_POTENTIAL')
-// t('SENSOR.CANOPY_TEMPERATURE')
+// t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
+// t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
+// t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
+// t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
+// t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
   const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;

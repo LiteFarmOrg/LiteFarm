@@ -18,18 +18,15 @@ import { Link } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { validate as uuidValidate } from 'uuid';
-import Input, { getInputErrors } from '../../Form/Input';
-import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
-import { Main } from '../../Typography';
-import { PARTNERS } from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/constants';
-import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
-import {
-  AddSensorsFormFields,
-  FarmAddonField,
-  PARTNER,
-} from '../../../containers/LocationDetails/PointDetails/SensorDetail/v2/types';
+import Input, { getInputErrors } from '../Form/Input';
+import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
+import { Main } from '../Typography';
+import { PARTNERS } from '../../containers/AddSensors/constants';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
+import { AddSensorsFormFields, FarmAddonField, PARTNER } from '../../containers/AddSensors/types';
 import styles from './styles.module.scss';
-import { AddonPartner } from '../../../types';
+import { AddonPartner } from '../../types';
+import { createSensorsUrl } from '../../util/siteMapConstants';
 
 type PartnersProps = {
   hasActiveConnection: Record<AddonPartner, boolean>;
@@ -89,8 +86,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
               <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
             </Link>
           </div>
-          {/* {'TODO: LF-4696'} */}
-          <Link className={styles.toSensorSetupButton} to="/TODO">
+          <Link className={styles.toSensorSetupButton} to={createSensorsUrl(PARTNERS.ESCI.id)}>
             <ExternalLinkIcon />
             <span>{t('SENSOR.ESCI.SEE_ENSEMBLE_SENSOR_LIST')}</span>
           </Link>

@@ -17,22 +17,22 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { FieldValues } from 'react-hook-form';
 import { History } from 'history';
-import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
+import { ContextForm, Variant } from '../../components/Form/ContextForm';
 import Partners from './Partners';
-import PageTitle from '../../../../../components/PageTitle/v2';
-import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
-import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
+import PageTitle from '../../components/PageTitle/v2';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../store/api/apiSlice';
 import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
 import { PARTNERS } from './constants';
-import { createSensorsUrl } from '../../../../../util/siteMapConstants';
+import { createSensorsUrl } from '../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
-interface PostSensorProps {
+interface AddSensorProps {
   history: History;
   isCompactSideMenu: boolean;
 }
 
-const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
+const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -96,4 +96,4 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
   );
 };
 
-export default PostSensor;
+export default AddSensor;

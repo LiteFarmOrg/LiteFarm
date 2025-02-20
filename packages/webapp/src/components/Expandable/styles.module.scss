@@ -90,11 +90,7 @@
   justify-content: space-between;
   gap: 8px;
 
-  .errorCount,
-  .removeLink,
-  .inlineRemoveWarning,
-  .inlineButtonContainer,
-  .inlineIconText {
+  .errorCount {
     display: flex;
     align-items: center;
   }
@@ -122,36 +118,7 @@
     color: var(--Colors-Secondary-Secondary-green-600);
   }
 
-  // REMOVE
-  .removeLink {
-    align-self: center;
-    gap: 4px;
-    font-size: 14px;
-    color: var(--Colors-Neutral-Neutral-900);
-
-    @include xs-breakpoint {
-      flex-direction: column;
-      padding: 4px;
-
-      span {
-        padding-inline: 0px;
-      }
-    }
-  }
-
   .inlineRemoveWarning {
-    justify-content: space-between;
-    gap: 20px;
-
-    padding: 8px;
-    border-radius: 4px;
-    background: #fff3f2;
-
-    .trashIcon {
-      @include svgColorFill(var(--Colors-Accent---singles-Red-dark));
-      background-color: transparent;
-    }
-
     // On mobile the active remove warning covers the whole container AND the collapse icon
     @include xs-breakpoint {
       position: absolute;
@@ -159,14 +126,38 @@
       width: calc(100% + 56px);
     }
   }
+}
 
-  .inlineRemoveWarning,
+/*----------------------------------------
+  InlineRemove 
+----------------------------------------*/
+.inlineRemoveWarning {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 8px;
+  border-radius: 4px;
+  background: #fff3f2;
+
+  @include truncateText();
+
+  .trashIcon {
+    @include svgColorFill(var(--Colors-Accent---singles-Red-dark));
+    background-color: transparent;
+  }
+
+  .inlineIconText,
+  .inlineButtonContainer {
+    display: flex;
+    align-items: center;
+  }
+
   .inlineIconText,
   .inlineRemoveText {
     // Truncate remove confirmation
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    @include truncateText();
   }
 
   .inlineRemoveText {
@@ -197,5 +188,24 @@
   .noButton {
     background: #ffc1bf;
     color: var(--Colors-Accent---singles-Red-dark);
+  }
+}
+
+// REMOVE
+button.removeLink {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    padding: 4px;
+
+    span {
+      padding-inline: 0px;
+    }
   }
 }

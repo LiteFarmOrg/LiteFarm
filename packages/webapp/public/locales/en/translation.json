@@ -285,10 +285,10 @@
       "CANCEL": "Don't disconnect"
     },
     "ESCI": {
-      "MODAL_INFO": "You will not be able to access your ESCI sensors data until you reconnect",
-      "MODAL_TITLE": "Are you sure you want to disconnect your ESCI sensors?",
-      "DISCONNECT_ESCI": "Disconnect ESCI",
-      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESCI. You can still access your sensors and associated data on your ESCI dashboard."
+      "MODAL_INFO": "You will not be able to access your ESci sensors data until you reconnect",
+      "MODAL_TITLE": "Are you sure you want to disconnect your ESci sensors?",
+      "DISCONNECT_ESCI": "Disconnect ESci",
+      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESci. You can still access your sensors and associated data on your ESci dashboard."
     },
     "ORGANISATION_ID": "Organisation ID:"
   },
@@ -1829,15 +1829,17 @@
       "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
     "ESCI": {
-      "ACTIVE_CONNECTION": "You have an active ESCI connection",
-      "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESCI",
+      "ACTIVE_CONNECTION": "You have an active ESci connection",
+      "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESci",
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
-      "ORGANISATION_ID": "ESCI organisation ID",
+      "NAME": "Ensemble Scientific",
+      "ORGANISATION_ID": "ESci organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
-      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESCI. Please try again later.",
-      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list"
+      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESci. Please try again later.",
+      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list",
+      "SHORT_NAME": "ESci"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",

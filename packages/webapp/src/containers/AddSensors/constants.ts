@@ -13,21 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FarmAddon, Sensor } from '../../../../../store/api/types';
+import EsciLogo from '../../assets/images/partners/esci_logo.png';
+import i18n from '../../locales/i18n';
 
-export const PARTNER = 'partner';
-
-export const FarmAddonField = {
-  ORG_UUID: 'org_uuid',
-  PARTNER_ID: 'addon_partner_id',
-} as const;
-
-export type AddSensorsFormFields = {
-  [PARTNER]: FarmAddon;
+export const PARTNERS = {
+  ESCI: {
+    id: 1,
+    name: i18n.t('SENSOR.ESCI.NAME'),
+    url: 'www.esci.io',
+    logoPath: EsciLogo,
+    shortName: i18n.t('SENSOR.ESCI.SHORT_NAME'),
+  },
 };
 
-export type SensorInSimpleTableFormat = Sensor & {
-  id: Sensor['external_id'];
-  formattedDepth: string;
-  deviceTypeKey: string;
-};
+export const partnerIds = Object.values(PARTNERS).map(({ id }) => id);

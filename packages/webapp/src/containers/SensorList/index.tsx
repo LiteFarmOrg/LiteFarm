@@ -17,7 +17,7 @@ import { History } from 'history';
 import Loading from '../../components/Form/ContextForm/Loading';
 import PureEsciSensors from '../../components/Sensor/v2/EsciSensorList';
 import useGroupedSensors from './useGroupedSensors';
-import { partnerIds, PARTNERS } from '../LocationDetails/PointDetails/SensorDetail/v2/constants';
+import { partnerIds, PARTNERS } from '../AddSensors/constants';
 
 interface SensorListProps {
   isCompactSideMenu: boolean;

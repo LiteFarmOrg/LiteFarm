@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PureFarmAddons from '../../../../components/Profile/Addons';
-import { useGetFarmAddonQuery } from '../../../../store/api/apiSlice';
+import { useGetFarmAddonQuery, useDeleteFarmAddonMutation } from '../../../../store/api/apiSlice';
 import { PARTNERS } from '../../../AddSensors/constants';
 
 const FarmAddons = () => {
@@ -31,8 +31,12 @@ const FarmAddons = () => {
     esci: esciData?.org_uuid,
   };
 
+  const [deleteFarmAddon] = useDeleteFarmAddonMutation();
+
   const onDisconnect = {
-    esci: () => {}, // TODO: LF-4701
+    esci: () => {
+      deleteFarmAddon(esciData?.id);
+    },
   };
 
   const hasAnyActiveConnection = Object.values(hasActiveConnection).some(Boolean);

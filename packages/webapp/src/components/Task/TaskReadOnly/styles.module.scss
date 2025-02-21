@@ -32,30 +32,24 @@
 .rating {
   display: table-row;
 }
-
-.pageContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-  min-height: 20vh; //This value can be changed, and it will increase the size of the page, I am not sure if we need it or not. 
-  padding: 0 0 16px 0;
-}
 .footerContainer {
   display: flex;
-  justify-content: space-between;  
-  align-items: center;
-  width: 100%;
-  padding-top: 20px;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.deleteButtonWrapper {
+  align-self: flex-start; 
+  margin-bottom: 16px; 
+ 
 }
 .deleteText {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
-  font-size: 14px;
   color: var(--grey600);
-  margin-left: 0;
 }
+
 
 .trashIcon {
   fill: var(--grey600);
@@ -122,4 +116,14 @@
 
 .section {
   margin-bottom: 24px;
+}
+.buttonGroup {
+  display: flex;
+  gap: 16px; 
+  width: 100%;
+}
+.buttonGroup button {
+  flex: 1; 
+  min-height: 48px; 
+  min-width: 480px;
 }

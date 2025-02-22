@@ -35,6 +35,7 @@ import {
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING,
   getEnsembleSensors,
+  getEnsembleSensorReadings,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
@@ -119,6 +120,27 @@ const sensorController = {
         sensors,
         sensor_arrays,
       });
+    } catch (error) {
+      console.error(error);
+      return res.status(error.status || 400).json({
+        error: error.message || error,
+      });
+    }
+  },
+  async getSensorData(req, res) {
+    const { farm_id } = req.headers;
+    const { external_id } = req.params;
+    const { startUnixTime, endUnixTime } = req.query;
+
+    try {
+      const data = await getEnsembleSensorReadings(
+        farm_id,
+        external_id,
+        startUnixTime,
+        endUnixTime,
+      );
+
+      return res.status(200).send(data);
     } catch (error) {
       console.error(error);
       return res.status(error.status || 400).json({

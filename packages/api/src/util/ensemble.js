@@ -246,6 +246,68 @@ const enrichWithMockData = (
   return device;
 };
 
+/**
+ * Fetches Ensemble sensor readings for a given sensor
+ * @param {uuid} farm_id - The ID of the farm.
+ * @param {string} esid - The external sensor ID.
+ * @param {number} startUnixTime - The start time in Unix timestamp format.
+ * @param {number} endUnixTime - The end time in Unix timestamp format.
+ * @returns {Array} - An array of formatted sensor readings.
+ * @async
+ */
+const getEnsembleSensorReadings = async (farm_id, esid, startUnixTime, endUnixTime) => {
+  const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
+
+  if (!farmEnsembleAddon) {
+    return [];
+  }
+
+  const start_time = startUnixTime && new Date(startUnixTime * 1000).toISOString();
+  const end_time = endUnixTime && new Date(endUnixTime * 1000).toISOString();
+
+  const data = await getDeviceReadings({
+    organisation_pk: farmEnsembleAddon.org_pk,
+    esid,
+    start_time,
+    end_time,
+  });
+
+  const formattedData = formatSensorReadings(data);
+
+  return formattedData;
+};
+
+/**
+ * Formats the sensor data into the desired structure.
+ * @param {Object} data - The raw sensor data.
+ * @returns {Array} - An array of formatted sensor data.
+ */
+function formatSensorReadings(data) {
+  const formattedData = [];
+
+  for (const key in data) {
+    const deviceData = data[key].data;
+
+    deviceData.forEach((readingType) => {
+      const readings = readingType.values.map((value, index) => {
+        return {
+          dateTime: readingType.timestamps[index],
+          value,
+        };
+      });
+      formattedData.push({
+        reading_type: readingType.parameter_category,
+        unit: readingType.unit,
+        readings,
+      });
+    });
+  }
+
+  return formattedData;
+}
+
 const ENSEMBLE_BRAND = 'Ensemble Scientific';
 
 // Return Ensemble Scientific IDs (esids) from sensor data
@@ -376,6 +438,42 @@ async function getOrganisationDevices(organisation_pk) {
     };
     const onError = () => {
       const err = new Error('Unable to fetch ESCI devices');
+      err.status = 500;
+      throw err;
+    };
+
+    const response = await ensembleAPICall(axiosObject, onError);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+/**
+ * Fetches the sensor data for a given esid and (optionally) a given time range.
+ * @param {Object} params - The parameters for fetching the sensor data.
+ * @param {uuid} params.organisation_pk - The primary key of the organisation.
+ * @param {string} params.esid - The esid of the device.
+ * @param {string} [params.start_time] - The start date of the data in ISO 8601 format (2025-02-12T08:00:00.000Z).
+ * @param {string} [params.end_time] - The end date of the data in ISO 8601 format.
+ * @returns {Array} - An array of device objects.
+ * @throws {Error} - Throws an error if ESci API call fails.
+ * @async
+ */
+async function getDeviceReadings({ organisation_pk, esid, start_time, end_time }) {
+  try {
+    const params = new URLSearchParams({ sensor_esid: esid, validated: true });
+    if (start_time) params.append('start_time', start_time);
+    if (end_time) params.append('end_time', end_time);
+
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/organizations/${organisation_pk}/data/?${params.toString()}`,
+    };
+
+    const onError = () => {
+      const err = new Error('Unable to fetch ESci device data');
       err.status = 500;
       throw err;
     };
@@ -590,6 +688,7 @@ async function unclaimSensor(org_id, external_id) {
 export {
   ENSEMBLE_BRAND,
   getEnsembleSensors,
+  getEnsembleSensorReadings,
   getEnsembleOrganisations,
   getValidEnsembleOrg,
   getOrganisationDevices,

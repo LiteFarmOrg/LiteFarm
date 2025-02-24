@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
@@ -332,7 +332,7 @@ const LocationPicker = ({
   );
 };
 
-LocationPicker.prototype = {
+LocationPicker.propTypes = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationIds: PropTypes.arrayOf(PropTypes.string),

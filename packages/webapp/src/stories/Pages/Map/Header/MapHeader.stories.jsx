@@ -18,3 +18,24 @@ Primary.args = {
 Primary.parameters = {
   ...chromaticSmallScreen,
 };
+
+export const AdminMapHeader = Template.bind({});
+
+AdminMapHeader.args = {
+  farmName: 'Happy Valley',
+  isAdmin: true,
+  showVideo: () => {},
+};
+AdminMapHeader.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const MapHeaderWithClose = Template.bind({});
+
+MapHeaderWithClose.args = {
+  farmName: 'Happy Valley',
+  showClose: () => {},
+};
+MapHeaderWithClose.parameters = {
+  ...chromaticSmallScreen,
+};

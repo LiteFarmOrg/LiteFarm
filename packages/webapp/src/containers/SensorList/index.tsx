@@ -29,8 +29,7 @@ interface SensorListProps {
 const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
   const urlSearchParams = new URLSearchParams(history.location?.search);
   const partnerId = urlSearchParams.get('partner_id');
-  // @ts-expect-error - Selector return empty object without property
-  const { grid_points } = useSelector(userFarmSelector);
+  const userFarm = useSelector(userFarmSelector);
 
   // Filter sensors by partnerId once we support more than just Ensemble.
   const { isLoading, groupedSensors, sensorSummary } = useGroupedSensors();
@@ -51,7 +50,8 @@ const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
     <PureEsciSensors
       groupedSensors={groupedSensors}
       summary={sensorSummary}
-      farmCenterCoordinate={grid_points}
+      // @ts-expect-error - Selector return empty object without property
+      userFarm={userFarm}
     />
   );
 };

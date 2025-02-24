@@ -45,3 +45,10 @@ export enum AddonPartner {
 }
 
 export type System = 'metric' | 'imperial';
+
+export interface UserFarm {
+  grid_points: { lat: number; lng: number };
+  farm_name: string;
+
+  [key: string]: any;
+}

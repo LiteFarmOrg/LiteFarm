@@ -33,7 +33,7 @@ import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
 import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
-import { Location } from '../../../../types';
+import { Location, UserFarm } from '../../../../types';
 import { Sensor } from '../../../../store/api/types';
 import styles from './styles.module.scss';
 import LocationViewer from '../../../LocationPicker/LocationViewer';
@@ -92,10 +92,10 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
 type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
-  farmCenterCoordinate: { lat: number; lng: number };
+  userFarm: UserFarm;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, farmCenterCoordinate }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -109,14 +109,19 @@ const EsciSensorList = ({ groupedSensors, summary, farmCenterCoordinate }: EsciS
     setMapOpen(true);
   };
 
+  const handleClose = () => {
+    setMapOpen(false);
+  };
+
   return (
     <>
       {mapOpen ? (
         <LocationViewer
           locations={mapLocations}
-          farmCenterCoordinate={farmCenterCoordinate}
+          userFarm={userFarm}
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
+          handleClose={handleClose}
         />
       ) : (
         <div className={styles.wrapper}>

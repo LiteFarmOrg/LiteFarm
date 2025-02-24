@@ -18,6 +18,8 @@ import Loading from '../../components/Form/ContextForm/Loading';
 import PureEsciSensors from '../../components/Sensor/v2/EsciSensorList';
 import useGroupedSensors from './useGroupedSensors';
 import { partnerIds, PARTNERS } from '../AddSensors/constants';
+import { useSelector } from 'react-redux';
+import { userFarmSelector } from '../userFarmSlice';
 
 interface SensorListProps {
   isCompactSideMenu: boolean;
@@ -27,6 +29,8 @@ interface SensorListProps {
 const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
   const urlSearchParams = new URLSearchParams(history.location?.search);
   const partnerId = urlSearchParams.get('partner_id');
+  // @ts-expect-error - Selector return empty object without property
+  const { grid_points } = useSelector(userFarmSelector);
 
   // Filter sensors by partnerId once we support more than just Ensemble.
   const { isLoading, groupedSensors, sensorSummary } = useGroupedSensors();
@@ -43,7 +47,13 @@ const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
   }
 
   // Should return the appropriate component based on partnerId (currently only supports Ensemble)
-  return <PureEsciSensors groupedSensors={groupedSensors} summary={sensorSummary} />;
+  return (
+    <PureEsciSensors
+      groupedSensors={groupedSensors}
+      summary={sensorSummary}
+      farmCenterCoordinate={grid_points}
+    />
+  );
 };
 
 export default SensorList;

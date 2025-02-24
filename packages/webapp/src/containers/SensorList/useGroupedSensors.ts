@@ -38,6 +38,7 @@ export type GroupedSensors = {
   fields: Location['name'][];
   isSensorArray: boolean;
   sensors: SensorInSimpleTableFormat[];
+  location: Location;
 };
 
 type FarmAreaLocation = Location & AreaLocation;
@@ -75,6 +76,10 @@ const formatSensorArrayToGroup = (
     sensors: mappedSensors[sensorArray.id],
     isSensorArray: true,
     fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+    location: {
+      ...sensorArray,
+      type: 'sensor_array',
+    },
   };
 };
 
@@ -88,6 +93,10 @@ const formatSensorToGroup = (
     point: sensor.point,
     isSensorArray: false,
     fields: getAreaNamesForPoint(sensor.point, areaLocations),
+    location: {
+      ...sensor,
+      type: 'sensor',
+    },
   };
 };
 

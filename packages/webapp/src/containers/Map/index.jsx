@@ -434,16 +434,11 @@ export default function Map({ history, isCompactSideMenu }) {
   return (
     <>
       {!drawingState.type && !showSuccessHeader && (
-        <PureMapHeader
-          className={styles.mapHeader}
-          farmName={farm_name}
-          showVideo={handleShowVideo}
-          isAdmin={is_admin}
-        />
+        <PureMapHeader farmName={farm_name} showVideo={handleShowVideo} isAdmin={is_admin} />
       )}
       {showSuccessHeader && (
         <PureSnackbarWithoutBorder
-          className={styles.mapHeader}
+          className={styles.successSnackbar}
           onDismiss={handleCloseSuccessHeader}
           title={successMessage}
         />

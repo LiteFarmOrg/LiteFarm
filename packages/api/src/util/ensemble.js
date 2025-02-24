@@ -61,6 +61,14 @@ const ENSEMBLE_UNITS_MAPPING_WEBHOOK = {
   },
 };
 
+// Equivalency mapping between Ensemble and convert-units for the new sensor readings controller
+const ESCI_TO_CONVERT_UNITS_MAP = {
+  '°': 'deg',
+  '°C': 'C',
+  // No equivalent in convert-units for:
+  // 'W/m2' (Solar Radiation)
+};
+
 /**
  * Retrieves a valid Ensemble organisation by its UUID.
  * @param {uuid} org_uuid
@@ -299,7 +307,7 @@ function formatSensorReadings(data) {
       });
       formattedData.push({
         reading_type: readingType.parameter_category,
-        unit: readingType.unit,
+        unit: ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit,
         readings,
       });
     });

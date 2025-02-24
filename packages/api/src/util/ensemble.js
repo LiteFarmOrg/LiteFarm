@@ -45,8 +45,8 @@ if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
-//Known aliases for units from ensemble mapping to convert-units representation
-const ENSEMBLE_UNITS_MAPPING = {
+// Known aliases for units from ensemble mapping to convert-units representation as needed by the old sensor readings controller for incoming webhook data
+const ENSEMBLE_UNITS_MAPPING_WEBHOOK = {
   Celsius: {
     conversionKey: 'C',
     system: 'metric',
@@ -697,6 +697,6 @@ export {
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
-  ENSEMBLE_UNITS_MAPPING,
+  ENSEMBLE_UNITS_MAPPING_WEBHOOK,
   ENSEMBLE_READING_TYPES_MAPPING,
 };

@@ -33,7 +33,7 @@ import {
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
-  ENSEMBLE_UNITS_MAPPING,
+  ENSEMBLE_UNITS_MAPPING_WEBHOOK,
   getEnsembleSensors,
   getEnsembleSensorReadings,
 } from '../util/ensemble.js';
@@ -490,8 +490,8 @@ const sensorController = {
             continue;
           }
           // Reconcile incoming units with stored as units and conversion function keys
-          const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
-          const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
+          const system = ENSEMBLE_UNITS_MAPPING_WEBHOOK[sensorInfo.unit]?.system;
+          const unit = ENSEMBLE_UNITS_MAPPING_WEBHOOK[sensorInfo.unit]?.conversionKey;
           const readingTypeStoredAsUnit = databaseUnit[readingType] ?? undefined;
           const isStoredAsUnit = unit == readingTypeStoredAsUnit;
 

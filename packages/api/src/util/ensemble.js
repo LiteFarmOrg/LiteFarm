@@ -143,9 +143,7 @@ const mapDeviceToSensor = (device) => {
   return {
     name: device.name,
     external_id: device.esid,
-    sensor_reading_types: device.parameter_types.map(
-      (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
-    ),
+    sensor_reading_types: device.parameter_types.map((type) => toSnakeCase(type)),
     last_seen: device.last_seen,
     point: {
       lat: device.latest_position.coordinates.lat,
@@ -197,10 +195,14 @@ const calculateSensorArrayPoint = (sensors) => {
   };
 };
 
-// This is awaiting the list of all potential reading_types from Ensemble. Please match to the frontend apiSlice type once confirmed
-const ENSEMBLE_READING_TYPES_MAPPING = {
-  'Soil Water Potential': 'soil_water_potential',
-  Temperature: 'temperature',
+/**
+ * Converts the string to lowercase and replaces all spaces with underscores.
+ *
+ * @param {string} text - The input string to be converted.
+ * @returns {string} The converted string in translation key format.
+ */
+export const toSnakeCase = (text) => {
+  return text.toLowerCase().replaceAll(' ', '_');
 };
 
 // Add mock data to a incoming Ensemble device to emulate positions (based on farm center) and randomly assigned profiles. Only necessary until we are receiving real data for this
@@ -306,7 +308,7 @@ function formatSensorReadings(data) {
         };
       });
       formattedData.push({
-        reading_type: readingType.parameter_category,
+        reading_type: toSnakeCase(readingType.parameter_category),
         unit: ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit,
         readings,
       });
@@ -706,5 +708,4 @@ export {
   registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING_WEBHOOK,
-  ENSEMBLE_READING_TYPES_MAPPING,
 };

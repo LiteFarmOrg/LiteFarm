@@ -291,30 +291,65 @@ const getEnsembleSensorReadings = async (farm_id, esids, startUnixTime, endUnixT
 };
 
 /**
- * Formats the sensor data into the desired structure.
+ * Formats the incoming sensor data into the format needed by sensor charts
  * @param {Object} data - The raw sensor data.
  * @returns {Array} - An array of formatted sensor data.
+ *
+ * @example
+ * // Sample output:
+ * // [
+ * //   {
+ * //     reading_type: 'soil_water_potential',
+ * //     unit: 'kPa',
+ * //     readings: [
+ * //       { dateTime: 1713830400, 'BWKBAL': -12.05, 'LSZDWX': -186.59 },
+ * //       { dateTime: 1726358400, 'BWKBAL': 90.15, 'LSZDWX': -187.76 }
+ * //     ]
+ * //   },
+ * //   {
+ * //     reading_type: 'temperature',
+ * //     unit: 'C',
+ * //     readings: [
+ * //       { dateTime: 1713830400, 'BWKBAL': 10.3, 'LSZDWX': 8.5 },
+ * //       { dateTime: 1726358400, 'BWKBAL': -994.6, 'LSZDWX': 8.7 }
+ * //     ]
+ * //   }
+ * // ]
  */
 function formatSensorReadings(data) {
-  const formattedData = [];
+  const combinedReadings = {};
 
-  for (const key in data) {
-    const deviceData = data[key].data;
-
+  for (const deviceId in data) {
+    const deviceData = data[deviceId].data;
+    const deviceEsid = data[deviceId].device_esid;
     deviceData.forEach((readingType) => {
-      const readings = readingType.values.map((value, index) => {
-        return {
-          dateTime: readingType.timestamps[index],
-          value,
+      const readingTypeKey = toSnakeCase(readingType.parameter_category);
+      if (!combinedReadings[readingTypeKey]) {
+        combinedReadings[readingTypeKey] = {
+          unit: ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit,
+          readings: {},
         };
-      });
-      formattedData.push({
-        reading_type: toSnakeCase(readingType.parameter_category),
-        unit: ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit,
-        readings,
+      }
+      readingType.timestamps.forEach((timestamp, index) => {
+        if (!combinedReadings[readingTypeKey].readings[timestamp]) {
+          combinedReadings[readingTypeKey].readings[timestamp] = {};
+        }
+        combinedReadings[readingTypeKey].readings[timestamp][deviceEsid] =
+          readingType.values[index];
       });
     });
   }
+
+  const formattedData = Object.keys(combinedReadings).map((readingTypeKey) => ({
+    reading_type: readingTypeKey,
+    unit: combinedReadings[readingTypeKey].unit,
+    readings: Object.entries(combinedReadings[readingTypeKey].readings).map(
+      ([timestamp, values]) => ({
+        dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
+        ...values,
+      }),
+    ),
+  }));
 
   return formattedData;
 }

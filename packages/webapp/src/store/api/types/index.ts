@@ -307,11 +307,11 @@ type SensorReadingTypeUnits =
   | '%';
 
 export interface SensorDatapoint {
-  dateTime: string;
-  value: number;
+  dateTime: number; // Unix timestamp
+  [esid: string]: number;
 }
 
-export interface SingleSensorReadings {
+export interface SensorReadings {
   reading_type: SensorReadingTypes;
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];

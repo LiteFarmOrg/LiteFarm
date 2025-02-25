@@ -60,7 +60,7 @@ const farmAddonController = {
           .skipUndefined()
           .whereNotDeleted();
         if (!rows.length) {
-          return res.sendStatus(404);
+          return res.status(200).send([]);
         }
         const result = rows.map(({ id, addon_partner_id, org_uuid }) => {
           return { id, addon_partner_id, org_uuid };

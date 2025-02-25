@@ -21,12 +21,10 @@ const Partners = ({
 }: {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { isSuccess: hasEsciConnection } = useGetFarmAddonQuery(
-    `?addon_partner_id=${PARTNERS.ESCI.id}`,
-  );
+  const { data: esciData = [] } = useGetFarmAddonQuery(`?addon_partner_id=${PARTNERS.ESCI.id}`);
 
   const hasActiveConnection = {
-    esci: hasEsciConnection,
+    esci: esciData.length > 0,
   };
 
   const allConnectionsActive = Object.values(hasActiveConnection).every(Boolean);

@@ -20,15 +20,15 @@ import { useGetFarmAddonQuery, useDeleteFarmAddonMutation } from '../../../../st
 import { PARTNERS } from '../../../AddSensors/constants';
 
 const FarmAddons = () => {
-  const { isSuccess: hasEsciConnection, data: esciDataArray } = useGetFarmAddonQuery(
+  const { data: esciDataArray = [] } = useGetFarmAddonQuery(
     `?addon_partner_id=${PARTNERS.ESCI.id}`,
   );
 
   const hasActiveConnection = {
-    esci: hasEsciConnection,
+    esci: esciDataArray.length > 0,
   };
 
-  const [esciData] = esciDataArray || [];
+  const [esciData] = esciDataArray;
 
   const organizationIds = {
     esci: esciData?.org_uuid,

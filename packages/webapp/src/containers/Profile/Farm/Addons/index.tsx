@@ -12,6 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
 import PureFarmAddons from '../../../../components/Profile/Addons';
 import { useGetFarmAddonQuery, useDeleteFarmAddonMutation } from '../../../../store/api/apiSlice';
 import { PARTNERS } from '../../../AddSensors/constants';
@@ -33,10 +36,20 @@ const FarmAddons = () => {
 
   const [deleteFarmAddon] = useDeleteFarmAddonMutation();
 
+  const dispatch = useDispatch();
+  const { t } = useTranslation(['message']);
+
+  const handleDisconnect = async (addonId: number) => {
+    try {
+      await deleteFarmAddon(addonId).unwrap();
+      dispatch(enqueueSuccessSnackbar(t('FARM_ADDON.SUCCESS_DISCONNECT_ADDON')));
+    } catch (error) {
+      dispatch(enqueueErrorSnackbar(t('FARM_ADDON.FAILED_DISCONNECT_ADDON')));
+    }
+  };
+
   const onDisconnect = {
-    esci: () => {
-      deleteFarmAddon(esciData?.id);
-    },
+    esci: () => handleDisconnect(esciData?.id),
   };
 
   const hasAnyActiveConnection = Object.values(hasActiveConnection).some(Boolean);

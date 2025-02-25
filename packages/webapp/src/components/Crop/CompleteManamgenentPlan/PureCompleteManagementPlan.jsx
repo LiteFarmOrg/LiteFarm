@@ -48,7 +48,7 @@ export function PureCompleteManagementPlan({
   const DATE = isAbandonPage ? 'abandon_date' : 'complete_date';
 
   const RATING = 'rating';
-  const NOTES = 'complete_notes';
+  const NOTES = isAbandonPage ? 'abandon_notes' : 'complete_notes';
   const {
     register,
     handleSubmit,
@@ -180,7 +180,11 @@ export function PureCompleteManagementPlan({
       />
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('MANAGEMENT_PLAN.COMPLETION_NOTES')}
+        label={
+          isAbandonPage
+            ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_NOTES')
+            : t('MANAGEMENT_PLAN.COMPLETION_NOTES')
+        }
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.COMPLETE_PLAN.NOTES_CHAR_LIMIT') },
         })}

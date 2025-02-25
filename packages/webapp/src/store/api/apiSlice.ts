@@ -266,7 +266,7 @@ export const api = createApi({
         url: `${farmAddonUrl}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['FarmAddon', 'Sensors'],
+      invalidatesTags: (_result, error) => (error ? [] : ['FarmAddon', 'Sensors']),
     }),
   }),
 });

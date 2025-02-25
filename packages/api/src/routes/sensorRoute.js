@@ -41,7 +41,7 @@ router.post(
   validateRequest,
   SensorController.addReading,
 );
-router.get('/:external_id/readings', checkScope(['get:sensors']), SensorController.getSensorData);
+router.get('/readings', checkScope(['get:sensors']), SensorController.getSensorData);
 router.get('/:location_id/reading', SensorController.getAllReadingsByLocationId);
 router.get('/reading/farm/:farm_id', SensorController.getReadingsByFarmId);
 router.post('/reading/invalidate', SensorController.invalidateReadings);

@@ -259,13 +259,14 @@ const enrichWithMockData = (
 /**
  * Fetches Ensemble sensor readings for a given sensor
  * @param {uuid} farm_id - The ID of the farm.
- * @param {string} esid - The external sensor ID.
+ * @param {string} esids - The external sensor ID(s) as string of
+ * comma separated variables ('LSZDWX,BWKBAL')
  * @param {number} startUnixTime - The start time in Unix timestamp format.
  * @param {number} endUnixTime - The end time in Unix timestamp format.
  * @returns {Array} - An array of formatted sensor readings.
  * @async
  */
-const getEnsembleSensorReadings = async (farm_id, esid, startUnixTime, endUnixTime) => {
+const getEnsembleSensorReadings = async (farm_id, esids, startUnixTime, endUnixTime) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
@@ -279,7 +280,7 @@ const getEnsembleSensorReadings = async (farm_id, esid, startUnixTime, endUnixTi
 
   const data = await getDeviceReadings({
     organisation_pk: farmEnsembleAddon.org_pk,
-    esid,
+    esids,
     start_time,
     end_time,
   });
@@ -471,9 +472,9 @@ async function getOrganisationDevices(organisation_pk) {
  * @throws {Error} - Throws an error if ESci API call fails.
  * @async
  */
-async function getDeviceReadings({ organisation_pk, esid, start_time, end_time }) {
+async function getDeviceReadings({ organisation_pk, esids, start_time, end_time }) {
   try {
-    const params = new URLSearchParams({ sensor_esid: esid, validated: true });
+    const params = new URLSearchParams({ sensor_esid: esids, validated: true });
     if (start_time) params.append('start_time', start_time);
     if (end_time) params.append('end_time', end_time);
 

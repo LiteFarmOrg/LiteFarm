@@ -129,16 +129,10 @@ const sensorController = {
   },
   async getSensorData(req, res) {
     const { farm_id } = req.headers;
-    const { external_id } = req.params;
-    const { startUnixTime, endUnixTime } = req.query;
+    const { esids, startUnixTime, endUnixTime } = req.query;
 
     try {
-      const data = await getEnsembleSensorReadings(
-        farm_id,
-        external_id,
-        startUnixTime,
-        endUnixTime,
-      );
+      const data = await getEnsembleSensorReadings(farm_id, esids, startUnixTime, endUnixTime);
 
       return res.status(200).send(data);
     } catch (error) {

@@ -34,31 +34,8 @@ import { ReactComponent as SensorIcon } from '../../../../assets/images/map/sign
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
 import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location } from '../../../../types';
-import { Sensor } from '../../../../store/api/types';
 import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
-
-const kpiSensorTypes: Sensor['name'][] = [
-  'Weather station',
-  'Soil Water Potential Sensor',
-  'IR Temperature Sensor',
-  'Wind speed sensor',
-  'Drip line pressure sensor',
-];
-
-const kpiTranslationMappings = [
-  { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' },
-  ...kpiSensorTypes.map((name) => ({
-    key: name,
-    translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(name)}`,
-  })),
-];
-// t('SENSOR.SENSOR_ARRAYS')
-// t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-// t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
-// t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-// t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
-// t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
   const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
@@ -108,6 +85,26 @@ const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
+
+  const kpiTranslationMappings = Object.entries(summary).reduce<
+    OverviewStatsProps['translationMappings']
+  >((acc, [key, count]) => {
+    if (count) {
+      acc.push(
+        key === SENSOR_ARRAY
+          ? { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
+          : { key, translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(key)}` },
+        // t('SENSOR.SENSOR_ARRAYS')
+        // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
+        // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
+        // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
+        // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
+        // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
+      );
+    }
+
+    return acc;
+  }, []);
 
   return (
     <div className={styles.wrapper}>

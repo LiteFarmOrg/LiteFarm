@@ -35,9 +35,8 @@ const OverviewStats = ({
   return (
     <div className={clsx(styles.wrapper, isCompact ? styles.isCompact : '')}>
       {translationMappings.map(({ key, translationKey }) => {
-        if (!(key in stats)) return null;
         const label = t(translationKey);
-        const count = stats[key];
+        const count = key in stats ? stats[key] : 0;
 
         return (
           <div key={key} className={styles.tile}>

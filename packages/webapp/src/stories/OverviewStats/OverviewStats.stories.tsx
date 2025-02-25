@@ -80,7 +80,6 @@ export const WithFormatFunction: Story = {
 
 const stats2 = {
   ...stats,
-  Temperature2: 2,
 };
 
 const translationMappings2 = [

@@ -261,7 +261,7 @@ export const api = createApi({
       query: (param = '') => `${farmAddonUrl}${param}`,
       providesTags: ['FarmAddon'],
     }),
-    deleteFarmAddon: build.mutation<FarmAddon[], number>({
+    deleteFarmAddon: build.mutation<void, number>({
       query: (id) => ({
         url: `${farmAddonUrl}/${id}`,
         method: 'DELETE',

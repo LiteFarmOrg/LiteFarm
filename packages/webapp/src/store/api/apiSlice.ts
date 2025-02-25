@@ -57,6 +57,7 @@ import type {
   AnimalMovementPurpose,
   SensorData,
   FarmAddon,
+  SensorReadings,
 } from './types';
 
 export const api = createApi({
@@ -93,6 +94,7 @@ export const api = createApi({
     'SoilAmendmentFertiliserTypes',
     'SoilAmendmentProduct',
     'Sensors',
+    'SensorReadings',
     'FarmAddon',
   ],
   endpoints: (build) => ({
@@ -249,6 +251,20 @@ export const api = createApi({
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['Sensors'],
     }),
+    getSensorReadings: build.query<
+      SensorReadings,
+      // esids as comma separated values e.g. 'LSZDWX,WV2JHV'
+      { esids: string; startUnixTime?: number; endUnixTime?: number }
+    >({
+      query: ({ esids, startUnixTime, endUnixTime }) => {
+        const params = new URLSearchParams({ esids });
+        if (startUnixTime) params.append('startUnixTime', `${startUnixTime}`);
+        if (endUnixTime) params.append('endUnixTime', `${endUnixTime}`);
+        return `${sensorUrl}/readings?${params.toString()}`;
+      },
+      keepUnusedDataFor: 1, // 1 second; temporary for testing
+      providesTags: ['SensorReadings'],
+    }),
     addFarmAddon: build.mutation<void, FarmAddon>({
       query: (body) => ({
         url: `${farmAddonUrl}`,
@@ -292,6 +308,7 @@ export const {
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
   useGetSensorsQuery,
+  useGetSensorReadingsQuery,
   useLazyGetSensorsQuery,
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,

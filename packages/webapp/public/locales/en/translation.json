@@ -281,14 +281,14 @@
   },
   "ADDON": {
     "DISCONNECT_MODAL": {
-      "CONFIRM": "Disconnect",
-      "CANCEL": "Don't disconnect"
+      "CANCEL": "Don't disconnect",
+      "CONFIRM": "Disconnect"
     },
     "ESCI": {
-      "MODAL_INFO": "You will not be able to access your ESci sensors data until you reconnect",
-      "MODAL_TITLE": "Are you sure you want to disconnect your ESci sensors?",
       "DISCONNECT_ESCI": "Disconnect ESci",
-      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESci. You can still access your sensors and associated data on your ESci dashboard."
+      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESci. You can still access your sensors and associated data on your ESci dashboard.",
+      "MODAL_INFO": "You will not be able to access your ESci sensors data until you reconnect",
+      "MODAL_TITLE": "Are you sure you want to disconnect your ESci sensors?"
     },
     "ORGANISATION_ID": "Organisation ID:"
   },
@@ -1575,8 +1575,8 @@
       "USER_ADDRESS_LENGTH": "User address cannot exceed 255 characters"
     },
     "FARM": {
-      "ADDRESS": "Address",
       "ADDONS": "Add-ons",
+      "ADDRESS": "Address",
       "CHANGE_IMAGE": "Change Image",
       "CLICK_TO_UPLOAD": "Click to upload",
       "CURRENCY": "Currency",
@@ -1810,8 +1810,8 @@
       "BRAND": "Brand",
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",
-      "DEVICE_TYPE": "Device type",
       "DETECTED_FIELD": "We detected the field location to be:",
+      "DEVICE_TYPE": "Device type",
       "EDIT": "Edit",
       "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "EXTERNAL_IDENTIFIER": "External Identifier",

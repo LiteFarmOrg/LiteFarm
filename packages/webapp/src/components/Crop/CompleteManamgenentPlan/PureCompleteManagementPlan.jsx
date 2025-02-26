@@ -48,7 +48,7 @@ export function PureCompleteManagementPlan({
   const DATE = isAbandonPage ? 'abandon_date' : 'complete_date';
 
   const RATING = 'rating';
-  const NOTES = isAbandonPage ? 'abandon_notes' : 'complete_notes';
+  const NOTES = 'complete_notes';
   const {
     register,
     handleSubmit,

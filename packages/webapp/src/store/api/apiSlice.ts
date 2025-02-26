@@ -253,13 +253,18 @@ export const api = createApi({
     }),
     getSensorReadings: build.query<
       SensorReadings,
-      // esids as comma separated values e.g. 'LSZDWX,WV2JHV'
-      { esids: string; startUnixTime?: number; endUnixTime?: number }
+      {
+        esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+        startUnixTime?: number;
+        endUnixTime?: number;
+        truncPeriod?: 'minute' | 'hour' | 'day';
+      }
     >({
-      query: ({ esids, startUnixTime, endUnixTime }) => {
+      query: ({ esids, startUnixTime, endUnixTime, truncPeriod }) => {
         const params = new URLSearchParams({ esids });
         if (startUnixTime) params.append('startUnixTime', `${startUnixTime}`);
         if (endUnixTime) params.append('endUnixTime', `${endUnixTime}`);
+        if (truncPeriod) params.append('truncPeriod', `${truncPeriod}`);
         return `${sensorUrl}/readings?${params.toString()}`;
       },
       keepUnusedDataFor: 1, // 1 second; temporary for testing

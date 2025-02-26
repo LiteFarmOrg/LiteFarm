@@ -266,7 +266,13 @@ const enrichWithMockData = (
  * @returns {Array} - An array of formatted sensor readings.
  * @async
  */
-const getEnsembleSensorReadings = async (farm_id, esids, startUnixTime, endUnixTime) => {
+const getEnsembleSensorReadings = async (
+  farm_id,
+  esids,
+  startUnixTime,
+  endUnixTime,
+  truncPeriod,
+) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
@@ -283,6 +289,7 @@ const getEnsembleSensorReadings = async (farm_id, esids, startUnixTime, endUnixT
     esids,
     start_time,
     end_time,
+    trunc_period: truncPeriod,
   });
 
   const formattedData = formatSensorReadings(data);
@@ -503,13 +510,20 @@ async function getOrganisationDevices(organisation_pk) {
  * @param {string} params.esid - The esid of the device.
  * @param {string} [params.start_time] - The start date of the data in ISO 8601 format (2025-02-12T08:00:00.000Z).
  * @param {string} [params.end_time] - The end date of the data in ISO 8601 format.
+ * @param {string} [params.trunc_period] - Sampling interval for returned data. Allowed values are 'second', 'minute', 'hour', 'day'. Default is 'hour'.
  * @returns {Array} - An array of device objects.
  * @throws {Error} - Throws an error if ESci API call fails.
  * @async
  */
-async function getDeviceReadings({ organisation_pk, esids, start_time, end_time }) {
+async function getDeviceReadings({
+  organisation_pk,
+  esids,
+  start_time,
+  end_time,
+  trunc_period = 'hour',
+}) {
   try {
-    const params = new URLSearchParams({ sensor_esid: esids, validated: true });
+    const params = new URLSearchParams({ sensor_esid: esids, validated: true, trunc_period });
     if (start_time) params.append('start_time', start_time);
     if (end_time) params.append('end_time', end_time);
 

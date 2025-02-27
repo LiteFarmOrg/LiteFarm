@@ -31,29 +31,18 @@
 
 .rating {
   display: table-row;
-}
-.footerContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-}
 
-.deleteButtonWrapper {
-  align-self: flex-start; 
-  margin-bottom: 16px; 
- 
 }
 .deleteText {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   color: var(--grey600);
-}
-
-
-.trashIcon {
-  fill: var(--grey600);
-  stroke: var(--grey600);
+  padding-bottom: 16px;
+  gap: 5px;
+  span {
+    text-decoration: none;
+  }
 }
 
 .deleteBox {
@@ -117,13 +106,22 @@
 .section {
   margin-bottom: 24px;
 }
+.footerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 .buttonGroup {
   display: flex;
-  gap: 16px; 
+  gap: 16px;
   width: 100%;
 }
 .buttonGroup button {
-  flex: 1; 
-  min-height: 48px; 
-  min-width: 480px;
+  flex: 1;
+}
+
+.trashIcon {
+  fill: var(--grey600);
+  stroke: var(--grey600);
 }

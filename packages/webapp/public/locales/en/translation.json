@@ -1802,7 +1802,6 @@
   "SENSOR": {
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
-    "CANOPY_TEMPERATURE": "Canopy temperature",
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
@@ -1823,8 +1822,8 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
-      "IR_TEMPERATURE_SENSOR": "IR Temperature Sensor",
-      "SOIL_WATER_POTENTIAL_SENSOR": "Soil Water Potential Sensor",
+      "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
+      "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
       "WEATHER_STATION": "Weather station",
       "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
@@ -1899,7 +1898,7 @@
       "TITLE": "Soil water potential",
       "Y_AXIS_LABEL": "in {{units}}"
     },
-    "STANDALONE_SENSOR": "Standalone Sensor",
+    "STANDALONE_SENSOR": "Standalone sensor",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "C": "Celsius (°C)",

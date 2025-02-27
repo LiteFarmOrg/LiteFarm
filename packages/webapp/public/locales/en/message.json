@@ -86,6 +86,10 @@
       "UPDATE": "Successfully updated farm info!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Failed to disconnect addon",
+    "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Something went wrong while submitting your feedback. Please try again."

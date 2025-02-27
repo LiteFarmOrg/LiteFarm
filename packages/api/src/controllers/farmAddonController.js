@@ -79,7 +79,7 @@ const farmAddonController = {
       try {
         const { id } = req.params;
         await baseController.delete(FarmAddonModel, id, req);
-        return res.sendStatus(200);
+        return res.sendStatus(204);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

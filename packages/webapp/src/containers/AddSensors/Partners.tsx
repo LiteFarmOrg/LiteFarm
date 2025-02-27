@@ -36,7 +36,7 @@ const Partners = ({
 
   useEffect(() => {
     !isLoading && setIsEditing(allConnectionsActive ? false : true);
-  }, [allConnectionsActive]);
+  }, [allConnectionsActive, isLoading]);
 
   return !isLoading && <PurePartners hasActiveConnection={hasActiveConnection} />;
 };

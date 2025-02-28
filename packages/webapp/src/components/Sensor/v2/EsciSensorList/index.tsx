@@ -143,7 +143,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
             isCompact={isCompact}
           />
           <div className={styles.sensorGroups}>
-            {groupedSensors.map(({ id, isSensorArray, sensors, fields, location }) => {
+            {groupedSensors.map(({ id, point, isSensorArray, sensors, fields }) => {
               const isExpanded = expandedIds.includes(id);
 
               return (
@@ -180,7 +180,15 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                         <DetectedFields t={t} fields={fields} />
                         <TextButton
                           className={styles.seeOnMapButton}
-                          onClick={() => handleSeeOnMap(location)}
+                          onClick={() =>
+                            handleSeeOnMap({
+                              id,
+                              name: id,
+                              location_id: id,
+                              point,
+                              type: isSensorArray ? 'sensor_array' : 'sensor',
+                            })
+                          }
                         >
                           <VscLocation size={24} className={styles.mapPinIcon} />
                           {t('common:SEE_ON_MAP')}

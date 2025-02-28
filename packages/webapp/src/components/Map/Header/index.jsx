@@ -15,7 +15,9 @@ export default function PureMapHeader({ farmName, handleVideoClick, handleClose,
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      {isAdmin && handleVideoClick && <Icon iconName="VIDEO_LOGO" onClick={handleVideoClick} />}
+      {isAdmin && handleVideoClick && (
+        <Icon iconName="VIDEO_LOGO" onClick={handleVideoClick} className={styles.pointer} />
+      )}
       {handleClose && <Cross className={styles.cross} onClick={handleClose} />}
     </div>
   );

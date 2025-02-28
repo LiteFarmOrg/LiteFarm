@@ -37,7 +37,6 @@ const LocationViewer = ({
   const { grid_points, farm_name } = userFarm;
   return (
     <>
-      {/* @ts-expect-error */}
       <PureMapHeader farmName={farm_name} handleClose={handleClose} />
       {/* @ts-expect-error */}
       <LocationPicker

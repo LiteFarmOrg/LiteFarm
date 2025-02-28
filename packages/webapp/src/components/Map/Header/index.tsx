@@ -3,7 +3,27 @@ import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Icon, { Cross } from '../../Icons';
 
-export default function PureMapHeader({ farmName, handleVideoClick, handleClose, isAdmin }) {
+type MapHeaderProps = {
+  farmName: string;
+  isAdmin?: boolean;
+};
+
+interface MapHeaderMain extends MapHeaderProps {
+  handleVideoClick: () => void;
+  handleClose?: never;
+}
+
+interface MapHeaderViewer extends MapHeaderProps {
+  handleVideoClick?: never;
+  handleClose: () => void;
+}
+
+export default function PureMapHeader({
+  farmName,
+  isAdmin,
+  handleVideoClick,
+  handleClose,
+}: MapHeaderMain | MapHeaderViewer) {
   const { t } = useTranslation();
 
   return (
@@ -22,10 +42,3 @@ export default function PureMapHeader({ farmName, handleVideoClick, handleClose,
     </div>
   );
 }
-
-PureMapHeader.propTypes = {
-  style: PropTypes.object,
-  farmName: PropTypes.string,
-  handleVideoClick: PropTypes.func,
-  handleClose: PropTypes.func,
-};

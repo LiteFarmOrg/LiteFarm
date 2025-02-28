@@ -18,6 +18,12 @@
   min-height: 152px;
   flex-grow: 1;
   display: flex;
+
+  // mobile (drawer)
+  @include xs-breakpoint {
+    // Menu svg 24px + 16px to and bottom margin
+    padding-bottom: 56px;
+  }
 }
 
 .selectionModal {

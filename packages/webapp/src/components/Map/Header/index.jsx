@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import VideoLogo from '../../../assets/images/map/video.svg';
-import { Cross } from '../../Icons';
+import Icon, { Cross } from '../../Icons';
 
-export default function PureMapHeader({ farmName, showVideo, showClose, isAdmin }) {
+export default function PureMapHeader({ farmName, handleVideoClick, handleClose, isAdmin }) {
   const { t } = useTranslation();
 
   return (
@@ -16,10 +15,8 @@ export default function PureMapHeader({ farmName, showVideo, showClose, isAdmin 
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      {isAdmin && showVideo && (
-        <input type="image" src={VideoLogo} className={styles.button} onClick={showVideo} />
-      )}
-      {showClose && <Cross className={styles.cross} onClick={showClose} />}
+      {isAdmin && handleVideoClick && <Icon iconName="VIDEO_LOGO" onClick={handleVideoClick} />}
+      {handleClose && <Cross className={styles.cross} onClick={handleClose} />}
     </div>
   );
 }
@@ -27,6 +24,6 @@ export default function PureMapHeader({ farmName, showVideo, showClose, isAdmin 
 PureMapHeader.propTypes = {
   style: PropTypes.object,
   farmName: PropTypes.string,
-  showVideo: PropTypes.func,
-  showClose: PropTypes.func,
+  handleVideoClick: PropTypes.func,
+  handleClose: PropTypes.func,
 };

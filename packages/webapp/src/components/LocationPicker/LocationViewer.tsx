@@ -38,7 +38,7 @@ const LocationViewer = ({
   return (
     <>
       {/* @ts-expect-error */}
-      <PureMapHeader farmName={farm_name} showClose={handleClose} />
+      <PureMapHeader farmName={farm_name} handleClose={handleClose} />
       {/* @ts-expect-error */}
       <LocationPicker
         onSelectLocation={() => {

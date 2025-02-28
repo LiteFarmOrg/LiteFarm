@@ -366,7 +366,7 @@ export default function Map({ history, isCompactSideMenu }) {
 
   const mapWrapperRef = useRef();
 
-  const handleShowVideo = () => {
+  const handleVideoClick = () => {
     history.push('/map/videos');
   };
 
@@ -434,7 +434,11 @@ export default function Map({ history, isCompactSideMenu }) {
   return (
     <>
       {!drawingState.type && !showSuccessHeader && (
-        <PureMapHeader farmName={farm_name} showVideo={handleShowVideo} isAdmin={is_admin} />
+        <PureMapHeader
+          farmName={farm_name}
+          handleVideoClick={handleVideoClick}
+          isAdmin={is_admin}
+        />
       )}
       {showSuccessHeader && (
         <PureSnackbarWithoutBorder

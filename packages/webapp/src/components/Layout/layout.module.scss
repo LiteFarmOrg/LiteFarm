@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+ @import '@assets/mixin.scss';
 
 .container {
   width: 100%;
@@ -53,4 +54,22 @@
 
 .marginBottom {
   margin-bottom: 104px;
+}
+
+.bento {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  & > div {
+    flex: 1 1 calc((100% - 8px * 2) / 3);
+  }
+
+  @include md-breakpoint {
+    flex-direction: column;
+
+    & > div {
+      flex: unset;
+    }
+  }
 }

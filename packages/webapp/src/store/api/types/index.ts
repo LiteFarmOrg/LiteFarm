@@ -272,6 +272,7 @@ export interface SensorData {
 }
 
 export interface FarmAddon {
+  id: number;
   addon_partner_id: number;
   org_uuid: string;
 }

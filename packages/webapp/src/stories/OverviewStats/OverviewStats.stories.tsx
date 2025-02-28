@@ -40,7 +40,7 @@ const stats = {
 const translationMappings = [
   { key: 'SENSOR_ARRAY', translationKey: 'SENSOR.SENSOR_ARRAYS' },
   { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
-  { key: 'Temperature', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
+  { key: 'Temperature', translationKey: 'SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR' },
 ];
 
 export const LargeScreen: Story = {
@@ -80,13 +80,12 @@ export const WithFormatFunction: Story = {
 
 const stats2 = {
   ...stats,
-  Temperature2: 2,
 };
 
 const translationMappings2 = [
   { key: 'SENSOR_ARRAY', translationKey: 'SENSOR.SENSOR_ARRAYS' },
   { key: 'Soil Water Potential Sensor', translationKey: 'SENSOR.READING.SOIL_WATER_POTENTIAL' },
-  { key: 'Temperature', translationKey: 'SENSOR.CANOPY_TEMPERATURE' },
+  { key: 'Temperature', translationKey: 'SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR' },
   { key: 'Temperature2', translationKey: 'SENSOR.READING.TEMPERATURE' },
 ];
 

@@ -33,7 +33,8 @@ const LocationViewer = ({
           //  TODO: fix onSelectLocationRef in LocationPicker
         }}
         locations={locations}
-        selectedLocationIds={[]}
+        // Choose the active state as the way to view-only locations
+        selectedLocationIds={locations.map((l) => l.id)}
         farmCenterCoordinate={grid_points}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}

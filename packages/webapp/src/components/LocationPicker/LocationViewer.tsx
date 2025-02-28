@@ -1,7 +1,8 @@
-import { CSSProperties, MutableRefObject } from 'react';
+import { MutableRefObject } from 'react';
 import { Location, UserFarm } from '../../types';
 import PureMapHeader from '../Map/Header';
 import LocationPicker from './SingleLocationPicker';
+import styles from './styles.module.scss';
 
 type LocationViewerProps = {
   locations: Location[];
@@ -36,6 +37,7 @@ const LocationViewer = ({
         farmCenterCoordinate={grid_points}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
+        className={styles.removeBottomMargin}
         // Unused to quiet typescript
         style={undefined}
         maxZoom={undefined}

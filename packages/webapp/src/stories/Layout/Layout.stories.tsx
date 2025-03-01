@@ -29,7 +29,7 @@ const Template = (args: BentoLayoutProps) => {
 };
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof BentoLayout> = {
+const meta: Meta<typeof Template> = {
   title: 'Components/Layout/BentoLayout',
   component: Template,
   decorators: [...componentDecorators],

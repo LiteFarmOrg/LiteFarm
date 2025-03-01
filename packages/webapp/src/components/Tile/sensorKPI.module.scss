@@ -1,0 +1,51 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.sensorReadingKpi {
+  border-radius: 4px;
+  height: 59px;
+  background: var(--Colors-Accent---singles-Blue-full);
+  display: flex;
+}
+
+.opaqueLayer {
+  background: white;
+  opacity: 0.9;
+  color: var(--Colors-Accent---singles-Blue-full);
+  display: flex;
+  padding: 8px 12px;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  @include fontFamily();
+}
+
+.measureText {
+  align-self: stretch;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.valueText {
+  align-self: stretch;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 100% */
+}

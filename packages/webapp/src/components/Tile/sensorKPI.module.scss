@@ -49,3 +49,50 @@
   font-weight: 700;
   line-height: 24px; /* 100% */
 }
+
+.sensorKpi {
+  border-radius: 4px;
+  background: var(--Colors-Accent---singles-Blue-full);
+  display: flex;
+  gap: 8px;
+}
+
+.gap8px {
+  gap: 8px;
+}
+
+.measurement {
+  display: block;
+}
+
+.topDetails {
+  display: flex;
+  gap: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.sensor {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
+}
+
+.discriminator {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
+}
+
+.icon {
+  padding: 0px;
+}
+
+.discriminatorText {
+  position: relative;
+  left: -16px;
+}

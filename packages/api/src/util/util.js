@@ -78,3 +78,13 @@ export const upperCaseTrim = (a) => {
 export const compareUpperCaseTrim = (a, b) => {
   return upperCaseTrim(a) === upperCaseTrim(b);
 };
+
+/**
+ * Converts the string to lowercase and replaces all spaces with underscores.
+ *
+ * @param {string} text - The input string to be converted.
+ * @returns {string} The converted string in translation key format.
+ */
+export const toSnakeCase = (text) => {
+  return text.toLowerCase().replaceAll(' ', '_');
+};

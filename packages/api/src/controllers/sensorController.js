@@ -127,12 +127,18 @@ const sensorController = {
       });
     }
   },
-  async getSensorData(req, res) {
+  async getSensorReadings(req, res) {
     const { farm_id } = req.headers;
     const { esids, startTime, endTime, truncPeriod } = req.query;
 
     try {
-      const data = await getEnsembleSensorReadings(farm_id, esids, startTime, endTime, truncPeriod);
+      const data = await getEnsembleSensorReadings({
+        farm_id,
+        esids,
+        startTime,
+        endTime,
+        truncPeriod,
+      });
 
       return res.status(200).send(data);
     } catch (error) {

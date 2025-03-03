@@ -27,6 +27,7 @@ import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
+import { toSnakeCase } from './util.js';
 const { ensembleAPI } = endPoints;
 
 let baseUrl;
@@ -195,16 +196,6 @@ const calculateSensorArrayPoint = (sensors) => {
   };
 };
 
-/**
- * Converts the string to lowercase and replaces all spaces with underscores.
- *
- * @param {string} text - The input string to be converted.
- * @returns {string} The converted string in translation key format.
- */
-export const toSnakeCase = (text) => {
-  return text.toLowerCase().replaceAll(' ', '_');
-};
-
 // Add mock data to a incoming Ensemble device to emulate positions (based on farm center) and randomly assigned profiles. Only necessary until we are receiving real data for this
 const enrichWithMockData = (
   device,
@@ -257,15 +248,17 @@ const enrichWithMockData = (
 };
 
 /**
- * Fetches Ensemble sensor readings for a given sensor
- * @param {uuid} farm_id - The ID of the farm.
- * @param {string} esids - The external sensor ID(s) as string of comma separated variables ('LSZDWX,BWKBAL')
- * @param {number} startTime - The start time in ISO 8601 format.
- * @param {number} endTime - The end time in ISO 8601 format.
+ * Fetches Ensemble sensor readings for the given sensor(s)
+ * @param {Object} params - The parameters for fetching the sensor readings.
+ * @param {uuid} params.farm_id - The ID of the farm.
+ * @param {string} params.esids - The external sensor ID(s) as string of comma separated variables ('LSZDWX,BWKBAL')
+ * @param {string} [params.startTime] - The start time in ISO 8601 format.
+ * @param {string} [params.endTime] - The end time in ISO 8601 format.
+ * @param {string} [params.truncPeriod] - The truncation period for the readings.
  * @returns {Array} - An array of formatted sensor readings.
  * @async
  */
-const getEnsembleSensorReadings = async (farm_id, esids, startTime, endTime, truncPeriod) => {
+const getEnsembleSensorReadings = async ({ farm_id, esids, startTime, endTime, truncPeriod }) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
@@ -274,12 +267,12 @@ const getEnsembleSensorReadings = async (farm_id, esids, startTime, endTime, tru
     return [];
   }
 
-  const data = await getDeviceReadings({
+  const data = await fetchDeviceReadings({
     organisation_pk: farmEnsembleAddon.org_pk,
     esids,
-    start_time: startTime,
-    end_time: endTime,
-    trunc_period: truncPeriod,
+    startTime,
+    endTime,
+    truncPeriod,
   });
 
   const formattedData = formatSensorReadings(data);
@@ -293,25 +286,25 @@ const getEnsembleSensorReadings = async (farm_id, esids, startTime, endTime, tru
  * @returns {Array} - An array of formatted sensor data.
  *
  * @example
- * // Sample output:
- * // [
- * //   {
- * //     reading_type: 'soil_water_potential',
- * //     unit: 'kPa',
- * //     readings: [
- * //       { dateTime: 1713830400, 'BWKBAL': -12.05, 'LSZDWX': -186.59 },
- * //       { dateTime: 1726358400, 'BWKBAL': 90.15, 'LSZDWX': -187.76 }
- * //     ]
- * //   },
- * //   {
- * //     reading_type: 'temperature',
- * //     unit: 'C',
- * //     readings: [
- * //       { dateTime: 1713830400, 'BWKBAL': 10.3, 'LSZDWX': 8.5 },
- * //       { dateTime: 1726358400, 'BWKBAL': -994.6, 'LSZDWX': 8.7 }
- * //     ]
- * //   }
- * // ]
+ * Sample output:
+ * [
+ *   {
+ *     reading_type: 'soil_water_potential',
+ *     unit: 'kPa',
+ *     readings: [
+ *       { dateTime: 1713830400, 'BWKBAL': -12.05, 'LSZDWX': -186.59 },
+ *       { dateTime: 1726358400, 'BWKBAL': 90.15, 'LSZDWX': -187.76 }
+ *     ]
+ *   },
+ *   {
+ *     reading_type: 'temperature',
+ *     unit: 'C',
+ *     readings: [
+ *       { dateTime: 1713830400, 'BWKBAL': 10.3, 'LSZDWX': 8.5 },
+ *       { dateTime: 1726358400, 'BWKBAL': -994.6, 'LSZDWX': 8.7 }
+ *     ]
+ *   }
+ * ]
  */
 function formatSensorReadings(data) {
   const combinedReadings = {};
@@ -494,28 +487,32 @@ async function getOrganisationDevices(organisation_pk) {
   }
 }
 /**
- * Fetches the sensor data for a given esid and (optionally) a given time range.
+ * Fetches the sensor data for the given esids and (optionally) a given time range in specified intervals
  * @param {Object} params - The parameters for fetching the sensor data.
  * @param {uuid} params.organisation_pk - The primary key of the organisation.
  * @param {string} params.esid - The esid of the device.
- * @param {string} [params.start_time] - The start date of the data in ISO 8601 format (2025-02-12T08:00:00.000Z).
- * @param {string} [params.end_time] - The end date of the data in ISO 8601 format.
+ * @param {string} [params.startTime] - The start date of the data in ISO 8601 format (2025-02-12T08:00:00.000Z).
+ * @param {string} [params.endTime] - The end date of the data in ISO 8601 format.
  * @param {string} [params.trunc_period] - Sampling interval for returned data. Allowed values are 'second', 'minute', 'hour', 'day'. Default is 'hour'.
  * @returns {Array} - An array of device objects.
  * @throws {Error} - Throws an error if ESci API call fails.
  * @async
  */
-async function getDeviceReadings({
+async function fetchDeviceReadings({
   organisation_pk,
   esids,
-  start_time,
-  end_time,
-  trunc_period = 'hour',
+  startTime,
+  endTime,
+  truncPeriod = 'hour',
 }) {
   try {
-    const params = new URLSearchParams({ sensor_esid: esids, validated: true, trunc_period });
-    if (start_time) params.append('start_time', start_time);
-    if (end_time) params.append('end_time', end_time);
+    const params = new URLSearchParams({
+      sensor_esid: esids,
+      validated: true,
+      trunc_period: truncPeriod,
+    });
+    if (startTime) params.append('start_time', startTime);
+    if (endTime) params.append('end_time', endTime);
 
     const axiosObject = {
       method: 'get',
@@ -523,7 +520,7 @@ async function getDeviceReadings({
     };
 
     const onError = () => {
-      const err = new Error('Unable to fetch ESci device data');
+      const err = new Error('Unable to fetch ESci device readings');
       err.status = 500;
       throw err;
     };

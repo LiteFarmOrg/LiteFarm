@@ -243,8 +243,9 @@ type SensorReadingTypes =
   | 'current'
   | 'energy'
   | 'rainfall_rate'
-  | 'humidity'
-  | 'content'
+  | 'relative_humidity'
+  | 'soc'
+  | 'soil_water_content'
   | 'soil_water_potential'
   | 'solar_radiation'
   | 'solenoid_control'
@@ -296,15 +297,14 @@ type SensorReadingTypeUnits =
   | 'mA'
   | 'mWh'
   | 'mm/h'
-  | 'deg'
+  | '%'
   | 'kPa'
   | 'W/m2'
   | 'C'
   | 'V'
   | 'psi'
   | 'deg'
-  | 'm/s'
-  | '%';
+  | 'm/s';
 
 export interface SensorDatapoint {
   dateTime: number; // Unix timestamp

@@ -18,7 +18,7 @@ import BentoLayout, { BentoLayoutProps } from '../../components/Layout/BentoLayo
 import { componentDecorators } from '../Pages/config/Decorators';
 import styles from './styles.module.scss';
 
-const Template = (args: BentoLayoutProps) => {
+const Template = (args: Required<BentoLayoutProps>) => {
   return (
     <BentoLayout {...args}>
       {new Array(args.layoutConfig.maxColumns + 2).fill('').map(() => {

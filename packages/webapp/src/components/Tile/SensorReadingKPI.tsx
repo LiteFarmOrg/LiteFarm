@@ -15,11 +15,13 @@
 
 import styles from './sensorKPI.module.scss';
 
-export type SensorReadingKPIprops = {
+export type TMeasurement = {
   measurement: string;
   value: string | number;
   unit: string;
 };
+
+export type SensorReadingKPIprops = TMeasurement;
 
 export default function SensorReadingKPI({ measurement, value, unit }: SensorReadingKPIprops) {
   return (

@@ -255,15 +255,15 @@ export const api = createApi({
       SensorReadings,
       {
         esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
-        startUnixTime?: number;
-        endUnixTime?: number;
+        startTime?: string; // ISO 8601 format
+        endTime?: string; // ISO 8601 format
         truncPeriod?: 'minute' | 'hour' | 'day';
       }
     >({
-      query: ({ esids, startUnixTime, endUnixTime, truncPeriod }) => {
+      query: ({ esids, startTime, endTime, truncPeriod }) => {
         const params = new URLSearchParams({ esids });
-        if (startUnixTime) params.append('startUnixTime', `${startUnixTime}`);
-        if (endUnixTime) params.append('endUnixTime', `${endUnixTime}`);
+        if (startTime) params.append('startTime', startTime);
+        if (endTime) params.append('endTime', endTime);
         if (truncPeriod) params.append('truncPeriod', `${truncPeriod}`);
         return `${sensorUrl}/readings?${params.toString()}`;
       },

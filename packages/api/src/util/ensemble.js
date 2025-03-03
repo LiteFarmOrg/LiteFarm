@@ -259,20 +259,13 @@ const enrichWithMockData = (
 /**
  * Fetches Ensemble sensor readings for a given sensor
  * @param {uuid} farm_id - The ID of the farm.
- * @param {string} esids - The external sensor ID(s) as string of
- * comma separated variables ('LSZDWX,BWKBAL')
- * @param {number} startUnixTime - The start time in Unix timestamp format.
- * @param {number} endUnixTime - The end time in Unix timestamp format.
+ * @param {string} esids - The external sensor ID(s) as string of comma separated variables ('LSZDWX,BWKBAL')
+ * @param {number} startTime - The start time in ISO 8601 format.
+ * @param {number} endTime - The end time in ISO 8601 format.
  * @returns {Array} - An array of formatted sensor readings.
  * @async
  */
-const getEnsembleSensorReadings = async (
-  farm_id,
-  esids,
-  startUnixTime,
-  endUnixTime,
-  truncPeriod,
-) => {
+const getEnsembleSensorReadings = async (farm_id, esids, startTime, endTime, truncPeriod) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
@@ -281,14 +274,11 @@ const getEnsembleSensorReadings = async (
     return [];
   }
 
-  const start_time = startUnixTime && new Date(startUnixTime * 1000).toISOString();
-  const end_time = endUnixTime && new Date(endUnixTime * 1000).toISOString();
-
   const data = await getDeviceReadings({
     organisation_pk: farmEnsembleAddon.org_pk,
     esids,
-    start_time,
-    end_time,
+    start_time: startTime,
+    end_time: endTime,
     trunc_period: truncPeriod,
   });
 

@@ -57,14 +57,14 @@
 }
 
 .bento {
-  --defaultGap: 8px;
-  --defaultColumns: 3;
+  --defaultBentoGap: 8px;
+  --defaultBentoColumns: 3;
   display: flex;
-  gap: var(--gap, --defaultGap);
+  gap: var(--bentoGap, var(--defaultBentoGap));
   flex-wrap: wrap;
   
   & > div {
-    flex: 1 1 calc((100% - var(--gap, --defaultGap) * (var(--columns, --defaultColumns) - 1)) / var(--columns, --defaultColumns));
+    flex: 1 1 calc((100% - var(--bentoGap, var(--defaultBentoGap)) * (var(--bentoColumns, var(--defaultBentoColumns)) - 1)) / var(--bentoColumns,  var(--defaultBentoColumns)));
   }
 
   @include md-breakpoint {

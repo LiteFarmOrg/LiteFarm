@@ -59,7 +59,7 @@ export default function SensorKPI({ sensor, discriminator, measurements }: Senso
           </div>
           <StatusIndicatorPill {...status} />
         </div>
-        <BentoLayout>
+        <BentoLayout maxColumns={2} bentoOffMedium={false}>
           {measurements.map((measurement) => (
             <Measurement {...measurement} />
           ))}

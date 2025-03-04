@@ -17,21 +17,16 @@
 
 .sensorReadingKpi {
   border-radius: 4px;
-  height: 59px;
-  background: var(--Colors-Accent---singles-Blue-full);
   display: flex;
-}
-
-.opaqueLayer {
-  background: white;
-  opacity: 0.9;
-  color: var(--Colors-Accent---singles-Blue-full);
-  display: flex;
+  // CSS trick to avoid the opacity layer: https://stackoverflow.com/a/77781112
+  background: linear-gradient(90deg, var(--colorWithOpacity) 0%, var(--colorWithOpacity) 100%) white;
+  color: var(--color);
   padding: 8px 12px;
   flex-direction: column;
   flex: 1 0 0;
   @include fontFamily();
   font-style: normal;
+  gap: 8px;
 }
 
 .measureText {
@@ -51,9 +46,16 @@
 
 .sensorKpi {
   border-radius: 4px;
-  background: var(--Colors-Accent---singles-Blue-full);
   display: flex;
   gap: 8px;
+  // CSS trick to avoid the opacity layer: https://stackoverflow.com/a/77781112
+  background: linear-gradient(90deg, var(--colorWithOpacity) 0%, var(--colorWithOpacity) 100%) white;
+  color: var(--color);
+  padding: 8px 12px;
+  flex-direction: column;
+  flex: 1 0 0;
+  @include fontFamily();
+  font-style: normal;
 }
 
 .gap8px {
@@ -77,7 +79,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
+  @include svgColorFill(var(--color));
   font-size: 16px;
   font-weight: 600;
   line-height: 30px; /* 187.5% */
@@ -87,7 +89,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
+  @include svgColorFill(var(--color));
   font-size: 14px;
   font-weight: 400;
   line-height: 30px; /* 214.286% */
@@ -95,6 +97,7 @@
 
 .icon {
   padding: 0px;
+  background-color: transparent;
 }
 
 .discriminatorText {

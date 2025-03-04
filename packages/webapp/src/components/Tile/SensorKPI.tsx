@@ -27,6 +27,7 @@ export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
   };
   discriminator: TMeasurement;
   measurements: TMeasurement[];
+  colorHex: string;
 }
 
 export interface MeasurementProps extends TMeasurement {
@@ -47,33 +48,36 @@ export default function SensorKPI({
   sensor,
   discriminator,
   measurements,
+  colorHex,
   ...rest
 }: SensorKPIprops) {
   const { measurement, value, unit } = discriminator;
   const { status, id } = sensor;
+  const style = {
+    '--color': `${colorHex.slice(0, 7)}`,
+    '--colorWithOpacity': `${colorHex.slice(0, 7)}0D`,
+  } as React.CSSProperties;
   return (
-    <div {...rest} className={styles.sensorKpi}>
-      <div className={clsx(styles.opaqueLayer, styles.gap8px)}>
-        <div className={styles.topDetails}>
-          <div className={styles.sensor}>
-            <Icon iconName="SENSOR" className={styles.icon} />
-            {id}
-          </div>
-          <div className={styles.discriminator}>
-            <Icon iconName="RULER" className={styles.icon} />
-            <div className={styles.discriminatorText}>
-              {value}
-              {unit}
-            </div>
-          </div>
-          <StatusIndicatorPill {...status} />
+    <div {...rest} className={styles.sensorKpi} style={style}>
+      <div className={styles.topDetails}>
+        <div className={styles.sensor}>
+          <Icon iconName="SENSOR" className={styles.icon} />
+          {id}
         </div>
-        <BentoLayout maxColumns={2} bentoOffMedium={false}>
-          {measurements.map((m, i) => (
-            <Measurement key={`${m.measurement}-${i}`} {...m} />
-          ))}
-        </BentoLayout>
+        <div className={styles.discriminator}>
+          <Icon iconName="RULER" className={styles.icon} />
+          <div className={styles.discriminatorText}>
+            {value}
+            {unit}
+          </div>
+        </div>
+        <StatusIndicatorPill {...status} />
       </div>
+      <BentoLayout maxColumns={2} bentoOffMedium={false}>
+        {measurements.map((m, i) => (
+          <Measurement key={`${m.measurement}-${i}`} {...m} />
+        ))}
+      </BentoLayout>
     </div>
   );
 }

@@ -22,6 +22,7 @@ export type TMeasurement = {
 };
 
 export type SensorReadingKPIprops = TMeasurement & {
+  colorHex: string;
   rest?: React.HTMLAttributes<HTMLDivElement>;
 };
 
@@ -29,10 +30,15 @@ export default function SensorReadingKPI({
   measurement,
   value,
   unit,
+  colorHex,
   ...rest
 }: SensorReadingKPIprops) {
+  const style = {
+    '--color': `${colorHex.slice(0, 7)}`,
+    '--colorWithOpacity': `${colorHex.slice(0, 7)}0D`,
+  } as React.CSSProperties;
   return (
-    <div {...rest} className={styles.sensorReadingKpi}>
+    <div {...rest} className={styles.sensorReadingKpi} style={style}>
       <div className={styles.opaqueLayer}>
         <div className={styles.measureText}>{measurement}</div>
         <div className={styles.valueText}>

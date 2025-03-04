@@ -45,7 +45,7 @@ export const getSortedDates = (dates) => {
  * Checks if the input is a string and not just white space.
  * Returns a trimmed version of the input if it's a valid string, or null
  *
- * @param {string} input - The input string to validate and trim.
+ * @param {unknown} input - The input string to validate and trim.
  * @return {string | null} - The trimmed string if valid, otherwise null.
  */
 export const checkAndTrimString = (input) => {

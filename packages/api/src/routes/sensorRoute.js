@@ -20,6 +20,7 @@ import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import validateRequest from '../middleware/validation/validateWebhook.js';
 import validateLocationDependency from '../middleware/validation/deleteLocation.js';
+import checkSensorReadingsQuery from '../middleware/validation/checkSensorReadingsQuery';
 import SensorController from '../controllers/sensorController.js';
 
 const storage = multer.memoryStorage();
@@ -41,7 +42,12 @@ router.post(
   validateRequest,
   SensorController.addReading,
 );
-router.get('/readings', checkScope(['get:sensors']), SensorController.getSensorReadings);
+router.get(
+  '/readings',
+  checkScope(['get:sensors']),
+  checkSensorReadingsQuery(),
+  SensorController.getSensorReadings,
+);
 router.get('/:location_id/reading', SensorController.getAllReadingsByLocationId);
 router.get('/reading/farm/:farm_id', SensorController.getReadingsByFarmId);
 router.post('/reading/invalidate', SensorController.invalidateReadings);

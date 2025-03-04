@@ -19,24 +19,16 @@ import SensorReadingKPI from '../../components/Tile/SensorReadingKPI';
 import SensorKPI from '../../components/Tile/SensorKPI';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Status } from '../../components/StatusIndicatorPill';
+import { ReactNode } from 'react';
 
-// type PropTypes = SensorReadingKPIprops | SensorKPIprops;
+const colors = ['#0669E1', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
 
 type TemplateProps = {
-  TileComponent: () => JSX.Element;
-  bento: boolean;
+  children: ReactNode;
 };
 
-const Template = ({ TileComponent, bento }: TemplateProps) => {
-  return bento ? (
-    <BentoLayout>
-      {new Array(5).fill('').map((_val, id) => {
-        return <TileComponent key={id} />;
-      })}
-    </BentoLayout>
-  ) : (
-    <TileComponent />
-  );
+const Template = ({ children }: TemplateProps) => {
+  return <BentoLayout>{children}</BentoLayout>;
 };
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -50,118 +42,121 @@ export default meta;
 type Story = StoryObj<typeof Template>;
 
 const SensorReadingKPITile = () => {
-  return <SensorReadingKPI measurement={'Soil Water Potential'} value={50} unit={'°F'} />;
+  return (
+    <SensorReadingKPI
+      measurement={'Soil Water Potential'}
+      value={50}
+      unit={'°F'}
+      colorHex="#0669e1"
+    />
+  );
 };
 
 export const SensorReadingKPIBento: Story = {
   args: {
-    TileComponent: SensorReadingKPITile,
-    bento: true,
+    children: new Array(5).fill('').map((_val, id) => {
+      return (
+        <SensorReadingKPI
+          measurement={'Soil Water Potential'}
+          value={50}
+          unit={'°F'}
+          colorHex={colors[id]}
+        />
+      );
+    }),
   },
 };
 
 export const SensorReadingKPIOne: Story = {
   args: {
-    TileComponent: SensorReadingKPITile,
+    children: (
+      <SensorReadingKPI
+        measurement={'Soil Water Potential'}
+        value={50}
+        unit={'°F'}
+        colorHex={colors[0]}
+      />
+    ),
   },
 };
 
-const SensorKPITile = () => {
-  const props = {
-    sensor: {
-      id: 'AS4TG5',
-      status: {
-        status: Status.ONLINE,
-        pillText: 'Online',
-        tooltipText: 'Device has sent data in the last 12 hours',
-      },
+const sensorKpiProps = {
+  sensor: {
+    id: 'AS4TG5',
+    status: {
+      status: Status.ONLINE,
+      pillText: 'Online',
+      tooltipText: 'Device has sent data in the last 12 hours',
     },
-    discriminator: {
-      measurement: 'depth_elevation',
+  },
+  discriminator: {
+    measurement: 'depth_elevation',
+    value: 50,
+    unit: 'cm',
+  },
+  measurements: [
+    {
+      measurement: 'Temperature',
       value: 50,
-      unit: 'cm',
+      unit: '°F',
     },
-    measurements: [
-      {
-        measurement: 'Temperature',
-        value: 50,
-        unit: '°F',
-      },
-      {
-        measurement: 'Soil Water Potential',
-        value: 124,
-        unit: 'kPa',
-      },
-    ],
-  };
-
-  return <SensorKPI {...props} />;
+    {
+      measurement: 'Soil Water Potential',
+      value: 124,
+      unit: 'kPa',
+    },
+  ],
 };
 
 export const SensorKPIBento: Story = {
   args: {
-    TileComponent: SensorKPITile,
-    bento: true,
+    children: new Array(5).fill('').map((_val, id) => {
+      return <SensorKPI {...sensorKpiProps} colorHex={colors[id]} />;
+    }),
   },
 };
 
 export const SensorKPIOne: Story = {
   args: {
-    TileComponent: SensorKPITile,
+    children: <SensorKPI {...sensorKpiProps} colorHex={colors[0]} />,
   },
 };
 
-const SensorKPITileManyParams = () => {
-  const props = {
-    sensor: {
-      id: 'AS4TG5',
-      status: {
-        status: Status.ONLINE,
-        pillText: 'Online',
-        tooltipText: 'Device has sent data in the last 12 hours',
-      },
-    },
-    discriminator: {
-      measurement: 'depth_elevation',
+const extraMeasurements = {
+  measurements: [
+    {
+      measurement: 'Temperature',
       value: 50,
-      unit: 'cm',
+      unit: '°F',
     },
-    measurements: [
-      {
-        measurement: 'Ambient Temperature',
-        value: 50,
-        unit: '°F',
-      },
-      {
-        measurement: 'Wind Speed',
-        value: 50,
-        unit: 'km/h',
-      },
-      {
-        measurement: 'Wind Direction',
-        value: 30,
-        unit: 'NE',
-      },
-      {
-        measurement: 'Humidity',
-        value: 50,
-        unit: '%',
-      },
-    ],
-  };
-
-  return <SensorKPI {...props} />;
+    {
+      measurement: 'Wind Speed',
+      value: 50,
+      unit: 'km/h',
+    },
+    {
+      measurement: 'Wind Direction',
+      value: 30,
+      unit: 'NE',
+    },
+    {
+      measurement: 'Humidity',
+      value: 50,
+      unit: '%',
+    },
+  ],
 };
 
 export const SensorKPIManyParamsBento: Story = {
   args: {
-    TileComponent: SensorKPITileManyParams,
-    bento: true,
+    children: new Array(5).fill('').map((_val, id) => {
+      return <SensorKPI {...sensorKpiProps} {...extraMeasurements} colorHex={colors[id]} />;
+    }),
   },
 };
 
 export const SensorKPIManyParamsOne: Story = {
   args: {
-    TileComponent: SensorKPITileManyParams,
+    children: <SensorKPI {...sensorKpiProps} {...extraMeasurements} />,
   },
 };

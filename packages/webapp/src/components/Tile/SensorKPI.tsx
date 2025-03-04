@@ -20,17 +20,21 @@ import { StatusIndicatorPill, StatusIndicatorPillProps } from '../StatusIndicato
 import styles from './sensorKPI.module.scss';
 import { TMeasurement } from './SensorReadingKPI';
 
-export type SensorKPIprops = {
+export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
   sensor: {
     id: string | number;
     status: StatusIndicatorPillProps;
   };
   discriminator: TMeasurement;
   measurements: TMeasurement[];
-};
+}
 
-const Measurement = ({ measurement, value, unit }: TMeasurement) => (
-  <div className={styles.measurement}>
+export interface MeasurementProps extends TMeasurement {
+  rest?: React.HTMLAttributes<HTMLDivElement>;
+}
+
+const Measurement = ({ measurement, value, unit, ...rest }: TMeasurement) => (
+  <div {...rest} className={styles.measurement}>
     <div className={styles.measureText}>{measurement}</div>
     <div className={styles.valueText}>
       {value}
@@ -39,11 +43,16 @@ const Measurement = ({ measurement, value, unit }: TMeasurement) => (
   </div>
 );
 
-export default function SensorKPI({ sensor, discriminator, measurements }: SensorKPIprops) {
+export default function SensorKPI({
+  sensor,
+  discriminator,
+  measurements,
+  ...rest
+}: SensorKPIprops) {
   const { measurement, value, unit } = discriminator;
   const { status, id } = sensor;
   return (
-    <div className={styles.sensorKpi}>
+    <div {...rest} className={styles.sensorKpi}>
       <div className={clsx(styles.opaqueLayer, styles.gap8px)}>
         <div className={styles.topDetails}>
           <div className={styles.sensor}>
@@ -60,8 +69,8 @@ export default function SensorKPI({ sensor, discriminator, measurements }: Senso
           <StatusIndicatorPill {...status} />
         </div>
         <BentoLayout maxColumns={2} bentoOffMedium={false}>
-          {measurements.map((measurement) => (
-            <Measurement {...measurement} />
+          {measurements.map((m, i) => (
+            <Measurement key={`${m.measurement}-${i}`} {...m} />
           ))}
         </BentoLayout>
       </div>

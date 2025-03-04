@@ -21,11 +21,18 @@ export type TMeasurement = {
   unit: string;
 };
 
-export type SensorReadingKPIprops = TMeasurement;
+export type SensorReadingKPIprops = TMeasurement & {
+  rest?: React.HTMLAttributes<HTMLDivElement>;
+};
 
-export default function SensorReadingKPI({ measurement, value, unit }: SensorReadingKPIprops) {
+export default function SensorReadingKPI({
+  measurement,
+  value,
+  unit,
+  ...rest
+}: SensorReadingKPIprops) {
   return (
-    <div className={styles.sensorReadingKpi}>
+    <div {...rest} className={styles.sensorReadingKpi}>
       <div className={styles.opaqueLayer}>
         <div className={styles.measureText}>{measurement}</div>
         <div className={styles.valueText}>

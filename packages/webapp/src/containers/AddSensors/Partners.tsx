@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useEffect } from 'react';
 import PurePartners from '../../components/AddSensors/Partners';
 import { useGetFarmAddonQuery } from '../../store/api/apiSlice';
 import { PARTNERS } from './constants';
@@ -21,19 +22,23 @@ const Partners = ({
 }: {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { isSuccess: hasEsciConnection } = useGetFarmAddonQuery(
+  const { data: esciData = [], isLoading: esciLoading } = useGetFarmAddonQuery(
     `?addon_partner_id=${PARTNERS.ESCI.id}`,
   );
 
   const hasActiveConnection = {
-    esci: hasEsciConnection,
+    esci: esciData.length > 0,
   };
 
   const allConnectionsActive = Object.values(hasActiveConnection).every(Boolean);
 
-  setIsEditing(allConnectionsActive ? false : true);
+  const isLoading = esciLoading; // subsequent partner loading states here
 
-  return <PurePartners hasActiveConnection={hasActiveConnection} />;
+  useEffect(() => {
+    !isLoading && setIsEditing(allConnectionsActive ? false : true);
+  }, [allConnectionsActive, isLoading]);
+
+  return !isLoading && <PurePartners hasActiveConnection={hasActiveConnection} />;
 };
 
 export default Partners;

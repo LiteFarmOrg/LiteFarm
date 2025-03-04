@@ -60,7 +60,7 @@ const farmAddonController = {
           .skipUndefined()
           .whereNotDeleted();
         if (!rows.length) {
-          return res.sendStatus(404);
+          return res.status(200).send([]);
         }
         const result = rows.map(({ id, addon_partner_id, org_uuid }) => {
           return { id, addon_partner_id, org_uuid };
@@ -79,7 +79,7 @@ const farmAddonController = {
       try {
         const { id } = req.params;
         await baseController.delete(FarmAddonModel, id, req);
-        return res.sendStatus(200);
+        return res.sendStatus(204);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

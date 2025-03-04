@@ -57,21 +57,21 @@
 }
 
 .bento {
-  --defaultBentoGap: 8px;
-  --defaultBentoColumns: 3;
   display: flex;
-  gap: var(--bentoGap, var(--defaultBentoGap));
+  gap: var(--bentoGap);
   flex-wrap: wrap;
   
   & > div {
-    flex: 1 1 calc((100% - var(--bentoGap, var(--defaultBentoGap)) * (var(--bentoColumns, var(--defaultBentoColumns)) - 1)) / var(--bentoColumns,  var(--defaultBentoColumns)));
+    flex: 1 1 calc((100% - var(--bentoGap) * (var(--bentoColumns) - 1)) / var(--bentoColumns));
   }
+  // This is the default behaviour in LiteFarm - should that change pass as classname
+  &.bentoOffMedium {
+    @include md-breakpoint {
+      flex-direction: column;
 
-  @include md-breakpoint {
-    flex-direction: column;
-
-    & > div {
-      flex: unset;
+      & > div {
+        flex: unset;
+      }
     }
   }
 }

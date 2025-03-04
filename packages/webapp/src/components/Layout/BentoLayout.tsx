@@ -13,27 +13,30 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { ReactNode } from 'react';
 import styles from './layout.module.scss';
 
 export type BentoLayoutProps = {
   children: ReactNode;
-  layoutConfig?: {
-    gapInPx: number;
-    maxColumns: number;
-  };
+  gap?: number;
+  maxColumns?: number;
+  bentoOffMedium?: boolean;
 };
 
-export default function BentoLayout({ children, layoutConfig }: BentoLayoutProps) {
-  const style = layoutConfig
-    ? ({
-        '--bentoGap': `${layoutConfig.gapInPx}px`,
-        '--bentoColumns': layoutConfig.maxColumns,
-      } as React.CSSProperties)
-    : {};
+export default function BentoLayout({
+  children,
+  gap = 8,
+  maxColumns = 3,
+  bentoOffMedium = true,
+}: BentoLayoutProps) {
+  const style = {
+    '--bentoGap': `${gap}px`,
+    '--bentoColumns': maxColumns,
+  } as React.CSSProperties;
 
   return (
-    <div className={styles.bento} style={style}>
+    <div className={clsx(styles.bento, bentoOffMedium && styles.bentoOffMedium)} style={style}>
       {children}
     </div>
   );

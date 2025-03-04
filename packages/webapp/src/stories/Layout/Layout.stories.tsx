@@ -21,8 +21,8 @@ import styles from './styles.module.scss';
 const Template = (args: Required<BentoLayoutProps>) => {
   return (
     <BentoLayout {...args}>
-      {new Array(args.layoutConfig.maxColumns + 2).fill('').map(() => {
-        return <div className={styles.divHeight} />;
+      {new Array(args.maxColumns || 3 + 2).fill('').map((_val, id) => {
+        return <div key={id} className={styles.emptyTile} />;
       })}
     </BentoLayout>
   );
@@ -38,29 +38,24 @@ export default meta;
 
 type Story = StoryObj<typeof Template>;
 
-export const MaxThreeWidth: Story = {
-  args: {
-    layoutConfig: {
-      gapInPx: 8,
-      maxColumns: 3,
-    },
-  },
+export const Default: Story = {
+  args: {},
 };
 
 export const MaxFiveWidth: Story = {
   args: {
-    layoutConfig: {
-      gapInPx: 8,
-      maxColumns: 5,
-    },
+    maxColumns: 5,
   },
 };
 
 export const SixteenPxGap: Story = {
   args: {
-    layoutConfig: {
-      gapInPx: 16,
-      maxColumns: 3,
-    },
+    gap: 16,
+  },
+};
+
+export const Responsive: Story = {
+  args: {
+    bentoOffMedium: false,
   },
 };

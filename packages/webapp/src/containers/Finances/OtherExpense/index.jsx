@@ -29,7 +29,7 @@ import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
-import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
+import useFinancesDateRange from '../../../components/Finances/DateRangeSelector/useFinancesDateRange';
 import { SUNDAY } from '../../../util/dateRange';
 import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
@@ -39,7 +39,7 @@ const OtherExpense = () => {
 
   const expenses = useSelector(expenseSelector);
   const expenseTypes = useSelector(allExpenseTypeSelector);
-  const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+  const { startDate, endDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
   const currencySymbol = useCurrencySymbol();
 
   useEffect(() => {

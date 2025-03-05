@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,16 +15,16 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { dateRangeDataSelector } from '../../containers/Finances/selectors';
-import DateRange, { MONDAY, SUNDAY } from '../../util/dateRange';
-import { dateRangeOptions } from './constants';
-import { setDateRange } from '../../containers/Finances/actions';
+import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
+import DateRange, { MONDAY, SUNDAY } from '../../../util/dateRange';
+import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import { setDateRange } from '../../../containers/Finances/actions';
 
 /**
  * Returns startDate and endDate in the store.
  * If they are not defined, set the default option and dates.
  */
-export default function useDateRangeSelector({ weekStartDate = SUNDAY }) {
+export default function useFinancesDateRange({ weekStartDate = SUNDAY }) {
   const dateRange = useSelector(dateRangeDataSelector);
   const dispatch = useDispatch();
 
@@ -41,6 +41,6 @@ export default function useDateRangeSelector({ weekStartDate = SUNDAY }) {
   return { startDate: dateRange.startDate, endDate: dateRange.endDate };
 }
 
-useDateRangeSelector.propTypes = {
+useFinancesDateRange.propTypes = {
   weekStartDate: PropTypes.oneOf([SUNDAY, MONDAY]),
 };

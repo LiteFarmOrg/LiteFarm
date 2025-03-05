@@ -19,7 +19,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
-import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
+import useFinancesDateRange from '../../components/Finances/DateRangeSelector/useFinancesDateRange';
 import AddTransactionButton from '../../components/Finances/AddTransactionButton';
 import FinanceDateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
@@ -56,7 +56,7 @@ const Finances = ({ history }) => {
     transactionsFilterSelector,
   );
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
-  const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+  const { startDate, endDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
   const dateFilter = { startDate, endDate };
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();

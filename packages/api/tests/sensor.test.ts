@@ -128,14 +128,14 @@ describe('Sensor Tests', () => {
         const res = await getSensorReadingsRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          esids: 'TESTID',
+          esids: 'TESTID1,TESTID2',
         });
 
         expect(axios).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
             url: expect.stringContaining(
-              `/organizations/${farmAddon.org_pk}/data/?sensor_esid=TESTID`,
+              `/organizations/${farmAddon.org_pk}/data/?sensor_esid=${encodeURIComponent('TESTID1,TESTID2')}`,
             ),
           }),
         );

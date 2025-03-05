@@ -333,10 +333,12 @@ function formatSensorReadings(data) {
   const formattedData = Object.keys(combinedReadings).map((readingTypeKey) => {
     const { unit, readings } = combinedReadings[readingTypeKey];
 
-    const formattedReadings = Object.entries(readings).map(([timestamp, values]) => ({
-      dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
-      ...values,
-    }));
+    const formattedReadings = Object.entries(readings)
+      .map(([timestamp, values]) => ({
+        dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
+        ...values,
+      }))
+      .sort((a, b) => a.dateTime - b.dateTime);
 
     return {
       reading_type: readingTypeKey,

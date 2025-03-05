@@ -43,7 +43,7 @@ const DO_ENDPOINT = 'nyc3.digitaloceanspaces.com';
 const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
 
 const s3 = new S3Client({
-  endpoint: process.env.NODE_ENV === 'development' ? MINIO_ENDPOINT : `https://${DO_ENDPOINT}`,
+  endpoint: process.env.S3_ENDPOINT || (process.env.NODE_ENV === 'development' ? MINIO_ENDPOINT : `https://${DO_ENDPOINT}`),
   region: 'us-east-1',
   credentials: {
     accessKeyId: process.env.DO_SPACES_ACCESS_KEY_ID,
@@ -118,6 +118,7 @@ function getRandomFileName(file) {
 }
 
 function getPrivateS3Url() {
+    if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPrivateS3BucketName());
   if (process.env.NODE_ENV === 'development') {
     return `${MINIO_ENDPOINT}/${getPrivateS3BucketName()}`;
   }
@@ -125,6 +126,7 @@ function getPrivateS3Url() {
 }
 
 function getPublicS3Url() {
+    if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPublicS3BucketName());
   if (process.env.NODE_ENV === 'development') {
     return `${MINIO_ENDPOINT}/${getPublicS3BucketName()}`;
   }

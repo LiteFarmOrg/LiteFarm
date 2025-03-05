@@ -14,6 +14,7 @@
  */
 
 import credentials from '../credentials.js';
+import { getEnvInt, getEnvBool, getEnv } from '../util/env.js'
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -38,7 +39,9 @@ const emails = {
 function homeUrl(defaultUrl = 'http://localhost:3000') {
   const environment = process.env.NODE_ENV || 'development';
   let homeUrl = defaultUrl;
-  if (environment === 'integration') {
+  if(process.env.HOME_PUBLIC_URL) {
+    homeUrl = process.env.HOME_PUBLIC_URL;
+  } else if (environment === 'integration') {
     homeUrl = 'https://beta.litefarm.org';
   } else if (environment === 'production') {
     homeUrl = 'https://app.litefarm.org';
@@ -48,6 +51,13 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
 
 function gmailAuth() {
   const environment = process.env.NODE_ENV || 'development';
+  if(process.env.EMAIL_TRANSPORT_USER && process.env.EMAIL_TRANSPORT_PASSWORD) {
+    return {
+      user: process.env.EMAIL_TRANSPORT_USER,
+      pass: process.env.EMAIL_TRANSPORT_PASSWORD,
+    }
+  }
+
   if (environment === 'development' && process.env.DEV_GMAIL) {
     return {
       user: process.env.DEV_GMAIL,
@@ -79,10 +89,10 @@ const emailTransporter = new EmailTemplates({
   preview: process.env.DEBUG === 'email-templates' || process.env.DEBUG === 'i18n:*',
   subjectPrefix: process.env.NODE_ENV === 'production' ? false : '[Development] ',
   transport: {
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    service: 'gmail',
+    host: getEnv('EMAIL_TRANSPORT_HOST', 'smtp.gmail.com'),
+    port: getEnvInt('EMAIL_TRANSPORT_PORT', 465),
+    secure: getEnvBool('EMAIL_TRANSPORT_SECURE', true),
+    service: getEnv('EMAIL_TRANSPORT_SERVICE', 'gmail'),
     auth: gmailAuth(),
   },
 });
@@ -91,7 +101,7 @@ function sendEmail(
   template_path,
   replacements,
   email_to,
-  { sender = 'system@litefarm.org', buttonLink = null, attachments = [] },
+  { sender = getEnv('EMAIL_SENDER', 'system@litefarm.org'), buttonLink = null, attachments = [] },
 ) {
   try {
     replacements.url = homeUrl();
@@ -110,7 +120,7 @@ function sendEmail(
       locals: replacements,
     };
     if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
-      mailOptions.message.cc = 'support@litefarm.org';
+      mailOptions.message.cc = getEnv('EMAIL_SUPPORT', 'support@litefarm.org');
     }
     if (
       attachments.length &&

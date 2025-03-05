@@ -310,16 +310,16 @@ function formatSensorReadings(data) {
   const combinedReadings = {};
 
   for (const deviceId in data) {
-    const deviceData = data[deviceId].data;
-    const deviceEsid = data[deviceId].device_esid;
+    const { data: deviceData, device_esid: deviceEsid } = data[deviceId];
+
     deviceData.forEach((readingType) => {
       const readingTypeKey = toSnakeCase(readingType.parameter_category);
+      const unit = ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit;
+
       if (!combinedReadings[readingTypeKey]) {
-        combinedReadings[readingTypeKey] = {
-          unit: ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit,
-          readings: {},
-        };
+        combinedReadings[readingTypeKey] = { unit, readings: {} };
       }
+
       readingType.timestamps.forEach((timestamp, index) => {
         if (!combinedReadings[readingTypeKey].readings[timestamp]) {
           combinedReadings[readingTypeKey].readings[timestamp] = {};
@@ -330,16 +330,20 @@ function formatSensorReadings(data) {
     });
   }
 
-  const formattedData = Object.keys(combinedReadings).map((readingTypeKey) => ({
-    reading_type: readingTypeKey,
-    unit: combinedReadings[readingTypeKey].unit,
-    readings: Object.entries(combinedReadings[readingTypeKey].readings).map(
-      ([timestamp, values]) => ({
-        dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
-        ...values,
-      }),
-    ),
-  }));
+  const formattedData = Object.keys(combinedReadings).map((readingTypeKey) => {
+    const { unit, readings } = combinedReadings[readingTypeKey];
+
+    const formattedReadings = Object.entries(readings).map(([timestamp, values]) => ({
+      dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
+      ...values,
+    }));
+
+    return {
+      reading_type: readingTypeKey,
+      unit,
+      readings: formattedReadings,
+    };
+  });
 
   return formattedData;
 }
@@ -490,8 +494,8 @@ async function getOrganisationDevices(organisation_pk) {
  * Fetches the sensor data for the given esids and (optionally) a given time range in specified intervals
  * @param {Object} params - The parameters for fetching the sensor data.
  * @param {uuid} params.organisation_pk - The primary key of the organisation.
- * @param {string} params.esid - The esid of the device.
- * @param {string} [params.startTime] - The start date of the data in ISO 8601 format (2025-02-12T08:00:00.000Z).
+ * @param {string} params.esids - The esid(s) of the device(s)
+ * @param {string} [params.startTime] - The start date of the data in ISO 8601 format.
  * @param {string} [params.endTime] - The end date of the data in ISO 8601 format.
  * @param {string} [params.trunc_period] - Sampling interval for returned data. Allowed values are 'second', 'minute', 'hour', 'day'. Default is 'hour'.
  * @returns {Array} - An array of device objects.

@@ -14,9 +14,9 @@ export default (emailQueue) => (job, done) => {
     `temp/${exportId}.zip`, // location
     `s3://${fileIdentifier}.zip`, // destination
     `--endpoint=${
-      process.env.NODE_ENV === 'development'
-        ? process.env.MINIO_ENDPOINT
-        : 'https://nyc3.digitaloceanspaces.com'
+        process.env.S3_ENDPOINT || (process.env.NODE_ENV === 'development'
+            ? process.env.MINIO_ENDPOINT
+            : 'https://nyc3.digitaloceanspaces.com')
     }`,
   ];
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });

@@ -30,7 +30,9 @@ import { fileURLToPath } from 'url';
 const { ensembleAPI } = endPoints;
 
 let baseUrl;
-if (process.env.NODE_ENV === 'integration') {
+if (process.env.API_PUBLIC_URL) {
+  baseUrl=process.env.API_PUBLIC_URL;
+} else if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'https://api.beta.litefarm.org';
 } else if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://api.app.litefarm.org';

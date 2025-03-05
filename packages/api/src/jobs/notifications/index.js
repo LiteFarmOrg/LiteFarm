@@ -18,7 +18,7 @@ import axios from 'axios';
 import Queue from 'bull';
 import jwt from 'jsonwebtoken';
 const { sign } = jwt;
-const apiUrl = process.env.API_URL || 'http://localhost:5001';
+const apiUrl = process.env.API_URL || ('http://localhost:'+process.env.PORT);
 const mockTimer = !!process.env.MOCK_TIMER;
 
 // UTC day to send weeklies for zones >= 7

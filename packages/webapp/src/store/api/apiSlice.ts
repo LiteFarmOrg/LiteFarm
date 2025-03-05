@@ -255,8 +255,8 @@ export const api = createApi({
       SensorReadings,
       {
         esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
-        startTime?: string; // ISO 8601 format
-        endTime?: string; // ISO 8601 format
+        startTime?: string; // ISO 8601
+        endTime?: string; // ISO 8601
         truncPeriod?: 'minute' | 'hour' | 'day';
       }
     >({
@@ -264,10 +264,9 @@ export const api = createApi({
         const params = new URLSearchParams({ esids });
         if (startTime) params.append('startTime', startTime);
         if (endTime) params.append('endTime', endTime);
-        if (truncPeriod) params.append('truncPeriod', `${truncPeriod}`);
+        if (truncPeriod) params.append('truncPeriod', truncPeriod);
         return `${sensorUrl}/readings?${params.toString()}`;
       },
-      keepUnusedDataFor: 1, // 1 second; temporary for testing
       providesTags: ['SensorReadings'],
     }),
     addFarmAddon: build.mutation<void, FarmAddon>({
@@ -287,7 +286,8 @@ export const api = createApi({
         url: `${farmAddonUrl}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_result, error) => (error ? [] : ['FarmAddon', 'Sensors']),
+      invalidatesTags: (_result, error) =>
+        error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
   }),
 });

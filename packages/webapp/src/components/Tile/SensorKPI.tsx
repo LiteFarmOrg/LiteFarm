@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import clsx from 'clsx';
-import Icon from '../Icons';
+import Icon, { IconName } from '../Icons';
 import BentoLayout from '../Layout/BentoLayout';
 import { StatusIndicatorPill, StatusIndicatorPillProps } from '../StatusIndicatorPill';
 import styles from './sensorKPI.module.scss';
@@ -33,6 +32,10 @@ export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
 export interface MeasurementProps extends TMeasurement {
   rest?: React.HTMLAttributes<HTMLDivElement>;
 }
+
+const discriminatorIconName: { [key: string]: IconName } = {
+  depth_elevation: 'RULER',
+};
 
 const Measurement = ({ measurement, value, unit, ...rest }: TMeasurement) => (
   <div {...rest} className={styles.measurement}>
@@ -71,7 +74,7 @@ export default function SensorKPI({
           {id}
         </div>
         <div className={styles.discriminator}>
-          <Icon iconName="RULER" className={styles.icon} />
+          <Icon iconName={discriminatorIconName[measurement] || 'RULER'} className={styles.icon} />
           <div className={styles.discriminatorText}>
             {value}
             {unit}

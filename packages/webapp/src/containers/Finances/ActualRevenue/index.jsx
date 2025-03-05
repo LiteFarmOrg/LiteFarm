@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
-import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import Layout from '../../../components/Layout';
@@ -76,7 +76,7 @@ export default function ActualRevenue({ history, match }) {
       <Semibold style={{ marginBottom: '24px' }} sm>
         {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
-      <DateRangeSelector />
+      <FinanceDateRangeSelector />
 
       <FinanceListHeader
         firstColumn={t('FINANCES.DATE')}

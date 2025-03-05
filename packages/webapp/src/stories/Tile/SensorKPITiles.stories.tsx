@@ -14,7 +14,7 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import BentoLayout, { BentoLayoutProps } from '../../components/Layout/BentoLayout';
+import BentoLayout from '../../components/Layout/BentoLayout';
 import SensorReadingKPI from '../../components/Tile/SensorReadingKPI';
 import SensorKPI from '../../components/Tile/SensorKPI';
 import { componentDecorators } from '../Pages/config/Decorators';
@@ -40,17 +40,6 @@ const meta: Meta<typeof Template> = {
 export default meta;
 
 type Story = StoryObj<typeof Template>;
-
-const SensorReadingKPITile = () => {
-  return (
-    <SensorReadingKPI
-      measurement={'Soil Water Potential'}
-      value={50}
-      unit={'°F'}
-      colorHex="#0669e1"
-    />
-  );
-};
 
 export const SensorReadingKPIBento: Story = {
   args: {

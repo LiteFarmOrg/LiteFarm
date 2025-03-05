@@ -16,6 +16,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { checkAndTrimString } from '../../util/util.js';
 import { isISO8601Format } from '../../util/validation.js';
+import FarmAddonModel from '../../models/farmAddonModel.js';
+import AddonPartnerModel from '../../models/addonPartnerModel.js';
+import { ENSEMBLE_BRAND } from '../../util/ensemble.js';
 
 interface RequestQuery {
   esids?: string;
@@ -33,11 +36,26 @@ function isValidTruncPeriod(value: string): value is TruncPeriod {
 }
 
 export default function checkSensorReadingsQuery() {
-  return (
+  return async (
     req: Request<unknown, unknown, unknown, RequestQuery>, // <ReqParams, ResBody, ReqBody, ReqQuery>
     res: Response,
     next: NextFunction,
   ) => {
+    const { farm_id } = req.headers;
+
+    // @ts-expect-error until AddonPartnerModel is converted to ts
+    const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+    const FarmEnsembleAddon = await FarmAddonModel
+      // @ts-expect-error until FarmAddonModel is converted to ts
+      .query()
+      .findOne({ farm_id, addon_partner_id: EnsemblePartnerId })
+      .whereNotDeleted();
+
+    if (!FarmEnsembleAddon) {
+      return res.status(404).send('Farm does not have active Ensemble Scientific addon');
+    }
+
     const { esids, startTime, endTime, truncPeriod } = req.query;
 
     if (!checkAndTrimString(esids)) {

@@ -46,7 +46,7 @@ export const COLORS = {
   [Color.BLUE]: colors['--Colors-Accent---singles-Blue-full'],
   [Color.YELLOW]: colors['--Colors-Accent-Accent-yellow-600'],
   [Color.GREEN]: colors['--Colors-Primary-Primary-teal-700'],
-  [Color.RED]: colors['--Colors-Accent---singles-Purple-full'],
+  [Color.RED]: colors['--Colors-Accent---singles-Red-full'],
   [Color.PURPLE]: colors['--Colors-Accent---singles-Purple-full'],
   [Color.BROWN]: colors['--Colors-Accent---singles-Brown-full'],
 };

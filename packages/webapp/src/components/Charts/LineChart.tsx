@@ -30,7 +30,6 @@ import type { NameType, ValueType } from 'recharts/types/component/DefaultToolti
 import type { DataKey } from 'recharts/types/util/types';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import { isSameDay } from '../../util/date';
-import { getDateDifference } from '../../util/moment';
 import { colors } from '../../assets/theme';
 import styles from './styles.module.scss';
 
@@ -69,18 +68,6 @@ const getTime = (unixTime: number, language: string): string => {
     hour: 'numeric',
     minute: 'numeric',
   }).format(new Date(convertToMilliseconds(unixTime)));
-};
-
-export const getTicks = (startDate: string, endDate: string) => {
-  const dateRange = getDateDifference(startDate, endDate);
-  const ticks = [];
-  for (let i = 0; i < dateRange; i++) {
-    const date = new Date(startDate);
-    date.setDate(date.getDate() + i);
-    ticks.push(new Date(date).getTime() / 1000);
-  }
-
-  return ticks;
 };
 
 const getDateTime = (

@@ -14,15 +14,11 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import LineChart, {
-  Color,
-  getTicks,
-  LineChartProps,
-  COLORS,
-} from '../../components/Charts/LineChart';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { dailyData, multiLineData, hourlyData, singleLineData } from './dummyData';
+import LineChart, { Color, LineChartProps, COLORS } from '../../components/Charts/LineChart';
 import { formatSensorsData, getUnixTime } from '../../containers/SensorReadings/v2/utils';
+import { getTicks } from '../../components/Charts/utils';
+import { dailyData, multiLineData, hourlyData, singleLineData } from './dummyData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof LineChart> = {
@@ -69,7 +65,7 @@ export const HourlyData: Story = {
       { id: '8YH5Y5', color: COLORS[Color.GREEN] },
       { id: 'BWKBAL', color: COLORS[Color.RED] },
     ],
-    ticks: getTicks('2024-06-21', '2024-06-29'),
+    ticks: getTicks('2024-06-21', '2024-06-29', 'hour'),
   },
 };
 

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import clsx from 'clsx';
 import { TFunction, useTranslation } from 'react-i18next';
 import { VscLocation } from 'react-icons/vsc';
@@ -33,9 +33,11 @@ import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
 import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
-import { Location } from '../../../../types';
+import { Location, UserFarm } from '../../../../types';
 import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
+import LocationViewer from '../../../LocationPicker/LocationViewer';
+import { useMaxZoom } from '../../../../containers/Map/useMaxZoom';
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
   const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
@@ -78,13 +80,26 @@ const SensorIconWithNumber = ({ number }: { number: number }) => {
 type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
+  userFarm: UserFarm;
 };
 
-const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
+  const [mapLocations, setMapLocations] = useState<Location[]>([]);
+  const [mapOpen, setMapOpen] = useState<boolean>(false);
+  const { maxZoomRef, getMaxZoom } = useMaxZoom();
+
+  const handleSeeOnMap = (location: Location) => {
+    setMapLocations([location]);
+    setMapOpen(true);
+  };
+
+  const handleClose = () => {
+    setMapOpen(false);
+  };
 
   const kpiTranslationMappings = Object.entries(summary).reduce<
     OverviewStatsProps['translationMappings']
@@ -107,65 +122,87 @@ const EsciSensorList = ({ groupedSensors, summary }: EsciSensorListProps) => {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
-      <Main className={styles.title}>
-        {t('SENSOR.PARTNER_SENSOR_LIST', { partner: 'Ensemble' })}
-      </Main>
-      <OverviewStats
-        stats={summary}
-        translationMappings={kpiTranslationMappings}
-        FormattedLabelComponent={FormatKpiLabel}
-        isCompact={isCompact}
-      />
-      <div className={styles.sensorGroups}>
-        {groupedSensors.map(({ id, isSensorArray, sensors, fields }) => {
-          const isExpanded = expandedIds.includes(id);
+    <>
+      {mapOpen ? (
+        <LocationViewer
+          locations={mapLocations}
+          userFarm={userFarm}
+          maxZoomRef={maxZoomRef}
+          getMaxZoom={getMaxZoom}
+          handleClose={handleClose}
+        />
+      ) : (
+        <div className={styles.wrapper}>
+          <Main className={styles.title}>
+            {t('SENSOR.PARTNER_SENSOR_LIST', { partner: 'Ensemble' })}
+          </Main>
+          <OverviewStats
+            stats={summary}
+            translationMappings={kpiTranslationMappings}
+            FormattedLabelComponent={FormatKpiLabel}
+            isCompact={isCompact}
+          />
+          <div className={styles.sensorGroups}>
+            {groupedSensors.map(({ id, point, isSensorArray, sensors, fields }) => {
+              const isExpanded = expandedIds.includes(id);
 
-          return (
-            <Fragment key={id}>
-              <ExpandableItem
-                itemKey={id}
-                classes={{
-                  container: clsx(styles.expandableContainer, isExpanded ? styles.active : ''),
-                  mainContentWithIcon: styles.expandableHeader,
-                }}
-                isExpanded={isExpanded}
-                iconClickOnly={false}
-                onClick={() => toggleExpanded(id)}
-                leftCollapseIcon
-                mainContent={
-                  <MainContent isExpanded={isExpanded} iconType={IconType.SIMPLE}>
-                    <div className={styles.mainContent}>
-                      <SensorIconWithNumber number={sensors.length} />
-                      <span>
-                        {isSensorArray ? t('SENSOR.SENSOR_ARRAY') : t('SENSOR.STANDALONE_SENSOR')}
-                      </span>
-                    </div>
-                  </MainContent>
-                }
-                expandedContent={
-                  <div className={styles.expandedContent}>
-                    <SensorTable
-                      data={sensors}
-                      variant={SensorTableVariant.SIMPLE}
-                      isCompact={isCompact}
-                    />
-                    <DetectedFields t={t} fields={fields} />
-                    <TextButton
-                      className={styles.seeOnMapButton}
-                      onClick={() => console.log('TODO: LF-4697')}
-                    >
-                      <VscLocation size={24} className={styles.mapPinIcon} />
-                      {t('common:SEE_ON_MAP')}
-                    </TextButton>
-                  </div>
-                }
-              />
-            </Fragment>
-          );
-        })}
-      </div>
-    </div>
+              return (
+                <Fragment key={id}>
+                  <ExpandableItem
+                    itemKey={id}
+                    classes={{
+                      container: clsx(styles.expandableContainer, isExpanded ? styles.active : ''),
+                      mainContentWithIcon: styles.expandableHeader,
+                    }}
+                    isExpanded={isExpanded}
+                    iconClickOnly={false}
+                    onClick={() => toggleExpanded(id)}
+                    leftCollapseIcon
+                    mainContent={
+                      <MainContent isExpanded={isExpanded} iconType={IconType.SIMPLE}>
+                        <div className={styles.mainContent}>
+                          <SensorIconWithNumber number={sensors.length} />
+                          <span>
+                            {isSensorArray
+                              ? t('SENSOR.SENSOR_ARRAY')
+                              : t('SENSOR.STANDALONE_SENSOR')}
+                          </span>
+                        </div>
+                      </MainContent>
+                    }
+                    expandedContent={
+                      <div className={styles.expandedContent}>
+                        <SensorTable
+                          data={sensors}
+                          variant={SensorTableVariant.SIMPLE}
+                          isCompact={isCompact}
+                        />
+                        <DetectedFields t={t} fields={fields} />
+                        <TextButton
+                          className={styles.seeOnMapButton}
+                          onClick={() =>
+                            handleSeeOnMap({
+                              id,
+                              name: id,
+                              location_id: id,
+                              point,
+                              type: isSensorArray ? 'sensor_array' : 'sensor',
+                            })
+                          }
+                        >
+                          <VscLocation size={24} className={styles.mapPinIcon} />
+                          {t('common:SEE_ON_MAP')}
+                        </TextButton>
+                      </div>
+                    }
+                  />
+                </Fragment>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

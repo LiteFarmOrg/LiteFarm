@@ -135,7 +135,8 @@ const mapDeviceToSensor = (device) => {
   return {
     name: device.name,
     external_id: device.esid,
-    sensor_reading_types: device.parameter_types.map(
+    sensor_reading_types: device.parameter_types?.map(
+      // not currently receiving this data as of March 5, 2025
       (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
     ),
     last_seen: device.last_seen,

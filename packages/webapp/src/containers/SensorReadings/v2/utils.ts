@@ -41,7 +41,7 @@ export const fillMissingDataWithNull = (
   );
 };
 
-const getNextDateTime = (baseUnixTime: number, truncPeriod: TruncPeriod) => {
+export const getNextDateTime = (baseUnixTime: number, truncPeriod: TruncPeriod) => {
   return baseUnixTime + (truncPeriod === 'day' ? 60 * 60 * 24 : 60 * 60);
 };
 

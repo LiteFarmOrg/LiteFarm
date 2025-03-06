@@ -67,6 +67,10 @@ export default function PureLocationTasks({
       label: t('FARM_MAP.TAB.DETAILS'),
       path: match.url.replace('tasks', 'details'),
     },
+    {
+      label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
+      path: match.url.replace('tasks', 'field_technology'),
+    },
   ];
 
   if (hasCrops) {

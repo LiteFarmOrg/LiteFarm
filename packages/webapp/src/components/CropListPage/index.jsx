@@ -52,6 +52,10 @@ export default function PureCropList({
             label: t('FARM_MAP.TAB.DETAILS'),
             path: match.url.replace('crops', 'details'),
           },
+          {
+            label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
+            path: match.url.replace('crops', 'farm_technology'),
+          },
         ]}
       />
       {isSearchable && (

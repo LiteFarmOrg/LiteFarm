@@ -31,9 +31,8 @@ const fieldController = {
           return res.sendStatus(403);
         } else {
           await trx.commit();
-          res.status(201).send(result);
           req.field = { fieldId: result.field_id, point: result.grid_points[0] };
-          next();
+          return res.status(201).send(result);
         }
       } catch (error) {
         //handle more exceptions

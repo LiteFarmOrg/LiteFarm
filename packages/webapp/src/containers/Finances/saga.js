@@ -16,7 +16,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { saveAs } from 'file-saver';
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/constants';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
@@ -516,7 +516,7 @@ export function* fetchAllDataSaga() {
   ]);
   yield put(setSelectedExpenseTypes([]));
   yield put(resetTransactionsFilter());
-  yield put(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));
+  yield put(setDateRange({ option: DateRangeOptions.YEAR_TO_DATE }));
   yield put(setIsFetchingData(false));
 }
 

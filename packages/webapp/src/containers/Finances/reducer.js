@@ -27,13 +27,13 @@ import {
 
 import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/constants';
 
 const initialState = {
   sales: [],
   cropSales: [],
   expenses: [],
-  date_range: { option: dateRangeOptions.YEAR_TO_DATE },
+  date_range: { option: DateRangeOptions.YEAR_TO_DATE },
   isFetchingData: false,
 };
 

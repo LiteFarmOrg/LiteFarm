@@ -14,7 +14,7 @@
  */
 import { expect, describe, test } from 'vitest';
 import DateRange, { SUNDAY, MONDAY } from '../util/dateRange';
-import { dateRangeOptions } from '../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../components/DateRangeSelector/constants';
 
 const testCases = [
   {
@@ -201,7 +201,7 @@ describe('DateRange class tests', () => {
       Object.keys(expectedResults).forEach((option) => {
         describe(`Date range option: ${option}`, () => {
           const expectedDates = expectedResults[option];
-          const { startDate, endDate } = dateRange.getDates(dateRangeOptions[option]);
+          const { startDate, endDate } = dateRange.getDates(DateRangeOptions[option]);
 
           test(`startDate should be ${expectedDates.startDate}`, () => {
             expect(startDate).toBe(expectedDates.startDate);

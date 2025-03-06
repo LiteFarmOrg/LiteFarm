@@ -16,7 +16,7 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { tasksSelector } from '../../taskSlice';
 import { setDateRange } from '../actions';
-import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../../components/DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
@@ -65,8 +65,8 @@ class Labour extends Component {
   }
 
   getDates(dateRange = this.state.dateRange) {
-    const option = this.props.dateRange.option || dateRangeOptions.YEAR_TO_DATE;
-    return option === dateRangeOptions.CUSTOM
+    const option = this.props.dateRange.option || DateRangeOptions.YEAR_TO_DATE;
+    return option === DateRangeOptions.CUSTOM
       ? {
           startDate: this.props.dateRange.startDate || undefined,
           endDate: this.props.dateRange.endDate || undefined,

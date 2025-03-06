@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const dateRangeOptions = {
-  YEAR_TO_DATE: 'year_to_date',
-  LAST_7_DAYS: 'last_seven_days',
-  LAST_14_DAYS: 'last_fourteen_days',
-  LAST_30_DAYS: 'last_thirty_days',
-  THIS_WEEK: 'this_week',
-  LAST_WEEK: 'last_week',
-  THIS_MONTH: 'this_month',
-  LAST_MONTH: 'last_month',
-  CUSTOM: 'custom_range',
-};
+export enum DateRangeOptions {
+  YEAR_TO_DATE = 'year_to_date',
+  LAST_7_DAYS = 'last_seven_days',
+  LAST_14_DAYS = 'last_fourteen_days',
+  LAST_30_DAYS = 'last_thirty_days',
+  THIS_WEEK = 'this_week',
+  LAST_WEEK = 'last_week',
+  THIS_MONTH = 'this_month',
+  LAST_MONTH = 'last_month',
+  CUSTOM = 'custom_range',
+}

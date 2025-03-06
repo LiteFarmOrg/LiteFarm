@@ -21,7 +21,7 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import ReactSelect from '../Form/ReactSelect';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
-import { dateRangeOptions as rangeOptions } from './constants';
+import { DateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
 export default function DateRangeSelector({

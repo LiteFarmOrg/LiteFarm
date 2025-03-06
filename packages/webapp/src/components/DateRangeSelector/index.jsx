@@ -67,11 +67,18 @@ export default function DateRangeSelector({
     }
   }, [isValid, isCustomDatePickerOpen]);
 
+  const isInitialRender = useRef(true);
+
   useEffect(() => {
-    setSelectedDateRangeOption(
-      defaultDateRangeOptionValue &&
-        options.find(({ value }) => value === defaultDateRangeOptionValue),
-    );
+    if (isInitialRender.current) {
+      // Avoid triggering the onChange when the component first mounts
+      isInitialRender.current = false;
+    } else {
+      setSelectedDateRangeOption(
+        defaultDateRangeOptionValue &&
+          options.find(({ value }) => value === defaultDateRangeOptionValue),
+      );
+    }
   }, [defaultDateRangeOptionValue]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {

@@ -17,9 +17,9 @@ import { expect, describe, test } from 'vitest';
 import {
   fillMissingDataWithNull,
   formatSensorsData,
+  getUnixTime,
   sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
-import { getUnixTime } from '../containers/SensorReadings/utils';
 
 const createData = (date) => {
   return { dateTime: getUnixTime(date) };

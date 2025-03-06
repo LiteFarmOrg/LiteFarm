@@ -21,24 +21,13 @@ import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import DateRangeSelector from '../../DateRangeSelector';
 import { DateRangeOptions } from '../../DateRangeSelector/constants';
+import { DateRangeSelection } from './types';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import styles from './styles.module.scss';
 
-interface CustomRange {
-  startDate?: string | Moment;
-  endDate?: string | Moment;
-}
-
-export interface FinanceDateRange {
-  option?: DateRangeOptions;
-  startDate?: string | Moment;
-  endDate?: string | Moment;
-  customRange?: CustomRange;
-}
-
 interface FinanceDateRangeSelectorProps {
-  value?: FinanceDateRange;
-  onChange?: (newDateRange: FinanceDateRange) => void;
+  value?: DateRangeSelection;
+  onChange?: (newDateRange: DateRangeSelection) => void;
   onValidityChange?: (valid: boolean) => void;
   className?: string;
 }
@@ -55,7 +44,7 @@ const FinanceDateRangeSelector: React.FC<FinanceDateRangeSelectorProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const dateRange: FinanceDateRange = value || useSelector(dateRangeDataSelector);
+  const dateRange: DateRangeSelection = value || useSelector(dateRangeDataSelector);
   const { option, customRange = {} } = dateRange;
   const initialOption = option || DateRangeOptions.YEAR_TO_DATE;
   const dateRangeUtil = new DateRange(new Date(), SUNDAY);
@@ -67,7 +56,7 @@ const FinanceDateRangeSelector: React.FC<FinanceDateRangeSelectorProps> = ({
     const startDate = type === 'start' ? date : customRange.startDate;
     const endDate = type === 'end' ? date : customRange.endDate;
 
-    const newDateRange: FinanceDateRange = { customRange: { startDate, endDate } };
+    const newDateRange: DateRangeSelection = { customRange: { startDate, endDate } };
 
     // If both dates are valid, update dates and the option
     if ([startDate, endDate].every(isDateValid)) {
@@ -78,7 +67,7 @@ const FinanceDateRangeSelector: React.FC<FinanceDateRangeSelectorProps> = ({
   };
 
   const onChangeDateRangeOption = (value: DateRangeOptions) => {
-    let newDateRange: FinanceDateRange = { option: value };
+    let newDateRange: DateRangeSelection = { option: value };
     if (value !== DateRangeOptions.CUSTOM) {
       newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
     } else if (

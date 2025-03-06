@@ -143,7 +143,9 @@ const sensorController = {
       return res.status(200).send(data);
     } catch (error) {
       console.error(error);
-      return res.status(error.status || 400).json({
+      const status = error.status || error.code || 400;
+
+      return res.status(status).json({
         error: error.message || error,
       });
     }

@@ -28,6 +28,7 @@ import AddonPartnerModel from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
 import { toSnakeCase } from './util.js';
+import { customError } from './customErrors.js';
 const { ensembleAPI } = endPoints;
 
 let baseUrl;
@@ -264,7 +265,7 @@ const getEnsembleSensorReadings = async ({ farm_id, esids, startTime, endTime, t
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
 
   if (!farmEnsembleAddon) {
-    return [];
+    throw customError('Farm does not have active Ensemble Scientific addon', 404);
   }
 
   const data = await fetchDeviceReadings({

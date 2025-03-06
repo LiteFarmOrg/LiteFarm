@@ -244,7 +244,7 @@ function LineChart(props: LineChartProps) {
                   stroke={color}
                   strokeWidth={3}
                   hide={hiddenLines.includes(id)}
-                  dot={{ r: 4 }}
+                  dot={false}
                   activeDot={{
                     // https://github.com/recharts/recharts/issues/2678
                     r: 6,

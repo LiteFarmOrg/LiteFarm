@@ -25,7 +25,7 @@ import { DateRangeSelection } from './types';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import styles from './styles.module.scss';
 
-interface FinanceDateRangeSelectorProps {
+interface FinancesDateRangeSelectorProps {
   value?: DateRangeSelection;
   onChange?: (newDateRange: DateRangeSelection) => void;
   onValidityChange?: (valid: boolean) => void;
@@ -36,12 +36,12 @@ const isDateValid = (date: string | Moment | undefined): boolean => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector: React.FC<FinanceDateRangeSelectorProps> = ({
+const FinancesDateRangeSelector = ({
   value,
   onChange,
   onValidityChange,
   className,
-}) => {
+}: FinancesDateRangeSelectorProps) => {
   const dispatch = useDispatch();
 
   const dateRange: DateRangeSelection = value || useSelector(dateRangeDataSelector);
@@ -92,4 +92,4 @@ const FinanceDateRangeSelector: React.FC<FinanceDateRangeSelectorProps> = ({
   );
 };
 
-export default FinanceDateRangeSelector;
+export default FinancesDateRangeSelector;

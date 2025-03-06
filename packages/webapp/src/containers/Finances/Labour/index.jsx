@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import Employee from './Employee';
 import Task from './Task';
 import { dateRangeDataSelector } from '../selectors';
-import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -90,7 +90,7 @@ class Labour extends Component {
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl={FINANCES_HOME_URL} title={this.props.t('SALE.LABOUR.TITLE')} />
-        <FinanceDateRangeSelector />
+        <FinancesDateRangeSelector />
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>
           <div className={styles.dropDownContainer}>

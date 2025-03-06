@@ -23,7 +23,7 @@ import Table from '../../../components/Table';
 import { TableKind } from '../../../components/Table/types';
 import { getExpense, getFarmExpenseType } from '../actions';
 import history from '../../../history';
-import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
@@ -188,7 +188,7 @@ const OtherExpense = () => {
   return (
     <div className={defaultStyles.financesContainer}>
       <PageTitle backUrl={FINANCES_HOME_URL} title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
-      <FinanceDateRangeSelector />
+      <FinancesDateRangeSelector />
 
       <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>
       <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>

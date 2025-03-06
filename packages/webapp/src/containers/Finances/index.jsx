@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
 import useFinancesDateRange from '../../components/Finances/DateRangeSelector/useFinancesDateRange';
 import AddTransactionButton from '../../components/Finances/AddTransactionButton';
-import FinanceDateRangeSelector from '../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
 import PureCollapsingSearch from '../../components/PopupFilter/PureCollapsingSearch';
@@ -129,7 +129,7 @@ const Finances = ({ history }) => {
         <Report />
       </div>
       <div className={styles.filterBar} ref={overlayRef}>
-        <FinanceDateRangeSelector className={styles.dateRangeSelector} />
+        <FinancesDateRangeSelector className={styles.dateRangeSelector} />
         <div className={styles.filterBarButtons}>
           <PureCollapsingSearch
             value={searchString}

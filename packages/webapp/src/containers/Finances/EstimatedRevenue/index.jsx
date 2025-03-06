@@ -11,7 +11,7 @@ import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { isTaskType } from '../../Task/useIsTaskType';
-import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useFinancesDateRange from '../../../components/Finances/DateRangeSelector/useFinancesDateRange';
 import { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
@@ -78,7 +78,7 @@ export default function EstimatedRevenue({ history, match }) {
       <Semibold style={{ marginBottom: '24px' }} sm>
         {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
-      <FinanceDateRangeSelector />
+      <FinancesDateRangeSelector />
 
       <FinanceListHeader
         firstColumn={t('FINANCES.DATE')}

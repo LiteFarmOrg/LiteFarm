@@ -27,8 +27,8 @@ interface UseFinancesDateRangeProps {
 }
 
 /**
- * Returns startDate and endDate from the store.
- * If they are not defined, sets the default option and dates.
+ * Returns startDate and endDate in the store.
+ * If they are not defined, set the default option and dates.
  */
 export default function useFinancesDateRange({
   weekStartDate = SUNDAY,

@@ -21,10 +21,9 @@ export type TMeasurement = {
   unit: string;
 };
 
-export type SensorReadingKPIprops = TMeasurement & {
+export interface SensorReadingKPIprops extends TMeasurement, React.HTMLAttributes<HTMLDivElement> {
   colorHex?: string;
-  rest?: React.HTMLAttributes<HTMLDivElement>;
-};
+}
 
 export default function SensorReadingKPI({
   measurement,

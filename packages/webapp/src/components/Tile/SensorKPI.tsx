@@ -29,15 +29,13 @@ export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
   colorHex?: string;
 }
 
-export interface MeasurementProps extends TMeasurement {
-  rest?: React.HTMLAttributes<HTMLDivElement>;
-}
+export interface MeasurementProps extends TMeasurement, React.HTMLAttributes<HTMLDivElement> {}
 
 const discriminatorIconName: { [key: string]: IconName } = {
   depth_elevation: 'RULER',
 };
 
-const Measurement = ({ measurement, value, unit, ...rest }: TMeasurement) => (
+const Measurement = ({ measurement, value, unit, ...rest }: MeasurementProps) => (
   <div {...rest} className={styles.measurement}>
     <div className={styles.measureText}>{measurement}</div>
     <div className={styles.valueText}>

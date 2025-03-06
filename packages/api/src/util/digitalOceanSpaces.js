@@ -3,6 +3,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import { getEnvBool } from '../util/env.js'
 
 function getPrivateS3BucketName() {
   if (process.env.S3_PRIVATE_BUCKET_NAME) return process.env.S3_PRIVATE_BUCKET_NAME;
@@ -49,7 +50,7 @@ const s3 = new S3Client({
     accessKeyId:  process.env.S3_ACCESS_KEY_ID || process.env.DO_SPACES_ACCESS_KEY_ID,
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || process.env.DO_SPACES_SECRET_ACCESS_KEY,
   },
-  forcePathStyle: process.env.NODE_ENV === 'development' ? true : false,
+  forcePathStyle: getEnvBool('S3_FORCE_PATH_STYLE', process.env.NODE_ENV === 'development'? true : false),
 });
 
 async function imaginaryPost(
@@ -118,7 +119,7 @@ function getRandomFileName(file) {
 }
 
 function getPrivateS3Url() {
-    if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPrivateS3BucketName());
+  if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPrivateS3BucketName());
   if (process.env.NODE_ENV === 'development') {
     return `${MINIO_ENDPOINT}/${getPrivateS3BucketName()}`;
   }
@@ -126,7 +127,7 @@ function getPrivateS3Url() {
 }
 
 function getPublicS3Url() {
-    if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPublicS3BucketName());
+  if(process.env.S3_ENDPOINT_BUCKET) return process.env.S3_ENDPOINT_BUCKET.replace('${bucket}', getPublicS3BucketName());
   if (process.env.NODE_ENV === 'development') {
     return `${MINIO_ENDPOINT}/${getPublicS3BucketName()}`;
   }

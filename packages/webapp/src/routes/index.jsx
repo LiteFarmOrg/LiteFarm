@@ -29,7 +29,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
-import { ADD_SENSORS_URL } from '../util/siteMapConstants';
+import { ADD_SENSORS_URL, SENSORS_URL } from '../util/siteMapConstants';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
@@ -640,7 +640,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               )}
             />
             <Route
-              path="/sensors"
+              path={SENSORS_URL}
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
@@ -953,7 +953,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               )}
             />
             <Route
-              path="/sensors"
+              path={SENSORS_URL}
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
@@ -1068,7 +1068,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               )}
             />
             <Route
-              path="/sensors"
+              path={SENSORS_URL}
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />

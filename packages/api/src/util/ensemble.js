@@ -145,7 +145,10 @@ const mapDeviceToSensor = (device) => {
   return {
     name: device.name,
     external_id: device.esid,
-    sensor_reading_types: device.parameter_types.map((type) => toSnakeCase(type)),
+    sensor_reading_types: device.parameter_types?.map(
+      // not currently receiving this data as of March 5, 2025
+      (type) => toSnakeCase(type),
+    ),
     last_seen: device.last_seen,
     point: {
       lat: device.latest_position.coordinates.lat,

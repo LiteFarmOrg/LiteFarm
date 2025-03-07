@@ -17,7 +17,9 @@
 
 .wrapper {
   padding: 0 24px 24px 24px;
-
+  max-width: 1024px;
+  width: inherit;
+  margin: 0 auto;
   @include xs-breakpoint {
     padding: 0 16px 16px 16px;
   }

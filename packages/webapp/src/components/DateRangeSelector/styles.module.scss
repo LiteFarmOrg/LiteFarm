@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
+
 .wrapper {
   position: relative;
 }
@@ -75,7 +75,8 @@
     }
   }
   + div div {
-    > div, input {
+    > div,
+    input {
       min-width: 100% !important;
     }
   }
@@ -96,4 +97,17 @@
 .clearDates {
   font-size: 14px;
   color: var(--brown700);
+}
+
+// SmartDateRangeSelector
+.rangeContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  input {
+    text-align: center;
+  }
+  h5 {
+    text-align: center;
+  }
 }

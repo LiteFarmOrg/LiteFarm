@@ -90,8 +90,7 @@ import {
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
-import { setDateRange, setIsFetchingData } from './Finances/actions.js';
-import { DateRangeOptions } from '../components/DateRangeSelector/types';
+import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
@@ -622,7 +621,7 @@ export function* fetchAllSaga() {
 
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
-  yield put(setDateRange({ option: DateRangeOptions.YEAR_TO_DATE }));
+  yield put(resetDateRange());
 
   yield put(
     api.util.invalidateTags([

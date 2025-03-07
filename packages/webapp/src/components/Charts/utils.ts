@@ -16,12 +16,17 @@
 import { getNextDateTime, getUnixTime } from '../../containers/SensorReadings/v2/utils';
 import { TruncPeriod } from './LineChart';
 
+export const getLocalDate = (date: string) => {
+  const [y, m, d] = date.split('-');
+  return new Date(+y, +m - 1, +d);
+};
+
 const getMonthlyTicks = (startDate: string, endDate: string) => {
-  const endDateInMilliseconds = new Date(endDate).getTime();
-  let currentDate = new Date(startDate);
+  const endDateInMilliseconds = getLocalDate(endDate).getTime();
+  let currentDate = getLocalDate(startDate);
   const ticks = [];
 
-  if (currentDate.getDate() === 1) {
+  if (currentDate.getDate() !== 1) {
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
   }
 
@@ -36,8 +41,8 @@ const getMonthlyTicks = (startDate: string, endDate: string) => {
 const getDailyTicks = (startDate: string, endDate: string) => {
   const ticks = [];
 
-  const endDateUnixTime = getUnixTime(new Date(endDate));
-  let currentUnixTime = getUnixTime(new Date(startDate));
+  const endDateUnixTime = getUnixTime(getLocalDate(endDate));
+  let currentUnixTime = getUnixTime(getLocalDate(startDate));
 
   while (currentUnixTime <= endDateUnixTime) {
     ticks.push(currentUnixTime);
@@ -49,7 +54,7 @@ const getDailyTicks = (startDate: string, endDate: string) => {
 
 export const getTicks = (startDate: string, endDate: string, truncPeriod: TruncPeriod) => {
   if (truncPeriod === 'day') {
-    const endDateObj = new Date(endDate);
+    const endDateObj = getLocalDate(endDate);
     const firstDayOfPreviousMonth = new Date(
       endDateObj.getFullYear(),
       endDateObj.getMonth() - 1,

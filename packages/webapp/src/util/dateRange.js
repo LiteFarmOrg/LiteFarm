@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { addDaysToDate, getLocalDateInYYYYDDMM } from './date';
-import { DateRangeOptions as options } from '../components/DateRangeSelector/constants';
+import { DateRangeOptions as options } from '../components/DateRangeSelector/types';
 
 export const SUNDAY = 'Sunday';
 export const MONDAY = 'Monday';

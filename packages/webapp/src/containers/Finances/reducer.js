@@ -27,7 +27,7 @@ import {
 
 import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
-import { DateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 
 const initialState = {
   sales: [],

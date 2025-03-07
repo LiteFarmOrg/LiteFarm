@@ -16,7 +16,7 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { tasksSelector } from '../../taskSlice';
 import { setDateRange } from '../actions';
-import { DateRangeOptions } from '../../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../../components/DateRangeSelector/types';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';

@@ -20,8 +20,7 @@ import { setDateRange } from '../../../containers/Finances/actions';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import DateRangeSelector from '../../DateRangeSelector';
-import { DateRangeOptions } from '../../DateRangeSelector/constants';
-import { DateRangeSelection } from './types';
+import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import styles from './styles.module.scss';
 

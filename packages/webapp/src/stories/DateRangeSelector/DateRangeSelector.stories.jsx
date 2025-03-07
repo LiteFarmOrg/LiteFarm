@@ -19,7 +19,7 @@ import selectEvent from 'react-select-event';
 import moment from 'moment';
 import DateRangeSelector from '../../components/DateRangeSelector';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { DateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../components/Form/DateRangePicker';
 
 export default {

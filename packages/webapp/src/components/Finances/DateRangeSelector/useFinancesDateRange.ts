@@ -19,8 +19,7 @@ import PropTypes from 'prop-types';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { setDateRange } from '../../../containers/Finances/actions';
 import DateRange, { MONDAY, SUNDAY } from '../../../util/dateRange';
-import { DateRangeOptions } from '../../DateRangeSelector/constants';
-import { DateRangeSelection } from './types';
+import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
 
 interface UseFinancesDateRangeProps {
   weekStartDate?: typeof SUNDAY | typeof MONDAY;

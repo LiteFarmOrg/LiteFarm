@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Moment } from 'moment';
+
 export enum DateRangeOptions {
   YEAR_TO_DATE = 'year_to_date',
   LAST_7_DAYS = 'last_seven_days',
@@ -23,4 +25,16 @@ export enum DateRangeOptions {
   THIS_MONTH = 'this_month',
   LAST_MONTH = 'last_month',
   CUSTOM = 'custom_range',
+}
+
+interface CustomRange {
+  startDate?: string | Moment;
+  endDate?: string | Moment;
+}
+
+export interface DateRangeSelection {
+  option?: DateRangeOptions;
+  startDate?: string | Moment;
+  endDate?: string | Moment;
+  customRange?: CustomRange;
 }

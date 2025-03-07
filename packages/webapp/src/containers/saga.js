@@ -91,7 +91,7 @@ import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fen
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
 import { setDateRange, setIsFetchingData } from './Finances/actions.js';
-import { DateRangeOptions } from '../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../components/DateRangeSelector/types';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {

@@ -14,7 +14,7 @@
  */
 import { expect, describe, test } from 'vitest';
 import DateRange, { SUNDAY, MONDAY } from '../util/dateRange';
-import { DateRangeOptions } from '../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../components/DateRangeSelector/types';
 
 const testCases = [
   {

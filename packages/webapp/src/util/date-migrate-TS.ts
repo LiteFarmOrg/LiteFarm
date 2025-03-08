@@ -13,3 +13,14 @@ export function getDurationString(timeInSeconds: number) {
   const durationString = `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
   return durationString;
 }
+
+export function isSameDay(date1: Date, date2: Date) {
+  if (!date1 || !date2) {
+    return false;
+  }
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth()
+  );
+}

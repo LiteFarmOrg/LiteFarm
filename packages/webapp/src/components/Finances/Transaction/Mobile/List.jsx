@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatTransactionDate } from '../../../../containers/Finances/util';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
-import { isSameDay } from '../../../../util/date';
+import { isSameDay } from '../../../../util/date-migrate-TS';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import Button from '../../../Form/Button';

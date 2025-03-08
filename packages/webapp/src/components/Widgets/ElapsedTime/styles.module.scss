@@ -1,0 +1,23 @@
+@import '@assets/mixin.scss';
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  min-width: 16px;
+  min-height: 16px;
+  & > svg {
+    width: 16px;
+  }
+}
+
+.duration {
+  @include fontFamily();
+  color: #000;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px; /* 200% */
+}

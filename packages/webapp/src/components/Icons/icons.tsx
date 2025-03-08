@@ -70,6 +70,7 @@ import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circl
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
+import { ReactComponent as ClockFast } from '../../assets/images/clock-fast.svg';
 import { FunctionComponent } from 'react';
 
 // Input
@@ -144,6 +145,7 @@ export const iconMap = {
   TRASH: TrashIcon,
   EDIT: EditIcon,
   CHEVRON_LEFT: ChevronLeft,
+  CLOCK_FAST: ClockFast,
   // Input
   LOCKED: LockedIcon,
 

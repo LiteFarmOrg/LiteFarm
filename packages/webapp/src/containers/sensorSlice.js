@@ -3,6 +3,10 @@ import { figureProperties, locationProperties, pointProperties } from './constan
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import {
+  sensorArraysSelector,
+  standaloneSensorsSelector,
+} from '../store/api/selectors/sensorSelectors';
 
 const sensorProperties = [
   'model',
@@ -110,5 +114,12 @@ export const sensorStatusSelector = createSelector(
   [sensorReducerSelector],
   ({ loading, error, loaded }) => {
     return { loading, error, loaded };
+  },
+);
+
+export const allSensorsSelector = createSelector(
+  [sensorSelector, sensorArraysSelector, standaloneSensorsSelector],
+  (sensor, sensorArrays, standaloneSensors) => {
+    return [...sensor, ...sensorArrays, ...standaloneSensors];
   },
 );

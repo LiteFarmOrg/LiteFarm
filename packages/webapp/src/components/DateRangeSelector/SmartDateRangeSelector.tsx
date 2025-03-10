@@ -19,7 +19,7 @@ import DateRange, { SUNDAY } from '../../util/dateRange';
 import DateRangeSelector from '.';
 import { DateRangeOptions } from './types';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
-import { DateRangeSelection } from './types';
+import { DateRangeData } from './types';
 import styles from './styles.module.scss';
 
 /**
@@ -29,12 +29,12 @@ import styles from './styles.module.scss';
  */
 
 interface SmartDateRangeSelectorProps {
-  dateRange: DateRangeSelection;
+  dateRange: DateRangeData;
 
   /**
    * When using Redux, ensure your reducer handles this action by merging the new values into the current state, for example:
    *
-   *   updateDateRange(state, action: PayloadAction<Partial<DateRangeSelection>>) {
+   *   updateDateRange(state, action: PayloadAction<Partial<DateRangeData>>) {
    *     state.date_range = { ...state.date_range, ...action.payload };
    *   }
    *
@@ -42,7 +42,7 @@ interface SmartDateRangeSelectorProps {
    *
    *   setDateRange((prev) => ({ ...prev, ...newDateRange }));
    */
-  updateDateRange: (newDateRange: Partial<DateRangeSelection>) => void;
+  updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
 
   defaultValue: DateRangeOptions;
   onValidityChange?: (valid: boolean) => void;
@@ -70,7 +70,7 @@ const SmartDateRangeSelector = ({
   const changeDate = (type: 'start' | 'end', date: Moment) => {
     const startDate = type === 'start' ? date : customRange.startDate;
     const endDate = type === 'end' ? date : customRange.endDate;
-    const newDateRange: DateRangeSelection = { customRange: { startDate, endDate } };
+    const newDateRange: DateRangeData = { customRange: { startDate, endDate } };
 
     // If both dates are valid, update the dates.
     if ([startDate, endDate].every(isDateValid)) {
@@ -82,7 +82,7 @@ const SmartDateRangeSelector = ({
   };
 
   const onChangeDateRangeOption = (value: DateRangeOptions) => {
-    let newDateRange: DateRangeSelection = { option: value };
+    let newDateRange: DateRangeData = { option: value };
     if (value !== DateRangeOptions.CUSTOM) {
       newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
     } else if (

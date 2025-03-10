@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { DateRangeOptions, DateRangeSelection } from '../../../DateRangeSelector/types';
+import { DateRangeOptions, DateRangeData } from '../../../DateRangeSelector/types';
 import SmartDateRangeSelector from '../../../DateRangeSelector/SmartDateRangeSelector';
 
 interface SensorsDateRangeSelectorProps {
-  dateRange: DateRangeSelection;
-  updateDateRange: (newDateRange: Partial<DateRangeSelection>) => void;
+  dateRange: DateRangeData;
+  updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
   onValidityChange?: (valid: boolean) => void;
   className?: string;
 }

@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { MONDAY, SUNDAY } from '../../../util/dateRange';
-import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
+import { DateRangeOptions, DateRangeData } from '../../DateRangeSelector/types';
 import useSmartDateRange from '../../DateRangeSelector/useSmartDateRange';
 
 /* Finance-specific wrapper for useSmartDateRange for use with the Finances Redux store slice */
@@ -31,13 +31,12 @@ export default function useFinancesDateRange({ weekStartDate }: UseFinancesDateR
 } {
   const dispatch = useDispatch();
 
-  const dateRange: DateRangeSelection = useSelector(dateRangeDataSelector);
+  const dateRange: DateRangeData = useSelector(dateRangeDataSelector);
 
   return useSmartDateRange({
     weekStartDate,
     dateRange,
-    updateDateRange: (newDateRange: Partial<DateRangeSelection>) =>
-      dispatch(setDateRange(newDateRange)),
+    updateDateRange: (newDateRange: Partial<DateRangeData>) => dispatch(setDateRange(newDateRange)),
     defaultOption: DateRangeOptions.YEAR_TO_DATE,
   });
 }

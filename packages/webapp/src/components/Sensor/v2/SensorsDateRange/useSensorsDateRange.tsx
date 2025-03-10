@@ -16,7 +16,7 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { SUNDAY, MONDAY } from '../../../../util/dateRange';
-import { DateRangeOptions, DateRangeSelection } from '../../../DateRangeSelector/types';
+import { DateRangeOptions, DateRangeData } from '../../../DateRangeSelector/types';
 import useSmartDateRange from '../../../DateRangeSelector/useSmartDateRange';
 
 /**
@@ -32,12 +32,12 @@ interface UseSensorsDateRangeProps {
 export default function useSensorsDateRange({ weekStartDate = SUNDAY }: UseSensorsDateRangeProps): {
   startDate?: string; // ISO 8601
   endDate?: string; // ISO 8601
-  dateRange: DateRangeSelection;
-  updateDateRange: (newDateRange: Partial<DateRangeSelection>) => void;
+  dateRange: DateRangeData;
+  updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
 } {
-  const [dateRange, setDateRange] = useState<DateRangeSelection>({});
+  const [dateRange, setDateRange] = useState<DateRangeData>({});
 
-  const updateDateRange = (newDateRange: Partial<DateRangeSelection>) => {
+  const updateDateRange = (newDateRange: Partial<DateRangeData>) => {
     setDateRange((prev) => ({ ...prev, ...newDateRange }));
   };
 

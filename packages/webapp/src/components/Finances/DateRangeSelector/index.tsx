@@ -16,7 +16,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
-import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
+import { DateRangeOptions, DateRangeData } from '../../DateRangeSelector/types';
 import SmartDateRangeSelector from '../../DateRangeSelector/SmartDateRangeSelector';
 
 /* Finance-specific wrapper for SmartDateRangeSelector specifying the Finances Redux store slice
@@ -24,8 +24,8 @@ import SmartDateRangeSelector from '../../DateRangeSelector/SmartDateRangeSelect
  * Use passed in state if value + onChange are provided (e.g. in <Report />), or otherwise act on the Redux store slice
  */
 interface FinancesDateRangeSelectorProps {
-  value?: DateRangeSelection;
-  onChange?: (newDateRange: Partial<DateRangeSelection>) => void;
+  value?: DateRangeData;
+  onChange?: (newDateRange: Partial<DateRangeData>) => void;
   onValidityChange?: (valid: boolean) => void;
   className?: string;
 }
@@ -42,8 +42,7 @@ const FinancesDateRangeSelector = ({
     <SmartDateRangeSelector
       dateRange={value || useSelector(dateRangeDataSelector)}
       updateDateRange={
-        onChange ||
-        ((newDateRange: Partial<DateRangeSelection>) => dispatch(setDateRange(newDateRange)))
+        onChange || ((newDateRange: Partial<DateRangeData>) => dispatch(setDateRange(newDateRange)))
       }
       onValidityChange={onValidityChange}
       defaultValue={DateRangeOptions.YEAR_TO_DATE}

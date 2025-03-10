@@ -15,7 +15,7 @@
 
 import { useEffect } from 'react';
 import DateRange from '../../util/dateRange';
-import { DateRangeOptions, DateRangeSelection } from './types';
+import { DateRangeOptions, DateRangeData } from './types';
 import { MONDAY, SUNDAY } from '../../util/dateRange';
 
 /**
@@ -26,8 +26,8 @@ import { MONDAY, SUNDAY } from '../../util/dateRange';
 interface useSmartDateRangeProps {
   weekStartDate?: typeof SUNDAY | typeof MONDAY;
   defaultOption?: DateRangeOptions;
-  dateRange: DateRangeSelection;
-  updateDateRange: (dateRange: Partial<DateRangeSelection>) => void;
+  dateRange: DateRangeData;
+  updateDateRange: (dateRange: Partial<DateRangeData>) => void;
 }
 
 export default function useSmartDateRange({

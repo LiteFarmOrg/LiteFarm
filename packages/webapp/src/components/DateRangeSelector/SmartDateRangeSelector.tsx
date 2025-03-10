@@ -15,7 +15,7 @@
 
 import clsx from 'clsx';
 import moment, { Moment } from 'moment';
-import DateRange, { SUNDAY } from '../../util/dateRange';
+import DateRange, { SUNDAY, MONDAY } from '../../util/dateRange';
 import DateRangeSelector from '.';
 import { DateRangeOptions } from './types';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
@@ -44,9 +44,10 @@ interface SmartDateRangeSelectorProps {
    */
   updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
 
-  defaultValue: DateRangeOptions;
   onValidityChange?: (valid: boolean) => void;
   className?: string;
+  defaultValue: DateRangeOptions;
+  weekStartDate?: typeof SUNDAY | typeof MONDAY;
 }
 
 const isDateValid = (date: string | Moment | undefined): boolean => {
@@ -59,10 +60,11 @@ const SmartDateRangeSelector = ({
   onValidityChange,
   className,
   defaultValue = DateRangeOptions.YEAR_TO_DATE,
+  weekStartDate = SUNDAY,
 }: SmartDateRangeSelectorProps) => {
   const { option, customRange = {} } = dateRange;
   const initialOption = option || defaultValue;
-  const dateRangeUtil = new DateRange(new Date(), SUNDAY);
+  const dateRangeUtil = new DateRange(new Date(), weekStartDate);
 
   const initialStartDate = customRange.startDate ? moment(customRange.startDate) : undefined;
   const initialEndDate = customRange.endDate ? moment(customRange.endDate) : undefined;

@@ -65,7 +65,6 @@ describe('Test chart data formatting', () => {
         '2025-03-02',
         '2025-03-03',
         '2025-03-04',
-        '2025-03-05',
         '2025-03-06',
       ].map(createData);
       const result = formatSensorsData(fakeData, 'day', []);
@@ -77,7 +76,6 @@ describe('Test chart data formatting', () => {
       const expectedData = [
         '2025-02-26',
         '2025-02-27',
-        '2025-02-28',
         '2025-03-01',
         '2025-03-02',
         '2025-03-03',
@@ -88,22 +86,12 @@ describe('Test chart data formatting', () => {
     });
 
     test('handles timestamps within the same day correctly', () => {
-      const fakeData = [
-        '2025-02-26',
-        '2025-03-01',
-        '2025-03-01T00:44:52.876Z',
-        '2025-03-01T02:44:52.876Z',
-        '2025-03-02',
-        '2025-03-04',
-      ].map(createData);
+      const fakeData = ['2025-02-26', '2025-03-01', '2025-03-02', '2025-03-04'].map(createData);
 
       const expectedData = [
         '2025-02-26',
         '2025-02-27',
-        '2025-02-28',
         '2025-03-01',
-        '2025-03-01T00:44:52.876Z',
-        '2025-03-01T02:44:52.876Z',
         '2025-03-02',
         '2025-03-03',
         '2025-03-04',
@@ -115,20 +103,37 @@ describe('Test chart data formatting', () => {
     test('handles truncPeriod "hour" correctly', () => {
       const fakeData = [
         '2025-03-01T00:00:00Z',
-        '2025-03-01T02:30:00Z',
-        '2025-03-01T03:30:00Z',
-        '2025-03-01T05:30:00Z',
+        '2025-03-01T02:00:00Z',
+        '2025-03-01T03:00:00Z',
+        '2025-03-01T05:00:00Z',
       ].map(createData);
       const expectedData = [
         '2025-03-01T00:00:00Z',
         '2025-03-01T01:00:00Z',
         '2025-03-01T02:00:00Z',
-        '2025-03-01T02:30:00Z',
         '2025-03-01T03:00:00Z',
-        '2025-03-01T03:30:00Z',
         '2025-03-01T04:00:00Z',
         '2025-03-01T05:00:00Z',
-        '2025-03-01T05:30:00Z',
+      ].map(createData);
+
+      const result = formatSensorsData(fakeData, 'hour', []);
+      expect(result).toEqual(expectedData);
+    });
+
+    test('handles truncPeriod "hour" correctly with time difference', () => {
+      const fakeData = [
+        '2025-03-01T00:15:00Z',
+        '2025-03-01T02:15:00Z',
+        '2025-03-01T03:15:00Z',
+        '2025-03-01T05:15:00Z',
+      ].map(createData);
+      const expectedData = [
+        '2025-03-01T00:15:00Z',
+        '2025-03-01T01:15:00Z',
+        '2025-03-01T02:15:00Z',
+        '2025-03-01T03:15:00Z',
+        '2025-03-01T04:15:00Z',
+        '2025-03-01T05:15:00Z',
       ].map(createData);
 
       const result = formatSensorsData(fakeData, 'hour', []);

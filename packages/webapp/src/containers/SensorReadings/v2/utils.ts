@@ -21,7 +21,7 @@ interface FormattedSensorDatapoint {
   [key: string]: number | null;
 }
 
-export const getUnixTime = (date: string | Date) => {
+export const getUnixTime = (date: Date) => {
   return new Date(date).getTime() / 1000;
 };
 
@@ -54,32 +54,31 @@ export const formatSensorsData = (
     return [];
   }
 
-  const sortedData = sortDataByDateTime(data);
   let result = [];
-  let currentTimeStamp = sortedData[0].dateTime;
+  let currentTimeStamp = data[0].dateTime;
   let dataPointer = 0;
 
-  while (
-    dataPointer < sortedData.length ||
-    currentTimeStamp <= sortedData[sortedData.length - 1].dateTime
-  ) {
-    if (currentTimeStamp === sortedData[dataPointer].dateTime) {
-      result.push(fillMissingDataWithNull(sortedData[dataPointer], dataKeys));
+  while (dataPointer < data.length || currentTimeStamp <= data[data.length - 1].dateTime) {
+    let nextDateTime = getNextDateTime(currentTimeStamp, truncPeriod);
+
+    if (currentTimeStamp === data[dataPointer].dateTime) {
+      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys));
       dataPointer++;
     } else {
       // Insert a placeholder entry for a missing timestamp
       result.push(fillMissingDataWithNull({ dateTime: currentTimeStamp }, dataKeys));
+
+      // Use the dateTime from the next available data point
+      nextDateTime = data[dataPointer].dateTime;
     }
 
-    const nextDateTime = getNextDateTime(currentTimeStamp, truncPeriod);
-
-    while (dataPointer < sortedData.length && nextDateTime > sortedData[dataPointer].dateTime) {
+    while (dataPointer < data.length && nextDateTime > data[dataPointer].dateTime) {
       // Add existing data points until the next expected timestamp is reached
-      result.push(fillMissingDataWithNull(sortedData[dataPointer], dataKeys));
+      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys));
       dataPointer++;
     }
 
-    currentTimeStamp = getNextDateTime(currentTimeStamp, truncPeriod);
+    currentTimeStamp = nextDateTime;
   }
 
   return result;

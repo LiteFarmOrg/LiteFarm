@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { getNextDateTime, getUnixTime } from '../../containers/SensorReadings/v2/utils';
+import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
+import { getDateDifference } from '../../util/moment';
 import { TruncPeriod } from './LineChart';
 
 export const getLocalDate = (date: string) => {
@@ -44,9 +45,12 @@ const getDailyTicks = (startDate: string, endDate: string) => {
   const endDateUnixTime = getUnixTime(getLocalDate(endDate));
   let currentUnixTime = getUnixTime(getLocalDate(startDate));
 
+  const dateDiff = getDateDifference(startDate, endDate);
+  const tickUnixTimeSpan = 60 * 60 * 24 * Math.ceil((dateDiff + 1) / 7);
+
   while (currentUnixTime <= endDateUnixTime) {
     ticks.push(currentUnixTime);
-    currentUnixTime = getNextDateTime(currentUnixTime, 'day');
+    currentUnixTime += tickUnixTimeSpan;
   }
 
   return ticks;
@@ -61,7 +65,7 @@ export const getTicks = (startDate: string, endDate: string, truncPeriod: TruncP
       1,
     );
 
-    if (getUnixTime(startDate) <= getUnixTime(firstDayOfPreviousMonth)) {
+    if (getUnixTime(getLocalDate(startDate)) <= getUnixTime(firstDayOfPreviousMonth)) {
       return getMonthlyTicks(startDate, endDate);
     }
   }

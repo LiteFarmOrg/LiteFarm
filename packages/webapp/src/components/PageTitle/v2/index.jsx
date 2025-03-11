@@ -6,7 +6,7 @@ import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
 
-function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label, classNames = {} }) {
+function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {} }) {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   return (
     <div className={clsx(styles.container, classNames.wrapper)} style={style}>
@@ -23,7 +23,6 @@ function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label, 
       {!!onCancel && (
         <CancelButton
           onCancel={onCancel}
-          cancelModalTitle={cancelModalTitle}
           showConfirmCancelModal={showConfirmCancelModal}
           setShowConfirmCancelModal={setShowConfirmCancelModal}
         />
@@ -41,7 +40,6 @@ PageTitle.propTypes = {
   onCancel: PropTypes.func,
   style: PropTypes.object,
   label: PropTypes.node,
-  cancelModalTitle: PropTypes.string,
   classNames: PropTypes.shape({
     wrapper: PropTypes.string,
   }),

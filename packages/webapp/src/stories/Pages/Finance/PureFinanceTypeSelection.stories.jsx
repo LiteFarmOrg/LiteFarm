@@ -143,7 +143,6 @@ export const Expense = {
   args: {
     title: 'Add Expense',
     leadText: 'Pick your expense types below:',
-    cancelTitle: 'expense creation',
     types: expenseTypes,
     onContinue: () => console.log('CONTINUE'),
     onGoBack: () => console.log('Go back'),
@@ -202,7 +201,6 @@ export const Revenue = {
   args: {
     title: 'Add Revenue',
     leadText: 'Which type of revenue would you like to record?',
-    cancelTitle: 'revenue creation',
     types: revenueTypes,
     onGoBack: () => console.log('Go back'),
     onCancel: () => console.log('Cancel'),

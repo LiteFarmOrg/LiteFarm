@@ -49,7 +49,6 @@ export default function PureTaskDate({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
         title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         value={progress}
       />

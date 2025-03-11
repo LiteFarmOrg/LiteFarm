@@ -123,7 +123,6 @@ function PureRepeatCropPlanConfirmation({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('REPEAT_PLAN.REPEAT_PLAN_FLOW')}
         value={66}
         title={t('REPEAT_PLAN.TITLE')}
         style={{ marginBottom: '24px' }}

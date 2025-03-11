@@ -367,7 +367,8 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
-    "TITLE": "Cancel your {{flow}}?"
+    "NO_BUTTON": "Don't cancel",
+    "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {

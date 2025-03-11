@@ -95,6 +95,7 @@ const Drawer = ({
           isOpen ? styles.openD : '',
           classes.drawerContainer,
         )}
+        inert={!isOpen ? '' : null}
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>

@@ -141,7 +141,6 @@ export default function DateRangeSelector({
             } else {
               setIsCustomOptionSelected(false);
             }
-            clearCustomDateRange();
             onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}

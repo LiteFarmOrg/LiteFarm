@@ -32,7 +32,7 @@ const TestComponent = (props) => {
   return (
     <Suspense fallback={'Loading...'}>
       <DateRangeSelector
-        changeDateMethod={() => ({})}
+        changeDateRangeMethod={() => ({})}
         onChangeDateRangeOption={() => ({})}
         {...props}
       />

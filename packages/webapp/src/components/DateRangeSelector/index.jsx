@@ -29,7 +29,7 @@ export default function DateRangeSelector({
   defaultCustomDateRange = {},
   onChangeDateRangeOption,
   placeholder,
-  changeDateMethod,
+  changeDateRangeMethod,
   onValidityChange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
@@ -108,6 +108,7 @@ export default function DateRangeSelector({
     if (!isCustomDatePickerOpen) {
       return;
     }
+    changeDateRangeMethod(customFromDate, customToDate);
     setIsCustomDatePickerOpen(false);
   };
 
@@ -118,12 +119,10 @@ export default function DateRangeSelector({
 
   const changeStartDate = (date) => {
     setCustomFromDate(date);
-    changeDateMethod('start', date);
   };
 
   const changeEndDate = (date) => {
     setCustomToDate(date);
-    changeDateMethod('end', date);
   };
 
   return (
@@ -178,7 +177,7 @@ DateRangeSelector.propTypes = {
     [TO_DATE]: PropTypes.object,
   }),
   placeholder: PropTypes.string,
-  changeDateMethod: PropTypes.func,
+  changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
 };

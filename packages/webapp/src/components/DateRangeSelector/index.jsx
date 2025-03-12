@@ -29,7 +29,7 @@ export default function DateRangeSelector({
   defaultCustomDateRange = {},
   onChangeDateRangeOption,
   placeholder,
-  changeDateMethod,
+  changeDateRangeMethod,
   onValidityChange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
@@ -66,20 +66,6 @@ export default function DateRangeSelector({
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
-
-  const isInitialRender = useRef(true);
-
-  useEffect(() => {
-    if (isInitialRender.current) {
-      // Avoid triggering the onChange when the component first mounts
-      isInitialRender.current = false;
-    } else {
-      setSelectedDateRangeOption(
-        defaultDateRangeOptionValue &&
-          options.find(({ value }) => value === defaultDateRangeOptionValue),
-      );
-    }
-  }, [defaultDateRangeOptionValue]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -122,6 +108,7 @@ export default function DateRangeSelector({
     if (!isCustomDatePickerOpen) {
       return;
     }
+    changeDateRangeMethod(customFromDate, customToDate);
     setIsCustomDatePickerOpen(false);
   };
 
@@ -132,12 +119,10 @@ export default function DateRangeSelector({
 
   const changeStartDate = (date) => {
     setCustomFromDate(date);
-    changeDateMethod('start', date);
   };
 
   const changeEndDate = (date) => {
     setCustomToDate(date);
-    changeDateMethod('end', date);
   };
 
   return (
@@ -156,7 +141,6 @@ export default function DateRangeSelector({
             } else {
               setIsCustomOptionSelected(false);
             }
-            clearCustomDateRange();
             onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
@@ -192,7 +176,7 @@ DateRangeSelector.propTypes = {
     [TO_DATE]: PropTypes.object,
   }),
   placeholder: PropTypes.string,
-  changeDateMethod: PropTypes.func,
+  changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
 };

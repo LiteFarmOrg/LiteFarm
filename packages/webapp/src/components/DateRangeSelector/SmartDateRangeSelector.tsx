@@ -69,9 +69,7 @@ const SmartDateRangeSelector = ({
   const initialStartDate = customRange.startDate ? moment(customRange.startDate) : undefined;
   const initialEndDate = customRange.endDate ? moment(customRange.endDate) : undefined;
 
-  const changeDate = (type: 'start' | 'end', date: Moment) => {
-    const startDate = type === 'start' ? date : customRange.startDate;
-    const endDate = type === 'end' ? date : customRange.endDate;
+  const changeDateRange = (startDate: Moment, endDate: Moment) => {
     const newDateRange: DateRangeData = { customRange: { startDate, endDate } };
 
     // If both dates are valid, update the dates.
@@ -103,7 +101,7 @@ const SmartDateRangeSelector = ({
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
-        changeDateMethod={changeDate}
+        changeDateRangeMethod={changeDateRange}
         onValidityChange={onValidityChange}
       />
     </div>

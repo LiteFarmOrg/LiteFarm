@@ -22,14 +22,13 @@ export const getLocalDate = (date: string) => {
   return new Date(+y, +m - 1, +d);
 };
 
-const getMonthlyTicks = (startDate: string, endDate: string) => {
-  const endDateInMilliseconds = getLocalDate(endDate).getTime();
-  let currentDate = getLocalDate(startDate);
+const getMonthlyTicks = (startDate: Date, endDate: Date) => {
+  const endDateInMilliseconds = endDate.getTime();
   const ticks = [];
-
-  if (currentDate.getDate() !== 1) {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-  }
+  let currentDate =
+    startDate.getDate() === 1
+      ? startDate
+      : new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
 
   while (currentDate.getTime() <= endDateInMilliseconds) {
     ticks.push(getUnixTime(currentDate));
@@ -39,36 +38,45 @@ const getMonthlyTicks = (startDate: string, endDate: string) => {
   return ticks;
 };
 
-const getDailyTicks = (startDate: string, endDate: string) => {
+const getDailyTicks = (startDate: Date, endDate: Date) => {
   const ticks = [];
 
-  const endDateUnixTime = getUnixTime(getLocalDate(endDate));
-  let currentUnixTime = getUnixTime(getLocalDate(startDate));
+  const endDateUnixTime = getUnixTime(endDate);
+  let currentUnixTime = getUnixTime(startDate);
 
   const dateDiff = getDateDifference(startDate, endDate);
-  const tickUnixTimeSpan = 60 * 60 * 24 * Math.ceil((dateDiff + 1) / 7);
+  const tickSpanInSeconds = 60 * 60 * 24 * Math.ceil((dateDiff + 1) / 7);
 
   while (currentUnixTime <= endDateUnixTime) {
     ticks.push(currentUnixTime);
-    currentUnixTime += tickUnixTimeSpan;
+    currentUnixTime += tickSpanInSeconds;
   }
 
   return ticks;
 };
 
-export const getTicks = (startDate: string, endDate: string, truncPeriod: TruncPeriod) => {
-  if (truncPeriod === 'day') {
-    const endDateObj = getLocalDate(endDate);
-    const firstDayOfPreviousMonth = new Date(
-      endDateObj.getFullYear(),
-      endDateObj.getMonth() - 1,
-      1,
-    );
+export const getTicks = (
+  startDate: string,
+  endDate: string,
+  truncPeriod: TruncPeriod,
+  option?: {
+    skipEmptyEndTicks: boolean;
+    lastDataPointDateTime: number;
+  },
+) => {
+  const startDateObj = getLocalDate(startDate);
 
-    if (getUnixTime(getLocalDate(startDate)) <= getUnixTime(firstDayOfPreviousMonth)) {
-      return getMonthlyTicks(startDate, endDate);
+  const lastDate = option?.skipEmptyEndTicks
+    ? new Date(option.lastDataPointDateTime * 1000)
+    : getLocalDate(endDate);
+
+  if (truncPeriod === 'day') {
+    const firstDayOfPreviousMonth = new Date(lastDate.getFullYear(), lastDate.getMonth() - 1, 1);
+
+    if (getUnixTime(startDateObj) <= getUnixTime(firstDayOfPreviousMonth)) {
+      return getMonthlyTicks(startDateObj, lastDate);
     }
   }
 
-  return getDailyTicks(startDate, endDate);
+  return getDailyTicks(startDateObj, lastDate);
 };

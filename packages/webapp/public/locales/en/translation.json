@@ -1792,6 +1792,7 @@
     "ANIMALS_LOCATION": "Animal locations"
   },
   "SENSOR": {
+    "ARRAY": "Array",
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
     "DAYS_AGO": "{{time}} day(s) ago",
@@ -1893,6 +1894,7 @@
       "Y_AXIS_LABEL": "in {{units}}"
     },
     "STANDALONE_SENSOR": "Standalone sensor",
+    "STANDALONE_SENSORS": "Standalone sensors",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "C": "Celsius (°C)",

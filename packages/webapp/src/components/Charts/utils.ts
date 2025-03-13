@@ -32,11 +32,11 @@ const getMonthlyTicks = (startDate: Date, endDate: Date): number[] => {
       ? startDate
       : new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
 
-  const dateDiff = getDateDifference(startDate, endDate);
-  const expectedMonths = Math.ceil(dateDiff / 28);
+  const daysDiff = getDateDifference(startDate, endDate);
+  const monthsDiff = Math.ceil(daysDiff / 28);
 
   // Limit the number of ticks to MAX_TICKS
-  const tickSpanInMonths = Math.ceil(expectedMonths / MAX_TICKS);
+  const tickSpanInMonths = Math.ceil(monthsDiff / MAX_TICKS);
 
   while (currentDate.getTime() <= endDateInMilliseconds) {
     ticks.push(getUnixTime(currentDate));
@@ -49,17 +49,21 @@ const getMonthlyTicks = (startDate: Date, endDate: Date): number[] => {
 const getDailyTicks = (startDate: Date, endDate: Date): number[] => {
   const ticks = [];
 
-  const endDateUnixTime = getUnixTime(endDate);
-  let currentUnixTime = getUnixTime(startDate);
+  const endDateInMilliseconds = endDate.getTime();
+  let currentDate = startDate;
 
-  const dateDiff = getDateDifference(startDate, endDate);
+  const daysDiff = getDateDifference(startDate, endDate);
 
   // Limit the number of ticks to MAX_TICKS
-  const tickSpanInSeconds = 60 * 60 * 24 * Math.ceil((dateDiff + 1) / MAX_TICKS);
+  const tickSpanInDays = Math.ceil((daysDiff + 1) / MAX_TICKS);
 
-  while (currentUnixTime <= endDateUnixTime) {
-    ticks.push(currentUnixTime);
-    currentUnixTime += tickSpanInSeconds;
+  while (currentDate.getTime() <= endDateInMilliseconds) {
+    ticks.push(getUnixTime(currentDate));
+    currentDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + tickSpanInDays,
+    );
   }
 
   return ticks;

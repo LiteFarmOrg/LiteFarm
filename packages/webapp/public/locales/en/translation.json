@@ -1848,11 +1848,20 @@
     "NO_DATA_FOUND": "No sensor readings found",
     "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
     "READING": {
+      "BAROMETRIC_PRESSURE": "Barometric pressure",
+      "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "LATEST_READING": "Latest reading:",
+      "RAINFALL_RATE": "Rainfall rate",
+      "RELATIVE_HUMIDITY": "Relative humidity",
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "SOLAR_RADIATION": "Solar radiation",
       "TEMPERATURE": "Temperature",
       "TYPES": "Reading types",
-      "UNKNOWN": "Unknown"
+      "UNKNOWN": "Unknown",
+      "UPDATE_READINGS": "Update readings",
+      "WIND_DIRECTION": "Wind direction",
+      "WIND_SPEED": "Wind speed"
     },
     "READINGS_PREVIEW": {
       "SOIL_WATER_POTENTIAL": "Current soil water potential",

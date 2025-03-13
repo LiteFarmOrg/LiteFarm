@@ -15,7 +15,6 @@
 
 import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
 import { getDateDifference } from '../../util/moment';
-import { TruncPeriod } from './LineChart';
 
 const MAX_TICKS = 7;
 
@@ -69,10 +68,25 @@ const getDailyTicks = (startDate: Date, endDate: Date): number[] => {
   return ticks;
 };
 
+/**
+ * Generates an array of ticks (timestamps) between the specified start and end dates.
+ * The function calculates either daily or monthly ticks based on the date range.
+ *
+ * - If the range spans two or more first days of a month, monthly ticks are returned.
+ * - Otherwise, daily ticks are returned.
+ * - The number of ticks will not exceed 7 (if the range allows).
+ *
+ * @param {string} startDate - The starting date of the range in 'YYYY-MM-DD' format.
+ * @param {string} endDate - The ending date of the range in 'YYYY-MM-DD' format.
+ * @param {Object} [option] - Optional settings for controlling the tick generation.
+ * @param {boolean} [option.skipEmptyEndTicks] - If true, the end date is adjusted based on the `lastDataPointDateTime`.
+ * @param {number} [option.lastDataPointDateTime] - A timestamp for the last data point. Used when `skipEmptyEndTicks` is true.
+ *
+ * @returns {number[]} - An array of tick timestamps (in Unix format), with a maximum of 7 ticks.
+ */
 export const getTicks = (
   startDate: string,
   endDate: string,
-  truncPeriod: TruncPeriod,
   option?: {
     skipEmptyEndTicks?: boolean;
     lastDataPointDateTime?: number;
@@ -85,13 +99,11 @@ export const getTicks = (
       ? new Date(option.lastDataPointDateTime * 1000)
       : getLocalDate(endDate);
 
-  if (truncPeriod === 'day') {
-    const firstDayOfPreviousMonth = new Date(lastDate.getFullYear(), lastDate.getMonth() - 1, 1);
+  const firstDayOfPreviousMonth = new Date(lastDate.getFullYear(), lastDate.getMonth() - 1, 1);
 
-    // Use monthly ticks if the range includes two or more first days of a month
-    if (startDateObj.getTime() <= firstDayOfPreviousMonth.getTime()) {
-      return getMonthlyTicks(startDateObj, lastDate);
-    }
+  // Use monthly ticks if the range includes two or more first days of a month
+  if (startDateObj.getTime() <= firstDayOfPreviousMonth.getTime()) {
+    return getMonthlyTicks(startDateObj, lastDate);
   }
 
   return getDailyTicks(startDateObj, lastDate);

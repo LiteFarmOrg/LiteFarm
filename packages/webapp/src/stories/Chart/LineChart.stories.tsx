@@ -65,7 +65,7 @@ export const HourlyData: Story = {
       { id: '8YH5Y5', color: COLORS[Color.GREEN] },
       { id: 'BWKBAL', color: COLORS[Color.RED] },
     ],
-    ticks: getTicks('2024-06-21', '2024-06-29', 'hour'),
+    ticks: getTicks('2024-06-21', '2024-06-29'),
   },
 };
 

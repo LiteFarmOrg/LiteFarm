@@ -938,7 +938,8 @@
       "CROPS": "Crops",
       "DETAILS": "Details",
       "READINGS": "Readings",
-      "TASKS": "Tasks"
+      "TASKS": "Tasks",
+      "FIELD_TECHNOLOGY": "Field Technology"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -1791,6 +1792,7 @@
     "ANIMALS_LOCATION": "Animal locations"
   },
   "SENSOR": {
+    "ARRAY": "Array",
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
     "DAYS_AGO": "{{time}} day(s) ago",
@@ -1824,12 +1826,14 @@
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
+      "MANAGE_LINK": "Manage ESci link",
       "NAME": "Ensemble Scientific",
       "ORGANISATION_ID": "ESci organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
       "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESci. Please try again later.",
       "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list",
-      "SHORT_NAME": "ESci"
+      "SHORT_NAME": "ESci",
+      "TO_MANAGE_SENSORS": "To manage your sensors individually, please connect to your ESci dashboard at {{url}}"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",
@@ -1890,6 +1894,7 @@
       "Y_AXIS_LABEL": "in {{units}}"
     },
     "STANDALONE_SENSOR": "Standalone sensor",
+    "STANDALONE_SENSORS": "Standalone sensors",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "C": "Celsius (°C)",

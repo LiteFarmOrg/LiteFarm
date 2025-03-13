@@ -83,7 +83,7 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
             <Main className={styles.infoText}>{t('SENSOR.ESCI.ACTIVE_CONNECTION')}</Main>
             <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
               <ExternalLinkIcon />
-              <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
+              <span>{t('common:MANAGE_ENTITY', { entity: PARTNERS.ESCI.shortName })}</span>
             </Link>
           </div>
           <Link className={styles.toSensorSetupButton} to={createSensorsUrl(PARTNERS.ESCI.id)}>

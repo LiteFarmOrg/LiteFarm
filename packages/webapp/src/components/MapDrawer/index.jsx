@@ -271,7 +271,7 @@ export default function MapDrawer({
         addBackdrop={false}
         onClose={() => setShowMapDrawer(false)}
         classes={{
-          drawerContainer: styles.drawerContainer,
+          sideDrawerContainer: styles.sideDrawerContainer,
         }}
       >
         {list()}

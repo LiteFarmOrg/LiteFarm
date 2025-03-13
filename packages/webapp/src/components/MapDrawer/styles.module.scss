@@ -51,7 +51,7 @@
   line-height: 16px;
 }
 
-.drawerContainer {
+.sideDrawerContainer {
   top: calc(
     var(--global-navbar-height) + var(--global-map-header-height) - 1px /* sm gap without adjust */
   );

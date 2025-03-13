@@ -41,7 +41,8 @@ interface DrawerProps {
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
-    drawerContainer?: string;
+    drawerContainer?: string; // bottom + side drawers
+    sideDrawerContainer?: string;
   };
 }
 
@@ -102,6 +103,7 @@ const Drawer = ({
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,
+          isSideDrawer && classes.sideDrawerContainer,
         )}
         inert={!isOpen ? '' : null}
       >

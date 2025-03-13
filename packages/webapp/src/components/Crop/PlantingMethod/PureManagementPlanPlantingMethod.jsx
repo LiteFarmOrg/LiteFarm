@@ -95,7 +95,6 @@ export default function PureManagementPlanPlantingMethod({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={isFinalPlantingMethod ? 62.5 : 54}
         style={{ marginBottom: '24px' }}

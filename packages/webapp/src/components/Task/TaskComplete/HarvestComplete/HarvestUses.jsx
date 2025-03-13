@@ -99,7 +99,6 @@ export default function PureHarvestUses({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />

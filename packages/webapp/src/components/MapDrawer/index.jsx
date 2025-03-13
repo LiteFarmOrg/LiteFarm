@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { locationEnum } from '../../containers/Map/constants';
 import MapDrawerMenuItem from './MapDrawerMenuItem';
-import Drawer from '../Drawer';
+import Drawer, { DesktopDrawerVariants } from '../Drawer';
 import styles from './styles.module.scss';
 
 export default function MapDrawer({
@@ -33,6 +33,7 @@ export default function MapDrawer({
   filterSettings,
   availableFilterSettings,
   headerTitle,
+  isCompactSideMenu,
 }) {
   const { t } = useTranslation();
 
@@ -264,7 +265,14 @@ export default function MapDrawer({
         data-cy="map-drawer"
         title={headerTitle}
         isOpen={showMapDrawer}
+        desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
+        sideDrawerDirection="left"
+        isCompactSideMenu={isCompactSideMenu}
+        addBackdrop={false}
         onClose={() => setShowMapDrawer(false)}
+        classes={{
+          drawerContainer: styles.drawerContainer,
+        }}
       >
         {list()}
       </Drawer>

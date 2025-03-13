@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2023, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,38 +14,45 @@
  */
 
 import clsx from 'clsx';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
+import moment, { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import DateRangeSelector from '../../DateRangeSelector';
-import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import styles from './styles.module.scss';
 
-const isDateValid = (date) => {
+interface FinancesDateRangeSelectorProps {
+  value?: DateRangeSelection;
+  onChange?: (newDateRange: DateRangeSelection) => void;
+  onValidityChange?: (valid: boolean) => void;
+  className?: string;
+}
+
+const isDateValid = (date: string | Moment | undefined): boolean => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector = ({ value, onChange, onValidityChange, className }) => {
+const FinancesDateRangeSelector = ({
+  value,
+  onChange,
+  onValidityChange,
+  className,
+}: FinancesDateRangeSelectorProps) => {
   const dispatch = useDispatch();
 
-  const dateRange = value || useSelector(dateRangeDataSelector);
+  const dateRange: DateRangeSelection = value || useSelector(dateRangeDataSelector);
   const { option, customRange = {} } = dateRange;
-  const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
+  const initialOption = option || DateRangeOptions.YEAR_TO_DATE;
   const dateRangeUtil = new DateRange(new Date(), SUNDAY);
 
-  const initialStartDate = customRange.startDate && moment(customRange.startDate);
-  const initialEndDate = customRange.endDate && moment(customRange.endDate);
+  const initialStartDate = customRange.startDate ? moment(customRange.startDate) : undefined;
+  const initialEndDate = customRange.endDate ? moment(customRange.endDate) : undefined;
 
-  const changeDate = (type, date) => {
-    const startDate = type === 'start' ? date : customRange.startDate;
-    const endDate = type === 'end' ? date : customRange.endDate;
-
-    const newDateRange = { customRange: { startDate, endDate } };
+  const changeDateRange = (startDate: Moment, endDate: Moment) => {
+    const newDateRange: DateRangeSelection = { customRange: { startDate, endDate } };
 
     // If both dates are valid, update dates and the option
     if ([startDate, endDate].every(isDateValid)) {
@@ -55,9 +62,9 @@ const FinanceDateRangeSelector = ({ value, onChange, onValidityChange, className
     onChange ? onChange(newDateRange) : dispatch(setDateRange(newDateRange));
   };
 
-  const onChangeDateRangeOption = (value) => {
-    let newDateRange = { option: value };
-    if (value !== dateRangeOptions.CUSTOM) {
+  const onChangeDateRangeOption = (value: DateRangeOptions) => {
+    let newDateRange: DateRangeSelection = { option: value };
+    if (value !== DateRangeOptions.CUSTOM) {
       newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
     } else if (
       Object.keys(customRange).length === 2 &&
@@ -74,28 +81,11 @@ const FinanceDateRangeSelector = ({ value, onChange, onValidityChange, className
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
-        changeDateMethod={changeDate}
+        changeDateRangeMethod={changeDateRange}
         onValidityChange={onValidityChange}
       />
     </div>
   );
 };
 
-const datePropType = PropTypes.oneOfType([PropTypes.object, PropTypes.string]);
-const dateRangePropType = {
-  startDate: datePropType,
-  endDate: datePropType,
-};
-
-FinanceDateRangeSelector.propTypes = {
-  value: PropTypes.shape({
-    option: PropTypes.oneOf(Object.values(dateRangeOptions)),
-    ...dateRangePropType,
-    customRange: PropTypes.shape(dateRangePropType),
-  }),
-  onChange: PropTypes.func,
-  onValidityChange: PropTypes.func,
-  className: PropTypes.string,
-};
-
-export default FinanceDateRangeSelector;
+export default FinancesDateRangeSelector;

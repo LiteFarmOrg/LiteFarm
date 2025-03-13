@@ -30,6 +30,7 @@ const meta: Meta<typeof Drawer> = {
 
     return (
       <div className={styles.wrapper}>
+        <div className={styles.fakeSideMenu} />
         <div className={styles.fakeMenuBar}>
           <Main>Resize window to switch between mobile and desktop versions</Main>
           <Button color="secondary" onClick={() => setIsDrawerOpen(true)}>
@@ -75,11 +76,30 @@ export const DesktopVariantSideDrawer: Story = {
   },
 };
 
+export const LeftSideDrawer: Story = {
+  args: {
+    title: 'Left side drawer on desktop',
+    desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
+    sideDrawerDirection: 'left',
+    isCompactSideMenu: true, // pass actual menu collapse state when using in app
+  },
+};
+
 export const FullHeightSideDrawer: Story = {
   args: {
     title: 'Full height + side drawer',
     desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
     fullHeight: true,
+  },
+};
+
+export const NoBackdrop: Story = {
+  args: {
+    title: 'No backdrop - so no click away listener',
+    desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
+    sideDrawerDirection: 'left',
+    isCompactSideMenu: true,
+    addBackdrop: false,
   },
 };
 

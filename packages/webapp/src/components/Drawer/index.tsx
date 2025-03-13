@@ -33,6 +33,8 @@ interface DrawerProps {
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
   desktopVariant?: DesktopDrawerVariants;
+  sideDrawerDirection?: 'left' | 'right';
+  isCompactSideMenu?: boolean; // only needed for left side drawer placement
   addBackdrop?: boolean;
   classes?: {
     modal?: string;
@@ -58,10 +60,14 @@ const Drawer = ({
   },
   fullHeight,
   desktopVariant = DesktopDrawerVariants.MODAL,
+  sideDrawerDirection = 'right',
+  isCompactSideMenu,
   addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const isSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
 
   return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
@@ -88,9 +94,11 @@ const Drawer = ({
       <div
         className={clsx(
           styles.drawer,
-          isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER
-            ? styles.sideDrawer
-            : styles.bottomDrawer,
+          isSideDrawer ? styles.sideDrawer : styles.bottomDrawer,
+          isSideDrawer && styles[sideDrawerDirection],
+          sideDrawerDirection === 'left' && isCompactSideMenu
+            ? styles.withCompactSideMenu
+            : styles.withExpandedSideMenu,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,

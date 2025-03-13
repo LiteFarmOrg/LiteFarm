@@ -53,6 +53,9 @@ export default function FeedbackSurvey({
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
         fullHeight={true}
+        classes={{
+          drawerContainer: styles.drawerContainer,
+        }}
       >
         {drawerContent}
       </Drawer>

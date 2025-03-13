@@ -68,12 +68,34 @@
 .sideDrawer {
   top: var(--global-navbar-height);
   max-height: calc(100vh - var(--global-navbar-height));
-  right: -100%;
+}
+
+.sideDrawer.right {
   border-bottom-left-radius: 10px;
-  width: 416px;
+  right: -100%;
 
   &.openD {
     right: 0;
+  }
+}
+
+.sideDrawer.left {
+  border-radius: 0 10px 10px 0;
+}
+
+.sideDrawer.left.withExpandedSideMenu {
+  left: -100%;
+
+  &.openD {
+    left: var(--global-side-menu-width);
+  }
+}
+
+.sideDrawer.left.withCompactSideMenu {
+  left: -100%;
+
+  &.openD {
+    left: var(--global-compact-side-menu-width);
   }
 }
 

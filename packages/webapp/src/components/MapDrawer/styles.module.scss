@@ -45,10 +45,15 @@
   color: #c4c4c4;
 }
 
-.plusIcon {
-  color: var(--teal700);
-  font-size: 42px;
-  line-height: 16px;
+.plusAdd {
+  display: flex;
+  padding: 2px;
+  align-items: center;
+  gap: 4px;
+
+  color: var(--Colors-Primary-Primary-teal-700);
+  font-weight: 600;
+  line-height: 24px;
 }
 
 .sideDrawerContainer {

@@ -309,7 +309,7 @@ type SensorReadingTypeUnits =
 
 export interface SensorDatapoint {
   dateTime: number; // Unix timestamp
-  [esid: string]: number | undefined; // Allow missing keys
+  [esid: string]: number;
 }
 
 export interface SensorReadings {

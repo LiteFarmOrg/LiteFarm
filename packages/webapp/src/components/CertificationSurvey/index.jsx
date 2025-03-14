@@ -50,22 +50,26 @@ const PureCertificationSurveyPage = ({
   return (
     <>
       <Layout
-        buttonGroup={<>
-          {survey_id && !isSurveySkipped &&
-            <Button color={'secondary'} fullLength onClick={() => setSurveySkipped(true)}>{t('common:SKIP')}</Button>}
-          <Button
-            fullLength
-            onClick={() =>
-              onExport({
-                ...persistedFormData,
-                submission_id: submissionId,
-              })
-            }
-            disabled={survey_id && !submissionId && !isSurveySkipped}
-          >
-            {t('CERTIFICATIONS.EXPORT')}
-          </Button>
-        </>
+        buttonGroup={
+          <>
+            {survey_id && !isSurveySkipped && (
+              <Button color={'secondary'} fullLength onClick={() => setSurveySkipped(true)}>
+                {t('common:SKIP')}
+              </Button>
+            )}
+            <Button
+              fullLength
+              onClick={() =>
+                onExport({
+                  ...persistedFormData,
+                  submission_id: submissionId,
+                })
+              }
+              disabled={survey_id && !submissionId && !isSurveySkipped}
+            >
+              {t('CERTIFICATIONS.EXPORT')}
+            </Button>
+          </>
         }
       >
         <MultiStepPageTitle
@@ -73,7 +77,6 @@ const PureCertificationSurveyPage = ({
           onGoBack={handleGoBack}
           onCancel={handleCancel}
           title={t('CERTIFICATIONS.EXPORT_DOCS')}
-          cancelModalTitle={t('CERTIFICATIONS.FLOW_TITLE')}
           value={progress}
         />
 
@@ -92,7 +95,14 @@ const PureCertificationSurveyPage = ({
   );
 };
 
-const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email, isSurveySkipped }) => {
+const SurveyBody = ({
+  requested_certifier,
+  certifier_acronym,
+  surveyId,
+  submissionId,
+  email,
+  isSurveySkipped,
+}) => {
   if (requested_certifier) {
     return <UnregisteredCertifierSurvey email={email} />;
   } else {

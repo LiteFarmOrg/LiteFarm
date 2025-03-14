@@ -64,14 +64,14 @@ export default function PurePlantingDate({
       seedIsMain
         ? SEED_DATE
         : plantingIsMain
-        ? PLANT_DATE
-        : transplantIsMain
-        ? TRANSPLANT_DATE
-        : harvestIsMain
-        ? HARVEST_DATE
-        : terminationIsMain
-        ? TERMINATION_DATE
-        : SEED_DATE,
+          ? PLANT_DATE
+          : transplantIsMain
+            ? TRANSPLANT_DATE
+            : harvestIsMain
+              ? HARVEST_DATE
+              : terminationIsMain
+                ? TERMINATION_DATE
+                : SEED_DATE,
     [],
   );
 
@@ -87,8 +87,8 @@ export default function PurePlantingDate({
     const dateLabel = seedIsMain
       ? t('MANAGEMENT_PLAN.SEEDING_DATE')
       : plantingIsMain
-      ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
-      : t('common:DATE');
+        ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
+        : t('common:DATE');
 
     const subtitleMap = {
       [SEED_DATE]: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
@@ -252,7 +252,6 @@ export default function PurePlantingDate({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={37.5}
         style={{ marginBottom: '24px' }}

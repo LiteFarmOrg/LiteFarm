@@ -13,8 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TFunction } from 'i18next';
 import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
+import { isSameDay } from '../../util/date';
 import { getDateDifference } from '../../util/moment';
+import { TruncPeriod } from './LineChart';
 
 const MAX_TICKS = 7;
 
@@ -107,4 +110,35 @@ export const getTicks = (
   }
 
   return getDailyTicks(startDateObj, lastDate);
+};
+
+const convertToMilliseconds = (unixTimestamp: number): number => {
+  return unixTimestamp * 1000;
+};
+
+export const getLocalShortDate = (unixTime: number, language: string, t: TFunction): string => {
+  return isSameDay(new Date(), new Date(convertToMilliseconds(unixTime)))
+    ? t('common:TODAY')
+    : new Intl.DateTimeFormat(language, { month: 'short', day: 'numeric' }).format(
+        new Date(convertToMilliseconds(unixTime)),
+      );
+};
+
+const getTime = (unixTime: number, language: string): string => {
+  return new Intl.DateTimeFormat(language, {
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(convertToMilliseconds(unixTime)));
+};
+
+export const getDateTime = (
+  dateTime: number,
+  language: string,
+  truncPeriod: TruncPeriod,
+  t: TFunction,
+) => {
+  const date = getLocalShortDate(dateTime, language, t);
+  const time = truncPeriod === 'hour' ? ` ${getTime(dateTime, language)}` : '';
+
+  return `${date}${time}`;
 };

@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   LineChart as RechartsLineChart,
   Line,
@@ -29,62 +29,15 @@ import type { TooltipProps } from 'recharts';
 import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { DataKey } from 'recharts/types/util/types';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
-import { isSameDay } from '../../util/date';
+import { getDateTime, getLocalShortDate } from './utils';
 import styles from './styles.module.scss';
-
-const convertToMilliseconds = (unixTimestamp: number): number => {
-  return unixTimestamp * 1000;
-};
-
-const getLocalShortDate = (unixTime: number, language: string, t: TFunction): string => {
-  return isSameDay(new Date(), new Date(convertToMilliseconds(unixTime)))
-    ? t('common:TODAY')
-    : new Intl.DateTimeFormat(language, { month: 'short', day: 'numeric' }).format(
-        new Date(convertToMilliseconds(unixTime)),
-      );
-};
-
-const getTime = (unixTime: number, language: string): string => {
-  return new Intl.DateTimeFormat(language, {
-    hour: 'numeric',
-    minute: 'numeric',
-  }).format(new Date(convertToMilliseconds(unixTime)));
-};
-
-const getDateTime = (
-  dateTime: number,
-  language: string,
-  truncPeriod: TruncPeriod,
-  t: TFunction,
-) => {
-  const date = getLocalShortDate(dateTime, language, t);
-  const time = truncPeriod === 'hour' ? ` ${getTime(dateTime, language)}` : '';
-
-  return `${date}${time}`;
-};
-
-const DATE_TIME = 'dateTime';
-
-const axisLabelStyles = {
-  stroke: '#2B303A',
-  strokeWidth: 1,
-  fontFamily: 'Open Sans',
-  fontSize: '12px',
-  letterSpacing: '0.15px',
-};
-
-interface LineConfig {
-  id: string;
-  color: string;
-}
 
 interface CommonProps {
   title?: string;
   lineConfig: LineConfig[];
   formatTooltipValue?: (label: string, value?: ValueType) => string | number;
+  isCompactView?: boolean;
 }
-
-export type TruncPeriod = 'day' | 'hour';
 
 type TimeScaleProps = CommonProps & {
   xAxisDataKey?: 'dateTime';
@@ -102,14 +55,40 @@ type GeneralScaleProps<T extends string> = CommonProps & {
   ticks?: number[] | string[];
 };
 
+export type LineChartProps<T extends string = never> = TimeScaleProps | GeneralScaleProps<T>;
+
+export type TruncPeriod = 'day' | 'hour';
+
+interface LineConfig {
+  id: string;
+  color: string;
+}
+
+const DATE_TIME = 'dateTime';
+
 function isTimeScaleProps(props: LineChartProps): props is TimeScaleProps {
   return !props.xAxisDataKey || props.xAxisDataKey === DATE_TIME;
 }
 
-export type LineChartProps<T extends string = never> = TimeScaleProps | GeneralScaleProps<T>;
+const axisLabelStyles = {
+  stroke: '#2B303A',
+  strokeWidth: 1,
+  fontFamily: 'Open Sans',
+  fontSize: '12px',
+  letterSpacing: '0.15px',
+};
 
 function LineChart(props: LineChartProps) {
-  const { title, data, lineConfig, ticks, xAxisDataKey = DATE_TIME, formatTooltipValue } = props;
+  const {
+    title,
+    data,
+    lineConfig,
+    ticks,
+    xAxisDataKey = DATE_TIME,
+    formatTooltipValue,
+    isCompactView,
+  } = props;
+
   const { t } = useTranslation('common');
 
   const [activeLine, setActiveLine] = useState('');
@@ -158,6 +137,8 @@ function LineChart(props: LineChartProps) {
     }
   };
 
+  const xAxisSidePadding = isCompactView ? 16 : 38;
+
   return (
     <div className={styles.wrapper}>
       {title && <div className={styles.title}>{title}</div>}
@@ -168,7 +149,7 @@ function LineChart(props: LineChartProps) {
             <XAxis
               dataKey={xAxisDataKey}
               domain={['auto', 'auto']}
-              padding={{ left: 38, right: 38 }}
+              padding={{ left: xAxisSidePadding, right: xAxisSidePadding }}
               axisLine={false}
               tick={{ ...axisLabelStyles, transform: 'translate(0, 8)' }}
               tickSize={3}

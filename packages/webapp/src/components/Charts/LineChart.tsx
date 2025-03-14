@@ -25,31 +25,12 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { TooltipProps, XAxisProps } from 'recharts';
+import type { TooltipProps } from 'recharts';
 import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { DataKey } from 'recharts/types/util/types';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import { isSameDay } from '../../util/date';
-import { colors } from '../../assets/theme';
 import styles from './styles.module.scss';
-
-export enum Color {
-  BLUE,
-  YELLOW,
-  GREEN,
-  RED,
-  PURPLE,
-  BROWN,
-}
-
-export const COLORS = {
-  [Color.BLUE]: colors['--Colors-Accent---singles-Blue-full'],
-  [Color.YELLOW]: colors['--Colors-Accent-Accent-yellow-600'],
-  [Color.GREEN]: colors['--Colors-Primary-Primary-teal-700'],
-  [Color.RED]: colors['--Colors-Accent---singles-Red-full'],
-  [Color.PURPLE]: colors['--Colors-Accent---singles-Purple-full'],
-  [Color.BROWN]: colors['--Colors-Accent---singles-Brown-full'],
-};
 
 const convertToMilliseconds = (unixTimestamp: number): number => {
   return unixTimestamp * 1000;
@@ -127,9 +108,6 @@ function isTimeScaleProps(props: LineChartProps): props is TimeScaleProps {
 
 export type LineChartProps<T extends string = never> = TimeScaleProps | GeneralScaleProps<T>;
 
-// https://github.com/recharts/recharts
-// https://recharts.org/en-US/api
-// https://recharts.org/en-US/examples
 function LineChart(props: LineChartProps) {
   const { title, data, lineConfig, ticks, xAxisDataKey = DATE_TIME, formatTooltipValue } = props;
   const { t } = useTranslation('common');
@@ -180,34 +158,40 @@ function LineChart(props: LineChartProps) {
     }
   };
 
-  const xAxisProps: XAxisProps = {
-    dataKey: xAxisDataKey,
-    domain: ['auto', 'auto'],
-    padding: { left: 48, right: 48 },
-    axisLine: false,
-    tick: { ...axisLabelStyles, transform: 'translate(0, 8)' },
-    tickSize: 3,
-    tickMargin: 6,
-    tickLine: { transform: 'translate(0, 8)' },
-    ticks,
-    ...(isTimeScaleProps(props)
-      ? {
-          type: 'number',
-          scale: 'time',
-          tickFormatter: (time) => getLocalShortDate(time, props.language, t),
-        }
-      : {}),
-  };
-
   return (
     <div className={styles.wrapper}>
       {title && <div className={styles.title}>{title}</div>}
       <div className={styles.chartWrapper}>
         <ResponsiveContainer width="100%" height="100%">
-          <RechartsLineChart width={500} height={230} data={data} margin={{ top: 12, left: -20 }}>
+          <RechartsLineChart width={500} height={230} data={data} margin={{ top: 12 }}>
             <CartesianGrid stroke="#E9F3FF" vertical={false} />
-            <XAxis {...xAxisProps} />
-            <YAxis yAxisId="left" tickLine={false} tick={axisLabelStyles} axisLine={false} />
+            <XAxis
+              dataKey={xAxisDataKey}
+              domain={['auto', 'auto']}
+              padding={{ left: 38, right: 38 }}
+              axisLine={false}
+              tick={{ ...axisLabelStyles, transform: 'translate(0, 8)' }}
+              tickSize={3}
+              tickMargin={6}
+              tickLine={{ transform: 'translate(0, 8)' }}
+              ticks={ticks}
+              {...(isTimeScaleProps(props)
+                ? {
+                    type: 'number',
+                    scale: 'time',
+                    tickFormatter: (time) => getLocalShortDate(time, props.language, t),
+                  }
+                : {})}
+            />
+            <YAxis
+              yAxisId="left"
+              tickLine={false}
+              tick={axisLabelStyles}
+              axisLine={false}
+              // Default width is 60, which causes a gap
+              // https://github.com/recharts/recharts/issues/2027
+              width={40}
+            />
             {showLegend && (
               <Legend
                 iconType="circle"
@@ -233,10 +217,10 @@ function LineChart(props: LineChartProps) {
                   hide={hiddenLines.includes(id)}
                   dot={false}
                   activeDot={{
-                    // https://github.com/recharts/recharts/issues/2678
                     r: 6,
                     fill: activeLine === id ? color : 'transparent',
                     stroke: activeLine === id ? color : 'transparent',
+                    // https://github.com/recharts/recharts/issues/2678
                     onMouseOver: () => onLineMouseOver(id),
                     onMouseLeave: onLineMouseLeave,
                   }}

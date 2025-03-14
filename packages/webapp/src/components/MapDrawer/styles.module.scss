@@ -34,15 +34,14 @@
 }
 
 .label {
-  height: 24px;
+  color: var(--Colors-Neutral-Neutral-600);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
-.labelDivider {
-  display: inline-block;
-  border-top: 1px solid;
-  width: calc(100% - 80px);
-  transform: translate(11px, -3px);
-  color: #c4c4c4;
+.sectionLabelPadding {
+  padding-top: 32px;
 }
 
 // MapDrawerMenuItem.jsx

@@ -201,9 +201,8 @@ export default function MapDrawer({
         )}
 
         {!!areaImgDict.length && (
-          <Label className={styles.label}>
+          <Label className={clsx(styles.label, !!filterSettings && styles.sectionLabelPadding)}>
             {t('FARM_MAP.MAP_FILTER.AREAS')}
-            <span className={styles.labelDivider} />
           </Label>
         )}
         {areaImgDict.map(({ key, name, icon }) => {
@@ -221,10 +220,11 @@ export default function MapDrawer({
         })}
 
         {!!lineImgDict.length && (
-          <Label className={styles.label}>
-            {t('FARM_MAP.MAP_FILTER.LINES')}
-            <span className={styles.labelDivider} />
-          </Label>
+          <>
+            <Label className={clsx(styles.label, styles.sectionLabelPadding)}>
+              {t('FARM_MAP.MAP_FILTER.LINES')}
+            </Label>
+          </>
         )}
         {lineImgDict.map(({ key, name, icon }) => (
           <MapDrawerMenuItem
@@ -239,9 +239,8 @@ export default function MapDrawer({
         ))}
 
         {!!pointImgDict.length && (
-          <Label className={styles.label}>
+          <Label className={clsx(styles.label, styles.sectionLabelPadding)}>
             {t('FARM_MAP.MAP_FILTER.POINTS')}
-            <span className={styles.labelDivider} />
           </Label>
         )}
         {pointImgDict.map(({ key, name, icon }) => (

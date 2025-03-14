@@ -41,8 +41,8 @@ interface DrawerProps {
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
-    drawerContainer?: string; // bottom + side drawers
-    sideDrawerContainer?: string;
+    drawerContainer?: string; // applied to all drawers
+    sideDrawerContainer?: string; // side drawer only
   };
 }
 

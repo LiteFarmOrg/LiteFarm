@@ -20,6 +20,10 @@ declare module 'react' {
     /**
      * Boolean attribute indicating that the browser will ignore the element.
      *
+     * Use empty string or null to set the correct DOM attribute e.g.
+     *
+     *   inert={!isDisabled ? '' : null}
+     *
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inert}
      *
      *@see {@link https://github.com/WICG/inert/issues/58}

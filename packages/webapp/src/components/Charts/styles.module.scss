@@ -23,12 +23,8 @@
   font-size: 14px;
   line-height: 14px;
   letter-spacing: 0px;
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
-  margin-bottom: 8px;
-}
-
-.chartWrapper {
-  height: 230px;
+  color: var(--Colors-Neutral-Neutral-900);
+  margin-bottom: 16px;
 }
 
 // Fix storybook styling issue
@@ -41,7 +37,7 @@
 .tooltip {
   position: relative;
   border-radius: 4px;
-  border: 2px solid var(--tooltipColor);
+  border: 1px solid var(--tooltipColor);
   background-color: white; /* Prevents chart lines from being visible through the tooltip */
   color: var(--tooltipColor);
   box-shadow: 2px 2px 2px 0px #00000026;

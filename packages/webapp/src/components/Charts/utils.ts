@@ -107,8 +107,8 @@ export const getTicks = (
   return getDailyTicks(startDateObj, lastDate);
 };
 
-const convertToMilliseconds = (unixTimestamp: number): number => {
-  return unixTimestamp * 1000;
+const convertToMilliseconds = (unixTime: number): number => {
+  return unixTime * 1000;
 };
 
 export const getLocalShortDate = (unixTime: number, language: string, t: TFunction): string => {
@@ -127,13 +127,13 @@ const getTime = (unixTime: number, language: string): string => {
 };
 
 export const getDateTime = (
-  dateTime: number,
+  unixTime: number,
   language: string,
   truncPeriod: TruncPeriod,
   t: TFunction,
 ) => {
-  const date = getLocalShortDate(dateTime, language, t);
-  const time = truncPeriod === 'hour' ? ` ${getTime(dateTime, language)}` : '';
+  let dateTime = getLocalShortDate(unixTime, language, t);
+  dateTime += truncPeriod === 'hour' ? ` - ${getTime(unixTime, language)}` : '';
 
-  return `${date}${time}`;
+  return dateTime;
 };

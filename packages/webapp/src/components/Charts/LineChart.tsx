@@ -149,75 +149,73 @@ function LineChart(props: LineChartProps) {
   return (
     <div className={styles.wrapper}>
       {title && <div className={styles.title}>{title}</div>}
-      <div className={styles.chartWrapper}>
-        <ResponsiveContainer width="100%" height="100%">
-          <RechartsLineChart width={500} height={230} data={data} margin={{ top: 12 }}>
-            <CartesianGrid stroke="#E9F3FF" vertical={false} />
-            <XAxis
-              dataKey={xAxisDataKey}
-              domain={['auto', 'auto']}
-              padding={{ left: xAxisSidePadding, right: xAxisSidePadding }}
-              axisLine={false}
-              tick={{ ...axisLabelStyles, transform: 'translate(0, 8)' }}
-              tickSize={3}
-              tickMargin={6}
-              tickLine={{ transform: 'translate(0, 8)' }}
-              ticks={ticks}
-              {...(isTimeScaleProps(props)
-                ? {
-                    type: 'number',
-                    scale: 'time',
-                    tickFormatter: (time) => getLocalShortDate(time, props.language, t),
-                  }
-                : {})}
+      <ResponsiveContainer width="100%" height={showLegend ? 280 : 230}>
+        <RechartsLineChart data={data} margin={{ top: 12 }}>
+          <CartesianGrid stroke="#E9F3FF" vertical={false} />
+          <XAxis
+            dataKey={xAxisDataKey}
+            domain={['auto', 'auto']}
+            padding={{ left: xAxisSidePadding, right: xAxisSidePadding }}
+            axisLine={false}
+            tick={{ ...axisLabelStyles, transform: 'translate(0, 8)' }}
+            tickSize={3}
+            tickMargin={6}
+            tickLine={{ transform: 'translate(0, 8)' }}
+            ticks={ticks}
+            {...(isTimeScaleProps(props)
+              ? {
+                  type: 'number',
+                  scale: 'time',
+                  tickFormatter: (time) => getLocalShortDate(time, props.language, t),
+                }
+              : {})}
+          />
+          <YAxis
+            yAxisId="left"
+            tickLine={false}
+            tick={axisLabelStyles}
+            axisLine={false}
+            // Default width is 60, which causes a gap
+            // https://github.com/recharts/recharts/issues/2027
+            width={40}
+          />
+          {showLegend && (
+            <Legend
+              iconType="circle"
+              onClick={onLegendClick}
+              wrapperStyle={{
+                paddingTop: 16,
+                paddingBottom: 16,
+                fontSize: 12,
+                fontWeight: 600,
+              }}
             />
-            <YAxis
-              yAxisId="left"
-              tickLine={false}
-              tick={axisLabelStyles}
-              axisLine={false}
-              // Default width is 60, which causes a gap
-              // https://github.com/recharts/recharts/issues/2027
-              width={40}
-            />
-            {showLegend && (
-              <Legend
-                iconType="circle"
-                onClick={onLegendClick}
-                wrapperStyle={{
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                  fontSize: 12,
-                  fontWeight: 600,
+          )}
+          <Tooltip content={CustomTooltip} cursor={false} />
+          {lineConfig.map(({ id, color }) => {
+            return (
+              <Line
+                key={id}
+                yAxisId="left"
+                type="linear"
+                dataKey={id}
+                stroke={color}
+                strokeWidth={3}
+                hide={hiddenLines.includes(id)}
+                dot={data.length > 12 ? false : { r: 4 }}
+                activeDot={{
+                  r: 6,
+                  fill: activeLine === id ? color : 'transparent',
+                  stroke: activeLine === id ? color : 'transparent',
+                  // https://github.com/recharts/recharts/issues/2678
+                  onMouseOver: () => onLineMouseOver(id),
+                  onMouseLeave: onLineMouseLeave,
                 }}
               />
-            )}
-            <Tooltip content={CustomTooltip} cursor={false} />
-            {lineConfig.map(({ id, color }) => {
-              return (
-                <Line
-                  key={id}
-                  yAxisId="left"
-                  type="linear"
-                  dataKey={id}
-                  stroke={color}
-                  strokeWidth={3}
-                  hide={hiddenLines.includes(id)}
-                  dot={data.length > 12 ? false : { r: 4 }}
-                  activeDot={{
-                    r: 6,
-                    fill: activeLine === id ? color : 'transparent',
-                    stroke: activeLine === id ? color : 'transparent',
-                    // https://github.com/recharts/recharts/issues/2678
-                    onMouseOver: () => onLineMouseOver(id),
-                    onMouseLeave: onLineMouseLeave,
-                  }}
-                />
-              );
-            })}
-          </RechartsLineChart>
-        </ResponsiveContainer>
-      </div>
+            );
+          })}
+        </RechartsLineChart>
+      </ResponsiveContainer>
     </div>
   );
 }

@@ -15,10 +15,12 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import LineChart, { Color, LineChartProps, COLORS } from '../../components/Charts/LineChart';
-import { formatSensorsData, getUnixTime } from '../../containers/SensorReadings/v2/utils';
+import LineChart, { LineChartProps } from '../../components/Charts/LineChart';
+import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
 import { getTicks } from '../../components/Charts/utils';
-import { dailyData, multiLineData, hourlyData, singleLineData } from './dummyData';
+import { colors } from '../../assets/theme';
+import { getLocalDateInYYYYDDMM } from '../../util/date';
+import { singleLineData, multiLineData, timeScaleData1, timeScaleData2 } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof LineChart> = {
@@ -35,7 +37,7 @@ export const SingleLine: Story<'month'> = {
     title: 'Single-line',
     xAxisDataKey: 'month',
     data: singleLineData,
-    lineConfig: [{ id: 'waterPotential', color: COLORS[Color.BLUE] }],
+    lineConfig: [{ id: 'waterPotential', color: colors['--Colors-Accent---singles-Blue-full'] }],
   },
 };
 
@@ -45,10 +47,10 @@ export const MultiLine: Story<'month'> = {
     xAxisDataKey: 'month',
     data: multiLineData,
     lineConfig: [
-      { id: '5N626V', color: COLORS[Color.BLUE] },
-      { id: 'BFIVBK', color: COLORS[Color.YELLOW] },
-      { id: 'EBX5XQ', color: COLORS[Color.GREEN] },
-      { id: '9MIVGN', color: COLORS[Color.RED] },
+      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
     ],
   },
 };
@@ -58,31 +60,63 @@ export const HourlyData: Story = {
     title: 'Hourly data',
     language: 'en',
     truncPeriod: 'hour',
-    data: formatSensorsData(hourlyData, 'hour', ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL']),
+    data: timeScaleData1.map((data, index) => ({
+      ...data,
+      dateTime: new Date(2024, 5, 14, index).getTime() / 1000,
+    })),
     lineConfig: [
-      { id: 'LSZDWX', color: COLORS[Color.BLUE] },
-      { id: 'WV2JHV', color: COLORS[Color.YELLOW] },
-      { id: '8YH5Y5', color: COLORS[Color.GREEN] },
-      { id: 'BWKBAL', color: COLORS[Color.RED] },
+      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
     ],
-    ticks: getTicks('2024-06-21', '2024-06-29'),
+    ticks: getTicks('2024-06-14', '2024-06-16'),
   },
 };
 
+// 2024-05-31 - 2024-06-28
+const dataLength = timeScaleData2.length; // Adjust this to change the duration shown on the chart
+export const DailyData: Story = {
+  args: {
+    title: 'Daily data',
+    language: 'en',
+    data: timeScaleData2.slice(0, dataLength).map((data, index) => {
+      return { ...data, dateTime: getUnixTime(new Date(2024, 4, 31 + index)) };
+    }),
+    lineConfig: [
+      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+    ],
+    ticks: getTicks('2024-05-31', getLocalDateInYYYYDDMM(new Date(2024, 4, 31 + dataLength - 1))),
+  },
+};
+
+// 7 days ago - today
 export const DailyDataUntilToday: Story = {
   args: {
     title: 'Daily data',
     language: 'en',
-    data: dailyData.map((data, index) => {
-      const date = new Date();
-      date.setDate(date.getDate() - dailyData.length + index + 1);
+    data: timeScaleData2.slice(-7).map((data, index) => {
+      const date = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() - 6 + index,
+      );
       return { ...data, dateTime: getUnixTime(date) };
     }),
     lineConfig: [
-      { id: 'LSZDWX', color: COLORS[Color.BLUE] },
-      { id: 'WV2JHV', color: COLORS[Color.YELLOW] },
-      { id: '8YH5Y5', color: COLORS[Color.GREEN] },
-      { id: 'BWKBAL', color: COLORS[Color.RED] },
+      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
     ],
+    ticks: getTicks(
+      getLocalDateInYYYYDDMM(
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 6),
+      ),
+      getLocalDateInYYYYDDMM(),
+    ),
   },
 };

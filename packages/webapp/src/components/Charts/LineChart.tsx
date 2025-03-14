@@ -115,7 +115,7 @@ function LineChart(props: LineChartProps) {
         const value = formatTooltipValue?.(label, data.value) || data.value;
 
         return (
-          <dl className={styles.tooltip} style={{ '--lineColor': color } as React.CSSProperties}>
+          <dl className={styles.tooltip} style={{ '--tooltipColor': color } as React.CSSProperties}>
             <dt>{xAxisData}</dt>
             <dd>{value}</dd>
           </dl>

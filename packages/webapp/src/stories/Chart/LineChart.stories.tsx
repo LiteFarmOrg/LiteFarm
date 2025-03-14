@@ -107,7 +107,7 @@ export const DailyData: Story = {
   },
 };
 
-// 7 days ago - today
+// 6 days ago - today
 export const DailyDataUntilToday: Story = {
   args: {
     title: 'Daily data',

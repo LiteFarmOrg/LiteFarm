@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,6 +9,7 @@ import PropTypes from 'prop-types';
 import { Main } from '../Typography';
 import styles from './styles.module.scss';
 import Icon from '../Icons';
+
 export default function MapDrawerMenuItem({
   onClick,
   isFilterMenuItem,
@@ -21,7 +23,7 @@ export default function MapDrawerMenuItem({
     <DefaultThemeProvider>
       <ListItem
         button
-        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
+        className={clsx(isFiltered ? styles.filteredItem : styles.menuItem)}
         onClick={onClick}
       >
         <ListItemIcon>{children}</ListItemIcon>

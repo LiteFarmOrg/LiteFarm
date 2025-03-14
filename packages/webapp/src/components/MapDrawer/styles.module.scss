@@ -45,6 +45,18 @@
   color: #c4c4c4;
 }
 
+// MapDrawerMenuItem.jsx
+.menuItem {
+  background-color: white;
+  &:hover {
+    background-color: var(--Colors-Primary-Primary-teal-50);
+  }
+}
+
+.filteredItem {
+  background-color: #f3f6fb;
+}
+
 .plusAdd {
   display: flex;
   padding: 2px;
@@ -56,6 +68,11 @@
   line-height: 24px;
 }
 
+.plusIcon {
+  background-color: transparent;
+}
+
+// Drawer
 .sideDrawerContainer {
   top: calc(
     var(--global-navbar-height) + var(--global-map-header-height) - 1px /* sm gap without adjust */

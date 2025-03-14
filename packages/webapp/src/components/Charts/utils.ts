@@ -14,12 +14,15 @@
  */
 
 import { TFunction } from 'i18next';
-import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
 import { isSameDay } from '../../util/date';
 import { getDateDifference } from '../../util/moment';
 import { TruncPeriod } from './LineChart';
 
 const MAX_TICKS = 7;
+
+export const getUnixTime = (date: Date) => {
+  return new Date(date).getTime() / 1000;
+};
 
 export const getLocalDate = (date: string) => {
   const [y, m, d] = date.split('-');

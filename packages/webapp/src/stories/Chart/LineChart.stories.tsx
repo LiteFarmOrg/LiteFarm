@@ -16,8 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import LineChart, { LineChartProps } from '../../components/Charts/LineChart';
-import { getUnixTime } from '../../containers/SensorReadings/v2/utils';
-import { getTicks } from '../../components/Charts/utils';
+import { getTicks, getUnixTime } from '../../components/Charts/utils';
 import { colors } from '../../assets/theme';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
 import { singleLineData, multiLineData, timeScaleData1, timeScaleData2 } from './mockData';

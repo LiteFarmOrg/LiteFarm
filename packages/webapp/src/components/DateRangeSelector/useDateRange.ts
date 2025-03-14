@@ -23,19 +23,19 @@ import { MONDAY, SUNDAY } from '../../util/dateRange';
  * If they are not defined initially, set them using the DateRange utility class.
  */
 
-interface useSmartDateRangeProps {
+interface useDateRangeProps {
   weekStartDate?: typeof SUNDAY | typeof MONDAY;
   defaultOption?: DateRangeOptions;
   dateRange: DateRangeData;
   updateDateRange: (dateRange: Partial<DateRangeData>) => void;
 }
 
-export default function useSmartDateRange({
+export default function useDateRange({
   weekStartDate = SUNDAY,
   defaultOption = DateRangeOptions.YEAR_TO_DATE,
   dateRange,
   updateDateRange,
-}: useSmartDateRangeProps): { startDate?: string | any; endDate?: string | any } {
+}: useDateRangeProps): { startDate?: string | any; endDate?: string | any } {
   const dateRangeUtil = new DateRange(new Date(), weekStartDate);
   const option = dateRange.option || defaultOption;
 

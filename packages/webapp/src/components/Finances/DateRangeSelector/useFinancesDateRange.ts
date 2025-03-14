@@ -18,9 +18,9 @@ import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { MONDAY, SUNDAY } from '../../../util/dateRange';
 import { DateRangeOptions, DateRangeData } from '../../DateRangeSelector/types';
-import useSmartDateRange from '../../DateRangeSelector/useSmartDateRange';
+import useDateRange from '../../DateRangeSelector/useDateRange';
 
-/* Finance-specific wrapper for useSmartDateRange for use with the Finances Redux store slice */
+/* Finance-specific wrapper for useDateRange for use with the Finances Redux store slice */
 interface UseFinancesDateRangeProps {
   weekStartDate?: typeof SUNDAY | typeof MONDAY;
 }
@@ -33,7 +33,7 @@ export default function useFinancesDateRange({ weekStartDate }: UseFinancesDateR
 
   const dateRange: DateRangeData = useSelector(dateRangeDataSelector);
 
-  return useSmartDateRange({
+  return useDateRange({
     weekStartDate,
     dateRange,
     updateDateRange: (newDateRange: Partial<DateRangeData>) => dispatch(setDateRange(newDateRange)),

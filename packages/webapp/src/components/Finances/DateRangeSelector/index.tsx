@@ -17,9 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { DateRangeOptions, DateRangeData } from '../../DateRangeSelector/types';
-import SmartDateRangeSelector from '../../DateRangeSelector/SmartDateRangeSelector';
+import DateRangeSelector from '../../DateRangeSelector';
 
-/* Finance-specific wrapper for SmartDateRangeSelector specifying the Finances Redux store slice
+/* Finance-specific wrapper for DateRangeSelector specifying the Finances Redux store slice
  *
  * Use passed in state if value + onChange are provided (e.g. in <Report />), or otherwise act on the Redux store slice
  */
@@ -39,7 +39,7 @@ const FinancesDateRangeSelector = ({
   const dispatch = useDispatch();
 
   return (
-    <SmartDateRangeSelector
+    <DateRangeSelector
       dateRange={value || useSelector(dateRangeDataSelector)}
       updateDateRange={
         onChange || ((newDateRange: Partial<DateRangeData>) => dispatch(setDateRange(newDateRange)))

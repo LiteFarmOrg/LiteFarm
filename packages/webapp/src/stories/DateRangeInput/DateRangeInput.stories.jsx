@@ -17,21 +17,21 @@ import { within, userEvent, screen, fireEvent } from '@storybook/test';
 import { expect } from '@storybook/test';
 import selectEvent from 'react-select-event';
 import moment from 'moment';
-import DateRangeSelector from '../../components/DateRangeSelector';
+import DateRangeInput from '../../components/DateRangeSelector/DateRangeInput';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../components/Form/DateRangePicker';
 
 export default {
-  title: 'Components/DateRangeSelector',
-  component: DateRangeSelector,
+  title: 'Components/DateRangeInput',
+  component: DateRangeInput,
   decorators: componentDecorators,
 };
 
 const TestComponent = (props) => {
   return (
     <Suspense fallback={'Loading...'}>
-      <DateRangeSelector
+      <DateRangeInput
         changeDateRangeMethod={() => ({})}
         onChangeDateRangeOption={() => ({})}
         {...props}

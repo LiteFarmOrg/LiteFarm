@@ -16,19 +16,19 @@
 import clsx from 'clsx';
 import moment, { Moment } from 'moment';
 import DateRange, { SUNDAY, MONDAY } from '../../util/dateRange';
-import DateRangeSelector from '.';
+import DateRangeInput from './DateRangeInput';
 import { DateRangeOptions } from './types';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import { DateRangeData } from './types';
 import styles from './styles.module.scss';
 
 /**
- * A wrapper component around DateRangeSelector that converts a semantic range (such as "Year to Date" or "Last 7 Days") into date values using the DateRange utility class.
+ * A wrapper component around DateRangeInput that converts a semantic range (such as "Year to Date" or "Last 7 Days") into date values using the DateRange utility class.
  *
  * Pass either local (component) state or Redux-based state management
  */
 
-interface SmartDateRangeSelectorProps {
+interface DateRangeSelectorProps {
   dateRange: DateRangeData;
 
   /**
@@ -54,14 +54,14 @@ const isDateValid = (date: string | Moment | undefined): boolean => {
   return date ? moment(date).isValid() : false;
 };
 
-const SmartDateRangeSelector = ({
+const DateRangeSelector = ({
   dateRange,
   updateDateRange,
   onValidityChange,
   className,
   defaultValue = DateRangeOptions.YEAR_TO_DATE,
   weekStartDate = SUNDAY,
-}: SmartDateRangeSelectorProps) => {
+}: DateRangeSelectorProps) => {
   const { option, customRange = {} } = dateRange;
   const initialOption = option || defaultValue;
   const dateRangeUtil = new DateRange(new Date(), weekStartDate);
@@ -97,7 +97,7 @@ const SmartDateRangeSelector = ({
 
   return (
     <div className={clsx(styles.rangeContainer, className)}>
-      <DateRangeSelector
+      <DateRangeInput
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
@@ -108,4 +108,4 @@ const SmartDateRangeSelector = ({
   );
 };
 
-export default SmartDateRangeSelector;
+export default DateRangeSelector;

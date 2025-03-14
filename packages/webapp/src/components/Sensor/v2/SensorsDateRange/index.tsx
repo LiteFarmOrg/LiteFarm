@@ -14,7 +14,7 @@
  */
 
 import { DateRangeOptions, DateRangeData } from '../../../DateRangeSelector/types';
-import SmartDateRangeSelector from '../../../DateRangeSelector/SmartDateRangeSelector';
+import DateRangeSelector from '../../../DateRangeSelector';
 
 interface SensorsDateRangeSelectorProps {
   dateRange: DateRangeData;
@@ -30,7 +30,7 @@ const SensorsDateRangeSelector = ({
   className,
 }: SensorsDateRangeSelectorProps) => {
   return (
-    <SmartDateRangeSelector
+    <DateRangeSelector
       dateRange={dateRange}
       updateDateRange={updateDateRange}
       onValidityChange={onValidityChange}

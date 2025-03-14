@@ -17,12 +17,12 @@ import { useState } from 'react';
 import moment from 'moment';
 import { SUNDAY, MONDAY } from '../../../../util/dateRange';
 import { DateRangeOptions, DateRangeData } from '../../../DateRangeSelector/types';
-import useSmartDateRange from '../../../DateRangeSelector/useSmartDateRange';
+import useDateRange from '../../../DateRangeSelector/useDateRange';
 
 /**
  * Initializes a local date range and returns its value and updater
  *
- * Returns the computed start and end dates (for calling componeont use) by running through the useSmartDateRange hook and converting to ISO 8601 strings
+ * Returns the computed start and end dates (for calling componeont use) by running through the useDateRange hook and converting to ISO 8601 strings
  */
 
 interface UseSensorsDateRangeProps {
@@ -41,7 +41,7 @@ export default function useSensorsDateRange({ weekStartDate = SUNDAY }: UseSenso
     setDateRange((prev) => ({ ...prev, ...newDateRange }));
   };
 
-  const { startDate, endDate } = useSmartDateRange({
+  const { startDate, endDate } = useDateRange({
     weekStartDate,
     dateRange,
     updateDateRange,

@@ -196,7 +196,7 @@ function LineChart(props: LineChartProps) {
                   stroke={color}
                   strokeWidth={3}
                   hide={hiddenLines.includes(id)}
-                  dot={false}
+                  dot={data.length > 12 ? false : { r: 4 }}
                   activeDot={{
                     r: 6,
                     fill: activeLine === id ? color : 'transparent',

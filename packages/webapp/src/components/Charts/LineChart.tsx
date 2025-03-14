@@ -78,6 +78,13 @@ const axisLabelStyles = {
   letterSpacing: '0.15px',
 };
 
+/**
+ * Renders a responsive line chart using Recharts.
+ *
+ * Uses the `activeLine` state to override the default Recharts behavior of displaying
+ * tooltips and dots for all x-axis points, ensuring that tooltip values and dots are
+ * shown only for the hovered line.
+ */
 function LineChart(props: LineChartProps) {
   const {
     title,

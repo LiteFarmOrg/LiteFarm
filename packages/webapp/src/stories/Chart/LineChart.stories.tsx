@@ -55,22 +55,34 @@ export const MultiLine: Story<'month'> = {
   },
 };
 
+const hourlyDataArgs: LineChartProps = {
+  title: 'Hourly data',
+  language: 'en',
+  truncPeriod: 'hour',
+  data: timeScaleData1.map((data, index) => ({
+    ...data,
+    dateTime: new Date(2024, 5, 14, index).getTime() / 1000,
+  })),
+  lineConfig: [
+    { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+    { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+    { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+    { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+  ],
+  ticks: getTicks('2024-06-14', '2024-06-16'),
+  formatTooltipValue: (_label, value) => {
+    return typeof value === 'number' ? `${value.toFixed(2)}kPA` : '';
+  },
+};
+
 export const HourlyData: Story = {
+  args: hourlyDataArgs,
+};
+
+export const HourlyDataCompactView: Story = {
   args: {
-    title: 'Hourly data',
-    language: 'en',
-    truncPeriod: 'hour',
-    data: timeScaleData1.map((data, index) => ({
-      ...data,
-      dateTime: new Date(2024, 5, 14, index).getTime() / 1000,
-    })),
-    lineConfig: [
-      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
-    ],
-    ticks: getTicks('2024-06-14', '2024-06-16'),
+    ...hourlyDataArgs,
+    isCompactView: true,
   },
 };
 
@@ -90,6 +102,9 @@ export const DailyData: Story = {
       { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
     ],
     ticks: getTicks('2024-05-31', getLocalDateInYYYYDDMM(new Date(2024, 4, 31 + dataLength - 1))),
+    formatTooltipValue: (_label, value) => {
+      return typeof value === 'number' ? `${value.toFixed(2)}°F` : '';
+    },
   },
 };
 
@@ -118,5 +133,8 @@ export const DailyDataUntilToday: Story = {
       ),
       getLocalDateInYYYYDDMM(),
     ),
+    formatTooltipValue: (_label, value) => {
+      return typeof value === 'number' ? `${value.toFixed(2)}°C` : '';
+    },
   },
 };

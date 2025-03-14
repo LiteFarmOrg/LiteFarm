@@ -89,7 +89,7 @@ export const WithDefaultOption = {
 
     const backButton = await canvas.findByText('back');
     expect(backButton).toBeInTheDocument();
-    expect(backButton).toHaveStyle('color: #d4dae3');
+    expect(backButton).toHaveStyle('color: #9faabe'); // disabled; --grey500 is the disabled color defined on TextButton
 
     await userEvent.click(backButton);
     expect(backButton).toBeInTheDocument();

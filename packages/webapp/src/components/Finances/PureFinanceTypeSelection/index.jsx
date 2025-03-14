@@ -34,7 +34,6 @@ export default function PureFinanceTypeSelection({
   title,
   types,
   leadText,
-  cancelTitle,
   onContinue,
   onGoBack,
   onGoToManageCustomType,
@@ -78,7 +77,6 @@ export default function PureFinanceTypeSelection({
         <MultiStepPageTitle
           onGoBack={onGoBack}
           onCancel={historyCancel}
-          cancelModalTitle={cancelTitle}
           title={title}
           value={progressValue}
           style={{ marginBottom: '24px' }}
@@ -119,7 +117,6 @@ PureFinanceTypeSelection.propTypes = {
   title: PropTypes.string,
   types: PropTypes.array,
   leadText: PropTypes.string,
-  cancelTitle: PropTypes.string,
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   onGoToManageCustomType: PropTypes.func,

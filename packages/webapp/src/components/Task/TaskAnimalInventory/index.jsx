@@ -84,7 +84,6 @@ export default function PureTaskAnimalInventory({
           }}
           onGoBack={onGoBack}
           onCancel={historyCancel}
-          cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
         />

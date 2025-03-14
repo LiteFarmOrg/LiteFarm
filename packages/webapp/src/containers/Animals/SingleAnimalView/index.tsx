@@ -237,7 +237,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
             history={history}
             getSteps={getFormSteps}
             defaultFormValues={defaultFormValues}
-            cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
             headerComponent={null}

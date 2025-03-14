@@ -109,7 +109,6 @@ const PureTaskAssignment = ({
           onGoBack={handleGoBack}
           onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
-          cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={progress}
         />
 

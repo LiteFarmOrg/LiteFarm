@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from '../../store/api/apiSlice';
-import { axios } from '../saga';
-import utils from './utils';
+import { api } from './apiSlice';
+import { axios } from '../../containers/saga';
+import utils from '../../containers/WeatherBoard/utils';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({

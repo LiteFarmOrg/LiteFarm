@@ -5,7 +5,7 @@ import utils from './utils';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { userFarmSelector } from '../userFarmSlice';
-import { useGetWeatherQuery } from './weatherApi';
+import { useGetWeatherQuery } from '../../store/api/weatherApi';
 
 export default function WeatherBoard() {
   const two_hours = 2 * 60 * 60 * 1000;

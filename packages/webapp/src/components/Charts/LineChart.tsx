@@ -32,10 +32,17 @@ import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import { getDateTime, getLocalShortDate } from './utils';
 import styles from './styles.module.scss';
 
+interface LineConfig {
+  id: string;
+  color: string;
+}
+
+export type ChartTruncPeriod = 'day' | 'hour';
+
 interface CommonProps {
   title?: string;
   lineConfig: LineConfig[];
-  formatTooltipValue?: (label: string, value?: ValueType) => string | number;
+  formatTooltipValue?: (label: any, value?: ValueType) => string | number;
   isCompactView?: boolean;
 }
 
@@ -43,26 +50,17 @@ type TimeScaleProps = CommonProps & {
   xAxisDataKey?: 'dateTime';
   data: { dateTime: number; [key: string]: string | number | undefined | null }[];
   language: string;
-  startDate?: string;
-  endDate?: string;
+  truncPeriod: ChartTruncPeriod;
   ticks?: number[];
-  truncPeriod: TruncPeriod;
 };
 
 type GeneralScaleProps<T extends string> = CommonProps & {
   xAxisDataKey: T;
-  data: Record<T | string, string | number | undefined | null>[];
+  data: ({ [K in T]: string | number } & { [key: string]: string | number | undefined | null })[];
   ticks?: number[] | string[];
 };
 
 export type LineChartProps<T extends string = never> = TimeScaleProps | GeneralScaleProps<T>;
-
-export type TruncPeriod = 'day' | 'hour';
-
-interface LineConfig {
-  id: string;
-  color: string;
-}
 
 const DATE_TIME = 'dateTime';
 

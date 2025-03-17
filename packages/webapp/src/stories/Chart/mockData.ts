@@ -31,6 +31,7 @@ export const multiLineData = [
   { month: 'June', A: 1400, B: 680, C: 1700, D: 590 },
 ];
 
+// dateTime should be dynamically set to handle different time zones
 export const timeScaleData1 = [
   { A: null, B: -77.45558700561523, C: -32.84923355102538, D: -17.26147444107953 },
   { A: null, B: -77.24868749803112, C: -32.29474409739175, D: -17.387194097042084 },

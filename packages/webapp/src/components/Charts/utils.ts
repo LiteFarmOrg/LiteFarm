@@ -16,7 +16,7 @@
 import { TFunction } from 'i18next';
 import { isSameDay } from '../../util/date';
 import { getDateDifference } from '../../util/moment';
-import { TruncPeriod } from './LineChart';
+import { ChartTruncPeriod } from './LineChart';
 
 const MAX_TICKS = 7;
 
@@ -129,7 +129,7 @@ const getTime = (unixTime: number, language: string): string => {
 export const getDateTime = (
   unixTime: number,
   language: string,
-  truncPeriod: TruncPeriod,
+  truncPeriod: ChartTruncPeriod,
   t: TFunction,
 ) => {
   let dateTime = getLocalShortDate(unixTime, language, t);

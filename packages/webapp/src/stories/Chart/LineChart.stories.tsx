@@ -31,7 +31,7 @@ export default meta;
 
 type Story<T extends string = never> = StoryObj<LineChartProps<T>>;
 
-export const SingleLine: Story<'month'> = {
+export const GeneralDataSingleLine: Story<'month'> = {
   args: {
     title: 'Single-line',
     xAxisDataKey: 'month',
@@ -40,7 +40,7 @@ export const SingleLine: Story<'month'> = {
   },
 };
 
-export const MultiLine: Story<'month'> = {
+export const GeneralDataMultiLine: Story<'month'> = {
   args: {
     title: 'Multi-line',
     xAxisDataKey: 'month',
@@ -74,7 +74,14 @@ const hourlyDataArgs: LineChartProps = {
   },
 };
 
-export const HourlyData: Story = {
+export const HourlyDataSingleLine: Story = {
+  args: {
+    ...hourlyDataArgs,
+    lineConfig: [{ id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] }],
+  },
+};
+
+export const HourlyDataMultiLines: Story = {
   args: hourlyDataArgs,
 };
 

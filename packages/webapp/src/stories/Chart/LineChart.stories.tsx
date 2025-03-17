@@ -144,3 +144,24 @@ export const DailyDataUntilToday: Story = {
     },
   },
 };
+
+// 2025-02-01 -
+export const DailyDataWithMonthlyTicks: Story = {
+  args: {
+    title: 'Daily data',
+    language: 'en',
+    data: timeScaleData1.map((data, index) => {
+      return { ...data, dateTime: getUnixTime(new Date(2025, 1, 1 + index)) };
+    }),
+    lineConfig: [
+      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
+      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
+      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
+      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+    ],
+    ticks: getTicks('2025-02-01', getLocalDateInYYYYDDMM(new Date(2025, 1, timeScaleData1.length))),
+    formatTooltipValue: (_label, value) => {
+      return typeof value === 'number' ? `${value.toFixed(2)}°F` : '';
+    },
+  },
+};

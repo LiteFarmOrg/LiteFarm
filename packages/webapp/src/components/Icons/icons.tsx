@@ -61,6 +61,9 @@ import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
+// Map
+import { ReactComponent as VideoLogo } from '../../assets/images/map/video.svg';
+
 // System
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
@@ -71,6 +74,9 @@ import { FunctionComponent } from 'react';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+
+// Devices
+import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
 
 // Animal type: icon map
 const animalTypeIcons = {
@@ -130,6 +136,8 @@ export const iconMap = {
   REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
+  // Map
+  VIDEO_LOGO: VideoLogo,
   // System
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
@@ -140,6 +148,8 @@ export const iconMap = {
   LOCKED: LockedIcon,
 
   LOCATION: LocationIcon,
+
+  SENSOR: SensorIcon,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

@@ -61,7 +61,7 @@ import {
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
-import { POST_SENSOR_URL } from '../../util/siteMapConstants';
+import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
 
 export default function Map({ history, isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -355,7 +355,7 @@ export default function Map({ history, isCompactSideMenu }) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
-      history.push(POST_SENSOR_URL);
+      history.push(ADD_SENSORS_URL);
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
@@ -366,7 +366,7 @@ export default function Map({ history, isCompactSideMenu }) {
 
   const mapWrapperRef = useRef();
 
-  const handleShowVideo = () => {
+  const handleVideoClick = () => {
     history.push('/map/videos');
   };
 
@@ -435,15 +435,14 @@ export default function Map({ history, isCompactSideMenu }) {
     <>
       {!drawingState.type && !showSuccessHeader && (
         <PureMapHeader
-          className={styles.mapHeader}
           farmName={farm_name}
-          showVideo={handleShowVideo}
+          handleVideoClick={handleVideoClick}
           isAdmin={is_admin}
         />
       )}
       {showSuccessHeader && (
         <PureSnackbarWithoutBorder
-          className={styles.mapHeader}
+          className={styles.successSnackbar}
           onDismiss={handleCloseSuccessHeader}
           title={successMessage}
         />

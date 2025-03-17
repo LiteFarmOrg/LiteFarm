@@ -16,6 +16,7 @@
 import {
   SET_CROP_SALES_IN_STATE,
   SET_DATE_RANGE,
+  RESET_DATE_RANGE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
   SET_EXPENSE_TYPE,
@@ -27,13 +28,13 @@ import {
 
 import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 
 const initialState = {
   sales: [],
   cropSales: [],
   expenses: [],
-  date_range: { option: dateRangeOptions.YEAR_TO_DATE },
+  date_range: { option: DateRangeOptions.YEAR_TO_DATE },
   isFetchingData: false,
 };
 
@@ -70,6 +71,10 @@ function financeReducer(state = initialState, action) {
     case SET_DATE_RANGE:
       return Object.assign({}, state, {
         date_range: { ...state.date_range, ...action.rangeObj },
+      });
+    case RESET_DATE_RANGE:
+      return Object.assign({}, state, {
+        date_range: initialState.date_range,
       });
     case SET_IS_FETCHING_DATA:
       return Object.assign({}, state, {

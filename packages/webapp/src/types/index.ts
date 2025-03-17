@@ -39,3 +39,16 @@ export interface Location {
 }
 
 export type CSSLength = `${number}px` | `${number}%` | `${number}vw` | `${number}vh` | 'auto';
+
+export enum AddonPartner {
+  esci = 'esci',
+}
+
+export type System = 'metric' | 'imperial';
+
+export interface UserFarm {
+  grid_points: { lat: number; lng: number };
+  farm_name: string;
+
+  [key: string]: any;
+}

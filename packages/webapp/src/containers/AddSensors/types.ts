@@ -13,8 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import EsciLogo from '../../../../../assets/images/partners/esci_logo.png';
+import { FarmAddon, Sensor } from '../../store/api/types';
 
-export const PARTNERS = {
-  ESCI: { id: 1, name: 'Ensemble Scientific', url: 'www.esci.io', logoPath: EsciLogo },
+export const PARTNER = 'partner';
+
+export const FarmAddonField = {
+  ORG_UUID: 'org_uuid',
+  PARTNER_ID: 'addon_partner_id',
+} as const;
+
+export type AddSensorsFormFields = {
+  [PARTNER]: FarmAddon;
+};
+
+export type SensorInSimpleTableFormat = Sensor & {
+  id: Sensor['external_id'];
+  formattedDepth: string;
+  deviceTypeKey: string;
 };

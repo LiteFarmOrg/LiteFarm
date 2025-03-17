@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
@@ -22,6 +22,7 @@ import { getOverlappedAreaAndLines } from './getOverlappedAreaAndLines';
 import PureSelectionHandler from './PureMapLocationSelectionModal';
 import styles from './styles.module.scss';
 import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
+import clsx from 'clsx';
 
 const LocationPicker = ({
   onSelectLocation,
@@ -38,6 +39,7 @@ const LocationPicker = ({
   getMaxZoom,
   maxZoom,
   disabled = false,
+  className = '',
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -305,7 +307,11 @@ const LocationPicker = ({
   };
 
   return (
-    <div data-cy="map-selectLocation" className={styles.mapContainer} style={style}>
+    <div
+      data-cy="map-selectLocation"
+      className={clsx(styles.mapContainer, className)}
+      style={style}
+    >
       <GoogleMap
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{
@@ -332,7 +338,7 @@ const LocationPicker = ({
   );
 };
 
-LocationPicker.prototype = {
+LocationPicker.propTypes = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationIds: PropTypes.arrayOf(PropTypes.string),

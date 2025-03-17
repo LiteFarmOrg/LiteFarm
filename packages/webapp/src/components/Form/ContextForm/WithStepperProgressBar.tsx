@@ -39,7 +39,6 @@ interface WithStepperProgressBarProps {
     dataName?: string;
   }[];
   activeStepIndex: number;
-  cancelModalTitle: string;
   isCompactSideMenu: boolean;
   hasSummaryWithinForm: boolean;
   stepperProgressBarConfig?: {
@@ -67,7 +66,7 @@ interface WithStepperProgressBarProps {
   headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
   showPreviousButton?: boolean;
   showLoading?: boolean;
-  onAfterSave?: () => void;
+  onAfterSave?: (values: FieldValues) => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -75,7 +74,6 @@ export const WithStepperProgressBar = ({
   history,
   steps,
   activeStepIndex,
-  cancelModalTitle,
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
@@ -124,7 +122,7 @@ export const WithStepperProgressBar = ({
 
   useEffect(() => {
     if (isSaved && onAfterSave) {
-      onAfterSave();
+      onAfterSave(getValues());
     }
   }, [isSaved, onAfterSave]);
 
@@ -172,7 +170,7 @@ export const WithStepperProgressBar = ({
       transition.unblock?.();
       transition.retry?.();
     } catch (e) {
-      console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
+      console.error(`Error during canceling: ${e}`);
     }
     reset();
     setIsEditing?.(false);
@@ -214,11 +212,7 @@ export const WithStepperProgressBar = ({
         </FloatingContainer>
       )}
       {(transition.unblock || showCancelFlow) && (
-        <CancelFlowModal
-          flow={cancelModalTitle}
-          dismissModal={handleDismissModal}
-          handleCancel={handleCancel}
-        />
+        <CancelFlowModal dismissModal={handleDismissModal} handleCancel={handleCancel} />
       )}
     </StepperProgressBarWrapper>
   );

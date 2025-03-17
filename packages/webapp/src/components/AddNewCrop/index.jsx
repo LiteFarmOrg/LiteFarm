@@ -162,7 +162,6 @@ export default function PureAddNewCrop({
         onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
         value={progress}
-        cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
       />
       {showSpinner ? (
         <Spinner />

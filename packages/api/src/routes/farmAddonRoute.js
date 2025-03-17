@@ -17,6 +17,7 @@ import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import { checkFarmAddon } from '../middleware/validation/checkFarmAddon.js';
 import FarmAddonController from '../controllers/farmAddonController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 
 const router = express.Router();
 
@@ -28,5 +29,12 @@ router.post(
 );
 
 router.get('/', checkScope(['get:farm_addon']), FarmAddonController.getFarmAddon());
+
+router.delete(
+  '/:id',
+  hasFarmAccess({ tableName: 'farm_addon' }),
+  checkScope(['delete:farm_addon']),
+  FarmAddonController.deleteFarmAddon(),
+);
 
 export default router;

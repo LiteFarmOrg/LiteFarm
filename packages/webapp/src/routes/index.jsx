@@ -29,7 +29,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
-import { POST_SENSOR_URL } from '../util/siteMapConstants';
+import { ADD_SENSORS_URL, SENSORS_URL } from '../util/siteMapConstants';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
@@ -135,9 +135,7 @@ const PostWatercourseForm = React.lazy(
   () => import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
-const PostSensorForm = React.lazy(
-  () => import('../containers/LocationDetails/PointDetails/SensorDetail/v2/PostSensor'),
-);
+const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
 const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
@@ -281,6 +279,7 @@ const TaskRowGuidance = React.lazy(
 const TaskContainerMethod = React.lazy(
   () => import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
+const SensorList = React.lazy(() => import('../containers/SensorList'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(
   () => import('../containers/Notification/NotificationReadOnly'),
@@ -544,10 +543,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route
-              path={POST_SENSOR_URL}
+              path={ADD_SENSORS_URL}
               exact
               render={(props) => (
-                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
@@ -639,6 +638,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                   {...props}
                 />
               )}
+            />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -837,10 +841,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route
-              path={POST_SENSOR_URL}
+              path={ADD_SENSORS_URL}
               exact
               render={(props) => (
-                <PostSensorForm isCompactSideMenu={isCompactSideMenu} {...props} />
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
@@ -947,6 +951,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                   {...props}
                 />
               )}
+            />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -1057,6 +1066,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                   {...props}
                 />
               )}
+            />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

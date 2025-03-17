@@ -12,27 +12,31 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { FieldValues } from 'react-hook-form';
 import { History } from 'history';
-import { ContextForm, Variant } from '../../../../../components/Form/ContextForm';
+import { ContextForm, Variant } from '../../components/Form/ContextForm';
 import Partners from './Partners';
-import PageTitle from '../../../../../components/PageTitle/v2';
-import { enqueueErrorSnackbar } from '../../../../Snackbar/snackbarSlice';
-import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../../../../store/api/apiSlice';
+import PageTitle from '../../components/PageTitle/v2';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { useAddFarmAddonMutation, useLazyGetSensorsQuery } from '../../store/api/apiSlice';
 import { type AddSensorsFormFields, FarmAddonField, PARTNER } from './types';
 import { PARTNERS } from './constants';
-import { SENSORS } from '../../../../../util/siteMapConstants';
+import { createSensorsUrl } from '../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
-interface PostSensorProps {
+interface AddSensorProps {
   history: History;
   isCompactSideMenu: boolean;
 }
 
-const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
+const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const [addFarmAddon] = useAddFarmAddonMutation();
   const [triggerGetSensors] = useLazyGetSensorsQuery();
@@ -56,12 +60,12 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
     await linkEsci(data);
   };
 
-  const onAfterSave = () => {
+  const onAfterSave = (values: FieldValues) => {
     triggerGetSensors();
-    history.push(SENSORS);
+    history.push(createSensorsUrl(+values[PARTNER]?.[FarmAddonField.PARTNER_ID]));
   };
 
-  const getFormSteps = () => [{ FormContent: Partners }];
+  const getFormSteps = () => [{ FormContent: Partners, dataName: PARTNERS.ESCI.shortName }];
 
   const defaultFormValues = {
     [PARTNER]: { [FarmAddonField.PARTNER_ID]: PARTNERS.ESCI.id, [FarmAddonField.ORG_UUID]: '' },
@@ -84,10 +88,11 @@ const PostSensor = ({ history, isCompactSideMenu }: PostSensorProps) => {
         isCompactSideMenu={isCompactSideMenu}
         onAfterSave={onAfterSave}
         showLoading
-        // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
+        setIsEditing={setIsEditing}
+        isEditing={isEditing}
       />
     </div>
   );
 };
 
-export default PostSensor;
+export default AddSensor;

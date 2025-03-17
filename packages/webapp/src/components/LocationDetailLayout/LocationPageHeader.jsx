@@ -39,7 +39,6 @@ export default function LocationPageHeader({
     <PageTitle
       title={title}
       onCancel={isCreateLocationPage && onCancel}
-      cancelModalTitle={t('FARM_MAP.LOCATION_CREATION_FLOW')}
       onGoBack={onGoBack}
       style={{ marginBottom: '24px' }}
     />

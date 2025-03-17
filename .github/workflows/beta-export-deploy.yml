@@ -1,7 +1,7 @@
-name: 'Beta-Export-Server-Deploy'
+name: "Beta-Export-Server-Deploy"
 on:
   workflow_run:
-    workflows: ['Deploy']
+    workflows: ["Deploy"]
     types:
       - completed
 
@@ -9,7 +9,7 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Deploy on beta export server
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3

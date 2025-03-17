@@ -90,7 +90,7 @@ import {
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
-import { setIsFetchingData } from './Finances/actions.js';
+import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
@@ -621,6 +621,7 @@ export function* fetchAllSaga() {
 
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
+  yield put(resetDateRange());
 
   yield put(
     api.util.invalidateTags([
@@ -629,6 +630,7 @@ export function* clearOldFarmStateSaga() {
       'CustomAnimalBreeds',
       'CustomAnimalTypes',
       'DefaultAnimalTypes', // needs to be cleared for KPI count
+      'FarmAddon',
     ]),
   );
 

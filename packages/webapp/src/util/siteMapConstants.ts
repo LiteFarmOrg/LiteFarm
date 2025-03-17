@@ -91,7 +91,10 @@ export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean):
 
 // Maps
 export const MAP_URL = '/map';
-export const POST_SENSOR_URL = '/create_location/sensor';
+export const ADD_SENSORS_URL = '/add_sensors';
+export const SENSORS_URL = '/sensors';
 
 // Sensors
-export const SENSORS = '/sensors';
+export const createSensorsUrl = (partnerId?: number): string => {
+  return `/sensors${partnerId ? `?partner_id=${partnerId}` : ''}`;
+};

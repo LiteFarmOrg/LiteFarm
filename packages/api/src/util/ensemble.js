@@ -27,6 +27,8 @@ import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import endPoints from '../endPoints.js';
 import { fileURLToPath } from 'url';
+import { toSnakeCase } from './util.js';
+import { customError } from './customErrors.js';
 const { ensembleAPI } = endPoints;
 
 let baseUrl;
@@ -45,8 +47,8 @@ if (process.env.NODE_ENV === 'integration') {
   baseUrl = 'http://localhost:' + process.env.PORT;
 }
 
-//Known aliases for units from ensemble mapping to convert-units representation
-const ENSEMBLE_UNITS_MAPPING = {
+// Known aliases for units from ensemble mapping to convert-units representation as needed by the old sensor readings controller for incoming webhook data
+const ENSEMBLE_UNITS_MAPPING_WEBHOOK = {
   Celsius: {
     conversionKey: 'C',
     system: 'metric',
@@ -59,6 +61,14 @@ const ENSEMBLE_UNITS_MAPPING = {
     conversionKey: '%',
     system: 'all',
   },
+};
+
+// Equivalency mapping between Ensemble and convert-units for the new sensor readings controller
+const ESCI_TO_CONVERT_UNITS_MAP = {
+  '°': 'deg',
+  '°C': 'C',
+  // No equivalent in convert-units for:
+  // 'W/m2' (Solar Radiation)
 };
 
 /**
@@ -135,8 +145,9 @@ const mapDeviceToSensor = (device) => {
   return {
     name: device.name,
     external_id: device.esid,
-    sensor_reading_types: device.parameter_types.map(
-      (type) => ENSEMBLE_READING_TYPES_MAPPING[type],
+    sensor_reading_types: device.parameter_types?.map(
+      // not currently receiving this data as of March 5, 2025
+      (type) => toSnakeCase(type),
     ),
     last_seen: device.last_seen,
     point: {
@@ -189,12 +200,6 @@ const calculateSensorArrayPoint = (sensors) => {
   };
 };
 
-// This is awaiting the list of all potential reading_types from Ensemble. Please match to the frontend apiSlice type once confirmed
-const ENSEMBLE_READING_TYPES_MAPPING = {
-  'Soil Water Potential': 'soil_water_potential',
-  Temperature: 'temperature',
-};
-
 // Add mock data to a incoming Ensemble device to emulate positions (based on farm center) and randomly assigned profiles. Only necessary until we are receiving real data for this
 const enrichWithMockData = (
   device,
@@ -245,6 +250,109 @@ const enrichWithMockData = (
 
   return device;
 };
+
+/**
+ * Fetches Ensemble sensor readings for the given sensor(s)
+ * @param {Object} params - The parameters for fetching the sensor readings.
+ * @param {uuid} params.farm_id - The ID of the farm.
+ * @param {string} params.esids - The external sensor ID(s) as string of comma separated variables ('LSZDWX,BWKBAL')
+ * @param {string} [params.startTime] - The start time in ISO 8601 format.
+ * @param {string} [params.endTime] - The end time in ISO 8601 format.
+ * @param {string} [params.truncPeriod] - The truncation period for the readings.
+ * @returns {Array} - An array of formatted sensor readings.
+ * @async
+ */
+const getEnsembleSensorReadings = async ({ farm_id, esids, startTime, endTime, truncPeriod }) => {
+  const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
+
+  if (!farmEnsembleAddon) {
+    throw customError('Farm does not have active Ensemble Scientific addon', 404);
+  }
+
+  const data = await fetchDeviceReadings({
+    organisation_pk: farmEnsembleAddon.org_pk,
+    esids,
+    startTime,
+    endTime,
+    truncPeriod,
+  });
+
+  const formattedData = formatSensorReadings(data);
+
+  return formattedData;
+};
+
+/**
+ * Formats the incoming sensor data into the format needed by sensor charts
+ * @param {Object} data - The raw sensor data.
+ * @returns {Array} - An array of formatted sensor data.
+ *
+ * @example
+ * Sample output:
+ * [
+ *   {
+ *     reading_type: 'soil_water_potential',
+ *     unit: 'kPa',
+ *     readings: [
+ *       { dateTime: 1713830400, 'BWKBAL': -12.05, 'LSZDWX': -186.59 },
+ *       { dateTime: 1726358400, 'BWKBAL': 90.15, 'LSZDWX': -187.76 }
+ *     ]
+ *   },
+ *   {
+ *     reading_type: 'temperature',
+ *     unit: 'C',
+ *     readings: [
+ *       { dateTime: 1713830400, 'BWKBAL': 10.3, 'LSZDWX': 8.5 },
+ *       { dateTime: 1726358400, 'BWKBAL': -994.6, 'LSZDWX': 8.7 }
+ *     ]
+ *   }
+ * ]
+ */
+function formatSensorReadings(data) {
+  const combinedReadings = {};
+
+  for (const deviceId in data) {
+    const { data: deviceData, device_esid: deviceEsid } = data[deviceId];
+
+    deviceData.forEach((readingType) => {
+      const readingTypeKey = toSnakeCase(readingType.parameter_category);
+      const unit = ESCI_TO_CONVERT_UNITS_MAP[readingType.unit] ?? readingType.unit;
+
+      if (!combinedReadings[readingTypeKey]) {
+        combinedReadings[readingTypeKey] = { unit, readings: {} };
+      }
+
+      readingType.timestamps.forEach((timestamp, index) => {
+        if (!combinedReadings[readingTypeKey].readings[timestamp]) {
+          combinedReadings[readingTypeKey].readings[timestamp] = {};
+        }
+        combinedReadings[readingTypeKey].readings[timestamp][deviceEsid] =
+          readingType.values[index];
+      });
+    });
+  }
+
+  const formattedData = Object.keys(combinedReadings).map((readingTypeKey) => {
+    const { unit, readings } = combinedReadings[readingTypeKey];
+
+    const formattedReadings = Object.entries(readings)
+      .map(([timestamp, values]) => ({
+        dateTime: Math.floor(new Date(timestamp).getTime() / 1000),
+        ...values,
+      }))
+      .sort((a, b) => a.dateTime - b.dateTime);
+
+    return {
+      reading_type: readingTypeKey,
+      unit,
+      readings: formattedReadings,
+    };
+  });
+
+  return formattedData;
+}
 
 const ENSEMBLE_BRAND = 'Ensemble Scientific';
 
@@ -376,6 +484,53 @@ async function getOrganisationDevices(organisation_pk) {
     };
     const onError = () => {
       const err = new Error('Unable to fetch ESCI devices');
+      err.status = 500;
+      throw err;
+    };
+
+    const response = await ensembleAPICall(axiosObject, onError);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+/**
+ * Fetches the sensor data for the given esids and (optionally) a given time range in specified intervals
+ * @param {Object} params - The parameters for fetching the sensor data.
+ * @param {uuid} params.organisation_pk - The primary key of the organisation.
+ * @param {string} params.esids - The esid(s) of the device(s)
+ * @param {string} [params.startTime] - The start date of the data in ISO 8601 format.
+ * @param {string} [params.endTime] - The end date of the data in ISO 8601 format.
+ * @param {string} [params.trunc_period] - Sampling interval for returned data. Allowed values are 'second', 'minute', 'hour', 'day'. Default is 'hour'.
+ * @returns {Array} - An array of device objects.
+ * @throws {Error} - Throws an error if ESci API call fails.
+ * @async
+ */
+async function fetchDeviceReadings({
+  organisation_pk,
+  esids,
+  startTime,
+  endTime,
+  truncPeriod = 'hour',
+}) {
+  try {
+    const params = new URLSearchParams({
+      sensor_esid: esids,
+      validated: true,
+      trunc_period: truncPeriod,
+    });
+    if (startTime) params.append('start_time', startTime);
+    if (endTime) params.append('end_time', endTime);
+
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/organizations/${organisation_pk}/data/?${params.toString()}`,
+    };
+
+    const onError = () => {
+      const err = new Error('Unable to fetch ESci device readings');
       err.status = 500;
       throw err;
     };
@@ -590,6 +745,7 @@ async function unclaimSensor(org_id, external_id) {
 export {
   ENSEMBLE_BRAND,
   getEnsembleSensors,
+  getEnsembleSensorReadings,
   getEnsembleOrganisations,
   getValidEnsembleOrg,
   getOrganisationDevices,
@@ -598,6 +754,5 @@ export {
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
-  ENSEMBLE_UNITS_MAPPING,
-  ENSEMBLE_READING_TYPES_MAPPING,
+  ENSEMBLE_UNITS_MAPPING_WEBHOOK,
 };

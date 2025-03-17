@@ -237,8 +237,23 @@ type SensorTypes =
   | 'Wind speed sensor'
   | 'Drip line pressure sensor';
 
-// Awaiting list from Ensemble
-type SensorReadingTypes = 'soil_water_potential' | 'temperature';
+type SensorReadingTypes =
+  | 'barometric_pressure'
+  | 'cumulative_rainfall'
+  | 'current'
+  | 'energy'
+  | 'rainfall_rate'
+  | 'relative_humidity'
+  | 'soc'
+  | 'soil_water_content'
+  | 'soil_water_potential'
+  | 'solar_radiation'
+  | 'solenoid_control'
+  | 'temperature'
+  | 'voltage'
+  | 'water_pressure'
+  | 'wind_direction'
+  | 'wind_speed';
 
 export interface Sensor {
   name: SensorTypes;
@@ -272,6 +287,33 @@ export interface SensorData {
 }
 
 export interface FarmAddon {
+  id: number;
   addon_partner_id: number;
   org_uuid: string;
+}
+
+type SensorReadingTypeUnits =
+  | 'hPa'
+  | 'mm'
+  | 'mA'
+  | 'mWh'
+  | 'mm/h'
+  | '%'
+  | 'kPa'
+  | 'W/m2'
+  | 'C'
+  | 'V'
+  | 'psi'
+  | 'deg'
+  | 'm/s';
+
+export interface SensorDatapoint {
+  dateTime: number; // Unix timestamp
+  [esid: string]: number;
+}
+
+export interface SensorReadings {
+  reading_type: SensorReadingTypes;
+  unit: SensorReadingTypeUnits;
+  readings: SensorDatapoint[];
 }

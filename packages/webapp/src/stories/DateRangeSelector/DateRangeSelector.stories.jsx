@@ -19,7 +19,7 @@ import selectEvent from 'react-select-event';
 import moment from 'moment';
 import DateRangeSelector from '../../components/DateRangeSelector';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../components/Form/DateRangePicker';
 
 export default {
@@ -32,7 +32,7 @@ const TestComponent = (props) => {
   return (
     <Suspense fallback={'Loading...'}>
       <DateRangeSelector
-        changeDateMethod={() => ({})}
+        changeDateRangeMethod={() => ({})}
         onChangeDateRangeOption={() => ({})}
         {...props}
       />
@@ -66,7 +66,7 @@ export const WithPlaceholder = {
 
 export const WithDefaultOption = {
   render: () => {
-    return <TestComponent defaultDateRangeOptionValue={dateRangeOptions.YEAR_TO_DATE} />;
+    return <TestComponent defaultDateRangeOptionValue={DateRangeOptions.YEAR_TO_DATE} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -118,7 +118,7 @@ export const WithDefaultCustomDateRange = {
   render: () => {
     return (
       <TestComponent
-        defaultDateRangeOptionValue={dateRangeOptions.CUSTOM}
+        defaultDateRangeOptionValue={DateRangeOptions.CUSTOM}
         defaultCustomDateRange={{
           [FROM_DATE]: moment('2023-01-01'),
           [TO_DATE]: moment('2024-01-01'),

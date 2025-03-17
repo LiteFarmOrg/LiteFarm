@@ -114,7 +114,7 @@ const getEnsembleSensors = async (farm_id) => {
           sensorArrayMap[device.profile_id] = [];
         }
         sensorArrayMap[device.profile_id].push({
-          external_id: device.external_id,
+          external_id: device.esid,
           latest_position: device.latest_position,
         });
       }

@@ -116,10 +116,3 @@ export const sensorStatusSelector = createSelector(
     return { loading, error, loaded };
   },
 );
-
-export const allSensorsSelector = createSelector(
-  [sensorSelector, sensorArraysSelector, standaloneSensorsSelector],
-  (sensor, sensorArrays, standaloneSensors) => {
-    return [...sensor, ...sensorArrays, ...standaloneSensors];
-  },
-);

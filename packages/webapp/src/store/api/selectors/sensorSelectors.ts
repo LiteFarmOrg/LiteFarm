@@ -18,6 +18,15 @@ import { api } from '../apiSlice';
 
 // For map use / to use with old selectors only (e.g. pointSelector). In components, use the query hook and selectFromWithin
 
+export const allSensorsSelector = createSelector(
+  [api.endpoints.getSensors.select()],
+  (sensorResult) =>
+    sensorResult.data?.sensors.map((sensor) => ({
+      ...sensor,
+      type: 'sensor',
+    })) || [],
+);
+
 export const sensorArraysSelector = createSelector(
   [api.endpoints.getSensors.select()],
   (sensorResult) =>
@@ -28,9 +37,6 @@ export const sensorArraysSelector = createSelector(
 );
 
 export const standaloneSensorsSelector = createSelector(
-  [api.endpoints.getSensors.select()],
-  (sensorResult) =>
-    sensorResult.data?.sensors
-      .filter((sensor) => sensor.sensor_array_id === null)
-      .map((sensor) => ({ ...sensor, type: 'sensor' })) || [],
+  [allSensorsSelector],
+  (allSensors) => allSensors?.filter((sensor) => sensor.sensor_array_id === null) || [],
 );

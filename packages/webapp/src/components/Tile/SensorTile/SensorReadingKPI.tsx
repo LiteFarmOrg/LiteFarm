@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import styles from './sensorKPI.module.scss';
+import styles from './styles.module.scss';
 
 export type TMeasurement = {
   measurement: string;

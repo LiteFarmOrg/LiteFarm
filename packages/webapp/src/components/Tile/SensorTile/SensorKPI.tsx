@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Icon, { IconName } from '../Icons';
-import BentoLayout from '../Layout/BentoLayout';
-import { StatusIndicatorPill, StatusIndicatorPillProps } from '../StatusIndicatorPill';
-import styles from './sensorKPI.module.scss';
+import Icon, { IconName } from '../../Icons';
+import BentoLayout from '../../Layout/BentoLayout';
+import { StatusIndicatorPill, StatusIndicatorPillProps } from '../../StatusIndicatorPill';
+import styles from './styles.module.scss';
 import { TMeasurement } from './SensorReadingKPI';
 
 export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {

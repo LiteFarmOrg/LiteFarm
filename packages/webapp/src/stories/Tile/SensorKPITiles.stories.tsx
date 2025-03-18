@@ -15,8 +15,10 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import BentoLayout from '../../components/Layout/BentoLayout';
-import SensorReadingKPI, { SensorReadingKPIprops } from '../../components/Tile/SensorReadingKPI';
-import SensorKPI, { SensorKPIprops } from '../../components/Tile/SensorKPI';
+import SensorReadingKPI, {
+  SensorReadingKPIprops,
+} from '../../components/Tile/SensorTile/SensorReadingKPI';
+import SensorKPI, { SensorKPIprops } from '../../components/Tile/SensorTile/SensorKPI';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Status } from '../../components/StatusIndicatorPill';
 

@@ -15,20 +15,41 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import BentoLayout from '../../components/Layout/BentoLayout';
-import SensorReadingKPI from '../../components/Tile/SensorReadingKPI';
-import SensorKPI from '../../components/Tile/SensorKPI';
+import SensorReadingKPI, { SensorReadingKPIprops } from '../../components/Tile/SensorReadingKPI';
+import SensorKPI, { SensorKPIprops } from '../../components/Tile/SensorKPI';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Status } from '../../components/StatusIndicatorPill';
-import { ReactNode } from 'react';
 
 const colors = ['#0669E1', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
 
-type TemplateProps = {
-  children: ReactNode;
-};
+interface TemplateProps {
+  tileType: string;
+  kpiProps: SensorReadingKPIprops[] | SensorKPIprops[];
+}
 
-const Template = ({ children }: TemplateProps) => {
-  return <BentoLayout>{children}</BentoLayout>;
+const Template = ({ tileType, kpiProps }: TemplateProps) => {
+  if (tileType == 'sensorKpi') {
+    return (
+      <BentoLayout>
+        {/* @ts-expect-error */}
+        {kpiProps.map((props: SensorReadingKPIprops) => {
+          // @ts-expect-error
+          return <SensorKPI {...props} />;
+        })}
+      </BentoLayout>
+    );
+  } else if (tileType == 'sensorReadingKpi') {
+    return (
+      <BentoLayout>
+        {/* @ts-expect-error */}
+        {kpiProps.map((props: SensorReadingKPIprops) => (
+          <SensorReadingKPI {...props} />
+        ))}
+      </BentoLayout>
+    );
+  } else {
+    return null;
+  }
 };
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -41,31 +62,33 @@ export default meta;
 
 type Story = StoryObj<typeof Template>;
 
+const sensorReadingBaseProps = {
+  measurement: 'Soil Water Potential',
+  value: 50,
+  unit: '°F',
+};
+
 export const SensorReadingKPIBento: Story = {
   args: {
-    children: new Array(5).fill('').map((_val, id) => {
-      return (
-        <SensorReadingKPI
-          measurement={'Soil Water Potential'}
-          value={50}
-          unit={'°F'}
-          color={colors[id]}
-        />
-      );
+    tileType: 'sensorReadingKpi',
+    kpiProps: new Array(5).fill('').map((_val, id) => {
+      return {
+        ...sensorReadingBaseProps,
+        color: colors[id],
+      };
     }),
   },
 };
 
 export const SensorReadingKPIOne: Story = {
   args: {
-    children: (
-      <SensorReadingKPI
-        measurement={'Soil Water Potential'}
-        value={50}
-        unit={'°F'}
-        color={colors[0]}
-      />
-    ),
+    tileType: 'sensorReadingKpi',
+    kpiProps: [
+      {
+        ...sensorReadingBaseProps,
+        color: colors[0],
+      },
+    ],
   },
 };
 
@@ -99,15 +122,25 @@ const sensorKpiProps = {
 
 export const SensorKPIBento: Story = {
   args: {
-    children: new Array(5).fill('').map((_val, id) => {
-      return <SensorKPI {...sensorKpiProps} color={colors[id]} />;
+    tileType: 'sensorKpi',
+    kpiProps: new Array(5).fill('').map((_val, id) => {
+      return {
+        ...sensorKpiProps,
+        color: colors[id],
+      };
     }),
   },
 };
 
 export const SensorKPIOne: Story = {
   args: {
-    children: <SensorKPI {...sensorKpiProps} color={colors[0]} />,
+    tileType: 'sensorKpi',
+    kpiProps: [
+      {
+        ...sensorKpiProps,
+        color: colors[0],
+      },
+    ],
   },
 };
 
@@ -138,14 +171,26 @@ const extraMeasurements = {
 
 export const SensorKPIManyParamsBento: Story = {
   args: {
-    children: new Array(5).fill('').map((_val, id) => {
-      return <SensorKPI {...sensorKpiProps} {...extraMeasurements} color={colors[id]} />;
+    tileType: 'sensorKpi',
+    kpiProps: new Array(5).fill('').map((_val, id) => {
+      return {
+        ...sensorKpiProps,
+        ...extraMeasurements,
+        color: colors[id],
+      };
     }),
   },
 };
 
 export const SensorKPIManyParamsOne: Story = {
   args: {
-    children: <SensorKPI {...sensorKpiProps} {...extraMeasurements} />,
+    tileType: 'sensorKpi',
+    kpiProps: [
+      {
+        ...sensorKpiProps,
+        ...extraMeasurements,
+        color: colors[0],
+      },
+    ],
   },
 };

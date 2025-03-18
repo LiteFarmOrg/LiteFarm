@@ -38,7 +38,6 @@
   position: fixed;
   transition: all 0.2s ease-in-out;
   background-color: var(--White);
-  border-top-left-radius: 10px;
   padding: 16px;
   z-index: 1110;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
@@ -54,15 +53,10 @@
 }
 
 .bottomDrawer {
-  bottom: -100%;
+  border-radius: 10px 10px 0 0;
   left: 0;
   right: 0;
-  border-top-right-radius: 10px;
   margin: auto;
-
-  &.openD {
-    bottom: 0;
-  }
 }
 
 .sideDrawer {
@@ -70,17 +64,29 @@
   max-height: calc(100vh - var(--global-navbar-height));
 }
 
+.right {
+  border-radius: 10px 0 0 10px;
+}
+
+.left {
+  border-radius: 0 10px 10px 0;
+}
+
+// Drawer opening properties
+.drawer.bottomDrawer {
+  bottom: -100%;
+
+  &.openD {
+    bottom: 0;
+  }
+}
+
 .sideDrawer.right {
-  border-bottom-left-radius: 10px;
   right: -100%;
 
   &.openD {
     right: 0;
   }
-}
-
-.sideDrawer.left {
-  border-radius: 0 10px 10px 0;
 }
 
 .sideDrawer.left.withExpandedSideMenu {

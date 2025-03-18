@@ -21,7 +21,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Status } from '../../components/StatusIndicatorPill';
 import { ReactNode } from 'react';
 
-const colors = ['#0669E1', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
+const colors = ['#066', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
 
 type TemplateProps = {
   children: ReactNode;
@@ -49,7 +49,7 @@ export const SensorReadingKPIBento: Story = {
           measurement={'Soil Water Potential'}
           value={50}
           unit={'°F'}
-          colorHex={colors[id]}
+          color={colors[id]}
         />
       );
     }),
@@ -63,7 +63,7 @@ export const SensorReadingKPIOne: Story = {
         measurement={'Soil Water Potential'}
         value={50}
         unit={'°F'}
-        colorHex={colors[0]}
+        color={colors[0]}
       />
     ),
   },
@@ -100,14 +100,14 @@ const sensorKpiProps = {
 export const SensorKPIBento: Story = {
   args: {
     children: new Array(5).fill('').map((_val, id) => {
-      return <SensorKPI {...sensorKpiProps} colorHex={colors[id]} />;
+      return <SensorKPI {...sensorKpiProps} color={colors[id]} />;
     }),
   },
 };
 
 export const SensorKPIOne: Story = {
   args: {
-    children: <SensorKPI {...sensorKpiProps} colorHex={colors[0]} />,
+    children: <SensorKPI {...sensorKpiProps} color={colors[0]} />,
   },
 };
 
@@ -139,7 +139,7 @@ const extraMeasurements = {
 export const SensorKPIManyParamsBento: Story = {
   args: {
     children: new Array(5).fill('').map((_val, id) => {
-      return <SensorKPI {...sensorKpiProps} {...extraMeasurements} colorHex={colors[id]} />;
+      return <SensorKPI {...sensorKpiProps} {...extraMeasurements} color={colors[id]} />;
     }),
   },
 };

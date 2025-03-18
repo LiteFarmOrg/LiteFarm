@@ -26,7 +26,7 @@ export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
   };
   discriminator: TMeasurement;
   measurements: TMeasurement[];
-  colorHex?: string;
+  color?: string;
 }
 
 export interface MeasurementProps extends TMeasurement, React.HTMLAttributes<HTMLDivElement> {}
@@ -45,20 +45,29 @@ const Measurement = ({ measurement, value, unit, ...rest }: MeasurementProps) =>
   </div>
 );
 
+/**
+ * A component that displays a sensor KPI.
+ * AI-assisted JsDoc
+ *
+ * @component
+ * @param props - The props for the component.
+ * @param props.sensor - The sensor details data.
+ * @param props.discriminator - The primary differntiator between sensors in a profile.
+ * @param props.measurements - An array of measurements for each sensor parameter.
+ * @param props.color - The primary color for styling - should be a six digit hex color.
+ * @param props.rest - Additional props to spread onto the root div.
+ * @returns The rendered SensorKPI component.
+ */
 export default function SensorKPI({
   sensor,
   discriminator,
   measurements,
-  colorHex = '#000000',
+  color = '#000000',
   ...rest
 }: SensorKPIprops) {
   const { measurement, value, unit } = discriminator;
   const { status, id } = sensor;
-  // Ensure a 6 digit hex plus hash, if less than 7 digits force it to a 3 digit color code and turn that into 6 digit.
-  const color =
-    colorHex.length < 7
-      ? `${colorHex.slice(0, 4).replaceAll('#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])', '#$1$1$2$2$3$3')}`
-      : `${colorHex.slice(0, 7)}`;
+
   // 0D is the code for 5% opacity, 95% transparency
   const style = {
     '--color': color,

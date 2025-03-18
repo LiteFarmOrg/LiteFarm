@@ -22,21 +22,29 @@ export type TMeasurement = {
 };
 
 export interface SensorReadingKPIprops extends TMeasurement, React.HTMLAttributes<HTMLDivElement> {
-  colorHex?: string;
+  color?: string;
 }
 
+/**
+ * A component that displays a sensor reading KPI (Key Performance Indicator).
+ * AI-assisted JsDoc
+ *
+ * @component
+ * @param props - The props for the component.
+ * @param props.measurement - The name of the measurement (e.g., "Temperature").
+ * @param props.value - The value of the sensor reading.
+ * @param props.unit - The unit of measurement (e.g., "°C", "ppm").
+ * @param props.color - The primary color for styling - should be a six digit hex color.
+ * @param props.rest - Additional props to spread onto the root div.
+ * @returns The rendered SensorReadingKPI component.
+ */
 export default function SensorReadingKPI({
   measurement,
   value,
   unit,
-  colorHex = '#000000',
+  color = '#000000',
   ...rest
 }: SensorReadingKPIprops) {
-  // Ensure a 6 digit hex plus hash, if less than 7 digits force it to a 3 digit color code and turn that into 6 digit.
-  const color =
-    colorHex.length < 7
-      ? `${colorHex.slice(0, 4).replaceAll('#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])', '#$1$1$2$2$3$3')}`
-      : `${colorHex.slice(0, 7)}`;
   // 0D is the code for 5% opacity, 95% transparency
   const style = {
     '--color': color,

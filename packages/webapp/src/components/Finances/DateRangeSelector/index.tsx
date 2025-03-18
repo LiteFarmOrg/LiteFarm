@@ -13,27 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import clsx from 'clsx';
-import moment, { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDateRange } from '../../../containers/Finances/actions';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
-import DateRange, { SUNDAY } from '../../../util/dateRange';
+import { DateRangeOptions, DateRangeData } from '../../DateRangeSelector/types';
 import DateRangeSelector from '../../DateRangeSelector';
-import { DateRangeOptions, DateRangeSelection } from '../../DateRangeSelector/types';
-import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
-import styles from './styles.module.scss';
 
+/* Finance-specific wrapper for DateRangeSelector specifying the Finances Redux store slice
+ *
+ * Use passed in state if value + onChange are provided (e.g. in <Report />), or otherwise act on the Redux store slice
+ */
 interface FinancesDateRangeSelectorProps {
-  value?: DateRangeSelection;
-  onChange?: (newDateRange: DateRangeSelection) => void;
+  value?: DateRangeData;
+  onChange?: (newDateRange: Partial<DateRangeData>) => void;
   onValidityChange?: (valid: boolean) => void;
   className?: string;
 }
-
-const isDateValid = (date: string | Moment | undefined): boolean => {
-  return date ? moment(date).isValid() : false;
-};
 
 const FinancesDateRangeSelector = ({
   value,
@@ -43,48 +38,16 @@ const FinancesDateRangeSelector = ({
 }: FinancesDateRangeSelectorProps) => {
   const dispatch = useDispatch();
 
-  const dateRange: DateRangeSelection = value || useSelector(dateRangeDataSelector);
-  const { option, customRange = {} } = dateRange;
-  const initialOption = option || DateRangeOptions.YEAR_TO_DATE;
-  const dateRangeUtil = new DateRange(new Date(), SUNDAY);
-
-  const initialStartDate = customRange.startDate ? moment(customRange.startDate) : undefined;
-  const initialEndDate = customRange.endDate ? moment(customRange.endDate) : undefined;
-
-  const changeDateRange = (startDate: Moment, endDate: Moment) => {
-    const newDateRange: DateRangeSelection = { customRange: { startDate, endDate } };
-
-    // If both dates are valid, update dates and the option
-    if ([startDate, endDate].every(isDateValid)) {
-      newDateRange.startDate = startDate;
-      newDateRange.endDate = endDate;
-    }
-    onChange ? onChange(newDateRange) : dispatch(setDateRange(newDateRange));
-  };
-
-  const onChangeDateRangeOption = (value: DateRangeOptions) => {
-    let newDateRange: DateRangeSelection = { option: value };
-    if (value !== DateRangeOptions.CUSTOM) {
-      newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
-    } else if (
-      Object.keys(customRange).length === 2 &&
-      Object.values(customRange).every((date) => date && isDateValid(date))
-    ) {
-      newDateRange = { ...newDateRange, ...customRange };
-    }
-    onChange ? onChange(newDateRange) : dispatch(setDateRange(newDateRange));
-  };
-
   return (
-    <div className={clsx(styles.rangeContainer, className)}>
-      <DateRangeSelector
-        defaultDateRangeOptionValue={initialOption}
-        defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
-        onChangeDateRangeOption={onChangeDateRangeOption}
-        changeDateRangeMethod={changeDateRange}
-        onValidityChange={onValidityChange}
-      />
-    </div>
+    <DateRangeSelector
+      dateRange={value || useSelector(dateRangeDataSelector)}
+      updateDateRange={
+        onChange || ((newDateRange: Partial<DateRangeData>) => dispatch(setDateRange(newDateRange)))
+      }
+      onValidityChange={onValidityChange}
+      defaultValue={DateRangeOptions.YEAR_TO_DATE}
+      className={className}
+    />
   );
 };
 

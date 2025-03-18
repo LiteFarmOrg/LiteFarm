@@ -24,7 +24,7 @@ import CustomDateRangeSelector from './CustomDateRangeSelector';
 import { DateRangeOptions as rangeOptions } from './types';
 import styles from './styles.module.scss';
 
-export default function DateRangeSelector({
+export default function DateRangeInput({
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
   onChangeDateRangeOption,
@@ -169,7 +169,7 @@ export default function DateRangeSelector({
   );
 }
 
-DateRangeSelector.propTypes = {
+DateRangeInput.propTypes = {
   defaultDateRangeOptionValue: PropTypes.string,
   defaultCustomDateRange: PropTypes.shape({
     [FROM_DATE]: PropTypes.object,

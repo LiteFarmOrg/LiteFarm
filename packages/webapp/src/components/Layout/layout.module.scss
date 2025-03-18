@@ -64,7 +64,8 @@
   & > div {
     flex: 1 1 calc((100% - var(--bentoGap) * (var(--bentoColumns) - 1)) / var(--bentoColumns));
   }
-  // This is the default behaviour in LiteFarm - should that change pass as classname
+  // This overrides default flex responsiveness and jumps to single column of rows style below medium
+  // Currently this is based of design so making it the default behaviour here despite it being unusual
   &.bentoOffMedium {
     @include md-breakpoint {
       flex-direction: column;

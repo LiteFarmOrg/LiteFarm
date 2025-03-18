@@ -21,7 +21,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Status } from '../../components/StatusIndicatorPill';
 import { ReactNode } from 'react';
 
-const colors = ['#066', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
+const colors = ['#0669E1', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
 
 type TemplateProps = {
   children: ReactNode;

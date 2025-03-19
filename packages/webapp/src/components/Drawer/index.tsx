@@ -36,7 +36,6 @@ interface DrawerProps {
   sideDrawerDirection?: 'left' | 'right';
   isCompactSideMenu?: boolean; // only needed for left side drawer placement
   addBackdrop?: boolean;
-  shadowOnScroll?: boolean;
   classes?: {
     modal?: string;
     drawerBackdrop?: string;
@@ -65,7 +64,6 @@ const Drawer = ({
   sideDrawerDirection = 'right',
   isCompactSideMenu,
   addBackdrop = true,
-  shadowOnScroll = false,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -104,20 +102,17 @@ const Drawer = ({
             : styles.withExpandedSideMenu,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
-          shadowOnScroll && styles.shadowOnScroll,
           classes.drawerContainer,
           isSideDrawer && classes.sideDrawerContainer,
         )}
         inert={!isOpen ? '' : null}
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
-          {shadowOnScroll && <div className={styles.headerShadow} />}
           <div className={styles.title}>{title}</div>
           <IconButton className={styles.close} onClick={onClose}>
             <Close />
           </IconButton>
         </div>
-        {shadowOnScroll && <div className={styles.headerShadowMask} />}
         <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}
         </div>

@@ -117,7 +117,7 @@ export default function SensorListItem({
       <div className={styles.middleText}>{middleContent.name}</div>
       <StatusIndicatorPill {...middleContent.status} />
       <div className={styles.rightAlignedContent}>
-        <ElapsedTimeWidget pastDate={new Date(1741379172783)} />
+        <ElapsedTimeWidget pastDate={new Date()} />
         <ActionIcon actionIcon={actionIcon} />
       </div>
     </li>

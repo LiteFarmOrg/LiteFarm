@@ -43,6 +43,10 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../shared'),
       '@components': path.resolve(__dirname, './src/components'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      'react-timeago/lib/formatters/buildFormatter': path.resolve(
+        __dirname,
+        'node_modules/react-timeago/lib/formatters/buildFormatter.js',
+      ),
     },
   },
 });

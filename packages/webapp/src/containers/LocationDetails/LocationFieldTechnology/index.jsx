@@ -38,7 +38,7 @@ function LocationFieldTechnology({ history, match }) {
         location.grid_points,
       );
     }
-    // if (externalSensors && groupedSensors.filter((s) => s.isSensorArray).length) {
+    // if (externalSensors && externalSensorArrays) {
     if (gs.filter((s) => s.isSensorArray).length) {
       // const arraysInlocation = structuredClone(
       //   useLocationsContainedWithinArea(externalSensorArrays, location.grid_points),
@@ -47,7 +47,7 @@ function LocationFieldTechnology({ history, match }) {
         gs.filter((s) => s.isSensorArray),
         location.grid_points,
       );
-      // const arraysInlocation = useLocationsContainedWithinArea(groupedSensors.filter((s) => s.isSensorArray), location.grid_points);
+      // const arraysInlocation = useLocationsContainedWithinArea(externalSensorArrays, location.grid_points);
       // ft['externalSensorArrays'] = arraysInlocation.map((sensorArray) => {
       //   // This is mutating the store state??
       //   sensorArray.sensors = sensorArray.sensors.map((sensorId) =>

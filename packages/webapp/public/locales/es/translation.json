@@ -1,7 +1,6 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Agregar animales",
-    "ADD_ANIMALS_FLOW": "incorporación de animales",
     "ADD_ANIMALS_TITLE": "Agregar animales",
     "ADD_DETAILS_INFO": "Introduzca los datos del animal a continuación o guárdelos y recupérelos más tarde.",
     "ADD_TO_INVENTORY": "Añade animales a tu inventario",
@@ -116,7 +115,6 @@
     "ASSIGN_DATE": "Asignar fecha de vencimiento",
     "ASSIGN_TASK": "Asignar tarea",
     "ASSIGNEE": "Responsable",
-    "CANCEL": "creación de la tarea",
     "CANT_FIND_INFO_TASK": "También puedes crear tus propios tipos de tareas personalizadas",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -279,6 +277,19 @@
     "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
     "WILD_CROP": "Cultivos silvestres"
   },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CANCEL": "",
+      "CONFIRM": ""
+    },
+    "ESCI": {
+      "DISCONNECT_ESCI": "",
+      "INFO": "",
+      "MODAL_INFO": "",
+      "MODAL_TITLE": ""
+    },
+    "ORGANISATION_ID": ""
+  },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "¿Tiene otro tipo de animal o una raza diferente?",
     "ADD_MORE_BUTTON": "Añadir más animales",
@@ -311,7 +322,6 @@
     },
     "BATCH": "Lote",
     "BETA_SPOTLIGHT_HEADING": "Presentación de la nueva función Animales",
-    "EDIT_ANIMAL_FLOW": "edición",
     "FILTER": {
       "BATCHES": "Lotes",
       "BATCHES_OR_INDIVIDUALS": "Lotes o individuales",
@@ -328,6 +338,12 @@
     "TABS": {
       "BASIC_INFO": "Información básica",
       "TASKS": "Tareas"
+    }
+  },
+  "BADGE": {
+    "BETA": {
+      "ANIMALS_CONTENT": "¡Descubre un adelanto de nuestra nueva función de gestión de animales, ahora en versión beta! Su opinión es fundamental mientras perfeccionamos esta herramienta. Por favor, comparte cualquier error o sugerencia que encuentre. ¡Agradecemos su ayuda para mejorar LiteFarm! Puedes obtener más información sobre la versión beta <a>aquí</a>",
+      "TITLE": "Beta"
     }
   },
   "BED_PLAN": {
@@ -348,7 +364,8 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Se descartará cualquier información que haya ingresado. ¿Quiere proceder?",
-    "TITLE": "Cancelar su {{flow}}?"
+    "NO_BUTTON": "",
+    "TITLE": ""
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -409,7 +426,6 @@
     "EXPORT_DOWNLOADING_MESSAGE": "Descargando sus archivos de certificación orgánica...",
     "EXPORT_FILE_TITLE": "Certificación orgánica",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
-    "FLOW_TITLE": "exportar de documentos de certificación",
     "GOOD_NEWS": "¡Buenas noticias!",
     "HAVE_ALL_INFO": "Parece que LiteFarm tiene toda la información que necesitamos para procesar sus documentos de certificación. Se los enviaremos a:",
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
@@ -502,7 +518,6 @@
     "ADD_CROPS_T0_YOUR_FARM": "Agregar un cultivo a su granja",
     "ADD_TO_YOUR_FARM": "Agregar a su granja",
     "CAN_NOT_FIND": "¿No encuentra lo que busca?",
-    "CANCEL": "Ceración de cultivo",
     "COVER_CROP": "¿Se puede cultivar como cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Crear plan de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivos",
@@ -617,7 +632,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
     "CANCEL": "Cancelar",
-    "CANCEL_MODAL": "creación de documentos",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de cumplimiento y su certificación",
     "DOCUMENTS": "Documentos",
     "EDIT_DOCUMENT": "Editar documento",
@@ -679,7 +693,6 @@
       "CUSTOM_EXPENSE_TYPE": "Tipo de gasto personalizado",
       "DUPLICATE_NAME": "Ya existe un tipo de gasto con este nombre. Por favor, elija uno diferente.",
       "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de gasto retirado con este nombre. Por favor, elija uno diferente.",
-      "FLOW": "creación de gasto",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos de gasto personalizados",
       "NEW_EXPENSE_ITEM": "Nuevo gasto",
       "TITLE": "Crear gasto",
@@ -714,6 +727,7 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "",
     "AREA_DETAILS": {
       "NETWORK": "Error de conexion.",
       "PERIMETER": "Perimetro",
@@ -797,6 +811,7 @@
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
       "ZERO_LENGTH_DETECTED": "Línea sin longitud detectada. Por favor dibuja de nuevo."
     },
+    "EXPORT_MAP": "",
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
       "DOWNLOAD": "Descargar",
@@ -826,6 +841,7 @@
       "TITLE": "Agregar campo",
       "TRANSITIONING": "En transición"
     },
+    "FILTER_MAP": "",
     "GARDEN": {
       "DATE": "Fecha de transición",
       "EDIT_TITLE": "Editar huerto",
@@ -861,7 +877,6 @@
       "WATERCOURSE": "Arroyo",
       "WATERCOURSE_TITLE": "Cuales son los siguientes anchos?"
     },
-    "LOCATION_CREATION_FLOW": "creación de ubicación",
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a su mapa",
       "AREAS": "Áreas",
@@ -923,7 +938,8 @@
       "CROPS": "Cultivos",
       "DETAILS": "Detalles",
       "READINGS": "Lecturas",
-      "TASKS": "Tareas"
+      "TASKS": "Tareas",
+      "FIELD_TECHNOLOGY": ""
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -1056,7 +1072,6 @@
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
     "FEEDBACK_INVITATION": "Obtenga ayuda o envíenos sus comentarios",
-    "SEND_US_FEEDBACK": "Envíenos sus comentarios",
     "MESSAGE_LABEL": "Mensaje",
     "OPTIONS": {
       "OTHER": "Otro",
@@ -1066,6 +1081,7 @@
     },
     "PREFERRED_CONTACT": "Método de contacto preferido",
     "REQUIRED_LABEL": "Campo solicitado",
+    "SEND_US_FEEDBACK": "Envíenos sus comentarios",
     "TYPE_SUPPORT_LABEL": "Tipo de ayuda",
     "TYPE_SUPPORT_PLACEHOLDER": "Elija tipo de ayuda",
     "WHATSAPP": "Whatsapp",
@@ -1316,7 +1332,6 @@
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
     "KNOW_HOW_IS_CROP_PLANTED": "¿Sabes cómo se plantó el cultivo?",
     "LOCATION_SUBTEXT": "Solo se muestran las ubicaciones que pueden producir cultivos.",
-    "MANAGEMENT_PLAN_FLOW": "creación del plan de cultivo",
     "MANAGEMENT_SPOTLIGHT_1": "Crear nuevos planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Crear y asigna tareas",
@@ -1553,6 +1568,7 @@
       "USER_ADDRESS_LENGTH": "La dirección de usuario no puede exceder los 255 caracteres"
     },
     "FARM": {
+      "ADDONS": "",
       "ADDRESS": "Dirección",
       "CHANGE_IMAGE": "Cambiar imagen",
       "CLICK_TO_UPLOAD": "Clickee para subir",
@@ -1649,7 +1665,6 @@
     "REPEAT_EVERY": "Repetir cada",
     "REPEAT_LIMIT_ERROR": "No se puede repetir éste plan de cultivo más de 20 veces",
     "REPEAT_ON": "Repetir en",
-    "REPEAT_PLAN_FLOW": "repetición de plan de cultivo",
     "REPETITIONS": "repeticiones",
     "REPETITIONS_OF": "Repeticiones de {{planName}}",
     "START_DATE": "Inicio",
@@ -1777,14 +1792,18 @@
     "ANIMALS_LOCATION": "Localización de animales"
   },
   "SENSOR": {
+    "ARRAY": "",
     "BRAND": "Marca",
     "BRAND_HELPTEXT": "A continuación se muestran las marcas con las que LiteFarm puede integrarse. Si ya no desea utilizar esta marca de sensores, retire este sensor.",
     "DAYS_AGO": "hace {{time}} día(s)",
     "DEPTH": "Profundidad",
     "DETAIL": {
+      "ADD_SENSORS": "",
       "BRAND": "Marca",
       "BRAND_TOOLTIP": "A continuación se muestran las marcas con las que LiteFarm puede integrarse. Si ya no desea utilizar esta marca de sensores, retire este sensor.",
       "DEPTH": "Produndidad",
+      "DETECTED_FIELD": "",
+      "DEVICE_TYPE": "",
       "EDIT": "Editar",
       "EXTERNAL_ID_TOOLTIP": "Esta identificación se utiliza para identificar de forma única este sensor en otros sistemas integrados y no se puede cambiar. Si ya no se usa, retire este sensor y agregar uno nuevo.",
       "EXTERNAL_IDENTIFIER": "Identificador externo      ",
@@ -1793,6 +1812,28 @@
       "MODEL": "Modelo",
       "NAME": "Nombre del sensor",
       "RETIRE": "Retirar"
+    },
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "",
+      "IR_TEMPERATURE_SENSOR": "",
+      "SOIL_WATER_POTENTIAL_SENSOR": "",
+      "WEATHER_STATION": "",
+      "WIND_SPEED_SENSOR": ""
+    },
+    "ESCI": {
+      "ACTIVE_CONNECTION": "",
+      "CONNECT_NEW_SENSOR": "",
+      "CURRENT_SUPPORT": "",
+      "ENSEMBLE_ESID": "",
+      "ENTER_ID": "",
+      "MANAGE_LINK": "",
+      "NAME": "",
+      "ORGANISATION_ID": "",
+      "ORGANISATION_ID_ERROR": "",
+      "ORGANISATION_ID_GENERIC_ERROR": "",
+      "SEE_ENSEMBLE_SENSOR_LIST": "",
+      "SHORT_NAME": "",
+      "TO_MANAGE_SENSORS": ""
     },
     "EXTERNAL_IDENTIFIER": "Identificador externo",
     "HOURS_AGO": "hace {{time}} hora(s)",
@@ -1809,12 +1850,22 @@
     "MONTHS_AGO": "hace {{time}} mes(es)",
     "NO_DATA": "(sin datos)",
     "NO_DATA_FOUND": "No se encontraron lecturas del sensor",
+    "PARTNER_SENSOR_LIST": "",
     "READING": {
+      "BAROMETRIC_PRESSURE": "",
+      "CUMULATIVE_RAINFALL": "",
+      "LATEST_READING": "",
+      "RAINFALL_RATE": "",
+      "RELATIVE_HUMIDITY": "",
       "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
+      "SOLAR_RADIATION": "",
       "TEMPERATURE": "Temperatura",
       "TYPES": "Tipos de lectura",
-      "UNKNOWN": "Desconocido"
+      "UNKNOWN": "Desconocido",
+      "UPDATE_READINGS": "",
+      "WIND_DIRECTION": "",
+      "WIND_SPEED": ""
     },
     "READINGS_PREVIEW": {
       "SOIL_WATER_POTENTIAL": "Potencial hídrico actual del suelo",
@@ -1829,6 +1880,8 @@
       "TITLE": "¿Retirar sensor?"
     },
     "SECONDS_AGO": "hace {{time}} segundo(s)",
+    "SENSOR_ARRAY": "",
+    "SENSOR_ARRAYS": "",
     "SENSOR_FORECAST": {
       "HIGH_AND_LOW_TEMPERATURE": "Temperatura máxima y mínima: {{high}}{{unit}} / {{low}}{{unit}}",
       "TITLE": "Pronóstico del día",
@@ -1849,6 +1902,8 @@
       "TITLE": "Potencial hídrico del suelo",
       "Y_AXIS_LABEL": "en {{units}}"
     },
+    "STANDALONE_SENSOR": "",
+    "STANDALONE_SENSORS": "",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
       "C": "Celsius (°C)",
@@ -1893,7 +1948,13 @@
   "STATUS": {
     "ACTIVE": "Activo",
     "INACTIVE": "Inactivo",
-    "INVITED": "Invitado"
+    "INVITED": "Invitado",
+    "OFFLINE": "",
+    "ONLINE": "",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "",
+      "ONLINE_TOOLTIP": ""
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "Producido en",
@@ -1951,12 +2012,11 @@
     "ADD_CUSTOM_HARVEST_USE": "Crear un uso de cosecha personalizado ",
     "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
     "ADD_TASK": "Crear una tarea",
-    "ADD_TASK_FLOW": "creación de tareas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animales en esta tarea",
+    "ANIMAL_MOVING_TO_LOCATION": "Moviendo a:",
     "ANIMALS": "Animales",
     "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Al menos un animal debe estar seleccionado para poder completar esta tarea. Si desea eliminar todos los animales, abandone la tarea.",
-    "ANIMAL_MOVING_TO_LOCATION": "Moviendo a:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animales en esta tarea",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones",
@@ -1970,7 +2030,6 @@
     "COMPLETE_TASK": "Completar tarea",
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
-    "COMPLETE_TASK_FLOW": "la terminación de la tarea",
     "COMPLETION_DETAILS": "Detalles de finalización de la tarea",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -2080,11 +2139,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
-  },
-  "BADGE": {
-    "BETA": {
-      "TITLE": "Beta",
-      "ANIMALS_CONTENT": "¡Descubre un adelanto de nuestra nueva función de gestión de animales, ahora en versión beta! Su opinión es fundamental mientras perfeccionamos esta herramienta. Por favor, comparte cualquier error o sugerencia que encuentre. ¡Agradecemos su ayuda para mejorar LiteFarm! Puedes obtener más información sobre la versión beta <a>aquí</a>"
-    }
   }
 }

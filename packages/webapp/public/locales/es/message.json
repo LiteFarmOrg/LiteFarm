@@ -54,9 +54,9 @@
     "ERROR": {
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
-      "UPDATE": "No se pudo actualizar gastos!",
       "EXPENSE_DELETED": "Este gasto ha dejado de existir",
-      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado"
+      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado",
+      "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
@@ -85,6 +85,10 @@
     "SUCCESS": {
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "SUCCESS_DISCONNECT_ADDON": ""
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -185,8 +189,8 @@
     "ERROR": {
       "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
-      "UPDATE": "No se pudo actualizar venta",
-      "SALE_DELETED": "Esta venta ya no existe"
+      "SALE_DELETED": "Esta venta ya no existe",
+      "UPDATE": "No se pudo actualizar venta"
     },
     "SUCCESS": {
       "ADD": "Venta agregada exitosamente",

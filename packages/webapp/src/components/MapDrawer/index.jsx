@@ -268,6 +268,7 @@ export default function MapDrawer({
         sideDrawerDirection="left"
         isCompactSideMenu={isCompactSideMenu}
         addBackdrop={false}
+        shadowOnScroll={true}
         onClose={() => setShowMapDrawer(false)}
         classes={{
           sideDrawerContainer: styles.sideDrawerContainer,

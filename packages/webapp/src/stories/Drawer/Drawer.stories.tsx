@@ -103,6 +103,18 @@ export const NoBackdrop: Story = {
   },
 };
 
+export const HeaderShadowOnScroll: Story = {
+  args: {
+    title: 'Header shadow on scroll',
+    desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
+    isCompactSideMenu: true,
+    shadowOnScroll: true,
+    classes: {
+      drawerContent: styles.overflowingDrawerContent,
+    },
+  },
+};
+
 export const CustomClasses: Story = {
   args: {
     title: 'Custom classes',

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -21,15 +21,15 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import ReactSelect from '../Form/ReactSelect';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
-import { dateRangeOptions as rangeOptions } from './constants';
+import { DateRangeOptions as rangeOptions } from './types';
 import styles from './styles.module.scss';
 
-export default function DateRangeSelector({
+export default function DateRangeInput({
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
   onChangeDateRangeOption,
   placeholder,
-  changeDateMethod,
+  changeDateRangeMethod,
   onValidityChange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
@@ -66,13 +66,6 @@ export default function DateRangeSelector({
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
-
-  useEffect(() => {
-    setSelectedDateRangeOption(
-      defaultDateRangeOptionValue &&
-        options.find(({ value }) => value === defaultDateRangeOptionValue),
-    );
-  }, [defaultDateRangeOptionValue]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -115,6 +108,7 @@ export default function DateRangeSelector({
     if (!isCustomDatePickerOpen) {
       return;
     }
+    changeDateRangeMethod(customFromDate, customToDate);
     setIsCustomDatePickerOpen(false);
   };
 
@@ -125,12 +119,10 @@ export default function DateRangeSelector({
 
   const changeStartDate = (date) => {
     setCustomFromDate(date);
-    changeDateMethod('start', date);
   };
 
   const changeEndDate = (date) => {
     setCustomToDate(date);
-    changeDateMethod('end', date);
   };
 
   return (
@@ -149,7 +141,6 @@ export default function DateRangeSelector({
             } else {
               setIsCustomOptionSelected(false);
             }
-            clearCustomDateRange();
             onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
@@ -178,14 +169,14 @@ export default function DateRangeSelector({
   );
 }
 
-DateRangeSelector.propTypes = {
+DateRangeInput.propTypes = {
   defaultDateRangeOptionValue: PropTypes.string,
   defaultCustomDateRange: PropTypes.shape({
     [FROM_DATE]: PropTypes.object,
     [TO_DATE]: PropTypes.object,
   }),
   placeholder: PropTypes.string,
-  changeDateMethod: PropTypes.func,
+  changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
 };

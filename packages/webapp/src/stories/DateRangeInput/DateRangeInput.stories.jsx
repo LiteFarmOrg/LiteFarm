@@ -17,22 +17,22 @@ import { within, userEvent, screen, fireEvent } from '@storybook/test';
 import { expect } from '@storybook/test';
 import selectEvent from 'react-select-event';
 import moment from 'moment';
-import DateRangeSelector from '../../components/DateRangeSelector';
+import DateRangeInput from '../../components/DateRangeSelector/DateRangeInput';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../components/Form/DateRangePicker';
 
 export default {
-  title: 'Components/DateRangeSelector',
-  component: DateRangeSelector,
+  title: 'Components/DateRangeInput',
+  component: DateRangeInput,
   decorators: componentDecorators,
 };
 
 const TestComponent = (props) => {
   return (
     <Suspense fallback={'Loading...'}>
-      <DateRangeSelector
-        changeDateMethod={() => ({})}
+      <DateRangeInput
+        changeDateRangeMethod={() => ({})}
         onChangeDateRangeOption={() => ({})}
         {...props}
       />
@@ -66,7 +66,7 @@ export const WithPlaceholder = {
 
 export const WithDefaultOption = {
   render: () => {
-    return <TestComponent defaultDateRangeOptionValue={dateRangeOptions.YEAR_TO_DATE} />;
+    return <TestComponent defaultDateRangeOptionValue={DateRangeOptions.YEAR_TO_DATE} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -89,7 +89,7 @@ export const WithDefaultOption = {
 
     const backButton = await canvas.findByText('back');
     expect(backButton).toBeInTheDocument();
-    expect(backButton).toHaveStyle('color: #d4dae3');
+    expect(backButton).toHaveStyle('color: #9faabe'); // disabled; --grey500 is the disabled color defined on TextButton
 
     await userEvent.click(backButton);
     expect(backButton).toBeInTheDocument();
@@ -118,7 +118,7 @@ export const WithDefaultCustomDateRange = {
   render: () => {
     return (
       <TestComponent
-        defaultDateRangeOptionValue={dateRangeOptions.CUSTOM}
+        defaultDateRangeOptionValue={DateRangeOptions.CUSTOM}
         defaultCustomDateRange={{
           [FROM_DATE]: moment('2023-01-01'),
           [TO_DATE]: moment('2024-01-01'),

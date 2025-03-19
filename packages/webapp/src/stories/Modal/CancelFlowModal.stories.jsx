@@ -13,7 +13,6 @@ const Template = (args) => <CancelFlowModal {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  flow: 'MANAGEMENT_PLAN',
   dismissModal: () => {
     console.log('dismissing modal');
   },

@@ -31,6 +31,7 @@ import {
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
   UPDATE_SALE,
+  RESET_DATE_RANGE,
 } from './constants';
 
 export const setSalesInState = (sales) => {
@@ -141,6 +142,12 @@ export const setDateRange = (rangeObj) => {
   return {
     type: SET_DATE_RANGE,
     rangeObj,
+  };
+};
+
+export const resetDateRange = () => {
+  return {
+    type: RESET_DATE_RANGE,
   };
 };
 

@@ -17,12 +17,12 @@ function LocationFieldTechnology({ history, match }) {
   const location = useSelector(locationByIdSelector(location_id));
 
   const sensors = useSelector(sensorSelector);
-  const externalSensors = useSelector(allSensorsSelector);
+  //const externalSensors = useSelector(allSensorsSelector);
   // const externalStandaloneSensors = useSelector(standaloneSensorsSelector);
   // const externalSensorArrays = useSelector(sensorArraysSelector);
   const { isLoading, groupedSensors } = useGroupedSensors();
-
-  console.log(externalSensors);
+  let gs = structuredClone(groupedSensors);
+  // console.log(externalSensors);
   console.log(groupedSensors);
 
   const [fieldTechnology, setFieldTechnology] = useState({});
@@ -32,18 +32,19 @@ function LocationFieldTechnology({ history, match }) {
     if (sensors) {
       ft['sensors'] = useLocationsContainedWithinArea(sensors, location.grid_points);
     }
-    if (groupedSensors.filter((s) => !s.isSensorArray).length) {
+    if (gs.filter((s) => !s.isSensorArray).length) {
       ft['externalSensors'] = useLocationsContainedWithinArea(
-        groupedSensors.filter((s) => !s.isSensorArray),
+        gs.filter((s) => !s.isSensorArray),
         location.grid_points,
       );
     }
-    if (externalSensors && groupedSensors.filter((s) => s.isSensorArray).length) {
+    // if (externalSensors && groupedSensors.filter((s) => s.isSensorArray).length) {
+    if (gs.filter((s) => s.isSensorArray).length) {
       // const arraysInlocation = structuredClone(
       //   useLocationsContainedWithinArea(externalSensorArrays, location.grid_points),
       // );
       ft['externalSensorArrays'] = useLocationsContainedWithinArea(
-        groupedSensors.filter((s) => s.isSensorArray),
+        gs.filter((s) => s.isSensorArray),
         location.grid_points,
       );
       // const arraysInlocation = useLocationsContainedWithinArea(groupedSensors.filter((s) => s.isSensorArray), location.grid_points);
@@ -57,8 +58,8 @@ function LocationFieldTechnology({ history, match }) {
     }
 
     setFieldTechnology(ft);
-    // NOW THIS - grouped sensors is causing an infinite render cycle
-  }, [sensors, externalSensors, groupedSensors]);
+    // NOW THIS - grouped sensors as a dependency is causing an infinite render cycle
+  }, [sensors, gs]);
 
   console.log(fieldTechnology);
   return (

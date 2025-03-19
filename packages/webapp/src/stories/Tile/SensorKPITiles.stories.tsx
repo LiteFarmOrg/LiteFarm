@@ -24,18 +24,23 @@ import { Status } from '../../components/StatusIndicatorPill';
 
 const colors = ['#0669E1', '#E8A700', '#266F68', '#D02620', '#8F26F0', '#AA5F04'];
 
-interface TemplateProps {
-  tileType: string;
-  kpiProps: SensorReadingKPIprops[] | SensorKPIprops[];
-}
+type SensorReadingTemplate = {
+  tileType: 'sensorReadingKpi';
+  kpiProps: SensorReadingKPIprops[];
+};
+
+type SensorKpiTemplate = {
+  tileType: 'sensorKpi';
+  kpiProps: SensorKPIprops[];
+};
+
+type TemplateProps = SensorReadingTemplate | SensorKpiTemplate;
 
 const Template = ({ tileType, kpiProps }: TemplateProps) => {
   if (tileType == 'sensorKpi') {
     return (
       <BentoLayout>
-        {/* @ts-expect-error */}
-        {kpiProps.map((props: SensorReadingKPIprops) => {
-          // @ts-expect-error
+        {kpiProps.map((props: SensorKPIprops) => {
           return <SensorKPI {...props} />;
         })}
       </BentoLayout>
@@ -43,7 +48,6 @@ const Template = ({ tileType, kpiProps }: TemplateProps) => {
   } else if (tileType == 'sensorReadingKpi') {
     return (
       <BentoLayout>
-        {/* @ts-expect-error */}
         {kpiProps.map((props: SensorReadingKPIprops) => (
           <SensorReadingKPI {...props} />
         ))}

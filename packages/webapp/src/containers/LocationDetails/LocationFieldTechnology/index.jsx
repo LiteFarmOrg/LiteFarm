@@ -10,6 +10,7 @@ import {
   sensorArraysSelector,
   standaloneSensorsSelector,
 } from '../../../store/api/selectors/sensorSelectors';
+import useGroupedSensors from '../../SensorList/useGroupedSensors';
 
 function LocationFieldTechnology({ history, match }) {
   const { location_id } = match.params;
@@ -17,41 +18,49 @@ function LocationFieldTechnology({ history, match }) {
 
   const sensors = useSelector(sensorSelector);
   const externalSensors = useSelector(allSensorsSelector);
-  const externalStandaloneSensors = useSelector(standaloneSensorsSelector);
-  const externalSensorArrays = useSelector(sensorArraysSelector);
+  // const externalStandaloneSensors = useSelector(standaloneSensorsSelector);
+  // const externalSensorArrays = useSelector(sensorArraysSelector);
+  const { isLoading, groupedSensors } = useGroupedSensors();
 
-  //console.log(externalSensors)
-  //console.log(externalSensorArrays)
+  console.log(externalSensors);
+  console.log(groupedSensors);
 
   const [fieldTechnology, setFieldTechnology] = useState({});
+
   useEffect(() => {
     let ft = {};
     if (sensors) {
       ft['sensors'] = useLocationsContainedWithinArea(sensors, location.grid_points);
     }
-    if (externalStandaloneSensors) {
+    if (groupedSensors.filter((s) => !s.isSensorArray).length) {
       ft['externalSensors'] = useLocationsContainedWithinArea(
-        externalStandaloneSensors,
+        groupedSensors.filter((s) => !s.isSensorArray),
         location.grid_points,
       );
     }
-    if (externalSensors && externalSensorArrays) {
-      const arraysInlocation = structuredClone(
-        useLocationsContainedWithinArea(externalSensorArrays, location.grid_points),
+    if (externalSensors && groupedSensors.filter((s) => s.isSensorArray).length) {
+      // const arraysInlocation = structuredClone(
+      //   useLocationsContainedWithinArea(externalSensorArrays, location.grid_points),
+      // );
+      ft['externalSensorArrays'] = useLocationsContainedWithinArea(
+        groupedSensors.filter((s) => s.isSensorArray),
+        location.grid_points,
       );
-      // const arraysInlocation = useLocationsContainedWithinArea(externalSensorArrays, location.grid_points);
-      ft['externalSensorArrays'] = arraysInlocation.map((sensorArray) => {
-        // This is mutating the store state??
-        sensorArray.sensors = sensorArray.sensors.map((sensorId) =>
-          externalSensors.find((sensor) => sensor.location_id === sensorId),
-        );
-        return sensorArray;
-      });
+      // const arraysInlocation = useLocationsContainedWithinArea(groupedSensors.filter((s) => s.isSensorArray), location.grid_points);
+      // ft['externalSensorArrays'] = arraysInlocation.map((sensorArray) => {
+      //   // This is mutating the store state??
+      //   sensorArray.sensors = sensorArray.sensors.map((sensorId) =>
+      //     externalSensors.find((sensor) => sensor.location_id === sensorId),
+      //   );
+      //   return sensorArray;
+      // });
     }
 
     setFieldTechnology(ft);
-  }, [sensors, externalSensors, externalSensorArrays, externalStandaloneSensors]);
+    // NOW THIS - grouped sensors is causing an infinite render cycle
+  }, [sensors, externalSensors, groupedSensors]);
 
+  console.log(fieldTechnology);
   return (
     <>
       <PureLocationFieldTechnology

@@ -111,10 +111,13 @@ export default function PureLocationFieldTechnology({
       <div>
         <FieldTechnologyLists />
       </div>
-      <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
-        <ExternalLinkIcon />
-        <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
-      </Link>
+      <div className={styles.manageEsci}>
+        {t('MANAGE_ENTITY')}
+        <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
+          <ExternalLinkIcon />
+          <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
+        </Link>
+      </div>
     </Layout>
   );
 }

@@ -2,13 +2,13 @@ import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
 import { isSameDay } from '../../util/date-migrate-TS';
+import Icon from '../Icons';
 
 export default function PureLocationFieldTechnology({
   location,
@@ -58,8 +58,8 @@ export default function PureLocationFieldTechnology({
       if (key === 'externalSensorArrays') {
         return fieldTechnology[key]?.map((sa) => {
           return (
-            <div key={sa.name}>
-              <div>{sa.name}</div>
+            <div key={sa.name} className={styles.listWithHeading}>
+              <div className={styles.listHeading}>{sa.name}</div>
               <List compact className={styles.list}>
                 {...sa.sensors?.map((sensor) => {
                   const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
@@ -100,7 +100,7 @@ export default function PureLocationFieldTechnology({
   };
 
   return (
-    <Layout>
+    <Layout className={styles.fieldTechnologyContainer}>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
@@ -108,15 +108,17 @@ export default function PureLocationFieldTechnology({
         match={match}
         tabs={routerTabs}
       />
-      <div>
+      <div className={styles.lists}>
         <FieldTechnologyLists />
       </div>
       <div className={styles.manageEsci}>
-        {t('MANAGE_ENTITY')}
-        <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
-          <ExternalLinkIcon />
-          <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
-        </Link>
+        <div className={styles.manageText}>{t('SENSOR.ESCI.FIELD_TECHNOLOGY')}</div>
+        <div className={styles.manageLink}>
+          <Link to={{ pathname: '/farm', hash: '#esci-addon' }}>
+            <Icon iconName="EXTERNAL_LINK" className={styles.externalLinkIcon} />
+            <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
+          </Link>
+        </div>
       </div>
     </Layout>
   );

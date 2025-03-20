@@ -1,5 +1,11 @@
 @import '@assets/mixin.scss';
 
+.fieldTechnologyContainer {
+  background-color: white;
+  margin: 16px 0 16px 0;
+  padding: 16px 8px 8px 8px;
+}
+
 .list.list {
   background-color: var(--bgInputListTile);
   padding: 8px;
@@ -25,4 +31,87 @@
   height: 24px;
   margin: 0px;
   color: var(--Colors-Neutral-Neutral-600);
+}
+
+.lists {
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.listWithHeading {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.listHeading {
+  color: var(--Colors-Neutral-Neutral-600);
+  font-feature-settings: 'liga' off, 'clig' off;
+  @include fontFamily();
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px; /* 112.5% */
+}
+
+.manageEsci {
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  gap: 36px;
+  align-self: stretch;
+
+  border-radius: 4px;
+  background: var(--Box-bg, #F5FAFA);
+
+  /* simple-box-shadow */
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+
+  @include md-breakpoint {
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+    gap: 4px;
+    & > div {
+      flex: unset;
+    }
+  }
+}
+
+.manageText {
+  color: var(--Colors-Neutral-Neutral-400, #858FA1);
+  font-feature-settings: 'liga' off, 'clig' off;
+  @include fontFamily();
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px; /* 125% */
+}
+
+.manageLink {
+ & > a {
+  display: flex;
+  flex: 1 0 auto;
+  width: 174px;
+  height: 32px;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 4px;
+
+  border-radius: 8px;
+
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: center;
+  @include fontFamily();
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px; /* 171.429% */
+  letter-spacing: 0.4px;
+  text-decoration: none;
+ }
+}
+
+.externalLinkIcon {
+  background: transparent;
+  @include svgColorFill(var(--Colors-Neutral-Neutral-900))
 }

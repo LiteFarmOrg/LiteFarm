@@ -1834,6 +1834,7 @@
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
+      "FIELD_TECHNOLOGY": "To manage your sensors individually, please connect to your ESci dashboard at https://app.esci.io/",
       "NAME": "Ensemble Scientific",
       "ORGANISATION_ID": "ESci organisation ID",
       "ORGANISATION_ID_ERROR": "Invalid Organisation ID",

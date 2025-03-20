@@ -12,7 +12,7 @@ type ElapsedTimeWidgetProps = {
 
 const formatter = buildFormatter(enFuzzyShort);
 
-export default function ElapsedTimeWidget({ pastDate }: ElapsedTimeWidgetProps) {
+export function ElapsedTimeWidget({ pastDate }: ElapsedTimeWidgetProps) {
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -33,10 +33,22 @@ export default function ElapsedTimeWidget({ pastDate }: ElapsedTimeWidgetProps) 
   );
 }
 
-export function ElapsedTimeWidgetReactTimeAgo({ pastDate }: ElapsedTimeWidgetProps) {
+export default function ElapsedTimeWidgetReactTimeAgo({ pastDate }: ElapsedTimeWidgetProps) {
   return (
     <div className={styles.container}>
-      <TimeAgo date={pastDate} formatter={formatter} minPeriod={60} />
+      <TimeAgo
+        date={pastDate}
+        formatter={formatter}
+        minPeriod={60}
+        title={new Intl.DateTimeFormat('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          timeZoneName: 'short',
+        }).format(pastDate)}
+      />
       <Icon iconName="CLOCK_FAST" className={styles.icon} />
     </div>
   );

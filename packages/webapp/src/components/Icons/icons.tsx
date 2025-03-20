@@ -65,6 +65,7 @@ import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/So
 import { ReactComponent as VideoLogo } from '../../assets/images/map/video.svg';
 
 // System
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
@@ -140,6 +141,7 @@ export const iconMap = {
   // Map
   VIDEO_LOGO: VideoLogo,
   // System
+  EXTERNAL_LINK: ExternalLinkIcon,
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,

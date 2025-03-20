@@ -71,7 +71,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: latest
+          version: 9.15.9
       - name: Run Webapp
         working-directory: packages/webapp
         run: |

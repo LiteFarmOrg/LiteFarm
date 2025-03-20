@@ -4,7 +4,8 @@
   "description": "LiteFarm Web application",
   "type": "module",
   "engines": {
-    "node": "20.17"
+    "node": "20.17",
+    "pnpm": "9.15.9"
   },
   "scripts": {
     "dev": "vite --host",

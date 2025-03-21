@@ -1,7 +1,7 @@
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import List from '../List';
@@ -204,11 +204,17 @@ export default function PureLocationFieldTechnology({
       </div>
       {isExternalSensors && (
         <div className={styles.manageEsci}>
-          <div className={styles.manageText}>{t('SENSOR.ESCI.FIELD_TECHNOLOGY')}</div>
+          <div className={styles.manageText}>
+            <Trans
+              i18nKey={'SENSOR.ESCI.TO_MANAGE_SENSORS'}
+              shouldUnescape={true}
+              tOptions={{ url: 'https://app.esci.io/' }}
+            />
+          </div>
           <div className={styles.manageLink}>
             <Link to={{ pathname: '/farm', hash: '#esci-addon' }}>
               <Icon iconName="EXTERNAL_LINK" className={styles.externalLinkIcon} />
-              <span>{t('common:MANAGE_ENTITY', { entity: 'ESCI' })}</span>
+              <span>{t('SENSOR.ESCI.MANAGE_LINK')}</span>
             </Link>
           </div>
         </div>

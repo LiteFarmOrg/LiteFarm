@@ -939,8 +939,7 @@
       "DETAILS": "Details",
       "FIELD_TECHNOLOGY": "Field Technology",
       "READINGS": "Readings",
-      "TASKS": "Tasks",
-      "FIELD_TECHNOLOGY": "Field Technology"
+      "TASKS": "Tasks"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -1827,7 +1826,6 @@
       "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
       "ENSEMBLE_ESID": "Ensemble ESID",
       "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
-      "FIELD_TECHNOLOGY": "To manage your sensors individually, please connect to your ESci dashboard at https://app.esci.io/",
       "MANAGE_LINK": "Manage ESci link",
       "NAME": "Ensemble Scientific",
       "ORGANISATION_ID": "ESci organisation ID",

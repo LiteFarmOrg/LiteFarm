@@ -18,6 +18,8 @@ jobs:
           fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          package_json_file: "packages/webapp/package.json"
       - name: Install dependencies
         run: pnpm install
       - name: Publish to Chromatic

@@ -14,7 +14,7 @@
  */
 
 import { SensorDatapoint } from '../../../store/api/types';
-import { type TruncPeriod } from '../../../components/Charts/LineChart';
+import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 
 interface FormattedSensorDatapoint {
   dateTime: SensorDatapoint['dateTime'];
@@ -37,13 +37,13 @@ export const fillMissingDataWithNull = (
   );
 };
 
-export const getNextDateTime = (baseUnixTime: number, truncPeriod: TruncPeriod) => {
+export const getNextDateTime = (baseUnixTime: number, truncPeriod: ChartTruncPeriod) => {
   return baseUnixTime + (truncPeriod === 'day' ? 60 * 60 * 24 : 60 * 60);
 };
 
 export const formatSensorsData = (
   data: SensorDatapoint[],
-  truncPeriod: TruncPeriod,
+  truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
 ): FormattedSensorDatapoint[] => {
   if (!data.length) {

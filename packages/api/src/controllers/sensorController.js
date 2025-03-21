@@ -129,7 +129,7 @@ const sensorController = {
   },
   async getSensorReadings(req, res) {
     const { farm_id } = req.headers;
-    const { esids, startTime, endTime, truncPeriod } = req.query;
+    const { esids, startTime, endTime, truncPeriod, validated } = req.query;
 
     try {
       const data = await getEnsembleSensorReadings({
@@ -138,6 +138,7 @@ const sensorController = {
         startTime,
         endTime,
         truncPeriod,
+        validated,
       });
 
       return res.status(200).send(data);

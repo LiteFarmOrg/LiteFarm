@@ -179,6 +179,9 @@ export default function PureSelectionHandler({ locations, history, sensorReading
       location.isAddonSensor &&
       [SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)
     ) {
+      history.push(`/${location.type}/${location.id}`);
+    } else if (location.type === SensorType.SENSOR) {
+      // Old sensor
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

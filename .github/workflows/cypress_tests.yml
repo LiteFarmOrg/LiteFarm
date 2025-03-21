@@ -69,9 +69,7 @@ jobs:
           DEV_DATABASE_PASSWORD: postgres
           NODE_ENV: development
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 9.15.9
+      - uses: pnpm/action-setup@v4
       - name: Run Webapp
         working-directory: packages/webapp
         run: |

@@ -17,9 +17,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 9.15.9
+        uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests

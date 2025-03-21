@@ -259,13 +259,15 @@ export const api = createApi({
         startTime?: string; // ISO 8601
         endTime?: string; // ISO 8601
         truncPeriod?: 'minute' | 'hour' | 'day';
+        validated?: boolean;
       }
     >({
-      query: ({ esids, startTime, endTime, truncPeriod }) => {
+      query: ({ esids, startTime, endTime, truncPeriod, validated }) => {
         const params = new URLSearchParams({ esids });
         if (startTime) params.append('startTime', startTime);
         if (endTime) params.append('endTime', endTime);
         if (truncPeriod) params.append('truncPeriod', truncPeriod);
+        params.append('validated', validated ? 'true' : 'false');
         return `${sensorUrl}/readings?${params.toString()}`;
       },
       providesTags: ['SensorReadings'],

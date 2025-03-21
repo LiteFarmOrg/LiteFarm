@@ -83,6 +83,7 @@ interface SensorListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   iconText: IconTextProps;
   middleContent: MiddleContentProps;
   actionIcon: ActionIconProps;
+  lastSeen: Date;
   onlyActionClick: boolean;
   classes: {
     leftAlignedContent: string;
@@ -95,6 +96,7 @@ export default function SensorListItem({
   iconText,
   middleContent,
   actionIcon,
+  lastSeen,
   onClick,
   onlyActionClick = true,
   className,
@@ -115,9 +117,9 @@ export default function SensorListItem({
       </div>
 
       <div className={styles.middleText}>{middleContent.name}</div>
-      <StatusIndicatorPill {...middleContent.status} />
+      {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
       <div className={styles.rightAlignedContent}>
-        <ElapsedTimeWidget pastDate={new Date(1741379172783)} />
+        {lastSeen && <ElapsedTimeWidget pastDate={lastSeen} />}
         <ActionIcon actionIcon={actionIcon} />
       </div>
     </li>

@@ -1,0 +1,83 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.paper {
+  width: 100%;
+  margin: 16px auto;
+  padding: 8px;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.content {
+  padding: 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  border-radius: 8px;
+}
+
+.contentTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 24px;
+
+  dl {
+    display: flex;
+    gap: 4px;
+  }
+
+  dt {
+    color: var(--Colors-Neutral-Neutral-400);
+  }
+
+  dd {
+    color: #000;
+    font-weight: 700;
+  }
+
+  .updateButton {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    font-weight: 700;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.kpi {
+  padding: 0 8px;
+  margin-bottom: 16px;
+}
+
+.mainData {
+  padding: 8px 16px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dateRangeSelector {
+  padding: 16px 0;
+  margin-bottom: 24px;
+}

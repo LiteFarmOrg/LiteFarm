@@ -323,6 +323,7 @@ export const {
   useGetSensorsQuery,
   useGetSensorReadingsQuery,
   useLazyGetSensorsQuery,
+  useLazyGetSensorReadingsQuery,
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,

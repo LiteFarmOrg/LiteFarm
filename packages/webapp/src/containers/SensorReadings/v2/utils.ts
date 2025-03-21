@@ -15,6 +15,7 @@
 
 import { SensorDatapoint } from '../../../store/api/types';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
+import { getDateDifference } from '../../../util/moment';
 
 interface FormattedSensorDatapoint {
   dateTime: SensorDatapoint['dateTime'];
@@ -78,4 +79,21 @@ export const formatSensorsData = (
   }
 
   return result;
+};
+
+export const getTruncPeriod = (
+  startDate?: string,
+  endDate?: string,
+): ChartTruncPeriod | undefined => {
+  if (!startDate || !endDate) {
+    return undefined;
+  }
+
+  const dateRange = getDateDifference(startDate, endDate);
+
+  if (dateRange < 8) {
+    return 'hour';
+  }
+
+  return 'day';
 };

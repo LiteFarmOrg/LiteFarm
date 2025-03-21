@@ -89,16 +89,16 @@
 }
 
 .manageLink {
+  display: flex;
+  min-width: 174px;
+  height: 32px;
+
  & > a {
   display: flex;
   flex: 1 0 auto;
-  width: 174px;
-  height: 32px;
   padding: 8px 12px;
   align-items: center;
   gap: 4px;
-
-  border-radius: 8px;
 
   color: var(--Colors-Neutral-Neutral-900);
   text-align: center;

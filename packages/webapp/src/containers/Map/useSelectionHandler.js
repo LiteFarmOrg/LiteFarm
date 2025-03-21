@@ -70,6 +70,11 @@ const useSelectionHandler = () => {
             )
           ) {
             history.push(
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}`,
+            );
+          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
+            // Old sensor
+            history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );
           } else {

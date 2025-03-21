@@ -230,14 +230,14 @@ export type SoilAmendmentProduct = Product & {
 };
 
 // As specified by Ensemble
-type SensorTypes =
+export type SensorTypes =
   | 'Weather station'
   | 'Soil Water Potential Sensor'
   | 'IR Temperature Sensor'
   | 'Wind speed sensor'
   | 'Drip line pressure sensor';
 
-type SensorReadingTypes =
+export type SensorReadingTypes =
   | 'barometric_pressure'
   | 'cumulative_rainfall'
   | 'current'

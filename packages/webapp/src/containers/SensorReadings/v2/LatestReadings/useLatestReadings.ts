@@ -54,7 +54,7 @@ function useLatestReading(sensors: Sensor[]): {
 
     if (!adjustedStartTime) {
       adjustedStartTime = new Date();
-      adjustedStartTime.setMinutes(adjustedStartTime.getMinutes() - 10);
+      adjustedStartTime.setMinutes(adjustedStartTime.getMinutes() - 15);
     }
 
     // As of Mar 21, 2025, the latest available data appears to be from 3 minutes ago.
@@ -88,7 +88,8 @@ function useLatestReading(sensors: Sensor[]): {
 
   const refetchSensorReadings = async (startTime?: Date): Promise<void> => {
     const result = await getLatestReadings(startTime);
-    if (result.data) {
+    // If the latest data is not available, retain the existing data instead.
+    if (result.data?.length) {
       setLatestReadings(result.data);
       return;
     }
@@ -105,7 +106,7 @@ function useLatestReading(sensors: Sensor[]): {
     isLoading,
     latestReadings,
     latestReadingTime: getLatestReadingTime(latestReadings),
-    update: refetchSensorReadings,
+    update: () => refetchSensorReadings(),
   };
 }
 

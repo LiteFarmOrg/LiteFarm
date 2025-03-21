@@ -3,10 +3,21 @@
   "version": "3.7.5",
   "description": "LiteFarm Web application",
   "type": "module",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "20.17"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.6.5"
+    }
+  },
   "engines": {
     "node": "20.17",
-    "pnpm": "9.15.9"
+    "pnpm": ">=9.7.0"
   },
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",

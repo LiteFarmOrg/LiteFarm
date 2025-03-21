@@ -59,21 +59,27 @@ enum ActionIcons {
 type ActionIconProps = {
   iconName: ActionIcons;
   selected?: boolean;
+  onClick: () => void;
   classes?: {
     icon?: string;
   };
 };
 
 const ActionIcon = ({ actionIcon }: { actionIcon: ActionIconProps }) => {
-  const { iconName, selected, classes } = actionIcon;
+  const { iconName, selected, classes, onClick } = actionIcon;
   if (iconName === ActionIcons.CHECKBOX) {
     return selected ? (
-      <CheckedEnabled className={clsx(styles.checkbox, classes?.icon)} />
+      <CheckedEnabled className={clsx(styles.checkbox, classes?.icon)} onClick={onClick} />
     ) : (
-      <UncheckedEnabled className={clsx(styles.checkbox, classes?.icon)} />
+      <UncheckedEnabled className={clsx(styles.checkbox, classes?.icon)} onClick={onClick} />
     );
   } else if (iconName === ActionIcons.CHEVRON) {
-    return <BsChevronRight className={clsx(styles.chevron, classes?.icon && classes.icon)} />;
+    return (
+      <BsChevronRight
+        className={clsx(styles.chevron, classes?.icon && classes.icon)}
+        onClick={onClick}
+      />
+    );
   } else {
     return null;
   }

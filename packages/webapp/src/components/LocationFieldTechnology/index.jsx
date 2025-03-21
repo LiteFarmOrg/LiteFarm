@@ -24,6 +24,10 @@ export default function PureLocationFieldTechnology({
     fieldTechnology.externalSensors.length || fieldTechnology.externalSensorArrays.length
   );
 
+  const onClick = () => {
+    history.push(`/${location.type}/${location.id}/readings`);
+  };
+
   const routerTabs = [
     {
       label: t('FARM_MAP.TAB.CROPS'),
@@ -94,6 +98,7 @@ export default function PureLocationFieldTechnology({
                             classes: {
                               icon: styles.sensorChevron,
                             },
+                            onClick: onClick,
                           }}
                           lastSeen={new Date(sensor.last_seen)}
                         />
@@ -137,6 +142,7 @@ export default function PureLocationFieldTechnology({
                       classes: {
                         icon: styles.sensorChevron,
                       },
+                      onClick: onClick,
                     }}
                     lastSeen={new Date(sensor.last_seen)}
                   />
@@ -171,6 +177,7 @@ export default function PureLocationFieldTechnology({
                         classes: {
                           icon: styles.sensorChevron,
                         },
+                        onClick: onClick,
                       }}
                     />
                   );

@@ -26,17 +26,21 @@ import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUti
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
 import { SensorInSimpleTableFormat } from '../AddSensors/types';
 import { Location, System } from '../../types';
-import { SENSOR_ARRAY } from '../SensorReadings/constants';
 
 const STANDALONE = 'standalone' as const;
 
-export type SensorSummary = Record<Sensor['name'] | typeof SENSOR_ARRAY, number>;
+export enum SensorType {
+  SENSOR = 'sensor',
+  SENSOR_ARRAY = 'sensor_array',
+}
+
+export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARRAY, number>;
 
 export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
   fields: Location['name'][];
-  isSensorArray: boolean;
+  type: SensorType;
   sensors: SensorInSimpleTableFormat[];
 };
 
@@ -73,7 +77,7 @@ const formatSensorArrayToGroup = (
   return {
     ...sensorArray,
     sensors: mappedSensors[sensorArray.id],
-    isSensorArray: true,
+    type: SensorType.SENSOR_ARRAY,
     fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
   };
 };
@@ -86,7 +90,7 @@ const formatSensorToGroup = (
     id: `sensor_${sensor.id}`,
     sensors: [sensor],
     point: sensor.point,
-    isSensorArray: false,
+    type: SensorType.SENSOR,
     fields: getAreaNamesForPoint(sensor.point, areaLocations),
   };
 };
@@ -105,7 +109,7 @@ const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSumm
   );
 
   return {
-    [SENSOR_ARRAY]: sensor_arrays.length,
+    [SensorType.SENSOR_ARRAY]: sensor_arrays.length,
     ...summaryMap,
   };
 };

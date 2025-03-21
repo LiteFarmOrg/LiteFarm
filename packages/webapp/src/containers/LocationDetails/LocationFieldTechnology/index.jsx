@@ -1,76 +1,47 @@
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
-import { useLocationsContainedWithinArea } from '../../../hooks/useFarmAreasContainingPoint';
 
 import PureLocationFieldTechnology from '../../../components/LocationFieldTechnology';
-import { useEffect, useState } from 'react';
 import { sensorSelector } from '../../sensorSlice';
-import {
-  allSensorsSelector,
-  sensorArraysSelector,
-  standaloneSensorsSelector,
-} from '../../../store/api/selectors/sensorSelectors';
 import useGroupedSensors from '../../SensorList/useGroupedSensors';
+import { getPointLocationsWithinPolygon } from '../../../util/geoUtils';
 
 function LocationFieldTechnology({ history, match }) {
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
   const sensors = useSelector(sensorSelector);
-  //const externalSensors = useSelector(allSensorsSelector);
-  // const externalStandaloneSensors = useSelector(standaloneSensorsSelector);
-  // const externalSensorArrays = useSelector(sensorArraysSelector);
-  const { isLoading, groupedSensors } = useGroupedSensors();
-  let gs = structuredClone(groupedSensors);
-  // console.log(externalSensors);
-  console.log(groupedSensors);
+  const { groupedSensors } = useGroupedSensors();
 
-  const [fieldTechnology, setFieldTechnology] = useState({});
+  let fieldTechnology = {};
 
-  useEffect(() => {
-    let ft = {};
+  if (location) {
     if (sensors) {
-      ft['sensors'] = useLocationsContainedWithinArea(sensors, location.grid_points);
+      fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
     }
-    if (gs.filter((s) => !s.isSensorArray).length) {
-      ft['externalSensors'] = useLocationsContainedWithinArea(
-        gs.filter((s) => !s.isSensorArray),
+    const externalSensors = groupedSensors.filter((sensor) => !sensor.isSensorArray);
+    if (externalSensors.length) {
+      fieldTechnology.externalSensors = getPointLocationsWithinPolygon(
+        externalSensors,
         location.grid_points,
       );
     }
-    // if (externalSensors && externalSensorArrays) {
-    if (gs.filter((s) => s.isSensorArray).length) {
-      // const arraysInlocation = structuredClone(
-      //   useLocationsContainedWithinArea(externalSensorArrays, location.grid_points),
-      // );
-      ft['externalSensorArrays'] = useLocationsContainedWithinArea(
-        gs.filter((s) => s.isSensorArray),
+    const externalSensorArrays = groupedSensors.filter((sensor) => sensor.isSensorArray);
+    if (externalSensorArrays.length) {
+      fieldTechnology.externalSensorArrays = getPointLocationsWithinPolygon(
+        externalSensorArrays,
         location.grid_points,
       );
-      // const arraysInlocation = useLocationsContainedWithinArea(externalSensorArrays, location.grid_points);
-      // ft['externalSensorArrays'] = arraysInlocation.map((sensorArray) => {
-      //   // This is mutating the store state??
-      //   sensorArray.sensors = sensorArray.sensors.map((sensorId) =>
-      //     externalSensors.find((sensor) => sensor.location_id === sensorId),
-      //   );
-      //   return sensorArray;
-      // });
     }
+  }
 
-    setFieldTechnology(ft);
-    // NOW THIS - grouped sensors as a dependency is causing an infinite render cycle
-  }, [sensors, gs]);
-
-  console.log(fieldTechnology);
   return (
-    <>
-      <PureLocationFieldTechnology
-        fieldTechnology={fieldTechnology}
-        history={history}
-        match={match}
-        location={location}
-      />
-    </>
+    <PureLocationFieldTechnology
+      fieldTechnology={fieldTechnology}
+      history={history}
+      match={match}
+      location={location}
+    />
   );
 }
 

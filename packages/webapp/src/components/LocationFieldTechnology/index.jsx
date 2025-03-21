@@ -24,8 +24,8 @@ export default function PureLocationFieldTechnology({
     fieldTechnology.externalSensors.length || fieldTechnology.externalSensorArrays.length
   );
 
-  const onClick = () => {
-    history.push(`/${location.type}/${location.id}/readings`);
+  const handleClick = (ft) => {
+    history.push(`/${ft.type}/${ft.location_id}/readings`);
   };
 
   const routerTabs = [
@@ -98,7 +98,7 @@ export default function PureLocationFieldTechnology({
                             classes: {
                               icon: styles.sensorChevron,
                             },
-                            onClick: onClick,
+                            onClick: (_e) => handleClick(esa),
                           }}
                           lastSeen={new Date(sensor.last_seen)}
                         />
@@ -142,7 +142,7 @@ export default function PureLocationFieldTechnology({
                       classes: {
                         icon: styles.sensorChevron,
                       },
-                      onClick: onClick,
+                      onClick: (_e) => handleClick(es),
                     }}
                     lastSeen={new Date(sensor.last_seen)}
                   />
@@ -177,7 +177,7 @@ export default function PureLocationFieldTechnology({
                         classes: {
                           icon: styles.sensorChevron,
                         },
-                        onClick: onClick,
+                        onClick: (_e) => handleClick(sensor),
                       }}
                     />
                   );

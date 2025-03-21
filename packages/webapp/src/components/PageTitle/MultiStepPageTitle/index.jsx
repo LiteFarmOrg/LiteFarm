@@ -13,7 +13,6 @@ function MultiStepPageTitle({
   onCancel,
   style,
   value,
-  cancelModalTitle,
   showConfirmCancelModal,
   setShowConfirmCancelModal,
   classes,
@@ -34,7 +33,6 @@ function MultiStepPageTitle({
         {onCancel && (
           <CancelButton
             onCancel={onCancel}
-            cancelModalTitle={cancelModalTitle}
             showConfirmCancelModal={showConfirmCancelModal || localShowModal}
             setShowConfirmCancelModal={setShowConfirmCancelModal || setLocalShowModal}
           />
@@ -46,13 +44,12 @@ function MultiStepPageTitle({
 }
 
 export default MultiStepPageTitle;
-MultiStepPageTitle.prototype = {
+MultiStepPageTitle.PropTypes = {
   title: PropTypes.string,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,
   style: PropTypes.object,
   value: PropTypes.number,
-  cancelModalTitle: PropTypes.string,
   showConfirmCancelModal: PropTypes.bool,
   setShowConfirmCancelModal: PropTypes.func,
   classes: PropTypes.object,

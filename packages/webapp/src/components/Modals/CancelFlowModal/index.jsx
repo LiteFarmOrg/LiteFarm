@@ -1,24 +1,36 @@
-import React from 'react';
+/*
+ *  Copyright 2021-2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import ModalComponent from '../ModalComponent/v2';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import styles from './styles.module.scss';
 
-export default function CancelFlowModal({ dismissModal, handleCancel, flow }) {
+export default function CancelFlowModal({ dismissModal, handleCancel }) {
   const { t } = useTranslation();
   return (
     <ModalComponent
-      // https://www.i18next.com/translation-function/interpolation#unescape
-      title={t(`CANCEL_FLOW_MODAL.TITLE`, { flow, interpolation: { escapeValue: false } })}
+      title={t('CANCEL_FLOW_MODAL.TITLE')}
       contents={[t('CANCEL_FLOW_MODAL.BODY')]}
       dismissModal={dismissModal}
       buttonGroup={
         <>
-          <Button className={styles.button} onClick={dismissModal} color={'secondary'} sm>
-            {t('common:NO')}
+          <Button onClick={dismissModal} color={'secondary'} sm>
+            {t('CANCEL_FLOW_MODAL.NO_BUTTON')}
           </Button>
-          <Button data-cy="cancelFlow-yes" className={styles.button} onClick={handleCancel} sm>
-            {t('common:YES')}
+          <Button data-cy="cancelFlow-yes" onClick={handleCancel} sm>
+            {t('common:CANCEL')}
           </Button>
         </>
       }

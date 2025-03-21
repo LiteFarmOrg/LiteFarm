@@ -112,7 +112,6 @@ export default function PureAddExpense({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('EXPENSE.ADD_EXPENSE.FLOW')}
         title={t('EXPENSE.ADD_EXPENSE.NEW_EXPENSE_ITEM')}
         value={66}
         style={{ marginBottom: '24px' }}

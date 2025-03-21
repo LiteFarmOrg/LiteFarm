@@ -90,7 +90,6 @@ const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
         showLoading
         setIsEditing={setIsEditing}
         isEditing={isEditing}
-        // TODO: Make sure LF-4704 is mreged before the release. Otherwise cancelModalTitle is required
       />
     </div>
   );

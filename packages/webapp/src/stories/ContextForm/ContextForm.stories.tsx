@@ -41,7 +41,6 @@ export const PageTitle: Story = {
         FormContent: () => <div>New expense item</div>,
       },
     ],
-    cancelModalTitle: 'expense creation',
     defaultFormValues: {},
   },
 };

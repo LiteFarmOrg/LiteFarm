@@ -33,8 +33,9 @@ import {
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,
-  ENSEMBLE_UNITS_MAPPING,
+  ENSEMBLE_UNITS_MAPPING_WEBHOOK,
   getEnsembleSensors,
+  getEnsembleSensorReadings,
 } from '../util/ensemble.js';
 import { databaseUnit } from '../util/unit.js';
 import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorCSV.js';
@@ -122,6 +123,29 @@ const sensorController = {
     } catch (error) {
       console.error(error);
       return res.status(error.status || 400).json({
+        error: error.message || error,
+      });
+    }
+  },
+  async getSensorReadings(req, res) {
+    const { farm_id } = req.headers;
+    const { esids, startTime, endTime, truncPeriod } = req.query;
+
+    try {
+      const data = await getEnsembleSensorReadings({
+        farm_id,
+        esids,
+        startTime,
+        endTime,
+        truncPeriod,
+      });
+
+      return res.status(200).send(data);
+    } catch (error) {
+      console.error(error);
+      const status = error.status || error.code || 400;
+
+      return res.status(status).json({
         error: error.message || error,
       });
     }
@@ -468,8 +492,8 @@ const sensorController = {
             continue;
           }
           // Reconcile incoming units with stored as units and conversion function keys
-          const system = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.system;
-          const unit = ENSEMBLE_UNITS_MAPPING[sensorInfo.unit]?.conversionKey;
+          const system = ENSEMBLE_UNITS_MAPPING_WEBHOOK[sensorInfo.unit]?.system;
+          const unit = ENSEMBLE_UNITS_MAPPING_WEBHOOK[sensorInfo.unit]?.conversionKey;
           const readingTypeStoredAsUnit = databaseUnit[readingType] ?? undefined;
           const isStoredAsUnit = unit == readingTypeStoredAsUnit;
 

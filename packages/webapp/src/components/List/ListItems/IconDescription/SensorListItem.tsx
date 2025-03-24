@@ -34,12 +34,12 @@ type IconTextProps = {
 const IconText = ({ iconText }: { iconText: IconTextProps }) => {
   const { iconName, label, classes } = iconText;
   return (
-    <>
+    <div className={styles.iconText}>
       {iconName && <Icon iconName={iconName} className={clsx(styles.icon, classes?.icon)} />}
       {label && (
         <div className={clsx(styles.content, styles.content_label, classes?.label)}>{label}</div>
       )}
-    </>
+    </div>
   );
 };
 
@@ -120,9 +120,14 @@ export default function SensorListItem({
     >
       <div className={styles.leftAlignedContent}>
         <IconText iconText={iconText} />
+        <div className={styles.mobileOnlyLeftContent}>
+          <span className={styles.middleText}>{middleContent.name}</span>
+        </div>
       </div>
 
-      <div className={styles.middleText}>{middleContent.name}</div>
+      <div className={styles.desktopOnlyMiddleContent}>
+        <div className={styles.middleText}>{middleContent.name}</div>
+      </div>
       {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
       <div className={styles.rightAlignedContent}>
         {lastSeen && <ElapsedTimeWidget pastDate={lastSeen} />}

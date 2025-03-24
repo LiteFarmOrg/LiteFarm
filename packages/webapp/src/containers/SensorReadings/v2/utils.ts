@@ -13,9 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SensorDatapoint } from '../../../store/api/types';
+import {
+  SensorDatapoint,
+  type SensorReadingTypes,
+  type SensorReadingTypeUnits,
+} from '../../../store/api/types';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 import { getDateDifference } from '../../../util/moment';
+import type { System } from '../../../types';
+import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
+import { convert } from '../../../util/convert-units/convert';
+import { esciUnitTypeMap } from './constants';
 
 interface FormattedSensorDatapoint {
   dateTime: SensorDatapoint['dateTime'];
@@ -96,4 +104,46 @@ export const getTruncPeriod = (
   }
 
   return 'day';
+};
+
+export const convertEsciReadingValue = (
+  value: number,
+  param: SensorReadingTypes,
+  system: System,
+): number | undefined => {
+  if (
+    [
+      'soil_water_potential',
+      'relative_humidity',
+      'barometric_pressure',
+      'solar_radiation',
+    ].includes(param)
+  ) {
+    // The unit in the API response (e.g., kPa, %) is the same for both metric and imperial.
+    return roundToTwo(value);
+  }
+
+  if (param === 'wind_direction') {
+    // TODO: confirm
+    return roundToTwo(value);
+  }
+
+  if (esciUnitTypeMap[param]) {
+    const unitType = esciUnitTypeMap[param];
+    return roundToTwo(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
+  }
+
+  return undefined;
+};
+
+export const getReadingUnit = (
+  param: SensorReadingTypes,
+  system: System,
+  apiUnit: SensorReadingTypeUnits,
+): string => {
+  if (esciUnitTypeMap[param]) {
+    return esciUnitTypeMap[param][system].displayUnit;
+  }
+
+  return apiUnit;
 };

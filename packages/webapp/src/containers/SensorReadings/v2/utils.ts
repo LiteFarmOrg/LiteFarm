@@ -37,10 +37,16 @@ export const sortDataByDateTime = (data: SensorDatapoint[]) => {
 export const fillMissingDataWithNull = (
   data: SensorDatapoint,
   dataKeys: string[],
+  valueConverter?: (value: number) => number | null,
 ): FormattedSensorDatapoint => {
   return dataKeys.reduce<FormattedSensorDatapoint>(
     (acc, dataKey) => {
-      return { ...acc, [dataKey]: data[dataKey] ?? null };
+      const value =
+        valueConverter && typeof data[dataKey] === 'number'
+          ? valueConverter(data[dataKey])
+          : (data[dataKey] ?? null);
+
+      return { ...acc, [dataKey]: value };
     },
     { dateTime: data.dateTime },
   );
@@ -54,6 +60,7 @@ export const formatSensorsData = (
   data: SensorDatapoint[],
   truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
+  valueConverter?: (value: number) => number | null,
 ): FormattedSensorDatapoint[] => {
   if (!data.length) {
     return [];
@@ -67,7 +74,7 @@ export const formatSensorsData = (
     let nextDateTime = getNextDateTime(currentTimeStamp, truncPeriod);
 
     if (currentTimeStamp === data[dataPointer].dateTime) {
-      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys));
+      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys, valueConverter));
       dataPointer++;
     } else {
       // Insert a placeholder entry for a missing timestamp
@@ -79,7 +86,7 @@ export const formatSensorsData = (
 
     while (dataPointer < data.length && nextDateTime > data[dataPointer].dateTime) {
       // Add existing data points until the next expected timestamp is reached
-      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys));
+      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys, valueConverter));
       dataPointer++;
     }
 
@@ -110,7 +117,7 @@ export const convertEsciReadingValue = (
   value: number,
   param: SensorReadingTypes,
   system: System,
-): number | undefined => {
+): number | null => {
   if (
     [
       'soil_water_potential',
@@ -133,7 +140,7 @@ export const convertEsciReadingValue = (
     return roundToTwo(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
   }
 
-  return undefined;
+  return null;
 };
 
 export const getReadingUnit = (

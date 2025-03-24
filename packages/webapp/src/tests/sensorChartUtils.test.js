@@ -14,12 +14,12 @@
  */
 
 import { expect, describe, test } from 'vitest';
+import { getUnixTime } from '../components/Charts/utils';
 import {
   convertEsciReadingValue,
   fillMissingDataWithNull,
   formatSensorsData,
   getReadingUnit,
-  getUnixTime,
   sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
 

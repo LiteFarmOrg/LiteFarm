@@ -15,8 +15,10 @@
 
 import { expect, describe, test } from 'vitest';
 import {
+  convertEsciReadingValue,
   fillMissingDataWithNull,
   formatSensorsData,
+  getReadingUnit,
   getUnixTime,
   sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
@@ -138,6 +140,50 @@ describe('Test chart data formatting', () => {
 
       const result = formatSensorsData(fakeData, 'hour', []);
       expect(result).toEqual(expectedData);
+    });
+  });
+
+  describe('getUnit', () => {
+    test('get a proper display unit', () => {
+      [
+        ['barometric_pressure', 'hPa', 'hPa', 'hPa'],
+        ['cumulative_rainfall', 'mm', 'mm', 'in'],
+        ['rainfall_rate', 'mm/h', 'mm/h', 'in/h'],
+        ['relative_humidity', '%', '%', '%'],
+        ['soil_water_potential', 'kPa', 'kPa', 'kPa'],
+        ['solar_radiation', 'W/m2', 'W/m2', 'W/m2'],
+        ['temperature', 'C', '°C', '°F'],
+        ['wind_direction', 'deg', '°', '°'],
+        ['wind_speed', 'm/s', 'km/h', 'mph'],
+      ].forEach(([param, apiUnit, expecteMetricUnit, expecteImperialUnit]) => {
+        const metricUnit = getReadingUnit(param, 'metric', apiUnit);
+        const imperialUnit = getReadingUnit(param, 'imperial', apiUnit);
+
+        expect(metricUnit).toBe(expecteMetricUnit);
+        expect(imperialUnit).toBe(expecteImperialUnit);
+      });
+    });
+  });
+
+  describe('convertEsciReadingValue', () => {
+    test('convert reading values properly', () => {
+      [
+        ['barometric_pressure', 8, 8, 8],
+        ['cumulative_rainfall', 20, 20, 0.79],
+        ['rainfall_rate', 2, 2, 0.08],
+        ['relative_humidity', 33, 33, 33],
+        ['soil_water_potential', -210, -210, -210],
+        ['solar_radiation', 20, 20, 20],
+        ['temperature', 23, 23, 73.4],
+        ['wind_direction', 11, 11, 11],
+        ['wind_speed', 2.22, 7.99, 4.97],
+      ].forEach(([param, apiValue, expecteMetricValue, expecteImperialValue]) => {
+        const metricValue = convertEsciReadingValue(apiValue, param, 'metric');
+        const imperialValue = convertEsciReadingValue(apiValue, param, 'imperial');
+
+        expect(metricValue).toBe(expecteMetricValue);
+        expect(imperialValue).toBe(expecteImperialValue);
+      });
     });
   });
 });

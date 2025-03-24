@@ -34,7 +34,7 @@ export const sortDataByDateTime = (data: SensorDatapoint[]) => {
   return data.slice().sort((a, b) => a.dateTime - b.dateTime);
 };
 
-export const fillMissingDataWithNull = (
+export const formatDataPoint = (
   data: SensorDatapoint,
   dataKeys: string[],
   valueConverter?: (value: number) => number | null,
@@ -74,11 +74,11 @@ export const formatSensorsData = (
     let nextDateTime = getNextDateTime(currentTimeStamp, truncPeriod);
 
     if (currentTimeStamp === data[dataPointer].dateTime) {
-      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys, valueConverter));
+      result.push(formatDataPoint(data[dataPointer], dataKeys, valueConverter));
       dataPointer++;
     } else {
       // Insert a placeholder entry for a missing timestamp
-      result.push(fillMissingDataWithNull({ dateTime: currentTimeStamp }, dataKeys));
+      result.push(formatDataPoint({ dateTime: currentTimeStamp }, dataKeys));
 
       // Use the dateTime from the next available data point
       nextDateTime = data[dataPointer].dateTime;
@@ -86,7 +86,7 @@ export const formatSensorsData = (
 
     while (dataPointer < data.length && nextDateTime > data[dataPointer].dateTime) {
       // Add existing data points until the next expected timestamp is reached
-      result.push(fillMissingDataWithNull(data[dataPointer], dataKeys, valueConverter));
+      result.push(formatDataPoint(data[dataPointer], dataKeys, valueConverter));
       dataPointer++;
     }
 

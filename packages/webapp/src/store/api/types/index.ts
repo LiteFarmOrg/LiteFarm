@@ -292,7 +292,7 @@ export interface FarmAddon {
   org_uuid: string;
 }
 
-type SensorReadingTypeUnits =
+export type SensorReadingTypeUnits =
   | 'hPa'
   | 'mm'
   | 'mA'

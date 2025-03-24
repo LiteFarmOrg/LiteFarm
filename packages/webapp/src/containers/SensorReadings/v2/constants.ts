@@ -13,9 +13,84 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SensorReadingTypes, SensorTypes } from '../../../store/api/types';
+import type {
+  SensorReadingTypes,
+  SensorReadingTypeUnits,
+  SensorTypes,
+} from '../../../store/api/types';
+import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 
 export const SENSOR_PARAMS: Partial<Record<SensorTypes, SensorReadingTypes[]>> = {
   'Weather station': ['temperature', 'relative_humidity', 'rainfall_rate', 'cumulative_rainfall'],
   'Soil Water Potential Sensor': ['temperature', 'soil_water_potential'],
+};
+
+interface UnitType {
+  metric: {
+    unit: ExtendedMeasureUnits;
+    displayUnit: string;
+  };
+  imperial: {
+    unit: ExtendedMeasureUnits;
+    displayUnit: string;
+  };
+  baseUnit: Extract<SensorReadingTypeUnits, ExtendedMeasureUnits>;
+}
+
+export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
+  temperature: {
+    metric: {
+      unit: 'C',
+      displayUnit: '°C',
+    },
+    imperial: {
+      unit: 'F',
+      displayUnit: '°F',
+    },
+    baseUnit: 'C',
+  },
+  wind_speed: {
+    metric: {
+      unit: 'km/h',
+      displayUnit: 'km/h',
+    },
+    imperial: {
+      unit: 'mph',
+      displayUnit: 'mph',
+    },
+    baseUnit: 'm/s',
+  },
+  cumulative_rainfall: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in',
+    },
+    baseUnit: 'mm',
+  },
+  rainfall_rate: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm/h',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in/h',
+    },
+    baseUnit: 'mm',
+  },
+  wind_direction: {
+    metric: {
+      unit: 'deg',
+      displayUnit: '°',
+    },
+    imperial: {
+      unit: 'deg',
+      displayUnit: '°',
+    },
+    baseUnit: 'deg',
+  },
 };

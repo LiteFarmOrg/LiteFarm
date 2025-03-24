@@ -21,7 +21,7 @@ export default function PureLocationFieldTechnology({
 }) {
   const { t } = useTranslation();
   const isExternalSensors = !!(
-    fieldTechnology.externalSensors.length || fieldTechnology.externalSensorArrays.length
+    fieldTechnology.externalSensors?.length || fieldTechnology.externalSensorArrays?.length
   );
 
   const handleClick = (ft) => {
@@ -64,7 +64,7 @@ export default function PureLocationFieldTechnology({
     const fieldTechnologyTypes = ['sensors', 'externalSensorArrays', 'externalSensors'];
 
     return fieldTechnologyTypes.map((key) => {
-      if (key === 'externalSensorArrays' && fieldTechnology[key].length) {
+      if (key === 'externalSensorArrays' && fieldTechnology[key]?.length) {
         return (
           <div key={key}>
             {fieldTechnology[key]?.map((esa) => {
@@ -110,7 +110,7 @@ export default function PureLocationFieldTechnology({
             })}
           </div>
         );
-      } else if (key === 'externalSensors' && fieldTechnology[key].length) {
+      } else if (key === 'externalSensors' && fieldTechnology[key]?.length) {
         return (
           <div key={key} className={styles.listWithHeading}>
             <div className={styles.listHeading}>{t('SENSOR.STANDALONE_SENSOR')}</div>
@@ -152,7 +152,7 @@ export default function PureLocationFieldTechnology({
           </div>
         );
       } else {
-        if (fieldTechnology[key].length) {
+        if (fieldTechnology[key]?.length) {
           return (
             <div key={key} className={styles.listWithHeading}>
               <div className={styles.listHeading}>{t('FARM_MAP.MAP_FILTER.SENSOR')}</div>

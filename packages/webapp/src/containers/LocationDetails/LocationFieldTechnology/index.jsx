@@ -15,7 +15,7 @@ function LocationFieldTechnology({ history, match }) {
 
   let fieldTechnology = {};
 
-  if (location) {
+  if (location && location.grid_points) {
     if (sensors) {
       fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
     }

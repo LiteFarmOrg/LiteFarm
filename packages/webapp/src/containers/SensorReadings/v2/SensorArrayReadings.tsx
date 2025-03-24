@@ -97,6 +97,10 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
       });
       if (result.data) {
         setSensorReadings(result.data);
+        return;
+      }
+      if (!sensorReadings) {
+        setSensorReadings([]);
       }
     }
   };
@@ -105,7 +109,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
     if (!sensorReadings && sensorIds && truncPeriod) {
       getAndSetSensorReadings();
     }
-  }, [sensorIds, truncPeriod]);
+  }, [sensorReadings, sensorIds, truncPeriod]);
 
   const formattedData = useMemo(() => {
     if (!sensorReadings?.length || !truncPeriod) {

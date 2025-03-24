@@ -22,7 +22,7 @@ import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { formatSensorsData, getTruncPeriod } from './utils';
+import { convertEsciReadingValue, formatSensorsData, getTruncPeriod } from './utils';
 import { getTicks } from '../../../components/Charts/utils';
 import { CustomRouteComponentProps } from '../../../types';
 import {
@@ -34,6 +34,8 @@ import { Sensor, SensorReadingTypes, SensorTypes } from '../../../store/api/type
 import LatestReadings from './LatestReadings';
 import { SENSOR_PARAMS } from './constants';
 import styles from './styles.module.scss';
+import { useSelector } from 'react-redux';
+import { measurementSelector } from '../../userFarmSlice';
 
 interface RouteParams {
   id: string;
@@ -59,6 +61,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
   const language = getLanguageFromLocalStorage();
+  const system = useSelector(measurementSelector);
 
   const { startDate, endDate, startDateString, endDateString, dateRange, updateDateRange } =
     useSensorsDateRange({});
@@ -96,9 +99,16 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
     }
 
     const formatted = refetchedData.map((data) => {
+      const valueConverter = (value: number) =>
+        convertEsciReadingValue(value, data.reading_type, system);
       return {
         ...data,
-        readings: formatSensorsData(data.readings, truncPeriod, [sensor.external_id]),
+        readings: formatSensorsData(
+          data.readings,
+          truncPeriod,
+          [sensor.external_id],
+          valueConverter,
+        ),
       };
     });
 

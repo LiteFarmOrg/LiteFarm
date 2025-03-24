@@ -33,7 +33,7 @@ interface DrawerProps {
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
   desktopVariant?: DesktopDrawerVariants;
-  sideDrawerDirection?: 'left' | 'right';
+  desktopSideDrawerDirection?: 'left' | 'right';
   isCompactSideMenu?: boolean; // only needed for left side drawer placement
   addBackdrop?: boolean;
   classes?: {
@@ -42,7 +42,7 @@ interface DrawerProps {
     drawerHeader?: string;
     drawerContent?: string;
     drawerContainer?: string; // applied to all drawers
-    sideDrawerContainer?: string; // side drawer only
+    desktopSideDrawerContainer?: string; // side drawer only
   };
 }
 
@@ -61,14 +61,14 @@ const Drawer = ({
   },
   fullHeight,
   desktopVariant = DesktopDrawerVariants.MODAL,
-  sideDrawerDirection = 'right',
+  desktopSideDrawerDirection = 'right',
   isCompactSideMenu,
   addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const isSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
+  const isDesktopSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
 
   return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
@@ -95,15 +95,15 @@ const Drawer = ({
       <div
         className={clsx(
           styles.drawer,
-          isSideDrawer ? styles.sideDrawer : styles.bottomDrawer,
-          isSideDrawer && styles[sideDrawerDirection],
-          sideDrawerDirection === 'left' && isCompactSideMenu
+          isDesktopSideDrawer ? styles.sideDrawer : styles.bottomDrawer,
+          isDesktopSideDrawer && styles[desktopSideDrawerDirection],
+          desktopSideDrawerDirection === 'left' && isCompactSideMenu
             ? styles.withCompactSideMenu
             : styles.withExpandedSideMenu,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,
-          isSideDrawer && classes.sideDrawerContainer,
+          isDesktopSideDrawer && classes.desktopSideDrawerContainer,
         )}
         inert={!isOpen ? '' : null}
       >

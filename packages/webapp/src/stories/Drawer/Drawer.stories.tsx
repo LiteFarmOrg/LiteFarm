@@ -80,7 +80,7 @@ export const LeftSideDrawer: Story = {
   args: {
     title: 'Left side drawer on desktop',
     desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
-    sideDrawerDirection: 'left',
+    desktopSideDrawerDirection: 'left',
     isCompactSideMenu: true, // pass actual menu collapse state when using in app
   },
 };
@@ -97,7 +97,7 @@ export const NoBackdrop: Story = {
   args: {
     title: 'No backdrop - so no click away listener',
     desktopVariant: DesktopDrawerVariants.SIDE_DRAWER,
-    sideDrawerDirection: 'left',
+    desktopSideDrawerDirection: 'left',
     isCompactSideMenu: true,
     addBackdrop: false,
   },

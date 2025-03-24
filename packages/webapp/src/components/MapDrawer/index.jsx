@@ -265,12 +265,12 @@ export default function MapDrawer({
         title={headerTitle}
         isOpen={showMapDrawer}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
-        sideDrawerDirection="left"
+        desktopSideDrawerDirection="left"
         isCompactSideMenu={isCompactSideMenu}
         addBackdrop={false}
         onClose={() => setShowMapDrawer(false)}
         classes={{
-          sideDrawerContainer: styles.sideDrawerContainer,
+          desktopSideDrawerContainer: styles.sideDrawerContainer,
         }}
       >
         {list()}

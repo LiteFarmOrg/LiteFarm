@@ -14,7 +14,7 @@
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node --import @swc-node/register/esm-register src/server.ts",
     "start:prod": "node --enable-source-maps dist/server.js",
-    "build": "npx esbuild src/server.ts --bundle --minify --platform=node --format=esm --packages=external --sourcemap --sources-content=false --outdir=dist",
+    "build": "tsc && npx esbuild src/server.ts --bundle --minify --platform=node --format=esm --packages=external --sourcemap --sources-content=false --outdir=dist",
     "dev": "set NODE_ENV=development && node --inspect=0.0.0.0:9230 --watch --import @swc-node/register/esm-register src/server.ts",
     "debug-email-template": "DEBUG=email-templates npm run dev",
     "debug-i18n": "DEBUG=i18n:* npm run dev",

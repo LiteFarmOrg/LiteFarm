@@ -17,7 +17,7 @@ import { expect, describe, test } from 'vitest';
 import { getUnixTime } from '../components/Charts/utils';
 import {
   convertEsciReadingValue,
-  fillMissingDataWithNull,
+  formatDataPoint,
   formatSensorsData,
   getReadingUnit,
   sortDataByDateTime,
@@ -34,7 +34,7 @@ describe('Test chart data formatting', () => {
     expect(result).toEqual(['2025-02-28', '2025-03-01', '2025-03-06'].map(createData));
   });
 
-  test('fillMissingDataWithNull fills missing data with null correctly', () => {
+  test('formatDataPoint fills missing data with null correctly', () => {
     const fakeData = [
       { dateTime: 1717200000, key1: 10, key2: 20, key3: 30 },
       { dateTime: 1717286400, key1: 10 },
@@ -54,7 +54,7 @@ describe('Test chart data formatting', () => {
       { dateTime: 1717718400, key1: null, key2: 20, key3: 30 },
     ];
     fakeData.forEach((data, index) => {
-      const result = fillMissingDataWithNull(data, ['key1', 'key2', 'key3']);
+      const result = formatDataPoint(data, ['key1', 'key2', 'key3']);
       expect(result).toEqual(expectedData[index]);
     });
   });

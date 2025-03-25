@@ -5,7 +5,16 @@
     "noEmit": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/routes/*": ["./src/routes/*"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/models/*": ["./src/models/*"],
+      "@/middleware/*": ["./src/middleware/*"],
+      "@/util/*": ["./src/util/*"],
+      "@/jobs/*": ["./src/jobs/*"],
+      "@/templates/*": ["./src/templates/*"]
+    }
   },
   "include": ["src", "tests"]
 }

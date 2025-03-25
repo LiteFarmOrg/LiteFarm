@@ -36,7 +36,7 @@ export const GeneralDataSingleLine: Story<'month'> = {
     title: 'Single-line',
     xAxisDataKey: 'month',
     data: singleLineData,
-    lineConfig: [{ id: 'waterPotential', color: colors['--Colors-Accent---singles-Blue-full'] }],
+    lineConfig: [{ id: 'waterPotential', color: colors.chartBlue }],
   },
 };
 
@@ -46,10 +46,10 @@ export const GeneralDataMultiLine: Story<'month'> = {
     xAxisDataKey: 'month',
     data: multiLineData,
     lineConfig: [
-      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+      { id: 'A', color: colors.chartBlue },
+      { id: 'B', color: colors.chartYellow },
+      { id: 'C', color: colors.chartGreen },
+      { id: 'D', color: colors.chartRed },
     ],
   },
 };
@@ -63,10 +63,10 @@ const hourlyDataArgs: LineChartProps = {
     dateTime: new Date(2024, 5, 14, index).getTime() / 1000,
   })),
   lineConfig: [
-    { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-    { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-    { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-    { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+    { id: 'A', color: colors.chartBlue },
+    { id: 'B', color: colors.chartYellow },
+    { id: 'C', color: colors.chartGreen },
+    { id: 'D', color: colors.chartRed },
   ],
   ticks: getTicks('2024-06-14', '2024-06-16'),
   formatTooltipValue: (_label, value) => {
@@ -77,7 +77,7 @@ const hourlyDataArgs: LineChartProps = {
 export const HourlyDataSingleLine: Story = {
   args: {
     ...hourlyDataArgs,
-    lineConfig: [{ id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] }],
+    lineConfig: [{ id: 'B', color: colors.chartYellow }],
   },
 };
 
@@ -102,10 +102,10 @@ export const DailyData: Story = {
       return { ...data, dateTime: getUnixTime(new Date(2024, 4, 31 + index)) };
     }),
     lineConfig: [
-      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+      { id: 'A', color: colors.chartBlue },
+      { id: 'B', color: colors.chartYellow },
+      { id: 'C', color: colors.chartGreen },
+      { id: 'D', color: colors.chartRed },
     ],
     ticks: getTicks('2024-05-31', getLocalDateInYYYYDDMM(new Date(2024, 4, 31 + dataLength - 1))),
     formatTooltipValue: (_label, value) => {
@@ -128,10 +128,10 @@ export const DailyDataUntilToday: Story = {
       return { ...data, dateTime: getUnixTime(date) };
     }),
     lineConfig: [
-      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+      { id: 'A', color: colors.chartBlue },
+      { id: 'B', color: colors.chartYellow },
+      { id: 'C', color: colors.chartGreen },
+      { id: 'D', color: colors.chartRed },
     ],
     ticks: getTicks(
       getLocalDateInYYYYDDMM(
@@ -154,10 +154,10 @@ export const DailyDataWithMonthlyTicks: Story = {
       return { ...data, dateTime: getUnixTime(new Date(2025, 1, 1 + index)) };
     }),
     lineConfig: [
-      { id: 'A', color: colors['--Colors-Accent---singles-Blue-full'] },
-      { id: 'B', color: colors['--Colors-Accent-Accent-yellow-600'] },
-      { id: 'C', color: colors['--Colors-Primary-Primary-teal-700'] },
-      { id: 'D', color: colors['--Colors-Accent---singles-Red-full'] },
+      { id: 'A', color: colors.chartBlue },
+      { id: 'B', color: colors.chartYellow },
+      { id: 'C', color: colors.chartGreen },
+      { id: 'D', color: colors.chartRed },
     ],
     ticks: getTicks('2025-02-01', getLocalDateInYYYYDDMM(new Date(2025, 1, timeScaleData1.length))),
     formatTooltipValue: (_label, value) => {

@@ -51,12 +51,12 @@ export const colors = {
   grey1: '#333333',
   brown700: '#AA5F04',
   brown900: '#7E4C0E',
-  '--Colors-Accent---singles-Blue-full': '#0669e1',
-  '--Colors-Accent---singles-Red-full': '#d02620',
-  '--Colors-Accent-Accent-yellow-600': '#e8a700',
-  '--Colors-Primary-Primary-teal-700': '#266f68',
-  '--Colors-Accent---singles-Purple-full': '#8f26f0',
-  '--Colors-Accent---singles-Brown-full': '#aa5f04',
+  chartBlue: '#0669e1',
+  chartRed: '#d02620',
+  chartYellow: '#e8a700',
+  chartGreen: '#266f68',
+  chartPurple: '#8f26f0',
+  chartBrown: '#aa5f04',
 };
 
 const theme = createTheme({

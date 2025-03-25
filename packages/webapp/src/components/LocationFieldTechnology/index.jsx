@@ -1,4 +1,5 @@
 import Layout from '../Layout';
+import layoutStyles from '../Layout/layout.module.scss';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { Trans, useTranslation } from 'react-i18next';
@@ -10,14 +11,14 @@ import { Status } from '../StatusIndicatorPill';
 import { isSameDay } from '../../util/date-migrate-TS';
 import Icon from '../Icons';
 import { getDeviceType } from '../Sensor/v2/constants';
+import { Variant } from '../RouterTab/Tab';
 
 export default function PureLocationFieldTechnology({
   location,
   history,
   match,
-  hasCrops,
-  hasReadings,
   fieldTechnology,
+  routerTabs,
 }) {
   const { t } = useTranslation();
   const isExternalSensors = !!(
@@ -27,37 +28,6 @@ export default function PureLocationFieldTechnology({
   const handleClick = (ft) => {
     history.push(`/${ft.type}/${ft.location_id}/readings`);
   };
-
-  const routerTabs = [
-    {
-      label: t('FARM_MAP.TAB.CROPS'),
-      path: match.url.replace('field_technology', 'crops'),
-    },
-    {
-      label: t('FARM_MAP.TAB.TASKS'),
-      path: match.url.replace('field_technology', 'tasks'),
-    },
-    {
-      label: t('FARM_MAP.TAB.DETAILS'),
-      path: match.url.replace('field_technology', 'details'),
-    },
-    {
-      label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
-      path: match.url,
-    },
-  ];
-
-  if (hasCrops) {
-    routerTabs.splice(0, 0, {
-      label: t('FARM_MAP.TAB.CROPS'),
-      path: match.url.replace('field_technology', 'crops'),
-    });
-  } else if (hasReadings) {
-    routerTabs.splice(0, 0, {
-      label: t('FARM_MAP.TAB.READINGS'),
-      path: match.url.replace('tasks', 'readings'),
-    });
-  }
 
   const FieldTechnologyLists = () => {
     // Render order
@@ -191,13 +161,14 @@ export default function PureLocationFieldTechnology({
   };
 
   return (
-    <Layout className={styles.fieldTechnologyContainer}>
+    <Layout className={layoutStyles.paperContainer}>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
         match={match}
         tabs={routerTabs}
+        variant={Variant.UNDERLINE}
       />
       <div className={styles.lists}>
         <FieldTechnologyLists />

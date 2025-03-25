@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+ @import '@assets/mixin.scss';
 
 .container {
   width: 100%;
@@ -53,4 +54,25 @@
 
 .marginBottom {
   margin-bottom: 104px;
+}
+
+.bento {
+  display: flex;
+  gap: var(--bentoGap);
+  flex-wrap: wrap;
+  
+  & > div {
+    flex: 1 1 calc((100% - var(--bentoGap) * (var(--bentoColumns) - 1)) / var(--bentoColumns));
+  }
+  // This overrides default flex responsiveness and jumps to single column of rows style below medium
+  // Currently this is based of design so making it the default behaviour here despite it being unusual
+  &.bentoOffMedium {
+    @include md-breakpoint {
+      flex-direction: column;
+
+      & > div {
+        flex: unset;
+      }
+    }
+  }
 }

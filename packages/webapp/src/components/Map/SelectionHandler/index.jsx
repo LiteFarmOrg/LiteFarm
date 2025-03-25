@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { ReactComponent as ShowMore } from '../../../assets/images/map/arrowDown.svg';
-import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from '../PreviewPopup/CompactPreview';
@@ -176,9 +175,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    if (containsCrops(location.type)) {
-      history.push(`/${location.type}/${location.id}/crops`);
-    } else if (location.type === SensorType.SENSOR) {
+    if (location.type === SensorType.SENSOR) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

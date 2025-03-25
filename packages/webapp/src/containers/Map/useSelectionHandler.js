@@ -1,4 +1,4 @@
-import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
+import { isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,13 +41,9 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        containsCrops(overlappedLocations.area[0].type)
-          ? history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
-            )
-          : history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
-            );
+        history.push(
+          `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+        );
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&

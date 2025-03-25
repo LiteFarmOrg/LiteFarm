@@ -8,6 +8,7 @@ on:
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
+    container: node:20.17
     defaults:
       run:
         working-directory: packages/webapp

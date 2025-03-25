@@ -31,9 +31,10 @@ const irrigationPrescriptionController = {
   initiateFarmIrrigationPrescription() {
     return async (req: LiteFarmRequest, res: Response) => {
       const { farm_id } = req.headers;
+      const { allOrgs } = req.query;
 
       try {
-        const farmData = await sendIrrigationData(farm_id);
+        const farmData = await sendIrrigationData(allOrgs === 'true' ? undefined : farm_id);
 
         // temporarily returning data just for debugging
         return res.status(200).send(farmData);

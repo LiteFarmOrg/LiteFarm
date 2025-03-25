@@ -21,18 +21,17 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { TooltipProps } from 'recharts';
-import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { DataKey } from 'recharts/types/util/types';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
+import CustomTooltip, { TooltipProps } from './Tooltip';
 import { getDateTime, getLocalShortDate } from './utils';
 import styles from './styles.module.scss';
 
-interface LineConfig {
+export interface LineConfig {
   id: string;
   color: string;
 }
@@ -42,7 +41,7 @@ export type ChartTruncPeriod = 'day' | 'hour';
 interface CommonProps {
   title?: string;
   lineConfig: LineConfig[];
-  formatTooltipValue?: (label: any, value?: ValueType) => string | number;
+  formatTooltipValue?: TooltipProps['tooltipValueFormatter'];
   isCompactView?: boolean;
 }
 
@@ -96,32 +95,14 @@ function LineChart(props: LineChartProps) {
 
   const { t } = useTranslation('common');
 
-  const [activeLine, setActiveLine] = useState('');
+  const [activeLine, setActiveLine] = useState<LineConfig['id']>('');
   const [hiddenLines, setHiddenLines] = useState<string[]>([]);
 
   const showLegend = lineConfig.length > 1;
+  const isTimeScale = isTimeScaleProps(props);
 
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
-    if (active && payload?.length && activeLine) {
-      const data = payload.find(({ dataKey }) => dataKey === activeLine);
-
-      if (data) {
-        const { color } = lineConfig.find(({ id }) => id === activeLine)!;
-        const xAxisData = isTimeScaleProps(props)
-          ? getDateTime(label, props.language, props.truncPeriod, t)
-          : label;
-        const value = formatTooltipValue?.(label, data.value) || data.value;
-
-        return (
-          <dl className={styles.tooltip} style={{ '--tooltipColor': color } as React.CSSProperties}>
-            <dt>{xAxisData}</dt>
-            <dd>{value}</dd>
-          </dl>
-        );
-      }
-    }
-
-    return null;
+  const xAxisFormatter = (label: any): string => {
+    return isTimeScale ? getDateTime(label, props.language, props.truncPeriod, t) : label;
   };
 
   const onLineMouseOver = (id: string): void => {
@@ -160,7 +141,7 @@ function LineChart(props: LineChartProps) {
             tickMargin={6}
             tickLine={{ transform: 'translate(0, 8)' }}
             ticks={ticks}
-            {...(isTimeScaleProps(props)
+            {...(isTimeScale
               ? {
                   type: 'number',
                   scale: 'time',
@@ -189,7 +170,18 @@ function LineChart(props: LineChartProps) {
               }}
             />
           )}
-          <Tooltip content={CustomTooltip} cursor={false} />
+          <RechartsTooltip
+            cursor={false}
+            content={(props) => (
+              <CustomTooltip
+                {...props}
+                activeLine={activeLine}
+                lineConfig={lineConfig}
+                xAxisFormatter={xAxisFormatter}
+                tooltipValueFormatter={formatTooltipValue}
+              />
+            )}
+          />
           {lineConfig.map(({ id, color }) => {
             return (
               <Line

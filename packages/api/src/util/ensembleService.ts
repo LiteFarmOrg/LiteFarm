@@ -20,6 +20,7 @@
 import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND } from './ensemble.js';
 
@@ -33,15 +34,14 @@ interface CropData {
   seed_date: string; // ISO 8601
 }
 
-interface FarmLocationsWithCrops {
+interface FarmLocation {
   farm_id: string;
   location_id: string;
   grid_points: Point[];
-  crop: CropData;
 }
 
 interface OrganisationFarmData {
-  [org_uuid: string]: FarmLocationsWithCrops[];
+  [org_uuid: string]: Array<FarmLocation & { crop_data: CropData }>;
 }
 
 /**
@@ -79,7 +79,19 @@ export const sendIrrigationData = async (farm_id?: string) => {
   for (const org of organisations) {
     const locations = await LocationModel.getCropSupportingLocationsByFarmId(org.farm_id);
 
-    organisationFarmData[org.org_uuid] = locations || [];
+    const cropsAndLocations: Array<FarmLocation & { crop_data: CropData }> = [];
+
+    for (const location of locations) {
+      const managementPlanGraph = await ManagementPlanModel.getManagementPlansByLocationId(
+        location.location_id,
+      );
+      cropsAndLocations.push({
+        ...location,
+        crop_data: managementPlanGraph,
+      });
+    }
+
+    (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
   }
 
   return organisationFarmData;

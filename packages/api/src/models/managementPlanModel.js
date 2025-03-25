@@ -18,6 +18,10 @@ import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
 import cropManagementPlanModel from './cropManagementPlanModel.js';
 import managementPlanGroup from './managementPlanGroupModel.js';
+import {
+  getHarvestedToDate,
+  appendHarvestedToDate,
+} from '../controllers/managementPlanController.js'; // ideally probably not residing in the controller
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -121,6 +125,34 @@ class ManagementPlan extends baseModel {
       crop_variety: 'omit',
       crop_management_plan: 'edit',
     };
+  }
+
+  /**
+   * Retrieves all management plans associated with a specific location
+   *
+   * Follows the same logic as getManagementPlansByFarmId(), but includes the crop variety and crop information
+   *
+   * @param {(number|string)} location_id - The ID of the location to retrieve management plans for.
+   * @param {object|null} [trx=null] - Optional transaction object to use for the query.
+   * @returns {Promise<Array>} A promise that resolves to an array of transformed management plans.
+   */
+  static async getManagementPlansByLocationId(location_id, trx = null) {
+    const managementPlans = await ManagementPlan.query(trx)
+      .whereNotDeleted()
+      .withGraphFetched(
+        '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]',
+      )
+      .joinRelated('crop_management_plan.planting_management_plans')
+      .where('crop_management_plan:planting_management_plans.location_id', location_id)
+      .orderBy('management_plan_id');
+
+    const harvestedPlans = await getHarvestedToDate(
+      managementPlans.map((mp) => mp.management_plan_id),
+      trx,
+    );
+    const transformedPlans = appendHarvestedToDate(managementPlans, harvestedPlans);
+
+    return transformedPlans;
   }
 }
 

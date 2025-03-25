@@ -181,12 +181,11 @@ const managementPlanController = {
           if (!req.body.crop_management_plan.already_in_ground) {
             const due_date =
               req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
-            const {
-              planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.planting_task_type === 'PLANT_TASK',
-            );
+            const { planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.planting_task_type === 'PLANT_TASK',
+              );
 
             const plantTaskType = await TaskTypeModel.query(trx)
               .where({
@@ -207,18 +206,16 @@ const managementPlanController = {
           //Make transplant task
           if (req.body.crop_management_plan.needs_transplant) {
             const due_date = req.body.crop_management_plan.transplant_date;
-            const {
-              planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
-            );
-            const {
-              planting_management_plan_id: prev_planting_management_plan_id,
-            } = management_plan.crop_management_plan.planting_management_plans.find(
-              (planting_management_plan) =>
-                planting_management_plan.is_final_planting_management_plan === false,
-            );
+            const { planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
+              );
+            const { planting_management_plan_id: prev_planting_management_plan_id } =
+              management_plan.crop_management_plan.planting_management_plans.find(
+                (planting_management_plan) =>
+                  planting_management_plan.is_final_planting_management_plan === false,
+              );
             //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await TaskTypeModel.query(trx)
               .where({
@@ -301,9 +298,8 @@ const managementPlanController = {
           if (req.body.assignee_user_id) {
             tasks.forEach(async (task) => {
               const { assignee_user_id, task_type_id } = task;
-              const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
-                task_type_id,
-              );
+              const taskTypeTranslation =
+                await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
               await sendTaskNotification(
                 [assignee_user_id],
                 req.auth.user_id,
@@ -416,11 +412,12 @@ const managementPlanController = {
 
           // If a task is associated with more than one management plan, the record is deleted from management_tasks but the task is not deleted
           // Raw because knex does not allow delete join, see: https://github.com/knex/knex/issues/873
-          taskIdsRelatedToManyManagementPlans.length &&
-            (await trx.raw(
+          if (taskIdsRelatedToManyManagementPlans.length) {
+            await trx.raw(
               'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
-            ));
+            );
+          }
 
           const delPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
@@ -622,11 +619,12 @@ const managementPlanController = {
             .filter(({ count }) => Number(count) > 1)
             .map(({ task_id }) => task_id);
           //TODO: fix when knex implemented deletion on joined for postgres https://github.com/knex/knex/issues/873
-          taskIdsRelatedToManyManagementPlans.length &&
-            (await trx.raw(
+          if (taskIdsRelatedToManyManagementPlans.length) {
+            await trx.raw(
               'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
-            ));
+            );
+          }
           const abandonedPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
@@ -810,7 +808,7 @@ const managementPlanController = {
   },
 
   checkDeleteManagementPlan() {
-    return async (req, res, next) => {
+    return async (_req, res, _next) => {
       return res.sendStatus(200);
     };
   },
@@ -828,11 +826,14 @@ const graphJoinedOptions = {
 };
 
 const removeCropVarietyFromManagementPlan = (managementPlan) => {
-  !managementPlan.transplant_container && delete managementPlan.transplant_container;
+  if (!managementPlan.transplant_container) {
+    delete managementPlan.transplant_container;
+  }
   delete managementPlan.crop_variety;
   for (const plantingType of ['container', 'beds', 'rows', 'broadcast']) {
-    !managementPlan.crop_management_plan[plantingType] &&
+    if (!managementPlan.crop_management_plan[plantingType]) {
       delete managementPlan.crop_management_plan[plantingType];
+    }
   }
   return managementPlan;
 };
@@ -844,7 +845,7 @@ const removeCropVarietyFromManagementPlans = (managementPlans) => {
 };
 
 // function to add harvested_to_date to management plans that have it.
-const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
+export const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
   return managementPlans.map((mp) => {
     const harvest = plansWithHarvest
       ? plansWithHarvest.find((pwh) => pwh.management_plan_id === mp.management_plan_id)
@@ -854,7 +855,7 @@ const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
   });
 };
 
-const getHarvestedToDate = async (managementPlanIds) => {
+export const getHarvestedToDate = async (managementPlanIds) => {
   return ManagementPlanModel.query()
     .select(knex.raw('SUM(actual_quantity) AS harvested_to_date, mp.management_plan_id'))
     .from('harvest_task as ht')

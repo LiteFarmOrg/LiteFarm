@@ -22,7 +22,17 @@ import { CustomRouteComponentProps } from '../../../types';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import LatestReadings from './LatestReadings';
 import Charts from './Charts/SensorArrayCharts';
+import { colors } from '../../../assets/theme';
 import styles from './styles.module.scss';
+
+export const LINE_COLORS = [
+  colors.chartBlue,
+  colors.chartYellow,
+  colors.chartGreen,
+  colors.chartRed,
+  colors.chartPurple,
+  colors.chartBrown,
+];
 
 interface RouteParams {
   id: string;
@@ -49,6 +59,11 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
     history.replace('/unknown_record');
   }
 
+  const sensorColorMap = sensors?.map(({ external_id }, index) => ({
+    id: external_id,
+    color: LINE_COLORS[index],
+  }));
+
   return (
     <Paper className={styles.paper}>
       <PageTitle
@@ -59,7 +74,11 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
       <div className={styles.content}>
         {sensors?.length && (
           <>
-            <LatestReadings sensors={sensors} isSensorArray={true} />
+            <LatestReadings
+              sensors={sensors}
+              isSensorArray={true}
+              sensorColorMap={sensorColorMap!}
+            />
             <div className={styles.mainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}
@@ -72,6 +91,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
                 endDate={endDate}
                 startDateString={startDateString}
                 endDateString={endDateString}
+                sensorColorMap={sensorColorMap!}
               />
             </div>
           </>

@@ -17,7 +17,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
-import CustomLineChart from '../../../../components/Charts/LineChart';
+import CustomLineChart, { LineConfig } from '../../../../components/Charts/LineChart';
 import { colors } from '../../../../assets/theme';
 import { measurementSelector } from '../../../userFarmSlice';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
@@ -35,24 +35,23 @@ import styles from '../styles.module.scss';
 
 const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
 
-const LINE_COLORS = [
-  colors.chartBlue,
-  colors.chartYellow,
-  colors.chartGreen,
-  colors.chartRed,
-  colors.chartPurple,
-  colors.chartBrown,
-];
-
 interface ChartsProps {
   sensors: Sensor[];
   startDate?: string;
   endDate?: string;
   startDateString?: string;
   endDateString?: string;
+  sensorColorMap: LineConfig[];
 }
 
-function Charts({ sensors, startDate, endDate, startDateString, endDateString }: ChartsProps) {
+function Charts({
+  sensors,
+  startDate,
+  endDate,
+  startDateString,
+  endDateString,
+  sensorColorMap,
+}: ChartsProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -119,11 +118,6 @@ function Charts({ sensors, startDate, endDate, startDateString, endDateString }:
     return <div>No data</div>;
   }
 
-  const lineConfig = sensors.map(({ external_id }, index) => ({
-    id: external_id,
-    color: LINE_COLORS[index],
-  }));
-
   return (
     <div className={styles.charts}>
       {SENSOR_PARAMS[sensors[0].name]?.flatMap((param) => {
@@ -146,7 +140,7 @@ function Charts({ sensors, startDate, endDate, startDateString, endDateString }:
             key={reading_type}
             title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
             language={language || 'en'}
-            lineConfig={lineConfig}
+            lineConfig={sensorColorMap}
             data={readings}
             ticks={ticks}
             truncPeriod={truncPeriod}

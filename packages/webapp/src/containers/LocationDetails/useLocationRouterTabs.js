@@ -9,14 +9,8 @@ const fieldTechnologyLocations = ['field', 'garden', 'greenhouse'];
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
 
-  const { location_id, type } = location;
-  const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
-  const { tasks } = useLocationTasks(location_id);
+  const { type } = location;
   const fieldTechnology = useFieldTechnology(location);
-
-  const locationCrops =
-    activeCrops.length || pastCrops.length || plannedCrops.length ? true : false;
-  const locationTasks = tasks.length ? true : false;
   const locationFieldTechnology = Object.keys(fieldTechnology).some(
     (key) => !!fieldTechnology[key].length,
   )
@@ -26,10 +20,10 @@ export default function useLocationRouterTabs(location, match) {
   let currentTab;
   if (match.path.includes('/details')) {
     currentTab = 'details';
-  } else if (match.path.includes('/crops')) {
-    currentTab = 'crops';
   } else if (match.path.includes('/tasks')) {
     currentTab = 'tasks';
+  } else if (match.path.includes('/crops')) {
+    currentTab = 'crops';
   } else if (match.path.includes('/field_technology')) {
     currentTab = 'field_technology';
   }
@@ -39,19 +33,17 @@ export default function useLocationRouterTabs(location, match) {
       label: t('FARM_MAP.TAB.DETAILS'),
       path: match.url.replace(currentTab, 'details'),
     },
+    {
+      label: t('FARM_MAP.TAB.TASKS'),
+      path: match.url.replace(currentTab, 'tasks'),
+    },
   ];
 
-  // Order reflects currentTab order
-  if (locationCrops && cropLocations.includes(type)) {
+  // Order reflects tab order
+  if (cropLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.CROPS'),
       path: match.url.replace(currentTab, 'crops'),
-    });
-  }
-  if (locationTasks) {
-    routerTabs.push({
-      label: t('FARM_MAP.TAB.TASKS'),
-      path: match.url.replace(currentTab, 'tasks'),
     });
   }
   if (locationFieldTechnology && fieldTechnologyLocations.includes(type)) {

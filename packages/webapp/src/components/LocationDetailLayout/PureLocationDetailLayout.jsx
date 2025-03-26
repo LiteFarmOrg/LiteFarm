@@ -48,10 +48,12 @@ export function PureLocationDetailLayout({
     (isCreateLocationPage && t(`FARM_MAP.${translationKey}.TITLE`)) ||
     (isEditLocationPage && t(`FARM_MAP.${translationKey}.EDIT_TITLE`)) ||
     (isViewLocationPage && persistedFormData.name);
-  const { location_id } = match.params;
+
   // TODO: Move this up to container when just 1 container exists for locations
-  const location = useSelector(locationByIdSelector(location_id));
-  const routerTabs = isViewLocationPage ? useLocationRouterTabs(location, match) : [];
+  const { location_id } = match.params;
+  const location =
+    isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
+  const routerTabs = location && useLocationRouterTabs(location, match);
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {

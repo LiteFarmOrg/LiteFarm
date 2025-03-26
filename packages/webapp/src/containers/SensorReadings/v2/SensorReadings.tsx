@@ -43,14 +43,14 @@ interface RouteParams {
 
 const LINE_COLORS: Partial<Record<SensorTypes, Partial<Record<SensorReadingTypes, string>>>> = {
   'Weather station': {
-    temperature: colors['--Colors-Accent---singles-Red-full'],
-    relative_humidity: colors['--Colors-Accent---singles-Blue-full'],
-    rainfall_rate: colors['--Colors-Accent---singles-Blue-full'],
-    cumulative_rainfall: colors['--Colors-Primary-Primary-teal-700'],
+    temperature: colors.chartRed,
+    relative_humidity: colors.chartBlue,
+    rainfall_rate: colors.chartBlue,
+    cumulative_rainfall: colors.chartGreen,
   },
   'Soil Water Potential Sensor': {
-    temperature: colors['--Colors-Accent---singles-Blue-full'],
-    soil_water_potential: colors['--Colors-Accent---singles-Red-full'],
+    temperature: colors.chartBlue,
+    soil_water_potential: colors.chartRed,
   },
 };
 

@@ -32,7 +32,7 @@ interface CustomRange {
   endDate?: string | Moment;
 }
 
-export interface DateRangeSelection {
+export interface DateRangeData {
   option?: DateRangeOptions;
   startDate?: string | Moment;
   endDate?: string | Moment;

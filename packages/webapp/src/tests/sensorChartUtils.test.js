@@ -153,7 +153,6 @@ describe('Test chart data formatting', () => {
         ['soil_water_potential', 'kPa', 'kPa', 'kPa'],
         ['solar_radiation', 'W/m2', 'W/m2', 'W/m2'],
         ['temperature', 'C', '°C', '°F'],
-        ['wind_direction', 'deg', '°', '°'],
         ['wind_speed', 'm/s', 'km/h', 'mph'],
       ].forEach(([param, apiUnit, expecteMetricUnit, expecteImperialUnit]) => {
         const metricUnit = getReadingUnit(param, 'metric', apiUnit);

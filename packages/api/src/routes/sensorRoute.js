@@ -20,7 +20,7 @@ import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import validateRequest from '../middleware/validation/validateWebhook.js';
 import validateLocationDependency from '../middleware/validation/deleteLocation.js';
-import checkSensorReadingsQuery from '../middleware/validation/checkSensorReadingsQuery.js';
+import checkSensorReadingsQuery from '../middleware/validation/checkSensorReadingsQuery.ts';
 import SensorController from '../controllers/sensorController.js';
 
 const storage = multer.memoryStorage();

@@ -24,24 +24,66 @@ import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND } from './ensemble.js';
 
-export interface Point {
+interface Point {
   lat: number;
   lng: number;
 }
 
-interface CropData {
-  crop: string; // taken from crop_variety_id
-  seed_date: string; // ISO 8601
+type MethodDetails = {
+  planting_management_plan_id?: string;
+};
+
+interface PlantingManagementPlan {
+  bed_method: MethodDetails | null;
+  container_method: MethodDetails | null;
+  broadcast_method: MethodDetails | null;
+  row_method: MethodDetails | null;
 }
 
-interface FarmLocation {
+interface LocationAndCropGraph {
   farm_id: string;
+  name: string;
   location_id: string;
+  figure: {
+    area: {
+      grid_points: Point[];
+    };
+  };
+  crop_data: {
+    crop_management_plan: {
+      seed_date: string;
+      planting_management_plans: PlantingManagementPlan[];
+    };
+    crop_variety: {
+      crop: {
+        crop_common_name: string;
+        crop_genus: string;
+        crop_species: string;
+        crop_group: string;
+      };
+    };
+  }[];
+}
+
+interface EnsembleCropData {
+  crop_common_name: string;
+  crop_genus: string;
+  crop_species: string;
+  crop_group: string;
+  seed_date: string;
+}
+
+export interface EnsembleLocationData {
+  farm_id: string;
+  name: string;
+  location_id: string;
+  // type: string;
   grid_points: Point[];
+  crop_data: EnsembleCropData[] | string;
 }
 
 interface OrganisationFarmData {
-  [org_uuid: string]: Array<FarmLocation & { crop_data: CropData }>;
+  [org_uuid: string]: EnsembleLocationData[];
 }
 
 /**
@@ -79,7 +121,7 @@ export const sendIrrigationData = async (farm_id?: string) => {
   for (const org of organisations) {
     const locations = await LocationModel.getCropSupportingLocationsByFarmId(org.farm_id);
 
-    const cropsAndLocations: Array<FarmLocation & { crop_data: CropData }> = [];
+    const cropsAndLocations: LocationAndCropGraph[] = [];
 
     for (const location of locations) {
       const managementPlanGraph = await ManagementPlanModel.getManagementPlansByLocationId(
@@ -91,8 +133,90 @@ export const sendIrrigationData = async (farm_id?: string) => {
       });
     }
 
-    (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
+    (organisationFarmData[org.org_uuid] ??= []).push(
+      ...selectEnsembleProperties(cropsAndLocations),
+    );
+
+    // For un-trimmed data:
+    // (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
   }
 
   return organisationFarmData;
+};
+
+const selectEnsembleProperties = (
+  cropsAndLocations: LocationAndCropGraph[],
+): EnsembleLocationData[] => {
+  return cropsAndLocations.map((location) => {
+    return {
+      ...selectLocationData(location),
+      crop_data: selectCropData(location.crop_data),
+    };
+  });
+};
+
+const selectLocationData = (location: LocationAndCropGraph) => {
+  const { farm_id, name, location_id, figure } = location;
+  return {
+    farm_id,
+    name,
+    location_id,
+    // type: figure.type,
+    grid_points: figure.area.grid_points,
+  };
+};
+
+const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
+  if (crop_data.length === 0) {
+    return [];
+  }
+
+  // TODO: is something like this wanted or should multiple crops be returned anyway?
+  if (crop_data.length > 1) {
+    return 'ERR! More than one crop on this location';
+  }
+
+  return crop_data.map((singleCrop: LocationAndCropGraph['crop_data'][0]) => {
+    const { crop_common_name, crop_genus, crop_species, crop_group } = singleCrop.crop_variety.crop;
+
+    const seed_date = singleCrop.crop_management_plan?.seed_date;
+
+    const { bed_method, container_method, broadcast_method, row_method } =
+      singleCrop.crop_management_plan?.planting_management_plans?.[0] || {};
+
+    const methodObj = bed_method
+      ? { bed_method }
+      : container_method
+        ? { container_method }
+        : broadcast_method
+          ? { broadcast_method }
+          : row_method
+            ? { row_method }
+            : {};
+
+    removePlanIdFromMethod(methodObj);
+
+    return {
+      crop_common_name,
+      crop_genus,
+      crop_species,
+      crop_group,
+      seed_date,
+      ...methodObj,
+    };
+  });
+};
+
+const removePlanIdFromMethod = (methodObj: Partial<PlantingManagementPlan>) => {
+  const keys: (keyof PlantingManagementPlan)[] = [
+    'bed_method',
+    'container_method',
+    'broadcast_method',
+    'row_method',
+  ];
+  keys.forEach((key) => {
+    if (methodObj[key]) {
+      delete methodObj[key].planting_management_plan_id;
+    }
+  });
 };

@@ -253,7 +253,7 @@ export const api = createApi({
       providesTags: ['Sensors'],
     }),
     getSensorReadings: build.query<
-      SensorReadings,
+      SensorReadings[],
       {
         esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
         startTime?: string; // ISO 8601

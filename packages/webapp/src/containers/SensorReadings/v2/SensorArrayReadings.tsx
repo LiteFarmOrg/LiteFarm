@@ -24,7 +24,12 @@ import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateR
 import { measurementSelector } from '../../userFarmSlice';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { convertEsciReadingValue, formatSensorsData, getTruncPeriod } from './utils';
+import {
+  adjustDailyDateTime,
+  convertEsciReadingValue,
+  formatSensorsData,
+  getTruncPeriod,
+} from './utils';
 import { getTicks } from '../../../components/Charts/utils';
 import { CustomRouteComponentProps } from '../../../types';
 import {
@@ -106,40 +111,42 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
   };
 
   useEffect(() => {
-    if (!sensorReadings && sensorIds && truncPeriod) {
-      getAndSetSensorReadings();
-    }
-  }, [sensorReadings, sensorIds, truncPeriod]);
+    getAndSetSensorReadings();
+  }, []);
 
   const formattedData = useMemo(() => {
     if (!sensorReadings?.length || !truncPeriod) {
       return [];
     }
 
-    const formatted = sensorReadings.map((data) => {
+    return sensorReadings.map((data) => {
+      let adjustDateTime: ((dateTime: number) => number) | undefined = undefined;
+
+      if (truncPeriod === 'hour') {
+        const startTimeTimezoneOffset = new Date(startDate!).getTimezoneOffset();
+        const hourlyTimeOffset = startTimeTimezoneOffset % 60;
+
+        // Handle time offset when the difference is not full hour
+        if (hourlyTimeOffset) {
+          const isAheadUTC = startTimeTimezoneOffset < 0;
+          adjustDateTime = (dateTime: number) =>
+            dateTime + hourlyTimeOffset * (isAheadUTC ? 1 : -1) * 60;
+        }
+      } else {
+        adjustDateTime = adjustDailyDateTime;
+      }
+
       const valueConverter = (value: number) =>
         convertEsciReadingValue(value, data.reading_type, system);
       return {
         ...data,
-        readings: formatSensorsData(data.readings, truncPeriod, sensorIds!, valueConverter),
-      };
-    });
-
-    if (truncPeriod === 'hour') {
-      return formatted;
-    }
-
-    return formatted.map((data) => {
-      return {
-        ...data,
-        readings: data.readings.map((reading) => {
-          const timeDiff = new Date(reading.dateTime * 1000).getTimezoneOffset();
-
-          return {
-            ...reading,
-            dateTime: reading.dateTime + timeDiff * 60,
-          };
-        }),
+        readings: formatSensorsData(
+          data.readings,
+          truncPeriod,
+          sensorIds!,
+          valueConverter,
+          adjustDateTime,
+        ),
       };
     });
   }, [sensorReadings, sensorIds]);

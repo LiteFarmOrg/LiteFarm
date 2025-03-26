@@ -14,14 +14,15 @@
  */
 
 import { expect, describe, test } from 'vitest';
-import { getUnixTime } from '../components/Charts/utils';
 import {
   convertEsciReadingValue,
+  degToDirection,
   formatDataPoint,
   formatSensorsData,
   getReadingUnit,
   sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
+import { getUnixTime } from '../components/Charts/utils';
 
 const createData = (date) => {
   return { dateTime: getUnixTime(date) };
@@ -183,6 +184,34 @@ describe('Test chart data formatting', () => {
         expect(metricValue).toBe(expecteMetricValue);
         expect(imperialValue).toBe(expecteImperialValue);
       });
+    });
+  });
+
+  describe('degToDirection', () => {
+    test('convert wind direction in degree to compass direction properly', () => {
+      const validate = {
+        N: (deg) => deg <= 11.25 || deg >= 348.75,
+        NNE: (deg) => 11.25 < deg && deg <= 33.75,
+        NE: (deg) => 33.75 < deg && deg <= 56.25,
+        ENE: (deg) => 56.25 < deg && deg <= 78.75,
+        E: (deg) => 78.75 < deg && deg <= 101.25,
+        ESE: (deg) => 101.25 < deg && deg <= 123.75,
+        SE: (deg) => 123.75 < deg && deg <= 146.25,
+        SSE: (deg) => 146.25 < deg && deg <= 168.75,
+        S: (deg) => 168.75 < deg && deg <= 191.25,
+        SSW: (deg) => 191.25 < deg && deg <= 213.75,
+        SW: (deg) => 213.75 < deg && deg <= 236.25,
+        WSW: (deg) => 236.25 < deg && deg <= 258.75,
+        W: (deg) => 258.75 < deg && deg <= 281.25,
+        WNW: (deg) => 281.25 < deg && deg <= 303.75,
+        NW: (deg) => 303.75 < deg && deg <= 326.25,
+        NNW: (deg) => 326.25 < deg && deg <= 348.75,
+      };
+
+      for (let deg = 0; deg < 360; deg++) {
+        const direction = degToDirection(deg);
+        expect(validate[direction](deg)).toBe(true);
+      }
     });
   });
 });

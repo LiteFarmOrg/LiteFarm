@@ -25,6 +25,27 @@ import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
 import { convert } from '../../../util/convert-units/convert';
 import { esciUnitTypeMap } from './constants';
 
+const WIND_DIRECTION_KEYS = [
+  'N', // t('N')
+  'NNE', // t('NNE')
+  'NE', // t('NE')
+  'ENE', // t('ENE')
+  'E', // t('E')
+  'ESE', // t('ESE')
+  'SE', // t('SE')
+  'SSE', // t('SSE')
+  'S', // t('S')
+  'SSW', // t('SSW')
+  'SW', // t('SW')
+  'WSW', // t('WSW')
+  'W', // t('W')
+  'WNW', // t('WNW')
+  'NW', // t('NW')
+  'NNW', // t('NNW')
+];
+const NUM_OF_DIRECTIONS = WIND_DIRECTION_KEYS.length;
+const ANGLE_PER_DIRECTION = 360 / NUM_OF_DIRECTIONS;
+
 interface FormattedSensorDatapoint {
   dateTime: SensorDatapoint['dateTime'];
   [key: string]: number | null;
@@ -75,7 +96,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && typeof data[dataKey] === 'number'
           ? valueConverter(data[dataKey])
-          : data[dataKey] ?? null;
+          : (data[dataKey] ?? null);
 
       return { ...acc, [dataKey]: value };
     },
@@ -170,4 +191,14 @@ export const getReadingUnit = (
   }
 
   return apiUnit;
+};
+
+export const degToDirection = (deg: number): string => {
+  // Normalize degrees to 0–359
+  const normalizedDeg = ((deg % 360) + 360) % 360;
+
+  const index =
+    Math.floor((normalizedDeg + ANGLE_PER_DIRECTION / 2) / ANGLE_PER_DIRECTION) % NUM_OF_DIRECTIONS;
+
+  return WIND_DIRECTION_KEYS[index];
 };

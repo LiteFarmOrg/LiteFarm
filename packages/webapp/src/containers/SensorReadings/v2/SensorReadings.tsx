@@ -41,7 +41,9 @@ interface RouteParams {
   id: string;
 }
 
-const LINE_COLORS: Partial<Record<SensorTypes, Partial<Record<SensorReadingTypes, string>>>> = {
+export const STANDALONE_SENSOR_COLORS: Partial<
+  Record<SensorTypes, Partial<Record<SensorReadingTypes, string>>>
+> = {
   'Weather station': {
     temperature: colors.chartRed,
     relative_humidity: colors.chartBlue,
@@ -169,7 +171,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
               lineConfig={[
                 {
                   id: sensor.external_id, //sensor.external_id,
-                  color: LINE_COLORS[sensor.name]?.[reading_type]!,
+                  color: STANDALONE_SENSOR_COLORS[sensor.name]?.[reading_type]!,
                 },
               ]}
               data={readings}

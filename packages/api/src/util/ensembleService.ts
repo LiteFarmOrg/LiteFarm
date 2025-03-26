@@ -29,11 +29,19 @@ interface Point {
   lng: number;
 }
 
+enum PlantingMethod {
+  BED_METHOD = 'bed_method',
+  CONTAINER_METHOD = 'container_method',
+  BROADCAST_METHOD = 'broadcast_method',
+  ROW_METHOD = 'row_method',
+}
+
 type MethodDetails = {
   planting_management_plan_id?: string;
 };
 
 interface PlantingManagementPlan {
+  planting_method: PlantingMethod;
   bed_method: MethodDetails | null;
   container_method: MethodDetails | null;
   broadcast_method: MethodDetails | null;
@@ -69,6 +77,10 @@ interface EnsembleCropData {
   crop_genus: string;
   crop_specie: string;
   seed_date: string;
+  planting_details?: {
+    planting_method: PlantingMethod;
+    [key: string]: unknown;
+  };
 }
 
 export interface EnsembleLocationData {
@@ -174,41 +186,31 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
 
     const seed_date = singleCrop.crop_management_plan?.seed_date;
 
-    const { bed_method, container_method, broadcast_method, row_method } =
-      singleCrop.crop_management_plan?.planting_management_plans?.[0] || {};
+    let planting_details: EnsembleCropData['planting_details'] | undefined;
 
-    const methodObj = bed_method
-      ? { bed_method }
-      : container_method
-        ? { container_method }
-        : broadcast_method
-          ? { broadcast_method }
-          : row_method
-            ? { row_method }
-            : {};
+    // TODO: cover transplant tasks -- they would have multiple objects in this array
+    const plantingManagementPlan = singleCrop.crop_management_plan?.planting_management_plans?.[0];
 
-    removePlanIdFromMethod(methodObj);
+    if (plantingManagementPlan) {
+      const key = plantingManagementPlan.planting_method.toLowerCase() as PlantingMethod;
+      const details = plantingManagementPlan[key];
+
+      if (details) {
+        delete details.planting_management_plan_id;
+
+        planting_details = {
+          planting_method: plantingManagementPlan.planting_method,
+          ...details,
+        };
+      }
+    }
 
     return {
       crop_common_name,
       crop_genus,
       crop_specie,
       seed_date,
-      ...methodObj,
+      ...(planting_details ? { planting_details } : {}),
     };
-  });
-};
-
-const removePlanIdFromMethod = (methodObj: Partial<PlantingManagementPlan>) => {
-  const keys: (keyof PlantingManagementPlan)[] = [
-    'bed_method',
-    'container_method',
-    'broadcast_method',
-    'row_method',
-  ];
-  keys.forEach((key) => {
-    if (methodObj[key]) {
-      delete methodObj[key].planting_management_plan_id;
-    }
   });
 };

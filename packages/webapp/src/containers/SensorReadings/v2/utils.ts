@@ -151,30 +151,13 @@ export const convertEsciReadingValue = (
   value: number,
   param: SensorReadingTypes,
   system: System,
-): number | null => {
-  if (
-    [
-      'soil_water_potential',
-      'relative_humidity',
-      'barometric_pressure',
-      'solar_radiation',
-    ].includes(param)
-  ) {
-    // The unit in the API response (e.g., kPa, %) is the same for both metric and imperial.
-    return roundToTwo(value);
-  }
-
-  if (param === 'wind_direction') {
-    // TODO: confirm
-    return roundToTwo(value);
-  }
-
+): number => {
   if (esciUnitTypeMap[param]) {
     const unitType = esciUnitTypeMap[param];
     return roundToTwo(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
   }
 
-  return null;
+  return roundToTwo(value);
 };
 
 export const getReadingUnit = (

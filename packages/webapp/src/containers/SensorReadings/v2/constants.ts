@@ -37,6 +37,7 @@ interface UnitType {
   baseUnit: Extract<SensorReadingTypeUnits, ExtendedMeasureUnits>;
 }
 
+// Mapping of sensor reading types that require unit conversion
 export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
   temperature: {
     metric: {
@@ -81,16 +82,5 @@ export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
       displayUnit: 'in/h',
     },
     baseUnit: 'mm',
-  },
-  wind_direction: {
-    metric: {
-      unit: 'deg',
-      displayUnit: '°',
-    },
-    imperial: {
-      unit: 'deg',
-      displayUnit: '°',
-    },
-    baseUnit: 'deg',
   },
 };

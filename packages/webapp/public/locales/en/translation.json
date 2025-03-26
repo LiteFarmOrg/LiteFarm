@@ -617,6 +617,24 @@
     "TUESDAY": "T",
     "WEDNESDAY": "W"
   },
+  "DIRECTION": {
+    "E": "E",
+    "ENE": "ENE",
+    "ESE": "ESE",
+    "N": "N",
+    "NE": "NE",
+    "NNE": "NNE",
+    "NNW": "NNW",
+    "NW": "NW",
+    "S": "S",
+    "SE": "SE",
+    "SSE": "SSE",
+    "SSW": "SSW",
+    "SW": "SW",
+    "W": "W",
+    "WNW": "WNW",
+    "WSW": "WSW"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
@@ -937,9 +955,9 @@
     "TAB": {
       "CROPS": "Crops",
       "DETAILS": "Details",
+      "FIELD_TECHNOLOGY": "Field Technology",
       "READINGS": "Readings",
-      "TASKS": "Tasks",
-      "FIELD_TECHNOLOGY": "Field Technology"
+      "TASKS": "Tasks"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {

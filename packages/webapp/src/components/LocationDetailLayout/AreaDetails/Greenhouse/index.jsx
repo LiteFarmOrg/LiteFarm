@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import Input from '../../../Form/Input';
 import { greenhouseEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../LocationButtons';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
-import RouterTab from '../../../RouterTab';
-
 import { getDateInputFormat } from '../../../../util/moment';
 import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
@@ -83,7 +77,6 @@ export function PureGreenhouse({
       translationKey={'GREENHOUSE'}
       detailsChildren={<GreenhouseDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={false}
-      tabs={['crops', 'tasks', 'details', 'field_technology']}
     />
   );
 }

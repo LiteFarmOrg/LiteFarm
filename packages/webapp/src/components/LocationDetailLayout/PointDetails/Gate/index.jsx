@@ -1,11 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import PointDetails from '../PointDetails';
-import { useForm } from 'react-hook-form';
-import LocationButtons from '../../LocationButtons';
-
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
@@ -52,7 +44,6 @@ export function PureGate({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'GATE'}
-      tabs={['tasks', 'details']}
     />
   );
 }

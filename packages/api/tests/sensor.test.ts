@@ -19,11 +19,11 @@ import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
 import server from '../src/server.js';
-import knex from '../src/util/knex.js';
+import knex from '@/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
 jest.mock('jsdom');
-jest.mock('../src/middleware/acl/checkJwt.js', () =>
+jest.mock('@/middleware/acl/checkJwt.js', () =>
   jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
@@ -37,7 +37,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 import mocks from './mock.factories.js';
 import { Response } from 'superagent';
-import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
+import { ENSEMBLE_BRAND } from '@/util/ensemble.js';
 import { mockedFormattedReadingsData, mockedEnsembleReadingsData } from './utils/sensorMockData.js';
 
 interface User {

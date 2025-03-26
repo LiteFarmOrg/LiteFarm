@@ -58,8 +58,7 @@ interface LocationAndCropGraph {
       crop: {
         crop_common_name: string;
         crop_genus: string;
-        crop_species: string;
-        crop_group: string;
+        crop_specie: string;
       };
     };
   }[];
@@ -68,8 +67,7 @@ interface LocationAndCropGraph {
 interface EnsembleCropData {
   crop_common_name: string;
   crop_genus: string;
-  crop_species: string;
-  crop_group: string;
+  crop_specie: string;
   seed_date: string;
 }
 
@@ -77,9 +75,8 @@ export interface EnsembleLocationData {
   farm_id: string;
   name: string;
   location_id: string;
-  // type: string;
   grid_points: Point[];
-  crop_data: EnsembleCropData[] | string;
+  crop_data: EnsembleCropData[];
 }
 
 interface OrganisationFarmData {
@@ -163,7 +160,6 @@ const selectLocationData = (location: LocationAndCropGraph) => {
     farm_id,
     name,
     location_id,
-    // type: figure.type,
     grid_points: figure.area.grid_points,
   };
 };
@@ -173,13 +169,8 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
     return [];
   }
 
-  // TODO: is something like this wanted or should multiple crops be returned anyway?
-  if (crop_data.length > 1) {
-    return 'ERR! More than one crop on this location';
-  }
-
   return crop_data.map((singleCrop: LocationAndCropGraph['crop_data'][0]) => {
-    const { crop_common_name, crop_genus, crop_species, crop_group } = singleCrop.crop_variety.crop;
+    const { crop_common_name, crop_genus, crop_specie } = singleCrop.crop_variety.crop;
 
     const seed_date = singleCrop.crop_management_plan?.seed_date;
 
@@ -201,8 +192,7 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
     return {
       crop_common_name,
       crop_genus,
-      crop_species,
-      crop_group,
+      crop_specie,
       seed_date,
       ...methodObj,
     };

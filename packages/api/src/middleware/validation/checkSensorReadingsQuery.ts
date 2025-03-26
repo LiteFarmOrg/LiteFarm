@@ -15,7 +15,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import { checkAndTrimString } from '@/util/util.js';
-import { isISO8601Format } from '@/util/validation.js';
+import { isISO8601Format } from '@/util/validation.ts';
 
 interface RequestQuery {
   esids?: string;

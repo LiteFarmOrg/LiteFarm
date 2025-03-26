@@ -15,11 +15,17 @@
 
 import { TFunction } from 'react-i18next';
 import { Status, StatusIndicatorPillProps } from '../../../../components/StatusIndicatorPill';
-import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/api/types';
+import {
+  Sensor,
+  SensorReadings,
+  SensorReadingTypes,
+  SensorReadingTypeUnits,
+} from '../../../../store/api/types';
 import { System } from '../../../../types';
 import { SENSOR_PARAMS } from '../constants';
 import { STANDALONE_SENSOR_COLORS } from '../SensorReadings';
 import { LineConfig } from '../../../../components/Charts/LineChart';
+import { convertEsciReadingValue, getReadingUnit } from '../utils';
 
 type TMeasurement = {
   measurement: string;
@@ -52,14 +58,16 @@ export const formatReadingsToSensorKPIProps = (
     const { external_id, depth, name } = sensor;
     let isOnline: boolean = false;
 
-    const measurementValueMap: Partial<Record<SensorReadingTypes, number | string>> =
+    const measurementValueMap: Partial<
+      Record<SensorReadingTypes, { value: number | null; unit: SensorReadingTypeUnits }>
+    > =
       SENSOR_PARAMS[name]?.reduce((acc, param) => {
         const foundReadings = readings.find(({ reading_type }) => reading_type === param);
         const value =
           foundReadings?.readings?.[foundReadings.readings.length - 1][external_id] || null;
         isOnline = isOnline || !!value;
 
-        return { ...acc, [param]: value };
+        return { ...acc, [param]: { value, unit: foundReadings?.unit } };
       }, {}) || {};
 
     return {
@@ -82,10 +90,12 @@ export const formatReadingsToSensorKPIProps = (
             return [];
           }
 
+          const { value, unit } = measurementValueMap[param] || {};
+
           return {
-            measurement: param,
-            value: measurementValueMap[param] || '-',
-            unit: '°F',
+            measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
+            value: value ? convertEsciReadingValue(value, param, system) : '-',
+            unit: (value && unit && getReadingUnit(param, system, unit)) || '',
           };
         }) || [],
       color: sensorColorMap.find(({ id }) => id === external_id)!.color,
@@ -106,12 +116,12 @@ export const formatReadingsToSensorReadingKPIProps = (
         return [];
       }
 
-      const value =
-        foundReadings.readings[foundReadings.readings.length - 1][sensor.external_id] || '-';
+      const value = foundReadings.readings[foundReadings.readings.length - 1][sensor.external_id];
+
       return {
-        measurement: param,
-        value,
-        unit: 'C',
+        measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
+        value: value ? convertEsciReadingValue(value, param, system) : '-',
+        unit: value ? getReadingUnit(param, system, foundReadings.unit) : '',
         color: STANDALONE_SENSOR_COLORS[sensor.name]?.[param],
       };
     }) || []

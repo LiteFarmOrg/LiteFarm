@@ -21,7 +21,12 @@ interface HttpError extends Error {
   code?: number; // LF custom error
 }
 
-export interface LiteFarmRequest extends Request {
+interface LiteFarmQuery {
+  allOrgs?: string;
+  trimmed?: string;
+}
+
+export interface LiteFarmRequest extends Request<unknown, unknown, unknown, LiteFarmQuery> {
   headers: Request['headers'] & {
     farm_id?: string;
   };
@@ -31,10 +36,13 @@ const irrigationPrescriptionController = {
   initiateFarmIrrigationPrescription() {
     return async (req: LiteFarmRequest, res: Response) => {
       const { farm_id } = req.headers;
-      const { allOrgs } = req.query;
+      const { allOrgs, trimmed } = req.query;
 
       try {
-        const farmData = await sendIrrigationData(allOrgs === 'true' ? undefined : farm_id);
+        const farmData = await sendIrrigationData(
+          allOrgs === 'true' ? undefined : farm_id,
+          trimmed,
+        );
 
         // temporarily returning data just for debugging
         return res.status(200).send(farmData);

@@ -95,7 +95,7 @@ interface OrganisationFarmData {
  * @returns {Promise<void>}
  * @async
  */
-export const sendIrrigationData = async (farm_id?: string) => {
+export const sendIrrigationData = async (farm_id?: string, trimmed: string = 'true') => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError('Ensemble partner not found', 400);
@@ -133,12 +133,14 @@ export const sendIrrigationData = async (farm_id?: string) => {
       });
     }
 
-    (organisationFarmData[org.org_uuid] ??= []).push(
-      ...selectEnsembleProperties(cropsAndLocations),
-    );
-
-    // For un-trimmed data:
-    // (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
+    if (trimmed === 'true') {
+      (organisationFarmData[org.org_uuid] ??= []).push(
+        ...selectEnsembleProperties(cropsAndLocations),
+      );
+    } else {
+      /* @ts-expect-error not typing this return of the full graph; it is for dev purposes */
+      (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
+    }
   }
 
   return organisationFarmData;

@@ -1,5 +1,3 @@
-import useLocationTasks from './LocationTasks/useLocationTasks';
-import useLocationCrops from './LocationManagementPlan/useLocationCrops';
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 

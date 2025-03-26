@@ -3,10 +3,13 @@ import useLocationCrops from './LocationManagementPlan/useLocationCrops';
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 
+const cropLocations = ['field', 'garden', 'greenhouse', 'buffer_zone'];
+const fieldTechnologyLocations = ['field', 'garden', 'greenhouse'];
+
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
 
-  const { location_id } = location;
+  const { location_id, type } = location;
   const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
   const { tasks } = useLocationTasks(location_id);
   const fieldTechnology = useFieldTechnology(location);
@@ -39,7 +42,7 @@ export default function useLocationRouterTabs(location, match) {
   ];
 
   // Order reflects currentTab order
-  if (locationCrops) {
+  if (locationCrops && cropLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.CROPS'),
       path: match.url.replace(currentTab, 'crops'),
@@ -51,7 +54,7 @@ export default function useLocationRouterTabs(location, match) {
       path: match.url.replace(currentTab, 'tasks'),
     });
   }
-  if (locationFieldTechnology) {
+  if (locationFieldTechnology && fieldTechnologyLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
       path: match.url.replace(currentTab, 'field_technology'),

@@ -44,12 +44,12 @@ interface RouteParams {
 const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
 
 const LINE_COLORS = [
-  colors['--Colors-Accent---singles-Blue-full'],
-  colors['--Colors-Accent-Accent-yellow-600'],
-  colors['--Colors-Primary-Primary-teal-700'],
-  colors['--Colors-Accent---singles-Red-full'],
-  colors['--Colors-Accent---singles-Purple-full'],
-  colors['--Colors-Accent---singles-Brown-full'],
+  colors.chartBlue,
+  colors.chartYellow,
+  colors.chartGreen,
+  colors.chartRed,
+  colors.chartPurple,
+  colors.chartBrown,
 ];
 
 type ReadingsState = SensorReadings[] | undefined;

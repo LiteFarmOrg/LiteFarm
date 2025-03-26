@@ -18,6 +18,8 @@ import { Status, StatusIndicatorPillProps } from '../../../../components/StatusI
 import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/api/types';
 import { System } from '../../../../types';
 import { SENSOR_PARAMS } from '../constants';
+import { STANDALONE_SENSOR_COLORS } from '../SensorReadings';
+import { LineConfig } from '../../../../components/Charts/LineChart';
 
 type TMeasurement = {
   measurement: string;
@@ -44,6 +46,7 @@ export const formatReadingsToSensorKPIProps = (
   readings: SensorReadings[],
   system: System,
   t: TFunction,
+  sensorColorMap: LineConfig[],
 ): SensorKPIprops[] => {
   return sensors.map((sensor) => {
     const { external_id, depth, name } = sensor;
@@ -85,6 +88,7 @@ export const formatReadingsToSensorKPIProps = (
             unit: '°F',
           };
         }) || [],
+      color: sensorColorMap.find(({ id }) => id === external_id)!.color,
     };
   });
 };
@@ -108,6 +112,7 @@ export const formatReadingsToSensorReadingKPIProps = (
         measurement: param,
         value,
         unit: 'C',
+        color: STANDALONE_SENSOR_COLORS[sensor.name]?.[param],
       };
     }) || []
   );

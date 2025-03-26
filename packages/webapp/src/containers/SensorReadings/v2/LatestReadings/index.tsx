@@ -17,6 +17,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
+import BentoLayout from '../../../../components/Layout/BentoLayout';
+import SensorKPI from '../../../../components/Tile/SensorTile/SensorKPI';
+import SensorReadingKPI from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import { LineConfig } from '../../../../components/Charts/LineChart';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
@@ -29,7 +33,20 @@ import {
 import { Sensor } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 
-function LatestReadings({ sensors, isSensorArray }: { sensors: Sensor[]; isSensorArray: boolean }) {
+type SensorArrayProps = {
+  isSensorArray: true;
+  sensorColorMap: LineConfig[];
+};
+
+type StandaloneSensorProps = {
+  isSensorArray: false;
+};
+
+type LatestReadingsProps = { sensors: Sensor[] } & (SensorArrayProps | StandaloneSensorProps);
+
+function LatestReadings(props: LatestReadingsProps) {
+  const { sensors, isSensorArray } = props;
+
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
 
@@ -39,8 +56,8 @@ function LatestReadings({ sensors, isSensorArray }: { sensors: Sensor[]; isSenso
     ? timeDifference(new Date(), new Date(latestReadingTime))
     : '-';
 
-  const props = isSensorArray
-    ? formatReadingsToSensorKPIProps(sensors, latestReadings, system, t)
+  const kpiProps = isSensorArray
+    ? formatReadingsToSensorKPIProps(sensors, latestReadings, system, t, props.sensorColorMap)
     : formatReadingsToSensorReadingKPIProps(sensors[0], latestReadings, system, t);
 
   return (
@@ -56,38 +73,12 @@ function LatestReadings({ sensors, isSensorArray }: { sensors: Sensor[]; isSenso
         </TextButton>
       </div>
       <div className={styles.kpi}>
-        {/* TODO: Use KPI components */}
-        {isSensorArray &&
-          (props as SensorKPIprops[])?.map(({ sensor, measurements, discriminator }) => {
-            return (
-              <div key={sensor.id}>
-                <div>{sensor.id}</div>
-                <div>{sensor.status.status}</div>
-                <div>{discriminator.value}</div>
-                <div>
-                  {measurements.map((measurement) => {
-                    return (
-                      <div key={measurement.measurement}>
-                        {measurement.measurement}
-                        {measurement.value}
-                        {measurement.unit}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        {!isSensorArray &&
-          (props as SensorReadingKPIprops[])?.map(({ measurement, value, unit }) => {
-            return (
-              <div key={measurement}>
-                <div>{measurement}</div>
-                <div>{value}</div>
-                <div>{unit}</div>
-              </div>
-            );
-          })}
+        {isSensorArray && (
+          <BentoLayout>{(kpiProps as SensorKPIprops[]).map(SensorKPI)}</BentoLayout>
+        )}
+        {!isSensorArray && (
+          <BentoLayout>{(kpiProps as SensorReadingKPIprops[]).map(SensorReadingKPI)}</BentoLayout>
+        )}
       </div>
     </>
   );

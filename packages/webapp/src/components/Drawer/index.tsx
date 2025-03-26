@@ -25,16 +25,13 @@ export enum DesktopDrawerVariants {
   MODAL = 'modal',
 }
 
-interface DrawerProps {
+type CommonDrawerProps = {
   title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
-  desktopVariant?: DesktopDrawerVariants;
-  desktopSideDrawerDirection?: 'left' | 'right';
-  isCompactSideMenu?: boolean; // only needed for left side drawer placement
   addBackdrop?: boolean;
   classes?: {
     modal?: string;
@@ -42,9 +39,28 @@ interface DrawerProps {
     drawerHeader?: string;
     drawerContent?: string;
     drawerContainer?: string; // applied to all drawers
-    desktopSideDrawerContainer?: string; // side drawer only
+    desktopSideDrawerContainer?: string;
   };
-}
+};
+
+type DrawerProps = CommonDrawerProps &
+  (
+    | {
+        desktopVariant?: DesktopDrawerVariants.DRAWER | DesktopDrawerVariants.MODAL;
+        desktopSideDrawerDirection?: never;
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection?: 'right';
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection: 'left';
+        isCompactSideMenu: boolean;
+      }
+  );
 
 const Drawer = ({
   title,
@@ -58,6 +74,7 @@ const Drawer = ({
     drawerHeader: '',
     drawerContent: '',
     drawerContainer: '',
+    desktopSideDrawerContainer: '',
   },
   fullHeight,
   desktopVariant = DesktopDrawerVariants.MODAL,

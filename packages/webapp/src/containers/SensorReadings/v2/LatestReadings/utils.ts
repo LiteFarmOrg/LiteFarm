@@ -14,38 +14,20 @@
  */
 
 import { TFunction } from 'react-i18next';
-import { Status, StatusIndicatorPillProps } from '../../../../components/StatusIndicatorPill';
-import {
-  Sensor,
-  SensorReadings,
-  SensorReadingTypes,
-  SensorReadingTypeUnits,
-} from '../../../../store/api/types';
-import { System } from '../../../../types';
-import { SENSOR_ARRAY_PARAMS, SENSOR_PARAMS } from '../constants';
 import { STANDALONE_SENSOR_COLORS } from '../SensorReadings';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, getReadingUnit } from '../utils';
-
-type TMeasurement = {
-  measurement: string;
-  value: string | number;
-  unit: string;
-};
-
-export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
-  sensor: {
-    id: string | number;
-    status: StatusIndicatorPillProps;
-  };
-  discriminator: TMeasurement;
-  measurements: TMeasurement[];
-  color?: string;
-}
-
-export interface SensorReadingKPIprops extends TMeasurement, React.HTMLAttributes<HTMLDivElement> {
-  color?: string;
-}
+import { SENSOR_ARRAY_PARAMS, SENSOR_PARAMS } from '../constants';
+import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
+import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import {
+  Sensor,
+  SensorReadings,
+  type SensorReadingTypes,
+  type SensorReadingTypeUnits,
+} from '../../../../store/api/types';
+import { Status } from '../../../../components/StatusIndicatorPill';
+import type { System } from '../../../../types';
 
 export const formatReadingsToSensorKPIProps = (
   sensors: Sensor[],

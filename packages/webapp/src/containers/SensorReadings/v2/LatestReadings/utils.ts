@@ -22,7 +22,7 @@ import {
   SensorReadingTypeUnits,
 } from '../../../../store/api/types';
 import { System } from '../../../../types';
-import { SENSOR_PARAMS } from '../constants';
+import { SENSOR_ARRAY_PARAMS, SENSOR_PARAMS } from '../constants';
 import { STANDALONE_SENSOR_COLORS } from '../SensorReadings';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, getReadingUnit } from '../utils';
@@ -55,13 +55,13 @@ export const formatReadingsToSensorKPIProps = (
   sensorColorMap: LineConfig[],
 ): SensorKPIprops[] => {
   return sensors.map((sensor) => {
-    const { external_id, depth, name } = sensor;
+    const { external_id, depth } = sensor;
     let isOnline: boolean = false;
 
     const measurementValueMap: Partial<
       Record<SensorReadingTypes, { value: number | null; unit: SensorReadingTypeUnits }>
     > =
-      SENSOR_PARAMS[name]?.reduce((acc, param) => {
+      SENSOR_PARAMS.reduce((acc, param) => {
         const foundReadings = readings.find(({ reading_type }) => reading_type === param);
         const value =
           foundReadings?.readings?.[foundReadings.readings.length - 1][external_id] || null;
@@ -85,7 +85,7 @@ export const formatReadingsToSensorKPIProps = (
         unit: system === 'metric' ? 'cm' : 'in',
       },
       measurements:
-        SENSOR_PARAMS[name]?.flatMap((param) => {
+        SENSOR_ARRAY_PARAMS.flatMap((param) => {
           if (!readings.find(({ reading_type }) => reading_type === param)) {
             return [];
           }
@@ -110,7 +110,7 @@ export const formatReadingsToSensorReadingKPIProps = (
   t: TFunction,
 ): SensorReadingKPIprops[] => {
   return (
-    SENSOR_PARAMS[sensor.name]?.flatMap((param) => {
+    SENSOR_PARAMS.flatMap((param) => {
       const foundReadings = readings.find(({ reading_type }) => reading_type === param);
       if (!foundReadings) {
         return [];

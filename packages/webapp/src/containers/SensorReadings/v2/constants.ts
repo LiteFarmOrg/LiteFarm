@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type {
-  SensorReadingTypes,
-  SensorReadingTypeUnits,
-  SensorTypes,
-} from '../../../store/api/types';
+import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/api/types';
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 
-export const SENSOR_PARAMS: Partial<Record<SensorTypes, SensorReadingTypes[]>> = {
-  'Weather station': ['temperature', 'relative_humidity', 'rainfall_rate', 'cumulative_rainfall'],
-  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential'],
-};
+export const SENSOR_PARAMS: SensorReadingTypes[] = [
+  'temperature',
+  'relative_humidity',
+  'rainfall_rate',
+  'cumulative_rainfall',
+  'soil_water_potential',
+  'soil_water_content',
+  'water_pressure',
+];
 
 export const SENSOR_ARRAY_PARAMS: SensorReadingTypes[] = [
   'temperature',
@@ -43,7 +44,10 @@ interface UnitType {
   baseUnit: Extract<SensorReadingTypeUnits, ExtendedMeasureUnits>;
 }
 
-// Mapping of sensor reading types that require unit conversion
+// Mapping of sensor reading types that require unit conversion.
+// (baseUnit refers to the unit sent by ESci)
+// We use psi for water pressure, as it's commonly used in Canada,
+// even though the metric system is generally used.
 export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
   temperature: {
     metric: {

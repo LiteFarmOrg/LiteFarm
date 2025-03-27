@@ -25,6 +25,12 @@ export const SENSOR_PARAMS: Partial<Record<SensorTypes, SensorReadingTypes[]>> =
   'Soil Water Potential Sensor': ['temperature', 'soil_water_potential'],
 };
 
+export const SENSOR_ARRAY_PARAMS: SensorReadingTypes[] = [
+  'temperature',
+  'soil_water_potential',
+  'soil_water_content',
+];
+
 interface UnitType {
   metric: {
     unit: ExtendedMeasureUnits;

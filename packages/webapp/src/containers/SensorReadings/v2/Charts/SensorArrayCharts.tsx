@@ -29,7 +29,7 @@ import {
 import { getTicks } from '../../../../components/Charts/utils';
 import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor } from '../../../../store/api/types';
-import { SENSOR_PARAMS } from '../constants';
+import { SENSOR_ARRAY_PARAMS } from '../constants';
 import styles from '../styles.module.scss';
 
 const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
@@ -106,7 +106,7 @@ function Charts({
 
   return (
     <div className={styles.charts}>
-      {SENSOR_PARAMS[sensors[0].name]?.flatMap((param) => {
+      {SENSOR_ARRAY_PARAMS.flatMap((param) => {
         const data = formattedData.find((data) => data.reading_type === param);
         if (!data) {
           return [];

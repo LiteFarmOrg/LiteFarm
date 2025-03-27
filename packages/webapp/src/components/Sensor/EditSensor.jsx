@@ -12,10 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import Layout from '../Layout';
+import layoutStyles from '../Layout/layout.module.scss';
 import PropTypes from 'prop-types';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
@@ -108,11 +109,8 @@ export default function UpdateSensor({
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   return (
-    <>
-      <Layout>
-        <PageTitle title={sensorInfo.name} style={{ paddingBottom: '20px' }} onGoBack={onBack} />
-      </Layout>
-
+    <Layout className={styles.paperContainer}>
+      <PageTitle title={sensorInfo.name} onGoBack={onBack} />
       <Form
         onSubmit={handleSubmit(() => {
           if (readingTypesChanged) {
@@ -246,7 +244,7 @@ export default function UpdateSensor({
           />
         )}
       </Form>
-    </>
+    </Layout>
   );
 }
 

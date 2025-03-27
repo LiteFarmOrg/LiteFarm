@@ -18,13 +18,12 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import CustomLineChart, { LineConfig } from '../../../../components/Charts/LineChart';
-import { colors } from '../../../../assets/theme';
 import { measurementSelector } from '../../../userFarmSlice';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import {
-  adjustDailyDateTime,
   convertEsciReadingValue,
   formatSensorsData,
+  getReadingUnit,
   getTruncPeriod,
 } from '../utils';
 import { getTicks } from '../../../../components/Charts/utils';
@@ -78,34 +77,21 @@ function Charts({
       return [];
     }
 
-    return sensorReadings.map((data) => {
-      let adjustDateTime: ((dateTime: number) => number) | undefined = undefined;
-
-      if (truncPeriod === 'hour') {
-        const startTimeTimezoneOffset = new Date(startDate!).getTimezoneOffset();
-        const hourlyTimeOffset = startTimeTimezoneOffset % 60;
-
-        // Handle time offset when the difference is not full hour
-        if (hourlyTimeOffset) {
-          const isAheadUTC = startTimeTimezoneOffset < 0;
-          adjustDateTime = (dateTime: number) =>
-            dateTime + hourlyTimeOffset * (isAheadUTC ? 1 : -1) * 60;
-        }
-      } else {
-        adjustDateTime = adjustDailyDateTime;
-      }
-
+    return sensorReadings.map(({ reading_type, readings, unit }) => {
       const valueConverter = (value: number) =>
-        convertEsciReadingValue(value, data.reading_type, system);
+        convertEsciReadingValue(value, reading_type, system);
+      const timezoneOffset = new Date(startDate!).getTimezoneOffset();
+
       return {
-        ...data,
+        reading_type,
         readings: formatSensorsData(
-          data.readings,
+          readings,
           truncPeriod,
           sensorIds,
           valueConverter,
-          adjustDateTime,
+          timezoneOffset,
         ),
+        unit: getReadingUnit(reading_type, system, unit),
       };
     });
   }, [sensorReadings]);

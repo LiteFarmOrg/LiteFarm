@@ -113,10 +113,26 @@ export const formatSensorsData = (
   truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
   valueConverter?: (value: number) => number | null,
-  adjustDateTime?: (dateTime: number) => number,
+  timezoneOffset?: number,
 ): FormattedSensorDatapoint[] => {
   if (!data.length) {
     return [];
+  }
+
+  let adjustDateTime: ((dateTime: number) => number) | undefined = undefined;
+
+  if (timezoneOffset !== undefined) {
+    if (truncPeriod === 'hour') {
+      const minuteOffset = timezoneOffset % 60;
+
+      // Handle time offset when the difference is not full hour
+      if (minuteOffset) {
+        const isAheadUTC = timezoneOffset < 0;
+        adjustDateTime = (dateTime: number) => dateTime + minuteOffset * (isAheadUTC ? 1 : -1) * 60;
+      }
+    } else if (truncPeriod === 'day') {
+      adjustDateTime = adjustDailyDateTime;
+    }
   }
 
   let result: FormattedSensorDatapoint[] = [];

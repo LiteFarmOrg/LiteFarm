@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { colors } from '../../../assets/theme';
 import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/api/types';
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 
@@ -31,6 +32,16 @@ export const SENSOR_ARRAY_PARAMS: SensorReadingTypes[] = [
   'soil_water_potential',
   'soil_water_content',
 ];
+
+export const STANDALONE_SENSOR_COLORS_MAP: Partial<Record<SensorReadingTypes, string>> = {
+  temperature: colors.chartRed,
+  relative_humidity: colors.chartBlue,
+  rainfall_rate: colors.chartYellow,
+  cumulative_rainfall: colors.chartGreen,
+  soil_water_potential: colors.chartBlue,
+  soil_water_content: colors.chartPurple,
+  water_pressure: colors.chartBrown,
+};
 
 interface UnitType {
   metric: {

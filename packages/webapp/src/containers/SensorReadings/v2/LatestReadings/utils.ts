@@ -14,10 +14,9 @@
  */
 
 import { TFunction } from 'react-i18next';
-import { STANDALONE_SENSOR_COLORS } from '../SensorReadings';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, getReadingUnit } from '../utils';
-import { SENSOR_ARRAY_PARAMS, SENSOR_PARAMS } from '../constants';
+import { SENSOR_ARRAY_PARAMS, SENSOR_PARAMS, STANDALONE_SENSOR_COLORS_MAP } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
 import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
 import {
@@ -104,7 +103,7 @@ export const formatReadingsToSensorReadingKPIProps = (
         measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
         value: value ? convertEsciReadingValue(value, param, system) : '-',
         unit: value ? getReadingUnit(param, system, foundReadings.unit) : '',
-        color: STANDALONE_SENSOR_COLORS[sensor.name]?.[param],
+        color: STANDALONE_SENSOR_COLORS_MAP[param],
       };
     }) || []
   );

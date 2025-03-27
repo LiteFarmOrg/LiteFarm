@@ -17,37 +17,11 @@ import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import CustomLineChart from '../../../../components/Charts/LineChart';
 import useFormattedSensorReadings from './useFormattedSensorReadings';
-import { colors } from '../../../../assets/theme';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
-import { Sensor, SensorReadingTypes, SensorTypes } from '../../../../store/api/types';
-import { SENSOR_PARAMS } from '../constants';
+import { Sensor } from '../../../../store/api/types';
+import { SENSOR_PARAMS, STANDALONE_SENSOR_COLORS_MAP } from '../constants';
 import styles from '../styles.module.scss';
-
-export const STANDALONE_SENSOR_COLORS: Partial<
-  Record<SensorTypes, Partial<Record<SensorReadingTypes, string>>>
-> = {
-  'Weather station': {
-    temperature: colors.chartRed,
-    relative_humidity: colors.chartBlue,
-    rainfall_rate: colors.chartBlue,
-    cumulative_rainfall: colors.chartGreen,
-  },
-  'Soil Water Potential Sensor': {
-    temperature: colors.chartBlue,
-    soil_water_potential: colors.chartRed,
-  },
-};
-
-export const STANDALONE_SENSOR_COLORS_MAP: Partial<Record<SensorReadingTypes, string>> = {
-  temperature: colors.chartRed,
-  relative_humidity: colors.chartBlue,
-  rainfall_rate: colors.chartYellow,
-  cumulative_rainfall: colors.chartGreen,
-  soil_water_potential: colors.chartBlue,
-  soil_water_content: colors.chartPurple,
-  water_pressure: colors.chartBrown,
-};
 
 interface SensorChartsProps {
   sensor: Sensor;
@@ -106,7 +80,7 @@ function SensorCharts({
             lineConfig={[
               {
                 id: sensor.external_id,
-                color: STANDALONE_SENSOR_COLORS[sensor.name]?.[reading_type]!,
+                color: STANDALONE_SENSOR_COLORS_MAP[reading_type]!,
               },
             ]}
             data={readings}

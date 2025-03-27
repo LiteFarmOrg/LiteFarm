@@ -53,6 +53,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
         isFetching,
       };
     },
+    // refetchOnMountOrArgChange: true,
   });
 
   if (!isFetching && !sensors?.length) {
@@ -85,14 +86,16 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
                 updateDateRange={updateDateRange}
                 className={styles.dateRangeSelector}
               />
-              <Charts
-                sensors={sensors}
-                startDate={startDate}
-                endDate={endDate}
-                startDateString={startDateString}
-                endDateString={endDateString}
-                sensorColorMap={sensorColorMap!}
-              />
+              {startDate && endDate && startDateString && endDateString && (
+                <Charts
+                  sensors={sensors}
+                  startDate={startDate}
+                  endDate={endDate}
+                  startDateString={startDateString}
+                  endDateString={endDateString}
+                  sensorColorMap={sensorColorMap!}
+                />
+              )}
             </div>
           </>
         )}

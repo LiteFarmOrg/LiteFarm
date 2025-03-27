@@ -46,7 +46,7 @@ const WIND_DIRECTION_KEYS = [
 const NUM_OF_DIRECTIONS = WIND_DIRECTION_KEYS.length;
 const ANGLE_PER_DIRECTION = 360 / NUM_OF_DIRECTIONS;
 
-interface FormattedSensorDatapoint {
+export interface FormattedSensorDatapoint {
   dateTime: SensorDatapoint['dateTime'];
   [key: string]: number | null;
 }

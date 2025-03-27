@@ -13,33 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import CustomLineChart, { LineConfig } from '../../../../components/Charts/LineChart';
-import { measurementSelector } from '../../../userFarmSlice';
+import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
-import {
-  convertEsciReadingValue,
-  formatSensorsData,
-  getReadingUnit,
-  getTruncPeriod,
-} from '../utils';
-import { getTicks } from '../../../../components/Charts/utils';
-import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
+import { getTruncPeriod } from '../utils';
 import { Sensor } from '../../../../store/api/types';
 import { SENSOR_ARRAY_PARAMS } from '../constants';
 import styles from '../styles.module.scss';
 
-const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
-
 interface ChartsProps {
   sensors: Sensor[];
-  startDate?: string;
-  endDate?: string;
-  startDateString?: string;
-  endDateString?: string;
+  startDate: string;
+  endDate: string;
+  startDateString: string;
+  endDateString: string;
   sensorColorMap: LineConfig[];
 }
 
@@ -55,71 +44,35 @@ function Charts({
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
   const language = getLanguageFromLocalStorage();
-  const system = useSelector(measurementSelector);
 
   const truncPeriod = getTruncPeriod(startDateString, endDateString)!;
 
-  const sensorIds = sensors.map(({ external_id }) => external_id);
+  const { formattedSensorReadings, ticks } = useFormattedSensorReadings({
+    sensors,
+    startDate,
+    endDate,
+    startDateString,
+    endDateString,
+    truncPeriod,
+  });
 
-  const { data: sensorReadings } = useGetSensorReadingsQuery(
-    {
-      esids: sensorIds.join(','),
-      startTime: startDate,
-      endTime: endDate,
-      // validated: true,
-      truncPeriod,
-    },
-    { refetchOnMountOrArgChange: true },
-  );
-
-  const formattedData = useMemo(() => {
-    if (!sensorReadings?.length) {
-      return [];
-    }
-
-    return sensorReadings.map(({ reading_type, readings, unit }) => {
-      const valueConverter = (value: number) =>
-        convertEsciReadingValue(value, reading_type, system);
-      const timezoneOffset = new Date(startDate!).getTimezoneOffset();
-
-      return {
-        reading_type,
-        readings: formatSensorsData(
-          readings,
-          truncPeriod,
-          sensorIds,
-          valueConverter,
-          timezoneOffset,
-        ),
-        unit: getReadingUnit(reading_type, system, unit),
-      };
-    });
-  }, [sensorReadings]);
-
-  if (sensorReadings === undefined) {
+  if (formattedSensorReadings === undefined) {
     return <div>Loading...</div>;
   }
 
-  if (!formattedData.length) {
+  if (!formattedSensorReadings.length) {
     return <div>No data</div>;
   }
 
   return (
     <div className={styles.charts}>
       {SENSOR_ARRAY_PARAMS.flatMap((param) => {
-        const data = formattedData.find((data) => data.reading_type === param);
+        const data = formattedSensorReadings.find((data) => data.reading_type === param);
         if (!data) {
           return [];
         }
 
         const { reading_type, unit, readings } = data;
-        const ticks =
-          startDateString && endDateString
-            ? getTicks(startDateString, endDateString, {
-                skipEmptyEndTicks: true,
-                lastDataPointDateTime: readings[readings.length - 1].dateTime,
-              })
-            : undefined;
 
         return (
           <CustomLineChart

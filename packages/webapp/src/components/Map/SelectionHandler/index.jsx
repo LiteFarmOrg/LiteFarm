@@ -175,7 +175,8 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    if (location.type === SensorType.SENSOR) {
+    // farm_id differentiates between custom and external sensors
+    if (location.type === SensorType.SENSOR && !location.farm_id) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

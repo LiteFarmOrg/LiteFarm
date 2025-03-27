@@ -26,7 +26,12 @@ export default function PureLocationFieldTechnology({
   );
 
   const handleClick = (ft) => {
-    history.push(`/${ft.type}/${ft.location_id}/readings`);
+    // farm_id differentiates between custom and external sensors
+    if (ft.farm_id) {
+      history.push(`/${ft.type}/${ft.location_id}/details`);
+    } else {
+      history.push(`/${ft.type}/${ft.location_id}/readings`);
+    }
   };
 
   const FieldTechnologyLists = () => {

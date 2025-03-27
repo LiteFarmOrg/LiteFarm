@@ -64,7 +64,11 @@ const useSelectionHandler = () => {
             });
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
-          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
+          } else if (
+            overlappedLocations.point[0].type === locationEnum.sensor &&
+            !overlappedLocations.point[0].farm_id
+          ) {
+            // farm_id differentiates between custom and external sensors
             history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );

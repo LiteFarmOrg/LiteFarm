@@ -50,7 +50,12 @@ export default function CompactPreview({ location, readings, readingType, histor
   }
 
   const loadReadingView = () => {
-    history.push(`/${location.type}/${location.id}/readings`);
+    // farm_id differentiates between custom and external sensors
+    if (location.farm_id) {
+      history.push(`/${location.type}/${location.location_id}/details`);
+    } else {
+      history.push(`/${location.type}/${location.location_id}/readings`);
+    }
   };
 
   let sensorData = [];

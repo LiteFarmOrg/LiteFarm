@@ -20,6 +20,7 @@ import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
 import { useGetSensorsQuery } from '../../../../store/api/apiSlice';
+import useLocationRouterTabs from '../../useLocationRouterTabs';
 
 export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
@@ -65,6 +66,8 @@ export default function SensorDetail({ history, match }) {
     dispatch(retireSensor({ sensorInfo, onFailureWithIncompleteTasks }));
   };
 
+  const routerTabs = useLocationRouterTabs(sensorInfo, match);
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
@@ -78,6 +81,7 @@ export default function SensorDetail({ history, match }) {
           setShowRetireModal={setShowRetireModal}
           showCannotRetireModal={showCannotRetireModal}
           setShowCannotRetireModal={setShowCannotRetireModal}
+          routerTabs={routerTabs}
         />
       )}
     </>

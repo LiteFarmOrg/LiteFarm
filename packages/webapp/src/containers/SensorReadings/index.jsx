@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import ForecastInfo from './ForecastInfo';
@@ -13,6 +13,10 @@ import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import useLocationRouterTabs from '../LocationDetails/useLocationRouterTabs';
+import { Variant } from '../../components/RouterTab/Tab';
+import Layout from '../../components/Layout';
+import layoutStyles from '../../components/Layout/layout.module.scss';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -70,32 +74,18 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
+  const routerTabs = useLocationRouterTabs(sensorInfo, match);
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <div className={styles.container}>
-          <PageTitle
-            title={sensorInfo?.name || ''}
-            onGoBack={() => history.push('/map')}
-            style={{ marginBottom: '24px' }}
-          />
+        <Layout className={layoutStyles.paperContainer}>
+          <PageTitle title={sensorInfo?.name || ''} onGoBack={() => history.push('/map')} />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}
-            tabs={[
-              {
-                label: t('SENSOR.VIEW_HEADER.READINGS'),
-                path: `/sensor/${location_id}/readings`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.TASKS'),
-                path: `/sensor/${location_id}/tasks`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.DETAILS'),
-                path: `/sensor/${location_id}/details`,
-              },
-            ]}
+            tabs={routerTabs}
+            variant={Variant.UNDERLINE}
           />
           {loading && (
             <div className={styles.loaderWrapper}>
@@ -120,7 +110,7 @@ function SensorReadings({ history, match }) {
                   );
                 })
             : null}
-        </div>
+        </Layout>
       )}
     </>
   );

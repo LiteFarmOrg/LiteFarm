@@ -36,6 +36,7 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 import mocks from './mock.factories.js';
+import { returnUserFarms } from './utils/testDataSetup.js';
 import { Response } from 'superagent';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 import { mockedFormattedReadingsData, mockedEnsembleReadingsData } from './utils/sensorMockData.js';
@@ -73,24 +74,6 @@ describe('Sensor Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .query({ esids, startTime, endTime, truncPeriod });
-  }
-
-  function fakeUserFarm(role = 1) {
-    return { ...mocks.fakeUserFarm(), role_id: role };
-  }
-
-  async function returnUserFarms(role: number) {
-    const [mainFarm] = await mocks.farmFactory();
-    const [user] = await mocks.usersFactory();
-
-    await mocks.userFarmFactory(
-      {
-        promisedUser: [user],
-        promisedFarm: Promise.resolve([mainFarm]),
-      },
-      fakeUserFarm(role),
-    );
-    return { mainFarm, user };
   }
 
   beforeEach(async () => {

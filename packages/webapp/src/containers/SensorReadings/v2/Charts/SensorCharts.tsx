@@ -39,6 +39,16 @@ export const STANDALONE_SENSOR_COLORS: Partial<
   },
 };
 
+export const STANDALONE_SENSOR_COLORS_MAP: Partial<Record<SensorReadingTypes, string>> = {
+  temperature: colors.chartRed,
+  relative_humidity: colors.chartBlue,
+  rainfall_rate: colors.chartYellow,
+  cumulative_rainfall: colors.chartGreen,
+  soil_water_potential: colors.chartBlue,
+  soil_water_content: colors.chartPurple,
+  water_pressure: colors.chartBrown,
+};
+
 interface SensorChartsProps {
   sensor: Sensor;
   startDate: string;
@@ -80,7 +90,7 @@ function SensorCharts({
 
   return (
     <div className={styles.charts}>
-      {SENSOR_PARAMS[sensor.name]?.flatMap((param) => {
+      {SENSOR_PARAMS.flatMap((param) => {
         const data = formattedSensorReadings.find((data) => data.reading_type === param);
         if (!data) {
           return [];

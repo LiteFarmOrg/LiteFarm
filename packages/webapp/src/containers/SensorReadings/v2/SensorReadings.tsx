@@ -13,29 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Paper, useMediaQuery, useTheme } from '@mui/material';
-import CustomLineChart from '../../../components/Charts/LineChart';
+import { Paper } from '@mui/material';
 import { colors } from '../../../assets/theme';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
+import SensorCharts from './Charts/SensorCharts';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { convertEsciReadingValue, formatSensorsData, getTruncPeriod } from './utils';
-import { getTicks } from '../../../components/Charts/utils';
 import { CustomRouteComponentProps } from '../../../types';
-import {
-  useGetSensorReadingsQuery,
-  useGetSensorsQuery,
-  useLazyGetSensorReadingsQuery,
-} from '../../../store/api/apiSlice';
-import { Sensor, SensorReadingTypes, SensorTypes } from '../../../store/api/types';
+import { useGetSensorsQuery } from '../../../store/api/apiSlice';
+import { SensorReadingTypes, SensorTypes } from '../../../store/api/types';
 import LatestReadings from './LatestReadings';
-import { SENSOR_PARAMS } from './constants';
 import styles from './styles.module.scss';
-import { useSelector } from 'react-redux';
-import { measurementSelector } from '../../userFarmSlice';
 
 interface RouteParams {
   id: string;
@@ -57,13 +46,7 @@ export const STANDALONE_SENSOR_COLORS: Partial<
 };
 
 function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParams>) {
-  const [validated, setValidated] = useState<boolean>(false);
-
   const { t } = useTranslation();
-  const theme = useTheme();
-  const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
-  const language = getLanguageFromLocalStorage();
-  const system = useSelector(measurementSelector);
 
   const { startDate, endDate, startDateString, endDateString, dateRange, updateDateRange } =
     useSensorsDateRange({});
@@ -78,115 +61,9 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
   });
   console.log({ sensor });
 
-  const truncPeriod = getTruncPeriod(startDateString, endDateString);
-
-  const { data: refetchedData, isLoading } = useGetSensorReadingsQuery(
-    {
-      esids: sensor?.external_id!, // TODO: Fix
-      startTime: startDate,
-      endTime: endDate,
-      validated,
-      // truncPeriod,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
-
-  const [triggerGetSensorReadings] = useLazyGetSensorReadingsQuery();
-
-  const formattedData = useMemo(() => {
-    if (!refetchedData || !truncPeriod || !sensor) {
-      return [];
-    }
-
-    const formatted = refetchedData.map((data) => {
-      const valueConverter = (value: number) =>
-        convertEsciReadingValue(value, data.reading_type, system);
-      return {
-        ...data,
-        readings: formatSensorsData(
-          data.readings,
-          truncPeriod,
-          [sensor.external_id],
-          valueConverter,
-        ),
-      };
-    });
-
-    if (truncPeriod === 'hour') {
-      return formatted;
-    }
-
-    return formatted.map((data) => {
-      return {
-        ...data,
-        readings: data.readings.map((reading) => {
-          const timeDiff = new Date(reading.dateTime * 1000).getTimezoneOffset();
-
-          return {
-            ...reading,
-            dateTime: reading.dateTime + timeDiff * 60,
-          };
-        }),
-      };
-    });
-  }, [refetchedData]);
-
   if (!sensorFetching && !sensor) {
     history.replace('/unknown_record');
   }
-
-  const renderCharts = () => {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-
-    if (!truncPeriod || !sensor) {
-      return <div>No data</div>;
-    }
-
-    return (
-      <div className={styles.charts}>
-        {SENSOR_PARAMS[sensor.name]?.flatMap((param) => {
-          const data = formattedData.find((data) => data.reading_type === param);
-          if (!data) {
-            return [];
-          }
-
-          const { reading_type, unit, readings } = data;
-          const ticks =
-            startDateString && endDateString
-              ? getTicks(startDateString, endDateString, {
-                  skipEmptyEndTicks: true,
-                  lastDataPointDateTime: readings[readings.length - 1].dateTime,
-                })
-              : undefined;
-
-          return (
-            <CustomLineChart
-              key={reading_type}
-              title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
-              language={language || 'en'}
-              lineConfig={[
-                {
-                  id: sensor.external_id, //sensor.external_id,
-                  color: STANDALONE_SENSOR_COLORS[sensor.name]?.[reading_type]!,
-                },
-              ]}
-              data={readings}
-              ticks={ticks}
-              truncPeriod={truncPeriod}
-              formatTooltipValue={(_label, value) => {
-                return typeof value === 'number' ? `${value.toFixed(2)}${unit}` : '';
-              }}
-              isCompactView={isCompactView}
-            />
-          );
-        })}
-      </div>
-    );
-  };
 
   return (
     <Paper className={styles.paper}>
@@ -195,28 +72,29 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
         onGoBack={history.back}
         classNames={{ wrapper: styles.title }}
       />
-      <div style={{ margin: '8px 0' }}>
-        <input
-          id="validated"
-          type="checkbox"
-          onChange={() => setValidated(!validated)}
-          checked={validated}
-        />
-        <label htmlFor="validated" style={{ paddingLeft: 8 }}>
-          Validated
-        </label>
-      </div>
 
       <div className={styles.content}>
-        {sensor && <LatestReadings sensors={[sensor]} isSensorArray={false} />}
-        <div className={styles.mainData}>
-          <SensorsDateRangeSelector
-            dateRange={dateRange}
-            updateDateRange={updateDateRange}
-            className={styles.dateRangeSelector}
-          />
-          {renderCharts()}
-        </div>
+        {sensor && (
+          <>
+            <LatestReadings sensors={[sensor]} isSensorArray={false} />
+            <div className={styles.mainData}>
+              <SensorsDateRangeSelector
+                dateRange={dateRange}
+                updateDateRange={updateDateRange}
+                className={styles.dateRangeSelector}
+              />
+              {startDate && endDate && startDateString && endDateString && (
+                <SensorCharts
+                  sensor={sensor}
+                  startDate={startDate}
+                  endDate={endDate}
+                  startDateString={startDateString}
+                  endDateString={endDateString}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
       <div>Manage ESci link</div>
     </Paper>

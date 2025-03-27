@@ -20,7 +20,7 @@ import IrrigationPrescriptionController from '../controllers/irrigationPrescript
 const router = express.Router();
 
 router.post(
-  '/',
+  '/request',
   checkScope(['get:sensors']), // todo
   // todo: auth check
   IrrigationPrescriptionController.initiateFarmIrrigationPrescription(),

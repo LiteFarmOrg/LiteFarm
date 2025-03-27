@@ -23,7 +23,7 @@ import { Sensor } from '../../../../store/api/types';
 import { SENSOR_ARRAY_PARAMS } from '../constants';
 import styles from '../styles.module.scss';
 
-interface ChartsProps {
+interface SensorArrayChartsProps {
   sensors: Sensor[];
   startDate: string;
   endDate: string;
@@ -32,14 +32,14 @@ interface ChartsProps {
   sensorColorMap: LineConfig[];
 }
 
-function Charts({
+function SensorArrayCharts({
   sensors,
   startDate,
   endDate,
   startDateString,
   endDateString,
   sensorColorMap,
-}: ChartsProps) {
+}: SensorArrayChartsProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -84,7 +84,7 @@ function Charts({
             ticks={ticks}
             truncPeriod={truncPeriod}
             formatTooltipValue={(_label, value) => {
-              return typeof value === 'number' ? `${value.toFixed(2)}${unit}` : '';
+              return typeof value === 'number' ? `${value}${unit}` : '';
             }}
             isCompactView={isCompactView}
           />
@@ -94,4 +94,4 @@ function Charts({
   );
 }
 
-export default Charts;
+export default SensorArrayCharts;

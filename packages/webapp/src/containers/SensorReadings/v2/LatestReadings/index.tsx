@@ -18,18 +18,15 @@ import { useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
 import BentoLayout from '../../../../components/Layout/BentoLayout';
-import SensorKPI from '../../../../components/Tile/SensorTile/SensorKPI';
-import SensorReadingKPI from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import SensorKPI, { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
+import SensorReadingKPI, {
+  SensorReadingKPIprops,
+} from '../../../../components/Tile/SensorTile/SensorReadingKPI';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
-import {
-  formatReadingsToSensorKPIProps,
-  formatReadingsToSensorReadingKPIProps,
-  SensorKPIprops,
-  SensorReadingKPIprops,
-} from './utils';
+import { formatReadingsToSensorKPIProps, formatReadingsToSensorReadingKPIProps } from './utils';
 import { Sensor } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 

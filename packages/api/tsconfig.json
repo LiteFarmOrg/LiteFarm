@@ -3,7 +3,8 @@
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "sourceMap": true
   },
   "include": ["src", "tests"]
 }

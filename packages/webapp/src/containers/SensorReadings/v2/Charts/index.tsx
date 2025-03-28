@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import LineChart, { LineConfig } from '../../../../components/Charts/LineChart';
@@ -65,7 +66,7 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
   const isSensorArray = 'sensorColorMap' in props;
 
   return (
-    <div className={styles.charts}>
+    <div className={clsx(styles.charts, isSensorArray ? '' : styles.sensor)}>
       {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : SENSOR_CHART_PARAMS).flatMap((param) => {
         const data = formattedSensorReadings.find((data) => data.reading_type === param);
 

@@ -15,21 +15,31 @@
 
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
-import CustomLineChart from '../../../../components/Charts/LineChart';
+import LineChart, { LineConfig } from '../../../../components/Charts/LineChart';
 import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
 import { Sensor } from '../../../../store/api/types';
-import { SENSOR_CHART_PARAMS, STANDALONE_SENSOR_COLORS_MAP } from '../constants';
+import {
+  SENSOR_ARRAY_CHART_PARAMS,
+  SENSOR_CHART_PARAMS,
+  STANDALONE_SENSOR_COLORS_MAP,
+} from '../constants';
 import styles from '../styles.module.scss';
 
 interface SensorChartsProps {
-  sensor: Sensor;
+  sensors: Sensor[];
   startDate: string;
   endDate: string;
 }
 
-function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
+type SensorArrayChartsProps = SensorChartsProps & {
+  sensorColorMap: LineConfig[];
+};
+
+function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
+  const { sensors, startDate, endDate } = props;
+
   const { t } = useTranslation();
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -38,7 +48,7 @@ function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
 
   const { formattedSensorReadings, ticks } = useFormattedSensorReadings({
-    sensors: [sensor],
+    sensors,
     startDate,
     endDate,
     truncPeriod,
@@ -48,13 +58,15 @@ function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
     return <div>Loading...</div>;
   }
 
-  if (!truncPeriod || !sensor) {
+  if (!truncPeriod || !formattedSensorReadings?.length) {
     return <div>No data</div>;
   }
 
+  const isSensorArray = 'sensorColorMap' in props;
+
   return (
     <div className={styles.charts}>
-      {SENSOR_CHART_PARAMS.flatMap((param) => {
+      {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : SENSOR_CHART_PARAMS).flatMap((param) => {
         const data = formattedSensorReadings.find((data) => data.reading_type === param);
 
         // Skip the param if there's no corresponding data
@@ -63,14 +75,18 @@ function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
         }
 
         const { reading_type, unit, readings } = data;
-        const color = STANDALONE_SENSOR_COLORS_MAP[param];
+        const paramColor = STANDALONE_SENSOR_COLORS_MAP[param];
+        const lineConfig = isSensorArray
+          ? props.sensorColorMap
+          : [{ id: sensors[0].external_id, color: paramColor }];
+        const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
 
         return (
-          <CustomLineChart
+          <LineChart
             key={reading_type}
             title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
             language={language || 'en'}
-            lineConfig={[{ id: sensor.external_id, color }]}
+            lineConfig={lineConfig}
             data={readings}
             ticks={ticks}
             truncPeriod={truncPeriod}
@@ -78,7 +94,7 @@ function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
               return typeof value === 'number' ? `${value}${unit}` : '';
             }}
             isCompactView={isCompactView}
-            colors={{ title: color, yAxisTick: color }}
+            colors={colors}
           />
         );
       })}
@@ -86,4 +102,4 @@ function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
   );
 }
 
-export default SensorCharts;
+export default Charts;

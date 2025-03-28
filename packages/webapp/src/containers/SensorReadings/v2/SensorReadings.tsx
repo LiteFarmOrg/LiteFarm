@@ -19,7 +19,7 @@ import i18n from '../../../locales/i18n';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
 import { Status, StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
-import SensorCharts from './Charts/SensorCharts';
+import Charts from './Charts';
 import { ReactComponent as SensorIcon } from '../../../assets/images/map/signal-01.svg';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
 import { toTranslationKey } from '../../../util';
@@ -82,7 +82,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
                 className={styles.dateRangeSelector}
               />
               {startDate && endDate && (
-                <SensorCharts sensor={sensor} startDate={startDate} endDate={endDate} />
+                <Charts sensors={[sensor]} startDate={startDate} endDate={endDate} />
               )}
             </div>
           </div>

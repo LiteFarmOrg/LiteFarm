@@ -34,7 +34,7 @@ type SensorArrayProps = {
 };
 
 type StandaloneSensorProps = {
-  isSensorArray: false;
+  isSensorArray?: false;
 };
 
 type LatestReadingsProps = { sensors: Sensor[] } & (SensorArrayProps | StandaloneSensorProps);

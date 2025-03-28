@@ -13,8 +13,8 @@
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node --import @swc-node/register/esm-register src/server.ts",
-    "start:prod": "node dist/app/src/server.js",
-    "build": "rimraf dist && tsc -p src/tsconfig.json",
+    "start:prod": "node --enable-source-maps dist/server.js",
+    "build": "tsc && npx esbuild src/server.ts --bundle --minify --platform=node --format=esm --packages=external --sourcemap --sources-content=false --outdir=dist",
     "dev": "set NODE_ENV=development && node --inspect=0.0.0.0:9230 --watch --import @swc-node/register/esm-register src/server.ts",
     "debug-email-template": "DEBUG=email-templates npm run dev",
     "debug-i18n": "DEBUG=i18n:* npm run dev",
@@ -41,7 +41,8 @@
       "^.+\\.(t|j)sx?$": "@swc/jest"
     },
     "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
+      "^(\\.{1,2}/.*)\\.js$": "$1",
+      "^@/(.*)$": "<rootDir>/src/$1"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,mjs}"

@@ -50,6 +50,8 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
     history.replace('/unknown_record');
   }
 
+  const isOnline = !!sensor?.last_seen; // TODO: confirm
+
   return (
     <Paper className={styles.paper}>
       <PageTitle
@@ -71,10 +73,13 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
                   : sensor.name}
               </div>
             </div>
-            <StatusIndicatorPill status={Status.ONLINE} pillText={t('STATUS.ONLINE')} />
+            <StatusIndicatorPill
+              status={isOnline ? Status.ONLINE : Status.OFFLINE}
+              pillText={isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE')}
+            />
           </div>
           <div className={styles.content}>
-            <LatestReadings sensors={[sensor]} isSensorArray={false} />
+            <LatestReadings sensors={[sensor]} />
             <div className={styles.mainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}

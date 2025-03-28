@@ -37,16 +37,16 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
 
-  const { sensor, sensorFetching } = useGetSensorsQuery(undefined, {
+  const { sensor, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       return {
         sensor: data?.sensors?.find(({ external_id }) => external_id == match.params.id),
-        sensorFetching: isFetching,
+        isFetching,
       };
     },
   });
 
-  if (!sensorFetching && !sensor) {
+  if (!isFetching && !sensor) {
     history.replace('/unknown_record');
   }
 

@@ -58,7 +58,6 @@ function useFormattedSensorReadings({
       esids: sensorIds.join(','),
       startTime: startDate,
       endTime: endDate,
-      // validated: true,
       truncPeriod,
     },
     { refetchOnMountOrArgChange: true },

@@ -18,10 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
 import BentoLayout from '../../../../components/Layout/BentoLayout';
-import SensorKPI, { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
-import SensorReadingKPI, {
-  SensorReadingKPIprops,
-} from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import SensorKPI from '../../../../components/Tile/SensorTile/SensorKPI';
+import SensorReadingKPI from '../../../../components/Tile/SensorTile/SensorReadingKPI';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
@@ -70,20 +68,15 @@ function LatestReadings(props: LatestReadingsProps) {
         </TextButton>
       </div>
       <div className={styles.kpi}>
-        {isSensorArray && (
-          <BentoLayout>
-            {(kpiPropsArray as SensorKPIprops[]).map((kpiProps) => (
+        <BentoLayout>
+          {kpiPropsArray.map((kpiProps) => {
+            return 'sensor' in kpiProps ? ( // Check if kpiProps is of type SensorKPIprops (isSensorArray: true)
               <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
-            ))}
-          </BentoLayout>
-        )}
-        {!isSensorArray && (
-          <BentoLayout>
-            {(kpiPropsArray as SensorReadingKPIprops[]).map((kpiProps) => (
+            ) : (
               <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
-            ))}
-          </BentoLayout>
-        )}
+            );
+          })}
+        </BentoLayout>
       </div>
     </>
   );

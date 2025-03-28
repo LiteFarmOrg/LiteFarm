@@ -41,8 +41,7 @@ interface RouteParams {
 function SensorArrayReadings({ match, history }: CustomRouteComponentProps<RouteParams>) {
   const { t } = useTranslation();
 
-  const { startDate, endDate, startDateString, endDateString, dateRange, updateDateRange } =
-    useSensorsDateRange({});
+  const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
 
   const { sensors, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
@@ -86,13 +85,11 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
                 updateDateRange={updateDateRange}
                 className={styles.dateRangeSelector}
               />
-              {startDate && endDate && startDateString && endDateString && (
+              {startDate && endDate && (
                 <Charts
                   sensors={sensors}
                   startDate={startDate}
                   endDate={endDate}
-                  startDateString={startDateString}
-                  endDateString={endDateString}
                   sensorColorMap={sensorColorMap!}
                 />
               )}

@@ -23,37 +23,35 @@ import {
 } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
 import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
-import {
-  Sensor,
-  SensorReadings,
-  type SensorReadingTypes,
-  type SensorReadingTypeUnits,
-} from '../../../../store/api/types';
+import { Sensor, SensorReadings } from '../../../../store/api/types';
 import { Status } from '../../../../components/StatusIndicatorPill';
 import type { System } from '../../../../types';
 
 export const formatReadingsToSensorKPIProps = (
   sensors: Sensor[],
-  readings: SensorReadings[],
+  sensorReadings: SensorReadings[],
   system: System,
   t: TFunction,
   sensorColorMap: LineConfig[],
 ): SensorKPIprops[] => {
+  const supportedReadingsInOrder = SENSOR_ARRAY_CHART_PARAMS.flatMap((param) => {
+    return sensorReadings.find(({ reading_type }) => reading_type === param) || [];
+  });
+
   return sensors.map((sensor) => {
     const { external_id, depth } = sensor;
     let isOnline: boolean = false;
 
-    const measurementValueMap: Partial<
-      Record<SensorReadingTypes, { value: number | null; unit: SensorReadingTypeUnits }>
-    > =
-      SENSOR_CHART_PARAMS.reduce((acc, param) => {
-        const foundReadings = readings.find(({ reading_type }) => reading_type === param);
-        const value =
-          foundReadings?.readings?.[foundReadings.readings.length - 1][external_id] || null;
-        isOnline = isOnline || !!value;
+    const measurements = supportedReadingsInOrder.map(({ reading_type, readings, unit }) => {
+      const value = readings.length && readings[readings.length - 1][external_id];
+      isOnline = isOnline || !!value; // TODO: confirm
 
-        return { ...acc, [param]: { value, unit: foundReadings?.unit } };
-      }, {}) || {};
+      return {
+        measurement: t(`SENSOR.READING.${reading_type.toUpperCase()}`),
+        value: value ? convertEsciReadingValue(value, reading_type, system) : '-',
+        unit: (value && unit && getReadingUnit(reading_type, system, unit)) || '',
+      };
+    });
 
     return {
       sensor: {
@@ -61,7 +59,7 @@ export const formatReadingsToSensorKPIProps = (
         status: {
           status: isOnline ? Status.ONLINE : Status.OFFLINE,
           pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-          tooltipText: 'Device has sent data in the last 12 hours',
+          tooltipText: 'Device has sent data in the last 12 hours', // TODO: confirm
         },
       },
       discriminator: {
@@ -69,20 +67,7 @@ export const formatReadingsToSensorKPIProps = (
         value: depth,
         unit: system === 'metric' ? 'cm' : 'in',
       },
-      measurements:
-        SENSOR_ARRAY_CHART_PARAMS.flatMap((param) => {
-          if (!readings.find(({ reading_type }) => reading_type === param)) {
-            return [];
-          }
-
-          const { value, unit } = measurementValueMap[param] || {};
-
-          return {
-            measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
-            value: value ? convertEsciReadingValue(value, param, system) : '-',
-            unit: (value && unit && getReadingUnit(param, system, unit)) || '',
-          };
-        }) || [],
+      measurements,
       color: sensorColorMap.find(({ id }) => id === external_id)!.color,
     };
   });

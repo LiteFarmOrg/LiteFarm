@@ -20,7 +20,7 @@ import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
 import { Sensor } from '../../../../store/api/types';
-import { SENSOR_ARRAY_PARAMS } from '../constants';
+import { SENSOR_ARRAY_CHART_PARAMS } from '../constants';
 import styles from '../styles.module.scss';
 
 interface SensorArrayChartsProps {
@@ -66,7 +66,7 @@ function SensorArrayCharts({
 
   return (
     <div className={styles.charts}>
-      {SENSOR_ARRAY_PARAMS.flatMap((param) => {
+      {SENSOR_ARRAY_CHART_PARAMS.flatMap((param) => {
         const data = formattedSensorReadings.find((data) => data.reading_type === param);
         if (!data) {
           return [];

@@ -16,8 +16,9 @@
 import { colors } from '../../../assets/theme';
 import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/api/types';
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
+import { ChartSupportedReadingTypes } from './types';
 
-export const SENSOR_PARAMS: SensorReadingTypes[] = [
+export const SENSOR_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
   'relative_humidity',
   'rainfall_rate',
@@ -27,13 +28,13 @@ export const SENSOR_PARAMS: SensorReadingTypes[] = [
   'water_pressure',
 ];
 
-export const SENSOR_ARRAY_PARAMS: SensorReadingTypes[] = [
+export const SENSOR_ARRAY_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
   'soil_water_potential',
   'soil_water_content',
 ];
 
-export const STANDALONE_SENSOR_COLORS_MAP: Partial<Record<SensorReadingTypes, string>> = {
+export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {
   temperature: colors.chartRed,
   relative_humidity: colors.chartBlue,
   rainfall_rate: colors.chartYellow,

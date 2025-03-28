@@ -32,8 +32,6 @@ interface UseSensorsDateRangeProps {
 export default function useSensorsDateRange({ weekStartDate = SUNDAY }: UseSensorsDateRangeProps): {
   startDate?: string; // ISO 8601
   endDate?: string; // ISO 8601
-  startDateString?: string; // TODO: Finalize
-  endDateString?: string; // TODO: Finalize
   dateRange: DateRangeData;
   updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
 } {
@@ -51,8 +49,6 @@ export default function useSensorsDateRange({ weekStartDate = SUNDAY }: UseSenso
   });
 
   return {
-    startDateString: startDate && moment(startDate).format('YYYY-MM-DD'),
-    endDateString: endDate && moment(endDate).format('YYYY-MM-DD'),
     startDate: startDate && moment(startDate).toISOString(),
     endDate: endDate && moment(endDate).toISOString(),
     dateRange,

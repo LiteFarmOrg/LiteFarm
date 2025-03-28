@@ -53,7 +53,7 @@ function LatestReadings(props: LatestReadingsProps) {
     ? timeDifference(new Date(), new Date(latestReadingTime))
     : '-';
 
-  const kpiProps = isSensorArray
+  const kpiPropsArray = isSensorArray
     ? formatReadingsToSensorKPIProps(sensors, latestReadings, system, t, props.sensorColorMap)
     : formatReadingsToSensorReadingKPIProps(sensors[0], latestReadings, system, t);
 
@@ -71,10 +71,18 @@ function LatestReadings(props: LatestReadingsProps) {
       </div>
       <div className={styles.kpi}>
         {isSensorArray && (
-          <BentoLayout>{(kpiProps as SensorKPIprops[]).map(SensorKPI)}</BentoLayout>
+          <BentoLayout>
+            {(kpiPropsArray as SensorKPIprops[]).map((kpiProps) => (
+              <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
+            ))}
+          </BentoLayout>
         )}
         {!isSensorArray && (
-          <BentoLayout>{(kpiProps as SensorReadingKPIprops[]).map(SensorReadingKPI)}</BentoLayout>
+          <BentoLayout>
+            {(kpiPropsArray as SensorReadingKPIprops[]).map((kpiProps) => (
+              <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
+            ))}
+          </BentoLayout>
         )}
       </div>
     </>

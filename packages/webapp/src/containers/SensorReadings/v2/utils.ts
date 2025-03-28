@@ -167,10 +167,7 @@ export const formatSensorsData = (
   return result;
 };
 
-export const getTruncPeriod = (
-  startDate?: string,
-  endDate?: string,
-): ChartTruncPeriod | undefined => {
+export const getTruncPeriod = (startDate?: Date, endDate?: Date): ChartTruncPeriod | undefined => {
   if (!startDate || !endDate) {
     return undefined;
   }

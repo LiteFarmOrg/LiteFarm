@@ -45,7 +45,7 @@ function SensorArrayCharts({
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
   const language = getLanguageFromLocalStorage();
 
-  const truncPeriod = getTruncPeriod(startDateString, endDateString)!;
+  const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
 
   const { formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,

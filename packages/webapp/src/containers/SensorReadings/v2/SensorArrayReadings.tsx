@@ -21,7 +21,7 @@ import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/
 import { CustomRouteComponentProps } from '../../../types';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import LatestReadings from './LatestReadings';
-import Charts from './Charts/SensorArrayCharts';
+import Charts from './Charts';
 import { colors } from '../../../assets/theme';
 import styles from './styles.module.scss';
 

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .paper {
   width: 100%;
   margin: 16px auto;
@@ -80,4 +82,44 @@
 .dateRangeSelector {
   padding: 16px 0;
   margin-bottom: 24px;
+}
+
+.sensorInfo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  font-size: 16px;
+
+  .sensorIdAndType {
+    @include truncateText();
+
+    .sensorId {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--Colors-Neutral-Neutral-900);
+      font-weight: 600;
+    }
+
+    .deviceType {
+      color: var(--Colors-Neutral-Neutral-500);
+
+      @include truncateText();
+    }
+
+    @include sm-breakpoint {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .deviceType {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  }
 }

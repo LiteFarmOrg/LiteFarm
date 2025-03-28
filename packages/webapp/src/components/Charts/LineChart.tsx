@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   LineChart as RechartsLineChart,
@@ -43,6 +43,10 @@ interface CommonProps {
   lineConfig: LineConfig[];
   formatTooltipValue?: TooltipProps['tooltipValueFormatter'];
   isCompactView?: boolean;
+  colors?: {
+    title?: string;
+    yAxisTick?: string;
+  };
 }
 
 type TimeScaleProps = CommonProps & {
@@ -91,6 +95,7 @@ function LineChart(props: LineChartProps) {
     xAxisDataKey = DATE_TIME,
     formatTooltipValue,
     isCompactView,
+    colors,
   } = props;
 
   const { t } = useTranslation('common');
@@ -127,7 +132,11 @@ function LineChart(props: LineChartProps) {
 
   return (
     <div className={styles.wrapper}>
-      {title && <div className={styles.title}>{title}</div>}
+      {title && (
+        <div className={styles.title} style={{ '--titleColor': colors?.title } as CSSProperties}>
+          {title}
+        </div>
+      )}
       <ResponsiveContainer width="100%" height={showLegend ? 280 : 230}>
         <RechartsLineChart data={data} margin={{ top: 12 }}>
           <CartesianGrid stroke="#E9F3FF" vertical={false} />
@@ -152,7 +161,7 @@ function LineChart(props: LineChartProps) {
           <YAxis
             yAxisId="left"
             tickLine={false}
-            tick={axisLabelStyles}
+            tick={{ ...axisLabelStyles, stroke: colors?.yAxisTick || axisLabelStyles.stroke }}
             axisLine={false}
             // Default width is 60, which causes a gap
             // https://github.com/recharts/recharts/issues/2027

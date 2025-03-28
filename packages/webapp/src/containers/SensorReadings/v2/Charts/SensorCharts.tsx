@@ -20,7 +20,7 @@ import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
 import { Sensor } from '../../../../store/api/types';
-import { SENSOR_PARAMS, STANDALONE_SENSOR_COLORS_MAP } from '../constants';
+import { SENSOR_CHART_PARAMS, STANDALONE_SENSOR_COLORS_MAP } from '../constants';
 import styles from '../styles.module.scss';
 
 interface SensorChartsProps {
@@ -64,14 +64,16 @@ function SensorCharts({
 
   return (
     <div className={styles.charts}>
-      {SENSOR_PARAMS.flatMap((param) => {
+      {SENSOR_CHART_PARAMS.flatMap((param) => {
         const data = formattedSensorReadings.find((data) => data.reading_type === param);
+
+        // Skip the param if there's no corresponding data
         if (!data) {
           return [];
         }
 
         const { reading_type, unit, readings } = data;
-        const color = STANDALONE_SENSOR_COLORS_MAP[reading_type]!;
+        const color = STANDALONE_SENSOR_COLORS_MAP[param];
 
         return (
           <CustomLineChart

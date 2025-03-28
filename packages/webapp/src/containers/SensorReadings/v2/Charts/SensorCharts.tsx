@@ -71,18 +71,14 @@ function SensorCharts({
         }
 
         const { reading_type, unit, readings } = data;
+        const color = STANDALONE_SENSOR_COLORS_MAP[reading_type]!;
 
         return (
           <CustomLineChart
             key={reading_type}
             title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
             language={language || 'en'}
-            lineConfig={[
-              {
-                id: sensor.external_id,
-                color: STANDALONE_SENSOR_COLORS_MAP[reading_type]!,
-              },
-            ]}
+            lineConfig={[{ id: sensor.external_id, color }]}
             data={readings}
             ticks={ticks}
             truncPeriod={truncPeriod}
@@ -90,6 +86,7 @@ function SensorCharts({
               return typeof value === 'number' ? `${value}${unit}` : '';
             }}
             isCompactView={isCompactView}
+            colors={{ title: color, yAxisTick: color }}
           />
         );
       })}

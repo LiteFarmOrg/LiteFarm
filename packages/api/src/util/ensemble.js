@@ -262,14 +262,7 @@ const enrichWithMockData = (
  * @returns {Array} - An array of formatted sensor readings.
  * @async
  */
-const getEnsembleSensorReadings = async ({
-  farm_id,
-  esids,
-  startTime,
-  endTime,
-  truncPeriod,
-  validated,
-}) => {
+const getEnsembleSensorReadings = async ({ farm_id, esids, startTime, endTime, truncPeriod }) => {
   const { id: EnsemblePartnerId } = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
 
   const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, EnsemblePartnerId);
@@ -284,7 +277,6 @@ const getEnsembleSensorReadings = async ({
     startTime,
     endTime,
     truncPeriod,
-    validated,
   });
 
   const formattedData = formatSensorReadings(data);
@@ -522,17 +514,15 @@ async function fetchDeviceReadings({
   startTime,
   endTime,
   truncPeriod = 'hour',
-  validated,
 }) {
   try {
     const params = new URLSearchParams({
       sensor_esid: esids,
-      // validated: true,
+      validated: true,
       trunc_period: truncPeriod,
     });
     if (startTime) params.append('start_time', startTime);
     if (endTime) params.append('end_time', endTime);
-    if (validated === 'true') params.append('validated', true);
 
     const axiosObject = {
       method: 'get',

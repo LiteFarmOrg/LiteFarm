@@ -27,17 +27,9 @@ interface SensorChartsProps {
   sensor: Sensor;
   startDate: string;
   endDate: string;
-  startDateString: string;
-  endDateString: string;
 }
 
-function SensorCharts({
-  sensor,
-  startDate,
-  endDate,
-  startDateString,
-  endDateString,
-}: SensorChartsProps) {
+function SensorCharts({ sensor, startDate, endDate }: SensorChartsProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -49,8 +41,6 @@ function SensorCharts({
     sensors: [sensor],
     startDate,
     endDate,
-    startDateString,
-    endDateString,
     truncPeriod,
   });
 

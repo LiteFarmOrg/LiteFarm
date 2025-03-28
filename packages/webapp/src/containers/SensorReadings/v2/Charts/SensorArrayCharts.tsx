@@ -27,8 +27,6 @@ interface SensorArrayChartsProps {
   sensors: Sensor[];
   startDate: string;
   endDate: string;
-  startDateString: string;
-  endDateString: string;
   sensorColorMap: LineConfig[];
 }
 
@@ -36,8 +34,6 @@ function SensorArrayCharts({
   sensors,
   startDate,
   endDate,
-  startDateString,
-  endDateString,
   sensorColorMap,
 }: SensorArrayChartsProps) {
   const { t } = useTranslation();
@@ -51,8 +47,6 @@ function SensorArrayCharts({
     sensors,
     startDate,
     endDate,
-    startDateString,
-    endDateString,
     truncPeriod,
   });
 

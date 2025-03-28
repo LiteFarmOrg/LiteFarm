@@ -33,8 +33,6 @@ interface useFormattedSensorReadingsProps {
   sensors: Sensor[];
   startDate: string;
   endDate: string;
-  startDateString: string;
-  endDateString: string;
   truncPeriod: ChartTruncPeriod;
 }
 
@@ -42,8 +40,6 @@ function useFormattedSensorReadings({
   sensors,
   startDate,
   endDate,
-  startDateString,
-  endDateString,
   truncPeriod,
 }: useFormattedSensorReadingsProps): {
   isLoading: boolean;
@@ -73,11 +69,11 @@ function useFormattedSensorReadings({
   }, 0);
 
   const ticks = lastDayInChart
-    ? getTicks(startDateString, endDateString, {
+    ? getTicks(new Date(startDate), new Date(endDate), {
         skipEmptyEndTicks: true,
         lastDataPointDateTime: lastDayInChart,
       })
-    : getTicks(startDateString, endDateString);
+    : getTicks(new Date(startDate), new Date(endDate));
 
   const formattedSensorReadings = useMemo(() => {
     if (!sensorReadings?.length) {

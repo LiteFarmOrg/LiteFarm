@@ -1,0 +1,47 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { Request, Response } from 'express';
+import baseController from './baseController.js';
+import FarmModel from '../models/farmModel.js';
+import weatherService from '../util/weatherService.js';
+
+const weatherController = {
+  async getWeather(req: Request, res: Response) {
+    try {
+      const farm_id = req.headers['farm_id'];
+      const row = await baseController.getIndividual(FarmModel, farm_id);
+
+      if (!row.length) {
+        return res.sendStatus(404);
+      }
+
+      const weatherData = await weatherService.getWeather({
+        lat: row[0].grid_points.lat,
+        lon: row[0].grid_points.lng,
+        units: row[0].units.measurement,
+      });
+
+      res.status(200).send(weatherData);
+    } catch (error) {
+      console.error('Fetch error:', error);
+      res.status(400).json({
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+      });
+    }
+  },
+};
+
+export default weatherController;

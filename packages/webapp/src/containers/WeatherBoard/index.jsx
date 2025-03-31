@@ -14,7 +14,7 @@ export default function WeatherBoard() {
     humidity: `${t('WEATHER.HUMIDITY')}: ${data?.humidity}`,
     iconName: utils.getIcon(data?.icon),
     date: utils.formatDate(language_preference, data?.date ? data?.date * 1000 : new Date()),
-    temperature: `${Math.round(data?.temp)}${tempUnit}`,
+    temperature: `${data?.temp}${tempUnit}`,
     wind: `${t('WEATHER.WIND')}: ${data?.wind} ${speedUnit}`,
     city: data?.city,
   };

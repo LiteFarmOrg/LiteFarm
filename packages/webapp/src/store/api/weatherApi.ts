@@ -22,7 +22,7 @@ export const weatherApi = api.injectEndpoints({
     getWeather: build.query<WeatherData, void>({
       query: () => `${weatherUrl}`,
       providesTags: ['Weather'],
-      keepUnusedDataFor: 1, // Cache data for 2 hours (7200 seconds)
+      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
     }),
   }),
 });

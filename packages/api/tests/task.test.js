@@ -13,6 +13,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
+
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
@@ -1223,12 +1224,11 @@ describe('Task tests', () => {
               task_name: 'Transplant',
             },
           );
-          const [
-            { location_id, management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
-          const [
-            { planting_management_plan_id: prev_planting_management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
+          const [{ location_id, management_plan_id }] = await mocks.planting_management_planFactory(
+            { promisedFarm: [userFarm] },
+          );
+          const [{ planting_management_plan_id: prev_planting_management_plan_id }] =
+            await mocks.planting_management_planFactory({ promisedFarm: [userFarm] });
           const transplant_task = {
             ...mocks.fakeTask(),
             task_type_id: transplantTaskType.task_type_id,
@@ -1295,10 +1295,10 @@ describe('Task tests', () => {
         test(`should fail to create a transplant task when previous plan is for different farm's location`, async (done) => {
           const [userFarm2] = await generateUserFarms(1);
           const { transplant_task, userFarm } = await getBody('row_method');
-          const [
-            { planting_management_plan_id: prev_planting_management_plan_id },
-          ] = await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
-          transplant_task.transplant_task.prev_planting_management_plan_id = prev_planting_management_plan_id;
+          const [{ planting_management_plan_id: prev_planting_management_plan_id }] =
+            await mocks.planting_management_planFactory({ promisedFarm: [userFarm2] });
+          transplant_task.transplant_task.prev_planting_management_plan_id =
+            prev_planting_management_plan_id;
 
           postTransplantTaskRequest(userFarm, transplant_task, async (err, res) => {
             expect(res.status).toBe(403);
@@ -1347,13 +1347,8 @@ describe('Task tests', () => {
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {
-          const {
-            user_id,
-            farm_id,
-            location_id,
-            planting_management_plan_id,
-            task_type_id,
-          } = await userFarmTaskGenerator();
+          const { user_id, farm_id, location_id, planting_management_plan_id, task_type_id } =
+            await userFarmTaskGenerator();
 
           const data = {
             ...mocks.fakeTask({
@@ -1762,12 +1757,8 @@ describe('Task tests', () => {
       });
 
       test('should fail to create a task were a worker is trying to assign someone else', async (done) => {
-        const {
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { farm_id, location_id, management_plan_id, task_type_id } =
+          await userFarmTaskGenerator(true);
         const [{ user_id: worker_id }] = await mocks.userFarmFactory(
           { promisedFarm: [{ farm_id }] },
           fakeUserFarm(3),
@@ -1799,12 +1790,8 @@ describe('Task tests', () => {
       });
 
       test('should fail to create a task were a worker is trying to modify wage for himself ', async (done) => {
-        const {
-          farm_id,
-          location_id,
-          management_plan_id,
-          task_type_id,
-        } = await userFarmTaskGenerator(true);
+        const { farm_id, location_id, management_plan_id, task_type_id } =
+          await userFarmTaskGenerator(true);
         const [{ user_id: worker_id }] = await mocks.userFarmFactory(
           { promisedFarm: [{ farm_id }] },
           fakeUserFarm(3),
@@ -1944,9 +1931,8 @@ describe('Task tests', () => {
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
       const new_soil_amendment_task = fakeTaskData.soil_amendment_task(farm_id);
-      const new_soil_amendment_task_products = await fakeProductData.soil_amendment_task_products(
-        farm_id,
-      );
+      const new_soil_amendment_task_products =
+        await fakeProductData.soil_amendment_task_products(farm_id);
 
       completeTaskRequest(
         { user_id, farm_id },
@@ -2437,12 +2423,11 @@ describe('Task tests', () => {
         );
 
         // Replace second task product with new taskProduct with id of first task product
-        createdTask.soil_amendment_task_products[
-          indexOfSecondProduct
-        ] = mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductOne.product_id,
-          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-        });
+        createdTask.soil_amendment_task_products[indexOfSecondProduct] =
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductOne.product_id,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          });
 
         // Update first task product id to second product id
         createdTask.soil_amendment_task_products[indexOfFirstProduct].product_id =

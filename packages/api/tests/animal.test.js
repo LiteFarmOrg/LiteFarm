@@ -122,10 +122,9 @@ describe('Animal Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -773,19 +772,19 @@ describe('Animal Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
 
         // Add animals to db
-        const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
-          mainFarm,
-          user,
-        );
+        const {
+          res: addRes,
+          returnedFirstAnimal,
+          returnedSecondAnimal,
+        } = await addAnimals(mainFarm, user);
         expect(addRes.status).toBe(201);
 
         // Edit animals in db
-        const { res: editRes, expectedFirstAnimal, expectedSecondAnimal } = await editAnimals(
-          mainFarm,
-          user,
-          returnedFirstAnimal,
-          returnedSecondAnimal,
-        );
+        const {
+          res: editRes,
+          expectedFirstAnimal,
+          expectedSecondAnimal,
+        } = await editAnimals(mainFarm, user, returnedFirstAnimal, returnedSecondAnimal);
         expect(editRes.status).toBe(204);
 
         // Get updated animals
@@ -829,10 +828,11 @@ describe('Animal Tests', () => {
       );
 
       // Use admin to add animals to db
-      const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
-        mainFarm,
-        admin,
-      );
+      const {
+        res: addRes,
+        returnedFirstAnimal,
+        returnedSecondAnimal,
+      } = await addAnimals(mainFarm, admin);
       expect(addRes.status).toBe(201);
 
       // Edit animals in db with non-admin

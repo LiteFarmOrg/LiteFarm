@@ -125,13 +125,8 @@ describe('Animal task tests', () => {
       task_translation_key: 'SOIL_AMENDMENT_TASK',
     });
 
-    ({
-      user_id,
-      farm_id,
-      location_id,
-      task_type_id,
-      planting_management_plan_id,
-    } = await userFarmTaskGenerator());
+    ({ user_id, farm_id, location_id, task_type_id, planting_management_plan_id } =
+      await userFarmTaskGenerator());
 
     [{ location_id: location2Id }] = await mocks.locationFactory({
       promisedFarm: [{ farm_id }],

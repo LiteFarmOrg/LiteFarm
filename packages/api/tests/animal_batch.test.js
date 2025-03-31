@@ -129,10 +129,9 @@ describe('Animal Batch Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -858,19 +857,19 @@ describe('Animal Batch Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
 
         // Add batches to db
-        const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
-          mainFarm,
-          user,
-        );
+        const {
+          res: addRes,
+          returnedFirstBatch,
+          returnedSecondBatch,
+        } = await addAnimalBatches(mainFarm, user);
         expect(addRes.status).toBe(201);
 
         // Edit batches in db
-        const { res: editRes, expectedFirstBatch, expectedSecondBatch } = await editAnimalBatches(
-          mainFarm,
-          user,
-          returnedFirstBatch,
-          returnedSecondBatch,
-        );
+        const {
+          res: editRes,
+          expectedFirstBatch,
+          expectedSecondBatch,
+        } = await editAnimalBatches(mainFarm, user, returnedFirstBatch, returnedSecondBatch);
         expect(editRes.status).toBe(204);
 
         // Get updated batches
@@ -914,10 +913,11 @@ describe('Animal Batch Tests', () => {
       );
 
       // Add animals to db with admin
-      const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
-        mainFarm,
-        admin,
-      );
+      const {
+        res: addRes,
+        returnedFirstBatch,
+        returnedSecondBatch,
+      } = await addAnimalBatches(mainFarm, admin);
       expect(addRes.status).toBe(201);
 
       // Edit animals in db with non-admin

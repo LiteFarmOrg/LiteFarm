@@ -44,32 +44,23 @@ describe('Custom Animal Breed Tests', () => {
     defaultTypeId = defaultAnimalType.id;
   });
 
-  function getRequest(
-    { user_id = newOwner.user_id, farm_id = farm.farm_id, query_params_string },
-    callback,
-  ) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query_params_string }) {
+    return chai
       .request(server)
       .get(`/custom_animal_breeds?${query_params_string}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  const getRequestAsPromise = util.promisify(getRequest);
-
-  function postRequest(data, { user_id, farm_id }, callback) {
-    chai
+  function postRequest(data, { user_id, farm_id }) {
+    return chai
       .request(server)
       .post(`/custom_animal_breeds`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -114,10 +105,9 @@ describe('Custom Animal Breed Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -134,7 +124,7 @@ describe('Custom Animal Breed Tests', () => {
         });
         await makeCustomAnimalBreed(mainFarm);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
           query_params_string: `default_type_id=${defaultTypeId}`,
@@ -160,7 +150,7 @@ describe('Custom Animal Breed Tests', () => {
         });
         const secondBreed = await makeCustomAnimalBreed(mainFarm);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
           query_params_string: `custom_type_id=${secondBreed.custom_type_id}`,
@@ -183,7 +173,7 @@ describe('Custom Animal Breed Tests', () => {
         await makeCustomAnimalBreed(mainFarm);
         await makeCustomAnimalBreed(mainFarm);
 
-        const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+        const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
 
         expect(res.status).toBe(200);
         // Should return both breeds
@@ -199,7 +189,7 @@ describe('Custom Animal Breed Tests', () => {
       await makeCustomAnimalBreed(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -213,7 +203,7 @@ describe('Custom Animal Breed Tests', () => {
     test('Returns 400 if both default and custom type ID are specified', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
         query_params_string: 'default_type_id=1&custom_type_id=1',
@@ -232,7 +222,7 @@ describe('Custom Animal Breed Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
         const animal_type = await makeDefaultAnimalType();
         const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
-        const res = await postRequestAsPromise(animal_breed, {
+        const res = await postRequest(animal_breed, {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -263,7 +253,7 @@ describe('Custom Animal Breed Tests', () => {
 
       const animal_type = await makeDefaultAnimalType();
       const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
-      const res = await postRequestAsPromise(animal_breed, {
+      const res = await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -290,12 +280,12 @@ describe('Custom Animal Breed Tests', () => {
       const animal_type = await makeDefaultAnimalType();
       const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
 
-      await postRequestAsPromise(animal_breed, {
+      await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
 
-      const res = await postRequestAsPromise(animal_breed, {
+      const res = await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -319,7 +309,7 @@ describe('Custom Animal Breed Tests', () => {
       const animal_type = await makeDefaultAnimalType();
       const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
 
-      await postRequestAsPromise(animal_breed, {
+      await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -332,7 +322,7 @@ describe('Custom Animal Breed Tests', () => {
         .andWhere('breed', animal_breed.breed)
         .delete();
 
-      const res = await postRequestAsPromise(animal_breed, {
+      const res = await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -365,7 +355,7 @@ describe('Custom Animal Breed Tests', () => {
       const animal_breed = mocks.fakeCustomAnimalBreed({ custom_type_id: animal_type.id });
 
       // Try to make a custom breed in using custom type
-      const res = await postRequestAsPromise(animal_breed, {
+      const res = await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -391,7 +381,7 @@ describe('Custom Animal Breed Tests', () => {
       });
 
       // Try to make a custom breed in Farm 1 using Farm 2's custom type
-      const res = await postRequestAsPromise(animal_breed, {
+      const res = await postRequest(animal_breed, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });

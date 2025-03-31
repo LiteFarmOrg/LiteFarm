@@ -42,32 +42,26 @@ describe('userFarm Tests', () => {
     token = global.token;
   });
 
-  function postUserFarmDataRequest(
-    data,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postUserFarmDataRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/farmdata`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .get(`/farmdata/${farm_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
   function getFakeUserFarmData(farm_id, user_id) {
@@ -101,137 +95,120 @@ describe('userFarm Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Post userFarm tests', () => {
-    test('Owner should post farm data at their farm', async (done) => {
+    test('Owner should post farm data at their farm', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
 
-      postUserFarmDataRequest(
-        fakeUserFarmData,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const userFarmDatas = await userFarmModel
-            .query()
-            .where('farm_id', mainFarm.farm_id)
-            .andWhere('user_id', user.user_id);
-          expect(userFarmDatas.length).toBe(1);
-          expect(userFarmDatas[0].farm_id).toBe(fakeUserFarmData.farm_id);
-          expect(userFarmDatas[0].user_id).toBe(fakeUserFarmData.user_id);
-          done();
-        },
-      );
+      const res = await postUserFarmDataRequest(fakeUserFarmData, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(200);
+      const userFarmDatas = await userFarmModel
+        .query()
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('user_id', user.user_id);
+      expect(userFarmDatas.length).toBe(1);
+      expect(userFarmDatas[0].farm_id).toBe(fakeUserFarmData.farm_id);
+      expect(userFarmDatas[0].user_id).toBe(fakeUserFarmData.user_id);
     });
 
-    test('Manager should post farm data at their farm', async (done) => {
+    test('Manager should post farm data at their farm', async () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
 
-      postUserFarmDataRequest(
-        fakeUserFarmData,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const userFarmDatas = await userFarmModel
-            .query()
-            .where('farm_id', mainFarm.farm_id)
-            .andWhere('user_id', user.user_id);
-          expect(userFarmDatas.length).toBe(1);
-          expect(userFarmDatas[0].farm_id).toBe(fakeUserFarmData.farm_id);
-          expect(userFarmDatas[0].user_id).toBe(fakeUserFarmData.user_id);
-          done();
-        },
-      );
+      const res = await postUserFarmDataRequest(fakeUserFarmData, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(200);
+      const userFarmDatas = await userFarmModel
+        .query()
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('user_id', user.user_id);
+      expect(userFarmDatas.length).toBe(1);
+      expect(userFarmDatas[0].farm_id).toBe(fakeUserFarmData.farm_id);
+      expect(userFarmDatas[0].user_id).toBe(fakeUserFarmData.user_id);
     });
 
-    test('Should return 403 when worker tries to post farm data at their farm', async (done) => {
+    test('Should return 403 when worker tries to post farm data at their farm', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
 
-      postUserFarmDataRequest(
-        fakeUserFarmData,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:farm_schedules',
-          );
-          done();
-        },
+      const res = await postUserFarmDataRequest(fakeUserFarmData, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:farm_schedules',
       );
     });
 
-    test('Should return 403 when unauthorized user tries to post farm data', async (done) => {
+    test('Should return 403 when unauthorized user tries to post farm data', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      postUserFarmDataRequest(
-        fakeUserFarmData,
-        { user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:farm_schedules',
-          );
-          done();
-        },
+      const res = await postUserFarmDataRequest(fakeUserFarmData, {
+        user_id: unAuthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:farm_schedules',
       );
     });
   });
 
   describe('Get userFarm tests', () => {
-    test('Owner should get user farm data by farm id', async (done) => {
+    test('Owner should get user farm data by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const { user_farm_data } = await returnUserFarmData(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[0].farm_id).toBe(user_farm_data.farm_id);
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(200);
+      expect(res.body[0].farm_id).toBe(user_farm_data.farm_id);
     });
 
-    test('Manager should get user farm data by farm id', async (done) => {
+    test('Manager should get user farm data by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const { user_farm_data } = await returnUserFarmData(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[0].farm_id).toBe(user_farm_data.farm_id);
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(200);
+      expect(res.body[0].farm_id).toBe(user_farm_data.farm_id);
     });
 
-    test('Worker should get 403 if they try to get user farm data by farm id', async (done) => {
+    test('Worker should get 403 if they try to get user farm data by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const { user_farm_data } = await returnUserFarmData(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe(
-          'User does not have the following permission(s): get:farm_schedules',
-        );
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): get:farm_schedules',
+      );
     });
 
-    test('Should get status 403 if an unauthorizedUser tries to get user farm by farm id', async (done) => {
+    test('Should get status 403 if an unauthorizedUser tries to get user farm by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
-      getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe(
-          'User does not have the following permission(s): get:farm_schedules',
-        );
-        done();
+      const res = await getRequest({
+        user_id: unAuthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
       });
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): get:farm_schedules',
+      );
     });
   });
 });

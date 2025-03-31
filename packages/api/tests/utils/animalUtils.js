@@ -67,51 +67,61 @@ const entityEndpoints = {
   batch: 'animal_batches',
 };
 
-const getGetRequest = (entity) => async ({ user_id, farm_id }) => {
-  return await chai
-    .request(server)
-    .get(`/${entity}`)
-    .set('user_id', user_id)
-    .set('farm_id', farm_id);
-};
+const getGetRequest =
+  (entity) =>
+  async ({ user_id, farm_id }) => {
+    return await chai
+      .request(server)
+      .get(`/${entity}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  };
 
-const getPostRequest = (entity) => async ({ user_id, farm_id }, data) => {
-  return await chai
-    .request(server)
-    .post(`/${entity}`)
-    .set('user_id', user_id)
-    .set('farm_id', farm_id)
-    .send(data);
-};
+const getPostRequest =
+  (entity) =>
+  async ({ user_id, farm_id }, data) => {
+    return await chai
+      .request(server)
+      .post(`/${entity}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  };
 
-const getRemoveRequest = (entity) => async ({ user_id, farm_id }, data) => {
-  return await chai
-    .request(server)
-    .patch(`/${entity}/remove`)
-    .set('Content-Type', 'application/json')
-    .set('user_id', user_id)
-    .set('farm_id', farm_id)
-    .send(data);
-};
+const getRemoveRequest =
+  (entity) =>
+  async ({ user_id, farm_id }, data) => {
+    return await chai
+      .request(server)
+      .patch(`/${entity}/remove`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  };
 
-const getPatchRequest = (entity) => async ({ user_id, farm_id }, data) => {
-  return await chai
-    .request(server)
-    .patch(`/${entity}`)
-    .set('Content-Type', 'application/json')
-    .set('user_id', user_id)
-    .set('farm_id', farm_id)
-    .send(data);
-};
+const getPatchRequest =
+  (entity) =>
+  async ({ user_id, farm_id }, data) => {
+    return await chai
+      .request(server)
+      .patch(`/${entity}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  };
 
-const getDeleteRequest = (entity) => async ({ user_id, farm_id, query = '' }) => {
-  return await chai
-    .request(server)
-    .delete(`/${entity}?${query}`)
-    .set('Content-Type', 'application/json')
-    .set('user_id', user_id)
-    .set('farm_id', farm_id);
-};
+const getDeleteRequest =
+  (entity) =>
+  async ({ user_id, farm_id, query = '' }) => {
+    return await chai
+      .request(server)
+      .delete(`/${entity}?${query}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  };
 
 export const {
   animalGetRequest = getGetRequest(entityEndpoints['animal']),

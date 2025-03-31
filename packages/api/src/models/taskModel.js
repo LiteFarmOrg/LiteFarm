@@ -360,16 +360,19 @@ class TaskModel extends BaseModel {
    */
   static async getUnassignedTasksDueThisWeekFromIds(taskIds, isDayLaterThanUTC = false) {
     const dayLaterInterval = isDayLaterThanUTC ? '"1 day"' : '"0 days"';
-    return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
-      `
+    return await TaskModel.query()
+      .select('*')
+      .whereIn('task_id', taskIds)
+      .whereRaw(
+        `
       task.assignee_user_id IS NULL
       AND task.complete_date IS NULL
       AND task.abandon_date IS NULL
       AND task.due_date <= (now() + ('1 week')::interval + (?)::interval)::date
       AND task.due_date >= (now() + (?)::interval)::date
       `,
-      [dayLaterInterval, dayLaterInterval],
-    );
+        [dayLaterInterval, dayLaterInterval],
+      );
   }
 
   /**

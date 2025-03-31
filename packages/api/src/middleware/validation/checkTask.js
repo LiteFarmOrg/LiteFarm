@@ -39,13 +39,8 @@ export function checkAbandonTask() {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const {
-        abandonment_reason,
-        other_abandonment_reason,
-        happiness,
-        duration,
-        abandon_date,
-      } = req.body;
+      const { abandonment_reason, other_abandonment_reason, happiness, duration, abandon_date } =
+        req.body;
 
       // Notifications will not send without, and checks below will be faulty
       if (!user_id) {

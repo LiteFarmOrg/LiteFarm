@@ -46,58 +46,50 @@ describe('User Tests', () => {
     token = global.token;
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
-  function postUserRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function postUserRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post('/user')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
-  function postPseudoUserRequest(
-    data,
-    { user_id = owner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postPseudoUserRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post('/user/pseudo')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
-  function getRequest(
-    { user_id = owner.user_id, farm_id = farm.farm_id, params_user_id = undefined },
-    callback,
-  ) {
-    chai
+  function getRequest({
+    user_id = owner.user_id,
+    farm_id = farm.farm_id,
+    params_user_id = undefined,
+  }) {
+    return chai
       .request(server)
       .get(`/user/${params_user_id ? params_user_id : user_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .put(`/user/${user_id}`)
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   function validate(expected, res, status, received = undefined) {
@@ -174,42 +166,32 @@ describe('User Tests', () => {
           );
         });
 
-        test('Workers should get user by user id', async (done) => {
-          getRequest({ user_id: worker.user_id }, (err, res) => {
-            expect(res.status).toBe(200);
-            validate({ ...worker, ...workerFarm }, res, 200);
-            done();
-          });
+        test('Workers should get user by user id', async () => {
+          const res = await getRequest({ user_id: worker.user_id });
+          expect(res.status).toBe(200);
+          validate({ ...worker, ...workerFarm }, res, 200);
         });
 
-        test('Owner should get user by user id', async (done) => {
-          getRequest({ user_id: owner.user_id }, (err, res) => {
-            validate({ ...owner, ...ownerFarm }, res, 200);
-            expect(res.body.gender).toBe(owner.gender);
-            expect(res.body.birth_year).toBe(owner.birth_year);
-            done();
-          });
+        test('Owner should get user by user id', async () => {
+          const res = await getRequest({ user_id: owner.user_id });
+          validate({ ...owner, ...ownerFarm }, res, 200);
+          expect(res.body.gender).toBe(owner.gender);
+          expect(res.body.birth_year).toBe(owner.birth_year);
         });
 
-        test('Manager should get user by user id', async (done) => {
-          getRequest({ user_id: manager.user_id }, (err, res) => {
-            validate({ ...manager, ...managerFarm }, res, 200);
-            done();
-          });
+        test('Manager should get user by user id', async () => {
+          const res = await getRequest({ user_id: manager.user_id });
+          validate({ ...manager, ...managerFarm }, res, 200);
         });
 
-        test('Should get status 403 if an unauthorizedUser tries to get user by user_id', async (done) => {
-          getRequest(
-            {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser,
-              params_user_id: owner.user_id,
-            },
-            (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
+        test('Should get status 403 if an unauthorizedUser tries to get user by user_id', async () => {
+          const res = await getRequest({
+            user_id: unAuthorizedUser.user_id,
+            farm_id: farmunAuthorizedUser,
+            params_user_id: owner.user_id,
+          });
+
+          expect(res.status).toBe(403);
         });
       });
     });
@@ -261,55 +243,46 @@ describe('User Tests', () => {
           );
         });
 
-        test('should edit and the area_used field by owner', async (done) => {
+        test('should edit and the area_used field by owner', async () => {
           sampleData = fakeUser(owner.user_id);
           sampleData.email = owner.email;
-          putRequest(sampleData, { user_id: owner.user_id }, async (err, res) => {
-            const resUser = await userModel.query().findById(owner.user_id);
-            validate(sampleData, res, 200, resUser);
-            done();
-          });
+          const res = await putRequest(sampleData, { user_id: owner.user_id });
+          const resUser = await userModel.query().findById(owner.user_id);
+          validate(sampleData, res, 200, resUser);
         });
 
-        test('should edit and the area_used field by manager', async (done) => {
+        test('should edit and the area_used field by manager', async () => {
           sampleData = fakeUser(manager.user_id);
           sampleData.email = owner.email;
           sampleData.email = manager.email;
-          putRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
-            const resUser = await userModel.query().findById(manager.user_id);
-            validate(sampleData, res, 200, resUser);
-            done();
-          });
+          const res = await putRequest(sampleData, { user_id: manager.user_id });
+          const resUser = await userModel.query().findById(manager.user_id);
+          validate(sampleData, res, 200, resUser);
         });
 
-        test('should edit and the area_used field by worker', async (done) => {
+        test('should edit and the area_used field by worker', async () => {
           sampleData = fakeUser(worker.user_id);
           sampleData.email = worker.email;
-          putRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
-            const resUser = await userModel.query().findById(worker.user_id);
-            validate(sampleData, res, 200, resUser);
-            done();
-          });
+          const res = await putRequest(sampleData, { user_id: worker.user_id });
+          const resUser = await userModel.query().findById(worker.user_id);
+          validate(sampleData, res, 200, resUser);
         });
 
-        test('should return 403 when unauthorized user tries to edit another user', async (done) => {
+        test('should return 403 when unauthorized user tries to edit another user', async () => {
           sampleData = fakeUser(manager.user_id);
-          putRequest(
-            sampleData,
-            { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser },
-            (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
+
+          const res = await putRequest(sampleData, {
+            user_id: unAuthorizedUser.user_id,
+            farm_id: farmunAuthorizedUser,
+          });
+
+          expect(res.status).toBe(403);
         });
 
-        test('should return 403 when a owner tries to edit another user', async (done) => {
+        test('should return 403 when a owner tries to edit another user', async () => {
           sampleData = fakeUser(manager.user_id);
-          putRequest(sampleData, { user_id: owner.user_id }, (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+          const res = await putRequest(sampleData, { user_id: owner.user_id });
+          expect(res.status).toBe(403);
         });
       });
     });
@@ -366,7 +339,7 @@ describe('User Tests', () => {
         );
       });
 
-      test('Should post then get a valid user and user spotlight', async (done) => {
+      test('Should post then get a valid user and user spotlight', async () => {
         const fakeUser = mocks.fakeUser();
         // don't need user_id or phone number when signing up user
         delete fakeUser.user_id;
@@ -374,85 +347,66 @@ describe('User Tests', () => {
 
         const password = 'test password';
         fakeUser.password = password;
-        postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
-          const user_id = res.body.user.user_id;
-          const userSecret = await passwordModel
-            .query()
-            .select('*')
-            .where('user_id', user_id)
-            .first();
-          const resUser = await userModel.query().select('*').where('user_id', user_id).first();
-          validate(fakeUser, res, 201, resUser);
-          expect(userSecret.password_hash).not.toBe(password);
-          // check that the saved hash corresponds to the pw provided
-          const isMatch = await bcrypt.compare(password, userSecret.password_hash);
-          expect(isMatch).toBe(true);
-          const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
-          expect(showedSpotlight.user_id).toBe(user_id);
+        const res = await postUserRequest(fakeUser, { user_id: manager.user_id });
+        const user_id = res.body.user.user_id;
+        const userSecret = await passwordModel
+          .query()
+          .select('*')
+          .where('user_id', user_id)
+          .first();
+        const resUser = await userModel.query().select('*').where('user_id', user_id).first();
+        validate(fakeUser, res, 201, resUser);
+        expect(userSecret.password_hash).not.toBe(password);
+        // check that the saved hash corresponds to the pw provided
+        const isMatch = await bcrypt.compare(password, userSecret.password_hash);
+        expect(isMatch).toBe(true);
+        const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
+        expect(showedSpotlight.user_id).toBe(user_id);
+      });
 
-          done();
+      xtest('Owner should post a pseudo user', async () => {
+        const res = await postPseudoUserRequest(sampleData, {});
+        const resUser = await userModel.query().where({ email: sampleData.email }).first();
+        const resUserFarm = await userFarmModel
+          .query()
+          .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
+          .first();
+        validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
+      });
+
+      xtest('Manager should post a pseudo user', async () => {
+        const res = await postPseudoUserRequest(sampleData, { user_id: manager.user_id });
+        const resUser = await userModel.query().where({ email: sampleData.email }).first();
+        const resUserFarm = await userFarmModel
+          .query()
+          .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
+          .first();
+        validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
+      });
+
+      test('Should return status 403 when a worker tries to post a pseudo user', async () => {
+        const res = await postPseudoUserRequest(sampleData, { user_id: worker.user_id });
+        expect(res.status).toBe(403);
+      });
+
+      test('Should return status 403 when a worker tries to post a pseudo user', async () => {
+        const res = await postPseudoUserRequest(sampleData, { user_id: unAuthorizedUser.user_id });
+        expect(res.status).toBe(403);
+      });
+
+      test('Circumvent authorization by modify farm_id', async () => {
+        const res = await postPseudoUserRequest(sampleData, {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: unAuthorizedUser.farm_id,
         });
+
+        expect(res.status).toBe(403);
       });
 
-      xtest('Owner should post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, {}, async (err, res) => {
-          const resUser = await userModel.query().where({ email: sampleData.email }).first();
-          const resUserFarm = await userFarmModel
-            .query()
-            .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
-            .first();
-          validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
-          done();
-        });
-      });
-
-      xtest('Manager should post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
-          const resUser = await userModel.query().where({ email: sampleData.email }).first();
-          const resUserFarm = await userFarmModel
-            .query()
-            .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
-            .first();
-          validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
-          done();
-        });
-      });
-
-      test('Should return status 403 when a worker tries to post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
-
-      test('Should return status 403 when a worker tries to post a pseudo user', async (done) => {
-        postPseudoUserRequest(
-          sampleData,
-          { user_id: unAuthorizedUser.user_id },
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
-
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        postPseudoUserRequest(
-          sampleData,
-          { user_id: unAuthorizedUser.user_id, farm_id: unAuthorizedUser.farm_id },
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
-
-      test('Should return 400 if user_id already exists', async (done) => {
+      test('Should return 400 if user_id already exists', async () => {
         sampleData.user_id = unAuthorizedUser.user_id;
-        postPseudoUserRequest(sampleData, {}, async (err, res) => {
-          expect(res.status).toBe(400);
-          done();
-        });
+        const res = await postPseudoUserRequest(sampleData, {});
+        expect(res.status).toBe(400);
       });
     });
   });

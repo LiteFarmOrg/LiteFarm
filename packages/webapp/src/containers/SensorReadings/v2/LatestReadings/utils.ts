@@ -15,15 +15,17 @@
 
 import { TFunction } from 'react-i18next';
 import { LineConfig } from '../../../../components/Charts/LineChart';
-import { convertEsciReadingValue, getReadingUnit } from '../utils';
+import { convertEsciReadingValue, degToDirection, getReadingUnit } from '../utils';
+import { isValidNumber } from '../../../../util/validation';
 import {
   SENSOR_ARRAY_CHART_PARAMS,
   SENSOR_CHART_PARAMS,
   STANDALONE_SENSOR_COLORS_MAP,
+  WEATHER_STATION_KPI_PARAMS,
 } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
 import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
-import { Sensor, SensorReadings } from '../../../../store/api/types';
+import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/api/types';
 import { Status } from '../../../../components/StatusIndicatorPill';
 import type { System } from '../../../../types';
 
@@ -96,4 +98,96 @@ export const formatReadingsToSensorReadingKPIProps = (
       };
     }) || []
   );
+};
+
+const getLatestValue = (
+  readings: SensorReadings['readings'],
+  externalId: string,
+): number | undefined => {
+  return readings.length ? readings[readings.length - 1][externalId] : undefined;
+};
+
+export const formatWindData = (
+  sensor: Sensor,
+  sensorReadingsMap: Partial<Record<SensorReadingTypes, SensorReadings>>,
+  system: System,
+  t: TFunction,
+): { label: string; data: string } | [] => {
+  const speedReadings = sensorReadingsMap['wind_speed'];
+  const directionReadings = sensorReadingsMap['wind_direction'];
+  if (!speedReadings && !directionReadings) {
+    return [];
+  }
+
+  let speedData = '';
+  let directionValue = '';
+
+  if (speedReadings) {
+    const latestValue = getLatestValue(speedReadings.readings, sensor.external_id);
+    speedData = isValidNumber(latestValue)
+      ? `${convertEsciReadingValue(latestValue, 'wind_speed', system)}${getReadingUnit(
+          'wind_speed',
+          system,
+          speedReadings.unit,
+        )}`
+      : '-';
+  }
+
+  if (directionReadings) {
+    const latestValue = getLatestValue(directionReadings.readings, sensor.external_id);
+    directionValue = isValidNumber(latestValue) ? degToDirection(latestValue) : '-';
+  }
+
+  if (speedData && directionValue) {
+    return {
+      label: t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'),
+      data: speedData === '-' && directionValue === '-' ? '-' : `${speedData} ${directionValue}`,
+    };
+  }
+
+  if (speedData) {
+    return { label: t('SENSOR.READING.WIND_SPEED'), data: speedData };
+  }
+
+  return { label: t('SENSOR.READING.WIND_DIRECTION'), data: directionValue };
+};
+
+export const formatReadingsToWeatherKPI = (
+  sensor: Sensor,
+  sensorReadings: SensorReadings[],
+  system: System,
+  t: TFunction,
+): { label: string; data: string }[] => {
+  const sensorReadingsMap = sensorReadings.reduce<
+    Partial<Record<SensorReadingTypes, SensorReadings>>
+  >((map, readings) => {
+    map[readings.reading_type] = readings;
+    return map;
+  }, {});
+
+  return WEATHER_STATION_KPI_PARAMS.flatMap((param) => {
+    if (param === 'wind_speed') {
+      // Combine with wind_direction later
+      return [];
+    }
+
+    if (param === 'wind_direction') {
+      return formatWindData(sensor, sensorReadingsMap, system, t);
+    }
+
+    if (!sensorReadingsMap[param]) {
+      return [];
+    }
+
+    const { readings, unit } = sensorReadingsMap[param];
+    const value = getLatestValue(readings, sensor.external_id);
+    const data = isValidNumber(value)
+      ? `${convertEsciReadingValue(value, param, system)}${getReadingUnit(param, system, unit)}`
+      : '-';
+
+    return {
+      label: t(`SENSOR.READING.${param.toUpperCase()}`),
+      data,
+    };
+  });
 };

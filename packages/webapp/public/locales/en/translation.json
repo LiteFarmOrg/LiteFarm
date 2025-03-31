@@ -1883,7 +1883,8 @@
       "UNKNOWN": "Unknown",
       "UPDATE_READINGS": "Update readings",
       "WIND_DIRECTION": "Wind direction",
-      "WIND_SPEED": "Wind speed"
+      "WIND_SPEED": "Wind speed",
+      "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"
     },
     "READINGS_PREVIEW": {
       "SOIL_WATER_POTENTIAL": "Current soil water potential",

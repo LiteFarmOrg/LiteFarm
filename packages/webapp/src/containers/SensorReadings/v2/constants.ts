@@ -16,7 +16,7 @@
 import { colors } from '../../../assets/theme';
 import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/api/types';
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
-import { ChartSupportedReadingTypes } from './types';
+import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
 export const SENSOR_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
@@ -32,6 +32,17 @@ export const SENSOR_ARRAY_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
   'soil_water_potential',
   'soil_water_content',
+];
+
+export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
+  'temperature',
+  'wind_speed',
+  'wind_direction',
+  'cumulative_rainfall',
+  'relative_humidity',
+  'barometric_pressure',
+  'solar_radiation',
+  'rainfall_rate',
 ];
 
 export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {

@@ -25,3 +25,15 @@ export type ChartSupportedReadingTypes = Extract<
   | 'soil_water_content'
   | 'water_pressure'
 >;
+
+export type WeatherStationKPIParams = Extract<
+  SensorReadingTypes,
+  | 'temperature'
+  | 'wind_speed'
+  | 'wind_direction'
+  | 'cumulative_rainfall'
+  | 'relative_humidity'
+  | 'barometric_pressure'
+  | 'solar_radiation'
+  | 'rainfall_rate'
+>;

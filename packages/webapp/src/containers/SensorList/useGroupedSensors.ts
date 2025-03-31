@@ -79,6 +79,7 @@ const formatSensorArrayToGroup = (
     sensors: mappedSensors[sensorArray.id],
     type: SensorType.SENSOR_ARRAY,
     fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 
@@ -88,10 +89,12 @@ const formatSensorToGroup = (
 ) => {
   return {
     id: `sensor_${sensor.id}`,
+    location_id: `sensor_${sensor.id}`,
     sensors: [sensor],
     point: sensor.point,
     type: SensorType.SENSOR,
     fields: getAreaNamesForPoint(sensor.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 

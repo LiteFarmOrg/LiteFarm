@@ -21,7 +21,7 @@ import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetSensorsQuery } from '../../../../store/api/apiSlice';
+import useGroupedSensors from '../../../SensorList/useGroupedSensors';
 
 export default function UpdateSensor({ history, match }) {
   const dispatch = useDispatch();
@@ -30,18 +30,10 @@ export default function UpdateSensor({ history, match }) {
   // Grandfathered sensors
   const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
 
-  // New sensors (location_id only for backwards compatibility)
-  const { sensorInfo: sensorInfoFromQuery, sensorArrayInfo: sensorArrayInfoFromQuery } =
-    useGetSensorsQuery(undefined, {
-      selectFromResult: ({ data }) => ({
-        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
-        sensorArrayInfo: data?.sensor_arrays?.find(
-          (sensorArray) => sensorArray.location_id === location_id,
-        ),
-      }),
-    });
+  const { groupedSensors } = useGroupedSensors();
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
 
-  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || sensorArrayInfoFromQuery;
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
 
   const system = useSelector(measurementSelector);
   const user = useSelector(userFarmSelector);

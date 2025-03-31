@@ -12,11 +12,11 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
-import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import useLocationRouterTabs from '../LocationDetails/useLocationRouterTabs';
 import { Variant } from '../../components/RouterTab/Tab';
 import Layout from '../../components/Layout';
 import layoutStyles from '../../components/Layout/layout.module.scss';
+import useGroupedSensors from '../SensorList/useGroupedSensors';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -28,18 +28,11 @@ function SensorReadings({ history, match }) {
   // Grandfathered sensors
   const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
 
-  // New sensors (location_id only for backwards compatibility)
-  const { sensorInfo: sensorInfoFromQuery, sensorArrayInfo: sensorArrayInfoFromQuery } =
-    useGetSensorsQuery(undefined, {
-      selectFromResult: ({ data }) => ({
-        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
-        sensorArrayInfo: data?.sensor_arrays?.find(
-          (sensorArray) => sensorArray.location_id === location_id,
-        ),
-      }),
-    });
+  const { groupedSensors } = useGroupedSensors();
 
-  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || sensorArrayInfoFromQuery;
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
 
   // Grandfathered sensors
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
@@ -74,7 +67,7 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
-  const routerTabs = useLocationRouterTabs(sensorInfo, match);
+  const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
 
   return (
     <>

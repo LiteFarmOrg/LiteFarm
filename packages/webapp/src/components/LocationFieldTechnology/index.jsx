@@ -12,6 +12,7 @@ import { isSameDay } from '../../util/date-migrate-TS';
 import Icon from '../Icons';
 import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
+import { locationEnum } from '../../containers/Map/constants';
 
 export default function PureLocationFieldTechnology({
   location,
@@ -26,11 +27,12 @@ export default function PureLocationFieldTechnology({
   );
 
   const handleClick = (ft) => {
-    // farm_id differentiates between custom and external sensors
-    if (ft.farm_id) {
-      history.push(`/${ft.type}/${ft.location_id}/details`);
+    if (ft.isAddonSensor && ft.type === locationEnum.sensor) {
+      history.push(`/${ft.type}/${ft.id}/readings`);
+    } else if (ft.isAddonSensor && ft.type === locationEnum.sensor_array) {
+      history.push(`/${ft.type}/${ft.id}/readings`);
     } else {
-      history.push(`/${ft.type}/${ft.location_id}/readings`);
+      history.push(`/${ft.type}/${ft.location_id}/details`);
     }
   };
 

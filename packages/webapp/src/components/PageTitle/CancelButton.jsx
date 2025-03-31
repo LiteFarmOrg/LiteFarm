@@ -27,7 +27,7 @@ export function CancelButton({ onCancel, showConfirmCancelModal, setShowConfirmC
   );
 }
 
-CancelButton.PropTypes = {
+CancelButton.propTypes = {
   onCancel: PropTypes.func,
   showConfirmCancelModal: PropTypes.bool,
   setShowConfirmCancelModal: PropTypes.func,

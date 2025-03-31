@@ -96,6 +96,7 @@ export default function PureMapFooter({
         filterSettings={filterSettings}
         availableFilterSettings={availableFilterSettings}
         onMenuItemClick={onFilterMenuClick}
+        isCompactSideMenu={isCompactSideMenu}
       />
       <MapDrawer
         key={'add'}
@@ -104,6 +105,7 @@ export default function PureMapFooter({
         drawerDefaultHeight={window.innerHeight - 156}
         headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
         onMenuItemClick={onAddMenuClick}
+        isCompactSideMenu={isCompactSideMenu}
       />
     </TourProviderWrapper>
   );

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.headerContentContainer  {
+.headerContentContainer {
   padding-bottom: 8px;
 }
 
@@ -34,19 +34,48 @@
 }
 
 .label {
-  height: 24px;
+  color: var(--Colors-Neutral-Neutral-600);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
-.labelDivider {
-  display: inline-block;
-  border-top: 1px solid;
-  width: calc(100% - 80px);
-  transform: translate(11px, -3px);
-  color: #C4C4C4;
+.sectionLabelPadding {
+  padding-top: 32px;
+}
+
+// MapDrawerMenuItem.jsx
+.menuItem {
+  background-color: white;
+  &:hover {
+    background-color: var(--Colors-Primary-Primary-teal-50);
+  }
+}
+
+.filteredItem {
+  background-color: #f3f6fb;
+}
+
+.plusAdd {
+  display: flex;
+  padding: 2px;
+  align-items: center;
+  gap: 4px;
+
+  color: var(--Colors-Primary-Primary-teal-700);
+  font-weight: 600;
+  line-height: 24px;
 }
 
 .plusIcon {
-  color: var(--teal700);
-  font-size: 42px;
-  line-height: 16px;
+  background-color: transparent;
+}
+
+// Drawer
+.sideDrawerContainer {
+  top: calc(
+    var(--global-navbar-height) + var(--global-map-header-height) - 1px /* sm gap without adjust */
+  );
+  max-height: calc(100vh - var(--global-navbar-height) - var(--global-map-header-height));
+  min-width: 432px;
 }

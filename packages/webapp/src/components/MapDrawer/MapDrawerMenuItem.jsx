@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -6,6 +8,8 @@ import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
 import { Main } from '../Typography';
 import styles from './styles.module.scss';
+import Icon from '../Icons';
+
 export default function MapDrawerMenuItem({
   onClick,
   isFilterMenuItem,
@@ -13,11 +17,13 @@ export default function MapDrawerMenuItem({
   children,
   name,
 }) {
+  const { t } = useTranslation();
+
   return (
     <DefaultThemeProvider>
       <ListItem
         button
-        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
+        className={clsx(isFiltered ? styles.filteredItem : styles.menuItem)}
         onClick={onClick}
       >
         <ListItemIcon>{children}</ListItemIcon>
@@ -29,7 +35,10 @@ export default function MapDrawerMenuItem({
         {isFilterMenuItem ? (
           <EyeToggleIcon isFiltered={isFiltered} />
         ) : (
-          <span className={styles.plusIcon}>+</span>
+          <div className={styles.plusAdd}>
+            <Icon iconName={'PLUS_CIRCLE'} className={styles.plusIcon} />
+            {t('common:ADD')}
+          </div>
         )}
       </ListItem>
     </DefaultThemeProvider>

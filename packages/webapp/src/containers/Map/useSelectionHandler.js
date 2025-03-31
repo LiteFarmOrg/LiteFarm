@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { cloneObject } from '../../util';
 
 /**
  *
@@ -27,7 +26,7 @@ const useSelectionHandler = () => {
       dispatch(canShowSelection(false));
     }
     if (dismissSelection) {
-      setOverlappedLocations(cloneObject(initOverlappedLocations));
+      setOverlappedLocations(structuredClone(initOverlappedLocations));
       setDismissSelection(false);
       return;
     }
@@ -66,9 +65,16 @@ const useSelectionHandler = () => {
             dispatch(locations(locationArray));
           } else if (
             overlappedLocations.point[0].type === locationEnum.sensor &&
-            !overlappedLocations.point[0].farm_id
+            overlappedLocations.point[0].isAddonSensor
           ) {
-            // farm_id differentiates between custom and external sensors
+            // Currently using location selector instead of hook thus the id prefix
+            history.push(
+              `/${overlappedLocations.point[0].type}/sensor_${overlappedLocations.point[0].id}/readings`,
+            );
+          } else if (
+            overlappedLocations.point[0].type === locationEnum.sensor_array &&
+            overlappedLocations.point[0].isAddonSensor
+          ) {
             history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
             );
@@ -103,7 +109,7 @@ const useSelectionHandler = () => {
     isLocationCluster,
     isSensor,
   ) => {
-    let overlappedLocationsCopy = cloneObject(initOverlappedLocations);
+    let overlappedLocationsCopy = structuredClone(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType) || isAreaLine(locationType)) {
@@ -152,6 +158,7 @@ const useSelectionHandler = () => {
                   name: point.location_name,
                   asset: point.asset,
                   type: point.type,
+                  isAddonSensor: point.isAddonSensor,
                 });
               });
           } else if (isSensor) {
@@ -161,6 +168,7 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+                isAddonSensor: point.isAddonSensor,
                 preview: true,
               });
             });
@@ -172,14 +180,14 @@ const useSelectionHandler = () => {
                   name: point.location_name,
                   asset: point.asset,
                   type: point.type,
+                  isAddonSensor: point.isAddonSensor,
                 });
               }
             });
           }
         }
       });
-
-      setOverlappedLocations(cloneObject(overlappedLocationsCopy));
+      setOverlappedLocations(structuredClone(overlappedLocationsCopy));
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));

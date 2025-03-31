@@ -23,6 +23,7 @@ export const allSensorsSelector = createSelector(
   (sensorResult) =>
     sensorResult.data?.sensors.map((sensor) => ({
       ...sensor,
+      isAddonSensor: 'true',
       type: 'sensor',
     })) || [],
 );
@@ -32,6 +33,7 @@ export const sensorArraysSelector = createSelector(
   (sensorResult) =>
     sensorResult.data?.sensor_arrays.map((sensorArray) => ({
       ...sensorArray,
+      isAddonSensor: 'true',
       type: 'sensor_array',
     })) || [],
 );

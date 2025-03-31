@@ -11,6 +11,7 @@ import {
   getTemperatureValue,
 } from './utils';
 import { isTouchDevice } from '../../../util/device';
+import { locationEnum } from '../../../containers/Map/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,11 +51,13 @@ export default function CompactPreview({ location, readings, readingType, histor
   }
 
   const loadReadingView = () => {
-    // farm_id differentiates between custom and external sensors
-    if (location.farm_id) {
-      history.push(`/${location.type}/${location.location_id}/details`);
+    if (location.isAddonSensor && location.type === locationEnum.sensor) {
+      // Currently using location selector instead of hook thus the id prefix
+      history.push(`/${location.type}/sensor_${location.id}/readings`);
+    } else if (location.isAddonSensor && location.type === locationEnum.sensor_array) {
+      history.push(`/${location.type}/${location.id}/readings`);
     } else {
-      history.push(`/${location.type}/${location.location_id}/readings`);
+      history.push(`/${location.type}/${location.id}/details`);
     }
   };
 

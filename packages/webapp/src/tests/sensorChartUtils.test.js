@@ -14,6 +14,7 @@
  */
 
 import { expect, describe, test } from 'vitest';
+import i18n from '../locales/i18n';
 import {
   convertEsciReadingValue,
   degToDirection,
@@ -23,6 +24,7 @@ import {
   sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
 import { getUnixTime } from '../components/Charts/utils';
+import { formatWindData } from '../containers/SensorReadings/v2/LatestReadings/utils';
 
 const createData = (date) => {
   return { dateTime: getUnixTime(date) };
@@ -212,6 +214,101 @@ describe('Test chart data formatting', () => {
         const direction = degToDirection(deg);
         expect(validate[direction](deg)).toBe(true);
       }
+    });
+  });
+
+  describe('formatWindData', () => {
+    const mockSpeedReadings = {
+      reading_type: 'wind_speed',
+      unit: 'm/s',
+      readings: [
+        { dateTime: 1717200000, testId: 2 },
+        { dateTime: 1717286400, testId: 2.5 },
+      ],
+    };
+    const mockDirectionReadings = {
+      reading_type: 'wind_direction',
+      unit: 'deg',
+      readings: [
+        { dateTime: 1717200000, testId: 10 },
+        { dateTime: 1717286400, testId: 20 },
+      ],
+    };
+    const mockSensor = { external_id: 'testId' };
+
+    test('format properly with only wind speed', () => {
+      ['metric', 'imperial'].forEach((system) => {
+        const { label, data } = formatWindData(
+          mockSensor,
+          { wind_speed: mockSpeedReadings },
+          system,
+          i18n.t,
+        );
+        expect(label).toBe(i18n.t('SENSOR.READING.WIND_SPEED'));
+        expect(data).toBe(system === 'metric' ? '9km/h' : '5.59mph');
+      });
+    });
+
+    test('format properly with only wind direction', () => {
+      const { label, data } = formatWindData(
+        mockSensor,
+        { wind_direction: mockDirectionReadings },
+        'metric',
+        i18n.t,
+      );
+      expect(label).toBe(i18n.t('SENSOR.READING.WIND_DIRECTION'));
+      expect(data).toBe('NNE');
+    });
+
+    test('format properly with both wind speed and direction', () => {
+      ['metric', 'imperial'].forEach((system) => {
+        const { label, data } = formatWindData(
+          mockSensor,
+          { wind_speed: mockSpeedReadings, wind_direction: mockDirectionReadings },
+          system,
+          i18n.t,
+        );
+        expect(label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
+        expect(data).toBe(system === 'metric' ? '9km/h NNE' : '5.59mph NNE');
+      });
+    });
+
+    test('handle case when no wind speed or direction data', () => {
+      const result = formatWindData(mockSensor, { temperature: {} }, 'metric', i18n.t);
+      expect(result).toEqual([]);
+    });
+
+    test('handle case when the latest data is missing', () => {
+      const speedWithoutReadings = { ...mockSpeedReadings, readings: [] };
+      const dataMissingSpeed = formatWindData(
+        mockSensor,
+        { wind_speed: speedWithoutReadings, wind_direction: mockDirectionReadings },
+        'metric',
+        i18n.t,
+      );
+      expect(dataMissingSpeed.label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
+      expect(dataMissingSpeed.data).toBe('- NNE');
+
+      const directionWithoutReadings = { ...mockDirectionReadings, readings: [] };
+      const dataMissingDirection = formatWindData(
+        mockSensor,
+        { wind_speed: mockSpeedReadings, wind_direction: directionWithoutReadings },
+        'metric',
+        i18n.t,
+      );
+      expect(dataMissingDirection.label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
+      expect(dataMissingDirection.data).toBe('9km/h -');
+
+      const dataMissingSpeedAndDirection = formatWindData(
+        mockSensor,
+        { wind_speed: speedWithoutReadings, wind_direction: directionWithoutReadings },
+        'metric',
+        i18n.t,
+      );
+      expect(dataMissingSpeedAndDirection.label).toBe(
+        i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'),
+      );
+      expect(dataMissingSpeedAndDirection.data).toBe('-');
     });
   });
 });

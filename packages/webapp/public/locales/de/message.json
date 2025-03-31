@@ -1,13 +1,17 @@
 {
   "ANIMALS": {
-    "FAILED_CREATE_ANIMALS": "MISSING",
-    "FAILED_CREATE_BATCHES": "MISSING",
-    "FAILED_REMOVE_ANIMALS": "MISSING",
-    "FAILED_REMOVE_BATCHES": "MISSING",
-    "SUCCESS_CREATE_ANIMALS": "MISSING",
-    "SUCCESS_CREATE_BATCHES": "MISSING",
-    "SUCCESS_REMOVE_ANIMALS": "MISSING",
-    "SUCCESS_REMOVE_BATCHES": "MISSING"
+    "FAILED_CREATE_ANIMALS": "Fehler beim Erstellen der Tiere",
+    "FAILED_CREATE_BATCHES": "Fehler beim Erstellen der Chargen",
+    "FAILED_REMOVE_ANIMALS": "Fehler beim Entfernen der ausgewählten Tiere",
+    "FAILED_REMOVE_BATCHES": "Fehler beim Entfernen der ausgewählten Chargen",
+    "FAILED_UPDATE_ANIMAL": "Fehler beim Aktualisieren des Tieres",
+    "FAILED_UPDATE_BATCH": "Fehler beim Aktualisieren der Charge",
+    "SUCCESS_CREATE_ANIMALS": "Tiere erfolgreich erstellt",
+    "SUCCESS_CREATE_BATCHES": "Chargen erfolgreich erstellt",
+    "SUCCESS_REMOVE_ANIMALS": "Ausgewählte Tiere erfolgreich entfernt",
+    "SUCCESS_REMOVE_BATCHES": "Ausgewählte Chargen erfolgreich entfernt",
+    "SUCCESS_UPDATE_ANIMAL": "Tier erfolgreich aktualisiert",
+    "SUCCESS_UPDATE_BATCH": "Charge erfolgreich aktualisiert"
   },
   "ASSIGN_TASK": {
     "ERROR": "Aufgabe konnte nicht zugewiesen werden",
@@ -50,7 +54,9 @@
     "ERROR": {
       "ADD": "Fehler beim Hinzufügen neuer Ausgaben",
       "DELETE": "Fehler beim Löschen von Ausgaben",
-      "UPDATE": "Fehler beim Aktualisieren der Ausgaben!"
+      "UPDATE": "Fehler beim Aktualisieren der Ausgaben!",
+      "EXPENSE_DELETED": "Diese Ausgabe existiert nicht mehr",
+      "EXPENSE_TYPE_DELETED": "Dieser Ausgabentyp wurde gelöscht"
     },
     "SUCCESS": {
       "ADD": "Neue Ausgaben erfolgreich hinzugefügt!",
@@ -78,6 +84,11 @@
     },
     "SUCCESS": {
       "UPDATE": "Betriebsdaten erfolgreich aktualisiert!"
+    }
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Beim Senden Ihres Feedbacks hat etwas nicht geklappt. Bitte versuchen Sie es erneut."
     }
   },
   "LOG_HARVEST": {
@@ -151,7 +162,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Aktualisierung der Einnahmen gescheitert"
+      "EDIT": "Aktualisierung der Einnahmen gescheitert",
+      "REVENUE_TYPE_DELETED": "Diese Einnahmeart wurde gelöscht"
     },
     "SUCCESS": {
       "EDIT": "Einnahmen erfolgreich aktualisiert"
@@ -173,7 +185,8 @@
     "ERROR": {
       "ADD": "Verkauf nicht möglich",
       "DELETE": "Neuer Verkauf wurde nicht gelöscht",
-      "UPDATE": "Verkauf nicht aktualisiert"
+      "UPDATE": "Verkauf nicht aktualisiert",
+      "SALE_DELETED": "Dieser Verkauf existiert nicht mehr"
     },
     "SUCCESS": {
       "ADD": "Erfolgreicher Zusatzverkauf",

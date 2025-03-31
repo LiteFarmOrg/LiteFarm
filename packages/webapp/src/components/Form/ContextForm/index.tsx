@@ -14,7 +14,7 @@
  */
 
 import { useState, useMemo } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, ValidationMode } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
 
@@ -23,7 +23,7 @@ export enum Variant {
   STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
 }
 
-const components = {
+const COMPONENTS = {
   [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
   [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
 };
@@ -35,6 +35,7 @@ interface ContextFormProps {
   variant?: Variant;
   isEditing?: boolean;
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
+  formMode?: keyof ValidationMode;
   [key: string]: any;
 }
 
@@ -45,6 +46,7 @@ export const ContextForm = ({
   variant = Variant.PAGE_TITLE,
   isEditing = true,
   setIsEditing,
+  formMode = 'onBlur',
   ...props
 }: ContextFormProps) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -53,7 +55,7 @@ export const ContextForm = ({
   const [showCancelFlow, setShowCancelFlow] = useState(false);
 
   const form = useForm({
-    mode: 'onBlur',
+    mode: formMode,
     defaultValues: defaultFormValues,
   });
 
@@ -92,7 +94,7 @@ export const ContextForm = ({
 
   const { FormContent } = steps[activeStepIndex];
 
-  const Component = components[variant];
+  const Component = COMPONENTS[variant];
 
   return (
     <Component
@@ -117,6 +119,7 @@ export const ContextForm = ({
           formResultData={formResultData}
           history={history}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
         />
       </FormProvider>
     </Component>

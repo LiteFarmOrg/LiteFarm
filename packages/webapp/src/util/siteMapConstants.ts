@@ -17,11 +17,8 @@
 //   as well as accomodating UUID types.
 
 // Animals
-
 export const ANIMALS_URL = '/animals';
 export const ANIMALS_INVENTORY_URL = '/animals/inventory';
-export const ANIMALS_LOCATION_URL = '/animals/location';
-export const ANIMALS_GROUPS_URL = '/animals/groups';
 export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
 export const createSingleAnimalViewURL = (id: string | number): string => {
   return `/animals/${id}`;
@@ -88,6 +85,16 @@ export const createCompleteHarvestQuantityTaskUrl = (id: string | number): strin
 };
 
 // First complete page for custom tasks
-export const createCompleteTaskUrl = (id: string | number): string => {
-  return `/tasks/${id}/complete`;
+export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
+  return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
+};
+
+// Maps
+export const MAP_URL = '/map';
+export const ADD_SENSORS_URL = '/add_sensors';
+export const SENSORS_URL = '/sensors';
+
+// Sensors
+export const createSensorsUrl = (partnerId?: number): string => {
+  return `/sensors${partnerId ? `?partner_id=${partnerId}` : ''}`;
 };

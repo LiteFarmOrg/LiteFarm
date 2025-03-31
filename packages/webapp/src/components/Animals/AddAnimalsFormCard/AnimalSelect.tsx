@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
 import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
+import { validateOptionLength } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -47,18 +48,21 @@ export function AnimalTypeSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+        rules={{
+          required: { value: true, message: t('common:REQUIRED') },
+          validate: validateOptionLength,
+        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
-            placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
             options={typeOptions}
-            onChange={(option) => {
+            onChange={(option: any) => {
               onChange(option);
               onTypeChange?.(option);
             }}
             value={value}
             isDisabled={isDisabled}
+            isClearable={false}
           />
         )}
       />
@@ -72,6 +76,8 @@ export type AnimalBreedSelectProps = {
   isTypeSelected?: boolean;
   breedSelectRef?: RefObject<SelectInstance>;
   isDisabled?: boolean;
+  error?: FieldError;
+  onBreedChange?: (Option: Option | null) => void;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({
@@ -81,29 +87,37 @@ export function AnimalBreedSelect<T extends FieldValues>({
   isTypeSelected,
   breedSelectRef,
   isDisabled = false,
+  error,
+  onBreedChange,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <CreatableSelect
-          ref={breedSelectRef}
-          options={breedOptions}
-          label={t('ADD_ANIMAL.BREED')}
-          optional
-          controlShouldRenderValue={isTypeSelected}
-          placeholder={
-            isTypeSelected
-              ? t('ADD_ANIMAL.BREED_PLACEHOLDER')
-              : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
-          }
-          isDisabled={!isTypeSelected || isDisabled}
-          onChange={(option) => onChange(option)}
-          value={value}
-        />
-      )}
-    />
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        rules={{
+          validate: validateOptionLength,
+        }}
+        render={({ field: { onChange, value } }) => (
+          <CreatableSelect
+            ref={breedSelectRef}
+            options={breedOptions}
+            label={t('ADD_ANIMAL.BREED')}
+            optional
+            controlShouldRenderValue={isTypeSelected}
+            placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
+            isDisabled={!isTypeSelected || isDisabled}
+            onChange={(option: any) => {
+              onChange(option);
+              onBreedChange?.(option);
+            }}
+            value={value || null}
+            isClearable={false}
+          />
+        )}
+      />
+      {error && <Error>{error.message}</Error>}
+    </div>
   );
 }

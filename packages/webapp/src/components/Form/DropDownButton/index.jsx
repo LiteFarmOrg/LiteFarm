@@ -29,6 +29,7 @@ export default function DropdownButton({
   type,
   classes: propClasses = {},
   menuPositionOffset,
+  disabled = false,
 }) {
   const classes = useStyles();
   const [isOpen, setOpen] = useState(defaultOpen);
@@ -68,6 +69,7 @@ export default function DropdownButton({
         aria-controls={isOpen ? 'composition-menu' : undefined}
         aria-expanded={isOpen ? 'true' : undefined}
         aria-haspopup="true"
+        disabled={disabled}
       >
         {children}
         {!noIcon && (

@@ -18,6 +18,5 @@ export enum AnimalsFilterKeys {
   TYPE = 'TYPE',
   BREED = 'BREED',
   SEX = 'SEX',
-  GROUPS = 'GROUPS',
   LOCATION = 'LOCATION',
 }

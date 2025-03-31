@@ -14,7 +14,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import NumberInput from '../../Form/NumberInput';
@@ -33,7 +33,12 @@ import {
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
 } from './AnimalSelect';
-import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import clsx from 'clsx';
+import {
+  ANIMAL_COUNT_LIMIT,
+  BATCH_COUNT_LIMIT,
+} from '../../../containers/Animals/AddAnimals/utils';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -66,6 +71,7 @@ export default function AddAnimalsFormCard({
     resetField,
     formState: { errors },
   } = useFormContext();
+
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}${BasicsFields.COUNT}`);
   const watchAnimalType = watch(`${namePrefix}${BasicsFields.TYPE}`);
@@ -85,7 +91,10 @@ export default function AddAnimalsFormCard({
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   return (
-    <Card className={styles.form} isActive={isActive}>
+    <Card
+      className={clsx([styles.form, shouldCreateIndividualProfiles && styles.extraBottomPadding])}
+      isActive={isActive}
+    >
       <div className={styles.formHeader}>
         <Main>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Main>
         {showRemoveButton && <SmallButton variant="remove" onClick={onRemoveButtonClick} />}
@@ -106,6 +115,10 @@ export default function AddAnimalsFormCard({
         control={control}
         breedOptions={filteredBreeds}
         isTypeSelected={!!watchAnimalType}
+        onBreedChange={(option) => {
+          trigger(`${namePrefix}${BasicsFields.BREED}`);
+        }}
+        error={get(errors, `${namePrefix}${BasicsFields.BREED}`)}
       />
 
       <div className={styles.countAndSexDetailsWrapper}>
@@ -121,6 +134,9 @@ export default function AddAnimalsFormCard({
               value: true,
               message: t('common:REQUIRED'),
             },
+            max: hookFormMaxValidation(
+              shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : BATCH_COUNT_LIMIT,
+            ),
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${BasicsFields.COUNT}`)}
@@ -148,18 +164,16 @@ export default function AddAnimalsFormCard({
         label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
         tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
-        onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
+        onChange={(e) => {
+          onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked);
+          // Trigger validation after the change is reflected in the form state
+          setTimeout(() => {
+            trigger(`${namePrefix}${BasicsFields.COUNT}`);
+          }, 0);
+        }}
       />
-      {shouldCreateIndividualProfiles ? (
-        // @ts-ignore
-        <Input
-          label={t('ADD_ANIMAL.GROUP_NAME')}
-          optional
-          placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-          hookFormRegister={register(`${namePrefix}${BasicsFields.GROUP_NAME}`)}
-        />
-      ) : (
-        // @ts-ignore
+      {!shouldCreateIndividualProfiles && (
+        // @ts-expect-error
         <Input
           label={t('ADD_ANIMAL.BATCH_NAME')}
           optional

@@ -124,8 +124,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-      ? drawLine
-      : drawPoint;
+        ? drawLine
+        : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();
@@ -159,6 +159,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
           gate: [],
           water_valve: [],
           sensor: [],
+          sensor_array: [],
         };
         cluster.markers.map((point) => {
           pointAssets[point.type].push({

@@ -8,12 +8,19 @@ import {
 } from './useManagementPlanTilesByLocationIds';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
+import { getProgress } from '../util';
+import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
   if (isTransplantTask)
     return (
       <TransplantManagementPlansSelector history={history} match={match} location={location} />
+    );
+  if (isCustomTask)
+    return (
+      <CustomTaskManagementPlansSelector history={history} match={match} location={location} />
     );
   return <TaskCrops history={history} match={match} location={location} />;
 }
@@ -35,6 +42,22 @@ function TransplantManagementPlansSelector({ history, match, location }) {
   );
 }
 
+function CustomTaskManagementPlansSelector({ history, match, location }) {
+  const { animalsExistOnFarm } = useAnimalsExist();
+  const onContinuePath = animalsExistOnFarm ? '/add_task/task_animal_selection' : undefined;
+  const progress = getProgress('CUSTOM_TASK', 'task_crops');
+
+  return (
+    <TaskCrops
+      onContinuePath={onContinuePath}
+      history={history}
+      match={match}
+      location={location}
+      progress={progress}
+    />
+  );
+}
+
 function TaskCrops({
   history,
   match,
@@ -42,6 +65,7 @@ function TaskCrops({
   onContinuePath = '/add_task/task_details',
   locations,
   location,
+  progress,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
@@ -76,6 +100,7 @@ function TaskCrops({
         isRequired={isRequired}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
         defaultManagementPlanId={location?.state?.management_plan_id ?? null}
+        progress={progress}
         history={history}
         location={location}
       />

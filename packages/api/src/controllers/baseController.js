@@ -207,15 +207,6 @@ export default {
   },
 
   /**
-   * Format transaltion key
-   * @param {String} key
-   * @returns {String} - Formatted key
-   */
-  formatTranslationKey(key) {
-    return key.toUpperCase().trim().replaceAll(' ', '_');
-  },
-
-  /**
    * To check if record is deleted or not
    * @param {Object} trx - Transaction object
    * @param {Object} model - Database model instance

@@ -18,7 +18,6 @@ import { RootState } from '../store';
 import {
   animalsUrl,
   animalBatchesUrl,
-  animalGroupsUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
   defaultAnimalBreedsUrl,
@@ -34,11 +33,13 @@ import {
   soilAmendmentFertiliserTypesUrl,
   productUrl,
   url,
+  animalMovementPurposesUrl,
+  sensorUrl,
+  farmAddonUrl,
 } from '../../apiConfig';
 import type {
   Animal,
   AnimalBatch,
-  AnimalGroup,
   CustomAnimalBreed,
   CustomAnimalType,
   DefaultAnimalBreed,
@@ -53,6 +54,10 @@ import type {
   AnimalIdentifierColor,
   AnimalOrigin,
   AnimalUse,
+  AnimalMovementPurpose,
+  SensorData,
+  FarmAddon,
+  SensorReadings,
 } from './types';
 
 export const api = createApi({
@@ -73,7 +78,6 @@ export const api = createApi({
   tagTypes: [
     'Animals',
     'AnimalBatches',
-    'AnimalGroups',
     'CustomAnimalBreeds',
     'CustomAnimalTypes',
     'DefaultAnimalBreeds',
@@ -81,6 +85,7 @@ export const api = createApi({
     'AnimalSexes',
     'AnimalIdentifierTypes',
     'AnimalIdentifierColors',
+    'AnimalMovementPurposes',
     'AnimalOrigins',
     'AnimalUses',
     'AnimalRemovalReasons',
@@ -88,6 +93,10 @@ export const api = createApi({
     'SoilAmendmentPurposes',
     'SoilAmendmentFertiliserTypes',
     'SoilAmendmentProduct',
+    'Sensors',
+    'SensorReadings',
+    'FarmAddon',
+    'Weather',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -99,10 +108,6 @@ export const api = createApi({
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,
       providesTags: ['AnimalBatches'],
-    }),
-    getAnimalGroups: build.query<AnimalGroup[], void>({
-      query: () => `${animalGroupsUrl}`,
-      providesTags: ['AnimalGroups'],
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
@@ -131,6 +136,10 @@ export const api = createApi({
     getAnimalIdentifierColors: build.query<AnimalIdentifierColor[], void>({
       query: () => `${animalIdentifierColorsUrl}`,
       providesTags: ['AnimalIdentifierColors'],
+    }),
+    getAnimalMovementPurposes: build.query<AnimalMovementPurpose[], void>({
+      query: () => `${animalMovementPurposesUrl}`,
+      providesTags: ['AnimalMovementPurposes'],
     }),
     getAnimalOrigins: build.query<AnimalOrigin[], void>({
       query: () => `${animalOriginsUrl}`,
@@ -164,7 +173,7 @@ export const api = createApi({
       query: (del) => ({
         url: `${animalsUrl}`,
         method: 'DELETE',
-        params: { ids: del },
+        params: del,
       }),
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
@@ -172,7 +181,7 @@ export const api = createApi({
       query: (del) => ({
         url: `${animalBatchesUrl}`,
         method: 'DELETE',
-        params: { ids: del },
+        params: del,
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
@@ -182,7 +191,7 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -190,7 +199,25 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
+    }),
+    updateAnimals: build.mutation<void, Partial<Animal>[]>({
+      query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
+      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+    }),
+    updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
+      query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
@@ -220,13 +247,55 @@ export const api = createApi({
         }),
       },
     ),
+    getSensors: build.query<SensorData, void>({
+      query: () => `${sensorUrl}`,
+      keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
+      providesTags: ['Sensors'],
+    }),
+    getSensorReadings: build.query<
+      SensorReadings,
+      {
+        esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+        startTime?: string; // ISO 8601
+        endTime?: string; // ISO 8601
+        truncPeriod?: 'minute' | 'hour' | 'day';
+      }
+    >({
+      query: ({ esids, startTime, endTime, truncPeriod }) => {
+        const params = new URLSearchParams({ esids });
+        if (startTime) params.append('startTime', startTime);
+        if (endTime) params.append('endTime', endTime);
+        if (truncPeriod) params.append('truncPeriod', truncPeriod);
+        return `${sensorUrl}/readings?${params.toString()}`;
+      },
+      providesTags: ['SensorReadings'],
+    }),
+    addFarmAddon: build.mutation<void, FarmAddon>({
+      query: (body) => ({
+        url: `${farmAddonUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['FarmAddon'],
+    }),
+    getFarmAddon: build.query<FarmAddon[], string | void>({
+      query: (param = '') => `${farmAddonUrl}${param}`,
+      providesTags: ['FarmAddon'],
+    }),
+    deleteFarmAddon: build.mutation<void, number>({
+      query: (id) => ({
+        url: `${farmAddonUrl}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, error) =>
+        error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
+    }),
   }),
 });
 
 export const {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
-  useGetAnimalGroupsQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
@@ -234,6 +303,7 @@ export const {
   useGetAnimalSexesQuery,
   useGetAnimalIdentifierTypesQuery,
   useGetAnimalIdentifierColorsQuery,
+  useGetAnimalMovementPurposesQuery,
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
   useGetAnimalRemovalReasonsQuery,
@@ -243,9 +313,17 @@ export const {
   useDeleteAnimalBatchesMutation,
   useAddAnimalsMutation,
   useAddAnimalBatchesMutation,
+  useUpdateAnimalsMutation,
+  useUpdateAnimalBatchesMutation,
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
+  useGetSensorsQuery,
+  useGetSensorReadingsQuery,
+  useLazyGetSensorsQuery,
+  useAddFarmAddonMutation,
+  useGetFarmAddonQuery,
+  useDeleteFarmAddonMutation,
 } = api;

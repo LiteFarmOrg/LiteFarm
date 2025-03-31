@@ -25,10 +25,13 @@ export default meta;
 
 type Story = StoryObj<typeof ActionMenu>;
 
-const createLabelAndOnClick = (label: string): { label: string; onClick: () => void } => {
+const createLabelAndOnClick = (
+  label: string,
+): { label: string; onClick: () => void; visible: boolean } => {
   return {
     label,
     onClick: () => console.log(`${label} clicked!`),
+    visible: true,
   };
 };
 

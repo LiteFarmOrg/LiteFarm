@@ -1,5 +1,5 @@
 {
-  "BED_PREPARATION_TASK": "Préparation Planche",
+  "BED_PREPARATION_TASK": "Préparation du lit",
   "DELIVERY": "Livraison",
   "SALE_TASK": "Ventes",
   "SOCIAL_EVENT": "Évenement Social",
@@ -21,5 +21,5 @@
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Nettoyage",
   "SOIL_AMENDMENT_TASK": "Amendement",
-  "MOVEMENT_TASK": "MISSING"
+  "MOVEMENT_TASK": "Déplacement"
 }

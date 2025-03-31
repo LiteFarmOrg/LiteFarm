@@ -15,10 +15,15 @@
 
 import baseModel from './baseModel.js';
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
-import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import Model from './baseFormatModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
+import TaskModel from './taskModel.js';
+import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
+import DefaultAnimalTypeModel from './defaultAnimalTypeModel.js';
+import CustomAnimalTypeModel from './customAnimalTypeModel.js';
+import DefaultAnimalBreedModel from './defaultAnimalBreedModel.js';
+import CustomAnimalBreedModel from './customAnimalBreedModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -99,6 +104,7 @@ class Animal extends baseModel {
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         price: { type: ['number', 'null'] },
+        location_id: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -107,7 +113,7 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      internal_identifier: {
+      animal_union_batch: {
         relation: Model.HasOneRelation,
         modelClass: AnimalUnionBatchIdViewModel,
         join: {
@@ -115,18 +121,6 @@ class Animal extends baseModel {
           to: 'animal_union_batch_id_view.id',
         },
         modify: (query) => query.select('internal_identifier').where('batch', false),
-      },
-      group_ids: {
-        relation: Model.HasManyRelation,
-        modelClass: AnimalGroupRelationshipModel,
-        join: {
-          from: 'animal.id',
-          to: 'animal_group_relationship.animal_id',
-        },
-        modify: (query) =>
-          query.select('animal_group_id').whereIn('animal_group_id', function () {
-            this.select('id').from('animal_group').where('deleted', false);
-          }),
       },
       animal_use_relationships: {
         relation: Model.HasManyRelation,
@@ -136,7 +130,147 @@ class Animal extends baseModel {
           to: 'animal_use_relationship.animal_id',
         },
       },
+      tasks: {
+        modelClass: TaskModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal.id',
+          through: {
+            modelClass: TaskAnimalRelationshipModel,
+            from: 'task_animal_relationship.animal_id',
+            to: 'task_animal_relationship.task_id',
+          },
+          to: 'task.task_id',
+        },
+        modify: (query) => query.select('task.task_id').where('deleted', false),
+      },
+      default_type: {
+        modelClass: DefaultAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.default_type_id',
+          to: 'default_animal_type.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_type: {
+        modelClass: CustomAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.custom_type_id',
+          to: 'custom_animal_type.id',
+        },
+        modify: (query) => query.select('type'),
+      },
+      default_breed: {
+        modelClass: DefaultAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.default_breed_id',
+          to: 'default_animal_breed.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_breed: {
+        modelClass: CustomAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.custom_breed_id',
+          to: 'custom_animal_breed.id',
+        },
+        modify: (query) => query.select('breed'),
+      },
     };
+  }
+
+  static get modifiers() {
+    return {
+      filterDeleted(query) {
+        const { ref } = Animal;
+        query.where(ref('deleted'), false);
+      },
+      selectId(query) {
+        const { ref } = Animal;
+        query.select(ref('id'));
+      },
+    };
+  }
+
+  static async getAnimalIdsWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return Animal.query(trx)
+        .select('id')
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal.id', animalIds);
+    }
+
+    return Animal.query(trx)
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+        builder.where('deleted', false);
+      })
+      .whereIn('animal.id', animalIds)
+      .transacting(trx);
+  }
+
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getAnimalIdsWithFinalizedTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getAnimalIdsWithIncompleteTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate) {
+    return Animal.query()
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date');
+        builder
+          .where('deleted', false)
+          .where('complete_date', '>', completedDate)
+          .where('task_type_id', taskTypeId);
+      })
+      .whereIn('id', animalIds);
+  }
+
+  static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
+    let unrelatedTaskIds = [];
+    const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);
+
+    if (animals) {
+      // Delete relationships
+      await Promise.all(
+        animals.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+          return Animal.relatedQuery('tasks')
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
+
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
 }
 

@@ -17,10 +17,19 @@ import React, { ReactNode } from 'react';
 import styles from './button.module.scss';
 import clsx from 'clsx';
 
-type ButtonProps = {
-  color?: 'primary' | 'secondary' | 'secondary-2' | 'secondary-cta' | 'warning' | 'error' | 'none';
+export type ButtonProps = {
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'secondary-2'
+    | 'secondary-cta'
+    | 'accent'
+    | 'warning'
+    | 'error'
+    | 'none';
   children?: ReactNode;
   sm?: boolean;
+  md?: boolean;
   disabled?: boolean;
   fullLength?: boolean;
   className?: string;
@@ -34,6 +43,7 @@ const Button = ({
   color = 'primary',
   children = 'Button',
   sm,
+  md,
   disabled = false,
   fullLength = false,
   className,
@@ -49,6 +59,7 @@ const Button = ({
         styles.btn,
         color && styles[color],
         sm && styles.sm,
+        md && styles.md,
         fullLength && styles.fullLength,
         className,
       )}

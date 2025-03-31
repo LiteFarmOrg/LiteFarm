@@ -33,57 +33,69 @@ const entitiesGetters = {
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
-export default ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
-  let id_name;
-  let id;
-  if (params) {
-    id_name = params;
-    id = req.params[id_name];
-  } else if (mixed) {
-    id_name = mixed;
-    id = req;
-  } else {
-    id_name = body;
-    if (Array.isArray(req.body)) {
-      //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
-      id = req.body[0][id_name];
+export default ({ params = null, body = null, mixed = null, tableName = null }) =>
+  async (req, res, next) => {
+    let entity_key;
+    let id;
+    if (params) {
+      entity_key = params;
+      id = req.params[entity_key];
+    } else if (mixed) {
+      entity_key = mixed;
+      id = req;
+    } else if (tableName) {
+      entity_key = tableName;
+      id = req.params['id'];
     } else {
-      id = req.body[id_name];
+      entity_key = body;
+      if (Array.isArray(req.body)) {
+        //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
+        id = req.body[0][entity_key];
+      } else {
+        id = req.body[entity_key];
+      }
     }
-  }
-  if (!id_name) {
-    return next();
-  }
-
-  try {
-    const { farm_id } = req.headers;
-
-    if (farm_id === undefined) {
-      return noFarmIdErrorResponse(res);
-    }
-
-    const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
-    // Is getting a seeded table and accessing community data. Go through.
-    if (
-      seededEntities.includes(id_name) &&
-      req.method === 'GET' &&
-      farmIdObjectFromEntity.farm_id === null
-    ) {
-      return next();
-    } else if (farmIdObjectFromEntity?.next) {
+    if (!entity_key) {
       return next();
     }
-    return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
-  } catch (e) {
-    notAuthorizedResponse(res);
-  }
-};
+
+    try {
+      const { farm_id } = req.headers;
+
+      if (farm_id === undefined) {
+        return noFarmIdErrorResponse(res);
+      }
+
+      // A generic entity getter for tables that use plain 'id' for index name
+      const farmIdObjectFromEntity = tableName
+        ? await knex(tableName).where({ id }).first()
+        : await entitiesGetters[entity_key](id, next);
+      // Is getting a seeded table and accessing community data. Go through.
+      if (
+        seededEntities.includes(entity_key) &&
+        req.method === 'GET' &&
+        farmIdObjectFromEntity.farm_id === null
+      ) {
+        return next();
+      } else if (farmIdObjectFromEntity?.next) {
+        return next();
+      }
+      return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
+    } catch (_e) {
+      notAuthorizedResponse(res);
+    }
+  };
 
 async function fromTaskId(task_id) {
   const taskType = await knex('task')
     .join('task_type', 'task.task_type_id', 'task_type.task_type_id')
     .where({ task_id })
     .first();
+
+  if (taskType?.farm_id) {
+    return { farm_id: taskType.farm_id };
+  }
+
   //TODO: planting transplant task authorization test
   if (['PLANT_TASK', 'TRANSPLANT_TASK'].includes(taskType?.task_translation_key)) {
     const task_type = taskType.task_translation_key.toLowerCase();
@@ -149,7 +161,7 @@ function fromPesticide(pesticideId) {
   return knex('pesticide').where({ pesticide_id: pesticideId }).first();
 }
 
-async function fromCropManagement(crop_management_plan, next) {
+async function fromCropManagement(crop_management_plan) {
   const locationIds = crop_management_plan.planting_management_plans
     .map((planting_management_plan) => planting_management_plan.location_id)
     .filter((location_id) => location_id);
@@ -199,7 +211,7 @@ async function fromLocations(locations) {
       .distinct('location.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
-  } catch (e) {
+  } catch (_e) {
     return {};
   }
 }
@@ -215,7 +227,7 @@ async function fromLocationIds(location_ids) {
       .distinct('location.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
-  } catch (e) {
+  } catch (_e) {
     return {};
   }
 }

@@ -24,8 +24,9 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  width: fit-content;
 
-  &:hover input:not(:checked) {
+  &:hover input:not(:checked):not(:disabled) {
     ~ .label {
       color: var(--Colors-Neutral-Neutral-900);
     }

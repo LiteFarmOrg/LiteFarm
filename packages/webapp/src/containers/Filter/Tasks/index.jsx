@@ -62,7 +62,7 @@ const TasksFilterPage = ({ onGoBack }) => {
   }, []);
 
   const taskTypes = useMemo(() => {
-    const supportedTaskTypes = getSupportedTaskTypesSet(true);
+    const supportedTaskTypes = getSupportedTaskTypesSet(true, true);
     let taskTypes = {};
     for (const type of defaultTaskTypes) {
       if (type.deleted === false && supportedTaskTypes.has(type.task_translation_key)) {

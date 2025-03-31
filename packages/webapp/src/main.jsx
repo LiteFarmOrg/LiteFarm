@@ -60,7 +60,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
-import weatherSaga from './containers/WeatherBoard/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
 import sensorReadingsSaga from './containers/SensorReadings/saga';
@@ -80,14 +79,14 @@ import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import './polyfillDateTimeFormat';
+
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.6.8',
+    release: '3.7.5',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -129,7 +128,6 @@ sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
-sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);

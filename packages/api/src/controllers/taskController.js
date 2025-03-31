@@ -31,16 +31,19 @@ import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
+import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
+import { ANIMAL_TASKS } from '../util/animal.js';
+import { CUSTOM_TASK } from '../util/task.js';
+import { customError } from '../util/customErrors.js';
+
 const adminRoles = [1, 2, 5];
 
 async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
-  const {
-    assignee_user_id,
-    assignee_role_id,
-    wage_at_moment,
-    override_hourly_wage,
-  } = await TaskModel.getTaskAssignee(task_id, farm_id);
+  const { assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage } =
+    await TaskModel.getTaskAssignee(task_id, farm_id);
   const { role_id } = await UserFarmModel.getUserRoleId(user_id, farm_id);
   if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
     throw new Error("Not authorized to complete other people's task");
@@ -58,6 +61,38 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
   return { assignee_user_id, finalWage };
 }
 
+async function formatAnimalMovementTaskForDB(data) {
+  if (!data.animal_movement_task) {
+    return data;
+  }
+
+  if (!('purpose_ids' in data.animal_movement_task)) {
+    delete data.animal_movement_task.other_purpose;
+    return data;
+  }
+
+  data.animal_movement_task.purpose_relationships = [];
+
+  if (data.animal_movement_task.purpose_ids?.length) {
+    const { id: otherPurposeId } = await AnimalMovementPurposeModel.query()
+      .select('id')
+      .where({ key: 'OTHER' })
+      .first();
+
+    data.animal_movement_task.purpose_ids.forEach((id) => {
+      const purposeRelationship = { purpose_id: id };
+      if (id === otherPurposeId) {
+        purposeRelationship.other_purpose = data.animal_movement_task.other_purpose;
+      }
+      data.animal_movement_task.purpose_relationships.push(purposeRelationship);
+    });
+  }
+  delete data.animal_movement_task.purpose_ids;
+  delete data.animal_movement_task.other_purpose;
+
+  return data;
+}
+
 async function updateTaskWithCompletedData(
   trx,
   user_id,
@@ -67,48 +102,130 @@ async function updateTaskWithCompletedData(
   nonModifiable,
   typeOfTask,
 ) {
-  if (typeOfTask === 'soil_amendment_task') {
-    const { soil_amendment_task_products } = data;
+  switch (typeOfTask) {
+    case 'soil_amendment_task': {
+      const { soil_amendment_task_products } = data;
 
-    if (soil_amendment_task_products) {
-      // Temporarily soft delete all with task_id since there is no constraint on deletions
-      await SoilAmendmentTaskProductsModel.query(trx)
+      if (soil_amendment_task_products) {
+        // Temporarily soft delete all with task_id since there is no constraint on deletions
+        await SoilAmendmentTaskProductsModel.query(trx)
+          .context({ user_id })
+          .update({ deleted: true })
+          .where('task_id', task_id);
+
+        // Set deleted false for all in update query
+        soil_amendment_task_products.forEach((taskProduct) => {
+          taskProduct.deleted = false;
+        });
+      }
+
+      // Allows the insertion of missing data if no id present
+      // Soft deletes table rows with soft delete option and hard deletes ones without
+      const task = await TaskModel.query(trx)
         .context({ user_id })
-        .update({ deleted: true })
-        .where('task_id', task_id);
-
-      // Set deleted false for all in update query
-      soil_amendment_task_products.forEach((taskProduct) => {
-        taskProduct.deleted = false;
-      });
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: nonModifiable,
+            noInsert: nonModifiable,
+            insertMissing: true,
+          },
+        );
+      return task;
     }
 
-    // Allows the insertion of missing data if no id present
-    // Soft deletes table rows with soft delete option and hard deletes ones without
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete: nonModifiable,
-          noInsert: nonModifiable,
-          insertMissing: true,
-        },
+    case 'animal_movement_task': {
+      const { task_type_id, locations, animals, animal_batches } = await TaskModel.query(trx)
+        .select('task_type_id')
+        .withGraphFetched(
+          '[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]',
+        )
+        .where({ task_id })
+        .first();
+
+      const locationId = locations?.[0]?.location_id;
+
+      if (!locationId) {
+        throw customError('location deleted');
+      }
+
+      if (!data.animals && !data.animal_batches) {
+        data.animals = animals;
+        data.animal_batches = animal_batches;
+      }
+
+      const updateEntityLocations = async (entities, getNewerCompletedTasks) => {
+        if (!entities?.length) {
+          return;
+        }
+
+        const entitiesWithNewerCompletedTasks = await getNewerCompletedTasks(
+          entities.map(({ id }) => id),
+          task_type_id,
+          data.complete_date,
+        );
+
+        entities.forEach((entity) => {
+          const newerCompletedTasks =
+            entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
+
+          // If there's no newer completed task, update the location
+          if (!newerCompletedTasks.length) {
+            entity.location_id = locationId;
+          }
+        });
+      };
+
+      await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
+      await updateEntityLocations(
+        data.animal_batches,
+        AnimalBatchModel.getBatchesWithNewerCompletedTasks,
       );
-    return task;
-  } else {
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete: true,
-          noInsert: true,
-        },
-      );
-    return task;
+
+      if (!data.animal_movement_task) {
+        data.animal_movement_task = {};
+      }
+      // Prevent deletion of animal_movement_task and allow proper updates on purpose relationships
+      data.animal_movement_task.task_id = task_id;
+
+      // If the request body do not have purposes, add 'animal_movement_task.purpose_relationships'
+      // to prevent existing purpose relationships from being deleted
+      const noDelete = data.animal_movement_task.purpose_relationships
+        ? nonModifiable
+        : [...nonModifiable, 'animal_movement_task.purpose_relationships'];
+
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete,
+            noInsert: [...nonModifiable, 'animal_movement_task'],
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+
+      return task;
+    }
+
+    default: {
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: true,
+            noInsert: true,
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+      return task;
+    }
   }
 }
 
@@ -274,11 +391,7 @@ const taskController = {
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
 
-      const {
-        assignee_user_id,
-        wage_at_moment,
-        override_hourly_wage,
-      } = await TaskModel.query()
+      const { assignee_user_id, wage_at_moment, override_hourly_wage } = await TaskModel.query()
         .select('assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
         .where({ task_id })
         .first();
@@ -348,6 +461,12 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
+        if (
+          [...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask) &&
+          ('related_animal_ids' in data || 'related_batch_ids' in data)
+        ) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
@@ -355,16 +474,32 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: ['locations', 'managementPlans'],
+              relate: ['locations', 'managementPlans', 'animals', 'animal_batches'],
             });
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
-              `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], irrigation_task.[irrigation_type],scouting_task,
-          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
-          `,
+              `[
+                locations.[location_defaults],
+                managementPlans,
+                taskType,
+                animals(filterDeleted, selectId).[animal_union_batch],
+                animal_batches(filterDeleted, selectId).[animal_union_batch],
+                soil_amendment_task,
+                soil_amendment_task_products.[purpose_relationships],
+                irrigation_task.[irrigation_type],
+                scouting_task,
+                field_work_task.[field_work_task_type],
+                cleaning_task,
+                pest_control_task,
+                soil_task,
+                harvest_task,
+                plant_task,
+                animal_movement_task.[purpose_relationships],
+              ]`,
             )
             .where({ task_id });
+          task.animals?.forEach(flattenInternalIdentifier);
+          task.animal_batches?.forEach(flattenInternalIdentifier);
           return removeNullTypes(task);
         });
         if (result.assignee_user_id) {
@@ -381,12 +516,41 @@ const taskController = {
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
+
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         return res.status(400).send({ error });
       }
     };
   },
 
+  formatAnimalAndBatchIds(data) {
+    if ('related_animal_ids' in data) {
+      data.animals = data.related_animal_ids
+        ? [...new Set(data.related_animal_ids)].map((id) => ({ id }))
+        : null;
+    }
+    if ('related_batch_ids' in data) {
+      data.animal_batches = data.related_batch_ids
+        ? [...new Set(data.related_batch_ids)].map((id) => ({ id }))
+        : null;
+    }
+
+    delete data.related_animal_ids;
+    delete data.related_batch_ids;
+
+    return data;
+  },
+
   async checkCustomDependencies(typeOfTask, data, farm_id) {
+    // TODO: Move this validation to checkCreateTask and checkCompleteTask and apply the middleware to all relevant routes.
+    if ('animals' in data || 'animal_batches' in data) {
+      throw customError(`Invalid field: "animals" or "animal_batches" should not be included.`);
+    }
+
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
@@ -394,9 +558,8 @@ const taskController = {
       case 'irrigation_task':
         return await (async () => {
           if (data.irrigation_task) {
-            const {
-              irrigation_type_id,
-            } = await IrrigationTypesModel.checkAndAddCustomIrrigationType(data, farm_id);
+            const { irrigation_type_id } =
+              await IrrigationTypesModel.checkAndAddCustomIrrigationType(data, farm_id);
             if (data.irrigation_task.default_irrigation_task_type_measurement) {
               await IrrigationTypesModel.updateIrrigationType({
                 irrigation_type_id,
@@ -417,6 +580,9 @@ const taskController = {
           delete data.location_defaults;
           return data;
         })();
+      case 'animal_movement_task': {
+        return await formatAnimalMovementTaskForDB(data);
+      }
       default: {
         return data;
       }
@@ -593,11 +759,14 @@ const taskController = {
           task_id,
         );
 
-        const data = await this.checkCustomDependencies(
+        let data = await this.checkCustomDependencies(
           typeOfTask,
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
+        if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
             trx,
@@ -628,6 +797,11 @@ const taskController = {
           return res.status(404).send('Task not found');
         }
       } catch (error) {
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         if (error.message === "Not authorized to complete other people's task") {
           return res.status(403).send(error.message);
         }
@@ -713,16 +887,28 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations.[location_defaults], managementPlans, soil_amendment_task, soil_amendment_task_products(filterDeleted).[purpose_relationships], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
-        `,
+          `[
+            locations.[location_defaults],
+            managementPlans,
+            animals(filterDeleted, selectId).[animal_union_batch],
+            animal_batches(filterDeleted, selectId).[animal_union_batch],
+            soil_amendment_task,
+            soil_amendment_task_products(filterDeleted).[purpose_relationships],
+            field_work_task.[field_work_task_type],
+            cleaning_task,
+            pest_control_task,
+            harvest_task.[harvest_use],
+            plant_task,
+            transplant_task,
+            irrigation_task.[irrigation_type],
+            animal_movement_task.[purpose_relationships],
+          ]`,
         )
         .whereIn('task_id', taskIds);
       const filteredTasks = graphTasks.map(removeNullTypes);
 
       /* Clean before returning to frontend */
-      const {
-        task_type_id: soilAmendmentTypeId,
-      } = await TaskTypeModel.query()
+      const { task_type_id: soilAmendmentTypeId } = await TaskTypeModel.query()
         .whereNotDeleted()
         .where({ farm_id: null, task_translation_key: 'SOIL_AMENDMENT_TASK' })
         .first();
@@ -730,6 +916,8 @@ const taskController = {
         if (task.task_type_id !== soilAmendmentTypeId) {
           delete task.soil_amendment_task_products;
         }
+        task.animals?.forEach(flattenInternalIdentifier);
+        task.animal_batches?.forEach(flattenInternalIdentifier);
       });
 
       if (graphTasks) {
@@ -772,9 +960,8 @@ const taskController = {
   async getIrrigationTaskTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
-        farm_id,
-      );
+      const irrigationTaskTypes =
+        await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(farm_id);
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);
@@ -828,61 +1015,72 @@ function removeNullTypes(task) {
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
-    TaskModel.query()
-      .select('task.task_id')
-      .whereNotDeleted()
-      .distinct('task.task_id')
-      .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-      .join(
-        'planting_management_plan',
-        'management_tasks.planting_management_plan_id',
-        'planting_management_plan.planting_management_plan_id',
-      )
-      .join(
-        'management_plan',
-        'planting_management_plan.management_plan_id',
-        'management_plan.management_plan_id',
-      )
-      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-      .where('crop_variety.farm_id', farm_id),
-    TaskModel.query()
-      .select('task.task_id')
-      .whereNotDeleted()
-      .distinct('task.task_id')
-      .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-      .join('location', 'location.location_id', 'location_tasks.location_id')
-      .where('location.farm_id', farm_id),
-    PlantTaskModel.query()
-      .select('plant_task.task_id')
-      .join(
-        'planting_management_plan',
-        'planting_management_plan.planting_management_plan_id',
-        'plant_task.planting_management_plan_id',
-      )
-      .join(
-        'management_plan',
-        'management_plan.management_plan_id',
-        'planting_management_plan. management_plan_id',
-      )
-      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-      .where('crop_variety.farm_id', farm_id),
-    TransplantTaskModel.query()
-      .select('transplant_task.task_id')
-      .join(
-        'planting_management_plan',
-        'planting_management_plan.planting_management_plan_id',
-        'transplant_task.planting_management_plan_id',
-      )
-      .join(
-        'management_plan',
-        'management_plan.management_plan_id',
-        'planting_management_plan. management_plan_id',
-      )
-      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-      .where('crop_variety.farm_id', farm_id),
-  ]);
-  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
+  const customTaskTypesForFarm = await TaskTypeModel.query()
+    .select('task_type_id')
+    .where({ farm_id });
+  const [managementTasks, locationTasks, plantTasks, transplantTasks, customTasks] =
+    await Promise.all([
+      TaskModel.query()
+        .select('task.task_id')
+        .whereNotDeleted()
+        .distinct('task.task_id')
+        .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
+        .join(
+          'planting_management_plan',
+          'management_tasks.planting_management_plan_id',
+          'planting_management_plan.planting_management_plan_id',
+        )
+        .join(
+          'management_plan',
+          'planting_management_plan.management_plan_id',
+          'management_plan.management_plan_id',
+        )
+        .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+        .where('crop_variety.farm_id', farm_id),
+      TaskModel.query()
+        .select('task.task_id')
+        .whereNotDeleted()
+        .distinct('task.task_id')
+        .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+        .join('location', 'location.location_id', 'location_tasks.location_id')
+        .where('location.farm_id', farm_id),
+      PlantTaskModel.query()
+        .select('plant_task.task_id')
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.planting_management_plan_id',
+          'plant_task.planting_management_plan_id',
+        )
+        .join(
+          'management_plan',
+          'management_plan.management_plan_id',
+          'planting_management_plan. management_plan_id',
+        )
+        .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+        .where('crop_variety.farm_id', farm_id),
+      TransplantTaskModel.query()
+        .select('transplant_task.task_id')
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.planting_management_plan_id',
+          'transplant_task.planting_management_plan_id',
+        )
+        .join(
+          'management_plan',
+          'management_plan.management_plan_id',
+          'planting_management_plan. management_plan_id',
+        )
+        .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+        .where('crop_variety.farm_id', farm_id),
+      TaskModel.query()
+        .select('task.task_id')
+        .whereNotDeleted()
+        .whereIn(
+          'task_type_id',
+          customTaskTypesForFarm.map(({ task_type_id }) => task_type_id),
+        ),
+    ]);
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks, ...customTasks];
 }
 
 async function getManagementPlans(task_id, typeOfTask) {
@@ -1084,3 +1282,8 @@ async function filterOutDeletedManagementPlans(data, req) {
     validPlantingMangementPlans.includes(planting_management_plan_id),
   );
 }
+
+const flattenInternalIdentifier = (animalOrBatch) => {
+  animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
+  delete animalOrBatch.animal_union_batch;
+};

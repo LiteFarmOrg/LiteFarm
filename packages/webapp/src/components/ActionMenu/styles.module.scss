@@ -54,15 +54,18 @@
     font-size: 14px;
     font-weight: 700;
     text-decoration: underline;
+    @include fontFamily();
   }
 }
 
 .headerLeftText {
   color: var(--Colors-Accent-Accent-yellow-50);
+  margin-right: 16px;
 }
 
 .iconButtons {
   display: flex;
+  justify-content: space-around;
   gap: 8px;
   padding: 8px 16px;
   color: var(--Btn-primary-pristine);

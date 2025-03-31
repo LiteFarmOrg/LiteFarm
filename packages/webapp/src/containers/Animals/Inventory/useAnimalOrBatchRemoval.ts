@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import { Dispatch, SetStateAction, useState, useCallback, useMemo } from 'react';
 import {
   useDeleteAnimalBatchesMutation,
   useDeleteAnimalsMutation,
@@ -26,15 +26,22 @@ import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/Rem
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { AnimalOrBatchKeys } from '../types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
+import { Animal, AnimalBatch } from '../../../store/api/types';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { getTasks } from '../../Task/saga';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
-  setSelectedInventoryIds: Dispatch<SetStateAction<string[]>>,
+  animalTasksWithInventoryIds: { id: string; tasks: Animal['tasks'] }[],
+  setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
+  const completedTasks = useSelector(completedTasksSelector) || [];
+  const abandonedTasks = useSelector(abandonedTasksSelector) || [];
 
   const { mutations } = useMutations([
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
@@ -52,6 +59,7 @@ const useAnimalOrBatchRemoval = (
     const animalBatchRemovalArray = [];
     const selectedAnimalIds: string[] = [];
     const selectedBatchIds: string[] = [];
+    let result;
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -74,33 +82,37 @@ const useAnimalOrBatchRemoval = (
       }
     }
 
-    try {
-      if (animalRemovalArray.length) {
-        await mutations['removeAnimals'].trigger(animalRemovalArray).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalRemovalArray.length) {
+      result = await mutations['removeAnimals'].trigger(animalRemovalArray);
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
-    try {
-      if (animalBatchRemovalArray.length) {
-        await mutations['removeBatches'].trigger(animalBatchRemovalArray).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalBatchRemovalArray.length) {
+      result = await mutations['removeBatches'].trigger(animalBatchRemovalArray);
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
+    return result;
   };
 
   const handleAnimalOrBatchDeletion = async () => {
@@ -108,6 +120,8 @@ const useAnimalOrBatchRemoval = (
     const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
     const selectedBatchIds: string[] = [];
+    const date = getLocalDateInYYYYDDMM();
+    let result;
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -120,44 +134,72 @@ const useAnimalOrBatchRemoval = (
       }
     }
 
-    try {
-      if (animalIds.length) {
-        await mutations['deleteAnimals'].trigger(animalIds).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalIds.length) {
+      result = await mutations['deleteAnimals'].trigger({ ids: animalIds, date });
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
-    try {
-      if (animalBatchIds.length) {
-        await mutations['deleteBatches'].trigger(animalBatchIds).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalBatchIds.length) {
+      result = await mutations['deleteBatches'].trigger({ ids: animalBatchIds, date });
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
+    return result;
   };
 
-  const onConfirmRemoveAnimals = (formData: FormFields) => {
+  const onConfirmRemoveAnimals = async (formData: FormFields) => {
     if (Number(formData.reason) === CREATED_IN_ERROR_ID) {
-      handleAnimalOrBatchDeletion();
+      return handleAnimalOrBatchDeletion();
     } else {
-      handleAnimalOrBatchRemoval(formData);
+      return handleAnimalOrBatchRemoval(formData);
     }
   };
 
-  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen };
+  const getFinalizedTasks = useCallback(() => {
+    return Array.from(new Set([...completedTasks, ...abandonedTasks]));
+  }, [completedTasks, abandonedTasks]);
+
+  const hasFinalizedTasks = useMemo(() => {
+    if (!removalModalOpen) {
+      return false;
+    }
+
+    const finalizedTasks = getFinalizedTasks();
+
+    return selectedInventoryIds.some((animalOrBatchId) => {
+      const { id, kind } = parseInventoryId(animalOrBatchId);
+      return finalizedTasks.filter(
+        ({ animals, animal_batches }: { animals: Animal[]; animal_batches: AnimalBatch[] }) => {
+          const animalIds = animals.map(({ id }) => `${id}`);
+          const batchIds = animal_batches.map(({ id }) => `${id}`);
+          return kind === AnimalOrBatchKeys.ANIMAL
+            ? animalIds.includes(`${id}`)
+            : batchIds.includes(`${id}`);
+        },
+      ).length;
+    });
+  }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
+
+  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };
 };
 
 export default useAnimalOrBatchRemoval;

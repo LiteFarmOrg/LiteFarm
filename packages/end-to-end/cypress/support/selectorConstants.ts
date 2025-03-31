@@ -68,6 +68,7 @@ export const INPUT_ERROR = '[data-cy=error]';
 // crops.js
 export const RADIO = '[type="radio"]';
 export const REACT_SELECT = '[data-cy="react-select"]';
+export const CAN_BE_COVER_CROP = '[name="can_be_cover_crop"]';
 export const CROP_PLAN_LOCATION_SUBMIT = '[data-cy="cropPlan-locationSubmit"]';
 export const CROP_PLAN_PLANT_DATE = '[data-cy="cropPlan-plantDate"]';
 export const CROP_PLAN_PLANT_HARVEST = '[data-cy="cropPlan-plantHarvest"]';
@@ -76,6 +77,8 @@ export const CROP_PLAN_SEED_GERMINATION = '[data-cy="cropPlan-seedGermination"]'
 export const CROP_PLAN_TRANSPLANT_SUBMIT = '[data-cy="cropPlan-transplantSubmit"]';
 export const PLAN_GUIDANCE_SUBMIT = '[data-cy="planGuidance-submit"]';
 export const PLANT_DATE_SUBMIT = '[data-cy="plantDate-submit"]';
+export const PLANTING_METHOD_GROUND_PLANTED = '[data-cy="cropPlan-groundPlanted"]';
+export const PLANTING_METHOD_ROW = 'input[data-cy="cropPlan-plantingMethod"][value="ROW_METHOD"]';
 export const PLANTING_METHOD_SUBMIT = '[data-cy="plantingMethod-submit"]';
 export const ROW_METHOD_LENGTH = '[data-cy="rowMethod-length"]';
 export const ROW_METHOD_ROWS = '[data-cy="rowMethod-rows"]';

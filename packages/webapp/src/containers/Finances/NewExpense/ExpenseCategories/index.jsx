@@ -62,7 +62,6 @@ class ExpenseCategories extends Component {
         <PureFinanceTypeSelection
           title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
-          cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
           types={filteredExpenseTypes}
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}

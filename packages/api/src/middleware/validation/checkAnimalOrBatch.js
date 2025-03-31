@@ -32,6 +32,8 @@ import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
 import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
+import { ANIMAL_CREATE_LIMIT } from '../../util/animal.js';
+import { compareUpperCaseTrim, upperCaseTrim } from '../../util/util.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -83,8 +85,8 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
       'default_type_id, custom_type_id, or type_name',
     );
   }
+  // Overwrite with null in db if editing, post does not accept nulled values in oneOf schemas
   if (!creating && someExists(typeKeyOptions, animalOrBatch)) {
-    // Overwrite with null in db if editing
     setFalsyValuesToNull(typeKeyOptions, animalOrBatch);
   }
   if (custom_type_id) {
@@ -140,7 +142,7 @@ const checkCustomBreedMatchesType = (
   let customTypeId = custom_type_id;
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
 
-  // If not editing type, check record type
+  // If not editing type, get record type
   if (!someExists(typeKeyOptions, animalOrBatch) && preexistingAnimalOrBatch) {
     defaultTypeId = preexistingAnimalOrBatch.default_type_id;
     customTypeId = preexistingAnimalOrBatch.custom_type_id;
@@ -171,77 +173,70 @@ const checkAnimalBreed = async (
   } = animalOrBatch;
   const breedKeyOptions = ['default_breed_id', 'custom_breed_id', 'breed_name'];
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
-
-  // Check if breed is present
-  if (
-    (creating && someExists(breedKeyOptions, animalOrBatch)) ||
-    someTruthy([default_breed_id, custom_breed_id, breed_name])
-  ) {
-    checkExactlyOneIsProvided(
-      [default_breed_id, custom_breed_id, breed_name],
-      'default_breed_id, custom_breed_id, or breed_name',
-    );
-  }
-  // Check if breed is present
-  if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
-    // Overwrite with null in db if editing
-    setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
-  }
-
-  if (
-    someExists(breedKeyOptions, animalOrBatch) &&
-    !someTruthy([default_breed_id, custom_breed_id, breed_name])
-  ) {
-    // do nothing if nulling breed
-  } else {
-    // Check if default breed or default type is present
-    if (
-      (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
-      (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
-    ) {
-      await checkDefaultBreedMatchesType(
-        preexistingAnimalOrBatch,
-        default_breed_id,
-        default_type_id,
+  // If neither breed or type is specified, skip checks
+  if (someExists(breedKeyOptions, animalOrBatch) || someExists(typeKeyOptions, animalOrBatch)) {
+    // Check only one breed option is truthy
+    if (someTruthy([default_breed_id, custom_breed_id, breed_name])) {
+      checkExactlyOneIsProvided(
+        [default_breed_id, custom_breed_id, breed_name],
+        'default_breed_id, custom_breed_id, or breed_name',
       );
     }
-    // Check if custom breed or custom type is present
-    if (
-      (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
-      (someExists(typeKeyOptions, animalOrBatch) &&
-        (default_type_id || custom_type_id) &&
-        !breed_name)
-    ) {
-      let customBreed;
-      // Find customBreed if exists
-      if (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
-        checkIdIsNumber(custom_breed_id);
-        customBreed = await CustomAnimalBreedModel.query()
-          .whereNotDeleted()
-          .findById(custom_breed_id);
-        if (!customBreed) {
-          throw customError('Custom breed does not exist');
-        }
-      } else if (preexistingAnimalOrBatch?.custom_breed_id) {
-        checkIdIsNumber(preexistingAnimalOrBatch?.custom_breed_id);
-        customBreed = await CustomAnimalBreedModel.query()
-          .whereNotDeleted()
-          .findById(preexistingAnimalOrBatch.custom_breed_id);
-        if (!customBreed) {
-          // This should not be possible
-          throw customError('Custom breed does not exist');
-        }
-      }
-      // Check custom breed if exists
-      if (customBreed) {
-        await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
-        checkCustomBreedMatchesType(
-          animalOrBatch,
+    // Overwrite all others with null in db if editing, post does not accept nulled values in oneOf schemas
+    if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
+      setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
+    }
+
+    const isNotNullingAllBreedOptions = !(
+      someExists(breedKeyOptions, animalOrBatch) &&
+      !someTruthy([default_breed_id, custom_breed_id, breed_name])
+    );
+    const isCreatingWithBreed =
+      creating && someTruthy([default_breed_id, custom_breed_id, breed_name]);
+    // Do checks on breed unless removing breed from the existing record or creating animal without breed
+    if (isNotNullingAllBreedOptions || isCreatingWithBreed) {
+      // Check if default breed or default type is present
+      if (default_breed_id || default_type_id) {
+        await checkDefaultBreedMatchesType(
           preexistingAnimalOrBatch,
-          customBreed,
+          default_breed_id,
           default_type_id,
-          custom_type_id,
         );
+      }
+      // Check if custom breed or new type is present
+      // Skip checks in some cases where new custom type or breed is added
+      if ((custom_breed_id && !type_name) || ((default_type_id || custom_type_id) && !breed_name)) {
+        let customBreed;
+        // Find customBreed if exists
+        if (custom_breed_id) {
+          checkIdIsNumber(custom_breed_id);
+          customBreed = await CustomAnimalBreedModel.query()
+            .whereNotDeleted()
+            .findById(custom_breed_id);
+          if (!customBreed) {
+            throw customError('Custom breed does not exist');
+          }
+        } else if (preexistingAnimalOrBatch?.custom_breed_id) {
+          checkIdIsNumber(preexistingAnimalOrBatch?.custom_breed_id);
+          customBreed = await CustomAnimalBreedModel.query()
+            .whereNotDeleted()
+            .findById(preexistingAnimalOrBatch.custom_breed_id);
+          if (!customBreed) {
+            // This should not be possible unless concurrently deleted in between record get and this breed id check
+            throw customError('Custom breed does not exist');
+          }
+        }
+        // Check custom breed if exists
+        if (customBreed) {
+          await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
+          checkCustomBreedMatchesType(
+            animalOrBatch,
+            preexistingAnimalOrBatch,
+            customBreed,
+            default_type_id,
+            custom_type_id,
+          );
+        }
       }
     }
   }
@@ -385,46 +380,45 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
   const relations =
     animalOrBatchKey === 'batch'
       ? {
-          group_ids: true,
           sex_detail: true,
           animal_batch_use_relationships: true,
         }
       : {
-          group_ids: true,
           animal_use_relationships: true,
         };
   return await AnimalOrBatchModel[animalOrBatchKey]
     .query()
     .findById(animalOrBatch.id)
-    .where({ farm_id })
+    .where({ farm_id, animal_removal_reason_id: null })
     .whereNotDeleted()
     .withGraphFetched(relations);
 };
 
-// Post loop checks
+// Checks for duplicates - no migration was made for pre-existing duplicates on beta
+// Currently the only endpoint checking case
 const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_id, trx) => {
   if (newTypesSet.size) {
-    const record = await CustomAnimalTypeModel.getTypesByFarmAndTypes(
-      farm_id,
-      [...newTypesSet],
-      trx,
-    );
-
-    if (record.length) {
-      throw customError('Animal type already exists', 409);
-    }
+    const customTypes = await CustomAnimalTypeModel.query(trx).where('farm_id', farm_id);
+    const formattedCustomTypes = [...customTypes].map((ct) => upperCaseTrim(ct.type));
+    newTypesSet.forEach((newType) => {
+      if (formattedCustomTypes.includes(upperCaseTrim(newType))) {
+        throw customError('Animal type already exists', 409);
+      }
+    });
   }
 
   if (newBreedsSet.size) {
     const typeBreedPairs = [...newBreedsSet].map((breed) => breed.split('/'));
-    const record = await CustomAnimalBreedModel.getBreedsByFarmAndTypeBreedPairs(
-      farm_id,
-      typeBreedPairs,
-      trx,
-    );
-
-    if (record.length) {
-      throw customError('Animal breed already exists', 409);
+    const customBreeds = await CustomAnimalBreedModel.query(trx).where('farm_id', farm_id);
+    for (const newBreed of typeBreedPairs) {
+      const [typeColumn, typeId, breed] = newBreed;
+      if (
+        [...customBreeds].some(
+          (cb) => cb[typeColumn] === +typeId && compareUpperCaseTrim(cb.breed, breed),
+        )
+      ) {
+        throw customError('Animal breed already exists', 409);
+      }
     }
   }
 };
@@ -450,6 +444,9 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
 
       checkIsArray(req.body, 'Request body');
 
+      if (req.body.length > ANIMAL_CREATE_LIMIT) {
+        return res.status(400).send(`Animal creation limit (${ANIMAL_CREATE_LIMIT}) exceeded.`);
+      }
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
 
@@ -559,6 +556,7 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
       // Check that all animals exist and belong to the farm
       // Done in its own loop to provide a list of all invalid ids
       const invalidIds = [];
+      const removalDatesSet = new Set();
 
       for (const animalOrBatch of req.body) {
         checkRemovalDataProvided(animalOrBatch);
@@ -572,9 +570,18 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
         if (!preexistingAnimalOrBatch) {
           invalidIds.push(animalOrBatch.id);
         }
+        removalDatesSet.add(animalOrBatch.removal_date);
       }
 
       await checkInvalidIds(invalidIds);
+
+      // Assumption: All removal_date values are identical.
+      // This check ensures that if this assumption ever changes, it triggers an error.
+      // If the error is triggered, re-implement handleIncompleteTasksForAnimalsAndBatches to handle multiple dates.
+      if (removalDatesSet.size > 1) {
+        throw customError('removal_date is expected to be the same in all animals/batches');
+      }
+
       next();
     } catch (error) {
       if (error.type === 'LiteFarmCustom') {
@@ -591,6 +598,24 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
     }
   };
 }
+
+// Check animals or batches with completed and abandoned tasks
+const checkAnimalsOrBatchesWithFinalizedTasks = async (animalOrBatchKey, ids, trx) => {
+  const getAnimalOrBatchIdsWithFinalizedTasks =
+    animalOrBatchKey === 'animal'
+      ? AnimalModel.getAnimalIdsWithFinalizedTasks
+      : AnimalBatchModel.getBatchIdsWithFinalizedTasks;
+
+  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, [
+    ...new Set(ids.split(',').map((id) => +id)),
+  ]);
+
+  for (const { tasks } of animalsOrBatches) {
+    if (tasks.length) {
+      throw customError('Animals with completed or abandoned tasks cannot be deleted');
+    }
+  }
+};
 
 /**
  * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
@@ -613,9 +638,13 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
 
     try {
       const { farm_id } = req.headers;
-      const { ids } = req.query;
+      const { ids, date } = req.query;
 
+      if (!date) {
+        throw customError('Must send date');
+      }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
+      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, ids, trx);
 
       await trx.commit();
       next();

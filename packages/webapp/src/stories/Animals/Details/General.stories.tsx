@@ -28,7 +28,7 @@ import {
   breedOptions,
   sexOptions,
   sexDetailsOptions,
-  useOptions,
+  animalUseOptions,
   addDefaults,
   defaultValues,
 } from './mockData';
@@ -61,7 +61,7 @@ export default meta;
 
 type Story = StoryObj<typeof GeneralDetails>;
 
-const commonProps = { sexOptions, useOptions };
+const commonProps = { sexOptions, animalUseOptions };
 
 export const Animal: Story = {
   args: {

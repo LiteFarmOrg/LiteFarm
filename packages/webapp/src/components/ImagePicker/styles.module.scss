@@ -104,3 +104,9 @@
   background-color: var(--teal100);
   border: 1px solid var(--teal500);
 }
+
+.editButton {
+  svg {
+    width: 22px;
+  }
+}

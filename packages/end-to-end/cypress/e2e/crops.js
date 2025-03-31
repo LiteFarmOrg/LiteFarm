@@ -45,11 +45,11 @@ describe('Crops', () => {
       .should('exist')
       .type('New Crop' + uniqueId);
     // cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-    cy.get(Selectors.REACT_SELECT)
+    cy.getVisible(Selectors.REACT_SELECT)
       .find('input')
       .type(crops['CEREALS'] + '{enter}');
 
-    cy.get(Selectors.RADIO).first().check({ force: true });
+    cy.get(Selectors.CAN_BE_COVER_CROP).first().check({ force: true });
 
     cy.get(Selectors.CROP_SUBMIT).should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/crop/new/add_crop_variety');
@@ -81,7 +81,7 @@ describe('Crops', () => {
 
     // Add Management Plan
     cy.contains(translation['CROP_DETAIL']['ADD_PLAN']).click();
-    cy.get(Selectors.RADIO).first().check();
+    cy.get(Selectors.PLANTING_METHOD_GROUND_PLANTED).first().check();
     cy.get(Selectors.CROP_PLAN_SUBMIT).should('exist').and('not.be.disabled').click();
     cy.get(Selectors.CROP_PLAN_TRANSPLANT_SUBMIT).should('exist').and('not.be.disabled').click();
 
@@ -102,7 +102,7 @@ describe('Crops', () => {
     cy.get(Selectors.CROP_PLAN_LOCATION_SUBMIT).should('exist').and('not.be.disabled').click();
 
     // Planning Method
-    cy.get(Selectors.RADIO).first().check();
+    cy.get(Selectors.PLANTING_METHOD_ROW).check();
     cy.get(Selectors.PLANTING_METHOD_SUBMIT).should('exist').and('not.be.disabled').click();
 
     // Row length

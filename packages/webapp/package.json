@@ -1,8 +1,23 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.6.8",
+  "version": "3.7.5",
   "description": "LiteFarm Web application",
   "type": "module",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "20.17"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.6.5"
+    }
+  },
+  "engines": {
+    "node": "20.17",
+    "pnpm": ">=9.7.0"
+  },
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
@@ -19,7 +34,6 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.11.0",
-    "@formatjs/intl-datetimeformat": "^6.15.0",
     "@googlemaps/markerclusterer": "^2.0.14",
     "@mui/base": "5.0.0-beta.26",
     "@mui/icons-material": "^5.11.16",
@@ -30,6 +44,8 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
+    "@turf/boolean-point-in-polygon": "7.2.0",
+    "@turf/helpers": "7.2.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",
@@ -112,7 +128,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-storybook": "^0.8.0",
-    "happy-dom": "^12.9.1",
+    "happy-dom": "^15.10.2",
     "i18next-parser": "^5.4.0",
     "imap-simple": "^5.1.0",
     "lint-staged": "^12.5.0",
@@ -121,7 +137,7 @@
     "react-select-event": "^5.5.1",
     "sass": "^1.56.1",
     "storybook": "^8.2.8",
-    "typescript": "^4.9.5",
+    "typescript": "^5.7.3",
     "vite": "^4.5.5",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",

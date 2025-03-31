@@ -14,29 +14,53 @@
  */
 
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
-interface DrawerProps {
-  title: string;
+export enum DesktopDrawerVariants {
+  DRAWER = 'drawer',
+  SIDE_DRAWER = 'sideDrawer',
+  MODAL = 'modal',
+}
+
+type CommonDrawerProps = {
+  title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
-  responsiveModal?: boolean;
+  addBackdrop?: boolean;
   classes?: {
     modal?: string;
-    drawer?: string;
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
-    drawerContainer?: string;
+    drawerContainer?: string; // applied to all drawers
+    desktopSideDrawerContainer?: string;
   };
-}
+};
+
+type DrawerProps = CommonDrawerProps &
+  (
+    | {
+        desktopVariant?: DesktopDrawerVariants.DRAWER | DesktopDrawerVariants.MODAL;
+        desktopSideDrawerDirection?: never;
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection?: 'right';
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection: 'left';
+        isCompactSideMenu: boolean;
+      }
+  );
 
 const Drawer = ({
   title,
@@ -46,23 +70,24 @@ const Drawer = ({
   buttonGroup,
   classes = {
     modal: '',
-    drawer: '',
     drawerBackdrop: '',
     drawerHeader: '',
     drawerContent: '',
     drawerContainer: '',
+    desktopSideDrawerContainer: '',
   },
   fullHeight,
-  responsiveModal = true,
+  desktopVariant = DesktopDrawerVariants.MODAL,
+  desktopSideDrawerDirection = 'right',
+  isCompactSideMenu,
+  addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  if (!isOpen) {
-    return null;
-  }
+  const isDesktopSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
 
-  return isDesktop && responsiveModal ? (
+  return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
       className={classes.modal}
       title={title}
@@ -74,17 +99,30 @@ const Drawer = ({
     </ModalComponent>
   ) : (
     <>
-      <div
-        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
-        onClick={onClose}
-      ></div>
+      {addBackdrop && (
+        <div
+          className={clsx(
+            styles.drawerBackdrop,
+            isOpen ? styles.openC : '',
+            classes.drawerBackdrop,
+          )}
+          onClick={onClose}
+        ></div>
+      )}
       <div
         className={clsx(
           styles.drawer,
+          isDesktopSideDrawer ? styles.sideDrawer : styles.bottomDrawer,
+          isDesktopSideDrawer && styles[desktopSideDrawerDirection],
+          desktopSideDrawerDirection === 'left' && isCompactSideMenu
+            ? styles.withCompactSideMenu
+            : styles.withExpandedSideMenu,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,
+          isDesktopSideDrawer && classes.desktopSideDrawerContainer,
         )}
+        inert={!isOpen ? '' : null}
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
@@ -98,18 +136,6 @@ const Drawer = ({
       </div>
     </>
   );
-};
-
-Drawer.propTypes = {
-  title: PropTypes.string,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  buttonGroup: PropTypes.node,
-  fullHeight: PropTypes.bool,
-  classes: PropTypes.object,
-  responsiveModal: PropTypes.bool,
 };
 
 export default Drawer;

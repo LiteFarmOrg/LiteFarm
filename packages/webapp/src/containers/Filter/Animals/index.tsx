@@ -17,14 +17,14 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import type { ReduxFilterEntity, ContainerOnChangeCallback, Location, FilterState } from '../types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
+import { Location } from '../../../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
   useGetCustomAnimalBreedsQuery,
-  useGetAnimalGroupsQuery,
   useGetAnimalSexesQuery,
 } from '../../../store/api/apiSlice';
 import { generateUniqueAnimalId } from '../../../util/animal';
@@ -54,7 +54,6 @@ const AnimalsFilterContent = ({
   const { data: defaultBreeds = [] } = useGetDefaultAnimalBreedsQuery();
   const { data: customBreeds = [] } = useGetCustomAnimalBreedsQuery();
   const { data: sexes = [] } = useGetAnimalSexesQuery();
-  const { data: groups = [] } = useGetAnimalGroupsQuery();
 
   const { handleBreedsChange, filteredDefaultBreeds, filteredCustomBreeds } = useVisibleBreeds(
     defaultBreeds,
@@ -138,16 +137,6 @@ const AnimalsFilterContent = ({
         value: sex.id,
         default: animalsFilter[AnimalsFilterKeys.SEX][sex.id]?.active ?? false,
         label: t(`ANIMAL.FILTER.${sex.key}`),
-      })),
-    },
-    {
-      subject: t('ANIMAL.ANIMAL_GROUPS'),
-      type: FilterType.SEARCHABLE_MULTI_SELECT,
-      filterKey: AnimalsFilterKeys.GROUPS,
-      options: groups.map((group) => ({
-        value: group.id,
-        default: animalsFilter[AnimalsFilterKeys.GROUPS][group.id]?.active ?? false,
-        label: group.name,
       })),
     },
     {

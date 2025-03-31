@@ -1,4 +1,4 @@
-##### Version 6: 31. Mai 2024
+##### Version 7: 12. Dezember 2024
 
 #### Einverständniserklärung und Datenschutzerklärung (Farmbesitzer und Farmmanager)
 
@@ -12,7 +12,7 @@ LiteFarm ist ein an der University of British Columbia entstandenes partizipativ
 
 #### Wer ist das LiteFarm Team?
 
-Das LiteFarm Team ist eine interdisziplinäre Gruppe von Wissenschaftlern, Researchern, Landwirten, Designern und Software-Fachleuten. Das Team wurde ursprünglich an der University of British Columbia (UBC) gegründet und hat sich zu einem partizipatorischen globalen Netzwerk von Einzelpersonen und Organisationen entwickelt. Die Projektleitenden sind Dr. Zia Mehrabi (University of Colorado) und Dr. Hannah Wittman (hannah. ittman@ubc.ca), sowie Dr. Sean Smukler, Direktor des Centre for Sustainable Food Systems (Zentrum für Nachhaltige Ernährungssysteme) bei UBC Farm.
+Das LiteFarm Team ist eine interdisziplinäre Gruppe von Wissenschaftlern, Researchern, Landwirten, Designern und Software-Fachleuten. Das Team wurde ursprünglich an der University of British Columbia (UBC) gegründet und hat sich zu einem partizipatorischen globalen Netzwerk von Einzelpersonen und Organisationen entwickelt. Die Projektleitenden sind Dr. Zia Mehrabi (University of Colorado) und Dr. Hannah Wittman (hannah.wittman@ubc.ca), sowie Dr. Sean Smukler, Direktor des Centre for Sustainable Food Systems (Zentrum für Nachhaltige Ernährungssysteme) bei UBC Farm.
 
 #### Wer finanziert LiteFarm?
 
@@ -83,6 +83,10 @@ LiteFarm nutzt die Managementinformationen, die Sie in die App eingeben, um Erke
 - Details der ArbeiterInnen: Anzahl der angemeldeten ArbeiterInnen; Stundenlöhne; E-Mail-Adresse; Rolle; Name, etc.
 
 - Farmspezifische Details: bevorzugte Einheiten (z.B. metrische oder imperiale); Währung; ob der Betrieb eine Zertifizierung anstrebt; Zertifizierer; Beet-Eigenschaften; Reihenattribute.
+
+- Angaben zum Tier: Name des einzelnen Tieres oder der Tiergruppe, Art, Rasse, Geschlecht, Einbringungs- oder Geburtsdatum und andere Angaben zur Identifizierung.
+
+- Informationen über Tierverbringungen: Standort, Grund für die Verbringung und Datum der Verbringung.
 
 **Nutzungsdaten**
 
@@ -156,15 +160,15 @@ Derzeit ist die LiteFarm-Anwendung kostenlos nutzbar. Die Software selbst ist un
 
 Bezüglich der Anwendung, bitte kontaktieren Sie:
 
-- Produktmanager: Kevin Cussen (litefarm.team@ubc.ca)
+Produktmanager: litefarm.team@ubc.ca
 
 In Bezug auf diese Studie wenden Sie sich bitte an den leitenden Forscher:
 
-- Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Sollten Sie während der Teilnahme an dieser Studie irgendwelche Bedenken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben**
 
-Wenden Sie sich bei Beschwerden als Forschungsteilnehmer an die Beschwerdestelle für Forschungsteilnehmer im UBC Office of Research Ethics unter 604-822-8598. Bei Anrufen aus dem Ausland können Sie eine E-Mail an RSIL@ors.ubc.ca senden oder gebührenfrei unter 1-877-822-8598 anrufen.
+Wenden Sie sich bei Beschwerden als Forschungsteilnehmer an die Beschw- erdestelle für Forschungsteilnehmer im UBC Office of Research Ethics unter 604-822-8598. Bei Anrufen aus dem Ausland können Sie eine E-Mail an RSIL@ors.ubc.ca senden oder gebührenfrei unter 1-877-822-8598 anrufen.
 
 **Einwilligung**
 

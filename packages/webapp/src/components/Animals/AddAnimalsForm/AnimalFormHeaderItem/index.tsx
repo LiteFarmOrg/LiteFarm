@@ -19,13 +19,12 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { IconLink, Main } from '../../../Typography';
+import { Main } from '../../../Typography';
+import { InlineWarning as InlineRemoveWarning, RemoveLink } from '../../../Expandable/InlineRemove';
 import Icon from '../../../Icons';
-import TextButton from '../../../Form/Button/TextButton';
-import { ReactComponent as TrashIcon } from '../../../../assets/images/animals/trash_icon_new.svg';
 import { AnimalTypeIconKey } from '../../../Icons/icons';
 
-type BaseFormHeader = {
+type AnimalFormHeaderItemProps = {
   type: string;
   breed?: string;
   iconKey: AnimalTypeIconKey;
@@ -35,19 +34,9 @@ type BaseFormHeader = {
   onRemove: () => void;
   isExpanded: boolean;
   count?: number;
+  isBatch: boolean;
+  sex?: string;
 };
-
-type AnimalFormHeader = BaseFormHeader & {
-  sex: string;
-  isBatch: false;
-};
-
-type BatchFormHeader = BaseFormHeader & {
-  sex?: never;
-  isBatch: true;
-};
-
-type AnimalFormHeaderItemProps = AnimalFormHeader | BatchFormHeader;
 
 export const AnimalFormHeaderItem = ({
   type,
@@ -135,34 +124,10 @@ const RemoveComponent = ({
   return (
     <div className={clsx(styles.remove, isExpanded && showRemove && isRemoving && styles.spanAll)}>
       {showRemove && isExpanded && !isRemoving && (
-        <IconLink
-          className={styles.removeLink}
-          onClick={initiateRemoval}
-          icon={<TrashIcon />}
-          isIconClickable
-          underlined={false}
-        >
-          {t('common:REMOVE')}
-        </IconLink>
+        <RemoveLink onClick={initiateRemoval} className={styles.removeLink} />
       )}
       {isExpanded && showRemove && isRemoving && (
-        <div className={clsx(styles.inlineRemoveWarning)}>
-          <div className={styles.inlineIconText}>
-            <Icon iconName={'TRASH'} className={styles.trashIcon} />
-            <Main className={styles.inlineRemoveText}>{t('ADD_ANIMAL.REMOVE_CONFIRM')}</Main>
-          </div>
-          <div className={styles.inlineButtonContainer}>
-            <TextButton className={clsx(styles.inlineButton, styles.yesButton)} onClick={onRemove}>
-              {t('common:YES')}
-            </TextButton>
-            <TextButton
-              className={clsx(styles.inlineButton, styles.noButton)}
-              onClick={cancelRemoval}
-            >
-              {t('common:NO')}
-            </TextButton>
-          </div>
-        </div>
+        <InlineRemoveWarning onRemove={onRemove} onCancel={cancelRemoval} />
       )}
     </div>
   );

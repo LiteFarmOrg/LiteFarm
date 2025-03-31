@@ -13,22 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
+import { ReactNode, useEffect, useState } from 'react';
+import {
+  UseFormHandleSubmit,
+  FieldValues,
+  FormState,
+  UseFormReset,
+  UseFormGetValues,
+} from 'react-hook-form';
 import { History } from 'history';
-import StepperProgressBar from '../../StepperProgressBar';
+import StepperProgressBar, { StepperProgressBarProps } from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import Loading from './Loading';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
   history: History;
-  steps: { formContent: ReactNode; title: string }[];
+  steps: {
+    formContent: ReactNode;
+    title: string;
+    dataName?: string;
+  }[];
   activeStepIndex: number;
-  cancelModalTitle: string;
   isCompactSideMenu: boolean;
   hasSummaryWithinForm: boolean;
   stepperProgressBarConfig?: {
@@ -38,12 +48,14 @@ interface WithStepperProgressBarProps {
   stepperProgressBarTitle?: ReactNode;
   onSave: (
     data: FieldValues,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData?: (data: any) => void,
   ) => void;
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
+  reset: UseFormReset<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
@@ -51,6 +63,10 @@ interface WithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
+  headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
+  showPreviousButton?: boolean;
+  showLoading?: boolean;
+  onAfterSave?: (values: FieldValues) => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -58,7 +74,6 @@ export const WithStepperProgressBar = ({
   history,
   steps,
   activeStepIndex,
-  cancelModalTitle,
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
@@ -68,17 +83,26 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
+  reset,
+  getValues,
   formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
   setIsEditing,
   showCancelFlow,
   setShowCancelFlow,
+  headerComponent = StepperProgressBar,
+  showPreviousButton = true,
+  showLoading,
+  onAfterSave,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
     retry: undefined,
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
   const isSingleStep = steps.length === 1;
@@ -86,7 +110,7 @@ export const WithStepperProgressBar = ({
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
   useEffect(() => {
-    if (isSummaryPage || !isDirty) {
+    if (isSummaryPage || !isDirty || isSaved) {
       return;
     }
     const unblock = history.block((tx) => {
@@ -94,7 +118,20 @@ export const WithStepperProgressBar = ({
     });
 
     return () => unblock();
-  }, [isSummaryPage, isDirty, history]);
+  }, [isSummaryPage, isDirty, history, isSaved]);
+
+  useEffect(() => {
+    if (isSaved && onAfterSave) {
+      onAfterSave(getValues());
+    }
+  }, [isSaved, onAfterSave]);
+
+  useEffect(() => {
+    // Reset loading state whenever the step changes
+    if (isLoading) {
+      setIsLoading(false);
+    }
+  }, [activeStepIndex]);
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
@@ -102,10 +139,27 @@ export const WithStepperProgressBar = ({
 
   const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
-  const onContinue = () => {
+  const onSuccess = () => {
+    reset(getValues());
+    setIsEditing?.(false);
+
+    if (hasSummaryWithinForm) {
+      onGoForward();
+    }
+  };
+
+  const onContinue = async () => {
     if (isFinalStep) {
-      handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
-      setIsEditing?.(false);
+      setIsLoading(true);
+      setIsSaving(true);
+      try {
+        await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
+        setIsSaved(true);
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
+      }
+      setIsSaving(false);
       return;
     }
     onGoForward();
@@ -116,9 +170,11 @@ export const WithStepperProgressBar = ({
       transition.unblock?.();
       transition.retry?.();
     } catch (e) {
-      console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
+      console.error(`Error during canceling: ${e}`);
     }
+    reset();
     setIsEditing?.(false);
+    setShowCancelFlow?.(false);
   };
 
   const handleDismissModal = () => {
@@ -126,18 +182,21 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
+  if (showLoading && isLoading) {
+    return (
+      <Loading dataName={steps[activeStepIndex].dataName} isCompactSideMenu={isCompactSideMenu} />
+    );
+  }
+
   return (
-    <FixedHeaderContainer
-      header={
-        isSingleStep ? null : (
-          <StepperProgressBar
-            {...stepperProgressBarConfig}
-            title={stepperProgressBarTitle}
-            steps={steps.map(({ title }) => title)}
-            activeStep={activeStepIndex}
-          />
-        )
-      }
+    <StepperProgressBarWrapper
+      {...stepperProgressBarConfig}
+      title={stepperProgressBarTitle}
+      steps={steps.map(({ title }) => title)}
+      activeStep={activeStepIndex}
+      onGoBack={onGoBack}
+      onCancel={onCancel}
+      headerComponent={headerComponent}
     >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
@@ -145,20 +204,42 @@ export const WithStepperProgressBar = ({
           <FormNavigationButtons
             onContinue={onContinue}
             onCancel={onCancel}
-            onPrevious={isSingleStep ? undefined : onGoBack}
+            onPrevious={isSingleStep || !showPreviousButton ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
-            isDisabled={!isValid}
+            isDisabled={!isValid || isSaving}
           />
         </FloatingContainer>
       )}
       {(transition.unblock || showCancelFlow) && (
-        <CancelFlowModal
-          flow={cancelModalTitle}
-          dismissModal={handleDismissModal}
-          handleCancel={handleCancel}
-        />
+        <CancelFlowModal dismissModal={handleDismissModal} handleCancel={handleCancel} />
       )}
+    </StepperProgressBarWrapper>
+  );
+};
+
+type HeaderProps = StepperProgressBarProps & {
+  onGoBack: () => void;
+  onCancel: () => void;
+};
+
+type StepperProgressBarWrapperProps = HeaderProps & {
+  children: ReactNode;
+  headerComponent: ((props: HeaderProps) => JSX.Element) | null;
+};
+
+const StepperProgressBarWrapper = ({
+  children,
+  headerComponent,
+  ...stepperProgressBarProps
+}: StepperProgressBarWrapperProps) => {
+  if (!headerComponent) {
+    return <>{children}</>;
+  }
+
+  return (
+    <FixedHeaderContainer header={headerComponent && headerComponent(stepperProgressBarProps)}>
+      {children}
     </FixedHeaderContainer>
   );
 };

@@ -13,6 +13,7 @@ export default function PureTaskDate({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
+  progress = 28,
 }) {
   const { t } = useTranslation();
 
@@ -27,8 +28,6 @@ export default function PureTaskDate({
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
-
-  const progress = 28;
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -50,7 +49,6 @@ export default function PureTaskDate({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
         title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         value={progress}
       />
@@ -72,7 +70,7 @@ export default function PureTaskDate({
   );
 }
 
-PureTaskDate.prototype = {
+PureTaskDate.propTypes = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,

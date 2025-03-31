@@ -19,6 +19,13 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import AnimalGroupModel from '../models/animalGroupModel.js';
 import { checkAndTrimString } from './util.js';
+import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
+import TaskModel from '../models/taskModel.js';
+import { checkIsArray, customError } from './customErrors.js';
+
+export const ANIMAL_TASKS = ['animal_movement_task'];
+export const ANIMAL_CREATE_LIMIT = 1000;
 
 /**
  * Assigns internal identifiers to records.
@@ -140,5 +147,81 @@ export const upsertGroup = async (req, animalOrBatch, farm_id, trx) => {
     // Frontend only allows addition of one group at a time
     // TODO: handle multiple group additions
     animalOrBatch.group_ids = [{ animal_group_id: group.id }];
+  }
+};
+
+const getInvalidAnimalOrBatchIds = async (idsSet, model, farmId) => {
+  if (!idsSet.size) {
+    return [];
+  }
+
+  const invalidIdsSet = new Set(idsSet); // create a copy
+  const records = await model
+    .query()
+    .select('id')
+    .where({ farm_id: farmId, removal_date: null })
+    .whereIn('id', [...idsSet])
+    .whereNotDeleted();
+
+  records?.forEach(({ id }) => invalidIdsSet.delete(id));
+
+  return [...invalidIdsSet];
+};
+
+export const checkAnimalAndBatchIds = async (animalIds, batchIds, farmId, isRequired) => {
+  if (animalIds) {
+    checkIsArray(animalIds, 'animalIds');
+  }
+  if (batchIds) {
+    checkIsArray(batchIds, 'batchIds');
+  }
+
+  const animalIdsSet = new Set(animalIds);
+  const batchIdsSet = new Set(batchIds);
+
+  if (isRequired && !animalIdsSet.size && !batchIdsSet.size) {
+    throw customError('At least one of the animal IDs or animal batch IDs is required');
+  }
+
+  const invalidAnimalIds = await getInvalidAnimalOrBatchIds(animalIdsSet, AnimalModel, farmId);
+  const invalidBatchIds = await getInvalidAnimalOrBatchIds(batchIdsSet, AnimalBatchModel, farmId);
+
+  if (invalidAnimalIds.length || invalidBatchIds.length) {
+    throw customError(
+      'Some animal IDs or animal batch IDs do not exist, are removed, or are not associated with the given farm.',
+      400,
+      { invalidAnimalIds, invalidBatchIds },
+    );
+  }
+};
+
+export const handleIncompleteTasksForAnimalsAndBatches = async (
+  req,
+  trx,
+  animalOrBatch,
+  ids,
+  date,
+) => {
+  const unrelate =
+    animalOrBatch === 'animal'
+      ? AnimalModel.unrelateIncompleteTasksForAnimals
+      : AnimalBatchModel.unrelateIncompleteTasksForBatches;
+  const { unrelatedTaskIds } = await unrelate(trx, ids);
+
+  if (!unrelatedTaskIds.length) {
+    return;
+  }
+
+  const tasks = await TaskModel.getTaskIdsWithAnimalAndBatchIds(trx, unrelatedTaskIds);
+  const taskIdsToAbandon = tasks.flatMap(({ task_id, animals, animal_batches }) => {
+    // Abandon the task if it has no associated animals or batches
+    return animals.length + animal_batches.length === 0 ? task_id : [];
+  });
+
+  if (taskIdsToAbandon.length) {
+    await TaskModel.query(trx).context(req.auth).whereIn('task_id', taskIdsToAbandon).patch({
+      abandon_date: date,
+      abandonment_reason: 'NO_ANIMALS',
+    });
   }
 };

@@ -604,15 +604,18 @@ async function crop_management_planFactory(
   ]);
   const [{ management_plan_id }] = managementPlan;
   const { needs_transplant } = cropManagementPlan;
-  needs_transplant &&
-    (await insertPlantingMethod({
+
+  if (needs_transplant) {
+    await insertPlantingMethod({
       ...plantingManagementPlans[1],
       planting_management_plan: {
         ...plantingManagementPlans[1].planting_management_plan,
         management_plan_id,
         location_id,
       },
-    }));
+    });
+  }
+
   await insertPlantingMethod({
     ...plantingManagementPlans[0],
     planting_management_plan: {
@@ -1101,9 +1104,12 @@ function fakeFertilizer(defaultData = {}) {
 }
 
 async function taskFactory(
-  { promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {},
+  { promisedUser = usersFactory(), promisedTaskType, promisedFarm } = {},
   task = fakeTask(),
 ) {
+  if (!promisedTaskType) {
+    promisedTaskType = task_typeFactory({ promisedFarm });
+  }
   const [user, taskType] = await Promise.all([promisedUser, promisedTaskType]);
   const [{ user_id }] = user;
   const [{ task_type_id }] = taskType;
@@ -1768,6 +1774,39 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function animal_movement_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  animal_movement_task = fakeAnimalMovementTask(),
+) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('animal_movement_task')
+    .insert({ task_id, ...animal_movement_task })
+    .returning('*');
+}
+
+function fakeAnimalMovementTask(defaultData = {}) {
+  return defaultData;
+}
+
+async function animal_movement_purposeFactory(key = faker.lorem.word()) {
+  return knex('animal_movement_purpose')
+    .insert({ key, id: key === 'OTHER' ? 14 : undefined })
+    .returning('*');
+}
+
+async function animal_movement_task_purpose_relationshipFactory({
+  promisedTask = taskFactory(),
+  promisedPurpose = animal_movement_purposeFactory(),
+  other_purpose = null,
+} = {}) {
+  const [[{ task_id }], [{ id: purpose_id }]] = await Promise.all([promisedTask, promisedPurpose]);
+
+  return knex('animal_movement_task_purpose_relationship')
+    .insert({ task_id, purpose_id, other_purpose })
+    .returning('*');
+}
+
 async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
@@ -2386,7 +2425,7 @@ async function animal_batchFactory(
         .into('animal_batch')
         .returning('*');
 
-      let details = [];
+      const details = [];
       for (const detail of sex_detail) {
         const res = await trx
           .insert({ ...detail, animal_batch_id: batch[0].id })
@@ -2509,6 +2548,30 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
+async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
+  return knex('addon_partner')
+    .insert({
+      ...partner,
+      access_token: faker.datatype.access_token,
+      refresh_token: faker.datatype.refresh_token,
+    })
+    .returning('*');
+}
+
+async function farm_addonFactory({
+  promisedFarm = farmFactory(),
+  promisedPartner = addon_partnerFactory(),
+  org_pk = faker.datatype.number(),
+  org_uuid = faker.datatype.uuid(),
+} = {}) {
+  const [farm, partner] = await Promise.all([promisedFarm, promisedPartner]);
+  const [{ farm_id }] = farm;
+  const [{ id: addon_partner_id }] = partner;
+  return await knex('farm_addon')
+    .insert({ farm_id, addon_partner_id, org_pk, org_uuid })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2580,6 +2643,10 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
+  animal_movement_taskFactory,
+  fakeAnimalMovementTask,
+  animal_movement_purposeFactory,
+  animal_movement_task_purpose_relationshipFactory,
   saleFactory,
   fakeSale,
   locationFactory,
@@ -2665,5 +2732,7 @@ export default {
   animal_removal_reasonFactory,
   animal_useFactory,
   animal_type_use_relationshipFactory,
+  addon_partnerFactory,
+  farm_addonFactory,
   baseProperties,
 };

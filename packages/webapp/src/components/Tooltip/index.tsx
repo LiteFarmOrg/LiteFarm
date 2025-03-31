@@ -70,7 +70,7 @@ export default function OverlayTooltip({
       arrow={true}
       classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
       enterTouchDelay={10}
-      leaveTouchDelay={900000}
+      leaveTouchDelay={5000}
     >
       <span className={classes.childrenContainer}>{icon || children}</span>
     </Tooltip>

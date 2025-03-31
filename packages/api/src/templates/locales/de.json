@@ -18,7 +18,8 @@
     "REQUEST_A_FEATURE": "Verbesserung vorschlagen",
     "OTHER": "Anderes",
     "CONTACT_METHOD_HEADER": "Bevorzugte Kontaktmethode",
-    "SUBJECT": "Deine LiteFarm-Anfrage um Unterstützung am"
+    "SUBJECT": "Deine LiteFarm-Anfrage um Unterstützung am",
+    "OOO_RESPONSE": "Vielen Dank für Ihre Nachricht. Bitte beachten Sie, dass unser Team bis {{oooEndDate}} nicht im Büro ist. Wir werden Ihre Nachricht so schnell wie möglich nach unserer Rückkehr beantworten. Vielen Dank für Ihr Verständnis! Eine Zusammenfassung Ihrer Anfrage finden Sie unten."
   },
   "INVITE": {
     "GREAT_FOLK": "Die großartigen Leute von",

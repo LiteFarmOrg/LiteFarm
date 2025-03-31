@@ -74,6 +74,8 @@ class ShowedSpotlight extends Model {
         manage_custom_expense_type_end: { type: ['string', 'null'] },
         manage_custom_revenue_type: { type: 'boolean' },
         manage_custom_revenue_type_end: { type: ['string', 'null'] },
+        animals_beta: { type: 'boolean' },
+        animals_beta_end: { type: ['string', 'null'] },
       },
     };
   }

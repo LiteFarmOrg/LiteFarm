@@ -18,7 +18,8 @@
     "REQUEST_A_FEATURE": "Demander une fonctionnalité",
     "OTHER": "Autre",
     "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
-    "SUBJECT": "Votre demande d'aide LiteFarm à"
+    "SUBJECT": "Votre demande d'aide LiteFarm à",
+    "OOO_RESPONSE": "Merci de nous avoir contacté. Veuillez noter que notre équipe est en congès jusqu'à {{oooEndDate}}. Nous répondrons à votre message le plus rapidement possible après notre retour. Merci pour votre compréhension! Un résumé de votre demande est affiché ci-dessous."
   },
   "INVITE": {
     "GREAT_FOLK": "Les gens formidables de",

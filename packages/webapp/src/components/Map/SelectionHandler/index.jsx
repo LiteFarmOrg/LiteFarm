@@ -7,7 +7,7 @@ import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from '../PreviewPopup/CompactPreview';
-import { SENSOR } from '../../../containers/SensorReadings/constants';
+import { SENSOR, SENSOR_ARRAY } from '../../../containers/SensorReadings/constants';
 import { isTouchDevice } from '../../../util/device';
 import { useSelector } from 'react-redux';
 import { sensorReadingTypesByMultipleLocations } from '../../../containers/sensorReadingTypesSlice';
@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
       width: 24,
       height: 24,
       transform: 'scale(1.25)',
+    },
+  },
+  sensorArrayIcon: {
+    '& svg': {
+      width: 24,
     },
   },
   areaIcon: {
@@ -135,20 +140,24 @@ export default function PureSelectionHandler({ locations, history, sensorReading
 
   const [sensorIdx, setSensorIdx] = useState(null);
   const locationSensors = locations.filter((location) => location.type === SENSOR);
+  const locationSensorArrays = locations.filter((location) => location.type === SENSOR_ARRAY);
 
   const readingTypes = useSelector(sensorReadingTypesByMultipleLocations(locationSensors));
 
   const showDetails = (id) => {
-    let sensor = readingTypes.find((sensor) => sensor.location_id === id);
+    let sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
     return (
-      sensor?.reading_types.includes(TEMPERATURE) ||
-      sensor?.reading_types.includes(SOIL_WATER_POTENTIAL)
+      sensor?.reading_types?.includes(TEMPERATURE) ||
+      sensor?.reading_types?.includes(SOIL_WATER_POTENTIAL)
     );
   };
 
   const isSensor = (id) => {
-    const sensor = readingTypes.find((sensor) => sensor.location_id === id);
-    return !!sensor?.reading_types;
+    return locationSensors.some((sensor) => sensor?.id === id);
+  };
+
+  const isSensorArray = (id) => {
+    return locationSensorArrays.some((sa) => sa?.id === id);
   };
 
   const handleMouseUp = (location, idx) => {
@@ -204,6 +213,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                   className={clsx(
                     classes.itemIcon,
                     isSensor(location.id) && classes.sensorIcon,
+                    isSensorArray(location.id) && classes.sensorArrayIcon,
                     location.asset === 'area' && classes.areaIcon,
                   )}
                 >
@@ -222,8 +232,8 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                 )}
               </div>
               {readingTypes
-                .find((sensor) => sensor.location_id === location.id)
-                ?.reading_types.map((type, rid) => {
+                ?.find((sensor) => sensor?.location_id === location.id)
+                ?.reading_types?.map((type, rid) => {
                   if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
                     return (
                       <div

@@ -32,6 +32,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
+import { useSectionHeader } from '../../../components/Navigation/useSectionHeaders';
 
 export const STEPS = {
   BASICS: 'basics',
@@ -55,7 +56,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   const onSave = async (
     data: any,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData: (data: any) => void,
   ) => {
     const details = data[STEPS.DETAILS] as AnimalDetailsFormFields[];
@@ -99,7 +100,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     }
 
     setFormResultData({ animals: animalsResult, batches: batchesResult });
-    onGoForward();
+    onSuccess();
   };
 
   const getFormSteps = () => [
@@ -124,9 +125,11 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
+  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+
   return (
     <ContextForm
-      stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
+      stepperProgressBarTitle={isMobile && animalInventoryTitle}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}
       hasSummaryWithinForm={true}
@@ -135,7 +138,6 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}
-      cancelModalTitle={t('ADD_ANIMAL.ADD_ANIMALS_FLOW')}
     />
   );
 }

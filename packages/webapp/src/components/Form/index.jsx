@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import styles from './form.module.scss';
@@ -8,10 +7,18 @@ const Form = ({
   children,
   buttonGroup,
   onSubmit,
+  fullWidthContent = false,
 }) => {
   return (
     <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
-      <Layout buttonGroup={buttonGroup} children={children} classes={classes} isSVG={false} />
+      <Layout
+        buttonGroup={buttonGroup}
+        classes={classes}
+        isSVG={false}
+        fullWidthContent={fullWidthContent}
+      >
+        {children}
+      </Layout>
     </form>
   );
 };

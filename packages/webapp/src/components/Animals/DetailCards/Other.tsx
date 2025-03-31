@@ -46,10 +46,10 @@ const OtherDetails = ({
 }: OtherDetailsProps) => {
   const {
     control,
-    resetField,
     register,
     getValues,
     setValue,
+    resetField,
     formState: { errors },
   } = useFormContext();
 
@@ -60,7 +60,7 @@ const OtherDetails = ({
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
+    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`, { defaultValue: '' });
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);
@@ -79,7 +79,7 @@ const OtherDetails = ({
     <div className={styles.sectionWrapper}>
       {animalOrBatch === AnimalOrBatchKeys.ANIMAL && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
@@ -102,7 +102,7 @@ const OtherDetails = ({
           />
         )}
       />
-      {/* @ts-ignore */}
+      {/* @ts-expect-error */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
         hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_DETAILS}`, {
@@ -113,13 +113,15 @@ const OtherDetails = ({
         errors={errors?.[`${namePrefix}${DetailsFields.OTHER_DETAILS}`]?.message}
         disabled={mode === 'readonly'}
       />
-      <ImagePicker
-        label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
-        onFileUpload={onFileUpload}
-        onRemoveImage={handleRemoveImage}
-        defaultUrl={field.value}
-        isDisabled={mode === 'readonly'}
-      />
+      {(!!field.value || mode !== 'readonly') && (
+        <ImagePicker
+          label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
+          onFileUpload={onFileUpload}
+          onRemoveImage={handleRemoveImage}
+          defaultUrl={field.value}
+          isDisabled={mode === 'readonly'}
+        />
+      )}
     </div>
   );
 };

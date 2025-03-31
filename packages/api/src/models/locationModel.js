@@ -229,6 +229,19 @@ class Location extends baseModel {
     };
   }
 
+  static get modifiers() {
+    return {
+      selectLocationId(query) {
+        const { ref } = Location;
+        query.select(ref('location_id'));
+      },
+      filterDeleted(query) {
+        const { ref } = Location;
+        query.where(ref('deleted'), false);
+      },
+    };
+  }
+
   static async createLocation(asset, context, locationData, trx) {
     const nonModifiable = getNonModifiable(asset);
     return await Location.query(trx)

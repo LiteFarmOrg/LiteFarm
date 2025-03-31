@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 // 100vw background colour on small screens
 .background {
   position: relative;
@@ -22,7 +24,7 @@
   left: 50%;
   transform: translateX(-50%);
 
-  @media screen and (min-width: 640px) {
+  @include sm-breakpoint {
     width: 100%;
   }
 }
@@ -36,7 +38,7 @@
   align-items: flex-start;
   gap: 24px;
 
-  @media screen and (min-width: 640px) {
+  @include sm-breakpoint {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -59,7 +61,7 @@
 .linkContainer {
   gap: 12px;
 
-  @media screen and (min-width: 640px) {
+  @include sm-breakpoint {
     width: fit-content;
     gap: 8px;
   }

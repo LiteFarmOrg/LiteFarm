@@ -24,7 +24,6 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
-import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
@@ -55,6 +54,7 @@ import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTas
 import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
 import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
 import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
+import animalMovementTaskReducer from '../containers/slice/taskSlice/animalMovementTaskSlice';
 import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
@@ -165,7 +165,6 @@ const entitiesReducer = combineReducers({
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
-  weatherReducer,
   alertReducer,
   barnReducer,
   ceremonialReducer,
@@ -203,6 +202,7 @@ const entitiesReducer = combineReducers({
   soilAmendmentTaskReducer,
   plantTaskReducer,
   transplantTaskReducer,
+  animalMovementTaskReducer,
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,

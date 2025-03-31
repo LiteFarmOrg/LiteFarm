@@ -76,7 +76,6 @@ export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
 export const animalsUrl = `${URI}/animals`;
 export const animalBatchesUrl = `${URI}/animal_batches`;
-export const animalGroupsUrl = `${URI}/animal_groups`;
 export const customAnimalBreedsUrl = `${URI}/custom_animal_breeds`;
 export const customAnimalTypesUrl = `${URI}/custom_animal_types`;
 export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
@@ -84,6 +83,7 @@ export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
 export const animalSexesUrl = `${URI}/animal_sexes`;
 export const animalIdentifierTypesUrl = `${URI}/animal_identifier_types`;
 export const animalIdentifierColorsUrl = `${URI}/animal_identifier_colors`;
+export const animalMovementPurposesUrl = `${URI}/animal_movement_purposes`;
 export const animalOriginsUrl = `${URI}/animal_origins`;
 export const animalUsesUrl = `${URI}/animal_uses`;
 export const animalRemovalReasonsUrl = `${URI}/animal_removal_reasons`;
@@ -91,6 +91,7 @@ export const soilAmendmentMethodsUrl = `${URI}/soil_amendment_methods`;
 export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
 export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser_types`;
 export const productUrl = `${URI}/product`;
+export const farmAddonUrl = `${URI}/farm_addon`;
 
 export const url = URI;
 
@@ -137,7 +138,6 @@ export default {
   sensorUrl,
   animalsUrl,
   animalBatchesUrl,
-  animalGroupsUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
   defaultAnimalBreedsUrl,
@@ -145,6 +145,7 @@ export default {
   animalSexesUrl,
   animalIdentifierTypesUrl,
   animalIdentifierColorsUrl,
+  animalMovementPurposesUrl,
   animalOriginsUrl,
   animalUsesUrl,
   animalRemovalReasonsUrl,
@@ -152,5 +153,6 @@ export default {
   soilAmendmentPurposesUrl,
   soilAmendmentFertiliserTypesUrl,
   productUrl,
+  farmAddonUrl,
   url,
 };

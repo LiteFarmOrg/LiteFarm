@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
+import { FunctionComponent } from 'react';
+
 // Finances Carousel
 import { ReactComponent as ExpenseIcon } from '../../assets/images/finance/Expense-icn.svg';
 import { ReactComponent as CropIcon } from '../../assets/images/finance/Crop-icn.svg';
@@ -50,6 +52,7 @@ import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-ico
 import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
 import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
 import { ReactComponent as LocationIcon } from '../../assets/images/location.svg';
+import { ReactComponent as RemovedAnimalIcon } from '../../assets/images/animals/removed-animal-icon.svg';
 
 // Animal Inventory KPI
 import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
@@ -60,16 +63,22 @@ import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
+// Map
+import { ReactComponent as VideoLogo } from '../../assets/images/map/video.svg';
+
 // System
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
-import { FunctionComponent } from 'react';
+import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+
+// Devices
+import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
 
 // Animal type: icon map
 const animalTypeIcons = {
@@ -83,6 +92,7 @@ const animalTypeIcons = {
   GOAT: GoatIcon,
   RABBIT: RabbitIcon,
   SHEEP: SheepIcon,
+  REMOVED_ANIMAL: RemovedAnimalIcon,
 };
 
 // Animal type: type key
@@ -128,16 +138,21 @@ export const iconMap = {
   REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
+  // Map
+  VIDEO_LOGO: VideoLogo,
   // System
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
   EDIT: EditIcon,
   CHEVRON_LEFT: ChevronLeft,
+  RULER: Ruler,
   // Input
   LOCKED: LockedIcon,
 
   LOCATION: LocationIcon,
+
+  SENSOR: SensorIcon,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

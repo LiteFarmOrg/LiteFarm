@@ -18,10 +18,13 @@ import styles from '../styles.module.scss';
 
 export type IconTextProps = {
   iconName: IconName;
-  iconBorder: boolean;
-  text: string | number | null | undefined;
-  subtext: string | number | null | undefined;
-  highlightedText: string | number | null | undefined;
+  iconBorder?: boolean;
+  text?: string | number | null;
+  subtext?: string | number | null;
+  highlightedText?: string | number | null;
+  photoUrl?: string | null;
+  removed?: boolean;
+  className?: string;
 };
 
 const IconText = ({
@@ -30,25 +33,44 @@ const IconText = ({
   text,
   subtext,
   highlightedText,
+  removed,
+  photoUrl,
+  className,
 }: IconTextProps) => {
   return (
-    <div className={styles.iconTextContainer}>
-      <Icon
-        iconName={iconName}
-        className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
-      />
+    <div className={clsx(styles.iconTextContainer, className)}>
+      {photoUrl && iconName !== 'REMOVED_ANIMAL' ? (
+        <img src={photoUrl} className={styles.photoUrl} />
+      ) : (
+        <Icon
+          iconName={iconName}
+          className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
+        />
+      )}
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
-        <div className={clsx(styles.mainText)}>
-          <div className={clsx(styles.overflowText, subtext && styles.withSubtextMainText)}>
+        <div className={clsx(styles.mainText, removed && styles.removed)}>
+          <div
+            className={clsx(
+              styles.overflowText,
+              subtext && styles.withSubtextMainText,
+              removed && styles.removed,
+            )}
+          >
             {text}
           </div>
           {highlightedText && (
             <div className={clsx(styles.highlightedText, styles.overflowHidden)}>
-              {highlightedText}
+              <p>{highlightedText}</p>
             </div>
           )}
         </div>
-        <div className={clsx(styles.overflowText, subtext && styles.withSubtextSubtext)}>
+        <div
+          className={clsx(
+            styles.overflowText,
+            subtext && styles.withSubtextSubtext,
+            removed && styles.removed,
+          )}
+        >
           {subtext}
         </div>
       </div>

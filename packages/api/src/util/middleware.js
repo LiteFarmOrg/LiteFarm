@@ -31,8 +31,6 @@ export const someTruthy = (values) => values.some((value) => !!value);
 // Sets falsy values to null for editing values that may have values for exclusive constraints
 export const setFalsyValuesToNull = (array, obj) => {
   for (const val of array) {
-    if (obj[val] !== 0 && obj[val] !== false) {
-      obj[val] ??= null;
-    }
+    obj[val] ??= null;
   }
 };

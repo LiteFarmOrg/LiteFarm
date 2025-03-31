@@ -62,14 +62,14 @@ const animalsInfo: AnimalSummary[] = [
   {
     type: 'Guinea Pig',
     sexDetails: { Male: 4 },
-    /* @ts-ignore */
+    /* @ts-expect-error */
     iconKey: 'GUINEA_PIG', // non-existent keys will default to CUSTOM_ANIMAL icon
     count: 4,
   },
   {
     type: 'Dog',
     sexDetails: {},
-    /* @ts-ignore */
+    /* @ts-expect-error */
     iconKey: 'DOG', // non-existent keys will default to CUSTOM_ANIMAL icon
     count: 2,
   },

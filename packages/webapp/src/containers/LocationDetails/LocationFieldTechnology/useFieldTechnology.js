@@ -28,19 +28,19 @@ export default function useFieldTechnology(location) {
     if (sensors.length) {
       fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
     }
-    const externalSensors = groupedSensors.filter((sensor) => sensor.type == SensorType.SENSOR);
-    if (externalSensors.length) {
-      fieldTechnology.externalSensors = getPointLocationsWithinPolygon(
-        externalSensors,
+    const addonSensors = groupedSensors.filter((sensor) => sensor.type == SensorType.SENSOR);
+    if (addonSensors.length) {
+      fieldTechnology.addonSensors = getPointLocationsWithinPolygon(
+        addonSensors,
         location.grid_points,
       );
     }
-    const externalSensorArrays = groupedSensors.filter(
+    const addonSensorArrays = groupedSensors.filter(
       (sensor) => sensor.type == SensorType.SENSOR_ARRAY,
     );
-    if (externalSensorArrays.length) {
-      fieldTechnology.externalSensorArrays = getPointLocationsWithinPolygon(
-        externalSensorArrays,
+    if (addonSensorArrays.length) {
+      fieldTechnology.addonSensorArrays = getPointLocationsWithinPolygon(
+        addonSensorArrays,
         location.grid_points,
       );
     }

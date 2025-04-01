@@ -37,8 +37,8 @@ export default function PureLocationFieldTechnology({
   routerTabs,
 }) {
   const { t } = useTranslation();
-  const isExternalSensors = !!(
-    fieldTechnology.externalSensors?.length || fieldTechnology.externalSensorArrays?.length
+  const hasAddonSensors = !!(
+    fieldTechnology.addonSensors?.length || fieldTechnology.addonSensorArrays?.length
   );
 
   const handleClick = (ft) => {
@@ -51,126 +51,112 @@ export default function PureLocationFieldTechnology({
     }
   };
 
+  const ListItem = ({ key, label, middleContent, onClickLocation, lastSeen }) => {
+    return (
+      <SensorListItem
+        key={key}
+        iconText={{
+          iconName: 'SENSOR',
+          label: label,
+          classes: {
+            icon: styles.sensorIcon,
+            label: styles.sensorLabel,
+          },
+        }}
+        middleContent={middleContent}
+        actionIcon={{
+          iconName: 'chevron',
+          classes: {
+            icon: styles.sensorChevron,
+          },
+          onClick: (_e) => handleClick(onClickLocation),
+        }}
+        lastSeen={lastSeen}
+      />
+    );
+  };
+
   const FieldTechnologyLists = () => {
     // Render order
-    const fieldTechnologyTypes = ['sensors', 'externalSensorArrays', 'externalSensors'];
+    const fieldTechnologyTypes = ['sensors', 'addonSensorArrays', 'addonSensors'];
 
     return fieldTechnologyTypes.map((key) => {
-      if (key === 'externalSensorArrays' && fieldTechnology[key]?.length) {
-        return (
-          <div key={key}>
-            {fieldTechnology[key]?.map((esa) => {
-              return (
-                <div key={esa.name} className={styles.listWithHeading}>
-                  <div className={styles.listHeading}>{esa.name}</div>
-                  <List compact className={styles.list}>
-                    {...esa.sensors?.map((sensor) => {
-                      const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
-                      return (
-                        <SensorListItem
-                          key={sensor.id}
-                          iconText={{
-                            iconName: 'SENSOR',
-                            label: sensor.id,
-                            classes: {
-                              icon: styles.sensorIcon,
-                              label: styles.sensorLabel,
-                            },
-                          }}
-                          middleContent={{
-                            name: getDeviceType(sensor.deviceTypeKey),
-                            status: {
-                              status: isOnline ? Status.ONLINE : Status.OFFLINE,
-                              pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                              showHoverTooltip: false,
-                            },
-                          }}
-                          actionIcon={{
-                            iconName: 'chevron',
-                            classes: {
-                              icon: styles.sensorChevron,
-                            },
-                            onClick: (_e) => handleClick(esa),
-                          }}
-                          lastSeen={new Date(sensor.last_seen)}
-                        />
-                      );
-                    })}
-                  </List>
-                </div>
-              );
-            })}
-          </div>
-        );
-      } else if (key === 'externalSensors' && fieldTechnology[key]?.length) {
-        return (
-          <div key={key} className={styles.listWithHeading}>
-            <div className={styles.listHeading}>{t('SENSOR.STANDALONE_SENSOR')}</div>
-            <List compact className={styles.list}>
-              {fieldTechnology[key]?.map((es) => {
-                const sensor = es.sensors[0];
-                const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
+      if (fieldTechnology[key]?.length) {
+        if (key === 'addonSensorArrays') {
+          return (
+            <div key={key}>
+              {fieldTechnology[key]?.map((esa) => {
                 return (
-                  <SensorListItem
-                    key={sensor.id}
-                    iconText={{
-                      iconName: 'SENSOR',
-                      label: sensor.id,
-                      classes: {
-                        icon: styles.sensorIcon,
-                        label: styles.sensorLabel,
-                      },
-                    }}
-                    middleContent={{
-                      name: getDeviceType(sensor.deviceTypeKey),
-                      status: {
-                        status: isOnline ? Status.ONLINE : Status.OFFLINE,
-                        pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                        showHoverTooltip: false,
-                      },
-                    }}
-                    actionIcon={{
-                      iconName: 'chevron',
-                      classes: {
-                        icon: styles.sensorChevron,
-                      },
-                      onClick: (_e) => handleClick(es),
-                    }}
-                    lastSeen={new Date(sensor.last_seen)}
-                  />
+                  <div key={esa.name} className={styles.listWithHeading}>
+                    <div className={styles.listHeading}>{esa.name}</div>
+                    <List compact className={styles.list}>
+                      {...esa.sensors?.map((sensor) => {
+                        const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
+                        return (
+                          <ListItem
+                            key={sensor.id}
+                            label={sensor.id}
+                            middleContent={{
+                              name: getDeviceType(sensor.deviceTypeKey),
+                              status: {
+                                status: isOnline ? Status.ONLINE : Status.OFFLINE,
+                                pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
+                                showHoverTooltip: false,
+                              },
+                            }}
+                            onClickLocation={esa}
+                            lastSeen={new Date(sensor.last_seen)}
+                          />
+                        );
+                      })}
+                    </List>
+                  </div>
                 );
               })}
-            </List>
-          </div>
-        );
-      } else {
-        if (fieldTechnology[key]?.length) {
+            </div>
+          );
+        } else if (key === 'addonSensors') {
+          return (
+            <div key={key} className={styles.listWithHeading}>
+              <div className={styles.listHeading}>{t('SENSOR.STANDALONE_SENSOR')}</div>
+              <List compact className={styles.list}>
+                {...fieldTechnology[key]?.map((es) => {
+                  const sensor = es.sensors[0];
+                  const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
+                  return (
+                    <ListItem
+                      key={sensor.id}
+                      label={sensor.id}
+                      middleContent={{
+                        name: getDeviceType(sensor.deviceTypeKey),
+                        status: {
+                          status: isOnline ? Status.ONLINE : Status.OFFLINE,
+                          pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
+                          showHoverTooltip: false,
+                        },
+                      }}
+                      onClickLocation={es}
+                      lastSeen={new Date(sensor.last_seen)}
+                    />
+                  );
+                })}
+              </List>
+            </div>
+          );
+        } else {
           return (
             <div key={key} className={styles.listWithHeading}>
               <div className={styles.listHeading}>{t('FARM_MAP.MAP_FILTER.SENSOR')}</div>
               <List compact className={styles.list}>
-                {fieldTechnology[key]?.map((sensor) => {
+                {...fieldTechnology[key]?.map((sensor) => {
                   return (
-                    <SensorListItem
+                    <ListItem
                       key={sensor.location_id}
-                      iconText={{
-                        iconName: 'SENSOR',
-                        label: sensor.name || sensor.location_id,
-                        classes: {
-                          icon: styles.sensorIcon,
-                          label: styles.sensorLabel,
-                        },
-                      }}
+                      label={sensor.name || sensor.location_id}
                       middleContent={{
                         name: sensor.model || sensor.brand_name || '',
                       }}
-                      actionIcon={{
-                        iconName: 'chevron',
-                        classes: {
-                          icon: styles.sensorChevron,
-                        },
-                        onClick: (_e) => handleClick(sensor),
-                      }}
+                      onClickLocation={sensor}
                     />
                   );
                 })}
@@ -195,7 +181,7 @@ export default function PureLocationFieldTechnology({
       <div className={styles.lists}>
         <FieldTechnologyLists />
       </div>
-      {isExternalSensors && (
+      {hasAddonSensors && (
         <div className={styles.manageEsci}>
           <div className={styles.manageText}>
             <Trans

@@ -44,7 +44,7 @@ function MultiStepPageTitle({
 }
 
 export default MultiStepPageTitle;
-MultiStepPageTitle.PropTypes = {
+MultiStepPageTitle.propTypes = {
   title: PropTypes.string,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,

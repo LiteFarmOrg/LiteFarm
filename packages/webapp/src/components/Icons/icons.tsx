@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
+import { FunctionComponent } from 'react';
+
 // Finances Carousel
 import { ReactComponent as ExpenseIcon } from '../../assets/images/finance/Expense-icn.svg';
 import { ReactComponent as CropIcon } from '../../assets/images/finance/Crop-icn.svg';
@@ -72,7 +74,7 @@ import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_i
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
 import { ReactComponent as ClockFast } from '../../assets/images/clock-fast.svg';
-import { FunctionComponent } from 'react';
+import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
@@ -147,6 +149,7 @@ export const iconMap = {
   TRASH: TrashIcon,
   EDIT: EditIcon,
   CHEVRON_LEFT: ChevronLeft,
+  RULER: Ruler,
   CLOCK_FAST: ClockFast,
   // Input
   LOCKED: LockedIcon,

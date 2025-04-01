@@ -111,6 +111,7 @@ export default function Map({ history, isCompactSideMenu }) {
     }
     return () => {
       dispatch(canShowSuccessHeader(false));
+      dispatch(setMapAddDrawerHide(farm_id));
     };
   }, []);
 

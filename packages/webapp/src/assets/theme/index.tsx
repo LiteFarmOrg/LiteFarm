@@ -51,6 +51,12 @@ export const colors = {
   grey1: '#333333',
   brown700: '#AA5F04',
   brown900: '#7E4C0E',
+  chartBlue: '#0669e1',
+  chartRed: '#d02620',
+  chartYellow: '#e8a700',
+  chartGreen: '#266f68',
+  chartPurple: '#8f26f0',
+  chartBrown: '#aa5f04',
 };
 
 const theme = createTheme({

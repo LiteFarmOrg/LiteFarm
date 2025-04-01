@@ -68,12 +68,16 @@ function SensorReadings({ history, match }) {
   }, [readingTypes, location_id]);
 
   const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
+  const pageTitle =
+    sensorInfo.isAddonSensor && sensorInfo.type === 'sensor'
+      ? sensorInfo.sensors[0].name
+      : sensorInfo.name || '';
 
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
         <Layout className={layoutStyles.paperContainer}>
-          <PageTitle title={sensorInfo?.name || ''} onGoBack={() => history.push('/map')} />
+          <PageTitle title={pageTitle} onGoBack={() => history.push('/map')} />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}

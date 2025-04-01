@@ -109,12 +109,6 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
         key === SensorType.SENSOR_ARRAY
           ? { key: SensorType.SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
           : { key, translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(key)}` },
-        // t('SENSOR.SENSOR_ARRAYS')
-        // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-        // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
-        // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
       );
     }
 
@@ -163,7 +157,9 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                         <div className={styles.mainContent}>
                           <SensorIconWithNumber number={sensors.length} />
                           <span>
-                            {type ? t('SENSOR.SENSOR_ARRAY') : t('SENSOR.STANDALONE_SENSOR')}
+                            {type === SensorType.SENSOR_ARRAY
+                              ? t('SENSOR.SENSOR_ARRAY')
+                              : t('SENSOR.STANDALONE_SENSOR')}
                           </span>
                         </div>
                       </MainContent>

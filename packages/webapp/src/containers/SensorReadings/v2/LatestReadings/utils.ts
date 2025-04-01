@@ -28,6 +28,7 @@ import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/Se
 import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/api/types';
 import { Status } from '../../../../components/StatusIndicatorPill';
 import type { System } from '../../../../types';
+import type { TileData } from '../../../../components/Sensor/v2/WeatherKPI';
 
 export const formatReadingsToSensorKPIProps = (
   sensors: Sensor[],
@@ -157,7 +158,7 @@ export const formatReadingsToWeatherKPI = (
   sensorReadings: SensorReadings[],
   system: System,
   t: TFunction,
-): { label: string; data: string }[] => {
+): TileData[] => {
   const sensorReadingsMap = sensorReadings.reduce<
     Partial<Record<SensorReadingTypes, SensorReadings>>
   >((map, readings) => {

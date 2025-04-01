@@ -21,6 +21,7 @@ import {
   SENSOR_ARRAY_CHART_PARAMS,
   SENSOR_CHART_PARAMS,
   STANDALONE_SENSOR_COLORS_MAP,
+  WEATHER_STATION_CHART_PARAMS,
   WEATHER_STATION_KPI_PARAMS,
 } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
@@ -82,23 +83,24 @@ export const formatReadingsToSensorReadingKPIProps = (
   system: System,
   t: TFunction,
 ): SensorReadingKPIprops[] => {
-  return (
-    SENSOR_CHART_PARAMS.flatMap((param) => {
-      const foundReadings = readings.find(({ reading_type }) => reading_type === param);
-      if (!foundReadings) {
-        return [];
-      }
+  const params =
+    sensor.name === 'Weather station' ? WEATHER_STATION_CHART_PARAMS : SENSOR_CHART_PARAMS;
 
-      const value = foundReadings.readings[foundReadings.readings.length - 1][sensor.external_id];
+  return params.flatMap((param) => {
+    const foundReadings = readings.find(({ reading_type }) => reading_type === param);
+    if (!foundReadings) {
+      return [];
+    }
 
-      return {
-        measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
-        value: value ? convertEsciReadingValue(value, param, system) : '-',
-        unit: value ? getReadingUnit(param, system, foundReadings.unit) : '',
-        color: STANDALONE_SENSOR_COLORS_MAP[param],
-      };
-    }) || []
-  );
+    const value = foundReadings.readings[foundReadings.readings.length - 1][sensor.external_id];
+
+    return {
+      measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
+      value: value ? convertEsciReadingValue(value, param, system) : '-',
+      unit: value ? getReadingUnit(param, system, foundReadings.unit) : '',
+      color: STANDALONE_SENSOR_COLORS_MAP[param],
+    };
+  });
 };
 
 const getLatestValue = (

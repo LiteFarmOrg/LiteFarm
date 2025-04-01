@@ -20,10 +20,11 @@ import LineChart, { LineConfig } from '../../../../components/Charts/LineChart';
 import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
-import { Sensor } from '../../../../store/api/types';
+import { Sensor, SensorTypes } from '../../../../store/api/types';
 import {
   SENSOR_ARRAY_CHART_PARAMS,
   SENSOR_CHART_PARAMS,
+  WEATHER_STATION_CHART_PARAMS,
   STANDALONE_SENSOR_COLORS_MAP,
 } from '../constants';
 import styles from '../styles.module.scss';
@@ -36,6 +37,10 @@ interface SensorChartsProps {
 
 type SensorArrayChartsProps = SensorChartsProps & {
   sensorColorMap: LineConfig[];
+};
+
+const standaloneSensorParms = (sensorName: SensorTypes) => {
+  return sensorName === 'Weather station' ? WEATHER_STATION_CHART_PARAMS : SENSOR_CHART_PARAMS;
 };
 
 function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
@@ -67,38 +72,40 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
 
   return (
     <div className={clsx(styles.charts, isSensorArray ? '' : styles.sensor)}>
-      {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : SENSOR_CHART_PARAMS).flatMap((param) => {
-        const data = formattedSensorReadings.find((data) => data.reading_type === param);
+      {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : standaloneSensorParms(sensors[0].name)).flatMap(
+        (param) => {
+          const data = formattedSensorReadings.find((data) => data.reading_type === param);
 
-        // Skip the param if there's no corresponding data
-        if (!data) {
-          return [];
-        }
+          // Skip the param if there's no corresponding data
+          if (!data) {
+            return [];
+          }
 
-        const { reading_type, unit, readings } = data;
-        const paramColor = STANDALONE_SENSOR_COLORS_MAP[param];
-        const lineConfig = isSensorArray
-          ? props.sensorColorMap
-          : [{ id: sensors[0].external_id, color: paramColor }];
-        const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
+          const { reading_type, unit, readings } = data;
+          const paramColor = STANDALONE_SENSOR_COLORS_MAP[param];
+          const lineConfig = isSensorArray
+            ? props.sensorColorMap
+            : [{ id: sensors[0].external_id, color: paramColor }];
+          const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
 
-        return (
-          <LineChart
-            key={reading_type}
-            title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
-            language={language || 'en'}
-            lineConfig={lineConfig}
-            data={readings}
-            ticks={ticks}
-            truncPeriod={truncPeriod}
-            formatTooltipValue={(_label, value) => {
-              return typeof value === 'number' ? `${value}${unit}` : '';
-            }}
-            isCompactView={isCompactView}
-            colors={colors}
-          />
-        );
-      })}
+          return (
+            <LineChart
+              key={reading_type}
+              title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
+              language={language || 'en'}
+              lineConfig={lineConfig}
+              data={readings}
+              ticks={ticks}
+              truncPeriod={truncPeriod}
+              formatTooltipValue={(_label, value) => {
+                return typeof value === 'number' ? `${value}${unit}` : '';
+              }}
+              isCompactView={isCompactView}
+              colors={colors}
+            />
+          );
+        },
+      )}
     </div>
   );
 }

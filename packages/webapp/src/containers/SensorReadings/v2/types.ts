@@ -24,6 +24,7 @@ export type ChartSupportedReadingTypes = Extract<
   | 'soil_water_potential'
   | 'soil_water_content'
   | 'water_pressure'
+  | 'wind_speed'
 >;
 
 export type WeatherStationKPIParams = Extract<

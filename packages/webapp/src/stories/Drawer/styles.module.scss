@@ -19,9 +19,17 @@
   height: 400px;
   overflow: clip;
   outline: 1px solid black;
+
+  display: flex;
+}
+
+.fakeSideMenu {
+  width: var(--global-compact-side-menu-width);
+  background-color: var(--Colors-Primary-Primary-teal-200);
 }
 
 .fakeMenuBar {
+  width: 100%;
   height: var(--global-navbar-height);
   background-color: var(--Colors-Accent---singles-Blue-light);
   padding-inline: 8px;

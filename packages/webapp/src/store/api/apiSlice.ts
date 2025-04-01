@@ -96,6 +96,7 @@ export const api = createApi({
     'Sensors',
     'SensorReadings',
     'FarmAddon',
+    'Weather',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints

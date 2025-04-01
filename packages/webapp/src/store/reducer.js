@@ -24,7 +24,6 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
-import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
@@ -166,7 +165,6 @@ const entitiesReducer = combineReducers({
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
-  weatherReducer,
   alertReducer,
   barnReducer,
   ceremonialReducer,

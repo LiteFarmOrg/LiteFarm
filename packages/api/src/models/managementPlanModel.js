@@ -18,10 +18,6 @@ import moment from 'moment';
 import cropVarietyModel from './cropVarietyModel.js';
 import cropManagementPlanModel from './cropManagementPlanModel.js';
 import managementPlanGroup from './managementPlanGroupModel.js';
-import {
-  getHarvestedToDate,
-  appendHarvestedToDate,
-} from '../controllers/managementPlanController.js'; // ideally probably not residing in the controller
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -137,22 +133,26 @@ class ManagementPlan extends baseModel {
    * @returns {Promise<Array>} A promise that resolves to an array of transformed management plans.
    */
   static async getManagementPlansByLocationId(location_id, trx = null) {
-    const managementPlans = await ManagementPlan.query(trx)
+    // Identical to the graph used by getManagementPlansByFarmId() with the addition of crop
+    const planGraphJoinedQueryString =
+      '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+
+    const graphJoinedOptions = {
+      aliases: {
+        crop_management_plan: 'cmp',
+        planting_management_plans: 'pmps',
+      },
+    };
+
+    return await ManagementPlan.query(trx)
       .whereNotDeleted()
-      .withGraphFetched(
-        '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]',
-      )
-      .joinRelated('crop_management_plan.planting_management_plans')
-      .where('crop_management_plan:planting_management_plans.location_id', location_id)
-      .orderBy('management_plan_id');
+      .withGraphJoined(planGraphJoinedQueryString, graphJoinedOptions)
+      /* this ignores the original field of a transplant task (is_final_planting_management_plan = false)
 
-    const harvestedPlans = await getHarvestedToDate(
-      managementPlans.map((mp) => mp.management_plan_id),
-      trx,
-    );
-    const transformedPlans = appendHarvestedToDate(managementPlans, harvestedPlans);
-
-    return transformedPlans;
+      and the destination of a transplant task (is_final_planting_management_plan = null)
+      */
+      .where('cmp:pmps.is_final_planting_management_plan', true)
+      .andWhere('cmp:pmps.location_id', location_id);
   }
 }
 

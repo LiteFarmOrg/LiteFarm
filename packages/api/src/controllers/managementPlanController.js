@@ -845,7 +845,7 @@ const removeCropVarietyFromManagementPlans = (managementPlans) => {
 };
 
 // function to add harvested_to_date to management plans that have it.
-export const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
+const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
   return managementPlans.map((mp) => {
     const harvest = plansWithHarvest
       ? plansWithHarvest.find((pwh) => pwh.management_plan_id === mp.management_plan_id)
@@ -855,7 +855,7 @@ export const appendHarvestedToDate = (managementPlans, plansWithHarvest) => {
   });
 };
 
-export const getHarvestedToDate = async (managementPlanIds) => {
+const getHarvestedToDate = async (managementPlanIds) => {
   return ManagementPlanModel.query()
     .select(knex.raw('SUM(actual_quantity) AS harvested_to_date, mp.management_plan_id'))
     .from('harvest_task as ht')

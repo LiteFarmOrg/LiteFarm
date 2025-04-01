@@ -18,14 +18,20 @@ import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
+// For Soil Water Potential, IR Temperature, Wind speed and Drip line pressure sensors
 export const SENSOR_CHART_PARAMS: ChartSupportedReadingTypes[] = [
+  'temperature',
+  'soil_water_potential',
+  'soil_water_content',
+  'water_pressure',
+  'wind_speed',
+];
+
+export const WEATHER_STATION_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
   'relative_humidity',
   'rainfall_rate',
   'cumulative_rainfall',
-  'soil_water_potential',
-  'soil_water_content',
-  'water_pressure',
 ];
 
 export const SENSOR_ARRAY_CHART_PARAMS: ChartSupportedReadingTypes[] = [
@@ -53,6 +59,7 @@ export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, st
   soil_water_potential: colors.chartBlue,
   soil_water_content: colors.chartPurple,
   water_pressure: colors.chartBrown,
+  wind_speed: colors.chartBrown,
 };
 
 interface UnitType {

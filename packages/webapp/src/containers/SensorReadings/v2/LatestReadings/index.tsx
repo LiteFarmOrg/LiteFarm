@@ -18,14 +18,21 @@ import { useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
 import BentoLayout from '../../../../components/Layout/BentoLayout';
-import SensorKPI from '../../../../components/Tile/SensorTile/SensorKPI';
-import SensorReadingKPI from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import SensorKPI, { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
+import SensorReadingKPI, {
+  SensorReadingKPIprops,
+} from '../../../../components/Tile/SensorTile/SensorReadingKPI';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
-import { formatReadingsToSensorKPIProps, formatReadingsToSensorReadingKPIProps } from './utils';
+import {
+  formatReadingsToSensorKPIProps,
+  formatReadingsToSensorReadingKPIProps,
+  formatReadingsToWeatherKPI,
+} from './utils';
 import { Sensor } from '../../../../store/api/types';
+import WeatherKPI, { type TileData } from '../../../../components/Sensor/v2/WeatherKPI';
 import styles from '../styles.module.scss';
 
 type SensorArrayProps = {
@@ -37,7 +44,22 @@ type StandaloneSensorProps = {
   isSensorArray?: false;
 };
 
-type LatestReadingsProps = { sensors: Sensor[] } & (SensorArrayProps | StandaloneSensorProps);
+export type LatestReadingsProps = { sensors: Sensor[] } & (
+  | SensorArrayProps
+  | StandaloneSensorProps
+);
+
+const getSensorKpiFormatFunction = (sensorName: Sensor['name']) => {
+  return sensorName === 'Weather station'
+    ? formatReadingsToWeatherKPI
+    : formatReadingsToSensorReadingKPIProps;
+};
+
+function isWeatherKPIData(
+  kpiData: TileData[] | SensorKPIprops[] | SensorReadingKPIprops[],
+): kpiData is TileData[] {
+  return 'label' in kpiData[0];
+}
 
 function LatestReadings(props: LatestReadingsProps) {
   const { sensors, isSensorArray } = props;
@@ -51,9 +73,9 @@ function LatestReadings(props: LatestReadingsProps) {
     ? timeDifference(new Date(), new Date(latestReadingTime))
     : '-';
 
-  const kpiPropsArray = isSensorArray
+  const kpiData = isSensorArray
     ? formatReadingsToSensorKPIProps(sensors, latestReadings, system, t, props.sensorColorMap)
-    : formatReadingsToSensorReadingKPIProps(sensors[0], latestReadings, system, t);
+    : getSensorKpiFormatFunction(sensors[0].name)(sensors[0], latestReadings, system, t);
 
   return (
     <>
@@ -67,17 +89,23 @@ function LatestReadings(props: LatestReadingsProps) {
           {t('SENSOR.READING.UPDATE_READINGS')}
         </TextButton>
       </div>
-      <div className={styles.kpi}>
-        <BentoLayout>
-          {kpiPropsArray.map((kpiProps) => {
-            return 'sensor' in kpiProps ? ( // Check if kpiProps is of type SensorKPIprops (isSensorArray: true)
-              <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
-            ) : (
-              <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
-            );
-          })}
-        </BentoLayout>
-      </div>
+      {!!kpiData?.length && (
+        <div className={styles.kpi}>
+          {isWeatherKPIData(kpiData) ? (
+            <WeatherKPI data={kpiData} />
+          ) : (
+            <BentoLayout>
+              {kpiData.map((kpiProps) => {
+                return 'sensor' in kpiProps ? ( // Check if kpiProps is of type SensorKPIprops (isSensorArray: true)
+                  <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
+                ) : (
+                  <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
+                );
+              })}
+            </BentoLayout>
+          )}
+        </div>
+      )}
     </>
   );
 }

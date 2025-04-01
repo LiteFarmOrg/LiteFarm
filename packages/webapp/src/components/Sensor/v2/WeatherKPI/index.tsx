@@ -13,17 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ReactNode } from 'react';
 import styles from './styles.module.scss';
+import clsx from 'clsx';
 
-type WeatherStationReadingsKPIProps = { weatherData: { label: string; data: string }[] };
+export type TileData = { label: string; data: ReactNode; hideLabel?: boolean };
 
-const WeatherStationReadingsKPI = ({ weatherData }: WeatherStationReadingsKPIProps) => {
+type WeatherKPIProps = { data: TileData[]; className?: string };
+
+const WeatherKPI = ({ data, className }: WeatherKPIProps) => {
   return (
-    <div className={styles.weatherKPI}>
-      {weatherData.map(({ label, data }) => {
+    <div className={clsx(styles.weatherKPI, className)}>
+      {data.map(({ label, data, hideLabel }) => {
         return (
           <dl key={label}>
-            <dt>{label}</dt>
+            <dt className={hideLabel ? styles.hideLabel : ''}>{label}</dt>
             <dd>{data}</dd>
           </dl>
         );
@@ -32,4 +36,4 @@ const WeatherStationReadingsKPI = ({ weatherData }: WeatherStationReadingsKPIPro
   );
 };
 
-export default WeatherStationReadingsKPI;
+export default WeatherKPI;

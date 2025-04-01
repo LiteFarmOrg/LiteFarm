@@ -25,7 +25,6 @@ export interface Farm {
 }
 
 export interface FarmEnvironment {
-  owner: User;
   farm: Farm;
   field: Record<string, unknown>;
 }
@@ -54,10 +53,23 @@ export async function returnUserFarms(role: number) {
 }
 
 /**
- * Sets up the farm environment by creating a farm, owner, and associated field.
+ * Sets up the farm environment by creating a farm, owner, field, and (optionally) a non-owner user (if role id is provided)
  */
-export async function setupFarmEnvironment() {
+export async function setupFarmEnvironment(role: number = 1) {
   const { mainFarm: farm, user: owner } = await returnUserFarms(1);
+
+  let user = owner;
+  if (role !== 1) {
+    const [nonOwnerUser] = await mocks.usersFactory();
+    await mocks.userFarmFactory(
+      {
+        promisedUser: [nonOwnerUser],
+        promisedFarm: Promise.resolve([farm]),
+      },
+      fakeUserFarm(role),
+    );
+    user = nonOwnerUser;
+  }
 
   const [location] = await mocks.locationFactory({ promisedFarm: Promise.resolve([farm]) });
 
@@ -73,7 +85,7 @@ export async function setupFarmEnvironment() {
     .findById(location.location_id).withGraphFetched(`[
         figure.[area], field
       ]`);
-  return { owner, farm, field };
+  return { owner, farm, field, user };
 }
 
 /**

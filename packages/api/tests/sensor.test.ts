@@ -38,7 +38,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 import mocks from './mock.factories.js';
 import { returnUserFarms } from './utils/testDataSetup.js';
 import { Response } from 'superagent';
-import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import { mockedFormattedReadingsData, mockedEnsembleReadingsData } from './utils/sensorMockData.js';
 
 interface User {
@@ -103,10 +103,7 @@ describe('Sensor Tests', () => {
 
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const [farmAddon] = await mocks.farm_addonFactory({
-          promisedFarm: Promise.resolve([mainFarm]),
-          promisedPartner: mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
-        });
+        const { farmAddon } = await connectFarmToEnsemble(mainFarm);
 
         const res = await getSensorReadingsRequest({
           user_id: user.user_id,

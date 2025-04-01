@@ -48,7 +48,7 @@ interface PlantingManagementPlan {
   row_method: MethodDetails | null;
 }
 
-interface LocationAndCropGraph {
+export interface LocationAndCropGraph {
   farm_id: string;
   name: string;
   location_id: string;
@@ -58,6 +58,7 @@ interface LocationAndCropGraph {
     };
   };
   crop_data: {
+    management_plan_id: string;
     crop_management_plan: {
       seed_date: string;
       planting_management_plans: PlantingManagementPlan[];
@@ -181,15 +182,15 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
     return [];
   }
 
-  return crop_data.map((singleCrop: LocationAndCropGraph['crop_data'][0]) => {
-    const { crop_common_name, crop_genus, crop_specie } = singleCrop.crop_variety.crop;
+  return crop_data.map((managementPlan: LocationAndCropGraph['crop_data'][0]) => {
+    const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
 
-    const seed_date = singleCrop.crop_management_plan?.seed_date;
+    const seed_date = managementPlan.crop_management_plan?.seed_date;
 
     let planting_details: EnsembleCropData['planting_details'] | undefined;
 
-    // TODO: cover transplant tasks -- they would have multiple objects in this array
-    const plantingManagementPlan = singleCrop.crop_management_plan?.planting_management_plans?.[0];
+    const plantingManagementPlan =
+      managementPlan.crop_management_plan?.planting_management_plans?.[0];
 
     if (plantingManagementPlan) {
       const key = plantingManagementPlan.planting_method.toLowerCase() as PlantingMethod;
@@ -206,6 +207,8 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
     }
 
     return {
+      // TODO plan_id for debugging and should be removed
+      management_plan_id: managementPlan.management_plan_id,
       crop_common_name,
       crop_genus,
       crop_specie,

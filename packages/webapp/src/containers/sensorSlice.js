@@ -3,10 +3,6 @@ import { figureProperties, locationProperties, pointProperties } from './constan
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
-import {
-  sensorArraysSelector,
-  standaloneSensorsSelector,
-} from '../store/api/selectors/sensorSelectors';
 
 const sensorProperties = [
   'model',

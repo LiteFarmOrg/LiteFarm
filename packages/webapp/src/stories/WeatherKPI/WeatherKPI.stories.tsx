@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,31 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import WeatherStationReadingsKPI from '../../components/Sensor/v2/WeatherStationReadingsKPI';
+import WeatherKPI from '../../components/Sensor/v2/WeatherKPI';
 import { Meta, StoryObj } from '@storybook/react/*';
+import { mockIconData, mockTextData } from './mockData';
+import styles from './styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof WeatherStationReadingsKPI> = {
-  title: 'Components/Sensor/WeatherStationReadingsKPI',
-  component: WeatherStationReadingsKPI,
+const meta: Meta<typeof WeatherKPI> = {
+  title: 'Components/Sensor/WeatherKPI',
+  component: WeatherKPI,
   decorators: (story) => {
     return <div style={{ padding: '24px', background: 'white' }}>{story()}</div>;
   },
 };
 export default meta;
 
-type Story = StoryObj<typeof WeatherStationReadingsKPI>;
+type Story = StoryObj<typeof WeatherKPI>;
 
-const mockData = [
-  { label: 'Temperature', data: '23°C' },
-  { label: 'Wind speed & direction', data: '8km/h SW' },
-  { label: 'Cumulative rainfall', data: '20mm' },
-  { label: 'Relative Humidity', data: '33%' },
-  { label: 'Barometric Pressure', data: '8hPa' },
-  { label: 'Solar radiation', data: '20W/m2' },
-  { label: 'Rainfall rate', data: '2mm/h' },
-];
+export const Text: Story = {
+  args: { data: mockTextData },
+};
 
-export const Default: Story = {
-  args: { weatherData: mockData },
+export const Icon: Story = {
+  args: { data: mockIconData, className: styles.icon },
 };

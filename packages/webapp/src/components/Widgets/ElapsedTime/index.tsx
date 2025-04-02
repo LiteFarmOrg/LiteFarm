@@ -17,7 +17,7 @@ import { getDurationString, getTimeDifferrenceInSeconds } from '../../../util/da
 import Icon from '../../Icons';
 import styles from './styles.module.scss';
 
-type ElapsedTimeWidgetProps = {
+export type ElapsedTimeWidgetProps = {
   pastDate: Date;
 };
 

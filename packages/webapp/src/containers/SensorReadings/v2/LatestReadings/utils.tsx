@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { CSSProperties, ReactNode } from 'react';
 import { TFunction } from 'react-i18next';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, degToDirection, getReadingUnit } from '../utils';
@@ -30,6 +31,29 @@ import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/ap
 import { Status } from '../../../../components/StatusIndicatorPill';
 import type { System } from '../../../../types';
 import type { TileData } from '../../../../components/Sensor/v2/WeatherKPI';
+import Arrow from '../../../../assets/images/arrow-circle-up.svg';
+import styles from '../styles.module.scss';
+
+const WindSpeedDirectionData = ({
+  speed,
+  directionDegree,
+  directionText,
+}: {
+  speed?: string;
+  directionDegree?: number;
+  directionText: string;
+}) => {
+  return (
+    <span className={styles.windData}>
+      {speed}
+      <img
+        src={Arrow}
+        alt={directionText}
+        style={{ '--windDeg': directionDegree } as CSSProperties}
+      />
+    </span>
+  );
+};
 
 export const formatReadingsToSensorKPIProps = (
   sensors: Sensor[],
@@ -115,7 +139,7 @@ export const formatWindData = (
   sensorReadingsMap: Partial<Record<SensorReadingTypes, SensorReadings>>,
   system: System,
   t: TFunction,
-): { label: string; data: string } | [] => {
+): { label: string; data: ReactNode } | [] => {
   const speedReadings = sensorReadingsMap['wind_speed'];
   const directionReadings = sensorReadingsMap['wind_direction'];
   if (!speedReadings && !directionReadings) {
@@ -123,6 +147,7 @@ export const formatWindData = (
   }
 
   let speedData = '';
+  let directionData: number | undefined;
   let directionValue = '';
 
   if (speedReadings) {
@@ -138,13 +163,22 @@ export const formatWindData = (
 
   if (directionReadings) {
     const latestValue = getLatestValue(directionReadings.readings, sensor.external_id);
-    directionValue = isValidNumber(latestValue) ? degToDirection(latestValue) : '-';
+    directionValue = isValidNumber(latestValue) ? t(degToDirection(latestValue)) : '-';
+    directionData = latestValue;
   }
 
   if (speedData && directionValue) {
+    const data = speedData === '-' && directionValue === '-' && '-';
+
     return {
       label: t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'),
-      data: speedData === '-' && directionValue === '-' ? '-' : `${speedData} ${directionValue}`,
+      data: data || (
+        <WindSpeedDirectionData
+          speed={speedData}
+          directionDegree={directionData}
+          directionText={directionValue}
+        />
+      ),
     };
   }
 
@@ -152,7 +186,10 @@ export const formatWindData = (
     return { label: t('SENSOR.READING.WIND_SPEED'), data: speedData };
   }
 
-  return { label: t('SENSOR.READING.WIND_DIRECTION'), data: directionValue };
+  return {
+    label: t('SENSOR.READING.WIND_DIRECTION'),
+    data: <WindSpeedDirectionData directionDegree={directionData} directionText={directionValue} />,
+  };
 };
 
 export const formatReadingsToWeatherKPI = (

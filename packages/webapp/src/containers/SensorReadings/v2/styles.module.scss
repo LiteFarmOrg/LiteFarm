@@ -127,3 +127,13 @@
     }
   }
 }
+
+.windData {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    transform: rotate(calc(var(--windDeg) * 1deg));
+  }
+}

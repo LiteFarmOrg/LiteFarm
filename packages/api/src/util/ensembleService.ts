@@ -16,7 +16,7 @@
 /**
  * This file extends the Ensemble service (ensemble.js) using TypeScript. When the TS migration of ensemble.js is done, the contents of this file can be moved there.
  */
-
+import { AxiosError } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
@@ -48,6 +48,21 @@ interface PlantingManagementPlan {
   row_method: MethodDetails | null;
 }
 
+interface ManagementPlan {
+  management_plan_id: string;
+  crop_management_plan: {
+    seed_date: string;
+    planting_management_plans: PlantingManagementPlan[];
+  };
+  crop_variety: {
+    crop: {
+      crop_common_name: string;
+      crop_genus: string;
+      crop_specie: string;
+    };
+  };
+}
+
 export interface LocationAndCropGraph {
   farm_id: string;
   name: string;
@@ -57,20 +72,7 @@ export interface LocationAndCropGraph {
       grid_points: Point[];
     };
   };
-  crop_data: {
-    management_plan_id: string;
-    crop_management_plan: {
-      seed_date: string;
-      planting_management_plans: PlantingManagementPlan[];
-    };
-    crop_variety: {
-      crop: {
-        crop_common_name: string;
-        crop_genus: string;
-        crop_specie: string;
-      };
-    };
-  }[];
+  management_plans: ManagementPlan[];
 }
 
 interface EnsembleCropData {
@@ -84,7 +86,7 @@ interface EnsembleCropData {
   };
 }
 
-export interface EnsembleLocationData {
+export interface EnsembleLocationAndCropData {
   farm_id: string;
   name: string;
   location_id: string;
@@ -93,17 +95,17 @@ export interface EnsembleLocationData {
 }
 
 interface OrganisationFarmData {
-  [org_uuid: string]: EnsembleLocationData[];
+  [org_uuid: string]: EnsembleLocationAndCropData[];
 }
 
 /**
- * Sends farm data to Ensemble API to initiate irrigation prescription.
+Sends location and crop data to Ensemble API to initiate irrigation prescriptions
  *
- * For development, it can return the data instead of sending it.
- *
- * Supply a farm_id to send data for a specific farm only
+ * @param {string} [farm_id] - Supply a farm_id to send data for a specific farm only. If no farm_id is provided, all farms connected to Ensemble will be sent.
+ * @param {string} [shouldSend=true] - Use shouldSend = 'false' to return the data object without sending it to Ensemble (for dev + QA)
+ * @returns {Promise<OrganisationFarmData | void>} - Returns organisation farm data if shouldSend is 'false'; otherwise sends the data.
  */
-export const sendLocationAndCropData = async (farm_id?: string, shouldSend: string = 'false') => {
+export const sendLocationAndCropData = async (farm_id?: string, shouldSend: string = 'true') => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError('Ensemble partner not found', 400);
@@ -137,7 +139,7 @@ export const sendLocationAndCropData = async (farm_id?: string, shouldSend: stri
       );
       cropsAndLocations.push({
         ...location,
-        crop_data: managementPlanGraph,
+        management_plans: managementPlanGraph,
       });
     }
 
@@ -153,9 +155,7 @@ export const sendLocationAndCropData = async (farm_id?: string, shouldSend: stri
   }
 };
 
-/**
- * Sends field and crop data to Ensemble API
- */
+/* Sends field and crop data to Ensemble API */
 async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
   try {
     const axiosObject = {
@@ -163,8 +163,12 @@ async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarm
       body: organisationFarmData,
       url: `${ensembleAPI}/irrigation_prescription/request/`, // real URL TBD
     };
-    const onError = () => {
-      throw customError('Unable to submit field and crop data to ESci', 500);
+
+    const onError = (error: AxiosError) => {
+      const status = error.response?.status || 500;
+      const errorDetail = error.message ? `: ${error.message}` : '';
+      const message = `Error sending field and crop data to ESci${errorDetail}`;
+      throw customError(message, status);
     };
 
     await ensembleAPICall(axiosObject, onError);
@@ -174,16 +178,14 @@ async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarm
   }
 }
 
-/**
- * Selects and formats the data for Ensemble API
- */
+/* Selects and formats the data for POST to Ensemble */
 function selectEnsembleProperties(
   cropsAndLocations: LocationAndCropGraph[],
-): EnsembleLocationData[] {
+): EnsembleLocationAndCropData[] {
   return cropsAndLocations.map((location) => {
     return {
       ...selectLocationData(location),
-      crop_data: selectCropData(location.crop_data),
+      crop_data: selectCropData(location.management_plans),
     };
   });
 }
@@ -198,12 +200,12 @@ function selectLocationData(location: LocationAndCropGraph) {
   };
 }
 
-function selectCropData(crop_data: LocationAndCropGraph['crop_data']) {
-  if (crop_data.length === 0) {
+function selectCropData(managementPlans: ManagementPlan[]) {
+  if (managementPlans.length === 0) {
     return [];
   }
 
-  return crop_data.map((managementPlan: LocationAndCropGraph['crop_data'][0]) => {
+  return managementPlans.map((managementPlan: ManagementPlan) => {
     const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
 
     const seed_date = managementPlan.crop_management_plan?.seed_date;
@@ -217,20 +219,18 @@ function selectCropData(crop_data: LocationAndCropGraph['crop_data']) {
       seed_date,
 
       // See below
-      ...extractPlangingDetails(managementPlan),
+      ...extractPlantingDetails(managementPlan),
     };
   });
 }
 
 /*--------------------
-  * Recommended TODO: check with Ensemble and remove planting_details
+Recommended TODO: check with Ensemble and remove planting_details
 
-    The variable information in this data (based on planting method) makes it unlikely to be useful in their calcuations. If they do depend on some part of it, for us it will be more data we need to make sure never changes. I recommend we remove it entirely and only keep crop + seed date
-/*--------------------*/
-/**
- * Extracts planting details from the management plan to store under planting_details key
- */
-function extractPlangingDetails(managementPlan: LocationAndCropGraph['crop_data'][0]) {
+The variable information in this data (based on planting method) makes it unlikely to be useful in their calcuations. If they do depend on some part of it, for us it will be more data we need to make sure never changes. I recommend we remove it entirely and only keep crop + seed date
+
+/* Extracts planting details from the management plan to store under planting_details key */
+function extractPlantingDetails(managementPlan: ManagementPlan) {
   let planting_details: EnsembleCropData['planting_details'] | undefined;
 
   // because the graph was filtered on is_final_planting_management_plan = true, there will only be one planting management plan in this array
@@ -253,3 +253,4 @@ function extractPlangingDetails(managementPlan: LocationAndCropGraph['crop_data'
 
   return planting_details ? { planting_details } : {};
 }
+/*--------------------*/

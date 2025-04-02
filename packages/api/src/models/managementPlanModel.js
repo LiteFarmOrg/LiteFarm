@@ -125,15 +125,9 @@ class ManagementPlan extends baseModel {
 
   /**
    * Retrieves all management plans associated with a specific location
-   *
-   * Follows the same logic as getManagementPlansByFarmId(), but includes the crop variety and crop information
-   *
-   * @param {(number|string)} location_id - The ID of the location to retrieve management plans for.
-   * @param {object|null} [trx=null] - Optional transaction object to use for the query.
-   * @returns {Promise<Array>} A promise that resolves to an array of transformed management plans.
+   * Mirrors getManagementPlansByFarmId(), but includes the crop variety and crop
    */
   static async getManagementPlansByLocationId(location_id, trx = null) {
-    // Identical to the graph used by getManagementPlansByFarmId() with the addition of crop
     const planGraphJoinedQueryString =
       '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
 
@@ -147,11 +141,13 @@ class ManagementPlan extends baseModel {
     return await ManagementPlan.query(trx)
       .whereNotDeleted()
       .withGraphJoined(planGraphJoinedQueryString, graphJoinedOptions)
-      /* this ignores the original field of a transplant task (is_final_planting_management_plan = false)
-
-      and the destination of a transplant task (is_final_planting_management_plan = null)
-      */
+      /*-----
+        this will ignore the original field of a planting task with transplant:
+          is_final_planting_management_plan = false
+        and the destination of a subsequent transplant task:
+          is_final_planting_management_plan = null */
       .where('cmp:pmps.is_final_planting_management_plan', true)
+      /*------------*/
       .andWhere('cmp:pmps.location_id', location_id);
   }
 }

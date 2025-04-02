@@ -21,8 +21,7 @@ const router = express.Router();
 
 router.post(
   '/request',
-  checkScope(['get:sensors']), // todo
-  // todo: auth check
+  checkScope(['get:sensors']), // (Optional) - add a new scope for irrigation prescription. However as both sensors and irrigation prescription data is coming from Ensemble with the same authentication rules, sharing scope seems reasonable
   IrrigationPrescriptionController.initiateFarmIrrigationPrescription(),
 );
 

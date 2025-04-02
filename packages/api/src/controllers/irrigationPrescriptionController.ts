@@ -44,7 +44,7 @@ const irrigationPrescriptionController = {
           shouldSend,
         );
 
-        // temporarily returning data for dev purposes + QA
+        // Return data for dev purposes + QA
         return res.status(200).send(farmData);
       } catch (error: unknown) {
         console.error(error);

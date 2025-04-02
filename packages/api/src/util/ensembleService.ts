@@ -111,7 +111,7 @@ export const sendLocationAndCropData = async (farm_id?: string, shouldSend: stri
     throw customError('Ensemble partner not found', 400);
   }
 
-  let organisations: Array<{ org_uuid: string; org_pk: number; farm_id: string }> = [];
+  let organisations = [];
 
   if (farm_id) {
     const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, partner.id);

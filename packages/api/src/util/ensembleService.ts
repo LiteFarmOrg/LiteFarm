@@ -22,7 +22,7 @@ import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
-import { ENSEMBLE_BRAND } from './ensemble.js';
+import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
 
 interface Point {
   lat: number;
@@ -99,13 +99,11 @@ interface OrganisationFarmData {
 /**
  * Sends farm data to Ensemble API to initiate irrigation prescription.
  *
- * Currently set up to send data for one farm or all of them, but depending on our needs we may want to keep just one or the other
+ * For development, it can return the data instead of sending it.
  *
- * @param {uuid} farm_id
- * @returns {Promise<void>}
- * @async
+ * Supply a farm_id to send data for a specific farm only
  */
-export const sendIrrigationData = async (farm_id?: string, trimmed: string = 'true') => {
+export const sendLocationAndCropData = async (farm_id?: string, shouldSend: string = 'false') => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError('Ensemble partner not found', 400);
@@ -143,31 +141,54 @@ export const sendIrrigationData = async (farm_id?: string, trimmed: string = 'tr
       });
     }
 
-    if (trimmed === 'true') {
-      (organisationFarmData[org.org_uuid] ??= []).push(
-        ...selectEnsembleProperties(cropsAndLocations),
-      );
-    } else {
-      /* @ts-expect-error not typing this return of the full graph; it is for dev purposes */
-      (organisationFarmData[org.org_uuid] ??= []).push(...cropsAndLocations);
-    }
+    (organisationFarmData[org.org_uuid] ??= []).push(
+      ...selectEnsembleProperties(cropsAndLocations),
+    );
   }
 
-  return organisationFarmData;
+  if (shouldSend === 'true') {
+    await sendFieldAndCropDataToEsci(organisationFarmData);
+  } else {
+    return organisationFarmData;
+  }
 };
 
-const selectEnsembleProperties = (
+/**
+ * Sends field and crop data to Ensemble API
+ */
+async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
+  try {
+    const axiosObject = {
+      method: 'post',
+      body: organisationFarmData,
+      url: `${ensembleAPI}/irrigation_prescription/request/`, // real URL TBD
+    };
+    const onError = () => {
+      throw customError('Unable to submit field and crop data to ESci', 500);
+    };
+
+    await ensembleAPICall(axiosObject, onError);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/**
+ * Selects and formats the data for Ensemble API
+ */
+function selectEnsembleProperties(
   cropsAndLocations: LocationAndCropGraph[],
-): EnsembleLocationData[] => {
+): EnsembleLocationData[] {
   return cropsAndLocations.map((location) => {
     return {
       ...selectLocationData(location),
       crop_data: selectCropData(location.crop_data),
     };
   });
-};
+}
 
-const selectLocationData = (location: LocationAndCropGraph) => {
+function selectLocationData(location: LocationAndCropGraph) {
   const { farm_id, name, location_id, figure } = location;
   return {
     farm_id,
@@ -175,9 +196,9 @@ const selectLocationData = (location: LocationAndCropGraph) => {
     location_id,
     grid_points: figure.area.grid_points,
   };
-};
+}
 
-const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
+function selectCropData(crop_data: LocationAndCropGraph['crop_data']) {
   if (crop_data.length === 0) {
     return [];
   }
@@ -187,33 +208,48 @@ const selectCropData = (crop_data: LocationAndCropGraph['crop_data']) => {
 
     const seed_date = managementPlan.crop_management_plan?.seed_date;
 
-    let planting_details: EnsembleCropData['planting_details'] | undefined;
-
-    const plantingManagementPlan =
-      managementPlan.crop_management_plan?.planting_management_plans?.[0];
-
-    if (plantingManagementPlan) {
-      const key = plantingManagementPlan.planting_method.toLowerCase() as PlantingMethod;
-      const details = plantingManagementPlan[key];
-
-      if (details) {
-        delete details.planting_management_plan_id;
-
-        planting_details = {
-          planting_method: plantingManagementPlan.planting_method,
-          ...details,
-        };
-      }
-    }
-
     return {
-      // TODO plan_id for debugging and should be removed
+      // plan_id for dev purposes; remove after QA on endpoint
       management_plan_id: managementPlan.management_plan_id,
       crop_common_name,
       crop_genus,
       crop_specie,
       seed_date,
-      ...(planting_details ? { planting_details } : {}),
+
+      // See below
+      ...extractPlangingDetails(managementPlan),
     };
   });
-};
+}
+
+/*--------------------
+  * Recommended TODO: check with Ensemble and remove planting_details
+
+    The variable information in this data (based on planting method) makes it unlikely to be useful in their calcuations. If they do depend on some part of it, for us it will be more data we need to make sure never changes. I recommend we remove it entirely and only keep crop + seed date
+/*--------------------*/
+/**
+ * Extracts planting details from the management plan to store under planting_details key
+ */
+function extractPlangingDetails(managementPlan: LocationAndCropGraph['crop_data'][0]) {
+  let planting_details: EnsembleCropData['planting_details'] | undefined;
+
+  // because the graph was filtered on is_final_planting_management_plan = true, there will only be one planting management plan in this array
+  const plantingManagementPlan =
+    managementPlan.crop_management_plan?.planting_management_plans?.[0];
+
+  if (plantingManagementPlan) {
+    const key = plantingManagementPlan.planting_method.toLowerCase() as PlantingMethod;
+    const details = plantingManagementPlan[key];
+
+    if (details) {
+      delete details.planting_management_plan_id;
+
+      planting_details = {
+        planting_method: plantingManagementPlan.planting_method,
+        ...details,
+      };
+    }
+  }
+
+  return planting_details ? { planting_details } : {};
+}

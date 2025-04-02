@@ -14,7 +14,7 @@
  */
 
 import { Request, Response } from 'express';
-import { sendIrrigationData } from '../util/ensembleService.js';
+import { sendLocationAndCropData } from '../util/ensembleService.js';
 
 interface HttpError extends Error {
   status?: number;
@@ -23,7 +23,7 @@ interface HttpError extends Error {
 
 interface LiteFarmQuery {
   allOrgs?: string;
-  trimmed?: string;
+  shouldSend?: string;
 }
 
 export interface LiteFarmRequest extends Request<unknown, unknown, unknown, LiteFarmQuery> {
@@ -36,15 +36,15 @@ const irrigationPrescriptionController = {
   initiateFarmIrrigationPrescription() {
     return async (req: LiteFarmRequest, res: Response) => {
       const { farm_id } = req.headers;
-      const { allOrgs, trimmed } = req.query;
+      const { allOrgs, shouldSend } = req.query;
 
       try {
-        const farmData = await sendIrrigationData(
+        const farmData = await sendLocationAndCropData(
           allOrgs === 'true' ? undefined : farm_id,
-          trimmed,
+          shouldSend,
         );
 
-        // temporarily returning data just for debugging
+        // temporarily returning data for dev purposes + QA
         return res.status(200).send(farmData);
       } catch (error: unknown) {
         console.error(error);

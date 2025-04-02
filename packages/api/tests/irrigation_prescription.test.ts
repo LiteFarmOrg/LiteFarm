@@ -29,12 +29,12 @@ describe('Irrigation Prescription Tests', () => {
     user_id,
     farm_id,
     allOrgs,
-    trimmed = 'true',
+    shouldSend = 'true',
   }: {
     user_id: string;
     farm_id: string;
     allOrgs?: string;
-    trimmed?: string;
+    shouldSend?: string;
   }): Promise<Response> {
     return chai
       .request(server)
@@ -42,7 +42,7 @@ describe('Irrigation Prescription Tests', () => {
       .set('content-type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .query({ allOrgs, trimmed });
+      .query({ allOrgs, shouldSend });
   }
 
   beforeEach(async () => {
@@ -77,7 +77,7 @@ describe('Irrigation Prescription Tests', () => {
           field,
         });
 
-        const res = await initiateIrrigationPrescriptionRequest({
+        await initiateIrrigationPrescriptionRequest({
           user_id: user.user_id,
           farm_id: farm.farm_id,
         });
@@ -88,46 +88,45 @@ describe('Irrigation Prescription Tests', () => {
           crop_specie: crop.crop_specie,
         };
 
-        const expectedCropData = [
-          expect.objectContaining({
-            management_plan_id: seedManagementPlan.management_plan_id,
-            // not sure why this date format discrepancy
-            seed_date: seedManagementPlan.seed_date.toISOString().replace('Z', ''),
-            ...cropConstants,
-          }),
-          expect.objectContaining({
-            management_plan_id: transplantManagementPlan.management_plan_id,
-            // not sure why this date format discrepancy
-            seed_date: transplantManagementPlan.seed_date.toISOString().replace('Z', ''),
-            ...cropConstants,
-          }),
-        ];
+        const expectedSeedCrop = expect.objectContaining({
+          management_plan_id: seedManagementPlan.management_plan_id,
+          seed_date: seedManagementPlan.seed_date,
+          ...cropConstants,
+        });
+
+        const expectedTransplantCrop = expect.objectContaining({
+          management_plan_id: transplantManagementPlan.management_plan_id,
+          seed_date: transplantManagementPlan.seed_date,
+          ...cropConstants,
+        });
+
+        const expectedCropData = [expectedSeedCrop, expectedTransplantCrop];
+
+        const expectedFieldData = {
+          farm_id: farm.farm_id,
+          location_id: field.location_id,
+          name: field.name,
+          grid_points: field.figure.area.grid_points,
+        };
 
         const expectedFieldAndCropData = {
           [farmAddon.org_uuid]: [
             {
-              farm_id: farm.farm_id,
-              location_id: field.location_id,
-              name: field.name,
-              grid_points: field.figure.area.grid_points,
+              ...expectedFieldData,
               crop_data: expect.arrayContaining(expectedCropData),
             },
           ],
         };
 
-        // TODO: this is the actual test to use once the endpoint is finalized
-        // expect(axios).toHaveBeenCalledWith(
-        //   expect.objectContaining({
-        //     method: 'post',
-        //     url: expect.stringContaining(
-        //       `/litefarm/irrigration_prescription/request`, // real URL here
-        //     ),
-        //     body: expectedFieldAndCropData,
-        //   }),
-        // );
-
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(expectedFieldAndCropData);
+        expect(axios).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'post',
+            url: expect.stringContaining(
+              `/irrigation_prescription/request`, // real URL here
+            ),
+            body: expectedFieldAndCropData,
+          }),
+        );
       });
     });
   });

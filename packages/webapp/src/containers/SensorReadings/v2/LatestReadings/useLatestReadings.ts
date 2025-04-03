@@ -35,21 +35,19 @@ const getLatestReadingTime = (sensorReadings: SensorReadings[]): Date | undefine
 
 function useLatestReading(sensors: Sensor[]): {
   isLoading: boolean;
+  isFetching: boolean;
   latestReadings: SensorReadings[];
   latestReadingTime?: Date;
   update: () => void;
 } {
-  const [isLoading, setIsLoading] = useState(false);
   const [latestReadings, setLatestReadings] = useState<SensorReadings[]>([]);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [triggerGetSensorReadings] = useLazyGetSensorReadingsQuery();
+  const [triggerGetSensorReadings, { isLoading, isFetching }] = useLazyGetSensorReadingsQuery();
 
   const getLatestReadings = async (startTime?: Date) => {
-    setIsLoading(true);
-
     let adjustedStartTime = startTime;
 
     if (!adjustedStartTime) {
@@ -65,8 +63,6 @@ function useLatestReading(sensors: Sensor[]): {
       startTime: adjustedStartTime.toISOString(),
       truncPeriod: 'minute',
     });
-
-    setIsLoading(false);
 
     return result;
   };
@@ -104,6 +100,7 @@ function useLatestReading(sensors: Sensor[]): {
 
   return {
     isLoading,
+    isFetching,
     latestReadings,
     latestReadingTime: getLatestReadingTime(latestReadings),
     update: () => refetchSensorReadings(),

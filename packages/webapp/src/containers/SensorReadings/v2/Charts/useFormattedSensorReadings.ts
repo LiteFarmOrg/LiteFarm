@@ -43,6 +43,7 @@ function useFormattedSensorReadings({
   truncPeriod,
 }: useFormattedSensorReadingsProps): {
   isLoading: boolean;
+  isFetching: boolean;
   ticks: number[];
   formattedSensorReadings: {
     reading_type: SensorReadingTypes;
@@ -53,7 +54,11 @@ function useFormattedSensorReadings({
   const system = useSelector(measurementSelector);
   const sensorIds = sensors.map(({ external_id }) => external_id);
 
-  const { isLoading, data: sensorReadings } = useGetSensorReadingsQuery(
+  const {
+    isLoading,
+    isFetching,
+    data: sensorReadings,
+  } = useGetSensorReadingsQuery(
     {
       esids: sensorIds.join(','),
       startTime: startDate,
@@ -99,7 +104,7 @@ function useFormattedSensorReadings({
     });
   }, [sensorReadings]);
 
-  return { isLoading, ticks, formattedSensorReadings };
+  return { isLoading, isFetching, ticks, formattedSensorReadings };
 }
 
 export default useFormattedSensorReadings;

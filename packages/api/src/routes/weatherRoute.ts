@@ -15,9 +15,10 @@
 
 import express from 'express';
 import weatherController from '../controllers/weatherController.js';
+import authFarmId from '../middleware/acl/authFarmId.js';
 
 const router = express.Router();
 
-router.get('/', weatherController.getWeather);
+router.get('/', authFarmId, weatherController.getWeather);
 
 export default router;

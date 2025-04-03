@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import LineChart, { LineConfig } from '../../../../components/Charts/LineChart';
+import Spinner, { OverlaySpinner } from '../../../../components/Spinner';
 import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
@@ -53,25 +54,31 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
 
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
 
-  const { formattedSensorReadings, ticks } = useFormattedSensorReadings({
+  const { isLoading, isFetching, formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,
     startDate,
     endDate,
     truncPeriod,
   });
 
-  if (!formattedSensorReadings) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <Spinner />;
   }
 
-  if (!truncPeriod || !formattedSensorReadings?.length) {
-    return <div>No data</div>;
+  if (!formattedSensorReadings?.length) {
+    return (
+      <div className={styles.noDataRect}>
+        {isFetching && <OverlaySpinner />}
+        {t('SENSOR.NO_DATA_FOUND')}
+      </div>
+    );
   }
 
   const isSensorArray = 'sensorColorMap' in props;
 
   return (
     <div className={clsx(styles.charts, isSensorArray ? '' : styles.sensor)}>
+      {isFetching && <OverlaySpinner />}
       {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : standaloneSensorParms(sensors[0].name)).flatMap(
         (param) => {
           const data = formattedSensorReadings.find((data) => data.reading_type === param);

@@ -64,6 +64,7 @@
 }
 
 .kpi {
+  position: relative;
   padding: 0 8px;
   margin-bottom: 16px;
 }
@@ -74,6 +75,7 @@
 }
 
 .charts {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -136,4 +138,17 @@
   img {
     transform: rotate(calc(var(--windDeg) * 1deg));
   }
+}
+
+.noDataRect {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  border: 1px solid var(--grey900);
+  border-style: dotted;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 16px;
 }

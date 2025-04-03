@@ -23,6 +23,7 @@ import SensorReadingKPI, {
   SensorReadingKPIprops,
 } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
 import { LineConfig } from '../../../../components/Charts/LineChart';
+import { OverlaySpinner } from '../../../../components/Spinner';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
@@ -67,7 +68,7 @@ function LatestReadings(props: LatestReadingsProps) {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
 
-  const { isLoading, latestReadings, latestReadingTime, update } = useLatestReadings(sensors);
+  const { isFetching, latestReadings, latestReadingTime, update } = useLatestReadings(sensors);
 
   const lastSeenString = latestReadingTime
     ? timeDifference(new Date(), new Date(latestReadingTime))
@@ -91,6 +92,7 @@ function LatestReadings(props: LatestReadingsProps) {
       </div>
       {!!kpiData?.length && (
         <div className={styles.kpi}>
+          {isFetching && <OverlaySpinner />}
           {isWeatherKPIData(kpiData) ? (
             <WeatherKPI data={kpiData} />
           ) : (

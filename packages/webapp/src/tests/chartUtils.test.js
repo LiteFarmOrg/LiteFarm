@@ -14,7 +14,12 @@
  */
 
 import { expect, describe, test } from 'vitest';
-import { getLocalDate, getTicks } from '../components/Charts/utils';
+import { getTicks } from '../components/Charts/utils';
+
+export const getLocalDate = (date) => {
+  const [y, m, d] = date.split('-');
+  return new Date(+y, +m - 1, +d);
+};
 
 const convertDateStringToUnixTime = (date) => {
   return getLocalDate(date).getTime() / 1000;

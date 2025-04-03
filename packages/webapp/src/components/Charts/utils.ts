@@ -24,11 +24,6 @@ export const getUnixTime = (date: Date) => {
   return new Date(date).getTime() / 1000;
 };
 
-export const getLocalDate = (date: string) => {
-  const [y, m, d] = date.split('-');
-  return new Date(+y, +m - 1, +d);
-};
-
 const getMonthlyTicks = (startDate: Date, endDate: Date): number[] => {
   const endDateInMilliseconds = endDate.getTime();
   const ticks = [];

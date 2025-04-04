@@ -47,6 +47,8 @@ const IrrigationPrescriptionMapView = ({
         farmCenterCoordinate={pivotCenter}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
+        showControls={false}
+        disableHover={true}
       />
     </div>
   );

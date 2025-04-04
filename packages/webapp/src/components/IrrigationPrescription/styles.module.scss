@@ -14,5 +14,7 @@
  */
 
 .mapContainer {
-  pointer-events: none; // disable hover
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
 }

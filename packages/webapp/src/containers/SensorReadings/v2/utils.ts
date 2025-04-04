@@ -59,16 +59,16 @@ export const sortDataByDateTime = (data: SensorDatapoint[]) => {
 };
 
 /**
- * Converts the dateTime returned from getSensorReadings.
+ * Converts the dateTime for daily data returned from getSensorReadings.
  *
  * We provide the date with 12 AM local time (e.g., Mar 28).
  * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
  * - If the user is 3 hours behind UTC, the date will be Mar 28, 3 AM UTC.
  *
  * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
- * This function converts the date the API returns back to the date we requested.
+ * This function adjusts the UTC-based timestamps back to the intended local date.
  */
-export const adjustDailyDateTime = (dateTime: number): number => {
+const adjustDailyDateTime = (dateTime: number): number => {
   const date = new Date(dateTime * 1000);
   const utcYear = date.getUTCFullYear();
   const utcMonth = date.getUTCMonth();
@@ -83,6 +83,45 @@ export const adjustDailyDateTime = (dateTime: number): number => {
   const isAheadUTC = timeOffset < 0;
 
   return new Date(utcYear, utcMonth, utcDate + (isAheadUTC ? 1 : 0)).getTime() / 1000;
+};
+
+/**
+ * Converts the dateTime for hourly data returned from getSensorReadings.
+ *
+ * We provide the date with 12 AM local time (e.g., Mar 28).
+ * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
+ * - If the user is 3 hours behind UTC, the date will be Mar 28, 3 AM UTC.
+ *
+ * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
+ * This function adjusts the UTC-based timestamps back to the intended local date.
+ */
+const getAdjustHourlyDateTimeFunc = (
+  timezoneOffset: number,
+): ((dateTime: number) => number) | undefined => {
+  const minuteOffset = timezoneOffset % 60;
+
+  // Handle time offset when the difference is not full hour
+  if (minuteOffset) {
+    const isAheadUTC = timezoneOffset < 0;
+    return (dateTime: number) => dateTime + minuteOffset * (isAheadUTC ? 1 : -1) * 60;
+  }
+
+  return undefined;
+};
+
+const getAdjustDateTimeFunc = (
+  truncPeriod: ChartTruncPeriod,
+  timezoneOffset?: number,
+): ((dateTime: number) => number) | undefined => {
+  if (timezoneOffset === undefined) {
+    return undefined;
+  }
+
+  if (truncPeriod === 'hour') {
+    return getAdjustHourlyDateTimeFunc(timezoneOffset);
+  } else if (truncPeriod === 'day') {
+    return adjustDailyDateTime;
+  }
 };
 
 export const formatDataPoint = (
@@ -119,21 +158,7 @@ export const formatSensorsData = (
     return [];
   }
 
-  let adjustDateTime: ((dateTime: number) => number) | undefined = undefined;
-
-  if (timezoneOffset !== undefined) {
-    if (truncPeriod === 'hour') {
-      const minuteOffset = timezoneOffset % 60;
-
-      // Handle time offset when the difference is not full hour
-      if (minuteOffset) {
-        const isAheadUTC = timezoneOffset < 0;
-        adjustDateTime = (dateTime: number) => dateTime + minuteOffset * (isAheadUTC ? 1 : -1) * 60;
-      }
-    } else if (truncPeriod === 'day') {
-      adjustDateTime = adjustDailyDateTime;
-    }
-  }
+  const adjustDateTime = getAdjustDateTimeFunc(truncPeriod, timezoneOffset);
 
   let result: FormattedSensorDatapoint[] = [];
   let currentTimeStamp = data[0].dateTime;

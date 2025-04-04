@@ -21,6 +21,7 @@ import {
   convertEsciReadingValue,
   formatSensorsData,
   FormattedSensorDatapoint,
+  getAdjustDateTimeFunc,
   getReadingUnit,
 } from '../utils';
 import { getTicks } from '../../../../components/Charts/utils';
@@ -28,6 +29,32 @@ import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor, SensorReadingTypes } from '../../../../store/api/types';
 
 const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
+
+const generateTicks = (
+  sensorReadings: {
+    reading_type: SensorReadingTypes;
+    readings: FormattedSensorDatapoint[];
+    unit: string;
+  }[],
+  startDate: string,
+  endDate: string,
+  truncPeriod: ChartTruncPeriod,
+  timezoneOffset: number,
+) => {
+  const lastDayInChart = sensorReadings.reduce((lastDay, { readings }) => {
+    return Math.max(lastDay, readings[readings.length - 1].dateTime);
+  }, 0);
+
+  const ticks = lastDayInChart
+    ? getTicks(new Date(startDate), new Date(endDate), {
+        skipEmptyEndTicks: true,
+        lastDataPointDateTime:
+          getAdjustDateTimeFunc(truncPeriod, timezoneOffset)?.(lastDayInChart) || lastDayInChart,
+      })
+    : getTicks(new Date(startDate), new Date(endDate));
+
+  return ticks;
+};
 
 interface useFormattedSensorReadingsProps {
   sensors: Sensor[];
@@ -68,25 +95,17 @@ function useFormattedSensorReadings({
     { refetchOnMountOrArgChange: true },
   );
 
-  const lastDayInChart = sensorReadings?.reduce((lastDay, { readings }) => {
-    return Math.max(lastDay, readings[readings.length - 1].dateTime);
-  }, 0);
-
-  const ticks = lastDayInChart
-    ? getTicks(new Date(startDate), new Date(endDate), {
-        skipEmptyEndTicks: true,
-        lastDataPointDateTime: lastDayInChart,
-      })
-    : getTicks(new Date(startDate), new Date(endDate));
-
-  const formattedSensorReadings = useMemo(() => {
+  const { formattedSensorReadings, ticks } = useMemo(() => {
     if (!sensorReadings?.length) {
-      return [];
+      return {
+        formattedSensorReadings: [],
+        ticks: getTicks(new Date(startDate), new Date(endDate)),
+      };
     }
 
     const timezoneOffset = new Date(startDate).getTimezoneOffset();
 
-    return sensorReadings.map(({ reading_type, readings, unit }) => {
+    const formattedData = sensorReadings.map(({ reading_type, readings, unit }) => {
       const valueConverter = (value: number) =>
         convertEsciReadingValue(value, reading_type, system);
 
@@ -102,6 +121,9 @@ function useFormattedSensorReadings({
         unit: getReadingUnit(reading_type, system, unit),
       };
     });
+    const ticks = generateTicks(formattedData, startDate, endDate, truncPeriod, timezoneOffset);
+
+    return { ticks, formattedSensorReadings: formattedData };
   }, [sensorReadings]);
 
   return { isLoading, isFetching, ticks, formattedSensorReadings };

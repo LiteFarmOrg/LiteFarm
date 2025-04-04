@@ -109,7 +109,7 @@ const getAdjustHourlyDateTimeFunc = (
   return undefined;
 };
 
-const getAdjustDateTimeFunc = (
+export const getAdjustDateTimeFunc = (
   truncPeriod: ChartTruncPeriod,
   timezoneOffset?: number,
 ): ((dateTime: number) => number) | undefined => {

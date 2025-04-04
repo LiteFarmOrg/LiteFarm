@@ -76,6 +76,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
             <StatusIndicatorPill
               status={isOnline ? Status.ONLINE : Status.OFFLINE}
               pillText={isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE')}
+              showHoverTooltip={false}
             />
           </div>
           <div className={styles.content}>

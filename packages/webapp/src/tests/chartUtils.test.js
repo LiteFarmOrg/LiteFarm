@@ -64,13 +64,13 @@ describe('Test getTicks', () => {
       ];
 
       testCases.forEach(({ input: [startDate, endDate], expectedTicks }) => {
-        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate), 'day');
+        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate));
         expect(ticks).toEqual(expectedTicks.map(convertDateStringToUnixTime));
       });
     });
 
     test('handle leap year correctly', () => {
-      const ticks = getTicks(getLocalDate('2024-02-28'), getLocalDate('2024-03-05'), 'day');
+      const ticks = getTicks(getLocalDate('2024-02-28'), getLocalDate('2024-03-05'));
       expect(ticks).toEqual(
         [
           '2024-02-28',
@@ -87,7 +87,7 @@ describe('Test getTicks', () => {
     // Can be tested locally by setting machine's time zone manually
     test('handle Daylight Saving Time boundaries correctly', () => {
       // Daylight Saving Time starts: 2025-03-09 (North America)
-      let ticks = getTicks(getLocalDate('2025-03-08'), getLocalDate('2025-03-12'), 'day');
+      let ticks = getTicks(getLocalDate('2025-03-08'), getLocalDate('2025-03-12'));
       expect(ticks).toEqual(
         ['2025-03-08', '2025-03-09', '2025-03-10', '2025-03-11', '2025-03-12'].map(
           convertDateStringToUnixTime,
@@ -95,7 +95,7 @@ describe('Test getTicks', () => {
       );
 
       // Daylight Saving Time starts: 2025-03-29 (Europe)
-      ticks = getTicks(getLocalDate('2025-03-27'), getLocalDate('2025-03-31'), 'day');
+      ticks = getTicks(getLocalDate('2025-03-27'), getLocalDate('2025-03-31'));
       expect(ticks).toEqual(
         ['2025-03-27', '2025-03-28', '2025-03-29', '2025-03-30', '2025-03-31'].map(
           convertDateStringToUnixTime,
@@ -103,7 +103,7 @@ describe('Test getTicks', () => {
       );
 
       // Daylight Saving Time ends: 2025-11-02 (North America), 2025-10-25 (Europe)
-      ticks = getTicks(getLocalDate('2025-10-30'), getLocalDate('2025-11-05'), 'day');
+      ticks = getTicks(getLocalDate('2025-10-30'), getLocalDate('2025-11-05'));
       expect(ticks).toEqual(
         [
           '2025-10-30',
@@ -165,7 +165,7 @@ describe('Test getTicks', () => {
         },
       ];
       testCases.forEach(({ input: [startDate, endDate], expectedTicks }) => {
-        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate), 'day');
+        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate));
         expect(ticks).toEqual(expectedTicks.map(convertDateStringToUnixTime));
       });
     });
@@ -197,7 +197,7 @@ describe('Test getTicks', () => {
       ];
 
       testCases.forEach(({ input: [startDate, endDate], expectedTicks }) => {
-        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate), 'day');
+        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate));
         expect(ticks).toEqual(expectedTicks.map(convertDateStringToUnixTime));
       });
     });
@@ -230,13 +230,13 @@ describe('Test getTicks', () => {
       ];
 
       testCases.forEach(({ input: [startDate, endDate], expectedTicks }) => {
-        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate), 'day');
+        const ticks = getTicks(getLocalDate(startDate), getLocalDate(endDate));
         expect(ticks).toEqual(expectedTicks.map(convertDateStringToUnixTime));
       });
     });
 
     test('handle leap year correctly', () => {
-      const ticks = getTicks(getLocalDate('2024-01-01'), getLocalDate('2024-06-01'), 'day');
+      const ticks = getTicks(getLocalDate('2024-01-01'), getLocalDate('2024-06-01'));
       expect(ticks).toEqual(
         ['2024-01-01', '2024-02-01', '2024-03-01', '2024-04-01', '2024-05-01', '2024-06-01'].map(
           convertDateStringToUnixTime,
@@ -247,7 +247,7 @@ describe('Test getTicks', () => {
 
   describe('choose appropriate tick span', () => {
     test('get daily ticks when the date range includes fewer than two first days of a month', () => {
-      let ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-01-31'), 'day');
+      let ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-01-31'));
       expect(ticks).toEqual(
         [
           '2025-01-01',
@@ -260,7 +260,7 @@ describe('Test getTicks', () => {
         ].map(convertDateStringToUnixTime),
       );
 
-      ticks = getTicks(getLocalDate('2025-01-02'), getLocalDate('2025-02-28'), 'day');
+      ticks = getTicks(getLocalDate('2025-01-02'), getLocalDate('2025-02-28'));
       expect(ticks).toEqual(
         [
           '2025-01-02',
@@ -275,10 +275,10 @@ describe('Test getTicks', () => {
     });
 
     test('get monthly ticks when the date range includes two or more first days of a month', () => {
-      let ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-02-01'), 'day');
+      let ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-02-01'));
       expect(ticks).toEqual(['2025-01-01', '2025-02-01'].map(convertDateStringToUnixTime));
 
-      ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-02-28'), 'day');
+      ticks = getTicks(getLocalDate('2025-01-01'), getLocalDate('2025-02-28'));
       expect(ticks).toEqual(['2025-01-01', '2025-02-01'].map(convertDateStringToUnixTime));
     });
   });

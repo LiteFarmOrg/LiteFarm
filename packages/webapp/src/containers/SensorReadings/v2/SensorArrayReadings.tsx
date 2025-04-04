@@ -79,7 +79,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
               isSensorArray={true}
               sensorColorMap={sensorColorMap!}
             />
-            <div className={styles.mainData}>
+            <div className={styles.sensorArrayMainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}
                 updateDateRange={updateDateRange}

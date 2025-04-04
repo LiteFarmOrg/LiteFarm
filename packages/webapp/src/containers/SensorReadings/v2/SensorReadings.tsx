@@ -81,7 +81,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
           </div>
           <div className={styles.content}>
             <LatestReadings sensors={[sensor]} />
-            <div className={styles.mainData}>
+            <div className={styles.sensorMainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}
                 updateDateRange={updateDateRange}

@@ -87,7 +87,7 @@ export const formatReadingsToSensorKPIProps = (
         status: {
           status: isOnline ? Status.ONLINE : Status.OFFLINE,
           pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-          tooltipText: 'Device has sent data in the last 12 hours', // TODO: confirm
+          showHoverTooltip: false,
         },
       },
       discriminator: {

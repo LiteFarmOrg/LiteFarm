@@ -257,7 +257,7 @@ describe('Test chart data formatting', () => {
         i18n.t,
       );
       expect(label).toBe(i18n.t('SENSOR.READING.WIND_DIRECTION'));
-      expect(data).toBe('NNE');
+      expect(JSON.stringify(data)).toContain('"directionText":"NNE"');
     });
 
     test('format properly with both wind speed and direction', () => {
@@ -269,7 +269,10 @@ describe('Test chart data formatting', () => {
           i18n.t,
         );
         expect(label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
-        expect(data).toBe(system === 'metric' ? '9km/h NNE' : '5.59mph NNE');
+        expect(JSON.stringify(data)).toContain(
+          `"speed":"${system === 'metric' ? '9km/h' : '5.59mph'}"`,
+        );
+        expect(JSON.stringify(data)).toContain('"directionText":"NNE"');
       });
     });
 
@@ -287,7 +290,8 @@ describe('Test chart data formatting', () => {
         i18n.t,
       );
       expect(dataMissingSpeed.label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
-      expect(dataMissingSpeed.data).toBe('- NNE');
+      expect(JSON.stringify(dataMissingSpeed.data)).toContain('"speed":"-"');
+      expect(JSON.stringify(dataMissingSpeed.data)).toContain('"directionText":"NNE"');
 
       const directionWithoutReadings = { ...mockDirectionReadings, readings: [] };
       const dataMissingDirection = formatWindData(
@@ -297,7 +301,8 @@ describe('Test chart data formatting', () => {
         i18n.t,
       );
       expect(dataMissingDirection.label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
-      expect(dataMissingDirection.data).toBe('9km/h -');
+      expect(JSON.stringify(dataMissingDirection.data)).toContain('"speed":"9km/h"');
+      expect(JSON.stringify(dataMissingDirection.data)).toContain('"directionText":"-"');
 
       const dataMissingSpeedAndDirection = formatWindData(
         mockSensor,

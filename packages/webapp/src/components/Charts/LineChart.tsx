@@ -190,6 +190,7 @@ function LineChart(props: LineChartProps) {
                 tooltipValueFormatter={formatTooltipValue}
               />
             )}
+            isAnimationActive={false}
           />
           {lineConfig.map(({ id, color }) => {
             return (
@@ -210,6 +211,7 @@ function LineChart(props: LineChartProps) {
                   onMouseOver: () => onLineMouseOver(id),
                   onMouseLeave: onLineMouseLeave,
                 }}
+                isAnimationActive={false}
               />
             );
           })}

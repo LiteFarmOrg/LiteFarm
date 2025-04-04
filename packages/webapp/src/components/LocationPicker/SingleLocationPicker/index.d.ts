@@ -32,6 +32,8 @@ export interface LocationPickerProps {
   maxZoom?: number;
   disabled?: boolean;
   className?: string;
+  showControls?: boolean;
+  disableHover?: boolean;
 }
 
 declare const LocationPicker: FC<LocationPickerProps>;

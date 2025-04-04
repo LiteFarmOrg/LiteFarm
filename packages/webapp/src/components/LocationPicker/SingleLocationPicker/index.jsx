@@ -41,6 +41,8 @@ const LocationPicker = ({
   maxZoom,
   disabled = false,
   className = '',
+  showControls = true,
+  disableHover = false,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -151,7 +153,7 @@ const LocationPicker = ({
 
   const drawLocations = (map, maps, mapBounds) => {
     locations.forEach((location) => {
-      const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
+      const assetGeometry = drawCropLocation(map, maps, mapBounds, location, disableHover);
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
       if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
@@ -237,6 +239,7 @@ const LocationPicker = ({
 
   const getMapOptions = (maps) => {
     return {
+      disableDefaultUI: !showControls,
       styles: [
         {
           featureType: 'poi.business',
@@ -300,21 +303,23 @@ const LocationPicker = ({
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
 
-    const zoomControlDiv = document.createElement('div');
-    const rootZoomControlDiv = createRoot(zoomControlDiv);
-    rootZoomControlDiv.render(
-      <CustomZoom
-        style={{ margin: '12px' }}
-        onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
-        onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
-      />,
-    );
-    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
+    if (showControls) {
+      const zoomControlDiv = document.createElement('div');
+      const rootZoomControlDiv = createRoot(zoomControlDiv);
+      rootZoomControlDiv.render(
+        <CustomZoom
+          style={{ margin: '12px' }}
+          onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
+          onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
+        />,
+      );
+      map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
-    const compassControlDiv = document.createElement('div');
-    const rootCompassControlDiv = createRoot(compassControlDiv);
-    rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
-    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
+      const compassControlDiv = document.createElement('div');
+      const rootCompassControlDiv = createRoot(compassControlDiv);
+      rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
+      map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
+    }
 
     // Drawing locations on map
     drawWildCropPins(map, maps, mapBounds);

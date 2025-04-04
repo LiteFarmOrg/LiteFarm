@@ -16,6 +16,8 @@ import {
   greenhouseSelectedColour,
   naturalAreaColour,
   naturalAreaSelectedColour,
+  pivotColour,
+  pivotArmColour,
   residenceColour,
   residenceSelectedColour,
   surfaceWaterColour,
@@ -94,6 +96,15 @@ export const areaStyles = {
   },
 };
 
+export const circleStyles = {
+  pivot: {
+    strokeColour: pivotArmColour,
+    fillColour: pivotColour,
+    selectedColour: pivotColour,
+    markerColour: pivotArmColour,
+  },
+};
+
 export const lineStyles = {
   watercourse: {
     colour: watercourseColour,
@@ -140,6 +151,20 @@ export const lineStyles = {
       strokeWeight: 2,
       fillColor: bufferZoneColour,
       fillOpacity: 0.3,
+    },
+  },
+  pivot_arm: {
+    colour: pivotArmColour,
+    selectedColour: pivotArmColour,
+    dashScale: 2,
+    dashLength: '6px',
+    defaultDashColour: 'transparent', // color that renders under the dash (default is white)
+    polyStyles: {
+      // indicating width
+      strokeColor: 'transparent',
+      strokeWeight: 0,
+      fillColor: 'transparent',
+      fillOpacity: 0,
     },
   },
 };

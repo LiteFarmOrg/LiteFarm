@@ -1,5 +1,6 @@
 import {
   isArea,
+  isCircle,
   isLine,
   isNoFillArea,
   isPoint,
@@ -8,6 +9,7 @@ import {
 } from '../../../containers/Map/constants';
 import {
   areaStyles,
+  circleStyles,
   hoverIcons,
   icons,
   lineStyles,
@@ -21,6 +23,7 @@ export const DEFAULT_POLYGON_OPACITY = 0.5;
 export const HOVER_POLYGON_OPACITY = 0.8;
 
 export const drawCropLocation = (map, maps, mapBounds, location) => {
+  if (isCircle(location.type)) return drawCircle(map, maps, mapBounds, location);
   if (isNoFillArea(location.type)) return drawNoFillArea(map, maps, mapBounds, location);
   if (isLine(location.type)) return drawLine(map, maps, mapBounds, location);
   if (isArea(location.type)) return drawArea(map, maps, mapBounds, location);
@@ -102,6 +105,57 @@ const drawArea = (map, maps, mapBounds, location) => {
   };
 };
 
+const drawCircle = (map, maps, mapBounds, location) => {
+  const { center, radius, name, type } = location;
+  const styles = circleStyles[type];
+
+  const { strokeColour, fillColour, markerColour } = styles;
+
+  mapBounds.extend(center);
+  const circle = new maps.Circle({
+    center,
+    radius, // in meters
+    strokeColor: strokeColour,
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    fillColor: fillColour,
+    fillOpacity: DEFAULT_POLYGON_OPACITY,
+    map,
+  });
+
+  maps.event.addListener(circle, 'mouseover', function () {
+    if (this.fillOpacity !== SELECTED_POLYGON_OPACITY) {
+      this.setOptions({ fillOpacity: HOVER_POLYGON_OPACITY });
+    }
+  });
+  maps.event.addListener(circle, 'mouseout', function () {
+    if (this.fillOpacity !== SELECTED_POLYGON_OPACITY) {
+      this.setOptions({ fillOpacity: DEFAULT_POLYGON_OPACITY });
+    }
+  });
+
+  const label = new maps.Marker({
+    position: center,
+    map,
+    icon: {
+      path: 'M 0,0 0,0', // invisible icon for label
+    },
+    clickable: false,
+    label: {
+      text: name || '',
+      color: markerColour || 'white',
+      fontSize: '16px',
+    },
+  });
+
+  return {
+    location,
+    circle,
+    label,
+    styles,
+  };
+};
+
 const drawLine = (map, maps, mapBounds, location) => {
   const { line_points: points, type, width } = location;
   const realWidth =
@@ -109,7 +163,7 @@ const drawLine = (map, maps, mapBounds, location) => {
       ? Number(location.buffer_width) + Number(width)
       : Number(width > 5 ? width : 5);
   const styles = lineStyles[type];
-  const { colour, dashScale, dashLength, selectedColour } = styles;
+  const { colour, dashScale, dashLength, defaultDashColour } = styles;
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -124,7 +178,7 @@ const drawLine = (map, maps, mapBounds, location) => {
   });
   const polyline = new maps.Polyline({
     path: points,
-    strokeColor: defaultColour,
+    strokeColor: defaultDashColour || defaultColour,
     strokeOpacity: 1.0,
     strokeWeight: 2,
     icons: [

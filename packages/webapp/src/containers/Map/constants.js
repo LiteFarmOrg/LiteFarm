@@ -41,7 +41,12 @@ export const isNoFillArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
+  return [
+    locationEnum.watercourse,
+    locationEnum.fence,
+    locationEnum.buffer_zone,
+    locationEnum.pivot_arm,
+  ].includes(type);
 };
 
 export const isPoint = (type) => {
@@ -51,6 +56,10 @@ export const isPoint = (type) => {
     locationEnum.sensor,
     locationEnum.sensor_array,
   ].includes(type);
+};
+
+export const isCircle = (type) => {
+  return [locationEnum.pivot].includes(type);
 };
 
 export const locationEnum = {
@@ -70,6 +79,8 @@ export const locationEnum = {
   sensor_array: 'sensor_array',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
+  pivot: 'pivot',
+  pivot_arm: 'pivot_arm',
 };
 
 export const bulkSenorUploadErrorTypeEnum = {

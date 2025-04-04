@@ -8,6 +8,7 @@ import {
   DEFAULT_ZOOM,
   GMAPS_API_KEY,
   isPoint,
+  isCircle,
   DEFAULT_MAX_ZOOM,
 } from '../../../containers/Map/constants';
 import MapPin from '../../../assets/images/map/map_pin.svg';
@@ -159,6 +160,8 @@ const LocationPicker = ({
         maps.event.addListener(assetGeometry.marker, 'click', (e) =>
           onSelectLocationRef.current(assetGeometry.location.location_id),
         );
+      } else if (isCircle(assetGeometry.location.type)) {
+        maps.event.addListener(assetGeometry.circle, 'click', (e) => areaOnClick(e.latLng, maps));
       } else {
         maps.event.addListener(assetGeometry.polygon, 'click', (e) => areaOnClick(e.latLng, maps));
       }
@@ -189,10 +192,27 @@ const LocationPicker = ({
 
   const setSelectedGeometryStyle = (assetGeometry) => {
     if (isPoint(assetGeometry.location.type)) {
-      assetGeometry?.marker?.setOptions({ icon: selectedIcons[assetGeometry.location.type] });
+      assetGeometry?.marker?.setOptions({
+        icon: selectedIcons[assetGeometry.location.type],
+      });
+    } else if (isCircle(assetGeometry.location.type)) {
+      assetGeometry?.marker?.setOptions({
+        label: {
+          ...(assetGeometry?.marker?.label || {}),
+          color: 'black',
+        },
+      });
+      assetGeometry.circle.setOptions({
+        fillColor: assetGeometry.styles.selectedColour || 'white',
+        fillOpacity: SELECTED_POLYGON_OPACITY,
+        strokeColor: assetGeometry.styles.selectedColour || 'white',
+      });
     } else {
       assetGeometry?.marker?.setOptions({
-        label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
+        label: {
+          ...(assetGeometry?.marker?.label || {}),
+          color: 'black',
+        },
       });
       assetGeometry.polygon.setOptions({
         fillColor: assetGeometry.styles.selectedColour || 'white',

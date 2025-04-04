@@ -86,7 +86,7 @@ const drawArea = (map, maps, mapBounds, location) => {
     },
     clickable: false,
     crossOnDrag: false,
-    label: {
+    label: name && {
       text: name,
       color: 'white',
       fontSize: '16px',
@@ -138,13 +138,18 @@ const drawCircle = (map, maps, mapBounds, location) => {
     position: center,
     map,
     icon: {
-      path: 'M 0,0 0,0', // invisible icon for label
+      path: maps.SymbolPath.CIRCLE,
+      fillColor: markerColour || 'white',
+      fillOpacity: 1,
+      strokeWeight: 0,
+      scale: 2,
     },
     clickable: false,
-    label: {
-      text: name || '',
+    label: name && {
+      text: name,
       color: markerColour || 'white',
-      fontSize: '16px',
+      fontSize: '10px',
+      className: styles.circleLabel,
     },
   });
 

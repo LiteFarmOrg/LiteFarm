@@ -24,6 +24,7 @@ import {
   surfaceWaterSelectedColour,
   watercourseColour,
   watercourseSelectedColour,
+  circleLabel,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -102,6 +103,7 @@ export const circleStyles = {
     fillColour: pivotColour,
     selectedColour: pivotColour,
     markerColour: pivotArmColour,
+    circleLabel: circleLabel,
   },
 };
 

@@ -20,22 +20,18 @@ import { measurementSelector } from '../../../userFarmSlice';
 import {
   convertEsciReadingValue,
   formatSensorsData,
-  FormattedSensorDatapoint,
   getAdjustDateTimeFunc,
   getReadingUnit,
 } from '../utils';
 import { getTicks } from '../../../../components/Charts/utils';
 import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
-import { Sensor, SensorReadingTypes } from '../../../../store/api/types';
+import { Sensor } from '../../../../store/api/types';
+import { FormattedSensorReadings } from '../types';
 
 const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
 
 const generateTicks = (
-  sensorReadings: {
-    reading_type: SensorReadingTypes;
-    readings: FormattedSensorDatapoint[];
-    unit: string;
-  }[],
+  sensorReadings: FormattedSensorReadings[],
   startDate: string,
   endDate: string,
   truncPeriod: ChartTruncPeriod,
@@ -72,11 +68,7 @@ function useFormattedSensorReadings({
   isLoading: boolean;
   isFetching: boolean;
   ticks: number[];
-  formattedSensorReadings: {
-    reading_type: SensorReadingTypes;
-    readings: FormattedSensorDatapoint[];
-    unit: string;
-  }[];
+  formattedSensorReadings: FormattedSensorReadings[];
 } {
   const system = useSelector(measurementSelector);
   const sensorIds = sensors.map(({ external_id }) => external_id);

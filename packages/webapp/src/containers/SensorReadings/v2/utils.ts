@@ -24,6 +24,7 @@ import type { System } from '../../../types';
 import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
 import { convert } from '../../../util/convert-units/convert';
 import { esciUnitTypeMap } from './constants';
+import { FormattedSensorDatapoint } from './types';
 
 const WIND_DIRECTION_KEYS = [
   'N', // t('N')
@@ -45,11 +46,6 @@ const WIND_DIRECTION_KEYS = [
 ];
 const NUM_OF_DIRECTIONS = WIND_DIRECTION_KEYS.length;
 const ANGLE_PER_DIRECTION = 360 / NUM_OF_DIRECTIONS;
-
-export interface FormattedSensorDatapoint {
-  dateTime: SensorDatapoint['dateTime'];
-  [key: string]: number | null;
-}
 
 const SECONDS_IN_A_DAY = 86400; // 60 * 60 * 24
 const SECONDS_IN_AN_HOUR = 3600; // 60 * 60

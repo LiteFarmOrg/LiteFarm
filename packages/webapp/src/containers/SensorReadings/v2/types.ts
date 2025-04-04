@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { SensorReadingTypes } from '../../../store/api/types';
+import type { SensorDatapoint, SensorReadingTypes } from '../../../store/api/types';
 
 export type ChartSupportedReadingTypes = Extract<
   SensorReadingTypes,
@@ -38,3 +38,14 @@ export type WeatherStationKPIParams = Extract<
   | 'solar_radiation'
   | 'rainfall_rate'
 >;
+
+export interface FormattedSensorDatapoint {
+  dateTime: SensorDatapoint['dateTime'];
+  [key: string]: number | null;
+}
+
+export interface FormattedSensorReadings {
+  reading_type: SensorReadingTypes;
+  unit: string;
+  readings: FormattedSensorDatapoint[];
+}

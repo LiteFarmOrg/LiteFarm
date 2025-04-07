@@ -39,3 +39,9 @@ export function isSameDay(date1: Date, date2: Date) {
     date1.getMonth() === date2.getMonth()
   );
 }
+
+// For use with sensor data to determine if sensor is online or offline
+export function isLessThanTwelveHrsAgo(datetime: Date): boolean {
+  const TwelveHrsInMs = 12 * 60 * 60 * 1000;
+  return Date.now() - new Date(datetime).getTime() < TwelveHrsInMs;
+}

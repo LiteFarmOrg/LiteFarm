@@ -22,7 +22,7 @@ import styles from './styles.module.scss';
 import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
-import { isSameDay } from '../../util/date-migrate-TS';
+import { isLessThanTwelveHrsAgo } from '../../util/date-migrate-TS';
 import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
@@ -90,7 +90,7 @@ export default function PureLocationFieldTechnology({
                     <div className={styles.listHeading}>{esa.name}</div>
                     <List compact className={styles.list}>
                       {...esa.sensors?.map((sensor) => {
-                        const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
+                        const isOnline = isLessThanTwelveHrsAgo(new Date(sensor.last_seen));
                         return (
                           <ListItem
                             key={sensor.id}
@@ -121,7 +121,7 @@ export default function PureLocationFieldTechnology({
               <List compact className={styles.list}>
                 {...fieldTechnology[key]?.map((es) => {
                   const sensor = es.sensors[0];
-                  const isOnline = isSameDay(new Date(sensor.last_seen), new Date());
+                  const isOnline = isLessThanTwelveHrsAgo(new Date(sensor.last_seen));
                   return (
                     <ListItem
                       key={sensor.id}

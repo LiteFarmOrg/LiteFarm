@@ -28,7 +28,7 @@
 
 .content {
   margin-bottom: 24px;
-  padding: 8px;
+  padding: 8px 8px 28px 8px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
   border-radius: 8px;
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
@@ -70,6 +70,10 @@
   position: relative;
   padding: 0 8px;
   margin-bottom: 16px;
+
+  &.sensor {
+    margin-bottom: 32px;
+  }
 }
 
 .sensorArrayMainData {
@@ -85,7 +89,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 48px;
 
   &.sensor {
     gap: 52px;
@@ -94,7 +98,7 @@
 
 .dateRangeSelector {
   padding: 16px 0;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .sensorInfo {

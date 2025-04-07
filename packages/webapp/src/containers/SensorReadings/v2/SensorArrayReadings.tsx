@@ -23,6 +23,7 @@ import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import LatestReadings from './LatestReadings';
 import Charts from './Charts';
 import { colors } from '../../../assets/theme';
+import { SensorType } from '../../../types/sensor';
 import styles from './styles.module.scss';
 
 export const LINE_COLORS = [
@@ -76,7 +77,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
           <>
             <LatestReadings
               sensors={sensors}
-              isSensorArray={true}
+              type={SensorType.SENSOR_ARRAY}
               sensorColorMap={sensorColorMap!}
             />
             <div className={styles.sensorArrayMainData}>

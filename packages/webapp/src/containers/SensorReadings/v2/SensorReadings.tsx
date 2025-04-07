@@ -26,6 +26,7 @@ import { toTranslationKey } from '../../../util';
 import { CustomRouteComponentProps } from '../../../types';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import LatestReadings from './LatestReadings';
+import { SensorType } from '../../../types/sensor';
 import styles from './styles.module.scss';
 
 interface RouteParams {
@@ -80,7 +81,7 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
             />
           </div>
           <div className={styles.content}>
-            <LatestReadings sensors={[sensor]} />
+            <LatestReadings sensors={[sensor]} type={SensorType.SENSOR} />
             <div className={styles.sensorMainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}

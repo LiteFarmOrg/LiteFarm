@@ -17,17 +17,16 @@ import Layout from '../Layout';
 import layoutStyles from '../Layout/layout.module.scss';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
-import { Trans, useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
 import { isSameDay } from '../../util/date-migrate-TS';
-import Icon from '../Icons';
 import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
+import ManageESciSection from '../ManageESciSection';
 
 export default function PureLocationFieldTechnology({
   location,
@@ -181,23 +180,7 @@ export default function PureLocationFieldTechnology({
       <div className={styles.lists}>
         <FieldTechnologyLists />
       </div>
-      {hasAddonSensors && (
-        <div className={styles.manageEsci}>
-          <div className={styles.manageText}>
-            <Trans
-              i18nKey={'SENSOR.ESCI.TO_MANAGE_SENSORS'}
-              shouldUnescape={true}
-              tOptions={{ url: 'https://app.esci.io/' }}
-            />
-          </div>
-          <div className={styles.manageLink}>
-            <Link to={{ pathname: '/farm', hash: '#esci-addon' }}>
-              <Icon iconName="EXTERNAL_LINK" className={styles.externalLinkIcon} />
-              <span>{t('SENSOR.ESCI.MANAGE_LINK')}</span>
-            </Link>
-          </div>
-        </div>
-      )}
+      {hasAddonSensors && <ManageESciSection t={t} />}
     </Layout>
   );
 }

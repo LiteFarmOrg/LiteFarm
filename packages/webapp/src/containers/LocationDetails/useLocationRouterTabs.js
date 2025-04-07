@@ -44,19 +44,15 @@ export default function useLocationRouterTabs(location, match) {
     currentTab = 'readings';
   }
 
-  if (location.isAddonSensor && readingsLocations.includes(type)) {
-    // External sensors do not have any other tabs
-    return [
-      {
-        label: t('FARM_MAP.TAB.READINGS'),
-        path: match.url.replace(currentTab, 'readings'),
-      },
-    ];
-  } else {
-    const fieldTechnology = useFieldTechnology(location);
-    const locationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
+  const fieldTechnology = useFieldTechnology(location);
+  const locationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
 
-    const routerTabs = [
+  const routerTabs = [];
+
+  // Order of following statements reflects tab order
+  if (!location.isAddonSensor) {
+    // External sensors do not have base tabs
+    routerTabs.push(
       {
         label: t('FARM_MAP.TAB.DETAILS'),
         path: match.url.replace(currentTab, 'details'),
@@ -65,22 +61,26 @@ export default function useLocationRouterTabs(location, match) {
         label: t('FARM_MAP.TAB.TASKS'),
         path: match.url.replace(currentTab, 'tasks'),
       },
-    ];
-
-    // Order reflects tab order
-    if (cropLocations.includes(type)) {
-      routerTabs.push({
-        label: t('FARM_MAP.TAB.CROPS'),
-        path: match.url.replace(currentTab, 'crops'),
-      });
-    }
-    if (locationFieldTechnology && fieldTechnologyLocations.includes(type)) {
-      routerTabs.push({
-        label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
-        path: match.url.replace(currentTab, 'field_technology'),
-      });
-    }
-
-    return routerTabs;
+    );
   }
+  if (cropLocations.includes(type)) {
+    routerTabs.push({
+      label: t('FARM_MAP.TAB.CROPS'),
+      path: match.url.replace(currentTab, 'crops'),
+    });
+  }
+  if (locationFieldTechnology && fieldTechnologyLocations.includes(type)) {
+    routerTabs.push({
+      label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
+      path: match.url.replace(currentTab, 'field_technology'),
+    });
+  }
+  if (readingsLocations.includes(type)) {
+    routerTabs.push({
+      label: t('FARM_MAP.TAB.READINGS'),
+      path: match.url.replace(currentTab, 'readings'),
+    });
+  }
+
+  return routerTabs;
 }

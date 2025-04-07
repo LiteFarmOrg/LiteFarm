@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from 'react-i18next';
 import Icon, { IconName } from '../../Icons';
 import BentoLayout from '../../Layout/BentoLayout';
 import { StatusIndicatorPill, StatusIndicatorPillProps } from '../../StatusIndicatorPill';
@@ -67,6 +68,7 @@ export default function SensorKPI({
 }: SensorKPIprops) {
   const { measurement, value, unit } = discriminator;
   const { status, id } = sensor;
+  const { t } = useTranslation();
 
   // 0D is the code for 5% opacity, 95% transparency
   const style = {
@@ -90,9 +92,9 @@ export default function SensorKPI({
         <StatusIndicatorPill {...status} />
       </div>
       <BentoLayout maxColumns={2} bentoOffMedium={false}>
-        {measurements.map((m, i) => (
-          <Measurement key={`${m.measurement}-${i}`} {...m} />
-        ))}
+        {measurements.length
+          ? measurements.map((m, i) => <Measurement key={`${m.measurement}-${i}`} {...m} />)
+          : t('SENSOR.NO_DATA_FOUND')}
       </BentoLayout>
     </div>
   );

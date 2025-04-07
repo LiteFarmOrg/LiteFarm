@@ -50,10 +50,10 @@ export default function PureLocationFieldTechnology({
     }
   };
 
-  const ListItem = ({ key, label, middleContent, onClickLocation, lastSeen }) => {
+  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, ...rest }) => {
     return (
       <SensorListItem
-        key={key}
+        {...rest}
         iconText={{
           iconName: 'SENSOR',
           label: label,

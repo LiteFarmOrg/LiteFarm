@@ -54,11 +54,7 @@ export default function useLocationRouterTabs(location, match) {
     ];
   } else {
     const fieldTechnology = useFieldTechnology(location);
-    const locationFieldTechnology = Object.keys(fieldTechnology).some(
-      (key) => !!fieldTechnology[key].length,
-    )
-      ? true
-      : false;
+    const locationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
 
     const routerTabs = [
       {

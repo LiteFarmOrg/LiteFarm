@@ -29,7 +29,7 @@ const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
 
-  const { type } = location;
+  const { type, isAddonSensor } = location;
 
   let currentTab;
   if (match.path.includes('/details')) {
@@ -50,7 +50,7 @@ export default function useLocationRouterTabs(location, match) {
   const routerTabs = [];
 
   // Order of following statements reflects tab order
-  if (!location.isAddonSensor) {
+  if (!isAddonSensor) {
     // External sensors do not have base tabs
     routerTabs.push(
       {

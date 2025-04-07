@@ -22,7 +22,7 @@ const Template = ({ pastDate }: ElapsedTimeWidgetProps) => (
 );
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof Template> = {
+const meta: Meta<ElapsedTimeWidgetProps> = {
   title: 'Components/Widgets/ElapsedTimeWidget',
   component: ElapsedTimeWidget,
   decorators: [...componentDecorators],

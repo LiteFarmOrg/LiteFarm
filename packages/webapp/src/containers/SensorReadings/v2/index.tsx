@@ -55,6 +55,11 @@ const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor
     : sensors?.filter(({ external_id }) => external_id === id);
 };
 
+const PAGE_TITLE_KEY = {
+  [SensorType.SENSOR_ARRAY]: 'SENSOR.SENSOR_ARRAY',
+  [SensorType.SENSOR]: 'SENSOR.STANDALONE_SENSOR',
+};
+
 function SensorReadings({ match, history, type }: SensorReadingsProps) {
   const { t } = useTranslation();
 
@@ -67,6 +72,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
         isFetching,
       };
     },
+    // refetchOnMountOrArgChange: true, // TODO: confirm
   });
 
   if (!isFetching && !sensors?.length) {
@@ -76,7 +82,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
   return (
     <Paper className={styles.paper}>
       <PageTitle
-        title={t('SENSOR.STANDALONE_SENSOR')}
+        title={t(PAGE_TITLE_KEY[type])}
         onGoBack={history.back}
         classNames={{ wrapper: styles.title }}
       />
@@ -114,7 +120,9 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
                   sensors={sensors}
                   startDate={startDate}
                   endDate={endDate}
-                  sensorColorMap={generateSensorColorMap(sensors)}
+                  sensorColorMap={
+                    type === SensorType.SENSOR_ARRAY ? generateSensorColorMap(sensors) : undefined
+                  }
                 />
               )}
             </div>

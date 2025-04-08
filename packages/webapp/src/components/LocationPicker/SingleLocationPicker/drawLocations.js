@@ -35,16 +35,17 @@ const drawArea = (map, maps, mapBounds, location, disableHover) => {
   const { grid_points: points, name, type } = location;
   const styles = areaStyles[type];
   const { colour, selectedColour, dashScale, dashLength } = styles;
+
   points.forEach((point) => {
     mapBounds.extend(point);
   });
 
   const polygon = new maps.Polygon({
     paths: points,
-    strokeColor: defaultColour,
+    strokeColor: location.strokeColour || defaultColour,
     strokeWeight: 2,
-    fillColor: colour,
-    fillOpacity: DEFAULT_POLYGON_OPACITY,
+    fillColor: location.colour || colour,
+    fillOpacity: location.fillOpacity ?? DEFAULT_POLYGON_OPACITY,
   });
 
   if (!disableHover) {
@@ -122,7 +123,7 @@ const drawCircle = (map, maps, mapBounds, location, disableHover) => {
     strokeOpacity: 1,
     strokeWeight: 2,
     fillColor: fillColour,
-    fillOpacity: DEFAULT_POLYGON_OPACITY,
+    fillOpacity: location.fillOpacity ?? DEFAULT_POLYGON_OPACITY,
     map,
   });
 

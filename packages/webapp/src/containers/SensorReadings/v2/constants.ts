@@ -86,6 +86,15 @@ export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, st
   wind_speed: colors.chartBrown,
 };
 
+export const LINE_COLORS = [
+  colors.chartBlue,
+  colors.chartYellow,
+  colors.chartGreen,
+  colors.chartRed,
+  colors.chartPurple,
+  colors.chartBrown,
+];
+
 interface UnitType {
   metric: {
     unit: ExtendedMeasureUnits;

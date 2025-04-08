@@ -59,6 +59,7 @@ const IrrigationPrescriptionMapView = ({
         getMaxZoom={getMaxZoom}
         showControls={false}
         disableHover={true}
+        disableOverlappingAreasModal={true}
       />
     </div>
   );

@@ -34,6 +34,7 @@ export interface LocationPickerProps {
   className?: string;
   showControls?: boolean;
   disableHover?: boolean;
+  disableOverlappingAreasModal?: boolean;
 }
 
 declare const LocationPicker: FC<LocationPickerProps>;

@@ -43,6 +43,7 @@ const LocationPicker = ({
   className = '',
   showControls = true,
   disableHover = false,
+  disableOverlappingAreasModal = false,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -350,7 +351,7 @@ const LocationPicker = ({
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
       />
-      {overlappedPositions.length > 1 && !isPinMode && (
+      {overlappedPositions.length > 1 && !isPinMode && !disableOverlappingAreasModal && (
         <PureSelectionHandler
           locations={overlappedPositions}
           onSelect={onSelectionModalClick}

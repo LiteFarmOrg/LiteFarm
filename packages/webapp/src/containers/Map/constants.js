@@ -18,6 +18,7 @@ export const getAreaLocationTypes = () => [
   locationEnum.surface_water,
   locationEnum.natural_area,
   locationEnum.residence,
+  locationEnum.irrigation_zone,
 ];
 
 export const isArea = (type) => {
@@ -81,6 +82,7 @@ export const locationEnum = {
   residence: 'residence',
   pivot: 'pivot',
   pivot_arm: 'pivot_arm',
+  irrigation_zone: 'irrigation_zone',
 };
 
 export const bulkSenorUploadErrorTypeEnum = {

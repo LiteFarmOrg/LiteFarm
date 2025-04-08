@@ -14,6 +14,7 @@ import {
   gardenSelectedColour,
   greenhouseColour,
   greenhouseSelectedColour,
+  irrigationZoneColour,
   naturalAreaColour,
   naturalAreaSelectedColour,
   pivotColour,
@@ -94,6 +95,12 @@ export const areaStyles = {
     selectedColour: surfaceWaterSelectedColour,
     dashScale: 0,
     dashLength: '12px',
+  },
+  irrigation_zone: {
+    colour: irrigationZoneColour,
+    selectedColour: irrigationZoneColour,
+    dashScale: 0,
+    dashLength: 0,
   },
 };
 

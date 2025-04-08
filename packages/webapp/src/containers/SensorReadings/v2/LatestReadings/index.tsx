@@ -15,7 +15,7 @@
 
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
 import BentoLayout from '../../../../components/Layout/BentoLayout';
@@ -30,12 +30,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
 import {
-  formatReadingsToSensorKPIProps,
-  formatReadingsToSensorReadingKPIProps,
-  formatReadingsToWeatherKPI,
+  formatArrayReadingsToKPIProps,
+  formatSensorReadingsToGeneralKPIProps,
+  formatSensorReadingsToWeatherKPIProps,
 } from './utils';
-import { Sensor } from '../../../../store/api/types';
+import { Sensor, SensorReadings } from '../../../../store/api/types';
 import { SensorType } from '../../../../types/sensor';
+import { GeneralSensor } from '../types';
+import { System } from '../../../../types';
 import styles from '../styles.module.scss';
 
 type SensorArrayProps = {
@@ -52,10 +54,19 @@ export type LatestReadingsProps = { sensors: Sensor[] } & (
   | StandaloneSensorProps
 );
 
-const getSensorKpiFormatFunction = (sensorName: Sensor['name']) => {
-  return sensorName === 'Weather station'
-    ? formatReadingsToWeatherKPI
-    : formatReadingsToSensorReadingKPIProps;
+function isGeneralSensor(sensor: Sensor): sensor is GeneralSensor {
+  return sensor.name !== 'Weather station';
+}
+
+const formatStandaloneSensorReadingsToKPIProps = (
+  sensor: Sensor,
+  latestReadings: SensorReadings[],
+  system: System,
+  t: TFunction,
+) => {
+  return isGeneralSensor(sensor)
+    ? formatSensorReadingsToGeneralKPIProps(sensor, latestReadings, system, t)
+    : formatSensorReadingsToWeatherKPIProps(sensor, latestReadings, system, t);
 };
 
 function isWeatherKPIData(
@@ -78,8 +89,8 @@ function LatestReadings(props: LatestReadingsProps) {
 
   const kpiData =
     type === SensorType.SENSOR_ARRAY
-      ? formatReadingsToSensorKPIProps(sensors, latestReadings, system, t, props.sensorColorMap)
-      : getSensorKpiFormatFunction(sensors[0].name)(sensors[0], latestReadings, system, t);
+      ? formatArrayReadingsToKPIProps(sensors, latestReadings, system, props.sensorColorMap, t)
+      : formatStandaloneSensorReadingsToKPIProps(sensors[0], latestReadings, system, t);
 
   return (
     <>

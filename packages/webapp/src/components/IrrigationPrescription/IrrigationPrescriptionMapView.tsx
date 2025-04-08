@@ -18,8 +18,7 @@ import styles from './styles.module.scss';
 import { useMaxZoom } from '../../containers/Map/useMaxZoom';
 import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { Location } from '../../types';
-
-const IRRIGATION_ZONE_COLOURS = ['#6EAFFF', '#3585E5', '#1C5BA7'];
+import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS } from './constants';
 
 interface IrrigationZonePolygon {
   grid_points: { lat: number; lng: number }[];
@@ -84,9 +83,8 @@ const createPivotMapObjects = (
   };
 
   // Calculate the endpoint on the circle's circumference (eastward) [Source: Copilot]
-  const earthRadius = 6378137; // in meters
   const latRad = center.lat * (Math.PI / 180);
-  const deltaLng = (radius / (earthRadius * Math.cos(latRad))) * (180 / Math.PI);
+  const deltaLng = (radius / (EARTH_RADIUS * Math.cos(latRad))) * (180 / Math.PI);
   const endpoint = { lat: center.lat, lng: center.lng + deltaLng };
 
   const pivotArm = {

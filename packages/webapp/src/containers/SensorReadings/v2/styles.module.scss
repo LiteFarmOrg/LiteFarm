@@ -26,6 +26,47 @@
   margin-bottom: 24px;
 }
 
+// For SensorType.SENSOR
+.sensorInfo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  font-size: 16px;
+
+  .sensorIdAndType {
+    @include truncateText();
+
+    .sensorId {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--Colors-Neutral-Neutral-900);
+      font-weight: 600;
+    }
+
+    .deviceType {
+      color: var(--Colors-Neutral-Neutral-500);
+
+      @include truncateText();
+    }
+
+    @include sm-breakpoint {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .deviceType {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  }
+}
+
 .content {
   margin-bottom: 24px;
   padding: 8px 8px 28px 8px;
@@ -34,6 +75,23 @@
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
 }
 
+.dateAndChart {
+  &.sensor_array {
+    padding: 8px 16px;
+    border: 1px solid var(--Colors-Neutral-Neutral-50);
+  }
+
+  &.sensor {
+    padding: 0 16px;
+  }
+}
+
+.dateRangeSelector {
+  padding: 16px 0;
+  margin-bottom: 32px;
+}
+
+/* LatestReadings */
 .contentTop {
   display: flex;
   justify-content: space-between;
@@ -76,15 +134,17 @@
   }
 }
 
-.sensorArrayMainData {
-  padding: 8px 16px;
-  border: 1px solid var(--Colors-Neutral-Neutral-50);
+.windData {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    transform: rotate(calc(var(--windDeg) * 1deg));
+  }
 }
 
-.sensorMainData {
-  padding: 0 16px;
-}
-
+/* Chart */
 .charts {
   position: relative;
   display: flex;
@@ -93,61 +153,6 @@
 
   &.sensor {
     gap: 52px;
-  }
-}
-
-.dateRangeSelector {
-  padding: 16px 0;
-  margin-bottom: 32px;
-}
-
-.sensorInfo {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  padding: 8px;
-  font-size: 16px;
-
-  .sensorIdAndType {
-    @include truncateText();
-
-    .sensorId {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--Colors-Neutral-Neutral-900);
-      font-weight: 600;
-    }
-
-    .deviceType {
-      color: var(--Colors-Neutral-Neutral-500);
-
-      @include truncateText();
-    }
-
-    @include sm-breakpoint {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      .deviceType {
-        flex: 1;
-        text-align: center;
-      }
-    }
-  }
-}
-
-.windData {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  img {
-    transform: rotate(calc(var(--windDeg) * 1deg));
   }
 }
 

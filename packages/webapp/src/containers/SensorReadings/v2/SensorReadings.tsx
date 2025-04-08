@@ -15,17 +15,17 @@
 
 import { useTranslation } from 'react-i18next';
 import { Paper } from '@mui/material';
-import i18n from '../../../locales/i18n';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
-import { Status, StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
+import LatestReadings from './LatestReadings';
 import Charts from './Charts';
+import { StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
 import { ReactComponent as SensorIcon } from '../../../assets/images/map/signal-01.svg';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
+import { useGetSensorsQuery } from '../../../store/api/apiSlice';
+import { getStatusProps } from './utils';
 import { toTranslationKey } from '../../../util';
 import { CustomRouteComponentProps } from '../../../types';
-import { useGetSensorsQuery } from '../../../store/api/apiSlice';
-import LatestReadings from './LatestReadings';
 import { SensorType } from '../../../types/sensor';
 import styles from './styles.module.scss';
 
@@ -51,8 +51,6 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
     history.replace('/unknown_record');
   }
 
-  const isOnline = !!sensor?.last_seen; // TODO: confirm
-
   return (
     <Paper className={styles.paper}>
       <PageTitle
@@ -69,16 +67,10 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
                 {sensor.external_id}
               </div>
               <div className={styles.deviceType}>
-                {i18n.exists(`SENSOR.DEVICE_TYPES.${toTranslationKey(sensor.name)}`)
-                  ? t(`SENSOR.DEVICE_TYPES.${toTranslationKey(sensor.name)}`)
-                  : sensor.name}
+                {t(`SENSOR.DEVICE_TYPES.${toTranslationKey(sensor.name)}`)}
               </div>
             </div>
-            <StatusIndicatorPill
-              status={isOnline ? Status.ONLINE : Status.OFFLINE}
-              pillText={isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE')}
-              showHoverTooltip={false}
-            />
+            <StatusIndicatorPill {...getStatusProps(sensor.last_seen, t)} />
           </div>
           <div className={styles.content}>
             <LatestReadings sensors={[sensor]} type={SensorType.SENSOR} />

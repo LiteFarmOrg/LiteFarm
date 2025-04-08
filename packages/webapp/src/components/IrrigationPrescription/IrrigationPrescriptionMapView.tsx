@@ -36,13 +36,11 @@ const IrrigationPrescriptionMapView = ({
 
   const pivotMapObjects = createPivotMapObjects(pivotCenter, pivotRadius);
 
-  const { name, ...fieldLocationWithoutLabel } = fieldLocation;
-
   return (
     <div className={clsx(className, styles.mapContainer)}>
       <LocationPicker
         onSelectLocation={() => {}}
-        locations={[fieldLocationWithoutLabel, ...pivotMapObjects]}
+        locations={[fieldLocation, ...pivotMapObjects]}
         selectedLocationIds={[]}
         farmCenterCoordinate={pivotCenter}
         maxZoomRef={maxZoomRef}

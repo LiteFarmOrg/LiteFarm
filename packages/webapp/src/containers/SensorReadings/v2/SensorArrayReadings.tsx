@@ -73,12 +73,12 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
         classNames={{ wrapper: styles.title }}
       />
       <div className={styles.content}>
-        {sensors?.length && (
+        {sensors?.length && sensorColorMap && (
           <>
             <LatestReadings
               sensors={sensors}
               type={SensorType.SENSOR_ARRAY}
-              sensorColorMap={sensorColorMap!}
+              sensorColorMap={sensorColorMap}
             />
             <div className={styles.sensorArrayMainData}>
               <SensorsDateRangeSelector
@@ -91,7 +91,7 @@ function SensorArrayReadings({ match, history }: CustomRouteComponentProps<Route
                   sensors={sensors}
                   startDate={startDate}
                   endDate={endDate}
-                  sensorColorMap={sensorColorMap!}
+                  sensorColorMap={sensorColorMap}
                 />
               )}
             </div>

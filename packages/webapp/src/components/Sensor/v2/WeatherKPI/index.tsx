@@ -14,8 +14,8 @@
  */
 
 import { ReactNode } from 'react';
-import styles from './styles.module.scss';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 export type TileData = { label: string; data: ReactNode; hideLabel?: boolean };
 

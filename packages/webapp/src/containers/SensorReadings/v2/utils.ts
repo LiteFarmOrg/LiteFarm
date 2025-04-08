@@ -55,7 +55,7 @@ export const sortDataByDateTime = (data: SensorDatapoint[]) => {
 };
 
 /**
- * Converts the dateTime for daily data returned from getSensorReadings.
+ * Converts the dateTime returned from getSensorReadings.
  *
  * We provide the date with 12 AM local time (e.g., Mar 28).
  * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
@@ -64,6 +64,21 @@ export const sortDataByDateTime = (data: SensorDatapoint[]) => {
  * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
  * This function adjusts the UTC-based timestamps back to the intended local date.
  */
+export const getAdjustDateTimeFunc = (
+  truncPeriod: ChartTruncPeriod,
+  timezoneOffset?: number,
+): ((dateTime: number) => number) | undefined => {
+  if (timezoneOffset === undefined) {
+    return undefined;
+  }
+
+  if (truncPeriod === 'hour') {
+    return getAdjustHourlyDateTimeFunc(timezoneOffset);
+  } else if (truncPeriod === 'day') {
+    return adjustDailyDateTime;
+  }
+};
+
 const adjustDailyDateTime = (dateTime: number): number => {
   const date = new Date(dateTime * 1000);
   const utcYear = date.getUTCFullYear();
@@ -81,16 +96,6 @@ const adjustDailyDateTime = (dateTime: number): number => {
   return new Date(utcYear, utcMonth, utcDate + (isAheadUTC ? 1 : 0)).getTime() / 1000;
 };
 
-/**
- * Converts the dateTime for hourly data returned from getSensorReadings.
- *
- * We provide the date with 12 AM local time (e.g., Mar 28).
- * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
- * - If the user is 3 hours behind UTC, the date will be Mar 28, 3 AM UTC.
- *
- * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
- * This function adjusts the UTC-based timestamps back to the intended local date.
- */
 const getAdjustHourlyDateTimeFunc = (
   timezoneOffset: number,
 ): ((dateTime: number) => number) | undefined => {
@@ -103,21 +108,6 @@ const getAdjustHourlyDateTimeFunc = (
   }
 
   return undefined;
-};
-
-export const getAdjustDateTimeFunc = (
-  truncPeriod: ChartTruncPeriod,
-  timezoneOffset?: number,
-): ((dateTime: number) => number) | undefined => {
-  if (timezoneOffset === undefined) {
-    return undefined;
-  }
-
-  if (truncPeriod === 'hour') {
-    return getAdjustHourlyDateTimeFunc(timezoneOffset);
-  } else if (truncPeriod === 'day') {
-    return adjustDailyDateTime;
-  }
 };
 
 export const formatDataPoint = (

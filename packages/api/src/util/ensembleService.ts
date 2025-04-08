@@ -33,13 +33,12 @@ import type {
 } from './ensembleService.types.js';
 
 /**
-Sends location and crop data to Ensemble API to initiate irrigation prescriptions
+Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
  *
- * @param {string} [farm_id] - Supply a farm_id to send data for a specific farm only. If no farm_id is provided, all farms connected to Ensemble will be sent.
- * @param {string} [shouldSend=true] - Use shouldSend = 'false' to return the data object without sending it to Ensemble (for dev + QA)
- * @returns {Promise<OrganisationFarmData | void>} - Returns organisation farm data if shouldSend is 'false'; otherwise sends the data.
+ * @param {string} [farm_id] - Supply a farm_id to get data for a specific farm only. If no farm_id is provided, all farms connected to Ensemble will be queried.
+ * @returns {Promise<OrganisationFarmData>} - Returns organisation farm data
  */
-export const sendLocationAndCropData = async (farm_id?: string, shouldSend: string = 'true') => {
+export const getOrgLocationAndCropData = async (farm_id?: string) => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError('Ensemble partner not found', 400);
@@ -82,15 +81,11 @@ export const sendLocationAndCropData = async (farm_id?: string, shouldSend: stri
     );
   }
 
-  if (shouldSend === 'true') {
-    await sendFieldAndCropDataToEsci(organisationFarmData);
-  } else {
-    return organisationFarmData;
-  }
+  return organisationFarmData;
 };
 
 /* Sends field and crop data to Ensemble API */
-async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
+export async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
   try {
     const axiosObject = {
       method: 'post',

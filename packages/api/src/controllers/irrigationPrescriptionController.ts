@@ -14,7 +14,7 @@
  */
 
 import { Request, Response } from 'express';
-import { sendLocationAndCropData } from '../util/ensembleService.js';
+import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
 
 interface HttpError extends Error {
   status?: number;
@@ -39,13 +39,15 @@ const irrigationPrescriptionController = {
       const { allOrgs, shouldSend } = req.query;
 
       try {
-        const farmData = await sendLocationAndCropData(
-          allOrgs === 'true' ? undefined : farm_id,
-          shouldSend,
-        );
+        const farmData = await getOrgLocationAndCropData(allOrgs === 'true' ? undefined : farm_id);
 
-        // Return data for dev purposes + QA
-        return res.status(200).send(farmData);
+        if (shouldSend === 'true') {
+          await sendFieldAndCropDataToEsci(farmData);
+          return res.sendStatus(204);
+        } else {
+          // Return data for dev purposes + QA
+          return res.status(200).send(farmData);
+        }
       } catch (error: unknown) {
         console.error(error);
 

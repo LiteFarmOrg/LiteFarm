@@ -14,6 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { Paper } from '@mui/material';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
@@ -102,7 +103,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
                 ? { type, sensorColorMap: generateSensorColorMap(sensors) }
                 : { type: SensorType.SENSOR })}
             />
-            <div className={styles.sensorMainData}>
+            <div className={clsx(styles.dateAndChart, styles[type])}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}
                 updateDateRange={updateDateRange}

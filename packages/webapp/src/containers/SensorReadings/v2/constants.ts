@@ -14,7 +14,11 @@
  */
 
 import { colors } from '../../../assets/theme';
-import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../../store/api/types';
+import type {
+  SensorReadingTypes,
+  SensorReadingTypeUnits,
+  SensorTypes,
+} from '../../../store/api/types';
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
@@ -50,6 +54,26 @@ export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
   'solar_radiation',
   'rainfall_rate',
 ];
+
+export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
+  'TEMPERATURE',
+  'WIND_SPEED_AND_DIRECTION',
+  'CUMULATIVE_RAINFALL',
+  'RELATIVE_HUMIDITY',
+  'BAROMETRIC_PRESSURE',
+  'SOLAR_RADIATION',
+  'RAINFALL_RATE',
+];
+
+export const GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES: Record<
+  Exclude<SensorTypes, 'Weather station'>,
+  ChartSupportedReadingTypes[]
+> = {
+  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
+  'IR Temperature Sensor': ['temperature'],
+  'Wind speed sensor': ['wind_speed'],
+  'Drip line pressure sensor': ['water_pressure'],
+};
 
 export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {
   temperature: colors.chartRed,

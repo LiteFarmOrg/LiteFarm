@@ -16,7 +16,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import { TFunction } from 'react-i18next';
 import { LineConfig } from '../../../../components/Charts/LineChart';
-import { convertEsciReadingValue, degToDirection, getReadingUnit } from '../utils';
+import { convertEsciReadingValue, degToDirection, getReadingUnit, getStatusProps } from '../utils';
 import { isValidNumber } from '../../../../util/validation';
 import {
   GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES,
@@ -55,12 +55,9 @@ export const formatArrayReadingsToKPIProps = (
     return sensorReadings.find(({ reading_type }) => reading_type === param) || [];
   });
 
-  return sensors.map(({ external_id, depth }) => {
-    let isOnline: boolean = false;
-
+  return sensors.map(({ external_id, depth, last_seen }) => {
     const measurements = supportedReadingsInOrder.map(({ reading_type, readings, unit }) => {
       const value = getLatestReadingValue(readings, external_id);
-      isOnline = isOnline || !!value; // TODO: confirm
 
       return {
         measurement: t(`SENSOR.READING.${reading_type.toUpperCase()}`),
@@ -72,11 +69,7 @@ export const formatArrayReadingsToKPIProps = (
     return {
       sensor: {
         id: external_id,
-        status: {
-          status: isOnline ? Status.ONLINE : Status.OFFLINE,
-          pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-          showHoverTooltip: false,
-        },
+        status: getStatusProps(last_seen, t),
       },
       discriminator: {
         measurement: 'depth_elevation',

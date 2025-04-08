@@ -13,7 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { SensorDatapoint, SensorReadingTypes } from '../../../store/api/types';
+import type {
+  Sensor,
+  SensorDatapoint,
+  SensorReadingTypes,
+  SensorTypes,
+} from '../../../store/api/types';
+
+export type GeneralSensor = Omit<Sensor, 'name'> & {
+  name: Exclude<SensorTypes, 'Weather station'>;
+};
 
 export type ChartSupportedReadingTypes = Extract<
   SensorReadingTypes,

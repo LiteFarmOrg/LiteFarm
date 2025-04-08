@@ -13,18 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TFunction } from 'react-i18next';
+import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
+import { getDateDifference } from '../../../util/moment';
+import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
+import { convert } from '../../../util/convert-units/convert';
+import { esciUnitTypeMap } from './constants';
 import {
   SensorDatapoint,
   type SensorReadingTypes,
   type SensorReadingTypeUnits,
 } from '../../../store/api/types';
-import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
-import { getDateDifference } from '../../../util/moment';
 import type { System } from '../../../types';
-import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
-import { convert } from '../../../util/convert-units/convert';
-import { esciUnitTypeMap } from './constants';
 import { FormattedSensorDatapoint } from './types';
+import { Status } from '../../../components/StatusIndicatorPill';
 
 const WIND_DIRECTION_KEYS = [
   'N', // t('N')
@@ -225,4 +227,16 @@ export const degToDirection = (deg: number): string => {
     Math.floor((normalizedDeg + ANGLE_PER_DIRECTION / 2) / ANGLE_PER_DIRECTION) % NUM_OF_DIRECTIONS;
 
   return WIND_DIRECTION_KEYS[index];
+};
+
+export const getStatusProps = (lastSeen: string, t: TFunction) => {
+  const isOnline = lastSeen
+    ? new Date(lastSeen).getTime() >= new Date().getTime() - 2 * 60 * 60 * 1000
+    : false;
+
+  return {
+    status: isOnline ? Status.ONLINE : Status.OFFLINE,
+    pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
+    tooltipText: isOnline ? t('STATUS.SENSOR.ONLINE_TOOLTIP') : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
+  };
 };

@@ -23,80 +23,14 @@ import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
-
-interface Point {
-  lat: number;
-  lng: number;
-}
-
-enum PlantingMethod {
-  BED_METHOD = 'bed_method',
-  CONTAINER_METHOD = 'container_method',
-  BROADCAST_METHOD = 'broadcast_method',
-  ROW_METHOD = 'row_method',
-}
-
-type MethodDetails = {
-  planting_management_plan_id?: string;
-};
-
-interface PlantingManagementPlan {
-  planting_method: PlantingMethod;
-  bed_method: MethodDetails | null;
-  container_method: MethodDetails | null;
-  broadcast_method: MethodDetails | null;
-  row_method: MethodDetails | null;
-}
-
-interface ManagementPlan {
-  management_plan_id: string;
-  crop_management_plan: {
-    seed_date: string;
-    planting_management_plans: PlantingManagementPlan[];
-  };
-  crop_variety: {
-    crop: {
-      crop_common_name: string;
-      crop_genus: string;
-      crop_specie: string;
-    };
-  };
-}
-
-export interface LocationAndCropGraph {
-  farm_id: string;
-  name: string;
-  location_id: string;
-  figure: {
-    area: {
-      grid_points: Point[];
-    };
-  };
-  management_plans: ManagementPlan[];
-}
-
-interface EnsembleCropData {
-  crop_common_name: string;
-  crop_genus: string;
-  crop_specie: string;
-  seed_date: string;
-  planting_details?: {
-    planting_method: PlantingMethod;
-    [key: string]: unknown;
-  };
-}
-
-export interface EnsembleLocationAndCropData {
-  farm_id: string;
-  name: string;
-  location_id: string;
-  grid_points: Point[];
-  crop_data: EnsembleCropData[];
-}
-
-interface OrganisationFarmData {
-  [org_uuid: string]: EnsembleLocationAndCropData[];
-}
+import type {
+  OrganisationFarmData,
+  LocationAndCropGraph,
+  EnsembleLocationAndCropData,
+  EnsembleCropData,
+  ManagementPlan,
+  PlantingMethod,
+} from './ensembleService.types.js';
 
 /**
 Sends location and crop data to Ensemble API to initiate irrigation prescriptions

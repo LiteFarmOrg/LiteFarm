@@ -100,7 +100,9 @@ export default function PureLocationFieldTechnology({
                               status: {
                                 status: isOnline ? Status.ONLINE : Status.OFFLINE,
                                 pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                                showHoverTooltip: false,
+                                tooltipText: isOnline
+                                  ? t('STATUS.SENSOR.ONLINE_TOOLTIP')
+                                  : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
                               },
                             }}
                             onClickLocation={esa}
@@ -131,7 +133,9 @@ export default function PureLocationFieldTechnology({
                         status: {
                           status: isOnline ? Status.ONLINE : Status.OFFLINE,
                           pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                          showHoverTooltip: false,
+                          tooltipText: isOnline
+                            ? t('STATUS.SENSOR.ONLINE_TOOLTIP')
+                            : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
                         },
                       }}
                       onClickLocation={es}

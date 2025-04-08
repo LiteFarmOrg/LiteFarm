@@ -55,3 +55,54 @@ export const mockPivot = {
   center: { lat: 49.06547, lng: -123.15597 },
   radius: 150,
 };
+
+// Mock data for VRI zones (AI-generated polygons)
+const boundaryA = { lat: 49.0663, lng: -123.1563 };
+const boundaryB = { lat: 49.0654, lng: -123.1575 };
+const boundaryC = { lat: 49.0652, lng: -123.1555 };
+
+const innerMeeting = {
+  lat: (boundaryA.lat + boundaryB.lat + boundaryC.lat) / 3,
+  lng: (boundaryA.lng + boundaryB.lng + boundaryC.lng) / 3,
+};
+
+const zone1Outer = [
+  { lat: 49.06479, lng: -123.15418 },
+  { lat: 49.06547, lng: -123.15391 },
+  { lat: 49.06615, lng: -123.15418 },
+  { lat: 49.06664, lng: -123.15494 },
+  { lat: 49.06682, lng: -123.15597 },
+];
+const zone1Inner = [boundaryA, innerMeeting, boundaryC];
+
+export const mockZone1 = {
+  grid_points: [...zone1Outer, ...zone1Inner],
+};
+
+const zone2Outer = [
+  { lat: 49.06682, lng: -123.15597 },
+  { lat: 49.06664, lng: -123.157 },
+  { lat: 49.06615, lng: -123.15776 },
+  { lat: 49.06547, lng: -123.15803 },
+  { lat: 49.06479, lng: -123.15776 },
+];
+const zone2Inner = [boundaryB, innerMeeting, boundaryA];
+
+export const mockZone2 = {
+  grid_points: [...zone2Outer, ...zone2Inner],
+};
+
+const zone3Outer = [
+  { lat: 49.06479, lng: -123.15776 },
+  { lat: 49.0643, lng: -123.157 },
+  { lat: 49.06412, lng: -123.15597 },
+  { lat: 49.0643, lng: -123.15494 },
+  { lat: 49.06479, lng: -123.15418 },
+];
+const zone3Inner = [boundaryC, innerMeeting, boundaryB];
+
+export const mockZone3 = {
+  grid_points: [...zone3Outer, ...zone3Inner],
+};
+
+export const mockVriZones = [mockZone1, mockZone2, mockZone3];

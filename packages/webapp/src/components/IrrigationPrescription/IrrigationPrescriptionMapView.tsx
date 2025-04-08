@@ -19,11 +19,18 @@ import { useMaxZoom } from '../../containers/Map/useMaxZoom';
 import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { Location } from '../../types';
 
+const IRRIGATION_ZONE_COLOURS = ['#6EAFFF', '#3585E5', '#1C5BA7'];
+
+interface IrrigationZonePolygon {
+  grid_points: { lat: number; lng: number }[];
+}
+
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation: Location;
   pivotCenter: { lat: number; lng: number };
   pivotRadius: number; // in meters
   className?: string;
+  vriZones?: IrrigationZonePolygon[];
 }
 
 const IrrigationPrescriptionMapView = ({
@@ -31,16 +38,21 @@ const IrrigationPrescriptionMapView = ({
   pivotCenter,
   pivotRadius,
   className,
+  vriZones,
 }: IrrigationPrescriptionMapViewProps) => {
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const pivotMapObjects = createPivotMapObjects(pivotCenter, pivotRadius);
+  const vriZonesPresent = !!vriZones?.length;
+
+  const pivotMapObjects = createPivotMapObjects(pivotCenter, pivotRadius, vriZonesPresent);
+
+  const irrigationZoneMapObjects = vriZones ? createIrrigationZoneMapObjects(vriZones) : [];
 
   return (
     <div className={clsx(className, styles.mapContainer)}>
       <LocationPicker
         onSelectLocation={() => {}}
-        locations={[fieldLocation, ...pivotMapObjects]}
+        locations={[fieldLocation, ...irrigationZoneMapObjects, ...pivotMapObjects]}
         selectedLocationIds={[]}
         farmCenterCoordinate={pivotCenter}
         maxZoomRef={maxZoomRef}
@@ -54,7 +66,11 @@ const IrrigationPrescriptionMapView = ({
 
 export default IrrigationPrescriptionMapView;
 
-const createPivotMapObjects = (center: { lat: number; lng: number }, radius: number) => {
+const createPivotMapObjects = (
+  center: { lat: number; lng: number },
+  radius: number,
+  vriZonesPresent: boolean,
+) => {
   const label = `${radius}m`; // TODO: units
 
   const pivot = {
@@ -63,6 +79,7 @@ const createPivotMapObjects = (center: { lat: number; lng: number }, radius: num
     center,
     radius,
     name: label,
+    ...(vriZonesPresent ? { fillOpacity: 0 } : {}),
   };
 
   // Calculate the endpoint on the circle's circumference (eastward) [Source: Copilot]
@@ -79,4 +96,23 @@ const createPivotMapObjects = (center: { lat: number; lng: number }, radius: num
   };
 
   return [pivot, pivotArm];
+};
+
+const createIrrigationZoneMapObjects = (zonePolygons: IrrigationZonePolygon[]) => {
+  return zonePolygons.map((zone, index) => {
+    const zoneMapLocation = {
+      type: 'irrigation_zone',
+      location_id: `zone_${index}`,
+      grid_points: zone.grid_points,
+      fillOpacity: 1,
+      colour: getIrrigationZoneColour(index),
+      strokeColour: getIrrigationZoneColour(index),
+    };
+
+    return zoneMapLocation;
+  });
+};
+
+const getIrrigationZoneColour = (index: number): string => {
+  return IRRIGATION_ZONE_COLOURS[index % IRRIGATION_ZONE_COLOURS.length];
 };

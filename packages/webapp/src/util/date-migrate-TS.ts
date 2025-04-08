@@ -18,8 +18,8 @@ export function getTimeDifferrenceInSeconds(pastDate: Date, futureDate: Date) {
 }
 
 export function getDurationString(timeInSeconds: number) {
-  if (timeInSeconds === 0) {
-    return '0m';
+  if (timeInSeconds < 60) {
+    return '<1m';
   }
 
   const timeInMinutes = Math.round(timeInSeconds / 60);

@@ -25,29 +25,50 @@ import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import { getStatusProps } from './utils';
 import { toTranslationKey } from '../../../util';
+import { LINE_COLORS } from './constants';
 import { CustomRouteComponentProps } from '../../../types';
 import { SensorType } from '../../../types/sensor';
+import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
 
 interface RouteParams {
   id: string;
 }
 
-function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParams>) {
+interface SensorReadingsProps extends CustomRouteComponentProps<RouteParams> {
+  type: SensorType;
+}
+
+const generateSensorColorMap = (sensors: Sensor[]) => {
+  return sensors.map(({ external_id }, index) => ({
+    id: external_id,
+    color: LINE_COLORS[index],
+  }));
+};
+
+const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor[] | undefined => {
+  return type === SensorType.SENSOR_ARRAY
+    ? sensors
+        ?.filter(({ sensor_array_id }) => sensor_array_id == id)
+        ?.sort((a, b) => a.depth - b.depth)
+    : sensors?.filter(({ external_id }) => external_id === id);
+};
+
+function SensorReadings({ match, history, type }: SensorReadingsProps) {
   const { t } = useTranslation();
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
 
-  const { sensor, isFetching } = useGetSensorsQuery(undefined, {
+  const { sensors, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       return {
-        sensor: data?.sensors?.find(({ external_id }) => external_id == match.params.id),
+        sensors: filterSensors(match.params.id, type, data?.sensors),
         isFetching,
       };
     },
   });
 
-  if (!isFetching && !sensor) {
+  if (!isFetching && !sensors?.length) {
     history.replace('/unknown_record');
   }
 
@@ -58,22 +79,29 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
         onGoBack={history.back}
         classNames={{ wrapper: styles.title }}
       />
-      {sensor && (
+      {!!sensors?.length && (
         <>
-          <div className={styles.sensorInfo}>
-            <div className={styles.sensorIdAndType}>
-              <div className={styles.sensorId}>
-                <SensorIcon />
-                {sensor.external_id}
+          {type === SensorType.SENSOR && (
+            <div className={styles.sensorInfo}>
+              <div className={styles.sensorIdAndType}>
+                <div className={styles.sensorId}>
+                  <SensorIcon />
+                  {sensors[0].external_id}
+                </div>
+                <div className={styles.deviceType}>
+                  {t(`SENSOR.DEVICE_TYPES.${toTranslationKey(sensors[0].name)}`)}
+                </div>
               </div>
-              <div className={styles.deviceType}>
-                {t(`SENSOR.DEVICE_TYPES.${toTranslationKey(sensor.name)}`)}
-              </div>
+              <StatusIndicatorPill {...getStatusProps(sensors[0].last_seen, t)} />
             </div>
-            <StatusIndicatorPill {...getStatusProps(sensor.last_seen, t)} />
-          </div>
+          )}
           <div className={styles.content}>
-            <LatestReadings sensors={[sensor]} type={SensorType.SENSOR} />
+            <LatestReadings
+              sensors={sensors}
+              {...(type === SensorType.SENSOR_ARRAY
+                ? { type, sensorColorMap: generateSensorColorMap(sensors) }
+                : { type: SensorType.SENSOR })}
+            />
             <div className={styles.sensorMainData}>
               <SensorsDateRangeSelector
                 dateRange={dateRange}
@@ -81,7 +109,12 @@ function SensorReadings({ match, history }: CustomRouteComponentProps<RouteParam
                 className={styles.dateRangeSelector}
               />
               {startDate && endDate && (
-                <Charts sensors={[sensor]} startDate={startDate} endDate={endDate} />
+                <Charts
+                  sensors={sensors}
+                  startDate={startDate}
+                  endDate={endDate}
+                  sensorColorMap={generateSensorColorMap(sensors)}
+                />
               )}
             </div>
           </div>

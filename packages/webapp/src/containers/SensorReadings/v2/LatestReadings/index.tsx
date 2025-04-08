@@ -40,12 +40,12 @@ import { GeneralSensor } from '../types';
 import { System } from '../../../../types';
 import styles from '../styles.module.scss';
 
-type SensorArrayProps = {
+export type SensorArrayProps = {
   type: SensorType.SENSOR_ARRAY;
   sensorColorMap: LineConfig[];
 };
 
-type StandaloneSensorProps = {
+export type StandaloneSensorProps = {
   type: SensorType.SENSOR;
 };
 

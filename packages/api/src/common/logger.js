@@ -15,11 +15,14 @@ const enumerateErrorMessage = format((info) => {
 
 /**
  * Get the log level from a string or default value if not present or invalid
- * @param value log level string
- * @param def default log level
+ * @param {any} value log level string
+ * @param {string} defaultValue default log level
+ * @return {string} valid log level
  */
-function getLogLevel(value, def) {
-  if (typeof value !== 'string') return def;
+function getLogLevel(value, defaultValue) {
+  if (typeof value !== 'string') {
+    return defaultValue;
+  }
   value = value.toLowerCase().trim();
   if (
     value === 'error' ||
@@ -29,20 +32,30 @@ function getLogLevel(value, def) {
     value === 'debug' ||
     value === 'silly' ||
     value === 'off'
-  )
+  ) {
     return value;
-  return def;
+  }
+  return defaultValue;
 }
 
 /**
  * Check if a string is true.
- * @param value string to check
+ * @param {any} value string to check
+ * @param {boolean} defaultValue default value if not a string
  * @returns {boolean} true if the string is true, false otherwise
  */
-function isTrue(value) {
-  if (typeof value !== 'string') return false;
+function parseBoolean(value, defaultValue) {
+  if (typeof value !== 'string') {
+    return defaultValue;
+  }
   value = value.toLowerCase().trim();
-  return value === 'true' || value === '1' || value === 'yes' || value === 'on';
+  if (value === 'true' || value === '1' || value === 'yes' || value === 'on') {
+    return true;
+  }
+  if (value === 'false' || value === '0' || value === 'no' || value === 'off') {
+    return false;
+  }
+  return defaultValue;
 }
 
 const rootLogLevel = getLogLevel(process.env.LOG_LEVEL, 'info');
@@ -101,7 +114,7 @@ class SentryTransport extends Transport {
 }
 
 // Report Errors to Sentry
-if (process.env.NODE_ENV !== 'development' && !isTrue(process.env.LOG_DISABLE_SENTRY)) {
+if (process.env.NODE_ENV !== 'development' && parseBoolean(process.env.LOG_ENABLE_SENTRY, true)) {
   logger.add(new SentryTransport());
 }
 

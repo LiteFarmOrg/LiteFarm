@@ -25,25 +25,19 @@ export default function useFieldTechnology(location) {
   let fieldTechnology = {};
 
   if (location && location.grid_points) {
-    if (sensors.length) {
-      fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
-    }
-    const addonSensors = groupedSensors.filter((sensor) => sensor.type == SensorType.SENSOR);
-    if (addonSensors.length) {
-      fieldTechnology.addonSensors = getPointLocationsWithinPolygon(
-        addonSensors,
-        location.grid_points,
-      );
-    }
-    const addonSensorArrays = groupedSensors.filter(
-      (sensor) => sensor.type == SensorType.SENSOR_ARRAY,
+    fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
+
+    fieldTechnology.addonSensors = groupedSensors.filter(
+      (sensor) =>
+        sensor.type == SensorType.SENSOR &&
+        sensor.fields.some((f) => f.location_id === location.location_id),
     );
-    if (addonSensorArrays.length) {
-      fieldTechnology.addonSensorArrays = getPointLocationsWithinPolygon(
-        addonSensorArrays,
-        location.grid_points,
-      );
-    }
+
+    fieldTechnology.addonSensorArrays = groupedSensors.filter(
+      (sensorArray) =>
+        sensorArray.type == SensorType.SENSOR_ARRAY &&
+        sensorArray.fields.some((f) => f.location_id === location.location_id),
+    );
   }
 
   return fieldTechnology;

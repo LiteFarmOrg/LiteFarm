@@ -52,10 +52,6 @@ const ANGLE_PER_DIRECTION = 360 / NUM_OF_DIRECTIONS;
 const SECONDS_IN_A_DAY = 86400; // 60 * 60 * 24
 const SECONDS_IN_AN_HOUR = 3600; // 60 * 60
 
-export const sortDataByDateTime = (data: SensorDatapoint[]) => {
-  return data.slice().sort((a, b) => a.dateTime - b.dateTime);
-};
-
 /**
  * Converts the dateTime returned from getSensorReadings.
  *

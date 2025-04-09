@@ -171,7 +171,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                           variant={SensorTableVariant.SIMPLE}
                           isCompact={isCompact}
                         />
-                        <DetectedFields t={t} fields={fields} />
+                        <DetectedFields t={t} fields={fields.map(({ name }) => name)} />
                         <TextButton
                           className={styles.seeOnMapButton}
                           onClick={() =>

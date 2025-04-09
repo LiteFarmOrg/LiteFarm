@@ -22,7 +22,7 @@ import type {
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
-// For Soil Water Potential, IR Temperature, Wind speed and Drip line pressure sensors
+// For Soil Water Potential, IR Temperature, Drip line pressure and Wind speed sensors
 export const SENSOR_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
   'soil_water_potential',

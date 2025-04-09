@@ -105,9 +105,9 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
           <div className={styles.content}>
             <LatestReadings
               sensors={sensors}
-              {...(type === SensorType.SENSOR_ARRAY
-                ? { type, sensorColorMap: generateSensorColorMap(sensors) }
-                : { type: SensorType.SENSOR })}
+              {...(type === SensorType.SENSOR
+                ? { type }
+                : { type, sensorColorMap: generateSensorColorMap(sensors) })}
             />
             <div className={clsx(styles.dateAndChart, styles[type])}>
               <SensorsDateRangeSelector

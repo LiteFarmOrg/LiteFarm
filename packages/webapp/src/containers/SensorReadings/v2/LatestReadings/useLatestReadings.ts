@@ -14,9 +14,6 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { enqueueErrorSnackbar } from '../../../Snackbar/snackbarSlice';
 import { useLazyGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor, SensorReadings } from '../../../../store/api/types';
 
@@ -41,8 +38,8 @@ const getTwoHoursAgoInMilliSeconds = () => {
 };
 
 /**
- * Return the latest readings from the last 2 hours.
- * If no data exists, in the period, no readings will be returned.
+ * Returns the latest readings from the past 2 hours.
+ * If no data is available during this period, an empty array is returned.
  */
 function useLatestReading(sensors: Sensor[]): {
   isLoading: boolean;
@@ -52,9 +49,6 @@ function useLatestReading(sensors: Sensor[]): {
   update: () => void;
 } {
   const [latestReadings, setLatestReadings] = useState<SensorReadings[]>([]);
-
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   const [triggerGetSensorReadings, { isLoading, isFetching }] = useLazyGetSensorReadingsQuery();
 
@@ -70,8 +64,8 @@ function useLatestReading(sensors: Sensor[]): {
     }
 
     // As of Mar 21, 2025, the latest available data appears to be from 3 minutes ago.
-    // truncPeriod: 'minute' / 'second' does not provide data for every minute or second.
-    // Use 'minute' here to ensure we get data.
+    // The "minute" and "second" truncation periods do not guarantee data for every minute or second.
+    // Use "minute" here to ensure we get data.
     const result = await triggerGetSensorReadings({
       esids: sensors.map(({ external_id }) => external_id).join(','),
       startTime: adjustedStartTime.toISOString(),
@@ -96,7 +90,7 @@ function useLatestReading(sensors: Sensor[]): {
     const twoHoursAgoInMilliSeconds = getTwoHoursAgoInMilliSeconds();
 
     // If any sensor reported data in the last 2 hours, attempt to fetch its readings
-    if (latestLastSeenInMilliSeconds > twoHoursAgoInMilliSeconds) {
+    if (latestLastSeenInMilliSeconds >= twoHoursAgoInMilliSeconds) {
       // Start 5 mins before the latest last_seen to avoid missing data near the edge
       const startTime = latestLastSeenInMilliSeconds - 5 * 60 * 1000;
       refetchSensorReadings(new Date(startTime));
@@ -117,7 +111,7 @@ function useLatestReading(sensors: Sensor[]): {
     }
 
     if (result.error) {
-      dispatch(enqueueErrorSnackbar(t('Failed to fetch latest sensor readings')));
+      console.error('Failed to fetch latest sensor readings');
     }
   };
 

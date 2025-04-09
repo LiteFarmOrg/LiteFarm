@@ -20,7 +20,7 @@ import styles from './styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof WeatherKPI> = {
-  title: 'Components/Sensor/WeatherKPI',
+  title: 'Components/WeatherKPI',
   component: WeatherKPI,
   decorators: (story) => {
     return <div style={{ padding: '24px', background: 'white' }}>{story()}</div>;

@@ -45,7 +45,7 @@ export default function useLocationRouterTabs(location, match) {
   }
 
   const fieldTechnology = useFieldTechnology(location);
-  const locationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
+  const hasLocationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
 
   const routerTabs = [];
 
@@ -69,7 +69,7 @@ export default function useLocationRouterTabs(location, match) {
       path: match.url.replace(currentTab, 'crops'),
     });
   }
-  if (locationFieldTechnology && fieldTechnologyLocations.includes(type)) {
+  if (hasLocationFieldTechnology && fieldTechnologyLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
       path: match.url.replace(currentTab, 'field_technology'),

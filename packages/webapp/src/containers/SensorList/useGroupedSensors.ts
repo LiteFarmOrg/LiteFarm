@@ -39,15 +39,18 @@ export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARR
 export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
-  fields: Location['name'][];
+  fields: Location['name' & 'location_id'][];
   type: SensorType;
   sensors: SensorInSimpleTableFormat[];
 };
 
 type FarmAreaLocation = Location & AreaLocation;
 
-const getAreaNamesForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
-  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name }) => name);
+const getAreaDataForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
+  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name, location_id }) => ({
+    name,
+    location_id,
+  }));
 };
 
 const formatSensorToSimpleTableFormat = (
@@ -78,7 +81,7 @@ const formatSensorArrayToGroup = (
     ...sensorArray,
     sensors: mappedSensors[sensorArray.id],
     type: SensorType.SENSOR_ARRAY,
-    fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+    fields: getAreaDataForPoint(sensorArray.point, areaLocations),
     isAddonSensor: true,
   };
 };
@@ -93,7 +96,7 @@ const formatSensorToGroup = (
     sensors: [sensor],
     point: sensor.point,
     type: SensorType.SENSOR,
-    fields: getAreaNamesForPoint(sensor.point, areaLocations),
+    fields: getAreaDataForPoint(sensor.point, areaLocations),
     isAddonSensor: true,
   };
 };

@@ -18,12 +18,12 @@ import Icon from '../../Icons';
 import styles from './styles.module.scss';
 
 export type ElapsedTimeWidgetProps = {
-  pastDate: Date;
+  pastDate?: Date;
 };
 
 export default function ElapsedTimeWidget({ pastDate }: ElapsedTimeWidgetProps) {
-  const timeInS = getTimeDifferrenceInSeconds(pastDate, new Date());
-  const durationString = getDurationString(timeInS);
+  const timeInS = pastDate && getTimeDifferrenceInSeconds(pastDate, new Date());
+  const durationString = typeof timeInS === 'number' ? getDurationString(timeInS) : ' -- ';
   return (
     <div className={styles.container}>
       <div className={styles.duration}>{durationString}</div>

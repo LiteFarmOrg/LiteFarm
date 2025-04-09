@@ -48,7 +48,7 @@ export default function PureLocationFieldTechnology({
     history.push(path);
   };
 
-  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, ...rest }) => (
+  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, showLastSeen, ...rest }) => (
     <SensorListItem
       {...rest}
       iconText={{
@@ -63,6 +63,7 @@ export default function PureLocationFieldTechnology({
         onClick: () => handleClick(onClickLocation),
       }}
       lastSeen={lastSeen}
+      showLastSeen={showLastSeen}
     />
   );
 
@@ -95,7 +96,8 @@ export default function PureLocationFieldTechnology({
                 },
               }}
               onClickLocation={onClickLocationMapper(sensor)}
-              lastSeen={sensor.last_seen && new Date(sensor.last_seen)} // TODO: does not exist vs no data
+              lastSeen={sensor.last_seen && new Date(sensor.last_seen)}
+              showLastSeen={isAddonSensor}
             />
           );
         })}

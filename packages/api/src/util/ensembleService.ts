@@ -55,7 +55,7 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
   } else {
     organisations = await FarmAddonModel.getAllOrganisationIds(partner.id);
     if (!organisations || organisations.length === 0) {
-      throw customError('No organizations connected to Ensemble', 400);
+      return {};
     }
   }
 

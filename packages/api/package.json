@@ -41,7 +41,8 @@
       "^.+\\.(t|j)sx?$": "@swc/jest"
     },
     "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
+      "^(\\.{1,2}/.*)\\.js$": "$1",
+      "^axios$": "axios/dist/node/axios.cjs"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,mjs}"

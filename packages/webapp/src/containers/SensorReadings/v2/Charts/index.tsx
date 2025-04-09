@@ -67,7 +67,11 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
   });
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className={styles.spinnerWrapper}>
+        <Spinner />
+      </div>
+    );
   }
 
   if (!formattedSensorReadings?.length) {

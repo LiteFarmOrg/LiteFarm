@@ -156,10 +156,14 @@
   }
 }
 
-.noDataRect {
-  position: relative;
+.noDataRect,
+.spinnerWrapper {
   width: 100%;
   height: 100px;
+}
+
+.noDataRect {
+  position: relative;
   border: 1px solid var(--grey900);
   border-style: dotted;
   display: flex;

@@ -120,9 +120,9 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
                   sensors={sensors}
                   startDate={startDate}
                   endDate={endDate}
-                  sensorColorMap={
-                    type === SensorType.SENSOR_ARRAY ? generateSensorColorMap(sensors) : undefined
-                  }
+                  {...(type === SensorType.SENSOR
+                    ? {}
+                    : { sensorColorMap: generateSensorColorMap(sensors) })}
                 />
               )}
             </div>

@@ -21,7 +21,6 @@ import {
   formatDataPoint,
   formatSensorsData,
   getReadingUnit,
-  sortDataByDateTime,
 } from '../containers/SensorReadings/v2/utils';
 import { getUnixTime } from '../components/Charts/utils';
 import { formatWindData } from '../containers/SensorReadings/v2/LatestReadings/utils';
@@ -31,12 +30,6 @@ const createData = (date) => {
 };
 
 describe('Test chart data formatting', () => {
-  test('sortDataByDateTime sorts by dateTime correctly', () => {
-    const fakeData = ['2025-03-01', '2025-02-28', '2025-03-06'].map(createData);
-    const result = sortDataByDateTime(fakeData);
-    expect(result).toEqual(['2025-02-28', '2025-03-01', '2025-03-06'].map(createData));
-  });
-
   test('formatDataPoint fills missing data with null correctly', () => {
     const fakeData = [
       { dateTime: 1717200000, key1: 10, key2: 20, key3: 30 },

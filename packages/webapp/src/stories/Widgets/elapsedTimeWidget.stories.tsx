@@ -38,6 +38,12 @@ const ThreeWeeksInMS = 3 * 7 * 24 * 60 * 60 * 1000;
 const ThreeMonthsInMS = 3 * 12 * 7 * 24 * 60 * 60 * 1000;
 const ThreeYearsInMS = 3 * 52 * 12 * 7 * 24 * 60 * 60 * 1000;
 
+export const NoData: Story = {
+  args: {
+    pastDate: undefined,
+  },
+};
+
 export const ThreeMinutesAgo: Story = {
   args: {
     pastDate: new Date(Date.now() - ThreeMinsInMS),

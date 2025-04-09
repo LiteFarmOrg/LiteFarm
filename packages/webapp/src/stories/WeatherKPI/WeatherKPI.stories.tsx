@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import WeatherKPI from '../../components/Sensor/v2/WeatherKPI';
+import WeatherKPI from '../../components/WeatherKPI';
 import { Meta, StoryObj } from '@storybook/react/*';
 import { mockIconData, mockTextData } from './mockData';
 import styles from './styles.module.scss';

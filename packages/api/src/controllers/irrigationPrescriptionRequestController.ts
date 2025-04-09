@@ -32,7 +32,7 @@ export interface LiteFarmRequest extends Request<unknown, unknown, unknown, Lite
   };
 }
 
-const irrigationPrescriptionController = {
+const irrigationPrescriptionRequestController = {
   initiateFarmIrrigationPrescription() {
     return async (req: LiteFarmRequest, res: Response) => {
       const { farm_id } = req.headers;
@@ -61,4 +61,4 @@ const irrigationPrescriptionController = {
   },
 };
 
-export default irrigationPrescriptionController;
+export default irrigationPrescriptionRequestController;

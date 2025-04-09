@@ -79,7 +79,7 @@ describe('Sensor Tests', () => {
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
-    mockedAxios.default.mockClear();
+    (mockedAxios as unknown as jest.Mock).mockClear();
   });
 
   afterEach(async () => {
@@ -93,7 +93,7 @@ describe('Sensor Tests', () => {
   describe('GET sensor readings tests', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should get sensor readings`, async () => {
-        mockedAxios.default.mockResolvedValue({
+        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
           data: mockedEnsembleReadingsData,
           status: 200,
           statusText: 'OK',

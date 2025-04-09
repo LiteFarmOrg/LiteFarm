@@ -15,14 +15,14 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionController from '../controllers/irrigationPrescriptionController.js';
+import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
 
 const router = express.Router();
 
 router.post(
-  '/request',
+  '/',
   checkScope(['get:sensors']), // (Optional) - add a new scope for irrigation prescription. However as both sensors and irrigation prescription data is coming from Ensemble with the same authentication rules, sharing scope seems reasonable
-  IrrigationPrescriptionController.initiateFarmIrrigationPrescription(),
+  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
 );
 
 export default router;

@@ -53,7 +53,7 @@ describe('Irrigation Prescription Tests', () => {
   }): Promise<Response> {
     return chai
       .request(server)
-      .post('/irrigation_prescription/request')
+      .post('/irrigation_prescription_request')
       .set('content-type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -61,7 +61,7 @@ describe('Irrigation Prescription Tests', () => {
   }
 
   beforeEach(async () => {
-    mockedAxios.default.mockClear();
+    (mockedAxios as unknown as jest.Mock).mockClear();
   });
 
   afterEach(async () => {
@@ -75,7 +75,7 @@ describe('Irrigation Prescription Tests', () => {
   describe('POST irrigation prescription request', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should should initiate IP with field and crop data`, async () => {
-        mockedAxios.default.mockResolvedValue({
+        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
           data: {},
           status: 200,
           statusText: 'OK',

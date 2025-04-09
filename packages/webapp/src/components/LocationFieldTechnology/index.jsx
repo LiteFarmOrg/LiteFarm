@@ -41,135 +41,67 @@ export default function PureLocationFieldTechnology({
   );
 
   const handleClick = (ft) => {
-    if (ft.isAddonSensor && ft.type === locationEnum.sensor) {
-      history.push(`/${ft.type}/${ft.id}/readings`);
-    } else if (ft.isAddonSensor && ft.type === locationEnum.sensor_array) {
-      history.push(`/${ft.type}/${ft.id}/readings`);
-    } else {
-      history.push(`/${ft.type}/${ft.location_id}/details`);
-    }
+    const path =
+      ft.isAddonSensor && [locationEnum.sensor, locationEnum.sensor_array].includes(ft.type)
+        ? `/${ft.type}/${ft.id}/readings`
+        : `/${ft.type}/${ft.location_id}/details`;
+    history.push(path);
   };
 
-  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, ...rest }) => {
-    return (
-      <SensorListItem
-        {...rest}
-        iconText={{
-          iconName: 'SENSOR',
-          label: label,
-          classes: {
-            icon: styles.sensorIcon,
-            label: styles.sensorLabel,
-          },
-        }}
-        middleContent={middleContent}
-        actionIcon={{
-          iconName: 'chevron',
-          classes: {
-            icon: styles.sensorChevron,
-          },
-          onClick: (_e) => handleClick(onClickLocation),
-        }}
-        lastSeen={lastSeen}
-      />
-    );
-  };
+  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, ...rest }) => (
+    <SensorListItem
+      {...rest}
+      iconText={{
+        iconName: 'SENSOR',
+        label,
+        classes: { icon: styles.sensorIcon, label: styles.sensorLabel },
+      }}
+      middleContent={middleContent}
+      actionIcon={{
+        iconName: 'chevron',
+        classes: { icon: styles.sensorChevron },
+        onClick: () => handleClick(onClickLocation),
+      }}
+      lastSeen={lastSeen}
+    />
+  );
 
-  const FieldTechnologyLists = () => {
-    // Render order
-    const fieldTechnologyTypes = ['sensors', 'addonSensorArrays', 'addonSensors'];
-
-    return fieldTechnologyTypes.map((key) => {
-      if (fieldTechnology[key]?.length) {
-        if (key === 'addonSensorArrays') {
+  const SensorList = ({
+    title,
+    sensors,
+    onClickLocationMapper,
+    isAddonSensor = false,
+    ...rest
+  }) => (
+    <div {...rest} className={styles.listWithHeading}>
+      <div className={styles.listHeading}>{title}</div>
+      <List compact className={styles.list}>
+        {sensors.map((sensor) => {
+          const isOnline = isLessThanTwelveHrsAgo(new Date(sensor.last_seen));
           return (
-            <div key={key}>
-              {fieldTechnology[key]?.map((esa) => {
-                return (
-                  <div key={esa.name} className={styles.listWithHeading}>
-                    <div className={styles.listHeading}>{esa.name}</div>
-                    <List compact className={styles.list}>
-                      {...esa.sensors?.map((sensor) => {
-                        const isOnline = isLessThanTwelveHrsAgo(new Date(sensor.last_seen));
-                        return (
-                          <ListItem
-                            key={sensor.id}
-                            label={sensor.id}
-                            middleContent={{
-                              name: getDeviceType(sensor.deviceTypeKey),
-                              status: {
-                                status: isOnline ? Status.ONLINE : Status.OFFLINE,
-                                pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                                tooltipText: isOnline
-                                  ? t('STATUS.SENSOR.ONLINE_TOOLTIP')
-                                  : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
-                              },
-                            }}
-                            onClickLocation={esa}
-                            lastSeen={new Date(sensor.last_seen)}
-                          />
-                        );
-                      })}
-                    </List>
-                  </div>
-                );
-              })}
-            </div>
+            <ListItem
+              key={isAddonSensor ? sensor.id : sensor.location_id}
+              label={isAddonSensor ? sensor.id : sensor.name || sensor.location_id}
+              middleContent={{
+                name: isAddonSensor
+                  ? getDeviceType(sensor.deviceTypeKey)
+                  : sensor.model || sensor.brand_name,
+                status: isAddonSensor && {
+                  status: isOnline ? Status.ONLINE : Status.OFFLINE,
+                  pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
+                  tooltipText: isOnline
+                    ? t('STATUS.SENSOR.ONLINE_TOOLTIP')
+                    : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
+                },
+              }}
+              onClickLocation={onClickLocationMapper(sensor)}
+              lastSeen={sensor.last_seen && new Date(sensor.last_seen)} // TODO: does not exist vs no data
+            />
           );
-        } else if (key === 'addonSensors') {
-          return (
-            <div key={key} className={styles.listWithHeading}>
-              <div className={styles.listHeading}>{t('SENSOR.STANDALONE_SENSOR')}</div>
-              <List compact className={styles.list}>
-                {...fieldTechnology[key]?.map((es) => {
-                  const sensor = es.sensors[0];
-                  const isOnline = isLessThanTwelveHrsAgo(new Date(sensor.last_seen));
-                  return (
-                    <ListItem
-                      key={sensor.id}
-                      label={sensor.id}
-                      middleContent={{
-                        name: getDeviceType(sensor.deviceTypeKey),
-                        status: {
-                          status: isOnline ? Status.ONLINE : Status.OFFLINE,
-                          pillText: isOnline ? t('STATUS.ONLINE') : t('STATUS.OFFLINE'),
-                          tooltipText: isOnline
-                            ? t('STATUS.SENSOR.ONLINE_TOOLTIP')
-                            : t('STATUS.SENSOR.OFFLINE_TOOLTIP'),
-                        },
-                      }}
-                      onClickLocation={es}
-                      lastSeen={new Date(sensor.last_seen)}
-                    />
-                  );
-                })}
-              </List>
-            </div>
-          );
-        } else {
-          return (
-            <div key={key} className={styles.listWithHeading}>
-              <div className={styles.listHeading}>{t('FARM_MAP.MAP_FILTER.SENSOR')}</div>
-              <List compact className={styles.list}>
-                {...fieldTechnology[key]?.map((sensor) => {
-                  return (
-                    <ListItem
-                      key={sensor.location_id}
-                      label={sensor.name || sensor.location_id}
-                      middleContent={{
-                        name: sensor.model || sensor.brand_name || '',
-                      }}
-                      onClickLocation={sensor}
-                    />
-                  );
-                })}
-              </List>
-            </div>
-          );
-        }
-      }
-    });
-  };
+        })}
+      </List>
+    </div>
+  );
 
   return (
     <Layout className={layoutStyles.paperContainer}>
@@ -182,7 +114,33 @@ export default function PureLocationFieldTechnology({
         variant={Variant.UNDERLINE}
       />
       <div className={styles.lists}>
-        <FieldTechnologyLists />
+        {!!fieldTechnology.sensors?.length && (
+          <SensorList
+            title={t('FARM_MAP.MAP_FILTER.SENSOR')}
+            sensors={fieldTechnology.sensors}
+            onClickLocationMapper={(sensor) => sensor}
+          />
+        )}
+        {!!fieldTechnology.addonSensorArrays?.length &&
+          fieldTechnology.addonSensorArrays.map((asa) => (
+            <SensorList
+              key={asa.name}
+              title={asa.name}
+              sensors={asa.sensors}
+              onClickLocationMapper={() => asa}
+              isAddonSensor
+            />
+          ))}
+        {!!fieldTechnology.addonSensors?.length && (
+          <SensorList
+            title={t('SENSOR.STANDALONE_SENSOR')}
+            sensors={fieldTechnology.addonSensors.flatMap((as) => as.sensors)}
+            onClickLocationMapper={(sensor) =>
+              fieldTechnology.addonSensors.find((as) => as.sensors.includes(sensor))
+            }
+            isAddonSensor
+          />
+        )}
       </div>
       {hasAddonSensors && <ManageESciSection t={t} />}
     </Layout>

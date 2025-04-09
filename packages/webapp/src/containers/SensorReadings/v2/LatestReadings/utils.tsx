@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties } from 'react';
 import { TFunction } from 'react-i18next';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, degToDirection, getReadingUnit, getStatusProps } from '../utils';
 import { isValidNumber } from '../../../../util/validation';
+import { convert } from '../../../../util/convert-units/convert';
 import {
   GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES,
   SENSOR_ARRAY_CHART_PARAMS,
@@ -27,9 +28,17 @@ import {
   WEATHER_STATION_KPI_PARAMS,
 } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
-import { SensorReadingKPIprops } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
-import { Sensor, SensorReadings, SensorReadingTypes } from '../../../../store/api/types';
-import { Status } from '../../../../components/StatusIndicatorPill';
+import {
+  SensorReadingKPIprops,
+  type TMeasurement,
+} from '../../../../components/Tile/SensorTile/SensorReadingKPI';
+import {
+  Sensor,
+  SensorDatapoint,
+  SensorReadings,
+  type SensorReadingTypes,
+  type SensorReadingTypeUnits,
+} from '../../../../store/api/types';
 import type { GeneralSensor } from '../types';
 import type { System } from '../../../../types';
 import type { TileData } from '../../../../components/Sensor/v2/WeatherKPI';
@@ -37,10 +46,24 @@ import Arrow from '../../../../assets/images/arrow-circle-up.svg';
 import styles from '../styles.module.scss';
 
 const getLatestReadingValue = (
-  readings: SensorReadings['readings'],
+  readings: SensorDatapoint[],
   externalId: string,
 ): number | undefined => {
   return readings.length ? readings[readings.length - 1][externalId] : undefined;
+};
+
+const generateTMeasurement = (
+  readingType: SensorReadingTypes,
+  value: number | undefined,
+  unit: SensorReadingTypeUnits | undefined,
+  system: System | undefined,
+  t: TFunction,
+): TMeasurement => {
+  return {
+    measurement: t(`SENSOR.READING.${readingType.toUpperCase()}`),
+    value: value && system ? convertEsciReadingValue(value, readingType, system) : '-',
+    unit: (value && unit && system && getReadingUnit(readingType, system, unit)) || '',
+  };
 };
 
 // Format function for sensor array
@@ -51,6 +74,7 @@ export const formatArrayReadingsToKPIProps = (
   sensorColorMap: LineConfig[],
   t: TFunction,
 ): SensorKPIprops[] => {
+  const depthUnit = system === 'metric' ? 'cm' : 'in';
   const supportedReadingsInOrder = SENSOR_ARRAY_CHART_PARAMS.flatMap((param) => {
     return sensorReadings.find(({ reading_type }) => reading_type === param) || [];
   });
@@ -59,11 +83,7 @@ export const formatArrayReadingsToKPIProps = (
     const measurements = supportedReadingsInOrder.map(({ reading_type, readings, unit }) => {
       const value = getLatestReadingValue(readings, external_id);
 
-      return {
-        measurement: t(`SENSOR.READING.${reading_type.toUpperCase()}`),
-        value: value ? convertEsciReadingValue(value, reading_type, system) : '-',
-        unit: (value && unit && getReadingUnit(reading_type, system, unit)) || '',
-      };
+      return generateTMeasurement(reading_type, value, unit, system, t);
     });
 
     return {
@@ -73,8 +93,8 @@ export const formatArrayReadingsToKPIProps = (
       },
       discriminator: {
         measurement: 'depth_elevation',
-        value: depth,
-        unit: system === 'metric' ? 'cm' : 'in',
+        value: convert(depth).from('cm').to(depthUnit),
+        unit: depthUnit,
       },
       measurements,
       color: sensorColorMap.find(({ id }) => id === external_id)!.color,
@@ -95,12 +115,10 @@ export const formatSensorReadingsToGeneralKPIProps = (
       return [];
     }
 
-    const value = foundReadings.readings[foundReadings.readings.length - 1][sensor.external_id];
+    const value = getLatestReadingValue(foundReadings.readings, sensor.external_id);
 
     return {
-      measurement: t(`SENSOR.READING.${param.toUpperCase()}`),
-      value: value ? convertEsciReadingValue(value, param, system) : '-',
-      unit: value ? getReadingUnit(param, system, foundReadings.unit) : '',
+      ...generateTMeasurement(param, value, foundReadings.unit, system, t),
       color: STANDALONE_SENSOR_COLORS_MAP[param],
     };
   });
@@ -134,44 +152,44 @@ export const formatWindData = (
   sensorReadingsMap: Partial<Record<SensorReadingTypes, SensorReadings>>,
   system: System,
   t: TFunction,
-): { label: string; data: ReactNode } | [] => {
+): TileData | undefined => {
   const speedReadings = sensorReadingsMap['wind_speed'];
   const directionReadings = sensorReadingsMap['wind_direction'];
   if (!speedReadings && !directionReadings) {
-    return [];
+    return undefined;
   }
 
   let speedData = '';
-  let directionData: number | undefined;
-  let directionValue = '';
+  let directionDegree: number | undefined;
+  let directionText = '';
 
   if (speedReadings) {
     const latestValue = getLatestReadingValue(speedReadings.readings, sensor.external_id);
-    speedData = isValidNumber(latestValue)
-      ? `${convertEsciReadingValue(latestValue, 'wind_speed', system)}${getReadingUnit(
-          'wind_speed',
-          system,
-          speedReadings.unit,
-        )}`
-      : '-';
+
+    if (isValidNumber(latestValue)) {
+      const convertedValue = convertEsciReadingValue(latestValue, 'wind_speed', system);
+      const displayUnit = getReadingUnit('wind_speed', system, speedReadings.unit);
+      speedData = `${convertedValue}${displayUnit}`;
+    } else {
+      speedData = '-';
+    }
   }
 
   if (directionReadings) {
-    const latestValue = getLatestReadingValue(directionReadings.readings, sensor.external_id);
-    directionValue = isValidNumber(latestValue) ? t(degToDirection(latestValue)) : '-';
-    directionData = latestValue;
+    directionDegree = getLatestReadingValue(directionReadings.readings, sensor.external_id);
+    directionText = isValidNumber(directionDegree) ? t(degToDirection(directionDegree)) : '-';
   }
 
-  if (speedData && directionValue) {
-    const data = speedData === '-' && directionValue === '-' && '-';
+  if (speedData && directionText) {
+    const data = speedData === '-' && directionText === '-' ? '-' : undefined;
 
     return {
       label: t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'),
       data: data || (
         <WindSpeedDirectionData
           speed={speedData}
-          directionDegree={directionData}
-          directionText={directionValue}
+          directionDegree={directionDegree}
+          directionText={directionText}
         />
       ),
     };
@@ -183,7 +201,9 @@ export const formatWindData = (
 
   return {
     label: t('SENSOR.READING.WIND_DIRECTION'),
-    data: <WindSpeedDirectionData directionDegree={directionData} directionText={directionValue} />,
+    data: (
+      <WindSpeedDirectionData directionDegree={directionDegree} directionText={directionText} />
+    ),
   };
 };
 
@@ -207,7 +227,7 @@ export const formatSensorReadingsToWeatherKPIProps = (
     }
 
     if (param === 'wind_direction') {
-      return formatWindData(sensor, sensorReadingsMap, system, t);
+      return formatWindData(sensor, sensorReadingsMap, system, t) || [];
     }
 
     if (!sensorReadingsMap[param]) {
@@ -234,9 +254,7 @@ const getGeneralSensorDefaultKPIProps = (
   t: TFunction,
 ): SensorReadingKPIprops[] => {
   return GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES[sensorName].map((key) => ({
-    measurement: t(`SENSOR.READING.${key.toUpperCase()}`),
-    value: '-',
-    unit: '',
+    ...generateTMeasurement(key, undefined, undefined, undefined, t),
     color: STANDALONE_SENSOR_COLORS_MAP[key],
   }));
 };

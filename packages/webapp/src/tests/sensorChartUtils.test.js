@@ -19,7 +19,7 @@ import {
   convertEsciReadingValue,
   degToDirection,
   formatDataPoint,
-  formatSensorsData,
+  formatSensorDatapoints,
   getReadingUnit,
 } from '../containers/SensorReadings/v2/utils';
 import { getUnixTime } from '../components/Charts/utils';
@@ -55,7 +55,7 @@ describe('Test chart data formatting', () => {
     });
   });
 
-  describe('formatSensorsData', () => {
+  describe('formatSensorDatapoints', () => {
     test('fills missing days correctly', () => {
       const fakeData = ['2025-03-01', '2025-03-03', '2025-03-06'].map(createData);
       const expectedData = [
@@ -65,7 +65,7 @@ describe('Test chart data formatting', () => {
         '2025-03-04',
         '2025-03-06',
       ].map(createData);
-      const result = formatSensorsData(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', []);
       expect(result).toEqual(expectedData);
     });
 
@@ -79,7 +79,7 @@ describe('Test chart data formatting', () => {
         '2025-03-03',
         '2025-03-04',
       ].map(createData);
-      const result = formatSensorsData(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', []);
       expect(result).toEqual(expectedData);
     });
 
@@ -94,7 +94,7 @@ describe('Test chart data formatting', () => {
         '2025-03-03',
         '2025-03-04',
       ].map(createData);
-      const result = formatSensorsData(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', []);
       expect(result).toEqual(expectedData);
     });
 
@@ -114,7 +114,7 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:00:00Z',
       ].map(createData);
 
-      const result = formatSensorsData(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(fakeData, 'hour', []);
       expect(result).toEqual(expectedData);
     });
 
@@ -134,7 +134,7 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:15:00Z',
       ].map(createData);
 
-      const result = formatSensorsData(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(fakeData, 'hour', []);
       expect(result).toEqual(expectedData);
     });
   });
@@ -271,7 +271,7 @@ describe('Test chart data formatting', () => {
 
     test('handle case when no wind speed or direction data', () => {
       const result = formatWindData(mockSensor, { temperature: {} }, 'metric', i18n.t);
-      expect(result).toEqual([]);
+      expect(result).toBe(undefined);
     });
 
     test('handle case when the latest data is missing', () => {

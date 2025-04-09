@@ -18,6 +18,7 @@ import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 import { getDateDifference } from '../../../util/moment';
 import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
 import { convert } from '../../../util/convert-units/convert';
+import { isValidNumber } from '../../../util/validation';
 import { esciUnitTypeMap } from './constants';
 import {
   SensorDatapoint,
@@ -117,7 +118,7 @@ export const formatDataPoint = (
   return dataKeys.reduce<FormattedSensorDatapoint>(
     (acc, dataKey) => {
       const value =
-        valueConverter && typeof data[dataKey] === 'number'
+        valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
           : (data[dataKey] ?? null);
 
@@ -127,11 +128,19 @@ export const formatDataPoint = (
   );
 };
 
-export const getNextDateTime = (baseUnixTime: number, truncPeriod: ChartTruncPeriod) => {
+const getNextDateTime = (baseUnixTime: number, truncPeriod: ChartTruncPeriod) => {
   return baseUnixTime + (truncPeriod === 'day' ? SECONDS_IN_A_DAY : SECONDS_IN_AN_HOUR);
 };
 
-export const formatSensorsData = (
+/**
+ * Formats an array of sensor data points for chart rendering.
+ *
+ * - Fills in gaps between expected timestamps by inserting placeholder data points,
+ *   ensuring chart lines are visually disconnected where data is missing.
+ * - Conditionally adjusts timestamps depending on the truncPeriod and optional timezone offset.
+ * - Applies an optional value converter for unit conversion.
+ */
+export const formatSensorDatapoints = (
   data: SensorDatapoint[],
   truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
@@ -144,7 +153,7 @@ export const formatSensorsData = (
 
   const adjustDateTime = getAdjustDateTimeFunc(truncPeriod, timezoneOffset);
 
-  let result: FormattedSensorDatapoint[] = [];
+  const result: FormattedSensorDatapoint[] = [];
   let currentTimeStamp = data[0].dateTime;
   let dataPointer = 0;
 
@@ -181,13 +190,7 @@ export const getTruncPeriod = (startDate?: Date, endDate?: Date): ChartTruncPeri
     return undefined;
   }
 
-  const dateRange = getDateDifference(startDate, endDate);
-
-  if (dateRange < 8) {
-    return 'hour';
-  }
-
-  return 'day';
+  return getDateDifference(startDate, endDate) < 8 ? 'hour' : 'day';
 };
 
 export const convertEsciReadingValue = (
@@ -227,7 +230,7 @@ export const degToDirection = (deg: number): string => {
 
 export const getStatusProps = (lastSeen: string, t: TFunction) => {
   const isOnline = lastSeen
-    ? new Date(lastSeen).getTime() >= new Date().getTime() - 2 * 60 * 60 * 1000
+    ? new Date(lastSeen).getTime() >= new Date().getTime() - 12 * 60 * 60 * 1000
     : false;
 
   return {

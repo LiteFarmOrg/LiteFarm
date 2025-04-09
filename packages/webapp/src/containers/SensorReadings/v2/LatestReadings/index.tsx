@@ -75,7 +75,7 @@ function isWeatherKPIData(
   return 'label' in kpiData[0];
 }
 
-function LatestReadings(props: LatestReadingsProps) {
+const LatestReadings = (props: LatestReadingsProps) => {
   const { sensors, type } = props;
 
   const { t } = useTranslation();
@@ -104,26 +104,24 @@ function LatestReadings(props: LatestReadingsProps) {
           {t('SENSOR.READING.UPDATE_READINGS')}
         </TextButton>
       </div>
-      {!!kpiData?.length && (
-        <div className={clsx(styles.kpi, styles[type])}>
-          {isFetching && <OverlaySpinner />}
-          {isWeatherKPIData(kpiData) ? (
-            <WeatherKPI data={kpiData} />
-          ) : (
-            <BentoLayout>
-              {kpiData.map((kpiProps) => {
-                return 'sensor' in kpiProps ? ( // Check if kpiProps is of type SensorKPIprops (type: SensorType.SENSOR_ARRAY)
-                  <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
-                ) : (
-                  <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
-                );
-              })}
-            </BentoLayout>
-          )}
-        </div>
-      )}
+      <div className={clsx(styles.kpi, styles[type])}>
+        {isFetching && <OverlaySpinner />}
+        {isWeatherKPIData(kpiData) ? (
+          <WeatherKPI data={kpiData} />
+        ) : (
+          <BentoLayout>
+            {kpiData.map((kpiProps) => {
+              return 'sensor' in kpiProps ? ( // Check if kpiProps is of type SensorKPIprops (type: SensorType.SENSOR_ARRAY)
+                <SensorKPI key={kpiProps.sensor.id} {...kpiProps} />
+              ) : (
+                <SensorReadingKPI key={kpiProps.measurement} {...kpiProps} />
+              );
+            })}
+          </BentoLayout>
+        )}
+      </div>
     </>
   );
-}
+};
 
 export default LatestReadings;

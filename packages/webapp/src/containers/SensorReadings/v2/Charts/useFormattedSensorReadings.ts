@@ -19,7 +19,7 @@ import { ChartTruncPeriod } from '../../../../components/Charts/LineChart';
 import { measurementSelector } from '../../../userFarmSlice';
 import {
   convertEsciReadingValue,
-  formatSensorsData,
+  formatSensorDatapoints,
   getAdjustDateTimeFunc,
   getReadingUnit,
 } from '../utils';
@@ -27,8 +27,6 @@ import { getTicks } from '../../../../components/Charts/utils';
 import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor } from '../../../../store/api/types';
 import { FormattedSensorReadings } from '../types';
-
-const SENSORS = ['LSZDWX', 'WV2JHV', '8YH5Y5', 'BWKBAL'];
 
 const generateTicks = (
   sensorReadings: FormattedSensorReadings[],
@@ -41,15 +39,15 @@ const generateTicks = (
     return Math.max(lastDay, readings[readings.length - 1].dateTime);
   }, 0);
 
-  const ticks = lastDayInChart
-    ? getTicks(new Date(startDate), new Date(endDate), {
+  const option = lastDayInChart
+    ? {
         skipEmptyEndTicks: true,
         lastDataPointDateTime:
           getAdjustDateTimeFunc(truncPeriod, timezoneOffset)?.(lastDayInChart) || lastDayInChart,
-      })
-    : getTicks(new Date(startDate), new Date(endDate));
+      }
+    : {};
 
-  return ticks;
+  return getTicks(new Date(startDate), new Date(endDate), option);
 };
 
 interface useFormattedSensorReadingsProps {
@@ -103,7 +101,7 @@ function useFormattedSensorReadings({
 
       return {
         reading_type,
-        readings: formatSensorsData(
+        readings: formatSensorDatapoints(
           readings,
           truncPeriod,
           sensorIds,

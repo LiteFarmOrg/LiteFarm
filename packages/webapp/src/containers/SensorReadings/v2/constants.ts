@@ -44,6 +44,17 @@ export const SENSOR_ARRAY_CHART_PARAMS: ChartSupportedReadingTypes[] = [
   'soil_water_content',
 ];
 
+export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
+  'temperature',
+  'relative_humidity',
+  'rainfall_rate',
+  'cumulative_rainfall',
+  'soil_water_potential',
+  'soil_water_content',
+  'water_pressure',
+  'wind_speed',
+];
+
 export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
   'temperature',
   'wind_speed',

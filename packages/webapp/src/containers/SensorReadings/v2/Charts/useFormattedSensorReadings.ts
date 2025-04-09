@@ -24,9 +24,10 @@ import {
   getReadingUnit,
 } from '../utils';
 import { getTicks } from '../../../../components/Charts/utils';
+import { CHART_SUPPORTED_PARAMS } from '../constants';
 import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
-import { Sensor } from '../../../../store/api/types';
-import { FormattedSensorReadings } from '../types';
+import { Sensor, SensorReadingTypes } from '../../../../store/api/types';
+import { ChartSupportedReadingTypes, FormattedSensorReadings } from '../types';
 
 const generateTicks = (
   sensorReadings: FormattedSensorReadings[],
@@ -50,11 +51,18 @@ const generateTicks = (
   return getTicks(new Date(startDate), new Date(endDate), option);
 };
 
+function isChartSupportedReadingType(
+  readingType: SensorReadingTypes | ChartSupportedReadingTypes,
+): readingType is ChartSupportedReadingTypes {
+  return CHART_SUPPORTED_PARAMS.findIndex((param) => param === readingType) !== -1;
+}
+
 interface useFormattedSensorReadingsProps {
   sensors: Sensor[];
   startDate: string;
   endDate: string;
   truncPeriod: ChartTruncPeriod;
+  readingTypes: ChartSupportedReadingTypes[];
 }
 
 function useFormattedSensorReadings({
@@ -62,6 +70,7 @@ function useFormattedSensorReadings({
   startDate,
   endDate,
   truncPeriod,
+  readingTypes,
 }: useFormattedSensorReadingsProps): {
   isLoading: boolean;
   isFetching: boolean;
@@ -95,7 +104,16 @@ function useFormattedSensorReadings({
 
     const timezoneOffset = new Date(startDate).getTimezoneOffset();
 
-    const formattedData = sensorReadings.map(({ reading_type, readings, unit }) => {
+    const formattedData = readingTypes.flatMap((readingType) => {
+      const data = sensorReadings.find((data) => data.reading_type === readingType);
+
+      // Skip the readingType if there's no corresponding data
+      if (!data || !isChartSupportedReadingType(data.reading_type)) {
+        return [];
+      }
+
+      const { reading_type, readings, unit } = data;
+
       const valueConverter = (value: number) =>
         convertEsciReadingValue(value, reading_type, system);
 

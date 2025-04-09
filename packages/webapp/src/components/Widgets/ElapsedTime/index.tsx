@@ -22,7 +22,7 @@ export type ElapsedTimeWidgetProps = {
 };
 
 export default function ElapsedTimeWidget({ pastDate }: ElapsedTimeWidgetProps) {
-  const timeInS = pastDate && getTimeDifferrenceInSeconds(pastDate, new Date());
+  const timeInS = pastDate && getTimeDifferrenceInSeconds(new Date(pastDate), new Date());
   const durationString = typeof timeInS === 'number' ? getDurationString(timeInS) : ' -- ';
   return (
     <div className={styles.container}>

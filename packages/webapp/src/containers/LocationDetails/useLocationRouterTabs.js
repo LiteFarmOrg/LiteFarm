@@ -23,7 +23,12 @@ const cropLocations = [
   locationEnum.greenhouse,
   locationEnum.buffer_zone,
 ];
-const fieldTechnologyLocations = [locationEnum.field, locationEnum.garden, locationEnum.greenhouse];
+const fieldTechnologyLocations = [
+  locationEnum.field,
+  locationEnum.garden,
+  locationEnum.greenhouse,
+  locationEnum.farm_site_boundary,
+];
 const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
 
 export default function useLocationRouterTabs(location, match) {

@@ -52,13 +52,18 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
   const language = getLanguageFromLocalStorage();
 
+  const isSensorArray = 'sensorColorMap' in props;
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
+  const supportedReadingTypes = isSensorArray
+    ? SENSOR_ARRAY_CHART_PARAMS
+    : standaloneSensorParms(sensors[0].name);
 
   const { isLoading, isFetching, formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,
     startDate,
     endDate,
     truncPeriod,
+    readingTypes: supportedReadingTypes,
   });
 
   if (isLoading) {
@@ -74,45 +79,33 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
     );
   }
 
-  const isSensorArray = 'sensorColorMap' in props;
-
   return (
     <div className={clsx(styles.charts, isSensorArray ? '' : styles.sensor)}>
       {isFetching && <OverlaySpinner />}
-      {(isSensorArray ? SENSOR_ARRAY_CHART_PARAMS : standaloneSensorParms(sensors[0].name)).flatMap(
-        (param) => {
-          const data = formattedSensorReadings.find((data) => data.reading_type === param);
+      {formattedSensorReadings.map(({ reading_type, unit, readings }) => {
+        const paramColor = STANDALONE_SENSOR_COLORS_MAP[reading_type];
+        const lineConfig = isSensorArray
+          ? props.sensorColorMap
+          : [{ id: sensors[0].external_id, color: paramColor }];
+        const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
 
-          // Skip the param if there's no corresponding data
-          if (!data) {
-            return [];
-          }
-
-          const { reading_type, unit, readings } = data;
-          const paramColor = STANDALONE_SENSOR_COLORS_MAP[param];
-          const lineConfig = isSensorArray
-            ? props.sensorColorMap
-            : [{ id: sensors[0].external_id, color: paramColor }];
-          const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
-
-          return (
-            <LineChart
-              key={reading_type}
-              title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
-              language={language || 'en'}
-              lineConfig={lineConfig}
-              data={readings}
-              ticks={ticks}
-              truncPeriod={truncPeriod}
-              formatTooltipValue={(_label, value) => {
-                return typeof value === 'number' ? `${value}${unit}` : '';
-              }}
-              isCompactView={isCompactView}
-              colors={colors}
-            />
-          );
-        },
-      )}
+        return (
+          <LineChart
+            key={reading_type}
+            title={`${t(`SENSOR.READING.${reading_type.toUpperCase()}`)} (${unit})`}
+            language={language || 'en'}
+            lineConfig={lineConfig}
+            data={readings}
+            ticks={ticks}
+            truncPeriod={truncPeriod}
+            formatTooltipValue={(_label, value) => {
+              return typeof value === 'number' ? `${value}${unit}` : '';
+            }}
+            isCompactView={isCompactView}
+            colors={colors}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -54,7 +54,7 @@ export interface FormattedSensorDatapoint {
 }
 
 export interface FormattedSensorReadings {
-  reading_type: SensorReadingTypes;
+  reading_type: ChartSupportedReadingTypes;
   unit: string;
   readings: FormattedSensorDatapoint[];
 }

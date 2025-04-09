@@ -27,9 +27,7 @@ import type {
   OrganisationFarmData,
   LocationAndCropGraph,
   EnsembleLocationAndCropData,
-  EnsembleCropData,
   ManagementPlan,
-  PlantingMethod,
 } from './ensembleService.types.js';
 
 /**
@@ -146,40 +144,6 @@ function selectCropData(managementPlans: ManagementPlan[]) {
       crop_genus,
       crop_specie,
       seed_date,
-
-      // See below
-      ...extractPlantingDetails(managementPlan),
     };
   });
 }
-
-/*--------------------
-Recommended TODO: check with Ensemble and remove planting_details
-
-The variable information in this data (based on planting method) makes it unlikely to be useful in their calcuations. If they do depend on some part of it, for us it will be more data we need to make sure never changes. I recommend we remove it entirely and only keep crop + seed date
-
-/* Extracts planting details from the management plan to store under planting_details key */
-function extractPlantingDetails(managementPlan: ManagementPlan) {
-  let planting_details: EnsembleCropData['planting_details'] | undefined;
-
-  // because the graph was filtered on is_final_planting_management_plan = true, there will only be one planting management plan in this array
-  const plantingManagementPlan =
-    managementPlan.crop_management_plan?.planting_management_plans?.[0];
-
-  if (plantingManagementPlan) {
-    const key = plantingManagementPlan.planting_method.toLowerCase() as PlantingMethod;
-    const details = plantingManagementPlan[key];
-
-    if (details) {
-      delete details.planting_management_plan_id;
-
-      planting_details = {
-        planting_method: plantingManagementPlan.planting_method,
-        ...details,
-      };
-    }
-  }
-
-  return planting_details ? { planting_details } : {};
-}
-/*--------------------*/

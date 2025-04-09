@@ -18,7 +18,7 @@ interface Point {
   lng: number;
 }
 
-export enum PlantingMethod {
+enum PlantingMethod {
   BED_METHOD = 'bed_method',
   CONTAINER_METHOD = 'container_method',
   BROADCAST_METHOD = 'broadcast_method',
@@ -64,7 +64,7 @@ export interface LocationAndCropGraph {
   management_plans: ManagementPlan[];
 }
 
-export interface EnsembleCropData {
+interface EnsembleCropData {
   crop_common_name: string;
   crop_genus: string;
   crop_specie: string;

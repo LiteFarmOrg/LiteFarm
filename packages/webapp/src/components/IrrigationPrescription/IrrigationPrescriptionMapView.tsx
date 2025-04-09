@@ -92,6 +92,7 @@ const createPivotMapObjects = (
     location_id: 'pivot_arm',
     line_points: [center, endpoint],
     width: 2,
+    zIndex: 1, // render on top of pivot fill
   };
 
   return [pivot, pivotArm];

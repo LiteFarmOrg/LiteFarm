@@ -199,6 +199,7 @@ const drawLine = (map, maps, mapBounds, location, disableHover) => {
         repeat: dashLength,
       },
     ],
+    zIndex: location.zIndex ?? 0,
   });
 
   if (!disableHover) {

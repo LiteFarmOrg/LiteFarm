@@ -40,11 +40,14 @@ type SensorArrayChartsProps = SensorChartsProps & {
   sensorColorMap: LineConfig[];
 };
 
-const standaloneSensorParms = (sensorName: SensorTypes) => {
+const getSupportedReadingTypes = (isSensorArray: boolean, sensorName: SensorTypes) => {
+  if (isSensorArray) {
+    return SENSOR_ARRAY_CHART_PARAMS;
+  }
   return sensorName === 'Weather station' ? WEATHER_STATION_CHART_PARAMS : SENSOR_CHART_PARAMS;
 };
 
-function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
+const Charts = (props: SensorChartsProps | SensorArrayChartsProps) => {
   const { sensors, startDate, endDate } = props;
 
   const { t } = useTranslation();
@@ -54,9 +57,7 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
 
   const isSensorArray = 'sensorColorMap' in props;
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
-  const supportedReadingTypes = isSensorArray
-    ? SENSOR_ARRAY_CHART_PARAMS
-    : standaloneSensorParms(sensors[0].name);
+  const supportedReadingTypes = getSupportedReadingTypes(isSensorArray, sensors[0].name);
 
   const { isLoading, isFetching, formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,
@@ -112,6 +113,6 @@ function Charts(props: SensorChartsProps | SensorArrayChartsProps) {
       })}
     </div>
   );
-}
+};
 
 export default Charts;

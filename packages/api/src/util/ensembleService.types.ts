@@ -69,10 +69,6 @@ interface EnsembleCropData {
   crop_genus: string;
   crop_specie: string;
   seed_date: string;
-  planting_details?: {
-    planting_method: PlantingMethod;
-    [key: string]: unknown;
-  };
   management_plan_id?: string; // For dev purposes
 }
 

@@ -20,9 +20,8 @@ import { convertEsciReadingValue, degToDirection, getReadingUnit, getStatusProps
 import { isValidNumber } from '../../../../util/validation';
 import { convert } from '../../../../util/convert-units/convert';
 import {
-  GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES,
+  SENSOR_READING_TYPES,
   SENSOR_ARRAY_CHART_PARAMS,
-  SENSOR_CHART_PARAMS,
   STANDALONE_SENSOR_COLORS_MAP,
   WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS,
   WEATHER_STATION_KPI_PARAMS,
@@ -74,7 +73,7 @@ export const formatArrayReadingsToKPIProps = (
   sensorColorMap: LineConfig[],
   t: TFunction,
 ): SensorKPIprops[] => {
-  const depthUnit = system === 'metric' ? 'cm' : 'in';
+  const displayDepthUnit = system === 'metric' ? 'cm' : 'in';
   const supportedReadingsInOrder = SENSOR_ARRAY_CHART_PARAMS.flatMap((param) => {
     return sensorReadings.find(({ reading_type }) => reading_type === param) || [];
   });
@@ -93,8 +92,8 @@ export const formatArrayReadingsToKPIProps = (
       },
       discriminator: {
         measurement: 'depth_elevation',
-        value: convert(depth).from('cm').to(depthUnit),
-        unit: depthUnit,
+        value: convert(depth).from('cm').to(displayDepthUnit),
+        unit: displayDepthUnit,
       },
       measurements,
       color: sensorColorMap.find(({ id }) => id === external_id)!.color,
@@ -109,7 +108,7 @@ export const formatSensorReadingsToGeneralKPIProps = (
   system: System,
   t: TFunction,
 ): SensorReadingKPIprops[] => {
-  const result = SENSOR_CHART_PARAMS.flatMap((param) => {
+  const result = SENSOR_READING_TYPES[sensor.name].flatMap((param) => {
     const foundReadings = readings.find(({ reading_type }) => reading_type === param);
     if (!foundReadings) {
       return [];
@@ -253,7 +252,7 @@ const getGeneralSensorDefaultKPIProps = (
   sensorName: GeneralSensor['name'],
   t: TFunction,
 ): SensorReadingKPIprops[] => {
-  return GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES[sensorName].map((key) => ({
+  return SENSOR_READING_TYPES[sensorName].map((key) => ({
     ...generateTMeasurement(key, undefined, undefined, undefined, t),
     color: STANDALONE_SENSOR_COLORS_MAP[key],
   }));

@@ -22,27 +22,15 @@ import type {
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
-// For Soil Water Potential, IR Temperature, Drip line pressure and Wind speed sensors
-export const SENSOR_CHART_PARAMS: ChartSupportedReadingTypes[] = [
-  'temperature',
-  'soil_water_potential',
-  'soil_water_content',
-  'water_pressure',
-  'wind_speed',
-];
+export const SENSOR_READING_TYPES: Record<SensorTypes, ChartSupportedReadingTypes[]> = {
+  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
+  'IR Temperature Sensor': ['temperature'],
+  'Wind speed sensor': ['wind_speed'],
+  'Drip line pressure sensor': ['water_pressure'],
+  'Weather station': ['temperature', 'relative_humidity', 'rainfall_rate', 'cumulative_rainfall'],
+};
 
-export const WEATHER_STATION_CHART_PARAMS: ChartSupportedReadingTypes[] = [
-  'temperature',
-  'relative_humidity',
-  'rainfall_rate',
-  'cumulative_rainfall',
-];
-
-export const SENSOR_ARRAY_CHART_PARAMS: ChartSupportedReadingTypes[] = [
-  'temperature',
-  'soil_water_potential',
-  'soil_water_content',
-];
+export const SENSOR_ARRAY_CHART_PARAMS = SENSOR_READING_TYPES['Soil Water Potential Sensor'];
 
 export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
@@ -75,16 +63,6 @@ export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
   'SOLAR_RADIATION',
   'RAINFALL_RATE',
 ];
-
-export const GENERAL_SENSOR_KPI_DEFAULT_READING_TYPES: Record<
-  Exclude<SensorTypes, 'Weather station'>,
-  ChartSupportedReadingTypes[]
-> = {
-  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
-  'IR Temperature Sensor': ['temperature'],
-  'Wind speed sensor': ['wind_speed'],
-  'Drip line pressure sensor': ['water_pressure'],
-};
 
 export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {
   temperature: colors.chartRed,

@@ -21,11 +21,10 @@ import Spinner, { OverlaySpinner } from '../../../../components/Spinner';
 import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
-import { Sensor, SensorTypes } from '../../../../store/api/types';
+import { Sensor } from '../../../../store/api/types';
 import {
   SENSOR_ARRAY_CHART_PARAMS,
-  SENSOR_CHART_PARAMS,
-  WEATHER_STATION_CHART_PARAMS,
+  SENSOR_READING_TYPES,
   STANDALONE_SENSOR_COLORS_MAP,
 } from '../constants';
 import styles from '../styles.module.scss';
@@ -40,13 +39,6 @@ type SensorArrayChartsProps = SensorChartsProps & {
   sensorColorMap: LineConfig[];
 };
 
-const getSupportedReadingTypes = (isSensorArray: boolean, sensorName: SensorTypes) => {
-  if (isSensorArray) {
-    return SENSOR_ARRAY_CHART_PARAMS;
-  }
-  return sensorName === 'Weather station' ? WEATHER_STATION_CHART_PARAMS : SENSOR_CHART_PARAMS;
-};
-
 const Charts = (props: SensorChartsProps | SensorArrayChartsProps) => {
   const { sensors, startDate, endDate } = props;
 
@@ -57,7 +49,9 @@ const Charts = (props: SensorChartsProps | SensorArrayChartsProps) => {
 
   const isSensorArray = 'sensorColorMap' in props;
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
-  const supportedReadingTypes = getSupportedReadingTypes(isSensorArray, sensors[0].name);
+  const supportedReadingTypes = isSensorArray
+    ? SENSOR_ARRAY_CHART_PARAMS
+    : SENSOR_READING_TYPES[sensors[0].name];
 
   const { isLoading, isFetching, formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,

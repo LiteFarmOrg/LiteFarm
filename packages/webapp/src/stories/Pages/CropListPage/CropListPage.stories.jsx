@@ -2141,4 +2141,22 @@ Primary.args = {
   },
   history: { location: { pathname: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/crops' } },
   title: 'crop',
+  routerTabs: [
+    {
+      label: 'Details',
+      path: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/details',
+    },
+    {
+      label: 'Crops',
+      path: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/crops',
+    },
+    {
+      label: 'Tasks',
+      path: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/tasks',
+    },
+    {
+      label: 'Farm Technology',
+      path: '/field/3da7abb4-9d44-11eb-bbf7-1bc17302df43/farm_technology',
+    },
+  ],
 };

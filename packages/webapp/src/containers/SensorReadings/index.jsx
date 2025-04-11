@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import ForecastInfo from './ForecastInfo';
@@ -12,7 +12,11 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
-import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import useLocationRouterTabs from '../LocationDetails/useLocationRouterTabs';
+import { Variant } from '../../components/RouterTab/Tab';
+import Layout from '../../components/Layout';
+import layoutStyles from '../../components/Layout/layout.module.scss';
+import useGroupedSensors from '../SensorList/useGroupedSensors';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
@@ -24,18 +28,11 @@ function SensorReadings({ history, match }) {
   // Grandfathered sensors
   const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
 
-  // New sensors (location_id only for backwards compatibility)
-  const { sensorInfo: sensorInfoFromQuery, sensorArrayInfo: sensorArrayInfoFromQuery } =
-    useGetSensorsQuery(undefined, {
-      selectFromResult: ({ data }) => ({
-        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
-        sensorArrayInfo: data?.sensor_arrays?.find(
-          (sensorArray) => sensorArray.location_id === location_id,
-        ),
-      }),
-    });
+  const { groupedSensors } = useGroupedSensors();
 
-  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || sensorArrayInfoFromQuery;
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
 
   // Grandfathered sensors
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
@@ -70,32 +67,22 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
+  const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
+  const pageTitle =
+    sensorInfo.isAddonSensor && sensorInfo.type === 'sensor'
+      ? sensorInfo.sensors[0].name
+      : sensorInfo.name || '';
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <div className={styles.container}>
-          <PageTitle
-            title={sensorInfo?.name || ''}
-            onGoBack={() => history.push('/map')}
-            style={{ marginBottom: '24px' }}
-          />
+        <Layout className={layoutStyles.paperContainer}>
+          <PageTitle title={pageTitle} onGoBack={() => history.push('/map')} />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}
-            tabs={[
-              {
-                label: t('SENSOR.VIEW_HEADER.READINGS'),
-                path: `/sensor/${location_id}/readings`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.TASKS'),
-                path: `/sensor/${location_id}/tasks`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.DETAILS'),
-                path: `/sensor/${location_id}/details`,
-              },
-            ]}
+            tabs={routerTabs}
+            variant={Variant.UNDERLINE}
           />
           {loading && (
             <div className={styles.loaderWrapper}>
@@ -120,7 +107,7 @@ function SensorReadings({ history, match }) {
                   );
                 })
             : null}
-        </div>
+        </Layout>
       )}
     </>
   );

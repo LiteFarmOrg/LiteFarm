@@ -4,6 +4,7 @@ import EditFarmSiteBoundaryDetailForm from '../containers/LocationDetails/AreaDe
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
+import LocationFieldTechnology from '../containers/LocationDetails/LocationFieldTechnology';
 
 export default function FarmSiteBoundaryDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -22,6 +23,11 @@ export default function FarmSiteBoundaryDetailsRoutes() {
         />
       )}
       <Route path="/farm_site_boundary/:location_id/tasks" exact component={LocationTasks} />
+      <Route
+        path="/farm_site_boundary/:location_id/field_technology"
+        exact
+        component={LocationFieldTechnology}
+      />
     </>
   );
 }

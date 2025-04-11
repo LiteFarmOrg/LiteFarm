@@ -1,15 +1,9 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PointDetails from '../PointDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Unit from '../../../Form/Unit';
 import { waterValveEnum } from '../../../../containers/constants';
 import { water_valve_flow_rate } from '../../../../util/convert-units/unit';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../LocationButtons';
-
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import RadioGroup from '../../../Form/RadioGroup';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
@@ -62,7 +56,6 @@ export function PureWaterValve({
       detailsChildren={
         <WaterValveDetailsChildren isViewLocationPage={isViewLocationPage} system={system} />
       }
-      tabs={['tasks', 'details']}
     />
   );
 }

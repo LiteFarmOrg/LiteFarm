@@ -25,5 +25,3 @@ export const HOUR = 'hour';
 export const TEMPERATURE = 'temperature';
 export const SOIL_WATER_POTENTIAL = 'soil_water_potential';
 export const SOIL_WATER_CONTENT = 'soil_water_content';
-export const SENSOR = 'sensor';
-export const SENSOR_ARRAY = 'sensor_array';

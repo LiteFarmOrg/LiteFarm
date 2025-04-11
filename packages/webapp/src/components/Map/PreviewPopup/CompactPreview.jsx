@@ -11,6 +11,7 @@ import {
   getTemperatureValue,
 } from './utils';
 import { isTouchDevice } from '../../../util/device';
+import { locationEnum } from '../../../containers/Map/constants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,7 +51,14 @@ export default function CompactPreview({ location, readings, readingType, histor
   }
 
   const loadReadingView = () => {
-    history.push(`/${location.type}/${location.id}/readings`);
+    if (
+      location.isAddonSensor &&
+      [locationEnum.sensor_array, locationEnum.sensor].includes(location.type)
+    ) {
+      history.push(`/${location.type}/${location.id}/readings`);
+    } else {
+      history.push(`/${location.type}/${location.id}/details`);
+    }
   };
 
   let sensorData = [];

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .mapContainer {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -25,4 +27,43 @@
     height: 520px;
     transform: translateY(-60px);
   }
+}
+// Table styles
+.tableHeader.tableHeader {
+  background: var(--White, #fff);
+  border: none;
+
+  color: var(--Colors-Neutral-Neutral-300);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.352px;
+
+  @include truncateText();
+}
+
+.irrigationZoneCell {
+  svg circle {
+    fill: var(--zone-colour);
+  }
+
+  // text label
+  > div:nth-child(2) {
+    color: var(--zone-colour);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.352px;
+  }
+}
+
+.tableBody.tableBody {
+  // Remove the gap between header and table
+  &::before {
+    content: none;
+  }
+}
+
+.tableText.tableText {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 700;
 }

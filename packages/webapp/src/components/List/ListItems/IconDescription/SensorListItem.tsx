@@ -69,14 +69,17 @@ const ActionIcon = ({ actionIcon }: { actionIcon: ActionIconProps }) => {
   const { iconName, selected, classes, onClick } = actionIcon;
   if (iconName === ActionIcons.CHECKBOX) {
     return selected ? (
-      <CheckedEnabled className={clsx(styles.checkbox, classes?.icon)} onClick={onClick} />
+      <CheckedEnabled
+        className={clsx(styles.checkbox, styles.pointer, classes?.icon)}
+        onClick={onClick}
+      />
     ) : (
       <UncheckedEnabled className={clsx(styles.checkbox, classes?.icon)} onClick={onClick} />
     );
   } else if (iconName === ActionIcons.CHEVRON) {
     return (
       <BsChevronRight
-        className={clsx(styles.chevron, classes?.icon && classes.icon)}
+        className={clsx(styles.chevron, styles.pointer, classes?.icon && classes.icon)}
         onClick={onClick}
       />
     );
@@ -92,11 +95,6 @@ interface SensorListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   lastSeen: Date;
   showLastSeen: boolean;
   onlyActionClick: boolean;
-  classes: {
-    leftAlignedContent: string;
-    middleContent: string;
-    rightAlignedContent: string;
-  };
 }
 
 export default function SensorListItem({
@@ -116,6 +114,7 @@ export default function SensorListItem({
       className={clsx(
         styles.sensorListItem,
         actionIcon.selected && styles.listItem__selected,
+        !onlyActionClick && styles.pointer,
         className,
       )}
       {...rest}

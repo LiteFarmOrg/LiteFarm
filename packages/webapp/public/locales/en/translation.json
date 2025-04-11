@@ -1216,8 +1216,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
     "BASED_ON_DATA": "Based on this data",
+    "DATA_FROM": "Data From",
     "IRRIGATION_ZONE": "Irrigation zone",
+    "PRESCRIPTION_DATE": "Prescription Date",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
+    "TASK_STATUS": "Task Status",
     "ZONE": "Zone"
   },
   "JOIN_FARM_SUCCESS": {

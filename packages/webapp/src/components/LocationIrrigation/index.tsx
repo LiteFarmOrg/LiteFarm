@@ -29,11 +29,11 @@ import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
 import Table from '../Table';
-import { TableKind, type TableV2Column } from '../Table/types';
+import { CellKind, TableKind, type TableV2Column } from '../Table/types';
 import { History, Location } from 'history';
 import { match } from 'react-router-dom';
-
-type IrrigationPlan = {};
+import { IrrigationPrescription } from '../../store/api/types';
+import Cell from '../Table/Cell';
 
 type Tab = {};
 
@@ -41,7 +41,7 @@ type LocationIrrigationProps = {
   location: Location;
   history: History;
   match: match;
-  irrigationPlans: IrrigationPlan[];
+  irrigationPrescriptions: IrrigationPrescription[];
   handleClick: () => void;
   routerTabs: Tab[];
 };
@@ -50,23 +50,48 @@ export default function PureLocationIrrigation({
   location,
   history,
   match,
-  irrigationPlans,
-  handleClick,
+  irrigationPrescriptions,
   routerTabs,
+  handleClick,
 }) {
   const { t } = useTranslation();
 
   const getColumns = (): TableV2Column[] => {
     return [
-      ...commonColumns,
       {
-        id: 'formattedDepth',
-        label: t('SENSOR.DEPTH'),
-        align: Alignment.RIGHT,
+        id: 'prescriptionDate',
+        label: t('IRRIGATION_PRESCRIPTION.PRESCRIPTION_DATE').toLocaleUpperCase(),
+        align: undefined,
         sortable: false,
-        className: styles.depthColumn,
+        className: undefined,
+        format: (data) => (
+          <Cell kind={CellKind.PLAIN} className={undefined} text={data.prescription_date} />
+        ),
+      },
+      {
+        id: 'partnerName',
+        label: t('IRRIGATION_PRESCRIPTION.DATA_FROM').toLocaleUpperCase(),
+        align: undefined,
+        sortable: false,
+        className: undefined,
+        format: (d) => <Cell kind={CellKind.PLAIN} className={undefined} text={data.partner_id} />,
+      },
+      {
+        id: 'taskStatus',
+        label: t('IRRIGATION_PRESCRIPTION.TASK_STATUS').toLocaleUpperCase(),
+        align: undefined,
+        sortable: false,
+        className: undefined,
+        format: (d) => <Cell kind={CellKind.PLAIN} className={undefined} text={'status'} />,
+      },
+      {
+        id: 'irrigationPrescriptionLink',
+        label: undefined,
+        align: undefined,
+        sortable: false,
+        className: undefined,
         format: (d) => (
-          <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={d.formattedDepth} />
+          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} className={undefined} path={handleClick} />
         ),
       },
     ];
@@ -85,11 +110,11 @@ export default function PureLocationIrrigation({
       <Table
         kind={TableKind.V2}
         columns={getColumns()}
-        data={irrigationPlans}
+        data={irrigationPrescriptions}
         headerClass={styles.headerClass}
         tbodyClass={styles.tbodyClass}
         tableContainerClass={styles.tableContainerClass}
-        showHeader={showHeader}
+        showHeader={true}
       />
     </Layout>
   );

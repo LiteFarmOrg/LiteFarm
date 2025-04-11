@@ -30,12 +30,7 @@ const getLatestReadingTime = (sensorReadings: SensorReadings[]): Date | undefine
   return latestReadingTime > 0 ? new Date(latestReadingTime * 1000) : undefined;
 };
 
-const getTwoHoursAgoInMilliSeconds = () => {
-  const date = new Date();
-  date.setHours(date.getHours() - 2);
-
-  return date.getTime();
-};
+const getTimestampMinutesAgo = (minutes: number) => Date.now() - minutes * 60 * 1000;
 
 /**
  * Returns the latest readings from the past 2 hours.
@@ -46,7 +41,7 @@ function useLatestReading(sensors: Sensor[]): {
   isFetching: boolean;
   latestReadings: SensorReadings[];
   latestReadingTime?: Date;
-  update: () => void;
+  update: () => Promise<void>;
 } {
   const [latestReadings, setLatestReadings] = useState<SensorReadings[]>([]);
 
@@ -58,21 +53,18 @@ function useLatestReading(sensors: Sensor[]): {
     let adjustedStartTime = startTime;
 
     if (!adjustedStartTime) {
-      // Default to 15 minutes ago to ensure recent data is included in case "last_seen" is outdated
-      adjustedStartTime = new Date();
-      adjustedStartTime.setMinutes(adjustedStartTime.getMinutes() - 15);
+      // Default to 15 minutes ago to ensure recent data is included
+      adjustedStartTime = new Date(getTimestampMinutesAgo(15));
     }
 
     // As of Mar 21, 2025, the latest available data appears to be from 3 minutes ago.
     // The "minute" and "second" truncation periods do not guarantee data for every minute or second.
     // Use "minute" here to ensure we get data.
-    const result = await triggerGetSensorReadings({
+    return triggerGetSensorReadings({
       esids: sensors.map(({ external_id }) => external_id).join(','),
       startTime: adjustedStartTime.toISOString(),
       truncPeriod: 'minute',
     });
-
-    return result;
   };
 
   const setInitialLatestReadings = async () => {
@@ -83,18 +75,8 @@ function useLatestReading(sensors: Sensor[]): {
       return;
     }
 
-    const latestLastSeenInMilliSeconds = sensors.reduce((latest, { last_seen }) => {
-      return Math.max(latest, new Date(last_seen).getTime());
-    }, 0);
-
-    const twoHoursAgoInMilliSeconds = getTwoHoursAgoInMilliSeconds();
-
-    // If any sensor reported data in the last 2 hours, attempt to fetch its readings
-    if (latestLastSeenInMilliSeconds >= twoHoursAgoInMilliSeconds) {
-      // Start 5 mins before the latest last_seen to avoid missing data near the edge
-      const startTime = latestLastSeenInMilliSeconds - 5 * 60 * 1000;
-      refetchSensorReadings(new Date(startTime));
-    }
+    // Attempt to fetch data in the last 2 hours
+    refetchSensorReadings(new Date(getTimestampMinutesAgo(2 * 60)));
   };
 
   const refetchSensorReadings = async (startTime?: Date): Promise<void> => {
@@ -105,13 +87,9 @@ function useLatestReading(sensors: Sensor[]): {
       return;
     }
     // If the current readings is older than 2 hours, clear it
-    if (latestReadingTime && latestReadingTime.getTime() < getTwoHoursAgoInMilliSeconds()) {
+    if (latestReadingTime && latestReadingTime.getTime() < getTimestampMinutesAgo(2 * 60)) {
       setLatestReadings([]);
       return;
-    }
-
-    if (result.error) {
-      console.error('Failed to fetch latest sensor readings');
     }
   };
 

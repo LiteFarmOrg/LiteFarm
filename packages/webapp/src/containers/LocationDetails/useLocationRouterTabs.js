@@ -40,7 +40,7 @@ export default function useLocationRouterTabs(location, match) {
 
   const { type, isAddonSensor } = location;
 
-  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings'];
+  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings', 'irrigation'];
 
   const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 
@@ -73,6 +73,12 @@ export default function useLocationRouterTabs(location, match) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
       path: match.url.replace(currentTab, 'field_technology'),
+    });
+  }
+  if (hasLocationFieldTechnology && fieldTechnologyLocations.includes(type)) {
+    routerTabs.push({
+      label: t('FARM_MAP.TAB.IRRIGATION'),
+      path: match.url.replace(currentTab, 'irrigation'),
     });
   }
   if (readingsLocations.includes(type)) {

@@ -31,12 +31,12 @@ export default meta;
 
 type Story = StoryObj<typeof Template>;
 
-const ThreeMinsInMS = 3 * 60 * 1000;
-const ThreeHrsInMS = 3 * 60 * 60 * 1000;
-const ThreeDaysInMS = 3 * 24 * 60 * 60 * 1000;
-const ThreeWeeksInMS = 3 * 7 * 24 * 60 * 60 * 1000;
-const ThreeMonthsInMS = 3 * 12 * 7 * 24 * 60 * 60 * 1000;
-const ThreeYearsInMS = 3 * 52 * 12 * 7 * 24 * 60 * 60 * 1000;
+const THREE_MINS_IN_MS = 3 * 60 * 1000;
+const THREE_HRS_IN_MS = 3 * 60 * 60 * 1000;
+const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
+const THREE_WEEKS_IN_MS = 3 * 7 * 24 * 60 * 60 * 1000;
+const THREE_MONTHS_IN_MS = 3 * 12 * 7 * 24 * 60 * 60 * 1000;
+const THREE_YEARS_IN_MS = 3 * 52 * 12 * 7 * 24 * 60 * 60 * 1000;
 
 export const NoData: Story = {
   args: {
@@ -46,42 +46,42 @@ export const NoData: Story = {
 
 export const ThreeMinutesAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeMinsInMS),
+    pastDate: new Date(Date.now() - THREE_MINS_IN_MS),
   },
 };
 
 export const ThreeHoursAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeHrsInMS),
+    pastDate: new Date(Date.now() - THREE_HRS_IN_MS),
   },
 };
 
 export const ThreeHoursAndThreeMinutesAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeHrsInMS - ThreeMinsInMS),
+    pastDate: new Date(Date.now() - THREE_HRS_IN_MS - THREE_MINS_IN_MS),
   },
 };
 
 export const ThreeDaysAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeDaysInMS),
+    pastDate: new Date(Date.now() - THREE_DAYS_IN_MS),
   },
 };
 
 export const ThreeWeeksAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeWeeksInMS),
+    pastDate: new Date(Date.now() - THREE_WEEKS_IN_MS),
   },
 };
 
 export const ThreeMonthsAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeMonthsInMS),
+    pastDate: new Date(Date.now() - THREE_MONTHS_IN_MS),
   },
 };
 
 export const ThreeYearsAgo: Story = {
   args: {
-    pastDate: new Date(Date.now() - ThreeYearsInMS),
+    pastDate: new Date(Date.now() - THREE_YEARS_IN_MS),
   },
 };

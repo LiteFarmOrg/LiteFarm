@@ -1212,6 +1212,13 @@
     "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
     "WAGE_RANGE_ERROR": "Salary must be a positive number less than 999,999,999"
   },
+  "IRRIGATION_PRESCRIPTION": {
+    "APPLICATION_DEPTH": "Application depth",
+    "BASED_ON_DATA": "Based on this data",
+    "IRRIGATION_ZONE": "Irrigation zone",
+    "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
+    "ZONE": "Zone"
+  },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",
     "SUCCESSFULLY_JOINED": "You have successfully joined"

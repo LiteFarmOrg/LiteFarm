@@ -24,6 +24,7 @@ import PureSelectionHandler from './PureMapLocationSelectionModal';
 import styles from './styles.module.scss';
 import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
 import clsx from 'clsx';
+import { GestureHandling } from './types';
 
 const LocationPicker = ({
   onSelectLocation,
@@ -44,6 +45,7 @@ const LocationPicker = ({
   showControls = true,
   disableHover = false,
   disableOverlappingAreasModal = false,
+  gestureHandling = GestureHandling.GREEDY,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -252,7 +254,7 @@ const LocationPicker = ({
           ],
         },
       ],
-      gestureHandling: 'greedy',
+      gestureHandling: gestureHandling,
       disableDoubleClickZoom: false,
       minZoom: 1,
       tilt: 0,

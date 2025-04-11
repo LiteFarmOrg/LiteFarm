@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.mapContainer {
-  > div {
-    height: 480px;
-  }
+export enum GestureHandling {
+  GREEDY = 'greedy',
+  COOPERATIVE = 'cooperative',
+  NONE = 'none',
 }

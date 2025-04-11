@@ -18,9 +18,11 @@
   border-top-right-radius: 16px;
   overflow: hidden;
   height: 360px;
-  pointer-events: none;
 
   > div {
+    aspect-ratio: 1/1;
+    width: 100%;
+    height: 520px;
     transform: translateY(-60px);
   }
 }

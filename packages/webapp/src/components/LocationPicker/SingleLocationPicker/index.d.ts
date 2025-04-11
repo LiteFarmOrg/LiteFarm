@@ -14,7 +14,7 @@
  */
 
 import { CSSProperties, FC, MutableRefObject } from 'react';
-
+import { GestureHandling } from './types';
 // types for SingleLocationPicker/index.jsx
 export interface LocationPickerProps {
   onSelectLocation?: () => void;
@@ -35,6 +35,7 @@ export interface LocationPickerProps {
   showControls?: boolean;
   disableHover?: boolean;
   disableOverlappingAreasModal?: boolean;
+  gestureHandling?: GestureHandling;
 }
 
 declare const LocationPicker: FC<LocationPickerProps>;

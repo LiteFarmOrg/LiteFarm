@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { useMaxZoom } from '../../containers/Map/useMaxZoom';
 import LocationPicker from '../LocationPicker/SingleLocationPicker';
+import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS } from './constants';
 
@@ -57,6 +58,9 @@ const IrrigationPrescriptionMapView = ({
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         showControls={false}
+        disableOverlappingAreasModal={true}
+        disableHover={true}
+        gestureHandling={GestureHandling.COOPERATIVE}
       />
     </div>
   );

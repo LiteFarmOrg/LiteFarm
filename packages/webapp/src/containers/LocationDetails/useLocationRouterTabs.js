@@ -40,18 +40,9 @@ export default function useLocationRouterTabs(location, match) {
 
   const { type, isAddonSensor } = location;
 
-  let currentTab;
-  if (match.path.includes('/details')) {
-    currentTab = 'details';
-  } else if (match.path.includes('/tasks')) {
-    currentTab = 'tasks';
-  } else if (match.path.includes('/crops')) {
-    currentTab = 'crops';
-  } else if (match.path.includes('/field_technology')) {
-    currentTab = 'field_technology';
-  } else if (match.path.includes('/readings')) {
-    currentTab = 'readings';
-  }
+  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings'];
+
+  const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 
   const fieldTechnology = useFieldTechnology(location);
   const hasLocationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);

@@ -19,6 +19,7 @@ import { getDateDifference } from '../../../util/moment';
 import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
 import { convert } from '../../../util/convert-units/convert';
 import { isValidNumber } from '../../../util/validation';
+import { isLessThanTwelveHrsAgo } from '../../../util/date-migrate-TS';
 import { esciUnitTypeMap } from './constants';
 import {
   SensorDatapoint,
@@ -229,9 +230,7 @@ export const degToDirection = (deg: number): string => {
 };
 
 export const getStatusProps = (lastSeen: string, t: TFunction) => {
-  const isOnline = lastSeen
-    ? new Date(lastSeen).getTime() >= new Date().getTime() - 12 * 60 * 60 * 1000
-    : false;
+  const isOnline = lastSeen ? isLessThanTwelveHrsAgo(new Date(lastSeen)) : false;
 
   return {
     status: isOnline ? Status.ONLINE : Status.OFFLINE,

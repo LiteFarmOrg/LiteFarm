@@ -83,7 +83,7 @@ const LatestReadings = (props: LatestReadingsProps) => {
 
   const { isFetching, latestReadings, latestReadingTime, update } = useLatestReadings(sensors);
 
-  const lastSeenString = latestReadingTime
+  const latestReadingTimeString = latestReadingTime
     ? timeDifference(new Date(), new Date(latestReadingTime))
     : '-';
 
@@ -97,7 +97,7 @@ const LatestReadings = (props: LatestReadingsProps) => {
       <div className={styles.contentTop}>
         <dl>
           <dt>{t('SENSOR.READING.LATEST_READING')}</dt>
-          <dd>{lastSeenString}</dd>
+          <dd>{latestReadingTimeString}</dd>
         </dl>
         <TextButton onClick={update} className={styles.updateButton}>
           <GrUpdate />

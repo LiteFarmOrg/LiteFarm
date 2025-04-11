@@ -44,7 +44,7 @@ const LocationPicker = ({
   className = '',
   showControls = true,
   disableHover = false,
-  disableOverlappingAreasModal = false,
+  showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
@@ -353,7 +353,7 @@ const LocationPicker = ({
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
       />
-      {overlappedPositions.length > 1 && !isPinMode && !disableOverlappingAreasModal && (
+      {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
         <PureSelectionHandler
           locations={overlappedPositions}
           onSelect={onSelectionModalClick}

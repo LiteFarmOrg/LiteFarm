@@ -34,7 +34,7 @@ export interface LocationPickerProps {
   className?: string;
   showControls?: boolean;
   disableHover?: boolean;
-  disableOverlappingAreasModal?: boolean;
+  showOverlappingAreasModal?: boolean;
   gestureHandling?: GestureHandling;
 }
 

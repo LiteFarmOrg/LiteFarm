@@ -65,7 +65,7 @@ const IrrigationPrescriptionMapView = ({
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         showControls={false}
-        disableOverlappingAreasModal={true}
+        showOverlappingAreasModal={false}
         disableHover={true}
         gestureHandling={GestureHandling.COOPERATIVE}
       />

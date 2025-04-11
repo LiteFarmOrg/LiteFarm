@@ -167,9 +167,8 @@ export const lineStyles = {
     selectedColour: pivotArmColour,
     dashScale: 2,
     dashLength: '6px',
-    defaultDashColour: 'transparent', // color that renders under the dash (default is white)
+    defaultDashColour: 'transparent',
     polyStyles: {
-      // indicating width
       strokeColor: 'transparent',
       strokeWeight: 0,
       fillColor: 'transparent',

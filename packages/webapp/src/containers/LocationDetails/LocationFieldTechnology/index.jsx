@@ -18,22 +18,31 @@ import { locationByIdSelector } from '../../locationSlice';
 import PureLocationFieldTechnology from '../../../components/LocationFieldTechnology';
 import useFieldTechnology from './useFieldTechnology';
 import useLocationRouterTabs from '../useLocationRouterTabs';
+import { useEffect } from 'react';
 
 function LocationFieldTechnology({ history, match }) {
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
+  useEffect(() => {
+    if (location === undefined) {
+      history.replace('/unknown_record');
+    }
+  }, [location]);
+
   const fieldTechnology = useFieldTechnology(location);
   const routerTabs = useLocationRouterTabs(location, match);
 
   return (
-    <PureLocationFieldTechnology
-      fieldTechnology={fieldTechnology}
-      history={history}
-      match={match}
-      location={location}
-      routerTabs={routerTabs}
-    />
+    location && (
+      <PureLocationFieldTechnology
+        fieldTechnology={fieldTechnology}
+        history={history}
+        match={match}
+        location={location}
+        routerTabs={routerTabs}
+      />
+    )
   );
 }
 

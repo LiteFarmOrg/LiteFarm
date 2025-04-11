@@ -34,6 +34,10 @@ const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
 
+  if (!location) {
+    return [];
+  }
+
   const { type, isAddonSensor } = location;
 
   let currentTab;

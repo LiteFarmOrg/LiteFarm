@@ -30,13 +30,13 @@ export default function useFieldTechnology(location) {
     fieldTechnology.addonSensors = groupedSensors.filter(
       (sensor) =>
         sensor.type == SensorType.SENSOR &&
-        sensor.fields.some((f) => f.location_id === location.location_id),
+        sensor.fields.some((field) => field.location_id === location.location_id),
     );
 
     fieldTechnology.addonSensorArrays = groupedSensors.filter(
       (sensorArray) =>
         sensorArray.type == SensorType.SENSOR_ARRAY &&
-        sensorArray.fields.some((f) => f.location_id === location.location_id),
+        sensorArray.fields.some((field) => field.location_id === location.location_id),
     );
   }
 

@@ -124,21 +124,23 @@ export default function PureLocationFieldTechnology({
           />
         )}
         {!!fieldTechnology.addonSensorArrays?.length &&
-          fieldTechnology.addonSensorArrays.map((asa) => (
+          fieldTechnology.addonSensorArrays.map((addonSensorArray) => (
             <SensorList
-              key={asa.name}
-              title={asa.name}
-              sensors={asa.sensors}
-              onClickLocationMapper={() => asa}
+              key={addonSensorArray.name}
+              title={addonSensorArray.name}
+              sensors={addonSensorArray.sensors}
+              onClickLocationMapper={() => addonSensorArray}
               isAddonSensor
             />
           ))}
         {!!fieldTechnology.addonSensors?.length && (
           <SensorList
             title={t('SENSOR.STANDALONE_SENSOR')}
-            sensors={fieldTechnology.addonSensors.flatMap((as) => as.sensors)}
+            sensors={fieldTechnology.addonSensors.flatMap((addonSensor) => addonSensor.sensors)}
             onClickLocationMapper={(sensor) =>
-              fieldTechnology.addonSensors.find((as) => as.sensors.includes(sensor))
+              fieldTechnology.addonSensors.find((addonSensor) =>
+                addonSensor.sensors.includes(sensor),
+              )
             }
             isAddonSensor
           />

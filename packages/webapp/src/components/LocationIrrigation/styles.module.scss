@@ -1,0 +1,71 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.fieldTechnologyContainer {
+  background-color: white;
+  margin: 16px 0 16px 0;
+  padding: 16px 8px 8px 8px;
+}
+
+.list.list {
+  background-color: var(--bgInputListTile);
+  padding: 8px;
+}
+
+.sensorIcon.sensorIcon {
+  margin: 0px;
+  padding: 0px;
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-600));
+}
+
+.sensorLabel.sensorLabel {
+  margin: 0px;
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  @include fontFamily();
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 30px; /* 187.5% */
+}
+
+.sensorChevron.sensorChevron {
+  width: 24px;
+  height: 24px;
+  margin: 0px;
+  color: var(--Colors-Neutral-Neutral-600);
+}
+
+.lists {
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.listWithHeading {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.listHeading {
+  color: var(--Colors-Neutral-Neutral-600);
+  font-feature-settings: 'liga' off, 'clig' off;
+  @include fontFamily();
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px; /* 112.5% */
+}

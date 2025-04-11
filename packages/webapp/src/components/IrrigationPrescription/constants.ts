@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const IRRIGATION_ZONE_COLOURS = ['#6EAFFF', '#3585E5', '#1C5BA7'];
+export const IRRIGATION_ZONE_COLOURS = ['#6EAFFF', '#3585E5', '#2a6ab7', '#205089', '#132f50'];
+
+export const BRIGHT_PIVOT_COLOUR = '#f4e8ff'; // --Colors-Accent---singles-Purple-light
 
 // Used to calculate the endpoint of the pivot arm in lat/lng based on the pivot radius and center
 export const EARTH_RADIUS = 6378137; // in meters

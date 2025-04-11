@@ -56,6 +56,9 @@ export const mockPivot = {
   radius: 150,
 };
 
+/* -----------------
+3-zone test case
+--------------------*/
 // Mock data for VRI zones (AI-generated polygons)
 const boundaryA = { lat: 49.0663, lng: -123.1563 };
 const boundaryB = { lat: 49.0654, lng: -123.1575 };
@@ -76,6 +79,9 @@ const zone1Outer = [
 const zone1Inner = [boundaryA, innerMeeting, boundaryC];
 
 export const mockZone1 = {
+  soil_moisture_deficit: 40,
+  application_depth: 10,
+  application_depth_unit: 'mm',
   grid_points: [...zone1Outer, ...zone1Inner],
 };
 
@@ -89,6 +95,9 @@ const zone2Outer = [
 const zone2Inner = [boundaryB, innerMeeting, boundaryA];
 
 export const mockZone2 = {
+  soil_moisture_deficit: 50,
+  application_depth: 15,
+  application_depth_unit: 'mm',
   grid_points: [...zone2Outer, ...zone2Inner],
 };
 
@@ -102,7 +111,123 @@ const zone3Outer = [
 const zone3Inner = [boundaryC, innerMeeting, boundaryB];
 
 export const mockZone3 = {
+  soil_moisture_deficit: 60,
+  application_depth: 20,
+  application_depth_unit: 'mm',
   grid_points: [...zone3Outer, ...zone3Inner],
 };
 
 export const mockVriZones = [mockZone1, mockZone2, mockZone3];
+
+/* -----------------
+5-zone test case
+--------------------*/
+// Also AI generated; for some reason Copilot was not able to extend the algorithm above so these zones are wonky
+const freshCenterOrganic = mockPivot.center;
+const outerRadiusOrganic = 0.0015;
+
+function pointAtAngle(deg: number) {
+  const rad = (deg * Math.PI) / 180;
+  return {
+    lat: freshCenterOrganic.lat + outerRadiusOrganic * Math.sin(rad),
+    lng: freshCenterOrganic.lng + outerRadiusOrganic * Math.cos(rad),
+  };
+}
+
+function perturb(point: { lat: number; lng: number }) {
+  return { lat: point.lat + 0.0001, lng: point.lng - 0.0001 };
+}
+
+const o1 = pointAtAngle(0);
+const o2 = pointAtAngle(72);
+const o3 = pointAtAngle(144);
+const o4 = pointAtAngle(216);
+const o5 = pointAtAngle(288);
+
+const o1_2 = pointAtAngle(36);
+const o2_3 = pointAtAngle(108);
+const o3_4 = pointAtAngle(180);
+const o4_5 = pointAtAngle(252);
+const o5_1 = pointAtAngle(324);
+
+const zone1OuterOrganic = [perturb(o1), o1, o1_2, o2, perturb(o2)];
+const zone2OuterOrganic = [perturb(o2), o2, o2_3, o3, perturb(o3)];
+const zone3OuterOrganic = [perturb(o3), o3, o3_4, o4, perturb(o4)];
+const zone4OuterOrganic = [perturb(o4), o4, o4_5, o5, perturb(o5)];
+const zone5OuterOrganic = [perturb(o5), o5, o5_1, o1, perturb(o1)];
+
+const b1 = { lat: 49.0663, lng: -123.1563 };
+const b2 = { lat: 49.0654, lng: -123.1575 };
+const b3 = { lat: 49.0652, lng: -123.1555 };
+const b4 = { lat: 49.065, lng: -123.154 };
+const b5 = { lat: 49.066, lng: -123.1545 };
+
+const innerMeeting1 = {
+  lat: (b1.lat + b2.lat + b5.lat) / 3,
+  lng: (b1.lng + b2.lng + b5.lng) / 3,
+};
+const innerMeeting2 = {
+  lat: (b2.lat + b3.lat + b1.lat) / 3,
+  lng: (b2.lng + b3.lng + b1.lng) / 3,
+};
+const innerMeeting3 = {
+  lat: (b3.lat + b4.lat + b2.lat) / 3,
+  lng: (b3.lng + b4.lng + b2.lng) / 3,
+};
+const innerMeeting4 = {
+  lat: (b4.lat + b5.lat + b3.lat) / 3,
+  lng: (b4.lng + b5.lng + b3.lng) / 3,
+};
+const innerMeeting5 = {
+  lat: (b5.lat + b1.lat + b4.lat) / 3,
+  lng: (b5.lng + b1.lng + b4.lng) / 3,
+};
+
+const zone1InnerOrganic = [b1, innerMeeting1, b2];
+const zone2InnerOrganic = [b2, innerMeeting2, b3];
+const zone3InnerOrganic = [b3, innerMeeting3, b4];
+const zone4InnerOrganic = [b4, innerMeeting4, b5];
+const zone5InnerOrganic = [b5, innerMeeting5, b1];
+
+export const mockZone1Organic = {
+  soil_moisture_deficit: 40,
+  application_depth: 10,
+  application_depth_unit: 'mm',
+  grid_points: [...zone1OuterOrganic, ...zone1InnerOrganic],
+};
+
+export const mockZone2Organic = {
+  soil_moisture_deficit: 50,
+  application_depth: 15,
+  application_depth_unit: 'mm',
+  grid_points: [...zone2OuterOrganic, ...zone2InnerOrganic],
+};
+
+export const mockZone3Organic = {
+  soil_moisture_deficit: 60,
+  application_depth: 20,
+  application_depth_unit: 'mm',
+  grid_points: [...zone3OuterOrganic, ...zone3InnerOrganic],
+};
+
+export const mockZone4Organic = {
+  soil_moisture_deficit: 70,
+  application_depth: 25,
+  application_depth_unit: 'mm',
+  grid_points: [...zone4OuterOrganic, ...zone4InnerOrganic],
+};
+
+export const mockZone5Organic = {
+  soil_moisture_deficit: 80,
+  application_depth: 30,
+  application_depth_unit: 'mm',
+  grid_points: [...zone5OuterOrganic, ...zone5InnerOrganic],
+};
+
+export const mockVriZonesFive = [
+  mockZone1Organic,
+  mockZone2Organic,
+  mockZone3Organic,
+  mockZone4Organic,
+  mockZone5Organic,
+];

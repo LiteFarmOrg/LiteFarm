@@ -19,7 +19,7 @@ import { useMaxZoom } from '../../containers/Map/useMaxZoom';
 import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location } from '../../types';
-import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS } from './constants';
+import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
 
 interface IrrigationZonePolygon {
   grid_points: { lat: number; lng: number }[];
@@ -42,9 +42,12 @@ const IrrigationPrescriptionMapView = ({
 }: IrrigationPrescriptionMapViewProps) => {
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const vriZonesPresent = !!vriZones?.length;
-
-  const pivotMapObjects = createPivotMapObjects(pivotCenter, pivotRadius, vriZonesPresent);
+  const pivotMapObjects = createPivotMapObjects(
+    pivotCenter,
+    pivotRadius,
+    !!vriZones?.length,
+    (vriZones?.length || 0) > 3,
+  );
 
   const irrigationZoneMapObjects = vriZones ? createIrrigationZoneMapObjects(vriZones) : [];
 
@@ -72,6 +75,7 @@ const createPivotMapObjects = (
   center: { lat: number; lng: number },
   radius: number,
   vriZonesPresent: boolean,
+  moreThanThreeZones: boolean,
 ) => {
   const label = `${radius}m`; // TODO: units
 
@@ -82,6 +86,12 @@ const createPivotMapObjects = (
     radius,
     name: label,
     ...(vriZonesPresent ? { fillOpacity: 0 } : {}),
+    ...(moreThanThreeZones
+      ? {
+          markerColour: BRIGHT_PIVOT_COLOUR,
+          lineColour: BRIGHT_PIVOT_COLOUR,
+        }
+      : {}),
   };
 
   // Calculate the endpoint on the circle's circumference (eastward) [Source: Copilot]
@@ -95,6 +105,7 @@ const createPivotMapObjects = (
     line_points: [center, endpoint],
     width: 2,
     zIndex: 1, // render on top of pivot fill
+    ...(moreThanThreeZones ? { lineColour: BRIGHT_PIVOT_COLOUR } : {}),
   };
 
   return [pivot, pivotArm];

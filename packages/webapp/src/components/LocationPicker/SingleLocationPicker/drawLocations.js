@@ -119,7 +119,7 @@ const drawCircle = (map, maps, mapBounds, location, disableHover) => {
   const circle = new maps.Circle({
     center,
     radius, // in meters
-    strokeColor: strokeColour,
+    strokeColor: location.lineColour ?? strokeColour,
     strokeOpacity: 1,
     strokeWeight: 2,
     fillColor: fillColour,
@@ -145,7 +145,7 @@ const drawCircle = (map, maps, mapBounds, location, disableHover) => {
     map,
     icon: {
       path: maps.SymbolPath.CIRCLE,
-      fillColor: markerColour || 'white',
+      fillColor: location.markerColour ?? markerColour,
       fillOpacity: 1,
       strokeWeight: 0,
       scale: 2,
@@ -153,7 +153,7 @@ const drawCircle = (map, maps, mapBounds, location, disableHover) => {
     clickable: false,
     label: name && {
       text: name,
-      color: markerColour || 'white',
+      color: location.markerColour ?? markerColour,
       fontSize: '10px',
       className: styles.circleLabel,
     },
@@ -182,7 +182,7 @@ const drawLine = (map, maps, mapBounds, location, disableHover) => {
   // draw dotted outline
   const lineSymbol = (c) => ({
     path: 'M 0,0 0,1',
-    strokeColor: c,
+    strokeColor: location.lineColour ?? c,
     strokeOpacity: 1,
     strokeWeight: 2,
     scale: dashScale,

@@ -16,7 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react/*';
 import PureIrrigationPrescriptionMapView from '../../components/IrrigationPrescription/IrrigationPrescriptionMapView';
 import styles from './styles.module.scss';
-import { mockField, mockPivot, mockVriZones } from './mockData';
+import { mockField, mockPivot, mockVriZones, mockVriZonesFive } from './mockData';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -46,5 +46,15 @@ export const VRIPivotView: Story = {
     pivotRadius: mockPivot.radius,
     className: styles.mapContainer,
     vriZones: mockVriZones,
+  },
+};
+
+export const VRIPivotFiveZonesView: Story = {
+  args: {
+    fieldLocation: mockField,
+    pivotCenter: mockPivot.center,
+    pivotRadius: mockPivot.radius,
+    className: styles.mapContainer,
+    vriZones: mockVriZonesFive,
   },
 };

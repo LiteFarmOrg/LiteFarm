@@ -175,7 +175,10 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    if (location.isAddonSensor && [SensorType.SENSOR_ARRAY, SensorType.SENSOR]) {
+    if (
+      location.isAddonSensor &&
+      [SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)
+    ) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

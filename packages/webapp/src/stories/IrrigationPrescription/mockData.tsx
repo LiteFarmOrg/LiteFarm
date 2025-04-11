@@ -123,7 +123,7 @@ export const mockZone3 = {
   grid_points: [...zone3Outer, ...zone3Inner],
 };
 
-export const mockVriZones = [mockZone1, mockZone2, mockZone3];
+export const mockVriZones = [mockZone2, mockZone3, mockZone1];
 
 /* -----------------
 5-zone test case
@@ -229,11 +229,10 @@ export const mockZone5Organic = {
   application_depth_unit: 'mm',
   grid_points: [...zone5OuterOrganic, ...zone5InnerOrganic],
 };
-
 export const mockVriZonesFive = [
-  mockZone1Organic,
-  mockZone2Organic,
   mockZone3Organic,
-  mockZone4Organic,
+  mockZone1Organic,
   mockZone5Organic,
+  mockZone2Organic,
+  mockZone4Organic,
 ];

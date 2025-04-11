@@ -49,6 +49,10 @@ const PureIrrigationPrescription = ({
 }: PureIrrigationPrescriptionProps) => {
   const { t } = useTranslation();
 
+  if (vriZones) {
+    vriZones.sort((a, b) => a.application_depth - b.application_depth);
+  }
+
   const tableInfo = vriZones
     ? vriZones.map(({ grid_points, ...zoneData }, index) => ({
         ...zoneData,

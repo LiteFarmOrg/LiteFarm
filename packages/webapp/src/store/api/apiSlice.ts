@@ -36,6 +36,7 @@ import {
   animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
+  irrigationPrescriptionsUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -58,6 +59,7 @@ import type {
   SensorData,
   FarmAddon,
   SensorReadings,
+  IrrigationPrescription,
 } from './types';
 
 export const api = createApi({
@@ -96,6 +98,7 @@ export const api = createApi({
     'Sensors',
     'SensorReadings',
     'FarmAddon',
+    'IrrigationPrescriptions',
     'Weather',
   ],
   endpoints: (build) => ({
@@ -290,6 +293,11 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => `${irrigationPrescriptionsUrl}`,
+      keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
+      providesTags: ['IrrigationPrescriptions'],
+    }),
   }),
 });
 
@@ -326,4 +334,5 @@ export const {
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
+  useGetIrrigationPrescriptionsQuery,
 } = api;

@@ -21,7 +21,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureIrrigationPrescriptionMapView> = {
-  title: 'Components/IrrigationPrescriptionMapView',
+  title: 'Components/IrrigationPrescription/MapView',
   component: PureIrrigationPrescriptionMapView,
   decorators: componentDecorators,
 };

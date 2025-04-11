@@ -13,9 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export interface IrrigationPrescriptionZoneInfo {
-  id: number;
+export interface IrrigationData {
   soil_moisture_deficit: number;
   application_depth: number;
   application_depth_unit: string;
 }
+
+export type IrrigationPolygonData = IrrigationData & {
+  grid_points: { lat: number; lng: number }[];
+};
+
+export type IrrigationPrescriptionTableInfo = IrrigationData & {
+  id: number;
+};

@@ -21,17 +21,14 @@ import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
-
-interface IrrigationZonePolygon {
-  grid_points: { lat: number; lng: number }[];
-}
+import { IrrigationPolygonData } from './types';
 
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation: Location;
   pivotCenter: { lat: number; lng: number };
   pivotRadiusInMeters: number;
   className?: string;
-  vriZones?: IrrigationZonePolygon[];
+  vriZones?: IrrigationPolygonData[];
   system?: System;
 }
 
@@ -121,7 +118,7 @@ const createPivotMapObjects = (
   return [pivot, pivotArm];
 };
 
-const createIrrigationZoneMapObjects = (zonePolygons: IrrigationZonePolygon[]) => {
+const createIrrigationZoneMapObjects = (zonePolygons: IrrigationPolygonData[]) => {
   return zonePolygons.map((zone, index) => {
     const zoneMapLocation = {
       type: 'irrigation_zone',

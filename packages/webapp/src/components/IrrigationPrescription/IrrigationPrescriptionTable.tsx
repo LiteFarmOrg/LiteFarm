@@ -22,10 +22,10 @@ import Table from '../Table';
 import Cell from '../Table/Cell';
 import { Alignment, CellKind, TableKind } from '../Table/types';
 import { IRRIGATION_ZONE_COLOURS } from './constants';
-import type { IrrigationPrescriptionZoneInfo } from './types';
+import type { IrrigationPrescriptionTableInfo } from './types';
 
 interface IrrigationPrescriptionTableProps {
-  data: IrrigationPrescriptionZoneInfo[];
+  data: IrrigationPrescriptionTableInfo[];
 }
 
 export default function IrrigationPrescriptionTable({ data }: IrrigationPrescriptionTableProps) {
@@ -41,7 +41,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
       {
         id: vriZonesPresent ? 'zone' : null,
         label: t('IRRIGATION_PRESCRIPTION.IRRIGATION_ZONE'),
-        format: (d: IrrigationPrescriptionZoneInfo) => {
+        format: (d: IrrigationPrescriptionTableInfo) => {
           const zoneColour = getZoneColour(d.id);
           return (
             <Cell
@@ -58,7 +58,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
       {
         id: !vriZonesPresent || !isMobile ? 'soil_moisture_deficit' : null,
         label: t('IRRIGATION_PRESCRIPTION.SOIL_MOISTURE_DEFICIT'),
-        format: (d: IrrigationPrescriptionZoneInfo) => (
+        format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
             text={`${d.soil_moisture_deficit}%`}
@@ -71,7 +71,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
       {
         id: 'application_depth',
         label: t('IRRIGATION_PRESCRIPTION.APPLICATION_DEPTH'),
-        format: (d: IrrigationPrescriptionZoneInfo) => (
+        format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
             text={`${d.application_depth}${d.application_depth_unit}`}
@@ -79,7 +79,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
           />
         ),
         sortable: false,
-        align: vriZonesPresent ? Alignment.RIGHT : Alignment.LEFT,
+        align: vriZonesPresent || isMobile ? Alignment.RIGHT : Alignment.LEFT,
       },
     ],
     [isMobile, vriZonesPresent],

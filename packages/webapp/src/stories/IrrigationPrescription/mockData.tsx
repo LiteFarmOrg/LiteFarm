@@ -56,6 +56,12 @@ export const mockPivot = {
   radius: 150,
 };
 
+export const mockUriData = {
+  application_depth: 10,
+  application_depth_unit: 'mm',
+  soil_moisture_deficit: 40,
+};
+
 /* -----------------
 3-zone test case
 --------------------*/

@@ -39,7 +39,7 @@ export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARR
 export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
-  fields: Location['name' & 'location_id'][];
+  fields: Pick<Location, 'name' | 'location_id'>[];
   type: SensorType;
   sensors: SensorInSimpleTableFormat[];
 };

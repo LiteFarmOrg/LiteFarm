@@ -51,10 +51,10 @@ export default function CompactPreview({ location, readings, readingType, histor
   }
 
   const loadReadingView = () => {
-    if (location.isAddonSensor && location.type === locationEnum.sensor) {
-      // Currently using location selector instead of hook thus the id prefix
-      history.push(`/${location.type}/sensor_${location.id}/readings`);
-    } else if (location.isAddonSensor && location.type === locationEnum.sensor_array) {
+    if (
+      location.isAddonSensor &&
+      [locationEnum.sensor_array, locationEnum.sensor].includes(location.type)
+    ) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

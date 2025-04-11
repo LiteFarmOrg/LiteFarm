@@ -175,10 +175,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    if (location.type === SensorType.SENSOR && location.isAddonSensor) {
-      // Currently using location selector instead of hook thus the id prefix
-      history.push(`/${location.type}/sensor_${location.id}/readings`);
-    } else if (location.type === SensorType.SENSOR_ARRAY && location.isAddonSensor) {
+    if (location.isAddonSensor && [SensorType.SENSOR_ARRAY, SensorType.SENSOR]) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

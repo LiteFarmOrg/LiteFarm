@@ -64,16 +64,10 @@ const useSelectionHandler = () => {
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
           } else if (
-            overlappedLocations.point[0].type === locationEnum.sensor &&
-            overlappedLocations.point[0].isAddonSensor
-          ) {
-            // Currently using location selector instead of hook thus the id prefix
-            history.push(
-              `/${overlappedLocations.point[0].type}/sensor_${overlappedLocations.point[0].id}/readings`,
-            );
-          } else if (
-            overlappedLocations.point[0].type === locationEnum.sensor_array &&
-            overlappedLocations.point[0].isAddonSensor
+            overlappedLocations.point[0].isAddonSensor &&
+            [locationEnum.sensor_array, locationEnum.sensor].includes(
+              overlappedLocations.point[0].type,
+            )
           ) {
             history.push(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,

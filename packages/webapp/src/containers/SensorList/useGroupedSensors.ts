@@ -92,7 +92,7 @@ const formatSensorToGroup = (
 ) => {
   return {
     id: `sensor_${sensor.id}`,
-    location_id: `sensor_${sensor.id}`,
+    location_id: sensor.location_id,
     sensors: [sensor],
     point: sensor.point,
     type: SensorType.SENSOR,

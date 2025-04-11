@@ -43,7 +43,7 @@ export default function PureLocationFieldTechnology({
   const handleClick = (ft) => {
     const path =
       ft.isAddonSensor && [locationEnum.sensor, locationEnum.sensor_array].includes(ft.type)
-        ? `/${ft.type}/${ft.id}/readings`
+        ? `/${ft.type}/${ft.location_id}/readings`
         : `/${ft.type}/${ft.location_id}/details`;
     history.push(path);
   };

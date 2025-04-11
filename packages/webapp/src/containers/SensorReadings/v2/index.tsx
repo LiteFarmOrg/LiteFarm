@@ -23,6 +23,7 @@ import Charts from './Charts';
 import { StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
 import { ReactComponent as SensorIcon } from '../../../assets/images/map/signal-01.svg';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
+import ManageESciSection from '../../../components/ManageESciSection';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import { getStatusProps } from './utils';
 import { toTranslationKey } from '../../../util';
@@ -129,7 +130,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
           </div>
         </>
       )}
-      <div>Manage ESci link</div>
+      <ManageESciSection t={t} />
     </Paper>
   );
 }

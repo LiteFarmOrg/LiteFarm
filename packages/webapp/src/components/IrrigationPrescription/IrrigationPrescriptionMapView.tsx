@@ -15,10 +15,11 @@
 
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import { convert } from '../../util/convert-units/convert';
 import { useMaxZoom } from '../../containers/Map/useMaxZoom';
 import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
-import { Location } from '../../types';
+import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
 
 interface IrrigationZonePolygon {
@@ -28,25 +29,28 @@ interface IrrigationZonePolygon {
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation: Location;
   pivotCenter: { lat: number; lng: number };
-  pivotRadius: number; // in meters
+  pivotRadiusInMeters: number;
   className?: string;
   vriZones?: IrrigationZonePolygon[];
+  system?: System;
 }
 
 const IrrigationPrescriptionMapView = ({
   fieldLocation,
   pivotCenter,
-  pivotRadius,
+  pivotRadiusInMeters,
   className,
   vriZones,
+  system = 'metric',
 }: IrrigationPrescriptionMapViewProps) => {
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
   const pivotMapObjects = createPivotMapObjects(
     pivotCenter,
-    pivotRadius,
+    pivotRadiusInMeters,
     !!vriZones?.length,
     (vriZones?.length || 0) > 3,
+    system,
   );
 
   const irrigationZoneMapObjects = vriZones ? createIrrigationZoneMapObjects(vriZones) : [];
@@ -76,8 +80,14 @@ const createPivotMapObjects = (
   radius: number,
   vriZonesPresent: boolean,
   moreThanThreeZones: boolean,
+  system: System,
 ) => {
-  const label = `${radius}m`; // TODO: units
+  const unit = system === 'imperial' ? 'ft' : 'm';
+
+  const labelRadius =
+    system === 'imperial' ? Math.round(convert(radius).from('m').to('ft')) : radius;
+
+  const label = `${labelRadius}${unit}`;
 
   const pivot = {
     type: 'pivot',

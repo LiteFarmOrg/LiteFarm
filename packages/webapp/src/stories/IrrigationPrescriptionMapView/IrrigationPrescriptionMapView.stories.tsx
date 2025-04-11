@@ -34,7 +34,7 @@ export const URIPivotView: Story = {
   args: {
     fieldLocation: mockField,
     pivotCenter: mockPivot.center,
-    pivotRadius: mockPivot.radius,
+    pivotRadiusInMeters: mockPivot.radius,
     className: styles.mapContainer,
   },
 };
@@ -43,7 +43,7 @@ export const VRIPivotView: Story = {
   args: {
     fieldLocation: mockField,
     pivotCenter: mockPivot.center,
-    pivotRadius: mockPivot.radius,
+    pivotRadiusInMeters: mockPivot.radius,
     className: styles.mapContainer,
     vriZones: mockVriZones,
   },
@@ -53,8 +53,19 @@ export const VRIPivotFiveZonesView: Story = {
   args: {
     fieldLocation: mockField,
     pivotCenter: mockPivot.center,
-    pivotRadius: mockPivot.radius,
+    pivotRadiusInMeters: mockPivot.radius,
     className: styles.mapContainer,
     vriZones: mockVriZonesFive,
+  },
+};
+
+export const ImperialUnitsPivotArm: Story = {
+  args: {
+    fieldLocation: mockField,
+    pivotCenter: mockPivot.center,
+    pivotRadiusInMeters: mockPivot.radius,
+    className: styles.mapContainer,
+    vriZones: mockVriZonesFive,
+    system: 'imperial',
   },
 };

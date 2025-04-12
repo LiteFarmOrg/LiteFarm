@@ -16,10 +16,12 @@
 import { expect, describe, test } from 'vitest';
 import i18n from '../locales/i18n';
 import {
+  adjustDailyDateTime,
   convertEsciReadingValue,
   degToDirection,
   formatDataPoint,
   formatSensorDatapoints,
+  getAdjustHourlyDateTimeFunc,
   getReadingUnit,
 } from '../containers/SensorReadings/v2/utils';
 import { getUnixTime } from '../components/Charts/utils';
@@ -30,6 +32,47 @@ const createData = (date) => {
 };
 
 describe('Test chart data formatting', () => {
+  test('adjustDailyDateTime shifts UTC midnight to intended local midnight', () => {
+    const localMidnight = new Date(2025, 3, 1); // April 1, 2025 at 00:00 LOCAL
+    const timestampFromAPI =
+      Date.UTC(
+        localMidnight.getUTCFullYear(),
+        localMidnight.getUTCMonth(),
+        localMidnight.getUTCDate(),
+        0,
+      ) / 1000;
+
+    expect(adjustDailyDateTime(timestampFromAPI)).toBe(localMidnight.getTime() / 1000);
+  });
+
+  describe('getAdjustHourlyDateTimeFunc shifts UTC time to intended local time', () => {
+    const testAdjustHourlyDateTime = (offsetMinutes) => {
+      const adjust = getAdjustHourlyDateTimeFunc(offsetMinutes);
+
+      const localDate = new Date(Date.UTC(2025, 3, 1, 10) - offsetMinutes * 60 * 1000); // April 1, 2025 at 10:00 LOCAL
+      const timestampFromAPI =
+        Date.UTC(
+          localDate.getUTCFullYear(),
+          localDate.getUTCMonth(),
+          localDate.getUTCDate(),
+          localDate.getUTCHours(),
+          0,
+        ) / 1000;
+
+      expect(adjust(timestampFromAPI)).toBe(localDate.getTime() / 1000);
+    };
+
+    test('handles local time ahead of UTC (+5:30)', () => {
+      const offsetMinutes = -330; // +5:30
+      testAdjustHourlyDateTime(offsetMinutes);
+    });
+
+    test('handles local time behind UTC (-2:30)', () => {
+      const offsetMinutes = 150; // -2:30
+      testAdjustHourlyDateTime(offsetMinutes);
+    });
+  });
+
   test('formatDataPoint fills missing data with null correctly', () => {
     const fakeData = [
       { dateTime: 1717200000, key1: 10, key2: 20, key3: 30 },

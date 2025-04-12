@@ -79,7 +79,7 @@ export const getAdjustDateTimeFunc = (
   }
 };
 
-const adjustDailyDateTime = (dateTime: number): number => {
+export const adjustDailyDateTime = (dateTime: number): number => {
   const date = new Date(dateTime * 1000);
   const utcYear = date.getUTCFullYear();
   const utcMonth = date.getUTCMonth();
@@ -96,18 +96,13 @@ const adjustDailyDateTime = (dateTime: number): number => {
   return new Date(utcYear, utcMonth, utcDate + (isAheadUTC ? 1 : 0)).getTime() / 1000;
 };
 
-const getAdjustHourlyDateTimeFunc = (
+export const getAdjustHourlyDateTimeFunc = (
   timezoneOffset: number,
 ): ((dateTime: number) => number) | undefined => {
-  const minuteOffset = timezoneOffset % 60;
+  const minuteOffset = Math.abs(timezoneOffset % 60);
 
   // Handle time offset when the difference is not full hour
-  if (minuteOffset) {
-    const isAheadUTC = timezoneOffset < 0;
-    return (dateTime: number) => dateTime + minuteOffset * (isAheadUTC ? 1 : -1) * 60;
-  }
-
-  return undefined;
+  return minuteOffset ? (dateTime: number) => dateTime + minuteOffset * 60 : undefined;
 };
 
 export const formatDataPoint = (

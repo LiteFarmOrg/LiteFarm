@@ -208,13 +208,13 @@ If you are unable to use Docker, please contact a core team member to get instru
 
 ## WebApp E2e tests
 
-To be able to run the existing Cypress E2e tests, you'll need to have a DB configured with the information from the `dev` environment (this is how it is setup our pipeline)
+When running Cypress E2E tests, it's recommended to use a dedicated test database. This helps keep your main development database free from testing data.
 
 ### Setup
 
-1. (Only if not already configured) Using a container with the DB hosted in there is recommended and to be able to spin up such container `docker compose up cypress-db`.
+1. Start the dedicated test database container with `docker compose --profile testing up testing-db`
+1. Run the `dev` migrations `npm run migrate:dev:db` from `packages/api`.
 1. Go to `packages/end-to-end` directory.
-1. Run the `dev` migrations `npm run migrate:dev:db`.
 1. Install the E2e test dependencies`npm i`.
 
 ### Execution

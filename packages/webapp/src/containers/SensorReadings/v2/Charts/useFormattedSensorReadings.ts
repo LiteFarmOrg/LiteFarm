@@ -28,6 +28,7 @@ import { CHART_SUPPORTED_PARAMS } from '../constants';
 import { useGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor, SensorReadingTypes } from '../../../../store/api/types';
 import { ChartSupportedReadingTypes, FormattedSensorReadings } from '../types';
+import { getDummyWeatherData } from '../mockData';
 
 const generateTicks = (
   sensorReadings: FormattedSensorReadings[],
@@ -95,17 +96,27 @@ function useFormattedSensorReadings({
   );
 
   const { formattedSensorReadings, ticks } = useMemo(() => {
-    if (!sensorReadings?.length) {
-      return {
-        formattedSensorReadings: [],
-        ticks: getTicks(new Date(startDate), new Date(endDate)),
-      };
-    }
+    // if (!sensorReadings?.length) {
+    //   return {
+    //     formattedSensorReadings: [],
+    //     ticks: getTicks(new Date(startDate), new Date(endDate)),
+    //   };
+    // }
 
     const timezoneOffset = new Date(startDate).getTimezoneOffset();
 
+    const dummyData = getDummyWeatherData(
+      sensors,
+      new Date(startDate),
+      new Date(endDate).getTime() > new Date().getTime() ? new Date() : new Date(endDate),
+      truncPeriod,
+    );
+
     const formattedData = readingTypes.flatMap((readingType) => {
-      const data = sensorReadings.find((data) => data.reading_type === readingType);
+      // const data = sensorReadings.find((data) => data.reading_type === readingType);
+      const data = (sensorReadings?.length ? sensorReadings : dummyData).find(
+        (data) => data.reading_type === readingType,
+      );
 
       // Skip the readingType if there's no corresponding data
       if (!data || !isChartSupportedReadingType(data.reading_type)) {
@@ -129,10 +140,13 @@ function useFormattedSensorReadings({
         unit: getReadingUnit(reading_type, system, unit),
       };
     });
-    const ticks = generateTicks(formattedData, startDate, endDate, truncPeriod, timezoneOffset);
 
-    return { ticks, formattedSensorReadings: formattedData };
-  }, [sensorReadings]);
+    return {
+      ticks: generateTicks(formattedData, startDate, endDate, truncPeriod, timezoneOffset),
+      formattedSensorReadings: formattedData,
+    };
+    // }, [sensorReadings]);
+  }, [sensorReadings, startDate, endDate, truncPeriod, sensors]);
 
   return { isLoading, isFetching, ticks, formattedSensorReadings };
 }

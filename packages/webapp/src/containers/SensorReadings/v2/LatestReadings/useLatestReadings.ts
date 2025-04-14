@@ -16,6 +16,7 @@
 import { useEffect, useState } from 'react';
 import { useLazyGetSensorReadingsQuery } from '../../../../store/api/apiSlice';
 import { Sensor, SensorReadings } from '../../../../store/api/types';
+import { getDummyWeatherData } from '../mockData';
 
 // Get the latest reading time across different reading types
 const getLatestReadingTime = (sensorReadings: SensorReadings[]): Date | undefined => {
@@ -80,6 +81,9 @@ function useLatestReading(sensors: Sensor[]): {
   };
 
   const refetchSensorReadings = async (startTime?: Date): Promise<void> => {
+    // As of Apr 14, the latest reading is from Apr 9
+    // startTime = new Date(2025, 3, 9);
+
     const result = await getLatestReadings(startTime);
     // Retain current readings if no newer data is available
     if (result.data?.length) {
@@ -100,7 +104,27 @@ function useLatestReading(sensors: Sensor[]): {
   return {
     isLoading,
     isFetching,
-    latestReadings,
+    latestReadings: latestReadings.length
+      ? latestReadings
+      : (getDummyWeatherData(
+          sensors,
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            new Date().getHours(),
+            new Date().getMinutes() - 15,
+          ),
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            new Date().getHours(),
+            new Date().getMinutes(),
+          ),
+          'minute',
+        ) as SensorReadings[]),
+    // latestReadings,
     latestReadingTime,
     update: () => refetchSensorReadings(),
   };

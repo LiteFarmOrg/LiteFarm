@@ -55,7 +55,18 @@ const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor
     ? sensors
         ?.filter(({ sensor_array_id }) => sensor_array_id == id)
         ?.sort((a, b) => a.depth - b.depth)
-    : sensors?.filter(({ external_id }) => external_id === id);
+    : // : sensors?.filter(({ external_id }) => external_id === id);
+      [
+        {
+          ...sensors?.find(({ external_id }) => external_id === id),
+          // Uncomment the sensor you want to display
+          name: 'Weather station',
+          // name: 'Soil Water Potential Sensor',
+          // name: 'IR Temperature Sensor',
+          // name: 'Wind speed sensor',
+          // name: 'Drip line pressure sensor',
+        } as Sensor,
+      ];
 };
 
 const PAGE_TITLE_KEY = {

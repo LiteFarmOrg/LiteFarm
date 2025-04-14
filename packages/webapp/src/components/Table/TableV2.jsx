@@ -105,6 +105,7 @@ export default function TableV2(props) {
     comparator,
     tableContainerClass,
     tbodyClass,
+    rowClass,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -207,6 +208,7 @@ export default function TableV2(props) {
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                     extraRowSpacing && styles.extraRowSpacing,
                     row.removed && styles.removedRow,
+                    rowClass,
                   )}
                 >
                   {shouldShowCheckbox && (
@@ -342,6 +344,7 @@ TableV2.propTypes = {
   spacerRowHeight: PropTypes.number,
   /** Cheating here  using any since it is not meshing well with ts type */
   headerClass: PropTypes.any,
+  rowClass: PropTypes.any,
   extraRowSpacing: PropTypes.bool,
 };
 

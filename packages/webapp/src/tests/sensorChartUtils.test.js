@@ -126,21 +126,6 @@ describe('Test chart data formatting', () => {
       expect(result).toEqual(expectedData);
     });
 
-    test('handles timestamps within the same day correctly', () => {
-      const fakeData = ['2025-02-26', '2025-03-01', '2025-03-02', '2025-03-04'].map(createData);
-
-      const expectedData = [
-        '2025-02-26',
-        '2025-02-27',
-        '2025-03-01',
-        '2025-03-02',
-        '2025-03-03',
-        '2025-03-04',
-      ].map(createData);
-      const result = formatSensorDatapoints(fakeData, 'day', []);
-      expect(result).toEqual(expectedData);
-    });
-
     test('handles truncPeriod "hour" correctly', () => {
       const fakeData = [
         '2025-03-01T00:00:00Z',

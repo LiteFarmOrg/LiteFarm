@@ -119,6 +119,7 @@ export default function PureLocationIrrigation({
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
+      <div className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</div>
       <Table
         kind={TableKind.V2}
         columns={getColumns()}

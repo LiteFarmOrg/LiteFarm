@@ -15,57 +15,13 @@
 
 @import '@assets/mixin.scss';
 
-.fieldTechnologyContainer {
-  background-color: white;
-  margin: 16px 0 16px 0;
-  padding: 16px 8px 8px 8px;
-}
+.subtitle {
+  margin-bottom: 16px;
+  padding-left: 12px;
 
-.list.list {
-  background-color: var(--bgInputListTile);
-  padding: 8px;
-}
-
-.sensorIcon.sensorIcon {
-  margin: 0px;
-  padding: 0px;
-  @include svgColorFill(var(--Colors-Primary-Primary-teal-600));
-}
-
-.sensorLabel.sensorLabel {
-  margin: 0px;
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
   @include fontFamily();
+  color: var(--Colors-Neutral-Neutral-900);
   font-size: 16px;
   font-weight: 600;
-  line-height: 30px; /* 187.5% */
-}
-
-.sensorChevron.sensorChevron {
-  width: 24px;
-  height: 24px;
-  margin: 0px;
-  color: var(--Colors-Neutral-Neutral-600);
-}
-
-.lists {
-  display: flex;
-  gap: 32px;
-  flex-direction: column;
-  padding: 8px;
-}
-
-.listWithHeading {
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-}
-
-.listHeading {
-  color: var(--Colors-Neutral-Neutral-600);
-  font-feature-settings: 'liga' off, 'clig' off;
-  @include fontFamily();
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 18px; /* 112.5% */
+  line-height: normal;
 }

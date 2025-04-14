@@ -75,7 +75,6 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
         isFetching,
       };
     },
-    refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {

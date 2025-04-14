@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import Layout from '../../../components/Layout';
@@ -62,7 +63,7 @@ const PAGE_TITLE_KEY = {
   [SensorType.SENSOR]: 'SENSOR.STANDALONE_SENSOR',
 };
 
-function SensorReadings({ match, history, type }: SensorReadingsProps) {
+const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
   const { t } = useTranslation();
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
@@ -74,12 +75,14 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
         isFetching,
       };
     },
-    // refetchOnMountOrArgChange: true, // TODO: confirm
+    refetchOnMountOrArgChange: true,
   });
 
-  if (!isFetching && !sensors?.length) {
-    history.replace('/unknown_record');
-  }
+  useEffect(() => {
+    if (!isFetching && !sensors?.length) {
+      history.replace('/unknown_record');
+    }
+  }, [isFetching, sensors?.length, history]);
 
   return (
     <Layout className={layoutStyles.paperContainer}>
@@ -134,6 +137,6 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
       <ManageESciSection t={t} />
     </Layout>
   );
-}
+};
 
 export default SensorReadings;

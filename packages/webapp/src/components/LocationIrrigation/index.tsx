@@ -69,7 +69,7 @@ export default function PureLocationIrrigation({
         label: t('IRRIGATION_PRESCRIPTION.PRESCRIPTION_DATE').toLocaleUpperCase(),
         align: undefined,
         sortable: false,
-        className: undefined,
+        className: styles.tableCell,
         format: (data) => (
           <Cell kind={CellKind.PLAIN} className={undefined} text={data.prescription_date} />
         ),
@@ -79,7 +79,7 @@ export default function PureLocationIrrigation({
         label: t('IRRIGATION_PRESCRIPTION.DATA_FROM').toLocaleUpperCase(),
         align: undefined,
         sortable: false,
-        className: undefined,
+        className: styles.tableCell,
         format: (data) => (
           <Cell
             kind={CellKind.PLAIN}
@@ -93,7 +93,7 @@ export default function PureLocationIrrigation({
         label: t('IRRIGATION_PRESCRIPTION.TASK_STATUS').toLocaleUpperCase(),
         align: undefined,
         sortable: false,
-        className: undefined,
+        className: styles.tableCell,
         format: (data) => <Cell kind={CellKind.PLAIN} className={undefined} text={'status'} />,
       },
       {
@@ -101,7 +101,7 @@ export default function PureLocationIrrigation({
         label: undefined,
         align: undefined,
         sortable: false,
-        className: undefined,
+        className: styles.tableCell,
         format: (data) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} className={undefined} path={handleClick} />
         ),
@@ -124,9 +124,10 @@ export default function PureLocationIrrigation({
         kind={TableKind.V2}
         columns={getColumns()}
         data={irrigationPrescriptions}
-        headerClass={styles.headerClass}
-        tbodyClass={styles.tbodyClass}
-        tableContainerClass={styles.tableContainerClass}
+        dense={false}
+        tableContainerClass={styles.tableContainer}
+        headerClass={styles.tableHeader}
+        rowClass={styles.tableRow}
         showHeader={true}
       />
     </Layout>

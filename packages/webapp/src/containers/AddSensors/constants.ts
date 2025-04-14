@@ -27,3 +27,6 @@ export const PARTNERS = {
 };
 
 export const partnerIds = Object.values(PARTNERS).map(({ id }) => id);
+
+// Mocks shape of an AddonPartner endpoint response
+export const partnerEntities = Object.values(PARTNERS).map((partner) => partner);

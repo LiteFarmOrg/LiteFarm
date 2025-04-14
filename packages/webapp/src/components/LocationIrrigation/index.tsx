@@ -34,6 +34,7 @@ import { History, Location } from 'history';
 import { match } from 'react-router-dom';
 import { IrrigationPrescription } from '../../store/api/types';
 import Cell from '../Table/Cell';
+import { partnerEntities } from '../../containers/AddSensors/constants';
 
 type Tab = {};
 
@@ -56,6 +57,11 @@ export default function PureLocationIrrigation({
 }) {
   const { t } = useTranslation();
 
+  const getPartnerName = (id) => {
+    const partner = partnerEntities.find((partner) => id === partner.id);
+    return partner ? partner.shortName : ' -- ';
+  };
+
   const getColumns = (): TableV2Column[] => {
     return [
       {
@@ -74,7 +80,13 @@ export default function PureLocationIrrigation({
         align: undefined,
         sortable: false,
         className: undefined,
-        format: (d) => <Cell kind={CellKind.PLAIN} className={undefined} text={data.partner_id} />,
+        format: (data) => (
+          <Cell
+            kind={CellKind.PLAIN}
+            className={undefined}
+            text={getPartnerName(data.partner_id)}
+          />
+        ),
       },
       {
         id: 'taskStatus',
@@ -82,7 +94,7 @@ export default function PureLocationIrrigation({
         align: undefined,
         sortable: false,
         className: undefined,
-        format: (d) => <Cell kind={CellKind.PLAIN} className={undefined} text={'status'} />,
+        format: (data) => <Cell kind={CellKind.PLAIN} className={undefined} text={'status'} />,
       },
       {
         id: 'irrigationPrescriptionLink',
@@ -90,7 +102,7 @@ export default function PureLocationIrrigation({
         align: undefined,
         sortable: false,
         className: undefined,
-        format: (d) => (
+        format: (data) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} className={undefined} path={handleClick} />
         ),
       },

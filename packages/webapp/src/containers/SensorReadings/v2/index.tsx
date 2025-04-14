@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { Paper } from '@mui/material';
+import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
 import LatestReadings from './LatestReadings';
@@ -32,6 +32,7 @@ import { CustomRouteComponentProps } from '../../../types';
 import { SensorType } from '../../../types/sensor';
 import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
+import layoutStyles from '../../../components/Layout/layout.module.scss';
 
 interface RouteParams {
   id: string;
@@ -81,7 +82,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
   }
 
   return (
-    <Paper className={styles.paper}>
+    <Layout className={layoutStyles.paperContainer}>
       <PageTitle
         title={t(PAGE_TITLE_KEY[type])}
         onGoBack={history.back}
@@ -131,7 +132,7 @@ function SensorReadings({ match, history, type }: SensorReadingsProps) {
         </>
       )}
       <ManageESciSection t={t} />
-    </Paper>
+    </Layout>
   );
 }
 

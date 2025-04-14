@@ -25,3 +25,11 @@
     padding-bottom: 0;
   }
 }
+
+.compact {
+  row-gap: 0px;
+
+  li {
+    padding: 4px;
+  }
+}

@@ -14,7 +14,7 @@
  */
 
 import { TFunction } from 'i18next';
-import { isSameDay } from '../../util/date';
+import { isSameDay } from '../../util/date-migrate-TS';
 import { getDateDifference } from '../../util/moment';
 import { ChartTruncPeriod } from './LineChart';
 

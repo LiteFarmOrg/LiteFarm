@@ -30,7 +30,7 @@ import {
 } from '../../components/Forms/GeneralRevenue/constants';
 import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
-import { isSameDay } from '../../util/date';
+import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import { transactionTypeEnum } from './useTransactions';

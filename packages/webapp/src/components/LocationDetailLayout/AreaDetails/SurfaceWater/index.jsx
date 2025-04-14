@@ -1,18 +1,11 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../LocationButtons';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
-
 import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
-import { FieldDetailsChildren } from '../Field';
 
 export default function PureSurfaceWaterWrapper(props) {
   return (
@@ -66,7 +59,6 @@ export function PureSurfaceWater({
       translationKey={'SURFACE_WATER'}
       detailsChildren={<SurfaceWaterDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={true}
-      tabs={['tasks', 'details']}
     />
   );
 }

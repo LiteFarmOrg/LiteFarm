@@ -741,7 +741,7 @@ const managementPlanController = {
     };
   },
 
-  getManagementPlanByFarmID() {
+  getManagementPlansByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;

@@ -74,7 +74,7 @@ describe('Irrigation Prescription Request Tests', () => {
 
   describe('POST irrigation prescription request', () => {
     [1, 2, 3, 5].forEach((role) => {
-      test(`User with role ${role} should should initiate IP with field and crop data`, async () => {
+      test(`User with role ${role} should initiate IP with field and crop data`, async () => {
         (mockedAxios as unknown as jest.Mock).mockResolvedValue({
           data: {},
           status: 200,

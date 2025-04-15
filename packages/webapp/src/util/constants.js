@@ -12,7 +12,7 @@ export const APP_VERSION = '3.7.0';
 export const VERSION_RELEASE_NOTES_LINK =
   'https://www.litefarm.org/post/start-2025-right-manage-crops-and-animals-seamlessly-with-litefarm';
 
-export const CONSENT_VERSION = '7.0';
+export const CONSENT_VERSION = '7.1';
 
 export const BETA_BADGE_LINK =
   'https://www.litefarm.org/post/beta-features-on-litefarm-your-feedback-matters';

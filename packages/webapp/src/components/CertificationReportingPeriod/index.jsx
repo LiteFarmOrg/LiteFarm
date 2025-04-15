@@ -63,7 +63,6 @@ const PureCertificationReportingPeriod = ({
           onGoBack={handleGoBack}
           onCancel={historyCancel}
           title={t('CERTIFICATIONS.EXPORT_DOCS')}
-          cancelModalTitle={t('CERTIFICATIONS.FLOW_TITLE')}
           value={progress}
         />
 

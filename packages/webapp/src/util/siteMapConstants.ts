@@ -88,3 +88,13 @@ export const createCompleteHarvestQuantityTaskUrl = (id: string | number): strin
 export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
   return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
 };
+
+// Maps
+export const MAP_URL = '/map';
+export const ADD_SENSORS_URL = '/add_sensors';
+export const SENSORS_URL = '/sensors';
+
+// Sensors
+export const createSensorsUrl = (partnerId?: number): string => {
+  return `/sensors${partnerId ? `?partner_id=${partnerId}` : ''}`;
+};

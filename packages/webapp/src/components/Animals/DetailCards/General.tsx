@@ -104,7 +104,7 @@ const GeneralDetails = ({
     animalOrBatch === AnimalOrBatchKeys.ANIMAL ? (
       <div>
         <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <RadioGroup
           name={`${namePrefix}${DetailsFields.SEX}`}
           radios={sexOptions}
@@ -160,7 +160,6 @@ const GeneralDetails = ({
     <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>
       {(mode === 'readonly' || mode === 'edit') && (
         <>
-          {/* @ts-ignore */}
           <LockedInput
             label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
             placeholder={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
@@ -169,7 +168,7 @@ const GeneralDetails = ({
       )}
       {animalOrBatch === AnimalOrBatchKeys.BATCH && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
@@ -201,6 +200,10 @@ const GeneralDetails = ({
         control={control}
         breedOptions={filteredBreeds}
         isTypeSelected={!!watchAnimalType}
+        onBreedChange={(option) => {
+          trigger(`${namePrefix}${DetailsFields.BREED}`);
+        }}
+        error={get(errors, `${namePrefix}${DetailsFields.BREED}`)}
         isDisabled={mode !== 'edit'}
       />
       {sexInputs}
@@ -222,7 +225,7 @@ const GeneralDetails = ({
       />
       {isOtherUseSelected && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}

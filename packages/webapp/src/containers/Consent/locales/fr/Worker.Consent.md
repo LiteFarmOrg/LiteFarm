@@ -4,9 +4,7 @@
 
 Bienvenue à LiteFarm !
 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.
-
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Si vous n'acceptez pas nos pratiques telles qu'elles sont décrites dans ce Formulaire de Consentement Éclairé et cette Politique de Confidentialité, vous ne pourrez pas utiliser la plateforme LiteFarm.
 
 #### C’est quoi l’application LiteFarm ?
 
@@ -30,15 +28,11 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 **Informations personnelles**
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
-
-Ceci comprend :
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
 - Les informations démographiques (sexe, année de naissance, préférence linguistique, pays, devise)
-
-- Les informations sur l'entreprise (nom de la ferme, adresse de la ferme, coordonnées de la ferme)
 
 - Les photos
 
@@ -70,9 +64,9 @@ LiteFarm utilise les informations de gestion que vous entrez dans l'application 
 
 - Les informations relatives à l'achèvement des tâches: date ; durée du travail; humeur (heureuse, très heureuse, triste, très triste, neutre); notes sur le travail
 
-- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification. 
+- Informations sur les animaux : noms des animaux ou des lots d'animaux, types, races, sexe, date d'arrivée ou de naissance et autres données d'identification.
 
-- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement. 
+- Informations sur les mouvements d'animaux : localisation, raison du mouvement et date du mouvement.
 
 **Données d'utilisation**
 
@@ -134,17 +128,17 @@ Présentement, l'application LiteFarm est gratuite. Le logiciel lui-même est so
 
 **Pour plus d'informations**
 
-Concernant de la plateforme, merci de contacter : 
+Concernant de la plateforme, merci de contacter :
 
-Chef de produit: litefarm.team@ubc.ca  
+Chef de produit: litefarm.team@ubc.ca
 
-Concernant la recherche universitaire, merci de contacter : 
+Concernant la recherche universitaire, merci de contacter :
 
-Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
+Chercheure principale: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si vous avez des préoccupations ou des plaintes concernant vos droits en tant que participant à la recherche et/ou vos expériences lors de votre participation à cette étude :**
 
-Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.  
+Communiquez avec la ligne de plainte des participants à la recherche du Bureau d'éthique de la recherche de UBC au 604-822-8598 ou, en cas d'interurbain, envoyez un courriel à RSIL@ors.ubc.ca ou appelez sans frais le 1-877-822-8598.
 
 **Consentement**
 

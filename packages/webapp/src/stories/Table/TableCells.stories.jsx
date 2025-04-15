@@ -17,6 +17,7 @@ import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
 import { TableKind, CellKind } from '../../components/Table/types';
+import { Status } from '../../components/StatusIndicatorPill';
 
 export default {
   title: 'Components/Tables/Cells',
@@ -41,6 +42,22 @@ const getFakeColumns = () => {
       id: 'revenue',
       label: 'Revenue',
       format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
+    },
+    {
+      id: 'StatusIndicatorPill',
+      label: 'Availability',
+      format: (d) => {
+        const isAvailable = Math.random() < 3 / 4;
+        return (
+          <Cell
+            kind={CellKind.STATUS_INDICATOR_PILL}
+            status={isAvailable ? Status.ONLINE : Status.OFFLINE}
+            pillText={isAvailable ? 'Available' : 'Sold out'}
+            tooltipText={isAvailable ? 'This crop is available' : 'This crop is sold out'}
+          />
+        );
+      },
+      sortable: false,
     },
     {
       id: 'rightChevronLink',

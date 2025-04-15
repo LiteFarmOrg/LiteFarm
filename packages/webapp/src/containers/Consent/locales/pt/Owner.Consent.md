@@ -84,9 +84,9 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 - Detalhes específicos da propriedade: unidades preferidas (ex: métrica ou imperial), moeda corrente, se o proprietário está buscando certificação, certificadora, atributos dos canteiros e das linhas de cultivo.
 
-- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação. 
+- Informações sobre os animais: nomes dos animais ou lotes de animais, tipos, raças, sexo, data de chegada ou nascimento e outros dados de identificação.
 
-- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação. 
+- Informações sobre a movimentação de animais: local, motivo da movimentação e data da movimentação.
 
 **Dados de uso**
 
@@ -146,11 +146,11 @@ Se você retirar seu consentimento enviando um e-mail para litefarm.team@ubc.ca,
 
 **Como fazemos alterações na Política de Privacidade?**
 
-Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. Depois de um mês, sua conta e seus dados serão marcados como inativos. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
+Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
 
 **Com faremos contato com você?**
 
-Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma. Você poderá escolher os tipos de comunicação que deseja receber, ou então poderá desativar todas as comunicações visitando a página da LiteFarm para cancelamento de inscrições.
+Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma.
 
 **Licenciamento**
 
@@ -158,17 +158,17 @@ O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Lice
 
 **Para mais informações**
 
-Com relação ao aplicativo, contate: 
+Com relação ao aplicativo, contate:
 
-Gerente de Produto: litefarm.team@ubc.ca  
+Gerente de Produto: litefarm.team@ubc.ca
 
-Com relação a este estudo, contate: 
+Com relação a este estudo, contate:
 
-Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)   
+Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
-**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**   
+**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**
 
-Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598. 
+Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598.
 
 **Consentimento**
 

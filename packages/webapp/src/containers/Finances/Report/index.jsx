@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as ReportIcon } from '../../../assets/images/finance/Report-icn.svg';
 import Drawer from '../../../components/Drawer';
-import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import Button from '../../../components/Form/Button';
 import TextButton from '../../../components/Form/Button/TextButton';
 import { Semibold, Text } from '../../../components/Typography';
@@ -194,7 +194,7 @@ const Report = () => {
           <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
           <div className={styles.dateFilterContainer}>
             <Text>{t('common:DATE')}</Text>
-            <FinanceDateRangeSelector
+            <FinancesDateRangeSelector
               value={dateFilter}
               onChange={(dateRange) => {
                 setDateFilter({ ...dateFilter, ...dateRange });

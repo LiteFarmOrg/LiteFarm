@@ -1,7 +1,6 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
-    "ADD_ANIMALS_FLOW": "addition of animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
     "ADD_DETAILS_INFO": "Fill in your animal details below or save and pick this up later on.",
     "ADD_TO_INVENTORY": "Add animals to your inventory",
@@ -116,7 +115,6 @@
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
-    "CANCEL": "task creation",
     "CANT_FIND_INFO_TASK": "You can also create your own custom task types!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
@@ -279,6 +277,19 @@
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "WILD_CROP": "Wild crops"
   },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CANCEL": "Don't disconnect",
+      "CONFIRM": "Disconnect"
+    },
+    "ESCI": {
+      "DISCONNECT_ESCI": "Disconnect ESci",
+      "INFO": "You can disconnect Ensemble Scientific sensors from your farm, this will remove all sensors from ESci. You can still access your sensors and associated data on your ESci dashboard.",
+      "MODAL_INFO": "You will not be able to access your ESci sensors data until you reconnect",
+      "MODAL_TITLE": "Are you sure you want to disconnect your ESci sensors?"
+    },
+    "ORGANISATION_ID": "Organisation ID:"
+  },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
     "ADD_MORE_BUTTON": "Add more animals",
@@ -311,7 +322,6 @@
     },
     "BATCH": "Batch",
     "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
-    "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
@@ -328,6 +338,12 @@
     "TABS": {
       "BASIC_INFO": "Basic info",
       "TASKS": "Tasks"
+    }
+  },
+  "BADGE": {
+    "BETA": {
+      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving LiteFarm! You can learn more about beta <a>here</a>",
+      "TITLE": "Beta"
     }
   },
   "BED_PLAN": {
@@ -348,7 +364,8 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
-    "TITLE": "Cancel your {{flow}}?"
+    "NO_BUTTON": "Don't cancel",
+    "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -409,7 +426,6 @@
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
     "EXPORT_FILE_TITLE": "Organic certification",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
-    "FLOW_TITLE": "certification documents export",
     "GOOD_NEWS": "Good news!",
     "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
@@ -502,7 +518,6 @@
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
-    "CANCEL": "crop creation",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -602,6 +617,24 @@
     "TUESDAY": "T",
     "WEDNESDAY": "W"
   },
+  "DIRECTION": {
+    "E": "E",
+    "ENE": "ENE",
+    "ESE": "ESE",
+    "N": "N",
+    "NE": "NE",
+    "NNE": "NNE",
+    "NNW": "NNW",
+    "NW": "NW",
+    "S": "S",
+    "SE": "SE",
+    "SSE": "SSE",
+    "SSW": "SSW",
+    "SW": "SW",
+    "W": "W",
+    "WNW": "WNW",
+    "WSW": "WSW"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
@@ -617,7 +650,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
-    "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Edit document",
@@ -679,7 +711,6 @@
       "CUSTOM_EXPENSE_TYPE": "Custom expense type",
       "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
       "DUPLICATE_NAME_RETIRED": "A retired expense type with this name already exists. Please choose another.",
-      "FLOW": "expense creation",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
@@ -714,6 +745,7 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "Add Location",
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -797,6 +829,7 @@
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again.",
       "ZERO_LENGTH_DETECTED": "Line with no length detected. Please draw again."
     },
+    "EXPORT_MAP": "Export Map",
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
@@ -826,6 +859,7 @@
       "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
+    "FILTER_MAP": "Filter Map",
     "GARDEN": {
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit garden",
@@ -861,7 +895,6 @@
       "WATERCOURSE": "Watercourse",
       "WATERCOURSE_TITLE": "What are the following widths ?"
     },
-    "LOCATION_CREATION_FLOW": "location creation",
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
@@ -922,6 +955,7 @@
     "TAB": {
       "CROPS": "Crops",
       "DETAILS": "Details",
+      "FIELD_TECHNOLOGY": "Field Technology",
       "READINGS": "Readings",
       "TASKS": "Tasks"
     },
@@ -1056,7 +1090,6 @@
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
-    "SEND_US_FEEDBACK": "Send us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",
@@ -1066,6 +1099,7 @@
     },
     "PREFERRED_CONTACT": "Preferred contact method",
     "REQUIRED_LABEL": "Required Field",
+    "SEND_US_FEEDBACK": "Send us feedback",
     "TYPE_SUPPORT_LABEL": "Type of support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
     "WHATSAPP": "Whatsapp",
@@ -1316,7 +1350,6 @@
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
-    "MANAGEMENT_PLAN_FLOW": "crop plan creation",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
@@ -1553,6 +1586,7 @@
       "USER_ADDRESS_LENGTH": "User address cannot exceed 255 characters"
     },
     "FARM": {
+      "ADDONS": "Add-ons",
       "ADDRESS": "Address",
       "CHANGE_IMAGE": "Change Image",
       "CLICK_TO_UPLOAD": "Click to upload",
@@ -1649,7 +1683,6 @@
     "REPEAT_EVERY": "Repeat every",
     "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
     "REPEAT_ON": "Repeat on",
-    "REPEAT_PLAN_FLOW": "crop plan repetition",
     "REPETITIONS": "repetitions",
     "REPETITIONS_OF": "Repetitions of {{planName}}",
     "START_DATE": "Beginning",
@@ -1777,14 +1810,18 @@
     "ANIMALS_LOCATION": "Animal locations"
   },
   "SENSOR": {
+    "ARRAY": "Array",
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
+      "ADD_SENSORS": "Add sensors",
       "BRAND": "Brand",
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",
+      "DETECTED_FIELD": "We detected the field location to be:",
+      "DEVICE_TYPE": "Device type",
       "EDIT": "Edit",
       "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "EXTERNAL_IDENTIFIER": "External Identifier",
@@ -1793,6 +1830,28 @@
       "MODEL": "Model",
       "NAME": "Sensor Name",
       "RETIRE": "Retire"
+    },
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
+      "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
+      "WEATHER_STATION": "Weather station",
+      "WIND_SPEED_SENSOR": "Wind speed sensor"
+    },
+    "ESCI": {
+      "ACTIVE_CONNECTION": "You have an active ESci connection",
+      "CONNECT_NEW_SENSOR": "Connect a new sensor setup from ESci",
+      "CURRENT_SUPPORT": "We currently only support sensors from \"Ensemble Scientific\"",
+      "ENSEMBLE_ESID": "Ensemble ESID",
+      "ENTER_ID": "Enter your Ensemble Scientific organisation ID",
+      "MANAGE_LINK": "Manage ESci link",
+      "NAME": "Ensemble Scientific",
+      "ORGANISATION_ID": "ESci organisation ID",
+      "ORGANISATION_ID_ERROR": "Invalid Organisation ID",
+      "ORGANISATION_ID_GENERIC_ERROR": "Failed to connect to ESci. Please try again later.",
+      "SEE_ENSEMBLE_SENSOR_LIST": "See Ensemble sensor list",
+      "SHORT_NAME": "ESci",
+      "TO_MANAGE_SENSORS": "To manage your sensors individually, please connect to your ESci dashboard at {{url}}"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",
@@ -1809,12 +1868,22 @@
     "MONTHS_AGO": "{{time}} month(s) ago",
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
+    "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
     "READING": {
+      "BAROMETRIC_PRESSURE": "Barometric pressure",
+      "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "LATEST_READING": "Latest reading:",
+      "RAINFALL_RATE": "Rainfall rate",
+      "RELATIVE_HUMIDITY": "Relative humidity",
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "SOLAR_RADIATION": "Solar radiation",
       "TEMPERATURE": "Temperature",
       "TYPES": "Reading types",
-      "UNKNOWN": "Unknown"
+      "UNKNOWN": "Unknown",
+      "UPDATE_READINGS": "Update readings",
+      "WIND_DIRECTION": "Wind direction",
+      "WIND_SPEED": "Wind speed"
     },
     "READINGS_PREVIEW": {
       "SOIL_WATER_POTENTIAL": "Current soil water potential",
@@ -1829,6 +1898,8 @@
       "TITLE": "Retire sensor?"
     },
     "SECONDS_AGO": "{{time}} second(s) ago",
+    "SENSOR_ARRAY": "Sensor array",
+    "SENSOR_ARRAYS": "Sensor arrays",
     "SENSOR_FORECAST": {
       "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
       "TITLE": "Today's forecast",
@@ -1849,6 +1920,8 @@
       "TITLE": "Soil water potential",
       "Y_AXIS_LABEL": "in {{units}}"
     },
+    "STANDALONE_SENSOR": "Standalone sensor",
+    "STANDALONE_SENSORS": "Standalone sensors",
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
       "C": "Celsius (°C)",
@@ -1893,7 +1966,13 @@
   "STATUS": {
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "INVITED": "Invited"
+    "INVITED": "Invited",
+    "OFFLINE": "Offline",
+    "ONLINE": "Online",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "Device has not sent data for more than 12 hours",
+      "ONLINE_TOOLTIP": "Device has sent data within the last 12 hours"
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produced on",
@@ -1951,12 +2030,11 @@
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",
-    "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animals in this task",
+    "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
     "ANIMALS": "Animals",
     "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "At least one animal must be selected to complete this task. To remove all animals, abandon the task instead.",
-    "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animals in this task",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations",
@@ -1970,7 +2048,6 @@
     "COMPLETE_TASK": "Complete task",
     "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
-    "COMPLETE_TASK_FLOW": "task completion",
     "COMPLETION_DETAILS": "Task completion details",
     "COMPLETION_NOTES": "Task completion notes",
     "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -2080,11 +2157,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "BADGE": {
-    "BETA": {
-      "TITLE": "Beta",
-      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving LiteFarm! You can learn more about beta <a>here</a>"
-    }
   }
 }

@@ -19,11 +19,20 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
+import useLocationRouterTabs from '../../useLocationRouterTabs';
+import useGroupedSensors from '../../../SensorList/useGroupedSensors';
 
 export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
   const location_id = match.params.location_id;
-  const sensorInfo = useSelector(sensorsSelector(location_id));
+  // Grandfathered sensors
+  const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
+
+  const { groupedSensors } = useGroupedSensors();
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
+
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
 
@@ -49,6 +58,8 @@ export default function SensorDetail({ history, match }) {
     dispatch(retireSensor({ sensorInfo, onFailureWithIncompleteTasks }));
   };
 
+  const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
@@ -62,6 +73,7 @@ export default function SensorDetail({ history, match }) {
           setShowRetireModal={setShowRetireModal}
           showCannotRetireModal={showCannotRetireModal}
           setShowCannotRetireModal={setShowCannotRetireModal}
+          routerTabs={routerTabs}
         />
       )}
     </>

@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { ReactComponent as ShowMore } from '../../../assets/images/map/arrowDown.svg';
-import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import CompactPreview from '../PreviewPopup/CompactPreview';
-import { SENSOR } from '../../../containers/SensorReadings/constants';
 import { isTouchDevice } from '../../../util/device';
 import { useSelector } from 'react-redux';
 import { sensorReadingTypesByMultipleLocations } from '../../../containers/sensorReadingTypesSlice';
 import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
+import { SensorType } from '../../../containers/SensorList/useGroupedSensors';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
       width: 24,
       height: 24,
       transform: 'scale(1.25)',
+    },
+  },
+  sensorArrayIcon: {
+    '& svg': {
+      width: 24,
     },
   },
   areaIcon: {
@@ -134,21 +138,27 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const [sensorIdx, setSensorIdx] = useState(null);
-  const locationSensors = locations.filter((location) => location.type === SENSOR);
+  const locationSensors = locations.filter((location) => location.type === SensorType.SENSOR);
+  const locationSensorArrays = locations.filter(
+    (location) => location.type === SensorType.SENSOR_ARRAY,
+  );
 
   const readingTypes = useSelector(sensorReadingTypesByMultipleLocations(locationSensors));
 
   const showDetails = (id) => {
-    let sensor = readingTypes.find((sensor) => sensor.location_id === id);
+    let sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
     return (
-      sensor?.reading_types.includes(TEMPERATURE) ||
-      sensor?.reading_types.includes(SOIL_WATER_POTENTIAL)
+      sensor?.reading_types?.includes(TEMPERATURE) ||
+      sensor?.reading_types?.includes(SOIL_WATER_POTENTIAL)
     );
   };
 
   const isSensor = (id) => {
-    const sensor = readingTypes.find((sensor) => sensor.location_id === id);
-    return !!sensor?.reading_types;
+    return locationSensors.some((sensor) => sensor?.id === id);
+  };
+
+  const isSensorArray = (id) => {
+    return locationSensorArrays.some((sa) => sa?.id === id);
   };
 
   const handleMouseUp = (location, idx) => {
@@ -165,9 +175,10 @@ export default function PureSelectionHandler({ locations, history, sensorReading
   };
 
   const loadEditView = (location) => {
-    if (containsCrops(location.type)) {
-      history.push(`/${location.type}/${location.id}/crops`);
-    } else if (location.type === SENSOR) {
+    if (
+      location.isAddonSensor &&
+      [SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)
+    ) {
       history.push(`/${location.type}/${location.id}/readings`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);
@@ -204,6 +215,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                   className={clsx(
                     classes.itemIcon,
                     isSensor(location.id) && classes.sensorIcon,
+                    isSensorArray(location.id) && classes.sensorArrayIcon,
                     location.asset === 'area' && classes.areaIcon,
                   )}
                 >
@@ -222,8 +234,8 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                 )}
               </div>
               {readingTypes
-                .find((sensor) => sensor.location_id === location.id)
-                ?.reading_types.map((type, rid) => {
+                ?.find((sensor) => sensor?.location_id === location.id)
+                ?.reading_types?.map((type, rid) => {
                   if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
                     return (
                       <div

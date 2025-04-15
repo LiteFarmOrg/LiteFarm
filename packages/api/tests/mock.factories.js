@@ -604,15 +604,18 @@ async function crop_management_planFactory(
   ]);
   const [{ management_plan_id }] = managementPlan;
   const { needs_transplant } = cropManagementPlan;
-  needs_transplant &&
-    (await insertPlantingMethod({
+
+  if (needs_transplant) {
+    await insertPlantingMethod({
       ...plantingManagementPlans[1],
       planting_management_plan: {
         ...plantingManagementPlans[1].planting_management_plan,
         management_plan_id,
         location_id,
       },
-    }));
+    });
+  }
+
   await insertPlantingMethod({
     ...plantingManagementPlans[0],
     planting_management_plan: {
@@ -2422,7 +2425,7 @@ async function animal_batchFactory(
         .into('animal_batch')
         .returning('*');
 
-      let details = [];
+      const details = [];
       for (const detail of sex_detail) {
         const res = await trx
           .insert({ ...detail, animal_batch_id: batch[0].id })
@@ -2542,6 +2545,30 @@ async function animal_type_use_relationshipFactory({
       default_type_id: defaultTypeId,
       animal_use_id: animalUseId,
     })
+    .returning('*');
+}
+
+async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
+  return knex('addon_partner')
+    .insert({
+      ...partner,
+      access_token: faker.datatype.access_token,
+      refresh_token: faker.datatype.refresh_token,
+    })
+    .returning('*');
+}
+
+async function farm_addonFactory({
+  promisedFarm = farmFactory(),
+  promisedPartner = addon_partnerFactory(),
+  org_pk = faker.datatype.number(),
+  org_uuid = faker.datatype.uuid(),
+} = {}) {
+  const [farm, partner] = await Promise.all([promisedFarm, promisedPartner]);
+  const [{ farm_id }] = farm;
+  const [{ id: addon_partner_id }] = partner;
+  return await knex('farm_addon')
+    .insert({ farm_id, addon_partner_id, org_pk, org_uuid })
     .returning('*');
 }
 
@@ -2705,5 +2732,7 @@ export default {
   animal_removal_reasonFactory,
   animal_useFactory,
   animal_type_use_relationshipFactory,
+  addon_partnerFactory,
+  farm_addonFactory,
   baseProperties,
 };

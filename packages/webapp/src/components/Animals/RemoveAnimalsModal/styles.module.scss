@@ -13,7 +13,7 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
-form > * {
+.form > * {
   margin-top: 24px;
 
   &:first-child {
@@ -21,7 +21,7 @@ form > * {
   }
 }
 
-fieldset {
+.fieldset {
   all: unset;
   width: 100%;
 }

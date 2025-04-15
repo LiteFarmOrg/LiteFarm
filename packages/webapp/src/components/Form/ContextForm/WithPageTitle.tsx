@@ -22,7 +22,6 @@ interface WithPageTitleProps {
   children: ReactNode;
   steps: { formContent: ReactNode; title: string }[];
   activeStepIndex: number;
-  cancelModalTitle: string;
   onGoBack: () => void;
   onCancel: () => void;
 }
@@ -31,7 +30,6 @@ export const WithPageTitle = ({
   children,
   steps,
   activeStepIndex,
-  cancelModalTitle,
   onGoBack,
   onCancel,
 }: WithPageTitleProps) => {
@@ -52,12 +50,10 @@ export const WithPageTitle = ({
     <ClickAwayListener onClickAway={onClickAway} mouseEvent="onMouseDown" touchEvent="onTouchStart">
       <div>
         <Layout>
-          {/* @ts-ignore */}
           <MultiStepPageTitle
             title={title}
             onGoBack={onGoBack}
             onCancel={onCancel}
-            cancelModalTitle={cancelModalTitle}
             value={progressBarValue}
             showConfirmCancelModal={showConfirmCancelModal}
             setShowConfirmCancelModal={setShowConfirmCancelModal}

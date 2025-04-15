@@ -87,7 +87,7 @@ export const Default: Story = {
 export const WithLocale: Story = {
   args: { locale: 'pt', info: 'Invalid locale defaults to browsers locale' },
   render: (args) => {
-    return <NumberInputRHF {...args} label={`Locale: ${args.locale}`} />;
+    return <NumberInputRHF {...args} name={args.name} label={`Locale: ${args.locale}`} />;
   },
   argTypes: { locale: { description: 'Overrides locale used internally with i18n' } },
   play: async ({ step }) => {

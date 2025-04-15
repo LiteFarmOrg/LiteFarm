@@ -1,0 +1,184 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin.scss';
+
+.container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+
+  border-radius: 4px;
+  border: 1px solid #ebebeb;
+  background: #fff;
+
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  align-self: stretch;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.addonCard {
+  display: flex;
+  padding: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Backgrounds-Disabled-grey);
+  background: var(--Colors-Backgrounds-Background-color);
+
+  @include md-breakpoint {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+.internalLink {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px;
+  padding-left: 20px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  color: var(--Colors-Neutral-Neutral-900);
+
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+
+  svg path {
+    fill: currentColor;
+  }
+
+  @include md-breakpoint {
+    box-shadow: none;
+    padding-left: 12px;
+  }
+}
+
+.addonDetails {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+
+  .infoText {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    max-width: 375px;
+  }
+
+  @include md-breakpoint {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+
+    .infoText {
+      max-width: 100%;
+    }
+  }
+}
+
+.partner {
+  width: min-content;
+  padding-right: 16px;
+}
+
+.addonConnectionInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  @include md-breakpoint {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  @include lg-breakpoint {
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+}
+
+.orgIdLabel {
+  color: var(--Colors-Neutral-Neutral-400);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.orgId {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.disconnect {
+  text-decoration: none;
+}
+
+.disconnectButton {
+  width: max-content;
+  justify-self: center;
+}
+
+.disconnectModal {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 16px 24px;
+
+  h4 {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.352px;
+  }
+}
+
+.modalButtonGroup {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+
+  button {
+    justify-self: stretch;
+    width: 100%;
+  }
+}

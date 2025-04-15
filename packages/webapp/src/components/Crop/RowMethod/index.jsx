@@ -52,7 +52,6 @@ export default function PureRowMethod({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}

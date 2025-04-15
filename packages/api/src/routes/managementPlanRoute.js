@@ -34,7 +34,7 @@ router.get(
   '/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:management_plan']),
-  managementPlanController.getManagementPlanByFarmID(),
+  managementPlanController.getManagementPlansByFarmId(),
 );
 
 router.get(

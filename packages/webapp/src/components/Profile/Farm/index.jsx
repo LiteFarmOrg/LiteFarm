@@ -24,6 +24,7 @@ import ProfileLayout from '../ProfileLayout';
 import { Label } from '../../Typography';
 import ImagePicker from '../../ImagePicker';
 import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
+import FarmAddons from '../../../containers/Profile/Farm/Addons';
 
 export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
   const MEASUREMENT = 'units.measurement';
@@ -141,6 +142,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
           />
         )}
       </div>
+      <FarmAddons />
     </ProfileLayout>
   );
 }

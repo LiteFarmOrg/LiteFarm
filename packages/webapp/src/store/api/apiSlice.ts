@@ -34,6 +34,8 @@ import {
   productUrl,
   url,
   animalMovementPurposesUrl,
+  sensorUrl,
+  farmAddonUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -53,6 +55,9 @@ import type {
   AnimalOrigin,
   AnimalUse,
   AnimalMovementPurpose,
+  SensorData,
+  FarmAddon,
+  SensorReadings,
 } from './types';
 
 export const api = createApi({
@@ -88,6 +93,10 @@ export const api = createApi({
     'SoilAmendmentPurposes',
     'SoilAmendmentFertiliserTypes',
     'SoilAmendmentProduct',
+    'Sensors',
+    'SensorReadings',
+    'FarmAddon',
+    'Weather',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -238,6 +247,49 @@ export const api = createApi({
         }),
       },
     ),
+    getSensors: build.query<SensorData, void>({
+      query: () => `${sensorUrl}`,
+      keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
+      providesTags: ['Sensors'],
+    }),
+    getSensorReadings: build.query<
+      SensorReadings,
+      {
+        esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+        startTime?: string; // ISO 8601
+        endTime?: string; // ISO 8601
+        truncPeriod?: 'minute' | 'hour' | 'day';
+      }
+    >({
+      query: ({ esids, startTime, endTime, truncPeriod }) => {
+        const params = new URLSearchParams({ esids });
+        if (startTime) params.append('startTime', startTime);
+        if (endTime) params.append('endTime', endTime);
+        if (truncPeriod) params.append('truncPeriod', truncPeriod);
+        return `${sensorUrl}/readings?${params.toString()}`;
+      },
+      providesTags: ['SensorReadings'],
+    }),
+    addFarmAddon: build.mutation<void, FarmAddon>({
+      query: (body) => ({
+        url: `${farmAddonUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['FarmAddon'],
+    }),
+    getFarmAddon: build.query<FarmAddon[], string | void>({
+      query: (param = '') => `${farmAddonUrl}${param}`,
+      providesTags: ['FarmAddon'],
+    }),
+    deleteFarmAddon: build.mutation<void, number>({
+      query: (id) => ({
+        url: `${farmAddonUrl}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, error) =>
+        error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
+    }),
   }),
 });
 
@@ -268,4 +320,10 @@ export const {
   useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
+  useGetSensorsQuery,
+  useGetSensorReadingsQuery,
+  useLazyGetSensorsQuery,
+  useAddFarmAddonMutation,
+  useGetFarmAddonQuery,
+  useDeleteFarmAddonMutation,
 } = api;

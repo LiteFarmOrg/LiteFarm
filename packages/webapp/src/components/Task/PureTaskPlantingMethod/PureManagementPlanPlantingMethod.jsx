@@ -54,7 +54,6 @@ export function PureTaskPlantingMethod({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('ADD_TASK.CANCEL')}
         title={t('ADD_TASK.ADD_A_TASK')}
         value={62.5}
         style={{ marginBottom: '24px' }}

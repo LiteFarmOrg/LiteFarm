@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (farm.test.js) is part of LiteFarm.
@@ -34,11 +35,11 @@ import { faker } from '@faker-js/faker';
 import _pick from 'lodash/pick';
 import _isEqual from 'lodash/isEqual';
 import managementPlanModel from '../src/models/managementPlanModel.js';
-import locationModel from '../src/models/locationModel.js';
 import cropManagementPlanModel from '../src/models/cropManagementPlanModel.js';
 import { getDatesFromManagementPlanGraph } from '../src/util/copyCropPlan.js';
 import { getBareBonesManagementPlan } from './utils/managementPlanTestUtils.js';
 import { getSortedDates } from '../src/util/util.js';
+import { setupFarmEnvironment, setupManagementPlans } from './utils/testDataSetup.js';
 
 const ONE_WEEK_IN_MILLISECONDS = 604800000;
 
@@ -146,25 +147,7 @@ describe('ManagementPlan Tests', () => {
   }
 
   beforeEach(async () => {
-    [owner] = await mocks.usersFactory();
-    [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory(
-      {
-        promisedUser: [owner],
-        promisedFarm: [farm],
-      },
-      fakeUserFarm(1),
-    );
-    const [location] = await mocks.locationFactory({ promisedFarm: [farm] });
-    await mocks.fieldFactory({
-      promisedLocation: [location],
-    });
-    field = await locationModel
-      .query()
-      .context({ showHidden: true })
-      .whereNotDeleted()
-      .findById(location.location_id).withGraphFetched(`[
-          figure.[area], field]`);
+    ({ owner, farm, field } = await setupFarmEnvironment());
   });
 
   afterAll(async (done) => {
@@ -181,43 +164,10 @@ describe('ManagementPlan Tests', () => {
     let crop;
     let cropVariety;
     let unAuthorizedUser;
+
     beforeEach(async () => {
-      [crop] = await mocks.cropFactory(
-        { promisedFarm: [farm] },
-        {
-          ...mocks.fakeCrop(),
-          crop_common_name: 'crop',
-          user_added: true,
-        },
-      );
-      [cropVariety] = await mocks.crop_varietyFactory({
-        promisedFarm: [farm],
-        promisedCrop: [crop],
-      });
-      [transplantManagementPlan] = await mocks.crop_management_planFactory(
-        {
-          promisedField: [field],
-          promisedCropVariety: [cropVariety],
-        },
-        {
-          cropManagementPlan: {
-            ...mocks.fakeCropManagementPlan(),
-            needs_transplant: true,
-          },
-        },
-      );
-      [seedManagementPlan] = await mocks.crop_management_planFactory(
-        {
-          promisedField: [field],
-          promisedCropVariety: [cropVariety],
-        },
-        {
-          cropManagementPlan: {
-            ...mocks.fakeCropManagementPlan(),
-            needs_transplant: false,
-          },
-        },
-      );
+      ({ crop, cropVariety, transplantManagementPlan, seedManagementPlan } =
+        await setupManagementPlans({ farm, field }));
 
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory(
@@ -820,9 +770,8 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with one pending task that reference this management plan and another management_plan', async (done) => {
         const reqBody = getCompleteReqBody();
-        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(
-          transplantManagementPlan,
-        );
+        const [plantingManagementPlan] =
+          await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
           promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
@@ -867,9 +816,8 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with two pending task that reference this management plan and another management_plan', async (done) => {
         const reqBody = getCompleteReqBody(true);
-        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(
-          transplantManagementPlan,
-        );
+        const [plantingManagementPlan] =
+          await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
           promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
@@ -923,9 +871,8 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with one pending task that reference this management plan and no location', async (done) => {
         const reqBody = getCompleteReqBody(true);
-        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(
-          transplantManagementPlan,
-        );
+        const [plantingManagementPlan] =
+          await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [task] = await mocks.management_tasksFactory({
           promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
@@ -947,9 +894,8 @@ describe('ManagementPlan Tests', () => {
 
       test('Should return 400 when complete management plan with pending tasks', async (done) => {
         const reqBody = getCompleteReqBody();
-        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(
-          transplantManagementPlan,
-        );
+        const [plantingManagementPlan] =
+          await getFinalPlantingManagementPlan(transplantManagementPlan);
         const pendingTask = await mocks.management_tasksFactory({
           promisedPlantingManagementPlan: [plantingManagementPlan],
         });
@@ -1032,11 +978,8 @@ describe('ManagementPlan Tests', () => {
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
       const { management_plan_id } = res.body.management_plan;
-      const {
-        already_in_ground,
-        for_cover,
-        needs_transplant,
-      } = res.body.management_plan.crop_management_plan;
+      const { already_in_ground, for_cover, needs_transplant } =
+        res.body.management_plan.crop_management_plan;
       if (!already_in_ground) {
         const { planting_management_plan_id } = await knex('planting_management_plan')
           .where({
@@ -1188,7 +1131,8 @@ describe('ManagementPlan Tests', () => {
         .where('location.location_id', field.location_id)
         .first();
       broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.percentage_planted = 100;
-      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used = total_area;
+      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used =
+        total_area;
       postManagementPlanRequest(broadcastData, userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
         done();

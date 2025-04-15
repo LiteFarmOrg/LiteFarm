@@ -283,6 +283,21 @@ class Location extends baseModel {
       .where({ location_id })
       .patch({ deleted: false });
   }
+
+  /* Mirrors cropLocationsSelector but without buffer zone (which does not return a polygon) */
+  static async getCropSupportingLocationsByFarmId(farm_id, trx) {
+    return Location.query(trx)
+      .where({ 'location.farm_id': farm_id })
+      .whereExists(
+        Location.relatedQuery('figure', trx).whereIn('figure.type', [
+          'field',
+          'garden',
+          'greenhouse',
+        ]),
+      )
+      .withGraphFetched('[figure.[area], field, garden, greenhouse]')
+      .whereNotDeleted();
+  }
 }
 
 export default Location;

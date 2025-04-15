@@ -47,7 +47,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
             <Cell
               iconName={'DOT'}
               kind={CellKind.ICON_TEXT}
-              text={`${t('IRRIGATION_PRESCRIPTION.ZONE')} ${d.id}`}
+              text={`${t('IRRIGATION_PRESCRIPTION.ZONE')} ${d.id + 1}`}
               className={styles.irrigationZoneCell}
               style={{ '--zone-colour': zoneColour } as React.CSSProperties}
             />
@@ -99,4 +99,4 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
 }
 
 const getZoneColour = (id: number): string =>
-  IRRIGATION_ZONE_COLOURS[(id - 1) % IRRIGATION_ZONE_COLOURS.length];
+  IRRIGATION_ZONE_COLOURS[id % IRRIGATION_ZONE_COLOURS.length];

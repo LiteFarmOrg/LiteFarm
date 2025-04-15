@@ -56,7 +56,7 @@ const PureIrrigationPrescription = ({
   const tableInfo = vriZones
     ? vriZones.map(({ grid_points, ...zoneData }, index) => ({
         ...zoneData,
-        id: index + 1,
+        id: index,
       }))
     : [
         {

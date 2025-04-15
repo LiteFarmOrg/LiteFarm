@@ -21,14 +21,15 @@ import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
+import type { Point } from '../../util/geoUtils';
 
 interface IrrigationZonePolygon {
-  grid_points: { lat: number; lng: number }[];
+  grid_points: Point[];
 }
 
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation: Location;
-  pivotCenter: { lat: number; lng: number };
+  pivotCenter: Point;
   pivotRadiusInMeters: number;
   className?: string;
   vriZones?: IrrigationZonePolygon[];

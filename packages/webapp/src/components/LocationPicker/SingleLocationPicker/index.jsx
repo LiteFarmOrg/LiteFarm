@@ -15,7 +15,7 @@ import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   createMarkerClusters,
   DEFAULT_POLYGON_OPACITY,
-  drawCropLocation,
+  drawLocation,
   SELECTED_POLYGON_OPACITY,
 } from './drawLocations';
 import { usePropRef } from './usePropRef';
@@ -82,7 +82,7 @@ const LocationPicker = ({
 
   useEffect(() => {
     if (maxZoom && gMap && gMaps && gMapBounds) {
-      drawLocations(gMap, gMaps, gMapBounds);
+      drawAllLocations(gMap, gMaps, gMapBounds);
     }
   }, [maxZoom, gMap, gMaps, gMapBounds]);
 
@@ -154,9 +154,9 @@ const LocationPicker = ({
     }
   };
 
-  const drawLocations = (map, maps, mapBounds) => {
+  const drawAllLocations = (map, maps, mapBounds) => {
     locations.forEach((location) => {
-      const assetGeometry = drawCropLocation(map, maps, mapBounds, location, disableHover);
+      const assetGeometry = drawLocation(map, maps, mapBounds, location, disableHover);
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
       if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
@@ -168,7 +168,10 @@ const LocationPicker = ({
       } else if (isCircle(assetGeometry.location.type)) {
         maps.event.addListener(assetGeometry.circle, 'click', (e) => areaOnClick(e.latLng, maps));
       } else {
-        maps.event.addListener(assetGeometry.polygon, 'click', (e) => areaOnClick(e.latLng, maps));
+        maps.event.addListener(assetGeometry.polygon, 'click', (e) => {
+          console.log('event listener firing');
+          areaOnClick(e.latLng, maps);
+        });
       }
     });
     createMarkerClusters(
@@ -326,7 +329,7 @@ const LocationPicker = ({
 
     // Drawing locations on map
     drawWildCropPins(map, maps, mapBounds);
-    drawLocations(map, maps, mapBounds);
+    drawAllLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
     setGMap(map);
     setGMaps(maps);

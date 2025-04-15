@@ -22,7 +22,7 @@ export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
 export const HOVER_POLYGON_OPACITY = 0.8;
 
-export const drawCropLocation = (map, maps, mapBounds, location, disableHover = false) => {
+export const drawLocation = (map, maps, mapBounds, location, disableHover = false) => {
   if (isCircle(location.type)) return drawCircle(map, maps, mapBounds, location, disableHover);
   if (isNoFillArea(location.type))
     return drawNoFillArea(map, maps, mapBounds, location, disableHover);

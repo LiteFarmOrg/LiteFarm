@@ -15,7 +15,7 @@
 
 export const IRRIGATION_ZONE_COLOURS = ['#6EAFFF', '#3585E5', '#2a6ab7', '#205089', '#132f50'];
 
-// The contast between dark purple and the darkest blue of the zones above is illegible and requires a different colour
+// The contrast between dark purple and the darkest blue of the zones above is illegible and requires a different colour
 export const BRIGHT_PIVOT_COLOUR = '#f4e8ff'; // --Colors-Accent---singles-Purple-light
 
 // Used to calculate the endpoint of the pivot arm in lat/lng based on the pivot radius and center

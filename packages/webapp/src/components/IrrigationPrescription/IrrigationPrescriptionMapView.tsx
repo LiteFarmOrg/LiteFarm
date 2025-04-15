@@ -22,10 +22,11 @@ import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
 import { IrrigationPolygonData } from './types';
+import type { Point } from '../../util/geoUtils';
 
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation: Location;
-  pivotCenter: { lat: number; lng: number };
+  pivotCenter: Point;
   pivotRadiusInMeters: number;
   className?: string;
   vriZones?: IrrigationPolygonData[];

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
@@ -79,6 +79,18 @@ const getFakeColumnsTwo = () => {
       ),
     },
     {
+      id: 'taskStatus',
+      label: 'Task Status',
+      format: (d) => (
+        <Cell
+          kind={CellKind.TASK_STATUS_INDICATOR_PILL}
+          color={d.taskStatus}
+          label={d.taskStatus.toUpperCase()}
+          taskId={d.task_id}
+        />
+      ),
+    },
+    {
       id: 'revenue',
       label: 'Revenue',
       format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
@@ -100,6 +112,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 8796.0,
+      task_id: 1,
+      taskStatus: 'active',
     },
     {
       date: Date.now() - 1000 * 60 * 3,
@@ -107,6 +121,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 692.5,
+      task_id: 1,
+      taskStatus: 'planned',
     },
     {
       date: Date.now() - 1000 * 60 * 60 * 3,
@@ -114,6 +130,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2'],
       revenue: 210.0,
+      task_id: 1,
+      taskStatus: 'late',
     },
     {
       date: Date.now() - 1000 * 7 * 60 * 60 * 3,
@@ -121,6 +139,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 340.0,
+      task_id: 1,
+      taskStatus: 'completed',
     },
     {
       date: Date.now() - 1000 * 30 * 60 * 60 * 3,
@@ -128,6 +148,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: [],
       revenue: 1234.0,
+      task_id: 1,
+      taskStatus: 'abandoned',
     },
     {
       date: Date.now() - 1000 * 366 * 60 * 60 * 3,
@@ -135,6 +157,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 785.5,
+      task_id: 1,
+      taskStatus: 'disabled',
     },
     {
       date: Date.now(),
@@ -142,6 +166,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 237.0,
+      task_id: 1,
+      taskStatus: 'planned',
     },
     {
       date: Date.now(),
@@ -149,6 +175,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 895.0,
+      task_id: 1,
+      taskStatus: 'planned',
     },
     {
       date: Date.now(),
@@ -156,6 +184,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 354.0,
+      task_id: 1,
+      taskStatus: 'planned',
     },
     {
       date: Date.now(),
@@ -163,6 +193,8 @@ const getFakeData = (length) => {
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 789.5,
+      task_id: 1,
+      taskStatus: 'planned',
     },
   ].slice(0, length);
 };

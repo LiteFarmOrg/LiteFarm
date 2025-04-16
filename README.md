@@ -204,6 +204,150 @@ If you are unable to use Docker, please contact a core team member to get instru
 
 </details>
 
+<details>
+  <summary>Instructions for self-hosting LiteFarm</summary>
+
+### Self-hosting LiteFarm
+
+To self-host LiteFarm, you will need to:
+
+1. Configure domain.
+2. Configure Linux server.
+3. Set up a web server (e.g. Nginx or Apache).
+4. Set up a [Postgres database](#database-setup).
+5. Set up services.
+6. LiteFarm configuration.
+7. Compile and startup LiteFarm.
+
+#### Domain
+
+LiteFarm uses few endpoints and each endpoint needs its own domain:
+
+- main address like `yourdomain.com` where the webapp is hosted,
+- api address like `api.yourdomain.com` where the api is hosted,
+- file service address like `files.yourdomain.com`.
+
+All domain should be pointed to the server IP address on which each service is hosted.
+If all services are hosted on the same server then it will be the same IP address.
+
+#### Linux server
+
+LiteFarm can be hosted on any server that supports Node.js, PostgreSQL or Docker. Recommended is Ubuntu or Debian
+but any Linux distribution should work.
+
+There are few possibilities to self-host LiteFarm:
+
+- from scratch on a server,
+- using Docker.
+
+Node.js should be in version pointed in `.nvmrc` file in the root of the repo.
+Using [NVM](https://github.com/nvm-sh/nvm) is recommended.
+
+Other recommendations:
+
+- install/start LiteFarm `api` service as non-root user,
+- configure firewall to allow only necessary ports,
+- use SSL certificates for secure connections.
+
+When installing from scratch, you will need to install Node.js, PostgreSQL, Redis and other dependencies manually.
+
+#### Web server
+
+LiteFarm is built with Node.js and can be run directly on the server.
+However, it is recommended to use a web server like Nginx or Apache to
+handle incoming requests and route them to the appropriate service.
+
+Using Nginx or Apache will also allow you to use SSL certificates for secure connections.
+
+Nginx or Apache will be also needed if all services are hosted on the same server.
+
+#### Postgres
+
+Database can be used from [Docker container](#postgresql-database)
+or [installed directly](#database---native-installation) on the server.
+
+#### LiteFarm services
+
+LiteFarm uses few services to handle images, documents and certification exports.
+This can be done using Docker containers or installed directly on the server
+as [described above](#services-local-development-dependencies).
+
+#### LiteFarm configuration
+
+When we have all services running, we need to configure packages LiteFarm to use them.
+
+1. Api service `packages/api/.env`:
+
+   ```ini
+   # Set correct NODE_ENV
+   NODE_ENV=production
+   PORT=5001
+   # Public API URL
+   API_PUBLIC_URL=https://api.yourdomain.com
+   # Webapp public URL
+   HOME_PUBLIC_URL=https://youdomain.com
+
+   # S3 storage configuration
+   S3_ENDPOINT=??
+   S3_ENDPOINT_BUCKET=??
+   S3_PUBLIC_BUCKET_NAME=??
+   S3_PRIVATE_BUCKET_NAME=???
+   S3_REGION=???
+   S3_ACCESS_KEY_ID=???
+   S3_SECRET_ACCESS_KEY=???
+   #S3_FORCE_PATH_STYLE=true/false
+
+   # Email configuration (SMTP)
+   #EMAIL_TRANSPORT_HOST=smtp.server.com
+   #EMAIL_TRANSPORT_PORT=465
+   #EMAIL_TRANSPORT_SECURE=true
+   #EMAIL_TRANSPORT_SERVICE=smtp
+   #EMAIL_TRANSPORT_USER=?
+   #EMAIL_TRANSPORT_PASSWORD=?
+   ```
+
+   Other variables should be set as in `.env.default` file.
+
+2. File service `packages/fileservice/.env`. Just use `packages/fileservice/.env.default` file as a template
+   and set the same values for `S3_*` variables as in `packages/api/.env` (you can omit the `PUBLIC` bucket settings)
+   and `JWT_FARM_SECRET` which should be the same as in `packages/api/.env`.
+3. Webapp `packages/webapp/.env`:
+   ```ini
+   VITE_API_URL=https://api.yourdomain.com
+   VITE_S3_SERVICE=https://files.yourdomain.com
+   ```
+   Other variables should be set as in `.env.default` file.
+
+#### Compile and startup LiteFarm
+
+Each endpoint should be compiled and started separately.
+
+1. Webapp:
+   ```bash
+   cd packages/webapp
+   pnpm build
+   ```
+   Now you can copy the `dist` folder to the web server root directory and configure the web server to serve it
+   (static files) or point the web server to the `dist` folder or use `serve` command to serve the files
+   and configure the web server to proxy the requests to the `serve` command/port.
+2. File service:
+   ```bash
+   cd packages/fileservice
+   npm run start
+   ```
+3. Api:
+   ```bash
+   cd packages/api
+   npm run build
+   npm run start:prod
+   ```
+   You need to keep in mind two things:
+
+- all [preliminaries](#preliminaries) should be done before running the commands above,
+- all [services](#services-local-development-dependencies) should be running before starting the api.
+
+</details>
+
 # Testing
 
 ## api

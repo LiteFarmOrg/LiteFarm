@@ -36,7 +36,7 @@ export default function PureCustomSignUp({
           <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
-              {!!errorMessage ? (
+              {errorMessage ? (
                 <Error style={{ maxWidth: '300px' }}>{errorMessage}</Error>
               ) : (
                 <>
@@ -47,12 +47,16 @@ export default function PureCustomSignUp({
             </div>
           )}
 
-          <div data-cy="continueGoogle" className={styles.ssoButton}>
-            {GoogleLoginButton}
-          </div>
-          <div className={styles.lineBreak}>
-            <LineBreak />
-          </div>
+          {GoogleLoginButton && (
+            <div data-cy="continueGoogle" className={styles.ssoButton}>
+              {GoogleLoginButton}
+            </div>
+          )}
+          {GoogleLoginButton && (
+            <div className={styles.lineBreak}>
+              <LineBreak />
+            </div>
+          )}
 
           <div className={styles.continueButton}>
             <Input data-cy="email" classes={inputClasses} {...inputs[0]} />

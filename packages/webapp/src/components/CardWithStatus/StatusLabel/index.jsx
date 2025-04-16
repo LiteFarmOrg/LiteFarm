@@ -1,7 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
+import { Link } from 'react-router-dom';
+import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
+import styles from './styles.module.scss';
 import clsx from 'clsx';
 
 const useStyles = makeStyles({
@@ -44,7 +46,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const StatusLabel = ({ color = 'active', label, sm, ...props }) => {
+export const StatusLabel = ({ color = 'active', label, sm, children, ...props }) => {
   const classes = useStyles();
   return (
     <div
@@ -53,11 +55,30 @@ export const StatusLabel = ({ color = 'active', label, sm, ...props }) => {
       {...props}
     >
       {label}
+      {children}
     </div>
   );
 };
 
+export const StatusLabelLinkProps = {};
+
+export const StatusLabelLink = ({ taskId, ...props }) => {
+  return (
+    <Link className={styles.link} to={{ pathname: `/task/${taskId}/read_only` }}>
+      <StatusLabel {...props}>
+        <ExternalLinkIcon />
+      </StatusLabel>
+    </Link>
+  );
+};
+
 StatusLabel.propTypes = {
+  color: PropTypes.oneOf(['active', 'planned', 'late', 'completed', 'abandoned', 'disabled']),
+  label: PropTypes.string,
+  sm: PropTypes.bool,
+};
+
+StatusLabelLink.propTypes = {
   color: PropTypes.oneOf(['active', 'planned', 'late', 'completed', 'abandoned', 'disabled']),
   label: PropTypes.string,
   sm: PropTypes.bool,

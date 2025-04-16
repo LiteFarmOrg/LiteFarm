@@ -21,7 +21,7 @@ import IrrigationPrescriptionTable from '../../components/IrrigationPrescription
 import { IrrigationData, IrrigationPolygonData } from './types';
 
 interface CommonIrrigationPrescriptionProps {
-  fieldLocation: Location;
+  fieldLocation?: Location;
   pivotCenter: { lat: number; lng: number };
   pivotRadiusInMeters: number;
   system: System;

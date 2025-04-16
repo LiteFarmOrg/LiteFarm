@@ -25,7 +25,7 @@ import { IrrigationPolygonData } from './types';
 import type { Point } from '../../util/geoUtils';
 
 interface IrrigationPrescriptionMapViewProps {
-  fieldLocation: Location;
+  fieldLocation?: Location;
   pivotCenter: Point;
   pivotRadiusInMeters: number;
   className?: string;
@@ -57,7 +57,11 @@ const IrrigationPrescriptionMapView = ({
     <div className={clsx(className, styles.mapContainer)}>
       <LocationPicker
         onSelectLocation={() => {}}
-        locations={[fieldLocation, ...irrigationZoneMapObjects, ...pivotMapObjects]}
+        locations={[
+          ...(fieldLocation ? [fieldLocation] : []),
+          ...irrigationZoneMapObjects,
+          ...pivotMapObjects,
+        ]}
         selectedLocationIds={[]}
         farmCenterCoordinate={pivotCenter}
         maxZoomRef={maxZoomRef}

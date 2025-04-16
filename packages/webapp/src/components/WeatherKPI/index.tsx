@@ -13,24 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import clsx from 'clsx';
+import DescriptionListTile, { type TileData } from '../Tile/DescriptionListTile';
 import styles from './styles.module.scss';
-
-export type TileData = { label: string; data: ReactNode; hideLabel?: boolean };
 
 type WeatherKPIProps = { data: TileData[]; className?: string };
 
 const WeatherKPI = ({ data, className }: WeatherKPIProps) => {
   return (
     <div className={clsx(styles.weatherKPI, className)}>
-      {data.map(({ label, data, hideLabel }) => {
-        return (
-          <dl key={label}>
-            <dt className={hideLabel ? styles.hideLabel : ''}>{label}</dt>
-            <dd>{data}</dd>
-          </dl>
-        );
+      {data.map((props) => {
+        return <DescriptionListTile {...props} />;
       })}
     </div>
   );

@@ -19,6 +19,7 @@ import Cell from '../../components/Table/Cell';
 import { TableKind, CellKind } from '../../components/Table/types';
 import { Status } from '../../components/StatusIndicatorPill';
 import { getIntlDate } from '../../util/date-migrate-TS';
+import styles from './styles.module.scss';
 
 export default {
   title: 'Components/Tables/Cells',
@@ -75,7 +76,12 @@ const getFakeColumnsTwo = () => {
       id: 'date',
       label: 'Date',
       format: (d) => (
-        <Cell kind={CellKind.ICON_TEXT} iconName={'CALENDAR'} text={getIntlDate(d.date)} />
+        <Cell
+          kind={CellKind.ICON_TEXT}
+          iconName={'CALENDAR'}
+          text={getIntlDate(d.date)}
+          className={styles.dateCell}
+        />
       ),
     },
     {

@@ -104,7 +104,7 @@ export interface StatusLabelLinkProps extends StatusLabelProps {
 
 export const StatusLabelLink = ({ taskId, ...props }: StatusLabelLinkProps) => {
   return (
-    <Link className={styles.link} to={{ pathname: `/task/${taskId}/read_only` }}>
+    <Link className={styles.link} to={{ pathname: `/tasks/${taskId}/read_only` }}>
       <StatusLabel {...props}>
         <ExternalLinkIcon />
       </StatusLabel>

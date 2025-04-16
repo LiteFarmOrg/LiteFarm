@@ -134,6 +134,22 @@
   }
 }
 
+.weatherKPI {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  dl {
+    min-width: calc((100% - 24px) / 3);
+    flex: 1 1 210px;
+    background: #f9fafc;
+
+    &:nth-child(n + 4) {
+      min-width: calc((100% - 24px) / 4);
+    }
+  }
+}
+
 .windData {
   display: flex;
   align-items: center;

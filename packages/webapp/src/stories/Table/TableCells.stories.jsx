@@ -18,6 +18,7 @@ import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
 import { TableKind, CellKind } from '../../components/Table/types';
 import { Status } from '../../components/StatusIndicatorPill';
+import { getIntlDate } from '../../util/date-migrate-TS';
 
 export default {
   title: 'Components/Tables/Cells',
@@ -25,7 +26,7 @@ export default {
   decorators: v2TableDecorator,
 };
 
-const getFakeColumns = () => {
+const getFakeColumnsOne = () => {
   return [
     {
       id: 'crop',
@@ -68,33 +69,96 @@ const getFakeColumns = () => {
   ];
 };
 
+const getFakeColumnsTwo = () => {
+  return [
+    {
+      id: 'date',
+      label: 'Date',
+      format: (d) => (
+        <Cell kind={CellKind.ICON_TEXT} iconName={'CALENDAR'} text={getIntlDate(d.date)} />
+      ),
+    },
+    {
+      id: 'revenue',
+      label: 'Revenue',
+      format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
+    },
+    {
+      id: 'rightChevronLink',
+      label: '',
+      format: (d) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={'/'} />,
+      sortable: false,
+    },
+  ];
+};
+
 const getFakeData = (length) => {
   return [
     {
+      date: Date.now(),
       crop: 'White corn, Corn',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 8796.0,
     },
     {
+      date: Date.now() - 1000 * 60 * 3,
       crop: 'Koto, Buckwheat',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 692.5,
     },
     {
+      date: Date.now() - 1000 * 60 * 60 * 3,
       crop: 'Lutz green leaf, Beetroot',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2'],
       revenue: 210.0,
     },
-    { crop: 'Cox’s orange pippin, Apple', iconName: 'CROP', tasks: ['Task 1'], revenue: 340.0 },
-    { crop: 'Macoun, Apples', iconName: 'CROP', tasks: [], revenue: 1234.0 },
-    { crop: 'Butter Boy Hybrid, Butternut ', iconName: 'CROP', tasks: ['Task 1'], revenue: 785.5 },
-    { crop: 'King Edward, Potato', iconName: 'CROP', tasks: ['Task 1'], revenue: 237.0 },
-    { crop: 'Blanco Veneto, Celeriac', iconName: 'CROP', tasks: ['Task 1'], revenue: 895.0 },
-    { crop: 'Hollow Crown, Parsnips ', iconName: 'CROP', tasks: ['Task 1'], revenue: 354.0 },
     {
+      date: Date.now() - 1000 * 7 * 60 * 60 * 3,
+      crop: 'Cox’s orange pippin, Apple',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 340.0,
+    },
+    {
+      date: Date.now() - 1000 * 30 * 60 * 60 * 3,
+      crop: 'Macoun, Apples',
+      iconName: 'CROP',
+      tasks: [],
+      revenue: 1234.0,
+    },
+    {
+      date: Date.now() - 1000 * 366 * 60 * 60 * 3,
+      crop: 'Butter Boy Hybrid, Butternut ',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 785.5,
+    },
+    {
+      date: Date.now(),
+      crop: 'King Edward, Potato',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 237.0,
+    },
+    {
+      date: Date.now(),
+      crop: 'Blanco Veneto, Celeriac',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 895.0,
+    },
+    {
+      date: Date.now(),
+      crop: 'Hollow Crown, Parsnips ',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 354.0,
+    },
+    {
+      date: Date.now(),
       crop: 'Early White Hybrid, Cauliflower',
       iconName: 'CROP',
       tasks: ['Task 1'],
@@ -103,10 +167,21 @@ const getFakeData = (length) => {
   ].slice(0, length);
 };
 
-export const FakeTableWithCells = {
+export const FakeTableOneWithCells = {
   args: {
     kind: TableKind.V2,
-    columns: getFakeColumns(),
+    columns: getFakeColumnsOne(),
+    data: getFakeData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+  },
+};
+
+// Showcase more table cell types
+export const FakeTableTwoWithCells = {
+  args: {
+    kind: TableKind.V2,
+    columns: getFakeColumnsTwo(),
     data: getFakeData(10),
     minRows: 10,
     shouldFixTableLayout: true,

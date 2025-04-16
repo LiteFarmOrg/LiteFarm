@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactComponent as Themometer } from '../../assets/images/map/themometer.svg';
-import WeatherIcon from '../../components/WeatherBoard/WeatherIcon';
+import { ReactComponent as Themometer } from '../../../assets/images/map/themometer.svg';
+import WeatherIcon from '../../../components/WeatherBoard/WeatherIcon';
 
 export const mockTextData = [
   { label: 'Temperature', data: '23°C' },
@@ -36,7 +36,6 @@ export const mockIconData = [
         <WeatherIcon name="wi-day-sunny" />
       </>
     ),
-    hideLabel: true,
   },
   {
     label: 'Wind speed & direction',

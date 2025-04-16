@@ -13,15 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import styles from './styles.module.scss';
+import clsx from 'clsx';
 
-export type TileData = { label: string; data: ReactNode; hideLabel?: boolean };
+export type TileData = { label: string; data: ReactNode; iconURL?: string };
 
-const DescriptionListTile = ({ label, data, hideLabel }: TileData) => {
+export enum LabelSize {
+  SMALL = 'small',
+}
+
+interface DescriptionListTileProps extends TileData {
+  hideLabel?: boolean;
+  labelSize?: LabelSize;
+  className?: string;
+}
+
+const DescriptionListTile = ({
+  label,
+  data,
+  hideLabel,
+  labelSize,
+  iconURL,
+  className,
+}: DescriptionListTileProps) => {
   return (
-    <dl key={label} className={styles.dlTile}>
-      <dt className={hideLabel ? styles.hideLabel : ''}>{label}</dt>
+    <dl
+      key={label}
+      className={clsx(styles.dlTile, iconURL && styles.hasIcon, className)}
+      style={{ '--icon': `url(${iconURL})` } as CSSProperties}
+    >
+      <dt className={clsx(hideLabel && styles.hideLabel, styles[labelSize || ''])}>{label}</dt>
       <dd>{data}</dd>
     </dl>
   );

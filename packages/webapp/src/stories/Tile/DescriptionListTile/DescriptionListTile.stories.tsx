@@ -13,27 +13,39 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import WeatherKPI from '../../components/WeatherKPI';
 import { Meta, StoryObj } from '@storybook/react/*';
+import clsx from 'clsx';
+import DescriptionListTile from '../../../components/Tile/DescriptionListTile';
 import { mockIconData, mockTextData } from './mockData';
 import styles from './styles.module.scss';
+import weatherKPIStyle from '../../../components/WeatherKPI/styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof WeatherKPI> = {
-  title: 'Components/WeatherKPI',
-  component: WeatherKPI,
+const meta: Meta<typeof DescriptionListTile> = {
+  title: 'Components/Tile/DescriptionListTile',
+  component: DescriptionListTile,
   decorators: (story) => {
     return <div style={{ padding: '24px', background: 'white' }}>{story()}</div>;
   },
 };
 export default meta;
 
-type Story = StoryObj<typeof WeatherKPI>;
+type Story = StoryObj<typeof DescriptionListTile>;
 
 export const Text: Story = {
-  args: { data: mockTextData },
+  args: mockTextData[0],
 };
 
 export const Icon: Story = {
-  args: { data: mockIconData, className: styles.icon },
+  args: mockIconData[0],
+};
+
+export const Many = {
+  render: () => {
+    return (
+      <div className={clsx(weatherKPIStyle.weatherKPI)}>
+        {mockTextData.map(DescriptionListTile)}
+      </div>
+    );
+  },
 };

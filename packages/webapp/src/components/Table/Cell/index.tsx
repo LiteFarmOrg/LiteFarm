@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 import Plain from './CellTypes/Plain';
 import RightChevronLink from './CellTypes/RightChevronLink';
 import IconText from './CellTypes/IconText';
@@ -21,6 +22,7 @@ import { CellKind } from '../types';
 import type { IconTextProps } from './CellTypes/IconText';
 import type { PlainCellProps } from './CellTypes/Plain';
 import type { RightChevronLinkProps } from './CellTypes/RightChevronLink';
+import { StatusLabelLink, StatusLabelLinkProps } from '../../CardWithStatus/StatusLabel';
 
 type HoverPillOverflowPropsStrategy = HoverPillOverflowListProps & {
   kind: CellKind.HOVER_PILL_OVERFLOW;
@@ -31,13 +33,17 @@ type RightChevronLinkPropsStrategy = RightChevronLinkProps & { kind: CellKind.RI
 type StatusIndicatorPillPropsStrategy = StatusIndicatorPillProps & {
   kind: CellKind.STATUS_INDICATOR_PILL;
 };
+type TaskStatusIndicatorPillPropsStrategy = StatusLabelLinkProps & {
+  kind: CellKind.TASK_STATUS_INDICATOR_PILL;
+};
 
 type CellStrategyProps =
   | HoverPillOverflowPropsStrategy
   | IconTextPropsStrategy
   | PlainCellPropsStrategy
   | RightChevronLinkPropsStrategy
-  | StatusIndicatorPillPropsStrategy;
+  | StatusIndicatorPillPropsStrategy
+  | TaskStatusIndicatorPillPropsStrategy;
 
 /**
  * A component that selects between available Cell styles.
@@ -55,6 +61,8 @@ const Cell = ({ kind, ...props }: CellStrategyProps) => {
       return <RightChevronLink {...(props as RightChevronLinkProps)} />;
     case CellKind.STATUS_INDICATOR_PILL:
       return <StatusIndicatorPill {...(props as StatusIndicatorPillProps)} />;
+    case CellKind.TASK_STATUS_INDICATOR_PILL:
+      return <StatusLabelLink {...(props as StatusLabelLinkProps)} />;
     default:
       const _exhaustiveCheck: never = kind;
       return null;

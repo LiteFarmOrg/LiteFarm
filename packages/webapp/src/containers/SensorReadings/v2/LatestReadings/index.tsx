@@ -23,7 +23,7 @@ import SensorKPI, { SensorKPIprops } from '../../../../components/Tile/SensorTil
 import SensorReadingKPI, {
   SensorReadingKPIprops,
 } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
-import WeatherKPI, { type TileData } from '../../../../components/WeatherKPI';
+import WeatherKPI from '../../../../components/WeatherKPI';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { OverlaySpinner } from '../../../../components/Spinner';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -38,6 +38,7 @@ import { Sensor, SensorReadings } from '../../../../store/api/types';
 import { SensorType } from '../../../../types/sensor';
 import { GeneralSensor } from '../types';
 import { System } from '../../../../types';
+import type { TileData } from '../../../../components/Tile/DescriptionListTile';
 import styles from '../styles.module.scss';
 
 export type SensorArrayProps = {

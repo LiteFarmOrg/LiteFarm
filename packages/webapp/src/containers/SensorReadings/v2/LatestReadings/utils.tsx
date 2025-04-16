@@ -40,7 +40,7 @@ import {
 } from '../../../../store/api/types';
 import type { GeneralSensor } from '../types';
 import type { System } from '../../../../types';
-import type { TileData } from '../../../../components/WeatherKPI';
+import type { TileData } from '../../../../components/Tile/DescriptionListTile';
 import Arrow from '../../../../assets/images/arrow-circle-up.svg';
 import styles from '../styles.module.scss';
 

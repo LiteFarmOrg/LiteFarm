@@ -61,6 +61,7 @@ import type {
   SensorReadings,
   IrrigationPrescription,
 } from './types';
+import i18n from '../../locales/i18n';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -295,6 +296,18 @@ export const api = createApi({
     }),
     getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
       query: () => `${irrigationPrescriptionsUrl}`,
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // Replacement for invalidates tags 'Tasks'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (err) {
+          dispatch({
+            type: 'snackbarReducer/enqueueErrorSnackbar',
+            payload: i18n.t('message:FARM_ADDON.IRRIGATION_PRESCRIPTION.FAILED_TO_GET'),
+          });
+        }
+      },
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['IrrigationPrescriptions'],
     }),

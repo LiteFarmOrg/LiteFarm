@@ -88,6 +88,9 @@
   },
   "FARM_ADDON": {
     "FAILED_DISCONNECT_ADDON": "Failed to disconnect addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Failed to get irrigation prescriptions"
+    },
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
   "HELP_REQUEST": {

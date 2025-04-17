@@ -22,9 +22,8 @@ const mapEvents = [
   'polygoncomplete',
   'polylinecomplete',
   'overlaycomplete',
-  'zoom_changed',
-  'center_changed',
-  'bounds_changed',
+  'visible_changed',
+  'idle',
 ];
 
 const eventTypes = [...userEvents, ...mapEvents];

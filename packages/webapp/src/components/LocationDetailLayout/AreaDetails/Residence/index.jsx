@@ -1,15 +1,7 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm } from 'react-hook-form';
-import LocationButtons from '../../LocationButtons';
 import { residenceEnum } from '../../../../containers/constants';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
-import { FieldDetailsChildren } from '../Field';
 
 export default function PureResidenceWrapper(props) {
   return (
@@ -62,7 +54,6 @@ export function PureResidence({
       onSubmit={onSubmit}
       translationKey={'RESIDENCE'}
       showPerimeter={false}
-      tabs={['tasks', 'details']}
     />
   );
 }

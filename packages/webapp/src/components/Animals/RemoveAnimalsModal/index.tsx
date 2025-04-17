@@ -137,9 +137,9 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             <p>{t('REMOVE_ANIMALS.REMOVED_AND_ARCHIVED')}</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit(props.onConfirm)}>
+          <form className={styles.form} onSubmit={handleSubmit(props.onConfirm)}>
             {isMobile ? (
-              <fieldset>
+              <fieldset className={styles.fieldset}>
                 <legend>{t('REMOVE_ANIMALS.WHY')}</legend>
                 {options.map(({ label, value }) => (
                   <label key={value} className={styles.mobileOption}>

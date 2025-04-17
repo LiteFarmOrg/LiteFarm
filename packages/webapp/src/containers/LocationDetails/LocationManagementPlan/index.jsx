@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../locationSlice';
-import {
-  currentManagementPlansByLocationIdSelector,
-  expiredManagementPlansByLocationIdSelector,
-  plannedManagementPlansByLocationIdSelector,
-} from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
+import useLocationCrops from './useLocationCrops';
+import useLocationRouterTabs from '../useLocationRouterTabs';
 
-function LocationManagementPlan({ history, match, location }) {
+function LocationManagementPlan({ history, match }) {
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
-  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
-  const pastCrops = useSelector(expiredManagementPlansByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
+  const location = useSelector(cropLocationByIdSelector(location_id));
+  const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
+  const routerTabs = useLocationRouterTabs(location, match);
   const { t } = useTranslation();
 
   const onFilterChange = (e) => {
@@ -41,6 +38,7 @@ function LocationManagementPlan({ history, match, location }) {
         match={match}
         title={name}
         location={location}
+        routerTabs={routerTabs}
       />
     </>
   );

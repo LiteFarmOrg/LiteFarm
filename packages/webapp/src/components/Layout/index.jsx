@@ -6,6 +6,7 @@ import Footer from '../Footer';
 
 const Layout = ({
   classes = {},
+  className = '',
   children,
   buttonGroup,
   hasWhiteBackground,
@@ -22,6 +23,7 @@ const Layout = ({
           isSVG && styles.svgContainer,
           hasWhiteBackground && styles.paddingBottom,
           !footer && styles.marginBottom,
+          className,
         )}
         style={{ ...classes.container }}
       >
@@ -50,6 +52,7 @@ Layout.propTypes = {
     container: PropTypes.object,
     footer: PropTypes.object,
   }),
+  classNames: PropTypes.string,
   isSVG: PropTypes.bool,
   hasWhiteBackground: PropTypes.bool,
 };

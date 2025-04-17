@@ -1,15 +1,8 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm } from 'react-hook-form';
-import LocationButtons from '../../LocationButtons';
 import { naturalAreaEnum } from '../../../../containers/constants';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
-import { FieldDetailsChildren } from '../Field';
 
 export default function PureNaturalAreaWrapper(props) {
   return (
@@ -62,7 +55,6 @@ export function PureNaturalArea({
       onSubmit={onSubmit}
       translationKey={'NATURAL_AREA'}
       showPerimeter={true}
-      tabs={['tasks', 'details']}
     />
   );
 }

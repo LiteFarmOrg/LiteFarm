@@ -25,6 +25,10 @@ import styles from './styles.module.scss';
 import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
 import clsx from 'clsx';
 import { GestureHandling } from './types';
+import {
+  cleanupGeometryListeners,
+  cleanupInstanceListeners,
+} from '../../../util/google-maps/cleanupListeners';
 
 const LocationPicker = ({
   onSelectLocation,
@@ -84,6 +88,16 @@ const LocationPicker = ({
     if (maxZoom && gMap && gMaps && gMapBounds) {
       drawAllLocations(gMap, gMaps, gMapBounds);
     }
+
+    // Cleanup event listeners
+    return () => {
+      if (gMaps && geometriesRef.current) {
+        cleanupGeometryListeners(geometriesRef.current, gMaps);
+      }
+      if (gMaps && markerClusterRef.current) {
+        cleanupInstanceListeners(markerClusterRef.current, gMaps);
+      }
+    };
   }, [maxZoom, gMap, gMaps, gMapBounds]);
 
   useEffect(() => {

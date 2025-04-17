@@ -14,8 +14,8 @@
  */
 
 import { CSSProperties, ReactNode } from 'react';
-import styles from './styles.module.scss';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 export type TileData = { label: string; data: ReactNode; iconURL?: string };
 
@@ -38,14 +38,14 @@ const DescriptionListTile = ({
   className,
 }: DescriptionListTileProps) => {
   return (
-    <dl
+    <div
       key={label}
       className={clsx(styles.dlTile, iconURL && styles.hasIcon, className)}
       style={{ '--icon': `url(${iconURL})` } as CSSProperties}
     >
       <dt className={clsx(hideLabel && styles.hideLabel, styles[labelSize || ''])}>{label}</dt>
       <dd>{data}</dd>
-    </dl>
+    </div>
   );
 };
 

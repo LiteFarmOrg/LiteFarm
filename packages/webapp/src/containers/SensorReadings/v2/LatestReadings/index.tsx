@@ -109,11 +109,11 @@ const LatestReadings = (props: LatestReadingsProps) => {
       <div className={clsx(styles.kpi, styles[type])}>
         {isFetching && <OverlaySpinner />}
         {isWeatherKPIData(kpiData) ? (
-          <div className={styles.weatherKPI}>
+          <dl className={styles.weatherKPI}>
             {kpiData.map((kpiProps) => (
               <DescriptionListTile key={kpiProps.label} {...kpiProps} />
             ))}
-          </div>
+          </dl>
         ) : (
           <BentoLayout>
             {kpiData.map((kpiProps) => {

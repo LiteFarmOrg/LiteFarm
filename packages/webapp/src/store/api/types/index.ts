@@ -326,4 +326,5 @@ export interface IrrigationPrescription {
   some_location_id: string; // from Location 'location_id', or Pivot 'id'
   prescription_date: string;
   partner_id: number;
+  task_id?: number | string;
 }

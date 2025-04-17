@@ -37,13 +37,13 @@ const eventTypes = [...userEvents, ...mapEvents];
  E.g. in <LocationPicker />
 
       if (gMaps && geometriesRef.current) {
-        logGeometryListeners(geometriesRef.current, gMaps);
+        debugGeometryListeners(geometriesRef.current, gMaps);
       }
       if (gMaps && markerClusterRef.current) {
-        logInstanceListeners(markerClusterRef.current, gMaps, 'markerCluster');
+        debugInstanceListeners(markerClusterRef.current, gMaps, 'markerCluster');
       }
       if (gMaps && pinMarkerRef.current) {
-        logInstanceListeners(pinMarkerRef.current, gMaps, 'pinMarker');
+        debugInstanceListeners(pinMarkerRef.current, gMaps, 'pinMarker');
       }
 
  ---------------------------------------------*/
@@ -55,7 +55,7 @@ const eventTypes = [...userEvents, ...mapEvents];
  * @param {typeof google.maps} gMaps - The Google Maps API reference.
  */
 
-export function logGeometryListeners(
+export function debugGeometryListeners(
   geometries: Record<string, Geometry | Geometry[]>,
   gMaps: typeof google.maps,
 ) {
@@ -91,7 +91,7 @@ export function logGeometryListeners(
  * @param {typeof google.maps} gMaps - The Google Maps API reference.
  * @param {string} [label='map instance'] - An optional label for identifying the instance.
  */
-export function logInstanceListeners(
+export function debugInstanceListeners(
   mapInstance: google.maps.MVCObject,
   gMaps: typeof google.maps,
   label: string = 'map instance',

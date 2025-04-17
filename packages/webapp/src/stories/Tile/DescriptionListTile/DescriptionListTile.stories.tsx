@@ -18,7 +18,7 @@ import clsx from 'clsx';
 import DescriptionListTile from '../../../components/Tile/DescriptionListTile';
 import { mockIconData, mockTextData } from './mockData';
 import styles from './styles.module.scss';
-import weatherKPIStyle from '../../../components/WeatherKPI/styles.module.scss';
+import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DescriptionListTile> = {
@@ -43,9 +43,11 @@ export const Icon: Story = {
 export const Many = {
   render: () => {
     return (
-      <div className={clsx(weatherKPIStyle.weatherKPI)}>
-        {mockTextData.map(DescriptionListTile)}
-      </div>
+      <dl className={clsx(weatherKPIStyle.weatherKPI)}>
+        {mockTextData.map((props, index) => (
+          <DescriptionListTile key={index} {...props} />
+        ))}
+      </dl>
     );
   },
 };

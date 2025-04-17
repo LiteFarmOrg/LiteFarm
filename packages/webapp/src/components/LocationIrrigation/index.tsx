@@ -23,7 +23,7 @@ import styles from './styles.module.scss';
 import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
-import { isLessThanTwelveHrsAgo } from '../../util/date-migrate-TS';
+import { getIntlDate, isLessThanTwelveHrsAgo } from '../../util/date-migrate-TS';
 import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
@@ -35,6 +35,7 @@ import { match } from 'react-router-dom';
 import { IrrigationPrescription } from '../../store/api/types';
 import Cell from '../Table/Cell';
 import { partnerEntities } from '../../containers/AddSensors/constants';
+import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 
 type Tab = {};
 
@@ -71,7 +72,12 @@ export default function PureLocationIrrigation({
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
-          <Cell kind={CellKind.PLAIN} className={undefined} text={data.prescription_date} />
+          <Cell
+            kind={CellKind.ICON_TEXT}
+            iconName="CALENDAR"
+            className={styles.dateCell}
+            text={getIntlDate(data.prescription_date)}
+          />
         ),
       },
       {
@@ -94,7 +100,16 @@ export default function PureLocationIrrigation({
         align: undefined,
         sortable: false,
         className: styles.tableCell,
-        format: (data) => <Cell kind={CellKind.PLAIN} className={undefined} text={'status'} />,
+        format: (data) => (
+          <Cell
+            kind={CellKind.TASK_STATUS_INDICATOR_PILL}
+            color={data.task.status}
+            label={t(
+              `MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[data.task.status]}`,
+            )}
+            taskId={data.task.task_id}
+          />
+        ),
       },
       {
         id: 'irrigationPrescriptionLink',

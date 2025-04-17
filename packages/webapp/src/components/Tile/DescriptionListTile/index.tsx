@@ -29,6 +29,7 @@ interface DescriptionListTileProps extends TileData {
   className?: string;
 }
 
+// Parent element must be <dl> for proper semantic structure
 const DescriptionListTile = ({
   label,
   data,
@@ -39,7 +40,6 @@ const DescriptionListTile = ({
 }: DescriptionListTileProps) => {
   return (
     <div
-      key={label}
       className={clsx(styles.dlTile, iconURL && styles.hasIcon, className)}
       style={{ '--icon': `url(${iconURL})` } as CSSProperties}
     >

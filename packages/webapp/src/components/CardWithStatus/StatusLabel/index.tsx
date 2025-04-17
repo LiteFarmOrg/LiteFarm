@@ -61,7 +61,7 @@ const useStyles = makeStyles({
   },
 });
 
-enum TaskStatus {
+export enum TaskStatus {
   ACTIVE = 'active',
   PLANNED = 'planned',
   LATE = 'late',

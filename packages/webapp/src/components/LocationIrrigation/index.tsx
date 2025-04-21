@@ -118,7 +118,11 @@ export default function PureLocationIrrigation({
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
-          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} className={undefined} path={handleClick} />
+          <Cell
+            kind={CellKind.RIGHT_CHEVRON_LINK}
+            className={undefined}
+            path={`/irrigation_prescription/${data.id}`}
+          />
         ),
       },
     ];

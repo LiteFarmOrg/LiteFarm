@@ -32,9 +32,6 @@ function LocationIrrigation({
 }) {
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
-  const [irrigationPrescriptionId, setIrrigationPrescriptionId] = useState<
-    IrrigationPrescription['id'] | undefined
-  >();
 
   useEffect(() => {
     if (location === undefined) {
@@ -45,12 +42,7 @@ function LocationIrrigation({
   const irrigationPrescriptions = useIrrigationPrescriptions(location);
   const routerTabs = useLocationRouterTabs(location, match);
 
-  const handleClick = (irrigationPrescription: IrrigationPrescription) => {
-    setIrrigationPrescriptionId(irrigationPrescription.id);
-  };
-
   return (
-    !irrigationPrescriptionId &&
     location && (
       <PureLocationIrrigation
         irrigationPrescriptions={irrigationPrescriptions}
@@ -58,7 +50,6 @@ function LocationIrrigation({
         match={match}
         location={location}
         routerTabs={routerTabs}
-        handleClick={handleClick}
       />
     )
   );

@@ -44,7 +44,6 @@ type LocationIrrigationProps = {
   history: History;
   match: match;
   irrigationPrescriptions: IrrigationPrescription[];
-  handleClick: () => void;
   routerTabs: Tab[];
 };
 
@@ -54,7 +53,6 @@ export default function PureLocationIrrigation({
   match,
   irrigationPrescriptions,
   routerTabs,
-  handleClick,
 }) {
   const { t } = useTranslation();
 
@@ -68,7 +66,6 @@ export default function PureLocationIrrigation({
       {
         id: 'prescriptionDate',
         label: t('IRRIGATION_PRESCRIPTION.PRESCRIPTION_DATE').toLocaleUpperCase(),
-        align: undefined,
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
@@ -83,7 +80,6 @@ export default function PureLocationIrrigation({
       {
         id: 'partnerName',
         label: t('IRRIGATION_PRESCRIPTION.DATA_FROM').toLocaleUpperCase(),
-        align: undefined,
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
@@ -97,7 +93,6 @@ export default function PureLocationIrrigation({
       {
         id: 'taskStatus',
         label: t('IRRIGATION_PRESCRIPTION.TASK_STATUS').toLocaleUpperCase(),
-        align: undefined,
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
@@ -114,7 +109,7 @@ export default function PureLocationIrrigation({
       {
         id: 'irrigationPrescriptionLink',
         label: undefined,
-        align: undefined,
+        align: 'right',
         sortable: false,
         className: styles.tableCell,
         format: (data) => (

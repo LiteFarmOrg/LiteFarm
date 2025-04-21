@@ -14,7 +14,6 @@
  */
 import { IconButton } from '@mui/material';
 import { BsChevronRight } from 'react-icons/bs';
-import history from '../../../../history';
 import styles from '../styles.module.scss';
 import { Link } from 'react-router-dom';
 

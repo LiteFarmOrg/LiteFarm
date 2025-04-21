@@ -16,6 +16,7 @@ import { IconButton } from '@mui/material';
 import { BsChevronRight } from 'react-icons/bs';
 import history from '../../../../history';
 import styles from '../styles.module.scss';
+import { Link } from 'react-router-dom';
 
 export type RightChevronLinkProps = {
   path: string;
@@ -23,9 +24,11 @@ export type RightChevronLinkProps = {
 
 const RightChevronLink = ({ path }: RightChevronLinkProps) => {
   return (
-    <IconButton color="info" className={styles.rightChevronLink} onClick={() => history.push(path)}>
-      <BsChevronRight />
-    </IconButton>
+    <Link to={{ pathname: path }}>
+      <IconButton color="info" className={styles.rightChevronLink}>
+        <BsChevronRight />
+      </IconButton>
+    </Link>
   );
 };
 

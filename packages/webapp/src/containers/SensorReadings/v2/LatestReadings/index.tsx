@@ -15,7 +15,7 @@
 
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { GrUpdate } from 'react-icons/gr';
 import TextButton from '../../../../components/Form/Button/TextButton';
 import BentoLayout from '../../../../components/Layout/BentoLayout';
@@ -29,15 +29,9 @@ import { OverlaySpinner } from '../../../../components/Spinner';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
 import { timeDifference } from '../../utils';
-import {
-  formatArrayReadingsToKPIProps,
-  formatSensorReadingsToGeneralKPIProps,
-  formatSensorReadingsToWeatherKPIProps,
-} from './utils';
-import { Sensor, SensorReadings } from '../../../../store/api/types';
+import { formatArrayReadingsToKPIProps, formatStandaloneSensorReadingsToKPIProps } from './utils';
+import { Sensor } from '../../../../store/api/types';
 import { SensorType } from '../../../../types/sensor';
-import { GeneralSensor } from '../types';
-import { System } from '../../../../types';
 import styles from '../styles.module.scss';
 
 export type SensorArrayProps = {
@@ -53,21 +47,6 @@ export type LatestReadingsProps = { sensors: Sensor[] } & (
   | SensorArrayProps
   | StandaloneSensorProps
 );
-
-function isGeneralSensor(sensor: Sensor): sensor is GeneralSensor {
-  return sensor.name !== 'Weather station';
-}
-
-const formatStandaloneSensorReadingsToKPIProps = (
-  sensor: Sensor,
-  latestReadings: SensorReadings[],
-  system: System,
-  t: TFunction,
-) => {
-  return isGeneralSensor(sensor)
-    ? formatSensorReadingsToGeneralKPIProps(sensor, latestReadings, system, t)
-    : formatSensorReadingsToWeatherKPIProps(sensor, latestReadings, system, t);
-};
 
 function isWeatherKPIData(
   kpiData: TileData[] | SensorKPIprops[] | SensorReadingKPIprops[],

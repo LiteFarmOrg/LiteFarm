@@ -35,10 +35,10 @@ import {
   Sensor,
   SensorDatapoint,
   SensorReadings,
+  type SensorTypes,
   type SensorReadingTypes,
   type SensorReadingTypeUnits,
 } from '../../../../store/api/types';
-import type { GeneralSensor } from '../types';
 import type { System } from '../../../../types';
 import type { TileData } from '../../../../components/WeatherKPI';
 import Arrow from '../../../../assets/images/arrow-circle-up.svg';
@@ -102,12 +102,16 @@ export const formatArrayReadingsToKPIProps = (
 };
 
 // Format function for sensor
-export const formatSensorReadingsToGeneralKPIProps = (
-  sensor: GeneralSensor,
+export const formatStandaloneSensorReadingsToKPIProps = (
+  sensor: Sensor,
   readings: SensorReadings[],
   system: System,
   t: TFunction,
-): SensorReadingKPIprops[] => {
+): TileData[] | SensorReadingKPIprops[] => {
+  if (sensor.name === 'Weather station') {
+    return formatSensorReadingsToWeatherKPIProps(sensor, readings, system, t);
+  }
+
   const result = SENSOR_READING_TYPES[sensor.name].flatMap((param) => {
     const foundReadings = readings.find(({ reading_type }) => reading_type === param);
     if (!foundReadings) {
@@ -249,7 +253,7 @@ export const formatSensorReadingsToWeatherKPIProps = (
 };
 
 const getGeneralSensorDefaultKPIProps = (
-  sensorName: GeneralSensor['name'],
+  sensorName: Exclude<SensorTypes, 'Weather station'>,
   t: TFunction,
 ): SensorReadingKPIprops[] => {
   return SENSOR_READING_TYPES[sensorName].map((key) => ({

@@ -82,29 +82,24 @@ export default function PureLocationIrrigation({
         label: t('IRRIGATION_PRESCRIPTION.DATA_FROM').toLocaleUpperCase(),
         sortable: false,
         className: styles.tableCell,
-        format: (data) => (
-          <Cell
-            kind={CellKind.PLAIN}
-            className={undefined}
-            text={getPartnerName(data.partner_id)}
-          />
-        ),
+        format: (data) => <Cell kind={CellKind.PLAIN} text={getPartnerName(data.partner_id)} />,
       },
       {
         id: 'taskStatus',
         label: t('IRRIGATION_PRESCRIPTION.TASK_STATUS').toLocaleUpperCase(),
         sortable: false,
         className: styles.tableCell,
-        format: (data) => (
-          <Cell
-            kind={CellKind.TASK_STATUS_INDICATOR_PILL}
-            color={data.task.status}
-            label={t(
-              `MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[data.task.status]}`,
-            )}
-            taskId={data.task.task_id}
-          />
-        ),
+        format: (data) =>
+          data.task ? (
+            <Cell
+              kind={CellKind.TASK_STATUS_INDICATOR_PILL}
+              color={data.task.status}
+              label={t(`TASK.STATUS.${data.task.status.toUpperCase()}`)}
+              taskId={data.task.task_id}
+            />
+          ) : (
+            <Cell kind={CellKind.PLAIN} text={'--'} />
+          ),
       },
       {
         id: 'irrigationPrescriptionLink',
@@ -113,11 +108,7 @@ export default function PureLocationIrrigation({
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
-          <Cell
-            kind={CellKind.RIGHT_CHEVRON_LINK}
-            className={undefined}
-            path={`/irrigation_prescription/${data.id}`}
-          />
+          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={`/irrigation_prescription/${data.id}`} />
         ),
       },
     ];

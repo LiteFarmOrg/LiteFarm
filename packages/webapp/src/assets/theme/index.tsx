@@ -1,5 +1,6 @@
 import { createTheme, StyledEngineProvider } from '@mui/material';
 import { ThemeProvider, Theme } from '@mui/material/styles';
+import '@mui/x-date-pickers/themeAugmentation';
 import '@mui/styles';
 import React, { FC, ReactNode } from 'react';
 
@@ -132,6 +133,15 @@ const theme = createTheme({
           boxSizing: 'border-box',
           margin: 0,
           padding: 0,
+        },
+      },
+    },
+    MuiDateCalendar: {
+      styleOverrides: {
+        root: {
+          '& svg': {
+            color: colors.grey900,
+          },
         },
       },
     },

@@ -46,6 +46,11 @@
   padding: 8px;
 }
 
+.compactTableCell {
+  // Aligns items to the right
+  display: flex;
+}
+
 .dateCell.dateCell {
   gap: 0px;
 }

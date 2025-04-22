@@ -29,13 +29,14 @@ import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
 import Table from '../Table';
-import { CellKind, TableKind, type TableV2Column } from '../Table/types';
+import { Alignment, CellKind, TableKind, type TableV2Column } from '../Table/types';
 import { History, Location } from 'history';
 import { match } from 'react-router-dom';
 import { IrrigationPrescription } from '../../store/api/types';
 import Cell from '../Table/Cell';
 import { partnerEntities } from '../../containers/AddSensors/constants';
 import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
+import clsx from 'clsx';
 
 type Tab = {};
 
@@ -45,6 +46,7 @@ type LocationIrrigationProps = {
   match: match;
   irrigationPrescriptions: IrrigationPrescription[];
   routerTabs: Tab[];
+  isCompact: boolean;
 };
 
 export default function PureLocationIrrigation({
@@ -53,7 +55,8 @@ export default function PureLocationIrrigation({
   match,
   irrigationPrescriptions,
   routerTabs,
-}) {
+  isCompact,
+}: LocationIrrigationProps) {
   const { t } = useTranslation();
 
   const getPartnerName = (id) => {
@@ -88,7 +91,10 @@ export default function PureLocationIrrigation({
         id: 'taskStatus',
         label: t('IRRIGATION_PRESCRIPTION.TASK_STATUS').toLocaleUpperCase(),
         sortable: false,
-        className: styles.tableCell,
+        // text only alignment
+        align: isCompact ? Alignment.RIGHT : Alignment.LEFT,
+        // compact right alignment
+        className: clsx(styles.tableCell, isCompact && styles.compactTableCell),
         format: (data) =>
           data.task ? (
             <Cell
@@ -133,7 +139,7 @@ export default function PureLocationIrrigation({
         tableContainerClass={styles.tableContainer}
         headerClass={styles.tableHeader}
         rowClass={styles.tableRow}
-        showHeader={true}
+        showHeader={isCompact ? false : true}
       />
     </Layout>
   );

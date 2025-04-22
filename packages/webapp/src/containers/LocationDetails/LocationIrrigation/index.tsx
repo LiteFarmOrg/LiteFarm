@@ -21,6 +21,8 @@ import useLocationRouterTabs from '../useLocationRouterTabs';
 import { useEffect } from 'react';
 import { match } from 'react-router-dom';
 import { History } from 'history';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 
 function LocationIrrigation({
   history,
@@ -29,6 +31,9 @@ function LocationIrrigation({
   history: History;
   match: match<{ location_id: string }>;
 }) {
+  const theme = useTheme();
+  const isCompact = useMediaQuery(theme.breakpoints.down('md'));
+
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
@@ -49,6 +54,7 @@ function LocationIrrigation({
         match={match}
         location={location}
         routerTabs={routerTabs}
+        isCompact={isCompact}
       />
     )
   );

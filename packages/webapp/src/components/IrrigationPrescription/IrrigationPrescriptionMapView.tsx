@@ -21,18 +21,15 @@ import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
+import { VriPrescriptionData } from './types';
 import type { Point } from '../../util/geoUtils';
 
-interface IrrigationZonePolygon {
-  grid_points: Point[];
-}
-
 interface IrrigationPrescriptionMapViewProps {
-  fieldLocation: Location;
+  fieldLocation?: Location;
   pivotCenter: Point;
   pivotRadiusInMeters: number;
   className?: string;
-  vriZones?: IrrigationZonePolygon[];
+  vriZones?: VriPrescriptionData[];
   system?: System;
 }
 
@@ -60,7 +57,11 @@ const IrrigationPrescriptionMapView = ({
     <div className={clsx(className, styles.mapContainer)}>
       <LocationPicker
         onSelectLocation={() => {}}
-        locations={[fieldLocation, ...irrigationZoneMapObjects, ...pivotMapObjects]}
+        locations={[
+          ...(fieldLocation ? [fieldLocation] : []),
+          ...irrigationZoneMapObjects,
+          ...pivotMapObjects,
+        ]}
         selectedLocationIds={[]}
         farmCenterCoordinate={pivotCenter}
         maxZoomRef={maxZoomRef}
@@ -122,7 +123,7 @@ const createPivotMapObjects = (
   return [pivot, pivotArm];
 };
 
-const createIrrigationZoneMapObjects = (zonePolygons: IrrigationZonePolygon[]) => {
+const createIrrigationZoneMapObjects = (zonePolygons: VriPrescriptionData[]) => {
   return zonePolygons.map((zone, index) => {
     const zoneMapLocation = {
       type: 'irrigation_zone',

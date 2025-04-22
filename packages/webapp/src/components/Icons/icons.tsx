@@ -82,6 +82,9 @@ import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
 // Devices
 import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
 
+// Irrigation Prescription
+import { ReactComponent as Dot } from '../../assets/images/dot.svg';
+
 // Animal type: icon map
 const animalTypeIcons = {
   CATTLE: CattleIcon,
@@ -157,6 +160,8 @@ export const iconMap = {
   LOCATION: LocationIcon,
 
   SENSOR: SensorIcon,
+
+  DOT: Dot,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

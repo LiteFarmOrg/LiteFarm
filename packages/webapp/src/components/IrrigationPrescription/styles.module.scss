@@ -13,6 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
+.ipViewContainer {
+  padding: 16px;
+  max-width: 100vw;
+}
+
 .mapContainer {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -25,4 +32,63 @@
     height: 520px;
     transform: translateY(-60px);
   }
+}
+
+.dataText {
+  display: flex;
+  padding: 16px 8px;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+
+  color: var(--Colors-Neutral-Neutral-600);
+  background: var(--Colors-Backgrounds-Background-color);
+
+  font-size: 16px;
+  font-weight: 400;
+}
+
+// Table styles
+.tableHeader.tableHeader {
+  background: var(--White, #fff);
+  border: none;
+
+  color: var(--Colors-Neutral-Neutral-300);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.352px;
+
+  @include truncateText();
+}
+
+.irrigationZoneCell {
+  svg circle {
+    fill: var(--zone-colour);
+  }
+
+  // TODO: remove after <Icon /> background color is fixed
+  > div:first-child {
+    background-color: transparent;
+  }
+
+  // text label
+  > div:nth-child(2) {
+    color: var(--zone-colour);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.352px;
+  }
+}
+
+.tableBody.tableBody {
+  // Remove the gap between header and table
+  &::before {
+    content: none;
+  }
+}
+
+.tableText.tableText {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 700;
 }

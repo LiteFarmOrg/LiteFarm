@@ -94,7 +94,7 @@ export default function SensorKPI({
       <BentoLayout maxColumns={2} bentoOffMedium={false}>
         {measurements.length
           ? measurements.map((m, i) => <Measurement key={`${m.measurement}-${i}`} {...m} />)
-          : t('SENSOR.NO_DATA_FOUND')}
+          : t('SENSOR.NO_RECENT_SENSOR_READINGS')}
       </BentoLayout>
     </div>
   );

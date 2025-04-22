@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@use '@assets/mixin' as *;
-
 // styles taken from the <Input /> component
 // !important was necessary as the MUI-applied classes have quite high specificity
 .input {

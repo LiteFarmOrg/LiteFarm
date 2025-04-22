@@ -15,8 +15,8 @@
 
 import { Meta, StoryObj } from '@storybook/react/*';
 import clsx from 'clsx';
-import DescriptionListTile from '../../../components/Tile/DescriptionListTile';
-import { mockIconData, mockTextData } from './mockData';
+import DescriptionListTile, { LabelSize } from '../../../components/Tile/DescriptionListTile';
+import { iPData, backgroundIconData, dataWithIconData, mockTextData } from './mockData';
 import styles from './styles.module.scss';
 import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';
 
@@ -32,12 +32,24 @@ export default meta;
 
 type Story = StoryObj<typeof DescriptionListTile>;
 
-export const Text: Story = {
+export const Default: Story = {
   args: mockTextData[0],
 };
 
-export const Icon: Story = {
-  args: mockIconData[0],
+export const SmallLabel: Story = {
+  args: { ...mockTextData[0], labelSize: LabelSize.SMALL },
+};
+
+export const HideLabel: Story = {
+  args: { ...mockTextData[0], hideLabel: true },
+};
+
+export const DataWithIcon: Story = {
+  args: dataWithIconData,
+};
+
+export const BackgroundIcon: Story = {
+  args: backgroundIconData,
 };
 
 export const Many = {
@@ -48,6 +60,22 @@ export const Many = {
           <DescriptionListTile key={index} {...props} />
         ))}
       </dl>
+    );
+  },
+};
+
+export const Variety = {
+  render: () => {
+    return (
+      <div className={clsx(styles.variety)}>
+        {iPData.map((props, index) => (
+          <DescriptionListTile
+            {...props}
+            hideLabel={!index}
+            labelSize={index > 3 ? LabelSize.SMALL : undefined}
+          />
+        ))}
+      </div>
     );
   },
 };

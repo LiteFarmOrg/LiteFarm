@@ -18,10 +18,9 @@ import { locationByIdSelector } from '../../locationSlice';
 import PureLocationIrrigation from '../../../components/LocationIrrigation';
 import useIrrigationPrescriptions from './useIrrigationPrescriptions';
 import useLocationRouterTabs from '../useLocationRouterTabs';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { match } from 'react-router-dom';
 import { History } from 'history';
-import { IrrigationPrescription } from '../../../store/api/types';
 
 function LocationIrrigation({
   history,

@@ -25,29 +25,37 @@ interface LocationIrrigationPrescription extends IrrigationPrescription {
 }
 
 const ONE_HOUR_IN_MS = 1000 * 60 * 60;
-const MOCK_DATA: IrrigationPrescription[] = [
+const getMockData = (location: Location, tasks: Task[]): IrrigationPrescription[] => [
   {
     id: 'uuid_maybe_001',
-    some_location_id: '87b5a846-fa97-11ef-a688-ce0b8496eaa9',
+    some_location_id: location.location_id,
     prescription_date: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
-    task_id: 8,
+    task_id: tasks.length ? tasks.at(-1)?.task_id : undefined,
   },
   {
     id: 'uuid_maybe_002',
-    some_location_id: '87b5a846-fa97-11ef-a688-ce0b8496eaa9',
+    some_location_id: location.location_id,
     prescription_date: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
-    task_id: 8,
+    task_id: undefined,
   },
 ];
 
 export default function useIrrigationPrescriptions(location?: Location) {
-  const { data, error, isLoading } = useGetIrrigationPrescriptionsQuery();
+  if (!location) {
+    return [];
+  }
+
+  const { data, error, isFetching } = useGetIrrigationPrescriptionsQuery();
   const tasks = useSelector(tasksSelector);
 
   // TODO: refactor once mocked data is no longer needed
-  const irrigationPrescriptions = isLoading ? [] : error || !data ? MOCK_DATA : data;
+  const irrigationPrescriptions = isFetching
+    ? []
+    : error || !data
+      ? getMockData(location, tasks)
+      : data;
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
   if (location && location.grid_points) {
@@ -61,10 +69,12 @@ export default function useIrrigationPrescriptions(location?: Location) {
         const task = task_id ? tasks.find((t) => t.task_id == task_id) : null;
         return {
           ...irrigationPrescription,
-          task: {
-            ...task,
-            status: getTaskStatus(task),
-          },
+          task: task
+            ? {
+                ...task,
+                status: getTaskStatus(task),
+              }
+            : undefined,
         };
       });
   }

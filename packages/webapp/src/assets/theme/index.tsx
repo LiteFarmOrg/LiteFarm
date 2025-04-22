@@ -22,6 +22,7 @@ export const colors = {
   teal600: '#3ea992',
   teal500: '#89d1c7',
   teal100: '#f1fbf9',
+  teal50: '#ebf5f4',
   green700: '#78c99e',
   green400: '#a8e6bd',
   green200: '#c7efd3',
@@ -62,7 +63,7 @@ export const colors = {
 const theme = createTheme({
   palette: {
     primary: {
-      contrastText: colors.grey900,
+      contrastText: colors.teal50,
       main: colors.teal700,
     },
     secondary: {

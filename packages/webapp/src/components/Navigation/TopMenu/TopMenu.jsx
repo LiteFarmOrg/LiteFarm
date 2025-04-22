@@ -266,7 +266,7 @@ const TopMenu = ({
 
   return (
     showNav && (
-      <AppBar position="sticky" className={styles.appBar}>
+      <AppBar position="sticky" className={styles.appBar} color="default">
         <Toolbar
           className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
         >

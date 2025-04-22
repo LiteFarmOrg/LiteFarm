@@ -91,7 +91,7 @@ const getFakeColumnsTwo = () => {
         <Cell
           kind={CellKind.TASK_STATUS_INDICATOR_PILL}
           color={d.taskStatus}
-          label={d.taskStatus.toUpperCase()}
+          label={d.taskStatus.charAt(0).toUpperCase() + d.taskStatus.slice(1)}
           taskId={d.task_id}
         />
       ),

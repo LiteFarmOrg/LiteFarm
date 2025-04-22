@@ -22,43 +22,44 @@ import useFormattedSensorReadings from './useFormattedSensorReadings';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
 import { getTruncPeriod } from '../utils';
 import { Sensor } from '../../../../store/api/types';
-import {
-  SENSOR_ARRAY_CHART_PARAMS,
-  SENSOR_READING_TYPES,
-  STANDALONE_SENSOR_COLORS_MAP,
-} from '../constants';
+import type { ChartSupportedReadingTypes } from '../types';
 import styles from '../styles.module.scss';
 
-interface SensorChartsProps {
+export interface ChartsProps {
   sensors: Sensor[];
   startDate: string;
   endDate: string;
+  readingTypes: ChartSupportedReadingTypes[];
+  getSensorColorMap: (readingType: ChartSupportedReadingTypes) => LineConfig[];
+  getChartColors?: (readingType: ChartSupportedReadingTypes) => {
+    title?: string;
+    yAxisTick?: string;
+  };
+  className?: string;
 }
 
-type SensorArrayChartsProps = SensorChartsProps & {
-  sensorColorMap: LineConfig[];
-};
-
-const Charts = (props: SensorChartsProps | SensorArrayChartsProps) => {
-  const { sensors, startDate, endDate } = props;
-
+const Charts = ({
+  sensors,
+  startDate,
+  endDate,
+  readingTypes,
+  getSensorColorMap,
+  getChartColors,
+  className,
+}: ChartsProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('sm'));
   const language = getLanguageFromLocalStorage();
 
-  const isSensorArray = 'sensorColorMap' in props;
   const truncPeriod = getTruncPeriod(new Date(startDate), new Date(endDate))!;
-  const supportedReadingTypes = isSensorArray
-    ? SENSOR_ARRAY_CHART_PARAMS
-    : SENSOR_READING_TYPES[sensors[0].name];
 
   const { isLoading, isFetching, formattedSensorReadings, ticks } = useFormattedSensorReadings({
     sensors,
     startDate,
     endDate,
     truncPeriod,
-    readingTypes: supportedReadingTypes,
+    readingTypes,
   });
 
   if (isLoading) {
@@ -79,14 +80,11 @@ const Charts = (props: SensorChartsProps | SensorArrayChartsProps) => {
   }
 
   return (
-    <div className={clsx(styles.charts, isSensorArray ? '' : styles.sensor)}>
+    <div className={clsx(styles.charts, className)}>
       {isFetching && <OverlaySpinner />}
       {formattedSensorReadings.map(({ reading_type, unit, readings }) => {
-        const paramColor = STANDALONE_SENSOR_COLORS_MAP[reading_type];
-        const lineConfig = isSensorArray
-          ? props.sensorColorMap
-          : [{ id: sensors[0].external_id, color: paramColor }];
-        const colors = isSensorArray ? {} : { title: paramColor, yAxisTick: paramColor };
+        const lineConfig = getSensorColorMap(reading_type);
+        const colors = getChartColors ? getChartColors(reading_type) : {};
 
         return (
           <LineChart

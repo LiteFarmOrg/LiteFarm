@@ -20,7 +20,7 @@ import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
 import LatestReadings from './LatestReadings';
-import Charts from './Charts';
+import Charts, { ChartsProps } from './Charts';
 import { StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
 import { ReactComponent as SensorIcon } from '../../../assets/images/map/signal-01.svg';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
@@ -28,8 +28,14 @@ import ManageESciSection from '../../../components/ManageESciSection';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import { getStatusProps } from './utils';
 import { toTranslationKey } from '../../../util';
-import { LINE_COLORS } from './constants';
-import { CustomRouteComponentProps } from '../../../types';
+import {
+  LINE_COLORS,
+  SENSOR_ARRAY_CHART_PARAMS,
+  SENSOR_READING_TYPES,
+  STANDALONE_SENSOR_COLORS_MAP,
+} from './constants';
+import type { CustomRouteComponentProps } from '../../../types';
+import type { ChartSupportedReadingTypes } from './types';
 import { SensorType } from '../../../types/sensor';
 import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
@@ -43,7 +49,7 @@ interface SensorReadingsProps extends CustomRouteComponentProps<RouteParams> {
   type: SensorType;
 }
 
-const generateSensorColorMap = (sensors: Sensor[]) => {
+const generateSensorArrayColorMap = (sensors: Sensor[]) => {
   return sensors.map(({ external_id }, index) => ({
     id: external_id,
     color: LINE_COLORS[index],
@@ -56,6 +62,37 @@ const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor
         ?.filter(({ sensor_array_id }) => sensor_array_id == id)
         ?.sort((a, b) => a.depth - b.depth)
     : sensors?.filter(({ external_id }) => external_id === id);
+};
+
+const getSensorReadingTypeColor = (readingType: ChartSupportedReadingTypes): string => {
+  return STANDALONE_SENSOR_COLORS_MAP[readingType];
+};
+
+const getSensorColorMapFunc =
+  (id: Sensor['external_id']): ChartsProps['getSensorColorMap'] =>
+  (readingType: ChartSupportedReadingTypes) => {
+    return [{ id, color: getSensorReadingTypeColor(readingType) }];
+  };
+
+const getChartColors: ChartsProps['getChartColors'] = (readingType: ChartSupportedReadingTypes) => {
+  const paramColor = getSensorReadingTypeColor(readingType);
+  return { title: paramColor, yAxisTick: paramColor };
+};
+
+const getChartsProps = (type: SensorType, sensors: Sensor[]) => {
+  if (type === SensorType.SENSOR_ARRAY) {
+    return {
+      readingTypes: SENSOR_ARRAY_CHART_PARAMS,
+      getSensorColorMap: () => generateSensorArrayColorMap(sensors),
+    };
+  }
+
+  return {
+    readingTypes: SENSOR_READING_TYPES[sensors[0].name],
+    getSensorColorMap: getSensorColorMapFunc(sensors[0].external_id),
+    getChartColors,
+    className: styles.sensor,
+  };
 };
 
 const PAGE_TITLE_KEY = {
@@ -111,7 +148,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
               sensors={sensors}
               {...(type === SensorType.SENSOR
                 ? { type }
-                : { type, sensorColorMap: generateSensorColorMap(sensors) })}
+                : { type, sensorColorMap: generateSensorArrayColorMap(sensors) })}
             />
             <div className={clsx(styles.dateAndChart, styles[type])}>
               <SensorsDateRangeSelector
@@ -124,9 +161,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
                   sensors={sensors}
                   startDate={startDate}
                   endDate={endDate}
-                  {...(type === SensorType.SENSOR
-                    ? {}
-                    : { sensorColorMap: generateSensorColorMap(sensors) })}
+                  {...getChartsProps(type, sensors)}
                 />
               )}
             </div>

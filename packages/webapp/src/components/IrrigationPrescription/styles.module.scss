@@ -66,6 +66,11 @@
     fill: var(--zone-colour);
   }
 
+  // TODO: remove after <Icon /> background color is fixed
+  > div:first-child {
+    background-color: transparent;
+  }
+
   // text label
   > div:nth-child(2) {
     color: var(--zone-colour);

@@ -13,16 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export interface IrrigationData {
+import { Point } from '../../util/geoUtils';
+
+export interface UriPrescriptionData {
   soil_moisture_deficit: number;
   application_depth: number;
   application_depth_unit: string;
 }
 
-export type IrrigationPolygonData = IrrigationData & {
-  grid_points: { lat: number; lng: number }[];
+export type VriPrescriptionData = UriPrescriptionData & {
+  grid_points: Point[];
 };
 
-export type IrrigationPrescriptionTableInfo = IrrigationData & {
+export type IrrigationPrescriptionTableInfo = UriPrescriptionData & {
   id: number;
 };

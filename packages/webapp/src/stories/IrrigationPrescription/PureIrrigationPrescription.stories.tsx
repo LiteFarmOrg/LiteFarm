@@ -47,7 +47,7 @@ export const VRIPrescription: Story = {
     fieldLocation: mockField,
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
-    vriZones: mockVriZones,
+    vriData: mockVriZones,
   },
 };
 
@@ -56,6 +56,6 @@ export const VRIPrescriptionFiveZones: Story = {
     fieldLocation: mockField,
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
-    vriZones: mockVriZonesFive,
+    vriData: mockVriZonesFive,
   },
 };

@@ -18,11 +18,12 @@ import styles from './styles.module.scss';
 import { Location, System } from '../../types';
 import IrrigationPrescriptionMapView from '../../components/IrrigationPrescription/IrrigationPrescriptionMapView';
 import IrrigationPrescriptionTable from '../../components/IrrigationPrescription/IrrigationPrescriptionTable';
-import { IrrigationData, IrrigationPolygonData } from './types';
+import { UriPrescriptionData, VriPrescriptionData } from './types';
+import { Point } from '../../util/geoUtils';
 
 interface CommonIrrigationPrescriptionProps {
   fieldLocation?: Location;
-  pivotCenter: { lat: number; lng: number };
+  pivotCenter: Point;
   pivotRadiusInMeters: number;
   system: System;
 }
@@ -30,12 +31,12 @@ interface CommonIrrigationPrescriptionProps {
 type PureIrrigationPrescriptionProps = CommonIrrigationPrescriptionProps &
   (
     | {
-        vriZones: IrrigationPolygonData[];
+        vriData: VriPrescriptionData[];
         uriData?: never;
       }
     | {
-        uriData: IrrigationData;
-        vriZones?: never;
+        uriData: UriPrescriptionData;
+        vriData?: never;
       }
   );
 
@@ -43,18 +44,18 @@ const PureIrrigationPrescription = ({
   fieldLocation,
   pivotCenter,
   pivotRadiusInMeters,
-  vriZones,
+  vriData,
   uriData,
   system,
 }: PureIrrigationPrescriptionProps) => {
   const { t } = useTranslation();
 
-  if (vriZones) {
-    vriZones.sort((a, b) => a.application_depth - b.application_depth);
+  if (vriData) {
+    vriData.sort((a, b) => a.application_depth - b.application_depth);
   }
 
-  const tableInfo = vriZones
-    ? vriZones.map(({ grid_points, ...zoneData }, index) => ({
+  const tableInfo = vriData
+    ? vriData.map(({ grid_points, ...zoneData }, index) => ({
         ...zoneData,
         id: index,
       }))
@@ -71,7 +72,7 @@ const PureIrrigationPrescription = ({
         fieldLocation={fieldLocation}
         pivotCenter={pivotCenter}
         pivotRadiusInMeters={pivotRadiusInMeters}
-        vriZones={vriZones}
+        vriZones={vriData}
         system={system}
       />
       <div className={styles.dataText}>{t('IRRIGATION_PRESCRIPTION.BASED_ON_DATA')}</div>

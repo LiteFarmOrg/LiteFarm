@@ -1212,6 +1212,10 @@
     "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
     "WAGE_RANGE_ERROR": "Salary must be a positive number less than 999,999,999"
   },
+  "IRRIGATION_PRESCRIPTION": {
+    "ESTIMATED_WATER_CONSUMPTION": "Estimated water consumption",
+    "ET_RATE": "ET Rate"
+  },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",
     "SUCCESSFULLY_JOINED": "You have successfully joined"

@@ -19,6 +19,12 @@ import IrrigationPrescriptionRequestController from '../controllers/irrigationPr
 
 const router = express.Router();
 
+router.get(
+  '/',
+  checkScope(['get:sensors']),
+  IrrigationPrescriptionRequestController.getPrescriptions(),
+);
+
 router.post(
   '/',
   checkScope(['get:smart_irrigation']),

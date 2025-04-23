@@ -33,6 +33,18 @@ export interface LiteFarmRequest extends Request<unknown, unknown, unknown, Lite
 }
 
 const irrigationPrescriptionRequestController = {
+  getPrescriptions() {
+    return async (req: LiteFarmRequest, _res: Response) => {
+      const { _farm_id } = req.headers;
+      try {
+        // get org id from addon
+        // send request to esci
+        // format response
+      } catch (_error) {
+        // catch error
+      }
+    };
+  },
   initiateFarmIrrigationPrescription() {
     return async (req: LiteFarmRequest, res: Response) => {
       const { farm_id } = req.headers;

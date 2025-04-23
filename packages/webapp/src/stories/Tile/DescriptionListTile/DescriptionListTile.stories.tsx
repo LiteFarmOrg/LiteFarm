@@ -71,6 +71,7 @@ export const Variety = {
         {iPData.map((props, index) => (
           <DescriptionListTile
             {...props}
+            key={props.label}
             hideLabel={!index}
             labelSize={index > 3 ? LabelSize.SMALL : undefined}
           />

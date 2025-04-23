@@ -15,88 +15,10 @@
 
 @import '@assets/mixin.scss';
 
-.icon {
-  dl {
-    text-align: center;
-
-    &:first-child dd {
-      height: 100%;
-      font-size: 40px;
-    }
-  }
-
-  dd {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    font-size: 16px;
-    line-height: 32px;
-  }
-}
-
 .dataWithIcon {
   svg {
     width: 24px;
     height: 24px;
-  }
-}
-
-.variety {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  div {
-    min-width: calc((100% - 24px) / 2);
-    border: 1px solid var(--Colors-Primary-Primary-teal-50);
-
-    dd {
-      font-size: 16px;
-    }
-
-    &:nth-child(-n + 4) {
-      flex: 1 1 200px;
-      color: var(--Colors-Primary-Primary-teal-700);
-
-      @include lg-breakpoint {
-        min-width: calc((100% - 24px) / 4);
-        text-align: center;
-      }
-    }
-
-    &:nth-child(n + 5) {
-      flex: 1 1 360px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      gap: 4px;
-    }
-
-    &:nth-child(1) {
-      dd {
-        font-size: 40px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 32px;
-      }
-    }
-
-    &:nth-child(4) {
-      color: var(--Colors-Accent---singles-Blue-dark);
-    }
-
-    &:nth-child(5) {
-      border: 1px solid var(--Colors-Neutral-Neutral-50);
-
-      dd {
-        font-size: 24px;
-      }
-    }
-
-    &:nth-child(6) {
-      border: 1px solid var(--Colors-Accent---singles-Blue-light);
-      color: var(--Colors-Accent---singles-Blue-full);
-    }
   }
 }
 
@@ -110,24 +32,4 @@
   span {
     font-size: 24px;
   }
-}
-
-.iconAndData {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  @include lg-breakpoint {
-    justify-self: center;
-  }
-
-  svg path {
-    stroke: currentColor;
-  }
-}
-
-.temperatureData {
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }

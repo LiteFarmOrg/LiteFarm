@@ -17,8 +17,8 @@ import { Meta, StoryObj } from '@storybook/react/*';
 import clsx from 'clsx';
 import DescriptionListTile, { LabelSize } from '../../../components/Tile/DescriptionListTile';
 import { iPData, backgroundIconData, dataWithIconData, mockTextData } from './mockData';
-import styles from './styles.module.scss';
 import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';
+import ipKPIStyle from '../../../components/IPDetailKPI/styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DescriptionListTile> = {
@@ -67,7 +67,7 @@ export const Many = {
 export const Variety = {
   render: () => {
     return (
-      <div className={clsx(styles.variety)}>
+      <div className={clsx(ipKPIStyle.kpi)}>
         {iPData.map((props, index) => (
           <DescriptionListTile
             {...props}

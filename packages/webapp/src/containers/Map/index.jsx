@@ -209,7 +209,7 @@ export default function Map({ history, isCompactSideMenu }) {
         cleanupInstanceListeners(drawingState.drawingManager, gMaps);
       }
     };
-  }, [gMap, gMaps]);
+  }, [gMaps]);
 
   const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {

@@ -1,0 +1,99 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.kpi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  div {
+    min-width: calc((100% - 24px) / 2);
+    border: 1px solid var(--Colors-Primary-Primary-teal-50);
+
+    dd {
+      font-size: 16px;
+    }
+
+    &:nth-child(-n + 4) {
+      flex: 1 1 200px;
+      color: var(--Colors-Primary-Primary-teal-700);
+
+      @include lg-breakpoint {
+        min-width: calc((100% - 24px) / 4);
+        text-align: center;
+      }
+    }
+
+    &:nth-child(n + 5) {
+      flex: 1 1 360px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      gap: 4px;
+
+      dd {
+        font-size: 24px;
+        font-weight: 300;
+      }
+    }
+
+    &:nth-child(1) {
+      dd {
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px;
+      }
+    }
+
+    &:nth-child(4) {
+      color: var(--Colors-Accent---singles-Blue-dark);
+    }
+
+    &:nth-child(5) {
+      border: 1px solid var(--Colors-Neutral-Neutral-50);
+    }
+
+    &:nth-child(6) {
+      border: 1px solid var(--Colors-Accent---singles-Blue-light);
+      color: var(--Colors-Accent---singles-Blue-full);
+    }
+  }
+}
+
+.iconAndText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @include lg-breakpoint {
+    justify-self: center;
+  }
+
+  svg path {
+    stroke: currentColor;
+  }
+}
+
+.temperatureData {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  i {
+    font-size: 66%;
+  }
+}

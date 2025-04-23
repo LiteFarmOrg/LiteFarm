@@ -62,8 +62,8 @@ export type IrrigationPrescription = {
   /*----------------
     // Almost certainly not to be included
     // I think they said we have to calculate this? I think our backend would be the right place to do it */
-  estimated_water_consumption?: number;
-  estimated_water_consumption_unit?: string;
+  estimated_water_consumption: number;
+  estimated_water_consumption_unit: string;
   /*----------------*/
 };
 
@@ -108,6 +108,30 @@ const WEATHER_PARAMS: Extract<
   'temperature' | 'wind_speed' | 'cumulative_rainfall'
 >[] = ['temperature', 'wind_speed', 'cumulative_rainfall'];
 
+const getETRateText = (value: number, unit: string, system: System) => {
+  // TODO: Implement
+  return `${value}${unit}`;
+};
+
+const getEstimatedTimeAndUnit = (value: number, unit: string) => {
+  // TODO: Implement
+  return { value: 14, unit: 'h' };
+};
+
+const getWaterConsumptionAndUnit = (value: number, unit: string) => {
+  // TODO: Implement
+  return { value: 79, unit: 'AF' };
+};
+
+const ValueAndUnit = ({ value, unit }: { value: number; unit: string }) => {
+  return (
+    <>
+      <b>{value}</b>
+      {unit}
+    </>
+  );
+};
+
 export const generateKPIData = (ipData: IrrigationPrescription, t: TFunction, system: System) => {
   const {
     metadata: { weather_forecast },
@@ -125,8 +149,6 @@ export const generateKPIData = (ipData: IrrigationPrescription, t: TFunction, sy
 
     return `${value}${displayUnit}`;
   });
-
-  const etRateText = `${et_rate} ${et_rate_unit}`;
 
   return [
     {
@@ -149,25 +171,22 @@ export const generateKPIData = (ipData: IrrigationPrescription, t: TFunction, sy
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ET_RATE'),
-      data: <IconAndText Icon={<WindIcon />} text={etRateText} />,
+      data: <IconAndText Icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
     },
     {
       label: t('common:ESTIMATED_TIME'),
-      data: (
-        <>
-          <b>{estimated_time}</b>
-          {estimated_time_unit}
-        </>
-      ),
+      data: <ValueAndUnit {...getEstimatedTimeAndUnit(estimated_time, estimated_time_unit)} />,
       iconURL: ClockIcon,
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ESTIMATED_WATER_CONSUMPTION'),
       data: (
-        <>
-          <b>{estimated_water_consumption}</b>
-          {estimated_water_consumption_unit}
-        </>
+        <ValueAndUnit
+          {...getWaterConsumptionAndUnit(
+            estimated_water_consumption,
+            estimated_water_consumption_unit,
+          )}
+        />
       ),
       iconURL: PivotIcon,
     },

@@ -17,7 +17,7 @@ import React, { Component } from 'react';
 import styles from './styles.module.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
-import { BsChevronLeft } from 'react-icons/bs';
+import { ReactComponent as GreyHeaderChevron } from '../../assets/images/header-chevron-left.svg';
 
 // takes 2 props
 // title - String
@@ -45,7 +45,7 @@ class PageTitle extends Component {
               history.push(backUrl);
             }}
           >
-            <BsChevronLeft style={{ fontSize: '20px' }} />
+            <GreyHeaderChevron />
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
           {rightIcon && (

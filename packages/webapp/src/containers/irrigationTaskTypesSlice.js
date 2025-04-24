@@ -45,3 +45,12 @@ export default IrrigationTaskTypesSlice.reducer;
 export const irrigationTaskTypesSliceSelector = (state) => {
   return state.entitiesReducer[IrrigationTaskTypesSlice.name];
 };
+
+export const irrigationTypeByKeyAndFarmIdSelector = (translationKey, farmId) =>
+  createSelector(irrigationTaskTypesSliceSelector, (types) => {
+    return types.irrigationTaskTypes.find(
+      ({ farm_id, irrigation_type_translation_key }) =>
+        ((farmId && farm_id === farmId) || (!farmId && !farm_id)) &&
+        irrigation_type_translation_key === translationKey,
+    );
+  });

@@ -28,7 +28,71 @@ import type {
   LocationAndCropGraph,
   EnsembleLocationAndCropData,
   ManagementPlan,
+  FarmAddon,
+  IrrigationPrescription,
 } from './ensembleService.types.js';
+
+/**
+ * Retrieves the external organisation IDs for a specific farm and partner.
+ *
+ * @param farm_id - The ID of the farm to retrieve external organisation IDs for.
+ * @returns A promise that resolves to the organisation IDs for the given farm and partner.
+ * @throws Will throw an error if the addon partner or the farm addon is not found.
+ */
+const getExternalOrganisationIds = async (
+  farm_id: string,
+): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
+  const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+  if (!partner) {
+    throw customError(`${ENSEMBLE_BRAND} partner not found`, 404);
+  }
+  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farm_id, partner.id);
+  if (!farmAddonIds) {
+    throw customError(`Farm not connected to ${ENSEMBLE_BRAND}`, 404);
+  }
+  return farmAddonIds;
+};
+
+/**
+ * Returns a list of mocked prescriptions based on a specific farm_id.
+ *
+ * @param farm_id - The ID of the farm to retrieve mock data for.
+ * @returns A promise that resolves to formatted irrigation prescription data.
+ */
+const getMockPrescriptions = async (_farm_id: string): Promise<IrrigationPrescription[]> => {
+  const ONE_HOUR_IN_MS = 1000 * 60 * 60;
+  const locations = [{ location_id: '87b5a846-fa97-11ef-a688-ce0b8496eaa9' }];
+  const tasks = [{ task_id: 15 }];
+
+  return [
+    {
+      id: 'uuid_maybe_001',
+      location_id: locations[0].location_id,
+      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+      partner_id: 1,
+      task_id: tasks.at(-1)?.task_id,
+    },
+    {
+      id: 'uuid_maybe_002',
+      location_id: locations[0].location_id,
+      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+      partner_id: 1,
+      task_id: undefined,
+    },
+  ];
+};
+
+/**
+ * Returns a list of mocked prescriptions based on a specific farm_id.
+ *
+ * @param farm_id - The ID of the farm to retrieve mock data for.
+ * @returns A promise that resolves to formatted irrigation prescription data.
+ */
+export const getEsciPrescriptions = async (farm_id: string): Promise<IrrigationPrescription[]> => {
+  const _externalOrganizationIds = getExternalOrganisationIds(farm_id);
+
+  return await getMockPrescriptions(farm_id);
+};
 
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions

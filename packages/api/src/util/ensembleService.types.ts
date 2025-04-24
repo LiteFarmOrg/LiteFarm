@@ -83,3 +83,22 @@ export interface EnsembleLocationAndCropData {
 export interface OrganisationFarmData {
   [org_uuid: string]: EnsembleLocationAndCropData[];
 }
+
+export type FarmAddon = {
+  id: number;
+  farm_id: string;
+  addon_partner_id: number;
+  org_uuid: string;
+  org_pk: number;
+};
+
+export type ExternalIrrigationPrescription = {
+  id: number | string;
+  location_id: number | string;
+  recommended_start_datetime: string;
+};
+
+export interface IrrigationPrescription extends ExternalIrrigationPrescription {
+  partner_id: number;
+  task_id: number | undefined;
+}

@@ -317,10 +317,6 @@ export interface SensorReadings {
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];
 }
-
-export interface Pivot {
-  id: string;
-}
 export interface IrrigationPrescription {
   id: string;
   some_location_id: string; // from Location 'location_id', or Pivot 'id'

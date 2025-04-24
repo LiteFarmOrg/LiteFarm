@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- @import '@assets/mixin.scss';
+@import '@assets/mixin.scss';
 
 .container {
   width: 100%;
@@ -60,7 +60,7 @@
   display: flex;
   gap: var(--bentoGap);
   flex-wrap: wrap;
-  
+
   & > div {
     flex: 1 1 calc((100% - var(--bentoGap) * (var(--bentoColumns) - 1)) / var(--bentoColumns));
   }
@@ -80,9 +80,13 @@
 .paperContainer {
   background-color: white;
   margin: 16px 0 0 0;
-  padding: 16px 8px 8px 8px;
+  padding: 16px;
   border-radius: 4px;
 
-  /* simple-box-shadow */
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+
+  @include xs-breakpoint {
+    margin: 0;
+  }
 }

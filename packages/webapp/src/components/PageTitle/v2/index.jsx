@@ -2,9 +2,9 @@ import { Title } from '../../Typography';
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
+import { ReactComponent as GreyHeaderChevron } from '../../../assets/images/header-chevron-left.svg';
 
 function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {} }) {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -13,10 +13,10 @@ function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {} })
       <div className={styles.leftContainer} style={{ overflow: 'hidden', wordBreak: 'break-word' }}>
         {onGoBack && (
           <button type={'button'} className={styles.buttonContainer} onClick={onGoBack}>
-            <BsChevronLeft style={{ fontSize: '20px' }} />
+            <GreyHeaderChevron />
           </button>
         )}
-        <Title style={{ marginBottom: 0 }}>
+        <Title className={styles.title}>
           {title.length > 77 ? `${title.substring(0, 77).trim()}...` : title}
         </Title>
       </div>

@@ -14,28 +14,30 @@
  */
 
 // styles taken from the <Input /> component
-// !important was necessary as the MUI-applied classes have quite high specificity
+
 .input {
   height: 48px;
   width: inherit;
 }
 
-.inputDisabled {
+.inputDisabled.inputDisabled {
   background-color: var(--inputDisabled);
 
   span {
-    color: var(--grey600) !important;
+    color: var(--grey600);
   }
 
-  > fieldset {
-    border-color: var(--inputDefault) !important;
+  &.inputDisabled {
+    > fieldset {
+      border-color: var(--inputDefault);
+    }
   }
 }
 
 .inputFocusBorder {
-  > fieldset {
-    border-color: var(--inputActive) !important;
-    border-width: 1px !important;
+  &.inputFocusBorder.inputFocusBorder.inputFocusBorder > fieldset {
+    border-color: var(--inputActive);
+    border-width: 1px;
   }
 }
 

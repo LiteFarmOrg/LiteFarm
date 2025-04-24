@@ -30,6 +30,7 @@ export enum CellKind {
   PLAIN = 'plain',
   RIGHT_CHEVRON_LINK = 'rightChevronLink',
   STATUS_INDICATOR_PILL = 'StatusIndicatorPill',
+  TASK_STATUS_INDICATOR_PILL = 'TaskStatusIndicatorPill',
 }
 
 export enum Alignment {

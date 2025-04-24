@@ -145,7 +145,6 @@
 
   .trashIcon {
     @include svgColorFill(var(--Colors-Accent---singles-Red-dark));
-    background-color: transparent;
   }
 
   .inlineIconText,

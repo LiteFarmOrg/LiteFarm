@@ -78,6 +78,7 @@ import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
 
 // Devices
 import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
@@ -156,6 +157,7 @@ export const iconMap = {
   CLOCK_FAST: ClockFast,
   // Input
   LOCKED: LockedIcon,
+  CALENDAR: CalendarIcon,
 
   LOCATION: LocationIcon,
 

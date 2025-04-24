@@ -12,6 +12,7 @@ import useLocationRouterTabs from '../../containers/LocationDetails/useLocationR
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../containers/locationSlice';
 import { Variant } from '../RouterTab/Tab';
+import Layout from '../Layout';
 import layoutStyles from '../Layout/layout.module.scss';
 
 export function PureLocationDetailLayout({
@@ -98,55 +99,45 @@ export function PureLocationDetailLayout({
   }, [locationCategory]);
 
   return (
-    <FormProvider {...formMethods}>
-      <Form
-        buttonGroup={
-          <LocationButtons
-            disabled={disabled}
+    <Layout className={layoutStyles.paperContainer}>
+      <FormProvider {...formMethods}>
+        <Form
+          buttonGroup={
+            <LocationButtons
+              disabled={disabled}
+              isCreateLocationPage={isCreateLocationPage}
+              isViewLocationPage={isViewLocationPage}
+              isEditLocationPage={isEditLocationPage}
+              onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+              onRetire={handleRetire}
+              isAdmin={isAdmin}
+            />
+          }
+          onSubmit={formMethods.handleSubmit(onSubmit, onError)}
+          fullWidthContent
+        >
+          <LocationPageHeader
+            title={title}
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
-            onRetire={handleRetire}
-            isAdmin={isAdmin}
-          />
-        }
-        onSubmit={formMethods.handleSubmit(onSubmit, onError)}
-        classNames={isViewLocationPage ? { layout: layoutStyles.paperContainer } : {}}
-        hasWhiteBackground={isViewLocationPage}
-        classes={
-          isViewLocationPage
-            ? {
-                footer: {
-                  padding: '24px 16px 24px 16px',
-                  position: 'relative',
-                  margin: '0 0 16px 0',
-                },
-              }
-            : {}
-        }
-      >
-        <LocationPageHeader
-          title={title}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          history={history}
-          match={match}
-          onCancel={historyCancel}
-          formMethods={formMethods}
-        />
-        {isViewLocationPage && (
-          <RouterTab
-            classes={{ container: { margin: '6px 0 26px 0' } }}
             history={history}
             match={match}
-            tabs={routerTabs}
-            variant={Variant.UNDERLINE}
+            onCancel={historyCancel}
+            formMethods={formMethods}
           />
-        )}
-        {details}
-      </Form>
-    </FormProvider>
+          {isViewLocationPage && (
+            <RouterTab
+              classes={{ container: { margin: '6px 0 26px 0' } }}
+              history={history}
+              match={match}
+              tabs={routerTabs}
+              variant={Variant.UNDERLINE}
+            />
+          )}
+          {details}
+        </Form>
+      </FormProvider>
+    </Layout>
   );
 }

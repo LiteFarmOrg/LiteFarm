@@ -73,9 +73,9 @@ export enum TaskStatus {
 type StatusLabelProps = {
   color: TaskStatus;
   label: string;
-  sm: boolean;
-  children: React.ReactNode;
-  props: HTMLAttributes<HTMLDivElement>;
+  sm?: boolean;
+  children?: React.ReactNode;
+  props?: HTMLAttributes<HTMLDivElement>;
 };
 
 export const StatusLabel = ({

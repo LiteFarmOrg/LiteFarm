@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-// @ts-nocheck
 
 import Layout from '../Layout';
 import layoutStyles from '../Layout/layout.module.scss';
@@ -20,23 +19,18 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import List from '../List';
-import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
-import { Status } from '../StatusIndicatorPill';
-import { getIntlDate, isLessThanTwelveHrsAgo } from '../../util/date-migrate-TS';
-import { getDeviceType } from '../Sensor/v2/constants';
+import { getIntlDate } from '../../util/date-migrate-TS';
 import { Variant } from '../RouterTab/Tab';
-import { locationEnum } from '../../containers/Map/constants';
-import ManageESciSection from '../ManageESciSection';
 import Table from '../Table';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../Table/types';
-import { History, Location } from 'history';
+import { History } from 'history';
 import { match } from 'react-router-dom';
 import { IrrigationPrescription } from '../../store/api/types';
 import Cell from '../Table/Cell';
 import { partnerEntities } from '../../containers/AddSensors/constants';
-import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import clsx from 'clsx';
+import { Location } from '../../types';
+import { LocationTab } from '../../containers/LocationDetails/types';
 
 type Tab = {};
 
@@ -45,7 +39,7 @@ type LocationIrrigationProps = {
   history: History;
   match: match;
   irrigationPrescriptions: IrrigationPrescription[];
-  routerTabs: Tab[];
+  routerTabs: LocationTab[];
   isCompact: boolean;
 };
 
@@ -59,7 +53,7 @@ export default function PureLocationIrrigation({
 }: LocationIrrigationProps) {
   const { t } = useTranslation();
 
-  const getPartnerName = (id) => {
+  const getPartnerName = (id: number) => {
     const partner = partnerEntities.find((partner) => id === partner.id);
     return partner ? partner.shortName : ' -- ';
   };
@@ -110,7 +104,7 @@ export default function PureLocationIrrigation({
       {
         id: 'irrigationPrescriptionLink',
         label: undefined,
-        align: 'right',
+        align: Alignment.RIGHT,
         sortable: false,
         className: styles.tableCell,
         format: (data) => (
@@ -126,7 +120,6 @@ export default function PureLocationIrrigation({
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
-        match={match}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />

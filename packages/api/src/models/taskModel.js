@@ -360,16 +360,19 @@ class TaskModel extends BaseModel {
    */
   static async getUnassignedTasksDueThisWeekFromIds(taskIds, isDayLaterThanUTC = false) {
     const dayLaterInterval = isDayLaterThanUTC ? '"1 day"' : '"0 days"';
-    return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
-      `
+    return await TaskModel.query()
+      .select('*')
+      .whereIn('task_id', taskIds)
+      .whereRaw(
+        `
       task.assignee_user_id IS NULL
       AND task.complete_date IS NULL
       AND task.abandon_date IS NULL
       AND task.due_date <= (now() + ('1 week')::interval + (?)::interval)::date
       AND task.due_date >= (now() + (?)::interval)::date
       `,
-      [dayLaterInterval, dayLaterInterval],
-    );
+        [dayLaterInterval, dayLaterInterval],
+      );
   }
 
   /**
@@ -509,6 +512,16 @@ class TaskModel extends BaseModel {
       .select('task_id')
       .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
       .whereIn('task_id', taskIds);
+  }
+
+  // TODO: LF-4764
+  static async getIrrigationTaskIdByPartnerPrescriptionId(trx, _partner_id, _prescription_id) {
+    return await TaskModel.query(trx)
+      .select('task.task_id')
+      .joinRelated('irrigation_task')
+      //.where('irrigation_task.partner_id', partner_id)
+      //.where('irrigation_task.prescription_id', prescription_id)
+      .whereNotDeleted();
   }
 }
 

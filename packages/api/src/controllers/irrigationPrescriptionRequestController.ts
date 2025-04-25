@@ -49,10 +49,12 @@ const irrigationPrescriptionRequestController = {
         // TODO: should location_id, partner_id be a param?
 
         // get org id from addon
-        const _prescriptions = await getEsciPrescriptions(farm_id);
+        const prescriptions = await getEsciPrescriptions(farm_id);
         // return prescriptions
+        res.status(200).send(prescriptions);
       } catch (_error) {
         // catch error
+        res.sendStatus(400);
       }
     };
   },

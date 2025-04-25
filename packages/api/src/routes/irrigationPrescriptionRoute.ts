@@ -15,14 +15,10 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
+import IrrigationPrescriptionController from '../controllers/irrigationPrescriptionController.js';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  checkScope(['get:smart_irrigation']),
-  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
-);
+router.get('/', checkScope(['get:sensors']), IrrigationPrescriptionController.getPrescriptions());
 
 export default router;

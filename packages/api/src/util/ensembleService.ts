@@ -31,6 +31,7 @@ import type {
   FarmAddon,
   IrrigationPrescription,
 } from './ensembleService.types.js';
+import TaskModel from '../models/taskModel.js';
 
 /**
  * Retrieves the external organisation IDs for a specific farm and partner.
@@ -59,22 +60,30 @@ const getExternalOrganisationIds = async (
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-const getMockPrescriptions = async (_farm_id: string): Promise<IrrigationPrescription[]> => {
+const getMockPrescriptions = async (farm_id: string): Promise<IrrigationPrescription[]> => {
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
-  const locations = [{ location_id: '87b5a846-fa97-11ef-a688-ce0b8496eaa9' }];
-  const tasks = [{ task_id: 15 }];
+  const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
+  // Choose last location
+  const mockLocation = locations.at(-1);
+  if (!mockLocation) {
+    throw customError('No crop locations on farm');
+  }
+  const tasks = await TaskModel.getIrrigationTaskIdByPartnerPrescriptionId();
+  if (!tasks) {
+    throw customError('No irrigation tasks on farm');
+  }
 
   return [
     {
       id: 'uuid_maybe_001',
-      location_id: locations[0].location_id,
+      location_id: mockLocation.location_id,
       recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
       partner_id: 1,
       task_id: tasks.at(-1)?.task_id,
     },
     {
       id: 'uuid_maybe_002',
-      location_id: locations[0].location_id,
+      location_id: locations.at(-1)?.location_id,
       recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
       partner_id: 1,
       task_id: undefined,

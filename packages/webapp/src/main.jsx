@@ -79,6 +79,8 @@ import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
@@ -153,13 +155,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                <Router history={history}>
-                  <>
-                    <App />
-                  </>
-                </Router>
-              </ErrorBoundary>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <ErrorBoundary FallbackComponent={ReactErrorFallback}>
+                  <Router history={history}>
+                    <>
+                      <App />
+                    </>
+                  </Router>
+                </ErrorBoundary>
+              </LocalizationProvider>
             </GoogleOAuthProvider>
           </>
         </ThemeProvider>

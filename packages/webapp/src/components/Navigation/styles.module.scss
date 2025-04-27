@@ -38,8 +38,10 @@
   }
 }
 
+// useSectionHeaders.tsx
 .text {
   @include xs-breakpoint {
     order: 2;
   }
+  color: var(--grey900);
 }

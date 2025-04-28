@@ -15,6 +15,10 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
+import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
 import styles from './styles.module.scss';
 import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
@@ -45,8 +49,13 @@ const dateTimeLabelStyles = {
   fontSize: '16px',
 };
 
-const IrrigationPrescription = ({ match }: IrrigationPrescriptionProps) => {
+const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps) => {
   const { t } = useTranslation();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const pageTitle = useSectionHeader(history.location.pathname);
 
   const system = useSelector(measurementSelector);
 
@@ -111,33 +120,32 @@ const IrrigationPrescription = ({ match }: IrrigationPrescriptionProps) => {
   const { uriData, vriData } = prescription;
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
-      <PageTitle title={t('IRRIGATION_PRESCRIPTION.TITLE')} onGoBack={() => history.back()} />
-      <div className={styles.irrigationPrescriptionContainer}>
-        <div className={styles.recommendedSchedule}>
-          <Main>{t('IRRIGATION_PRESCRIPTION.RECOMMENDED_SCHEDULE')}</Main>
-          <DateInput
-            date={recommended_start_datetime}
-            label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
-            disabled
-            labelStyles={dateTimeLabelStyles}
-          />
-          <TimeInput
-            date={recommended_start_datetime}
-            label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
-            disabled
-            labelStyles={dateTimeLabelStyles}
-          />
-        </div>
-        <PureIrrigationPrescription
-          system={system}
-          fieldLocation={fieldLocation}
-          pivotCenter={pivot.center}
-          pivotRadiusInMeters={pivot.radius}
-          {...(uriData ? { uriData } : { vriData: vriData?.zones })}
+    <div className={clsx(styles.irrigationPrescriptionContainer, layoutStyles.paperContainer)}>
+      {isMobile && pageTitle}
+      <div className={clsx(styles.recommendedSchedule)}>
+        <Main>{t('IRRIGATION_PRESCRIPTION.RECOMMENDED_SCHEDULE')}</Main>
+        <DateInput
+          date={recommended_start_datetime}
+          label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
+          disabled
+          labelStyles={dateTimeLabelStyles}
+        />
+        <TimeInput
+          date={recommended_start_datetime}
+          label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
+          disabled
+          labelStyles={dateTimeLabelStyles}
         />
       </div>
-    </Layout>
+
+      <PureIrrigationPrescription
+        system={system}
+        fieldLocation={fieldLocation}
+        pivotCenter={pivot.center}
+        pivotRadiusInMeters={pivot.radius}
+        {...(uriData ? { uriData } : { vriData: vriData?.zones })}
+      />
+    </div>
   );
 };
 

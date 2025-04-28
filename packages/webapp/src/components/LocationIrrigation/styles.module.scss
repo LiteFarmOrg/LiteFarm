@@ -34,6 +34,8 @@
 .tableHeader.tableHeader {
   border-top: 0px;
   border-bottom: 0px;
+  font-weight: 700;
+  letter-spacing: 0.07px;
 }
 
 .tableRow.tableRow {
@@ -53,4 +55,8 @@
 
 .dateCell.dateCell {
   gap: 0px;
+}
+
+.tableBody.tableBody::before {
+  display: none;
 }

@@ -123,7 +123,7 @@ export default function PureLocationIrrigation({
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
-      <div className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</div>
+      <h2 className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</h2>
       <Table
         kind={TableKind.V2}
         columns={getColumns()}
@@ -132,6 +132,7 @@ export default function PureLocationIrrigation({
         tableContainerClass={styles.tableContainer}
         headerClass={styles.tableHeader}
         rowClass={styles.tableRow}
+        tbodyClass={styles.tableBody}
         showHeader={isCompact ? false : true}
       />
     </Layout>

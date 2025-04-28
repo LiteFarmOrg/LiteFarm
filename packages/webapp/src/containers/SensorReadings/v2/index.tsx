@@ -105,6 +105,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
 
+  // For SensorType.SENSOR, sensors always becomes an array of 0 or 1
   const { sensors, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       return {

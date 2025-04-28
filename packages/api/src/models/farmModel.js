@@ -294,6 +294,17 @@ class Farm extends baseModel {
       .where('farm_id', farmId)
       .first();
   }
+
+  /**
+   * Returns a farm and country object by farm id.
+   * @param {uuid} farmId
+   * @static
+   * @async
+   * @return {Promise<{utc_offset: number}>}
+   */
+  static async getFarmUtcOffset(farmId) {
+    return Farm.query().select('utc_offset').where('farm_id', farmId).whereNotDeleted().first();
+  }
 }
 
 export default Farm;

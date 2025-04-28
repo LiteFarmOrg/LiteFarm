@@ -48,9 +48,9 @@ export const irrigationTaskTypesSliceSelector = (state) => {
 
 export const irrigationTypeByKeyAndFarmIdSelector = (translationKey, farmId) =>
   createSelector(irrigationTaskTypesSliceSelector, (types) => {
-    return types.irrigationTaskTypes.find(
-      ({ farm_id, irrigation_type_translation_key }) =>
-        ((farmId && farm_id === farmId) || (!farmId && !farm_id)) &&
-        irrigation_type_translation_key === translationKey,
-    );
+    return types.irrigationTaskTypes.find(({ farm_id, irrigation_type_translation_key }) => {
+      // If farmId is provided (=custom type), match on farm_id; otherwise, match on null farm_id
+      const farmMatch = farmId ? farm_id === farmId : farm_id === null;
+      return farmMatch && irrigation_type_translation_key === translationKey;
+    });
   });

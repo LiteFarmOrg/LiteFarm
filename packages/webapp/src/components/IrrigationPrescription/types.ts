@@ -59,6 +59,10 @@ export type IrrigationPrescription = {
   estimated_time: number;
   estimated_time_unit: string;
 
+  // calculated by the backend
+  estimated_water_consumption: number;
+  estimated_water_consumption_unit: string;
+
   // TODO: confirm with product if we are indeed getting only URI or VRI data per prescription
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }

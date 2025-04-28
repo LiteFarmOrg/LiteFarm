@@ -13,13 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, ANIMALS_URL } from '../../util/siteMapConstants';
+import {
+  ANIMALS_INVENTORY_URL,
+  ADD_ANIMALS_URL,
+  IRRIGATION_PRESCRIPTION_URL,
+} from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
+import PageTitle from '../PageTitle/v2';
+import { Title } from '../Typography';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
@@ -58,10 +64,21 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
     </div>
   );
 
+  const generalHeader = (title: string) => (
+    <Title className={styles.generalHeaderTitle}>{title}</Title>
+  );
+
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
     [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
+    [IRRIGATION_PRESCRIPTION_URL]: generalHeader(t('IRRIGATION_PRESCRIPTION.TITLE')),
   };
 
-  return HEADERS_BY_PATH[path] ?? null;
+  const exact = HEADERS_BY_PATH[path];
+  if (exact) return exact;
+
+  // Also handle dynamic routes
+  const fallbackKey = Object.keys(HEADERS_BY_PATH).find((key) => path.startsWith(`${key}/`));
+
+  return fallbackKey ? HEADERS_BY_PATH[fallbackKey] : null;
 }

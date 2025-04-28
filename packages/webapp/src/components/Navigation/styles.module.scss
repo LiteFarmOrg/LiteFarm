@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- @import '@assets/mixin.scss';
+@import '@assets/mixin.scss';
 
 .mainColumn {
   display: flex;
@@ -45,4 +45,8 @@
     color: inherit;
   }
   color: var(--grey900);
+}
+
+.generalHeaderTitle.generalHeaderTitle {
+  margin-bottom: 0px;
 }

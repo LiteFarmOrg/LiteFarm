@@ -42,6 +42,7 @@
 .text {
   @include xs-breakpoint {
     order: 2;
+    color: inherit;
   }
   color: var(--grey900);
 }

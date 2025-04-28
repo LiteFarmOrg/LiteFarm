@@ -55,14 +55,7 @@ const SECONDS_IN_A_DAY = 86400; // 60 * 60 * 24
 const SECONDS_IN_AN_HOUR = 3600; // 60 * 60
 
 /**
- * Converts the dateTime returned from getSensorReadings.
- *
- * We provide the date with 12 AM local time (e.g., Mar 28).
- * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
- * - If the user is 3 hours behind UTC, the date will be Mar 28, 3 AM UTC.
- *
- * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
- * This function adjusts the UTC-based timestamps back to the intended local date.
+ * Returns a function that adjusts the dateTime returned from getSensorReadings.
  */
 export const getAdjustDateTimeFunc = (
   truncPeriod: ChartTruncPeriod,
@@ -79,6 +72,16 @@ export const getAdjustDateTimeFunc = (
   }
 };
 
+/**
+ * Adjusts the daily dateTime returned from getSensorReadings.
+ *
+ * We provide the date with 12 AM local time (e.g., Mar 28).
+ * - If the user is 3 hours ahead of UTC, the date will be Mar 27, 9 PM UTC.
+ * - If the user is 3 hours behind UTC, the date will be Mar 28, 3 AM UTC.
+ *
+ * The ESci API returns data for 12 AM UTC on the corresponding UTC date.
+ * This function adjusts the UTC-based timestamps back to the intended local date.
+ */
 export const adjustDailyDateTime = (dateTime: number): number => {
   const date = new Date(dateTime * 1000);
   const utcYear = date.getUTCFullYear();
@@ -96,6 +99,14 @@ export const adjustDailyDateTime = (dateTime: number): number => {
   return new Date(utcYear, utcMonth, utcDate + (isAheadUTC ? 1 : 0)).getTime() / 1000;
 };
 
+/**
+ * Returns a function that adjusts the hourly dateTime returned from getSensorReadings
+ * when the timezone offset includes a partial hour (e.g., 30 mins); otherwise returns undefined.
+ *
+ * We provide local dateTime as UTC (e.g., Mar 28 12:30).
+ * The ESci API returns data at the start of the hour (e.g., Mar 28 12:00).
+ * This function adjusts the timestamps to match the intended local time (e.g., Mar 28 12:30).
+ */
 export const getAdjustHourlyDateTimeFunc = (
   timezoneOffset: number,
 ): ((dateTime: number) => number) | undefined => {

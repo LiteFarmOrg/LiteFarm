@@ -49,7 +49,7 @@ function useLatestReading(sensors: Sensor[]): {
 
   const latestReadingTime = getLatestReadingTime(latestReadings);
 
-  const getLatestReadings = async (startTime?: Date) => {
+  const fetchLatestReadings = async (startTime?: Date) => {
     let adjustedStartTime = startTime;
 
     if (!adjustedStartTime) {
@@ -68,7 +68,7 @@ function useLatestReading(sensors: Sensor[]): {
   };
 
   const setInitialLatestReadings = async () => {
-    const result = await getLatestReadings();
+    const result = await fetchLatestReadings();
 
     if (result.data?.length) {
       setLatestReadings(result.data);
@@ -80,7 +80,7 @@ function useLatestReading(sensors: Sensor[]): {
   };
 
   const refetchSensorReadings = async (startTime?: Date): Promise<void> => {
-    const result = await getLatestReadings(startTime);
+    const result = await fetchLatestReadings(startTime);
     // Retain current readings if no newer data is available
     if (result.data?.length) {
       setLatestReadings(result.data);

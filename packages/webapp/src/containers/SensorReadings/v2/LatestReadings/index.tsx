@@ -28,7 +28,7 @@ import { LineConfig } from '../../../../components/Charts/LineChart';
 import { OverlaySpinner } from '../../../../components/Spinner';
 import { measurementSelector } from '../../../userFarmSlice';
 import useLatestReadings from './useLatestReadings';
-import { timeDifference } from '../../utils';
+import { timeDifference } from '../../../../util/timeDifference';
 import { formatArrayReadingsToKPIProps, formatStandaloneSensorReadingsToKPIProps } from './utils';
 import { Sensor } from '../../../../store/api/types';
 import { SensorType } from '../../../../types/sensor';

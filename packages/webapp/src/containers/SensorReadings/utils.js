@@ -1,5 +1,5 @@
 import moment from 'moment';
-import i18n from '../../locales/i18n';
+import { timeDifference } from '../../util/timeDifference';
 
 export const getMiddle = (prop, markers) => {
   let values = markers.map((m) => m[prop]);
@@ -75,28 +75,4 @@ export const roundDownToNearestTimepoint = (currentUnixTime, utcOffsetMinutes) =
   );
 
   return moment(nearestChosenUnixTime).format('ddd MMM DD YYYY HH:mm');
-};
-
-export const timeDifference = (current, previous) => {
-  var msPerMinute = 60 * 1000;
-  var msPerHour = msPerMinute * 60;
-  var msPerDay = msPerHour * 24;
-  var msPerMonth = msPerDay * 30;
-  var msPerYear = msPerDay * 365;
-
-  var elapsed = current - previous;
-
-  if (elapsed < msPerMinute) {
-    return i18n.t('translation:SENSOR.SECONDS_AGO', { time: Math.round(elapsed / 1000) });
-  } else if (elapsed < msPerHour) {
-    return i18n.t('translation:SENSOR.MINUTES_AGO', { time: Math.round(elapsed / msPerMinute) });
-  } else if (elapsed < msPerDay) {
-    return i18n.t('translation:SENSOR.HOURS_AGO', { time: Math.round(elapsed / msPerHour) });
-  } else if (elapsed < msPerMonth) {
-    return i18n.t('translation:SENSOR.DAYS_AGO', { time: Math.round(elapsed / msPerDay) });
-  } else if (elapsed < msPerYear) {
-    return i18n.t('translation:SENSOR.MONTHS_AGO', { time: Math.round(elapsed / msPerMonth) });
-  } else {
-    return '';
-  }
 };

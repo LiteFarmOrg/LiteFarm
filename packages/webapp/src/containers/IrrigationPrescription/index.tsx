@@ -26,8 +26,6 @@ import { Main } from '../../components/Typography';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
 import type { CustomRouteComponentProps } from '../../types';
-import PageTitle from '../../components/PageTitle/v2';
-import Layout from '../../components/Layout';
 import layoutStyles from '../../components/Layout/layout.module.scss';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';

@@ -78,9 +78,13 @@ import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
 
 // Devices
 import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
+
+// Irrigation Prescription
+import { ReactComponent as Dot } from '../../assets/images/dot.svg';
 
 // Animal type: icon map
 const animalTypeIcons = {
@@ -153,10 +157,13 @@ export const iconMap = {
   CLOCK_FAST: ClockFast,
   // Input
   LOCKED: LockedIcon,
+  CALENDAR: CalendarIcon,
 
   LOCATION: LocationIcon,
 
   SENSOR: SensorIcon,
+
+  DOT: Dot,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

@@ -1213,8 +1213,17 @@
     "WAGE_RANGE_ERROR": "Salary must be a positive number less than 999,999,999"
   },
   "IRRIGATION_PRESCRIPTION": {
+    "APPLICATION_DEPTH": "Application depth",
+    "BASED_ON_DATA": "Based on this data",
     "ESTIMATED_WATER_CONSUMPTION": "Estimated water consumption",
-    "ET_RATE": "ET Rate"
+    "ET_RATE": "ET Rate",
+    "IRRIGATION_ZONE": "Irrigation zone",
+    "RECOMMENDED_SCHEDULE": "Recommended schedule",
+    "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
+    "START_DATE": "Start date",
+    "START_TIME": "Start time",
+    "TITLE": "Irrigation prescription",
+    "ZONE": "Zone"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",

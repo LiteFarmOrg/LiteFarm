@@ -67,7 +67,6 @@
 .icon {
   width: 24px;
   height: 24px;
-  background: transparent;
   @include svgColorFill(var(--Colors-Accent-Accent-yellow-50, #fff8e6));
 }
 

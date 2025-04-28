@@ -1,5 +1,6 @@
 import { createTheme, StyledEngineProvider } from '@mui/material';
 import { ThemeProvider, Theme } from '@mui/material/styles';
+import '@mui/x-date-pickers/themeAugmentation';
 import '@mui/styles';
 import React, { FC, ReactNode } from 'react';
 
@@ -22,6 +23,7 @@ export const colors = {
   teal600: '#3ea992',
   teal500: '#89d1c7',
   teal100: '#f1fbf9',
+  teal50: '#ebf5f4',
   green700: '#78c99e',
   green400: '#a8e6bd',
   green200: '#c7efd3',
@@ -62,7 +64,7 @@ export const colors = {
 const theme = createTheme({
   palette: {
     primary: {
-      contrastText: colors.grey900,
+      contrastText: colors.teal50,
       main: colors.teal700,
     },
     secondary: {
@@ -131,6 +133,15 @@ const theme = createTheme({
           boxSizing: 'border-box',
           margin: 0,
           padding: 0,
+        },
+      },
+    },
+    MuiDateCalendar: {
+      styleOverrides: {
+        root: {
+          '& svg': {
+            color: colors.grey900,
+          },
         },
       },
     },

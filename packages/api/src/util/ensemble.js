@@ -755,4 +755,6 @@ export {
   registerFarmAndClaimSensors,
   unclaimSensor,
   ENSEMBLE_UNITS_MAPPING_WEBHOOK,
+  ensembleAPICall,
+  ensembleAPI,
 };

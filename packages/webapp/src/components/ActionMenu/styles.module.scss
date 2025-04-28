@@ -90,20 +90,16 @@
       &:hover {
         background-color: var(--Colors-Secondary-Secondary-green-700);
 
-        @include svgColorFill(var(--Btn-primary-hover))
+        @include svgColorFill(var(--Btn-primary-hover));
       }
     }
 
     &:active {
       background-color: var(--Btn-primary-pristine);
 
-      @include svgColorFill(var(--Colors-Secondary-Secondary-green-900))
+      @include svgColorFill(var(--Colors-Secondary-Secondary-green-900));
     }
   }
-}
-
-.icon {
-  background: none;
 }
 
 .iconLabel {

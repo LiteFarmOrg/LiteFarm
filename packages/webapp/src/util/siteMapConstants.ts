@@ -98,3 +98,6 @@ export const SENSORS_URL = '/sensors';
 export const createSensorsUrl = (partnerId?: number): string => {
   return `/sensors${partnerId ? `?partner_id=${partnerId}` : ''}`;
 };
+
+// Smart Irrigation
+export const IRRIGATION_PRESCRIPTION_URL = '/irrigation_prescription';

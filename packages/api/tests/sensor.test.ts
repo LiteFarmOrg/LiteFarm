@@ -36,8 +36,9 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 import mocks from './mock.factories.js';
+import { returnUserFarms } from './utils/testDataSetup.js';
 import { Response } from 'superagent';
-import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import { mockedFormattedReadingsData, mockedEnsembleReadingsData } from './utils/sensorMockData.js';
 
 interface User {
@@ -75,28 +76,10 @@ describe('Sensor Tests', () => {
       .query({ esids, startTime, endTime, truncPeriod });
   }
 
-  function fakeUserFarm(role = 1) {
-    return { ...mocks.fakeUserFarm(), role_id: role };
-  }
-
-  async function returnUserFarms(role: number) {
-    const [mainFarm] = await mocks.farmFactory();
-    const [user] = await mocks.usersFactory();
-
-    await mocks.userFarmFactory(
-      {
-        promisedUser: [user],
-        promisedFarm: Promise.resolve([mainFarm]),
-      },
-      fakeUserFarm(role),
-    );
-    return { mainFarm, user };
-  }
-
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
-    mockedAxios.default.mockClear();
+    (mockedAxios as unknown as jest.Mock).mockClear();
   });
 
   afterEach(async () => {
@@ -110,7 +93,7 @@ describe('Sensor Tests', () => {
   describe('GET sensor readings tests', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should get sensor readings`, async () => {
-        mockedAxios.default.mockResolvedValue({
+        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
           data: mockedEnsembleReadingsData,
           status: 200,
           statusText: 'OK',
@@ -120,10 +103,7 @@ describe('Sensor Tests', () => {
 
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const [farmAddon] = await mocks.farm_addonFactory({
-          promisedFarm: Promise.resolve([mainFarm]),
-          promisedPartner: mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
-        });
+        const { farmAddon } = await connectFarmToEnsemble(mainFarm);
 
         const res = await getSensorReadingsRequest({
           user_id: user.user_id,

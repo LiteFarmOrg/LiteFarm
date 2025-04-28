@@ -1,0 +1,37 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+.irrigationPrescriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 256px; /* padding for floating form buttons */
+}
+
+.recommendedSchedule {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+
+  background: var(--White);
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+
+  > div {
+    width: 100%;
+  }
+}

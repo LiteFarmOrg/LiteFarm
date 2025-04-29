@@ -24,25 +24,19 @@ import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigati
 import { ADD_TASK_ASSIGNMENT, ADD_TASK_DETAILS } from '../../util/siteMapConstants';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
 import { waterUsage, convertFn } from '../../util/convert-units/unit';
+import { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
 
-export default function useApproveIrrigationPrescription(history: History) {
-  // This will eventually be passed as an argument
-  const irrigationPrescription = {
-    uuid: 'xxxxxxxxxxxx',
-    location_id: '92f3adc0-e4cb-11ef-9c7b-e66db4bef551',
-    recommended_start: new Date().toISOString(),
-    estimated_water_consumption: 79,
-    estimated_water_consumption_unit: 'l',
-    management_plan_id: 434, // TODO: Confirm
-  };
-
+export default function useApproveIrrigationPrescription(
+  history: History,
+  irrigationPrescription: IrrigationPrescription,
+) {
   const {
-    uuid,
+    id,
     location_id,
-    recommended_start,
+    recommended_start_datetime,
     estimated_water_consumption,
     estimated_water_consumption_unit,
-    management_plan_id,
+    // management_plan_id,
   } = irrigationPrescription;
 
   const { t } = useTranslation();
@@ -67,10 +61,10 @@ export default function useApproveIrrigationPrescription(history: History) {
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,
-      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start)),
+      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime)),
       locations: [{ location_id }],
       show_wild_crop: false,
-      managementPlans: [{ management_plan_id }],
+      managementPlans: [{ management_plan_id: 434 }], // TODO: Adjust
       irrigation_task: {
         default_irrigation_task_type_location: false,
         default_irrigation_task_type_measurement: false,
@@ -78,7 +72,7 @@ export default function useApproveIrrigationPrescription(history: History) {
         measuring_type: 'DEPTH',
         estimated_water_usage: estimatedWaterUsageInL,
         irrigation_type_id: pivotType?.irrigation_type_id,
-        irrigation_prescription_external_uuid: uuid,
+        irrigation_prescription_external_uuid: id,
       },
     };
 

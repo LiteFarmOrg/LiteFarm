@@ -170,7 +170,7 @@ const imperialWaterUsageArgsAndPlay = getSystemUnmatchTestArgsAndPlay(
   'imperial',
   waterUsage,
   500,
-  'fl-oz',
+  'gal',
 );
 ImperialWaterUsage.args = imperialWaterUsageArgsAndPlay.args;
 ImperialWaterUsage.play = imperialWaterUsageArgsAndPlay.play;

@@ -55,7 +55,7 @@ export default function CompactPreview({ location, readings, readingType, histor
       location.isAddonSensor &&
       [locationEnum.sensor_array, locationEnum.sensor].includes(location.type)
     ) {
-      history.push(`/${location.type}/${location.id}/readings`);
+      history.push(`/${location.type}/${location.id}`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);
     }

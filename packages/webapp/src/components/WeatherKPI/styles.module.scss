@@ -1,0 +1,52 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.weatherKPI {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  dl {
+    min-width: calc((100% - 24px) / 3);
+    flex: 1 1 210px;
+    padding: 12px 16px;
+    background: #f9fafc;
+
+    border-radius: 4px;
+    border: 1px solid var(--Colors-Neutral-Neutral-50);
+
+    &:nth-child(n + 4) {
+      min-width: calc((100% - 24px) / 4);
+    }
+  }
+
+  dt {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 16px;
+    line-height: normal;
+
+    &.hideLabel {
+      position: absolute;
+      left: -100vw;
+    }
+  }
+
+  dd {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+}

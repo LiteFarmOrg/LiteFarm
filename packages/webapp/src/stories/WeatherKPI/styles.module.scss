@@ -1,5 +1,5 @@
 /*
- *  Copyright 2021 - 2025 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,19 +12,23 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Loading } from '../Loading/Loading';
-import styles from './styles.module.scss';
 
-function Spinner() {
-  return <Loading style={{ backgroundColor: 'transparent' }} />;
+.icon {
+  dl {
+    text-align: center;
+
+    &:first-child dd {
+      height: 100%;
+      font-size: 40px;
+    }
+  }
+
+  dd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 16px;
+    line-height: 32px;
+  }
 }
-
-export const OverlaySpinner = () => {
-  return (
-    <div className={styles.overlaySpinner}>
-      <Spinner />
-    </div>
-  );
-};
-
-export default Spinner;

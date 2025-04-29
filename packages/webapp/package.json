@@ -123,7 +123,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "babel-loader": "^8.3.0",
     "check-code-coverage": "^1.10.4",
-    "chromatic": "^6.11.4",
+    "chromatic": "^11.28.2",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-json": "^3.1.0",

@@ -15,22 +15,31 @@
 
 import { Response } from 'express';
 import { LiteFarmRequest, HttpError } from '../types.js';
-import { getEsciPrescriptions } from '../util/ensembleService.js';
+import { getEsciPrescriptions, getMockPrescriptions } from '../util/ensembleService.js';
+
+interface DELETEMEQueryParams {
+  shouldSend?: string;
+}
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (req: LiteFarmRequest<DELETEMEQueryParams>, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        // TODO: should location_id, partner_id be a param?
+        const { shouldSend } = req.query;
 
-        // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
-        const prescriptions = await getEsciPrescriptions(farm_id);
-        // return prescriptions
-        res.status(200).send(prescriptions);
+        if (shouldSend === 'true') {
+          // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
+          const prescriptions = await getEsciPrescriptions(farm_id);
+          return res.status(200).send(prescriptions);
+        } else {
+          // Return data for dev purposes + QA
+          // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
+          const mockData = await getMockPrescriptions(farm_id);
+          return res.status(200).send(mockData);
+        }
       } catch (error: unknown) {
         console.error(error);
-
         const err = error as HttpError;
         const status = err.status || err.code || 500;
         return res.status(status).json({

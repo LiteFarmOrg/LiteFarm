@@ -23,6 +23,7 @@ import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
 import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
 import FloatingContainer from '../../components/FloatingContainer';
+import useApproveIrrigationPrescription from './useApproveIrrigationPrescription';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
@@ -117,6 +118,8 @@ const IrrigationPrescription = ({
 
   const { uriData, vriData } = prescription;
 
+  const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
+
   return (
     <CardLayout className={styles.cardWrapper}>
       <div className={styles.irrigationPrescriptionContainer}>
@@ -155,7 +158,7 @@ const IrrigationPrescription = ({
           isDisabled={false}
           informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
           onCancel={history.back}
-          onContinue={() => console.log('TODO')}
+          onContinue={onApprove}
           cancelButtonContent={
             <>
               <ChevronLeft />

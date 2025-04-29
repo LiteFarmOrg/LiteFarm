@@ -100,5 +100,26 @@ export type ExternalIrrigationPrescription = {
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
   partner_id: number;
-  task_id: number | undefined;
+  task_id?: number | null;
+}
+
+// Type guard for external endpoint
+// AI-assisted type guard
+export function isIrrigationPrescriptionArray(data: unknown): data is IrrigationPrescription[] {
+  return (
+    Array.isArray(data) &&
+    data.every((item): item is IrrigationPrescription => {
+      if (typeof item !== 'object' || item === null) return false;
+
+      const obj = item as Record<string, unknown>;
+
+      return (
+        (typeof obj.id === 'string' || typeof obj.id === 'number') &&
+        (typeof obj.location_id === 'string' || typeof obj.location_id === 'number') &&
+        typeof obj.recommended_start_datetime === 'string' &&
+        typeof obj.partner_id === 'number' &&
+        (typeof obj.task_id === 'number' || obj.task_id === null || obj.task_id === undefined)
+      );
+    })
+  );
 }

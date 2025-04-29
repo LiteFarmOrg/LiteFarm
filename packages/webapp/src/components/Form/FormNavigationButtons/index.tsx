@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Button from '../Button';
@@ -29,6 +29,8 @@ export interface FormNavigationButtonsProps {
   onCancel: () => void;
   onContinue: () => void;
   onPrevious?: () => void;
+  cancelButtonContent?: ReactNode;
+  continueButtonContent?: ReactNode;
 }
 
 const FormNavigationButtons = ({
@@ -40,6 +42,8 @@ const FormNavigationButtons = ({
   onCancel,
   onContinue,
   onPrevious,
+  cancelButtonContent,
+  continueButtonContent,
 }: FormNavigationButtonsProps) => {
   const { t } = useTranslation();
 
@@ -48,7 +52,7 @@ const FormNavigationButtons = ({
       {contextualContent && <div className={styles.contextualContent}>{contextualContent}</div>}
       <div className={styles.buttonContainer}>
         <Button color="secondary-cta" onClick={onCancel} className={styles.button} sm fullLength>
-          {t('common:CANCEL')}
+          {cancelButtonContent || t('common:CANCEL')}
         </Button>
         {onPrevious && (
           <Button
@@ -70,14 +74,15 @@ const FormNavigationButtons = ({
           sm
           fullLength
         >
-          {isFinalStep ? (
-            t('common:SAVE')
-          ) : (
-            <>
-              <span>{t('common:NEXT')}</span>
-              <ChevronRight />
-            </>
-          )}
+          {continueButtonContent ||
+            (isFinalStep ? (
+              t('common:SAVE')
+            ) : (
+              <>
+                <span>{t('common:NEXT')}</span>
+                <ChevronRight />
+              </>
+            ))}
         </Button>
       </div>
       {informationalText && <div className={styles.informationalText}>{informationalText}</div>}

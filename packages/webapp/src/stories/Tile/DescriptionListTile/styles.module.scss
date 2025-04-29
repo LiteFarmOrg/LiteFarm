@@ -13,22 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.icon {
-  dl {
-    text-align: center;
+@import '@assets/mixin.scss';
 
-    &:first-child dd {
-      height: 100%;
-      font-size: 40px;
-    }
+.dataWithIcon {
+  svg {
+    width: 24px;
+    height: 24px;
   }
+}
 
-  dd {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    font-size: 16px;
-    line-height: 32px;
+.waterConsumption {
+  font-weight: normal;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  span {
+    font-size: 24px;
   }
 }

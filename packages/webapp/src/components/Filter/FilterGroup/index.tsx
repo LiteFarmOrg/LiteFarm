@@ -31,7 +31,11 @@ export interface FilterItemProps {
   showIndividualFilterControls?: boolean;
 }
 
-const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
+const FilterItem = ({
+  filter,
+  showIndividualFilterControls = false,
+  ...props
+}: FilterItemProps) => {
   if (filter.type === FilterType.DATE_RANGE) {
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === FilterType.SEARCHABLE_MULTI_SELECT) {
@@ -105,10 +109,6 @@ FilterGroup.propTypes = {
   onChange: PropTypes.func,
   shouldReset: PropTypes.number,
   showIndividualFilterControls: PropTypes.bool,
-};
-
-FilterGroup.defaultProps = {
-  showIndividualFilterControls: false,
 };
 
 export default FilterGroup;

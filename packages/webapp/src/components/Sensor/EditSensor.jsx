@@ -15,8 +15,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
-import Layout from '../Layout';
-import layoutStyles from '../Layout/layout.module.scss';
+import CardLayout from '../Layout/CardLayout';
 import PropTypes from 'prop-types';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
@@ -109,7 +108,7 @@ export default function UpdateSensor({
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   return (
-    <Layout className={styles.paperContainer}>
+    <CardLayout>
       <PageTitle title={sensorInfo.name} onGoBack={onBack} />
       <Form
         onSubmit={handleSubmit(() => {
@@ -244,7 +243,7 @@ export default function UpdateSensor({
           />
         )}
       </Form>
-    </Layout>
+    </CardLayout>
   );
 }
 

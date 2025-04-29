@@ -12,8 +12,7 @@ import useLocationRouterTabs from '../../containers/LocationDetails/useLocationR
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../containers/locationSlice';
 import { Variant } from '../RouterTab/Tab';
-import Layout from '../Layout';
-import layoutStyles from '../Layout/layout.module.scss';
+import CardLayout from '../Layout/CardLayout';
 
 export function PureLocationDetailLayout({
   history,
@@ -99,7 +98,7 @@ export function PureLocationDetailLayout({
   }, [locationCategory]);
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <FormProvider {...formMethods}>
         <Form
           buttonGroup={
@@ -138,6 +137,6 @@ export function PureLocationDetailLayout({
           {details}
         </Form>
       </FormProvider>
-    </Layout>
+    </CardLayout>
   );
 }

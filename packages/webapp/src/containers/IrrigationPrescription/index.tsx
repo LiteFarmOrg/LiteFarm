@@ -15,7 +15,6 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
@@ -26,7 +25,7 @@ import { Main } from '../../components/Typography';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
 import type { CustomRouteComponentProps } from '../../types';
-import layoutStyles from '../../components/Layout/layout.module.scss';
+import CardLayout from '../../components/Layout/CardLayout';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
 import {
@@ -118,32 +117,34 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
   const { uriData, vriData } = prescription;
 
   return (
-    <div className={clsx(styles.irrigationPrescriptionContainer, layoutStyles.paperContainer)}>
-      {isMobile && pageTitle}
-      <div className={clsx(styles.recommendedSchedule)}>
-        <Main>{t('IRRIGATION_PRESCRIPTION.RECOMMENDED_SCHEDULE')}</Main>
-        <DateInput
-          date={recommended_start_datetime}
-          label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
-          disabled
-          labelStyles={dateTimeLabelStyles}
-        />
-        <TimeInput
-          date={recommended_start_datetime}
-          label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
-          disabled
-          labelStyles={dateTimeLabelStyles}
+    <CardLayout>
+      <div className={styles.irrigationPrescriptionContainer}>
+        {isMobile && pageTitle}
+        <div className={styles.recommendedSchedule}>
+          <Main>{t('IRRIGATION_PRESCRIPTION.RECOMMENDED_SCHEDULE')}</Main>
+          <DateInput
+            date={recommended_start_datetime}
+            label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
+            disabled
+            labelStyles={dateTimeLabelStyles}
+          />
+          <TimeInput
+            date={recommended_start_datetime}
+            label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
+            disabled
+            labelStyles={dateTimeLabelStyles}
+          />
+        </div>
+
+        <PureIrrigationPrescription
+          system={system}
+          fieldLocation={fieldLocation}
+          pivotCenter={pivot.center}
+          pivotRadiusInMeters={pivot.radius}
+          {...(uriData ? { uriData } : { vriData: vriData?.zones })}
         />
       </div>
-
-      <PureIrrigationPrescription
-        system={system}
-        fieldLocation={fieldLocation}
-        pivotCenter={pivot.center}
-        pivotRadiusInMeters={pivot.radius}
-        {...(uriData ? { uriData } : { vriData: vriData?.zones })}
-      />
-    </div>
+    </CardLayout>
   );
 };
 

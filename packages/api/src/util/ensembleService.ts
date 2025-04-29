@@ -23,15 +23,17 @@ import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
-import type {
-  OrganisationFarmData,
-  LocationAndCropGraph,
-  EnsembleLocationAndCropData,
-  ManagementPlan,
-  FarmAddon,
-  IrrigationPrescription,
+import {
+  type OrganisationFarmData,
+  type LocationAndCropGraph,
+  type EnsembleLocationAndCropData,
+  type ManagementPlan,
+  type FarmAddon,
+  type IrrigationPrescription,
+  isIrrigationPrescriptionArray,
 } from './ensembleService.types.js';
 import TaskModel from '../models/taskModel.js';
+import { startOfFarmDate } from './farmService.js';
 
 /**
  * Retrieves the external organisation IDs for a specific farm and partner.
@@ -60,8 +62,9 @@ const getExternalOrganisationIds = async (
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-const getMockPrescriptions = async (farm_id: string): Promise<IrrigationPrescription[]> => {
+export const getMockPrescriptions = async (farm_id: string): Promise<IrrigationPrescription[]> => {
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
+  const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
   // Choose last location
   const mockLocation = locations.at(-1);
@@ -77,14 +80,14 @@ const getMockPrescriptions = async (farm_id: string): Promise<IrrigationPrescrip
     {
       id: 'uuid_maybe_001',
       location_id: mockLocation.location_id,
-      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: 1,
       task_id: tasks.at(-1)?.task_id,
     },
     {
       id: 'uuid_maybe_002',
       location_id: locations.at(-1)?.location_id,
-      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+      recommended_start_datetime: new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: 1,
       task_id: undefined,
     },
@@ -97,10 +100,28 @@ const getMockPrescriptions = async (farm_id: string): Promise<IrrigationPrescrip
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const getEsciPrescriptions = async (farm_id: string): Promise<IrrigationPrescription[]> => {
-  const _externalOrganizationIds = getExternalOrganisationIds(farm_id);
+export const getEsciPrescriptions = async (farmId: string): Promise<IrrigationPrescription[]> => {
+  const externalOrganizationIds = await getExternalOrganisationIds(farmId);
+  const startOfFarmLocalToday = await startOfFarmDate(farmId);
 
-  return await getMockPrescriptions(farm_id);
+  // Endpoint config
+  const axiosObject = {
+    method: 'get',
+    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
+    params: {
+      after_date: startOfFarmLocalToday, // ISO form or unix instead?
+    },
+  };
+
+  const onError = (error: AxiosError) => {
+    const status = error.response?.status || 500;
+    const errorDetail = error.message ? `: ${error.message}` : '';
+    const message = `Error getting irrigation prescriptions${errorDetail}`;
+    throw customError(message, status);
+  };
+
+  const data = await ensembleAPICall(axiosObject, onError);
+  return isIrrigationPrescriptionArray(data) ? data : [];
 };
 
 /**

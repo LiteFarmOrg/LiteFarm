@@ -107,7 +107,6 @@ const PureAnimalInventory = ({
           <PureSearchBarWithBackdrop
             value={searchString}
             onChange={(e: any) => setSearchString(e.target.value)}
-            isSearchActive={!!searchString}
             placeholderText={placeHolderText}
             zIndexBase={zIndexBase}
             isDesktop={isDesktop}
@@ -157,7 +156,7 @@ const PureAnimalInventory = ({
         ) : (
           <NoSearchResults
             className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
-            searchTerm={searchString}
+            searchTerm={searchString || ''}
             includeFiltersInClearSuggestion
           />
         )}

@@ -70,7 +70,7 @@ export default function PureLocationIrrigation({
             kind={CellKind.ICON_TEXT}
             iconName="CALENDAR"
             className={styles.dateCell}
-            text={getIntlDate(data.prescription_date)}
+            text={getIntlDate(data.recommended_start_datetime)}
           />
         ),
       },

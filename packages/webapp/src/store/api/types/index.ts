@@ -320,7 +320,7 @@ export interface SensorReadings {
 export interface IrrigationPrescription {
   id: string;
   some_location_id: string; // from Location 'location_id', or Pivot 'id'
-  prescription_date: string;
+  recommended_start_datetime: string;
   partner_id: number;
   task_id?: number | string;
 }

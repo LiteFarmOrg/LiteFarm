@@ -29,14 +29,14 @@ const getMockData = (location: Location, tasks: Task[]): IrrigationPrescription[
   {
     id: 'uuid_maybe_001',
     some_location_id: location.location_id,
-    prescription_date: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+    recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
     task_id: tasks.length ? tasks.at(-1)?.task_id : undefined,
   },
   {
     id: 'uuid_maybe_002',
     some_location_id: location.location_id,
-    prescription_date: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
+    recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
     task_id: undefined,
   },
@@ -54,8 +54,8 @@ export default function useIrrigationPrescriptions(location?: Location) {
   const irrigationPrescriptions = isFetching
     ? []
     : error || !data
-      ? getMockData(location, tasks)
-      : data;
+    ? getMockData(location, tasks)
+    : data;
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
   if (location && location.grid_points) {

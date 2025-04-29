@@ -15,11 +15,14 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
 import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
+import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
+import FloatingContainer from '../../components/FloatingContainer';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
@@ -36,14 +39,20 @@ interface RouteParams {
   ip_pk: string;
 }
 
-interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {}
+interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {
+  isCompactSideMenu: boolean;
+}
 
 const dateTimeLabelStyles = {
   color: 'var(--Colors-Neutral-Neutral-500)',
   fontSize: '16px',
 };
 
-const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps) => {
+const IrrigationPrescription = ({
+  match,
+  history,
+  isCompactSideMenu,
+}: IrrigationPrescriptionProps) => {
   const { t } = useTranslation();
 
   const system = useSelector(measurementSelector);
@@ -139,6 +148,28 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
           {...(uriData ? { uriData } : { vriData: vriData?.zones })}
         />
       </div>
+
+      <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+        <FormNavigationButtons
+          isFinalStep={true}
+          isDisabled={false}
+          informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
+          onCancel={history.back}
+          onContinue={() => console.log('TODO')}
+          cancelButtonContent={
+            <>
+              <ChevronLeft />
+              <span>{t('common:BACK_CAPITALIZED')}</span>
+            </>
+          }
+          continueButtonContent={
+            <>
+              <span>{t('common:APPROVE')}</span>
+              <ChevronRight />
+            </>
+          }
+        />
+      </FloatingContainer>
     </CardLayout>
   );
 };

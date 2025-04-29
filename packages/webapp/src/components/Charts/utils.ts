@@ -24,11 +24,6 @@ export const getUnixTime = (date: Date) => {
   return new Date(date).getTime() / 1000;
 };
 
-export const getLocalDate = (date: string) => {
-  const [y, m, d] = date.split('-');
-  return new Date(+y, +m - 1, +d);
-};
-
 const getMonthlyTicks = (startDate: Date, endDate: Date): number[] => {
   const endDateInMilliseconds = endDate.getTime();
   const ticks = [];
@@ -83,28 +78,26 @@ const getDailyTicks = (startDate: Date, endDate: Date): number[] => {
  * - The number of ticks will not exceed 7 (if the range allows).
  */
 export const getTicks = (
-  startDate: string,
-  endDate: string,
+  startDate: Date,
+  endDate: Date,
   option?: {
     skipEmptyEndTicks?: boolean;
     lastDataPointDateTime?: number;
   },
 ): number[] => {
-  const startDateObj = getLocalDate(startDate);
-
   const lastDate =
     option?.skipEmptyEndTicks && option.lastDataPointDateTime
       ? new Date(option.lastDataPointDateTime * 1000)
-      : getLocalDate(endDate);
+      : endDate;
 
   const firstDayOfPreviousMonth = new Date(lastDate.getFullYear(), lastDate.getMonth() - 1, 1);
 
   // Use monthly ticks if the range includes two or more first days of a month
-  if (startDateObj.getTime() <= firstDayOfPreviousMonth.getTime()) {
-    return getMonthlyTicks(startDateObj, lastDate);
+  if (startDate.getTime() <= firstDayOfPreviousMonth.getTime()) {
+    return getMonthlyTicks(startDate, lastDate);
   }
 
-  return getDailyTicks(startDateObj, lastDate);
+  return getDailyTicks(startDate, lastDate);
 };
 
 const convertToMilliseconds = (unixTime: number): number => {

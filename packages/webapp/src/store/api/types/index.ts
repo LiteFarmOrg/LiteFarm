@@ -230,14 +230,14 @@ export type SoilAmendmentProduct = Product & {
 };
 
 // As specified by Ensemble
-type SensorTypes =
+export type SensorTypes =
   | 'Weather station'
   | 'Soil Water Potential Sensor'
   | 'IR Temperature Sensor'
   | 'Wind speed sensor'
   | 'Drip line pressure sensor';
 
-type SensorReadingTypes =
+export type SensorReadingTypes =
   | 'barometric_pressure'
   | 'cumulative_rainfall'
   | 'current'
@@ -292,7 +292,7 @@ export interface FarmAddon {
   org_uuid: string;
 }
 
-type SensorReadingTypeUnits =
+export type SensorReadingTypeUnits =
   | 'hPa'
   | 'mm'
   | 'mA'
@@ -309,7 +309,7 @@ type SensorReadingTypeUnits =
 
 export interface SensorDatapoint {
   dateTime: number; // Unix timestamp
-  [esid: string]: number;
+  [esid: string]: number | undefined; // Allow missing keys
 }
 
 export interface SensorReadings {

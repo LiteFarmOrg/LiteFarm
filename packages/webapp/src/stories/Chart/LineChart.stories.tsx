@@ -68,7 +68,7 @@ const hourlyDataArgs: LineChartProps = {
     { id: 'C', color: colors.chartGreen },
     { id: 'D', color: colors.chartRed },
   ],
-  ticks: getTicks('2024-06-14', '2024-06-16'),
+  ticks: getTicks(new Date(2024, 5, 14), new Date(2024, 5, 16)),
   formatTooltipValue: (_label, value) => {
     return typeof value === 'number' ? `${value.toFixed(2)}kPA` : '';
   },
@@ -107,7 +107,7 @@ export const DailyData: Story = {
       { id: 'C', color: colors.chartGreen },
       { id: 'D', color: colors.chartRed },
     ],
-    ticks: getTicks('2024-05-31', getLocalDateInYYYYDDMM(new Date(2024, 4, 31 + dataLength - 1))),
+    ticks: getTicks(new Date(2024, 4, 31), new Date(2024, 4, 31 + dataLength - 1)),
     formatTooltipValue: (_label, value) => {
       return typeof value === 'number' ? `${value.toFixed(2)}°F` : '';
     },
@@ -134,10 +134,8 @@ export const DailyDataUntilToday: Story = {
       { id: 'D', color: colors.chartRed },
     ],
     ticks: getTicks(
-      getLocalDateInYYYYDDMM(
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 6),
-      ),
-      getLocalDateInYYYYDDMM(),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 6),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
     ),
     formatTooltipValue: (_label, value) => {
       return typeof value === 'number' ? `${value.toFixed(2)}°C` : '';
@@ -159,7 +157,7 @@ export const DailyDataWithMonthlyTicks: Story = {
       { id: 'C', color: colors.chartGreen },
       { id: 'D', color: colors.chartRed },
     ],
-    ticks: getTicks('2025-02-01', getLocalDateInYYYYDDMM(new Date(2025, 1, timeScaleData1.length))),
+    ticks: getTicks(new Date(2025, 1, 1), new Date(2025, 1, timeScaleData1.length)),
     formatTooltipValue: (_label, value) => {
       return typeof value === 'number' ? `${value.toFixed(2)}°F` : '';
     },

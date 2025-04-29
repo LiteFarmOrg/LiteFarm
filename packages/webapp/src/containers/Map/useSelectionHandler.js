@@ -70,7 +70,7 @@ const useSelectionHandler = () => {
             )
           ) {
             history.push(
-              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}`,
             );
           } else {
             history.push(

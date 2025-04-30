@@ -47,15 +47,11 @@ export default function useIrrigationPrescriptions(location?: Location) {
     return [];
   }
 
-  const { data, error, isFetching } = useGetIrrigationPrescriptionsQuery();
+  const { data } = useGetIrrigationPrescriptionsQuery();
   const tasks = useSelector(tasksSelector);
 
   // TODO: refactor once mocked data is no longer needed
-  const irrigationPrescriptions = isFetching
-    ? []
-    : error || !data
-    ? getMockData(location, tasks)
-    : data;
+  const irrigationPrescriptions = data ?? getMockData(location, tasks);
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
   if (location && location.grid_points) {

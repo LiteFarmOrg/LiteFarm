@@ -16,7 +16,6 @@
 @import '@assets/mixin.scss';
 
 .ipViewContainer {
-  padding: 16px;
   max-width: 100vw;
 }
 
@@ -32,20 +31,6 @@
     height: 520px;
     transform: translateY(-60px);
   }
-}
-
-.dataText {
-  display: flex;
-  padding: 16px 8px;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
-
-  color: var(--Colors-Neutral-Neutral-600);
-  background: var(--Colors-Backgrounds-Background-color);
-
-  font-size: 16px;
-  font-weight: 400;
 }
 
 // Table styles

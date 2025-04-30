@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- @import '@assets/mixin.scss';
+@import '@assets/mixin.scss';
 
 .mainColumn {
   display: flex;
@@ -30,6 +30,14 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
+
+  .text {
+    @include xs-breakpoint {
+      order: 2;
+      color: inherit; // against a green background on mobile
+    }
+    color: var(--grey900);
+  }
 }
 
 .badge {
@@ -38,10 +46,7 @@
   }
 }
 
-// useSectionHeaders.tsx
-.text {
-  @include xs-breakpoint {
-    order: 2;
-  }
+.generalTitle {
   color: var(--grey900);
+  font-weight: 400;
 }

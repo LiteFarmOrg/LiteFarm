@@ -16,7 +16,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import Layout from '../../../components/Layout';
+import CardLayout from '../../../components/Layout/CardLayout';
 import PageTitle from '../../../components/PageTitle/v2';
 import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateRange';
 import LatestReadings from './LatestReadings';
@@ -39,7 +39,6 @@ import type { ChartSupportedReadingTypes } from './types';
 import { SensorType } from '../../../types/sensor';
 import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
-import layoutStyles from '../../../components/Layout/layout.module.scss';
 
 interface RouteParams {
   id: string;
@@ -122,7 +121,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
   }, [isFetching, sensors?.length, history]);
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle
         title={t(PAGE_TITLE_KEY[type])}
         onGoBack={history.back}
@@ -170,7 +169,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
         </>
       )}
       <ManageESciSection t={t} />
-    </Layout>
+    </CardLayout>
   );
 };
 

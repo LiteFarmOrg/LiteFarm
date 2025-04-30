@@ -1,6 +1,4 @@
-import React from 'react';
-import Layout from '../Layout';
-import layoutStyles from '../Layout/layout.module.scss';
+import CardLayout from '../Layout/CardLayout';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +58,7 @@ export default function PureLocationTasks({
   };
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
@@ -79,6 +77,6 @@ export default function PureLocationTasks({
       ) : (
         <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
       )}
-    </Layout>
+    </CardLayout>
   );
 }

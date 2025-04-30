@@ -1,8 +1,7 @@
 import React from 'react';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
-import Layout from '../Layout';
-import layoutStyles from '../Layout/layout.module.scss';
+import CardLayout from '../Layout/CardLayout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
 import PureManagementPlanTile from '../CropTile/ManagementPlanTile';
@@ -37,7 +36,7 @@ export default function PureCropList({
   } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle title={title} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
@@ -142,6 +141,6 @@ export default function PureCropList({
           </>
         )}
       </div>
-    </Layout>
+    </CardLayout>
   );
 }

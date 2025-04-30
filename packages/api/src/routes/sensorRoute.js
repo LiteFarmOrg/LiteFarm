@@ -28,7 +28,7 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.get('/', checkScope(['get:sensors']), SensorController.getSensors);
+router.get('/', checkScope(['get:smart_irrigation']), SensorController.getSensors);
 router.post(
   '/',
   checkScope(['add:sensors']),
@@ -44,7 +44,7 @@ router.post(
 );
 router.get(
   '/readings',
-  checkScope(['get:sensors']),
+  checkScope(['get:smart_irrigation']),
   checkSensorReadingsQuery(),
   SensorController.getSensorReadings,
 );

@@ -44,12 +44,8 @@ const taskTypeSlice = createSlice({
     deleteTaskTypeSuccess: softDeleteTaskType,
   },
 });
-export const {
-  onLoadingProductFail,
-  taskTypes,
-  getTaskTypesSuccess,
-  deleteTaskTypeSuccess,
-} = taskTypeSlice.actions;
+export const { onLoadingProductFail, taskTypes, getTaskTypesSuccess, deleteTaskTypeSuccess } =
+  taskTypeSlice.actions;
 export default taskTypeSlice.reducer;
 
 export const taskTypeReducerSelector = (state) => state.entitiesReducer[taskTypeSlice.name];
@@ -85,3 +81,8 @@ export const taskTypeIdNoCropsSelector = createSelector([taskTypesSelector], (ta
     .filter(({ task_translation_key }) => noCropsTaskTypes.includes(task_translation_key))
     .map(({ task_type_id }) => task_type_id),
 );
+
+export const taskTypeByKeySelector = (translationKey) =>
+  createSelector(taskTypesSelector, (taskTypes) =>
+    taskTypes.find(({ task_translation_key }) => task_translation_key === translationKey),
+  );

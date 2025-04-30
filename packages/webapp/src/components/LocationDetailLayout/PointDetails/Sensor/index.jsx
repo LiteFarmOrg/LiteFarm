@@ -26,6 +26,9 @@ import Pill from '../../../Filter/Pill';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
+import { Variant } from '../../../RouterTab/Tab';
+import Layout from '../../../Layout';
+import layoutStyles from '../../../Layout/layout.module.scss';
 
 export default function PureSensorDetail({
   history,
@@ -37,6 +40,7 @@ export default function PureSensorDetail({
   setShowRetireModal,
   showCannotRetireModal,
   setShowCannotRetireModal,
+  routerTabs,
 }) {
   const { t } = useTranslation();
 
@@ -59,29 +63,13 @@ export default function PureSensorDetail({
   const DEPTH_UNIT = 'depth_unit';
 
   return (
-    <div style={{ padding: '24px 16px 24px 24px' }}>
-      <PageTitle
-        title={name}
-        onGoBack={() => history.push('/map')}
-        style={{ marginBottom: '24px' }}
-      />
+    <Layout className={layoutStyles.paperContainer}>
+      <PageTitle title={name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 8px 26px 0px' } }}
         history={history}
-        tabs={[
-          {
-            label: t('SENSOR.VIEW_HEADER.READINGS'),
-            path: `/sensor/${location_id}/readings`, // May need to be changed
-          },
-          {
-            label: t('SENSOR.VIEW_HEADER.TASKS'),
-            path: `/sensor/${location_id}/tasks`, // May need to be changed
-          },
-          {
-            label: t('SENSOR.VIEW_HEADER.DETAILS'),
-            path: `/sensor/${location_id}/details`,
-          },
-        ]}
+        tabs={routerTabs}
+        variant={Variant.UNDERLINE}
       />
       <Input
         label={t('SENSOR.DETAIL.NAME')}
@@ -219,6 +207,6 @@ export default function PureSensorDetail({
       {showRetireModal && (
         <RetireSensorModal dismissModal={() => setShowRetireModal(false)} onRetire={handleRetire} />
       )}
-    </div>
+    </Layout>
   );
 }

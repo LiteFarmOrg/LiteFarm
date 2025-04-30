@@ -21,19 +21,7 @@ import { ReactComponent as SensorIcon } from '../../../../assets/images/map/sign
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Table/types';
 import { type SensorInSimpleTableFormat } from '../../../../containers/AddSensors/types';
 import styles from './styles.module.scss';
-
-const SUPPORTED_DEVICE_TYPES = [
-  'DRIP_LINE_PRESSURE_SENSOR',
-  'IR_TEMPERATURE_SENSOR',
-  'SOIL_WATER_POTENTIAL_SENSOR',
-  'WEATHER_STATION',
-  'WIND_SPEED_SENSOR',
-];
-// t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
-// t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-// t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL_SENSOR')
-// t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-// t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
+import { getDeviceType } from '../constants';
 
 export enum SensorTableVariant {
   SIMPLE = 'simple',
@@ -50,11 +38,6 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
   const { t } = useTranslation();
 
   const commonColumns: TableV2Column[] = useMemo(() => {
-    const getDeviceType = (data: SensorInSimpleTableFormat) => {
-      const { deviceTypeKey: key } = data;
-      return SUPPORTED_DEVICE_TYPES.includes(key) ? t(`SENSOR.DEVICE_TYPES.${key}`) : key;
-    };
-
     if (isCompact) {
       return [
         {
@@ -68,7 +51,7 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
                 <SensorIcon />
                 <span>{d.external_id}</span>
               </div>
-              <div className={styles.deviceType}>{getDeviceType(d)}</div>
+              <div className={styles.deviceType}>{getDeviceType(d.deviceTypeKey)}</div>
             </div>
           ),
         },
@@ -94,7 +77,11 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
         label: t('SENSOR.DETAIL.DEVICE_TYPE'),
         sortable: false,
         format: (d) => (
-          <Cell kind={CellKind.PLAIN} className={styles.plainCell} text={getDeviceType(d)} />
+          <Cell
+            kind={CellKind.PLAIN}
+            className={styles.plainCell}
+            text={getDeviceType(d.deviceTypeKey)}
+          />
         ),
       },
     ];

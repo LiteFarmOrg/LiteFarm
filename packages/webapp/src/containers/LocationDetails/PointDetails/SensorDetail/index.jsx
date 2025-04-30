@@ -19,7 +19,8 @@ import { useEffect, useState } from 'react';
 import { sensorsSelector } from '../../../sensorSlice';
 import { isAdminSelector } from '../../../userFarmSlice';
 import { getSensorReadingTypes, getSensorBrand, retireSensor } from './saga';
-import { useGetSensorsQuery } from '../../../../store/api/apiSlice';
+import useLocationRouterTabs from '../../useLocationRouterTabs';
+import useGroupedSensors from '../../../SensorList/useGroupedSensors';
 
 export default function SensorDetail({ history, match }) {
   const dispatch = useDispatch();
@@ -27,18 +28,10 @@ export default function SensorDetail({ history, match }) {
   // Grandfathered sensors
   const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
 
-  // New sensors (location_id only for backwards compatibility)
-  const { sensorInfo: sensorInfoFromQuery, sensorArrayInfo: sensorArrayInfoFromQuery } =
-    useGetSensorsQuery(undefined, {
-      selectFromResult: ({ data }) => ({
-        sensorInfo: data?.sensors?.find((sensor) => sensor.location_id === location_id),
-        sensorArrayInfo: data?.sensor_arrays?.find(
-          (sensorArray) => sensorArray.location_id === location_id,
-        ),
-      }),
-    });
+  const { groupedSensors } = useGroupedSensors();
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
 
-  const sensorInfo = sensorInfoFromStore || sensorInfoFromQuery || sensorArrayInfoFromQuery;
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
 
   const system = useSelector(measurementSelector);
   const isAdmin = useSelector(isAdminSelector);
@@ -65,6 +58,8 @@ export default function SensorDetail({ history, match }) {
     dispatch(retireSensor({ sensorInfo, onFailureWithIncompleteTasks }));
   };
 
+  const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
@@ -78,6 +73,7 @@ export default function SensorDetail({ history, match }) {
           setShowRetireModal={setShowRetireModal}
           showCannotRetireModal={showCannotRetireModal}
           setShowCannotRetireModal={setShowCannotRetireModal}
+          routerTabs={routerTabs}
         />
       )}
     </>

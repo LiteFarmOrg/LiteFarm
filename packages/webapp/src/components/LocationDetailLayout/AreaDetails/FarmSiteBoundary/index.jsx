@@ -1,4 +1,3 @@
-import React from 'react';
 import { farmSiteBoundaryEnum } from '../../../../containers/constants';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
@@ -52,7 +51,6 @@ export function PureFarmSiteBoundary({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'FARM_SITE_BOUNDARY'}
-      tabs={['tasks', 'details']}
       showPerimeter={true}
     />
   );

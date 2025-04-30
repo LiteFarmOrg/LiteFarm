@@ -15,7 +15,8 @@
 
 @import '@assets/mixin.scss';
 
-.sensorReadingKpi, .sensorKpi {
+.sensorReadingKpi,
+.sensorKpi {
   border-radius: 4px;
   display: flex;
   // CSS trick to avoid the opacity layer: https://stackoverflow.com/a/77781112
@@ -78,7 +79,6 @@
 
 .icon {
   padding: 0px;
-  background-color: transparent;
 }
 
 .discriminatorText {

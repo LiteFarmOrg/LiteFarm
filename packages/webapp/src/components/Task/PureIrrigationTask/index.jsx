@@ -19,6 +19,17 @@ import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigation
 import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 
+export const generateIrrigationTypeOption = (type, defaultTypes, t) => {
+  return {
+    value: type.irrigation_type_name,
+    label: defaultTypes.includes(type.irrigation_type_name)
+      ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${type.irrigation_type_name}`)
+      : type.irrigation_type_name,
+    default_measuring_type: type.default_measuring_type,
+    irrigation_type_id: type.irrigation_type_id,
+  };
+};
+
 export default function PureIrrigationTask({
   system,
   register,
@@ -75,17 +86,9 @@ export default function PureIrrigationTask({
   };
 
   const IrrigationTypeOptions = useMemo(() => {
-    let options;
     const defaultIrrigationTaskTypes = getDefaultIrrigationTypes();
-    options = irrigationTaskTypes.map((irrigationType) => {
-      return {
-        value: irrigationType.irrigation_type_name,
-        label: defaultIrrigationTaskTypes.includes(irrigationType.irrigation_type_name)
-          ? t(`ADD_TASK.IRRIGATION_VIEW.TYPE.${irrigationType.irrigation_type_name}`)
-          : irrigationType.irrigation_type_name,
-        default_measuring_type: irrigationType.default_measuring_type,
-        irrigation_type_id: irrigationType.irrigation_type_id,
-      };
+    const options = irrigationTaskTypes.map((irrigationType) => {
+      return generateIrrigationTypeOption(irrigationType, defaultIrrigationTaskTypes, t);
     });
     options.push({
       label: t('ADD_TASK.IRRIGATION_VIEW.TYPE.OTHER'),

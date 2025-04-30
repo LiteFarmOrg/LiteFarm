@@ -26,24 +26,31 @@ import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUti
 import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
 import { SensorInSimpleTableFormat } from '../AddSensors/types';
 import { Location, System } from '../../types';
-import { SENSOR_ARRAY } from '../SensorReadings/constants';
 
 const STANDALONE = 'standalone' as const;
 
-export type SensorSummary = Record<Sensor['name'] | typeof SENSOR_ARRAY, number>;
+export enum SensorType {
+  SENSOR = 'sensor',
+  SENSOR_ARRAY = 'sensor_array',
+}
+
+export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARRAY, number>;
 
 export type GroupedSensors = {
   id: string;
   point: Sensor['point'];
-  fields: Location['name'][];
-  isSensorArray: boolean;
+  fields: Pick<Location, 'name' | 'location_id'>[];
+  type: SensorType;
   sensors: SensorInSimpleTableFormat[];
 };
 
 type FarmAreaLocation = Location & AreaLocation;
 
-const getAreaNamesForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
-  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name }) => name);
+const getAreaDataForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
+  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name, location_id }) => ({
+    name,
+    location_id,
+  }));
 };
 
 const formatSensorToSimpleTableFormat = (
@@ -73,8 +80,9 @@ const formatSensorArrayToGroup = (
   return {
     ...sensorArray,
     sensors: mappedSensors[sensorArray.id],
-    isSensorArray: true,
-    fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+    type: SensorType.SENSOR_ARRAY,
+    fields: getAreaDataForPoint(sensorArray.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 
@@ -84,28 +92,27 @@ const formatSensorToGroup = (
 ) => {
   return {
     id: `sensor_${sensor.id}`,
+    location_id: sensor.location_id,
     sensors: [sensor],
     point: sensor.point,
-    isSensorArray: false,
-    fields: getAreaNamesForPoint(sensor.point, areaLocations),
+    type: SensorType.SENSOR,
+    fields: getAreaDataForPoint(sensor.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 
 const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
-  const summaryMap = sensors.reduce(
-    (acc, { name }) => {
-      if (!(name in acc)) {
-        acc[name] = 0;
-      }
-      acc[name] += 1;
+  const summaryMap = sensors.reduce((acc, { name }) => {
+    if (!(name in acc)) {
+      acc[name] = 0;
+    }
+    acc[name] += 1;
 
-      return acc;
-    },
-    {} as Record<Sensor['name'], number>,
-  );
+    return acc;
+  }, {} as Record<Sensor['name'], number>);
 
   return {
-    [SENSOR_ARRAY]: sensor_arrays.length,
+    [SensorType.SENSOR_ARRAY]: sensor_arrays.length,
     ...summaryMap,
   };
 };

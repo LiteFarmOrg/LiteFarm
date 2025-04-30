@@ -24,15 +24,15 @@ import TextButton from '../../../Form/Button/TextButton';
 import MainContent, { IconType } from '../../../Expandable/MainContent';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
-import type {
-  SensorSummary,
-  GroupedSensors,
+import {
+  type SensorSummary,
+  type GroupedSensors,
+  SensorType,
 } from '../../../../containers/SensorList/useGroupedSensors';
 import SensorTable, { SensorTableVariant } from '../SensorTable';
 import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
-import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location, UserFarm } from '../../../../types';
 import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
@@ -40,7 +40,7 @@ import LocationViewer from '../../../LocationPicker/LocationViewer';
 import { useMaxZoom } from '../../../../containers/Map/useMaxZoom';
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
-  const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
+  const Icon = statKey === SensorType.SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
   return (
     <div className={styles.kpiLabel}>
       <span className={styles.iconWrapper}>
@@ -106,15 +106,9 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
   >((acc, [key, count]) => {
     if (count) {
       acc.push(
-        key === SENSOR_ARRAY
-          ? { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
+        key === SensorType.SENSOR_ARRAY
+          ? { key: SensorType.SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
           : { key, translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(key)}` },
-        // t('SENSOR.SENSOR_ARRAYS')
-        // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-        // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
-        // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
       );
     }
 
@@ -143,7 +137,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
             isCompact={isCompact}
           />
           <div className={styles.sensorGroups}>
-            {groupedSensors.map(({ id, point, isSensorArray, sensors, fields }) => {
+            {groupedSensors.map(({ id, point, type, sensors, fields }) => {
               const isExpanded = expandedIds.includes(id);
 
               return (
@@ -163,7 +157,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                         <div className={styles.mainContent}>
                           <SensorIconWithNumber number={sensors.length} />
                           <span>
-                            {isSensorArray
+                            {type === SensorType.SENSOR_ARRAY
                               ? t('SENSOR.SENSOR_ARRAY')
                               : t('SENSOR.STANDALONE_SENSOR')}
                           </span>
@@ -177,7 +171,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                           variant={SensorTableVariant.SIMPLE}
                           isCompact={isCompact}
                         />
-                        <DetectedFields t={t} fields={fields} />
+                        <DetectedFields t={t} fields={fields.map(({ name }) => name)} />
                         <TextButton
                           className={styles.seeOnMapButton}
                           onClick={() =>
@@ -186,7 +180,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                               name: id,
                               location_id: id,
                               point,
-                              type: isSensorArray ? 'sensor_array' : 'sensor',
+                              type: type,
                             })
                           }
                         >

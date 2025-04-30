@@ -298,7 +298,7 @@ export const api = createApi({
       query: () => `${irrigationPrescriptionsUrl}`,
       async onQueryStarted(_id, { dispatch, queryFulfilled }) {
         try {
-          // Replacement for invalidates tags 'Tasks'
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
           dispatch({ type: 'getTasksSaga' });
           await queryFulfilled;
         } catch (err) {

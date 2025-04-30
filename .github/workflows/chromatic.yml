@@ -24,6 +24,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Publish to Chromatic
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

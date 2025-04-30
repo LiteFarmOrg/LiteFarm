@@ -43,13 +43,13 @@ export type IrrigationPrescription = {
 
   metadata: {
     // metadata = external sources of information used to generate the irrigation prescription
-    weather_forecast?: {
+    weather_forecast: {
       temperature: number;
       temperature_unit: string;
       wind_speed: number;
       wind_speed_unit: string;
       cumulative_rainfall: number;
-      cumultative_rainfall_unit: string;
+      cumulative_rainfall_unit: string;
       et_rate: number;
       et_rate_unit: string;
       weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code if available

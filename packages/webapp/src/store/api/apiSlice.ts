@@ -308,7 +308,6 @@ export const api = createApi({
           });
         }
       },
-      keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['IrrigationPrescriptions'],
     }),
   }),

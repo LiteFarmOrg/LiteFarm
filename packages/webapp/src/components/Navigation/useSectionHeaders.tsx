@@ -24,8 +24,6 @@ import Badge from '../Badge';
 import React from 'react';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
-import PageTitle from '../PageTitle/v2';
-import { Title } from '../Typography';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
@@ -64,14 +62,12 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
     </div>
   );
 
-  const generalHeader = (title: string) => (
-    <Title className={styles.generalHeaderTitle}>{title}</Title>
-  );
+  const generalTitle = (title: string) => <div className={styles.generalTitle}>{title}</div>;
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
     [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
-    [IRRIGATION_PRESCRIPTION_URL]: generalHeader(t('IRRIGATION_PRESCRIPTION.TITLE')),
+    [IRRIGATION_PRESCRIPTION_URL]: generalTitle(t('IRRIGATION_PRESCRIPTION.TITLE')),
   };
 
   const exact = HEADERS_BY_PATH[path];

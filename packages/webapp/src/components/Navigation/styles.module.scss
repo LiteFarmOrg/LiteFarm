@@ -30,6 +30,14 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
+
+  .text {
+    @include xs-breakpoint {
+      order: 2;
+      color: inherit; // against a green background on mobile
+    }
+    color: var(--grey900);
+  }
 }
 
 .badge {
@@ -38,17 +46,7 @@
   }
 }
 
-// useSectionHeaders.tsx
-.text {
-  @include xs-breakpoint {
-    order: 2;
-    color: inherit;
-  }
+.generalTitle {
   color: var(--grey900);
-}
-
-.generalHeaderTitle.generalHeaderTitle {
-  margin-bottom: 0px;
-  // font-size: 16px;
   font-weight: 400;
 }

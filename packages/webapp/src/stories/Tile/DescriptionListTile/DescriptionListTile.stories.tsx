@@ -24,9 +24,11 @@ import ipKPIStyle from '../../../components/IPDetailKPI/styles.module.scss';
 const meta: Meta<typeof DescriptionListTile> = {
   title: 'Components/Tile/DescriptionListTile',
   component: DescriptionListTile,
-  decorators: (story) => {
-    return <div style={{ padding: '24px', background: 'white' }}>{story()}</div>;
-  },
+  decorators: [
+    (story) => {
+      return <dl style={{ padding: '24px', background: 'white' }}>{story()}</dl>;
+    },
+  ],
 };
 export default meta;
 
@@ -55,11 +57,11 @@ export const BackgroundIcon: Story = {
 export const Many = {
   render: () => {
     return (
-      <dl className={clsx(weatherKPIStyle.weatherKPI)}>
+      <div className={clsx(weatherKPIStyle.weatherKPI)}>
         {mockTextData.map((props, index) => (
           <DescriptionListTile key={index} {...props} />
         ))}
-      </dl>
+      </div>
     );
   },
 };

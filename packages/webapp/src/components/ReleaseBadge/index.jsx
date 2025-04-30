@@ -24,7 +24,7 @@ import { ReactComponent as Close } from '../../assets/images/release/x-circle.sv
 import { ReactComponent as NewBubble } from '../../assets/images/release/new-bubble.svg';
 import { ReactComponent as ChevronRight } from '../../assets/images/release/chevron-right-dk-red.svg';
 
-const ReleaseBadge = ({ releaseNotesLink, className }) => {
+const ReleaseBadge = ({ releaseNotesLink, className = '' }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
 
@@ -56,10 +56,6 @@ const ReleaseBadge = ({ releaseNotesLink, className }) => {
 ReleaseBadge.propTypes = {
   releaseNotesLink: PropTypes.string.isRequired,
   className: PropTypes.string,
-};
-
-ReleaseBadge.defaultProps = {
-  className: '',
 };
 
 export default ReleaseBadge;

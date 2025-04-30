@@ -28,11 +28,11 @@ import type { SensorReadingTypes } from '../../store/api/types';
 import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
 
-export const IconAndText = ({ Icon, text }: { Icon: ReactElement; text: string }) => {
+export const IconAndText = ({ icon, text }: { icon: ReactElement; text: string }) => {
   return (
     <span className={styles.iconAndText}>
-      {Icon}
-      {text}
+      {icon}
+      <span>{text}</span>
     </span>
   );
 };
@@ -61,7 +61,7 @@ const ValueAndUnit = ({ value, unit }: { value: number; unit: string }) => {
   return (
     <>
       <b>{value}</b>
-      {unit}
+      <span>{unit}</span>
     </>
   );
 };
@@ -101,15 +101,15 @@ export const generateKPIData = (
     },
     {
       label: t('SENSOR.READING.WIND_SPEED'),
-      data: <IconAndText Icon={<WindIcon />} text={windSpeedText} />,
+      data: <IconAndText icon={<WindIcon />} text={windSpeedText} />,
     },
     {
       label: t('SENSOR.READING.CUMULATIVE_RAINFALL'),
-      data: <IconAndText Icon={<RainfallIcon />} text={cumulativeRainfallText} />,
+      data: <IconAndText icon={<RainfallIcon />} text={cumulativeRainfallText} />,
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ET_RATE'),
-      data: <IconAndText Icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
+      data: <IconAndText icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
     },
     {
       label: t('common:ESTIMATED_TIME'),

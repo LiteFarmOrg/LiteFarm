@@ -30,7 +30,7 @@ const IPDetailKPI = ({ irrigationPrescription, system }: IPDetailKPIProps) => {
   const kpiData = generateKPIData(irrigationPrescription, t, system);
 
   return (
-    <div className={styles.kpi}>
+    <dl className={styles.kpi}>
       {kpiData.map((props, index) => (
         <DescriptionListTile
           {...props}
@@ -39,7 +39,7 @@ const IPDetailKPI = ({ irrigationPrescription, system }: IPDetailKPIProps) => {
           labelSize={index > 3 ? LabelSize.SMALL : undefined}
         />
       ))}
-    </div>
+    </dl>
   );
 };
 

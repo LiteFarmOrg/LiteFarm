@@ -41,7 +41,7 @@ const DescriptionListTile = ({
   return (
     <div
       className={clsx(styles.dlTile, iconURL && styles.hasIcon, className)}
-      style={{ '--icon': `url(${iconURL})` } as CSSProperties}
+      style={iconURL ? ({ '--icon': `url(${iconURL})` } as CSSProperties) : undefined}
     >
       <dt className={clsx(hideLabel && styles.hideLabel, styles[labelSize || ''])}>{label}</dt>
       <dd>{data}</dd>

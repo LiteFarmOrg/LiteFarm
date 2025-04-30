@@ -37,7 +37,7 @@ export const dataWithIconData = {
   label: 'Temperature',
   data: (
     <div className={ipKPIStyle.dataWithIcon}>
-      <IconAndText Icon={<ThemometerWarmIcon />} text="23°C" />
+      <IconAndText icon={<ThemometerWarmIcon />} text="23°C" />
     </div>
   ),
 };
@@ -49,22 +49,22 @@ export const iPData = [
     label: 'Temperature',
     data: (
       <span className={ipKPIStyle.temperatureData}>
-        <IconAndText Icon={<ThemometerWarmIcon />} text="23°C" />
+        <IconAndText icon={<ThemometerWarmIcon />} text="23°C" />
         <WeatherIcon name="wi-day-sunny" />
       </span>
     ),
   },
   {
     label: 'Wind speed',
-    data: <IconAndText Icon={<WindIcon />} text="8 km/h" />,
+    data: <IconAndText icon={<WindIcon />} text="8 km/h" />,
   },
   {
     label: 'Cumulative rainfall',
-    data: <IconAndText Icon={<RainfallIcon />} text="20mm" />,
+    data: <IconAndText icon={<RainfallIcon />} text="20mm" />,
   },
   {
     label: 'ET Rate',
-    data: <IconAndText Icon={<WindIcon />} text="5mm / day" />,
+    data: <IconAndText icon={<WindIcon />} text="5mm / day" />,
   },
   { label: 'Estimated time', data: '14h', iconURL: ClockIcon },
   {

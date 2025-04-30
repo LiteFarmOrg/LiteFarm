@@ -104,3 +104,24 @@ export const createSensorsUrl = (partnerId?: number): string => {
 
 // Smart Irrigation
 export const IRRIGATION_PRESCRIPTION_URL = '/irrigation_prescription';
+
+const LOCATION_TYPE_ROUTES = [
+  '/barn',
+  '/buffer_zone',
+  '/ceremonial_area',
+  '/farm_site_boundary',
+  '/fence',
+  '/field',
+  '/garden',
+  '/gate',
+  '/greenhouse',
+  '/natural_area',
+  '/residence',
+  '/sensor',
+  '/sensor_array',
+  '/surface_water',
+  '/watercourse',
+];
+
+// For top menu navigation title
+export const MAP_ROUTES = [...LOCATION_TYPE_ROUTES, IRRIGATION_PRESCRIPTION_URL];

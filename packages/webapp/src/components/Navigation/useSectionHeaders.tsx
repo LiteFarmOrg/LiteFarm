@@ -13,11 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  ANIMALS_INVENTORY_URL,
-  ADD_ANIMALS_URL,
-  IRRIGATION_PRESCRIPTION_URL,
-} from '../../util/siteMapConstants';
+import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, MAP_ROUTES } from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
@@ -67,8 +63,12 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
     [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
-    [IRRIGATION_PRESCRIPTION_URL]: generalTitle(t('IRRIGATION_PRESCRIPTION.TITLE')),
   };
+
+  // Add routes for all location types
+  for (const route of MAP_ROUTES) {
+    HEADERS_BY_PATH[route] = generalTitle(t('MENU.MAP'));
+  }
 
   const exact = HEADERS_BY_PATH[path];
   if (exact) return exact;

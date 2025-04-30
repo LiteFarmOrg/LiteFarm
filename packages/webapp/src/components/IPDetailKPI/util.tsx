@@ -24,75 +24,9 @@ import ClockIcon from '../../assets/images/clock-stopwatch.svg';
 import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import weatherBoardUtil from '../../containers/WeatherBoard/utils';
 import { System } from '../../types';
-import { SensorReadingTypes } from '../../store/api/types';
+import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../store/api/types';
+import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
-
-type TemperatureUnit = 'C';
-type WindSpeedUnit = 'm/s';
-type CumulativeRainfallUnit = 'mm';
-
-export type IrrigationPrescription = {
-  //   uuid: string; // double check we're querying on the uuid and not the pk, otherwise id: number;
-
-  //   location_id: string; // LiteFarm location_id (uuid)
-  //   recommended_start: string; // ISO datetime string
-
-  //   pivot: {
-  //     center: { lat: number; lng: number };
-  //     radius: number; // in meters
-  //   };
-
-  metadata: {
-    weather_forecast: {
-      temperature: number;
-      temperature_unit: TemperatureUnit;
-      wind_speed: number;
-      wind_speed_unit: WindSpeedUnit;
-      cumulative_rainfall: number;
-      cumulative_rainfall_unit: CumulativeRainfallUnit;
-      et_rate: number;
-      et_rate_unit: string;
-      weather_icon: string;
-    };
-  };
-
-  estimated_time: number;
-  estimated_time_unit: string;
-
-  /*----------------
-    // Almost certainly not to be included
-    // I think they said we have to calculate this? I think our backend would be the right place to do it */
-  estimated_water_consumption: number;
-  estimated_water_consumption_unit: string;
-  /*----------------*/
-};
-
-export const dummyIP = {
-  metadata: {
-    weather_forecast: {
-      temperature: 5,
-      temperature_unit: 'C' as TemperatureUnit,
-      wind_speed: 2,
-      wind_speed_unit: 'm/s' as WindSpeedUnit,
-      cumulative_rainfall: 20,
-      cumulative_rainfall_unit: 'mm' as CumulativeRainfallUnit,
-      et_rate: 2,
-      et_rate_unit: 'mm/d',
-      weather_icon: '01d',
-    },
-  },
-
-  // Estimations -- I forget if we have asked about hours. Check
-  estimated_time: 14,
-  estimated_time_unit: 'h',
-
-  /*----------------
-    // Almost certainly not to be included
-    // I think they said we have to calculate this? I think our backend would be the right place to do it */
-  estimated_water_consumption: 79,
-  estimated_water_consumption_unit: 'AF',
-  /*----------------*/
-};
 
 export const IconAndText = ({ Icon, text }: { Icon: ReactElement; text: string }) => {
   return (
@@ -132,20 +66,28 @@ const ValueAndUnit = ({ value, unit }: { value: number; unit: string }) => {
   );
 };
 
-export const generateKPIData = (ipData: IrrigationPrescription, t: TFunction, system: System) => {
+export const generateKPIData = (
+  irrigationPrescription: IrrigationPrescription,
+  t: TFunction,
+  system: System,
+) => {
   const {
     metadata: { weather_forecast },
     estimated_time,
     estimated_time_unit,
     estimated_water_consumption,
     estimated_water_consumption_unit,
-  } = ipData;
+  } = irrigationPrescription;
 
-  const { et_rate, et_rate_unit, weather_icon } = weather_forecast;
+  const { et_rate, et_rate_unit, weather_icon_code } = weather_forecast;
 
   const [temperatureText, windSpeedText, cumulativeRainfallText] = WEATHER_PARAMS.map((param) => {
     const value = convertEsciReadingValue(weather_forecast[param], param, system);
-    const displayUnit = getReadingUnit(param, system, weather_forecast[`${param}_unit`]);
+    const displayUnit = getReadingUnit(
+      param,
+      system,
+      weather_forecast[`${param}_unit`] as SensorReadingTypeUnits,
+    );
 
     return `${value}${displayUnit}`;
   });
@@ -156,7 +98,7 @@ export const generateKPIData = (ipData: IrrigationPrescription, t: TFunction, sy
       data: (
         <span className={styles.temperatureData}>
           <span>{temperatureText}</span>
-          <WeatherIcon name={weatherBoardUtil.getIcon(weather_icon)} />
+          <WeatherIcon name={weatherBoardUtil.getIcon(weather_icon_code)} />
         </span>
       ),
       iconURL: ThemometerWarmIcon,

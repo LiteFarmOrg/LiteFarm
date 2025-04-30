@@ -15,18 +15,19 @@
 
 import { useTranslation } from 'react-i18next';
 import DescriptionListTile, { LabelSize } from '../Tile/DescriptionListTile';
-import { dummyIP, generateKPIData, IrrigationPrescription } from './util';
+import { generateKPIData } from './util';
 import { System } from '../../types';
+import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
 
 interface IPDetailKPIProps {
-  ipData: IrrigationPrescription;
+  irrigationPrescription: IrrigationPrescription;
   system: System;
 }
 
-const IPDetailKPI = ({ ipData = dummyIP, system = 'metric' }: IPDetailKPIProps) => {
+const IPDetailKPI = ({ irrigationPrescription, system }: IPDetailKPIProps) => {
   const { t } = useTranslation(['translation', 'common']);
-  const kpiData = generateKPIData(ipData, t, system);
+  const kpiData = generateKPIData(irrigationPrescription, t, system);
 
   return (
     <div className={styles.kpi}>

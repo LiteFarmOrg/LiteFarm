@@ -52,6 +52,9 @@ class IrrigationTaskModel extends Model {
         default_location_application_depth: { type: 'boolean' },
         default_irrigation_task_type_location: { type: 'boolean' },
         default_irrigation_task_type_measurement: { type: 'boolean' },
+        irrigation_prescription_external_id: {
+          type: ['number', 'null'],
+        },
       },
       additionalProperties: false,
     };
@@ -109,6 +112,7 @@ class IrrigationTaskModel extends Model {
       default_location_application_depth: 'omit',
       default_irrigation_task_type_location: 'omit',
       default_irrigation_task_type_measurement: 'omit',
+      irrigation_prescription_external_id: 'omit',
       // relationMappings
       task: 'omit',
       irrigation_type: 'omit',

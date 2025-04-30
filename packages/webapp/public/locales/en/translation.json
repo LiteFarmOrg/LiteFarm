@@ -1215,13 +1215,15 @@
   },
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
-    "BASED_ON_DATA": "Based on this data",
     "DATA_FROM": "Data From",
     "IRRIGATION_PRESCRIPTIONS": "Irrigation prescriptions",
     "IRRIGATION_ZONE": "Irrigation zone",
     "PRESCRIPTION_DATE": "Prescription Date",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
+    "START_DATE": "Start date",
+    "START_TIME": "Start time",
     "TASK_STATUS": "Task Status",
+    "TITLE": "Irrigation prescription",
     "ZONE": "Zone"
   },
   "JOIN_FARM_SUCCESS": {
@@ -1880,6 +1882,7 @@
     "MONTHS_AGO": "{{time}} month(s) ago",
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
+    "NO_RECENT_SENSOR_READINGS": "No recent sensor readings (past 2 hours)",
     "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
     "READING": {
       "BAROMETRIC_PRESSURE": "Barometric pressure",
@@ -1894,8 +1897,10 @@
       "TYPES": "Reading types",
       "UNKNOWN": "Unknown",
       "UPDATE_READINGS": "Update readings",
+      "WATER_PRESSURE": "Water pressure",
       "WIND_DIRECTION": "Wind direction",
-      "WIND_SPEED": "Wind speed"
+      "WIND_SPEED": "Wind speed",
+      "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"
     },
     "READINGS_PREVIEW": {
       "SOIL_WATER_POTENTIAL": "Current soil water potential",

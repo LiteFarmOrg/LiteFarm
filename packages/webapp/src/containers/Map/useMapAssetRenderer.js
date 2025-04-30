@@ -61,6 +61,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const [points, setPoints] = useState({});
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
+  const assetGeometriesRef = useRef({});
+
+  // Keep ref (for cleanup) in sync with state
+  useEffect(() => {
+    assetGeometriesRef.current = assetGeometries;
+  }, [assetGeometries]);
+
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
@@ -124,8 +131,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-        ? drawLine
-        : drawPoint;
+      ? drawLine
+      : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();
@@ -553,7 +560,14 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     };
   };
 
-  return { drawAssets, drawArea, drawPoint, drawLine };
+  return {
+    drawAssets,
+    drawArea,
+    drawPoint,
+    drawLine,
+    assetGeometriesRef,
+    markerClusterRef,
+  };
 };
 
 export default useMapAssetRenderer;

@@ -14,8 +14,7 @@ import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
 import useLocationRouterTabs from '../LocationDetails/useLocationRouterTabs';
 import { Variant } from '../../components/RouterTab/Tab';
-import Layout from '../../components/Layout';
-import layoutStyles from '../../components/Layout/layout.module.scss';
+import CardLayout from '../../components/Layout/CardLayout';
 import useGroupedSensors from '../SensorList/useGroupedSensors';
 
 function SensorReadings({ history, match }) {
@@ -76,7 +75,7 @@ function SensorReadings({ history, match }) {
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <Layout className={layoutStyles.paperContainer}>
+        <CardLayout>
           <PageTitle title={pageTitle} onGoBack={() => history.push('/map')} />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
@@ -107,7 +106,7 @@ function SensorReadings({ history, match }) {
                   );
                 })
             : null}
-        </Layout>
+        </CardLayout>
       )}
     </>
   );

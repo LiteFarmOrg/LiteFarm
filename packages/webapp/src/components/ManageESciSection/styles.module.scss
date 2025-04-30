@@ -72,6 +72,5 @@
 }
 
 .externalLinkIcon {
-  background: transparent;
   @include svgColorFill(var(--Colors-Neutral-Neutral-900));
 }

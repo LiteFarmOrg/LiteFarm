@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, ANIMALS_URL } from '../../util/siteMapConstants';
+import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL, MAP_ROUTES } from '../../util/siteMapConstants';
 import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
@@ -58,10 +58,23 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
     </div>
   );
 
+  const generalTitle = (title: string) => <div className={styles.generalTitle}>{title}</div>;
+
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
     [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
   };
 
-  return HEADERS_BY_PATH[path] ?? null;
+  // Add routes for all location types
+  for (const route of MAP_ROUTES) {
+    HEADERS_BY_PATH[route] = generalTitle(t('MENU.MAP'));
+  }
+
+  const exact = HEADERS_BY_PATH[path];
+  if (exact) return exact;
+
+  // Also handle dynamic routes
+  const fallbackKey = Object.keys(HEADERS_BY_PATH).find((key) => path.startsWith(`${key}/`));
+
+  return fallbackKey ? HEADERS_BY_PATH[fallbackKey] : null;
 }

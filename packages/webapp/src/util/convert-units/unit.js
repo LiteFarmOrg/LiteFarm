@@ -234,16 +234,18 @@ export const soilAmounts = {
   databaseUnit: databaseUnit.mass,
 };
 
+// getDefaultUnit does not work as expected with this config due to incorrect breakpoints and unit order.
+// See waterUsage for the correct values. Left as-is for now to avoid unintended side effects (Apr 25, 2025)
 export const soilAmountsVolume = {
   metric: {
     units: ['ml', 'l'],
     defaultUnit: 'l',
-    breakpoints: [1000],
+    breakpoints: [1000], // should be [1]
   },
   imperial: {
-    units: ['gal', 'fl-oz'],
+    units: ['gal', 'fl-oz'], // should be ['fl-oz', 'gal']
     defaultUnit: 'gal',
-    breakpoints: [128],
+    breakpoints: [128], // should be [1]
   },
   databaseUnit: databaseUnit.volume,
 };
@@ -309,12 +311,12 @@ export const waterUsage = {
   metric: {
     units: ['ml', 'l'],
     defaultUnit: 'l',
-    breakpoints: [1000],
+    breakpoints: [1],
   },
   imperial: {
-    units: ['gal', 'fl-oz'],
+    units: ['fl-oz', 'gal'],
     defaultUnit: 'gal',
-    breakpoints: [128],
+    breakpoints: [1],
   },
   databaseUnit: databaseUnit.volume,
 };

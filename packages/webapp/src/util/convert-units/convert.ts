@@ -11,7 +11,7 @@ import {
   ApplicationRateWeightUnits,
 } from './applicationRates';
 
-type ExtendedMeasureUnits =
+export type ExtendedMeasureUnits =
   | AllMeasuresUnits
   | ApplicationRateVolumeUnits
   | ApplicationRateWeightUnits;

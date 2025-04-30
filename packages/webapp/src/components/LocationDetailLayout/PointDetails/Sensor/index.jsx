@@ -27,8 +27,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import { Variant } from '../../../RouterTab/Tab';
-import Layout from '../../../Layout';
-import layoutStyles from '../../../Layout/layout.module.scss';
+import CardLayout from '../../../Layout/CardLayout';
 
 export default function PureSensorDetail({
   history,
@@ -63,7 +62,7 @@ export default function PureSensorDetail({
   const DEPTH_UNIT = 'depth_unit';
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle title={name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 8px 26px 0px' } }}
@@ -207,6 +206,6 @@ export default function PureSensorDetail({
       {showRetireModal && (
         <RetireSensorModal dismissModal={() => setShowRetireModal(false)} onRetire={handleRetire} />
       )}
-    </Layout>
+    </CardLayout>
   );
 }

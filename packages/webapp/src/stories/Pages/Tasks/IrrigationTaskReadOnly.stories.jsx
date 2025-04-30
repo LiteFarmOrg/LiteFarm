@@ -133,9 +133,8 @@ Metric.args = { ...args, system: 'metric' };
 Metric.play = async ({ canvasElement }) => {
   const waterUsageTest = new UnitTest(canvasElement, 'unit', waterUsage);
 
-  // ideally "l", but this is an edge case and its improvement is low priority
-  await waterUsageTest.selectedUnitToBeInTheDocument('ml');
-  await waterUsageTest.visibleInputToHaveValue(1000);
+  await waterUsageTest.selectedUnitToBeInTheDocument('l');
+  await waterUsageTest.visibleInputToHaveValue(1);
   await waterUsageTest.hiddenInputToHaveValue(1);
 };
 

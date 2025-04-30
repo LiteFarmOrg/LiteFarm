@@ -13,7 +13,7 @@ import i18n from '../../locales/i18n';
 import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 
-export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
+export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO = true }) {
   const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const GENDER = 'gender';
@@ -193,8 +193,4 @@ PureCreateUserAccount.propTypes = {
   onGoBack: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   isNotSSO: PropTypes.bool,
-};
-
-PureCreateUserAccount.defaultProps = {
-  isNotSSO: true,
 };

@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Layout from '../Layout';
-import layoutStyles from '../Layout/layout.module.scss';
+import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import CardLayout from '../Layout/CardLayout';
 import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
@@ -43,7 +42,7 @@ export default function PureLocationFieldTechnology({
   const handleClick = (ft) => {
     const path =
       ft.isAddonSensor && [locationEnum.sensor, locationEnum.sensor_array].includes(ft.type)
-        ? `/${ft.type}/${ft.location_id}/readings`
+        ? `/${ft.type}/${ft.location_id}`
         : `/${ft.type}/${ft.location_id}/details`;
     history.push(path);
   };
@@ -106,7 +105,7 @@ export default function PureLocationFieldTechnology({
   );
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
@@ -147,6 +146,6 @@ export default function PureLocationFieldTechnology({
         )}
       </div>
       {hasAddonSensors && <ManageESciSection t={t} />}
-    </Layout>
+    </CardLayout>
   );
 }

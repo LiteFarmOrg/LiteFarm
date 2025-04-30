@@ -32,6 +32,7 @@ import {
   mockVriZones,
   mockPivot,
 } from '../../stories/IrrigationPrescription/mockData';
+import { SensorReadingTypeUnits } from '../../store/api/types';
 
 interface RouteParams {
   ip_pk: string;
@@ -64,11 +65,11 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
     metadata: {
       weather_forecast: {
         temperature: 20,
-        temperature_unit: 'c',
+        temperature_unit: 'c' as SensorReadingTypeUnits,
         wind_speed: 10,
-        wind_speed_unit: 'km/h',
+        wind_speed_unit: 'km/h' as SensorReadingTypeUnits,
         cumulative_rainfall: 5,
-        cumulative_rainfall_unit: 'mm',
+        cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
         et_rate_unit: 'mm/h',
         weather_icon_code: '02d',

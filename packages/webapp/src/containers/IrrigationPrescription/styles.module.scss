@@ -13,11 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+.cardWrapper {
+  margin-bottom: 88px; /* padding for floating form buttons */
+}
+
+.title {
+  margin-bottom: 8px;
+}
+
 .irrigationPrescriptionContainer {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding-bottom: 256px; /* padding for floating form buttons */
 }
 
 .recommendedSchedule {

@@ -1215,7 +1215,6 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
     "IRRIGATION_ZONE": "Irrigation zone",
-    "RECOMMENDED_SCHEDULE": "Recommended schedule",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
     "START_DATE": "Start date",
     "START_TIME": "Start time",

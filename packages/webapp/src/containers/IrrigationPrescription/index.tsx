@@ -15,17 +15,14 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/styles';
-import { useMediaQuery } from '@mui/material';
-import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
 import styles from './styles.module.scss';
 import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
-import { Main } from '../../components/Typography';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
+import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
 import {
@@ -48,11 +45,6 @@ const dateTimeLabelStyles = {
 
 const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps) => {
   const { t } = useTranslation();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const pageTitle = useSectionHeader(history.location.pathname);
 
   const system = useSelector(measurementSelector);
 
@@ -117,11 +109,14 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
   const { uriData, vriData } = prescription;
 
   return (
-    <CardLayout>
+    <CardLayout className={styles.cardWrapper}>
       <div className={styles.irrigationPrescriptionContainer}>
-        {isMobile && pageTitle}
+        <PageTitle
+          title={t('IRRIGATION_PRESCRIPTION.TITLE')}
+          onGoBack={history.back}
+          classNames={{ wrapper: styles.title }}
+        ></PageTitle>
         <div className={styles.recommendedSchedule}>
-          <Main>{t('IRRIGATION_PRESCRIPTION.RECOMMENDED_SCHEDULE')}</Main>
           <DateInput
             date={recommended_start_datetime}
             label={t('IRRIGATION_PRESCRIPTION.START_DATE')}

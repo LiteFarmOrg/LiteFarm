@@ -75,7 +75,6 @@ const PureIrrigationPrescription = ({
         vriZones={vriData}
         system={system}
       />
-      <div className={styles.dataText}>{t('IRRIGATION_PRESCRIPTION.BASED_ON_DATA')}</div>
       <IrrigationPrescriptionTable data={tableInfo} />
     </div>
   );

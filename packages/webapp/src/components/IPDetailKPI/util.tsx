@@ -43,17 +43,17 @@ const WEATHER_PARAMS: Extract<
 >[] = ['temperature', 'wind_speed', 'cumulative_rainfall'];
 
 const getETRateText = (value: number, unit: string, system: System) => {
-  // TODO: Implement
+  // TODO: LF-4810
   return `${value}${unit}`;
 };
 
 const getEstimatedTimeAndUnit = (value: number, unit: string) => {
-  // TODO: Implement
+  // TODO: LF-4810
   return { value: 14, unit: 'h' };
 };
 
 const getWaterConsumptionAndUnit = (value: number, unit: string) => {
-  // TODO: Implement
+  // TODO: LF-4810
   return { value: 79, unit: 'AF' };
 };
 

@@ -24,7 +24,7 @@ import ClockIcon from '../../assets/images/clock-stopwatch.svg';
 import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import weatherBoardUtil from '../../containers/WeatherBoard/utils';
 import { System } from '../../types';
-import type { SensorReadingTypes, SensorReadingTypeUnits } from '../../store/api/types';
+import type { SensorReadingTypes } from '../../store/api/types';
 import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
 
@@ -83,11 +83,7 @@ export const generateKPIData = (
 
   const [temperatureText, windSpeedText, cumulativeRainfallText] = WEATHER_PARAMS.map((param) => {
     const value = convertEsciReadingValue(weather_forecast[param], param, system);
-    const displayUnit = getReadingUnit(
-      param,
-      system,
-      weather_forecast[`${param}_unit`] as SensorReadingTypeUnits,
-    );
+    const displayUnit = getReadingUnit(param, system, weather_forecast[`${param}_unit`]);
 
     return `${value}${displayUnit}`;
   });

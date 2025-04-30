@@ -20,6 +20,7 @@ import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
+import IPDetailKPI from '../../components/IPDetailKPI';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
@@ -67,7 +68,7 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
         wind_speed: 10,
         wind_speed_unit: 'km/h',
         cumulative_rainfall: 5,
-        cumultative_rainfall_unit: 'mm',
+        cumulative_rainfall_unit: 'mm',
         et_rate: 2,
         et_rate_unit: 'mm/h',
         weather_icon_code: '02d',
@@ -130,7 +131,7 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
             labelStyles={dateTimeLabelStyles}
           />
         </div>
-
+        <IPDetailKPI irrigationPrescription={irrigationPrescription} system={system} />
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}

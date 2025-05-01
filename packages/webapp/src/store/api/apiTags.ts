@@ -14,7 +14,7 @@
  */
 
 // Central registry for all API tags in the application
-export const TAGS = {
+export const API_TAGS = {
   // Weather tags
   WEATHER: {
     WEATHER: 'Weather',
@@ -56,7 +56,7 @@ const baseTags: string[] = [
 
 // Helper to get all tag values for API initialization
 export const getAllTags = (): string[] => {
-  const tags = Object.values(TAGS).flatMap((tagGroup) => Object.values(tagGroup)) as string[];
+  const tags = Object.values(API_TAGS).flatMap((tagGroup) => Object.values(tagGroup)) as string[];
 
   return [...baseTags, ...tags];
 };

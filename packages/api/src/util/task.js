@@ -14,3 +14,5 @@
  */
 
 export const CUSTOM_TASK = 'custom_task';
+
+export const IRRIGATION_TASK = 'irrigation_task';

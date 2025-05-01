@@ -514,14 +514,31 @@ class TaskModel extends BaseModel {
       .whereIn('task_id', taskIds);
   }
 
-  // TODO: LF-4764
-  static async getIrrigationTaskIdByPartnerPrescriptionId(trx, _partner_id, _prescription_id) {
-    return await TaskModel.query(trx)
+  /**
+   * Returns the first task where not deleted that has the external id match
+   *
+   * This assumes only one task can exist with the external id
+   *
+   * @param {number} partnerId - the date to search
+   * @param {number} irrigationPrescriptionExternalId - the user who requested this task assignment
+   * @static
+   * @async
+   * @returns {{task_id: number}} - Object with task id property only.
+   */
+  static async getIrrigationTaskIdByPartnerPrescriptionId(
+    partnerId,
+    irrigationPrescriptionExternalId,
+  ) {
+    return await TaskModel.query()
       .select('task.task_id')
       .joinRelated('irrigation_task')
-      //.where('irrigation_task.partner_id', partner_id)
-      //.where('irrigation_task.prescription_id', prescription_id)
-      .whereNotDeleted();
+      .where('irrigation_task.partner_id', partnerId)
+      .where(
+        'irrigation_task.irrigation_prescription_external_id',
+        irrigationPrescriptionExternalId,
+      )
+      .whereNotDeleted()
+      .first();
   }
 }
 

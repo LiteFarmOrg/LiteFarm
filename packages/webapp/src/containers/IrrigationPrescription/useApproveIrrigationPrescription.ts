@@ -28,17 +28,15 @@ import { IrrigationPrescription } from '../../components/IrrigationPrescription/
 
 export default function useApproveIrrigationPrescription(
   history: History,
-  irrigationPrescription: IrrigationPrescription,
-) {
-  const {
+  {
     id,
     location_id,
+    management_plan_id,
     recommended_start_datetime,
     estimated_water_consumption,
     estimated_water_consumption_unit,
-    // management_plan_id,
-  } = irrigationPrescription;
-
+  }: IrrigationPrescription,
+) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -64,7 +62,7 @@ export default function useApproveIrrigationPrescription(
       due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime)),
       locations: [{ location_id }],
       show_wild_crop: false,
-      managementPlans: [{ management_plan_id: 434 }], // TODO: Adjust
+      managementPlans: [{ management_plan_id }],
       irrigation_task: {
         default_irrigation_task_type_location: false,
         default_irrigation_task_type_measurement: false,

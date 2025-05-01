@@ -16,7 +16,7 @@
 import { Request, Response } from 'express';
 import baseController from './baseController.js';
 import FarmModel from '../models/farmModel.js';
-import weatherService from '../util/weatherService.js';
+import weatherService from '../services/weatherService.js';
 
 const weatherController = {
   async getWeather(req: Request, res: Response) {

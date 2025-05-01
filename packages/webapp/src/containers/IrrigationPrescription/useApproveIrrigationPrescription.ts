@@ -72,7 +72,7 @@ export default function useApproveIrrigationPrescription(
         measuring_type: 'DEPTH',
         estimated_water_usage: estimatedWaterUsageInL,
         irrigation_type_id: pivotType?.irrigation_type_id,
-        irrigation_prescription_external_uuid: id,
+        irrigation_prescription_external_id: id,
       },
     };
 

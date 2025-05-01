@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { IconAndText } from '../../../components/IPDetailKPI/util';
+import { IconAndText } from '../../../components/IrrigationPrescriptionKPI/util';
 import { ReactComponent as WindIcon } from '../../../assets/images/weather/wind.svg';
 import { ReactComponent as RainfallIcon } from '../../../assets/images/weather/droplets.svg';
 import { ReactComponent as ThemometerWarmIcon } from '../../../assets/images/weather/thermometer-warm.svg';
@@ -21,7 +21,7 @@ import WeatherIcon from '../../../components/WeatherBoard/WeatherIcon';
 import PivotIcon from '../../../assets/images/irrigation/pivot-icon.svg';
 import ClockIcon from '../../../assets/images/clock-stopwatch.svg';
 import styles from './styles.module.scss';
-import ipKPIStyle from '../../../components/IPDetailKPI/styles.module.scss';
+import ipKPIStyle from '../../../components/IrrigationPrescriptionKPI/styles.module.scss';
 
 export const mockTextData = [
   { label: 'Temperature', data: '23°C' },

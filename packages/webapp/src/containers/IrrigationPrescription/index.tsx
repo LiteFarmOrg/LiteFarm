@@ -20,19 +20,19 @@ import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
-import IPDetailKPI from '../../components/IPDetailKPI';
+import IrrigationPrescriptionKPIKPI from '../../components/IrrigationPrescriptionKPI';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import { SensorReadingTypeUnits } from '../../store/api/types';
 import {
   mockField,
   mockUriData,
   mockVriZones,
   mockPivot,
 } from '../../stories/IrrigationPrescription/mockData';
-import { SensorReadingTypeUnits } from '../../store/api/types';
 
 interface RouteParams {
   ip_pk: string;
@@ -132,7 +132,10 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
             labelStyles={dateTimeLabelStyles}
           />
         </div>
-        <IPDetailKPI irrigationPrescription={irrigationPrescription} system={system} />
+        <IrrigationPrescriptionKPIKPI
+          irrigationPrescription={irrigationPrescription}
+          system={system}
+        />
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}

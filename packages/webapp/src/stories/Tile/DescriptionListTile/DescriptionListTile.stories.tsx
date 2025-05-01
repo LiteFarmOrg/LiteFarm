@@ -18,7 +18,7 @@ import clsx from 'clsx';
 import DescriptionListTile, { LabelSize } from '../../../components/Tile/DescriptionListTile';
 import { iPData, backgroundIconData, dataWithIconData, mockTextData } from './mockData';
 import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';
-import ipKPIStyle from '../../../components/IPDetailKPI/styles.module.scss';
+import ipKPIStyle from '../../../components/IrrigationPrescriptionKPI/styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DescriptionListTile> = {

@@ -15,6 +15,7 @@
 
 import { ReactElement } from 'react';
 import { TFunction } from 'react-i18next';
+import { LabelSize } from '../Tile/DescriptionListTile';
 import { ReactComponent as WindIcon } from '../../assets/images/weather/wind.svg';
 import { ReactComponent as RainfallIcon } from '../../assets/images/weather/droplets.svg';
 import ThemometerWarmIcon from '../../assets/images/weather/thermometer-warm.svg';
@@ -27,15 +28,6 @@ import { System } from '../../types';
 import type { SensorReadingTypes } from '../../store/api/types';
 import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
-
-export const IconAndText = ({ icon, text }: { icon: ReactElement; text: string }) => {
-  return (
-    <span className={styles.iconAndText}>
-      {icon}
-      <span>{text}</span>
-    </span>
-  );
-};
 
 const WEATHER_PARAMS: Extract<
   SensorReadingTypes,
@@ -52,9 +44,18 @@ const getEstimatedTimeAndUnit = (value: number, unit: string) => {
   return { value: 14, unit: 'h' };
 };
 
-const getWaterConsumptionAndUnit = (value: number, unit: string) => {
+const getWaterConsumptionAndUnit = (value: number, unit: string, system: System) => {
   // TODO: LF-4810
   return { value: 79, unit: 'AF' };
+};
+
+export const IconAndText = ({ icon, text }: { icon: ReactElement; text: string }) => {
+  return (
+    <span className={styles.iconAndText}>
+      {icon}
+      <span>{text}</span>
+    </span>
+  );
 };
 
 const ValueAndUnit = ({ value, unit }: { value: number; unit: string }) => {
@@ -98,6 +99,7 @@ export const generateKPIData = (
         </span>
       ),
       iconURL: ThemometerWarmIcon,
+      hideLabel: true,
     },
     {
       label: t('SENSOR.READING.WIND_SPEED'),
@@ -115,6 +117,7 @@ export const generateKPIData = (
       label: t('common:ESTIMATED_TIME'),
       data: <ValueAndUnit {...getEstimatedTimeAndUnit(estimated_time, estimated_time_unit)} />,
       iconURL: ClockIcon,
+      labelSize: LabelSize.SMALL,
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ESTIMATED_WATER_CONSUMPTION'),
@@ -123,10 +126,12 @@ export const generateKPIData = (
           {...getWaterConsumptionAndUnit(
             estimated_water_consumption,
             estimated_water_consumption_unit,
+            system,
           )}
         />
       ),
       iconURL: PivotIcon,
+      labelSize: LabelSize.SMALL,
     },
   ];
 };

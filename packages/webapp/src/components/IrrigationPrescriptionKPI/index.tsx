@@ -14,33 +14,31 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import DescriptionListTile, { LabelSize } from '../Tile/DescriptionListTile';
+import DescriptionListTile from '../Tile/DescriptionListTile';
 import { generateKPIData } from './util';
 import { System } from '../../types';
 import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
 
-interface IPDetailKPIProps {
+interface IrrigationPrescriptionKPIProps {
   irrigationPrescription: IrrigationPrescription;
   system: System;
 }
 
-const IPDetailKPI = ({ irrigationPrescription, system }: IPDetailKPIProps) => {
+const IrrigationPrescriptionKPI = ({
+  irrigationPrescription,
+  system,
+}: IrrigationPrescriptionKPIProps) => {
   const { t } = useTranslation(['translation', 'common']);
   const kpiData = generateKPIData(irrigationPrescription, t, system);
 
   return (
     <dl className={styles.kpi}>
-      {kpiData.map((props, index) => (
-        <DescriptionListTile
-          {...props}
-          key={props.label}
-          hideLabel={!index}
-          labelSize={index > 3 ? LabelSize.SMALL : undefined}
-        />
+      {kpiData.map((dlTileProps) => (
+        <DescriptionListTile {...dlTileProps} key={dlTileProps.label} />
       ))}
     </dl>
   );
 };
 
-export default IPDetailKPI;
+export default IrrigationPrescriptionKPI;

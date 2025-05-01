@@ -22,16 +22,16 @@ const weatherController = {
   async getWeather(req: Request, res: Response) {
     try {
       const farm_id = req.headers['farm_id'];
-      const row = await baseController.getIndividual(FarmModel, farm_id);
+      const [row] = await baseController.getIndividual(FarmModel, farm_id);
 
-      if (!row.length) {
+      if (!row) {
         return res.sendStatus(404);
       }
 
       const weatherData = await weatherService.getWeather({
-        lat: row[0].grid_points.lat,
-        lon: row[0].grid_points.lng,
-        units: row[0].units.measurement,
+        lat: row.grid_points.lat,
+        lon: row.grid_points.lng,
+        units: row.units.measurement,
       });
 
       res.status(200).send(weatherData);

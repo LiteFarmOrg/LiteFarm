@@ -68,6 +68,7 @@ const IrrigationPrescription = ({
 
   const commonMockData = {
     location_id: mockField.location_id,
+    management_plan_id: null,
     recommended_start_datetime: new Date().toISOString(),
     pivot: mockPivot,
     metadata: {

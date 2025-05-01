@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-interface Point {
+export interface Point {
   lat: number;
   lng: number;
 }
@@ -93,7 +93,7 @@ export type FarmAddon = {
 };
 
 export type ExternalIrrigationPrescription = {
-  id: number | string;
+  id: number;
   location_id: number | string;
   recommended_start_datetime: string;
 };
@@ -105,7 +105,9 @@ export interface IrrigationPrescription extends ExternalIrrigationPrescription {
 
 // Type guard for external endpoint
 // AI-assisted type guard
-export function isIrrigationPrescriptionArray(data: unknown): data is IrrigationPrescription[] {
+export function isExternalIrrigationPrescriptionArray(
+  data: unknown,
+): data is ExternalIrrigationPrescription[] {
   return (
     Array.isArray(data) &&
     data.every((item): item is IrrigationPrescription => {
@@ -116,9 +118,7 @@ export function isIrrigationPrescriptionArray(data: unknown): data is Irrigation
       return (
         (typeof obj.id === 'string' || typeof obj.id === 'number') &&
         (typeof obj.location_id === 'string' || typeof obj.location_id === 'number') &&
-        typeof obj.recommended_start_datetime === 'string' &&
-        typeof obj.partner_id === 'number' &&
-        (typeof obj.task_id === 'number' || obj.task_id === null || obj.task_id === undefined)
+        typeof obj.recommended_start_datetime === 'string'
       );
     })
   );

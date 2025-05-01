@@ -13,16 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
+.cardWrapper {
+  margin-bottom: 88px; /* padding for floating form buttons */
+}
 
-const router = express.Router();
+.title {
+  margin-bottom: 8px;
+}
 
-router.post(
-  '/',
-  checkScope(['get:smart_irrigation']),
-  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
-);
+.irrigationPrescriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-export default router;
+.recommendedSchedule {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > div {
+    width: 100%;
+  }
+}

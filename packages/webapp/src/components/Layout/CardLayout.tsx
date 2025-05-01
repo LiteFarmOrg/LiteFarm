@@ -13,16 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
+import { ReactNode } from 'react';
+import clsx from 'clsx';
+import styles from './layout.module.scss';
 
-const router = express.Router();
+export type CardLayoutProps = {
+  children: ReactNode;
+  className?: string;
+};
 
-router.post(
-  '/',
-  checkScope(['get:smart_irrigation']),
-  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
-);
+// Top-level component to wrap mainContent in a card past max-width
+const CardLayout = ({ className = '', children }: CardLayoutProps) => {
+  return <div className={clsx(styles.container, styles.paperContainer, className)}>{children}</div>;
+};
 
-export default router;
+export default CardLayout;

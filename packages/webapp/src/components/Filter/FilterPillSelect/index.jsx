@@ -149,8 +149,4 @@ FilterPillSelect.propTypes = {
   style: PropTypes.object,
 };
 
-FilterPillSelect.defaultProps = {
-  showIndividualControls: false,
-};
-
 export default FilterPillSelect;

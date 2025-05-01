@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
-import { locationByIdSelector } from '../locationSlice';
+import { cropLocationsSelector, locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
@@ -60,6 +60,9 @@ const IrrigationPrescription = ({
 
   const { ip_pk } = match.params;
 
+  const cropLocations = useSelector(cropLocationsSelector);
+  const tempLocationId = cropLocations?.[0]?.location_id;
+
   /*--------------------------------------
   
   TODO LF-4788: Call the backend here to get the actual data for the given uuid 
@@ -67,7 +70,7 @@ const IrrigationPrescription = ({
   Also handle case of no matching uuid (unknown record) */
 
   const commonMockData = {
-    location_id: mockField.location_id,
+    location_id: tempLocationId,
     management_plan_id: null,
     recommended_start_datetime: new Date().toISOString(),
     pivot: mockPivot,

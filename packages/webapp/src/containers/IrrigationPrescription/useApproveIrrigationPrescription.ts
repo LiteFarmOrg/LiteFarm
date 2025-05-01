@@ -62,7 +62,7 @@ export default function useApproveIrrigationPrescription(
       due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime)),
       locations: [{ location_id }],
       show_wild_crop: false,
-      managementPlans: [{ management_plan_id }],
+      managementPlans: management_plan_id ? [{ management_plan_id }] : [],
       irrigation_task: {
         default_irrigation_task_type_location: false,
         default_irrigation_task_type_measurement: false,

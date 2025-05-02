@@ -36,9 +36,9 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
 import { ANIMAL_TASKS } from '../util/animal.js';
-import { CUSTOM_TASK, IRRIGATION_TASK } from '../util/task.js';
+import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
-import { patchIrrigationPrescriptionApproval } from '../util/ensembleService.js';
+import { triggerPostTaskCreatedActions } from '../services/taskActions.js';
 
 const adminRoles = [1, 2, 5];
 
@@ -1290,27 +1290,3 @@ const flattenInternalIdentifier = (animalOrBatch) => {
   animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
   delete animalOrBatch.animal_union_batch;
 };
-
-/**
- * Non‑blocking post‑response side effects; do not send HTTP responses here
- */
-async function triggerPostTaskCreatedActions(typeOfTask, createdTask) {
-  try {
-    switch (typeOfTask) {
-      case IRRIGATION_TASK:
-        {
-          const esciExternalId = createdTask.irrigation_task?.irrigation_prescription_external_id;
-
-          if (esciExternalId) {
-            await patchIrrigationPrescriptionApproval(esciExternalId);
-          }
-        }
-        break;
-
-      default:
-        break;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}

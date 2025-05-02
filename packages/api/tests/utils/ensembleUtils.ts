@@ -47,8 +47,10 @@ export const fakeIrrigationPrescriptions = async (
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
   const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
 
-  const irrigationTasksWithExternalId =
-    await TaskModel.getIrrigationTasksWithExternalIdByFarm(farmId);
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    prescriptionIds,
+  );
 
   const irrigationTask1 = irrigationTasksWithExternalId.find(
     (task) => task.irrigation_task.irrigation_prescription_external_id === prescriptionIds[0],

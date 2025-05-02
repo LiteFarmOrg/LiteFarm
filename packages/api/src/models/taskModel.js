@@ -518,16 +518,18 @@ class TaskModel extends BaseModel {
    * Returns farm tasks where not deleted that has an external id
    *
    * @param {string} farmId - the farm requesting irrigation tasks
+   * @param {number[]} externalIds - the farm requesting irrigation tasks
    * @static
    * @async
    * @returns {import('./types.js').IrrigationTask[]} - Object array with task id property only.
    */
-  static async getIrrigationTasksWithExternalIdByFarm(farmId) {
+  static async getIrrigationTasksWithExternalIdByFarm(farmId, externalIds) {
     return await TaskModel.query()
-      .select('*')
-      .joinRelated('[locations, irrigation_task]')
-      .where('locations.farm_id', farmId)
+      .select('task.*')
+      .withGraphJoined('[locations, irrigation_task]')
       .whereNotNull('irrigation_task.irrigation_prescription_external_id')
+      .whereIn('irrigation_task.irrigation_prescription_external_id', externalIds)
+      .where('locations.farm_id', farmId)
       .whereNotDeleted();
   }
 }

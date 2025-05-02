@@ -34,7 +34,6 @@ import {
   isExternalIrrigationPrescriptionArray,
 } from './ensembleService.types.js';
 import TaskModel from '../models/taskModel.js';
-import { startOfFarmDate } from './farmService.js';
 import { AddonPartner, Farm } from '../models/types.js';
 
 /**
@@ -78,6 +77,7 @@ const getExternalOrganisationIds = async (
  */
 export const getMockPrescriptions = async (
   farmId: Farm['farm_id'],
+  afterDate?: string,
 ): Promise<IrrigationPrescription[]> => {
   const PARTNER_ID = 1;
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
@@ -91,14 +91,18 @@ export const getMockPrescriptions = async (
   if (!mockLocation) {
     throw customError('No crop locations on farm');
   }
-  const irrigationTasksWithExternalId =
-    await TaskModel.getIrrigationTasksWithExternalIdByFarm(farmId);
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    [MOCK_EXTERNAL_PRESCRIPTION_ID1, MOCK_EXTERNAL_PRESCRIPTION_ID2],
+  );
 
   return [
     {
       id: MOCK_EXTERNAL_PRESCRIPTION_ID1,
       location_id: mockLocation.location_id,
-      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
+      recommended_start_datetime: afterDate
+        ? new Date(afterDate).toISOString()
+        : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTasksWithExternalId.find(
         (task) =>
@@ -109,7 +113,9 @@ export const getMockPrescriptions = async (
     {
       id: MOCK_EXTERNAL_PRESCRIPTION_ID2,
       location_id: locations.at(-1)?.location_id,
-      recommended_start_datetime: new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
+      recommended_start_datetime: afterDate
+        ? new Date(new Date(afterDate).getTime() + ONE_DAY_IN_MS).toISOString()
+        : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTasksWithExternalId.find(
         (task) =>
@@ -126,17 +132,19 @@ export const getMockPrescriptions = async (
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const getEsciPrescriptions = async (farmId: string): Promise<IrrigationPrescription[]> => {
+export const getEsciPrescriptions = async (
+  farmId: string,
+  afterDate?: string,
+): Promise<IrrigationPrescription[]> => {
   const addonPartnerId = await getAddonPartnerId();
   const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
-  const startOfFarmLocalToday = await startOfFarmDate(farmId);
 
   // Endpoint config
   const axiosObject = {
     method: 'get',
     url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
     params: {
-      after_date: startOfFarmLocalToday, // ISO form or unix instead?
+      after_date: afterDate, // ISO form or unix instead?
     },
   };
 
@@ -159,8 +167,10 @@ export const getEsciPrescriptions = async (farmId: string): Promise<IrrigationPr
     throw customError(`${ENSEMBLE_BRAND} irrigation prescription data not in expected format`);
   }
 
-  const irrigationTasksWithExternalId =
-    await TaskModel.getIrrigationTasksWithExternalIdByFarm(farmId);
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    data.map(({ id }) => id),
+  );
 
   const irrigationPrescriptions: IrrigationPrescription[] = data.map((irrigationPrescription) => {
     const foundTask = irrigationTasksWithExternalId.find(

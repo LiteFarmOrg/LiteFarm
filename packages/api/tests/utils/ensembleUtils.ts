@@ -17,11 +17,7 @@ import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
 import { IrrigationPrescription } from '../../src/util/ensembleService.types.js';
 import TaskModel from '../../src/models/taskModel.js';
-import { Location } from '../../src/models/types.js';
-
-export interface Farm {
-  farm_id: string;
-}
+import { Farm, Location } from '../../src/models/types.js';
 
 export const connectFarmToEnsemble = async (farm: Farm) => {
   const [farmAddon] = await mocks.farm_addonFactory({

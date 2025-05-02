@@ -15,19 +15,8 @@
 
 import mocks from '../mock.factories.js';
 import LocationModel from '../../src/models/locationModel.js';
+import { Farm, Location, User } from '../../src/models/types.js';
 
-export interface User {
-  user_id: string;
-}
-
-export interface Farm {
-  farm_id: string;
-}
-
-export interface FarmEnvironment {
-  farm: Farm;
-  field: Record<string, unknown>;
-}
 /**
  * Generates a fake user farm object with the specified role.
  */
@@ -94,7 +83,7 @@ export async function setupFarmEnvironment(role: number = 1) {
 /**
  * Sets up two crop management plans (one seed and one transplant) for the provided farm environment.
  */
-export async function setupManagementPlans({ farm, field }: FarmEnvironment) {
+export async function setupManagementPlans({ farm, field }: { farm: Farm; field: Location }) {
   const [crop] = await mocks.cropFactory(
     { promisedFarm: Promise.resolve([farm]) },
     {

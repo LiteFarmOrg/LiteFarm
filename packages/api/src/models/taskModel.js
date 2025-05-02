@@ -520,11 +520,11 @@ class TaskModel extends BaseModel {
    * @param {string} farmId - the farm requesting irrigation tasks
    * @static
    * @async
-   * @returns {{task_id: number, irrigation_prescription_external_id: number}[]} - Object array with task id property only.
+   * @returns {import('./types.js').IrrigationTask[]} - Object array with task id property only.
    */
-  static async getIrrigationTaskIdsWithExternalIdByFarm(farmId) {
+  static async getIrrigationTasksWithExternalIdByFarm(farmId) {
     return await TaskModel.query()
-      .select('task.task_id', 'irrigation_task.irrigation_prescription_external_id')
+      .select('*')
       .joinRelated('[locations, irrigation_task]')
       .where('locations.farm_id', farmId)
       .whereNotNull('irrigation_task.irrigation_prescription_external_id')

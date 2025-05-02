@@ -92,7 +92,7 @@ export const getMockPrescriptions = async (
     throw customError('No crop locations on farm');
   }
   const irrigationTasksWithExternalId =
-    await TaskModel.getIrrigationTaskIdsWithExternalIdByFarm(farmId);
+    await TaskModel.getIrrigationTasksWithExternalIdByFarm(farmId);
 
   return [
     {
@@ -101,7 +101,9 @@ export const getMockPrescriptions = async (
       recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTasksWithExternalId.find(
-        (task) => task.irrigation_prescription_external_id === MOCK_EXTERNAL_PRESCRIPTION_ID1,
+        (task) =>
+          task.irrigation_task.irrigation_prescription_external_id ===
+          MOCK_EXTERNAL_PRESCRIPTION_ID1,
       )?.task_id,
     },
     {
@@ -110,7 +112,9 @@ export const getMockPrescriptions = async (
       recommended_start_datetime: new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTasksWithExternalId.find(
-        (task) => task.irrigation_prescription_external_id === MOCK_EXTERNAL_PRESCRIPTION_ID2,
+        (task) =>
+          task.irrigation_task.irrigation_prescription_external_id ===
+          MOCK_EXTERNAL_PRESCRIPTION_ID2,
       )?.task_id,
     },
   ];
@@ -156,11 +160,12 @@ export const getEsciPrescriptions = async (farmId: string): Promise<IrrigationPr
   }
 
   const irrigationTasksWithExternalId =
-    await TaskModel.getIrrigationTaskIdsWithExternalIdByFarm(farmId);
+    await TaskModel.getIrrigationTasksWithExternalIdByFarm(farmId);
 
   const irrigationPrescriptions: IrrigationPrescription[] = data.map((irrigationPrescription) => {
     const foundTask = irrigationTasksWithExternalId.find(
-      (task) => task.irrigation_prescription_external_id === irrigationPrescription.id,
+      (task) =>
+        task.irrigation_task.irrigation_prescription_external_id === irrigationPrescription.id,
     );
     return { ...irrigationPrescription, partner_id: addonPartnerId, task_id: foundTask?.task_id };
   });

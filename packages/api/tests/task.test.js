@@ -15,6 +15,12 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
+
+// For mocking call to Ensemble API (irrigation tasks)
+import axios from 'axios';
+jest.mock('axios');
+const mockedAxios = axios;
+
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
@@ -30,6 +36,8 @@ import {
   sampleNote,
   abandonTaskBody,
 } from './utils/taskUtils.js';
+import { setupFarmEnvironment } from './utils/testDataSetup.js';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 
 describe('Task tests', () => {
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
@@ -158,6 +166,10 @@ describe('Task tests', () => {
       task_name: 'Soil amendment',
       task_translation_key: 'SOIL_AMENDMENT_TASK',
     });
+  });
+
+  beforeEach(async () => {
+    mockedAxios.mockClear();
   });
 
   afterAll(async (done) => {
@@ -1345,6 +1357,49 @@ describe('Task tests', () => {
       //     });
       //   });
       // });
+
+      test('Should call Ensemble API if an irrigation task is created with an irrigation_prescription_external_id', async () => {
+        const { farm, field, user } = await setupFarmEnvironment(1);
+        await connectFarmToEnsemble(farm);
+
+        const [{ task_type_id }] = await mocks.task_typeFactory();
+
+        const irrigation_prescription_external_id = 123;
+
+        const data = {
+          ...mocks.fakeTask({
+            irrigation_task: {
+              ...mocks.fakeIrrigationTask({ irrigation_type_name: 'PIVOT' }),
+              irrigation_prescription_external_id,
+            },
+            task_type_id,
+            owner_user_id: user.user_id,
+          }),
+          locations: [{ location_id: field.location_id }],
+        };
+
+        const res = await chai
+          .request(server)
+          .post('/task/irrigation_task')
+          .set('user_id', user.user_id)
+          .set('farm_id', farm.farm_id)
+          .send(data);
+
+        expect(res.status).toBe(201);
+
+        // Pause execution of test to allow the post-response side effect to run, before asserting on mock
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(axios).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'patch',
+            url: expect.stringContaining(
+              `/irrigation_prescription/${irrigation_prescription_external_id}/`,
+            ),
+            body: { approved: true },
+          }),
+        );
+      });
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {

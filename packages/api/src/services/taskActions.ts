@@ -14,7 +14,9 @@
  */
 
 import { patchIrrigationPrescriptionApproval } from '../util/ensembleService.js';
-import { IRRIGATION_TASK } from '../util/task.js';
+import { IRRIGATION_TASK, TASK_TYPES } from '../util/task.js';
+
+type TaskType = (typeof TASK_TYPES)[number];
 
 interface Task {
   irrigation_task?: {
@@ -25,7 +27,7 @@ interface Task {
 /**
  * Non‑blocking post‑response side effects; do not send HTTP responses here
  */
-export async function triggerPostTaskCreatedActions(typeOfTask: string, createdTask: Task) {
+export async function triggerPostTaskCreatedActions(typeOfTask: TaskType, createdTask: Task) {
   try {
     switch (typeOfTask) {
       case IRRIGATION_TASK:

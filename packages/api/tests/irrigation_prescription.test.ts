@@ -62,10 +62,12 @@ describe('Get Irrigation Prescription Tests', () => {
   async function getIrrigationPrescription({
     farm_id,
     user_id,
+    afterDate = new Date().toISOString(),
     shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
+    afterDate?: string;
     shouldSend?: string;
   }): Promise<Response> {
     return chai
@@ -74,7 +76,7 @@ describe('Get Irrigation Prescription Tests', () => {
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .query({ shouldSend });
+      .query({ afterDate, shouldSend });
   }
 
   beforeEach(async () => {

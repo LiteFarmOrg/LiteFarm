@@ -29,8 +29,7 @@ interface DescriptionListTileProps extends TileData {
   className?: string;
 }
 
-// Parent element must be <dl> for proper semantic structure
-const DescriptionListTile = ({
+export const DescriptionListTile = ({
   label,
   data,
   hideLabel,
@@ -49,4 +48,19 @@ const DescriptionListTile = ({
   );
 };
 
-export default DescriptionListTile;
+interface DescriptionListProps {
+  descriptionListTilesProps: DescriptionListTileProps[];
+  className?: string;
+}
+
+const DescriptionList = ({ descriptionListTilesProps, className }: DescriptionListProps) => {
+  return (
+    <dl className={className}>
+      {descriptionListTilesProps.map((tileProps) => (
+        <DescriptionListTile {...tileProps} key={tileProps.label} />
+      ))}
+    </dl>
+  );
+};
+
+export default DescriptionList;

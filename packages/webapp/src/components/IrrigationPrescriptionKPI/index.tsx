@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import DescriptionListTile from '../Tile/DescriptionListTile';
+import DescriptionList from '../Tile/DescriptionList';
 import { generateKPIData } from './util';
 import { System } from '../../types';
 import type { IrrigationPrescription } from '../IrrigationPrescription/types';
@@ -32,13 +32,7 @@ const IrrigationPrescriptionKPI = ({
   const { t } = useTranslation(['translation', 'common']);
   const kpiData = generateKPIData(irrigationPrescription, t, system);
 
-  return (
-    <dl className={styles.kpi}>
-      {kpiData.map((dlTileProps) => (
-        <DescriptionListTile {...dlTileProps} key={dlTileProps.label} />
-      ))}
-    </dl>
-  );
+  return <DescriptionList descriptionListTilesProps={kpiData} className={styles.kpi} />;
 };
 
 export default IrrigationPrescriptionKPI;

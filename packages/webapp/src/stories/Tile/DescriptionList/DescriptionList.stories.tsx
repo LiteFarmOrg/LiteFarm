@@ -14,16 +14,15 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react/*';
-import clsx from 'clsx';
-import DescriptionListTile, { LabelSize } from '../../../components/Tile/DescriptionListTile';
+import DescriptionList, { LabelSize } from '../../../components/Tile/DescriptionList';
 import { iPData, backgroundIconData, dataWithIconData, mockTextData } from './mockData';
 import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';
 import ipKPIStyle from '../../../components/IrrigationPrescriptionKPI/styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof DescriptionListTile> = {
-  title: 'Components/Tile/DescriptionListTile',
-  component: DescriptionListTile,
+const meta: Meta<typeof DescriptionList> = {
+  title: 'Components/Tile/DescriptionList',
+  component: DescriptionList,
   decorators: [
     (story) => {
       return <dl style={{ padding: '24px', background: 'white' }}>{story()}</dl>;
@@ -32,53 +31,38 @@ const meta: Meta<typeof DescriptionListTile> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof DescriptionListTile>;
+type Story = StoryObj<typeof DescriptionList>;
 
 export const Default: Story = {
-  args: mockTextData[0],
+  args: { descriptionListTilesProps: [mockTextData[0]] },
 };
 
 export const SmallLabel: Story = {
-  args: { ...mockTextData[0], labelSize: LabelSize.SMALL },
+  args: { descriptionListTilesProps: [{ ...mockTextData[0], labelSize: LabelSize.SMALL }] },
 };
 
 export const HideLabel: Story = {
-  args: { ...mockTextData[0], hideLabel: true },
+  args: { descriptionListTilesProps: [{ ...mockTextData[0], hideLabel: true }] },
 };
 
 export const DataWithIcon: Story = {
-  args: dataWithIconData,
+  args: { descriptionListTilesProps: [dataWithIconData] },
 };
 
 export const BackgroundIcon: Story = {
-  args: backgroundIconData,
+  args: { descriptionListTilesProps: [backgroundIconData] },
 };
 
 export const Many = {
-  render: () => {
-    return (
-      <div className={clsx(weatherKPIStyle.weatherKPI)}>
-        {mockTextData.map((props, index) => (
-          <DescriptionListTile key={index} {...props} />
-        ))}
-      </div>
-    );
+  args: {
+    className: weatherKPIStyle.weatherKPI,
+    descriptionListTilesProps: mockTextData,
   },
 };
 
 export const Variety = {
-  render: () => {
-    return (
-      <div className={clsx(ipKPIStyle.kpi)}>
-        {iPData.map((props, index) => (
-          <DescriptionListTile
-            {...props}
-            key={props.label}
-            hideLabel={!index}
-            labelSize={index > 3 ? LabelSize.SMALL : undefined}
-          />
-        ))}
-      </div>
-    );
+  args: {
+    className: ipKPIStyle.kpi,
+    descriptionListTilesProps: iPData,
   },
 };

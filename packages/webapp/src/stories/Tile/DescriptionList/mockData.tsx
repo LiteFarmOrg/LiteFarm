@@ -14,6 +14,7 @@
  */
 
 import { IconAndText } from '../../../components/IrrigationPrescriptionKPI/util';
+import { LabelSize } from '../../../components/Tile/DescriptionList';
 import { ReactComponent as WindIcon } from '../../../assets/images/weather/wind.svg';
 import { ReactComponent as RainfallIcon } from '../../../assets/images/weather/droplets.svg';
 import { ReactComponent as ThemometerWarmIcon } from '../../../assets/images/weather/thermometer-warm.svg';
@@ -53,6 +54,7 @@ export const iPData = [
         <WeatherIcon name="wi-day-sunny" />
       </span>
     ),
+    hideLabel: true,
   },
   {
     label: 'Wind speed',
@@ -66,7 +68,7 @@ export const iPData = [
     label: 'ET Rate',
     data: <IconAndText icon={<WindIcon />} text="5mm / day" />,
   },
-  { label: 'Estimated time', data: '14h', iconURL: ClockIcon },
+  { label: 'Estimated time', data: '14h', iconURL: ClockIcon, labelSize: LabelSize.SMALL },
   {
     label: 'Estimated water consumption',
     data: (
@@ -78,5 +80,6 @@ export const iPData = [
       </span>
     ),
     iconURL: PivotIcon,
+    labelSize: LabelSize.SMALL,
   },
 ];

@@ -91,14 +91,8 @@ export const getMockPrescriptions = async (
   if (!mockLocation) {
     throw customError('No crop locations on farm');
   }
-  const foundTask1 = await TaskModel.getIrrigationTaskIdByPartnerPrescriptionId(
-    PARTNER_ID,
-    MOCK_EXTERNAL_PRESCRIPTION_ID1,
-  );
-  const foundTask2 = await TaskModel.getIrrigationTaskIdByPartnerPrescriptionId(
-    PARTNER_ID,
-    MOCK_EXTERNAL_PRESCRIPTION_ID2,
-  );
+  const irrigationTasksWithExternalId =
+    await TaskModel.getIrrigationTaskIdsWithExternalIdByFarm(farmId);
 
   return [
     {
@@ -106,14 +100,18 @@ export const getMockPrescriptions = async (
       location_id: mockLocation.location_id,
       recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
-      task_id: foundTask1?.task_id,
+      task_id: irrigationTasksWithExternalId.find(
+        (task) => task.irrigation_prescription_external_id === MOCK_EXTERNAL_PRESCRIPTION_ID1,
+      )?.task_id,
     },
     {
       id: MOCK_EXTERNAL_PRESCRIPTION_ID2,
       location_id: locations.at(-1)?.location_id,
       recommended_start_datetime: new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
-      task_id: foundTask2.task_id,
+      task_id: irrigationTasksWithExternalId.find(
+        (task) => task.irrigation_prescription_external_id === MOCK_EXTERNAL_PRESCRIPTION_ID2,
+      )?.task_id,
     },
   ];
 };
@@ -157,10 +155,12 @@ export const getEsciPrescriptions = async (farmId: string): Promise<IrrigationPr
     throw customError(`${ENSEMBLE_BRAND} irrigation prescription data not in expected format`);
   }
 
+  const irrigationTasksWithExternalId =
+    await TaskModel.getIrrigationTaskIdsWithExternalIdByFarm(farmId);
+
   const irrigationPrescriptions: IrrigationPrescription[] = data.map((irrigationPrescription) => {
-    const foundTask = TaskModel.getIrrigationTaskIdByPartnerPrescriptionId(
-      addonPartnerId,
-      irrigationPrescription.id,
+    const foundTask = irrigationTasksWithExternalId.find(
+      (task) => task.irrigation_prescription_external_id === irrigationPrescription.id,
     );
     return { ...irrigationPrescription, partner_id: addonPartnerId, task_id: foundTask?.task_id };
   });

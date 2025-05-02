@@ -515,30 +515,20 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Returns the first task where not deleted that has the external id match
+   * Returns farm tasks where not deleted that has an external id
    *
-   * This assumes only one task can exist with the external id
-   *
-   * @param {number} partnerId - the date to search
-   * @param {number} irrigationPrescriptionExternalId - the user who requested this task assignment
+   * @param {string} farmId - the farm requesting irrigation tasks
    * @static
    * @async
-   * @returns {{task_id: number}} - Object with task id property only.
+   * @returns {{task_id: number, irrigation_prescription_external_id: number}[]} - Object array with task id property only.
    */
-  static async getIrrigationTaskIdByPartnerPrescriptionId(
-    partnerId,
-    irrigationPrescriptionExternalId,
-  ) {
+  static async getIrrigationTaskIdsWithExternalIdByFarm(farmId) {
     return await TaskModel.query()
-      .select('task.task_id')
-      .joinRelated('irrigation_task')
-      .where('irrigation_task.partner_id', partnerId)
-      .where(
-        'irrigation_task.irrigation_prescription_external_id',
-        irrigationPrescriptionExternalId,
-      )
-      .whereNotDeleted()
-      .first();
+      .select('task.task_id', 'irrigation_task.irrigation_prescription_external_id')
+      .joinRelated('[locations, irrigation_task]')
+      .where('locations.farm_id', farmId)
+      .whereNotNull('irrigation_task.irrigation_prescription_external_id')
+      .whereNotDeleted();
   }
 }
 

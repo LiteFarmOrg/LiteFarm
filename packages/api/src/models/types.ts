@@ -18,11 +18,15 @@ import { Point } from '../util/ensembleService.types.js';
 /**
  * This file should create and hold types that are identical to the model types.
  *
- * Add optional ? if type can be null, not based on required status.
+ * TODO: RelationMappings -- not optional, a discriminted type (eg IrrigationTask)
+ *
+ * How to use:
+ *  - Keep identical to model
+ *  - Add optional ? if type can be null, not based on required status.
+ *  - If you find a type is wrong, please also look to see if the model is correct, run tests
+ *  - If the model is correct, use a utility type instead of adding optionals etc.
  *
  * Once models can be converted to TS merge with the model file.
- *
- * TODO: RelationMappings
  *
  */
 
@@ -293,4 +297,88 @@ export interface Farm extends BaseProperties {
   farm_image_url?: string;
   farm_image_thumbnail_url?: string;
   // sandbox_bool: string;
+}
+
+export interface TaskType extends BaseProperties {
+  task_type_id: number;
+  task_name: string;
+  farm_id: Farm['farm_id'];
+  task_translation_key: string;
+}
+
+enum AbandonmentReason {
+  OTHER = 'OTHER',
+  CROP_FAILURE = 'CROP_FAILURE',
+  LABOUR_ISSUE = 'LABOUR_ISSUE',
+  MARKET_PROBLEM = 'MARKET_PROBLEM',
+  WEATHER = 'WEATHER',
+  MACHINERY_ISSUE = 'MACHINERY_ISSUE',
+  SCHEDULING_ISSUE = 'SCHEDULING_ISSUE',
+  NO_ANIMALS = 'NO_ANIMALS',
+}
+export interface Task extends BaseProperties {
+  task_id: number;
+  task_type_id: TaskType['task_type_id'];
+  due_date: string;
+  notes?: string;
+  completion_notes?: string;
+  owner_user_id: User['user_id'];
+  assignee_user_id?: User['user_id'];
+  coordinates: { type: ['object', 'null'] };
+  duration?: number;
+  wage_at_moment?: number;
+  happiness?: number;
+  complete_date?: string;
+  late_time?: string;
+  for_review_time?: string;
+  abandon_date?: string;
+  abandonment_reason: AbandonmentReason;
+  other_abandonment_reason?: string;
+  abandonment_notes?: string;
+  override_hourly_wage: boolean;
+  // photo deprecated LF-3471
+  photo?: string;
+  // action_needed deprecated LF-3471
+  action_needed: boolean;
+}
+
+export interface Location extends BaseProperties {
+  location_id: string;
+  farm_id: Farm['farm_id'];
+  name: string;
+  notes: string;
+}
+
+export interface IrrigationType extends BaseProperties {
+  irrigation_type_id: number;
+  irrigation_type_name: string;
+  farm_id: Farm['farm_id'];
+  default_measuring_type: string;
+  irrigation_type_translation_key: string;
+}
+
+export type IrrigationTaskDetails = {
+  task_id: Task['task_id'];
+  irrigation_type_id: IrrigationType['irrigation_type_id'];
+  irrigation_type_name: string;
+  estimated_duration?: number;
+  estimated_duration_unit?: string;
+  estimated_flow_rate?: number;
+  estimated_flow_rate_unit?: string;
+  location_id?: string;
+  estimated_water_usage?: number;
+  estimated_water_usage_unit?: string;
+  application_depth?: number;
+  application_depth_unit?: string;
+  measuring_type: string;
+  percent_of_location_irrigated?: number;
+  default_location_flow_rate: boolean;
+  default_location_application_depth: boolean;
+  default_irrigation_task_type_location: boolean;
+  default_irrigation_task_type_measurement: boolean;
+  irrigation_prescription_external_id?: number;
+};
+
+export interface IrrigationTask extends Task {
+  irrigation_task: IrrigationTaskDetails;
 }

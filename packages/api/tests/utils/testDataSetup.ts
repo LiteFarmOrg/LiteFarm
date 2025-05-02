@@ -56,7 +56,10 @@ export async function returnUserFarms(role: number) {
  * Sets up the farm environment by creating a farm, owner, field, and (optionally) a non-owner user (if role id is provided)
  */
 export async function setupFarmEnvironment(role: number = 1) {
-  const { mainFarm: farm, user: owner } = await returnUserFarms(1);
+  const { mainFarm: farm, user: owner } = (await returnUserFarms(1)) as {
+    mainFarm: Farm;
+    user: User;
+  };
 
   let user = owner;
   if (role !== 1) {

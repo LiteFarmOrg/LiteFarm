@@ -166,7 +166,7 @@ const IrrigationPrescription = ({
               <span>{t('common:BACK_CAPITALIZED')}</span>
             </>
           }
-          continueButtonContent={
+          saveButtonContent={
             <>
               <span>{t('common:APPROVE')}</span>
               <ChevronRight />

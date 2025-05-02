@@ -30,7 +30,8 @@ export interface FormNavigationButtonsProps {
   onContinue: () => void;
   onPrevious?: () => void;
   cancelButtonContent?: ReactNode;
-  continueButtonContent?: ReactNode;
+  saveButtonContent?: ReactNode;
+  nextButtonContent?: ReactNode;
 }
 
 const FormNavigationButtons = ({
@@ -43,7 +44,8 @@ const FormNavigationButtons = ({
   onContinue,
   onPrevious,
   cancelButtonContent,
-  continueButtonContent,
+  saveButtonContent,
+  nextButtonContent,
 }: FormNavigationButtonsProps) => {
   const { t } = useTranslation();
 
@@ -74,15 +76,14 @@ const FormNavigationButtons = ({
           sm
           fullLength
         >
-          {continueButtonContent ||
-            (isFinalStep ? (
-              t('common:SAVE')
-            ) : (
-              <>
-                <span>{t('common:NEXT')}</span>
-                <ChevronRight />
-              </>
-            ))}
+          {isFinalStep
+            ? saveButtonContent || t('common:SAVE')
+            : nextButtonContent || (
+                <>
+                  <span>{t('common:NEXT')}</span>
+                  <ChevronRight />
+                </>
+              )}
         </Button>
       </div>
       {informationalText && <div className={styles.informationalText}>{informationalText}</div>}

@@ -86,16 +86,23 @@ export const WithPreviousButton: Story = {
   },
 };
 
-export const WithCustomButtonContent: Story = {
+export const WithCustomNextButtonContent: Story = {
+  args: { nextButtonContent: 'NEXT' },
+};
+
+export const WithCustomSaveButtonContent: Story = {
   args: {
     isFinalStep: true,
-    cancelButtonContent: 'Back',
-    continueButtonContent: (
+    saveButtonContent: (
       <>
         Approve <ChevronRight />
       </>
     ),
   },
+};
+
+export const WithCustomCancelButtonContent: Story = {
+  args: { cancelButtonContent: 'Back' },
 };
 
 export const WithInformationalText: Story = {

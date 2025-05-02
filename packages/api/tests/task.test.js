@@ -1388,7 +1388,7 @@ describe('Task tests', () => {
         expect(res.status).toBe(201);
 
         // Pause execution of test to allow the post-response side effect to run, before asserting on mock
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         expect(axios).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -1399,6 +1399,51 @@ describe('Task tests', () => {
             body: { approved: true },
           }),
         );
+      });
+
+      test('Should return an error if there is an attempt to associate the same irrigation_prescription_external_id with a second task', async () => {
+        const { farm, field, user } = await setupFarmEnvironment(1);
+
+        const [{ task_type_id }] = await mocks.task_typeFactory();
+
+        const irrigation_prescription_external_id = 223;
+
+        const createMockTaskData = () => {
+          return {
+            ...mocks.fakeTask({
+              irrigation_task: {
+                ...mocks.fakeIrrigationTask({ irrigation_type_name: 'PIVOT' }),
+                irrigation_prescription_external_id,
+              },
+              task_type_id,
+              owner_user_id: user.user_id,
+            }),
+            locations: [{ location_id: field.location_id }],
+          };
+        };
+
+        const firstTaskData = createMockTaskData();
+
+        const res = await chai
+          .request(server)
+          .post('/task/irrigation_task')
+          .set('user_id', user.user_id)
+          .set('farm_id', farm.farm_id)
+          .send(firstTaskData);
+
+        expect(res.status).toBe(201);
+
+        const secondTaskData = createMockTaskData();
+
+        const res2 = await chai
+          .request(server)
+          .post('/task/irrigation_task')
+          .set('user_id', user.user_id)
+          .set('farm_id', farm.farm_id)
+          .send(secondTaskData);
+
+        expect(res2.status).toBe(400);
+        expect(res2.error.text).toBe('Irrigation prescription already associated with task');
       });
 
       Object.keys(fakeTaskData).map((type) => {

@@ -13,40 +13,51 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.weatherKPI {
+@import '@assets/mixin.scss';
+
+.dlTile {
+  height: 70px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 16px;
 
-  dl {
-    min-width: calc((100% - 24px) / 3);
-    flex: 1 1 210px;
-    padding: 12px 16px;
-    background: #f9fafc;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  color: var(--Colors-Neutral-Neutral-900);
 
-    border-radius: 4px;
-    border: 1px solid var(--Colors-Neutral-Neutral-50);
-
-    &:nth-child(n + 4) {
-      min-width: calc((100% - 24px) / 4);
-    }
+  &.hasIcon {
+    background-image: var(--icon);
+    background-size: 32px;
+    background-repeat: no-repeat;
+    background-position-x: 16px;
+    background-position-y: center;
+    padding-left: 60px;
   }
 
+  @include truncateText();
+
   dt {
-    color: var(--Colors-Neutral-Neutral-900);
     font-size: 16px;
     line-height: normal;
+
+    @include truncateText();
 
     &.hideLabel {
       position: absolute;
       left: -100vw;
     }
+
+    &.small {
+      font-size: 14px;
+    }
   }
 
   dd {
-    color: var(--Colors-Neutral-Neutral-900);
     font-size: 24px;
     font-weight: 700;
     line-height: 24px;
+
+    @include truncateText();
   }
 }

@@ -5,7 +5,7 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -29,7 +29,7 @@ describe('Document tests', () => {
       .end(callback);
   }
 
-  function postManagementPlanRequest(url, data, { user_id, farm_id }, callback) {
+  function postDocumentRequest(url, data, { user_id, farm_id }, callback) {
     chai
       .request(server)
       .post(url)
@@ -65,7 +65,7 @@ describe('Document tests', () => {
     test('Owner should GET documents if they exist', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (err, res) => {
+      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
         done();
@@ -75,7 +75,7 @@ describe('Document tests', () => {
     test('Manager should GET documents if they exist', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (err, res) => {
+      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
         done();
@@ -85,7 +85,7 @@ describe('Document tests', () => {
     test('EO should GET documents if they exist', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (err, res) => {
+      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
         done();
@@ -105,14 +105,14 @@ describe('Document tests', () => {
     describe('Post document test', () => {
       test('Should return 400 when files === []', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(
+        postDocumentRequest(
           `/document/farm/${farm_id}`,
           getFakeDocument(farm_id, 0),
           {
             user_id,
             farm_id,
           },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(400);
             done();
           },
@@ -120,14 +120,14 @@ describe('Document tests', () => {
       });
       test('Should return 400 when files is not an array', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(
+        postDocumentRequest(
           `/document/farm/${farm_id}`,
           getFakeDocument(farm_id, 0, 'files'),
           {
             user_id,
             farm_id,
           },
-          (err, res) => {
+          (_, res) => {
             expect(res.status).toBe(400);
             done();
           },
@@ -135,14 +135,14 @@ describe('Document tests', () => {
       });
       test('Should post document with multiple files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(
+        postDocumentRequest(
           `/document/farm/${farm_id}`,
           getFakeDocument(farm_id, 4),
           {
             user_id,
             farm_id,
           },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(201);
             const files = await knex('file').where({ document_id: res.body.document_id });
             expect(files.length).toBe(4);
@@ -154,14 +154,14 @@ describe('Document tests', () => {
         test('Worker should not POST documents', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(
+          postDocumentRequest(
             `/document/farm/${farm_id}`,
             getFakeDocument(farm_id, 4),
             {
               user_id,
               farm_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
               done();
             },
@@ -170,14 +170,14 @@ describe('Document tests', () => {
         test('Owner should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(
+          postDocumentRequest(
             `/document/farm/${farm_id}`,
             getFakeDocument(farm_id, 1),
             {
               user_id,
               farm_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
@@ -188,14 +188,14 @@ describe('Document tests', () => {
         test('Manager should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(
+          postDocumentRequest(
             `/document/farm/${farm_id}`,
             getFakeDocument(farm_id, 1),
             {
               user_id,
               farm_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
@@ -206,14 +206,14 @@ describe('Document tests', () => {
         test('EO should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(
+          postDocumentRequest(
             `/document/farm/${farm_id}`,
             getFakeDocument(farm_id, 1),
             {
               user_id,
               farm_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
@@ -221,9 +221,29 @@ describe('Document tests', () => {
             },
           );
         });
+        test('Owner should not POST a document to another farm', async (done) => {
+          const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+          const [{ user_id: _user_id2, farm_id: farm_id2 }] = await mocks.userFarmFactory(
+            {},
+            fakeUserFarm(1),
+          );
+          await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+          postDocumentRequest(
+            `/document/farm/${farm_id}`,
+            getFakeDocument(farm_id2, 1),
+            {
+              user_id,
+              farm_id,
+            },
+            async (_err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            },
+          );
+        });
       });
     });
-    describe.only('Put document test', () => {
+    describe('Put document test', () => {
       async function documentWithFilesFactory(farm_id, numberOfFiles = 2) {
         const [document] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
         const files = [];
@@ -245,7 +265,7 @@ describe('Document tests', () => {
         const newDocument = getFakeDocument(farm_id, 2);
         const data = { document_id: document.document_id, ...newDocument };
         data.valid_until = fakeDate;
-        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+        putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
@@ -264,7 +284,7 @@ describe('Document tests', () => {
         const newDocument = getFakeDocument(farm_id, 1);
         const data = { document_id: document.document_id, ...newDocument };
         data.valid_until = fakeDate;
-        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+        putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
@@ -283,7 +303,7 @@ describe('Document tests', () => {
         const newDocument = getFakeDocument(farm_id, 1);
         const data = { document_id: document.document_id, ...newDocument };
         data.valid_until = fakeDate;
-        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+        putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
@@ -302,7 +322,7 @@ describe('Document tests', () => {
         const newDocument = getFakeDocument(farm_id, 1);
         const data = { document_id: document.document_id, ...newDocument };
         data.valid_until = fakeDate;
-        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+        putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
@@ -320,7 +340,7 @@ describe('Document tests', () => {
         const document = await documentWithFilesFactory(farm_id);
         const newDocument = getFakeDocument(farm_id, 1);
         const data = { document_id: document.document_id, ...newDocument };
-        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+        putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(403);
           done();
         });
@@ -336,7 +356,7 @@ describe('Document tests', () => {
         document_id,
         { archived: true },
         { user_id, farm_id },
-        async (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(200);
           const document = await knex('document').where({ document_id });
           expect(document[0].archived).toBe(true);
@@ -355,7 +375,7 @@ describe('Document tests', () => {
         document_id,
         { archived: false },
         { user_id, farm_id },
-        async (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(200);
           const document = await knex('document').where({ document_id });
           expect(document[0].archived).toBe(false);
@@ -372,7 +392,7 @@ describe('Document tests', () => {
           document_id,
           { archived: true },
           { user_id, farm_id },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             done();
           },
@@ -385,7 +405,7 @@ describe('Document tests', () => {
           document_id,
           { archived: true },
           { user_id, farm_id },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             done();
           },
@@ -398,7 +418,7 @@ describe('Document tests', () => {
           document_id,
           { archived: true },
           { user_id, farm_id },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             done();
           },
@@ -411,7 +431,7 @@ describe('Document tests', () => {
           document_id,
           { archived: true },
           { user_id, farm_id },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(403);
             done();
           },

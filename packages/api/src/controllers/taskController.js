@@ -38,7 +38,7 @@ import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js'
 import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
-import { triggerPostTaskCreatedActions } from '../services/taskActions.js';
+import { triggerPostTaskCreatedActions } from '../services/task.js';
 
 const adminRoles = [1, 2, 5];
 

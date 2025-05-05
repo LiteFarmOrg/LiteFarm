@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
-import { locationByIdSelector } from '../locationSlice';
+import { cropLocationsSelector, locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
@@ -59,6 +59,9 @@ const IrrigationPrescription = ({
   const system = useSelector(measurementSelector);
 
   const { ip_pk } = match.params;
+
+  const cropLocations = useSelector(cropLocationsSelector);
+  const tempLocationId = cropLocations?.[0]?.location_id;
 
   /*--------------------------------------
   
@@ -119,7 +122,10 @@ const IrrigationPrescription = ({
 
   const { uriData, vriData } = prescription;
 
-  const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
+  const onApprove = useApproveIrrigationPrescription(history, {
+    ...irrigationPrescription,
+    location_id: tempLocationId,
+  });
 
   return (
     <CardLayout className={styles.cardWrapper}>

@@ -20,7 +20,7 @@ import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
-import IrrigationPrescriptionKPIKPI from '../../components/IrrigationPrescriptionKPI';
+import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKPI';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
@@ -132,7 +132,7 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
             labelStyles={dateTimeLabelStyles}
           />
         </div>
-        <IrrigationPrescriptionKPIKPI
+        <IrrigationPrescriptionKPI
           irrigationPrescription={irrigationPrescription}
           system={system}
         />

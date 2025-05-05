@@ -19,6 +19,7 @@ const irrigationTaskProperties = [
   'default_location_application_depth',
   'default_irrigation_task_type_location',
   'default_irrigation_task_type_measurement',
+  'irrigation_prescription_external_id',
 ];
 const getIrrigationTask = (task) => {
   return {

@@ -24,7 +24,6 @@ import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../Table/types';
 import { History } from 'history';
-import { match } from 'react-router-dom';
 import { IrrigationPrescription } from '../../store/api/types';
 import Cell from '../Table/Cell';
 import { partnerEntities } from '../../containers/AddSensors/constants';
@@ -32,12 +31,9 @@ import clsx from 'clsx';
 import { Location } from '../../types';
 import { LocationTab } from '../../containers/LocationDetails/types';
 
-type Tab = {};
-
 type LocationIrrigationProps = {
   location: Location;
   history: History;
-  match: match;
   irrigationPrescriptions: IrrigationPrescription[];
   routerTabs: LocationTab[];
   isCompact: boolean;
@@ -46,7 +42,6 @@ type LocationIrrigationProps = {
 export default function PureLocationIrrigation({
   location,
   history,
-  match,
   irrigationPrescriptions,
   routerTabs,
   isCompact,
@@ -103,7 +98,6 @@ export default function PureLocationIrrigation({
       },
       {
         id: 'irrigationPrescriptionLink',
-        label: undefined,
         align: Alignment.RIGHT,
         sortable: false,
         className: styles.tableCell,

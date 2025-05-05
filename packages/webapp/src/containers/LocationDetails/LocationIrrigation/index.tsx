@@ -51,7 +51,6 @@ function LocationIrrigation({
       <PureLocationIrrigation
         irrigationPrescriptions={irrigationPrescriptions}
         history={history}
-        match={match}
         location={location}
         routerTabs={routerTabs}
         isCompact={isCompact}

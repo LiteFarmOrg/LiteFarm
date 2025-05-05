@@ -27,15 +27,15 @@ interface LocationIrrigationPrescription extends IrrigationPrescription {
 const ONE_HOUR_IN_MS = 1000 * 60 * 60;
 const getMockData = (location: Location, tasks: Task[]): IrrigationPrescription[] => [
   {
-    id: 'uuid_maybe_001',
-    some_location_id: location.location_id,
+    id: 1,
+    location_id: location.location_id,
     recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
     task_id: tasks.length ? tasks.at(-1)?.task_id : undefined,
   },
   {
-    id: 'uuid_maybe_002',
-    some_location_id: location.location_id,
+    id: 2,
+    location_id: location.location_id,
     recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
     partner_id: 1,
     task_id: undefined,
@@ -58,7 +58,7 @@ export default function useIrrigationPrescriptions(location?: Location) {
     filteredIrrigationPrescriptionsWithTask = irrigationPrescriptions
       .filter(
         // return matching plans for this location
-        (plan: IrrigationPrescription) => plan.some_location_id === location.location_id,
+        ({ location_id }) => location_id === location.location_id,
       )
       .map(({ task_id, ...irrigationPrescription }) => {
         // map the plan to a new object that includes the full task object

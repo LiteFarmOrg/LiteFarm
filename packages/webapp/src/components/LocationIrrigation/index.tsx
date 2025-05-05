@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Layout from '../Layout';
 import layoutStyles from '../Layout/layout.module.scss';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
@@ -30,6 +29,7 @@ import { partnerEntities } from '../../containers/AddSensors/constants';
 import clsx from 'clsx';
 import { Location } from '../../types';
 import { LocationTab } from '../../containers/LocationDetails/types';
+import CardLayout from '../Layout/CardLayout';
 
 type LocationIrrigationProps = {
   location: Location;
@@ -109,7 +109,7 @@ export default function PureLocationIrrigation({
   };
 
   return (
-    <Layout className={layoutStyles.paperContainer}>
+    <CardLayout className={layoutStyles.paperContainer}>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
@@ -129,6 +129,6 @@ export default function PureLocationIrrigation({
         tbodyClass={styles.tableBody}
         showHeader={isCompact ? false : true}
       />
-    </Layout>
+    </CardLayout>
   );
 }

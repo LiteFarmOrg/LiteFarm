@@ -318,8 +318,8 @@ export interface SensorReadings {
   readings: SensorDatapoint[];
 }
 export interface IrrigationPrescription {
-  id: string;
-  some_location_id: string; // from Location 'location_id', or Pivot 'id'
+  id: number;
+  location_id: string;
   recommended_start_datetime: string;
   partner_id: number;
   task_id?: number | string;

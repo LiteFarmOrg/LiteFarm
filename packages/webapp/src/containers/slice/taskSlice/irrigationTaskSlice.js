@@ -34,8 +34,8 @@ const irrigationTaskAdapter = createEntityAdapter({
 const upsertOneIrrigationTask = (state, { payload: task }) => {
   irrigationTaskAdapter.upsertOne(state, getIrrigationTask(task));
 };
-const upsertManyIrrigationTask = (state, { payload: tasks }) => {
-  irrigationTaskAdapter.upsertMany(
+const setAllIrrigationTask = (state, { payload: tasks }) => {
+  irrigationTaskAdapter.setAll(
     state,
     tasks.map((task) => getIrrigationTask(task)),
   );
@@ -52,7 +52,7 @@ const irrigationTaskSlice = createSlice({
   reducers: {
     onLoadingIrrigationTaskStart: onLoadingStart,
     onLoadingIrrigationTaskFail: onLoadingFail,
-    getIrrigationTasksSuccess: upsertManyIrrigationTask,
+    getIrrigationTasksSuccess: setAllIrrigationTask,
     postIrrigationTaskSuccess: upsertOneIrrigationTask,
     editIrrigationTaskSuccess: upsertOneIrrigationTask,
     deleteIrrigationTaskSuccess: irrigationTaskAdapter.removeOne,

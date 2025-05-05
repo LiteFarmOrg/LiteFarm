@@ -48,6 +48,7 @@ router.patch(
 
 router.post(
   '/farm/:farm_id',
+  hasFarmAccess({ body: 'farm_id' }),
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']),
   validateFilesLength,

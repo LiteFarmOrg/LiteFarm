@@ -25,7 +25,7 @@ const meta: Meta<typeof DescriptionList> = {
   component: DescriptionList,
   decorators: [
     (story) => {
-      return <dl style={{ padding: '24px', background: 'white' }}>{story()}</dl>;
+      return <div style={{ padding: '24px', background: 'white' }}>{story()}</div>;
     },
   ],
 };

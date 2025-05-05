@@ -55,7 +55,7 @@ export default function PureLocationIrrigation({
 
   const getPartnerName = (id: number) => {
     const partner = partnerEntities.find((partner) => id === partner.id);
-    return partner ? partner.shortName : ' -- ';
+    return partner ? partner.shortName : ' — ';
   };
 
   const getColumns = (): TableV2Column[] => {
@@ -98,7 +98,7 @@ export default function PureLocationIrrigation({
               taskId={data.task.task_id}
             />
           ) : (
-            <Cell kind={CellKind.PLAIN} text={'--'} />
+            <Cell kind={CellKind.PLAIN} text={'—'} />
           ),
       },
       {

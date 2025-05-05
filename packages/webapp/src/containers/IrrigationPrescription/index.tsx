@@ -159,27 +159,29 @@ const IrrigationPrescription = ({
         />
       </div>
 
-      <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-        <FormNavigationButtons
-          isFinalStep={true}
-          isDisabled={false}
-          informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
-          onCancel={history.back}
-          onContinue={onApprove}
-          cancelButtonContent={
-            <>
-              <ChevronLeft />
-              <span>{t('common:BACK_CAPITALIZED')}</span>
-            </>
-          }
-          saveButtonContent={
-            <>
-              <span>{t('common:APPROVE')}</span>
-              <ChevronRight />
-            </>
-          }
-        />
-      </FloatingContainer>
+      {onApprove && (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <FormNavigationButtons
+            isFinalStep={true}
+            isDisabled={false}
+            informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
+            onCancel={history.back}
+            onContinue={onApprove}
+            cancelButtonContent={
+              <>
+                <ChevronLeft />
+                <span>{t('common:BACK_CAPITALIZED')}</span>
+              </>
+            }
+            saveButtonContent={
+              <>
+                <span>{t('common:APPROVE')}</span>
+                <ChevronRight />
+              </>
+            }
+          />
+        </FloatingContainer>
+      )}
     </CardLayout>
   );
 };

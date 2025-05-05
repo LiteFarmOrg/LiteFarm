@@ -18,6 +18,7 @@ import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import { irrigationTypeByKeyAndFarmIdSelector } from '../irrigationTaskTypesSlice';
 import { taskTypeByKeySelector } from '../taskTypeSlice';
+import { irrigationTaskEntitiesSelector } from '../slice/taskSlice/irrigationTaskSlice';
 import { setFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getIrrigationTaskTypes } from '../Task/IrrigationTaskTypes/saga';
 import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigationTask';
@@ -46,6 +47,10 @@ export default function useApproveIrrigationPrescription(
 
   const irrigationTaskType = useSelector(taskTypeByKeySelector('IRRIGATION_TASK'));
   const pivotType = useSelector(irrigationTypeByKeyAndFarmIdSelector('PIVOT'));
+  const irrigationTasks = useSelector(irrigationTaskEntitiesSelector) || [];
+  const hasTask = Object.values(irrigationTasks).some(
+    (task) => task.irrigation_prescription_external_id === id,
+  );
 
   const onApproveIrrigationPrescription = () => {
     dispatch(setPersistedPaths([ADD_TASK_DETAILS, ADD_TASK_ASSIGNMENT]));
@@ -78,5 +83,5 @@ export default function useApproveIrrigationPrescription(
     history.push(ADD_TASK_DETAILS);
   };
 
-  return onApproveIrrigationPrescription;
+  return hasTask ? undefined : onApproveIrrigationPrescription;
 }

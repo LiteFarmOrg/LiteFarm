@@ -52,7 +52,7 @@ export default function UnknownRecord({ history }) {
             goBack();
           }}
         >
-          {t('common:BACK')}
+          {t('common:GO_BACK')}
         </Button>
       }
     >

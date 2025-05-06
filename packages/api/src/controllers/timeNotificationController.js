@@ -16,8 +16,10 @@
 import UserFarmModel from '../models/userFarmModel.js';
 
 import TaskModel from '../models/taskModel.js';
+import NotificationModel from '../models/notificationModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import { getTasksForFarm } from './taskController.js';
+import { mockGetFarmIrrigationPrescriptions } from '../util/ensembleService.js';
 
 const timeNotificationController = {
   /**
@@ -95,6 +97,58 @@ const timeNotificationController = {
       return res.status(400).send({ error });
     }
   },
+
+  /**
+   * Notifies all users of new irrigation prescriptions
+   * @param {Request} req request
+   * @param {Response} res response
+   * @async
+   */
+  async postDailyNewIrrigationPrescriptions(req, res) {
+    const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
+    try {
+      // TODO: Use real function after LF-4765 is merged
+      const farmIrrigationPrescriptions = await mockGetFarmIrrigationPrescriptions(farm_id);
+
+      let notificationsSent = 0;
+
+      for (const prescription of farmIrrigationPrescriptions) {
+        const { id: irrigation_prescription_id } = prescription;
+
+        const previousNotification = await NotificationModel.query()
+          .skipUndefined()
+          .where('farm_id', farm_id)
+          .whereJsonSupersetOf('context', {
+            irrigation_prescription_id,
+          })
+          .first();
+
+        if (previousNotification) {
+          continue;
+        }
+
+        const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+
+        for (const { user_id } of activeUsers) {
+          await sendDailyNewIrrigationPrescriptionNotification(
+            farm_id,
+            user_id,
+            isDayLaterThanUtc,
+            irrigation_prescription_id,
+          );
+          notificationsSent++;
+        }
+      }
+
+      return res
+        .status(notificationsSent ? 201 : 200)
+        .send(`${notificationsSent} irrigation prescription notifications sent.`);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
 };
 
 /**
@@ -145,6 +199,40 @@ async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanU
         task_translation_key: 'FIELD_WORK_TASK',
         notification_type: 'DAILY_TASKS_DUE_TODAY',
         notification_date: todayStr,
+      },
+      farm_id: farmId,
+    },
+    [userId],
+  );
+}
+
+/**
+ * Sends notification to a user of a new irrigation prescription
+ * @param {String} farmId
+ * @param {String} userId
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
+ * @async
+ */
+async function sendDailyNewIrrigationPrescriptionNotification(
+  farmId,
+  userId,
+  isDayLaterThanUtc,
+  irrigation_prescription_id,
+) {
+  const today = new Date();
+  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  const todayStr = today.toISOString().split('T')[0];
+  await NotificationUser.notify(
+    {
+      title: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE' },
+      body: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.BODY' },
+      variables: [],
+      ref: { url: `/irrigation_prescription/${irrigation_prescription_id}` },
+      context: {
+        icon_translation_key: 'IRRIGATION_PRESCRIPTION',
+        notification_type: 'NEW_IRRIGATION_PRESCRIPTION',
+        notification_date: todayStr,
+        irrigation_prescription_id,
       },
       farm_id: farmId,
     },

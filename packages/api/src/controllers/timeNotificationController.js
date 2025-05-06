@@ -85,7 +85,7 @@ const timeNotificationController = {
         );
 
         if (hasTasksDueToday) {
-          await sendDailyDueTodayTaskNotification(farm_id, user_id);
+          await sendDailyDueTodayTaskNotification(farm_id, user_id, isDayLaterThanUtc);
           notificationsSent++;
         }
       }
@@ -155,7 +155,7 @@ const timeNotificationController = {
  * Notifies farm management of unassigned tasks due this week.
  * @param {String} farmId - id of the farm the farm managers belong to
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
- * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
  * @async
  */
 async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isDayLaterThanUtc) {
@@ -183,6 +183,7 @@ async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isD
  * Sends notification to a user of tasks due today
  * @param {String} farmId
  * @param {String} userId
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
  * @async
  */
 async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanUtc) {

@@ -1215,6 +1215,8 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
     "APPROVE_AND_CREATE_TASK": "By approving you’ll create an irrigation task",
+    "ESTIMATED_WATER_CONSUMPTION": "Estimated water consumption",
+    "ET_RATE": "ET Rate",
     "IRRIGATION_ZONE": "Irrigation zone",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
     "START_DATE": "Start date",

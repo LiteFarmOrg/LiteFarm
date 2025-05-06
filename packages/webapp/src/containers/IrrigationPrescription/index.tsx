@@ -24,11 +24,13 @@ import PureIrrigationPrescription from '../../components/IrrigationPrescription'
 import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
 import FloatingContainer from '../../components/FloatingContainer';
 import useApproveIrrigationPrescription from './useApproveIrrigationPrescription';
+import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKPI';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import { SensorReadingTypeUnits } from '../../store/api/types';
 import {
   mockField,
   mockUriData,
@@ -77,11 +79,11 @@ const IrrigationPrescription = ({
     metadata: {
       weather_forecast: {
         temperature: 20,
-        temperature_unit: 'c',
+        temperature_unit: 'c' as SensorReadingTypeUnits,
         wind_speed: 10,
-        wind_speed_unit: 'km/h',
+        wind_speed_unit: 'km/h' as SensorReadingTypeUnits,
         cumulative_rainfall: 5,
-        cumultative_rainfall_unit: 'mm',
+        cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
         et_rate_unit: 'mm/h',
         weather_icon_code: '02d',
@@ -149,7 +151,10 @@ const IrrigationPrescription = ({
             labelStyles={dateTimeLabelStyles}
           />
         </div>
-
+        <IrrigationPrescriptionKPI
+          irrigationPrescription={irrigationPrescription}
+          system={system}
+        />
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}

@@ -43,66 +43,85 @@ let utcHour = mockTimer ? 5 : undefined; // mock starts 2 "hours" before day shi
 | Date offset    |  0,1   |  0,1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 1   | 1   | 1   | 1   | 1   |
 */
 
+function getTimeZonesForLocalHour(utcHour, localHour) {
+  const timeZones = [localHour - utcHour];
+  if (timeZones[0] < -11) timeZones[0] += 24;
+  if (timeZones[0] === -10 || timeZones[0] === -11) timeZones[1] = timeZones[0] + 24;
+
+  return timeZones;
+}
+
+function isWeeklyNotificationDue(timeZone) {
+  return (
+    (utcDay === WEEKLY_NOTIFICATION_DAY_LATER_ZONES && timeZone < 7) ||
+    (utcDay === WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES && timeZone >= 7)
+  );
+}
+
+const schedules = [
+  {
+    localHour: 6,
+    notificationTypes: [
+      { type: 'DailyTasksDue' },
+      { type: 'WeeklyUnassigned', checkRunCondition: isWeeklyNotificationDue },
+    ],
+  },
+];
+
 const sendOnSchedule = (queueConfig) => {
   const driverQueue = new Queue('Schedule driver ', queueConfig);
   const apiQueue = new Queue('Notification API requests', queueConfig);
 
   // At the top of every hour ...
-  driverQueue.process((job, done) => {
+  driverQueue.process(async (_job, done) => {
     // ... clean completed and failed API requests that have been in queue for 1 day ...
     apiQueue.clean(ONE_DAY);
     apiQueue.clean(ONE_DAY, 'failed');
 
-    // ... find the UTC offsets where it just became 6am ...
     if (!mockTimer) {
       const now = new Date();
       utcDay = now.getUTCDay();
       utcHour = now.getUTCHours();
     }
-    const timeZones = [6 - utcHour];
-    if (timeZones[0] < -11) timeZones[0] += 24;
-    if (timeZones[0] === -10 || timeZones[0] === -11) timeZones[1] = timeZones[0] + 24;
 
-    console.log(
-      `Scheduled notifications: UTC day ${utcDay}, ${utcHour}:00. It's now 6am at UTC offset(s) ${timeZones}`,
-    );
+    for (const { localHour, notificationTypes } of schedules) {
+      // ... find the UTC offsets where it just became the specified local hour ...
+      const timeZones = getTimeZonesForLocalHour(utcHour, localHour);
+      console.log(
+        `Scheduled notifications: UTC day ${utcDay}, ${utcHour}:00. It's now ${localHour}am at UTC offset(s) ${timeZones}`,
+      );
 
-    // ... and call the API to get farms for those offsets.
-    const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
-      expiresIn: '1d',
-      algorithm: 'HS256',
-    });
+      // ... and call the API to get farms for those offsets.
+      const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
+        expiresIn: '1d',
+        algorithm: 'HS256',
+      });
 
-    for (const timeZone of timeZones) {
-      const start = 3600 * timeZone; // hours to seconds
-      const end = 3600 * (timeZone + 1) - 1;
-      console.log(`  offset range is ${start} to ${end} seconds`);
+      for (const timeZone of timeZones) {
+        const start = 3600 * timeZone;
+        const end = 3600 * (timeZone + 1) - 1;
+        console.log(`  offset range is ${start} to ${end} seconds`);
 
-      const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
-      axios
-        .get(`${apiUrl}/farm/utc_offset_by_range/${start}/${end}`, reqConfig)
-        .then(function (res) {
-          // For each farm ...
-          for (const farmId of res.data) {
-            // ... send daily 6am notifications ...
+        const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
+
+        const res = await axios.get(
+          `${apiUrl}/farm/utc_offset_by_range/${start}/${end}`,
+          reqConfig,
+        );
+
+        for (const farmId of res.data) {
+          for (const { type, checkRunCondition } of notificationTypes) {
+            if (checkRunCondition && !checkRunCondition(timeZone)) continue;
+
             apiQueue.add(
-              { farmId, type: 'Daily', reqConfig, isDayLaterThanUtc: timeZone >= 7 },
-              { jobId: `Daily-${utcDay}-${utcHour}-${farmId}` },
+              { farmId, type, reqConfig, isDayLaterThanUtc: timeZone >= 7 },
+              { jobId: `${type}-${utcDay}-${utcHour}-${farmId}` },
             );
-
-            // ... and weekly 6am notifications if appropriate.
-            if (
-              (utcDay === WEEKLY_NOTIFICATION_DAY_LATER_ZONES && timeZone < 7) ||
-              (utcDay === WEEKLY_NOTIFICATION_DAY_EARLIER_ZONES && timeZone >= 7)
-            ) {
-              apiQueue.add(
-                { farmId, type: 'Weekly', reqConfig, isDayLaterThanUtc: timeZone >= 7 },
-                { jobId: `Weekly-${utcDay}-${utcHour}-${farmId}` },
-              );
-            }
           }
-        });
+        }
+      }
     }
+
     if (mockTimer && ++utcHour === 24) {
       utcHour = 0;
       utcDay = ++utcDay % 7;
@@ -119,8 +138,8 @@ const sendOnSchedule = (queueConfig) => {
   apiQueue.process((job, done) => {
     const { type, farmId, reqConfig, isDayLaterThanUtc } = job.data;
     const urls = {
-      Daily: 'time_notification/daily_due_today_tasks',
-      Weekly: 'time_notification/weekly_unassigned_tasks',
+      DailyTasksDue: 'time_notification/daily_due_today_tasks',
+      WeeklyUnassigned: 'time_notification/weekly_unassigned_tasks',
     };
     axios
       .post(`${apiUrl}/${urls[type]}/${farmId}`, { isDayLaterThanUtc }, reqConfig)

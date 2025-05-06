@@ -13,12 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
-import {
-  getEsciPrescriptions,
-  getOrgLocationAndCropData,
-  sendFieldAndCropDataToEsci,
-} from '../util/ensembleService.js';
+import { Response } from 'express';
+import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
+import { LiteFarmRequest } from '../types.js';
 
 interface HttpError extends Error {
   status?: number;
@@ -30,34 +27,7 @@ interface InitiateFarmIrrigationPrescriptionQueryParams {
   shouldSend?: string;
 }
 
-export interface LiteFarmRequest<QueryParams = unknown>
-  extends Request<unknown, unknown, unknown, QueryParams> {
-  headers: Request['headers'] & {
-    farm_id?: string;
-  };
-}
-
 const irrigationPrescriptionRequestController = {
-  getPrescriptions() {
-    return async (req: LiteFarmRequest, res: Response) => {
-      try {
-        const { farm_id } = req.headers;
-        // Middleware checkScope guarantees farm_id but LiteFarmRequest type fails when requiring it
-        if (!farm_id || farm_id === 'undefined') {
-          return res.status(400).send('Missing farm_id in headers');
-        }
-        // TODO: should location_id, partner_id be a param?
-
-        // get org id from addon
-        const prescriptions = await getEsciPrescriptions(farm_id);
-        // return prescriptions
-        res.status(200).send(prescriptions);
-      } catch (_error) {
-        // catch error
-        res.sendStatus(400);
-      }
-    };
-  },
   initiateFarmIrrigationPrescription() {
     return async (
       req: LiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>,

@@ -109,7 +109,7 @@ export default function PureLocationIrrigation({
   };
 
   return (
-    <CardLayout className={layoutStyles.paperContainer}>
+    <CardLayout>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}

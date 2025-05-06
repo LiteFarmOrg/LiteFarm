@@ -75,63 +75,6 @@ const getExternalOrganisationIds = async (
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const getMockPrescriptions = async (
-  farmId: Farm['farm_id'],
-  afterDate?: string,
-): Promise<IrrigationPrescription[]> => {
-  const PARTNER_ID = 1;
-  const ONE_HOUR_IN_MS = 1000 * 60 * 60;
-  const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
-  const MOCK_EXTERNAL_PRESCRIPTION_ID1 = 1;
-  const MOCK_EXTERNAL_PRESCRIPTION_ID2 = 2;
-
-  const locations = await LocationModel.getCropSupportingLocationsByFarmId(farmId);
-  // Choose last location
-  const mockLocation = locations.at(-1);
-  if (!mockLocation) {
-    throw customError('No crop locations on farm');
-  }
-  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
-    farmId,
-    [MOCK_EXTERNAL_PRESCRIPTION_ID1, MOCK_EXTERNAL_PRESCRIPTION_ID2],
-  );
-
-  return [
-    {
-      id: MOCK_EXTERNAL_PRESCRIPTION_ID1,
-      location_id: mockLocation.location_id,
-      recommended_start_datetime: afterDate
-        ? new Date(afterDate).toISOString()
-        : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
-      partner_id: PARTNER_ID,
-      task_id: irrigationTasksWithExternalId.find(
-        (task) =>
-          task.irrigation_task.irrigation_prescription_external_id ===
-          MOCK_EXTERNAL_PRESCRIPTION_ID1,
-      )?.task_id,
-    },
-    {
-      id: MOCK_EXTERNAL_PRESCRIPTION_ID2,
-      location_id: locations.at(-1)?.location_id,
-      recommended_start_datetime: afterDate
-        ? new Date(new Date(afterDate).getTime() + ONE_DAY_IN_MS).toISOString()
-        : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
-      partner_id: PARTNER_ID,
-      task_id: irrigationTasksWithExternalId.find(
-        (task) =>
-          task.irrigation_task.irrigation_prescription_external_id ===
-          MOCK_EXTERNAL_PRESCRIPTION_ID2,
-      )?.task_id,
-    },
-  ];
-};
-
-/**
- * Returns a list of mocked prescriptions based on a specific farm_id.
- *
- * @param farm_id - The ID of the farm to retrieve mock data for.
- * @returns A promise that resolves to formatted irrigation prescription data.
- */
 export const getEsciPrescriptions = async (
   farmId: string,
   afterDate?: string,

@@ -108,6 +108,7 @@ describe('Get Irrigation Prescription Tests', () => {
           farm_id: farm.farm_id,
           user_id: user.user_id,
           data: mocks.fakeTask({
+            locations: [{ location_id: field.location_id }],
             task_type_id: taskTypeInDb.task_type_id,
             irrigation_task: mocks.fakeIrrigationTask({
               location_id: field.location_id,
@@ -117,12 +118,16 @@ describe('Get Irrigation Prescription Tests', () => {
         });
 
         const { farmAddon } = await connectFarmToEnsemble(farm);
+        const irrigationPrescriptions = await fakeIrrigationPrescriptions(farm.farm_id, [
+          MOCK_EXTERNAL_PRESCRIPTION_ID1,
+          MOCK_EXTERNAL_PRESCRIPTION_ID2,
+        ]);
+
+        expect(irrigationPrescriptions.length).toBe(2);
+        expect(irrigationPrescriptions[0].location_id).toBe(field.location_id);
+
         (mockedAxios as unknown as jest.Mock).mockResolvedValue({
-          data: fakeIrrigationPrescriptions(
-            farm.farm_id,
-            [MOCK_EXTERNAL_PRESCRIPTION_ID1, MOCK_EXTERNAL_PRESCRIPTION_ID2],
-            field.location_id,
-          ),
+          data: irrigationPrescriptions,
           status: 200,
           statusText: 'OK',
           headers: {},

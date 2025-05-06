@@ -15,7 +15,8 @@
 
 import { Response } from 'express';
 import { LiteFarmRequest, HttpError } from '../types.js';
-import { getEsciPrescriptions, getMockPrescriptions } from '../util/ensembleService.js';
+import { getEsciPrescriptions } from '../util/ensembleService.js';
+import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js';
 
 interface DELETEMEQueryParams {
   after_date?: string;
@@ -35,8 +36,13 @@ const irrigationPrescriptionController = {
           return res.status(200).send(prescriptions);
         } else {
           // Return data for dev purposes + QA
-          // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
-          const mockData = await getMockPrescriptions(farm_id, after_date);
+          const mockData = await fakeIrrigationPrescriptions(
+            // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
+            farm_id,
+            [1, 2],
+            undefined,
+            after_date,
+          );
           return res.status(200).send(mockData);
         }
       } catch (error: unknown) {

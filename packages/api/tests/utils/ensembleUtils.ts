@@ -30,6 +30,7 @@ export const connectFarmToEnsemble = async (farm: Farm) => {
 
 /**
  * Returns a list of mocked prescriptions based on a specific farm_id.
+ * TODO: refactor once it is no longer used on beta to be tests specific
  *
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
@@ -37,7 +38,8 @@ export const connectFarmToEnsemble = async (farm: Farm) => {
 export const fakeIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   prescriptionIds: IrrigationPrescription['id'][] = [1, 2],
-  locationId: Location['location_id'],
+  locationIds?: Location['location_id'],
+  afterDate?: string,
 ): Promise<IrrigationPrescription[]> => {
   const PARTNER_ID = 1;
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
@@ -55,18 +57,27 @@ export const fakeIrrigationPrescriptions = async (
     (task) => task.irrigation_task.irrigation_prescription_external_id === prescriptionIds[1],
   );
 
+  if (!irrigationTask1 || !irrigationTask1.irrigation_task.location_id || !locationIds?.length) {
+    return [];
+  }
+
   return [
     {
       id: prescriptionIds[0],
-      location_id: irrigationTask1?.irrigation_task.location_id ?? locationId,
-      recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
+      location_id: irrigationTask1.irrigation_task.location_id,
+      recommended_start_datetime: afterDate
+        ? new Date(afterDate).toISOString()
+        : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTask1?.task_id,
     },
     {
       id: prescriptionIds[1],
-      location_id: irrigationTask2?.irrigation_task.location_id ?? locationId,
-      recommended_start_datetime: new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
+      location_id:
+        irrigationTask2?.irrigation_task.location_id ?? irrigationTask1.irrigation_task.location_id,
+      recommended_start_datetime: afterDate
+        ? new Date(new Date(afterDate).getTime() + ONE_DAY_IN_MS).toISOString()
+        : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTask1?.task_id,
     },

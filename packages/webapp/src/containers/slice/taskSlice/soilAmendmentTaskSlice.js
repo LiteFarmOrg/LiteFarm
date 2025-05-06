@@ -18,8 +18,8 @@ const getSoilAmendmentTask = (task) => {
 const upsertOneSoilAmendmentTask = (state, { payload: task }) => {
   soilAmendmentTaskAdapter.upsertOne(state, getSoilAmendmentTask(task));
 };
-const upsertManySoilAmendmentTask = (state, { payload: tasks }) => {
-  soilAmendmentTaskAdapter.upsertMany(
+const setAllSoilAmendmentTask = (state, { payload: tasks }) => {
+  soilAmendmentTaskAdapter.setAll(
     state,
     tasks.map((task) => getSoilAmendmentTask(task)),
   );
@@ -41,7 +41,7 @@ const soilAmendmentTaskSlice = createSlice({
   reducers: {
     onLoadingSoilAmendmentTaskStart: onLoadingStart,
     onLoadingSoilAmendmentTaskFail: onLoadingFail,
-    getSoilAmendmentTasksSuccess: upsertManySoilAmendmentTask,
+    getSoilAmendmentTasksSuccess: setAllSoilAmendmentTask,
     postSoilAmendmentTaskSuccess: upsertOneSoilAmendmentTask,
     editSoilAmendmentTaskSuccess: upsertOneSoilAmendmentTask,
     deleteSoilAmendmentTaskSuccess: soilAmendmentTaskAdapter.removeOne,

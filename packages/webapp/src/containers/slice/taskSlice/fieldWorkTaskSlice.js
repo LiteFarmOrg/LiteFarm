@@ -12,8 +12,8 @@ const getFieldWorkTask = (task) => {
 const upsertOneFieldWorkTask = (state, { payload: task }) => {
   fieldWorkTaskAdapter.upsertOne(state, getFieldWorkTask(task));
 };
-const upsertManyFieldWorkTask = (state, { payload: tasks }) => {
-  fieldWorkTaskAdapter.upsertMany(
+const setAllFieldWorkTask = (state, { payload: tasks }) => {
+  fieldWorkTaskAdapter.setAll(
     state,
     tasks.map((task) => getFieldWorkTask(task)),
   );
@@ -35,7 +35,7 @@ const fieldWorkTaskSlice = createSlice({
   reducers: {
     onLoadingFieldWorkTaskStart: onLoadingStart,
     onLoadingFieldWorkTaskFail: onLoadingFail,
-    getFieldWorkTasksSuccess: upsertManyFieldWorkTask,
+    getFieldWorkTasksSuccess: setAllFieldWorkTask,
     postFieldWorkTaskSuccess: upsertOneFieldWorkTask,
     editFieldWorkTaskSuccess: upsertOneFieldWorkTask,
     deleteFieldWorkTaskSuccess: fieldWorkTaskAdapter.removeOne,

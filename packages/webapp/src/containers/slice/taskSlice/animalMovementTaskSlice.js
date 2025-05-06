@@ -27,8 +27,8 @@ const getAnimalMovementTask = (task) => {
 const upsertOneAnimalMovementTask = (state, { payload: task }) => {
   animalMovementTaskAdapter.upsertOne(state, getAnimalMovementTask(task));
 };
-const upsertManyAnimalMovementTask = (state, { payload: tasks }) => {
-  animalMovementTaskAdapter.upsertMany(
+const setAllAnimalMovementTask = (state, { payload: tasks }) => {
+  animalMovementTaskAdapter.setAll(
     state,
     tasks.map((task) => getAnimalMovementTask(task)),
   );
@@ -50,7 +50,7 @@ const animalMovementTaskSlice = createSlice({
   reducers: {
     onLoadingAnimalMovementTaskStart: onLoadingStart,
     onLoadingAnimalMovementTaskFail: onLoadingFail,
-    getAnimalMovementTasksSuccess: upsertManyAnimalMovementTask,
+    getAnimalMovementTasksSuccess: setAllAnimalMovementTask,
     postAnimalMovementTaskSuccess: upsertOneAnimalMovementTask,
     editAnimalMovementTaskSuccess: upsertOneAnimalMovementTask,
     deleteAnimalMovementTaskSuccess: animalMovementTaskAdapter.removeOne,

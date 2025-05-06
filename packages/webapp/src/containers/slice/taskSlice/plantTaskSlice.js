@@ -14,8 +14,8 @@ const getPlantTask = (task) => {
 const upsertOnePlantTask = (state, { payload: task }) => {
   plantTaskAdapter.upsertOne(state, getPlantTask(task));
 };
-const upsertManyPlantTask = (state, { payload: tasks }) => {
-  plantTaskAdapter.upsertMany(
+const setAllPlantTask = (state, { payload: tasks }) => {
+  plantTaskAdapter.setAll(
     state,
     tasks.map((task) => getPlantTask(task)),
   );
@@ -37,7 +37,7 @@ const plantTaskSlice = createSlice({
   reducers: {
     onLoadingPlantTaskStart: onLoadingStart,
     onLoadingPlantTaskFail: onLoadingFail,
-    getPlantTasksSuccess: upsertManyPlantTask,
+    getPlantTasksSuccess: setAllPlantTask,
     postPlantTaskSuccess: upsertOnePlantTask,
     editPlantTaskSuccess: upsertOnePlantTask,
     deletePlantTaskSuccess: plantTaskAdapter.removeOne,

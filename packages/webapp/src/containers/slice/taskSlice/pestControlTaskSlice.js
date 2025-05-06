@@ -20,8 +20,8 @@ const getPestControlTask = (task) => {
 const upsertOnePestControlTask = (state, { payload: task }) => {
   pestControlTaskAdapter.upsertOne(state, getPestControlTask(task));
 };
-const upsertManyPestControlTask = (state, { payload: tasks }) => {
-  pestControlTaskAdapter.upsertMany(
+const setAllPestControlTask = (state, { payload: tasks }) => {
+  pestControlTaskAdapter.setAll(
     state,
     tasks.map((task) => getPestControlTask(task)),
   );
@@ -43,7 +43,7 @@ const pestControlTaskSlice = createSlice({
   reducers: {
     onLoadingPestControlTaskStart: onLoadingStart,
     onLoadingPestControlTaskFail: onLoadingFail,
-    getPestControlTasksSuccess: upsertManyPestControlTask,
+    getPestControlTasksSuccess: setAllPestControlTask,
     postPestControlTaskSuccess: upsertOnePestControlTask,
     editPestControlTaskSuccess: upsertOnePestControlTask,
     deletePestControlTaskSuccess: pestControlTaskAdapter.removeOne,

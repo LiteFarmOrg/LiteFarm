@@ -30,6 +30,39 @@ import type {
   ManagementPlan,
 } from './ensembleService.types.js';
 
+// TODO: After LF-4674 is merged, this can be removed and that function used instead
+export const mockGetFarmIrrigationPrescriptions = async (farm_id: string) => {
+  const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+
+  if (!partner) {
+    throw customError('Ensemble partner not found', 400);
+  }
+
+  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, partner.id);
+
+  if (!farmEnsembleAddon) {
+    return [];
+  }
+
+  // In the real function, call Ensemble API here
+  // Pass organization_id and the correct time parameters
+
+  const ONE_DAY = 24 * 60 * 60 * 1000; // in ms
+
+  const irrigationPrescriptionsMinimalMock = [
+    {
+      id: new Date().getUTCDay(), // 0-6, 0 = Sunday
+      recommended_start_datetime: new Date().toISOString(),
+    },
+    {
+      id: new Date(Date.now() + ONE_DAY).getUTCDay(),
+      recommended_start_datetime: new Date(Date.now() + ONE_DAY).toISOString(),
+    },
+  ];
+
+  return irrigationPrescriptionsMinimalMock;
+};
+
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
  *

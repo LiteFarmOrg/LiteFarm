@@ -67,7 +67,7 @@ export default function useIrrigationPrescriptions(location?: Location) {
           ...irrigationPrescription,
           task: task
             ? {
-                ...task,
+                task_id: task.task_id,
                 status: getTaskStatus(task),
               }
             : undefined,

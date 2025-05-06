@@ -301,11 +301,10 @@ export const api = createApi({
           // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
           dispatch({ type: 'getTasksSaga' });
           await queryFulfilled;
-        } catch (err) {
-          dispatch({
-            type: 'snackbarReducer/enqueueErrorSnackbar',
-            payload: i18n.t('message:FARM_ADDON.IRRIGATION_PRESCRIPTION.FAILED_TO_GET'),
-          });
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
         }
       },
       providesTags: ['IrrigationPrescriptions'],

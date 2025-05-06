@@ -131,8 +131,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-        ? drawLine
-        : drawPoint;
+      ? drawLine
+      : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();

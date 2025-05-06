@@ -59,6 +59,7 @@ import type {
   FarmAddon,
   SensorReadings,
 } from './types';
+import { getAllTags } from './apiTags';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -75,29 +76,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [
-    'Animals',
-    'AnimalBatches',
-    'CustomAnimalBreeds',
-    'CustomAnimalTypes',
-    'DefaultAnimalBreeds',
-    'DefaultAnimalTypes',
-    'AnimalSexes',
-    'AnimalIdentifierTypes',
-    'AnimalIdentifierColors',
-    'AnimalMovementPurposes',
-    'AnimalOrigins',
-    'AnimalUses',
-    'AnimalRemovalReasons',
-    'SoilAmendmentMethods',
-    'SoilAmendmentPurposes',
-    'SoilAmendmentFertiliserTypes',
-    'SoilAmendmentProduct',
-    'Sensors',
-    'SensorReadings',
-    'FarmAddon',
-    'Weather',
-  ],
+  tagTypes: getAllTags(),
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

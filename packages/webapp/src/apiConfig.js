@@ -92,6 +92,7 @@ export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
 export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser_types`;
 export const productUrl = `${URI}/product`;
 export const farmAddonUrl = `${URI}/farm_addon`;
+export const weatherUrl = `${URI}/weather`;
 
 export const url = URI;
 
@@ -154,5 +155,6 @@ export default {
   soilAmendmentFertiliserTypesUrl,
   productUrl,
   farmAddonUrl,
+  weatherUrl,
   url,
 };

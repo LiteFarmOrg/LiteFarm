@@ -647,7 +647,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -965,7 +967,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -1085,7 +1089,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

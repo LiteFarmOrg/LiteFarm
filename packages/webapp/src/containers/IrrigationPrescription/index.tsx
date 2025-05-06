@@ -15,16 +15,22 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
-import { locationByIdSelector } from '../locationSlice';
+import { cropLocationsSelector, locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
+import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
+import FloatingContainer from '../../components/FloatingContainer';
+import useApproveIrrigationPrescription from './useApproveIrrigationPrescription';
+import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKPI';
 import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
 import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import { SensorReadingTypeUnits } from '../../store/api/types';
 import {
   mockField,
   mockUriData,
@@ -36,19 +42,28 @@ interface RouteParams {
   ip_pk: string;
 }
 
-interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {}
+interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {
+  isCompactSideMenu: boolean;
+}
 
 const dateTimeLabelStyles = {
   color: 'var(--Colors-Neutral-Neutral-500)',
   fontSize: '16px',
 };
 
-const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps) => {
+const IrrigationPrescription = ({
+  match,
+  history,
+  isCompactSideMenu,
+}: IrrigationPrescriptionProps) => {
   const { t } = useTranslation();
 
   const system = useSelector(measurementSelector);
 
   const { ip_pk } = match.params;
+
+  const cropLocations = useSelector(cropLocationsSelector);
+  const tempLocationId = cropLocations?.[0]?.location_id;
 
   /*--------------------------------------
   
@@ -58,16 +73,17 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
 
   const commonMockData = {
     location_id: mockField.location_id,
+    management_plan_id: null,
     recommended_start_datetime: new Date().toISOString(),
     pivot: mockPivot,
     metadata: {
       weather_forecast: {
         temperature: 20,
-        temperature_unit: 'c',
+        temperature_unit: 'c' as SensorReadingTypeUnits,
         wind_speed: 10,
-        wind_speed_unit: 'km/h',
+        wind_speed_unit: 'km/h' as SensorReadingTypeUnits,
         cumulative_rainfall: 5,
-        cumultative_rainfall_unit: 'mm',
+        cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
         et_rate_unit: 'mm/h',
         weather_icon_code: '02d',
@@ -108,6 +124,11 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
 
   const { uriData, vriData } = prescription;
 
+  const onApprove = useApproveIrrigationPrescription(history, {
+    ...irrigationPrescription,
+    location_id: tempLocationId,
+  });
+
   return (
     <CardLayout className={styles.cardWrapper}>
       <div className={styles.irrigationPrescriptionContainer}>
@@ -130,7 +151,10 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
             labelStyles={dateTimeLabelStyles}
           />
         </div>
-
+        <IrrigationPrescriptionKPI
+          irrigationPrescription={irrigationPrescription}
+          system={system}
+        />
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}
@@ -139,6 +163,30 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
           {...(uriData ? { uriData } : { vriData: vriData?.zones })}
         />
       </div>
+
+      {onApprove && (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <FormNavigationButtons
+            isFinalStep={true}
+            isDisabled={false}
+            informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
+            onCancel={history.back}
+            onContinue={onApprove}
+            cancelButtonContent={
+              <>
+                <ChevronLeft />
+                <span>{t('common:BACK_CAPITALIZED')}</span>
+              </>
+            }
+            saveButtonContent={
+              <>
+                <span>{t('common:APPROVE')}</span>
+                <ChevronRight />
+              </>
+            }
+          />
+        </FloatingContainer>
+      )}
     </CardLayout>
   );
 };

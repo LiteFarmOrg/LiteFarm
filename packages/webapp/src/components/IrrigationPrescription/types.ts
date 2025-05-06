@@ -35,6 +35,7 @@ export type IrrigationPrescription = {
   id: number;
 
   location_id: string;
+  management_plan_id: number | null;
   recommended_start_datetime: string; // ISO string
 
   pivot: {

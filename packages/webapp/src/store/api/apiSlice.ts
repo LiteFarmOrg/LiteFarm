@@ -36,7 +36,7 @@ import {
   animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
-  irrigationPrescriptionsUrl,
+  irrigationPrescriptionUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -295,7 +295,12 @@ export const api = createApi({
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
     getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
-      query: () => `${irrigationPrescriptionsUrl}`,
+      query: () => {
+        // After date is hard coded for now as the users current locale
+        const after_date = new Date().toISOString();
+        const params = new URLSearchParams({ after_date });
+        return `${irrigationPrescriptionUrl}?${params.toString()}`;
+      },
       async onQueryStarted(_id, { dispatch, queryFulfilled }) {
         try {
           // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'

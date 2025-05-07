@@ -57,14 +57,18 @@ export const fakeIrrigationPrescriptions = async (
     (task) => task.irrigation_task.irrigation_prescription_external_id === prescriptionIds[1],
   );
 
-  if (!irrigationTask1 || !irrigationTask1.irrigation_task.location_id || !locationIds?.length) {
+  const locationId1 = irrigationTask1?.irrigation_task?.location_id ?? locationIds?.[0];
+  const locationId2 =
+    irrigationTask2?.irrigation_task.location_id ?? locationIds?.[1] ?? locationId1;
+
+  if (!locationId1 || !locationId2) {
     return [];
   }
 
   return [
     {
       id: prescriptionIds[0],
-      location_id: irrigationTask1.irrigation_task.location_id,
+      location_id: locationId1,
       recommended_start_datetime: afterDate
         ? new Date(afterDate).toISOString()
         : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
@@ -73,8 +77,7 @@ export const fakeIrrigationPrescriptions = async (
     },
     {
       id: prescriptionIds[1],
-      location_id:
-        irrigationTask2?.irrigation_task.location_id ?? irrigationTask1.irrigation_task.location_id,
+      location_id: locationId2,
       recommended_start_datetime: afterDate
         ? new Date(new Date(afterDate).getTime() + ONE_DAY_IN_MS).toISOString()
         : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),

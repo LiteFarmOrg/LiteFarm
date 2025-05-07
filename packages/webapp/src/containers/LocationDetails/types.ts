@@ -13,29 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.link {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  flex-shrink: 0;
-
-  color: var(--Colors-Neutral-Neutral-900);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0.4px;
-
-  svg path {
-    fill: currentColor;
-  }
-
-  span {
-    padding: 0 20px;
-    text-align: center;
-  }
-
-  div {
-    gap: 8px;
-  }
-}
+export type LocationTab = {
+  label: string;
+  path: string;
+};

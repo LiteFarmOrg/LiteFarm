@@ -175,7 +175,7 @@ const IrrigationPrescription = ({
             cancelButtonContent={
               <>
                 <ChevronLeft />
-                <span>{t('common:BACK_CAPITALIZED')}</span>
+                <span>{t('common:BACK')}</span>
               </>
             }
             saveButtonContent={

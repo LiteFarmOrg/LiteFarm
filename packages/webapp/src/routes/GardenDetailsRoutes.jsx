@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
 import LocationFieldTechnology from '../containers/LocationDetails/LocationFieldTechnology';
+import LocationIrrigation from '../containers/LocationDetails/LocationIrrigation';
 
 export default function GardenDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -19,6 +20,7 @@ export default function GardenDetailsRoutes() {
         exact
         component={LocationFieldTechnology}
       />
+      <Route path="/garden/:location_id/irrigation" exact component={LocationIrrigation} />
     </>
   );
 }

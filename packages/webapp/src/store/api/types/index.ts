@@ -317,3 +317,10 @@ export interface SensorReadings {
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];
 }
+export interface IrrigationPrescription {
+  id: number;
+  location_id: string;
+  recommended_start_datetime: string;
+  partner_id: number;
+  task_id?: number | string;
+}

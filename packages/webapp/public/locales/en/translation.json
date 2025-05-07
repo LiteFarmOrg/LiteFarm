@@ -956,6 +956,7 @@
       "CROPS": "Crops",
       "DETAILS": "Details",
       "FIELD_TECHNOLOGY": "Field Technology",
+      "IRRIGATION": "Irrigation",
       "READINGS": "Readings",
       "TASKS": "Tasks"
     },
@@ -1215,12 +1216,16 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
     "APPROVE_AND_CREATE_TASK": "By approving you’ll create an irrigation task",
+    "DATA_FROM": "Data From",
     "ESTIMATED_WATER_CONSUMPTION": "Estimated water consumption",
     "ET_RATE": "ET Rate",
+    "IRRIGATION_PRESCRIPTIONS": "Irrigation prescriptions",
     "IRRIGATION_ZONE": "Irrigation zone",
+    "PRESCRIPTION_DATE": "Prescription Date",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
     "START_DATE": "Start date",
     "START_TIME": "Start time",
+    "TASK_STATUS": "Task Status",
     "TITLE": "Irrigation prescription",
     "ZONE": "Zone"
   },

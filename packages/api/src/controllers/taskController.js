@@ -38,6 +38,7 @@ import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js'
 import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
+import { triggerPostTaskCreatedActions } from '../services/task.js';
 
 const adminRoles = [1, 2, 5];
 
@@ -513,7 +514,9 @@ const taskController = {
             req.headers.farm_id,
           );
         }
-        return res.status(201).send(result);
+        res.status(201).send(result);
+
+        triggerPostTaskCreatedActions(typeOfTask, result);
       } catch (error) {
         console.log(error);
 

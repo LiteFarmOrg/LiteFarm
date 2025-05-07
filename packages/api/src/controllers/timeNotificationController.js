@@ -130,15 +130,15 @@ const timeNotificationController = {
 
         const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
 
-        for (const { user_id } of activeUsers) {
-          await sendDailyNewIrrigationPrescriptionNotification(
-            farm_id,
-            user_id,
-            isDayLaterThanUtc,
-            irrigation_prescription_id,
-          );
-          notificationsSent++;
-        }
+        const userIds = activeUsers.map(({ user_id }) => user_id);
+
+        await sendDailyNewIrrigationPrescriptionNotification(
+          farm_id,
+          userIds,
+          isDayLaterThanUtc,
+          irrigation_prescription_id,
+        );
+        notificationsSent += userIds.length;
       }
 
       return res
@@ -210,13 +210,13 @@ async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanU
 /**
  * Sends notification to a user of a new irrigation prescription
  * @param {String} farmId
- * @param {String} userId
+ * @param {String[]} userIds
  * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
  * @async
  */
 async function sendDailyNewIrrigationPrescriptionNotification(
   farmId,
-  userId,
+  userIds,
   isDayLaterThanUtc,
   irrigation_prescription_id,
 ) {
@@ -237,7 +237,7 @@ async function sendDailyNewIrrigationPrescriptionNotification(
       },
       farm_id: farmId,
     },
-    [userId],
+    userIds,
   );
 }
 

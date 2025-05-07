@@ -67,6 +67,7 @@ interface WithStepperProgressBarProps {
   showPreviousButton?: boolean;
   showLoading?: boolean;
   onAfterSave?: (values: FieldValues) => void;
+  hideFormNavigationButtons?: boolean;
 }
 
 export const WithStepperProgressBar = ({
@@ -95,6 +96,7 @@ export const WithStepperProgressBar = ({
   showPreviousButton = true,
   showLoading,
   onAfterSave,
+  hideFormNavigationButtons,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -137,7 +139,7 @@ export const WithStepperProgressBar = ({
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
     (hasSummaryWithinForm && activeStepIndex === steps.length - 2);
 
-  const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
+  const shouldShowFormNavigationButtons = !hideFormNavigationButtons && !isSummaryPage && isEditing;
 
   const onSuccess = () => {
     reset(getValues());

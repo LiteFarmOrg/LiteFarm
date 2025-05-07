@@ -77,7 +77,8 @@ const getExternalOrganisationIds = async (
  */
 export const getEsciPrescriptions = async (
   farmId: string,
-  afterDate?: string,
+  startTime?: string,
+  endTime?: string,
 ): Promise<IrrigationPrescription[]> => {
   const addonPartnerId = await getAddonPartnerId();
   const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
@@ -87,7 +88,8 @@ export const getEsciPrescriptions = async (
     method: 'get',
     url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
     params: {
-      after_date: afterDate, // ISO form or unix instead?
+      start_time: startTime, // ISO form
+      end_time: endTime, // ISO form
     },
   };
 

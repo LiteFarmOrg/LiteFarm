@@ -61,7 +61,8 @@ import type {
   SensorReadings,
   IrrigationPrescription,
 } from './types';
-import i18n from '../../locales/i18n';
+import { addDaysToDate } from '../../util/date';
+import { getEndOfDate, getStartOfDate } from '../../util/date-migrate-TS';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -297,8 +298,11 @@ export const api = createApi({
     getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
       query: () => {
         // After date is hard coded for now as the users current locale
-        const after_date = new Date().toISOString();
-        const params = new URLSearchParams({ after_date });
+        const today = new Date();
+        const startTime = getStartOfDate(today).toISOString();
+        const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
+        const params = new URLSearchParams({ startTime, endTime });
+
         return `${irrigationPrescriptionUrl}?${params.toString()}`;
       },
       async onQueryStarted(_id, { dispatch, queryFulfilled }) {

@@ -39,7 +39,8 @@ export const fakeIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   prescriptionIds: IrrigationPrescription['id'][] = [1, 2],
   locationIds?: Location['location_id'],
-  afterDate?: string,
+  startTime?: string,
+  endTime?: string,
 ): Promise<IrrigationPrescription[]> => {
   const PARTNER_ID = 1;
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
@@ -69,8 +70,8 @@ export const fakeIrrigationPrescriptions = async (
     {
       id: prescriptionIds[0],
       location_id: locationId1,
-      recommended_start_datetime: afterDate
-        ? new Date(afterDate).toISOString()
+      recommended_start_datetime: startTime
+        ? startTime
         : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTask1?.task_id,
@@ -78,8 +79,8 @@ export const fakeIrrigationPrescriptions = async (
     {
       id: prescriptionIds[1],
       location_id: locationId2,
-      recommended_start_datetime: afterDate
-        ? new Date(new Date(afterDate).getTime() + ONE_DAY_IN_MS).toISOString()
+      recommended_start_datetime: endTime
+        ? endTime
         : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
       partner_id: PARTNER_ID,
       task_id: irrigationTask1?.task_id,

@@ -158,6 +158,16 @@ describe('Time Based Notification Tests', () => {
       .end(callback);
   }
 
+  async function postDailyNewIrrigationPrescriptions(data) {
+    const { farm_id } = data;
+    const response = await chai
+      .request(server)
+      .post(`/time_notification/new_irrigation_prescription/${farm_id}`)
+      .send({ isDayLaterThanUtc });
+
+    return response;
+  }
+
   // Clean up after test finishes
   afterAll(async (done) => {
     await tableCleanup(knex);
@@ -580,10 +590,8 @@ describe('Time Based Notification Tests', () => {
             { id: 124, recommended_start_datetime: '2025-05-08T00:00:00Z' },
           ],
         });
-        const res = await chai
-          .request(server)
-          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
-          .send({ isDayLaterThanUtc: false });
+
+        const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
         expect(res.status).toBe(201);
 
@@ -608,18 +616,12 @@ describe('Time Based Notification Tests', () => {
             { id: 224, recommended_start_datetime: '2025-05-08T00:00:00Z' },
           ],
         });
-        const res1 = await chai
-          .request(server)
-          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
-          .send({ isDayLaterThanUtc: false });
+        const res1 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
         // 201 is controller response for notifications sent
         expect(res1.status).toBe(201);
 
-        const res2 = await chai
-          .request(server)
-          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
-          .send({ isDayLaterThanUtc: false });
+        const res2 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
         // 200 is controller response for no notifications sent
         expect(res2.status).toBe(200);

@@ -117,11 +117,11 @@ const timeNotificationController = {
         const { id: irrigation_prescription_id } = prescription;
 
         const previousNotification = await NotificationModel.query()
-          .skipUndefined()
           .where('farm_id', farm_id)
           .whereJsonSupersetOf('context', {
             irrigation_prescription_id,
           })
+          .whereNotDeleted()
           .first();
 
         if (previousNotification) {

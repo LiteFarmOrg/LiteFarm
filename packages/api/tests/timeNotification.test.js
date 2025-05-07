@@ -554,8 +554,6 @@ describe('Time Based Notification Tests', () => {
   describe('New Irrigation Prescription Notification Test', () => {
     let farmWorker;
     beforeEach(async () => {
-      mockedAxios.mockClear();
-
       [farmWorker] = await mocks.usersFactory();
 
       await mocks.userFarmFactory(
@@ -570,15 +568,18 @@ describe('Time Based Notification Tests', () => {
     });
 
     describe('Notification sent tests', () => {
-      test('One notification record should be created per irrigation irrigation prescription ', async () => {
-        mockedAxios.mockResolvedValue({
+      beforeEach(async () => {
+        await mockedAxios.mockClear();
+      });
+
+      test('One notification record should be created per irrigation prescription', async () => {
+        await mockedAxios.mockResolvedValue({
           status: 201,
           data: [
             { id: 123, recommended_start_datetime: '2025-05-07T00:00:00Z' },
             { id: 124, recommended_start_datetime: '2025-05-08T00:00:00Z' },
           ],
         });
-
         const res = await chai
           .request(server)
           .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
@@ -592,12 +593,43 @@ describe('Time Based Notification Tests', () => {
 
         expect(rows).toHaveLength(2);
 
-        // Check content of the first notification
         expect(rows[0].context.irrigation_prescription_id).toBe(123);
         expect(rows[0].ref.url).toBe('/irrigation_prescription/123');
         expect(rows[0].title.translation_key).toBe(
           'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
         );
+      });
+
+      test('Repeat notifications are not sent for the same irrigation prescription', async () => {
+        await mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            { id: 223, recommended_start_datetime: '2025-05-07T00:00:00Z' },
+            { id: 224, recommended_start_datetime: '2025-05-08T00:00:00Z' },
+          ],
+        });
+        const res1 = await chai
+          .request(server)
+          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
+          .send({ isDayLaterThanUtc: false });
+
+        // 201 is controller response for notifications sent
+        expect(res1.status).toBe(201);
+
+        const res2 = await chai
+          .request(server)
+          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
+          .send({ isDayLaterThanUtc: false });
+
+        // 200 is controller response for no notifications sent
+        expect(res2.status).toBe(200);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [223, 224]);
+
+        // There should be exactly 2 records in the DB
+        expect(rows).toHaveLength(2);
       });
     });
   });

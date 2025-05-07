@@ -16,6 +16,7 @@
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 import { locationEnum } from '../Map/constants';
+import useIrrigationPrescriptions from './LocationIrrigation/useIrrigationPrescriptions';
 
 const cropLocations = [
   locationEnum.field,
@@ -29,6 +30,7 @@ const fieldTechnologyLocations = [
   locationEnum.greenhouse,
   locationEnum.farm_site_boundary,
 ];
+const irrigationPrescriptionLocations = fieldTechnologyLocations;
 const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
 
 export default function useLocationRouterTabs(location, match) {
@@ -40,12 +42,15 @@ export default function useLocationRouterTabs(location, match) {
 
   const { type, isAddonSensor } = location;
 
-  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings'];
+  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings', 'irrigation'];
 
   const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 
   const fieldTechnology = useFieldTechnology(location);
   const hasLocationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
+
+  const irrigationPrescriptions = useIrrigationPrescriptions(location);
+  const hasLocationIrrigationPrescriptions = !!irrigationPrescriptions.length;
 
   const routerTabs = [];
 
@@ -73,6 +78,12 @@ export default function useLocationRouterTabs(location, match) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
       path: match.url.replace(currentTab, 'field_technology'),
+    });
+  }
+  if (hasLocationIrrigationPrescriptions && irrigationPrescriptionLocations.includes(type)) {
+    routerTabs.push({
+      label: t('FARM_MAP.TAB.IRRIGATION'),
+      path: match.url.replace(currentTab, 'irrigation'),
     });
   }
   if (readingsLocations.includes(type)) {

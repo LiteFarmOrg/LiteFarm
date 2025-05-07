@@ -36,6 +36,7 @@ import {
   animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
+  irrigationPrescriptionsUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -58,7 +59,9 @@ import type {
   SensorData,
   FarmAddon,
   SensorReadings,
+  IrrigationPrescription,
 } from './types';
+import i18n from '../../locales/i18n';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -96,6 +99,7 @@ export const api = createApi({
     'Sensors',
     'SensorReadings',
     'FarmAddon',
+    'IrrigationPrescriptions',
     'Weather',
   ],
   endpoints: (build) => ({
@@ -290,6 +294,21 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => `${irrigationPrescriptionsUrl}`,
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
   }),
 });
 
@@ -327,4 +346,5 @@ export const {
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
+  useGetIrrigationPrescriptionsQuery,
 } = api;

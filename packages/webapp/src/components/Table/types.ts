@@ -89,6 +89,7 @@ export type TableV2Props<RowData extends TableRowData> = {
   maxHeight?: number | string;
   spacerRowHeight?: number;
   headerClass?: ClassValue;
+  rowClass?: ClassValue;
   tbodyClass?: ClassValue;
   tableContainerClass?: ClassValue;
   extraRowSpacing?: boolean;

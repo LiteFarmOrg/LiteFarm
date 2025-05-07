@@ -34,6 +34,11 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js', () =>
   }),
 );
 
+import axios from 'axios';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
+jest.mock('axios');
+const mockedAxios = axios;
+
 describe('Time Based Notification Tests', () => {
   let farmOwner;
   let farm;
@@ -542,6 +547,57 @@ describe('Time Based Notification Tests', () => {
           expect(notifications.length).toBe(0);
           done();
         });
+      });
+    });
+  });
+
+  describe('New Irrigation Prescription Notification Test', () => {
+    let farmWorker;
+    beforeEach(async () => {
+      mockedAxios.mockClear();
+
+      [farmWorker] = await mocks.usersFactory();
+
+      await mocks.userFarmFactory(
+        {
+          promisedUser: [farmWorker],
+          promisedFarm: [farm],
+        },
+        mocks.fakeUserFarm({ role_id: 3 }),
+      );
+
+      await connectFarmToEnsemble(farm);
+    });
+
+    describe('Notification sent tests', () => {
+      test('One notification record should be created per irrigation irrigation prescription ', async () => {
+        mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            { id: 123, recommended_start_datetime: '2025-05-07T00:00:00Z' },
+            { id: 124, recommended_start_datetime: '2025-05-08T00:00:00Z' },
+          ],
+        });
+
+        const res = await chai
+          .request(server)
+          .post(`/time_notification/new_irrigation_prescription/${farm.farm_id}`)
+          .send({ isDayLaterThanUtc: false });
+
+        expect(res.status).toBe(201);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [123, 124]);
+
+        expect(rows).toHaveLength(2);
+
+        // Check content of the first notification
+        expect(rows[0].context.irrigation_prescription_id).toBe(123);
+        expect(rows[0].ref.url).toBe('/irrigation_prescription/123');
+        expect(rows[0].title.translation_key).toBe(
+          'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
+        );
       });
     });
   });

@@ -18,7 +18,12 @@ export default function LocationSelectionModal({ history, selectingOnly }) {
   );
   const sensorReadings = useSelector(mapSensorSelector);
 
-  if (showSelection && locations.length === 1 && selectedLocation.type === SensorType.SENSOR) {
+  if (
+    showSelection &&
+    locations.length === 1 &&
+    !selectedLocation.isAddonSensor &&
+    selectedLocation.type === SensorType.SENSOR
+  ) {
     return (
       <div className={styles.selectionModal} onClick={dismissSelectionModal}>
         <div className={styles.selectionContainer}>

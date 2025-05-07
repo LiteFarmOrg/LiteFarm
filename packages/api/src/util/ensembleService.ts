@@ -16,7 +16,7 @@
 /**
  * This file extends the Ensemble service (ensemble.js) using TypeScript. When the TS migration of ensemble.js is done, the contents of this file can be moved there.
  */
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
@@ -60,8 +60,34 @@ export const mockGetFarmIrrigationPrescriptions = async (farm_id: string) => {
     },
   ];
 
-  return irrigationPrescriptionsMinimalMock;
+  const mockData = await mockFetchIrrigationPrescriptionsFromEnsemble(farmEnsembleAddon.org_pk);
+
+  return mockData ?? irrigationPrescriptionsMinimalMock;
 };
+
+// Mock Ensemble API call allows mocking axios in tests
+export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: number) {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/${org_pk}/irrigation_prescriptions/`,
+    };
+
+    const onError = (error: AxiosError) => {
+      const status = error.response?.status || 500;
+      const errorDetail = error.message ? `: ${error.message}` : '';
+      const message = `Error fetching IPs from ESci${errorDetail}`;
+      throw customError(message, status);
+    };
+
+    const { data } = (await ensembleAPICall(axiosObject, onError)) as AxiosResponse;
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
 
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions

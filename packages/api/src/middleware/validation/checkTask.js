@@ -16,7 +16,7 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 import { ANIMAL_TASKS, checkAnimalAndBatchIds } from '../../util/animal.js';
-import { CUSTOM_TASK } from '../../util/task.js';
+import { CUSTOM_TASK, IRRIGATION_TASK } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -24,7 +24,7 @@ const taskTypesRequiringProducts = ['soil_amendment_task'];
 const clientRestrictedReasons = ['NO_ANIMALS'];
 
 export function noReqBodyCheckYet() {
-  return async (req, res, next) => {
+  return async (_req, _res, next) => {
     next();
   };
 }
@@ -39,13 +39,8 @@ export function checkAbandonTask() {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const {
-        abandonment_reason,
-        other_abandonment_reason,
-        happiness,
-        duration,
-        abandon_date,
-      } = req.body;
+      const { abandonment_reason, other_abandonment_reason, happiness, duration, abandon_date } =
+        req.body;
 
       // Notifications will not send without, and checks below will be faulty
       if (!user_id) {
@@ -188,6 +183,10 @@ export function checkCreateTask(taskType) {
         await checkAnimalTask(req, taskType, 'due_date');
       }
 
+      if (taskType === IRRIGATION_TASK) {
+        await checkIrrigationTask(req);
+      }
+
       const checkProducts =
         checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
       checkProducts()(req, res, next);
@@ -298,5 +297,22 @@ async function checkAnimalMovementTask(req) {
 
   if (req.body.animal_movement_task?.purpose_ids) {
     checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
+  }
+}
+
+async function checkIrrigationTask(req) {
+  const esciExternalId = req.body?.irrigation_task?.irrigation_prescription_external_id;
+
+  if (esciExternalId) {
+    const existing = await TaskModel.query()
+      .joinRelated('irrigation_task')
+      .select('task.*')
+      .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
+      .whereNotDeleted()
+      .first();
+
+    if (existing) {
+      throw customError('Irrigation prescription already associated with task', 400);
+    }
   }
 }

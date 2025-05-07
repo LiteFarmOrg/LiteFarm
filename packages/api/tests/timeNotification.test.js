@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -392,6 +394,30 @@ describe('Time Based Notification Tests', () => {
           expect(notifications[0].title.translation_key).toBe(
             'NOTIFICATION.DAILY_TASKS_DUE_TODAY.TITLE',
           );
+          done();
+        });
+      });
+
+      test('Daily notification_date correctly matches due_date when isDayLaterThanUtc=true', async (done) => {
+        isDayLaterThanUtc = true;
+        fakeToday = new Date();
+        fakeToday.setDate(fakeToday.getDate() + 1);
+
+        await createFullTask({
+          due_date: fakeToday.toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm.farm_id,
+            'notification.deleted': false,
+          });
+
+          const expectedDate = fakeToday.toISOString().split('T')[0];
+          expect(notifications[0].context.notification_date).toBe(expectedDate);
+
           done();
         });
       });

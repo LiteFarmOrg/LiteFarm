@@ -106,7 +106,7 @@ const IrrigationPrescription = ({
         }
       : {
           ...commonMockData,
-          id: 2,
+          id: isNaN(Number(ip_pk)) ? 2 : Number(ip_pk),
           prescription: {
             vriData: {
               zones: mockVriZones,

@@ -18,7 +18,7 @@ import { LiteFarmRequest, HttpError } from '../types.js';
 import { getEsciPrescriptions } from '../util/ensembleService.js';
 import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js';
 
-interface DELETEMEQueryParams {
+interface IrrigationPrescriptionQueryParams {
   startTime?: string;
   endTime?: string;
   shouldSend?: string;
@@ -26,7 +26,7 @@ interface DELETEMEQueryParams {
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
-    return async (req: LiteFarmRequest<DELETEMEQueryParams>, res: Response) => {
+    return async (req: LiteFarmRequest<IrrigationPrescriptionQueryParams>, res: Response) => {
       try {
         const { farm_id } = req.headers;
         const { startTime, endTime, shouldSend } = req.query;

@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Point } from '../util/ensembleService.types.js';
-
 /**
  * This file should create and hold types that are identical to the model types.
+ * Use Utility types or other means if not suiting purpose
  *
- * TODO: RelationMappings -- not optional, a discriminted type (eg IrrigationTask)
+ * TODO: RelationMappings -- not optional properties but a discriminated type (see IrrigationTask)
  *
  * How to use:
  *  - Keep identical to model
@@ -75,15 +74,6 @@ interface UserTimeStamps extends Timestamps {
 interface BaseProperties extends UserTimeStamps {
   deleted: boolean;
 }
-
-export type AddonPartner = {
-  id: number;
-  name: string;
-  access_token: string;
-  refresh_token: string;
-  root_url: string;
-  deactivated: boolean;
-};
 
 enum FarmUnitSystem {
   IMPERIAL = 'imperial',
@@ -280,6 +270,11 @@ export type Country = {
   symbol: string;
   iso: string;
   unit: string;
+};
+
+export type Point = {
+  lat: number;
+  lng: number;
 };
 
 export interface Farm extends BaseProperties {
@@ -581,4 +576,21 @@ export interface ManagementPlan extends BaseProperties {
   abandon_reason?: string;
   management_plan_group_id: ManagementPlanGroup['management_plan_group_id'];
   repetition_number?: number;
+}
+
+export type AddonPartner = {
+  id: number;
+  name: string;
+  access_token: string;
+  refresh_token: string;
+  root_url: string;
+  deactivated: boolean;
+};
+
+export interface FarmAddon extends BaseProperties {
+  id: number;
+  farm_id: Farm['farm_id'];
+  addon_partner_id: AddonPartner['id'];
+  org_uuid: string;
+  org_pk: number;
 }

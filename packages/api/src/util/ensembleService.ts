@@ -28,13 +28,12 @@ import {
   type LocationAndCropGraph,
   type EnsembleLocationAndCropData,
   type ManagementPlan,
-  type FarmAddon,
   type IrrigationPrescription,
   ExternalIrrigationPrescription,
   isExternalIrrigationPrescriptionArray,
 } from './ensembleService.types.js';
 import TaskModel from '../models/taskModel.js';
-import { AddonPartner, Farm } from '../models/types.js';
+import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
 
 /**
  * Retrieves the external organisation IDs for a specific farm and partner.

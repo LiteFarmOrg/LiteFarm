@@ -13,10 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export interface Point {
-  lat: number;
-  lng: number;
-}
+import { Point } from '../models/types.js';
 
 enum PlantingMethod {
   BED_METHOD = 'bed_method',
@@ -83,14 +80,6 @@ export interface EnsembleLocationAndCropData {
 export interface OrganisationFarmData {
   [org_uuid: string]: EnsembleLocationAndCropData[];
 }
-
-export type FarmAddon = {
-  id: number;
-  farm_id: string;
-  addon_partner_id: number;
-  org_uuid: string;
-  org_pk: number;
-};
 
 export type ExternalIrrigationPrescription = {
   id: number;

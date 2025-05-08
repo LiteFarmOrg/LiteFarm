@@ -382,3 +382,203 @@ export type IrrigationTaskDetails = {
 export interface IrrigationTask extends Task {
   irrigation_task: IrrigationTaskDetails;
 }
+
+enum SeedingType {
+  SEED = 'SEED',
+  SEEDLING_OR_PLANTING_STOCK = 'SEEDLING_OR_PLANTING_STOCK',
+}
+
+enum CropLifecycleType {
+  ANNUAL = 'ANNUAL',
+  PERENNIAL = 'PERENNIAL',
+}
+
+enum IsTreated {
+  YES = 'YES',
+  NO = 'NO',
+  NOT_SURE = 'NOT_SURE',
+}
+
+enum PlantingMethod {
+  BROADCAST_METHOD = 'BROADCAST_METHOD',
+  CONTAINER_METHOD = 'CONTAINER_METHOD',
+  BED_METHOD = 'BED_METHOD',
+  ROW_METHOD = 'ROW_METHOD',
+}
+
+type CropNutrients = {
+  energy: number;
+  ca: number;
+  fe: number;
+  mg: number;
+  k: number;
+  na: number;
+  zn: number;
+  cu: number;
+  fl: number;
+  mn: number;
+  vita_rae: number;
+  vitc: number;
+  thiamin: number;
+  riboflavin: number;
+  niacin: number;
+  vitb6: number;
+  folate: number;
+  vitb12: number;
+  nutrient_credits: number;
+};
+
+enum CropGroup {
+  FRUIT_AND_NUTS = 'Fruit and nuts',
+  OTHER_CROPS = 'Other crops',
+  STIMULANT_SPICE_AND_AROMATIC_CROPS = 'Stimulant, spice and aromatic crops',
+  VEGETABLES_AND_MELONS = 'Vegetables and melons',
+  CEREALS = 'Cereals',
+  HIGH_STARCH_ROOT_TUBER_CROPS = 'High starch root/tuber crops',
+  OILSEED_CROPS_AND_OLEAGINOUS_FRUITS = 'Oilseed crops and oleaginous fruits',
+  LEGUMINOUS_CROPS = 'Leguminous crops',
+  SUGAR_CROPS = 'Sugar crops',
+  POTATOES_AND_YAMS = 'Potatoes and yams',
+  BEVERAGE_AND_SPICE_CROPS = 'Beverage and spice crops',
+}
+
+enum CropSubgroup {
+  BERRIES = 'Berries',
+  CEREALS = 'Cereals',
+  CITRUS_FRUITS = 'Citrus fruits',
+  FIBRE_CROPS = 'Fibre crops',
+  FLOWER_CROPS = 'Flower crops',
+  FRUIT_BEARING_VEGETABLES = 'Fruit-bearing vegetables',
+  GRAPES = 'Grapes',
+  GRASSES_AND_OTHER_FODDER_CROPS = 'Grasses and other fodder crops',
+  HIGH_STARCH_ROOT_TUBER_CROPS = 'High starch root/tuber crops',
+  LEAFY_OR_STEM_VEGETABLES = 'Leafy or stem vegetables',
+  LEGUMINOUS_CROPS = 'Leguminous crops',
+  LENTILS = 'Lentils',
+  MEDICINAL_PESTICIDAL_OR_SIMILAR_CROPS = 'Medicinal, pesticidal or similar crops',
+  MELONS = 'Melons',
+  MIXED_CEREALS = 'Mixed cereals',
+  MUSHROOMS_AND_TRUFFLES = 'Mushrooms and truffles',
+  NUTS = 'Nuts',
+  OILSEED_CROPS_AND_OLEAGINOUS_FRUITS = 'Oilseed crops and oleaginous fruits',
+  OTHER_CROPS = 'Other crops',
+  OTHER_FRUITS = 'Other fruits',
+  OTHER_ROOTS_AND_TUBERS = 'Other roots and tubers',
+  OTHER_TEMPORARY_OILSEED_CROPS = 'Other temporary oilseed crops',
+  PERMANENT_OILSEED_CROPS = 'Permanent oilseed crops',
+  POME_FRUITS_AND_STONE_FRUITS = 'Pome fruits and stone fruits',
+  ROOT_BULB_OR_TUBEROUS_VEGETABLES = 'Root, bulb or tuberous vegetables',
+  RUBBER = 'Rubber',
+  SPICE_AND_AROMATIC_CROPS = 'Spice and aromatic crops',
+  STIMULANT_CROPS = 'Stimulant crops',
+  SUGAR_CROPS = 'Sugar crops',
+  TOBACCO = 'Tobacco',
+  TROPICAL_AND_SUBTROPICAL_FRUITS = 'Tropical and subtropical fruits',
+}
+
+type SeedingAndPlantingDetails = {
+  seeding_type: SeedingType;
+  lifecycle: CropLifecycleType;
+  planting_method?: PlantingMethod;
+  can_be_cover_crop?: boolean;
+  planting_depth?: number;
+  yield_per_area?: number;
+  average_seed_weight?: number;
+  yield_per_plant?: number;
+  plant_spacing?: number;
+  needs_transplant?: boolean;
+  germination_days?: number;
+  transplant_days?: number;
+  harvest_days?: number;
+  termination_days?: number;
+  seeding_rate?: number;
+  hs_code_id?: string | number;
+};
+export interface Crop extends BaseProperties, CropNutrients, Partial<SeedingAndPlantingDetails> {
+  crop_id: number;
+  farm_id: Farm['farm_id'];
+  crop_common_name: string;
+  crop_variety: string;
+  crop_genus: string;
+  crop_specie: string;
+  crop_group?: CropGroup;
+  crop_subgroup?: CropSubgroup;
+  max_rooting_depth: number;
+  depletion_fraction: number;
+  initial_kc: number;
+  mid_kc: number;
+  end_kc: number;
+  max_height: number;
+  percentrefuse: number;
+  protein: number;
+  lipid: number;
+  fl: number;
+  se: number;
+  vite: number;
+  pantothenic: number;
+  vitk: number;
+  is_avg_depth?: boolean;
+  is_avg_nutrient?: boolean;
+  is_avg_kc?: boolean;
+  user_added: boolean;
+  nutrient_notes: string;
+  refuse: string;
+  reviewed: boolean;
+  crop_translation_key: string;
+  crop_photo_url: string;
+}
+export interface CropVariety
+  extends BaseProperties,
+    Partial<CropNutrients>,
+    SeedingAndPlantingDetails {
+  crop_variety_id: string;
+  crop_id: Crop['crop_id'];
+  farm_id: Farm['farm_id'];
+  crop_variety_name?: string;
+  crop_varietal?: string;
+  crop_cultivar?: string;
+  supplier?: string;
+  compliance_file_url?: string;
+  organic?: boolean;
+  treated?: IsTreated;
+  genetically_engineered?: boolean;
+  searched?: boolean;
+  protein?: number;
+  lipid?: number;
+  ph?: number;
+  crop_variety_photo_url: string;
+}
+
+enum Rating {
+  ZERO,
+  ONE,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+}
+
+// TODO: Where is this info?
+type RepetitionConfig = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+};
+export interface ManagementPlanGroup extends BaseProperties {
+  management_plan_group_id: string;
+  repetition_count: number;
+  repetition_config: RepetitionConfig;
+}
+export interface ManagementPlan extends BaseProperties {
+  management_plan_id: number;
+  crop_variety_id: CropVariety['crop_variety_id'];
+  name: string;
+  notes?: string;
+  abandon_date?: string;
+  start_date?: string;
+  complete_date?: string;
+  complete_notes?: string;
+  rating?: Rating;
+  abandon_reason?: string;
+  management_plan_group_id: ManagementPlanGroup['management_plan_group_id'];
+  repetition_number?: number;
+}

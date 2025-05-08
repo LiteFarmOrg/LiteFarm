@@ -320,6 +320,7 @@ export interface SensorReadings {
 export interface IrrigationPrescription {
   id: number;
   location_id: string;
+  management_plan_id?: number | string;
   recommended_start_datetime: string;
   partner_id: number;
   task_id?: number | string;

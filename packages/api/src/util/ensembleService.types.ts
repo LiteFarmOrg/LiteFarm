@@ -94,7 +94,8 @@ export type FarmAddon = {
 
 export type ExternalIrrigationPrescription = {
   id: number;
-  location_id: number | string;
+  location_id: string;
+  management_plan_id?: number;
   recommended_start_datetime: string;
 };
 

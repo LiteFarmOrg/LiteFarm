@@ -17,7 +17,7 @@ import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
 import { IrrigationPrescription } from '../../src/util/ensembleService.types.js';
 import TaskModel from '../../src/models/taskModel.js';
-import { Farm, Location } from '../../src/models/types.js';
+import { Farm, Location, ManagementPlan } from '../../src/models/types.js';
 
 export const connectFarmToEnsemble = async (farm: Farm) => {
   const [farmAddon] = await mocks.farm_addonFactory({
@@ -38,7 +38,8 @@ export const connectFarmToEnsemble = async (farm: Farm) => {
 export const fakeIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   prescriptionIds: IrrigationPrescription['id'][] = [1, 2],
-  locationIds?: Location['location_id'],
+  locationIds?: Location['location_id'][],
+  managementPlanIds?: ManagementPlan['management_plan_id'][],
   startTime?: string,
   endTime?: string,
 ): Promise<IrrigationPrescription[]> => {
@@ -70,6 +71,7 @@ export const fakeIrrigationPrescriptions = async (
     {
       id: prescriptionIds[0],
       location_id: locationId1,
+      management_plan_id: managementPlanIds?.[0] || undefined,
       recommended_start_datetime: startTime
         ? startTime
         : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
@@ -79,6 +81,7 @@ export const fakeIrrigationPrescriptions = async (
     {
       id: prescriptionIds[1],
       location_id: locationId2,
+      management_plan_id: managementPlanIds?.[1] || undefined,
       recommended_start_datetime: endTime
         ? endTime
         : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),

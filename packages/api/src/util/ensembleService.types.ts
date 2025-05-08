@@ -113,3 +113,11 @@ export function isExternalIrrigationPrescriptionArray(
     })
   );
 }
+
+export interface AddonFunctions {
+  getIrrigationPrescriptions: (
+    farmId: string,
+    startTime?: string,
+    endTime?: string,
+  ) => Promise<IrrigationPrescription[]>;
+}

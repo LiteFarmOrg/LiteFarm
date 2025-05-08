@@ -74,7 +74,7 @@ const getExternalOrganisationIds = async (
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const getEsciPrescriptions = async (
+export const getIrrigationPrescriptions = async (
   farmId: string,
   startTime?: string,
   endTime?: string,
@@ -244,3 +244,8 @@ function selectCropData(managementPlans: ManagementPlan[]) {
     };
   });
 }
+
+const ESciAddon = {
+  getIrrigationPrescriptions,
+};
+export default ESciAddon;

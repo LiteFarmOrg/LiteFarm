@@ -85,6 +85,13 @@ const sendOnSchedule = (queueConfig) => {
       utcHour = now.getUTCHours();
     }
 
+    const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
+      expiresIn: '1d',
+      algorithm: 'HS256',
+    });
+
+    const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
+
     for (const { localHour, notificationTypes } of schedules) {
       // ... find the UTC offsets where it just became the specified local hour ...
       const timeZones = getTimeZonesForLocalHour(utcHour, localHour);
@@ -93,17 +100,10 @@ const sendOnSchedule = (queueConfig) => {
       );
 
       // ... and call the API to get farms for those offsets.
-      const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
-        expiresIn: '1d',
-        algorithm: 'HS256',
-      });
-
       for (const timeZone of timeZones) {
         const start = 3600 * timeZone;
         const end = 3600 * (timeZone + 1) - 1;
         console.log(`  offset range is ${start} to ${end} seconds`);
-
-        const reqConfig = { headers: { Authorization: `Bearer ${token}` } };
 
         const res = await axios.get(
           `${apiUrl}/farm/utc_offset_by_range/${start}/${end}`,

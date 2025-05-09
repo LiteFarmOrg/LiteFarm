@@ -19,6 +19,7 @@
  * @param {Request} req - The HTTP request object.
  * @param {Response} res - The HTTP response object.
  * @param {Function} next - Calls the next middleware in the stack
+ * @type {import('express').RequestHandler}
  */
 const hasTimeNotificationsAccess = (req, res, next) => {
   if (req.auth.requestTimedNotifications === true) {

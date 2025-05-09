@@ -245,6 +245,31 @@ function selectCropData(managementPlans: ManagementPlan[]) {
   });
 }
 
+/* Update Ensemble to indicate an irrigation prescription has been approved */
+export async function patchIrrigationPrescriptionApproval(id: number) {
+  try {
+    const axiosObject = {
+      method: 'patch',
+      body: {
+        approved: true,
+      },
+      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+    };
+
+    const onError = (error: AxiosError) => {
+      const status = error.response?.status || 500;
+      const errorDetail = error.message ? `: ${error.message}` : '';
+      const message = `Error patching approval status with ESci${errorDetail}`;
+      throw customError(message, status);
+    };
+
+    await ensembleAPICall(axiosObject, onError);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 const ESciAddon = {
   getIrrigationPrescriptions,
 };

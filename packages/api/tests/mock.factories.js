@@ -2549,13 +2549,21 @@ async function animal_type_use_relationshipFactory({
 }
 
 async function addon_partnerFactory(partner) {
-  return knex('addon_partner')
-    .insert({
-      ...(partner ? partner : { name: faker.company.companyName() }),
-      access_token: faker.datatype.access_token,
-      refresh_token: faker.datatype.refresh_token,
-    })
-    .returning('*');
+  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const [existingPartner] = await knex('addon_partner').where({
+    name: partner ? partner.name : fakePartner.name,
+  });
+
+  if (!existingPartner) {
+    return knex('addon_partner')
+      .insert({
+        ...(partner ? partner : fakePartner),
+        access_token: faker.datatype.access_token,
+        refresh_token: faker.datatype.refresh_token,
+      })
+      .returning('*');
+  }
+  return [existingPartner];
 }
 
 async function farm_addonFactory({

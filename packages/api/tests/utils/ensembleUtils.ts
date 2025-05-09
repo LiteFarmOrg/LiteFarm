@@ -17,15 +17,26 @@ import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
 import { IrrigationPrescription } from '../../src/util/ensembleService.types.js';
 import TaskModel from '../../src/models/taskModel.js';
-import { Farm, Location, ManagementPlan } from '../../src/models/types.js';
+import { AddonPartner, Farm, Location, ManagementPlan } from '../../src/models/types.js';
 
-export const connectFarmToEnsemble = async (farm: Farm) => {
+export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) => {
   const [farmAddon] = await mocks.farm_addonFactory({
     promisedFarm: Promise.resolve([farm]),
-    promisedPartner: mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
+    promisedPartner: partner
+      ? Promise.resolve([partner])
+      : mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND, id: undefined }),
   });
 
   return { farmAddon };
+};
+
+type fakeIrrigationPrescriptionsProps = {
+  farmId: Farm['farm_id'];
+  prescriptionIds?: IrrigationPrescription['id'][];
+  locationIds?: Location['location_id'][];
+  managementPlanIds?: ManagementPlan['management_plan_id'][];
+  startTime?: string;
+  endTime?: string;
 };
 
 /**
@@ -35,14 +46,14 @@ export const connectFarmToEnsemble = async (farm: Farm) => {
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const fakeIrrigationPrescriptions = async (
-  farmId: Farm['farm_id'],
-  prescriptionIds: IrrigationPrescription['id'][] = [1, 2],
-  locationIds?: Location['location_id'][],
-  managementPlanIds?: ManagementPlan['management_plan_id'][],
-  startTime?: string,
-  endTime?: string,
-): Promise<IrrigationPrescription[]> => {
+export const fakeIrrigationPrescriptions = async ({
+  farmId,
+  prescriptionIds = [1, 2],
+  locationIds,
+  managementPlanIds,
+  startTime,
+  endTime,
+}: fakeIrrigationPrescriptionsProps): Promise<IrrigationPrescription[]> => {
   const PARTNER_ID = 1;
   const ONE_HOUR_IN_MS = 1000 * 60 * 60;
   const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;

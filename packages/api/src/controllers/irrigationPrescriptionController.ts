@@ -77,14 +77,12 @@ const irrigationPrescriptionController = {
           return res.status(200).send(irrigationPrescriptions);
         } else {
           // Return data for dev purposes + QA
-          const mockData = await fakeIrrigationPrescriptions(
+          const mockData = await fakeIrrigationPrescriptions({
             // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
-            farm_id,
-            [1, 2],
-            undefined,
+            farmId: farm_id,
             startTime,
             endTime,
-          );
+          });
           return res.status(200).send(mockData);
         }
       } catch (error: unknown) {

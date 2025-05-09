@@ -38,10 +38,13 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble, fakeIrrigationPrescriptions } from './utils/ensembleUtils.js';
-import type { Farm, IrrigationTask, User } from '../src/models/types.js';
+import type { AddonPartner, Farm, IrrigationTask, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
+import { addDaysToDate, getEndOfDate, getStartOfDate } from './utils/date.js';
+import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 
 describe('Get Irrigation Prescription Tests', () => {
+  let ESciAddonPartner: AddonPartner;
   async function postIrrigationTask({
     farm_id,
     user_id,
@@ -62,12 +65,14 @@ describe('Get Irrigation Prescription Tests', () => {
   async function getIrrigationPrescription({
     farm_id,
     user_id,
-    afterDate = new Date().toISOString(),
+    startTime = getStartOfDate(new Date()).toISOString(),
+    endTime = getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
     shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
-    afterDate?: string;
+    startTime?: string;
+    endTime?: string;
     shouldSend?: string;
   }): Promise<Response> {
     return chai
@@ -76,12 +81,13 @@ describe('Get Irrigation Prescription Tests', () => {
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .query({ afterDate, shouldSend });
+      .query({ startTime, endTime, shouldSend });
   }
 
   beforeEach(async () => {
     (mockedAxios as unknown as jest.Mock).mockClear();
     await mocks.populateTaskTypes();
+    [ESciAddonPartner] = await mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND, id: 1 });
   });
 
   afterEach(async () => {
@@ -102,6 +108,7 @@ describe('Get Irrigation Prescription Tests', () => {
           task_translation_key: 'IRRIGATION_TASK',
         });
         const { farm, field, user } = await setupFarmEnvironment(role);
+        const { farmAddon } = await connectFarmToEnsemble(farm, ESciAddonPartner);
 
         // Make one task for prescription 1
         await postIrrigationTask({
@@ -117,11 +124,10 @@ describe('Get Irrigation Prescription Tests', () => {
           }),
         });
 
-        const { farmAddon } = await connectFarmToEnsemble(farm);
-        const irrigationPrescriptions = await fakeIrrigationPrescriptions(farm.farm_id, [
-          MOCK_EXTERNAL_PRESCRIPTION_ID1,
-          MOCK_EXTERNAL_PRESCRIPTION_ID2,
-        ]);
+        const irrigationPrescriptions = await fakeIrrigationPrescriptions({
+          farmId: farm.farm_id,
+          prescriptionIds: [MOCK_EXTERNAL_PRESCRIPTION_ID1, MOCK_EXTERNAL_PRESCRIPTION_ID2],
+        });
 
         expect(irrigationPrescriptions.length).toBe(2);
         expect(irrigationPrescriptions[0].location_id).toBe(field.location_id);

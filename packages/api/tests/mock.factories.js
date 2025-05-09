@@ -2548,10 +2548,10 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
-async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
+async function addon_partnerFactory(partner) {
   return knex('addon_partner')
     .insert({
-      ...partner,
+      ...(partner ? partner : { name: faker.company.companyName() }),
       access_token: faker.datatype.access_token,
       refresh_token: faker.datatype.refresh_token,
     })

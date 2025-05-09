@@ -29,7 +29,6 @@ import {
   type EnsembleLocationAndCropData,
   type ManagementPlan,
   type IrrigationPrescription,
-  ExternalIrrigationPrescription,
   isExternalIrrigationPrescriptionArray,
 } from './ensembleService.types.js';
 import TaskModel from '../models/taskModel.js';
@@ -79,6 +78,7 @@ export const getIrrigationPrescriptions = async (
   startTime?: string,
   endTime?: string,
 ): Promise<IrrigationPrescription[]> => {
+  // Get external organisation ids
   const addonPartnerId = await getAddonPartnerId();
   const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
 
@@ -87,8 +87,8 @@ export const getIrrigationPrescriptions = async (
     method: 'get',
     url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
     params: {
-      start_time: startTime, // ISO form
-      end_time: endTime, // ISO form
+      start_time: startTime, // ISO format
+      end_time: endTime, // ISO format
     },
   };
 
@@ -99,9 +99,8 @@ export const getIrrigationPrescriptions = async (
     throw customError(message, status);
   };
 
-  const { data } = (await ensembleAPICall(axiosObject, onError)) as {
-    data: ExternalIrrigationPrescription[];
-  };
+  // Get and check data
+  const { data } = await ensembleAPICall(axiosObject, onError);
 
   if (!data?.length) {
     return [];
@@ -111,11 +110,13 @@ export const getIrrigationPrescriptions = async (
     throw customError(`${ENSEMBLE_BRAND} irrigation prescription data not in expected format`);
   }
 
+  // Get irrigation tasks
   const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
     farmId,
     data.map(({ id }) => id),
   );
 
+  // Format response
   const irrigationPrescriptions: IrrigationPrescription[] = data.map((irrigationPrescription) => {
     const foundTask = irrigationTasksWithExternalId.find(
       (task) =>

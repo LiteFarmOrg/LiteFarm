@@ -24,7 +24,7 @@ export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) 
     promisedFarm: Promise.resolve([farm]),
     promisedPartner: partner
       ? Promise.resolve([partner])
-      : mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND, id: undefined }),
+      : mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
   });
 
   return { farmAddon };

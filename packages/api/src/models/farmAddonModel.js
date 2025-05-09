@@ -123,10 +123,10 @@ class FarmAddon extends baseModel {
   }
 
   /**
-   * Retrieves all organization identifiers (uuid, pk) for a given addon partner.
+   * Retrieves unique addon partner ids from farm addons.
    *
    * @param {string} farmId - The ID of the farm.
-   * @returns {Promise<Array<{addon_partner_id: number}>>} The organization identifiers and the farm they are associated with
+   * @returns {Promise<Array<{addon_partner_id: number}>>} The partner identifiers for the farm queried.
    */
   static async getDistinctFarmAddonPartnerIds(farmId) {
     return FarmAddon.query()

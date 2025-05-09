@@ -515,13 +515,13 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Returns farm tasks where not deleted that has an external id
+   * Returns farm tasks for an array of external ids
    *
-   * @param {string} farmId - the farm requesting irrigation tasks
-   * @param {number[]} externalIds - the farm requesting irrigation tasks
+   * @param {string} farmId - The farm requesting irrigation tasks.
+   * @param {number[]} externalIds - Array of external irrigation prescription ids of interest.
    * @static
    * @async
-   * @returns {import('./types.js').IrrigationTask[]} - Object array with task id property only.
+   * @returns {import('./types.js').IrrigationTask[]} - Returns found irrigation tasks.
    */
   static async getIrrigationTasksWithExternalIdByFarm(farmId, externalIds) {
     return await TaskModel.query()

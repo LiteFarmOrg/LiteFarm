@@ -31,11 +31,15 @@
 
 .rating {
   display: table-row;
+
 }
-
 .deleteText {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--grey600);
   padding-bottom: 16px;
-
+  gap: 5px;
   span {
     text-decoration: none;
   }
@@ -101,4 +105,23 @@
 
 .section {
   margin-bottom: 24px;
+}
+.footerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+.buttonGroup button {
+  flex: 1;
+}
+
+.trashIcon {
+  fill: var(--grey600);
+  stroke: var(--grey600);
 }

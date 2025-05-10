@@ -177,24 +177,40 @@ export default function PureTaskReadOnly({
         (canCompleteTask || canAbandonTask) &&
         isCurrent && (
           <>
-            <Button
-              data-cy="taskReadOnly-abandon"
-              color={'secondary'}
-              onClick={onAbandon}
-              fullLength
-              disabled={!canAbandonTask}
-            >
-              {t('TASK.ABANDON.ABANDON')}
-            </Button>
-            <Button
-              data-cy="taskReadOnly-complete"
-              color={'primary'}
-              onClick={onComplete}
-              fullLength
-              disabled={!canCompleteTask}
-            >
-              {t('common:MARK_COMPLETE')}
-            </Button>
+            <div className={styles.footerContainer}>
+              <div className={styles.deleteButtonWrapper}>
+                {isAdmin && isCurrent && !isDeleting && (
+                  <IconLink
+                    className={styles.deleteText}
+                    onClick={preDelete}
+                    isIconClickable
+                    icon={<TrashIcon className={styles.trashIcon} />}
+                  >
+                    {t('TASK.DELETE.DELETE_TASK')}
+                  </IconLink>
+                )}
+              </div>
+              <div className={styles.buttonGroup}>
+                <Button
+                  data-cy="taskReadOnly-abandon"
+                  color={'secondary'}
+                  onClick={onAbandon}
+                  fullLength
+                  disabled={!canAbandonTask}
+                >
+                  {t('TASK.ABANDON.ABANDON')}
+                </Button>
+                <Button
+                  data-cy="taskReadOnly-complete"
+                  color={'primary'}
+                  onClick={onComplete}
+                  fullLength
+                  disabled={!canCompleteTask}
+                >
+                  {t('common:MARK_COMPLETE')}
+                </Button>
+              </div>
+            </div>
           </>
         )
       }
@@ -462,25 +478,6 @@ export default function PureTaskReadOnly({
         />
       )}
 
-      {isAdmin && isCurrent && !isDeleting && (
-        <IconLink
-          className={styles.deleteText}
-          style={{ color: 'var(--grey600)' }}
-          icon={
-            <TrashIcon
-              style={{
-                fill: 'var(--grey600)',
-                stroke: 'var(--grey600)',
-                transform: 'translate(0px, 6px)',
-              }}
-            />
-          }
-          onClick={preDelete}
-          isIconClickable
-        >
-          {t('TASK.DELETE.DELETE_TASK')}
-        </IconLink>
-      )}
       {isDeleting && isTaskType(taskType, 'PLANT_TASK') && (
         <DeleteBox
           color="warning"

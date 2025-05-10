@@ -1,0 +1,105 @@
+{
+  "name": "LiteFarm Codespace",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18.16.1",
+      "installYarnUsingApt": false
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "cSpell.language": "pl,en",
+        "cSpell.words": ["LiteFarm"],
+        "cSpell.overrides": [
+          {
+            "filename": "packages/api/src/jobs/locales/en/*.*",
+            "language": "en"
+          },
+          {
+            "filename": "packages/api/src/jobs/locales/pl/*.*",
+            "language": "pl"
+          },
+          {
+            "filename": "packages/api/src/templates/locales/en.json",
+            "language": "en"
+          },
+          {
+            "filename": "packages/api/src/templates/locales/pl.json",
+            "language": "pl"
+          },
+          {
+            "filename": "packages/webapp/public/locales/en/*.*",
+            "language": "en"
+          },
+          {
+            "filename": "packages/webapp/public/locales/pl/*.*",
+            "language": "pl"
+          }
+        ],
+        "cSpell.ignorePaths": [
+          "package-lock.json",
+          "node_modules",
+          "**/node_modules",
+          "vscode-extension",
+          ".git/objects",
+          ".vscode",
+          ".vscode-insiders",
+          ".gradle",
+          ".svn",
+          "logs",
+          ".cache"
+        ],
+        "files.defaultLanguage": "en",
+        "vscode.php-language-features": false,
+        "vscode.php": false,
+        "vscode.swift": false,
+        "vscode.rust": false,
+        "vscode.ruby": false,
+        "vscode.r": false,
+        "vscode.pug": false,
+        "vscode.objective-c": false,
+        "vscode.make": false,
+        "vscode.lua": false,
+        "vscode.less": false,
+        "vscode.go": false,
+        "vscode.dart": false,
+        "vscode.fsharp": false,
+        "vscode.coffeescript": false,
+        "vscode.csharp": false,
+        "vscode.vb": false,
+        "vscode.latex": false,
+        "vscjava.vscode-maven": false
+      },
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-polish",
+        "streetsidesoftware.code-spell-checker-british-english",
+        "redhat.vscode-yaml",
+        "shd101wyy.markdown-preview-enhanced"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 5001, 5433, 9000, 8088],
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend (React)"
+    },
+    "5001": {
+      "label": "Backend (Express)"
+    },
+    "5433": {
+      "label": "Postgres"
+    },
+    "9000": {
+      "label": "MinIO"
+    },
+    "8088": {
+      "label": "Imaginary"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postStartCommand": "bash .devcontainer/post-start.sh"
+}

@@ -17,6 +17,16 @@ import JSZip from 'jszip';
 import { useEffect, useState } from 'react';
 import { mediaEnum } from '../MediaWithAuthentication/constants';
 
+const s3Service = import.meta.env.VITE_S3_SERVICE ? new URL(import.meta.env.VITE_S3_SERVICE) : null;
+
+function replaceFileUrl(url) {
+  if (!s3Service) return false;
+  url.hostname = s3Service.hostname;
+  url.port = s3Service.port;
+  url.protocol = s3Service.protocol;
+  return true;
+}
+
 export default function useMediaWithAuthentication({
   fileUrls = [],
   title = '',
@@ -47,8 +57,10 @@ export default function useMediaWithAuthentication({
           await Promise.all(
             fileUrls.map(async (fileUrl) => {
               const url = new URL(fileUrl);
-              if (import.meta.env.VITE_ENV !== 'development') {
-                url.hostname = 'images.litefarm.workers.dev';
+              if (!replaceFileUrl(url)) {
+                if (import.meta.env.VITE_ENV !== 'development') {
+                  url.hostname = 'images.litefarm.workers.dev';
+                }
               }
               return fetch(url.toString(), config).then((response) => {
                 const blobFilePromise = response.blob();
@@ -61,11 +73,11 @@ export default function useMediaWithAuthentication({
         } else {
           const fileUrl = fileUrls[0];
           if (fileUrl) {
-            if (import.meta.env.VITE_ENV === 'development') {
+            if (import.meta.env.VITE_ENV === 'development' && !s3Service) {
               subscribed && setMediaUrl(fileUrl);
             } else {
               const url = new URL(fileUrl);
-              url.hostname = 'images.litefarm.workers.dev';
+              if (!replaceFileUrl(url)) url.hostname = 'images.litefarm.workers.dev';
               const response = await fetch(url.toString(), config);
               const blobFile = await response.blob();
               subscribed && setMediaUrl(URL.createObjectURL(blobFile));

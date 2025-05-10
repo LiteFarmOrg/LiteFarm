@@ -14,9 +14,9 @@ export default (nextQueue, emailQueue) => (job, done) => {
     `temp/${exportId}`, // destination
     '--recursive',
     `--endpoint=${
-      process.env.NODE_ENV === 'development'
-        ? process.env.MINIO_ENDPOINT
-        : 'https://nyc3.digitaloceanspaces.com'
+        process.env.S3_ENDPOINT || (process.env.NODE_ENV === 'development'
+            ? process.env.MINIO_ENDPOINT
+            : 'https://nyc3.digitaloceanspaces.com')
     }`,
     '--exclude=*',
   ].concat(files.map(({ url }) => `--include=${url.split('/').pop()}`));

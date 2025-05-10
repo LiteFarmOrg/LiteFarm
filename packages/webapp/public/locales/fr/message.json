@@ -54,9 +54,9 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter de nouvelles dépenses",
       "DELETE": "Impossible de supprimer les dépenses",
-      "UPDATE": "Impossible de mettre à jour les dépenses",
       "EXPENSE_DELETED": "Cette dépense n'existe plus",
-      "EXPENSE_TYPE_DELETED": "Ce type de dépense a été supprimé"
+      "EXPENSE_TYPE_DELETED": "Ce type de dépense a été supprimé",
+      "UPDATE": "Impossible de mettre à jour les dépenses"
     },
     "SUCCESS": {
       "ADD": "Nouvelles dépenses ajoutées",
@@ -85,6 +85,10 @@
     "SUCCESS": {
       "UPDATE": "Informations sur l'exploitation mises à jour !"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "SUCCESS_DISCONNECT_ADDON": ""
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -185,8 +189,8 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter la vente",
       "DELETE": "Impossible de supprimer la vente",
-      "UPDATE": "Impossible de mettre à jour la vente",
-      "SALE_DELETED": "Cette vente n'existe plus"
+      "SALE_DELETED": "Cette vente n'existe plus",
+      "UPDATE": "Impossible de mettre à jour la vente"
     },
     "SUCCESS": {
       "ADD": "Vente ajoutée",

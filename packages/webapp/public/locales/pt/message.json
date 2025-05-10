@@ -54,9 +54,9 @@
     "ERROR": {
       "ADD": "Falha ao adicionar novas despesas",
       "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!",
       "EXPENSE_DELETED": "Essa despesa não existe mais",
-      "EXPENSE_TYPE_DELETED": "Esse tipo de despesa foi eliminado"
+      "EXPENSE_TYPE_DELETED": "Esse tipo de despesa foi eliminado",
+      "UPDATE": "Falha ao atualizar despesas!"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -85,6 +85,10 @@
     "SUCCESS": {
       "UPDATE": "Informação da fazenda atualizada com sucesso!"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "SUCCESS_DISCONNECT_ADDON": ""
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -185,8 +189,8 @@
     "ERROR": {
       "ADD": "Falha ao adicionar venda",
       "DELETE": "Falha de excluir venda nova",
-      "UPDATE": "Falha de atualizar venda",
-      "SALE_DELETED": "Essa venda não existe mais"
+      "SALE_DELETED": "Essa venda não existe mais",
+      "UPDATE": "Falha de atualizar venda"
     },
     "SUCCESS": {
       "ADD": "Venda adicionada com sucesso",

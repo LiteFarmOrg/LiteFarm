@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "l18nson",
+    "version": "0.0.1",
+    "description": "This is an extension to assist with localization of webpages using locale json files.",
+    "permissions": [
+      "activeTab",
+      "storage",
+      ""
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*/*"],
+            "js": ["hh.js", "content.js"]
+        }
+    ],
+    "background": {
+      "service_worker": "worker.js",
+      "persistent": false
+    }
+}

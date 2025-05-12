@@ -93,7 +93,7 @@ const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
         isCompactSideMenu={isCompactSideMenu}
         onAfterSave={onAfterSave}
         showLoading
-        hideFormNavigationButtons={!isEditing}
+        isEditing={isEditing}
       />
     </div>
   );

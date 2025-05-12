@@ -61,7 +61,56 @@ import type {
   SensorReadings,
   IrrigationPrescription,
 } from './types';
-import i18n from '../../locales/i18n';
+
+/**
+ * These tags have endpoints that do not return farm specific data, and are not created by a farm
+ *
+ *  LiteFarm provides these data as defaults
+ */
+export const LibraryTags = [
+  'DefaultAnimalBreeds',
+  'AnimalSexes',
+  'AnimalIdentifierTypes',
+  'AnimalIdentifierColors',
+  'AnimalMovementPurposes',
+  'AnimalOrigins',
+  'AnimalUses',
+  'AnimalRemovalReasons',
+  'SoilAmendmentMethods',
+  'SoilAmendmentPurposes',
+  'SoilAmendmentFertiliserTypes',
+];
+
+/**
+ * These tags contain endpoints that return farm specific data
+ *
+ * These data should not persist when switching farms,
+ * or should be stored in a separate farm store.
+ */
+export const FarmTags = [
+  'Animals',
+  'AnimalBatches',
+  'CustomAnimalBreeds',
+  'CustomAnimalTypes',
+  'SoilAmendmentProduct',
+  'Sensors',
+  'SensorReadings',
+  'FarmAddon',
+  'IrrigationPrescriptions',
+  'Weather',
+];
+
+/**
+ * These tags contain endpoints that could either return farm specific data
+ * or farm neutral defaults data.
+ *
+ * For data safety these data should also not persist when switching farms,
+ * or should be stored in a separate farm store.
+ */
+export const FarmLibraryTags = [
+  // 'count' param returns farm specific data
+  'AnimalIdentifierTypes',
+];
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -73,35 +122,11 @@ export const api = createApi({
       headers.set('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
       headers.set('user_id', state.entitiesReducer.userFarmReducer.user_id || '');
       headers.set('farm_id', state.entitiesReducer.userFarmReducer.farm_id || '');
-
       return headers;
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [
-    'Animals',
-    'AnimalBatches',
-    'CustomAnimalBreeds',
-    'CustomAnimalTypes',
-    'DefaultAnimalBreeds',
-    'DefaultAnimalTypes',
-    'AnimalSexes',
-    'AnimalIdentifierTypes',
-    'AnimalIdentifierColors',
-    'AnimalMovementPurposes',
-    'AnimalOrigins',
-    'AnimalUses',
-    'AnimalRemovalReasons',
-    'SoilAmendmentMethods',
-    'SoilAmendmentPurposes',
-    'SoilAmendmentFertiliserTypes',
-    'SoilAmendmentProduct',
-    'Sensors',
-    'SensorReadings',
-    'FarmAddon',
-    'IrrigationPrescriptions',
-    'Weather',
-  ],
+  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

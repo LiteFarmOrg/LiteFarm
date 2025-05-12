@@ -25,23 +25,42 @@ export enum DesktopDrawerVariants {
   MODAL = 'modal',
 }
 
-interface DrawerProps {
+type CommonDrawerProps = {
   title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
-  desktopVariant?: DesktopDrawerVariants;
   addBackdrop?: boolean;
   classes?: {
     modal?: string;
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
-    drawerContainer?: string;
+    drawerContainer?: string; // applied to all drawers
+    desktopSideDrawerContainer?: string;
   };
-}
+};
+
+type DrawerProps = CommonDrawerProps &
+  (
+    | {
+        desktopVariant?: DesktopDrawerVariants.DRAWER | DesktopDrawerVariants.MODAL;
+        desktopSideDrawerDirection?: never;
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection?: 'right';
+        isCompactSideMenu?: never;
+      }
+    | {
+        desktopVariant: DesktopDrawerVariants.SIDE_DRAWER;
+        desktopSideDrawerDirection: 'left';
+        isCompactSideMenu: boolean;
+      }
+  );
 
 const Drawer = ({
   title,
@@ -55,13 +74,18 @@ const Drawer = ({
     drawerHeader: '',
     drawerContent: '',
     drawerContainer: '',
+    desktopSideDrawerContainer: '',
   },
   fullHeight,
   desktopVariant = DesktopDrawerVariants.MODAL,
+  desktopSideDrawerDirection = 'right',
+  isCompactSideMenu,
   addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const isDesktopSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
 
   return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
@@ -88,13 +112,17 @@ const Drawer = ({
       <div
         className={clsx(
           styles.drawer,
-          isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER
-            ? styles.sideDrawer
-            : styles.bottomDrawer,
+          isDesktopSideDrawer ? styles.sideDrawer : styles.bottomDrawer,
+          isDesktopSideDrawer && styles[desktopSideDrawerDirection],
+          desktopSideDrawerDirection === 'left' && isCompactSideMenu
+            ? styles.withCompactSideMenu
+            : styles.withExpandedSideMenu,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,
+          isDesktopSideDrawer && classes.desktopSideDrawerContainer,
         )}
+        inert={!isOpen ? '' : null}
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>

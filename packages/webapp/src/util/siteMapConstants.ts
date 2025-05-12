@@ -74,6 +74,9 @@ export const createReadonlyCustomRevenueUrl = (id: string | number): string => {
 };
 
 // Tasks
+export const ADD_TASK_DETAILS = '/add_task/task_details';
+export const ADD_TASK_ASSIGNMENT = '/add_task/task_assignment';
+
 // First complete page for cleaning, field work, irrigation, pest, planting, soil amendment, transplant tasks
 export const createBeforeCompleteTaskUrl = (id: string | number): string => {
   return `/tasks/${id}/before_complete`;
@@ -88,3 +91,37 @@ export const createCompleteHarvestQuantityTaskUrl = (id: string | number): strin
 export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
   return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
 };
+
+// Maps
+export const MAP_URL = '/map';
+export const ADD_SENSORS_URL = '/add_sensors';
+export const SENSORS_URL = '/sensors';
+
+// Sensors
+export const createSensorsUrl = (partnerId?: number): string => {
+  return `/sensors${partnerId ? `?partner_id=${partnerId}` : ''}`;
+};
+
+// Smart Irrigation
+export const IRRIGATION_PRESCRIPTION_URL = '/irrigation_prescription';
+
+const LOCATION_TYPE_ROUTES = [
+  '/barn',
+  '/buffer_zone',
+  '/ceremonial_area',
+  '/farm_site_boundary',
+  '/fence',
+  '/field',
+  '/garden',
+  '/gate',
+  '/greenhouse',
+  '/natural_area',
+  '/residence',
+  '/sensor',
+  '/sensor_array',
+  '/surface_water',
+  '/watercourse',
+];
+
+// For top menu navigation title
+export const MAP_ROUTES = [...LOCATION_TYPE_ROUTES, IRRIGATION_PRESCRIPTION_URL];

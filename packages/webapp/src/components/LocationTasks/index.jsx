@@ -1,5 +1,4 @@
-import React from 'react';
-import Layout from '../Layout';
+import CardLayout from '../Layout/CardLayout';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
@@ -10,16 +9,16 @@ import PageBreak from '../PageBreak';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { onAddTask } from '../../containers/Task/onAddTask';
 import { useDispatch } from 'react-redux';
+import { Variant } from '../RouterTab/Tab';
 
 export default function PureLocationTasks({
   location,
   history,
   match,
-  hasCrops,
   tasks,
   count,
-  hasReadings,
   isAdmin,
+  routerTabs,
 }) {
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
@@ -58,37 +57,15 @@ export default function PureLocationTasks({
       .map((key) => renderTasksForDay(key, tasks[key]));
   };
 
-  const routerTabs = [
-    {
-      label: t('FARM_MAP.TAB.TASKS'),
-      path: match.url,
-    },
-    {
-      label: t('FARM_MAP.TAB.DETAILS'),
-      path: match.url.replace('tasks', 'details'),
-    },
-  ];
-
-  if (hasCrops) {
-    routerTabs.splice(0, 0, {
-      label: t('FARM_MAP.TAB.CROPS'),
-      path: match.url.replace('tasks', 'crops'),
-    });
-  } else if (hasReadings) {
-    routerTabs.splice(0, 0, {
-      label: t('FARM_MAP.TAB.READINGS'),
-      path: match.url.replace('tasks', 'readings'),
-    });
-  }
-
   return (
-    <Layout>
+    <CardLayout>
       <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
         match={match}
         tabs={routerTabs}
+        variant={Variant.UNDERLINE}
       />
       <TaskCount
         handleAddTask={onAddTask(dispatch, history, { location })}
@@ -100,6 +77,6 @@ export default function PureLocationTasks({
       ) : (
         <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
       )}
-    </Layout>
+    </CardLayout>
   );
 }

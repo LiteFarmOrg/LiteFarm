@@ -25,20 +25,30 @@ export type MeatballsMenuProps = {
   disabled: boolean;
 };
 
+interface MenuProps {
+  autoFocusItem: boolean;
+  id: string;
+  'aria-labelledby': string;
+  onCloseMenu: () => void;
+}
+
 const MeatballsMenu = ({ options, classes, disabled = false }: MeatballsMenuProps) => {
+  const Menu = forwardRef<HTMLUListElement, MenuProps>((menuProps, ref) => (
+    <FloatingMenu
+      ref={ref}
+      options={options}
+      classes={{ menuItem: styles.menuItem }}
+      {...menuProps}
+    />
+  ));
+  Menu.displayName = 'Menu';
+
   return (
     <DropdownButton
       type={'v2'}
       noIcon
       classes={{ button: clsx(styles.menuButton, classes?.button) }}
-      Menu={forwardRef((menuProps, ref) => (
-        <FloatingMenu
-          ref={ref}
-          options={options}
-          classes={{ menuItem: styles.menuItem }}
-          {...menuProps}
-        />
-      ))}
+      Menu={Menu}
       menuPositionOffset={[0, 1]}
       disabled={disabled}
     >

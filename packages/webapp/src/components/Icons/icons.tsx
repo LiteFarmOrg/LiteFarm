@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
+import { FunctionComponent } from 'react';
+
 // Finances Carousel
 import { ReactComponent as ExpenseIcon } from '../../assets/images/finance/Expense-icn.svg';
 import { ReactComponent as CropIcon } from '../../assets/images/finance/Crop-icn.svg';
@@ -61,16 +63,28 @@ import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
+// Map
+import { ReactComponent as VideoLogo } from '../../assets/images/map/video.svg';
+
 // System
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
-import { FunctionComponent } from 'react';
+import { ReactComponent as ClockFast } from '../../assets/images/clock-fast.svg';
+import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
 
 // Input
 import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
+
+// Devices
+import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
+
+// Irrigation Prescription
+import { ReactComponent as Dot } from '../../assets/images/dot.svg';
 
 // Animal type: icon map
 const animalTypeIcons = {
@@ -130,16 +144,26 @@ export const iconMap = {
   REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
+  // Map
+  VIDEO_LOGO: VideoLogo,
   // System
+  EXTERNAL_LINK: ExternalLinkIcon,
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
   EDIT: EditIcon,
   CHEVRON_LEFT: ChevronLeft,
+  RULER: Ruler,
+  CLOCK_FAST: ClockFast,
   // Input
   LOCKED: LockedIcon,
+  CALENDAR: CalendarIcon,
 
   LOCATION: LocationIcon,
+
+  SENSOR: SensorIcon,
+
+  DOT: Dot,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

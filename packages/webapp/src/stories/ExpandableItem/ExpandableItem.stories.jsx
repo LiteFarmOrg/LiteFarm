@@ -23,6 +23,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
 import { AnimalFormHeaderItem } from '../../components/Animals/AddAnimalsForm/AnimalFormHeaderItem';
+import MainContent from '../../components/Expandable/MainContent';
 
 export default {
   title: 'Components/Expandable',
@@ -276,10 +277,4 @@ export const PillInTitleExpandable = {
       transactionStyles={false}
     />
   ),
-};
-
-const PillBodyClasses = {
-  mainContentWrapper: styles.mainContentWrapper,
-  mainContentWithIcon: styles.mainContentWithIcon,
-  alwaysVisibleContent: styles.alwaysVisibleContent,
 };

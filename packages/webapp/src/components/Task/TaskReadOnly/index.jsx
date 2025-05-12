@@ -253,12 +253,13 @@ export default function PureTaskReadOnly({
               //  TODO: fix onSelectLocationRef in LocationPicker
             }}
             readOnlyPinCoordinates={task.pinCoordinates}
-            style={{ minHeight: '160px', marginBottom: '40px' }}
+            style={{ minHeight: '320px', marginBottom: '40px' }}
             locations={task.locations}
             selectedLocationIds={task.selectedLocationIds || []}
             farmCenterCoordinate={user.grid_points}
             maxZoomRef={maxZoomRef}
             getMaxZoom={getMaxZoom}
+            disableHover={true}
           />
         </>
       ) : null}

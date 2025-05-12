@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
-import Layout from '../Layout';
+import CardLayout from '../Layout/CardLayout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
 import PureManagementPlanTile from '../CropTile/ManagementPlanTile';
@@ -10,6 +10,7 @@ import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
 import { AddLink } from '../Typography';
+import { Variant } from '../RouterTab/Tab';
 
 export default function PureCropList({
   onFilterChange,
@@ -22,6 +23,7 @@ export default function PureCropList({
   isAdmin,
   title,
   location,
+  routerTabs,
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
@@ -32,27 +34,16 @@ export default function PureCropList({
     padding,
     cardWidth,
   } = useCropTileListGap([activeCrops?.length, plannedCrops?.length, pastCrops?.length]);
+
   return (
-    <Layout>
+    <CardLayout>
       <PageTitle title={title} onGoBack={() => history.push('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
         match={match}
-        tabs={[
-          {
-            label: t('FARM_MAP.TAB.CROPS'),
-            path: match.url,
-          },
-          {
-            label: t('FARM_MAP.TAB.TASKS'),
-            path: match.url.replace('crops', 'tasks'),
-          },
-          {
-            label: t('FARM_MAP.TAB.DETAILS'),
-            path: match.url.replace('crops', 'details'),
-          },
-        ]}
+        tabs={routerTabs}
+        variant={Variant.UNDERLINE}
       />
       {isSearchable && (
         <Input
@@ -150,6 +141,6 @@ export default function PureCropList({
           </>
         )}
       </div>
-    </Layout>
+    </CardLayout>
   );
 }

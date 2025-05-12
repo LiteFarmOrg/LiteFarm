@@ -1,15 +1,7 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm } from 'react-hook-form';
-import LocationButtons from '../../LocationButtons';
 import { ceremonialEnum } from '../../../../containers/constants';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
-import { BarnDetailChildren } from '../Barn';
 
 export default function PureCeremonialAreaWrapper(props) {
   return (
@@ -59,7 +51,6 @@ export function PureCeremonialArea({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'CEREMONIAL_AREA'}
-      tabs={['tasks', 'details']}
       showPerimeter={true}
     />
   );

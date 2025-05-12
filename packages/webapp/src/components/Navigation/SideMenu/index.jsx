@@ -16,7 +16,7 @@ import { matchPath } from 'react-router-dom';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
-import Drawer, { DesktopDrawerVariants } from '../../Drawer';
+import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -235,7 +235,6 @@ const PureSideMenu = ({
         isOpen={isDrawerOpen}
         onClose={onDrawerClose}
         fullHeight
-        desktopVariant={DesktopDrawerVariants.DRAWER}
         classes={{
           drawerContainer: styles.drawerContainer,
           drawerHeader: styles.drawerHeader,

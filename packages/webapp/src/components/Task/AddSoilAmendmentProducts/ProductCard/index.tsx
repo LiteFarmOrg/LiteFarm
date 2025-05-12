@@ -196,7 +196,7 @@ const SoilAmendmentProductCard = ({
 
       {purposes?.includes(otherPurposeId) && (
         <>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Input
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             name={OTHER_PURPOSE}

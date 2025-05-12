@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AreaDetails from '../AreaDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import Input from '../../../Form/Input';
 import { fieldEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../LocationButtons';
-import Form from '../../../Form';
-import LocationPageHeader from '../../LocationPageHeader';
-import RouterTab from '../../../RouterTab';
-
 import { getDateInputFormat } from '../../../../util/moment';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import RadioGroup from '../../../Form/RadioGroup';
@@ -81,7 +75,6 @@ export function PureField({
       translationKey={'FIELD'}
       detailsChildren={<FieldDetailsChildren isViewLocationPage={isViewLocationPage} />}
       showPerimeter={true}
-      tabs={['crops', 'tasks', 'details']}
     />
   );
 }

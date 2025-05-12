@@ -28,5 +28,5 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] The precommit and linting ran successfully
 - [ ] I have added or updated language tags for text that's part of the UI
-- [ ] I have added "MISSING" for all new language tags to languages I don't speak
+- [ ] I have ordered translation keys alphabetically (optional: run `pnpm i18n` to help with this)
 - [ ] I have added [the GNU General Public License](https://lite-farm.atlassian.net/l/cp/BT0Dd7WW) to all new files

@@ -35,7 +35,7 @@ jobs:
           - postgres-data:/var/lib/postgresql/data
     strategy:
       matrix:
-        node-version: [18.16.1]
+        node-version: [20.17.0]
     env:
       JWT_SECRET: This_will_(really)_work
       JWT_INVITE_SECRET: Any_arbitrary_string_will_do
@@ -69,9 +69,9 @@ jobs:
           DEV_DATABASE_PASSWORD: postgres
           NODE_ENV: development
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: latest
+          package_json_file: "packages/webapp/package.json"
       - name: Run Webapp
         working-directory: packages/webapp
         run: |
@@ -99,7 +99,7 @@ jobs:
           ci-build-id: ${{ github.run_id }}
 
       - name: Archive backend logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: logs
           path: packages/api/logs

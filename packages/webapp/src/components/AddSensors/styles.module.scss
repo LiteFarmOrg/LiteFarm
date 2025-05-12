@@ -1,0 +1,153 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/mixin.scss';
+
+.wrapper {
+  padding: 34px 32px 0 32px;
+
+  @include xs-breakpoint {
+    padding: 24px 24px 0 24px;
+  }
+}
+
+.lead {
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.partner {
+  display: flex;
+  gap: 8px;
+  padding-left: 8px;
+
+  .logo {
+    flex-shrink: 0;
+    display: flex;
+    width: 64px;
+    height: 64px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    border: 1px solid var(--Colors-Primary-Primary-teal-200);
+    box-shadow: 0px 0.741px 0px 0px var(--Colors-Primary-Primary-teal-400);
+    background-color: var(--White);
+  }
+
+  .info {
+    .name {
+      color: var(--Colors-Primary-Primary-teal-700);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 18px;
+      margin-bottom: 4px;
+    }
+
+    .url {
+      color: #000;
+      font-size: 16px;
+    }
+  }
+}
+
+// Sensor connection setup
+.sensorSetup {
+  margin-top: 32px;
+  color: var(--Colors-Neutral-Neutral-400);
+  font-size: 16px;
+}
+
+.idInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Backgrounds-Disabled-grey);
+  background: var(--Colors-Backgrounds-Background-color);
+
+  h5 {
+    color: var(--Colors-Neutral-Neutral-500);
+    font-size: 16px;
+  }
+}
+
+// Current connection
+.connectionInfo {
+  margin-top: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  border-radius: 4px;
+  background: var(--Box-bg);
+
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.activeConnection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .infoText {
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.manage {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+
+  svg path {
+    fill: currentColor;
+  }
+
+  span {
+    padding: 0 20px;
+    text-align: center;
+  }
+}
+
+.toSensorSetupButton {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 8px;
+  border-radius: 4px;
+  background: #fff;
+
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  color: var(--Colors-Neutral-Neutral-900);
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+
+  svg path {
+    fill: currentColor;
+  }
+}

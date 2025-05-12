@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import ForecastInfo from './ForecastInfo';
@@ -12,16 +12,30 @@ import { getSensorsReadings } from '../SensorReadings/saga';
 import { bulkSensorsReadingsSliceSelector } from '../bulkSensorReadingsSlice';
 import { TEMPERATURE } from './constants';
 import styles from './styles.module.scss';
+import useLocationRouterTabs from '../LocationDetails/useLocationRouterTabs';
+import { Variant } from '../../components/RouterTab/Tab';
+import CardLayout from '../../components/Layout/CardLayout';
+import useGroupedSensors from '../SensorList/useGroupedSensors';
 
 function SensorReadings({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { location_id } = match?.params;
+  const { location_id } = match?.params || {};
   const [readingTypes, setReadingTypes] = useState([]);
   const [locationData, setLocationData] = useState();
 
-  const sensorInfo = useSelector(sensorsSelector(location_id));
+  // Grandfathered sensors
+  const sensorInfoFromStore = useSelector(sensorsSelector(location_id));
+
+  const { groupedSensors } = useGroupedSensors();
+
+  const sensorInfoFromGroupedSensors = groupedSensors.find((gs) => gs.location_id === location_id);
+
+  const sensorInfo = sensorInfoFromStore || sensorInfoFromGroupedSensors;
+
+  // Grandfathered sensors
   const reading_types = useSelector(sensorReadingTypesByLocationSelector(location_id));
+
   const { loading, sensorDataByLocationIds } = useSelector(bulkSensorsReadingsSliceSelector);
 
   //Keeps sensor readings up to date for location
@@ -33,16 +47,16 @@ function SensorReadings({ history, match }) {
 
   // Handles unknown records and keeping readingTypes up to date
   useEffect(() => {
-    if (sensorInfo === undefined || reading_types === undefined || sensorInfo?.deleted) {
+    if (sensorInfo === undefined || sensorInfo?.deleted) {
       history.replace('/unknown_record');
     } else {
-      setReadingTypes(reading_types.reading_types);
+      setReadingTypes(reading_types?.reading_types);
     }
   }, [sensorInfo, reading_types]);
 
   //Runs the saga update store
   useEffect(() => {
-    if (location_id && readingTypes.length) {
+    if (location_id && readingTypes?.length) {
       dispatch(
         getSensorsReadings({
           locationIds: [location_id],
@@ -52,39 +66,29 @@ function SensorReadings({ history, match }) {
     }
   }, [readingTypes, location_id]);
 
+  const routerTabs = sensorInfo && useLocationRouterTabs(sensorInfo, match);
+  const pageTitle =
+    sensorInfo.isAddonSensor && sensorInfo.type === 'sensor'
+      ? sensorInfo.sensors[0].name
+      : sensorInfo.name || '';
+
   return (
     <>
       {sensorInfo && !sensorInfo.deleted && (
-        <div className={styles.container}>
-          <PageTitle
-            title={sensorInfo?.name || ''}
-            onGoBack={() => history.push('/map')}
-            style={{ marginBottom: '24px' }}
-          />
+        <CardLayout>
+          <PageTitle title={pageTitle} onGoBack={() => history.push('/map')} />
           <RouterTab
             classes={{ container: { margin: '30px 8px 26px 8px' } }}
             history={history}
-            tabs={[
-              {
-                label: t('SENSOR.VIEW_HEADER.READINGS'),
-                path: `/sensor/${location_id}/readings`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.TASKS'),
-                path: `/sensor/${location_id}/tasks`,
-              },
-              {
-                label: t('SENSOR.VIEW_HEADER.DETAILS'),
-                path: `/sensor/${location_id}/details`,
-              },
-            ]}
+            tabs={routerTabs}
+            variant={Variant.UNDERLINE}
           />
           {loading && (
             <div className={styles.loaderWrapper}>
               <Spinner />
             </div>
           )}
-          {!loading && readingTypes.includes(TEMPERATURE) && locationData?.temperature && (
+          {!loading && readingTypes?.includes(TEMPERATURE) && locationData?.temperature && (
             <ForecastInfo data={locationData.temperature} />
           )}
           {!loading && locationData && readingTypes?.length > 0
@@ -102,7 +106,7 @@ function SensorReadings({ history, match }) {
                   );
                 })
             : null}
-        </div>
+        </CardLayout>
       )}
     </>
   );

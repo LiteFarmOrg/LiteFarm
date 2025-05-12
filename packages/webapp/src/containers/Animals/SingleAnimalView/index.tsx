@@ -210,7 +210,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
                 onBack={history.back}
-                /* @ts-ignore */
+                /* @ts-expect-error */
                 animalOrBatch={defaultFormValues}
                 locationText={locationText}
                 defaultBreeds={defaultAnimalBreeds}
@@ -237,9 +237,9 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
             history={history}
             getSteps={getFormSteps}
             defaultFormValues={defaultFormValues}
-            cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
+            headerComponent={null}
           />
         )}
         <RemoveAnimalsModal

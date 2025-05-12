@@ -4,25 +4,15 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import {
-  DEFAULT_ZOOM,
-  GMAPS_API_KEY,
-  isArea,
-  isLine,
-  locationEnum,
-  SENSOR_BULK_UPLOAD_SUCCESS,
-} from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import {
   sendMapToEmail,
   setSpotlightToShown,
-  bulkUploadSensorsInfoFile,
   getSensorReadings,
   getAllSensorReadingTypes,
-  resetBulkUploadSensorsInfoFile,
-  resetShowTransitionModalState,
 } from './saga';
 import {
   canShowSuccessHeader,
@@ -39,8 +29,6 @@ import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
-import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
-import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransitionModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -65,10 +53,6 @@ import {
   setIsRedrawing,
   hookFormPersistIsRedrawingSelector,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import {
-  bulkSensorsUploadSliceSelector,
-  bulkSensorsUploadReInit,
-} from '../../containers/bulkSensorUploadSlice';
 import LocationSelectionModal from './LocationSelectionModal';
 import { useMaxZoom } from './useMaxZoom';
 import {
@@ -77,6 +61,11 @@ import {
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
+import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
+import {
+  cleanupGeometryListeners,
+  cleanupInstanceListeners,
+} from '../../util/google-maps/cleanupListeners';
 
 export default function Map({ history, isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -88,7 +77,6 @@ export default function Map({ history, isCompactSideMenu }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
-  const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
   const [gMapBounds, setGMapBounds] = useState(null);
@@ -127,24 +115,8 @@ export default function Map({ history, isCompactSideMenu }) {
     }
     return () => {
       dispatch(canShowSuccessHeader(false));
+      dispatch(setMapAddDrawerHide(farm_id));
     };
-  }, []);
-
-  useEffect(() => {
-    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful && gMaps && gMap) {
-      getMaxZoom(gMaps, gMap);
-      setShowBulkSensorUploadModal(false);
-    }
-  }, [bulkSensorsUploadResponse?.isBulkUploadSuccessful, gMaps, gMap]);
-
-  useEffect(() => {
-    setShowBulkSensorUploadModal(false);
-  }, [bulkSensorsUploadResponse?.showTransitionModal]);
-
-  useEffect(() => {
-    if (history.location.state?.notification_type === SENSOR_BULK_UPLOAD_SUCCESS) {
-      dispatch(setMapFilterShowAll(farm_id));
-    }
   }, []);
 
   const [
@@ -183,7 +155,6 @@ export default function Map({ history, isCompactSideMenu }) {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
-  const [showBulkSensorUploadModal, setShowBulkSensorUploadModal] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -218,11 +189,28 @@ export default function Map({ history, isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer({
+  const { drawAssets, assetGeometriesRef, markerClusterRef } = useMapAssetRenderer({
     isClickable: !drawingState.type,
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
   });
+
+  // Cleanup listeners on map instance objects
+  useEffect(() => {
+    if (!gMaps) return;
+    return () => {
+      if (assetGeometriesRef.current) {
+        cleanupGeometryListeners(assetGeometriesRef.current, gMaps);
+      }
+      if (markerClusterRef.current) {
+        cleanupInstanceListeners(markerClusterRef.current, gMaps);
+      }
+      if (drawingState.drawingManager) {
+        cleanupInstanceListeners(drawingState.drawingManager, gMaps);
+      }
+    };
+  }, [gMaps]);
+
   const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps, map);
@@ -389,8 +377,7 @@ export default function Map({ history, isCompactSideMenu }) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
-      setShowBulkSensorUploadModal(true);
-      dispatch(resetBulkUploadSensorsInfoFile());
+      history.push(ADD_SENSORS_URL);
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
@@ -401,16 +388,13 @@ export default function Map({ history, isCompactSideMenu }) {
 
   const mapWrapperRef = useRef();
 
-  const handleShowVideo = () => {
+  const handleVideoClick = () => {
     history.push('/map/videos');
   };
 
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
-    if (bulkSensorsUploadResponse?.isBulkUploadSuccessful) {
-      dispatch(bulkSensorsUploadReInit());
-    }
   };
 
   useEffect(() => {
@@ -462,11 +446,6 @@ export default function Map({ history, isCompactSideMenu }) {
     return lineTypesWithWidth.includes(type);
   };
 
-  const dismissBulkSensorsUploadModal = () => {
-    setShowBulkSensorUploadModal(false);
-    dispatch(setMapAddDrawerShow(farm_id));
-  };
-
   const {
     showAdjustAreaSpotlightModal,
     showAdjustLineSpotlightModal,
@@ -478,15 +457,14 @@ export default function Map({ history, isCompactSideMenu }) {
     <>
       {!drawingState.type && !showSuccessHeader && (
         <PureMapHeader
-          className={styles.mapHeader}
           farmName={farm_name}
-          showVideo={handleShowVideo}
+          handleVideoClick={handleVideoClick}
           isAdmin={is_admin}
         />
       )}
       {showSuccessHeader && (
         <PureSnackbarWithoutBorder
-          className={styles.mapHeader}
+          className={styles.successSnackbar}
           onDismiss={handleCloseSuccessHeader}
           title={successMessage}
         />
@@ -559,8 +537,8 @@ export default function Map({ history, isCompactSideMenu }) {
             showSpotlight={!showedSpotlight.map}
             resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
-            onClickExport={handleClickExport}
             showModal={showExportModal}
+            onClickExport={handleClickExport}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={(showAddDrawer) => {
@@ -573,6 +551,7 @@ export default function Map({ history, isCompactSideMenu }) {
             onAddMenuClick={handleAddMenuClick}
             availableFilterSettings={availableFilterSettings}
             isMapFilterSettingActive={isMapFilterSettingActive}
+            isCompactSideMenu={isCompactSideMenu}
           />
         )}
         {showExportModal && (
@@ -611,22 +590,6 @@ export default function Map({ history, isCompactSideMenu }) {
             dismissModal={() => {
               setShowAdjustLineSpotlightModal(false);
               dispatch(setSpotlightToShown('adjust_line'));
-            }}
-          />
-        )}
-        {showBulkSensorUploadModal && (
-          <BulkSensorUploadModal
-            dismissModal={dismissBulkSensorsUploadModal}
-            onUpload={(file) => {
-              const payload = { file };
-              dispatch(bulkUploadSensorsInfoFile(payload));
-            }}
-          />
-        )}
-        {(bulkSensorsUploadResponse?.showTransitionModal ?? false) && (
-          <BulkUploadTransitionModal
-            dismissModal={() => {
-              dispatch(resetShowTransitionModalState());
             }}
           />
         )}

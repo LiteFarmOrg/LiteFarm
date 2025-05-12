@@ -65,7 +65,7 @@ export const useQuantityApplicationRate = ({
     /* set unit of the total area component according to default breakpoints */
     setValue(
       TOTAL_AREA_AMENDED_UNIT,
-      /* @ts-ignore */
+      /* @ts-expect-error */
       getUnitOptionMap()[getDefaultUnit(location_area, calculatedArea, system).displayUnit],
       { shouldValidate: true },
     );
@@ -141,7 +141,7 @@ export const useQuantityApplicationRate = ({
       previewStringUnit =
         total_area_unit && location_area[system].units.includes(total_area_unit)
           ? getUnitOptionMap()[total_area_unit]
-          : /* @ts-ignore */
+          : /* @ts-expect-error */
             getUnitOptionMap()[getDefaultUnit(location_area, total_area, system).displayUnit];
 
       previewStringValue =

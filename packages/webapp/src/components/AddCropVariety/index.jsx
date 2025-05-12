@@ -123,7 +123,6 @@ export default function PureAddCropVariety({
         onGoBack={handleGoBack}
         onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
-        cancelModalTitle={t('CROP_CATALOGUE.CANCEL')}
         value={progress}
       />
 

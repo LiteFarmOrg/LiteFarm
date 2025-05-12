@@ -106,7 +106,6 @@ PureDrawingManager.prototype = {
   className: PropTypes.string,
   style: PropTypes.object,
   farmName: PropTypes.string,
-  showVideo: PropTypes.func,
   showZeroAreaWarning: PropTypes.bool,
   showLineModal: PropTypes.bool,
   confirmLine: PropTypes.func,

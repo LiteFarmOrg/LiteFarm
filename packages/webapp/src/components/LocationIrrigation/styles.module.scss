@@ -1,0 +1,63 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.subtitle {
+  margin-bottom: 16px;
+  padding-left: 8px;
+
+  @include fontFamily();
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.tableContainer {
+  // To show the last rows box-shadow
+  height: calc(100% + 1px);
+}
+
+.tableHeader.tableHeader {
+  border-top: 0px;
+  border-bottom: 0px;
+  font-weight: 700;
+  letter-spacing: 0.07px;
+}
+
+.tableRow.tableRow {
+  background-color: transparent;
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
+}
+
+.tableCell.tableCell {
+  padding: 8px;
+}
+
+.compactTableCell {
+  // Aligns items to the right
+  display: flex;
+  align-items: center;
+}
+
+.dateCell.dateCell {
+  gap: 0px;
+}
+
+.tableBody.tableBody::before {
+  display: none;
+}

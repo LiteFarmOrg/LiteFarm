@@ -38,8 +38,8 @@ async function tableCleanup(knex) {
     .update({ default_initial_location_id: null });
   return knex.raw(`
     DELETE FROM "partner_reading_type";
-    DELETE FROM "farm_external_integration";
-    DELETE FROM "integrating_partner";
+    DELETE FROM "farm_addon";
+    DELETE FROM "addon_partner";
     DELETE FROM "sensor_reading_type";
     DELETE FROM "sensor_reading";
     DELETE FROM "sensor";
@@ -144,6 +144,8 @@ async function tableCleanup(knex) {
     DELETE FROM "default_animal_type";
     DELETE FROM "custom_animal_type";
     DELETE FROM "animal_removal_reason";
+    DELETE FROM "farm_addon";
+    DELETE FROM "addon_partner";
     DELETE FROM "location";
     DELETE FROM "userFarm";
     DELETE FROM "farm";

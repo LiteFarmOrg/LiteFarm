@@ -34,6 +34,9 @@ import {
   productUrl,
   url,
   animalMovementPurposesUrl,
+  sensorUrl,
+  farmAddonUrl,
+  irrigationPrescriptionsUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -53,7 +56,12 @@ import type {
   AnimalOrigin,
   AnimalUse,
   AnimalMovementPurpose,
+  SensorData,
+  FarmAddon,
+  SensorReadings,
+  IrrigationPrescription,
 } from './types';
+import i18n from '../../locales/i18n';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -88,6 +96,11 @@ export const api = createApi({
     'SoilAmendmentPurposes',
     'SoilAmendmentFertiliserTypes',
     'SoilAmendmentProduct',
+    'Sensors',
+    'SensorReadings',
+    'FarmAddon',
+    'IrrigationPrescriptions',
+    'Weather',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -238,6 +251,64 @@ export const api = createApi({
         }),
       },
     ),
+    getSensors: build.query<SensorData, void>({
+      query: () => `${sensorUrl}`,
+      keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
+      providesTags: ['Sensors'],
+    }),
+    getSensorReadings: build.query<
+      SensorReadings[],
+      {
+        esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+        startTime?: string; // ISO 8601
+        endTime?: string; // ISO 8601
+        truncPeriod?: 'minute' | 'hour' | 'day';
+      }
+    >({
+      query: ({ esids, startTime, endTime, truncPeriod }) => {
+        const params = new URLSearchParams({ esids });
+        if (startTime) params.append('startTime', startTime);
+        if (endTime) params.append('endTime', endTime);
+        if (truncPeriod) params.append('truncPeriod', truncPeriod);
+        return `${sensorUrl}/readings?${params.toString()}`;
+      },
+      providesTags: ['SensorReadings'],
+    }),
+    addFarmAddon: build.mutation<void, FarmAddon>({
+      query: (body) => ({
+        url: `${farmAddonUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['FarmAddon'],
+    }),
+    getFarmAddon: build.query<FarmAddon[], string | void>({
+      query: (param = '') => `${farmAddonUrl}${param}`,
+      providesTags: ['FarmAddon'],
+    }),
+    deleteFarmAddon: build.mutation<void, number>({
+      query: (id) => ({
+        url: `${farmAddonUrl}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, error) =>
+        error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
+    }),
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => `${irrigationPrescriptionsUrl}`,
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
   }),
 });
 
@@ -268,4 +339,12 @@ export const {
   useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
+  useGetSensorsQuery,
+  useGetSensorReadingsQuery,
+  useLazyGetSensorsQuery,
+  useLazyGetSensorReadingsQuery,
+  useAddFarmAddonMutation,
+  useGetFarmAddonQuery,
+  useDeleteFarmAddonMutation,
+  useGetIrrigationPrescriptionsQuery,
 } = api;

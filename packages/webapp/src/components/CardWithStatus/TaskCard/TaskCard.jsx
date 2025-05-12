@@ -32,11 +32,8 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
-const getDate = (date, language = 'en') => {
-  return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
-};
-
 import useLanguageOptions, { languageCodes } from '../../../hooks/useLanguageOptions';
+import { getIntlDate } from '../../../util/date-migrate-TS';
 
 export const PureTaskCard = ({
   taskType,
@@ -117,7 +114,10 @@ export const PureTaskCard = ({
           >
             <CalendarIcon />
             <div data-cy="taskCard-dueDate">
-              {getDate(status === 'abandoned' ? props['abandonDate'] : completeOrDueDate, language)}
+              {getIntlDate(
+                status === 'abandoned' ? props['abandonDate'] : completeOrDueDate,
+                language,
+              )}
             </div>
           </div>
           {assignee ? (

@@ -81,6 +81,7 @@ export const Default: Story = {
           return (
             <CompositionInputs
               {...args}
+              inputsInfo={args.inputsInfo}
               mainLabel="Composition"
               unitOptions={unitOptions}
               error={fieldState.error?.message}
@@ -124,6 +125,7 @@ export const WithError: Story = {
     return (
       <CompositionInputs
         {...args}
+        inputsInfo={args.inputsInfo}
         mainLabel="Composition"
         unitOptions={unitOptions}
         onChange={onChange}
@@ -156,6 +158,7 @@ export const SwitchModes: Story = {
             return (
               <CompositionInputs
                 {...args}
+                inputsInfo={args.inputsInfo}
                 mainLabel="Composition"
                 unitOptions={unitOptions}
                 disabled={disabled}
@@ -250,6 +253,7 @@ export const SixInputs: Story = {
           return (
             <CompositionInputs
               {...args}
+              inputsInfo={args.inputsInfo}
               error={fieldState.error?.message}
               values={field.value}
               onChange={(name, value) => {

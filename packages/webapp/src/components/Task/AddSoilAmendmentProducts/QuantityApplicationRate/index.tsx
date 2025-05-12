@@ -143,7 +143,7 @@ const QuantityApplicationRate = ({
       />
       <div className={styles.applicationRateCard}>
         <div>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Unit
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.QUANTITY')}
             data-cy="soilAmendment-quantity"
@@ -193,7 +193,7 @@ const QuantityApplicationRate = ({
                   defaultValue={100}
                 />
                 <SwapIcon />
-                {/* @ts-ignore */}
+                {/* @ts-expect-error */}
                 <Unit
                   register={register}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.TOTAL_AREA')}
@@ -210,7 +210,7 @@ const QuantityApplicationRate = ({
                   required
                 />
               </div>
-              {/* @ts-ignore */}
+              {/* @ts-expect-error */}
               <Unit
                 label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.APPLICATION_RATE')}
                 register={register}

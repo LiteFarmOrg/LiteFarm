@@ -51,6 +51,10 @@ import {
 } from './waterValveSlice';
 import { sensorEntitiesSelector, sensorSelector, sensorStatusSelector } from './sensorSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
+import {
+  standaloneSensorsSelector,
+  sensorArraysSelector,
+} from '../store/api/selectors/sensorSelectors';
 
 export const sortedAreaSelector = createSelector(
   [
@@ -202,12 +206,18 @@ export const lineStatusSelector = createSelector(
 );
 
 export const pointSelector = createSelector(
-  [gatesSelector, waterValvesSelector, sensorSelector],
-  (gates, waterValves, sensor) => {
+  [
+    gatesSelector,
+    waterValvesSelector,
+    sensorSelector,
+    sensorArraysSelector,
+    standaloneSensorsSelector,
+  ],
+  (gates, waterValves, sensor, sensorArrays, standaloneSensors) => {
     const result = {};
     result[locationEnum.gate] = gates;
     result[locationEnum.water_valve] = waterValves;
-    result[locationEnum.sensor] = sensor;
+    result[locationEnum.sensor] = [...sensor, ...sensorArrays, ...standaloneSensors];
     return result;
   },
 );

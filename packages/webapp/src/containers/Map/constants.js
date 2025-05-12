@@ -18,6 +18,7 @@ export const getAreaLocationTypes = () => [
   locationEnum.surface_water,
   locationEnum.natural_area,
   locationEnum.residence,
+  locationEnum.irrigation_zone,
 ];
 
 export const isArea = (type) => {
@@ -41,11 +42,25 @@ export const isNoFillArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
+  return [
+    locationEnum.watercourse,
+    locationEnum.fence,
+    locationEnum.buffer_zone,
+    locationEnum.pivot_arm,
+  ].includes(type);
 };
 
 export const isPoint = (type) => {
-  return [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor].includes(type);
+  return [
+    locationEnum.gate,
+    locationEnum.water_valve,
+    locationEnum.sensor,
+    locationEnum.sensor_array,
+  ].includes(type);
+};
+
+export const isCircle = (type) => {
+  return [locationEnum.pivot].includes(type);
 };
 
 export const locationEnum = {
@@ -62,8 +77,12 @@ export const locationEnum = {
   gate: 'gate',
   water_valve: 'water_valve',
   sensor: 'sensor',
+  sensor_array: 'sensor_array',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
+  pivot: 'pivot',
+  pivot_arm: 'pivot_arm',
+  irrigation_zone: 'irrigation_zone',
 };
 
 export const bulkSenorUploadErrorTypeEnum = {

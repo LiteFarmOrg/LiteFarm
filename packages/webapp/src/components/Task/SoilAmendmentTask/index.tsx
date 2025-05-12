@@ -182,7 +182,7 @@ const PureSoilAmendmentTask = ({
         />
         {methodId === methodIdsMap['FURROW_HOLE'] && (
           <>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <Unit
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.FURROW_HOLE_DEPTH')}
               name={FURROW_HOLE_DEPTH}
@@ -203,7 +203,7 @@ const PureSoilAmendmentTask = ({
         )}
         {methodId === methodIdsMap['OTHER'] && (
           <>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <Input
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD')}
               name={OTHER_APPLICATION_METHOD}

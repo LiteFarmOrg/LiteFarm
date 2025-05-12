@@ -1,23 +1,16 @@
-import React, { useMemo, useEffect } from 'react';
-import {
-  manualFilteredTaskCardContentSelector,
-  taskCardContentSelector,
-  getTaskStatus,
-} from '../../Task/taskCardContentSelector';
-import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
+import { useEffect } from 'react';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
-import {
-  cropLocationByIdSelector,
-  locationByIdSelector,
-  locationsSelector,
-} from '../../locationSlice';
+import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
+import useLocationTasks from './useLocationTasks';
+import useLocationRouterTabs from '../useLocationRouterTabs';
 
-export default function LocationTasks({ history, match, location: { pathname } }) {
+export default function LocationTasks({ history, match }) {
   const isAdmin = useSelector(isAdminSelector);
-  const { user_id, farm_id } = useSelector(userFarmSelector);
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
+  const routerTabs = useLocationRouterTabs(location, match);
 
   useEffect(() => {
     if (location === undefined) {
@@ -25,37 +18,7 @@ export default function LocationTasks({ history, match, location: { pathname } }
     }
   }, [location]);
 
-  const areCropEnabled = ['field', 'garden', 'greenhouse', 'buffer_zone'];
-  const areReadingEnabled = ['sensor'];
-
-  const hasCrops = areCropEnabled.includes(pathname.split('/')[1]);
-  const hasReadings = areReadingEnabled.includes(pathname.split('/')[1]);
-
-  const filter = (taskList) => {
-    const activeStatus = ['planned', 'late'];
-    return taskList.filter(
-      (t) =>
-        t.locations.find((loc) => loc.location_id === location_id) &&
-        activeStatus.includes(getTaskStatus(t)),
-    );
-  };
-
-  const locationTasks = useSelector(manualFilteredTaskCardContentSelector(filter));
-
-  const { tasks, count } = useMemo(() => {
-    return locationTasks.reduce(
-      (previous, current) => {
-        previous.count++;
-        if (!Object.keys(previous.tasks).includes(current.date)) {
-          previous.tasks[current.date] = [current];
-        } else {
-          previous.tasks[current.date].push(current);
-        }
-        return previous;
-      },
-      { count: 0, tasks: {} },
-    );
-  }, [locationTasks]);
+  const { tasks, count } = useLocationTasks(location_id);
 
   return (
     <>
@@ -67,8 +30,7 @@ export default function LocationTasks({ history, match, location: { pathname } }
           isAdmin={isAdmin}
           tasks={tasks}
           count={count}
-          hasCrops={hasCrops}
-          hasReadings={hasReadings}
+          routerTabs={routerTabs}
         />
       )}
     </>

@@ -1,4 +1,4 @@
-FROM node:18.16.1
+FROM node:20.17
 
 WORKDIR /usr/src/app
 
@@ -10,6 +10,6 @@ COPY ./api/ /usr/src/app/
 
 COPY ./shared/ /usr/src/shared/
 
-RUN npm install -g nodemon
+RUN npm run build
 
-CMD npm run migrate:dev:db && nodemon --exec 'npm run start:prod || echo // `date` >> crashlog.js'
+CMD npm run migrate:dev:db && npm run start:prod || echo // `date` >> crashlog.js 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
@@ -8,13 +8,14 @@ import {
   DEFAULT_ZOOM,
   GMAPS_API_KEY,
   isPoint,
+  isCircle,
   DEFAULT_MAX_ZOOM,
 } from '../../../containers/Map/constants';
 import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   createMarkerClusters,
   DEFAULT_POLYGON_OPACITY,
-  drawCropLocation,
+  drawLocation,
   SELECTED_POLYGON_OPACITY,
 } from './drawLocations';
 import { usePropRef } from './usePropRef';
@@ -22,6 +23,12 @@ import { getOverlappedAreaAndLines } from './getOverlappedAreaAndLines';
 import PureSelectionHandler from './PureMapLocationSelectionModal';
 import styles from './styles.module.scss';
 import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
+import clsx from 'clsx';
+import { GestureHandling } from './types';
+import {
+  cleanupGeometryListeners,
+  cleanupInstanceListeners,
+} from '../../../util/google-maps/cleanupListeners';
 
 const LocationPicker = ({
   onSelectLocation,
@@ -38,6 +45,11 @@ const LocationPicker = ({
   getMaxZoom,
   maxZoom,
   disabled = false,
+  className = '',
+  showControls = true,
+  disableHover = false,
+  showOverlappingAreasModal = true,
+  gestureHandling = GestureHandling.GREEDY,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
@@ -74,8 +86,18 @@ const LocationPicker = ({
 
   useEffect(() => {
     if (maxZoom && gMap && gMaps && gMapBounds) {
-      drawLocations(gMap, gMaps, gMapBounds);
+      drawAllLocations(gMap, gMaps, gMapBounds);
     }
+
+    // Cleanup event listeners
+    return () => {
+      if (gMaps && geometriesRef.current) {
+        cleanupGeometryListeners(geometriesRef.current, gMaps);
+      }
+      if (gMaps && markerClusterRef.current) {
+        cleanupInstanceListeners(markerClusterRef.current, gMaps);
+      }
+    };
   }, [maxZoom, gMap, gMaps, gMapBounds]);
 
   useEffect(() => {
@@ -146,9 +168,9 @@ const LocationPicker = ({
     }
   };
 
-  const drawLocations = (map, maps, mapBounds) => {
+  const drawAllLocations = (map, maps, mapBounds) => {
     locations.forEach((location) => {
-      const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
+      const assetGeometry = drawLocation(map, maps, mapBounds, location, disableHover);
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
       if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
@@ -157,8 +179,13 @@ const LocationPicker = ({
         maps.event.addListener(assetGeometry.marker, 'click', (e) =>
           onSelectLocationRef.current(assetGeometry.location.location_id),
         );
+      } else if (isCircle(assetGeometry.location.type)) {
+        maps.event.addListener(assetGeometry.circle, 'click', (e) => areaOnClick(e.latLng, maps));
       } else {
-        maps.event.addListener(assetGeometry.polygon, 'click', (e) => areaOnClick(e.latLng, maps));
+        maps.event.addListener(assetGeometry.polygon, 'click', (e) => {
+          console.log('event listener firing');
+          areaOnClick(e.latLng, maps);
+        });
       }
     });
     createMarkerClusters(
@@ -187,10 +214,27 @@ const LocationPicker = ({
 
   const setSelectedGeometryStyle = (assetGeometry) => {
     if (isPoint(assetGeometry.location.type)) {
-      assetGeometry?.marker?.setOptions({ icon: selectedIcons[assetGeometry.location.type] });
+      assetGeometry?.marker?.setOptions({
+        icon: selectedIcons[assetGeometry.location.type],
+      });
+    } else if (isCircle(assetGeometry.location.type)) {
+      assetGeometry?.marker?.setOptions({
+        label: {
+          ...(assetGeometry?.marker?.label || {}),
+          color: 'black',
+        },
+      });
+      assetGeometry.circle.setOptions({
+        fillColor: assetGeometry.styles.selectedColour || 'white',
+        fillOpacity: SELECTED_POLYGON_OPACITY,
+        strokeColor: assetGeometry.styles.selectedColour || 'white',
+      });
     } else {
       assetGeometry?.marker?.setOptions({
-        label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
+        label: {
+          ...(assetGeometry?.marker?.label || {}),
+          color: 'black',
+        },
       });
       assetGeometry.polygon.setOptions({
         fillColor: assetGeometry.styles.selectedColour || 'white',
@@ -215,6 +259,7 @@ const LocationPicker = ({
 
   const getMapOptions = (maps) => {
     return {
+      disableDefaultUI: !showControls,
       styles: [
         {
           featureType: 'poi.business',
@@ -226,7 +271,7 @@ const LocationPicker = ({
           ],
         },
       ],
-      gestureHandling: 'greedy',
+      gestureHandling: gestureHandling,
       disableDoubleClickZoom: false,
       minZoom: 1,
       tilt: 0,
@@ -278,25 +323,27 @@ const LocationPicker = ({
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
 
-    const zoomControlDiv = document.createElement('div');
-    const rootZoomControlDiv = createRoot(zoomControlDiv);
-    rootZoomControlDiv.render(
-      <CustomZoom
-        style={{ margin: '12px' }}
-        onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
-        onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
-      />,
-    );
-    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
+    if (showControls) {
+      const zoomControlDiv = document.createElement('div');
+      const rootZoomControlDiv = createRoot(zoomControlDiv);
+      rootZoomControlDiv.render(
+        <CustomZoom
+          style={{ margin: '12px' }}
+          onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
+          onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
+        />,
+      );
+      map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
-    const compassControlDiv = document.createElement('div');
-    const rootCompassControlDiv = createRoot(compassControlDiv);
-    rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
-    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
+      const compassControlDiv = document.createElement('div');
+      const rootCompassControlDiv = createRoot(compassControlDiv);
+      rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
+      map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
+    }
 
     // Drawing locations on map
     drawWildCropPins(map, maps, mapBounds);
-    drawLocations(map, maps, mapBounds);
+    drawAllLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
     setGMap(map);
     setGMaps(maps);
@@ -305,7 +352,11 @@ const LocationPicker = ({
   };
 
   return (
-    <div data-cy="map-selectLocation" className={styles.mapContainer} style={style}>
+    <div
+      data-cy="map-selectLocation"
+      className={clsx(styles.mapContainer, className)}
+      style={style}
+    >
       <GoogleMap
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{
@@ -319,7 +370,7 @@ const LocationPicker = ({
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
       />
-      {overlappedPositions.length > 1 && !isPinMode && (
+      {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
         <PureSelectionHandler
           locations={overlappedPositions}
           onSelect={onSelectionModalClick}
@@ -332,7 +383,7 @@ const LocationPicker = ({
   );
 };
 
-LocationPicker.prototype = {
+LocationPicker.propTypes = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationIds: PropTypes.arrayOf(PropTypes.string),

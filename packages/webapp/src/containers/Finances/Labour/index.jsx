@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import Employee from './Employee';
 import Task from './Task';
 import { dateRangeDataSelector } from '../selectors';
-import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -16,7 +16,7 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { tasksSelector } from '../../taskSlice';
 import { setDateRange } from '../actions';
-import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
+import { DateRangeOptions } from '../../../components/DateRangeSelector/types';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
@@ -65,8 +65,8 @@ class Labour extends Component {
   }
 
   getDates(dateRange = this.state.dateRange) {
-    const option = this.props.dateRange.option || dateRangeOptions.YEAR_TO_DATE;
-    return option === dateRangeOptions.CUSTOM
+    const option = this.props.dateRange.option || DateRangeOptions.YEAR_TO_DATE;
+    return option === DateRangeOptions.CUSTOM
       ? {
           startDate: this.props.dateRange.startDate || undefined,
           endDate: this.props.dateRange.endDate || undefined,
@@ -90,7 +90,7 @@ class Labour extends Component {
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl={FINANCES_HOME_URL} title={this.props.t('SALE.LABOUR.TITLE')} />
-        <DateRangeSelector />
+        <FinancesDateRangeSelector />
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>
           <div className={styles.dropDownContainer}>

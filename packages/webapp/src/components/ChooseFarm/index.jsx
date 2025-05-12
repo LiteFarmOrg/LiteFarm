@@ -36,7 +36,7 @@ export default function PureChooseFarmScreen({
         <>
           {!isOnBoarding && (
             <Button onClick={onGoBack} color={'secondary'} fullLength>
-              {t('common:BACK')}
+              {t('common:GO_BACK')}
             </Button>
           )}
           <Button data-cy="chooseFarm-proceed" onClick={onProceed} fullLength disabled={disabled}>

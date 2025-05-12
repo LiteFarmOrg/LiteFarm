@@ -86,7 +86,7 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
           }
 
           dispatch(
-            // @ts-ignore
+            // @ts-expect-error
             uploadImage({
               file: blob,
               onUploadSuccess,

@@ -1,0 +1,190 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.paper {
+  width: 100%;
+  height: 100%;
+  margin: 16px auto;
+  padding: 8px;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+// For SensorType.SENSOR
+.sensorInfo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  font-size: 16px;
+
+  .sensorIdAndType {
+    @include truncateText();
+
+    .sensorId {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--Colors-Neutral-Neutral-900);
+      font-weight: 600;
+    }
+
+    .deviceType {
+      color: var(--Colors-Neutral-Neutral-500);
+
+      @include truncateText();
+    }
+
+    @include sm-breakpoint {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .deviceType {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.content {
+  margin-bottom: 24px;
+  padding: 8px 8px 28px 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  border-radius: 8px;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.dateAndChart {
+  &.sensor_array {
+    padding: 8px 16px;
+    border: 1px solid var(--Colors-Neutral-Neutral-50);
+  }
+
+  &.sensor {
+    padding: 0 16px;
+  }
+}
+
+.dateRangeSelector {
+  padding: 16px 0;
+  margin-bottom: 32px;
+}
+
+/* LatestReadings */
+.contentTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 24px;
+
+  dl {
+    display: flex;
+    gap: 4px;
+  }
+
+  dt {
+    color: var(--Colors-Neutral-Neutral-400);
+  }
+
+  dd {
+    color: #000;
+    font-weight: 700;
+  }
+
+  .updateButton {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    font-weight: 700;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.kpi {
+  position: relative;
+  padding: 0 8px;
+  margin-bottom: 16px;
+
+  &.sensor {
+    margin-bottom: 32px;
+  }
+}
+
+.weatherKPI {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  div {
+    min-width: calc((100% - 8px * 2) / 3);
+    flex: 1 1 210px;
+    background: #f9fafc;
+
+    &:nth-child(n + 4) {
+      min-width: calc((100% - 8px * 3) / 4);
+    }
+  }
+}
+
+.windData {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    transform: rotate(calc(var(--windDeg) * 1deg));
+  }
+}
+
+/* Chart */
+.charts {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  &.sensor {
+    gap: 52px;
+  }
+}
+
+.noDataRect,
+.spinnerWrapper {
+  width: 100%;
+  height: 100px;
+}
+
+.noDataRect {
+  position: relative;
+  border: 1px solid var(--grey900);
+  border-style: dotted;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 16px;
+}

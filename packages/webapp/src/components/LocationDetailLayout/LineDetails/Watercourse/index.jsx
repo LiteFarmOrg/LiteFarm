@@ -1,7 +1,5 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LineDetails from '../LineDetails';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Label } from '../../../Typography';
 import {
   area_total_area,
@@ -76,7 +74,6 @@ export function PureWatercourse({
           system={system}
         />
       }
-      tabs={['tasks', 'details']}
     />
   );
 }

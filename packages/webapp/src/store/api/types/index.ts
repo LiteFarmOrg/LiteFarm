@@ -228,3 +228,99 @@ export type SoilAmendmentProduct = Product & {
     moisture_content_percent?: number;
   };
 };
+
+// As specified by Ensemble
+export type SensorTypes =
+  | 'Weather station'
+  | 'Soil Water Potential Sensor'
+  | 'IR Temperature Sensor'
+  | 'Wind speed sensor'
+  | 'Drip line pressure sensor';
+
+export type SensorReadingTypes =
+  | 'barometric_pressure'
+  | 'cumulative_rainfall'
+  | 'current'
+  | 'energy'
+  | 'rainfall_rate'
+  | 'relative_humidity'
+  | 'soc'
+  | 'soil_water_content'
+  | 'soil_water_potential'
+  | 'solar_radiation'
+  | 'solenoid_control'
+  | 'temperature'
+  | 'voltage'
+  | 'water_pressure'
+  | 'wind_direction'
+  | 'wind_speed';
+
+export interface Sensor {
+  name: SensorTypes;
+  external_id: string; // esid
+  sensor_reading_types: SensorReadingTypes[];
+  point: {
+    lat: number;
+    lng: number;
+  };
+  depth: number;
+  depth_unit: 'cm'; // to be confirmed
+  last_seen: string;
+  sensor_array_id: string | null;
+  location_id: string; //backwards compatibility only
+}
+
+export interface SensorArray {
+  id: string;
+  sensors: Sensor['external_id'][];
+  point: {
+    lat: number;
+    lng: number;
+  };
+  location_id: string; // backwards compatibility only
+  name: string; // backwards compatibility only
+}
+
+export interface SensorData {
+  sensors: Sensor[];
+  sensor_arrays: SensorArray[];
+}
+
+export interface FarmAddon {
+  id: number;
+  addon_partner_id: number;
+  org_uuid: string;
+}
+
+export type SensorReadingTypeUnits =
+  | 'hPa'
+  | 'mm'
+  | 'mA'
+  | 'mWh'
+  | 'mm/h'
+  | '%'
+  | 'kPa'
+  | 'W/m2'
+  | 'C'
+  | 'V'
+  | 'psi'
+  | 'deg'
+  | 'm/s';
+
+export interface SensorDatapoint {
+  dateTime: number; // Unix timestamp
+  [esid: string]: number | undefined; // Allow missing keys
+}
+
+export interface SensorReadings {
+  reading_type: SensorReadingTypes;
+  unit: SensorReadingTypeUnits;
+  readings: SensorDatapoint[];
+}
+export interface IrrigationPrescription {
+  id: number;
+  location_id: string;
+  recommended_start_datetime: string;
+  partner_id: number;
+  task_id?: number | string;
+}

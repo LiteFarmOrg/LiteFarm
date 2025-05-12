@@ -61,6 +61,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const [points, setPoints] = useState({});
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
+  const assetGeometriesRef = useRef({});
+
+  // Keep ref (for cleanup) in sync with state
+  useEffect(() => {
+    assetGeometriesRef.current = assetGeometries;
+  }, [assetGeometries]);
+
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
@@ -144,6 +151,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       point.marker.name = point.location_name;
       point.marker.asset = point.asset;
       point.marker.type = point.type;
+      point.marker.isAddonSensor = point.isAddonSensor;
       markers.push(point.marker);
     });
 
@@ -159,6 +167,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
           gate: [],
           water_valve: [],
           sensor: [],
+          sensor_array: [],
         };
         cluster.markers.map((point) => {
           pointAssets[point.type].push({
@@ -167,6 +176,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
             location_name: point.name,
             marker: point,
             type: point.type,
+            isAddonSensor: point.isAddonSensor,
           });
         });
 
@@ -546,10 +556,18 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       location_name: point.name,
       asset: 'point',
       type: point.type,
+      isAddonSensor: point.isAddonSensor,
     };
   };
 
-  return { drawAssets, drawArea, drawPoint, drawLine };
+  return {
+    drawAssets,
+    drawArea,
+    drawPoint,
+    drawLine,
+    assetGeometriesRef,
+    markerClusterRef,
+  };
 };
 
 export default useMapAssetRenderer;

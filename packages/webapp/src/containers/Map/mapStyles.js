@@ -14,14 +14,18 @@ import {
   gardenSelectedColour,
   greenhouseColour,
   greenhouseSelectedColour,
+  irrigationZoneColour,
   naturalAreaColour,
   naturalAreaSelectedColour,
+  pivotColour,
+  pivotArmColour,
   residenceColour,
   residenceSelectedColour,
   surfaceWaterColour,
   surfaceWaterSelectedColour,
   watercourseColour,
   watercourseSelectedColour,
+  pivotCenterLabel,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -29,9 +33,12 @@ import waterValveActive from '../../assets/images/map/water-valve-active.png';
 import gate from '../../assets/images/map/gate.png';
 import gateHover from '../../assets/images/map/gate-hover.png';
 import gateActive from '../../assets/images/map/gate-active.png';
-import sensor from '../../assets/images/map/sensor.png';
-import sensorHover from '../../assets/images/map/sensor-hover.png';
-import sensorActive from '../../assets/images/map/sensor-active.png';
+import sensor from '../../assets/images/map/sensor.svg';
+import sensorHover from '../../assets/images/map/sensor-hover.svg';
+import sensorActive from '../../assets/images/map/sensor-active.svg';
+import sensorArray from '../../assets/images/map/sensor-array.svg';
+import sensorArrayHover from '../../assets/images/map/sensor-array-hover.svg';
+import sensorArrayActive from '../../assets/images/map/sensor-array-active.svg';
 
 export const areaStyles = {
   barn: {
@@ -89,6 +96,22 @@ export const areaStyles = {
     dashScale: 0,
     dashLength: '12px',
   },
+  irrigation_zone: {
+    colour: irrigationZoneColour,
+    selectedColour: irrigationZoneColour,
+    dashScale: 0,
+    dashLength: 0,
+  },
+};
+
+export const circleStyles = {
+  pivot: {
+    strokeColour: pivotArmColour,
+    fillColour: pivotColour,
+    selectedColour: pivotColour,
+    markerColour: pivotArmColour,
+    circleLabel: pivotCenterLabel,
+  },
 };
 
 export const lineStyles = {
@@ -139,25 +162,42 @@ export const lineStyles = {
       fillOpacity: 0.3,
     },
   },
+  pivot_arm: {
+    colour: pivotArmColour,
+    selectedColour: pivotArmColour,
+    dashScale: 2,
+    dashLength: '6px',
+    defaultDashColour: 'transparent',
+    polyStyles: {
+      strokeColor: 'transparent',
+      strokeWeight: 0,
+      fillColor: 'transparent',
+      fillOpacity: 0,
+    },
+  },
 };
 
 export const icons = {
   gate: gate,
   water_valve: waterValve,
   sensor: sensor,
+  sensor_array: sensorArray,
 };
 export const hoverIcons = {
   gate: gateHover,
   water_valve: waterValveHover,
   sensor: sensorHover,
+  sensor_array: sensorArrayHover,
 };
 export const activeIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
   sensor: sensorActive,
+  sensor_array: sensorArrayActive,
 };
 export const selectedIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
   sensor: sensorActive,
+  sensor_array: sensorArrayActive,
 };

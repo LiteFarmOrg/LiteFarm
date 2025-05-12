@@ -160,7 +160,9 @@ const timeNotificationController = {
  */
 async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isDayLaterThanUtc) {
   const today = new Date();
-  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
   const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
@@ -188,7 +190,9 @@ async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isD
  */
 async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanUtc) {
   const today = new Date();
-  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
   const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
@@ -221,7 +225,9 @@ async function sendDailyNewIrrigationPrescriptionNotification(
   irrigation_prescription_id,
 ) {
   const today = new Date();
-  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
   const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {

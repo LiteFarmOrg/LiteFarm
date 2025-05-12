@@ -68,7 +68,6 @@ import type {
  *  LiteFarm provides these data as defaults
  */
 export const LibraryTags = [
-  'DefaultAnimalBreeds',
   'AnimalSexes',
   'AnimalIdentifierTypes',
   'AnimalIdentifierColors',
@@ -76,6 +75,7 @@ export const LibraryTags = [
   'AnimalOrigins',
   'AnimalUses',
   'AnimalRemovalReasons',
+  'DefaultAnimalBreeds',
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
   'SoilAmendmentFertiliserTypes',
@@ -92,11 +92,11 @@ export const FarmTags = [
   'AnimalBatches',
   'CustomAnimalBreeds',
   'CustomAnimalTypes',
+  'FarmAddon',
+  'IrrigationPrescriptions',
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
-  'FarmAddon',
-  'IrrigationPrescriptions',
   'Weather',
 ];
 
@@ -109,7 +109,7 @@ export const FarmTags = [
  */
 export const FarmLibraryTags = [
   // 'count' param returns farm specific data
-  'AnimalIdentifierTypes',
+  'DefaultAnimalTypes',
 ];
 
 export const api = createApi({

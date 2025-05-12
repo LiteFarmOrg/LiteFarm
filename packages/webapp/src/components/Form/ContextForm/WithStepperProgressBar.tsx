@@ -69,6 +69,11 @@ interface WithStepperProgressBarProps {
   onAfterSave?: (values: FieldValues) => void;
 }
 
+/**
+ * Only provide setIsEditing when the form needs to toggle to read-only mode (e.g., SingleAnimalView).
+ * If setIsEditing is provided, ContextForm will call setIsEditing(false) instead of history.back()
+ * when the user cancels or goes back from step 0
+ */
 export const WithStepperProgressBar = ({
   children,
   history,

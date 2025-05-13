@@ -113,8 +113,10 @@ const timeNotificationController = {
 
       let notificationsSent = 0;
 
-      for (const prescription of farmIrrigationPrescriptions) {
-        const { id: irrigation_prescription_id } = prescription;
+      const latestIrrigationPrescription = farmIrrigationPrescriptions.at(-1);
+
+      if (latestIrrigationPrescription) {
+        const { id: irrigation_prescription_id } = latestIrrigationPrescription;
 
         const previousNotification = await NotificationModel.query()
           .where('farm_id', farm_id)
@@ -124,21 +126,19 @@ const timeNotificationController = {
           .whereNotDeleted()
           .first();
 
-        if (previousNotification) {
-          continue;
+        if (!previousNotification) {
+          const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+
+          const userIds = activeUsers.map(({ user_id }) => user_id);
+
+          await sendDailyNewIrrigationPrescriptionNotification(
+            farm_id,
+            userIds,
+            isDayLaterThanUtc,
+            irrigation_prescription_id,
+          );
+          notificationsSent += userIds.length;
         }
-
-        const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
-
-        const userIds = activeUsers.map(({ user_id }) => user_id);
-
-        await sendDailyNewIrrigationPrescriptionNotification(
-          farm_id,
-          userIds,
-          isDayLaterThanUtc,
-          irrigation_prescription_id,
-        );
-        notificationsSent += userIds.length;
       }
 
       return res

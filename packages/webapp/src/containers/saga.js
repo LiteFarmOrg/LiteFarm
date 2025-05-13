@@ -151,7 +151,7 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
-import { api } from '../store/api/apiSlice';
+import { api, FarmLibraryTags, FarmTags } from '../store/api/apiSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -623,16 +623,7 @@ export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
 
-  yield put(
-    api.util.invalidateTags([
-      'Animals',
-      'AnimalBatches',
-      'CustomAnimalBreeds',
-      'CustomAnimalTypes',
-      'DefaultAnimalTypes', // needs to be cleared for KPI count
-      'FarmAddon',
-    ]),
-  );
+  yield put(api.util.invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

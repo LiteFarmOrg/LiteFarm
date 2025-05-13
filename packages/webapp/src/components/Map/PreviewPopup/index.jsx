@@ -64,7 +64,8 @@ const useStyles = makeStyles((theme) => ({
 export default function PurePreviewPopup({ location, history, sensorReadings, styleOverride }) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { reading_types = [] } = useSelector(sensorReadingTypesByLocationSelector(location.id));
+  const { reading_types = [] } =
+    useSelector(sensorReadingTypesByLocationSelector(location.id)) || {};
 
   const displayPopup =
     reading_types?.includes(TEMPERATURE) || reading_types?.includes(SOIL_WATER_POTENTIAL);

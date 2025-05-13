@@ -34,4 +34,11 @@ router.post(
   timeNotificationController.postDailyDueTodayTasks,
 );
 
+router.post(
+  '/new_irrigation_prescription/:farm_id',
+  checkSchedulerJwt,
+  hasTimeNotificationsAccess,
+  timeNotificationController.postDailyNewIrrigationPrescriptions,
+);
+
 export default router;

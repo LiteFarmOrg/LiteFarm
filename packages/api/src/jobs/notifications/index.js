@@ -60,13 +60,13 @@ function isWeeklyNotificationDue(timeZone) {
 
 const schedules = [
   {
-    localHour: 6,
+    localHour: 5,
     notificationTypes: [
       { type: 'DailyTasksDue' },
       { type: 'WeeklyUnassigned', checkRunCondition: isWeeklyNotificationDue },
     ],
   },
-  { localHour: 5, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
+  { localHour: 4, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
 ];
 
 const sendOnSchedule = (queueConfig) => {

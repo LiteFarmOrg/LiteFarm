@@ -17,27 +17,27 @@ import timeNotificationController from '../controllers/timeNotificationControlle
 
 import express from 'express';
 import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
-import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
+import checkSchedulerPermission from '../middleware/acl/checkSchedulerPermission.js';
 const router = express.Router();
 
 router.post(
   '/weekly_unassigned_tasks/:farm_id',
   checkSchedulerJwt,
-  hasTimeNotificationsAccess,
+  checkSchedulerPermission('requestTimedNotifications'),
   timeNotificationController.postWeeklyUnassignedTasks,
 );
 
 router.post(
   '/daily_due_today_tasks/:farm_id',
   checkSchedulerJwt,
-  hasTimeNotificationsAccess,
+  checkSchedulerPermission('requestTimedNotifications'),
   timeNotificationController.postDailyDueTodayTasks,
 );
 
 router.post(
   '/new_irrigation_prescription/:farm_id',
   checkSchedulerJwt,
-  hasTimeNotificationsAccess,
+  checkSchedulerPermission('requestTimedNotifications'),
   timeNotificationController.postDailyNewIrrigationPrescriptions,
 );
 

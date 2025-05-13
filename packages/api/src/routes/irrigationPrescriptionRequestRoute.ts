@@ -17,7 +17,7 @@ import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
 import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
-import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
+import checkSchedulerPermission from '../middleware/acl/checkSchedulerPermission.js';
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ router.post(
 router.post(
   '/scheduler',
   checkSchedulerJwt,
-  hasTimeNotificationsAccess,
+  checkSchedulerPermission('requestTimedNotifications'),
   IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
 );
 

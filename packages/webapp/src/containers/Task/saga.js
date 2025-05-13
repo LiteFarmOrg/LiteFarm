@@ -350,19 +350,20 @@ const taskTypeActionMap = {
   },
   PLANT_TASK: {
     success: (tasks) =>
-      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
     getAllSuccess: (tasks) =>
-      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks, getAll: true }),
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, {
+        payload: { tasks, getAll: true },
+      }),
     fail: onLoadingPlantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   TRANSPLANT_TASK: {
     success: (tasks) =>
-      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
     getAllSuccess: (tasks) =>
       call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, {
-        payload: tasks,
-        getAll: true,
+        payload: { tasks, getAll: true },
       }),
     fail: onLoadingTransplantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),

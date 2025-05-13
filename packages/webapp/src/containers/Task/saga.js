@@ -390,7 +390,10 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingAnimalMovementTaskStart());
 }
 
-function* handleGetTasksSuccess(tasks, successAction) {
+function* handleGetTasksSuccess(tasks, isGetAll = false) {
+  const successAction = isGetAll ? addAllTasksFromGetReq : addManyTasksFromGetReq;
+  const taskTypeSuccessActionKey = isGetAll ? 'getAllSuccess' : 'success';
+
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -409,7 +412,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 
   for (const task_translation_key in taskTypeActionMap) {
     try {
-      yield taskTypeActionMap[task_translation_key].success(
+      yield taskTypeActionMap[task_translation_key][taskTypeSuccessActionKey](
         tasksByTranslationKey[task_translation_key],
       );
     } catch (e) {
@@ -422,7 +425,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -441,7 +444,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks, true);
 }
 
 export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {

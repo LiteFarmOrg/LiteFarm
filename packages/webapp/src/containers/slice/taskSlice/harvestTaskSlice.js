@@ -20,6 +20,13 @@ const getHarvestTask = (task) => {
 const upsertOneHarvestTask = (state, { payload: task }) => {
   harvestTaskAdapter.upsertOne(state, getHarvestTask(task));
 };
+const upsertManyHarvestTask = (state, { payload: tasks }) => {
+  harvestTaskAdapter.upsertMany(
+    state,
+    tasks.map((task) => getHarvestTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 const setAllHarvestTask = (state, { payload: tasks }) => {
   harvestTaskAdapter.setAll(
     state,
@@ -43,7 +50,8 @@ const harvestTaskSlice = createSlice({
   reducers: {
     onLoadingHarvestTaskStart: onLoadingStart,
     onLoadingHarvestTaskFail: onLoadingFail,
-    getHarvestTasksSuccess: setAllHarvestTask,
+    getHarvestTasksSuccess: upsertManyHarvestTask,
+    getAlllHarvestTasksSuccess: setAllHarvestTask,
     postHarvestTaskSuccess: upsertOneHarvestTask,
     editHarvestTaskSuccess: upsertOneHarvestTask,
     deleteHarvestTaskSuccess: harvestTaskAdapter.removeOne,
@@ -51,6 +59,7 @@ const harvestTaskSlice = createSlice({
 });
 export const {
   getHarvestTasksSuccess,
+  getAlllHarvestTasksSuccess,
   postHarvestTaskSuccess,
   editHarvestTaskSuccess,
   onLoadingHarvestTaskStart,

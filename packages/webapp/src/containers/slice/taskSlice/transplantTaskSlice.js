@@ -18,6 +18,13 @@ const getTransplantTask = (task) => {
 const upsertOneTransplantTask = (state, { payload: task }) => {
   transplantTaskAdapter.upsertOne(state, getTransplantTask(task));
 };
+const upsertManyTransplantTask = (state, { payload: tasks }) => {
+  transplantTaskAdapter.upsertMany(
+    state,
+    tasks.map((task) => getTransplantTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 const setAllTransplantTask = (state, { payload: tasks }) => {
   transplantTaskAdapter.setAll(
     state,
@@ -41,7 +48,8 @@ const transplantTaskSlice = createSlice({
   reducers: {
     onLoadingTransplantTaskStart: onLoadingStart,
     onLoadingTransplantTaskFail: onLoadingFail,
-    getTransplantTasksSuccess: setAllTransplantTask,
+    getTransplantTasksSuccess: upsertManyTransplantTask,
+    getAllTransplantTasksSuccess: setAllTransplantTask,
     postTransplantTaskSuccess: upsertOneTransplantTask,
     editTransplantTaskSuccess: upsertOneTransplantTask,
     deleteTransplantTaskSuccess: transplantTaskAdapter.removeOne,
@@ -49,6 +57,7 @@ const transplantTaskSlice = createSlice({
 });
 export const {
   getTransplantTasksSuccess,
+  getAllTransplantTasksSuccess,
   postTransplantTaskSuccess,
   editTransplantTaskSuccess,
   onLoadingTransplantTaskStart,

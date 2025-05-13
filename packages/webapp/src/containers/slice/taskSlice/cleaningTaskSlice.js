@@ -23,6 +23,13 @@ const getCleaningTask = (task) => {
 const upsertOneCleaningTask = (state, { payload: task }) => {
   cleaningTaskAdapter.upsertOne(state, getCleaningTask(task));
 };
+const upsertManyCleaningTask = (state, { payload: tasks }) => {
+  cleaningTaskAdapter.upsertMany(
+    state,
+    tasks.map((task) => getCleaningTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 const setAllCleaningTask = (state, { payload: tasks }) => {
   cleaningTaskAdapter.setAll(
     state,
@@ -46,7 +53,8 @@ const cleaningTaskSlice = createSlice({
   reducers: {
     onLoadingCleaningTaskStart: onLoadingStart,
     onLoadingCleaningTaskFail: onLoadingFail,
-    getCleaningTasksSuccess: setAllCleaningTask,
+    getCleaningTasksSuccess: upsertManyCleaningTask,
+    getAllCleaningTasksSuccess: setAllCleaningTask,
     postCleaningTaskSuccess: upsertOneCleaningTask,
     editCleaningTaskSuccess: upsertOneCleaningTask,
     deleteCleaningTaskSuccess: cleaningTaskAdapter.removeOne,
@@ -54,6 +62,7 @@ const cleaningTaskSlice = createSlice({
 });
 export const {
   getCleaningTasksSuccess,
+  getAllCleaningTasksSuccess,
   postCleaningTaskSuccess,
   editCleaningTaskSuccess,
   onLoadingCleaningTaskStart,

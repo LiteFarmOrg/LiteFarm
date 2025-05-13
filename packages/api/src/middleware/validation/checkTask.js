@@ -304,11 +304,14 @@ async function checkIrrigationTask(req) {
   const esciExternalId = req.body?.irrigation_task?.irrigation_prescription_external_id;
 
   if (esciExternalId) {
+    const { farm_id } = req.headers;
     const existing = await TaskModel.query()
+      .whereNotDeleted()
       .joinRelated('irrigation_task')
+      .join('location', 'irrigation_task.location_id', 'location.location_id')
       .select('task.*')
       .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
-      .whereNotDeleted()
+      .andWhere('location.farm_id', farm_id)
       .first();
 
     if (existing) {

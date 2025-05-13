@@ -2548,13 +2548,16 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
-async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
-  const [existingPartner] = await knex('addon_partner').where({ name: partner.name });
+async function addon_partnerFactory(partner) {
+  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const [existingPartner] = await knex('addon_partner').where({
+    name: partner ? partner.name : fakePartner.name,
+  });
 
   if (!existingPartner) {
     return knex('addon_partner')
       .insert({
-        ...partner,
+        ...(partner ? partner : fakePartner),
         access_token: faker.datatype.access_token,
         refresh_token: faker.datatype.refresh_token,
       })

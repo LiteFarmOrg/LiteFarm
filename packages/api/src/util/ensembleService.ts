@@ -23,12 +23,110 @@ import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
-import type {
-  OrganisationFarmData,
-  LocationAndCropGraph,
-  EnsembleLocationAndCropData,
-  ManagementPlan,
+import {
+  type OrganisationFarmData,
+  type LocationAndCropGraph,
+  type EnsembleLocationAndCropData,
+  type ManagementPlan,
+  type IrrigationPrescription,
+  isExternalIrrigationPrescriptionArray,
 } from './ensembleService.types.js';
+import TaskModel from '../models/taskModel.js';
+import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
+
+/**
+ * Retrieves the external organisation IDs for a specific farm and partner.
+ *
+ * @param farm_id - The ID of the farm to retrieve external organisation IDs for.
+ * @returns A promise that resolves to the organisation IDs for the given farm and partner.
+ * @throws Will throw an error if the addon partner or the farm addon is not found.
+ */
+const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
+  const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+  if (!partner) {
+    throw customError(`${ENSEMBLE_BRAND} partner not found`, 404);
+  }
+  return partner.id;
+};
+
+/**
+ * Retrieves the external organisation IDs for a specific farm and partner.
+ *
+ * @param farm_id - The ID of the farm to retrieve external organisation IDs for.
+ * @returns A promise that resolves to the organisation IDs for the given farm and partner.
+ * @throws Will throw an error if the addon partner or the farm addon is not found.
+ */
+const getExternalOrganisationIds = async (
+  farmId: Farm['farm_id'],
+  addonPartnerId: AddonPartner['id'],
+): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
+  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, addonPartnerId);
+  if (!farmAddonIds) {
+    throw customError(`Farm not connected to ${ENSEMBLE_BRAND}`, 404);
+  }
+  return farmAddonIds;
+};
+
+/**
+ * Returns a list of mocked prescriptions based on a specific farm_id.
+ *
+ * @param farm_id - The ID of the farm to retrieve mock data for.
+ * @returns A promise that resolves to formatted irrigation prescription data.
+ */
+export const getIrrigationPrescriptions = async (
+  farmId: string,
+  startTime?: string,
+  endTime?: string,
+): Promise<IrrigationPrescription[]> => {
+  // Get external organisation ids
+  const addonPartnerId = await getAddonPartnerId();
+  const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
+
+  // Endpoint config
+  const axiosObject = {
+    method: 'get',
+    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
+    params: {
+      start_time: startTime, // ISO format
+      end_time: endTime, // ISO format
+    },
+  };
+
+  const onError = (error: AxiosError) => {
+    const status = error.response?.status || 500;
+    const errorDetail = error.message ? `: ${error.message}` : '';
+    const message = `Error getting irrigation prescriptions${errorDetail}`;
+    throw customError(message, status);
+  };
+
+  // Get and check data
+  const { data } = await ensembleAPICall(axiosObject, onError);
+
+  if (!data?.length) {
+    return [];
+  }
+
+  if (!isExternalIrrigationPrescriptionArray(data)) {
+    throw customError(`${ENSEMBLE_BRAND} irrigation prescription data not in expected format`);
+  }
+
+  // Get irrigation tasks
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    data.map(({ id }) => id),
+  );
+
+  // Format response
+  const irrigationPrescriptions: IrrigationPrescription[] = data.map((irrigationPrescription) => {
+    const foundTask = irrigationTasksWithExternalId.find(
+      (task) =>
+        task.irrigation_task.irrigation_prescription_external_id === irrigationPrescription.id,
+    );
+    return { ...irrigationPrescription, partner_id: addonPartnerId, task_id: foundTask?.task_id };
+  });
+
+  return irrigationPrescriptions;
+};
 
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
@@ -172,3 +270,8 @@ export async function patchIrrigationPrescriptionApproval(id: number) {
     throw error;
   }
 }
+
+const ESciAddon = {
+  getIrrigationPrescriptions,
+};
+export default ESciAddon;

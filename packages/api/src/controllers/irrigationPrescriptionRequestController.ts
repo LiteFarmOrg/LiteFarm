@@ -13,28 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
+import { LiteFarmRequest } from '../types.js';
 
 interface HttpError extends Error {
   status?: number;
   code?: number; // LF custom error
 }
 
-interface LiteFarmQuery {
+interface InitiateFarmIrrigationPrescriptionQueryParams {
   allOrgs?: string;
   shouldSend?: string;
 }
 
-export interface LiteFarmRequest extends Request<unknown, unknown, unknown, LiteFarmQuery> {
-  headers: Request['headers'] & {
-    farm_id?: string;
-  };
-}
-
 const irrigationPrescriptionRequestController = {
   initiateFarmIrrigationPrescription() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (
+      req: LiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>,
+      res: Response,
+    ) => {
       const { farm_id } = req.headers;
       const { allOrgs, shouldSend } = req.query;
 

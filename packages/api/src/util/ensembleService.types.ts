@@ -13,10 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-interface Point {
-  lat: number;
-  lng: number;
-}
+import { Point } from '../models/types.js';
 
 enum PlantingMethod {
   BED_METHOD = 'bed_method',
@@ -82,4 +79,45 @@ export interface EnsembleLocationAndCropData {
 
 export interface OrganisationFarmData {
   [org_uuid: string]: EnsembleLocationAndCropData[];
+}
+
+export type ExternalIrrigationPrescription = {
+  id: number;
+  location_id: string;
+  management_plan_id?: number;
+  recommended_start_datetime: string;
+};
+
+export interface IrrigationPrescription extends ExternalIrrigationPrescription {
+  partner_id: number;
+  task_id?: number | null;
+}
+
+// Type guard for external endpoint
+// AI-assisted type guard
+export function isExternalIrrigationPrescriptionArray(
+  data: unknown,
+): data is ExternalIrrigationPrescription[] {
+  return (
+    Array.isArray(data) &&
+    data.every((item): item is IrrigationPrescription => {
+      if (typeof item !== 'object' || item === null) return false;
+
+      const obj = item as Record<string, unknown>;
+
+      return (
+        (typeof obj.id === 'string' || typeof obj.id === 'number') &&
+        (typeof obj.location_id === 'string' || typeof obj.location_id === 'number') &&
+        typeof obj.recommended_start_datetime === 'string'
+      );
+    })
+  );
+}
+
+export interface AddonFunctions {
+  getIrrigationPrescriptions: (
+    farmId: string,
+    startTime?: string,
+    endTime?: string,
+  ) => Promise<IrrigationPrescription[]>;
 }

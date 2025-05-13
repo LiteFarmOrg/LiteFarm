@@ -135,18 +135,6 @@ const Input = ({
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
-      {showError && !unit && showCross && (
-        <Cross
-          onClick={onClear}
-          style={{
-            position: 'absolute',
-            right: 0,
-            transform: inputType === 'date' ? 'translate(-26px, 15px)' : 'translate(-17px, 15px)',
-            cursor: 'pointer',
-            zIndex: 1,
-          }}
-        />
-      )}
       {isPassword &&
         !showError &&
         (showPassword ? (
@@ -169,6 +157,12 @@ const Input = ({
         </div>
       )}
       <div className={styles.inputWrapper}>
+        {showError && !unit && showCross && (
+          <Cross
+            className={clsx(styles.clearIcon, inputType === 'date' && styles.date)}
+            onClick={onClear}
+          />
+        )}
         <input
           data-testid={testId}
           disabled={disabled}

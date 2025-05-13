@@ -42,7 +42,7 @@ export default function scheduleApiRequests() {
 
     cron.schedule(schedule, async () => {
       try {
-        const token = sign({ requestTimedNotifications: true }, process.env.JWT_SCHEDULER_SECRET, {
+        const token = sign({ requestScheduledEndpoint: true }, process.env.JWT_SCHEDULER_SECRET, {
           expiresIn: '1d',
           algorithm: 'HS256',
         });

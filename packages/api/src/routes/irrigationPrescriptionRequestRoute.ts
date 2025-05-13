@@ -30,7 +30,7 @@ router.post(
 router.post(
   '/scheduler',
   checkSchedulerJwt,
-  checkSchedulerPermission('requestTimedNotifications'),
+  checkSchedulerPermission('requestScheduledEndpoint'),
   IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
 );
 

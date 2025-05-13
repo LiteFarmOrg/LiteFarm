@@ -582,7 +582,7 @@ describe('Time Based Notification Tests', () => {
         await mockedAxios.mockClear();
       });
 
-      test('One notification record should be created per irrigation prescription', async () => {
+      test('One notification record should be created for the last irrigation prescription', async () => {
         await mockedAxios.mockResolvedValue({
           status: 201,
           data: [
@@ -599,10 +599,10 @@ describe('Time Based Notification Tests', () => {
           .where('farm_id', farm.farm_id)
           .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [123, 124]);
 
-        expect(rows).toHaveLength(2);
+        expect(rows).toHaveLength(1);
 
-        expect(rows[0].context.irrigation_prescription_id).toBe(123);
-        expect(rows[0].ref.url).toBe('/irrigation_prescription/123');
+        expect(rows[0].context.irrigation_prescription_id).toBe(124);
+        expect(rows[0].ref.url).toBe('/irrigation_prescription/124');
         expect(rows[0].title.translation_key).toBe(
           'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
         );
@@ -630,8 +630,8 @@ describe('Time Based Notification Tests', () => {
           .where('farm_id', farm.farm_id)
           .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [223, 224]);
 
-        // There should be exactly 2 records in the DB
-        expect(rows).toHaveLength(2);
+        // There should be exactly 1 record in the DB
+        expect(rows).toHaveLength(1);
       });
     });
   });

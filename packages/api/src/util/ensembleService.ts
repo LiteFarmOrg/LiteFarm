@@ -71,6 +71,8 @@ const getExternalOrganisationIds = async (
  * Returns a list of irrigation prescriptions based for a specific farm.
  *
  * @param farmId - The ID of the farm to retrieve external irrigation prescriptions for.
+ * @param startTime - The 'after' date for filtering which irrigation prescriptions suggested start date will be irrigated.
+ * @param endTime - The 'before' date for filtering which irrigation prescriptions suggested start date will be irrigated.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
 export const getIrrigationPrescriptions = async (

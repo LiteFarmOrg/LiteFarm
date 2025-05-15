@@ -15,14 +15,16 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionController from '../controllers/irrigationPrescriptionController.js';
+import IrrigationPrescriptionController, {
+  IrrigationPrescriptionQueryParams,
+} from '../controllers/irrigationPrescriptionController.js';
+import { ScopeCheckedLiteFarmRequest } from '../types.js';
 
 const router = express.Router();
 
-router.get(
-  '/',
-  checkScope(['get:smart_irrigation']),
-  IrrigationPrescriptionController.getPrescriptions(),
-);
+router.get('/', checkScope(['get:smart_irrigation']), (req, res) => {
+  const typedReq = req as ScopeCheckedLiteFarmRequest<IrrigationPrescriptionQueryParams>;
+  IrrigationPrescriptionController.getPrescriptions()(typedReq, res);
+});
 
 export default router;

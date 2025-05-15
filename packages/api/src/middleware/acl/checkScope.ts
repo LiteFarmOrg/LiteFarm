@@ -65,21 +65,27 @@ const checkScope = (
       return next();
     }
 
-    // Consider making this a separate middleware with checkJwt
+    // Check auth
+    // NOTE: Consider making this a separate middleware with checkJwt
     if (!req.auth) {
       return res.status(400).send('No Auth provided');
     }
-
     const { user_id } = req.auth;
     if (!user_id || user_id === 'undefined') {
       return res.status(400).send('Missing user_id in auth');
     }
 
-    const { headers } = req;
-    const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+    // Check headers
+    if (!req.headers) {
+      return res.status(400).send('Missing headers');
+    }
 
-    if (!farm_id || farm_id === 'undefined')
+    const { farm_id } = req.headers; // these are the minimum props needed for most endpoints' authorization
+
+    if (!farm_id || farm_id === 'undefined') {
       return res.status(400).send('Missing farm_id in headers');
+    }
+
     try {
       const scopes = await getScopes(user_id, farm_id, { checkConsent });
 

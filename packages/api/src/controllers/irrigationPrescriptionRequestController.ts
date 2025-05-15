@@ -15,14 +15,14 @@
 
 import { Response } from 'express';
 import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
-import { LiteFarmRequest } from '../types.js';
+import { ScopeCheckedLiteFarmRequest } from '../types.js';
 
 interface HttpError extends Error {
   status?: number;
   code?: number; // LF custom error
 }
 
-interface InitiateFarmIrrigationPrescriptionQueryParams {
+export interface InitiateFarmIrrigationPrescriptionQueryParams {
   allOrgs?: string;
   shouldSend?: string;
 }
@@ -30,7 +30,7 @@ interface InitiateFarmIrrigationPrescriptionQueryParams {
 const irrigationPrescriptionRequestController = {
   initiateFarmIrrigationPrescription() {
     return async (
-      req: LiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>,
+      req: ScopeCheckedLiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>,
       res: Response,
     ) => {
       const { farm_id } = req.headers;

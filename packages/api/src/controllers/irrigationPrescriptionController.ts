@@ -14,13 +14,14 @@
  */
 
 import { Response } from 'express';
-import { LiteFarmRequest, HttpError } from '../types.js';
+import { HttpError, ScopeCheckedLiteFarmRequest } from '../types.js';
 import ESciAddon from '../util/ensembleService.js';
 import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import { AddonFunctions, IrrigationPrescription } from '../util/ensembleService.types.js';
+import { customError } from '../util/customErrors.js';
 
-interface IrrigationPrescriptionQueryParams {
+export interface IrrigationPrescriptionQueryParams {
   startTime?: string;
   endTime?: string;
   shouldSend?: string;
@@ -34,16 +35,29 @@ const PARTNER_ID_MAP: Record<string, Partial<AddonFunctions>> = {
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
-    return async (req: LiteFarmRequest<IrrigationPrescriptionQueryParams>, res: Response) => {
+    return async (
+      req: ScopeCheckedLiteFarmRequest<IrrigationPrescriptionQueryParams>,
+      res: Response,
+    ) => {
       try {
         const { farm_id } = req.headers;
         const { startTime, endTime, shouldSend } = req.query;
+        if (
+          typeof startTime != 'string' ||
+          startTime != undefined ||
+          typeof endTime != 'string' ||
+          endTime != undefined ||
+          typeof shouldSend != 'string' ||
+          shouldSend != undefined
+        ) {
+          throw customError('Bad query param');
+        }
+
         const irrigationPrescriptions: IrrigationPrescription[] = [];
         const partnerErrors: unknown[] = [];
 
         if (shouldSend === 'true') {
           // Check for registered farm addons (only esci for now)
-          // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
           const farmAddonPartnerIds = await FarmAddonModel.getDistinctFarmAddonPartnerIds(farm_id);
 
           // Return empty array if no addons
@@ -62,7 +76,6 @@ const irrigationPrescriptionController = {
               }
 
               irrigationPrescriptions.push(
-                // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
                 ...(await addonPartner.getIrrigationPrescriptions(farm_id, startTime, endTime)),
               );
             } catch (error) {
@@ -78,7 +91,6 @@ const irrigationPrescriptionController = {
         } else {
           // Return data for dev purposes + QA
           const mockData = await fakeIrrigationPrescriptions({
-            // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
             farmId: farm_id,
             startTime,
             endTime,

@@ -16,12 +16,14 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import IrrigationPrescriptionController from '../controllers/irrigationPrescriptionController.js';
+import { checkGetIrrigationPrescription } from '../middleware/validation/checkIrrigationPrescription.js';
 
 const router = express.Router();
 
 router.get(
   '/',
   checkScope(['get:smart_irrigation']),
+  checkGetIrrigationPrescription(),
   IrrigationPrescriptionController.getPrescriptions(),
 );
 

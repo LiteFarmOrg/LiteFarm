@@ -49,6 +49,11 @@ export enum GENDER {
   FEMALE = 'FEMALE',
 }
 
+// Table with no model
+type UserStatus = {
+  status_id: number;
+  status_description: string;
+};
 export interface User extends Timestamps {
   user_id: string;
   first_name: string;
@@ -60,7 +65,7 @@ export interface User extends Timestamps {
   sandbox_user: boolean;
   notification_setting: UserNotificationSetting;
   language_preference: string;
-  status_id: number; // TODO: user status model does not exist
+  status_id: UserStatus['status_id'];
   gender: GENDER;
   birth_year: number;
   do_not_email: boolean;
@@ -71,9 +76,11 @@ interface UserTimeStamps extends Timestamps {
   updated_by_user_id: User['user_id'];
 }
 
-interface BaseProperties extends UserTimeStamps {
+type SoftDelete = {
   deleted: boolean;
-}
+};
+
+interface BaseProperties extends UserTimeStamps, SoftDelete {}
 
 enum FarmUnitSystem {
   IMPERIAL = 'imperial',
@@ -593,4 +600,60 @@ export interface FarmAddon extends BaseProperties {
   addon_partner_id: AddonPartner['id'];
   org_uuid: string;
   org_pk: number;
+}
+
+export interface Role extends SoftDelete {
+  role_id: number;
+  role: string;
+}
+
+// Table with no model
+export type Permission = {
+  permission_id: number;
+  name: string;
+  description: string;
+};
+
+// Table with no model
+export type RolePermission = {
+  role_id: Role['role_id'];
+  permission_id: Permission['permission_id'];
+};
+
+enum UserFarmStatus {
+  ACTIVE = 'Active',
+  INACTIVE = 'Inactive',
+  INVITED = 'Invited',
+}
+
+enum WageRateUnit {
+  HOURLY = 'hourly',
+  ANNUALLY = 'annually',
+}
+
+type Wage = {
+  type: WageRateUnit;
+  amount?: number;
+};
+
+// NOTE: Why does userFarm not have updated_at?
+export interface UserFarm extends Pick<Timestamps, 'created_at'> {
+  user_id: User['user_id'];
+  farm_id: Farm['farm_id'];
+  role_id: Role['role_id'];
+  has_consent: boolean;
+  status: UserFarmStatus;
+  consent_version: string;
+  wage?: Wage;
+  step_one?: boolean;
+  step_one_end?: string;
+  step_two?: boolean;
+  step_two_end?: string;
+  step_three?: boolean;
+  step_three_end?: string;
+  step_four?: boolean;
+  step_four_end?: string;
+  step_five?: boolean;
+  step_five_end?: string;
+  wage_do_not_ask_again?: boolean;
 }

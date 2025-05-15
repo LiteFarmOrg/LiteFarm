@@ -20,16 +20,16 @@ import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js'
 import FarmAddonModel from '../models/farmAddonModel.js';
 import { AddonFunctions, IrrigationPrescription } from '../util/ensembleService.types.js';
 
-interface IrrigationPrescriptionQueryParams {
+export interface IrrigationPrescriptionQueryParams {
   startTime?: string;
   endTime?: string;
   shouldSend?: string;
 }
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
-const PARTNER_ID_MAP: Record<string, Partial<AddonFunctions>> = {
-  '0': {},
-  '1': ESciAddon,
+const PARTNER_ID_MAP: Record<number, Partial<AddonFunctions>> = {
+  0: {},
+  1: ESciAddon,
 };
 
 const irrigationPrescriptionController = {
@@ -54,7 +54,7 @@ const irrigationPrescriptionController = {
           // Loop through addon partners
           for (const farmAddonPartnerId of farmAddonPartnerIds) {
             try {
-              const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id.toString()];
+              const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
               // TODO: LF-4710 - Skip deprecated partner_id = 0 situation
               // Type guard for undefined functions
               if (!addonPartner || typeof addonPartner.getIrrigationPrescriptions !== 'function') {
@@ -72,7 +72,7 @@ const irrigationPrescriptionController = {
 
           // Return an error if there are no prescriptions
           if (!irrigationPrescriptions.length && partnerErrors.length) {
-            throw partnerErrors.shift();
+            throw partnerErrors[0];
           }
           return res.status(200).send(irrigationPrescriptions);
         } else {

@@ -35,11 +35,10 @@ import TaskModel from '../models/taskModel.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
 
 /**
- * Retrieves the external organisation IDs for a specific farm and partner.
+ * Retrieves the addon partner ID using a partners brand name.
  *
- * @param farm_id - The ID of the farm to retrieve external organisation IDs for.
- * @returns A promise that resolves to the organisation IDs for the given farm and partner.
- * @throws Will throw an error if the addon partner or the farm addon is not found.
+ * @returns A promise that resolves to the addon partner id.
+ * @throws Not found error as we expect that the addon partner is found.
  */
 const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
@@ -52,9 +51,10 @@ const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
 /**
  * Retrieves the external organisation IDs for a specific farm and partner.
  *
- * @param farm_id - The ID of the farm to retrieve external organisation IDs for.
+ * @param farmId - The ID of the farm to retrieve external organisation IDs for.
+ * @param addonPartnerId - The ID of addOnPartner for whose endpoint the ids are compatible with.
  * @returns A promise that resolves to the organisation IDs for the given farm and partner.
- * @throws Will throw an error if the addon partner or the farm addon is not found.
+ * @throws Not found error as we expect that the farms addon partner ids exist.
  */
 const getExternalOrganisationIds = async (
   farmId: Farm['farm_id'],
@@ -68,9 +68,9 @@ const getExternalOrganisationIds = async (
 };
 
 /**
- * Returns a list of mocked prescriptions based on a specific farm_id.
+ * Returns a list of irrigation prescriptions based for a specific farm.
  *
- * @param farm_id - The ID of the farm to retrieve mock data for.
+ * @param farmId - The ID of the farm to retrieve external irrigation prescriptions for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
 export const getIrrigationPrescriptions = async (

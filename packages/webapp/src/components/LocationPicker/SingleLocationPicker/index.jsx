@@ -183,7 +183,6 @@ const LocationPicker = ({
         maps.event.addListener(assetGeometry.circle, 'click', (e) => areaOnClick(e.latLng, maps));
       } else {
         maps.event.addListener(assetGeometry.polygon, 'click', (e) => {
-          console.log('event listener firing');
           areaOnClick(e.latLng, maps);
         });
       }

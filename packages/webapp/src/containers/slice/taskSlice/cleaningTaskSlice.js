@@ -30,6 +30,13 @@ const upsertManyCleaningTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllCleaningTask = (state, { payload: tasks }) => {
+  cleaningTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getCleaningTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const cleaningTaskAdapter = createEntityAdapter({
   selectId: (cleaningTask) => cleaningTask.task_id,
@@ -47,6 +54,7 @@ const cleaningTaskSlice = createSlice({
     onLoadingCleaningTaskStart: onLoadingStart,
     onLoadingCleaningTaskFail: onLoadingFail,
     getCleaningTasksSuccess: upsertManyCleaningTask,
+    getAllCleaningTasksSuccess: setAllCleaningTask,
     postCleaningTaskSuccess: upsertOneCleaningTask,
     editCleaningTaskSuccess: upsertOneCleaningTask,
     deleteCleaningTaskSuccess: cleaningTaskAdapter.removeOne,
@@ -54,6 +62,7 @@ const cleaningTaskSlice = createSlice({
 });
 export const {
   getCleaningTasksSuccess,
+  getAllCleaningTasksSuccess,
   postCleaningTaskSuccess,
   editCleaningTaskSuccess,
   onLoadingCleaningTaskStart,

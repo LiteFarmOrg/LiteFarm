@@ -21,6 +21,13 @@ const upsertManyPlantTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllPlantTask = (state, { payload: tasks }) => {
+  plantTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getPlantTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const plantTaskAdapter = createEntityAdapter({
   selectId: (plantTask) => plantTask.task_id,
@@ -38,6 +45,7 @@ const plantTaskSlice = createSlice({
     onLoadingPlantTaskStart: onLoadingStart,
     onLoadingPlantTaskFail: onLoadingFail,
     getPlantTasksSuccess: upsertManyPlantTask,
+    getAllPlantTasksSuccess: setAllPlantTask,
     postPlantTaskSuccess: upsertOnePlantTask,
     editPlantTaskSuccess: upsertOnePlantTask,
     deletePlantTaskSuccess: plantTaskAdapter.removeOne,
@@ -45,6 +53,7 @@ const plantTaskSlice = createSlice({
 });
 export const {
   getPlantTasksSuccess,
+  getAllPlantTasksSuccess,
   postPlantTaskSuccess,
   editPlantTaskSuccess,
   onLoadingPlantTaskStart,

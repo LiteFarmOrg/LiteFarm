@@ -19,6 +19,13 @@ const upsertManyFieldWorkTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllFieldWorkTask = (state, { payload: tasks }) => {
+  fieldWorkTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getFieldWorkTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const fieldWorkTaskAdapter = createEntityAdapter({
   selectId: (fieldWorkTask) => fieldWorkTask.task_id,
@@ -36,6 +43,7 @@ const fieldWorkTaskSlice = createSlice({
     onLoadingFieldWorkTaskStart: onLoadingStart,
     onLoadingFieldWorkTaskFail: onLoadingFail,
     getFieldWorkTasksSuccess: upsertManyFieldWorkTask,
+    getAllFieldWorkTasksSuccess: setAllFieldWorkTask,
     postFieldWorkTaskSuccess: upsertOneFieldWorkTask,
     editFieldWorkTaskSuccess: upsertOneFieldWorkTask,
     deleteFieldWorkTaskSuccess: fieldWorkTaskAdapter.removeOne,
@@ -43,6 +51,7 @@ const fieldWorkTaskSlice = createSlice({
 });
 export const {
   getFieldWorkTasksSuccess,
+  getAllFieldWorkTasksSuccess,
   postFieldWorkTaskSuccess,
   editFieldWorkTaskSuccess,
   onLoadingFieldWorkTaskStart,

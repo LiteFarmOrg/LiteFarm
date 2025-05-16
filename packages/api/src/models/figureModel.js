@@ -38,6 +38,7 @@ class Figure extends Model {
           enum: [
             'gate',
             'water_valve',
+            'soil_sample_location',
             'farm_site_boundary',
             'field',
             'garden',

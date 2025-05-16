@@ -108,6 +108,7 @@ async function tableCleanup(knex) {
     DELETE FROM "greenhouse";
     DELETE FROM "gate";
     DELETE FROM "water_valve";
+    DELETE FROM "soil_sample_location";
     DELETE FROM "buffer_zone";
     DELETE FROM "watercourse";
     DELETE FROM "fence";

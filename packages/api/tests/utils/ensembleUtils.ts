@@ -17,7 +17,8 @@ import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
 import { IrrigationPrescription } from '../../src/util/ensembleService.types.js';
 import TaskModel from '../../src/models/taskModel.js';
-import { AddonPartner, Farm, Location, ManagementPlan } from '../../src/models/types.js';
+import { AddonPartner, Farm } from '../../src/models/types.js';
+import LocationModel from '../../src/models/locationModel.js';
 
 export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) => {
   const [farmAddon] = await mocks.farm_addonFactory({
@@ -32,11 +33,8 @@ export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) 
 
 type fakeIrrigationPrescriptionsProps = {
   farmId: Farm['farm_id'];
-  prescriptionIds?: IrrigationPrescription['id'][];
-  locationIds?: Location['location_id'][];
-  managementPlanIds?: ManagementPlan['management_plan_id'][];
-  startTime?: string;
-  endTime?: string;
+  startTime: string;
+  endTime: string;
 };
 
 /**
@@ -48,56 +46,32 @@ type fakeIrrigationPrescriptionsProps = {
  */
 export const fakeIrrigationPrescriptions = async ({
   farmId,
-  prescriptionIds = [1, 2],
-  locationIds,
-  managementPlanIds,
   startTime,
   endTime,
 }: fakeIrrigationPrescriptionsProps): Promise<IrrigationPrescription[]> => {
   const PARTNER_ID = 1;
-  const ONE_HOUR_IN_MS = 1000 * 60 * 60;
-  const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
+  const PRESCRIPTION_CONFIG = [
+    { id: 1, recommendedDate: new Date(startTime) },
+    { id: 2, recommendedDate: new Date(endTime) },
+  ];
 
-  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
-    farmId,
-    prescriptionIds,
-  );
-
-  const irrigationTask1 = irrigationTasksWithExternalId.find(
-    (task) => task.irrigation_task.irrigation_prescription_external_id === prescriptionIds[0],
-  );
-  const irrigationTask2 = irrigationTasksWithExternalId.find(
-    (task) => task.irrigation_task.irrigation_prescription_external_id === prescriptionIds[1],
-  );
-
-  const locationId1 = irrigationTask1?.irrigation_task?.location_id ?? locationIds?.[0];
-  const locationId2 =
-    irrigationTask2?.irrigation_task.location_id ?? locationIds?.[1] ?? locationId1;
-
-  if (!locationId1 || !locationId2) {
+  const locations = await LocationModel.getCropSupportingLocationsByFarmId(farmId);
+  if (!locations.length) {
     return [];
   }
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    PRESCRIPTION_CONFIG.map(({ id }) => id),
+  );
 
-  return [
-    {
-      id: prescriptionIds[0],
-      location_id: locationId1,
-      management_plan_id: managementPlanIds?.[0] || undefined,
-      recommended_start_datetime: startTime
-        ? startTime
-        : new Date(Date.now() - ONE_HOUR_IN_MS).toISOString(),
-      partner_id: PARTNER_ID,
-      task_id: irrigationTask1?.task_id,
-    },
-    {
-      id: prescriptionIds[1],
-      location_id: locationId2,
-      management_plan_id: managementPlanIds?.[1] || undefined,
-      recommended_start_datetime: endTime
-        ? endTime
-        : new Date(Date.now() + ONE_DAY_IN_MS).toISOString(),
-      partner_id: PARTNER_ID,
-      task_id: irrigationTask1?.task_id,
-    },
-  ];
+  return PRESCRIPTION_CONFIG.map(({ id, recommendedDate }) => ({
+    id,
+    location_id: locations[0].location_id,
+    management_plan_id: undefined,
+    recommended_start_datetime: recommendedDate.toISOString(),
+    partner_id: PARTNER_ID,
+    task_id: irrigationTasksWithExternalId.find(
+      (task) => task.irrigation_task.irrigation_prescription_external_id === id,
+    )?.task_id,
+  }));
 };

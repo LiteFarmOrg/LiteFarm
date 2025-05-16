@@ -17,6 +17,7 @@ import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/
 import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
+import { ReactComponent as SoilSampleLocation } from '../../assets/images/farmMapFilter/SoilSampleLocation.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
 import { useTranslation } from 'react-i18next';
@@ -140,6 +141,11 @@ export default function MapDrawer({
           name: t('FARM_MAP.MAP_FILTER.SENSOR'),
           icon: () => <Sensor style={{ transform: 'translate(-5px, 5px)' }} />,
           key: locationEnum.sensor,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),
+          icon: () => <SoilSampleLocation />,
+          key: locationEnum.soil_sample_location,
         },
       ]
         .sort((firstLocationType, secondLocationType) =>

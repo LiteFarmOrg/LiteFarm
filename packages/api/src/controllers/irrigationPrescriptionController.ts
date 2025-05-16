@@ -19,12 +19,7 @@ import ESciAddon from '../util/ensembleService.js';
 import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import { AddonFunctions, IrrigationPrescription } from '../util/ensembleService.types.js';
-
-export interface IrrigationPrescriptionQueryParams {
-  startTime?: string;
-  endTime?: string;
-  shouldSend?: string;
-}
+import { IrrigationPrescriptionQueryParams } from '../middleware/validation/checkIrrigationPrescription.js';
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
 const PARTNER_ID_MAP: Record<number, Partial<AddonFunctions>> = {
@@ -34,7 +29,10 @@ const PARTNER_ID_MAP: Record<number, Partial<AddonFunctions>> = {
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
-    return async (req: LiteFarmRequest<IrrigationPrescriptionQueryParams>, res: Response) => {
+    return async (
+      req: LiteFarmRequest<Required<IrrigationPrescriptionQueryParams>>,
+      res: Response,
+    ) => {
       try {
         const { farm_id } = req.headers;
         const { startTime, endTime, shouldSend } = req.query;

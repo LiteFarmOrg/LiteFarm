@@ -15,7 +15,12 @@
 
 import { Request, Response, NextFunction } from 'express';
 import { isISO8601Format } from '../../util/validation.js';
-import { IrrigationPrescriptionQueryParams } from '../../controllers/irrigationPrescriptionController.js';
+
+export interface IrrigationPrescriptionQueryParams {
+  startTime?: string;
+  endTime?: string;
+  shouldSend?: string;
+}
 
 export function checkGetIrrigationPrescription() {
   return async (

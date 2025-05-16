@@ -1,15 +1,9 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
-import { ReactComponent as ShowMore } from '../../../assets/images/map/arrowDown.svg';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
-import CompactPreview from '../PreviewPopup/CompactPreview';
 import { isTouchDevice } from '../../../util/device';
-import { useSelector } from 'react-redux';
-import { sensorReadingTypesByMultipleLocations } from '../../../containers/sensorReadingTypesSlice';
-import { TEMPERATURE, SOIL_WATER_POTENTIAL } from '../../../containers/SensorReadings/constants';
 import { SensorType } from '../../../containers/SensorList/useGroupedSensors';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,10 +38,6 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: 'Open Sans, SansSerif, serif',
-  },
-  tooltipWithSoilWaterPotential: {
-    width: '290px',
-    left: -140,
   },
   itemHeader: {
     padding: '0 8px 0 8px',
@@ -88,30 +78,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 8px',
     lineBreak: 'auto',
   },
-  sensorBody: {
-    height: 'auto',
-    transition: 'all 1s',
-    overflow: 'hidden',
-  },
-  bodyClosed: {
-    maxHeight: 0,
-  },
-  bodyOpen: {
-    maxHeight: '65px',
-    paddingBottom: '8px',
-  },
-  sensorArrow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alginSelf: 'center',
-    transition: 'transform 1s',
-  },
-  sensorArrowUp: {
-    transform: 'rotate(-180deg)',
-  },
 }));
 
-export default function PureSelectionHandler({ locations, history, sensorReadings }) {
+export default function PureSelectionHandler({ locations, history }) {
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -137,21 +106,10 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return icon;
   };
 
-  const [sensorIdx, setSensorIdx] = useState(null);
   const locationSensors = locations.filter((location) => location.type === SensorType.SENSOR);
   const locationSensorArrays = locations.filter(
     (location) => location.type === SensorType.SENSOR_ARRAY,
   );
-
-  const readingTypes = useSelector(sensorReadingTypesByMultipleLocations(locationSensors));
-
-  const showDetails = (id) => {
-    let sensor = readingTypes?.find((sensor) => sensor?.location_id === id);
-    return (
-      sensor?.reading_types?.includes(TEMPERATURE) ||
-      sensor?.reading_types?.includes(SOIL_WATER_POTENTIAL)
-    );
-  };
 
   const isSensor = (id) => {
     return locationSensors.some((sensor) => sensor?.id === id);
@@ -161,22 +119,9 @@ export default function PureSelectionHandler({ locations, history, sensorReading
     return locationSensorArrays.some((sa) => sa?.id === id);
   };
 
-  const handleMouseUp = (location, idx) => {
-    if (sensorIdx === idx) {
-      setSensorIdx(null);
-      return;
-    }
-    if (showDetails(location.id)) {
-      setSensorIdx(idx);
-    } else {
-      setSensorIdx(null);
-      loadEditView(location);
-    }
-  };
-
-  const loadEditView = (location) => {
+  const handleMouseUp = (location) => {
     if (
-      location.isAddonSensor &&
+      location.isAddonSensor && // TODO: Remove
       [SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)
     ) {
       history.push(`/${location.type}/${location.id}`);
@@ -201,13 +146,13 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                     onTouchStart: (e) => {
                       e.stopPropagation();
                     },
-                    onTouchEnd: () => handleMouseUp(location, idx),
+                    onTouchEnd: () => handleMouseUp(location),
                   }
                 : {
                     onMouseDown: (e) => {
                       e.stopPropagation();
                     },
-                    onMouseUp: () => handleMouseUp(location, idx),
+                    onMouseUp: () => handleMouseUp(location),
                   })}
             >
               <div className={classes.title}>
@@ -222,40 +167,7 @@ export default function PureSelectionHandler({ locations, history, sensorReading
                   {icon}
                 </div>
                 <div className={classes.itemName}>{name}</div>
-                {showDetails(location.id) && (
-                  <div>
-                    <ShowMore
-                      className={clsx(
-                        classes.sensorArrow,
-                        sensorIdx === idx && classes.sensorArrowUp,
-                      )}
-                    />
-                  </div>
-                )}
               </div>
-              {readingTypes
-                ?.find((sensor) => sensor?.location_id === location.id)
-                ?.reading_types?.map((type, rid) => {
-                  if ([TEMPERATURE, SOIL_WATER_POTENTIAL].includes(type)) {
-                    return (
-                      <div
-                        key={rid}
-                        className={clsx(
-                          classes.sensorBody,
-                          sensorIdx === idx && classes.bodyOpen,
-                          sensorIdx !== idx && classes.bodyClosed,
-                        )}
-                      >
-                        <CompactPreview
-                          location={location}
-                          readings={sensorReadings}
-                          readingType={type}
-                          history={history}
-                        />
-                      </div>
-                    );
-                  }
-                })}
             </div>
           );
         })}

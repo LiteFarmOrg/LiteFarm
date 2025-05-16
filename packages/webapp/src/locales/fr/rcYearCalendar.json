@@ -1,7 +1,31 @@
 {
-  "days": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-  "daysShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-  "daysMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
+  "days": [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
+  ],
+  "daysShort": [
+    "Dim",
+    "Lun",
+    "Mar",
+    "Mer",
+    "Jeu",
+    "Ven",
+    "Sam"
+  ],
+  "daysMin": [
+    "D",
+    "L",
+    "Ma",
+    "Me",
+    "J",
+    "V",
+    "S"
+  ],
   "months": [
     "Janvier",
     "Février",

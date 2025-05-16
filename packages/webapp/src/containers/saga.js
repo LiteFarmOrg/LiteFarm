@@ -152,6 +152,10 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api, FarmLibraryTags, FarmTags } from '../store/api/apiSlice';
+import {
+  getSoilSampleLocationsSuccess,
+  onLoadingSoilSampleLocationFail,
+} from './soilSampleLocationSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -387,6 +391,10 @@ const figureTypeActionMap = {
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
+  soil_sample_location: {
+    success: getSoilSampleLocationsSuccess,
+    fail: onLoadingSoilSampleLocationFail,
+  },
   sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
 };
 

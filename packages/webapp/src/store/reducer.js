@@ -42,6 +42,7 @@ import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
+import soilSampleLocationReducer from '../containers/soilSampleLocationSlice';
 import sensorReducer from '../containers/sensorSlice';
 
 import cropReducer from '../containers/cropSlice';
@@ -180,6 +181,7 @@ const entitiesReducer = combineReducers({
   fenceReducer,
   gateReducer,
   waterValveReducer,
+  soilSampleLocationReducer,
   sensorReducer,
   showedSpotlightReducer,
   bulkSensorsUploadReducer,

@@ -33,6 +33,9 @@ import waterValveActive from '../../assets/images/map/water-valve-active.png';
 import gate from '../../assets/images/map/gate.png';
 import gateHover from '../../assets/images/map/gate-hover.png';
 import gateActive from '../../assets/images/map/gate-active.png';
+import soilSampleLocation from '../../assets/images/map/soil-sample-location.svg';
+import soilSampleLocationHover from '../../assets/images/map/soil-sample-location-hover.svg';
+import soilSampleLocationActive from '../../assets/images/map/soil-sample-location-active.svg';
 import sensor from '../../assets/images/map/sensor.svg';
 import sensorHover from '../../assets/images/map/sensor-hover.svg';
 import sensorActive from '../../assets/images/map/sensor-active.svg';
@@ -180,24 +183,28 @@ export const lineStyles = {
 export const icons = {
   gate: gate,
   water_valve: waterValve,
+  soil_sample_location: soilSampleLocation,
   sensor: sensor,
   sensor_array: sensorArray,
 };
 export const hoverIcons = {
   gate: gateHover,
   water_valve: waterValveHover,
+  soil_sample_location: soilSampleLocationHover,
   sensor: sensorHover,
   sensor_array: sensorArrayHover,
 };
 export const activeIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
+  soil_sample_location: soilSampleLocationActive,
   sensor: sensorActive,
   sensor_array: sensorArrayActive,
 };
 export const selectedIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
+  soil_sample_location: soilSampleLocationActive,
   sensor: sensorActive,
   sensor_array: sensorArrayActive,
 };

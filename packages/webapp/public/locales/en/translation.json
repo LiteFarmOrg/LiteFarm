@@ -920,6 +920,7 @@
       "SATELLITE": "Satellite background",
       "SENSOR": "Sensor",
       "SHOW_ALL": "Show all",
+      "SOIL_SAMPLE_LOCATION": "Soil sample location",
       "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WATER_VALVE": "Water valve",
@@ -936,6 +937,13 @@
       "EDIT_TITLE": "Edit residence",
       "NAME": "Residence name",
       "TITLE": "Add residence"
+    },
+    "SOIL_SAMPLE_LOCATION": {
+      "EDIT_TITLE": "Edit soil sample location",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude",
+      "NAME": "Soil sample location name",
+      "TITLE": "Add soil sample location"
     },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",

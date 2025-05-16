@@ -203,6 +203,15 @@ export const residenceEnum = {
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
 };
+export const soilSampleEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
+  figure_id: 'figure_id',
+  type: 'type',
+  location_id: 'location_id',
+  notes: 'notes',
+  point: 'point',
+};
 export const surfaceWaterEnum = {
   farm_id: 'farm_id',
   name: 'name',

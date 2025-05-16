@@ -54,6 +54,7 @@ export const isPoint = (type) => {
   return [
     locationEnum.gate,
     locationEnum.water_valve,
+    locationEnum.soil_sample_location,
     locationEnum.sensor,
     locationEnum.sensor_array,
   ].includes(type);
@@ -76,6 +77,7 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
+  soil_sample_location: 'soil_sample_location',
   sensor: 'sensor',
   sensor_array: 'sensor_array',
   farm_site_boundary: 'farm_site_boundary',

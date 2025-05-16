@@ -139,7 +139,12 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
-  }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
+  }, [
+    filterSettings?.gate,
+    filterSettings?.water_valve,
+    filterSettings?.soil_sample_location,
+    filterSettings?.sensor,
+  ]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
   }, [isClickable]);
@@ -166,6 +171,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         const pointAssets = {
           gate: [],
           water_valve: [],
+          soil_sample_location: [],
           sensor: [],
           sensor_array: [],
         };
@@ -275,6 +281,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     const pointsArray = [
       ...assetGeometries.gate,
       ...assetGeometries.water_valve,
+      ...assetGeometries.soil_sample_location,
       ...assetGeometries.sensor,
     ];
 

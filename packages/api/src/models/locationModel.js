@@ -31,6 +31,7 @@ import surfaceWaterModel from './surfaceWaterModel.js';
 import naturalAreaModel from './naturalAreaModel.js';
 import residenceModel from './residenceModel.js';
 import waterValveModel from './waterValveModel.js';
+import soilSampleLocationModel from './soilSampleLocationModel.js';
 import taskModel from './taskModel.js';
 import locationTasksModel from './locationTasksModel.js';
 import sensorModel from './sensorModel.js';
@@ -195,6 +196,27 @@ class Location extends baseModel {
         join: {
           from: 'location.location_id',
           to: 'water_valve.location_id',
+        },
+        task: {
+          modelClass: taskModel,
+          relation: Model.ManyToManyRelation,
+          join: {
+            from: 'location.location_id',
+            through: {
+              modelClass: locationTasksModel,
+              from: 'location_tasks.task_id',
+              to: 'location_tasks.location_id',
+            },
+            to: 'task.task_id',
+          },
+        },
+      },
+      soil_sample_location: {
+        modelClass: soilSampleLocationModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'soil_sample_location.location_id',
         },
         task: {
           modelClass: taskModel,

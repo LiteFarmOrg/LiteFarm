@@ -218,19 +218,6 @@ class Location extends baseModel {
           from: 'location.location_id',
           to: 'soil_sample_location.location_id',
         },
-        task: {
-          modelClass: taskModel,
-          relation: Model.ManyToManyRelation,
-          join: {
-            from: 'location.location_id',
-            through: {
-              modelClass: locationTasksModel,
-              from: 'location_tasks.task_id',
-              to: 'location_tasks.location_id',
-            },
-            to: 'task.task_id',
-          },
-        },
       },
       sensor: {
         modelClass: sensorModel,

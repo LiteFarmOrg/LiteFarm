@@ -48,8 +48,6 @@ export function PureSoilSampleLocation({
     submitForm({ formData });
   };
 
-  const { t } = useTranslation();
-
   return (
     <PureLocationDetailLayout
       history={history}
@@ -65,20 +63,26 @@ export function PureSoilSampleLocation({
       isAdmin={isAdmin}
       onSubmit={onSubmit}
       translationKey={'SOIL_SAMPLE_LOCATION'}
-      detailsChildren={
-        <div className={styles.latLngContainer}>
-          <Input
-            label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LATITUDE')}
-            disabled={true}
-            value={persistedFormData?.point?.lat}
-          />
-          <Input
-            label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LONGITUDE')}
-            disabled={true}
-            value={persistedFormData?.point?.lng}
-          />
-        </div>
-      }
+      detailsChildren={<SoilSampleLocationDetailsChildren persistedFormData={persistedFormData} />}
     />
+  );
+}
+
+export function SoilSampleLocationDetailsChildren({ persistedFormData }) {
+  const { t } = useTranslation();
+
+  return (
+    <div className={styles.latLngContainer}>
+      <Input
+        label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LATITUDE')}
+        disabled={true}
+        value={persistedFormData?.point?.lat}
+      />
+      <Input
+        label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LONGITUDE')}
+        disabled={true}
+        value={persistedFormData?.point?.lng}
+      />
+    </div>
   );
 }

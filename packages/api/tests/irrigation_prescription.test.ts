@@ -13,6 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ensembleAPICall } from '../src/util/ensemble.js';
+
+jest.mock('../src/util/ensemble.js', () => ({
+  ...jest.requireActual('../src/util/ensemble.js'),
+  ensembleAPICall: jest.fn(async () => ({ data: [] })), // placeholder
+}));
+
 import chai from 'chai';
 
 import chaiHttp from 'chai-http';
@@ -32,35 +39,15 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 
-import axios from 'axios';
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
-import { connectFarmToEnsemble, fakeIrrigationPrescriptions } from './utils/ensembleUtils.js';
-import type { AddonPartner, Farm, IrrigationTask, User } from '../src/models/types.js';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
+import type { AddonPartner, Farm, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
 import { addDaysToDate, getEndOfDate, getStartOfDate } from './utils/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 
 describe('Get Irrigation Prescription Tests', () => {
   let ESciAddonPartner: AddonPartner;
-  async function postIrrigationTask({
-    farm_id,
-    user_id,
-    data,
-  }: {
-    farm_id: Farm['farm_id'];
-    user_id: User['user_id'];
-    data: Partial<IrrigationTask>;
-  }) {
-    return chai
-      .request(server)
-      .post(`/task/irrigation_task`)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
-  }
 
   async function getIrrigationPrescription({
     farm_id,
@@ -71,9 +58,9 @@ describe('Get Irrigation Prescription Tests', () => {
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
-    startTime?: string;
-    endTime?: string;
-    shouldSend?: string;
+    startTime: string;
+    endTime: string;
+    shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
@@ -84,8 +71,17 @@ describe('Get Irrigation Prescription Tests', () => {
       .query({ startTime, endTime, shouldSend });
   }
 
+  function removeUndefined<T extends Record<string, unknown>>(arr: T[]): Partial<T>[] {
+    return arr.map(
+      (obj) =>
+        Object.fromEntries(
+          Object.entries(obj).filter(([, value]) => value !== undefined),
+        ) as Partial<T>,
+    );
+  }
+
   beforeEach(async () => {
-    (mockedAxios as unknown as jest.Mock).mockClear();
+    jest.clearAllMocks();
     await mocks.populateTaskTypes();
     [ESciAddonPartner] = await mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND, id: 1 });
   });
@@ -100,59 +96,85 @@ describe('Get Irrigation Prescription Tests', () => {
 
   describe('All users should be able to GET irrigation prescription', () => {
     [1, 2, 3, 5].forEach((role) => {
-      test(`User with role ${role} should request IPs`, async () => {
-        const MOCK_EXTERNAL_PRESCRIPTION_ID1 = 1;
-        const MOCK_EXTERNAL_PRESCRIPTION_ID2 = 2;
-        const [taskTypeInDb] = await knex('task_type').where({
-          farm_id: null,
-          task_translation_key: 'IRRIGATION_TASK',
-        });
+      test(`2 User with role ${role} should request IPs`, async () => {
+        // Farm setup
         const { farm, field, user } = await setupFarmEnvironment(role);
-        const { farmAddon } = await connectFarmToEnsemble(farm, ESciAddonPartner);
+        await connectFarmToEnsemble(farm, ESciAddonPartner);
 
-        // Make one task for prescription 1
-        await postIrrigationTask({
-          farm_id: farm.farm_id,
-          user_id: user.user_id,
-          data: mocks.fakeTask({
-            locations: [{ location_id: field.location_id }],
-            task_type_id: taskTypeInDb.task_type_id,
-            irrigation_task: mocks.fakeIrrigationTask({
-              location_id: field.location_id,
-              irrigation_prescription_external_id: MOCK_EXTERNAL_PRESCRIPTION_ID1,
+        // Just check linking of one task
+        const ipConfig = [
+          { id: 1, linkToTask: true },
+          { id: 2, linkToTask: false },
+        ];
+
+        // Mock data for external endpoint
+        const externalIrrigationPrescriptions = await Promise.all(
+          ipConfig.map(async (config) =>
+            mocks.externalIrrigationPrescriptionFactory({
+              id: config.id,
+              providedFarm: farm,
+              providedLocation: field,
             }),
-          }),
-        });
+          ),
+        );
 
-        const irrigationPrescriptions = await fakeIrrigationPrescriptions({
-          farmId: farm.farm_id,
-          prescriptionIds: [MOCK_EXTERNAL_PRESCRIPTION_ID1, MOCK_EXTERNAL_PRESCRIPTION_ID2],
-        });
+        expect(externalIrrigationPrescriptions.length).toBe(2);
+        expect(externalIrrigationPrescriptions[0].location_id).toBe(field.location_id);
+
+        // Mock response from our endpoint including formatting
+        const irrigationPrescriptions = await Promise.all(
+          externalIrrigationPrescriptions.map(async (externalIrrigationPrescription) =>
+            mocks.irrigationPrescriptionFactory({
+              providedExternalIrrigationPrescription: externalIrrigationPrescription,
+              providedPartner: ESciAddonPartner,
+              linkToTask: false,
+            }),
+          ),
+        );
 
         expect(irrigationPrescriptions.length).toBe(2);
-        expect(irrigationPrescriptions[0].location_id).toBe(field.location_id);
+        expect(irrigationPrescriptions[0].partner_id).toBe(ESciAddonPartner.id);
 
-        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
-          data: irrigationPrescriptions,
-          status: 200,
-          statusText: 'OK',
-          headers: {},
-          config: {},
-        });
-
-        await getIrrigationPrescription({
+        // Call our endpoint and mock external call
+        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+        mockedEnsembleAPICall.mockResolvedValueOnce({ data: externalIrrigationPrescriptions });
+        const res = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
+          startTime: getStartOfDate(new Date()).toISOString(),
+          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
+          shouldSend: 'true',
         });
 
-        expect(axios).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'get',
-            url: expect.stringContaining(
-              `/organizations/${farmAddon.org_pk}/irrigation_prescriptions`, // real URL here
-            ),
-          }),
+        expect(res.body).toMatchObject(removeUndefined(irrigationPrescriptions));
+
+        // Mock our endpoint if linking a task
+        const irrigationPrescriptionsWithTasks = await Promise.all(
+          externalIrrigationPrescriptions.map(async (externalIrrigationPrescription, index) =>
+            mocks.irrigationPrescriptionFactory({
+              providedExternalIrrigationPrescription: externalIrrigationPrescription,
+              providedPartner: ESciAddonPartner,
+              linkToTask: ipConfig[index].linkToTask,
+              providedFarm: farm,
+              providedLocation: field,
+            }),
+          ),
         );
+
+        expect(irrigationPrescriptionsWithTasks.length).toBe(2);
+        expect(irrigationPrescriptionsWithTasks[0].task_id).toBeTruthy();
+
+        // Re-call our endpoint and mock external call now seeing tasks populated
+        mockedEnsembleAPICall.mockResolvedValueOnce({ data: irrigationPrescriptionsWithTasks });
+        const res2 = await getIrrigationPrescription({
+          farm_id: farm.farm_id,
+          user_id: user.user_id,
+          startTime: getStartOfDate(new Date()).toISOString(),
+          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
+          shouldSend: 'true',
+        });
+
+        expect(res2.body).toMatchObject(removeUndefined(irrigationPrescriptionsWithTasks));
       });
     });
   });

@@ -86,6 +86,13 @@ const PostWaterValveForm = React.lazy(() =>
   import('../containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./WaterValveDetailsRoutes'));
+
+const PostSoilSampleLocationForm = React.lazy(() =>
+  import(
+    '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/PostSoilSampleLocation'
+  ),
+);
+
 const EditSensor = React.lazy(() =>
   import('../containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
 );
@@ -539,6 +546,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
@@ -844,6 +856,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />

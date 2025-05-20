@@ -27,7 +27,7 @@ export function fakeUserFarm(role: number = 1) {
 /**
  * Creates a farm and a user, then associates them using the given role.
  */
-export async function returnUserFarms(role: number) {
+export async function returnUserFarms(role: number): Promise<{ mainFarm: Farm; user: User }> {
   const [mainFarm] = await mocks.farmFactory();
   const [user] = await mocks.usersFactory();
 
@@ -45,10 +45,7 @@ export async function returnUserFarms(role: number) {
  * Sets up the farm environment by creating a farm, owner, field, and (optionally) a non-owner user (if role id is provided)
  */
 export async function setupFarmEnvironment(role: number = 1) {
-  const { mainFarm: farm, user: owner } = (await returnUserFarms(1)) as {
-    mainFarm: Farm;
-    user: User;
-  };
+  const { mainFarm: farm, user: owner } = await returnUserFarms(1);
 
   let user = owner;
   if (role !== 1) {

@@ -15,7 +15,6 @@
 
 import { Response } from 'express';
 import { LiteFarmRequest, HttpError } from '../types.js';
-import { fakeIrrigationPrescriptions } from '../../tests/utils/ensembleUtils.js';
 import { IrrigationPrescriptionQueryParams } from '../middleware/validation/checkIrrigationPrescription.js';
 import { getAddonPartnerIrrigationPrescriptions } from '../services/addonPartner.js';
 
@@ -29,20 +28,15 @@ const irrigationPrescriptionController = {
         const { farm_id } = req.headers;
         const { startTime, endTime, shouldSend } = req.query;
 
-        if (shouldSend === 'true') {
+        const irrigationPrescriptions = await getAddonPartnerIrrigationPrescriptions(
           // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
-          const irrigationPrescriptions = await getAddonPartnerIrrigationPrescriptions(farm_id);
-          return res.status(200).send(irrigationPrescriptions);
-        } else {
-          // Return data for dev purposes + QA
-          const mockData = await fakeIrrigationPrescriptions({
-            // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
-            farmId: farm_id,
-            startTime,
-            endTime,
-          });
-          return res.status(200).send(mockData);
-        }
+          farm_id,
+          startTime,
+          endTime,
+          shouldSend,
+        );
+
+        return res.status(200).send(irrigationPrescriptions);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

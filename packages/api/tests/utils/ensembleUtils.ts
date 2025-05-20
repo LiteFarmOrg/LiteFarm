@@ -15,10 +15,11 @@
 
 import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
-import { IrrigationPrescription } from '../../src/util/ensembleService.types.js';
-import TaskModel from '../../src/models/taskModel.js';
+import { ExternalIrrigationPrescription } from '../../src/util/ensembleService.types.js';
 import { AddonPartner, Farm } from '../../src/models/types.js';
 import LocationModel from '../../src/models/locationModel.js';
+import { addDaysToDate, getEndOfDate, getStartOfDate } from './date.js';
+import { AxiosResponse } from 'axios';
 
 export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) => {
   const [farmAddon] = await mocks.farm_addonFactory({
@@ -33,8 +34,8 @@ export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) 
 
 type fakeIrrigationPrescriptionsProps = {
   farmId: Farm['farm_id'];
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
 };
 
 /**
@@ -44,34 +45,40 @@ type fakeIrrigationPrescriptionsProps = {
  * @param farm_id - The ID of the farm to retrieve mock data for.
  * @returns A promise that resolves to formatted irrigation prescription data.
  */
-export const fakeIrrigationPrescriptions = async ({
+export const getIrrigationPrescriptions = async ({
   farmId,
   startTime,
   endTime,
-}: fakeIrrigationPrescriptionsProps): Promise<IrrigationPrescription[]> => {
-  const PARTNER_ID = 1;
+}: fakeIrrigationPrescriptionsProps): Promise<ExternalIrrigationPrescription[]> => {
   const PRESCRIPTION_CONFIG = [
-    { id: 1, recommendedDate: new Date(startTime) },
-    { id: 2, recommendedDate: new Date(endTime) },
+    {
+      id: 1,
+      recommendedDate: startTime ? new Date(startTime) : getStartOfDate(new Date(Date.now())),
+    },
+    {
+      id: 2,
+      recommendedDate: endTime
+        ? new Date(endTime)
+        : getEndOfDate(addDaysToDate(new Date(Date.now()), 1)),
+    },
   ];
 
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farmId);
   if (!locations.length) {
     return [];
   }
-  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
-    farmId,
-    PRESCRIPTION_CONFIG.map(({ id }) => id),
-  );
 
   return PRESCRIPTION_CONFIG.map(({ id, recommendedDate }) => ({
     id,
     location_id: locations[0].location_id,
     management_plan_id: undefined,
     recommended_start_datetime: recommendedDate.toISOString(),
-    partner_id: PARTNER_ID,
-    task_id: irrigationTasksWithExternalId.find(
-      (task) => task.irrigation_task.irrigation_prescription_external_id === id,
-    )?.task_id,
   }));
+};
+
+export const Mocks = {
+  getIrrigationPrescriptions: async (farmId: string, startTime?: string, endTime?: string) =>
+    ({
+      data: await getIrrigationPrescriptions({ farmId, startTime, endTime }),
+    }) as unknown as AxiosResponse<unknown>,
 };

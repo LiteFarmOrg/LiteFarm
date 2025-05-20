@@ -23,17 +23,23 @@ import {
   IrrigationPrescription,
   isExternalIrrigationPrescriptionArray,
 } from '../util/ensembleService.types.js';
+import { Mocks } from '../../tests/utils/ensembleUtils.js';
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
-const PARTNER_ID_MAP: Record<number, Partial<AddonPartnerFunctions>> = {
-  0: {},
-  1: ESciAddon,
+const PARTNER_ID_MAP: Record<number, (shouldSend?: boolean) => AddonPartnerFunctions> = {
+  0: () => {
+    return { getIrrigationPrescriptions: () => [] as unknown as Promise<AxiosResponse<unknown>> };
+  },
+  1: (shouldSend) => {
+    return shouldSend ? ESciAddon : Mocks;
+  },
 };
 
 export const getAddonPartnerIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   startTime: string,
   endTime: string,
+  shouldSend: boolean,
 ): Promise<IrrigationPrescription[]> => {
   const irrigationPrescriptions: IrrigationPrescription[] = [];
   const partnerErrors: unknown[] = [];
@@ -52,11 +58,15 @@ export const getAddonPartnerIrrigationPrescriptions = async (
       const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
       // TODO: LF-4710 - Skip deprecated partner_id = 0 situation
       // Type guard for undefined functions
-      if (!addonPartner || typeof addonPartner.getIrrigationPrescriptions !== 'function') {
+      if (!addonPartner || typeof addonPartner().getIrrigationPrescriptions !== 'function') {
         continue;
       }
 
-      const { data } = await addonPartner.getIrrigationPrescriptions(farmId, startTime, endTime);
+      const { data } = await addonPartner(shouldSend).getIrrigationPrescriptions(
+        farmId,
+        startTime,
+        endTime,
+      );
 
       if (Array.isArray(data) && !data?.length) {
         continue;

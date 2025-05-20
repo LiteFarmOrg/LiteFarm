@@ -342,7 +342,7 @@ app
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
-  .use('/irrigation_prescription', irrigationPrescriptionRoute)
+  .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data

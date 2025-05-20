@@ -64,7 +64,7 @@ describe('Get Irrigation Prescription Tests', () => {
   }): Promise<Response> {
     return chai
       .request(server)
-      .get('/irrigation_prescription')
+      .get('/irrigation_prescriptions')
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)

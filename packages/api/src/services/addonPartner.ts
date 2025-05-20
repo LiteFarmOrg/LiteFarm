@@ -13,13 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { AxiosResponse } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
+import TaskModel from '../models/taskModel.js';
 import { Farm } from '../models/types.js';
+import { customError } from '../util/customErrors.js';
 import ESciAddon from '../util/ensembleService.js';
-import { AddonFunctions, IrrigationPrescription } from '../util/ensembleService.types.js';
+import {
+  IrrigationPrescription,
+  isExternalIrrigationPrescriptionArray,
+} from '../util/ensembleService.types.js';
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
-const PARTNER_ID_MAP: Record<number, Partial<AddonFunctions>> = {
+const PARTNER_ID_MAP: Record<number, Partial<AddonPartnerFunctions>> = {
   0: {},
   1: ESciAddon,
 };
@@ -50,9 +56,26 @@ export const getAddonPartnerIrrigationPrescriptions = async (
         continue;
       }
 
-      irrigationPrescriptions.push(
-        ...(await addonPartner.getIrrigationPrescriptions(farmId, startTime, endTime)),
-      );
+      const { data } = await addonPartner.getIrrigationPrescriptions(farmId, startTime, endTime);
+
+      if (Array.isArray(data) && !data?.length) {
+        continue;
+      }
+
+      if (!isExternalIrrigationPrescriptionArray(data)) {
+        throw customError(
+          `Partner id: ${farmAddonPartnerId} - irrigation prescription data not in expected format`,
+        );
+      }
+
+      // Add partner id to return object
+      const irrigationPrescriptionsWithPartnerId = data.map((irrigationPrescription) => ({
+        ...irrigationPrescription,
+        partner_id: farmAddonPartnerId.addon_partner_id,
+      }));
+
+      // Push prescriptions to return array
+      irrigationPrescriptions.push(...irrigationPrescriptionsWithPartnerId);
     } catch (error) {
       partnerErrors.push(error);
     }
@@ -63,5 +86,28 @@ export const getAddonPartnerIrrigationPrescriptions = async (
     throw partnerErrors[0];
   }
 
-  return irrigationPrescriptions;
+  // Get irrigation tasks
+  const irrigationTasksWithExternalId = await TaskModel.getIrrigationTasksWithExternalIdByFarm(
+    farmId,
+    irrigationPrescriptions.map(({ id }) => id),
+  );
+
+  // Format response
+  const irrigationPrescriptionsWithTasks = irrigationPrescriptions.map((irrigationPrescription) => {
+    const foundTask = irrigationTasksWithExternalId.find(
+      (task) =>
+        task.irrigation_task.irrigation_prescription_external_id === irrigationPrescription.id,
+    );
+    return { ...irrigationPrescription, task_id: foundTask?.task_id };
+  });
+
+  return irrigationPrescriptionsWithTasks;
+};
+
+type AddonPartnerFunctions = {
+  getIrrigationPrescriptions: (
+    farmId: string,
+    startTime?: string,
+    endTime?: string,
+  ) => Promise<AxiosResponse<unknown>>;
 };

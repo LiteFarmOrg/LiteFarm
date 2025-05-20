@@ -110,7 +110,7 @@ describe('Get Irrigation Prescription Tests', () => {
         // Mock data for external endpoint
         const externalIrrigationPrescriptions = await Promise.all(
           ipConfig.map(async (config) =>
-            mocks.externalIrrigationPrescriptionFactory({
+            mocks.buildExternalIrrigationPrescription({
               id: config.id,
               providedFarm: farm,
               providedLocation: field,
@@ -124,7 +124,7 @@ describe('Get Irrigation Prescription Tests', () => {
         // Mock response from our endpoint including formatting
         const irrigationPrescriptions = await Promise.all(
           externalIrrigationPrescriptions.map(async (externalIrrigationPrescription) =>
-            mocks.irrigationPrescriptionFactory({
+            mocks.buildIrrigationPrescription({
               providedExternalIrrigationPrescription: externalIrrigationPrescription,
               providedPartner: ESciAddonPartner,
               linkToTask: false,
@@ -151,7 +151,7 @@ describe('Get Irrigation Prescription Tests', () => {
         // Mock our endpoint if linking a task
         const irrigationPrescriptionsWithTasks = await Promise.all(
           externalIrrigationPrescriptions.map(async (externalIrrigationPrescription, index) =>
-            mocks.irrigationPrescriptionFactory({
+            mocks.buildIrrigationPrescription({
               providedExternalIrrigationPrescription: externalIrrigationPrescription,
               providedPartner: ESciAddonPartner,
               linkToTask: ipConfig[index].linkToTask,

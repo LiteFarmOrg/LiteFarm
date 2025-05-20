@@ -2580,8 +2580,8 @@ async function farm_addonFactory({
     .returning('*');
 }
 
-// Abnormal factory for external endpoint
-export const externalIrrigationPrescriptionFactory = async ({
+// External endpoint helper mocks
+export const buildExternalIrrigationPrescription = async ({
   id,
   providedFarm,
   providedLocation,
@@ -2603,8 +2603,7 @@ export const externalIrrigationPrescriptionFactory = async ({
   };
 };
 
-// Abnormal factory for external endpoint
-export const irrigationPrescriptionFactory = async ({
+export const buildIrrigationPrescription = async ({
   providedExternalIrrigationPrescription,
   providedPartner,
   linkToTask = false,
@@ -2613,7 +2612,7 @@ export const irrigationPrescriptionFactory = async ({
   providedIrrigationTask = null,
 }) => {
   const externalIrrigationPrescription =
-    providedExternalIrrigationPrescription ?? (await externalIrrigationPrescriptionFactory({}));
+    providedExternalIrrigationPrescription ?? (await buildExternalIrrigationPrescription({}));
   const addonPartner = providedPartner ?? (await addon_partnerFactory());
 
   const mockIrrigationTask = fakeIrrigationTask({
@@ -2799,7 +2798,7 @@ export default {
   animal_type_use_relationshipFactory,
   addon_partnerFactory,
   farm_addonFactory,
-  externalIrrigationPrescriptionFactory,
-  irrigationPrescriptionFactory,
+  buildExternalIrrigationPrescription,
+  buildIrrigationPrescription,
   baseProperties,
 };

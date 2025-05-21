@@ -31,7 +31,7 @@ class SoilSampleTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['samples_per_location', 'sample_depths'],
+      required: ['samples_per_location', 'sample_depths', 'sampling_tool'],
       properties: {
         task_id: { type: 'integer' },
         document_id: {
@@ -44,8 +44,23 @@ class SoilSampleTaskModel extends Model {
         },
         sample_depths: {
           type: 'array',
-          items: { type: 'integer' },
+          items: {
+            type: 'object',
+            properties: {
+              from: { type: 'number' },
+              to: { type: 'number' },
+            },
+            required: ['from', 'to'],
+          },
           minItems: 1,
+        },
+        sample_depths_unit: {
+          type: 'string',
+          enum: ['cm', 'in'],
+        },
+        sampling_tool: {
+          type: 'string',
+          enum: ['SOIL_PROBE', 'AUGER', 'SPADE'],
         },
       },
       additionalProperties: false,
@@ -74,6 +89,8 @@ class SoilSampleTaskModel extends Model {
       document_id: 'omit',
       samples_per_location: 'keep',
       sample_depths: 'keep',
+      sample_depths_unit: 'keep',
+      sampling_tool: 'keep',
       // relationMappings
       task: 'omit',
     };

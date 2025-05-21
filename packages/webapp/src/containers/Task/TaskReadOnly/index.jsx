@@ -41,11 +41,10 @@ import {
   deleteTask,
 } from '../saga';
 import {
-  mockField,
+  generateMockPieSliceZones,
   mockUriData,
-  mockVriZones,
-  mockPivot,
 } from '../../../stories/IrrigationPrescription/mockData';
+import { getCentroidOfPolygon } from '../../../util/geoUtils';
 
 function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
@@ -62,10 +61,14 @@ function TaskReadOnly({ history, match, location }) {
   
   TODO LF-4788: Call the backend here to get the actual data for the given uuid 
   
-  Also handle case of no matching uuid (unknown record) */
+  */
+  const mockPivot = {
+    center: getCentroidOfPolygon(task.locations[0].grid_points),
+    radius: 150,
+  };
 
   const commonMockData = {
-    location_id: mockField.location_id,
+    location_id: task.locations[0].location_id,
     management_plan_id: null,
     recommended_start_datetime: new Date().toISOString(),
     pivot: mockPivot,
@@ -102,7 +105,7 @@ function TaskReadOnly({ history, match, location }) {
           id: task?.irrigation_task?.irrigation_prescription_external_id,
           prescription: {
             vriData: {
-              zones: mockVriZones,
+              zones: generateMockPieSliceZones(mockPivot),
               file_url: 'https://example.com/vri_data.vri',
             },
           },
@@ -113,10 +116,8 @@ function TaskReadOnly({ history, match, location }) {
     ? irrigationPrescription
     : undefined;
 
-  // const fieldLocation =
-  //   useSelector(locationByIdSelector(irrigationPrescription?.location_id ?? '')) || mockField;
-
   /* ------------------------------------- */
+
   let files = [];
   if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
     files.push(externalIrrigationPrescription.prescription.vriData.file_url);

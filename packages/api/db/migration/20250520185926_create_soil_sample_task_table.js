@@ -27,6 +27,11 @@ export const up = async function (knex) {
       .comment('Report document if uploaded');
     table.integer('samples_per_location').notNullable();
     table.jsonb('sample_depths').notNullable();
+    table.enu('sample_depths_unit', ['cm', 'in']).notNullable().defaultTo('cm');
+    table
+      .enu('sampling_tool', ['SOIL_PROBE', 'AUGER', 'SPADE'])
+      .notNullable()
+      .defaultTo('SOIL_PROBE');
 
     table.check('jsonb_array_length(??) > 0', ['sample_depths'], 'sample_depths_not_empty_check');
 

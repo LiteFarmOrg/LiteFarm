@@ -67,7 +67,6 @@ import mapCacheReducer from '../containers/Map/mapCacheSlice';
 import mapSensorReducer from '../containers/Map/mapSensorSlice';
 import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
-import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import filterReducer from '../containers/filterSlice';
@@ -183,7 +182,6 @@ const entitiesReducer = combineReducers({
   soilSampleLocationReducer,
   sensorReducer,
   showedSpotlightReducer,
-  bulkSensorsReadingsReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
   plantingManagementPlanReducer,

@@ -65,7 +65,6 @@ import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
 import mapSensorReducer from '../containers/Map/mapSensorSlice';
-import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
@@ -221,7 +220,6 @@ const persistedStateReducer = combineReducers({
   mapFilterSettingReducer,
   mapCacheReducer,
   mapSensorReducer,
-  sensorReadingTypesReducer,
   appSettingReducer,
 });
 

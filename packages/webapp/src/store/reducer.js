@@ -63,7 +63,6 @@ import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
-import mapSensorReducer from '../containers/Map/mapSensorSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
@@ -217,7 +216,6 @@ const persistedStateReducer = combineReducers({
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
   mapCacheReducer,
-  mapSensorReducer,
   appSettingReducer,
 });
 

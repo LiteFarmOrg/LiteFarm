@@ -40,6 +40,12 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
+import {
+  mockField,
+  mockUriData,
+  mockVriZones,
+  mockPivot,
+} from '../../../stories/IrrigationPrescription/mockData';
 
 function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
@@ -48,6 +54,74 @@ function TaskReadOnly({ history, match, location }) {
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
   const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
+    task?.irrigation_task?.irrigation_prescription_external_id != null;
+
+  /*--------------------------------------
+  
+  TODO LF-4788: Call the backend here to get the actual data for the given uuid 
+  
+  Also handle case of no matching uuid (unknown record) */
+
+  const commonMockData = {
+    location_id: mockField.location_id,
+    management_plan_id: null,
+    recommended_start_datetime: new Date().toISOString(),
+    pivot: mockPivot,
+    metadata: {
+      weather_forecast: {
+        temperature: 20,
+        temperature_unit: 'c',
+        wind_speed: 10,
+        wind_speed_unit: 'km/h',
+        cumulative_rainfall: 5,
+        cumulative_rainfall_unit: 'mm',
+        et_rate: 2,
+        et_rate_unit: 'mm/h',
+        weather_icon_code: '02d',
+      },
+    },
+    estimated_time: 2,
+    estimated_time_unit: 'h',
+    estimated_water_consumption: 100,
+    estimated_water_consumption_unit: 'l',
+  };
+
+  const irrigationPrescription =
+    Math.random() < 0.5
+      ? {
+          ...commonMockData,
+          id: task?.irrigation_task?.irrigation_prescription_external_id,
+          prescription: {
+            uriData: mockUriData,
+          },
+        }
+      : {
+          ...commonMockData,
+          id: task?.irrigation_task?.irrigation_prescription_external_id,
+          prescription: {
+            vriData: {
+              zones: mockVriZones,
+              file_url: 'https://example.com/vri_data.vri',
+            },
+          },
+        };
+
+  // Only fetch data if task is irrigation task with external id
+  const externalIrrigationPrescription = isIrrigationTaskWithExternalPrescription
+    ? irrigationPrescription
+    : undefined;
+
+  // const fieldLocation =
+  //   useSelector(locationByIdSelector(irrigationPrescription?.location_id ?? '')) || mockField;
+
+  /* ------------------------------------- */
+  let files = [];
+  if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
+    files.push(externalIrrigationPrescription.prescription.vriData.file_url);
+  }
+
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
@@ -133,6 +207,8 @@ function TaskReadOnly({ history, match, location }) {
           isAdmin={isAdmin}
           system={system}
           products={products}
+          externalIrrigationPrescription={externalIrrigationPrescription}
+          files={files}
           harvestUseTypes={harvestUseTypes}
           isTaskTypeCustom={isTaskTypeCustom}
           maxZoomRef={maxZoomRef}

@@ -16,8 +16,10 @@
 import UserFarmModel from '../models/userFarmModel.js';
 
 import TaskModel from '../models/taskModel.js';
+import NotificationModel from '../models/notificationModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import { getTasksForFarm } from './taskController.js';
+import { mockGetFarmIrrigationPrescriptions } from '../util/ensembleService.js';
 
 const timeNotificationController = {
   /**
@@ -83,7 +85,7 @@ const timeNotificationController = {
         );
 
         if (hasTasksDueToday) {
-          await sendDailyDueTodayTaskNotification(farm_id, user_id);
+          await sendDailyDueTodayTaskNotification(farm_id, user_id, isDayLaterThanUtc);
           notificationsSent++;
         }
       }
@@ -95,18 +97,72 @@ const timeNotificationController = {
       return res.status(400).send({ error });
     }
   },
+
+  /**
+   * Notifies all users of new irrigation prescriptions
+   * @param {Request} req request
+   * @param {Response} res response
+   * @async
+   */
+  async postDailyNewIrrigationPrescriptions(req, res) {
+    const { farm_id } = req.params;
+    const { isDayLaterThanUtc } = req.body;
+    try {
+      // TODO: Use real function after LF-4765 is merged
+      const farmIrrigationPrescriptions = await mockGetFarmIrrigationPrescriptions(farm_id);
+
+      let notificationsSent = 0;
+
+      const latestIrrigationPrescription = farmIrrigationPrescriptions.at(-1);
+
+      if (latestIrrigationPrescription) {
+        const { id: irrigation_prescription_id } = latestIrrigationPrescription;
+
+        const previousNotification = await NotificationModel.query()
+          .where('farm_id', farm_id)
+          .whereJsonSupersetOf('context', {
+            irrigation_prescription_id,
+          })
+          .whereNotDeleted()
+          .first();
+
+        if (!previousNotification) {
+          const activeUsers = await UserFarmModel.getActiveUsersFromFarmId(farm_id);
+
+          const userIds = activeUsers.map(({ user_id }) => user_id);
+
+          await sendDailyNewIrrigationPrescriptionNotification(
+            farm_id,
+            userIds,
+            isDayLaterThanUtc,
+            irrigation_prescription_id,
+          );
+          notificationsSent += userIds.length;
+        }
+      }
+
+      return res
+        .status(notificationsSent ? 201 : 200)
+        .send(`${notificationsSent} irrigation prescription notifications sent.`);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error });
+    }
+  },
 };
 
 /**
  * Notifies farm management of unassigned tasks due this week.
  * @param {String} farmId - id of the farm the farm managers belong to
  * @param {Array} farmManagement - user_ids of FM/FO/EO that need to be notified
- * @param {String} firstTaskTranslationKey - task translation key of the first unassigned task
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
  * @async
  */
 async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isDayLaterThanUtc) {
   const today = new Date();
-  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
   const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
@@ -129,11 +185,14 @@ async function sendWeeklyUnassignedTaskNotifications(farmId, farmManagement, isD
  * Sends notification to a user of tasks due today
  * @param {String} farmId
  * @param {String} userId
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
  * @async
  */
 async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanUtc) {
   const today = new Date();
-  if (isDayLaterThanUtc) today.setDate(today.getDate() + 1);
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
   const todayStr = today.toISOString().split('T')[0];
   await NotificationUser.notify(
     {
@@ -149,6 +208,42 @@ async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanU
       farm_id: farmId,
     },
     [userId],
+  );
+}
+
+/**
+ * Sends notification to a user of a new irrigation prescription
+ * @param {String} farmId
+ * @param {String[]} userIds
+ * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
+ * @async
+ */
+async function sendDailyNewIrrigationPrescriptionNotification(
+  farmId,
+  userIds,
+  isDayLaterThanUtc,
+  irrigation_prescription_id,
+) {
+  const today = new Date();
+  if (isDayLaterThanUtc) {
+    today.setDate(today.getDate() + 1);
+  }
+  const todayStr = today.toISOString().split('T')[0];
+  await NotificationUser.notify(
+    {
+      title: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE' },
+      body: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.BODY' },
+      variables: [],
+      ref: { url: `/irrigation_prescription/${irrigation_prescription_id}` },
+      context: {
+        icon_translation_key: 'IRRIGATION_PRESCRIPTION',
+        notification_type: 'NEW_IRRIGATION_PRESCRIPTION',
+        notification_date: todayStr,
+        irrigation_prescription_id,
+      },
+      farm_id: farmId,
+    },
+    userIds,
   );
 }
 

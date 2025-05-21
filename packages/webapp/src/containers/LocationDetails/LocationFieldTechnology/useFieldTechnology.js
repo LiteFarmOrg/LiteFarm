@@ -13,20 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
-import { sensorSelector } from '../../sensorSlice';
 import useGroupedSensors, { SensorType } from '../../SensorList/useGroupedSensors';
-import { getPointLocationsWithinPolygon } from '../../../util/geoUtils';
 
 export default function useFieldTechnology(location) {
-  const sensors = useSelector(sensorSelector);
   const { groupedSensors } = useGroupedSensors();
 
   let fieldTechnology = {};
 
   if (location && location.grid_points) {
-    fieldTechnology.sensors = getPointLocationsWithinPolygon(sensors, location.grid_points);
-
     fieldTechnology.addonSensors = groupedSensors.filter(
       (sensor) =>
         sensor.type == SensorType.SENSOR &&

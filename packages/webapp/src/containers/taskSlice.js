@@ -237,8 +237,10 @@ export const taskEntitiesSelector = createSelector(
           taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
           [];
         taskEntities[task_id].locations =
-          taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
-          [];
+          // TODO: Revert logic once sensors are no longer included in the backend response
+          taskEntities[task_id].locations?.flatMap(
+            (location_id) => locationEntities[location_id] || [],
+          ) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;

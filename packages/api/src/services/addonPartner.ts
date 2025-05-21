@@ -26,12 +26,12 @@ import {
 import { Mocks } from '../../tests/utils/ensembleUtils.js';
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
-const PARTNER_ID_MAP: Record<number, (shouldSend?: boolean) => AddonPartnerFunctions> = {
+const PARTNER_ID_MAP: Record<number, (shouldSend?: string) => AddonPartnerFunctions> = {
   0: () => {
     return { getIrrigationPrescriptions: () => [] as unknown as Promise<AxiosResponse<unknown>> };
   },
   1: (shouldSend) => {
-    return shouldSend ? ESciAddon : Mocks;
+    return shouldSend === 'true' ? ESciAddon : Mocks;
   },
 };
 
@@ -39,7 +39,7 @@ export const getAddonPartnerIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   startTime: string,
   endTime: string,
-  shouldSend: boolean,
+  shouldSend: string,
 ): Promise<IrrigationPrescription[]> => {
   const irrigationPrescriptions: IrrigationPrescription[] = [];
   const partnerErrors: unknown[] = [];

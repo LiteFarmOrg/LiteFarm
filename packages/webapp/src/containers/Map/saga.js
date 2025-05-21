@@ -15,7 +15,7 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
-import { url, sensorUrl } from '../../apiConfig';
+import { url } from '../../apiConfig';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
@@ -26,16 +26,6 @@ import {
 } from '../showedSpotlightSlice';
 
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import {
-  getSensorReadingSuccess,
-  onLoadingSensorReadingStart,
-  onLoadingSensorReadingFail,
-} from './mapSensorSlice';
-import {
-  getSensorReadingTypesSuccess,
-  onLoadingSensorReadingTypesFail,
-  onLoadingSensorReadingTypesStart,
-} from '../sensorReadingTypesSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -88,47 +78,7 @@ export function* setSpotlightToShownSaga({ payload: spotlights }) {
   }
 }
 
-export const getSensorReadings = createAction('getSensorReadingsSaga');
-
-export function* getSensorReadingsSaga() {
-  const { user_id, farm_id } = yield select(userFarmSelector);
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield put(onLoadingSensorReadingStart(user_id, farm_id));
-    const result = yield call(axios.get, `${sensorUrl}/reading/farm/${farm_id}`, header);
-    if (result.status === 200) {
-      yield put(getSensorReadingSuccess(result.data));
-    } else {
-      yield put(onLoadingSensorReadingFail(result.error));
-    }
-  } catch (e) {
-    yield put(onLoadingSensorReadingFail(e));
-    console.error(e);
-  }
-}
-
-export const getAllSensorReadingTypes = createAction('getAllSensorReadingTypesSaga');
-
-export function* getAllSensorReadingTypesSaga() {
-  const { user_id, farm_id } = yield select(userFarmSelector);
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield put(onLoadingSensorReadingTypesStart());
-    const result = yield call(axios.get, `${sensorUrl}/farm/${farm_id}/reading_type`, header);
-    if (result.status === 200) {
-      yield put(getSensorReadingTypesSuccess(result.data));
-    } else {
-      yield put(onLoadingSensorReadingTypesFail(result.error));
-    }
-  } catch (e) {
-    yield put(onLoadingSensorReadingTypesFail(e));
-    console.error(e);
-  }
-}
-
 export default function* supportSaga() {
   yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
   yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
-  yield takeLeading(getSensorReadings.type, getSensorReadingsSaga);
-  yield takeLeading(getAllSensorReadingTypes.type, getAllSensorReadingTypesSaga);
 }

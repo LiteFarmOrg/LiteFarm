@@ -15,7 +15,7 @@
 
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
@@ -59,6 +59,9 @@ import {
 } from '../../../util/task';
 import PureMovementTask from '../MovementTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import PureIrrigationPrescription from '../../IrrigationPrescription';
+import PureDocumentTile from '../../../containers/Documents/DocumentTile';
+import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -73,6 +76,8 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
+  externalIrrigationPrescription,
+  files,
   harvestUseTypes,
   maxZoomRef,
   getMaxZoom,
@@ -110,7 +115,6 @@ export default function PureTaskReadOnly({
       };
     }
   }, [task]);
-  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
     register,
@@ -170,6 +174,13 @@ export default function PureTaskReadOnly({
   const preDelete = () => {
     setIsDeleting(true);
   };
+
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(taskType, 'IRRIGATION_TASK') &&
+    task.irrigation_task?.irrigation_prescription_external_id != null;
+  const showLocations =
+    (task.locations?.length || task.pinCoordinates?.length) &&
+    !isIrrigationTaskWithExternalPrescription;
 
   return (
     <Layout
@@ -238,7 +249,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {task.locations?.length || task.pinCoordinates?.length ? (
+      {showLocations ? (
         <>
           <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
           {isTaskType(taskType, 'TRANSPLANT_TASK') && (
@@ -263,6 +274,20 @@ export default function PureTaskReadOnly({
           />
         </>
       ) : null}
+
+      {isIrrigationTaskWithExternalPrescription && (
+        <div className={styles.irrigationPrescription}>
+          <PureIrrigationPrescription
+            fieldLocation={task.locations[0]}
+            pivotCenter={externalIrrigationPrescription.pivot.center}
+            pivotRadiusInMeters={externalIrrigationPrescription.pivot.radius}
+            {...(externalIrrigationPrescription.prescription.uriData
+              ? { uriData: externalIrrigationPrescription.prescription.uriData }
+              : { vriData: externalIrrigationPrescription.prescription.vriData?.zones })}
+            system={system}
+          />
+        </div>
+      )}
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (
@@ -351,6 +376,7 @@ export default function PureTaskReadOnly({
               farm: user,
               system,
               products,
+              externalIrrigationPrescription,
               task,
               isCompleted,
             })}
@@ -450,6 +476,7 @@ export default function PureTaskReadOnly({
           farm: { farm_id, country_id, interested },
           system,
           products,
+          externalIrrigationPrescription,
           task,
         })}
       {showTaskNotes && (
@@ -460,6 +487,24 @@ export default function PureTaskReadOnly({
           optional
           disabled
         />
+      )}
+
+      {!!files.length && (
+        <div className={styles.files}>
+          <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+            {t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
+          </Semibold>
+          <PureDocumentTileContainer gap={16} padding={0}>
+            {files.map((file, index) => (
+              <PureDocumentTile
+                key={index}
+                title={file.split('/').at(-1)}
+                extensionName={file.split('.').pop()}
+                fileUrls={[file]}
+              />
+            ))}
+          </PureDocumentTileContainer>
+        </div>
       )}
 
       {isAdmin && isCurrent && !isDeleting && (

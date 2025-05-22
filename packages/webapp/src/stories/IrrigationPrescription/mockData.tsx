@@ -65,7 +65,7 @@ export const mockUriData = {
 };
 
 /* -----------------
-3-zone dynamic test case
+3-zone test case
 --------------------*/
 // Mock data for VRI zones (AI-generated polygons)
 const boundaryA = { lat: 49.0663, lng: -123.1563 };
@@ -127,6 +127,9 @@ export const mockZone3 = {
 
 export const mockVriZones = [mockZone2, mockZone3, mockZone1];
 
+/* -----------------
+3-zone dynamic test case
+--------------------*/
 // Dynamic mock data for VRI zones (AI-generated function using haversine formula)
 interface VriZone {
   soil_moisture_deficit: number;

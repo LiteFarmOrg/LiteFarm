@@ -376,7 +376,6 @@ export default function PureTaskReadOnly({
               farm: user,
               system,
               products,
-              externalIrrigationPrescription,
               task,
               isCompleted,
             })}
@@ -476,7 +475,6 @@ export default function PureTaskReadOnly({
           farm: { farm_id, country_id, interested },
           system,
           products,
-          externalIrrigationPrescription,
           task,
         })}
       {showTaskNotes && (

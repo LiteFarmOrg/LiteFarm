@@ -20,11 +20,6 @@
 export const up = async function (knex) {
   await knex.schema.createTable('soil_sample_task', (table) => {
     table.integer('task_id').references('task_id').inTable('task').primary();
-    table
-      .uuid('document_id')
-      .references('document_id')
-      .inTable('document')
-      .comment('Report document if uploaded');
     table.integer('samples_per_location').notNullable();
     table.jsonb('sample_depths').notNullable();
     table.enu('sample_depths_unit', ['cm', 'in']).notNullable().defaultTo('cm');

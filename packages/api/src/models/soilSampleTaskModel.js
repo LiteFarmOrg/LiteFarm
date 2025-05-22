@@ -34,10 +34,6 @@ class SoilSampleTaskModel extends Model {
       required: ['samples_per_location', 'sample_depths', 'sampling_tool'],
       properties: {
         task_id: { type: 'integer' },
-        document_id: {
-          type: ['string', 'null'],
-          format: 'uuid',
-        },
         samples_per_location: {
           type: 'integer',
           minimum: 1,
@@ -86,7 +82,6 @@ class SoilSampleTaskModel extends Model {
     return {
       // jsonSchema()
       task_id: 'omit',
-      document_id: 'omit',
       samples_per_location: 'keep',
       sample_depths: 'keep',
       sample_depths_unit: 'keep',

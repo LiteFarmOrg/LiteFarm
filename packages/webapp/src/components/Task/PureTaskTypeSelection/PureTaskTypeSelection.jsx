@@ -49,7 +49,7 @@ const icons = {
   CLEANING_TASK: <Clean />,
   TRANSPLANT_TASK: <Transplant />,
   FERTILIZE_TASK: <Fertilize />,
-  COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
+  SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
   MOVEMENT_TASK: <Movement />,
 };
@@ -70,6 +70,7 @@ export const PureTaskTypeSelection = ({
   hasCurrentManagementPlans,
   hasAnimalMovementLocations,
   hasAnimals,
+  hasSoilSampleLocations,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -120,7 +121,11 @@ export const PureTaskTypeSelection = ({
   };
 
   const shouldDisplayTaskType = (taskType) => {
-    const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
+    const supportedTaskTypes = getSupportedTaskTypesSet(
+      isAdmin,
+      hasAnimals,
+      hasSoilSampleLocations,
+    );
     const { farm_id, task_translation_key } = taskType;
 
     if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {

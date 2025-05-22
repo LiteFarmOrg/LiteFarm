@@ -79,6 +79,14 @@ router.post(
 );
 
 router.post(
+  '/soil_sample_location',
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:soil_sample_location']),
+  modelMapping['soil_sample_location'],
+  LocationController.createLocation('soil_sample_location'),
+);
+
+router.post(
   '/buffer_zone',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:buffer_zone']),
@@ -225,6 +233,14 @@ router.put(
   checkScope(['edit:water_valve']),
   modelMapping['water_valve'],
   LocationController.updateLocation('water_valve'),
+);
+
+router.put(
+  '/soil_sample_location/:location_id',
+  hasFarmAccess({ params: 'location_id' }),
+  checkScope(['edit:soil_sample_location']),
+  modelMapping['soil_sample_location'],
+  LocationController.updateLocation('soil_sample_location'),
 );
 
 router.put(

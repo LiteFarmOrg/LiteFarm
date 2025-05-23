@@ -14,14 +14,19 @@
  */
 
 import { Response } from 'express';
-import { LiteFarmRequest, HttpError } from '../types.js';
-import { IrrigationPrescriptionQueryParams } from '../middleware/validation/checkIrrigationPrescription.js';
+import { HttpError, ScopeCheckedLiteFarmRequest } from '../types.js';
 import { getAddonPartnerIrrigationPrescriptions } from '../services/addonPartner.js';
+
+export interface IrrigationPrescriptionQueryParams {
+  startTime: string;
+  endTime: string;
+  shouldSend: string;
+}
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
     return async (
-      req: LiteFarmRequest<Required<IrrigationPrescriptionQueryParams>>,
+      req: ScopeCheckedLiteFarmRequest<IrrigationPrescriptionQueryParams>,
       res: Response,
     ) => {
       try {
@@ -29,7 +34,6 @@ const irrigationPrescriptionController = {
         const { startTime, endTime, shouldSend } = req.query;
 
         const irrigationPrescriptions = await getAddonPartnerIrrigationPrescriptions(
-          // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
           farm_id,
           startTime,
           endTime,

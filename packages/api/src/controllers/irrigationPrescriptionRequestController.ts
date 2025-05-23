@@ -15,14 +15,9 @@
 
 import { Response } from 'express';
 import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
-import { LiteFarmRequest } from '../types.js';
+import { HttpError, LiteFarmRequest } from '../types.js';
 
-interface HttpError extends Error {
-  status?: number;
-  code?: number; // LF custom error
-}
-
-interface InitiateFarmIrrigationPrescriptionQueryParams {
+export interface InitiateFarmIrrigationPrescriptionQueryParams {
   allOrgs?: string;
   shouldSend?: string;
 }

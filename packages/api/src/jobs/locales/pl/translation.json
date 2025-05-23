@@ -1,0 +1,102 @@
+{
+  "EXPORT_README_TITLE": "Zrozumienie eksportu certyfikacji",
+  "N": "N",
+  "N/A": "Nie dotyczy",
+  "NO": "Nie",
+  "NOT_SURE": "Nie jestem pewien",
+  "OPERATION_NAME": "NAZWA OPERACJI",
+  "RECORD_A": {
+    "ACRES": "Hektary",
+    "AREA": "Powierzchnia",
+    "BUILDING": "(budynki, las, obszar bioróżnorodności, droga dojazdowa)",
+    "CERTIFIED": "Certyfikowane",
+    "CROPS_OR_ANIMALS": "Uprawy lub rodzaj zwierząt na jednostkę",
+    "CURRENT_STATUS": "Aktualny status - zaznacz jedno dla każdej jednostki",
+    "EXPORT_DOCUMENT_NAME": "REJESTR A",
+    "HEADER": "REJESTR A - IDENTYFIKACJA MIEJSCA",
+    "HECTARES": "Hektary",
+    "INDIVIDUAL_PRODUCTION_UNIT": "dla każdej indywidualnej jednostki produkcyjnej (np. Lokalizacja/Pole/Szklarnia/Zdefiniowany obszar -  odpowiednie dla Twojej operacji i oznaczone na mapie)",
+    "NAME_OR_ID": "Nazwa lub ID #",
+    "NEW": "Nowe",
+    "NEW_AREA": "Obszar (dodany w tym roku)",
+    "NON_ORGANIC": "Obszar nieorganiczny w",
+    "NON_PRODUCING": "Nieprodukcyjny",
+    "OPERATION_NAME": "NAZWA OPERACJI",
+    "ORGANIC_AREA": "Obszar organiczny",
+    "PLEASE_VERIFY": "Proszę zweryfikować szczegóły i w razie potrzeby wprowadzić zmiany co roku. Jeśli operacja obejmuje wiele oddzielnych miejsc, upewnij się, że każde miejsce zostało opisane oddzielnie. Proszę zapoznać się z przykładową kartą zamieszczoną poniżej, aby uzyskać przykłady, jak wypełnić ten formularz.",
+    "PRODUCTION": "produkcja",
+    "REMOVED": "Usunięte z programu",
+    "REPORTING_PERIOD": "Okres sprawozdawczy",
+    "ROW_FT": "Rząd Ft",
+    "ROW_M": "Rząd M",
+    "SIZE_IN_PREFERRED_UNIT": "Wielkość w preferowanej jednostce miary",
+    "SPLIT": "Podzielone/równoległe",
+    "SQ_FT": "Stopy kwadratowe",
+    "SQ_M": "Metry kwadratowe",
+    "TRANSITIONAL": "Przejściowe",
+    "WHY_REMOVED": "Dlaczego usunięto lub inne uwagi"
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "Data ukończenia",
+    "EXPORT_DOCUMENT_NAME": "REJESTR D",
+    "FROM": "Od",
+    "HEADER": "Rejestr D- Nasiona i materiał sadzeniowy",
+    "NOTE": {
+      "LIST_ALL": "Wymień WSZYSTKIE nasiona i materiał sadzeniowy używane w okresie sprawozdawczym. Proszę zanotować:",
+      "ONE": "Upewnij się, że paragon zakupu, etykiety, metki i certyfikaty organiczne wszystkich nasion/materiału są dostępne do przeglądu podczas inspekcji.",
+      "TWO": {
+        "A": "Poszukiwanie dostępności komercyjnej według COS 5.3- (Rejestr D1 lub równoważne)",
+        "B": "Dokumentacja potwierdzająca brak modyfikacji genetycznej (non-GE)",
+        "C": "Dokumentacja potwierdzająca, że wszelkie zabiegi, takie jak inokulanty czy powłoki nasienne, są zgodne z PSL (uwaga: zgodność z NOP nie jest wystarczająca)",
+        "PART_1": "Gdzie",
+        "PART_2": "używane są nieorganiczne nasiona/materiał",
+        "PART_3": "wymagana jest dostępność następującej dokumentacji podczas inspekcji"
+      }
+    },
+    "REPORTING_PERIOD": "Okres sprawozdawczy",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "Jeśli nie jest to materiał siewny/nasion, czy wyszukiwanie zostało zakończone (T/N)?",
+      "LIST_SEED_TREATMENTS": "Wymień zabiegi nasion (jeśli występują)",
+      "LOT_NUMBER": "Numer partii (jeśli dotyczy)",
+      "NON_GE_DOCS_AVAILABLE": "Dokumenty non-GE dostępne (T/N)",
+      "NOTES": "Uwagi/Daty sadzenia bylin/etc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Nasiona/odmiana lub materiał sadzeniowy",
+      "STATUS_CERTIFIED_ORGANIC": "Status nasion/materiału = Certyfikowane organiczne (T/N)",
+      "SUPPLIER": "Źródło/Dostawca",
+      "TREATMENT_DOCS_AVAILABLE": "Dokumenty dotyczące zabiegów dostępne (T/N)"
+    },
+    "TO": "Do"
+  },
+  "RECORD_I": {
+    "CLEANERS": "Środki czyszczące",
+    "CROP_PRODUCTION_AIDS": "Środki wspomagające produkcję roślin",
+    "EXPORT_DOCUMENT_NAME": "REJESTR I",
+    "HEADER": "Rejestr I",
+    "INPUT_CATEGORY": "Kategoria wejściowa",
+    "LOCATIONS": "Lokalizacja(i)",
+    "NOTE": {
+      "LIST_ALL": "Wymień WSZYSTKIE środki użyte w ciągu ostatnich 12 miesięcy lub od momentu złożenia ostatniego Rejestru I. Możesz wybrać używanie tego dokumentu do prowadzenia bieżącej ewidencji użytych środków w ciągu sezonu.",
+      "LIVESTOCK_INPUTS": "Uwaga: Środki dla zwierząt gospodarskich: Pasze, dodatki paszowe i suplementy paszowe, produkty zdrowotne i wspomagające produkcję, ściółka dla zwierząt itp. należy wymienić w Rejestr LI- Środki dla zwierząt gospodarskich.",
+      "ONE": {
+        "PART_1": "Środki do poprawy gleby, żywienie roślin, środki wspomagające produkcję roślin i materiały:",
+        "PART_2": "np. jako ściółki, nawozy, opryski dolistne, kompost, obornik, mieszanki gleby doniczkowej lub ich składniki, torf, środki do poprawy gleby itp."
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "Proszę użyć oddzielnego Rejestru Wejściowego dla każdej kategorii środków, jak opisano poniżej, i przesłać każdy z nich w odpowiedniej lokalizacji przesyłania w Sekcji 99 - Przesyłanie:",
+      "PREP_INPUTS": "Uwaga: Środki do przetwarzania: dodatki do żywności, inne składniki, środki wspomagające przetwarzanie należy wymienić w Rejestr PM - Lista głównych składników i środków wspomagających przetwarzanie.",
+      "TWO": "Środki czyszczące, dezynfekujące, środki sanitarne, substancje do zarządzania szkodnikami w obiektach."
+    },
+    "REPORTING_PERIOD": "OKRES SPRAWOZDAWCZY",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "Uprawa/Pole, do którego zastosowano lub jednostka produkcyjna, w której użyto",
+      "DATE_USED": "Data użycia",
+      "LISTED_IN_PSL": "Wymienione w PSL? (T/N)",
+      "NOTES": "Uwagi",
+      "PRODUCT_NAME": "Nazwa produktu",
+      "QUANTITY": "Ilość",
+      "SUPPLIER": "Nazwa marki lub źródło/dostawca"
+    },
+    "VARIETALS": "Odmiany"
+  },
+  "Y": "T",
+  "YES": "Tak"
+}

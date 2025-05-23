@@ -208,8 +208,10 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "You'll need a location or area where animals can be moved. Go to the map to create an animal location.",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NEED_SOIL_SAMPLE_LOCATION": "You'll need a specific location designated to sample the soil. Go to the map to create a soil sampling location.",
     "NO_ANIMAL_LOCATION": "No eligible animal locations",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
+    "NO_SOIL_SAMPLE_LOCATION": "No eligible soil sample locations",
     "NOTES_LABEL": "Anything specific to add related to this task?",
     "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
     "PEST_CONTROL_VIEW": {

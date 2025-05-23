@@ -11,14 +11,11 @@ export const getSupportedTaskTypesSet = (isAdmin, hasAnimals, hasSoilSampleLocat
     'CLEANING_TASK',
     'HARVEST_TASK',
     'IRRIGATION_TASK',
+    'SOIL_SAMPLE_TASK',
   ]);
 
   if (hasAnimals) {
     supportedTaskTypes.add('MOVEMENT_TASK');
-  }
-
-  if (hasSoilSampleLocations) {
-    supportedTaskTypes.add('SOIL_SAMPLE_TASK');
   }
 
   if (isAdmin) {

@@ -96,6 +96,7 @@ const PostSoilSampleLocationForm = React.lazy(() =>
 const EditSensor = React.lazy(() =>
   import('../containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
 );
+const SoilSampleLocationDetails = React.lazy(() => import('./SoilSampleLocationDetailsRoutes'));
 
 const PostBarnForm = React.lazy(() =>
   import('../containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -572,6 +573,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
@@ -680,7 +685,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/profile" exact component={Account} />
             <Route path="/people" exact component={People} />
             <Route path="/user/:user_id" exact component={EditUser} />
-
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop/new" exact component={AddNewCrop} />
@@ -882,6 +886,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
@@ -1033,6 +1041,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />

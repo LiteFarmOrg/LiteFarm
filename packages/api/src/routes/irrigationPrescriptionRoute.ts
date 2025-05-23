@@ -26,7 +26,10 @@ const router = express.Router();
 router.get(
   '/',
   checkScope(['get:smart_irrigation']),
-  checkGetIrrigationPrescription(),
+  (req, res, next) => {
+    const typedReq = req as ScopeCheckedLiteFarmRequest<Partial<IrrigationPrescriptionQueryParams>>;
+    checkGetIrrigationPrescription()(typedReq, res, next);
+  },
   (req, res) => {
     const typedReq = req as ScopeCheckedLiteFarmRequest<IrrigationPrescriptionQueryParams>;
     IrrigationPrescriptionController.getPrescriptions()(typedReq, res);

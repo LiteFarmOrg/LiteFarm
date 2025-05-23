@@ -124,7 +124,6 @@ import {
   onLoadingRowMethodFail,
   onLoadingRowMethodStart,
 } from './rowMethodSlice';
-import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
 import {
   getSurfaceWatersSuccess,
   onLoadingSurfaceWaterFail,
@@ -335,7 +334,6 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
-  yield put(onLoadingSensorStart());
 }
 
 export const getLocations = createAction('getLocationsSaga');
@@ -360,7 +358,8 @@ export function* getLocationsSuccessSaga({ payload: locations }) {
     {},
   );
   for (const location of locations) {
-    locations_by_figure_type[location.figure.type].push(location);
+    // TODO: Remove "?" once sensors are no longer included in the backend response
+    locations_by_figure_type[location.figure.type]?.push(location);
   }
   for (const figure_type in figureTypeActionMap) {
     try {
@@ -387,7 +386,6 @@ const figureTypeActionMap = {
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
-  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
 };
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {

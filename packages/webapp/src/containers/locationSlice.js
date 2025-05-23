@@ -49,7 +49,6 @@ import {
   waterValvesSelector,
   waterValveStatusSelector,
 } from './waterValveSlice';
-import { sensorEntitiesSelector, sensorSelector, sensorStatusSelector } from './sensorSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
 import {
   standaloneSensorsSelector,
@@ -206,28 +205,22 @@ export const lineStatusSelector = createSelector(
 );
 
 export const pointSelector = createSelector(
-  [
-    gatesSelector,
-    waterValvesSelector,
-    sensorSelector,
-    sensorArraysSelector,
-    standaloneSensorsSelector,
-  ],
-  (gates, waterValves, sensor, sensorArrays, standaloneSensors) => {
+  [gatesSelector, waterValvesSelector, sensorArraysSelector, standaloneSensorsSelector],
+  (gates, waterValves, sensorArrays, standaloneSensors) => {
     const result = {};
     result[locationEnum.gate] = gates;
     result[locationEnum.water_valve] = waterValves;
-    result[locationEnum.sensor] = [...sensor, ...sensorArrays, ...standaloneSensors];
+    result[locationEnum.sensor] = [...sensorArrays, ...standaloneSensors];
     return result;
   },
 );
 export const pointStatusSelector = createSelector(
-  [gateStatusSelector, waterValveStatusSelector, sensorStatusSelector],
-  (gateStatus, waterValveStatus, sensorStatus) => {
+  [gateStatusSelector, waterValveStatusSelector],
+  (gateStatus, waterValveStatus) => {
     return {
-      loading: gateStatus.loading || waterValveStatus.loading || sensorStatus.loading,
-      loaded: gateStatus.loaded && waterValveStatus.loaded && sensorStatus.loaded,
-      error: gateStatus.error || waterValveStatus.error || sensorStatus.error,
+      loading: gateStatus.loading || waterValveStatus.loading,
+      loaded: gateStatus.loaded && waterValveStatus.loaded,
+      error: gateStatus.error || waterValveStatus.error,
     };
   },
 );
@@ -356,7 +349,6 @@ export const locationEntitiesSelector = createSelector(
     fenceEntitiesSelector,
     gateEntitiesSelector,
     waterValveEntitiesSelector,
-    sensorEntitiesSelector,
   ],
   (...args) => {
     return args.reduce(

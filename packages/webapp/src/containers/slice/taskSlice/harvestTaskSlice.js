@@ -27,6 +27,13 @@ const upsertManyHarvestTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllHarvestTask = (state, { payload: tasks }) => {
+  harvestTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getHarvestTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const harvestTaskAdapter = createEntityAdapter({
   selectId: (harvestTask) => harvestTask.task_id,
@@ -44,6 +51,7 @@ const harvestTaskSlice = createSlice({
     onLoadingHarvestTaskStart: onLoadingStart,
     onLoadingHarvestTaskFail: onLoadingFail,
     getHarvestTasksSuccess: upsertManyHarvestTask,
+    getAlllHarvestTasksSuccess: setAllHarvestTask,
     postHarvestTaskSuccess: upsertOneHarvestTask,
     editHarvestTaskSuccess: upsertOneHarvestTask,
     deleteHarvestTaskSuccess: harvestTaskAdapter.removeOne,
@@ -51,6 +59,7 @@ const harvestTaskSlice = createSlice({
 });
 export const {
   getHarvestTasksSuccess,
+  getAlllHarvestTasksSuccess,
   postHarvestTaskSuccess,
   editHarvestTaskSuccess,
   onLoadingHarvestTaskStart,

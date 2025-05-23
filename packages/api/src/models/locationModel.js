@@ -34,7 +34,6 @@ import waterValveModel from './waterValveModel.js';
 import soilSampleLocationModel from './soilSampleLocationModel.js';
 import taskModel from './taskModel.js';
 import locationTasksModel from './locationTasksModel.js';
-import sensorModel from './sensorModel.js';
 import fieldModel from './fieldModel.js';
 import pinModel from './pinModel.js';
 import locationDefaultsModel from './locationDefaultsModel.js';
@@ -217,14 +216,6 @@ class Location extends baseModel {
         join: {
           from: 'location.location_id',
           to: 'soil_sample_location.location_id',
-        },
-      },
-      sensor: {
-        modelClass: sensorModel,
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'location.location_id',
-          to: 'sensor.location_id',
         },
       },
       location_defaults: {

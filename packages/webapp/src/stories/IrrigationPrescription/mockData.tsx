@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Point } from '../../util/geoUtils';
+
 // Pass your real location object
 export const mockField = {
   name: 'Second Field',
@@ -124,6 +126,75 @@ export const mockZone3 = {
 };
 
 export const mockVriZones = [mockZone2, mockZone3, mockZone1];
+
+/* -----------------
+3-zone dynamic test case
+--------------------*/
+// Dynamic mock data for VRI zones (AI-generated function using haversine formula)
+interface VriZone {
+  soil_moisture_deficit: number;
+  application_depth: number;
+  application_depth_unit: 'mm';
+  grid_points: Point[];
+}
+
+const EARTH_RADIUS = 6371000; // meters
+
+function offsetPoint(center: Point, distance: number, angleDeg: number): Point {
+  const angleRad = (angleDeg * Math.PI) / 180;
+  const deltaLat = (distance * Math.cos(angleRad)) / EARTH_RADIUS;
+  const deltaLng =
+    (distance * Math.sin(angleRad)) / (EARTH_RADIUS * Math.cos((center.lat * Math.PI) / 180));
+
+  return {
+    lat: center.lat + (deltaLat * 180) / Math.PI,
+    lng: center.lng + (deltaLng * 180) / Math.PI,
+  };
+}
+
+export function generateMockPieSliceZones({
+  center,
+  radius,
+}: {
+  center: Point;
+  radius: number;
+}): VriZone[] {
+  const zones: VriZone[] = [];
+  const zoneCount = 3;
+  const arcSpan = 120; // degrees per slice
+
+  for (let i = 0; i < zoneCount; i++) {
+    const startAngle = i * arcSpan;
+    const endAngle = startAngle + arcSpan;
+    const step = 30; // spacing for outer arc points
+
+    // Generate arc points in increasing angle order
+    const arcPoints: Point[] = [];
+    for (let angle = startAngle; angle <= endAngle; angle += step) {
+      arcPoints.push(offsetPoint(center, radius, angle));
+    }
+
+    // Add points forming the inner triangle: arc end -> center -> arc start (in reverse to maintain winding)
+    const innerEdgePoint = offsetPoint(center, radius * 0.6, endAngle);
+    const innerStartPoint = offsetPoint(center, radius * 0.6, startAngle);
+
+    const polygonPoints = [
+      ...arcPoints, // outer arc (clockwise or CCW)
+      innerEdgePoint, // from outer arc end inward
+      center, // center point
+      innerStartPoint, // from center back out to arc start
+    ];
+
+    zones.push({
+      soil_moisture_deficit: 40 + i * 10,
+      application_depth: 10 + i * 5,
+      application_depth_unit: 'mm',
+      grid_points: polygonPoints,
+    });
+  }
+
+  return zones;
+}
 
 /* -----------------
 5-zone test case

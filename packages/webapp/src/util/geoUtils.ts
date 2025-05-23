@@ -15,6 +15,7 @@
 
 import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon';
 import { point, polygon } from '@turf/helpers';
+import { centroid } from '@turf/centroid';
 
 export interface Point {
   lat: number;
@@ -129,6 +130,24 @@ const safeCreatePolygon = (coordinates: TurfPoint[]): ReturnType<typeof polygon>
   } catch (error) {
     // turf will throw an error if the polygon is invalid
     console.error(error);
+    return null;
+  }
+};
+
+export const getCentroidOfPolygon = (gridPoints: Point[]): Point | null => {
+  const coordinates = gridPoints.map((p: Point): TurfPoint => [p.lng, p.lat]);
+  const areaPolygon = safeCreatePolygon(coordinates);
+
+  if (!areaPolygon) {
+    return areaPolygon;
+  }
+
+  try {
+    const centroidFeature = centroid(areaPolygon);
+    const [lng, lat] = centroidFeature.geometry.coordinates;
+    return { lat, lng };
+  } catch (err) {
+    console.error('Error computing centroid:', err);
     return null;
   }
 };

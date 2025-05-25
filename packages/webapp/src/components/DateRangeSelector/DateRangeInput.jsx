@@ -60,6 +60,12 @@ export default function DateRangeInput({
   ];
 
   useEffect(() => {
+    if (isMenuOpen) {
+      selectRef.current?.focus();
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     onValidityChange?.(isValid);
   }, [isValid, onValidityChange]);
 

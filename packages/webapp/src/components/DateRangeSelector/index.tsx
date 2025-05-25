@@ -63,9 +63,7 @@ const DateRangeSelector = ({
   weekStartDate = SUNDAY,
 }: DateRangeSelectorProps) => {
   const { option, customRange = {} } = dateRange;
-  const initialOption = option || defaultValue;
   const dateRangeUtil = new DateRange(new Date(), weekStartDate);
-
   const initialStartDate = customRange.startDate ? moment(customRange.startDate) : undefined;
   const initialEndDate = customRange.endDate ? moment(customRange.endDate) : undefined;
 
@@ -98,7 +96,7 @@ const DateRangeSelector = ({
   return (
     <div className={clsx(styles.rangeContainer, className)}>
       <DateRangeInput
-        defaultDateRangeOptionValue={initialOption}
+        optionValue={option || defaultValue}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
         changeDateRangeMethod={changeDateRange}

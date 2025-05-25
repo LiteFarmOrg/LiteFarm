@@ -26,7 +26,7 @@ import styles from './styles.module.scss';
 import { Popover } from '@mui/material';
 
 export default function DateRangeInput({
-  defaultDateRangeOptionValue,
+  optionValue,
   defaultCustomDateRange = {},
   onChangeDateRangeOption,
   placeholder,
@@ -35,7 +35,7 @@ export default function DateRangeInput({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
-  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
+  const isCustomOptionSelected = optionValue === rangeOptions.CUSTOM;
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
@@ -136,17 +136,11 @@ export default function DateRangeInput({
         onChange={(e) => {
           if (e?.value === rangeOptions.CUSTOM) {
             setIsCustomDatePickerOpen(true);
-            setIsCustomOptionSelected(true);
-          } else {
-            setIsCustomOptionSelected(false);
           }
           onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
         }}
         formatOptionLabel={formatOptionLabel}
-        defaultValue={
-          defaultDateRangeOptionValue &&
-          options.find(({ value }) => value === defaultDateRangeOptionValue)
-        }
+        value={options.find(({ value }) => value === optionValue)}
         isSearchable={false}
       />
       <Popover
@@ -176,7 +170,7 @@ export default function DateRangeInput({
 }
 
 DateRangeInput.propTypes = {
-  defaultDateRangeOptionValue: PropTypes.string,
+  optionValue: PropTypes.string,
   defaultCustomDateRange: PropTypes.shape({
     [FROM_DATE]: PropTypes.object,
     [TO_DATE]: PropTypes.object,

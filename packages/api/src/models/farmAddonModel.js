@@ -121,6 +121,19 @@ class FarmAddon extends baseModel {
       .where('addon_partner_id', addonPartnerId)
       .whereNotDeleted();
   }
+
+  /**
+   * Retrieves unique addon partner ids from farm addons.
+   *
+   * @param {string} farmId - The ID of the farm.
+   * @returns {Promise<Array<{addon_partner_id: number}>>} The partner identifiers for the farm queried.
+   */
+  static async getDistinctFarmAddonPartnerIds(farmId) {
+    return FarmAddon.query()
+      .distinct('addon_partner_id')
+      .where('farm_id', farmId)
+      .whereNotDeleted();
+  }
 }
 
 export default FarmAddon;

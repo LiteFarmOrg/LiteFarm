@@ -2566,13 +2566,16 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
-async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
-  const [existingPartner] = await knex('addon_partner').where({ name: partner.name });
+async function addon_partnerFactory(partner) {
+  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const [existingPartner] = await knex('addon_partner').where({
+    name: partner ? partner.name : fakePartner.name,
+  });
 
   if (!existingPartner) {
     return knex('addon_partner')
       .insert({
-        ...partner,
+        ...(partner ? partner : fakePartner),
         access_token: faker.datatype.access_token,
         refresh_token: faker.datatype.refresh_token,
       })
@@ -2594,6 +2597,62 @@ async function farm_addonFactory({
     .insert({ farm_id, addon_partner_id, org_pk, org_uuid })
     .returning('*');
 }
+
+// External endpoint helper mocks
+export const buildExternalIrrigationPrescription = async ({
+  id,
+  providedFarm,
+  providedLocation,
+  providedManagementPlan = null,
+}) => {
+  const farm = providedFarm ?? farmFactory();
+  const location =
+    providedLocation ??
+    (await locationFactory({ promisedFarm: Promise.resolve(farm) ?? undefined }));
+  const managementPlan =
+    providedManagementPlan ??
+    (await management_planFactory({ promisedFarm: Promise.resolve([farm]) ?? undefined }));
+
+  return {
+    id: id ?? 1,
+    location_id: location.location_id,
+    management_plan_id: managementPlan.management_plan_id,
+    recommended_start_datetime: new Date().toISOString(),
+  };
+};
+
+export const buildIrrigationPrescription = async ({
+  providedExternalIrrigationPrescription,
+  providedPartner,
+  linkToTask = false,
+  providedFarm = {},
+  providedLocation = {},
+  providedIrrigationTask = null,
+}) => {
+  const externalIrrigationPrescription =
+    providedExternalIrrigationPrescription ?? (await buildExternalIrrigationPrescription({}));
+  const addonPartner = providedPartner ?? (await addon_partnerFactory());
+
+  const mockIrrigationTask = fakeIrrigationTask({
+    location_id: externalIrrigationPrescription.location_id,
+    irrigation_prescription_external_id: externalIrrigationPrescription.id,
+  });
+
+  let irrigationTask;
+  if (providedIrrigationTask) {
+    irrigationTask = providedIrrigationTask;
+  } else if (linkToTask && !providedIrrigationTask) {
+    const task = await taskFactory({ promisedFarm: [providedFarm] });
+    await location_tasksFactory({ promisedTask: task, promisedField: [providedLocation] });
+    [irrigationTask] = await irrigation_taskFactory({ promisedTask: task }, mockIrrigationTask);
+  }
+
+  return {
+    ...externalIrrigationPrescription,
+    partner_id: addonPartner.id,
+    task_id: irrigationTask?.task_id,
+  };
+};
 
 export default {
   weather_stationFactory,
@@ -2758,5 +2817,7 @@ export default {
   animal_type_use_relationshipFactory,
   addon_partnerFactory,
   farm_addonFactory,
+  buildExternalIrrigationPrescription,
+  buildIrrigationPrescription,
   baseProperties,
 };

@@ -522,6 +522,25 @@ class TaskModel extends BaseModel {
       .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
       .whereIn('task_id', taskIds);
   }
+
+  /**
+   * Returns farm tasks for an array of external ids
+   *
+   * @param {string} farmId - The farm requesting irrigation tasks.
+   * @param {number[]} externalIds - Array of external irrigation prescription ids of interest.
+   * @static
+   * @async
+   * @returns {import('./types.js').IrrigationTask[]} - Returns found irrigation tasks.
+   */
+  static async getIrrigationTasksWithExternalIdByFarm(farmId, externalIds) {
+    return await TaskModel.query()
+      .select('task.*')
+      .withGraphJoined('[locations, irrigation_task]')
+      .whereNotNull('irrigation_task.irrigation_prescription_external_id')
+      .whereIn('irrigation_task.irrigation_prescription_external_id', externalIds)
+      .where('locations.farm_id', farmId)
+      .whereNotDeleted();
+  }
 }
 
 export default TaskModel;

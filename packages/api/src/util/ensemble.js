@@ -592,7 +592,7 @@ async function createOrganisation(farmId) {
  * @param {Function} onError - a function for handling errors with the api call
  * @param {Function} onResponse -  a function to determine how to handle the response of the api call
  * @param {number} retries - number of times the api call can be retried
- * @returns {Object} - the response from the Ensemble API
+ * @returns {import('axios').AxiosResponse} - the response from the Ensemble API
  * @async
  */
 async function ensembleAPICall(axiosObject, onError, onResponse = (r) => r, retries = 1) {

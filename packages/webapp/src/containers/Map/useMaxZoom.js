@@ -22,6 +22,7 @@ export function useMaxZoom() {
         { point: grid_points },
         ...points.gate,
         ...points.water_valve,
+        ...points.soil_sample_location,
         ...points.sensor,
       ];
       pointsCollections.forEach(({ point }) => {

@@ -44,6 +44,7 @@ import farmSiteBoundarySaga from './containers/LocationDetails/AreaDetails/FarmS
 import fenceSaga from './containers/LocationDetails/LineDetails/FenceDetailForm/saga';
 import bufferZoneSaga from './containers/LocationDetails/LineDetails/BufferZoneDetailForm/saga';
 import watercourseSaga from './containers/LocationDetails/LineDetails/WatercourseDetailForm/saga';
+import soilSampleLocationLocationSaga from './containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/saga';
 import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
@@ -119,6 +120,7 @@ sagaMiddleware.run(waterValveSaga);
 sagaMiddleware.run(farmSiteBoundarySaga);
 sagaMiddleware.run(fenceSaga);
 sagaMiddleware.run(watercourseSaga);
+sagaMiddleware.run(soilSampleLocationLocationSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);

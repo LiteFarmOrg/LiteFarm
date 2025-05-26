@@ -24,38 +24,17 @@ interface LocationIrrigationPrescription extends IrrigationPrescription {
   task?: Task;
 }
 
-const ONE_HOUR_IN_MS = 1000 * 60 * 60;
-const getMockData = (location: Location, tasks: Task[]): IrrigationPrescription[] => [
-  {
-    id: 1,
-    location_id: location.location_id,
-    recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
-    partner_id: 1,
-    task_id: tasks.length ? tasks.at(-1)?.task_id : undefined,
-  },
-  {
-    id: 2,
-    location_id: location.location_id,
-    recommended_start_datetime: new Date(Date.now() - ONE_HOUR_IN_MS).toDateString(),
-    partner_id: 1,
-    task_id: undefined,
-  },
-];
-
 export default function useIrrigationPrescriptions(location?: Location) {
   if (!location) {
     return [];
   }
 
-  const { data } = useGetIrrigationPrescriptionsQuery();
+  const { data = [] } = useGetIrrigationPrescriptionsQuery();
   const tasks = useSelector(tasksSelector);
 
-  // TODO: refactor once mocked data is no longer needed
-  const irrigationPrescriptions = data ?? getMockData(location, tasks);
-
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
-  if (location && location.grid_points) {
-    filteredIrrigationPrescriptionsWithTask = irrigationPrescriptions
+  if (location.grid_points) {
+    filteredIrrigationPrescriptionsWithTask = data
       .filter(
         // return matching plans for this location
         ({ location_id }) => location_id === location.location_id,

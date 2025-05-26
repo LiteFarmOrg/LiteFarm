@@ -17,6 +17,7 @@ const initialState = {
   fence: true,
   gate: true,
   water_valve: true,
+  soil_sample_location: true,
   farm_site_boundary: true,
   map_background: true,
   label: true,

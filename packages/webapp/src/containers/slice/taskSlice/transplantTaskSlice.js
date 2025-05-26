@@ -25,6 +25,13 @@ const upsertManyTransplantTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllTransplantTask = (state, { payload: tasks }) => {
+  transplantTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getTransplantTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const transplantTaskAdapter = createEntityAdapter({
   selectId: (transplantTask) => transplantTask.task_id,
@@ -42,6 +49,7 @@ const transplantTaskSlice = createSlice({
     onLoadingTransplantTaskStart: onLoadingStart,
     onLoadingTransplantTaskFail: onLoadingFail,
     getTransplantTasksSuccess: upsertManyTransplantTask,
+    getAllTransplantTasksSuccess: setAllTransplantTask,
     postTransplantTaskSuccess: upsertOneTransplantTask,
     editTransplantTaskSuccess: upsertOneTransplantTask,
     deleteTransplantTaskSuccess: transplantTaskAdapter.removeOne,
@@ -49,6 +57,7 @@ const transplantTaskSlice = createSlice({
 });
 export const {
   getTransplantTasksSuccess,
+  getAllTransplantTasksSuccess,
   postTransplantTaskSuccess,
   editTransplantTaskSuccess,
   onLoadingTransplantTaskStart,
@@ -69,10 +78,8 @@ export const transplantTaskEntitiesSelector = createSelector(
   (transplantTaskEntities, plantManagementPlanTaskEntities) => {
     return produce(transplantTaskEntities, (transplantTaskEntities) => {
       for (const task_id in transplantTaskEntities) {
-        const {
-          planting_management_plan_id,
-          prev_planting_management_plan_id,
-        } = transplantTaskEntities[task_id];
+        const { planting_management_plan_id, prev_planting_management_plan_id } =
+          transplantTaskEntities[task_id];
         transplantTaskEntities[task_id].planting_management_plan =
           plantManagementPlanTaskEntities[planting_management_plan_id];
         prev_planting_management_plan_id &&

@@ -172,6 +172,7 @@ import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
+import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
 
 // register API
@@ -341,6 +342,7 @@ app
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
+  .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data

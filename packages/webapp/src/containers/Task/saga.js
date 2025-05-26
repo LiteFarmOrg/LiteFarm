@@ -24,47 +24,56 @@ import { pick } from '../../util/pick';
 import produce from 'immer';
 import { getObjectInnerValues } from '../../util';
 import {
+  getAllCleaningTasksSuccess,
   getCleaningTasksSuccess,
   onLoadingCleaningTaskFail,
   onLoadingCleaningTaskStart,
 } from '../slice/taskSlice/cleaningTaskSlice';
 import {
+  getAllFieldWorkTasksSuccess,
   getFieldWorkTasksSuccess,
   onLoadingFieldWorkTaskFail,
   onLoadingFieldWorkTaskStart,
 } from '../slice/taskSlice/fieldWorkTaskSlice';
 import {
+  getAllIrrigationTasksSuccess,
   getIrrigationTasksSuccess,
   onLoadingIrrigationTaskFail,
   onLoadingIrrigationTaskStart,
 } from '../slice/taskSlice/irrigationTaskSlice';
 import {
+  getAllPestControlTasksSuccess,
   getPestControlTasksSuccess,
   onLoadingPestControlTaskFail,
   onLoadingPestControlTaskStart,
 } from '../slice/taskSlice/pestControlTaskSlice';
 import {
+  getAllSoilAmendmentTasksSuccess,
   getSoilAmendmentTasksSuccess,
   onLoadingSoilAmendmentTaskFail,
   onLoadingSoilAmendmentTaskStart,
 } from '../slice/taskSlice/soilAmendmentTaskSlice';
 import {
+  getAlllHarvestTasksSuccess,
   getHarvestTasksSuccess,
   onLoadingHarvestTaskFail,
   onLoadingHarvestTaskStart,
 } from '../slice/taskSlice/harvestTaskSlice';
 import {
+  getAllPlantTasksSuccess,
   getPlantTasksSuccess,
   onLoadingPlantTaskFail,
   onLoadingPlantTaskStart,
 } from '../slice/taskSlice/plantTaskSlice';
 import {
   deleteTransplantTaskSuccess,
+  getAllTransplantTasksSuccess,
   getTransplantTasksSuccess,
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
 } from '../slice/taskSlice/transplantTaskSlice';
 import {
+  getAllAnimalMovementTasksSuccess,
   getAnimalMovementTasksSuccess,
   onLoadingAnimalMovementTaskFail,
   onLoadingAnimalMovementTaskStart,
@@ -251,9 +260,13 @@ export const getPlantingTasksAndPlantingManagementPlansSuccess = createAction(
   'getPlantingTasksAndPlantingManagementPlansSuccessSaga',
 );
 
-export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
+export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({
+  payload: { tasks, getAll = false },
+}) {
+  const getTasksSuccessFunc = getAll ? getAllPlantTasksSuccess : getPlantTasksSuccess;
+
   yield put(
-    getPlantTasksSuccess(
+    getTasksSuccessFunc(
       tasks.map((task) => ({
         ...task,
         planting_management_plan_id:
@@ -275,9 +288,13 @@ export const getTransplantTasksAndPlantingManagementPlansSuccess = createAction(
   'getTransplantTasksAndPlantingManagementPlansSuccessSaga',
 );
 
-export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
+export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({
+  payload: { tasks, getAll = false },
+}) {
+  const getTasksSuccessFunc = getAll ? getAllTransplantTasksSuccess : getTransplantTasksSuccess;
+
   yield put(
-    getTransplantTasksSuccess(
+    getTasksSuccessFunc(
       tasks.map((task) => ({
         ...task,
         planting_management_plan_id:
@@ -297,48 +314,63 @@ export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ paylo
 const taskTypeActionMap = {
   CLEANING_TASK: {
     success: (tasks) => put(getCleaningTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllCleaningTasksSuccess(tasks)),
     fail: onLoadingCleaningTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   FIELD_WORK_TASK: {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   IRRIGATION_TASK: {
     success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllIrrigationTasksSuccess(tasks)),
     fail: onLoadingIrrigationTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   SOIL_AMENDMENT_TASK: {
     success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   HARVEST_TASK: {
     success: (tasks) => put(getHarvestTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAlllHarvestTasksSuccess(tasks)),
     fail: onLoadingHarvestTaskFail,
     completeUrl: (id) => createCompleteHarvestQuantityTaskUrl(id),
   },
   PLANT_TASK: {
     success: (tasks) =>
-      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
+    getAllSuccess: (tasks) =>
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, {
+        payload: { tasks, getAll: true },
+      }),
     fail: onLoadingPlantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   TRANSPLANT_TASK: {
     success: (tasks) =>
-      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
+    getAllSuccess: (tasks) =>
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, {
+        payload: { tasks, getAll: true },
+      }),
     fail: onLoadingTransplantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   MOVEMENT_TASK: {
     success: (tasks) => put(getAnimalMovementTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllAnimalMovementTasksSuccess(tasks)),
     fail: onLoadingAnimalMovementTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
@@ -358,7 +390,10 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingAnimalMovementTaskStart());
 }
 
-function* handleGetTasksSuccess(tasks, successAction) {
+function* handleGetTasksSuccess(tasks, isGetAll = false) {
+  const successAction = isGetAll ? addAllTasksFromGetReq : addManyTasksFromGetReq;
+  const taskTypeSuccessActionKey = isGetAll ? 'getAllSuccess' : 'success';
+
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -377,7 +412,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 
   for (const task_translation_key in taskTypeActionMap) {
     try {
-      yield taskTypeActionMap[task_translation_key].success(
+      yield taskTypeActionMap[task_translation_key][taskTypeSuccessActionKey](
         tasksByTranslationKey[task_translation_key],
       );
     } catch (e) {
@@ -390,7 +425,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -409,7 +444,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks, true);
 }
 
 export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
@@ -612,6 +647,9 @@ export function* createTaskSaga({ payload }) {
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
+      if (task_translation_key === 'IRRIGATION_TASK') {
+        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      }
       if (alreadyCompleted) {
         const isCustomTaskWithAnimals =
           isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
@@ -970,6 +1008,9 @@ export function* deleteTaskSaga({ payload: data }) {
         yield put(deleteTransplantTaskSuccess(result.data.task_id));
       }
       yield put(deleteTaskSuccess(result.data));
+      if (task_type.task_translation_key === 'IRRIGATION_TASK') {
+        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      }
       yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
     }
   } catch (e) {

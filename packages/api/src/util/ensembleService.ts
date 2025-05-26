@@ -32,12 +32,12 @@ import {
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
 
 /**
- * Retrieves the addon partner ID using a partners brand name.
+ * Retrieves Ensemble's addon partner id.
  *
  * @returns A promise that resolves to the addon partner id.
  * @throws Not found error as we expect that the addon partner is found.
  */
-const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
+const getEnsemblePartnerId = async (): Promise<AddonPartner['id']> => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError(`${ENSEMBLE_BRAND} partner not found`, 404);
@@ -46,18 +46,17 @@ const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
 };
 
 /**
- * Retrieves the external organisation IDs for a specific farm and partner.
+ * Retrieves the Ensemble addon partner ids for the given farm, and throws an error if the farm is not connected to Ensemble.
  *
  * @param farmId - The ID of the farm to retrieve external organisation IDs for.
- * @param addonPartnerId - The ID of addOnPartner for whose endpoint the ids are compatible with.
  * @returns A promise that resolves to the organisation IDs for the given farm and partner.
  * @throws Not found error as we expect that the farms addon partner ids exist.
  */
-const getExternalOrganisationIds = async (
+const getFarmEnsembleAddonIds = async (
   farmId: Farm['farm_id'],
-  addonPartnerId: AddonPartner['id'],
 ): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
-  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, addonPartnerId);
+  const esciPartnerId = await getEnsemblePartnerId();
+  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, esciPartnerId);
   if (!farmAddonIds) {
     throw customError(`Farm not connected to ${ENSEMBLE_BRAND}`, 404);
   }
@@ -77,9 +76,7 @@ export const getIrrigationPrescriptions = async (
   startTime?: string,
   endTime?: string,
 ) => {
-  // Get external organisation ids
-  const addonPartnerId = await getAddonPartnerId();
-  const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
+  const externalOrganizationIds = await getFarmEnsembleAddonIds(farmId);
 
   // Endpoint config
   const axiosObject = {

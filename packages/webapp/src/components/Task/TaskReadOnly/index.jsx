@@ -251,7 +251,7 @@ export default function PureTaskReadOnly({
 
       {showLocations ? (
         <>
-          <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+          <Semibold className={styles.taskLocationsTitle}>{t('TASK.LOCATIONS')}</Semibold>
           {isTaskType(taskType, 'TRANSPLANT_TASK') && (
             <TransplantLocationLabel
               locations={task.locations}
@@ -331,7 +331,9 @@ export default function PureTaskReadOnly({
 
       {isCompleted && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.COMPLETION_DETAILS')}
+          </Semibold>
           <TimeSlider
             style={{ marginBottom: '40px' }}
             label={t('TASK.DURATION')}
@@ -399,7 +401,9 @@ export default function PureTaskReadOnly({
 
       {isAbandoned && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.ABANDONMENT_DETAILS')}
+          </Semibold>
 
           <ReactSelect
             label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
@@ -455,7 +459,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+      <Semibold className={styles.filesTitle}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 

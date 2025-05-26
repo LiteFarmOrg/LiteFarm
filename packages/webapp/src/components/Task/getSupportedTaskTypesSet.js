@@ -3,7 +3,7 @@
  * @param isAdmin {boolean}
  * @return {Set<string>}
  */
-export const getSupportedTaskTypesSet = (isAdmin, hasAnimals, hasSoilSampleLocations) => {
+export const getSupportedTaskTypesSet = (isAdmin, hasAnimals) => {
   const supportedTaskTypes = new Set([
     'SOIL_AMENDMENT_TASK',
     'FIELD_WORK_TASK',

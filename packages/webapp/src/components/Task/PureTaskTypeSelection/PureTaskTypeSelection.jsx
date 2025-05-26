@@ -129,11 +129,7 @@ export const PureTaskTypeSelection = ({
   };
 
   const shouldDisplayTaskType = (taskType) => {
-    const supportedTaskTypes = getSupportedTaskTypesSet(
-      isAdmin,
-      hasAnimals,
-      hasSoilSampleLocations,
-    );
+    const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
     const { farm_id, task_translation_key } = taskType;
 
     if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {

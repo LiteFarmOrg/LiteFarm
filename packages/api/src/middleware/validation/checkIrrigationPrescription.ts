@@ -45,3 +45,27 @@ export function checkGetIrrigationPrescription() {
     next();
   };
 }
+
+export interface PrescriptionDetailsRouteParams {
+  ip_id: number;
+}
+
+export interface PrescriptionDetailsQueryParams {
+  shouldSend: string;
+}
+
+export function checkGetPrescriptionDetails() {
+  return async (
+    req: Request<PrescriptionDetailsRouteParams, unknown, unknown, PrescriptionDetailsQueryParams>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const { shouldSend } = req.query;
+
+    if (shouldSend != 'true' && shouldSend != 'false') {
+      return res.status(400).send('Please provide shouldSend as true or false');
+    }
+
+    next();
+  };
+}

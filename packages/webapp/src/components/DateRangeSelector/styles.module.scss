@@ -47,10 +47,15 @@
   }
 }
 
+.popover {
+  margin-top: 4px;
+}
+
 // CustomDateRangeSelector
 .customDateRangeSelector {
   height: 405px;
-  padding: 6px 15px 15px 15px;
+  width: 360px;
+  padding: 16px;
   background: var(--white, #fff);
   border-radius: 4px;
 }

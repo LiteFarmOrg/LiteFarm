@@ -153,6 +153,7 @@ export default function DateRangeInput({
         open={isCustomDatePickerOpen}
         onClose={closeCustomDatePicker}
         anchorEl={selectRef.current?.controlRef}
+        className={styles.popover}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',

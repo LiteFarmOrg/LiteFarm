@@ -13,7 +13,6 @@ const assets = [
   'gate',
   'water_valve',
   'farm_site_boundary',
-  'sensor',
   'soil_sample_location',
 ];
 const figures = ['area', 'line', 'point'];
@@ -34,7 +33,6 @@ const figureMapping = {
   gate: 'point',
   water_valve: 'point',
   soil_sample_location: 'point',
-  sensor: 'point',
 };
 
 const promiseMapper = {
@@ -59,7 +57,6 @@ const modelMapping = {
   gate: modelValidation('gate'),
   water_valve: modelValidation('water_valve'),
   soil_sample_location: modelValidation('soil_sample_location'),
-  sensor: modelValidation('sensor'),
 };
 
 function figureValidation(data, figure) {

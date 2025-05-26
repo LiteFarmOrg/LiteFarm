@@ -268,22 +268,6 @@ class Location extends baseModel {
     }
   }
 
-  static async getSensorLocation(farm_id, partner_id, external_id, trx) {
-    return Location.query(trx)
-      .withGraphJoined('[figure.point, sensor]')
-      .where('location.farm_id', farm_id)
-      .andWhere('sensor.partner_id', partner_id)
-      .andWhere('sensor.external_id', external_id)
-      .first();
-  }
-
-  static async unDeleteLocation(user_id, location_id, trx) {
-    return Location.query(trx)
-      .context({ user_id })
-      .where({ location_id })
-      .patch({ deleted: false });
-  }
-
   /* Mirrors cropLocationsSelector but without buffer zone (which does not return a polygon) */
   static async getCropSupportingLocationsByFarmId(farm_id, trx) {
     return Location.query(trx)

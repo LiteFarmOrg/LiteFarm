@@ -120,3 +120,102 @@ export function isExternalIrrigationPrescriptionArray(
     })
   );
 }
+
+type EsciReadingTypeUnits =
+  | 'hPa'
+  | 'mm'
+  | 'mA'
+  | 'mWh'
+  | 'mm/h'
+  | '%'
+  | 'kPa'
+  | 'W/m2'
+  | '˚C'
+  | 'V'
+  | 'psi'
+  | 'deg'
+  | 'm/s';
+
+export type EsciReturnedPrescriptionDetails = {
+  id: number;
+
+  location_id: string;
+  management_plan_id: number | null;
+  recommended_start_datetime: string;
+
+  pivot: {
+    center: { lat: number; lng: number };
+    radius: number;
+  };
+
+  metadata: {
+    weather_forecast: {
+      temperature: number;
+      temperature_unit: EsciReadingTypeUnits;
+      wind_speed: number;
+      wind_speed_unit: EsciReadingTypeUnits;
+      cumulative_rainfall: number;
+      cumulative_rainfall_unit: EsciReadingTypeUnits;
+      et_rate: number;
+      et_rate_unit: string;
+      weather_icon_code: string;
+    };
+  };
+
+  estimated_time: number;
+  estimated_time_unit: string;
+
+  prescription:
+    | { uriData: UriPrescriptionData; vriData?: never }
+    | {
+        vriData: {
+          zones: VriPrescriptionData[];
+          file_url: string;
+        };
+        uriData?: never;
+      };
+};
+
+interface UriPrescriptionData {
+  soil_moisture_deficit: number;
+  application_depth: number;
+  application_depth_unit: string;
+}
+
+type VriPrescriptionData = UriPrescriptionData & {
+  grid_points: Point[];
+};
+
+type LiteFarmReadingTypeUnits =
+  | 'hPa'
+  | 'mm'
+  | 'mA'
+  | 'mWh'
+  | 'mm/h'
+  | '%'
+  | 'kPa'
+  | 'W/m2'
+  | 'C'
+  | 'V'
+  | 'psi'
+  | 'deg'
+  | 'm/s';
+
+export type IrrigationPrescriptionDetails = Omit<EsciReturnedPrescriptionDetails, 'metadata'> & {
+  metadata: {
+    weather_forecast: {
+      temperature: number;
+      temperature_unit: LiteFarmReadingTypeUnits;
+      wind_speed: number;
+      wind_speed_unit: LiteFarmReadingTypeUnits;
+      cumulative_rainfall: number;
+      cumulative_rainfall_unit: LiteFarmReadingTypeUnits;
+      et_rate: number;
+      et_rate_unit: string;
+      weather_icon_code: string;
+    };
+  };
+
+  estimated_water_consumption: number;
+  estimated_water_consumption_unit: string;
+};

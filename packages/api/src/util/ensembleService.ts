@@ -28,8 +28,10 @@ import {
   type LocationAndCropGraph,
   type EnsembleLocationAndCropData,
   type ManagementPlan,
+  EsciReturnedPrescriptionDetails,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
+import { generateMockPrescriptionDetails } from '../../tests/utils/ensembleUtils.js';
 
 /**
  * Retrieves Ensemble's addon partner id.
@@ -157,6 +159,42 @@ export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: numbe
     return;
   }
 }
+
+export const getEnsembleIrrigationPrescriptionDetails = async (
+  farm_id: string,
+  ip_id: number,
+  shouldSend: boolean,
+) => {
+  await getFarmEnsembleAddonIds(farm_id);
+
+  const irrigationPrescription = shouldSend
+    ? await fetchIrrigationPrescriptionDetails(ip_id)
+    : await generateMockPrescriptionDetails(farm_id, ip_id);
+
+  if (!irrigationPrescription) {
+    throw customError(`Irrigation prescription with id ${ip_id} not found`, 404);
+  }
+
+  const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
+    irrigationPrescription.location_id,
+  );
+
+  if (!prescriptionFarmRecord) {
+    throw customError(`location_id on ${ip_id} does not exist`, 404);
+  }
+
+  const { farm_id: prescriptionFarmId } = prescriptionFarmRecord;
+
+  if (prescriptionFarmId !== farm_id) {
+    throw customError(`Irrigation prescription ${ip_id} belongs to a different farm`, 403);
+  }
+
+  // TODO: Transform units
+
+  // TODO: Calculate water usage based on the prescription details
+
+  return irrigationPrescription;
+};
 
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
@@ -295,6 +333,32 @@ export async function patchIrrigationPrescriptionApproval(id: number) {
     };
 
     await ensembleAPICall(axiosObject, onError);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/* Fetch details for a particular irrigation_prescription by id */
+export async function fetchIrrigationPrescriptionDetails(
+  id: number,
+): Promise<EsciReturnedPrescriptionDetails> {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+    };
+
+    const onError = (error: AxiosError) => {
+      const status = error.response?.status || 500;
+      const errorDetail = error.message ? `: ${error.message}` : '';
+      const message = `Error fetching details for IP ${id} from ESci${errorDetail}`;
+      throw customError(message, status);
+    };
+
+    const { data: irrigationPrescription } = await ensembleAPICall(axiosObject, onError);
+
+    return irrigationPrescription;
   } catch (error) {
     console.log(error);
     throw error;

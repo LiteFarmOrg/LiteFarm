@@ -488,8 +488,8 @@ export default function PureTaskReadOnly({
       )}
 
       {!!files.length && (
-        <div className={styles.files}>
-          <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+        <div>
+          <Semibold className={styles.filesTitle}>
             {t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
           </Semibold>
           <PureDocumentTileContainer gap={16} padding={0}>
@@ -497,7 +497,7 @@ export default function PureTaskReadOnly({
               <PureDocumentTile
                 key={index}
                 title={file.split('/').at(-1)}
-                extensionName={file.split('.').pop()}
+                extensionName={file.split('.').at(-1)}
                 fileUrls={[file]}
               />
             ))}

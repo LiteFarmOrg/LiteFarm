@@ -17,7 +17,11 @@ import { customError } from './customErrors.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { getStartOfDate } from './date.js';
-import type { EsciReturnedPrescriptionDetails } from './ensembleService.types.js';
+import { Point, getCentroidOfPolygon } from './geoUtils.js';
+import type {
+  EsciReturnedPrescriptionDetails,
+  VriPrescriptionData,
+} from './ensembleService.types.js';
 
 /* Reverse the logic generating the mock id to pull a datetime from it */
 export const getDateTimeFromDayOfMonth = (day: number): Date => {
@@ -41,75 +45,108 @@ export const generateMockPrescriptionDetails = async (
     locations[0].location_id,
   );
 
-  // Use frontend mock's random toggle between URI and VRI
-  // generate the zones if VRI -- use Duncan's function
+  const locationPolygon = locations[0].figure?.area?.grid_points;
 
-  return {
+  const mockPivot = {
+    center: getCentroidOfPolygon(locationPolygon) ?? locationPolygon[0],
+    radius: 150,
+  };
+
+  const commonMockData = {
     id: ip_id,
     location_id: locations[0].location_id,
     management_plan_id: managementPlans[0]?.management_plan_id ?? null,
     recommended_start_datetime: getDateTimeFromDayOfMonth(ip_id).toISOString(),
-    pivot: {
-      center: {
-        // TODO -- use Duncan's function
-        lat: 49.06547,
-        lng: -123.15597,
-      },
-      radius: 150,
-    },
+    pivot: mockPivot,
     metadata: {
       weather_forecast: {
         temperature: 20,
-        temperature_unit: '˚C',
+        temperature_unit: '˚C' as const,
         wind_speed: 10,
-        wind_speed_unit: 'm/s',
+        wind_speed_unit: 'm/s' as const,
         cumulative_rainfall: 5,
-        cumulative_rainfall_unit: 'mm',
+        cumulative_rainfall_unit: 'mm' as const,
         et_rate: 2,
         et_rate_unit: 'mm/h',
         weather_icon_code: '02d',
       },
     },
-    estimated_time: 2,
+    estimated_time: 6,
     estimated_time_unit: 'h',
-    prescription: {
-      vriData: {
-        file_url: '<https://example.com/vri_data.json>',
-        zones: [
-          {
-            soil_moisture_deficit: 50,
-            application_depth: 15,
-            application_depth_unit: 'mm',
-            grid_points: [
-              {
-                lat: 49.06682,
-                lng: -123.15597,
-              },
-              // ...
-              {
-                lat: 49.0663,
-                lng: -123.1563,
-              },
-            ],
-          },
-          {
-            soil_moisture_deficit: 60,
-            application_depth: 20,
-            application_depth_unit: 'mm',
-            grid_points: [
-              {
-                lat: 49.06479,
-                lng: -123.15776,
-              },
-              // ...
-              {
-                lat: 49.0654,
-                lng: -123.1575,
-              },
-            ],
-          },
-        ],
-      },
-    },
   };
+
+  const mockUriData = {
+    application_depth: 10,
+    application_depth_unit: 'mm',
+    soil_moisture_deficit: 40,
+  };
+
+  return Math.random() < 0.5
+    ? {
+        ...commonMockData,
+        prescription: {
+          uriData: mockUriData,
+        },
+      }
+    : {
+        ...commonMockData,
+        prescription: {
+          vriData: {
+            zones: generateMockPieSliceZones(mockPivot),
+            file_url: 'https://example.com/vri_data.vri',
+          },
+        },
+      };
 };
+
+// Mock relocated from frontend; PR #3779
+const EARTH_RADIUS = 6371000;
+
+function offsetPoint(center: Point, distance: number, angleDeg: number): Point {
+  const angleRad = (angleDeg * Math.PI) / 180;
+  const deltaLat = (distance * Math.cos(angleRad)) / EARTH_RADIUS;
+  const deltaLng =
+    (distance * Math.sin(angleRad)) / (EARTH_RADIUS * Math.cos((center.lat * Math.PI) / 180));
+
+  return {
+    lat: center.lat + (deltaLat * 180) / Math.PI,
+    lng: center.lng + (deltaLng * 180) / Math.PI,
+  };
+}
+
+function generateMockPieSliceZones({
+  center,
+  radius,
+}: {
+  center: Point;
+  radius: number;
+}): VriPrescriptionData[] {
+  const zones: VriPrescriptionData[] = [];
+  const zoneCount = 3;
+  const arcSpan = 120;
+
+  for (let i = 0; i < zoneCount; i++) {
+    const startAngle = i * arcSpan;
+    const endAngle = startAngle + arcSpan;
+    const step = 30;
+
+    const arcPoints: Point[] = [];
+    for (let angle = startAngle; angle <= endAngle; angle += step) {
+      arcPoints.push(offsetPoint(center, radius, angle));
+    }
+
+    const innerEdgePoint = offsetPoint(center, radius * 0.6, endAngle);
+    const innerStartPoint = offsetPoint(center, radius * 0.6, startAngle);
+
+    const polygonPoints = [...arcPoints, innerEdgePoint, center, innerStartPoint];
+
+    zones.push({
+      soil_moisture_deficit: 40 + i * 10,
+      application_depth: 10 + i * 5,
+      application_depth_unit: 'mm',
+      grid_points: polygonPoints,
+    });
+  }
+
+  return zones;
+}

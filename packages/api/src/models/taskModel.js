@@ -262,7 +262,7 @@ class TaskModel extends BaseModel {
           to: 'document.document_id',
         },
       },
-      documentTasks: {
+      taskDocuments: {
         modelClass: TaskDocumentModel,
         relation: Model.HasManyRelation,
         join: {

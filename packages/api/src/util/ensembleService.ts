@@ -31,7 +31,7 @@ import {
   EsciReturnedPrescriptionDetails,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
-import { generateMockPrescriptionDetails } from '../../tests/utils/ensembleUtils.js';
+import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
 
 /**
  * Retrieves Ensemble's addon partner id.

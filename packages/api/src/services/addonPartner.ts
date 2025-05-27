@@ -23,7 +23,7 @@ import {
   IrrigationPrescription,
   isExternalIrrigationPrescriptionArray,
 } from '../util/ensembleService.types.js';
-import { Mocks } from '../../tests/utils/ensembleUtils.js';
+import MockAddonPartner from '../util/mockAddonPartner.js';
 
 // TODO: LF-4710 - Delete partner_id = 0, remove Partial
 const PARTNER_ID_MAP: Record<number, (shouldSend?: string) => AddonPartnerFunctions> = {
@@ -31,7 +31,7 @@ const PARTNER_ID_MAP: Record<number, (shouldSend?: string) => AddonPartnerFuncti
     return { getIrrigationPrescriptions: () => [] as unknown as Promise<AxiosResponse<unknown>> };
   },
   1: (shouldSend) => {
-    return shouldSend === 'true' ? ESciAddon : Mocks;
+    return shouldSend === 'true' ? ESciAddon : MockAddonPartner;
   },
 };
 

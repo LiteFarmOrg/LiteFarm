@@ -43,7 +43,7 @@ import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import type { AddonPartner, Farm, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
-import { addDaysToDate, getEndOfDate, getStartOfDate } from './utils/date.js';
+import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 
 describe('Get Irrigation Prescription Tests', () => {

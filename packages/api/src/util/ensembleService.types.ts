@@ -121,20 +121,7 @@ export function isExternalIrrigationPrescriptionArray(
   );
 }
 
-type EsciReadingTypeUnits =
-  | 'hPa'
-  | 'mm'
-  | 'mA'
-  | 'mWh'
-  | 'mm/h'
-  | '%'
-  | 'kPa'
-  | 'W/m2'
-  | '˚C'
-  | 'V'
-  | 'psi'
-  | 'deg'
-  | 'm/s';
+export type EsciWeatherUnits = 'mm' | 'mm/h' | '˚C' | 'm/s';
 
 export type EsciReturnedPrescriptionDetails = {
   id: number;
@@ -151,11 +138,11 @@ export type EsciReturnedPrescriptionDetails = {
   metadata: {
     weather_forecast: {
       temperature: number;
-      temperature_unit: EsciReadingTypeUnits;
+      temperature_unit: EsciWeatherUnits;
       wind_speed: number;
-      wind_speed_unit: EsciReadingTypeUnits;
+      wind_speed_unit: EsciWeatherUnits;
       cumulative_rainfall: number;
-      cumulative_rainfall_unit: EsciReadingTypeUnits;
+      cumulative_rainfall_unit: EsciWeatherUnits;
       et_rate: number;
       et_rate_unit: string;
       weather_icon_code: string;
@@ -182,34 +169,21 @@ interface UriPrescriptionData {
   application_depth_unit: string;
 }
 
-type VriPrescriptionData = UriPrescriptionData & {
+export type VriPrescriptionData = UriPrescriptionData & {
   grid_points: Point[];
 };
 
-type LiteFarmReadingTypeUnits =
-  | 'hPa'
-  | 'mm'
-  | 'mA'
-  | 'mWh'
-  | 'mm/h'
-  | '%'
-  | 'kPa'
-  | 'W/m2'
-  | 'C'
-  | 'V'
-  | 'psi'
-  | 'deg'
-  | 'm/s';
+export type LiteFarmWeatherUnits = 'mm' | 'mm/h' | 'C' | 'm/s';
 
 export type IrrigationPrescriptionDetails = Omit<EsciReturnedPrescriptionDetails, 'metadata'> & {
   metadata: {
     weather_forecast: {
       temperature: number;
-      temperature_unit: LiteFarmReadingTypeUnits;
+      temperature_unit: LiteFarmWeatherUnits;
       wind_speed: number;
-      wind_speed_unit: LiteFarmReadingTypeUnits;
+      wind_speed_unit: LiteFarmWeatherUnits;
       cumulative_rainfall: number;
-      cumulative_rainfall_unit: LiteFarmReadingTypeUnits;
+      cumulative_rainfall_unit: LiteFarmWeatherUnits;
       et_rate: number;
       et_rate_unit: string;
       weather_icon_code: string;

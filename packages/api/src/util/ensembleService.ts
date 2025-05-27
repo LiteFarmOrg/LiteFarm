@@ -23,12 +23,15 @@ import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
-import {
-  type OrganisationFarmData,
-  type LocationAndCropGraph,
-  type EnsembleLocationAndCropData,
-  type ManagementPlan,
+import type {
+  OrganisationFarmData,
+  LocationAndCropGraph,
+  EnsembleLocationAndCropData,
+  ManagementPlan,
   EsciReturnedPrescriptionDetails,
+  IrrigationPrescriptionDetails,
+  EsciWeatherUnits,
+  LiteFarmWeatherUnits,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
 import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
@@ -164,7 +167,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   farm_id: string,
   ip_id: number,
   shouldSend: boolean,
-) => {
+): Promise<IrrigationPrescriptionDetails> => {
   await getFarmEnsembleAddonIds(farm_id);
 
   const irrigationPrescription = shouldSend
@@ -189,11 +192,38 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
     throw customError(`Irrigation prescription ${ip_id} belongs to a different farm`, 403);
   }
 
-  // TODO: Transform units
+  const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
 
   // TODO: Calculate water usage based on the prescription details
 
-  return irrigationPrescription;
+  return {
+    ...mappedPrescription,
+    estimated_water_consumption: 56, // placeholder value
+    estimated_water_consumption_unit: 'AF', // placeholder unit
+  };
+};
+
+const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
+  const { metadata, ...rest } = prescription;
+
+  const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
+    if (unit === '˚C') return 'C';
+    return unit as LiteFarmWeatherUnits;
+  };
+
+  const mappedWeatherForecast = {
+    ...metadata.weather_forecast,
+    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
+    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
+    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
+  };
+
+  return {
+    ...rest,
+    metadata: {
+      weather_forecast: mappedWeatherForecast,
+    },
+  };
 };
 
 /**

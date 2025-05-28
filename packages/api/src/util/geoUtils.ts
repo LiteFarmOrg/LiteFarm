@@ -15,6 +15,7 @@
 
 import { polygon } from '@turf/helpers';
 import { centroid } from '@turf/centroid';
+import { area } from '@turf/area';
 
 export interface Point {
   lat: number;
@@ -29,7 +30,7 @@ export const getCentroidOfPolygon = (gridPoints: Point[]): Point | null => {
   const areaPolygon = safeCreatePolygon(coordinates);
 
   if (!areaPolygon) {
-    return areaPolygon;
+    return null;
   }
 
   try {
@@ -38,6 +39,22 @@ export const getCentroidOfPolygon = (gridPoints: Point[]): Point | null => {
     return { lat, lng };
   } catch (err) {
     console.error('Error computing centroid:', err);
+    return null;
+  }
+};
+
+export const getAreaOfPolygon = (gridPoints: Point[]): number | null => {
+  const coordinates = gridPoints.map((p: Point): TurfPoint => [p.lng, p.lat]);
+  const areaPolygon = safeCreatePolygon(coordinates);
+
+  if (!areaPolygon) {
+    return null;
+  }
+
+  try {
+    return area(areaPolygon);
+  } catch (err) {
+    console.error('Error computing area:', err);
     return null;
   }
 };

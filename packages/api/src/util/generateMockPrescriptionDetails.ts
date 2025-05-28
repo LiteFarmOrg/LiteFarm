@@ -81,7 +81,8 @@ export const generateMockPrescriptionDetails = async (
     soil_moisture_deficit: 40,
   };
 
-  return Math.random() < 0.5
+  // All even IP IDs will return URI data, odd ones will return VRI data
+  return ip_id % 2 === 0
     ? {
         ...commonMockData,
         prescription: {

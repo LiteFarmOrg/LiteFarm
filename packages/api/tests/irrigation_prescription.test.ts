@@ -45,6 +45,8 @@ import type { AddonPartner, Farm, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
 import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
+import { generateMockPrescriptionDetails } from '../src/util/generateMockPrescriptionDetails.js';
+import { getCentroidOfPolygon } from '../src/util/geoUtils.js';
 
 describe('Get Irrigation Prescription Tests', () => {
   let ESciAddonPartner: AddonPartner;
@@ -69,6 +71,26 @@ describe('Get Irrigation Prescription Tests', () => {
       .set('farm_id', farm_id)
       .set('user_id', user_id)
       .query({ startTime, endTime, shouldSend });
+  }
+
+  async function getIrrigationPrescriptionDetails({
+    farm_id,
+    user_id,
+    ip_id,
+    shouldSend = 'true',
+  }: {
+    farm_id: Farm['farm_id'];
+    user_id: User['user_id'];
+    ip_id: number;
+    shouldSend: string;
+  }): Promise<Response> {
+    return chai
+      .request(server)
+      .get(`/irrigation_prescriptions/${ip_id}/`)
+      .set('content-type', 'application/json')
+      .set('farm_id', farm_id)
+      .set('user_id', user_id)
+      .query({ shouldSend });
   }
 
   function removeUndefined<T extends Record<string, unknown>>(arr: T[]): Partial<T>[] {
@@ -175,6 +197,50 @@ describe('Get Irrigation Prescription Tests', () => {
         });
 
         expect(res2.body).toMatchObject(removeUndefined(irrigationPrescriptionsWithTasks));
+      });
+    });
+  });
+
+  describe('All users should be able to GET irrigation prescription details', () => {
+    [1, 2, 3, 5].forEach((role) => {
+      test(`User with role ${role} should request IP details`, async () => {
+        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+
+        const { farm, field, user } = await setupFarmEnvironment(role);
+
+        const MOCK_IP_ID = 123;
+        await mockedEnsembleAPICall.mockResolvedValueOnce({
+          data: await generateMockPrescriptionDetails(farm.farm_id, MOCK_IP_ID),
+        });
+
+        await connectFarmToEnsemble(farm);
+
+        const res = await getIrrigationPrescriptionDetails({
+          farm_id: farm.farm_id,
+          user_id: user.user_id,
+          shouldSend: 'true',
+          ip_id: MOCK_IP_ID,
+        });
+
+        expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'get',
+            url: expect.stringContaining(`/irrigation_prescription/${MOCK_IP_ID}`),
+          }),
+          expect.any(Function), // onError callback
+        );
+
+        const fieldPolygon = field.figure.area.grid_points;
+        const fieldCenter = getCentroidOfPolygon(fieldPolygon);
+
+        expect(res.body).toMatchObject({
+          id: MOCK_IP_ID,
+          location_id: field.location_id,
+          management_plan_id: null,
+          pivot: {
+            center: fieldCenter,
+          },
+        });
       });
     });
   });

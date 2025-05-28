@@ -215,7 +215,10 @@ describe('Get Irrigation Prescription Tests', () => {
 
         const MOCK_IP_ID = 123;
         await mockedEnsembleAPICall.mockResolvedValueOnce({
-          data: await generateMockPrescriptionDetails(farm.farm_id, MOCK_IP_ID),
+          data: await generateMockPrescriptionDetails({
+            farm_id: farm.farm_id,
+            ip_id: MOCK_IP_ID,
+          }),
         });
 
         await connectFarmToEnsemble(farm);
@@ -259,9 +262,15 @@ describe('Get Irrigation Prescription Tests', () => {
 
       const { farm, user } = await setupFarmEnvironment(1);
 
+      // Odd ID to trigger VRI prescription
       const MOCK_IP_ID = 123;
+
       await mockedEnsembleAPICall.mockResolvedValueOnce({
-        data: await generateMockPrescriptionDetails(farm.farm_id, MOCK_IP_ID),
+        data: await generateMockPrescriptionDetails({
+          farm_id: farm.farm_id,
+          ip_id: MOCK_IP_ID,
+          applicationDepths: [5, 10, 15], // in mm
+        }),
       });
 
       await connectFarmToEnsemble(farm);
@@ -273,9 +282,46 @@ describe('Get Irrigation Prescription Tests', () => {
         ip_id: MOCK_IP_ID,
       });
 
-      // Mock zones are given application depths 10, 15, 20 mm
       // Total Volume in L = Area (m²) * Depth (mm)
-      const totalVolumeL = 100 * (10 + 15 + 20);
+      const totalVolumeL = 100 * (5 + 10 + 15);
+
+      expect(res.body).toMatchObject({
+        id: MOCK_IP_ID,
+        estimated_water_consumption: totalVolumeL,
+        estimated_water_consumption_unit: 'l',
+      });
+    });
+
+    test('API should calculate water consumption for a URI prescription', async () => {
+      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+
+      const { farm, user } = await setupFarmEnvironment(1);
+
+      // Even ID to trigger URI prescription
+      const MOCK_IP_ID = 124;
+
+      await mockedEnsembleAPICall.mockResolvedValueOnce({
+        data: await generateMockPrescriptionDetails({
+          farm_id: farm.farm_id,
+          ip_id: MOCK_IP_ID,
+          applicationDepths: [20], // in mm
+          pivotRadius: 200, // in meters
+        }),
+      });
+
+      await connectFarmToEnsemble(farm);
+
+      const res = await getIrrigationPrescriptionDetails({
+        farm_id: farm.farm_id,
+        user_id: user.user_id,
+        shouldSend: 'true',
+        ip_id: MOCK_IP_ID,
+      });
+
+      const pivotArea = Math.PI * Math.pow(200, 2); // in m²
+
+      // Total Volume in L = Area (m²) * Depth (mm)
+      const totalVolumeL = pivotArea * 20;
 
       expect(res.body).toMatchObject({
         id: MOCK_IP_ID,

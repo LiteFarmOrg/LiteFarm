@@ -174,7 +174,10 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
 
   const irrigationPrescription = shouldSend
     ? await fetchIrrigationPrescriptionDetails(ip_id)
-    : await generateMockPrescriptionDetails(farm_id, ip_id);
+    : await generateMockPrescriptionDetails({
+        farm_id,
+        ip_id,
+      });
 
   if (!irrigationPrescription) {
     throw customError(`Irrigation prescription with id ${ip_id} not found`, 404);
@@ -185,7 +188,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   );
 
   if (!prescriptionFarmRecord) {
-    throw customError(`location_id on ${ip_id} does not exist`, 404);
+    throw customError(`location_id on IP ${ip_id} does not exist`, 404);
   }
 
   const { farm_id: prescriptionFarmId } = prescriptionFarmRecord;
@@ -196,15 +199,15 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
 
   const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
 
-  const prescription = mappedPrescription.prescription;
-  if (!prescription) {
+  const prescriptionDetails = mappedPrescription.prescription;
+  if (!prescriptionDetails) {
     throw customError('Prescription data is missing', 500);
   }
 
   const waterConsumptionL =
-    'uriData' in prescription
-      ? calculateURIWaterConsumption(prescription)
-      : calculateVRIWaterConsumption(prescription);
+    'uriData' in prescriptionDetails
+      ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot.radius ?? 0)
+      : calculateVRIWaterConsumption(prescriptionDetails);
 
   return {
     ...mappedPrescription,
@@ -237,10 +240,12 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
 };
 
 const calculateURIWaterConsumption = (
-  _prescription: EsciReturnedPrescriptionDetails['prescription'],
+  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  pivotRadius: number,
 ): number => {
-  // TODO
-  return 0;
+  const applicationDepthMm = prescription?.uriData?.application_depth ?? 0;
+  const pivotAreaM2 = Math.PI * Math.pow(pivotRadius, 2);
+  return pivotAreaM2 * applicationDepthMm;
 };
 
 const calculateVRIWaterConsumption = (

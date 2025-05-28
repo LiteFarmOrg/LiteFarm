@@ -31,10 +31,19 @@ export const getDateTimeFromDayOfMonth = (day: number): Date => {
   return getStartOfDate(date);
 };
 
-export const generateMockPrescriptionDetails = async (
-  farm_id: string,
-  ip_id: number,
-): Promise<EsciReturnedPrescriptionDetails | undefined> => {
+interface GenerateMockPrescriptionDetailsParams {
+  farm_id: string;
+  ip_id: number;
+  applicationDepths?: number[];
+  pivotRadius?: number;
+}
+
+export const generateMockPrescriptionDetails = async ({
+  farm_id,
+  ip_id,
+  applicationDepths = [15, 20, 25],
+  pivotRadius = 150,
+}: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails | undefined> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 
   if (locations.length === 0) {
@@ -49,7 +58,7 @@ export const generateMockPrescriptionDetails = async (
 
   const mockPivot = {
     center: getCentroidOfPolygon(locationPolygon) ?? locationPolygon[0],
-    radius: 150,
+    radius: pivotRadius,
   };
 
   const commonMockData = {
@@ -76,7 +85,7 @@ export const generateMockPrescriptionDetails = async (
   };
 
   const mockUriData = {
-    application_depth: 10,
+    application_depth: applicationDepths[0],
     application_depth_unit: 'mm',
     soil_moisture_deficit: 40,
   };
@@ -93,7 +102,7 @@ export const generateMockPrescriptionDetails = async (
         ...commonMockData,
         prescription: {
           vriData: {
-            zones: generateMockPieSliceZones(mockPivot),
+            zones: generateMockPieSliceZones(mockPivot, applicationDepths),
             file_url: 'https://example.com/vri_data.vri',
           },
         },
@@ -115,13 +124,16 @@ function offsetPoint(center: Point, distance: number, angleDeg: number): Point {
   };
 }
 
-function generateMockPieSliceZones({
-  center,
-  radius,
-}: {
-  center: Point;
-  radius: number;
-}): VriPrescriptionData[] {
+function generateMockPieSliceZones(
+  {
+    center,
+    radius,
+  }: {
+    center: Point;
+    radius: number;
+  },
+  applicationDepths: number[],
+): VriPrescriptionData[] {
   const zones: VriPrescriptionData[] = [];
   const zoneCount = 3;
   const arcSpan = 120;
@@ -143,7 +155,7 @@ function generateMockPieSliceZones({
 
     zones.push({
       soil_moisture_deficit: 40 + i * 10,
-      application_depth: 10 + i * 5,
+      application_depth: applicationDepths[i],
       application_depth_unit: 'mm',
       grid_points: polygonPoints,
     });

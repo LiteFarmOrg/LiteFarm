@@ -165,6 +165,15 @@ export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: numbe
   }
 }
 
+/**
+ * Retrieves detailed information for a specific irrigation prescription.
+ *
+ * @param {string} farm_id - The ID of the farm to retrieve the irrigation prescription for.
+ * @param {number} ip_id - The ID of the irrigation prescription to retrieve.
+ * @param {boolean} shouldSend - Flag to determine whether to fetch real data or generate mock data.
+ * @returns {Promise<IrrigationPrescriptionDetails>} A promise that resolves to the irrigation prescription details with water consumption estimate.
+ * @throws {Error} Throws an error if the prescription is not found, belongs to a different farm, or if data is missing.
+ */
 export const getEnsembleIrrigationPrescriptionDetails = async (
   farm_id: string,
   ip_id: number,
@@ -216,6 +225,12 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   };
 };
 
+/**
+ * Maps units from Ensemble API format to LiteFarm format.
+ *
+ * @param {EsciReturnedPrescriptionDetails} prescription - The prescription details from Ensemble API.
+ * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
+ */
 const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
   const { metadata, ...rest } = prescription;
 
@@ -239,6 +254,13 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
   };
 };
 
+/**
+ * Calculates water consumption for Uniform Rate Irrigation (URI).
+ *
+ * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
+ * @param {number} pivotRadius - The radius of the pivot irrigation system in meters.
+ * @returns {number} The calculated water consumption in liters.
+ */
 const calculateURIWaterConsumption = (
   prescription: EsciReturnedPrescriptionDetails['prescription'],
   pivotRadius: number,
@@ -248,6 +270,12 @@ const calculateURIWaterConsumption = (
   return pivotAreaM2 * applicationDepthMm;
 };
 
+/**
+ * Calculates water consumption for Variable Rate Irrigation (VRI).
+ *
+ * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing VRI data.
+ * @returns {number} The calculated water consumption in liters.
+ */
 const calculateVRIWaterConsumption = (
   prescription: EsciReturnedPrescriptionDetails['prescription'],
 ): number => {

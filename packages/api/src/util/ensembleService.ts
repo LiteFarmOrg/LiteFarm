@@ -125,11 +125,11 @@ export const mockGetFarmIrrigationPrescriptions = async (farm_id: string) => {
 
   const irrigationPrescriptionsMinimalMock = [
     {
-      id: new Date().getUTCDay(), // 0-6, 0 = Sunday
+      id: new Date().getUTCDate(),
       recommended_start_datetime: new Date().toISOString(),
     },
     {
-      id: new Date(Date.now() + ONE_DAY).getUTCDay(),
+      id: new Date(Date.now() + ONE_DAY).getUTCDate(),
       recommended_start_datetime: new Date(Date.now() + ONE_DAY).toISOString(),
     },
   ];

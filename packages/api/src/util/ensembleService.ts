@@ -32,9 +32,11 @@ import type {
   IrrigationPrescriptionDetails,
   EsciWeatherUnits,
   LiteFarmWeatherUnits,
+  VriPrescriptionData,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
 import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
+import { getAreaOfPolygon } from './geoUtils.js';
 
 /**
  * Retrieves Ensemble's addon partner id.
@@ -194,12 +196,20 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
 
   const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
 
-  // TODO: Calculate water usage based on the prescription details
+  const prescription = mappedPrescription.prescription;
+  if (!prescription) {
+    throw customError('Prescription data is missing', 500);
+  }
+
+  const waterConsumptionL =
+    'uriData' in prescription
+      ? calculateURIWaterConsumption(prescription)
+      : calculateVRIWaterConsumption(prescription);
 
   return {
     ...mappedPrescription,
-    estimated_water_consumption: 56, // placeholder value
-    estimated_water_consumption_unit: 'AF', // placeholder unit
+    estimated_water_consumption: waterConsumptionL,
+    estimated_water_consumption_unit: 'l',
   };
 };
 
@@ -224,6 +234,26 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
       weather_forecast: mappedWeatherForecast,
     },
   };
+};
+
+const calculateURIWaterConsumption = (
+  _prescription: EsciReturnedPrescriptionDetails['prescription'],
+): number => {
+  // TODO
+  return 0;
+};
+
+const calculateVRIWaterConsumption = (
+  prescription: EsciReturnedPrescriptionDetails['prescription'],
+): number => {
+  const prescriptionZones: VriPrescriptionData[] = prescription.vriData!.zones;
+
+  return prescriptionZones.reduce((acc, zone) => {
+    const zoneAreaM2 = getAreaOfPolygon(zone.grid_points) ?? 0;
+    const zoneDepthMm = zone.application_depth;
+
+    return acc + zoneAreaM2 * zoneDepthMm;
+  }, 0);
 };
 
 /**

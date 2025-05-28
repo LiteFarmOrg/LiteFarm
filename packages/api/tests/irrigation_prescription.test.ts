@@ -20,6 +20,11 @@ jest.mock('../src/util/ensemble.js', () => ({
   ensembleAPICall: jest.fn(async () => ({ data: [] })), // placeholder
 }));
 
+jest.mock('../src/util/geoUtils', () => ({
+  ...jest.requireActual('../src/util/geoUtils'),
+  getAreaOfPolygon: jest.fn(),
+}));
+
 import chai from 'chai';
 
 import chaiHttp from 'chai-http';
@@ -46,7 +51,7 @@ import mocks from './mock.factories.js';
 import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 import { generateMockPrescriptionDetails } from '../src/util/generateMockPrescriptionDetails.js';
-import { getCentroidOfPolygon } from '../src/util/geoUtils.js';
+import { getAreaOfPolygon, getCentroidOfPolygon } from '../src/util/geoUtils.js';
 
 describe('Get Irrigation Prescription Tests', () => {
   let ESciAddonPartner: AddonPartner;
@@ -241,6 +246,41 @@ describe('Get Irrigation Prescription Tests', () => {
             center: fieldCenter,
           },
         });
+      });
+    });
+  });
+
+  describe('Water consumption calculuation tests', () => {
+    test('API should calculate water consumption for a VRI prescription', async () => {
+      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+      const mockedGetAreaOfPolygon = getAreaOfPolygon as jest.Mock;
+
+      mockedGetAreaOfPolygon.mockReturnValue(100); // Mock area to 100 m²
+
+      const { farm, user } = await setupFarmEnvironment(1);
+
+      const MOCK_IP_ID = 123;
+      await mockedEnsembleAPICall.mockResolvedValueOnce({
+        data: await generateMockPrescriptionDetails(farm.farm_id, MOCK_IP_ID),
+      });
+
+      await connectFarmToEnsemble(farm);
+
+      const res = await getIrrigationPrescriptionDetails({
+        farm_id: farm.farm_id,
+        user_id: user.user_id,
+        shouldSend: 'true',
+        ip_id: MOCK_IP_ID,
+      });
+
+      // Mock zones are given application depths 10, 15, 20 mm
+      // Total Volume in L = Area (m²) * Depth (mm)
+      const totalVolumeL = 100 * (10 + 15 + 20);
+
+      expect(res.body).toMatchObject({
+        id: MOCK_IP_ID,
+        estimated_water_consumption: totalVolumeL,
+        estimated_water_consumption_unit: 'l',
       });
     });
   });

@@ -52,7 +52,6 @@ class Figure extends Model {
             'greenhouse',
             'barn',
             'pin',
-            'sensor',
           ],
         },
         location_id: { type: 'string' },

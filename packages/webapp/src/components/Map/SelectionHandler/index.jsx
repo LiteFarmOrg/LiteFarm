@@ -120,10 +120,7 @@ export default function PureSelectionHandler({ locations, history }) {
   };
 
   const handleMouseUp = (location) => {
-    if (
-      location.isAddonSensor && // TODO: Remove
-      [SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)
-    ) {
+    if ([SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)) {
       history.push(`/${location.type}/${location.id}`);
     } else {
       history.push(`/${location.type}/${location.id}/details`);

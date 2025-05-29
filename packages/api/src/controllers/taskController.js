@@ -907,6 +907,7 @@ const taskController = {
             transplant_task,
             irrigation_task.[irrigation_type],
             animal_movement_task.[purpose_relationships],
+            documents(filterDeleted).[files],
           ]`,
         )
         .whereIn('task_id', taskIds);

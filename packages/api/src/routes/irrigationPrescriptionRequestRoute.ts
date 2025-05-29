@@ -15,17 +15,20 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
+import IrrigationPrescriptionRequestController, {
+  InitiateFarmIrrigationPrescriptionQueryParams,
+} from '../controllers/irrigationPrescriptionRequestController.js';
+import { ScopeCheckedLiteFarmRequest } from '../types.js';
 import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
 import checkSchedulerPermission from '../middleware/acl/checkSchedulerPermission.js';
 
 const router = express.Router();
 
-router.post(
-  '/',
-  checkScope(['get:smart_irrigation']),
-  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
-);
+router.post('/', checkScope(['get:smart_irrigation']), (req, res) => {
+  const typedReq =
+    req as ScopeCheckedLiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>;
+  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription()(typedReq, res);
+});
 
 router.post(
   '/scheduler',

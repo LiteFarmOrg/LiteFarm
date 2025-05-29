@@ -13,18 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { isISO8601Format } from '../../util/validation.js';
-
-export interface IrrigationPrescriptionQueryParams {
-  startTime?: string;
-  endTime?: string;
-  shouldSend?: string;
-}
+import { IrrigationPrescriptionQueryParams } from '../../controllers/irrigationPrescriptionController.js';
+import { ScopeCheckedLiteFarmRequest } from '../../types.js';
 
 export function checkGetIrrigationPrescription() {
   return async (
-    req: Request<unknown, unknown, unknown, IrrigationPrescriptionQueryParams>,
+    req: ScopeCheckedLiteFarmRequest<Partial<IrrigationPrescriptionQueryParams>>,
     res: Response,
     next: NextFunction,
   ) => {

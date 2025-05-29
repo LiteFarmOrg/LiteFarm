@@ -362,7 +362,7 @@ export function* getLocationsSuccessSaga({ payload: locations }) {
     {},
   );
   for (const location of locations) {
-    // TODO: Remove "?" once sensors are no longer included in the backend response
+    // TODO: LF-4709 Remove "?" once sensors are no longer included in the backend response
     locations_by_figure_type[location.figure.type]?.push(location);
   }
   for (const figure_type in figureTypeActionMap) {

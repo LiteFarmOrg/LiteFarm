@@ -41,9 +41,9 @@ interface GenerateMockPrescriptionDetailsParams {
 export const generateMockPrescriptionDetails = async ({
   farm_id,
   ip_id,
-  applicationDepths = [15, 20, 25],
+  applicationDepths = [15, 10, 20],
   pivotRadius = 150,
-}: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails | undefined> => {
+}: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 
   if (locations.length === 0) {

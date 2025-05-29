@@ -51,7 +51,7 @@ import mocks from './mock.factories.js';
 import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 import { generateMockPrescriptionDetails } from '../src/util/generateMockPrescriptionDetails.js';
-import { getAreaOfPolygon, getCentroidOfPolygon } from '../src/util/geoUtils.js';
+import { getAreaOfPolygon } from '../src/util/geoUtils.js';
 
 describe('Get Irrigation Prescription Tests', () => {
   let ESciAddonPartner: AddonPartner;
@@ -238,15 +238,15 @@ describe('Get Irrigation Prescription Tests', () => {
           expect.any(Function), // onError callback
         );
 
-        const fieldPolygon = field.figure.area.grid_points;
-        const fieldCenter = getCentroidOfPolygon(fieldPolygon);
-
         expect(res.body).toMatchObject({
           id: MOCK_IP_ID,
           location_id: field.location_id,
           management_plan_id: null,
-          pivot: {
-            center: fieldCenter,
+          metadata: {
+            weather_forecast: {
+              // check units conversion
+              temperature_unit: 'C',
+            },
           },
         });
       });
@@ -258,11 +258,11 @@ describe('Get Irrigation Prescription Tests', () => {
       const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
       const mockedGetAreaOfPolygon = getAreaOfPolygon as jest.Mock;
 
-      mockedGetAreaOfPolygon.mockReturnValue(100); // Mock area to 100 m²
+      mockedGetAreaOfPolygon.mockReturnValue(100); // Mock area of each zone to 100 m²
 
       const { farm, user } = await setupFarmEnvironment(1);
 
-      // Odd ID to trigger VRI prescription
+      // Mock ID for VRI prescription (odd ID)
       const MOCK_IP_ID = 123;
 
       await mockedEnsembleAPICall.mockResolvedValueOnce({
@@ -297,7 +297,7 @@ describe('Get Irrigation Prescription Tests', () => {
 
       const { farm, user } = await setupFarmEnvironment(1);
 
-      // Even ID to trigger URI prescription
+      // Mock ID for URI prescription (even ID)
       const MOCK_IP_ID = 124;
 
       await mockedEnsembleAPICall.mockResolvedValueOnce({
@@ -305,7 +305,7 @@ describe('Get Irrigation Prescription Tests', () => {
           farm_id: farm.farm_id,
           ip_id: MOCK_IP_ID,
           applicationDepths: [20], // in mm
-          pivotRadius: 200, // in meters
+          pivotRadius: 100, // in meters
         }),
       });
 
@@ -318,7 +318,8 @@ describe('Get Irrigation Prescription Tests', () => {
         ip_id: MOCK_IP_ID,
       });
 
-      const pivotArea = Math.PI * Math.pow(200, 2); // in m²
+      // Pi * r² = Area of circle
+      const pivotArea = Math.PI * Math.pow(100, 2); // in m²
 
       // Total Volume in L = Area (m²) * Depth (mm)
       const totalVolumeL = pivotArea * 20;

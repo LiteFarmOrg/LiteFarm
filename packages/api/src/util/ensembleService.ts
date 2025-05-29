@@ -179,40 +179,37 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   ip_id: number,
   shouldSend: boolean,
 ): Promise<IrrigationPrescriptionDetails> => {
+  // Validate farm connection to Ensemble (will throw if not connected)
   await getFarmEnsembleAddonIds(farm_id);
 
+  // Fetch prescription data (real or mock)
   const irrigationPrescription = shouldSend
     ? await fetchIrrigationPrescriptionDetails(ip_id)
-    : await generateMockPrescriptionDetails({
-        farm_id,
-        ip_id,
-      });
+    : await generateMockPrescriptionDetails({ farm_id, ip_id });
 
   if (!irrigationPrescription) {
     throw customError(`Irrigation prescription with id ${ip_id} not found`, 404);
   }
 
+  // Validate prescription location and farm association
   const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
     irrigationPrescription.location_id,
   );
-
   if (!prescriptionFarmRecord) {
     throw customError(`location_id on IP ${ip_id} does not exist`, 404);
   }
-
-  const { farm_id: prescriptionFarmId } = prescriptionFarmRecord;
-
-  if (prescriptionFarmId !== farm_id) {
+  if (prescriptionFarmRecord.farm_id !== farm_id) {
     throw customError(`Irrigation prescription ${ip_id} belongs to a different farm`, 403);
   }
 
+  // Transform prescription data to LiteFarm format and validate details
   const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
-
   const prescriptionDetails = mappedPrescription.prescription;
   if (!prescriptionDetails) {
     throw customError('Prescription data is missing', 500);
   }
 
+  // Calculate and return water consumption
   const waterConsumptionL =
     'uriData' in prescriptionDetails
       ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot.radius ?? 0)

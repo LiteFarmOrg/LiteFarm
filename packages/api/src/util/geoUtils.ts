@@ -22,7 +22,6 @@ export interface Point {
   lng: number;
 }
 
-// turf expects [lng, lat] for all points and polygon coordinates
 type TurfPoint = [lng: number, lat: number];
 
 export const getCentroidOfPolygon = (gridPoints: Point[]): Point | null => {
@@ -59,7 +58,6 @@ export const getAreaOfPolygon = (gridPoints: Point[]): number | null => {
   }
 };
 
-// turf requires that all polygons be closed (first and last point equivalent)
 const closePolygon = (coordinates: TurfPoint[]): TurfPoint[] => {
   const first = coordinates[0];
   const last = coordinates[coordinates.length - 1];
@@ -71,11 +69,8 @@ const closePolygon = (coordinates: TurfPoint[]): TurfPoint[] => {
 
 const safeCreatePolygon = (coordinates: TurfPoint[]): ReturnType<typeof polygon> | null => {
   try {
-    // for necessity of wrapping coordinates in an array, see
-    // https://github.com/Turfjs/turf/issues/1583
     return polygon([closePolygon(coordinates)]);
   } catch (error) {
-    // turf will throw an error if the polygon is invalid
     console.error(error);
     return null;
   }

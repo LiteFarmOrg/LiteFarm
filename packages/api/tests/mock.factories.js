@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import knex from '../src/util/knex';
+import knex from '../src/util/knex.js';
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -15,8 +15,8 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-function usersFactory(userObject = fakeUser()) {
-  return knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser()) {
+  return await knex('users').insert(userObject).returning('*');
 }
 
 function fakeUser(defaultData = {}) {

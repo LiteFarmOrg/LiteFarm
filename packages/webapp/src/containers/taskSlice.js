@@ -237,7 +237,7 @@ export const taskEntitiesSelector = createSelector(
           taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
           [];
         taskEntities[task_id].locations =
-          // TODO: Revert logic once sensors are no longer included in the backend response
+          // TODO: LF-4709 Revert logic once sensors are no longer included in the backend response
           taskEntities[task_id].locations?.flatMap(
             (location_id) => locationEntities[location_id] || [],
           ) || [];

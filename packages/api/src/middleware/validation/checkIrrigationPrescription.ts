@@ -61,6 +61,11 @@ export function checkGetPrescriptionDetails() {
     next: NextFunction,
   ) => {
     const { shouldSend } = req.query;
+    const { ip_id } = req.params;
+
+    if (!Number.isInteger(Number(ip_id))) {
+      return res.status(400).send('Prescription ID must be an integer');
+    }
 
     if (shouldSend != 'true' && shouldSend != 'false') {
       return res.status(400).send('Please provide shouldSend as true or false');

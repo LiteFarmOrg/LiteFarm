@@ -910,6 +910,10 @@ const taskController = {
           ]`,
         )
         .whereIn('task_id', taskIds);
+
+      if (!graphTasks.length) {
+        return res.status(200).send([]);
+      }
       const filteredTasks = graphTasks.map(removeNullTypes);
 
       /* Clean before returning to frontend */
@@ -925,9 +929,7 @@ const taskController = {
         task.animal_batches?.forEach(flattenInternalIdentifier);
       });
 
-      if (graphTasks) {
-        res.status(200).send(filteredTasks);
-      }
+      return res.status(200).send(filteredTasks);
     } catch (error) {
       console.log(error);
       return res.status(400).send({ error });

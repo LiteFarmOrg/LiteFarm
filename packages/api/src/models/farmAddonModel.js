@@ -84,16 +84,6 @@ class FarmAddon extends baseModel {
   }
 
   /**
-   * Updates the webhook address for a farm.
-   * @param farmId
-   * @param webhookId
-   * @return {Promise<*>}
-   */
-  static async updateWebhookId(farmId, webhookId) {
-    return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
-  }
-
-  /**
    * Retrieves organization identifiers (uuid, pk) for a given addon partner and farm
    *
    * @param {string} farmId - The ID of the farm.

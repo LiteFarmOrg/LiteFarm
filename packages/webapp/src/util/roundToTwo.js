@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,37 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-.container {
-  background: var(--grey100);
-  border: 1px solid var(--grey400);
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 8px;
-  display: flex;
-  margin-bottom: 24px;
-}
 
-.closedContainer {
-  height: 44px;
-  overflow-y: hidden;
-}
-
-.pillContainer {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.test {
-  margin-left: auto;
-  border: 0;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-
-
-  color: var(--teal700);
-  font-size: 16px;
-  font-weight: 700;
-  
-}
+export const roundToTwo = (num) => {
+  return +(Math.round(num + 'e+2') + 'e-2');
+};

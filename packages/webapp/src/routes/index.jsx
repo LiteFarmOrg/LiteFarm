@@ -93,9 +93,6 @@ const PostSoilSampleLocationForm = React.lazy(() =>
   ),
 );
 
-const EditSensor = React.lazy(() =>
-  import('../containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
-);
 const SoilSampleLocationDetails = React.lazy(() => import('./SoilSampleLocationDetailsRoutes'));
 
 const PostBarnForm = React.lazy(() =>
@@ -146,7 +143,6 @@ const PostWatercourseForm = React.lazy(() =>
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
 const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
-const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('../containers/CropVarieties'));
@@ -287,6 +283,7 @@ const TaskContainerMethod = React.lazy(() =>
   import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
 const SensorList = React.lazy(() => import('../containers/SensorList'));
+const SensorReadings = React.lazy(() => import('../containers/SensorReadings/v2'));
 const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
@@ -580,10 +577,16 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id/edit" exact component={EditSensor} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
@@ -893,8 +896,16 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -1048,8 +1059,16 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />

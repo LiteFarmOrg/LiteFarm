@@ -1467,12 +1467,6 @@ export default {
       loading: false,
       loaded: false,
     },
-    sensorReducer: {
-      ids: [],
-      entities: {},
-      loading: false,
-      loaded: false,
-    },
     showedSpotlightReducer: {
       loaded: true,
       loading: false,
@@ -1725,19 +1719,6 @@ export default {
           count: 0,
         },
       },
-    },
-    bulkSensorsUploadReducer: {
-      loading: false,
-      isBulkUploadSuccessful: false,
-      validationErrors: [],
-      success: [],
-      errorSensors: [],
-      showTransitionModal: false,
-      defaultFailure: false,
-    },
-    bulkSensorsReadingsReducer: {
-      sensorDataByLocationIds: {},
-      loading: false,
     },
     mapAddDrawerReducer: {
       ids: [],

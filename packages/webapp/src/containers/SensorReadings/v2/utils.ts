@@ -16,7 +16,7 @@
 import { TFunction } from 'react-i18next';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 import { getDateDifference } from '../../../util/moment';
-import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
+import { roundToTwo } from '../../../util/roundToTwo';
 import { convert } from '../../../util/convert-units/convert';
 import { isValidNumber } from '../../../util/validation';
 import { isLessThanTwelveHrsAgo } from '../../../util/date-migrate-TS';
@@ -127,7 +127,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : data[dataKey] ?? null;
+          : (data[dataKey] ?? null);
 
       return { ...acc, [dataKey]: value };
     },

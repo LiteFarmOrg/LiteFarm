@@ -54,7 +54,6 @@ import {
   soilSampleLocationsSelector,
   soilSampleLocationStatusSelector,
 } from './soilSampleLocationSlice';
-import { sensorEntitiesSelector, sensorSelector, sensorStatusSelector } from './sensorSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
 import {
   standaloneSensorsSelector,
@@ -215,42 +214,24 @@ export const pointSelector = createSelector(
     gatesSelector,
     waterValvesSelector,
     soilSampleLocationsSelector,
-    sensorSelector,
     sensorArraysSelector,
     standaloneSensorsSelector,
   ],
-  (gates, waterValves, soilSampleLocations, sensor, sensorArrays, standaloneSensors) => {
+  (gates, waterValves, soilSampleLocations, sensorArrays, standaloneSensors) => {
     const result = {};
     result[locationEnum.gate] = gates;
     result[locationEnum.water_valve] = waterValves;
     result[locationEnum.soil_sample_location] = soilSampleLocations;
-    result[locationEnum.sensor] = [...sensor, ...sensorArrays, ...standaloneSensors];
+    result[locationEnum.sensor] = [...sensorArrays, ...standaloneSensors];
     return result;
   },
 );
 export const pointStatusSelector = createSelector(
-  [
-    gateStatusSelector,
-    waterValveStatusSelector,
-    soilSampleLocationStatusSelector,
-    sensorStatusSelector,
-  ],
-  (gateStatus, waterValveStatus, soilSampleLocationStatus, sensorStatus) => ({
-    loading:
-      gateStatus.loading ||
-      waterValveStatus.loading ||
-      soilSampleLocationStatus.loading ||
-      sensorStatus.loading,
-    loaded:
-      gateStatus.loaded &&
-      waterValveStatus.loaded &&
-      soilSampleLocationStatus.loaded &&
-      sensorStatus.loaded,
-    error:
-      gateStatus.error ||
-      waterValveStatus.error ||
-      soilSampleLocationStatus.error ||
-      sensorStatus.error,
+  [gateStatusSelector, waterValveStatusSelector, soilSampleLocationStatusSelector],
+  (gateStatus, waterValveStatus, soilSampleLocationStatus) => ({
+    loading: gateStatus.loading || waterValveStatus.loading || soilSampleLocationStatus.loading,
+    loaded: gateStatus.loaded && waterValveStatus.loaded && soilSampleLocationStatus.loaded,
+    error: gateStatus.error || waterValveStatus.error || soilSampleLocationStatus.error,
   }),
 );
 /**
@@ -379,7 +360,6 @@ export const locationEntitiesSelector = createSelector(
     gateEntitiesSelector,
     waterValveEntitiesSelector,
     soilSampleLocationEntitiesSelector,
-    sensorEntitiesSelector,
   ],
   (...args) => {
     return args.reduce(

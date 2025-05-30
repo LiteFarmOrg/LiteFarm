@@ -81,17 +81,17 @@ describe('Get Irrigation Prescription Tests', () => {
   async function getIrrigationPrescriptionDetails({
     farm_id,
     user_id,
-    ip_id,
+    irrigationPrescriptionId,
     shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
-    ip_id: number;
+    irrigationPrescriptionId: number;
     shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
-      .get(`/irrigation_prescriptions/${ip_id}/`)
+      .get(`/irrigation_prescriptions/${irrigationPrescriptionId}/`)
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
@@ -213,11 +213,11 @@ describe('Get Irrigation Prescription Tests', () => {
 
         const { farm, field, user } = await setupFarmEnvironment(role);
 
-        const MOCK_IP_ID = 123;
+        const MOCK_ID = 123;
         await mockedEnsembleAPICall.mockResolvedValueOnce({
           data: await generateMockPrescriptionDetails({
             farm_id: farm.farm_id,
-            ip_id: MOCK_IP_ID,
+            irrigationPrescriptionId: MOCK_ID,
           }),
         });
 
@@ -227,19 +227,19 @@ describe('Get Irrigation Prescription Tests', () => {
           farm_id: farm.farm_id,
           user_id: user.user_id,
           shouldSend: 'true',
-          ip_id: MOCK_IP_ID,
+          irrigationPrescriptionId: MOCK_ID,
         });
 
         expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
-            url: expect.stringContaining(`/irrigation_prescription/${MOCK_IP_ID}`),
+            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
           }),
           expect.any(Function), // onError callback
         );
 
         expect(res.body).toMatchObject({
-          id: MOCK_IP_ID,
+          id: MOCK_ID,
           location_id: field.location_id,
           management_plan_id: null,
           metadata: {
@@ -263,12 +263,12 @@ describe('Get Irrigation Prescription Tests', () => {
       const { farm, user } = await setupFarmEnvironment(1);
 
       // Mock ID for VRI prescription (odd ID)
-      const MOCK_IP_ID = 123;
+      const MOCK_ID = 123;
 
       await mockedEnsembleAPICall.mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
-          ip_id: MOCK_IP_ID,
+          irrigationPrescriptionId: MOCK_ID,
           applicationDepths: [5, 10, 15], // in mm
         }),
       });
@@ -279,14 +279,14 @@ describe('Get Irrigation Prescription Tests', () => {
         farm_id: farm.farm_id,
         user_id: user.user_id,
         shouldSend: 'true',
-        ip_id: MOCK_IP_ID,
+        irrigationPrescriptionId: MOCK_ID,
       });
 
       // Total Volume in L = Area (m²) * Depth (mm)
       const totalVolumeL = 100 * (5 + 10 + 15);
 
       expect(res.body).toMatchObject({
-        id: MOCK_IP_ID,
+        id: MOCK_ID,
         estimated_water_consumption: totalVolumeL,
         estimated_water_consumption_unit: 'l',
       });
@@ -298,12 +298,12 @@ describe('Get Irrigation Prescription Tests', () => {
       const { farm, user } = await setupFarmEnvironment(1);
 
       // Mock ID for URI prescription (even ID)
-      const MOCK_IP_ID = 124;
+      const MOCK_ID = 124;
 
       await mockedEnsembleAPICall.mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
-          ip_id: MOCK_IP_ID,
+          irrigationPrescriptionId: MOCK_ID,
           applicationDepths: [20], // in mm
           pivotRadius: 100, // in meters
         }),
@@ -315,7 +315,7 @@ describe('Get Irrigation Prescription Tests', () => {
         farm_id: farm.farm_id,
         user_id: user.user_id,
         shouldSend: 'true',
-        ip_id: MOCK_IP_ID,
+        irrigationPrescriptionId: MOCK_ID,
       });
 
       // Pi * r² = Area of circle
@@ -325,7 +325,7 @@ describe('Get Irrigation Prescription Tests', () => {
       const totalVolumeL = pivotArea * 20;
 
       expect(res.body).toMatchObject({
-        id: MOCK_IP_ID,
+        id: MOCK_ID,
         estimated_water_consumption: totalVolumeL,
         estimated_water_consumption_unit: 'l',
       });

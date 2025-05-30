@@ -33,14 +33,14 @@ export const getDateTimeFromDayOfMonth = (day: number): Date => {
 
 interface GenerateMockPrescriptionDetailsParams {
   farm_id: string;
-  ip_id: number;
+  irrigationPrescriptionId: number;
   applicationDepths?: number[];
   pivotRadius?: number;
 }
 
 export const generateMockPrescriptionDetails = async ({
   farm_id,
-  ip_id,
+  irrigationPrescriptionId,
   applicationDepths = [15, 10, 20],
   pivotRadius = 150,
 }: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
@@ -62,10 +62,10 @@ export const generateMockPrescriptionDetails = async ({
   };
 
   const commonMockData = {
-    id: ip_id,
+    id: irrigationPrescriptionId,
     location_id: locations[0].location_id,
     management_plan_id: managementPlans[0]?.management_plan_id ?? null,
-    recommended_start_datetime: getDateTimeFromDayOfMonth(ip_id).toISOString(),
+    recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
     pivot: mockPivot,
     metadata: {
       weather_forecast: {
@@ -91,7 +91,7 @@ export const generateMockPrescriptionDetails = async ({
   };
 
   // All even IP IDs will return URI data, odd ones will return VRI data
-  return ip_id % 2 === 0
+  return irrigationPrescriptionId % 2 === 0
     ? {
         ...commonMockData,
         prescription: {

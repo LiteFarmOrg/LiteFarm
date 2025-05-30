@@ -47,7 +47,7 @@ export function checkGetIrrigationPrescription() {
 }
 
 export interface PrescriptionDetailsRouteParams {
-  ip_id: number;
+  irrigationPrescriptionId: number;
 }
 
 export interface PrescriptionDetailsQueryParams {
@@ -61,9 +61,9 @@ export function checkGetPrescriptionDetails() {
     next: NextFunction,
   ) => {
     const { shouldSend } = req.query;
-    const { ip_id } = req.params;
+    const { irrigationPrescriptionId } = req.params;
 
-    if (!Number.isInteger(Number(ip_id))) {
+    if (!Number.isInteger(Number(irrigationPrescriptionId))) {
       return res.status(400).send('Prescription ID must be an integer');
     }
 

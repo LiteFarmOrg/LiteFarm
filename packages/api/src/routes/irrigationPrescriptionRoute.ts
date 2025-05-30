@@ -31,7 +31,7 @@ router.get(
 );
 
 router.get(
-  '/:ip_id',
+  '/:irrigationPrescriptionId',
   checkScope(['get:smart_irrigation']),
   checkGetPrescriptionDetails(),
   IrrigationPrescriptionController.getPrescriptionDetails(),

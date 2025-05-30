@@ -169,14 +169,14 @@ export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: numbe
  * Retrieves detailed information for a specific irrigation prescription.
  *
  * @param {string} farm_id - The ID of the farm to retrieve the irrigation prescription for.
- * @param {number} ip_id - The ID of the irrigation prescription to retrieve.
+ * @param {number} irrigationPrescriptionId - The ID of the irrigation prescription to retrieve.
  * @param {boolean} shouldSend - Flag to determine whether to fetch real data or generate mock data.
  * @returns {Promise<IrrigationPrescriptionDetails>} A promise that resolves to the irrigation prescription details with water consumption estimate.
  * @throws {Error} Throws an error if the prescription is not found, belongs to a different farm, or if data is missing.
  */
 export const getEnsembleIrrigationPrescriptionDetails = async (
   farm_id: string,
-  ip_id: number,
+  irrigationPrescriptionId: number,
   shouldSend: boolean,
 ): Promise<IrrigationPrescriptionDetails> => {
   // Validate farm connection to Ensemble (will throw if not connected)
@@ -184,11 +184,11 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
 
   // Fetch prescription data (real or mock)
   const irrigationPrescription = shouldSend
-    ? await fetchIrrigationPrescriptionDetails(ip_id)
-    : await generateMockPrescriptionDetails({ farm_id, ip_id });
+    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId)
+    : await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId });
 
   if (!irrigationPrescription) {
-    throw customError(`Irrigation prescription with id ${ip_id} not found`, 404);
+    throw customError(`Irrigation prescription with id ${irrigationPrescriptionId} not found`, 404);
   }
 
   // Validate prescription location and farm association
@@ -196,10 +196,13 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
     irrigationPrescription.location_id,
   );
   if (!prescriptionFarmRecord) {
-    throw customError(`location_id on IP ${ip_id} does not exist`, 404);
+    throw customError(`location_id on IP ${irrigationPrescriptionId} does not exist`, 404);
   }
   if (prescriptionFarmRecord.farm_id !== farm_id) {
-    throw customError(`Irrigation prescription ${ip_id} belongs to a different farm`, 403);
+    throw customError(
+      `Irrigation prescription ${irrigationPrescriptionId} belongs to a different farm`,
+      403,
+    );
   }
 
   // Transform prescription data to LiteFarm format and validate details

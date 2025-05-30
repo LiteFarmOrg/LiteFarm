@@ -236,7 +236,7 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
 
   const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
     if (unit === '˚C') return 'C';
-    return unit as LiteFarmWeatherUnits;
+    return unit;
   };
 
   const mappedWeatherForecast = {

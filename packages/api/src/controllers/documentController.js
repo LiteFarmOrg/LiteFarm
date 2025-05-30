@@ -25,15 +25,16 @@ import {
   getPrivateS3Url,
 } from '../util/digitalOceanSpaces.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { parseSoilAnalysisDocument } from '../services/soil.js';
 
 const documentController = {
   getDocumentsByFarmId() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       const { farm_id } = req.params;
       try {
         const result = await DocumentModel.query()
           .whereNotDeleted()
-          .withGraphFetched('[files]')
+          .withGraphFetched('[files, soilAnalysisReports]')
           .where({ farm_id });
         return result?.length
           ? res.status(200).send(result)
@@ -45,13 +46,19 @@ const documentController = {
     };
   },
   createDocument() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       try {
         const result = await DocumentModel.transaction(async (trx) => {
           return await DocumentModel.query(trx)
             .context({ user_id: req.auth.user_id })
             .upsertGraph(req.body, { noUpdate: true, noDelete: true });
         });
+        if (
+          result.type === 'SOIL_SAMPLE_RESULTS' &&
+          process.env.UBC_RESEARCH_FARM_IDS?.split(',').includes(req.headers.farm_id)
+        ) {
+          await parseSoilAnalysisDocument(result);
+        }
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -63,7 +70,7 @@ const documentController = {
   },
 
   patchDocumentArchive() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       const { document_id } = req.params;
       try {
         const result = await DocumentModel.query()
@@ -79,7 +86,7 @@ const documentController = {
   },
 
   updateDocument() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       try {
         const { document_id } = req.params;
         const result = await DocumentModel.transaction(async (trx) => {
@@ -98,7 +105,7 @@ const documentController = {
   },
 
   uploadDocument() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       const { farm_id } = req.params;
       try {
         const s3BucketName = getPrivateS3BucketName();

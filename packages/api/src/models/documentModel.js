@@ -18,6 +18,7 @@ import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import farmModel from './farmModel.js';
 import fileModel from './fileModel.js';
+import SoilAnalysisReport from './soilAnalysisReportModel.js';
 
 class Document extends baseModel {
   static get tableName() {
@@ -78,6 +79,14 @@ class Document extends baseModel {
         join: {
           from: 'document.document_id',
           to: 'file.document_id',
+        },
+      },
+      soilAnalysisReports: {
+        relation: Model.HasManyRelation,
+        modelClass: SoilAnalysisReport,
+        join: {
+          from: 'document.document_id',
+          to: 'soil_analysis_report.document_id',
         },
       },
     };

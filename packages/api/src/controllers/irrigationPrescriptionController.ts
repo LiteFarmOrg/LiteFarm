@@ -15,8 +15,13 @@
 
 import { Response } from 'express';
 import { LiteFarmRequest, HttpError } from '../types.js';
-import { IrrigationPrescriptionQueryParams } from '../middleware/validation/checkIrrigationPrescription.js';
+import {
+  PrescriptionDetailsRouteParams,
+  IrrigationPrescriptionQueryParams,
+  PrescriptionDetailsQueryParams,
+} from '../middleware/validation/checkIrrigationPrescription.js';
 import { getAddonPartnerIrrigationPrescriptions } from '../services/addonPartner.js';
+import { getEnsembleIrrigationPrescriptionDetails } from '../util/ensembleService.js';
 
 const irrigationPrescriptionController = {
   getPrescriptions() {
@@ -39,6 +44,36 @@ const irrigationPrescriptionController = {
         return res.status(200).send(irrigationPrescriptions);
       } catch (error: unknown) {
         console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({
+          error: err.message || err,
+        });
+      }
+    };
+  },
+
+  getPrescriptionDetails() {
+    return async (
+      req: LiteFarmRequest<PrescriptionDetailsQueryParams, PrescriptionDetailsRouteParams>,
+      res: Response,
+    ) => {
+      const { farm_id } = req.headers;
+      const { irrigationPrescriptionId } = req.params;
+      const { shouldSend } = req.query;
+
+      try {
+        const data = await getEnsembleIrrigationPrescriptionDetails(
+          // @ts-expect-error - farm_id enforced by checkScope
+          farm_id,
+          Number(irrigationPrescriptionId),
+          shouldSend === 'true',
+        );
+
+        return res.status(200).send(data);
+      } catch (error: unknown) {
+        console.error(error);
+
         const err = error as HttpError;
         const status = err.status || err.code || 500;
         return res.status(status).json({

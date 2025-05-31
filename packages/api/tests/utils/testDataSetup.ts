@@ -33,7 +33,7 @@ export async function returnUserFarms(role: number): Promise<{ mainFarm: Farm; u
 
   await mocks.userFarmFactory(
     {
-      promisedUser: [user],
+      promisedUser: Promise.resolve([user]),
       promisedFarm: Promise.resolve([mainFarm]),
     },
     fakeUserFarm(role),
@@ -52,7 +52,7 @@ export async function setupFarmEnvironment(role: number = 1) {
     const [nonOwnerUser] = await mocks.usersFactory();
     await mocks.userFarmFactory(
       {
-        promisedUser: [nonOwnerUser],
+        promisedUser: Promise.resolve([nonOwnerUser]),
         promisedFarm: Promise.resolve([farm]),
       },
       fakeUserFarm(role),

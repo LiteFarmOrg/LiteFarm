@@ -41,39 +41,41 @@ const existingFigureTypes = [
  */
 export const up = async (knex) => {
   // location
-  //  - sensor
-  //  - figure
-  //    - point
-  //  - sensor_reading
-  //  - location_tasks
-  // partner_reading_type
-  //  - sensor_reading_type
+  // {
+  //   sensor: {},
+  //   figure: { point: {} },
+  //   sensor_readings: [{}],
+  //   sensor_reading_types: [{ partner_reading_type: {} }],
+  //   tasks: [{}]
+  // };
 
+  // Rows to be inserted to 'migration_deletion_logs' table
+  // When rolling back, rows will be restored backwards
   const rowsToLog = [];
-  const figureIdsToRemove = [];
-  const locationIdsToRemove = [];
-
   const addToLogs = (rows, tableName) => {
     rows.forEach((row) => {
       rowsToLog.push({ table_name: tableName, data: row });
     });
   };
 
+  const figureIdsOfSensors = [];
+  const locationIdsOfSensors = [];
+
   const sensorFigures = await knex('figure').where('type', 'sensor');
 
   sensorFigures.forEach(({ figure_id, location_id }) => {
-    figureIdsToRemove.push(figure_id);
-    locationIdsToRemove.push(location_id);
+    figureIdsOfSensors.push(figure_id);
+    locationIdsOfSensors.push(location_id);
   });
 
-  const locationTasksToRemove = await knex('location_tasks').whereIn(
+  const taskSensorRelations = await knex('location_tasks').whereIn(
     'location_id',
-    locationIdsToRemove,
+    locationIdsOfSensors,
   );
-  addToLogs(locationTasksToRemove, 'location_tasks');
+  addToLogs(taskSensorRelations, 'location_tasks');
 
-  const pointsToRemove = await knex('point').whereIn('figure_id', figureIdsToRemove);
-  addToLogs(pointsToRemove, 'point');
+  const sensorPoints = await knex('point').whereIn('figure_id', figureIdsOfSensors);
+  addToLogs(sensorPoints, 'point');
 
   addToLogs(sensorFigures, 'figure');
 
@@ -86,17 +88,12 @@ export const up = async (knex) => {
   const sensors = await knex('sensor');
   addToLogs(sensors, 'sensor');
 
-  const locationsToRemove = await knex('location').whereIn('location_id', locationIdsToRemove);
-  addToLogs(locationsToRemove, 'location');
+  const sensorLocations = await knex('location').whereIn('location_id', locationIdsOfSensors);
+  addToLogs(sensorLocations, 'location');
 
-  // Delete relations between tasks and sensor (location_tasks)
-  await knex('location_tasks').whereIn('location_id', locationIdsToRemove).del();
-
-  // Delete points for the sensors
-  await knex('point').whereIn('figure_id', figureIdsToRemove).del();
-
-  // Delete figures for the sensors
-  await knex('figure').whereIn('figure_id', figureIdsToRemove).del();
+  await knex('location_tasks').whereIn('location_id', locationIdsOfSensors).del();
+  await knex('point').whereIn('figure_id', figureIdsOfSensors).del();
+  await knex('figure').whereIn('figure_id', figureIdsOfSensors).del();
 
   // Remove "sensor" from the "type" enum in the figure table
   await knex.raw(
@@ -107,20 +104,11 @@ export const up = async (knex) => {
     ),
   );
 
-  // Drop the sensor_reading_type table
   await knex.schema.dropTable('sensor_reading_type');
-
-  // Drop the sensor_reading table
   await knex.schema.dropTable('sensor_reading');
-
-  // Drop the sensor table
   await knex.schema.dropTable('sensor');
-
-  // Drop the partner_reading_type table
   await knex.schema.dropTable('partner_reading_type');
-
-  // Delete locations for the sensors
-  await knex('location').whereIn('location_id', locationIdsToRemove).del();
+  await knex('location').whereIn('location_id', locationIdsOfSensors).del();
 
   // Remove the sensor_reading_chart column from showedSpotlight table
   await knex.schema.alterTable('showedSpotlight', (table) => {
@@ -128,7 +116,7 @@ export const up = async (knex) => {
     table.dropColumn('sensor_reading_chart_end');
   });
 
-  await knex.schema.createTable('migration_logs', function (table) {
+  await knex.schema.createTable('migration_deletion_logs', function (table) {
     table.increments('id').primary();
     table.string('migration_name').notNullable();
     table.string('table_name').notNullable();
@@ -136,8 +124,8 @@ export const up = async (knex) => {
     table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable();
   });
 
-  await knex('migration_logs').insert(
-    rowsToLog.map((row) => ({ migration_name: 'LF-4709', ...row })),
+  await knex('migration_deletion_logs').insert(
+    rowsToLog.map((row) => ({ migration_name: 'cleanup_previous_sensors_implementation', ...row })),
   );
 };
 
@@ -146,8 +134,8 @@ export const up = async (knex) => {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-  // NOTE: integrating_partner table was renamed to 'addon_partner' (20250123153038_refactor_farm_addon.js)
   // Copied from 20220614195741_sensor_reading_types.js
+  // NOTE: integrating_partner table was renamed to 'addon_partner' (20250123153038_refactor_farm_addon.js)
   await knex.schema.createTable('partner_reading_type', function (table) {
     table
       .uuid('partner_reading_type_id')
@@ -213,9 +201,9 @@ export const down = async (knex) => {
 
   await knex.raw(formatAlterTableEnumSql('figure', 'type', existingFigureTypes));
 
-  // Restore deleted rows from migration_logs
-  const rows = await knex('migration_logs')
-    .where('migration_name', 'LF-4709')
+  // Restore deleted rows from migration_deletion_logs
+  const rows = await knex('migration_deletion_logs')
+    .where('migration_name', 'cleanup_previous_sensors_implementation')
     .orderBy('id', 'desc');
 
   for (const { table_name, data } of rows) {
@@ -227,5 +215,5 @@ export const down = async (knex) => {
     }
   }
 
-  await knex.schema.dropTable('migration_logs');
+  await knex.schema.dropTable('migration_deletion_logs');
 };

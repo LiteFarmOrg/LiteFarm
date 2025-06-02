@@ -106,33 +106,43 @@ const getEnsembleSensors = async (farm_id) => {
     return { sensors: [], sensor_arrays: [] };
   }
 
-  const sensors = [];
-  const sensorArrayMap = {};
+  const { systems: orgSystems } = await getValidEnsembleOrg(farmEnsembleAddon.org_uuid);
 
+  const sensorArrays = [];
+  for (const system of orgSystems) {
+    const systemProfiles = await getOrganisationProfiles(farmEnsembleAddon.org_pk, system.pk);
+
+    const mappedProfiles = systemProfiles
+      .filter((profile) => profile.water_profile?.sensors)
+      .map(mapProfileToSensorArray);
+
+    if (mappedProfiles?.length) {
+      sensorArrays.push(...mappedProfiles);
+    }
+  }
+
+  const esidToProfileIdMap = {};
+  for (const array of sensorArrays) {
+    for (const sensorId of array.sensors) {
+      esidToProfileIdMap[sensorId] = array.id;
+    }
+  }
+
+  const sensors = [];
   const farm = await FarmModel.query().findById(farm_id);
   const farmCenterCoordinates = farm.grid_points;
 
   for (const incomingDevice of devices) {
     if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
-      const device = enrichDeviceWithDefaults(incomingDevice, farmCenterCoordinates);
+      const device = enrichDeviceWithDefaultPosition(incomingDevice, farmCenterCoordinates);
+
+      device.profile_id = esidToProfileIdMap[device.esid] || null;
 
       sensors.push(mapDeviceToSensor(device));
-
-      if (device.profile_id) {
-        if (!sensorArrayMap[device.profile_id]) {
-          sensorArrayMap[device.profile_id] = [];
-        }
-        sensorArrayMap[device.profile_id].push({
-          external_id: device.esid,
-          latest_position: device.latest_position,
-        });
-      }
     }
   }
 
-  const sensor_arrays = createSensorArrays(sensorArrayMap);
-
-  return { sensors, sensor_arrays };
+  return { sensors, sensor_arrays: sensorArrays };
 };
 
 /**
@@ -163,58 +173,38 @@ const mapDeviceToSensor = (device) => {
 };
 
 /**
- * Creates sensor arrays from a lookup structure keyed by device profile ids
- * @param {Object} sensorArrayMap - A lookup object where each key is a device.profile_id and the value is an array of sensor objects.
- * @returns {Array} - An array of sensor array objects.
+ * Maps an Ensemble profile object to a simplified format for sensor arrays
+ * @param {Object} profile - The profile to map
+ * @returns {Object} - The mapped sensor array object
  */
-const createSensorArrays = (sensorArrayMap) => {
-  return Object.entries(sensorArrayMap).map(([id, sensors]) => ({
-    id,
-    sensors: sensors.map(({ external_id }) => external_id),
-    point: calculateSensorArrayPoint(sensors),
+const mapProfileToSensorArray = (profile) => {
+  return {
+    id: profile.id,
+    sensors: profile.water_profile.sensors,
+    point: {
+      lat: profile.water_profile.position?.latitude,
+      lng: profile.water_profile.position?.longitude,
+    },
+    name: profile.description,
 
     // For backwards compatibility
-    location_id: id,
-    name: `Sensor Array ${id}`,
-  }));
-};
-
-/**
- * Calculates the point for a sensor array based on the position of the sensor with the shallowest sensor depth (point closest to ground level)
- * @param {Array} sensors - An array of sensors.
- * @returns {Object} - An object containing latitude and longitude.
- */
-const calculateSensorArrayPoint = (sensors) => {
-  let selectedSensor = sensors[0];
-
-  for (const sensor of sensors) {
-    if (Math.abs(sensor.latest_position.depth) < Math.abs(selectedSensor.latest_position.depth)) {
-      selectedSensor = sensor;
-    }
-  }
-
-  return {
-    lat: selectedSensor.latest_position.coordinates.lat,
-    lng: selectedSensor.latest_position.coordinates.lng,
+    location_id: profile.id,
   };
 };
 
 /**
- * Adds required properties to a device object if they are missing, to ensure it can be properly displayed.
- * This includes position data (coordinates and depth) and profile association (null if not sent).
+ * Adds required position properties to a device object if they are missing, to ensure it can be properly displayed.
  *
  * @param {Object} device - The device object to enrich with default values
  * @param {Object} grid_points - The farm's center coordinates to use as default location
  * @returns {Object} - The device object with all required display properties
  */
-const enrichDeviceWithDefaults = (device, grid_points) => {
+const enrichDeviceWithDefaultPosition = (device, grid_points) => {
   device.latest_position = {
     vertical_position: device.latest_position?.vertical_position ?? 0,
     latitude: device.latest_position?.latitude ?? grid_points.lat,
     longitude: device.latest_position?.longitude ?? grid_points.lng,
   };
-
-  device.profile_id = device.profile_id ?? null;
 
   return device;
 };
@@ -438,8 +428,38 @@ async function getEnsembleOrganisations() {
 }
 
 /**
+ * Retrieves all profiles that belong to a given organisation and system
+ * @param {number} organisation_pk - The primary key of the organisation.
+ * @param {number} system_id - The primary key of the organisation.
+ * @returns {Array} - An array of profile objects
+ * @throws {Error} - Throws an error if ESci API call fails
+ * @async
+ */
+async function getOrganisationProfiles(organisation_pk, system_id) {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/organizations/${organisation_pk}/pivot_irrigation/${system_id}/profiles`,
+    };
+
+    const onError = () => {
+      const err = new Error('Unable to fetch ESCI profiles');
+      err.status = 500;
+      throw err;
+    };
+
+    const response = await ensembleAPICall(axiosObject, onError);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/**
  * Retrieves all devices that belong to a given organisation
- * @param {uuid} organisation_pk - The primary key of the organisation.
+ * @param {number} organisation_pk - The primary key of the organisation.
  * @returns {Array} - An array of device objects.
  * @throws {Error} - Throws an error if ESci API call fails
  * @async
@@ -464,6 +484,7 @@ async function getOrganisationDevices(organisation_pk) {
     throw error;
   }
 }
+
 /**
  * Fetches the sensor data for the given esids and (optionally) a given time range in specified intervals
  * @param {Object} params - The parameters for fetching the sensor data.
@@ -717,8 +738,6 @@ export {
   getEnsembleOrganisations,
   getValidEnsembleOrg,
   getOrganisationDevices,
-  calculateSensorArrayPoint,
-  enrichDeviceWithDefaults,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,

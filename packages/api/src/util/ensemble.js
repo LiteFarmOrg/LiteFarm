@@ -151,10 +151,10 @@ const mapDeviceToSensor = (device) => {
     ),
     last_seen: device.last_seen,
     point: {
-      lat: device.latest_position.coordinates.lat,
-      lng: device.latest_position.coordinates.lng,
+      lat: Number(device.latest_position.latitude),
+      lng: Number(device.latest_position.longitude),
     },
-    depth: device.latest_position.depth,
+    depth: device.latest_position.vertical_position,
     depth_unit: 'cm', // to be confirmed
     sensor_array_id: device.profile_id,
 

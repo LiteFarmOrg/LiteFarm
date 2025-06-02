@@ -480,7 +480,7 @@ async function getOrganisationDevices(organisation_pk) {
   try {
     const axiosObject = {
       method: 'get',
-      url: `${ensembleAPI}/organizations/${organisation_pk}/devices/`,
+      url: `${ensembleAPI}/organizations/${organisation_pk}/devices/?with_latest_position=true`,
     };
     const onError = () => {
       const err = new Error('Unable to fetch ESCI devices');

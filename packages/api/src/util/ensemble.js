@@ -114,8 +114,7 @@ const getEnsembleSensors = async (farm_id) => {
 
   for (const incomingDevice of devices) {
     if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
-      // This is a temporary solution until the Ensemble API is updated to return depth, position, and profiles
-      const device = enrichWithMockData(incomingDevice, farmCenterCoordinates);
+      const device = enrichDeviceWithDefaults(incomingDevice, farmCenterCoordinates);
 
       sensors.push(mapDeviceToSensor(device));
 
@@ -200,53 +199,22 @@ const calculateSensorArrayPoint = (sensors) => {
   };
 };
 
-// Add mock data to a incoming Ensemble device to emulate positions (based on farm center) and randomly assigned profiles. Only necessary until we are receiving real data for this
-const enrichWithMockData = (
-  device,
-  grid_points = {
-    lat: 49.2504,
-    lng: -123.1119,
-  },
-) => {
-  device.last_seen = new Date().toISOString();
-  const random = Math.random();
-  device.profile_id = random > 0.5 ? 1 : random > 0.25 ? 2 : null;
+/**
+ * Adds required properties to a device object if they are missing, to ensure it can be properly displayed.
+ * This includes position data (coordinates and depth) and profile association (null if not sent).
+ *
+ * @param {Object} device - The device object to enrich with default values
+ * @param {Object} grid_points - The farm's center coordinates to use as default location
+ * @returns {Object} - The device object with all required display properties
+ */
+const enrichDeviceWithDefaults = (device, grid_points) => {
+  device.latest_position = {
+    vertical_position: device.latest_position?.vertical_position ?? 0,
+    latitude: device.latest_position?.latitude ?? grid_points.lat,
+    longitude: device.latest_position?.longitude ?? grid_points.lng,
+  };
 
-  if (device.profile_id === 1) {
-    const depths = [10, 20, 30, -10, -20, -30];
-    const randomDepth = depths[Math.floor(Math.random() * depths.length)];
-
-    // This is based on my speculation of what this data will look like. I have not seen real data yet.
-    device.latest_position = {
-      depth: randomDepth,
-      coordinates: {
-        lat: grid_points.lat,
-        lng: grid_points.lng,
-      },
-    };
-  } else if (device.profile_id === 2) {
-    const depths = [10, 20, 30, -10, -20, -30];
-    const randomDepth = depths[Math.floor(Math.random() * depths.length)];
-    const randomOffset = () => (Math.random() - 0.5) * 0.00025; // ~25m in degrees
-    // This is based on my speculation of what this data will look like. I have not seen real data yet.
-    device.latest_position = {
-      depth: randomDepth,
-      coordinates: {
-        lat: grid_points.lat + randomOffset(),
-        lng: grid_points.lng + randomOffset(),
-      },
-    };
-  } else {
-    const randomOffset = () => (Math.random() - 0.5) * 0.0001; // ~10m in degrees
-
-    device.latest_position = {
-      depth: 10,
-      coordinates: {
-        lat: grid_points.lat + randomOffset(),
-        lng: grid_points.lng + randomOffset(),
-      },
-    };
-  }
+  device.profile_id = device.profile_id ?? null;
 
   return device;
 };
@@ -750,7 +718,7 @@ export {
   getValidEnsembleOrg,
   getOrganisationDevices,
   calculateSensorArrayPoint,
-  enrichWithMockData,
+  enrichDeviceWithDefaults,
   extractEsids,
   registerFarmAndClaimSensors,
   unclaimSensor,

@@ -21,6 +21,7 @@ import Input from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import NumberInput from '../../Form/NumberInput';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
+import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import { Location, System } from '../../../types';
 import styles from './styles.module.scss';
@@ -106,7 +107,11 @@ const PureSoilSampleTask = ({
           min={1}
           max={5} // TODO: confirm
           onBlur={adjustDepthRangeInputs}
-          rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+          rules={{
+            required: { value: true, message: t('common:REQUIRED') },
+            max: hookFormMaxValidation(5), // TODO: confirm
+            min: hookFormMinValidation(1),
+          }}
         />
         {!!getValues(SAMPLES_PER_LOCATION) && !!fields.length && (
           <div className={styles.depths}>

@@ -30,7 +30,7 @@ class TaskDocument extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['task_id', 'purpose_id'],
+      required: ['task_id', 'document_id'],
       properties: {
         task_id: { type: 'integer' },
         document_id: { type: 'string', format: 'uuid' },

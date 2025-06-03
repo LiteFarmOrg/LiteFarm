@@ -16,8 +16,9 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 import { ANIMAL_TASKS, checkAnimalAndBatchIds } from '../../util/animal.js';
-import { CUSTOM_TASK, IRRIGATION_TASK } from '../../util/task.js';
+import { CUSTOM_TASK, IRRIGATION_TASK, TASKS_WITH_DOCUMENTS } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
+import { validateFilesLength } from './checkDocument.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
@@ -101,7 +102,7 @@ export function checkCompleteTask(taskType) {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const { duration, complete_date } = req.body;
+      const { duration, complete_date, documents } = req.body;
 
       if (!user_id) {
         return res.status(400).send('must have user_id');
@@ -123,6 +124,14 @@ export function checkCompleteTask(taskType) {
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
         await checkAnimalCompleteTask(req, taskType, task_id);
+      }
+
+      if (documents) {
+        if ([...TASKS_WITH_DOCUMENTS].includes(taskType)) {
+          checkTaskDocuments(documents);
+        } else {
+          return res.status(400).send('Documents not permitted on this task type');
+        }
       }
 
       const { assignee_user_id } = await TaskModel.query()
@@ -317,5 +326,13 @@ async function checkIrrigationTask(req) {
     if (existing) {
       throw customError('Irrigation prescription already associated with task', 400);
     }
+  }
+}
+
+function checkTaskDocuments(documents) {
+  if (documents.length) {
+    documents.forEach((document) => {
+      validateFilesLength(document);
+    });
   }
 }

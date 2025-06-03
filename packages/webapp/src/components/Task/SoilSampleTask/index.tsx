@@ -121,7 +121,7 @@ const PureSoilSampleTask = ({
                     <Unit
                       name={`${SAMPLE_DEPTHS}.${index}.from`}
                       displayUnitName={SAMPLE_DEPTHS_UNIT}
-                      // defaultValue={null} // TODO: check later for read-only
+                      // defaultValue={null} // TODO: LF-4835 Confirm
                       {...unitProps}
                     />
                     <span className={styles.arrow}>
@@ -131,7 +131,7 @@ const PureSoilSampleTask = ({
                     <Unit
                       name={`${SAMPLE_DEPTHS}.${index}.to`}
                       displayUnitName={SAMPLE_DEPTHS_UNIT}
-                      // defaultValue={null} // TODO: check later for read-only
+                      // defaultValue={null} // TODO: LF-4835 Confirm
                       {...unitProps}
                     />
                   </div>

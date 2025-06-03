@@ -269,6 +269,17 @@
       "VOLUME": "Volume",
       "WEIGHT": "Weight"
     },
+    "SOIL_SAMPLE_VIEW": {
+      "LOCATION_COUNT": "Number of sampling locations",
+      "SAMPLE_DEPTH_RANGE": "Sample depth range #{{number}}",
+      "SAMPLE_PER_LOCATION_COUNT": "Number of samples per location",
+      "SAMPLE_TOOL": {
+        "AUGER": "Auger",
+        "SOIL_PROBE": "Soil probe",
+        "SPADE": "Spade"
+      },
+      "SAMPLING_TOOL": "Sampling tool"
+    },
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",

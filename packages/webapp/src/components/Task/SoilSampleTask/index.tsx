@@ -69,7 +69,7 @@ const PureSoilSampleTask = ({
         append({ from: null, to: null });
       }
     } else {
-      for (let i = fields.length; i >= samplesPerLocation; i--) {
+      for (let i = fields.length - 1; i >= samplesPerLocation; i--) {
         remove(i);
       }
     }

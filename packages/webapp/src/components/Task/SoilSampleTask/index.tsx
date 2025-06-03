@@ -102,7 +102,6 @@ const PureSoilSampleTask = ({
           control={control}
           label={t('ADD_TASK.SOIL_SAMPLE_VIEW.SAMPLE_PER_LOCATION_COUNT')}
           showStepper
-          defaultValue={getValues(SAMPLES_PER_LOCATION)}
           disabled={disabled}
           min={1}
           max={5} // TODO: confirm

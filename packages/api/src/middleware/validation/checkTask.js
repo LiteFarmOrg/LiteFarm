@@ -102,7 +102,7 @@ export function checkCompleteTask(taskType) {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const { duration, complete_date, documents } = req.body;
+      const { duration, complete_date } = req.body;
 
       if (!user_id) {
         return res.status(400).send('must have user_id');
@@ -126,13 +126,7 @@ export function checkCompleteTask(taskType) {
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
-      if (documents) {
-        if ([...TASKS_WITH_DOCUMENTS].includes(taskType)) {
-          checkTaskDocuments(documents);
-        } else {
-          return res.status(400).send('Documents not permitted on this task type');
-        }
-      }
+      checkCompleteTaskDocument(req, taskType);
 
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
@@ -187,6 +181,8 @@ export function checkCreateTask(taskType) {
       if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
         return res.status(400).send('task type requires products');
       }
+
+      checkCreateTaskDocument(req);
 
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
@@ -325,6 +321,22 @@ async function checkIrrigationTask(req) {
 
     if (existing) {
       throw customError('Irrigation prescription already associated with task', 400);
+    }
+  }
+}
+
+export function checkCreateTaskDocument(task) {
+  if ('documents' in task && task.documents.length) {
+    throw customError('Documents not permitted on task creation');
+  }
+}
+
+export function checkCompleteTaskDocument(task, taskType) {
+  if ('documents' in task && task.documents.length) {
+    if ([...TASKS_WITH_DOCUMENTS].includes(taskType)) {
+      checkTaskDocuments(task.documents);
+    } else {
+      throw customError('Documents not permitted on this task type');
     }
   }
 }

@@ -44,10 +44,12 @@ const PureSoilSampleTask = ({
   disabled = false,
   task,
   locations: propLocations,
-  ...props
+  control,
+  register,
+  setValue,
+  getValues,
+  watch,
 }: PureSoilSampleTaskProps) => {
-  const { control, register, setValue, getValues, watch } = props;
-
   const { fields, append, remove } = useFieldArray({
     name: SAMPLE_DEPTHS,
     control,

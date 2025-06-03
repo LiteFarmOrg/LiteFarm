@@ -26,14 +26,14 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
+}
 
-  .depths {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px 8px;
-    border: 1px solid var(--Colors-Neutral-Neutral-50);
-  }
+.depths {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
 }
 
 .depthRange {

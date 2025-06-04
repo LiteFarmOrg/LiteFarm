@@ -166,6 +166,7 @@ const mapDeviceToSensor = (device) => {
     depth: device.latest_position.vertical_position,
     depth_unit: 'cm', // to be confirmed
     sensor_array_id: device.profile_id,
+    label: device.label,
 
     // For backwards compatibility
     location_id: device.esid,
@@ -185,7 +186,7 @@ const mapProfileToSensorArray = (profile) => {
       lat: profile.water_profile.position?.latitude,
       lng: profile.water_profile.position?.longitude,
     },
-    name: profile.description,
+    label: profile.description,
 
     // For backwards compatibility
     location_id: profile.id,

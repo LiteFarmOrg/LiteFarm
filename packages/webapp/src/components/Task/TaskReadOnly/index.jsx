@@ -58,6 +58,7 @@ import {
   formatTaskReadOnlyDefaultValues,
 } from '../../../util/task';
 import PureMovementTask from '../MovementTask';
+import PureSoilSampleTask from '../SoilSampleTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import PureIrrigationPrescription from '../../IrrigationPrescription';
 import PureDocumentTile from '../../../containers/Documents/DocumentTile';
@@ -587,4 +588,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

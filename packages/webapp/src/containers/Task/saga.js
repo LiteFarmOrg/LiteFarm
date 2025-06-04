@@ -78,6 +78,12 @@ import {
   onLoadingAnimalMovementTaskFail,
   onLoadingAnimalMovementTaskStart,
 } from '../slice/taskSlice/animalMovementTaskSlice';
+import {
+  getAllSoilSampleTasksSuccess,
+  getSoilSampleTasksSuccess,
+  onLoadingSoilSampleTaskFail,
+  onLoadingSoilSampleTaskStart,
+} from '../slice/taskSlice/soilSampleTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -375,6 +381,12 @@ const taskTypeActionMap = {
     fail: onLoadingAnimalMovementTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
+  SOIL_SAMPLE_TASK: {
+    success: (tasks) => put(getSoilSampleTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllSoilSampleTasksSuccess(tasks)),
+    fail: onLoadingSoilSampleTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
 };
 
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
@@ -389,6 +401,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
   yield put(onLoadingAnimalMovementTaskStart());
+  yield put(onLoadingSoilSampleTaskStart());
 }
 
 function* handleGetTasksSuccess(tasks, isGetAll = false) {

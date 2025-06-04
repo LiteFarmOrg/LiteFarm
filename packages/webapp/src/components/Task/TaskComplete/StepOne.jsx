@@ -13,6 +13,7 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
+import PureSoilSampleTask from '../SoilSampleTask';
 import {
   formatTaskAnimalsAsInventoryIds,
   formatTaskReadOnlyDefaultValues,
@@ -199,4 +200,5 @@ const taskComponents = {
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

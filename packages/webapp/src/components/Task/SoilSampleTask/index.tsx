@@ -68,15 +68,15 @@ const PureSoilSampleTask = ({
   ];
 
   const adjustDepthRangeInputs = (samplesPerLocation: number) => {
-    const currnetRangeCount = fields.length;
+    const currentRangeCount = fields.length;
     const newRangeCount = Math.min(samplesPerLocation, MAX_SAMPLES_PER_LOCATION);
 
-    if (currnetRangeCount < newRangeCount) {
-      for (let i = 0; i < newRangeCount - currnetRangeCount; i++) {
+    if (currentRangeCount < newRangeCount) {
+      for (let i = 0; i < newRangeCount - currentRangeCount; i++) {
         append({ from: null, to: null });
       }
     } else {
-      for (let i = currnetRangeCount - 1; i >= newRangeCount; i--) {
+      for (let i = currentRangeCount - 1; i >= newRangeCount; i--) {
         remove(i);
       }
     }

@@ -164,7 +164,7 @@ const mapDeviceToSensor = (device) => {
       lng: Number(device.latest_position.longitude),
     },
     depth: device.latest_position.vertical_position,
-    depth_unit: 'cm', // to be confirmed
+    depth_unit: 'cm',
     sensor_array_id: device.profile_id,
     label: device.label,
 
@@ -202,7 +202,7 @@ const mapProfileToSensorArray = (profile) => {
  */
 const enrichDeviceWithDefaultPosition = (device, grid_points) => {
   device.latest_position = {
-    vertical_position: device.latest_position?.vertical_position ?? 0,
+    vertical_position: device.latest_position?.vertical_position ?? null,
     latitude: device.latest_position?.latitude ?? grid_points.lat,
     longitude: device.latest_position?.longitude ?? grid_points.lng,
   };

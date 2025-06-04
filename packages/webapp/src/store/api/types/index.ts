@@ -259,13 +259,12 @@ export interface Sensor {
   name: SensorTypes;
   label: string; // descriptive name provided by Ensemble
   external_id: string; // esid
-  sensor_reading_types: SensorReadingTypes[];
   point: {
     lat: number;
     lng: number;
   };
   depth: number;
-  depth_unit: 'cm'; // to be confirmed
+  depth_unit: 'cm';
   last_seen: string;
   sensor_array_id: string | null;
   location_id: string; //backwards compatibility only

@@ -109,11 +109,11 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
     selectFromResult: ({ data, isFetching }) => {
       return {
         sensors: filterSensors(match.params.id, type, data?.sensors),
-        isFetching,
         sensorArray:
           type === SensorType.SENSOR_ARRAY
             ? data?.sensor_arrays?.find(({ id }) => `${id}` === match.params.id)
             : undefined,
+        isFetching,
       };
     },
   });

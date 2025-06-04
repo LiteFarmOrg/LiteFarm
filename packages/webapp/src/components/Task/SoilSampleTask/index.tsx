@@ -39,6 +39,8 @@ const SAMPLE_DEPTHS_UNIT = `${PREFIX}sample_depths_unit`;
 const SAMPLE_DEPTHS = `${PREFIX}sample_depths`;
 const SAMPLING_TOOL = `${PREFIX}sampling_tool`;
 
+const MAX_SAMPLES_PER_LOCATION = 10;
+
 const PureSoilSampleTask = ({
   system,
   disabled = false,
@@ -65,14 +67,16 @@ const PureSoilSampleTask = ({
     { value: 'SPADE', label: t('ADD_TASK.SOIL_SAMPLE_VIEW.SAMPLE_TOOL.SPADE') },
   ];
 
-  const adjustDepthRangeInputs = () => {
-    const samplesPerLocation = getValues(SAMPLES_PER_LOCATION);
-    if (fields.length < samplesPerLocation) {
-      for (let i = 0; i < samplesPerLocation - fields.length; i++) {
+  const adjustDepthRangeInputs = (samplesPerLocation: number) => {
+    const currnetRangeCount = fields.length;
+    const newRangeCount = Math.min(samplesPerLocation, MAX_SAMPLES_PER_LOCATION);
+
+    if (currnetRangeCount < newRangeCount) {
+      for (let i = 0; i < newRangeCount - currnetRangeCount; i++) {
         append({ from: null, to: null });
       }
     } else {
-      for (let i = fields.length - 1; i >= samplesPerLocation; i--) {
+      for (let i = currnetRangeCount - 1; i >= newRangeCount; i--) {
         remove(i);
       }
     }
@@ -106,11 +110,11 @@ const PureSoilSampleTask = ({
           showStepper
           disabled={disabled}
           min={1}
-          max={5} // TODO: confirm
-          onBlur={adjustDepthRangeInputs}
+          max={MAX_SAMPLES_PER_LOCATION}
+          onChange={adjustDepthRangeInputs}
           rules={{
             required: { value: true, message: t('common:REQUIRED') },
-            max: hookFormMaxValidation(5), // TODO: confirm
+            max: hookFormMaxValidation(MAX_SAMPLES_PER_LOCATION),
             min: hookFormMinValidation(1),
           }}
         />
@@ -127,7 +131,6 @@ const PureSoilSampleTask = ({
                     <Unit
                       name={`${SAMPLE_DEPTHS}.${index}.from`}
                       displayUnitName={SAMPLE_DEPTHS_UNIT}
-                      // defaultValue={null} // TODO: LF-4835 Confirm
                       {...unitProps}
                     />
                     <span className={styles.arrow}>
@@ -137,7 +140,6 @@ const PureSoilSampleTask = ({
                     <Unit
                       name={`${SAMPLE_DEPTHS}.${index}.to`}
                       displayUnitName={SAMPLE_DEPTHS_UNIT}
-                      // defaultValue={null} // TODO: LF-4835 Confirm
                       {...unitProps}
                     />
                   </div>

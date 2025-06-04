@@ -446,7 +446,7 @@ async function getEnsembleOrganisations() {
 /**
  * Retrieves all profiles that belong to a given organisation and system
  * @param {number} organisation_pk - The primary key of the organisation.
- * @param {number} system_id - The primary key of the organisation.
+ * @param {number} system_id - The primary key of the system.
  * @returns {Array} - An array of profile objects
  * @throws {Error} - Throws an error if ESci API call fails
  * @async

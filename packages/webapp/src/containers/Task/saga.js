@@ -98,6 +98,7 @@ import {
   getCompleteMovementTaskBody,
   getEndpoint,
   getMovementTaskBody,
+  getSoilSampleTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
@@ -582,6 +583,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
   MOVEMENT_TASK: getMovementTaskBody,
+  SOIL_SAMPLE_TASK: getSoilSampleTaskBody,
 };
 
 const getPostTaskReqBody = (

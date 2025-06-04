@@ -35,7 +35,9 @@ export default function DateRangeInput({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
-  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
+  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(
+    defaultDateRangeOptionValue === rangeOptions.CUSTOM,
+  );
 
   const { t } = useTranslation();
   const selectRef = useRef(null);

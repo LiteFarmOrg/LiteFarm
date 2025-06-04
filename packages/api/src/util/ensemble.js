@@ -99,7 +99,6 @@ const getEnsembleSensors = async (farm_id) => {
   if (!farmEnsembleAddon) {
     return { sensors: [], sensor_arrays: [] };
   }
-
   const devices = await getOrganisationDevices(farmEnsembleAddon.org_pk);
 
   if (!devices?.length) {
@@ -108,13 +107,18 @@ const getEnsembleSensors = async (farm_id) => {
 
   const { systems: orgSystems } = await getValidEnsembleOrg(farmEnsembleAddon.org_uuid);
 
+  const farm = await FarmModel.query().findById(farm_id);
+  const farmCenterCoordinates = farm.grid_points;
+
   const sensorArrays = [];
   for (const system of orgSystems) {
     const systemProfiles = await getOrganisationProfiles(farmEnsembleAddon.org_pk, system.pk);
 
     const mappedProfiles = systemProfiles
       .filter((profile) => profile.water_profile?.sensors)
-      .map(mapProfileToSensorArray);
+      .map((profile) =>
+        mapProfileToSensorArray(enrichProfileWithDefaultPosition(profile, farmCenterCoordinates)),
+      );
 
     if (mappedProfiles?.length) {
       sensorArrays.push(...mappedProfiles);
@@ -129,8 +133,6 @@ const getEnsembleSensors = async (farm_id) => {
   }
 
   const sensors = [];
-  const farm = await FarmModel.query().findById(farm_id);
-  const farmCenterCoordinates = farm.grid_points;
 
   for (const incomingDevice of devices) {
     if (incomingDevice.category === 'Sensor' && incomingDevice.deployed) {
@@ -191,6 +193,23 @@ const mapProfileToSensorArray = (profile) => {
     // For backwards compatibility
     location_id: profile.id,
   };
+};
+
+/**
+ * Adds required position properties to a profile object if they are missing
+ *
+ * @param {Object} profile - The profile object to enrich with default values
+ * @param {Object} grid_points - The farm's center coordinates to use as default location
+ * @returns {Object} - The profile object with all required display properties
+ */
+const enrichProfileWithDefaultPosition = (profile, grid_points) => {
+  profile.water_profile = profile.water_profile || {};
+  profile.water_profile.position = {
+    latitude: profile.water_profile.position?.latitude ?? grid_points.lat,
+    longitude: profile.water_profile.position?.longitude ?? grid_points.lng,
+  };
+
+  return profile;
 };
 
 /**

@@ -6,6 +6,7 @@ import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { DocumentUploader } from '../DocumentUploader';
+import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 function AddDocument({ history }) {
   const dispatch = useDispatch();
@@ -18,18 +19,15 @@ function AddDocument({ history }) {
     history.back();
   };
 
-  const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ url }));
-  };
+  const { isFirstFileUpdateEnded, ...filePickerFunctions } = useFilePickerUpload();
 
   return (
     <PureDocumentDetailView
       onGoBack={onBack}
       submit={handleSubmit}
-      deleteImage={deleteImage}
+      filePickerFunctions={filePickerFunctions}
+      isFirstFileUpdateEnded={isFirstFileUpdateEnded}
       useHookFormPersist={useHookFormPersist}
-      imageComponent={(props) => <MediaWithAuthentication {...props} />}
-      documentUploader={(props) => <DocumentUploader {...props} />}
       isEdit={false}
       persistedPath={[]}
     />

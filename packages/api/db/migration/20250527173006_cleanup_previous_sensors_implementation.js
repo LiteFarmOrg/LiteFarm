@@ -35,6 +35,13 @@ const existingFigureTypes = [
   'soil_sample_location',
 ];
 
+const sensorRelatedTaskTypeTables = [
+  'soil_amendment_task',
+  'pest_control_task',
+  'field_work_task',
+  'cleaning_task',
+];
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -74,6 +81,38 @@ export const up = async (knex) => {
   );
   addToLogs(taskSensorRelations, 'location_tasks');
 
+  const sensorTaskIds = taskSensorRelations.map(({ task_id }) => task_id);
+
+  const soilAmendmentTaskProductsToDelete = await knex('soil_amendment_task_products').whereIn(
+    'task_id',
+    sensorTaskIds,
+  );
+  const productsPurposeRelationshipsToDelete = await knex(
+    'soil_amendment_task_products_purpose_relationship',
+  ).whereIn(
+    'task_products_id',
+    soilAmendmentTaskProductsToDelete.map(({ id }) => id),
+  );
+  addToLogs(
+    productsPurposeRelationshipsToDelete,
+    'soil_amendment_task_products_purpose_relationship',
+  );
+  addToLogs(soilAmendmentTaskProductsToDelete, 'soil_amendment_task_products');
+
+  const subTasksToDelete = {};
+
+  for (const tableName of sensorRelatedTaskTypeTables) {
+    const subTaskRows = await knex(tableName).whereIn('task_id', sensorTaskIds);
+
+    if (subTaskRows.length) {
+      subTasksToDelete[tableName] = subTaskRows.map(({ task_id }) => task_id);
+      addToLogs(subTaskRows, tableName);
+    }
+  }
+
+  const sensorTasks = await knex('task').whereIn('task_id', sensorTaskIds);
+  addToLogs(sensorTasks, 'task');
+
   const sensorPoints = await knex('point').whereIn('figure_id', figureIdsOfSensors);
   addToLogs(sensorPoints, 'point');
 
@@ -92,6 +131,21 @@ export const up = async (knex) => {
   addToLogs(sensorLocations, 'location');
 
   await knex('location_tasks').whereIn('location_id', locationIdsOfSensors).del();
+
+  await knex('soil_amendment_task_products_purpose_relationship')
+    .whereIn(
+      'task_products_id',
+      soilAmendmentTaskProductsToDelete.map(({ id }) => id),
+    )
+    .del();
+  await knex('soil_amendment_task_products').whereIn('task_id', sensorTaskIds).del();
+
+  for (const [tableName, ids] of Object.entries(subTasksToDelete)) {
+    await knex(tableName).whereIn('task_id', ids).del();
+  }
+
+  await knex('task').whereIn('task_id', sensorTaskIds).del();
+
   await knex('point').whereIn('figure_id', figureIdsOfSensors).del();
   await knex('figure').whereIn('figure_id', figureIdsOfSensors).del();
 

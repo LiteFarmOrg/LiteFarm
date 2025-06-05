@@ -767,15 +767,6 @@
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
-    "BULK_UPLOAD_SENSORS": {
-      "DOWNLOAD_FILE": {
-        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance.",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n"
-      }
-    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area name",
@@ -1474,14 +1465,6 @@
     },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
     "PAGE_TITLE": "Notifications",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
-      "TITLE": "Sensor upload errors"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Your sensor upload has completed successfully.",
-      "TITLE": "Sensor upload completed"
-    },
     "TAKE_ME_THERE": "Take me there",
     "TASK_ABANDONED": {
       "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}.",

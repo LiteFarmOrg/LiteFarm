@@ -78,6 +78,12 @@ import {
   onLoadingAnimalMovementTaskFail,
   onLoadingAnimalMovementTaskStart,
 } from '../slice/taskSlice/animalMovementTaskSlice';
+import {
+  getAllSoilSampleTasksSuccess,
+  getSoilSampleTasksSuccess,
+  onLoadingSoilSampleTaskFail,
+  onLoadingSoilSampleTaskStart,
+} from '../slice/taskSlice/soilSampleTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -98,6 +104,7 @@ import {
   getCompleteMovementTaskBody,
   getEndpoint,
   getMovementTaskBody,
+  getSoilSampleTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
@@ -374,6 +381,12 @@ const taskTypeActionMap = {
     fail: onLoadingAnimalMovementTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
+  SOIL_SAMPLE_TASK: {
+    success: (tasks) => put(getSoilSampleTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllSoilSampleTasksSuccess(tasks)),
+    fail: onLoadingSoilSampleTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
 };
 
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
@@ -388,6 +401,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
   yield put(onLoadingAnimalMovementTaskStart());
+  yield put(onLoadingSoilSampleTaskStart());
 }
 
 function* handleGetTasksSuccess(tasks, isGetAll = false) {
@@ -582,6 +596,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
   MOVEMENT_TASK: getMovementTaskBody,
+  SOIL_SAMPLE_TASK: getSoilSampleTaskBody,
 };
 
 const getPostTaskReqBody = (

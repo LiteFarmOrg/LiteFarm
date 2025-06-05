@@ -1238,6 +1238,22 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
   };
 }
 
+async function soil_sample_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  soilSampleTask = fakeSoilSampleTask(),
+) {
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  return knex('soil_sample_task')
+    .insert({
+      task_id,
+      ...soilSampleTask,
+      sample_depths: JSON.stringify(soilSampleTask.sample_depths),
+    })
+    .returning('*');
+}
+
 function fakeSoilSampleTask(defaultData = {}) {
   const samples_per_location = faker.datatype.number({ min: 1, max: 5 });
   const sample_depths = Array(samples_per_location)
@@ -2722,6 +2738,7 @@ export default {
   fakeSoilTask,
   fakeSoilAmendmentTaskProduct,
   fakeSoilSampleTask,
+  soil_sample_taskFactory,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,

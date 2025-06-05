@@ -24,7 +24,6 @@ import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
 import useTranslationUtil from '../../util/useTranslationUtil';
 import NotificationTimeline from './NotificationTimeline';
-import { createSensorErrorDownload, SENSOR_BULK_UPLOAD_FAIL } from '../../util/sensor';
 
 function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
   const { t } = useTranslation();

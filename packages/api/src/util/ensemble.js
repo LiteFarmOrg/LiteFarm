@@ -31,38 +31,6 @@ import { toSnakeCase } from './util.js';
 import { customError } from './customErrors.js';
 const { ensembleAPI } = endPoints;
 
-let baseUrl;
-if (process.env.NODE_ENV === 'integration') {
-  baseUrl = 'https://api.beta.litefarm.org';
-} else if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'https://api.app.litefarm.org';
-} else if (process.env.NODE_ENV === 'development') {
-  /*
-   * NOTE: for testing out the webhook run the following:
-   * - 'npm run ngrok:api' (or 'npm run ngrok' for both frontend and backend forwarding)
-   * - 'npm run ngrok:setup'
-   */
-  baseUrl = process.env.NGROK_API;
-} else {
-  baseUrl = 'http://localhost:' + process.env.PORT;
-}
-
-// Known aliases for units from ensemble mapping to convert-units representation as needed by the old sensor readings controller for incoming webhook data
-const ENSEMBLE_UNITS_MAPPING_WEBHOOK = {
-  Celsius: {
-    conversionKey: 'C',
-    system: 'metric',
-  },
-  kPa: {
-    conversionKey: 'kPa',
-    system: 'metric',
-  },
-  Percent: {
-    conversionKey: '%',
-    system: 'all',
-  },
-};
-
 // Equivalency mapping between Ensemble and convert-units for the new sensor readings controller
 const ESCI_TO_CONVERT_UNITS_MAP = {
   '°': 'deg',
@@ -330,98 +298,6 @@ function formatSensorReadings(data) {
 
 const ENSEMBLE_BRAND = 'Ensemble Scientific';
 
-// Return Ensemble Scientific IDs (esids) from sensor data
-const extractEsids = (data) =>
-  data
-    .filter((sensor) => sensor.brand === 'Ensemble Scientific' && sensor.external_id)
-    .map((sensor) => sensor.external_id);
-
-// Function to encapsulate the logic for claiming sensors
-async function registerFarmAndClaimSensors(farm_id, esids) {
-  // Register farm as an organisation with Ensemble
-  const organisation = await createOrganisation(farm_id);
-
-  // Create a webhook for the organisation
-  await registerOrganisationWebhook(farm_id, organisation.org_uuid);
-
-  // Register sensors with Ensemble and return Ensemble API results
-  return await bulkSensorClaim(organisation.org_uuid, esids);
-}
-
-/**
- * Sends a request to the Ensemble API for an organisation to claim sensors
- * @param {uuid} organisationId - a uuid for an Ensemble organisation
- * @param {Array} esids - an array of ids for Ensemble devices
- * @returns {Object} - the response from the Ensemble API
- * @async
- */
-async function bulkSensorClaim(organisationId, esids) {
-  const axiosObject = {
-    method: 'post',
-    url: `${ensembleAPI}/organizations/${organisationId}/devices/bulkclaim/`,
-    data: { esids },
-  };
-
-  // partial or complete failures (at least some esids failed to claim)
-  const onError = (error) => {
-    if (error.response?.data && error.response?.status) {
-      return { ...error.response.data, status: error.response.status };
-    } else {
-      throw new Error('Failed to claim sensors');
-    }
-  };
-
-  // full success (all esids successfully claimed)
-  const onResponse = (response) => {
-    return {
-      success: esids,
-      does_not_exist: [],
-      already_owned: [],
-      occupied: [],
-      detail: response.data.detail,
-    };
-  };
-  return await ensembleAPICall(axiosObject, onError, onResponse);
-}
-
-/**
- * Sends a request to the Ensemble API to register a webhook to an organisation
- * @param {uuid} farmId - the uid for the farm the user is on
- * @param {uuid} organisationId - a uuid for the organisation registered with Ensemble
- * @returns {Object} - the response from the Ensemble API
- * @async
- */
-
-async function registerOrganisationWebhook(farmId, organisationId) {
-  const authHeader = `${farmId}${process.env.SENSOR_SECRET}`;
-  const existingIntegration = await FarmAddonModel.query()
-    .where({ farm_id: farmId, addon_partner_id: 1 })
-    .whereNotDeleted()
-    .first();
-  if (existingIntegration?.webhook_id) {
-    return;
-  }
-
-  const axiosObject = {
-    method: 'post',
-    url: `${ensembleAPI}/organizations/${organisationId}/webhooks/`,
-    data: {
-      url: `${baseUrl}/sensor/reading/partner/1/farm/${farmId}`,
-      authorization_header: authHeader,
-      frequency: 15,
-    },
-  };
-  const onError = (error) => {
-    console.log(error);
-    throw new Error('Failed to register webhook with ESCI');
-  };
-  const onResponse = async (response) => {
-    await FarmAddonModel.updateWebhookId(farmId, response.data.id);
-    return { ...response.data, status: response.status };
-  };
-  await ensembleAPICall(axiosObject, onError, onResponse);
-}
-
 async function getEnsembleOrganisations() {
   try {
     const axiosObject = {
@@ -550,48 +426,6 @@ async function fetchDeviceReadings({
 }
 
 /**
- * Creates a new ESCI organisation if one does not already exist.
- * @param farmId
- * @async
- * @return {Promise<{details: string, status: number}|FarmAddon>}
- */
-async function createOrganisation(farmId) {
-  try {
-    const data = await FarmModel.getFarmById(farmId);
-    const existingIntegration = await FarmAddonModel.query()
-      .where({ farm_id: farmId, addon_partner_id: 1 })
-      .whereNotDeleted()
-      .first();
-    if (!existingIntegration) {
-      const axiosObject = {
-        method: 'post',
-        url: `${ensembleAPI}/organizations/`,
-        data: {
-          name: data.farm_name,
-          phone: data.farm_phone_number,
-        },
-      };
-      const onError = () => {
-        throw new Error('Unable to create ESCI organisation');
-      };
-
-      const response = await ensembleAPICall(axiosObject, onError);
-
-      return await FarmAddonModel.query().insert({
-        farm_id: farmId,
-        addon_partner_id: 1,
-        org_uuid: response.data.uuid,
-      });
-    } else {
-      return existingIntegration;
-    }
-  } catch (e) {
-    console.log(e);
-    throw new Error('Unable to create ESCI organisation');
-  }
-}
-
-/**
  * Sends a request to the Ensemble API. On error, refreshes API tokens and retries the request.
  * @param {Object} axiosObject - the axios request config (see https://axios-http.com/docs/req_config)
  * @param {Function} onError - a function for handling errors with the api call
@@ -713,51 +547,11 @@ async function authenticateToGetTokens() {
   }
 }
 
-/**
- * Communicate with Ensemble API and unclaim a sensor from the litefarm organisation
- * @returns Response from Ensemble API
- */
-async function unclaimSensor(org_id, external_id) {
-  try {
-    const onError = () => {
-      throw new Error('Unable to unclaim sensor');
-    };
-
-    const getDeviceAxiosObject = {
-      method: 'get',
-      url: `${ensembleAPI}/devices/${external_id}`,
-    };
-
-    const { data: currentDeviceData } = await ensembleAPICall(getDeviceAxiosObject, onError);
-
-    if (currentDeviceData?.owner_organisation?.uuid !== org_id) {
-      return { status: 200, data: { detail: 'Device not currently owned by this organisation' } };
-    }
-
-    const unclaimAxiosObject = {
-      method: 'post',
-      url: `${ensembleAPI}/organizations/${org_id}/devices/unclaim/`,
-      data: { esid: external_id },
-    };
-
-    const response = await ensembleAPICall(unclaimAxiosObject, onError);
-    return response;
-  } catch (error) {
-    return { status: 400, error };
-  }
-}
-
 export {
   ENSEMBLE_BRAND,
   getEnsembleSensors,
   getEnsembleSensorReadings,
-  getEnsembleOrganisations,
   getValidEnsembleOrg,
-  getOrganisationDevices,
-  extractEsids,
-  registerFarmAndClaimSensors,
-  unclaimSensor,
-  ENSEMBLE_UNITS_MAPPING_WEBHOOK,
   ensembleAPICall,
   ensembleAPI,
 };

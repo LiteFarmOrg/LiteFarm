@@ -20,11 +20,9 @@ import {
 } from './../src/middleware/validation/location.js';
 import { faker } from '@faker-js/faker';
 
-const figureMapping = Object.keys(origFigureMapping)
-  .filter((t) => t !== 'sensor')
-  .reduce((prev, currElement) => {
-    return { ...prev, [currElement]: origFigureMapping[currElement] };
-  }, {});
+const figureMapping = Object.keys(origFigureMapping).reduce((prev, currElement) => {
+  return { ...prev, [currElement]: origFigureMapping[currElement] };
+}, {});
 
 const locations = {
   BARN: 'barn',

@@ -31,7 +31,6 @@ const fieldTechnologyLocations = [
   locationEnum.farm_site_boundary,
 ];
 const irrigationPrescriptionLocations = fieldTechnologyLocations;
-const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
 
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
@@ -40,9 +39,9 @@ export default function useLocationRouterTabs(location, match) {
     return [];
   }
 
-  const { type, isAddonSensor } = location;
+  const { type } = location;
 
-  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings', 'irrigation'];
+  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'irrigation'];
 
   const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 
@@ -52,22 +51,18 @@ export default function useLocationRouterTabs(location, match) {
   const irrigationPrescriptions = useIrrigationPrescriptions(location);
   const hasLocationIrrigationPrescriptions = !!irrigationPrescriptions.length;
 
-  const routerTabs = [];
+  const routerTabs = [
+    {
+      label: t('FARM_MAP.TAB.DETAILS'),
+      path: match.url.replace(currentTab, 'details'),
+    },
+    {
+      label: t('FARM_MAP.TAB.TASKS'),
+      path: match.url.replace(currentTab, 'tasks'),
+    },
+  ];
 
   // Order of following statements reflects tab order
-  if (!isAddonSensor) {
-    // External sensors do not have base tabs
-    routerTabs.push(
-      {
-        label: t('FARM_MAP.TAB.DETAILS'),
-        path: match.url.replace(currentTab, 'details'),
-      },
-      {
-        label: t('FARM_MAP.TAB.TASKS'),
-        path: match.url.replace(currentTab, 'tasks'),
-      },
-    );
-  }
   if (cropLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.CROPS'),
@@ -84,12 +79,6 @@ export default function useLocationRouterTabs(location, match) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.IRRIGATION'),
       path: match.url.replace(currentTab, 'irrigation'),
-    });
-  }
-  if (readingsLocations.includes(type)) {
-    routerTabs.push({
-      label: t('FARM_MAP.TAB.READINGS'),
-      path: match.url.replace(currentTab, 'readings'),
     });
   }
 

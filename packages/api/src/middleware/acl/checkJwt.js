@@ -29,7 +29,6 @@ const checkJwt = expressjwt({
     '/irrigation_prescription_request/scheduler',
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
-    /\/sensor\/reading\/partner\/\d+\/farm\/*/,
     /\/api-docs\/*/,
     /\/api-spec\/*/,
   ],

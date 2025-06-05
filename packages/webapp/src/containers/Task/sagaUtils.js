@@ -70,3 +70,15 @@ export const getCompleteMovementTaskBody = ({ taskData }) => {
     ...formatMovementTask(movement_task),
   };
 };
+
+const formatSoilSampleTask = (soilSampleTask) => {
+  const { sample_depths_unit, ...rest } = soilSampleTask;
+
+  return { ...rest, sample_depths_unit: sample_depths_unit.value };
+};
+
+export const getSoilSampleTaskBody = (data, endpoint) => {
+  const { soil_sample_task, managementPlans, ...formattedData } = getPostTaskBody(data, endpoint);
+  // Remove managementPlans from the data
+  return { ...formattedData, soil_sample_task: formatSoilSampleTask(soil_sample_task) };
+};

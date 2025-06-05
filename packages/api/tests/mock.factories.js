@@ -15,8 +15,8 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-function usersFactory(userObject = fakeUser()) {
-  return knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser()) {
+  return await knex('users').insert(userObject).returning('*');
 }
 
 function fakeUser(defaultData = {}) {

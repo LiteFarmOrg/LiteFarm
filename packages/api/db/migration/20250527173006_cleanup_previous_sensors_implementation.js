@@ -127,6 +127,14 @@ export const up = async (knex) => {
   await knex('migration_deletion_logs').insert(
     rowsToLog.map((row) => ({ migration_name: 'cleanup_previous_sensors_implementation', ...row })),
   );
+
+  // Remove notifications for sensors
+  const sensorNotifications = await knex('notification').whereRaw(
+    `context->>'icon_translation_key' = 'SENSOR'`,
+  );
+  const notificationIdsToRemove = sensorNotifications.map(({ notification_id }) => notification_id);
+  await knex('notification_user').whereIn('notification_id', notificationIdsToRemove).del();
+  await knex('notification').whereIn('notification_id', notificationIdsToRemove).del();
 };
 
 /**

@@ -28,22 +28,8 @@ export type FilePickerFunctions = {
 };
 
 /**
- * Custom hook designed to be used as a helper for the `ImagePicker` component to save the image URL
- * rather than the file itself. (Created by extracting the logic from `ImagePickerWrapper`.)
+ * Custom hook designed to be used as a helper for the `FilePicker` component to.
  *
- * While the hook could be simplified by directly taking `targetRoute`, `onSelectImage`, and `onLoading`
- * as parameters, the current structure provides greater flexibility. It allows parent containers to call
- * the hook and delegate the specifics of these parameters to child components.
- *
- * @example
- * const { getOnFileUpload } = useFilePickerUpload();
- * const onFileUpload = getOnFileUpload('/upload-endpoint', onSelectImage, onLoading);
- *
- * <ImagePicker
- *   label={"label"}
- *   onFileUpload={onFileUpload}
- *   onRemoveImage={() => console.log('remove')}
- * />
  */
 export default function useFilePickerUpload(): FilePickerFunctions {
   const dispatch = useDispatch();

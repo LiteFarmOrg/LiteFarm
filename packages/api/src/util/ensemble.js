@@ -83,7 +83,7 @@ const getEnsembleSensors = async (farm_id) => {
     const systemProfiles = await getOrganisationProfiles(farmEnsembleAddon.org_pk, system.pk);
 
     const mappedProfiles = systemProfiles
-      .filter((profile) => profile.water_profile?.sensors)
+      .filter((profile) => profile.water_profile?.sensors?.length)
       .map((profile) =>
         mapProfileToSensorArray(enrichProfileWithDefaultPosition(profile, farmCenterCoordinates)),
       );

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,13 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { NextFunction, Response } from 'express';
+import { Farm, Permission, RolePermission, User, UserFarm } from '../../models/types.js';
 import userFarmModel from '../../models/userFarmModel.js';
+import { LiteFarmRequest } from '../../types.js';
 
-const getScopes = async (user_id, farm_id, { checkConsent }) => {
+type Scope = UserFarm & RolePermission & Permission;
+
+const getScopes = async (
+  user_id: User['user_id'],
+  farm_id: Farm['farm_id'],
+  { checkConsent }: { checkConsent: boolean },
+): Promise<Scope[]> => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
   try {
     const permissionQuery = userFarmModel
       .query()
+      .castTo<Scope[]>()
       .distinct('permissions.name', 'userFarm.role_id')
       .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
       .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
@@ -40,25 +50,42 @@ const getScopes = async (user_id, farm_id, { checkConsent }) => {
  * @param expectedScopes - array of required scopes to make request [ 'get:crops', 'add:sales' ]
  * @param checkConsent {boolean}
  */
-const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
+const checkScope = (
+  expectedScopes?: string[],
+  { checkConsent = true }: { checkConsent?: boolean } = {},
+) => {
   if (!Array.isArray(expectedScopes)) {
     throw new Error(
       'Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)',
     );
   }
 
-  return async (req, res, next) => {
+  return async (req: LiteFarmRequest, res: Response, next: NextFunction) => {
     if (expectedScopes.length === 0) {
       return next();
     }
-    const { headers } = req;
-    const { user_id } = req.auth;
-    const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
-    if (!user_id || user_id === 'undefined')
-      return res.status(400).send('Missing user_id in headers');
-    if (!farm_id || farm_id === 'undefined')
+    // Check auth
+    // NOTE: Consider making this a separate middleware with checkJwt
+    if (!req.auth) {
+      return res.status(400).send('No Auth provided');
+    }
+    const { user_id } = req.auth;
+    if (!user_id || user_id === 'undefined') {
+      return res.status(400).send('Missing user_id in auth');
+    }
+
+    // Check headers
+    if (!req.headers) {
+      return res.status(400).send('Missing headers');
+    }
+
+    const { farm_id } = req.headers; // these are the minimum props needed for most endpoints' authorization
+
+    if (!farm_id || farm_id === 'undefined') {
       return res.status(400).send('Missing farm_id in headers');
+    }
+
     try {
       const scopes = await getScopes(user_id, farm_id, { checkConsent });
 

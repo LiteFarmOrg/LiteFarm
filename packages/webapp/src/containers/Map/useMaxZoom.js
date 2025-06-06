@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapCacheSelector, setMapCache, setRetrievedPoints } from './mapCacheSlice';
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
-import { pointSelector } from '../locationSlice';
+import { pointSelector, externalPointSelector } from '../locationSlice';
 import { DEFAULT_MAX_ZOOM } from './constants';
 
 export function useMaxZoom() {
@@ -12,7 +12,9 @@ export function useMaxZoom() {
   const setMaxZoom = (maxZoom) => {
     dispatch(setMapCache({ maxZoom, farm_id }));
   };
-  const points = useSelector(pointSelector);
+  const internalPoints = useSelector(pointSelector);
+  const externalPoints = useSelector(externalPointSelector);
+  const points = { ...internalPoints, ...externalPoints };
 
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {

@@ -40,6 +40,8 @@ const sensorRelatedTaskTypeTables = [
   'pest_control_task',
   'field_work_task',
   'cleaning_task',
+  'task_animal_relationship',
+  'task_animal_batch_relationship',
 ];
 
 /**
@@ -178,9 +180,14 @@ export const up = async (knex) => {
     table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable();
   });
 
-  await knex('migration_deletion_logs').insert(
-    rowsToLog.map((row) => ({ migration_name: 'cleanup_previous_sensors_implementation', ...row })),
-  );
+  if (rowsToLog.length) {
+    await knex('migration_deletion_logs').insert(
+      rowsToLog.map((row) => ({
+        migration_name: 'cleanup_previous_sensors_implementation',
+        ...row,
+      })),
+    );
+  }
 
   // Remove notifications for sensors
   const sensorNotifications = await knex('notification').whereRaw(

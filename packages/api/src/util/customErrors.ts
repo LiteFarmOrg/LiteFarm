@@ -15,35 +15,58 @@
 
 import { notExactlyOneValue } from './middleware.js';
 
-// Constructs a reusable error object
-export const customError = (message, code = 400, body = undefined) => {
-  const error = new Error(message);
-  error.code = code;
-  error.body = body;
-  error.type = 'LiteFarmCustom';
-  return error;
+interface LiteFarmError extends Error {
+  type: 'LiteFarmCustom';
+  code: number;
+  body?: Record<string, unknown>;
+}
+
+// Extends the error class
+export class LiteFarmCustomError extends Error implements LiteFarmError {
+  type = 'LiteFarmCustom' as const;
+  code: number;
+  body?: Record<string, unknown>;
+
+  constructor(message: string, code: number, body?: Record<string, unknown>) {
+    super(message);
+    this.code = code;
+    this.body = body;
+  }
+}
+
+// Factory function
+export const customError = (
+  message: string,
+  code: number = 400,
+  body?: Record<string, unknown>,
+): LiteFarmCustomError => {
+  return new LiteFarmCustomError(message, code, body);
 };
 
-export const checkIsArray = (someValue, errorText = '') => {
+export const checkIsArray = (someValue: unknown, errorText = '') => {
   if (!Array.isArray(someValue)) {
     throw customError(`${errorText} should be an array`);
   }
 };
 
-export const checkIdIsNumber = (id) => {
+export const checkIdIsNumber = (id: unknown) => {
   if (!id || isNaN(Number(id))) {
     throw customError('Must send valid ids');
   }
 };
 
-export const checkExactlyOneIsProvided = (values, errorText) => {
+export const checkExactlyOneIsProvided = (values: unknown[], errorText: string) => {
   if (notExactlyOneValue(values)) {
     throw customError(`Exactly one of ${errorText} must be sent`);
   }
 };
 
 // This checks if the record belongs to the farm -- hasFarmAccess does not handle collections (bulk endpoints)
-export const checkRecordBelongsToFarm = async (record, farm_id, errorText) => {
+export const checkRecordBelongsToFarm = async (
+  record: Record<string, unknown>,
+  farm_id: string,
+  errorText: string,
+) => {
   if (record && record.farm_id !== farm_id) {
     throw customError(`Forbidden ${errorText} does not belong to this farm`, 403);
   }

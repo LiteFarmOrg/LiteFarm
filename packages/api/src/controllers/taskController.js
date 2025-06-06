@@ -39,6 +39,10 @@ import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
 import { triggerPostTaskCreatedActions } from '../services/task.js';
+import {
+  checkCompleteTaskDocument,
+  checkCreateTaskDocument,
+} from '../middleware/validation/checkTask.js';
 
 const adminRoles = [1, 2, 5];
 
@@ -204,6 +208,28 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete,
             noInsert: [...nonModifiable, 'animal_movement_task'],
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+
+      return task;
+    }
+
+    case 'soil_sample_task': {
+      const noInsert = [
+        ...nonModifiable.filter((asset) => !['documents', 'taskDocuments'].includes(asset)),
+        'soil_sample_task',
+      ];
+      console.log(data);
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: true,
+            noInsert,
             relate: ['animals', 'animal_batches'],
             unrelate: ['animals', 'animal_batches'],
           },
@@ -468,6 +494,10 @@ const taskController = {
         ) {
           data = this.formatAnimalAndBatchIds(data);
         }
+
+        // Duplicates middleware until all routes migrated to use middleware
+        checkCreateTaskDocument(req.body);
+
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
@@ -497,6 +527,7 @@ const taskController = {
                 harvest_task,
                 plant_task,
                 animal_movement_task.[purpose_relationships],
+                documents(filterDeleted).[files],
               ]`,
             )
             .where({ task_id });
@@ -587,6 +618,12 @@ const taskController = {
       case 'animal_movement_task': {
         return await formatAnimalMovementTaskForDB(data);
       }
+      case 'soil_sample_task': {
+        if (data.documents) {
+          data.documents = data.documents.map((doc) => ({ ...doc, farm_id }));
+        }
+        return data;
+      }
       default: {
         return data;
       }
@@ -658,6 +695,9 @@ const taskController = {
             harvest_task.wage_at_moment = wage.amount;
           }
 
+          // Duplicates middleware until all routes migrated to use middleware
+          checkCreateTaskDocument(harvest_task);
+
           const task = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
             .upsertGraph(harvest_task, {
@@ -693,6 +733,11 @@ const taskController = {
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(400).json({ error });
     }
   },
@@ -715,6 +760,9 @@ const taskController = {
             .first();
           transplant_task.wage_at_moment = wage.amount;
         }
+        // Duplicates middleware until all routes migrated to use middleware
+        checkCreateTaskDocument(transplant_task);
+
         //TODO: noInsert on planting_management_plan planting methods LF-1864
         return await TaskModel.query(trx)
           .context({ user_id: req.auth.user_id })
@@ -741,6 +789,11 @@ const taskController = {
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(400).json({ error });
     }
   },
@@ -771,6 +824,10 @@ const taskController = {
         if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
+
+        // Duplicates middleware until all endpoints are migrated to use middleware
+        checkCompleteTaskDocument(req.body, typeOfTask);
+
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
             trx,
@@ -836,6 +893,10 @@ const taskController = {
         user_id,
         task_id,
       );
+
+      // Duplicates middleware until all endpoints are migrated to use middleware
+      checkCompleteTaskDocument(req.body.task, 'harvest_task');
+
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await updateTaskWithCompletedData(
           trx,
@@ -879,6 +940,11 @@ const taskController = {
         return res.status(403).send(error.message);
       }
       console.log(error);
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(400).send({ error });
     }
   },
@@ -907,6 +973,7 @@ const taskController = {
             transplant_task,
             irrigation_task.[irrigation_type],
             animal_movement_task.[purpose_relationships],
+            documents(filterDeleted).[files],
           ]`,
         )
         .whereIn('task_id', taskIds);
@@ -1008,9 +1075,14 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter((a) => a !== asset);
-  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(
-    nonModifiableAssets,
-  );
+  return [
+    'createdByUser',
+    'updatedByUser',
+    'location',
+    'management_plan',
+    'documents',
+    'taskDocuments',
+  ].concat(nonModifiableAssets);
 }
 
 function removeNullTypes(task) {

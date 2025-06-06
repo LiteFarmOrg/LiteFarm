@@ -18,10 +18,13 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import validateFilesLength from '../middleware/validation/createDocument.js';
 import validateFileExtension from '../middleware/validation/uploadDocument.js';
 import documentController from '../controllers/documentController.js';
 import multerDiskUpload from '../util/fileUpload.js';
+import {
+  checkCreateDocument,
+  checkUpdateDocument,
+} from '../middleware/validation/checkDocument.js';
 
 router.get(
   '/farm/:farm_id',
@@ -51,7 +54,7 @@ router.post(
   hasFarmAccess({ body: 'farm_id' }),
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']),
-  validateFilesLength,
+  checkCreateDocument(),
   documentController.createDocument(),
 );
 
@@ -59,7 +62,7 @@ router.put(
   '/:document_id',
   hasFarmAccess({ params: 'document_id' }),
   checkScope(['edit:document']),
-  validateFilesLength,
+  checkUpdateDocument(),
   documentController.updateDocument(),
 );
 

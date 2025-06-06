@@ -38,6 +38,8 @@ import AnimalModel from './animalModel.js';
 import AnimalBatchModel from './animalBatchModel.js';
 import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
 import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
+import DocumentModel from './documentModel.js';
+import TaskDocumentModel from './taskDocument.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -247,6 +249,27 @@ class TaskModel extends BaseModel {
           to: 'location_tasks.task_id',
         },
       },
+      documents: {
+        modelClass: DocumentModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskDocumentModel,
+            from: 'task_document.task_id',
+            to: 'task_document.document_id',
+          },
+          to: 'document.document_id',
+        },
+      },
+      taskDocuments: {
+        modelClass: TaskDocumentModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'task.task_id',
+          to: 'task_document.task_id',
+        },
+      },
       animals: {
         relation: Model.ManyToManyRelation,
         modelClass: AnimalModel,
@@ -318,6 +341,8 @@ class TaskModel extends BaseModel {
       animal_movement_task: 'omit',
       managementPlans: 'omit',
       locations: 'edit',
+      documents: 'omit',
+      task_documents: 'omit',
       animals: 'omit',
       animal_batches: 'omit',
     };

@@ -594,3 +594,40 @@ export interface FarmAddon extends BaseProperties {
   org_uuid: string;
   org_pk: number;
 }
+
+enum DocumentType {
+  CLEANING_PRODUCT = 'CLEANING_PRODUCT',
+  CROP_COMPLIANCE = 'CROP_COMPLIANCE',
+  FERTILIZING_PRODUCT = 'FERTILIZING_PRODUCT',
+  PEST_CONTROL_PRODUCT = 'PEST_CONTROL_PRODUCT',
+  SOIL_AMENDMENT = 'SOIL_AMENDMENT',
+  SOIL_SAMPLE_RESULTS = 'SOIL_SAMPLE_RESULTS',
+  WATER_SAMPLE_RESULTS = 'WATER_SAMPLE_RESULTS',
+  INVOICES = 'INVOICES',
+  RECEIPTS = 'RECEIPTS',
+  OTHER = 'OTHER',
+}
+
+export interface Document extends BaseProperties {
+  document_id: string;
+  farm_id: Farm['farm_id'];
+  name: string;
+  thumbnail_url?: string;
+  valid_until?: string;
+  notes?: string;
+  no_expiration?: boolean;
+  type?: DocumentType;
+  archived: boolean;
+}
+
+export type File = {
+  file_id: string;
+  document_id: Document['document_id'];
+  file_name: string;
+  url: string;
+  thumbnail_url?: string;
+};
+
+export interface DocumentWithFiles extends Document {
+  files?: File[];
+}

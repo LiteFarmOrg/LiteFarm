@@ -24,6 +24,7 @@ export const HARVEST_TASK = 'harvest_task';
 export const PLANT_TASK = 'plant_task';
 export const TRANSPLANT_TASK = 'transplant_task';
 export const ANIMAL_MOVEMENT_TASK = 'animal_movement_task';
+export const SOIL_SAMPLE_TASK = 'soil_sample_task';
 export const CUSTOM_TASK = 'custom_task';
 
 export const TASK_TYPES = [
@@ -38,5 +39,8 @@ export const TASK_TYPES = [
   PLANT_TASK,
   TRANSPLANT_TASK,
   ANIMAL_MOVEMENT_TASK,
+  SOIL_SAMPLE_TASK,
   CUSTOM_TASK,
 ];
+
+export const TASKS_WITH_DOCUMENTS = [SOIL_SAMPLE_TASK];

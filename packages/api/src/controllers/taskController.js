@@ -216,6 +216,28 @@ async function updateTaskWithCompletedData(
       return task;
     }
 
+    case 'soil_sample_task': {
+      const noInsert = [
+        ...nonModifiable.filter((asset) => !['documents', 'taskDocuments'].includes(asset)),
+        'soil_sample_task',
+      ];
+      console.log(data);
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: true,
+            noInsert,
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+
+      return task;
+    }
+
     default: {
       const task = await TaskModel.query(trx)
         .context({ user_id })
@@ -595,6 +617,12 @@ const taskController = {
         })();
       case 'animal_movement_task': {
         return await formatAnimalMovementTaskForDB(data);
+      }
+      case 'soil_sample_task': {
+        if (data.documents) {
+          data.documents = data.documents.map((doc) => ({ ...doc, farm_id }));
+        }
+        return data;
       }
       default: {
         return data;
@@ -1047,9 +1075,14 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter((a) => a !== asset);
-  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(
-    nonModifiableAssets,
-  );
+  return [
+    'createdByUser',
+    'updatedByUser',
+    'location',
+    'management_plan',
+    'documents',
+    'taskDocuments',
+  ].concat(nonModifiableAssets);
 }
 
 function removeNullTypes(task) {

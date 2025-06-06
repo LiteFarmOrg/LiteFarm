@@ -64,6 +64,7 @@ export default function PureCompleteStepOne({
       need_changes: false,
       ...defaultsToUse,
       ...(persistedFormData[ANIMAL_IDS] && { [ANIMAL_IDS]: persistedFormData[ANIMAL_IDS] }),
+      results_available: persistedFormData.uploadedFiles?.length ? true : false,
     },
   });
 
@@ -105,6 +106,11 @@ export default function PureCompleteStepOne({
     ) {
       onContinue();
     } else {
+      if (!resultsAvailable && uploadedFiles?.length) {
+        for (const file of uploadedFiles) {
+          filePickerFunctions.deleteImage(file.url);
+        }
+      }
       handleSubmit(onContinue)();
     }
   };

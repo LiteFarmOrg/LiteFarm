@@ -134,9 +134,6 @@ export const up = async (knex) => {
 
   await knex('location_tasks').whereIn('location_id', locationIdsOfSensors).del();
 
-  await knex('task_animal_relationship').whereIn('task_id', sensorTaskIds).del();
-  await knex('task_animal_batch_relationship').whereIn('task_id', sensorTaskIds).del();
-
   await knex('soil_amendment_task_products_purpose_relationship')
     .whereIn(
       'task_products_id',

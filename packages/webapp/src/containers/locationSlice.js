@@ -209,20 +209,22 @@ export const lineStatusSelector = createSelector(
   },
 );
 
+export const externalPointSelector = createSelector(
+  [sensorArraysSelector, standaloneSensorsSelector],
+  (sensorArrays, standaloneSensors) => {
+    const result = {};
+    result[locationEnum.sensor] = [...sensorArrays, ...standaloneSensors];
+    return result;
+  },
+);
+
 export const pointSelector = createSelector(
-  [
-    gatesSelector,
-    waterValvesSelector,
-    soilSampleLocationsSelector,
-    sensorArraysSelector,
-    standaloneSensorsSelector,
-  ],
-  (gates, waterValves, soilSampleLocations, sensorArrays, standaloneSensors) => {
+  [gatesSelector, waterValvesSelector, soilSampleLocationsSelector],
+  (gates, waterValves, soilSampleLocations) => {
     const result = {};
     result[locationEnum.gate] = gates;
     result[locationEnum.water_valve] = waterValves;
     result[locationEnum.soil_sample_location] = soilSampleLocations;
-    result[locationEnum.sensor] = [...sensorArrays, ...standaloneSensors];
     return result;
   },
 );

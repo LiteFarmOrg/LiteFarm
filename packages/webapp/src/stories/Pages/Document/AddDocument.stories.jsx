@@ -1,4 +1,3 @@
-import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
@@ -17,7 +16,7 @@ Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  deleteImage: () => {},
+
   useHookFormPersist: () => ({
     persistedData: {
       uploadedFiles: [
@@ -29,9 +28,15 @@ Primary.args = {
       ],
     },
   }),
-  imageComponent: (props) => <img {...props} />,
-  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   isEdit: true,
+  isUploading: false,
+  filePickerFunctions: {
+    deleteImage: () => {},
+    imageComponent: (props) => <img src={props.fileUrls[0]} />,
+    documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
+    onUpload: () => {},
+    onUploadEnd: () => {},
+  },
 };
 
 export const uploadingImage = Template.bind({});
@@ -39,7 +44,6 @@ uploadingImage.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  deleteImage: () => {},
   useHookFormPersist: () => ({
     persistedData: {
       uploadedFiles: [
@@ -51,9 +55,15 @@ uploadingImage.args = {
       ],
     },
   }),
-  imageComponent: (props) => <img {...props} />,
-  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   isEdit: false,
+  isUploading: true,
+  filePickerFunctions: {
+    deleteImage: () => {},
+    imageComponent: (props) => <img {...props} />,
+    documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
+    onUpload: () => {},
+    onUploadEnd: () => {},
+  },
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

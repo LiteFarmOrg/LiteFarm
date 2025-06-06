@@ -1,7 +1,7 @@
-import React from 'react';
 import MainDocumentView from '../../../components/Documents/Main';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
+import { AddLink } from '../../../components/Typography';
 
 export default {
   title: 'Page/Document/MainDocument',
@@ -27,8 +27,8 @@ Primary.args = {
       },
     ],
   },
-  imageComponent: (props) => <img src={props.fileUrl} />,
-  fileDownloadComponent: (props) => <img src={props.fileUrl} />,
+  imageComponent: (props) => <img src={props.fileUrls[0]} />,
+  fileDownloadComponent: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   onGoBack: () => {},
 };
 

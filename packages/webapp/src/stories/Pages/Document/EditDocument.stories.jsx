@@ -1,4 +1,3 @@
-import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
@@ -17,7 +16,6 @@ export const Primary = Template.bind({});
 Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
-  deleteImage: () => {},
   useHookFormPersist: () => ({
     persistedData: {
       uploadedFiles: [
@@ -29,9 +27,15 @@ Primary.args = {
       ],
     },
   }),
-  imageComponent: (props) => <img {...props} />,
-  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   isEdit: true,
+  isUploading: false,
+  filePickerFunctions: {
+    deleteImage: () => {},
+    imageComponent: (props) => <img src={props.fileUrls[0]} />,
+    documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
+    onUpload: () => {},
+    onUploadEnd: () => {},
+  },
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

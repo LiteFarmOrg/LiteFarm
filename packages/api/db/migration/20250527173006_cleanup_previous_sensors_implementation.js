@@ -40,6 +40,8 @@ const sensorRelatedTaskTypeTables = [
   'pest_control_task',
   'field_work_task',
   'cleaning_task',
+  'task_animal_relationship',
+  'task_animal_batch_relationship',
 ];
 
 /**
@@ -131,6 +133,9 @@ export const up = async (knex) => {
   addToLogs(sensorLocations, 'location');
 
   await knex('location_tasks').whereIn('location_id', locationIdsOfSensors).del();
+
+  await knex('task_animal_relationship').whereIn('task_id', sensorTaskIds).del();
+  await knex('task_animal_batch_relationship').whereIn('task_id', sensorTaskIds).del();
 
   await knex('soil_amendment_task_products_purpose_relationship')
     .whereIn(

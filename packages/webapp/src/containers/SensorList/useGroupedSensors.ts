@@ -38,6 +38,7 @@ export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARR
 
 export type GroupedSensors = {
   id: string;
+  label?: string;
   point: Sensor['point'];
   fields: Pick<Location, 'name' | 'location_id'>[];
   type: SensorType;
@@ -92,6 +93,7 @@ const formatSensorToGroup = (
 ) => {
   return {
     id: `sensor_${sensor.id}`,
+    label: sensor.label,
     location_id: sensor.location_id,
     sensors: [sensor],
     point: sensor.point,
@@ -102,17 +104,14 @@ const formatSensorToGroup = (
 };
 
 const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
-  const summaryMap = sensors.reduce(
-    (acc, { name }) => {
-      if (!(name in acc)) {
-        acc[name] = 0;
-      }
-      acc[name] += 1;
+  const summaryMap = sensors.reduce((acc, { name }) => {
+    if (!(name in acc)) {
+      acc[name] = 0;
+    }
+    acc[name] += 1;
 
-      return acc;
-    },
-    {} as Record<Sensor['name'], number>,
-  );
+    return acc;
+  }, {} as Record<Sensor['name'], number>);
 
   return {
     [SensorType.SENSOR_ARRAY]: sensor_arrays.length,

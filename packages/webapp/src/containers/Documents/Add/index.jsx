@@ -1,11 +1,8 @@
-import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
-import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
-import { DocumentUploader } from '../DocumentUploader';
+
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 function AddDocument({ history }) {
@@ -19,14 +16,14 @@ function AddDocument({ history }) {
     history.back();
   };
 
-  const { isFirstFileUpdateEnded, ...filePickerFunctions } = useFilePickerUpload();
+  const { isUploading, ...filePickerFunctions } = useFilePickerUpload();
 
   return (
     <PureDocumentDetailView
       onGoBack={onBack}
       submit={handleSubmit}
       filePickerFunctions={filePickerFunctions}
-      isFirstFileUpdateEnded={isFirstFileUpdateEnded}
+      isUploading={isUploading}
       useHookFormPersist={useHookFormPersist}
       isEdit={false}
       persistedPath={[]}

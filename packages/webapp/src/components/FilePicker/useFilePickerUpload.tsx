@@ -23,8 +23,9 @@ export type FilePickerFunctions = {
   deleteImage: (url: URL) => void;
   imageComponent: (props: any) => JSX.Element;
   documentUploader: (props: any) => JSX.Element;
-  isFirstFileUpdateEnded: boolean;
-  onFileUpdateEnd: () => void;
+  isUploading: boolean;
+  onUpload: () => void;
+  onUploadEnd: () => void;
 };
 
 /**
@@ -34,15 +35,21 @@ export type FilePickerFunctions = {
 export default function useFilePickerUpload(): FilePickerFunctions {
   const dispatch = useDispatch();
 
+  const [isUploading, setIsUploading] = useState(false);
+
+  const onUpload = () => {
+    setIsUploading(true);
+  };
+
+  const onUploadEnd = () => {
+    setIsUploading(false);
+  };
+
   const deleteImage = (url: URL): void => {
     dispatch(deleteUploadedFile({ url }));
   };
   const imageComponent = (props: any) => <MediaWithAuthentication {...props} />;
   const documentUploader = (props: any) => <DocumentUploader {...props} />;
 
-  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
-  const onFileUpdateEnd = () => {
-    setIsFilesUpdated(true);
-  };
-  return { deleteImage, imageComponent, documentUploader, isFirstFileUpdateEnded, onFileUpdateEnd };
+  return { deleteImage, imageComponent, documentUploader, onUpload, onUploadEnd, isUploading };
 }

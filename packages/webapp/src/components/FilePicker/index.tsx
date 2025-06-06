@@ -29,9 +29,9 @@ type UploadedFile = {
 
 type FilePickerProps = {
   uploadedFiles: UploadedFile[];
-  shouldShowLoadingImage: boolean;
   linkText: string;
-  onUpload: () => void;
+  showUploader: boolean;
+  showLoading: boolean;
 } & FilePickerFunctions;
 
 const FilePicker = ({
@@ -39,10 +39,11 @@ const FilePicker = ({
   deleteImage,
   imageComponent,
   documentUploader,
-  onFileUpdateEnd,
-  shouldShowLoadingImage,
-  linkText,
   onUpload,
+  onUploadEnd,
+  showLoading,
+  linkText,
+  showUploader,
 }: FilePickerProps) => {
   return (
     <div className={styles.filePickerContainer}>
@@ -51,7 +52,7 @@ const FilePicker = ({
           icon={<TrashIcon />}
           onIconClick={() => {
             deleteImage(url);
-            onFileUpdateEnd();
+            onUploadEnd();
           }}
           key={index}
           style={{ width: '100%', maxWidth: thumbnail_url ? '312px' : undefined }}
@@ -69,15 +70,13 @@ const FilePicker = ({
           )}
         </ContainerWithIcon>
       ))}
-      {shouldShowLoadingImage && (
-        <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />
-      )}
-      {uploadedFiles?.length < 5 &&
+      {showLoading && <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />}
+      {showUploader &&
         documentUploader({
           style: { paddingBottom: '32px' },
           linkText: linkText,
           onUpload,
-          onUploadEnd: onFileUpdateEnd,
+          onUploadEnd,
         })}
     </div>
   );

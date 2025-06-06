@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +17,7 @@ function PureDocumentDetailView({
   persistedFormData,
   isEdit,
   filePickerFunctions,
-  isFirstFileUpdateEnded,
+  isUploading,
 }) {
   const { t } = useTranslation();
   const typeOptions = {
@@ -105,18 +104,8 @@ function PureDocumentDetailView({
     historyCancel,
   } = useHookFormPersist(getValues);
 
-  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
-    !isEdit && !uploadedFiles?.length,
-  );
-  const onUpload = () => {
-    setShouldShowLoadingImage(true);
-  };
-  useEffect(() => {
-    uploadedFiles?.length && setShouldShowLoadingImage(false);
-  }, [uploadedFiles?.length]);
-
   const disabled = isEdit
-    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
+    ? !isValid || uploadedFiles?.length === 0 || !isDirty || isUploading
     : !isValid || uploadedFiles?.length === 0;
 
   return (
@@ -184,9 +173,9 @@ function PureDocumentDetailView({
       />
       <FilePicker
         uploadedFiles={uploadedFiles}
-        onUpload={onUpload}
         linkText={t('DOCUMENTS.ADD.ADD_MORE_PAGES')}
-        shouldShowLoadingImage={shouldShowLoadingImage}
+        showLoading={isUploading}
+        showUploader={!uploadedFiles || uploadedFiles?.length < 5}
         {...filePickerFunctions}
       />
       <InputAutoSize

@@ -33,7 +33,6 @@ router.post(
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:fields']),
   fieldController.addField(),
-  fieldController.mapFieldToStation,
 );
 
 router.put(

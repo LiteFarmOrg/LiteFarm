@@ -105,10 +105,14 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
 
   // For SensorType.SENSOR, sensors always becomes an array of 0 or 1
-  const { sensors, isFetching } = useGetSensorsQuery(undefined, {
+  const { sensors, sensorArray, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       return {
         sensors: filterSensors(match.params.id, type, data?.sensors),
+        sensorArray:
+          type === SensorType.SENSOR_ARRAY
+            ? data?.sensor_arrays?.find(({ id }) => `${id}` === match.params.id)
+            : undefined,
         isFetching,
       };
     },
@@ -120,10 +124,12 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
     }
   }, [isFetching, sensors?.length, history]);
 
+  const label = sensorArray?.label ?? sensors?.[0]?.label;
+
   return (
     <CardLayout>
       <PageTitle
-        title={t(PAGE_TITLE_KEY[type])}
+        title={label ? `${label} | ${t(PAGE_TITLE_KEY[type])}` : t(PAGE_TITLE_KEY[type])}
         onGoBack={history.back}
         classNames={{ wrapper: styles.title }}
       />

@@ -124,7 +124,6 @@ import {
   onLoadingRowMethodFail,
   onLoadingRowMethodStart,
 } from './rowMethodSlice';
-import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
 import {
   getSurfaceWatersSuccess,
   onLoadingSurfaceWaterFail,
@@ -339,7 +338,6 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
-  yield put(onLoadingSensorStart());
 }
 
 export const getLocations = createAction('getLocationsSaga');
@@ -395,7 +393,6 @@ const figureTypeActionMap = {
     success: getSoilSampleLocationsSuccess,
     fail: onLoadingSoilSampleLocationFail,
   },
-  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
 };
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {

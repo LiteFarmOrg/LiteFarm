@@ -197,6 +197,15 @@ router.patch(
 );
 
 router.patch(
+  '/complete/soil_sample_task/:task_id',
+  modelMapping['soil_sample_task'],
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  checkCompleteTask('soil_sample_task'),
+  taskController.completeTask('soil_sample_task'),
+);
+
+router.patch(
   '/complete/cleaning_task/:task_id',
   modelMapping['cleaning_task'],
   hasFarmAccess({ params: 'task_id' }),

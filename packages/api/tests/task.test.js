@@ -35,6 +35,7 @@ import {
   CROP_FAILURE,
   sampleNote,
   abandonTaskBody,
+  expectTaskCompletionFields,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
@@ -2559,6 +2560,74 @@ describe('Task tests', () => {
           },
         );
       });
+    });
+
+    test('should be able to complete a soil sample task', async (done) => {
+      const { user: owner, farm, field } = await setupFarmEnvironment(1);
+      const user_id = owner.user_id;
+      const farm_id = farm.farm_id;
+      const location_id = field.location_id;
+
+      // Create task type
+      const [{ task_type_id }] = await mocks.task_typeFactory(
+        {},
+        {
+          farm_id: null,
+          task_translation_key: 'SOIL_SAMPLE_TASK',
+          task_name: 'Soil Sample',
+        },
+      );
+
+      // Create task
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedTaskType: [{ task_type_id }],
+        },
+        mocks.fakeTask({
+          task_type_id,
+          owner_user_id: user_id,
+          assignee_user_id: user_id,
+        }),
+      );
+
+      // Create location_tasks record to associate with farm
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+
+      await mocks.soil_sample_taskFactory({ promisedTask: [{ task_id }] });
+
+      // Generate PATCH content
+      const newData = mocks.fakeSoilSampleTask();
+      const { samples_per_location, sampling_tool, sample_depths } = newData;
+
+      completeTaskRequest(
+        { user_id, farm_id },
+        {
+          ...fakeCompletionData,
+          soil_sample_task: { task_id, ...newData },
+        },
+        task_id,
+        'soil_sample_task',
+
+        async (_err, res) => {
+          expect(res.status).toBe(200);
+
+          // Assert on task record
+          const completed = await knex('task').where({ task_id }).first();
+          expectTaskCompletionFields(completed, fakeCompletionData);
+
+          // Assert on soil_sample_task record
+          const updated = await knex('soil_sample_task').where({ task_id }).first();
+          expect(updated.samples_per_location).toBe(samples_per_location);
+          expect(updated.sampling_tool).toBe(sampling_tool);
+          expect(updated.sample_depths).toEqual(sample_depths);
+
+          done();
+        },
+      );
     });
 
     test('should be able to complete a pest control task', async (done) => {

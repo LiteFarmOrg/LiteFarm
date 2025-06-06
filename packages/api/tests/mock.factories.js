@@ -15,8 +15,8 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-function usersFactory(userObject = fakeUser()) {
-  return knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser()) {
+  return await knex('users').insert(userObject).returning('*');
 }
 
 function fakeUser(defaultData = {}) {
@@ -1236,6 +1236,22 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
     total_area_amended: faker.datatype.number({ min: 1, max: 1000 }),
     ...defaultData,
   };
+}
+
+async function soil_sample_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  soilSampleTask = fakeSoilSampleTask(),
+) {
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  return knex('soil_sample_task')
+    .insert({
+      task_id,
+      ...soilSampleTask,
+      sample_depths: JSON.stringify(soilSampleTask.sample_depths),
+    })
+    .returning('*');
 }
 
 function fakeSoilSampleTask(defaultData = {}) {
@@ -2722,6 +2738,7 @@ export default {
   fakeSoilTask,
   fakeSoilAmendmentTaskProduct,
   fakeSoilSampleTask,
+  soil_sample_taskFactory,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,

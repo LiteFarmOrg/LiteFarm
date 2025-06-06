@@ -778,56 +778,6 @@
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
-    "BULK_UPLOAD_SENSORS": {
-      "DOWNLOAD_FILE": {
-        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance.",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n"
-      },
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "click here to download the template",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
-      "INVALID_FILE_TYPE": "Upload file must be a csv,",
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
-        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
-        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
-      },
-      "SENSOR_FIELDS": {
-        "BRAND": "Brand",
-        "DEPTH": "Depth_cm",
-        "LATITUDE": "Latitude",
-        "LONGITUDE": "Longitude",
-        "MODEL": "Model",
-        "NAME": "Name",
-        "READING_TYPES": "Reading_types",
-        "SENSOR_EXTERNAL_ID": "External_ID"
-      },
-      "TITLE": "Add sensors to map",
-      "UPLOAD_ERROR_LINK": "Click here to view them.",
-      "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
-      "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
-      "UPLOAD_LINK_MESSAGE": "Download this template",
-      "UPLOAD_PLACEHOLDER": "Upload CSV file",
-      "VALIDATION": {
-        "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
-        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
-        "MISSING_COLUMNS": "Columns are required/missing.",
-        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
-        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
-        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
-        "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
-        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: {{ allowed_reading_types }}."
-      }
-    },
-    "BULK_UPLOAD_TRANSITION": {
-      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window.",
-      "TITLE": "This is taking longer than expected..."
-    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area name",
@@ -978,7 +928,6 @@
       "DETAILS": "Details",
       "FIELD_TECHNOLOGY": "Field Technology",
       "IRRIGATION": "Irrigation",
-      "READINGS": "Readings",
       "TASKS": "Tasks"
     },
     "TITLE": "Farm map",
@@ -1527,14 +1476,6 @@
     },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
     "PAGE_TITLE": "Notifications",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
-      "TITLE": "Sensor upload errors"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Your sensor upload has completed successfully.",
-      "TITLE": "Sensor upload completed"
-    },
     "TAKE_ME_THERE": "Take me there",
     "TASK_ABANDONED": {
       "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}.",
@@ -1854,25 +1795,12 @@
   },
   "SENSOR": {
     "ARRAY": "Array",
-    "BRAND": "Brand",
-    "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
     "DAYS_AGO": "{{time}} day(s) ago",
     "DEPTH": "Depth",
     "DETAIL": {
       "ADD_SENSORS": "Add sensors",
-      "BRAND": "Brand",
-      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
-      "DEPTH": "Depth",
       "DETECTED_FIELD": "We detected the field location to be:",
-      "DEVICE_TYPE": "Device type",
-      "EDIT": "Edit",
-      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
-      "EXTERNAL_IDENTIFIER": "External Identifier",
-      "LATITUDE": "Latitude",
-      "LONGITUDE": "Longitude",
-      "MODEL": "Model",
-      "NAME": "Sensor Name",
-      "RETIRE": "Retire"
+      "DEVICE_TYPE": "Device type"
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
@@ -1896,20 +1824,9 @@
       "SHORT_NAME": "ESci",
       "TO_MANAGE_SENSORS": "To manage your sensors individually, please connect to your ESci dashboard at {{url}}"
     },
-    "EXTERNAL_IDENTIFIER": "External identifier",
     "HOURS_AGO": "{{time}} hour(s) ago",
-    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
-    "LATITUDE": "Latitude",
-    "LONGTITUDE": "Longtitude",
     "MINUTES_AGO": "{{time}} minute(s) ago",
-    "MODAL": {
-      "BODY": "Changing the reading types for this sensor will modify what readings LiteFarm can show. Do you want to proceed?",
-      "TITLE": "Change reading types?"
-    },
-    "MODEL": "Model",
-    "MODEL_HELPTEXT": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
     "MONTHS_AGO": "{{time}} month(s) ago",
-    "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
     "NO_RECENT_SENSOR_READINGS": "No recent sensor readings (past 2 hours)",
     "PARTNER_SENSOR_LIST": "{{partner}} sensor list",
@@ -1931,58 +1848,11 @@
       "WIND_SPEED": "Wind speed",
       "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"
     },
-    "READINGS_PREVIEW": {
-      "SOIL_WATER_POTENTIAL": "Current soil water potential",
-      "TEMPERATURE": "Current soil temp"
-    },
-    "RETIRE": {
-      "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?",
-      "CANCEL": "Cancel",
-      "RETIRE": "Retire",
-      "RETIRE_FAILURE": "There was an error retiring this sensor",
-      "RETIRE_SUCCESS": "Successfully retired sensor",
-      "TITLE": "Retire sensor?"
-    },
     "SECONDS_AGO": "{{time}} second(s) ago",
     "SENSOR_ARRAY": "Sensor array",
     "SENSOR_ARRAYS": "Sensor arrays",
-    "SENSOR_FORECAST": {
-      "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
-      "TITLE": "Today's forecast",
-      "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
-    },
-    "SENSOR_NAME": "Sensor name",
-    "SENSOR_READING_CHART_SPOTLIGHT": {
-      "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here.",
-      "TITLE": "Series can be hidden"
-    },
-    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "Soil water content",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "kilopascals (kPa)",
-      "PSI": "pounds per square inch (psi)",
-      "TITLE": "Soil water potential",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
     "STANDALONE_SENSOR": "Standalone sensor",
-    "STANDALONE_SENSORS": "Standalone sensors",
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
-      "TITLE": "Soil temperature",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
-    "VALIDATION": {
-      "READING_TYPES": "Sensor reading types are required"
-    },
-    "VIEW_HEADER": {
-      "DETAILS": "Details",
-      "READINGS": "Readings",
-      "TASKS": "Tasks"
-    }
+    "STANDALONE_SENSORS": "Standalone sensors"
   },
   "SIGNUP": {
     "CHANGES": "Read about the changes",

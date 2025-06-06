@@ -157,16 +157,20 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ])
       : [
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.helpers.arrayElement(['m2', 'ha', 'ft2', 'ac']),

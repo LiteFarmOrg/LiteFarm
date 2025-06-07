@@ -52,6 +52,7 @@ export const getTask = (obj) => {
     'soil_amendment_task_products',
     'animals',
     'animal_batches',
+    'documents',
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;

@@ -125,7 +125,14 @@ function TaskReadOnly({ history, match, location }) {
 
   let files = [];
   if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
-    files.push(externalIrrigationPrescription.prescription.vriData.file_url);
+    files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
+  }
+  if (task.documents?.length) {
+    files.push(
+      ...task.documents.reduce((acc, cv) => {
+        return [...acc, ...cv.files];
+      }, []),
+    );
   }
 
   const users = useSelector(userFarmsByFarmSelector);

@@ -495,15 +495,17 @@ export default function PureTaskReadOnly({
       {!!files.length && (
         <div>
           <Semibold className={styles.filesTitle}>
-            {t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
+            {isTaskType(taskType, 'IRRIGATION_TASK') &&
+              t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
+            {isTaskType(taskType, 'SOIL_SAMPLE_TASK') && t('TASK.LAB_DOCUMENTS')}
           </Semibold>
           <PureDocumentTileContainer gap={16} padding={0}>
             {files.map((file, index) => (
               <PureDocumentTile
                 key={index}
-                title={file.split('/').at(-1)}
-                extensionName={file.split('.').at(-1)}
-                fileUrls={[file]}
+                title={file.file_name ?? file.url.split('/').at(-1)}
+                extensionName={file.url.split('.').at(-1)}
+                fileUrls={[file.url]}
               />
             ))}
           </PureDocumentTileContainer>
@@ -588,5 +590,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
-  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask disabled {...props} />,
 };

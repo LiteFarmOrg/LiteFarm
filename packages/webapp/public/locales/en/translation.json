@@ -1987,6 +1987,7 @@
     "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
+    "DID_YOU_GET_RESULTS": "Did you get the results from the lab?",
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "FILTER": {
@@ -2008,6 +2009,7 @@
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
     "IRRIGATION_LOCATION": "Select an irrigation location",
+    "LAB_DOCUMENTS": "Lab Documents",
     "LOCATIONS": "Location(s)",
     "NO_LOCATIONS_FOR_TASK": "No specific location required for this task",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
@@ -2036,7 +2038,8 @@
     "TASKS_COUNT_other": "{{count}} tasks",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "UPLOAD_LAB_DOCUMENT": "Upload lab document"
   },
   "UNIT": {
     "TIME": {

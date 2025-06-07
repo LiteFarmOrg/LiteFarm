@@ -135,6 +135,10 @@ export default function PureTaskComplete({
       data[taskProductKey] = persistedFormData?.[taskProductKey];
     }
 
+    if (task_type_name === 'soil_sample_task' && persistedFormData?.results_available) {
+      data.uploadedFiles = persistedFormData?.uploadedFiles ?? [];
+    }
+
     return data;
   };
 

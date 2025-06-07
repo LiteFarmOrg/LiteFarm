@@ -102,6 +102,7 @@ import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../u
 import {
   formatAnimalIdsForReqBody,
   getCompleteMovementTaskBody,
+  getCompleteSoilSampleTaskBody,
   getEndpoint,
   getMovementTaskBody,
   getSoilSampleTaskBody,
@@ -838,6 +839,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
   MOVEMENT_TASK: getCompleteMovementTaskBody,
+  SOIL_SAMPLE_TASK: getCompleteSoilSampleTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');

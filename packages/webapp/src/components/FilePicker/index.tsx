@@ -47,14 +47,14 @@ const FilePicker = ({
 }: FilePickerProps) => {
   return (
     <div className={styles.filePickerContainer}>
-      {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
+      {uploadedFiles?.map(({ thumbnail_url, file_name, url }) => (
         <ContainerWithIcon
           icon={<TrashIcon />}
           onIconClick={() => {
             deleteImage(url);
             onUploadEnd();
           }}
-          key={index}
+          key={file_name}
           style={{ width: '100%', maxWidth: thumbnail_url ? '312px' : undefined }}
         >
           {thumbnail_url ? (

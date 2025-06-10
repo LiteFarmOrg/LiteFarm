@@ -26,6 +26,7 @@ import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
+import { createSensorsDisplayName } from '../Sensor/v2/utils';
 
 export default function PureLocationFieldTechnology({
   location,
@@ -126,7 +127,10 @@ export default function PureLocationFieldTechnology({
           fieldTechnology.addonSensorArrays.map((addonSensorArray) => (
             <SensorList
               key={addonSensorArray.name}
-              title={addonSensorArray.name}
+              title={createSensorsDisplayName({
+                ...addonSensorArray,
+                fallback: t('SENSOR.SENSOR_ARRAY'),
+              })}
               sensors={addonSensorArray.sensors}
               onClickLocationMapper={() => addonSensorArray}
               isAddonSensor

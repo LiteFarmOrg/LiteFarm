@@ -128,9 +128,7 @@ function TaskReadOnly({ history, match, location }) {
     files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
   }
   if (task.documents?.length) {
-    const documentFiles = structuredClone(task.documents).reduce((acc, cv) => {
-      return [...acc, ...cv.files];
-    }, []);
+    const documentFiles = task.documents.flatMap((doc) => doc.files);
     files.push(...documentFiles);
   }
 

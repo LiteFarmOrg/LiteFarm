@@ -9,6 +9,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { Controller, useForm } from 'react-hook-form';
 import FilePicker from '../../FilePicker';
+import _isEqual from 'lodash/isEqual';
 
 function PureDocumentDetailView({
   submit,
@@ -104,8 +105,11 @@ function PureDocumentDetailView({
     historyCancel,
   } = useHookFormPersist(getValues);
 
+  // This only works because if one were to delete the original file, uploading that same file would create a "new" file
+  const isDirtyUploadedFiles = !_isEqual(defaultData.files, uploadedFiles);
+
   const disabled = isEdit
-    ? !isValid || uploadedFiles?.length === 0 || !isDirty || isUploading
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isDirtyUploadedFiles) || isUploading
     : !isValid || uploadedFiles?.length === 0;
 
   return (

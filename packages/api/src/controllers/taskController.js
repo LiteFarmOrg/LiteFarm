@@ -221,7 +221,6 @@ async function updateTaskWithCompletedData(
         ...nonModifiable.filter((asset) => !['documents', 'taskDocuments'].includes(asset)),
         'soil_sample_task',
       ];
-      console.log(data);
       const task = await TaskModel.query(trx)
         .context({ user_id })
         .upsertGraph(

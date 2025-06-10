@@ -218,7 +218,7 @@ async function updateTaskWithCompletedData(
 
     case 'soil_sample_task': {
       const noInsert = [
-        ...nonModifiable.filter((asset) => !['documents', 'taskDocuments'].includes(asset)),
+        ...nonModifiable.filter((asset) => !['documents'].includes(asset)),
         'soil_sample_task',
       ];
       const task = await TaskModel.query(trx)
@@ -229,8 +229,6 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete: true,
             noInsert,
-            relate: ['animals', 'animal_batches'],
-            unrelate: ['animals', 'animal_batches'],
           },
         );
 
@@ -1074,14 +1072,9 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter((a) => a !== asset);
-  return [
-    'createdByUser',
-    'updatedByUser',
-    'location',
-    'management_plan',
-    'documents',
-    'taskDocuments',
-  ].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan', 'documents'].concat(
+    nonModifiableAssets,
+  );
 }
 
 function removeNullTypes(task) {

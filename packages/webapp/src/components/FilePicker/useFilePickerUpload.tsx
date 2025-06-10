@@ -23,16 +23,19 @@ export type FilePickerFunctions = {
   deleteImage: (url: URL) => void;
   imageComponent: (props: any) => JSX.Element;
   documentUploader: (props: any) => JSX.Element;
-  isUploading: boolean;
   onUpload: () => void;
   onUploadEnd: () => void;
+};
+
+type FilePickerHookUtilities = FilePickerFunctions & {
+  isUploading: boolean;
 };
 
 /**
  * Custom hook designed to be used as a helper for the `FilePicker` component to.
  *
  */
-export default function useFilePickerUpload(): FilePickerFunctions {
+export default function useFilePickerUpload(): FilePickerHookUtilities {
   const dispatch = useDispatch();
 
   const [isUploading, setIsUploading] = useState(false);

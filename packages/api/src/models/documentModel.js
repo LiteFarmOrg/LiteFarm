@@ -82,6 +82,15 @@ class Document extends baseModel {
       },
     };
   }
+
+  static get modifiers() {
+    return {
+      filterDeleted(query) {
+        const { ref } = Document;
+        query.where(ref('deleted'), false);
+      },
+    };
+  }
 }
 
 export default Document;

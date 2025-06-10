@@ -16,8 +16,9 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 import { ANIMAL_TASKS, checkAnimalAndBatchIds } from '../../util/animal.js';
-import { CUSTOM_TASK, IRRIGATION_TASK } from '../../util/task.js';
+import { CUSTOM_TASK, IRRIGATION_TASK, TASKS_WITH_DOCUMENTS } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
+import { validateFilesLength } from './checkDocument.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
@@ -125,6 +126,8 @@ export function checkCompleteTask(taskType) {
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
+      checkCompleteTaskDocument(req.body, taskType);
+
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
         .where({ task_id })
@@ -178,6 +181,8 @@ export function checkCreateTask(taskType) {
       if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
         return res.status(400).send('task type requires products');
       }
+
+      checkCreateTaskDocument(req.body);
 
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
@@ -318,4 +323,26 @@ async function checkIrrigationTask(req) {
       throw customError('Irrigation prescription already associated with task', 400);
     }
   }
+}
+
+export function checkCreateTaskDocument(task) {
+  if ('documents' in task && task.documents.length) {
+    throw customError('Documents not permitted on task creation');
+  }
+}
+
+export function checkCompleteTaskDocument(task, taskType) {
+  if ('documents' in task && task.documents.length) {
+    if (TASKS_WITH_DOCUMENTS.includes(taskType)) {
+      checkTaskDocuments(task.documents);
+    } else {
+      throw customError('Documents not permitted on this task type');
+    }
+  }
+}
+
+function checkTaskDocuments(documents) {
+  documents.forEach((document) => {
+    validateFilesLength(document);
+  });
 }

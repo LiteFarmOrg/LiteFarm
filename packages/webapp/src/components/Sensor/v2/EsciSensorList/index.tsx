@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { History } from 'history';
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
 import { TFunction, useTranslation } from 'react-i18next';
@@ -81,9 +82,10 @@ type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
   userFarm: UserFarm;
+  history: History;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -95,6 +97,20 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
   const handleSeeOnMap = (location: Location) => {
     setMapLocations([location]);
     setMapOpen(true);
+  };
+
+  const handleMapSelect = () => {
+    if (!mapLocations.length) return;
+    const selectedLocation = mapLocations[0];
+
+    const cleanSensorId = (id: string): string => id.replace(/^sensor_/, '');
+
+    const readingsUrl =
+      selectedLocation.type === SensorType.SENSOR_ARRAY
+        ? `/sensor_array/${selectedLocation.id}`
+        : `/sensor/${cleanSensorId(selectedLocation.id)}`;
+
+    history.push(readingsUrl);
   };
 
   const handleClose = () => {
@@ -128,6 +144,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
           handleClose={handleClose}
+          onSelect={handleMapSelect}
         />
       ) : (
         <div className={styles.wrapper}>

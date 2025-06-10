@@ -182,7 +182,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      checkCreateTaskDocument(req);
+      checkCreateTaskDocument(req.body);
 
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');

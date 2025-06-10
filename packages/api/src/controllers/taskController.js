@@ -229,8 +229,6 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete: true,
             noInsert,
-            relate: ['animals', 'animal_batches'],
-            unrelate: ['animals', 'animal_batches'],
           },
         );
 

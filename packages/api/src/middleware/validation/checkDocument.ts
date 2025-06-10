@@ -18,7 +18,7 @@ import { customError, LiteFarmCustomError } from '../../util/customErrors.js';
 import { DocumentWithFiles } from '../../models/types.js';
 
 export function validateFilesLength(document: DocumentWithFiles) {
-  if (!Array.isArray(document.files) || document.files?.length <= 0) {
+  if (!Array.isArray(document.files) || !document.files?.length) {
     throw customError('Can not create document without file links');
   }
 }

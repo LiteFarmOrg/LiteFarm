@@ -262,14 +262,6 @@ class TaskModel extends BaseModel {
           to: 'document.document_id',
         },
       },
-      taskDocuments: {
-        modelClass: TaskDocumentModel,
-        relation: Model.HasManyRelation,
-        join: {
-          from: 'task.task_id',
-          to: 'task_document.task_id',
-        },
-      },
       animals: {
         relation: Model.ManyToManyRelation,
         modelClass: AnimalModel,
@@ -342,7 +334,6 @@ class TaskModel extends BaseModel {
       managementPlans: 'omit',
       locations: 'edit',
       documents: 'omit',
-      task_documents: 'omit',
       animals: 'omit',
       animal_batches: 'omit',
     };

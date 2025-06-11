@@ -20,11 +20,8 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
       e.target.value = '';
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
-      dispatch(uploadDocument({ file: e.target.files[0] }));
+      dispatch(uploadDocument({ file: e.target.files[0], onUploadEnd }));
       e.target.value = '';
-    }
-    if (onUploadEnd) {
-      onUploadEnd();
     }
   };
 

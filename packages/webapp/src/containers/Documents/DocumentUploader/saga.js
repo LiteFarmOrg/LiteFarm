@@ -33,6 +33,7 @@ export function* uploadDocumentSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
   }
+  payload.onUploadEnd?.();
 }
 
 export default function* managementPlanSaga() {

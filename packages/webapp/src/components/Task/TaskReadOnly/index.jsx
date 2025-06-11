@@ -590,5 +590,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
-  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask disabled {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

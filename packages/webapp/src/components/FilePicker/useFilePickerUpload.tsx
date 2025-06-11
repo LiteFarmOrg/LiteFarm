@@ -20,7 +20,7 @@ import { MediaWithAuthentication } from '../../containers/MediaWithAuthenticatio
 import { useState } from 'react';
 
 export type FilePickerFunctions = {
-  deleteImage: (url: URL) => void;
+  deleteImage: (url: string) => void;
   imageComponent: (props: any) => JSX.Element;
   documentUploader: (props: any) => JSX.Element;
   onUpload: () => void;
@@ -48,7 +48,7 @@ export default function useFilePickerUpload(): FilePickerHookUtilities {
     setIsUploading(false);
   };
 
-  const deleteImage = (url: URL): void => {
+  const deleteImage = (url: string): void => {
     dispatch(deleteUploadedFile({ url }));
   };
   const imageComponent = (props: any) => <MediaWithAuthentication {...props} />;

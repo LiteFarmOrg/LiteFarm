@@ -22,9 +22,9 @@ import CertifierSelectionMenuItem from '../OrganicCertifierSurvey/CertifierSelec
 import { Loading } from '../Loading/Loading';
 
 type UploadedFile = {
-  thumbnail_url: URL;
+  thumbnail_url: string;
   file_name: string;
-  url: URL;
+  url: string;
 };
 
 type FilePickerProps = {
@@ -54,7 +54,7 @@ const FilePicker = ({
             deleteImage(url);
             onUploadEnd();
           }}
-          key={file_name}
+          key={thumbnail_url}
           style={{ width: '100%', maxWidth: thumbnail_url ? '312px' : undefined }}
         >
           {thumbnail_url ? (

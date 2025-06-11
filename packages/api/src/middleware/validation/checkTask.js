@@ -126,7 +126,7 @@ export function checkCompleteTask(taskType) {
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
-      checkCompleteTaskDocument(req, taskType);
+      checkCompleteTaskDocument(req.body, taskType);
 
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
@@ -333,7 +333,7 @@ export function checkCreateTaskDocument(task) {
 
 export function checkCompleteTaskDocument(task, taskType) {
   if ('documents' in task && task.documents.length) {
-    if ([...TASKS_WITH_DOCUMENTS].includes(taskType)) {
+    if (TASKS_WITH_DOCUMENTS.includes(taskType)) {
       checkTaskDocuments(task.documents);
     } else {
       throw customError('Documents not permitted on this task type');
@@ -342,9 +342,7 @@ export function checkCompleteTaskDocument(task, taskType) {
 }
 
 function checkTaskDocuments(documents) {
-  if (documents.length) {
-    documents.forEach((document) => {
-      validateFilesLength(document);
-    });
-  }
+  documents.forEach((document) => {
+    validateFilesLength(document);
+  });
 }

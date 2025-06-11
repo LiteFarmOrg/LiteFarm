@@ -42,7 +42,7 @@ const IconText = ({ iconText }: { iconText: IconTextProps }) => {
   );
 };
 
-type MiddleContentProps = {
+type SensorContentProps = {
   name: string;
   status: StatusIndicatorPillProps;
   classes?: {
@@ -89,17 +89,15 @@ const ActionIcon = ({ actionIcon }: { actionIcon: ActionIconProps }) => {
 
 interface SensorListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   iconText: IconTextProps;
-  middleContent: MiddleContentProps;
+  sensorContent: SensorContentProps;
   actionIcon: ActionIconProps;
-  lastSeen: Date;
   onlyActionClick: boolean;
 }
 
 export default function SensorListItem({
   iconText,
-  middleContent,
+  sensorContent,
   actionIcon,
-  lastSeen,
   onClick,
   onlyActionClick = true,
   className,
@@ -119,16 +117,16 @@ export default function SensorListItem({
       <div className={clsx(styles.leftAlignedContent)}>
         <IconText iconText={iconText} />
         <div className={styles.mobileOnlyLeftContent}>
-          <span className={styles.middleText}>{middleContent.name}</span>
+          <span className={styles.middleText}>{sensorContent.name}</span>
         </div>
 
         <div className={styles.desktopOnlyMiddleContent}>
-          <div className={styles.middleText}>{middleContent.name}</div>
+          <div className={styles.middleText}>{sensorContent.name}</div>
         </div>
       </div>
 
       <div className={styles.rightAlignedContent}>
-        {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
+        {sensorContent.status && <StatusIndicatorPill {...sensorContent.status} />}
         <ActionIcon actionIcon={actionIcon} />
       </div>
     </li>

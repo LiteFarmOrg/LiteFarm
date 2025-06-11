@@ -1,7 +1,8 @@
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
-import { AddLink } from '../../../components/Typography';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
+import { DocumentUploader } from '../../../containers/Documents/DocumentUploader';
 
 export default {
   title: 'Page/Document/EditDocument',
@@ -31,8 +32,8 @@ Primary.args = {
   isUploading: false,
   filePickerFunctions: {
     deleteImage: () => {},
-    imageComponent: (props) => <img src={props.fileUrls[0]} />,
-    documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
+    imageComponent: (props) => <MediaWithAuthentication {...props} />,
+    documentUploader: (props) => <DocumentUploader {...props} />,
     onUpload: () => {},
     onUploadEnd: () => {},
   },

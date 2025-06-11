@@ -1,7 +1,7 @@
 import MainDocumentView from '../../../components/Documents/Main';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
-import { AddLink } from '../../../components/Typography';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 
 export default {
   title: 'Page/Document/MainDocument',
@@ -27,8 +27,8 @@ Primary.args = {
       },
     ],
   },
-  imageComponent: (props) => <img src={props.fileUrls[0]} />,
-  fileDownloadComponent: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
+  imageComponent: (props) => <MediaWithAuthentication {...props} />,
+  fileDownloadComponent: (props) => <MediaWithAuthentication {...props} />,
   onGoBack: () => {},
 };
 

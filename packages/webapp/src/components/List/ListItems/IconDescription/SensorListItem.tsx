@@ -114,7 +114,7 @@ export default function SensorListItem({
       )}
       {...rest}
     >
-      <div className={clsx(styles.leftAlignedContent)}>
+      <div className={styles.leftAlignedContent}>
         <IconText iconText={iconText} />
         <div className={styles.mobileOnlyLeftContent}>
           <span className={styles.middleText}>{sensorContent.name}</span>

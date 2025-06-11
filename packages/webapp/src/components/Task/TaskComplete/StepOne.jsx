@@ -213,7 +213,7 @@ export default function PureCompleteStepOne({
             <FilePicker
               uploadedFiles={uploadedFiles}
               linkText={t(`TASK.UPLOAD_LAB_DOCUMENT`)}
-              shouldShowLoadingImage={isUploading}
+              showLoading={isUploading}
               {...filePickerFunctions}
               showUploader={!uploadedFiles || uploadedFiles?.length < 5}
             />

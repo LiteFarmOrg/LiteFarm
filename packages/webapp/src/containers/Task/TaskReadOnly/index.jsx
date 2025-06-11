@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -125,7 +125,11 @@ function TaskReadOnly({ history, match, location }) {
 
   let files = [];
   if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
-    files.push(externalIrrigationPrescription.prescription.vriData.file_url);
+    files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
+  }
+  if (task.documents?.length) {
+    const documentFiles = task.documents.flatMap((doc) => doc.files);
+    files.push(...documentFiles);
   }
 
   const users = useSelector(userFarmsByFarmSelector);

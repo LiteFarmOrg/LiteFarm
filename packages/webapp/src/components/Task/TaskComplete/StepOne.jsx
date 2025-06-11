@@ -21,6 +21,7 @@ import {
 import PureMovementTask from '../MovementTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import { ANIMAL_IDS } from '../TaskAnimalInventory';
+import FilePicker from '../../FilePicker';
 
 const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   if (!needsChange) {
@@ -39,6 +40,8 @@ export default function PureCompleteStepOne({
   system,
   products,
   useHookFormPersist,
+  filePickerFunctions,
+  isUploading,
 }) {
   const { t } = useTranslation();
   const defaultsToUse = formatTaskReadOnlyDefaultValues(
@@ -61,16 +64,24 @@ export default function PureCompleteStepOne({
       need_changes: false,
       ...defaultsToUse,
       ...(persistedFormData[ANIMAL_IDS] && { [ANIMAL_IDS]: persistedFormData[ANIMAL_IDS] }),
+      results_available: persistedFormData.uploadedFiles?.length ? true : false,
     },
   });
 
   const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
   const noAnimalsSelected = !watchedSelectedAnimals.length;
 
-  const { historyCancel } = useHookFormPersist(getValues);
+  const {
+    persistedData: { uploadedFiles },
+    historyCancel,
+  } = useHookFormPersist(getValues);
 
   const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);
+
+  const RESULTS_AVAILABLE = 'results_available';
+  const resultsAvailable = watch(RESULTS_AVAILABLE);
+
   const taskType = selectedTaskType?.task_translation_key;
 
   const continueDisabled = (() => {
@@ -79,6 +90,8 @@ export default function PureCompleteStepOne({
         return soilAmendmentContinueDisabled(changesRequired, isValid);
       case 'MOVEMENT_TASK':
         return !isValid || (changesRequired && noAnimalsSelected);
+      case 'SOIL_SAMPLE_TASK':
+        return !isValid || (resultsAvailable && !uploadedFiles?.length) || isUploading;
       default:
         return !isValid;
     }
@@ -93,6 +106,11 @@ export default function PureCompleteStepOne({
     ) {
       onContinue();
     } else {
+      if (!resultsAvailable && uploadedFiles?.length) {
+        for (const file of uploadedFiles) {
+          filePickerFunctions.deleteImage(file.url);
+        }
+      }
       handleSubmit(onContinue)();
     }
   };
@@ -187,6 +205,21 @@ export default function PureCompleteStepOne({
             locations: selectedTask.locations,
           })
         : null}
+      {taskType === 'SOIL_SAMPLE_TASK' && (
+        <div>
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_GET_RESULTS')}</Main>
+          <RadioGroup hookFormControl={control} required name={RESULTS_AVAILABLE} />
+          {resultsAvailable && (
+            <FilePicker
+              uploadedFiles={uploadedFiles}
+              linkText={t(`TASK.UPLOAD_LAB_DOCUMENT`)}
+              showLoading={isUploading}
+              {...filePickerFunctions}
+              showUploader={!uploadedFiles || uploadedFiles?.length < 5}
+            />
+          )}
+        </div>
+      )}
     </Form>
   );
 }

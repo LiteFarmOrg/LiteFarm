@@ -9,7 +9,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { Controller, useForm } from 'react-hook-form';
 import FilePicker from '../../FilePicker';
-import _isEqual from 'lodash/isEqual';
+import _isEqual from 'lodash-es/isEqual';
 
 function PureDocumentDetailView({
   submit,

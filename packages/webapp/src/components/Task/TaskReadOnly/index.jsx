@@ -506,6 +506,7 @@ export default function PureTaskReadOnly({
                 title={file.file_name ?? file.url.split('/').at(-1)}
                 extensionName={file.url.split('.').at(-1)}
                 fileUrls={[file.url]}
+                preview={file.thumbnail_url}
               />
             ))}
           </PureDocumentTileContainer>

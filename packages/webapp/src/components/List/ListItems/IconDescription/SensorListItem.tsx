@@ -19,7 +19,6 @@ import { ReactComponent as CheckedEnabled } from '../../../../assets/images/chec
 import { BsChevronRight } from 'react-icons/bs';
 import Icon, { IconName } from '../../../Icons';
 import styles from './styles.module.scss';
-import ElapsedTimeWidget from '../../../Widgets/ElapsedTime';
 import { StatusIndicatorPill, StatusIndicatorPillProps } from '../../../StatusIndicatorPill';
 
 type IconTextProps = {
@@ -93,7 +92,6 @@ interface SensorListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   middleContent: MiddleContentProps;
   actionIcon: ActionIconProps;
   lastSeen: Date;
-  showLastSeen: boolean;
   onlyActionClick: boolean;
 }
 
@@ -102,7 +100,6 @@ export default function SensorListItem({
   middleContent,
   actionIcon,
   lastSeen,
-  showLastSeen = true,
   onClick,
   onlyActionClick = true,
   className,
@@ -119,19 +116,19 @@ export default function SensorListItem({
       )}
       {...rest}
     >
-      <div className={styles.leftAlignedContent}>
+      <div className={clsx(styles.leftAlignedContent)}>
         <IconText iconText={iconText} />
         <div className={styles.mobileOnlyLeftContent}>
           <span className={styles.middleText}>{middleContent.name}</span>
         </div>
+
+        <div className={styles.desktopOnlyMiddleContent}>
+          <div className={styles.middleText}>{middleContent.name}</div>
+        </div>
       </div>
 
-      <div className={styles.desktopOnlyMiddleContent}>
-        <div className={styles.middleText}>{middleContent.name}</div>
-      </div>
-      {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
       <div className={styles.rightAlignedContent}>
-        {showLastSeen && <ElapsedTimeWidget pastDate={lastSeen} />}
+        {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
         <ActionIcon actionIcon={actionIcon} />
       </div>
     </li>

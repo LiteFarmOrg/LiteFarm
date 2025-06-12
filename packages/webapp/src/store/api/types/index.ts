@@ -273,6 +273,7 @@ export interface Sensor {
 export interface SensorArray {
   id: string;
   label: string; // descriptive name provided by Ensemble
+  system: string; // descriptive name for the irrigation system
   sensors: Sensor['external_id'][];
   point: {
     lat: number;

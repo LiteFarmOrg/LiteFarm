@@ -85,7 +85,10 @@ const getEnsembleSensors = async (farm_id) => {
     const mappedProfiles = systemProfiles
       .filter((profile) => profile.water_profile?.sensors?.length)
       .map((profile) =>
-        mapProfileToSensorArray(enrichProfileWithDefaultPosition(profile, farmCenterCoordinates)),
+        mapProfileToSensorArray(
+          enrichProfileWithDefaultPosition(profile, farmCenterCoordinates),
+          system.name,
+        ),
       );
 
     if (mappedProfiles?.length) {
@@ -142,9 +145,10 @@ const mapDeviceToSensor = (device) => {
 /**
  * Maps an Ensemble profile object to a simplified format for sensor arrays
  * @param {Object} profile - The profile to map
+ * @param {string} systemName - The name of the system this profile belongs to
  * @returns {Object} - The mapped sensor array object
  */
-const mapProfileToSensorArray = (profile) => {
+const mapProfileToSensorArray = (profile, systemName) => {
   return {
     id: profile.id,
     sensors: profile.water_profile.sensors,
@@ -153,6 +157,7 @@ const mapProfileToSensorArray = (profile) => {
       lng: profile.water_profile.position?.longitude,
     },
     label: profile.description,
+    system: systemName,
 
     // For backwards compatibility
     location_id: profile.id,

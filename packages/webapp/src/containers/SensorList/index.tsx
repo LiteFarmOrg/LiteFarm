@@ -52,6 +52,7 @@ const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
       summary={sensorSummary}
       // @ts-expect-error - Selector return empty object without property
       userFarm={userFarm}
+      history={history}
     />
   );
 };

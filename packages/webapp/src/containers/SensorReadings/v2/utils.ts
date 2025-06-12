@@ -15,6 +15,7 @@
 
 import { TFunction } from 'react-i18next';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
+import { getUnixTime } from '../../../components/Charts/utils';
 import { getDateDifference } from '../../../util/moment';
 import { roundToTwo } from '../../../util/roundToTwo';
 import { convert } from '../../../util/convert-units/convert';
@@ -127,7 +128,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : data[dataKey] ?? null;
+          : (data[dataKey] ?? null);
 
       return { ...acc, [dataKey]: value };
     },
@@ -151,6 +152,7 @@ export const formatSensorDatapoints = (
   data: SensorDatapoint[],
   truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
+  startDate: string, // ISO 8601
   valueConverter?: (value: number) => number | null,
   timezoneOffset?: number,
 ): FormattedSensorDatapoint[] => {
@@ -161,7 +163,16 @@ export const formatSensorDatapoints = (
   const adjustDateTime = getAdjustDateTimeFunc(truncPeriod, timezoneOffset);
 
   const result: FormattedSensorDatapoint[] = [];
-  let currentTimeStamp = data[0].dateTime;
+
+  // If the first data point doesn't start at startDate, insert a placeholder
+  const firstTimeStamp = data[0].dateTime;
+  const adjustedFirstTimeStamp = adjustDateTime?.(firstTimeStamp) || firstTimeStamp;
+  const expectedFirstTimeStamp = getUnixTime(new Date(startDate));
+  if (adjustedFirstTimeStamp !== expectedFirstTimeStamp) {
+    result.push(formatDataPoint({ dateTime: expectedFirstTimeStamp }, dataKeys, undefined));
+  }
+
+  let currentTimeStamp = firstTimeStamp;
   let dataPointer = 0;
 
   while (dataPointer < data.length || currentTimeStamp <= data[data.length - 1].dateTime) {

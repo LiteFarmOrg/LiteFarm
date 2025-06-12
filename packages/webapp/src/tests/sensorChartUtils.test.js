@@ -31,6 +31,12 @@ const createData = (date) => {
   return { dateTime: getUnixTime(date) };
 };
 
+const getUTCDateISOString = (date) => {
+  const [year, month, day] = date.split('-').map((number) => +number);
+
+  return new Date(Date.UTC(year, month - 1, day)).toISOString();
+};
+
 describe('Test chart data formatting', () => {
   test('adjustDailyDateTime shifts UTC midnight to intended local midnight', () => {
     const localMidnight = new Date(2025, 3, 1); // April 1, 2025 at 00:00 LOCAL
@@ -108,7 +114,7 @@ describe('Test chart data formatting', () => {
         '2025-03-04',
         '2025-03-06',
       ].map(createData);
-      const result = formatSensorDatapoints(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString('2025-03-01'));
       expect(result).toEqual(expectedData);
     });
 
@@ -122,7 +128,7 @@ describe('Test chart data formatting', () => {
         '2025-03-03',
         '2025-03-04',
       ].map(createData);
-      const result = formatSensorDatapoints(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString('2025-02-26'));
       expect(result).toEqual(expectedData);
     });
 
@@ -142,7 +148,12 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:00:00Z',
       ].map(createData);
 
-      const result = formatSensorDatapoints(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date('2025-03-01T00:00:00Z').toISOString(),
+      );
       expect(result).toEqual(expectedData);
     });
 
@@ -162,7 +173,48 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:15:00Z',
       ].map(createData);
 
-      const result = formatSensorDatapoints(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date('2025-03-01T00:15:00Z').toISOString(),
+      );
+      expect(result).toEqual(expectedData);
+    });
+
+    test('fills missing start date correctly', () => {
+      const startDate = '2025-02-20';
+      const fakeData = ['2025-03-01', '2025-03-03', '2025-03-06'].map(createData);
+      const expectedData = [
+        '2025-02-20',
+        '2025-03-01',
+        '2025-03-02',
+        '2025-03-03',
+        '2025-03-04',
+        '2025-03-06',
+      ].map(createData);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString(startDate));
+      expect(result).toEqual(expectedData);
+    });
+
+    test('fills missing start hour correctly', () => {
+      const startDateTime = '2025-03-01T00:00:00Z';
+      const fakeData = ['2025-03-01T03:00:00Z', '2025-03-01T04:00:00Z', '2025-03-01T05:00:00Z'].map(
+        createData,
+      );
+      const expectedData = [
+        '2025-03-01T00:00:00Z',
+        '2025-03-01T03:00:00Z',
+        '2025-03-01T04:00:00Z',
+        '2025-03-01T05:00:00Z',
+      ].map(createData);
+
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date(startDateTime).toISOString(),
+      );
       expect(result).toEqual(expectedData);
     });
   });

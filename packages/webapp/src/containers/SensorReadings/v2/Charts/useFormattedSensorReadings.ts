@@ -123,6 +123,7 @@ function useFormattedSensorReadings({
           readings,
           truncPeriod,
           sensorIds,
+          startDate,
           valueConverter,
           timezoneOffset,
         ),

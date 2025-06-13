@@ -208,3 +208,23 @@ export const selectedIcons = {
   sensor: sensorActive,
   sensor_array: sensorArrayActive,
 };
+
+/**
+ * Creates a Google Maps icon object with centered anchor point.
+ * NOTE: All point icons should be standardized to 26x26px.
+ *
+ * @param {string} iconUrl - URL to the icon image
+ * @param {object} maps - Google Maps API object
+ * @param {number} size - Icon size in pixels (default: 26)
+ * @returns {object|string} - A configured icon object or the original URL if maps API unavailable
+ */
+export const createCenteredIcon = (iconUrl, maps, size = 26) => {
+  if (!maps) return iconUrl;
+
+  const halfSize = size / 2;
+  return {
+    url: iconUrl,
+    size: new maps.Size(size, size),
+    anchor: new maps.Point(halfSize, halfSize),
+  };
+};

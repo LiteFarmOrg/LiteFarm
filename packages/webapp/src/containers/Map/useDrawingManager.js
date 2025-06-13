@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { areaStyles, icons, lineStyles } from './mapStyles';
+import { areaStyles, createCenteredIcon, icons, lineStyles } from './mapStyles';
 import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
 import { useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
@@ -110,7 +110,7 @@ export default function useDrawingManager() {
     } else if (isPoint(type)) {
       let redrawnMarker = new maps.Marker({
         position: overlayData.point,
-        icon: icons[type],
+        icon: createCenteredIcon(icons[type], maps),
         draggable: true,
       });
       redrawnMarker.setMap(map);
@@ -156,7 +156,7 @@ export default function useDrawingManager() {
   const startDrawing = (type) => {
     setDrawLocationType(type);
     setIsDrawing(true);
-    drawingManager.setOptions(getDrawingOptions(type));
+    drawingManager.setOptions(getDrawingOptions(type, maps));
     drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
   };
 
@@ -276,7 +276,7 @@ export default function useDrawingManager() {
   return [drawingState, drawingFunctions];
 }
 
-const getDrawingOptions = (type) => {
+const getDrawingOptions = (type, maps) => {
   if (isArea(type)) {
     const { colour } = areaStyles[type];
     return {
@@ -322,7 +322,7 @@ const getDrawingOptions = (type) => {
   if (isPoint(type))
     return {
       markerOptions: {
-        icon: icons[type],
+        icon: createCenteredIcon(icons[type], maps),
         draggable: true,
         crossOnDrag: false,
       },

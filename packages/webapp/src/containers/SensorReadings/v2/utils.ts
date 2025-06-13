@@ -17,7 +17,7 @@ import { TFunction } from 'react-i18next';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 import { getUnixTime } from '../../../components/Charts/utils';
 import { getDateDifference } from '../../../util/moment';
-import { roundToTwo } from '../../../util/roundToTwo';
+import { roundToOne } from '../../../util/rounding';
 import { convert } from '../../../util/convert-units/convert';
 import { isValidNumber } from '../../../util/validation';
 import { isLessThanTwelveHrsAgo } from '../../../util/date-migrate-TS';
@@ -128,7 +128,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : (data[dataKey] ?? null);
+          : data[dataKey] ?? null;
 
       return { ...acc, [dataKey]: value };
     },
@@ -218,10 +218,10 @@ export const convertEsciReadingValue = (
 ): number => {
   if (esciUnitTypeMap[param]) {
     const unitType = esciUnitTypeMap[param];
-    return roundToTwo(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
+    return roundToOne(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
   }
 
-  return roundToTwo(value);
+  return roundToOne(value);
 };
 
 export const getReadingUnit = (

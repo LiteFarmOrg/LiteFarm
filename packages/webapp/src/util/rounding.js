@@ -13,6 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+export const roundToOne = (num) => {
+  return +(Math.round(num + 'e+1') + 'e-1');
+};
+
 export const roundToTwo = (num) => {
   return +(Math.round(num + 'e+2') + 'e-2');
 };

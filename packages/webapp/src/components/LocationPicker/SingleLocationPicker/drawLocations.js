@@ -10,6 +10,7 @@ import {
 import {
   areaStyles,
   circleStyles,
+  createCenteredIcon,
   hoverIcons,
   icons,
   lineStyles,
@@ -272,19 +273,19 @@ const drawPoint = (map, maps, mapBounds, location, disableHover) => {
 
   const marker = new maps.Marker({
     position: grid_point,
-    icon: icons[type],
+    icon: createCenteredIcon(icons[type], maps),
   });
 
   if (!disableHover) {
     maps.event.addListener(marker, 'mouseover', function () {
       this.clickable &&
-        marker.icon !== selectedIcons[type] &&
-        this.setOptions({ icon: hoverIcons[type] });
+        marker.icon?.url !== selectedIcons[type] &&
+        this.setOptions({ icon: createCenteredIcon(hoverIcons[type], maps) });
     });
     maps.event.addListener(marker, 'mouseout', function () {
       this.clickable &&
-        marker.icon !== selectedIcons[type] &&
-        this.setOptions({ icon: icons[type] });
+        marker.icon?.url !== selectedIcons[type] &&
+        this.setOptions({ icon: createCenteredIcon(icons[type], maps) });
     });
   }
 

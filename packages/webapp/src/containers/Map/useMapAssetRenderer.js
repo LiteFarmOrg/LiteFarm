@@ -14,7 +14,7 @@
  */
 
 import styles, { defaultColour } from './styles.module.scss';
-import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
+import { areaStyles, createCenteredIcon, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
@@ -139,8 +139,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-        ? drawLine
-        : drawPoint;
+      ? drawLine
+      : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();
@@ -506,15 +506,15 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
     var marker = new maps.Marker({
       position: grid_point,
-      icon: icons[type],
+      icon: createCenteredIcon(icons[type], maps),
     });
     marker.setMap(map);
 
     maps.event.addListener(marker, 'mouseover', function () {
-      this.setOptions({ icon: hoverIcons[type] });
+      this.setOptions({ icon: createCenteredIcon(hoverIcons[type], maps) });
     });
     maps.event.addListener(marker, 'mouseout', function () {
-      this.setOptions({ icon: icons[type] });
+      this.setOptions({ icon: createCenteredIcon(icons[type], maps) });
     });
 
     let longPressed, longPressTimeout;

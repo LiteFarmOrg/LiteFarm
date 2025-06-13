@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
 import useLocationTasks from './useLocationTasks';
 import useLocationRouterTabs from '../useLocationRouterTabs';
+import { onAddTask } from '../../Task/onAddTask';
 
 export default function LocationTasks({ history, match }) {
+  const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
@@ -31,6 +33,7 @@ export default function LocationTasks({ history, match }) {
           tasks={tasks}
           count={count}
           routerTabs={routerTabs}
+          handleAddTask={onAddTask(dispatch, history, { location })}
         />
       )}
     </>

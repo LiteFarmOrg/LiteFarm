@@ -39,11 +39,11 @@ export const getIrrigationPrescriptions = async ({
 }: fakeIrrigationPrescriptionsProps): Promise<ExternalIrrigationPrescription[]> => {
   const PRESCRIPTION_CONFIG = [
     {
-      id: 1,
+      id: new Date(startTime ?? Date.now()).getUTCDate(),
       recommendedDate: startTime ? new Date(startTime) : getStartOfDate(new Date(Date.now())),
     },
     {
-      id: 2,
+      id: new Date(startTime ?? Date.now()).getUTCDate() + 1,
       recommendedDate: endTime
         ? new Date(endTime)
         : getEndOfDate(addDaysToDate(new Date(Date.now()), 1)),

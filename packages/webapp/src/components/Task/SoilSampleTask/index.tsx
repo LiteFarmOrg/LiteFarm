@@ -105,6 +105,7 @@ const PureSoilSampleTask = ({
       <div className={styles.locationDetail}>
         <NumberInput
           name={SAMPLES_PER_LOCATION}
+          allowDecimal={false}
           control={control}
           label={t('ADD_TASK.SOIL_SAMPLE_VIEW.SAMPLE_PER_LOCATION_COUNT')}
           showStepper

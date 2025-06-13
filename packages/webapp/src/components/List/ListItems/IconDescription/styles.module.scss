@@ -115,9 +115,12 @@
 }
 
 .leftAlignedContent {
+  flex: 3;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
+
   @include md-breakpoint {
     white-space: nowrap;
     overflow: hidden;
@@ -155,7 +158,9 @@
 }
 
 .rightAlignedContent {
+  flex: 2;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 16px;
 }

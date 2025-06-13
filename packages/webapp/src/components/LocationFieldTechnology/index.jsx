@@ -48,7 +48,7 @@ export default function PureLocationFieldTechnology({
     history.push(path);
   };
 
-  const ListItem = ({ label, middleContent, onClickLocation, lastSeen, showLastSeen, ...rest }) => (
+  const ListItem = ({ label, sensorContent, onClickLocation, ...rest }) => (
     <SensorListItem
       {...rest}
       iconText={{
@@ -56,14 +56,12 @@ export default function PureLocationFieldTechnology({
         label,
         classes: { icon: styles.sensorIcon, label: styles.sensorLabel },
       }}
-      middleContent={middleContent}
+      sensorContent={sensorContent}
       actionIcon={{
         iconName: 'chevron',
         classes: { icon: styles.sensorChevron },
         onClick: () => handleClick(onClickLocation),
       }}
-      lastSeen={lastSeen}
-      showLastSeen={showLastSeen}
     />
   );
 
@@ -83,7 +81,7 @@ export default function PureLocationFieldTechnology({
             <ListItem
               key={isAddonSensor ? sensor.id : sensor.location_id}
               label={isAddonSensor ? sensor.id : sensor.name || sensor.location_id}
-              middleContent={{
+              sensorContent={{
                 name: isAddonSensor
                   ? getDeviceType(sensor.deviceTypeKey)
                   : sensor.model || sensor.brand_name,
@@ -96,8 +94,6 @@ export default function PureLocationFieldTechnology({
                 },
               }}
               onClickLocation={onClickLocationMapper(sensor)}
-              lastSeen={sensor.last_seen && new Date(sensor.last_seen)}
-              showLastSeen={isAddonSensor}
             />
           );
         })}

@@ -15,6 +15,7 @@
     "start": "set NODE_ENV=development&& node --import @swc-node/register/esm-register src/server.ts",
     "start:prod": "node dist/app/src/server.js",
     "build": "rimraf dist && tsc -p src/tsconfig.json",
+    "cp-uncompiled-to-dist": "rsync -a --include='*' --exclude='*.cjs' --exclude='*.js' --exclude='*.ts' ./src/templates ./dist/app/src && rsync -a --include='*' --exclude='*.cjs' --exclude='*.js' --exclude='*.ts' ../shared/locales ./dist/shared",
     "dev": "set NODE_ENV=development && node --inspect=0.0.0.0:9230 --watch --import @swc-node/register/esm-register src/server.ts",
     "debug-email-template": "DEBUG=email-templates npm run dev",
     "debug-i18n": "DEBUG=i18n:* npm run dev",

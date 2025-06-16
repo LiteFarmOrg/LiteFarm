@@ -15,11 +15,8 @@
 
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../userFarmSlice';
-import {
-  container_planting_depth,
-  convertFn,
-  roundToTwoDecimal,
-} from '../../util/convert-units/unit';
+import { container_planting_depth, convertFn } from '../../util/convert-units/unit';
+import { roundToOne } from '../../util/rounding';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { areaSelector } from '../locationSlice';
 import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUtils';
@@ -66,7 +63,7 @@ const formatSensorToSimpleTableFormat = (
   return {
     ...sensor,
     id: external_id,
-    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${displayUnit}`,
+    formattedDepth: `${roundToOne(convertedDepth)}${displayUnit}`,
     deviceTypeKey: sensor.name.toUpperCase().replaceAll(' ', '_'),
   };
 };

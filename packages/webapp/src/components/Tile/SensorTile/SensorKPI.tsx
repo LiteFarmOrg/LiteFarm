@@ -19,6 +19,7 @@ import BentoLayout from '../../Layout/BentoLayout';
 import { StatusIndicatorPill, StatusIndicatorPillProps } from '../../StatusIndicatorPill';
 import styles from './styles.module.scss';
 import { TMeasurement } from './SensorReadingKPI';
+import { roundToOne } from '../../../util/rounding';
 
 export interface SensorKPIprops extends React.HTMLAttributes<HTMLDivElement> {
   sensor: {
@@ -85,7 +86,7 @@ export default function SensorKPI({
         <div className={styles.discriminator}>
           <Icon iconName={discriminatorIconName[measurement] || 'RULER'} className={styles.icon} />
           <div className={styles.discriminatorText}>
-            {value}
+            {roundToOne(value)}
             {unit}
           </div>
         </div>

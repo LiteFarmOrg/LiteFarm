@@ -17,13 +17,17 @@ import ModalComponent from '../ModalComponent/v2';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 
-export function NoSoilSampleLocationsModal({ dismissModal, goToMap }) {
+export function NoSoilSampleLocationsModal({ dismissModal, goToMap, isAdmin }) {
   const { t } = useTranslation();
 
   return (
     <ModalComponent
       title={t('ADD_TASK.NO_SOIL_SAMPLE_LOCATION')}
-      contents={[t('ADD_TASK.NEED_SOIL_SAMPLE_LOCATION')]}
+      contents={[
+        isAdmin
+          ? t('ADD_TASK.NEED_SOIL_SAMPLE_LOCATION')
+          : t('ADD_TASK.NEED_SOIL_SAMPLE_LOCATION_WORKER'),
+      ]}
       dismissModal={dismissModal}
       buttonGroup={
         <>
@@ -34,11 +38,18 @@ export function NoSoilSampleLocationsModal({ dismissModal, goToMap }) {
             type={'button'}
             sm
           >
-            {t('common:CANCEL')}
+            {isAdmin ? t('common:CANCEL') : t('common:GO_BACK')}
           </Button>
-          <Button data-cy="tasks-noSoilSampleLocationContinue" onClick={goToMap} type={'submit'} sm>
-            {t('LOCATION_CREATION.CREATE_BUTTON')}
-          </Button>
+          {isAdmin && (
+            <Button
+              data-cy="tasks-noSoilSampleLocationContinue"
+              onClick={goToMap}
+              type={'submit'}
+              sm
+            >
+              {t('LOCATION_CREATION.CREATE_BUTTON')}
+            </Button>
+          )}
         </>
       }
     ></ModalComponent>

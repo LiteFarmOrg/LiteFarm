@@ -248,6 +248,7 @@ export const PureTaskTypeSelection = ({
         <NoSoilSampleLocationsModal
           dismissModal={() => setShowNoSoilSampleLocationsModal(false)}
           goToMap={goToMap}
+          isAdmin={isAdmin}
         />
       )}
     </>

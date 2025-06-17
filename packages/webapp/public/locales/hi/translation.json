@@ -1,7 +1,6 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "जानवर जोड़ें",
-    "ADD_ANIMALS_FLOW": "जानवरों का जोड़",
     "ADD_ANIMALS_TITLE": "जानवर जोड़ें",
     "ADD_DETAILS_INFO": "नीचे अपने जानवरों का विवरण भरें या इसे सहेजकर बाद में जारी रखें।",
     "ADD_TO_INVENTORY": "अपनी सूची में जानवर जोड़ें",
@@ -116,7 +115,6 @@
     "ASSIGN_DATE": "टास्क की तारीख बदलें",
     "ASSIGN_TASK": "टास्क सौंपें",
     "ASSIGNEE": "सौंपने वाला",
-    "CANCEL": "टास्क निर्माण रद्द करें",
     "CANT_FIND_INFO_TASK": "आप अपने स्वयं के कस्टम कार्य प्रकार भी बना सकते हैं!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "अनुमानित जल उपयोग",
@@ -210,8 +208,11 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "आपको एक ऐसी जगह की ज़रूरत है जहाँ जानवरों को ले जाया जा सके। यह स्थान बनाने के लिए मैप पर जाएँ।",
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
+    "NEED_SOIL_SAMPLE_LOCATION": "",
+    "NEED_SOIL_SAMPLE_LOCATION_WORKER": "",
     "NO_ANIMAL_LOCATION": "जानवरों के लिए सही स्थान नहीं है",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
+    "NO_SOIL_SAMPLE_LOCATION": "",
     "NOTES_LABEL": "क्या इस कार्य से संबंधित कुछ विशेष जोड़ना है?",
     "NOTES_PLACEHOLDER": "निर्देश या असाइन किए गए व्यक्ति के लिए कोई विशेष विवरण जोड़ें",
     "PEST_CONTROL_VIEW": {
@@ -269,6 +270,17 @@
       "VOLUME": "मात्रा",
       "WEIGHT": "वजन"
     },
+    "SOIL_SAMPLE_VIEW": {
+      "LOCATION_COUNT": "",
+      "SAMPLE_DEPTH_RANGE": "",
+      "SAMPLE_PER_LOCATION_COUNT": "",
+      "SAMPLE_TOOL": {
+        "AUGER": "",
+        "SOIL_PROBE": "",
+        "SPADE": ""
+      },
+      "SAMPLING_TOOL": ""
+    },
     "TASK": "कार्य",
     "TASK_NOTES_CHAR_LIMIT": "नोट्स 10,000 अक्षरों से कम होने चाहिए",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "इस कार्य के बारे में बताएं",
@@ -278,6 +290,19 @@
     "WAGE_OVERRIDE": "मजदूरी अधिलेखन",
     "WHAT_PLANTING_METHOD": "प्रत्यारोपण की विधि क्या है?",
     "WILD_CROP": "जंगली फसलें"
+  },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CANCEL": "",
+      "CONFIRM": ""
+    },
+    "ESCI": {
+      "DISCONNECT_ESCI": "",
+      "INFO": "",
+      "MODAL_INFO": "",
+      "MODAL_TITLE": ""
+    },
+    "ORGANISATION_ID": ""
   },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "क्या आपके पास कोई और जानवर का प्रकार या अलग नस्ल है?",
@@ -311,7 +336,6 @@
     },
     "BATCH": "बैच",
     "BETA_SPOTLIGHT_HEADING": "नई जानवर सुविधा का परिचय",
-    "EDIT_ANIMAL_FLOW": "संपादन",
     "FILTER": {
       "BATCHES": "बैच",
       "BATCHES_OR_INDIVIDUALS": "बैच या व्यक्तिगत",
@@ -328,6 +352,12 @@
     "TABS": {
       "BASIC_INFO": "मूल जानकारी",
       "TASKS": "कार्य"
+    }
+  },
+  "BADGE": {
+    "BETA": {
+      "ANIMALS_CONTENT": "हमारी नई जानवर प्रबंधन सुविधा पर एक नज़र डालें—अब बीटा में! इस सुविधा को परिष्कृत करने के लिए आपकी प्रतिक्रिया बहुत महत्वपूर्ण है। कृपया किसी भी बग या सुझाव को साझा करें जो आप पाते हैं। लाइटफार्म को बेहतर बनाने में मदद के लिए हम आपके आभारी हैं! बीटा के बारे में और जानने के लिए <a>यहां</a> क्लिक करें।",
+      "TITLE": "बीटा"
     }
   },
   "BED_PLAN": {
@@ -348,7 +378,8 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "आपके द्वारा दर्ज की गई कोई भी जानकारी हटा दी जाएगी। क्या आप आगे बढ़ना चाहते हैं?",
-    "TITLE": "क्या आप अपने {{flow}} को रद्द करना चाहते हैं?"
+    "NO_BUTTON": "",
+    "TITLE": ""
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -409,7 +440,6 @@
     "EXPORT_DOWNLOADING_MESSAGE": "आपके जैविक प्रमाणन फ़ाइलों को डाउनलोड कर रहे हैं ...",
     "EXPORT_FILE_TITLE": "जैविक प्रमाणन",
     "FILES_ARE_READY": "आपकी प्रमाणन फ़ाइलें अब निर्यात के लिए तैयार हैं। हम उन्हें आपको भेज देंगे:",
-    "FLOW_TITLE": "प्रमाणन दस्तावेज़ निर्यात",
     "GOOD_NEWS": "अच्छी खबर!",
     "HAVE_ALL_INFO": "ऐसा लगता है कि LiteFarm के पास आपके प्रमाणन दस्तावेज़ प्रक्रिया करने के लिए सभी जानकारी है। हम उन्हें आपको भेज देंगे:",
     "NEXT_WE_WILL_CHECK": "अगला हम जांच करेंगे कि आपके प्रमाणन प्रस्तुति को प्रक्रिया करने के लिए आपके प्रमाणक को कोई अतिरिक्त जानकारी की आवश्यकता है या नहीं।",
@@ -502,7 +532,6 @@
     "ADD_CROPS_T0_YOUR_FARM": "अपने खेत में फसलें जोड़ें",
     "ADD_TO_YOUR_FARM": "अपने खेत में जोड़ें",
     "CAN_NOT_FIND": "आप जो ढूँढ रहे हैं वह नहीं मिल रहा?",
-    "CANCEL": "फसल सृजन रद्द करें",
     "COVER_CROP": "क्या इसे आवरण फसल के रूप में उगाया जा सकता है?",
     "CREATE_MANAGEMENT_PLANS": "फसल योजनाएँ बनाएं",
     "CROP_CATALOGUE": "फसल सूची",
@@ -602,6 +631,24 @@
     "TUESDAY": "मं",
     "WEDNESDAY": "बु"
   },
+  "DIRECTION": {
+    "E": "",
+    "ENE": "",
+    "ESE": "",
+    "N": "",
+    "NE": "",
+    "NNE": "",
+    "NNW": "",
+    "NW": "",
+    "S": "",
+    "SE": "",
+    "SSE": "",
+    "SSW": "",
+    "SW": "",
+    "W": "",
+    "WNW": "",
+    "WSW": ""
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "अधिक पृष्ठ जोड़ें",
@@ -617,7 +664,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "इस दस्तावेज़ को संग्रहीत करने से यह आपके दस्तावेज़ों के संग्रहित खंड में चला जाएगा, लेकिन इसे हटाया नहीं जाएगा। संग्रहीत दस्तावेज़ आपके प्रमाणपत्रों के लिए निर्यात नहीं किए जाएंगे। क्या आप आगे बढ़ना चाहते हैं?",
     "ARCHIVED": "संग्रहीत",
     "CANCEL": "रद्द करें",
-    "CANCEL_MODAL": "दस्तावेज़ निर्माण रद्द करें",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "अनुपालन दस्तावेज़ और आपका प्रमाणन",
     "DOCUMENTS": "दस्तावेज़",
     "EDIT_DOCUMENT": "दस्तावेज़ संपादित करें",
@@ -679,7 +725,6 @@
       "CUSTOM_EXPENSE_TYPE": "कस्टम खर्च प्रकार",
       "DUPLICATE_NAME": "इस नाम का खर्च प्रकार पहले से मौजूद है। कृपया दूसरा चुनें।",
       "DUPLICATE_NAME_RETIRED": "इस नाम का एक सेवानिवृत्त खर्च प्रकार पहले से मौजूद है। कृपया दूसरा चुनें।",
-      "FLOW": "खर्च निर्माण",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "कस्टम खर्च प्रकार प्रबंधित करें",
       "NEW_EXPENSE_ITEM": "नया खर्च मद",
       "TITLE": "खर्च जोड़ें",
@@ -714,6 +759,7 @@
     "RESET_PASSWORD_LINK": "नया पासवर्ड लिंक भेजें।"
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "",
     "AREA_DETAILS": {
       "NETWORK": "नेटवर्क कनेक्टिविटी समस्याएं।",
       "PERIMETER": "परिधि",
@@ -733,56 +779,6 @@
       "TITLE": "बफर जोन जोड़ें",
       "WIDTH": "बफर जोन की चौड़ाई"
     },
-    "BULK_UPLOAD_SENSORS": {
-      "DOWNLOAD_FILE": {
-        "DEFAULT": "कुछ गलत हो गया है। कृपया सहायता के लिए support@litefarm.org से संपर्क करें।",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "वे अब आपके फार्म मैप पर दिखाई देने चाहिए। इन सेंसरों को भविष्य के अपलोड में नजरअंदाज किया जाएगा।\n\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "आपकी फाइल में निम्नलिखित सेंसर सफलतापूर्वक अपलोड हो गए हैं या पहले से ही आपके फार्म पर मौजूद हैं:\n\n",
-        "ROW": "[पंक्ति: {{ row }}][स्तंभ: {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "SOME_ERRORS": "दुर्भाग्य से, आपके अपलोड में कुछ त्रुटियाँ थीं:\n\n"
-      },
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "टेम्पलेट डाउनलोड करने के लिए यहां क्लिक करें",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "कोई सेंसर नहीं मिला, कृपया अपना अपलोड जांचें और पुनः प्रयास करें।",
-      "INVALID_FILE_TYPE": "अपलोड फाइल csv होनी चाहिए,",
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "सेंसर \"{{ sensorId }}\" पहले से ही दूसरे संगठन के नाम पर पंजीकृत है, कृपया सहायता के लिए Ensemble समर्थन से support@esci.io पर संपर्क करें।",
-        "DOES_NOT_EXIST": "सेंसर \"{{ sensorId }}\" Ensemble डेटाबेस में मौजूद नहीं है। कृपया सुनिश्चित करें कि आपने इस प्रविष्टि के लिए External_ID को सही ढंग से लिखा है, और यह कि सेंसर एक Ensemble सेंसर है।",
-        "INTERNAL_ERROR": "सेंसर \"{{ sensorId }}\" को सफलतापूर्वक अपलोड करने में विफल रहा, कृपया सहायता के लिए लाइटफार्म समर्थन से support@litefarm.org पर संपर्क करें।"
-      },
-      "SENSOR_FIELDS": {
-        "BRAND": "ब्रांड",
-        "DEPTH": "गहराई_सेमी",
-        "LATITUDE": "अक्षांश",
-        "LONGITUDE": "देशांतर",
-        "MODEL": "मॉडल",
-        "NAME": "नाम",
-        "READING_TYPES": "पठन_प्रकार",
-        "SENSOR_EXTERNAL_ID": "बाह्य_ID"
-      },
-      "TITLE": "मानचित्र पर सेंसर जोड़ें",
-      "UPLOAD_ERROR_LINK": "उन्हें देखने के लिए यहां क्लिक करें।",
-      "UPLOAD_ERROR_MESSAGE": "आपके अपलोड के साथ कुछ समस्याएँ थीं। ",
-      "UPLOAD_INSTRUCTION_MESSAGE": "सही प्रारूप के लिए।",
-      "UPLOAD_LINK_MESSAGE": "इस टेम्पलेट को डाउनलोड करें",
-      "UPLOAD_PLACEHOLDER": "CSV फाइल अपलोड करें",
-      "VALIDATION": {
-        "EXTERNAL_ID": "अवैध बाह्य आईडी, 1 से 40 अक्षरों के बीच होनी चाहिए।",
-        "FILE_ROW_LIMIT_EXCEEDED": "फ़ाइल पंक्ति सीमा पार हो गई। एक फ़ाइल से अपलोड किए जा सकने वाले सेंसरों की अधिकतम संख्या 100 है।",
-        "MISSING_COLUMNS": "कॉलम आवश्यक/अनुपस्थित हैं।",
-        "SENSOR_BRAND": "अवैध ब्रांड नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_DEPTH": "अवैध गहराई मान, 0 से 1000 के बीच होना चाहिए।",
-        "SENSOR_HARDWARE_VERSION": "अवैध हार्डवेयर संस्करण नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_LATITUDE": "अवैध अक्षांश मान, -85 से 85 के बीच और 10 दशमलव से कम होना चाहिए।",
-        "SENSOR_LONGITUDE": "अवैध देशांतर मान, -180 से 180 के बीच और 10 दशमलव से कम होना चाहिए।",
-        "SENSOR_MODEL": "अवैध मॉडल नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_NAME": "अवैध सेंसर नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_READING_TYPES": "अवैध पठन प्रकार पाया गया: {{ reading_types }}। मान्य मानों में शामिल हैं: {{ allowed_reading_types }}।"
-      }
-    },
-    "BULK_UPLOAD_TRANSITION": {
-      "BODY": "आपका अपलोड पूरा होने के बाद हम आपको सूचित करेंगे और आपके सेंसर बनाए जाएंगे। आप इस विंडो से दूर जा सकते हैं।",
-      "TITLE": "यह उम्मीद से अधिक समय ले रहा है..."
-    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "समारोह क्षेत्र संपादित करें",
       "NAME": "समारोह क्षेत्र का नाम",
@@ -797,6 +793,7 @@
       "ZERO_AREA_DETECTED": "क्षेत्रफल के बिना क्षेत्र पाया गया। कृपया और अधिक बिंदु जोड़ें या फिर से खींचें।",
       "ZERO_LENGTH_DETECTED": "लंबाई के बिना रेखा पाई गई। कृपया फिर से खींचें।"
     },
+    "EXPORT_MAP": "",
     "EXPORT_MODAL": {
       "BODY": "आप अपने फार्म मानचित्र को कैसे निर्यात करना चाहते हैं?",
       "DOWNLOAD": "डाउनलोड करें",
@@ -826,6 +823,7 @@
       "TITLE": "खेत जोड़ें",
       "TRANSITIONING": "संक्रमणकालीन"
     },
+    "FILTER_MAP": "",
     "GARDEN": {
       "DATE": "पात्र संक्रमण तिथि",
       "EDIT_TITLE": "बगीचा संपादित करें",
@@ -861,7 +859,6 @@
       "WATERCOURSE": "जलमार्ग",
       "WATERCOURSE_TITLE": "निम्नलिखित चौड़ाई क्या हैं?"
     },
-    "LOCATION_CREATION_FLOW": "स्थान निर्माण",
     "MAP_FILTER": {
       "ADD_TITLE": "अपने नक्शे में जोड़ें",
       "AREAS": "क्षेत्र",
@@ -887,6 +884,7 @@
       "SATELLITE": "उपग्रह पृष्ठभूमि",
       "SENSOR": "सेंसर",
       "SHOW_ALL": "सभी दिखाएं",
+      "SOIL_SAMPLE_LOCATION": "",
       "SURFACE_WATER": "सतही जल",
       "TITLE": "अपना नक्शा फ़िल्टर करें",
       "WATER_VALVE": "जल वाल्व",
@@ -903,6 +901,13 @@
       "EDIT_TITLE": "निवास संपादित करें",
       "NAME": "निवास का नाम",
       "TITLE": "निवास जोड़ें"
+    },
+    "SOIL_SAMPLE_LOCATION": {
+      "EDIT_TITLE": "",
+      "LATITUDE": "",
+      "LONGITUDE": "",
+      "NAME": "",
+      "TITLE": ""
     },
     "SPOTLIGHT": {
       "ADD": "अपने नक्शे में स्थान जोड़ें",
@@ -922,7 +927,8 @@
     "TAB": {
       "CROPS": "फसलें",
       "DETAILS": "विवरण",
-      "READINGS": "रीडिंग्स",
+      "FIELD_TECHNOLOGY": "",
+      "IRRIGATION": "",
       "TASKS": "कार्य"
     },
     "TITLE": "फार्म का नक्शा",
@@ -1056,7 +1062,6 @@
     "ATTACHMENT_LABEL": "स्क्रीनशॉट या फाइल अपलोड करें",
     "EMAIL": "ईमेल",
     "FEEDBACK_INVITATION": "मदद प्राप्त करें या हमें प्रतिक्रिया दें",
-    "SEND_US_FEEDBACK": "हमें अपनी प्रतिक्रिया भेजें",
     "MESSAGE_LABEL": "संदेश",
     "OPTIONS": {
       "OTHER": "कुछ और",
@@ -1066,6 +1071,7 @@
     },
     "PREFERRED_CONTACT": "पसंदीदा संपर्क विधि",
     "REQUIRED_LABEL": "आवश्यक फील्ड",
+    "SEND_US_FEEDBACK": "हमें अपनी प्रतिक्रिया भेजें",
     "TYPE_SUPPORT_LABEL": "समर्थन का प्रकार",
     "TYPE_SUPPORT_PLACEHOLDER": "समर्थन का प्रकार चुनें",
     "WHATSAPP": "व्हाट्सएप",
@@ -1177,6 +1183,23 @@
     "WAGE": "प्रति घंटा मजदूरी",
     "WAGE_ERROR": "मजदूरी एक मान्य, नकारात्मक दशमलव संख्या होनी चाहिए",
     "WAGE_RANGE_ERROR": "वेतन एक सकारात्मक संख्या होनी चाहिए जो 999,999,999 से कम हो"
+  },
+  "IRRIGATION_PRESCRIPTION": {
+    "APPLICATION_DEPTH": "",
+    "APPROVE_AND_CREATE_TASK": "",
+    "DATA_FROM": "",
+    "ESTIMATED_WATER_CONSUMPTION": "",
+    "ET_RATE": "",
+    "IRRIGATION_PRESCRIPTION_FILES": "",
+    "IRRIGATION_PRESCRIPTIONS": "",
+    "IRRIGATION_ZONE": "",
+    "PRESCRIPTION_DATE": "",
+    "SOIL_MOISTURE_DEFICIT": "",
+    "START_DATE": "",
+    "START_TIME": "",
+    "TASK_STATUS": "",
+    "TITLE": "",
+    "ZONE": ""
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "आइए आपको कुछ महत्वपूर्ण चीजें दिखाते हैं!",
@@ -1316,7 +1339,6 @@
     "IS_TRANSPLANT": "क्या इस फसल का प्रत्यारोपण किया जाएगा?",
     "KNOW_HOW_IS_CROP_PLANTED": "क्या आपको पता है कि फसल कैसे लगाई गई थी?",
     "LOCATION_SUBTEXT": "केवल वही स्थान दिखाए जाते हैं जहाँ फसलें उगाई जा सकती हैं।",
-    "MANAGEMENT_PLAN_FLOW": "फसल योजना निर्माण",
     "MANAGEMENT_SPOTLIGHT_1": "इस फसल के लिए नई योजनाएँ बनाएं",
     "MANAGEMENT_SPOTLIGHT_2": "इस फसल के लिए योजनाएँ देखें और संशोधित करें",
     "MANAGEMENT_SPOTLIGHT_3": "कार्य बनाएं और असाइन करें",
@@ -1449,16 +1471,12 @@
       "BODY": "आज आपके कार्य निर्धारित हैं।",
       "TITLE": "आज के कार्य निर्धारित"
     },
+    "NEW_IRRIGATION_PRESCRIPTION": {
+      "BODY": "",
+      "TITLE": ""
+    },
     "NONE_TO_DISPLAY": "दिखाने के लिए कोई अधिसूचनाएं नहीं हैं।",
     "PAGE_TITLE": "अधिसूचनाएं",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "आपके सेंसर अपलोड में कुछ त्रुटियाँ हैं। विवरण देखने के लिए 'मुझे वहाँ ले चलें' पर क्लिक करें।",
-      "TITLE": "सेंसर अपलोड त्रुटियाँ"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "आपका सेंसर अपलोड सफलतापूर्वक पूरा हो गया है।",
-      "TITLE": "सेंसर अपलोड पूरा हुआ"
-    },
     "TAKE_ME_THERE": "मुझे वहाँ ले चलें",
     "TASK_ABANDONED": {
       "BODY": "आपको सौंपा गया एक {{taskType}} कार्य {{abandoner}} द्वारा छोड़ दिया गया है।",
@@ -1553,6 +1571,7 @@
       "USER_ADDRESS_LENGTH": "उपयोगकर्ता का पता 255 अक्षरों से अधिक नहीं हो सकता"
     },
     "FARM": {
+      "ADDONS": "",
       "ADDRESS": "पता",
       "CHANGE_IMAGE": "छवि बदलें",
       "CLICK_TO_UPLOAD": "अपलोड करने के लिए क्लिक करें",
@@ -1649,7 +1668,6 @@
     "REPEAT_EVERY": "दोहराएं, हर",
     "REPEAT_LIMIT_ERROR": "इस योजना को 20 बार से अधिक दोहराया नहीं जा सकता",
     "REPEAT_ON": "इस दिन पर दोहराएं",
-    "REPEAT_PLAN_FLOW": "फसल योजना दोहराव",
     "REPETITIONS": "दोहराव",
     "REPETITIONS_OF": "{{planName}} के दोहराव",
     "START_DATE": "शुरुआत",
@@ -1777,93 +1795,65 @@
     "ANIMALS_LOCATION": "जानवर स्थान"
   },
   "SENSOR": {
-    "BRAND": "ब्रांड",
-    "BRAND_HELPTEXT": "नीचे वे ब्रांड दिखाए गए हैं जिनके साथ लाइटफार्म को एकीकृत किया जा सकता है। यदि आप इस सेंसर ब्रांड का उपयोग करना बंद करना चाहते हैं, तो इसके बजाय इस सेंसर को सेवानिवृत्त करने का प्रयास करें।",
+    "ARRAY": "",
     "DAYS_AGO": "{{time}} दिन पहले",
     "DEPTH": "गहराई",
     "DETAIL": {
-      "BRAND": "ब्रांड",
-      "BRAND_TOOLTIP": "नीचे वे ब्रांड दिखाए गए हैं जिनके साथ लाइटफार्म को एकीकृत किया जा सकता है। यदि आप इस सेंसर ब्रांड का उपयोग करना बंद करना चाहते हैं, तो इसके बजाय इस सेंसर को सेवानिवृत्त करने का प्रयास करें।",
-      "DEPTH": "गहराई",
-      "EDIT": "संपादित करें",
-      "EXTERNAL_ID_TOOLTIP": "यह आईडी इस सेंसर को अन्य एकीकृत प्रणालियों में विशिष्ट रूप से पहचानने के लिए उपयोग की जाती है और इसे बदला नहीं जा सकता। यदि इसका उपयोग नहीं किया जा रहा है, तो इस सेंसर को सेवानिवृत्त करने और एक नया जोड़ने का प्रयास करें।",
-      "EXTERNAL_IDENTIFIER": "बाहरी पहचानकर्ता",
-      "LATITUDE": "अक्षांश",
-      "LONGITUDE": "देशांतर",
-      "MODEL": "मॉडल",
-      "NAME": "सेंसर का नाम",
-      "RETIRE": "सेवानिवृत्त करें"
+      "ADD_SENSORS": "",
+      "DETECTED_FIELD": "",
+      "DEVICE_TYPE": ""
     },
-    "EXTERNAL_IDENTIFIER": "बाहरी पहचानकर्ता",
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "",
+      "IR_TEMPERATURE_SENSOR": "",
+      "SOIL_WATER_POTENTIAL_SENSOR": "",
+      "WEATHER_STATION": "",
+      "WIND_SPEED_SENSOR": ""
+    },
+    "ESCI": {
+      "ACTIVE_CONNECTION": "",
+      "CONNECT_NEW_SENSOR": "",
+      "CURRENT_SUPPORT": "",
+      "ENSEMBLE_ESID": "",
+      "ENTER_ID": "",
+      "MANAGE_LINK": "",
+      "NAME": "",
+      "ORGANISATION_ID": "",
+      "ORGANISATION_ID_ERROR": "",
+      "ORGANISATION_ID_GENERIC_ERROR": "",
+      "SEE_ENSEMBLE_SENSOR_LIST": "",
+      "SHORT_NAME": "",
+      "TO_MANAGE_SENSORS": ""
+    },
     "HOURS_AGO": "{{time}} घंटे पहले",
-    "LAST_UPDATED": "तिम अपडेट {{latestReadingUpdate}}",
-    "LATITUDE": "अक्षांश",
-    "LONGTITUDE": "देशांतर",
     "MINUTES_AGO": "{{time}} मिनट पहले",
-    "MODAL": {
-      "BODY": "\"इस सेंसर के लिए पढ़ने के प्रकार बदलने से LiteFarm क्या पढ़ सकता है, उसमें संशोधन होगा। क्या आप जारी रखना चाहते हैं?",
-      "TITLE": "पढ़ने के प्रकार बदलें?"
-    },
-    "MODEL": "मॉडल",
-    "MODEL_HELPTEXT": "यह आईडी इस सेंसर को अन्य एकीकृत प्रणालियों में विशिष्ट रूप से पहचानने के लिए उपयोग की जाती है और इसे बदला नहीं जा सकता। यदि इसका उपयोग नहीं किया जा रहा है, तो इस सेंसर को सेवानिवृत्त करने और एक नया जोड़ने का प्रयास करें।",
     "MONTHS_AGO": "{{time}} महीने पहले",
-    "NO_DATA": "(कोई डेटा नहीं)",
     "NO_DATA_FOUND": "कोई सेंसर रीडिंग नहीं मिली",
+    "NO_RECENT_SENSOR_READINGS": "",
+    "PARTNER_SENSOR_LIST": "",
     "READING": {
+      "BAROMETRIC_PRESSURE": "",
+      "CUMULATIVE_RAINFALL": "",
+      "LATEST_READING": "",
+      "RAINFALL_RATE": "",
+      "RELATIVE_HUMIDITY": "",
       "SOIL_WATER_CONTENT": "मिट्टी का जल सामग्री",
       "SOIL_WATER_POTENTIAL": "मिट्टी का जल संभाव्यता",
+      "SOLAR_RADIATION": "",
       "TEMPERATURE": "तापमान",
       "TYPES": "रीडिंग प्रकार",
-      "UNKNOWN": "अज्ञात"
-    },
-    "READINGS_PREVIEW": {
-      "SOIL_WATER_POTENTIAL": "वर्तमान मिट्टी की जल संभाव्यता",
-      "TEMPERATURE": "वर्तमान मिट्टी का तापमान"
-    },
-    "RETIRE": {
-      "BODY": "इस सेंसर को सेवानिवृत्त करने से यह और इससे संबंधित सभी रीडिंग्स आपके फार्म से हटा दी जाएंगी, और सेंसर प्रदाता के साथ किसी भी कनेक्शन को बंद कर दिया जाएगा। क्या आप जारी रखना चाहते हैं?",
-      "CANCEL": "रद्द करें",
-      "RETIRE": "सेवानिवृत्त करें",
-      "RETIRE_FAILURE": "सेंसर को सेवानिवृत्त करने में त्रुटि हुई",
-      "RETIRE_SUCCESS": "सेंसर को सफलतापूर्वक सेवानिवृत्त किया गया",
-      "TITLE": "सेंसर सेवानिवृत्त करें?"
+      "UNKNOWN": "अज्ञात",
+      "UPDATE_READINGS": "",
+      "WATER_PRESSURE": "",
+      "WIND_DIRECTION": "",
+      "WIND_SPEED": "",
+      "WIND_SPEED_AND_DIRECTION": ""
     },
     "SECONDS_AGO": "{{time}} सेकंड पहले",
-    "SENSOR_FORECAST": {
-      "HIGH_AND_LOW_TEMPERATURE": "उच्च और निम्न तापमान: {{high}}{{unit}} / {{low}}{{unit}}",
-      "TITLE": "आज का पूर्वानुमान",
-      "WEATHER_STATION": "मौसम स्टेशन: {{weatherStationLocation}}"
-    },
-    "SENSOR_NAME": "सेंसर का नाम",
-    "SENSOR_READING_CHART_SPOTLIGHT": {
-      "CONTENT": "यहां उनके लेबल पर क्लिक करके व्यक्तिगत सेंसर को दिखाया या छुपाया जा सकता है।",
-      "TITLE": "श्रृंखला छिपाई जा सकती है"
-    },
-    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "मिट्टी की जल सामग्री",
-      "Y_AXIS_LABEL": "{{units}} में"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "किलोपास्कल (kPa)",
-      "PSI": "पाउंड प्रति वर्ग इंच (psi)",
-      "TITLE": "मिट्टी की जल संभाव्यता",
-      "Y_AXIS_LABEL": "{{units}} में"
-    },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "के लिए परिवेश का तापमान",
-      "C": "सेल्सियस (°C)",
-      "F": "फारेनहाइट (°F)",
-      "TITLE": "मिट्टी का तापमान",
-      "Y_AXIS_LABEL": "{{units}} में"
-    },
-    "VALIDATION": {
-      "READING_TYPES": "सेंसर रीडिंग प्रकार आवश्यक हैं"
-    },
-    "VIEW_HEADER": {
-      "DETAILS": "विवरण",
-      "READINGS": "रीडिंग्स",
-      "TASKS": "कार्य"
-    }
+    "SENSOR_ARRAY": "",
+    "SENSOR_ARRAYS": "",
+    "STANDALONE_SENSOR": "",
+    "STANDALONE_SENSORS": ""
   },
   "SIGNUP": {
     "CHANGES": "परिवर्तनों के बारे में पढ़ें",
@@ -1893,7 +1883,13 @@
   "STATUS": {
     "ACTIVE": "सक्रिय",
     "INACTIVE": "निष्क्रिय",
-    "INVITED": "आमंत्रित"
+    "INVITED": "आमंत्रित",
+    "OFFLINE": "",
+    "ONLINE": "",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "",
+      "ONLINE_TOOLTIP": ""
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "उत्पादित किया गया",
@@ -1951,12 +1947,11 @@
     "ADD_CUSTOM_HARVEST_USE": "एक कस्टम फसल उपयोग बनाएँ",
     "ADD_HARVEST_USE": "एक और फसल उपयोग जोड़ें",
     "ADD_TASK": "एक कार्य बनाएँ",
-    "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
+    "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",
     "ANIMALS": "जानवर",
     "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "इस कार्य को पूरा करने के लिए कम से कम एक जानवर का चयन करना आवश्यक है। सभी जानवरों को हटाने के लिए, कार्य को छोड़ दें।",
-    "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
       "MULTIPLE_LOCATIONS": "कई स्थान",
@@ -1970,7 +1965,6 @@
     "COMPLETE_TASK": "कार्य पूर्ण करें",
     "COMPLETE_TASK_CHANGES": "क्या आपको इस कार्य में कोई बदलाव करना पड़ा?",
     "COMPLETE_TASK_DURATION": "कार्य पूरा करने में कितना समय लगा?",
-    "COMPLETE_TASK_FLOW": "कार्य पूर्णता",
     "COMPLETION_DETAILS": "कार्य समाप्ति विवरण",
     "COMPLETION_NOTES": "कार्य समाप्ति नोट्स",
     "COMPLETION_NOTES_CHAR_LIMIT": "नोट्स 10,000 अक्षरों से कम होने चाहिए",
@@ -1994,6 +1988,7 @@
     "DESCRIBE_HARVEST_USE": "फसल उपयोग का वर्णन करें",
     "DETAILS": "विवरण",
     "DID_YOU_ENJOY": "क्या आपको यह कार्य पसंद आया?",
+    "DID_YOU_GET_RESULTS": "",
     "DUE_DATE": "नियत तिथि",
     "DURATION": "अवधि",
     "FILTER": {
@@ -2015,6 +2010,7 @@
     "HARVEST_USE_ALREADY_EXISTS": "फसल उपयोग पहले से मौजूद है",
     "HOW_WILL_HARVEST_BE_USED": "फसल का उपयोग कैसे किया जाएगा?",
     "IRRIGATION_LOCATION": "एक सिंचाई स्थान चुनें",
+    "LAB_DOCUMENTS": "",
     "LOCATIONS": "स्थान(ओं)",
     "NO_LOCATIONS_FOR_TASK": "इस कार्य के लिए किसी विशेष स्थान की आवश्यकता नहीं है।",
     "NO_TASKS_TO_DISPLAY": "दिखाने के लिए कोई कार्य नहीं हैं।",
@@ -2030,6 +2026,7 @@
     "SELECT_TASK_LOCATIONS": "कार्य स्थान(ओं) का चयन करें",
     "SELECT_WILD_CROP": "यह कार्य एक जंगली फसल को लक्षित करता है",
     "SOIL_AMENDMENT_LOCATION": "मृदा सुधार स्थान(ओं) का चयन करें",
+    "SOIL_SAMPLING_LOCATION": "",
     "STATUS": {
       "ABANDONED": "छोड़ा हुआ",
       "COMPLETED": "पूरा हुआ",
@@ -2042,7 +2039,8 @@
     "TASKS_COUNT_other": "{{count}} कार्य",
     "TRANSPLANT": "प्रतिरोपण",
     "TRANSPLANT_LOCATIONS": "प्रतिरोपण स्थान का चयन करें",
-    "UNASSIGNED": "सौंपा नहीं गया"
+    "UNASSIGNED": "सौंपा नहीं गया",
+    "UPLOAD_LAB_DOCUMENT": ""
   },
   "UNIT": {
     "TIME": {
@@ -2080,11 +2078,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "वर्ष चुनें"
-  },
-  "BADGE": {
-    "BETA": {
-      "TITLE": "बीटा",
-      "ANIMALS_CONTENT": "हमारी नई जानवर प्रबंधन सुविधा पर एक नज़र डालें—अब बीटा में! इस सुविधा को परिष्कृत करने के लिए आपकी प्रतिक्रिया बहुत महत्वपूर्ण है। कृपया किसी भी बग या सुझाव को साझा करें जो आप पाते हैं। लाइटफार्म को बेहतर बनाने में मदद के लिए हम आपके आभारी हैं! बीटा के बारे में और जानने के लिए <a>यहां</a> क्लिक करें।"
-    }
   }
 }

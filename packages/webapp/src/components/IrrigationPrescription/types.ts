@@ -15,7 +15,10 @@
 
 import { Point } from '../../util/geoUtils';
 import { SensorReadingTypeUnits } from '../../store/api/types';
-
+import {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../util/convert-units/extendedMeasures';
 export interface UriPrescriptionData {
   soil_moisture_deficit: number;
   application_depth: number;
@@ -53,17 +56,17 @@ export type IrrigationPrescription = {
       cumulative_rainfall: number;
       cumulative_rainfall_unit: SensorReadingTypeUnits;
       et_rate: number;
-      et_rate_unit: string;
+      et_rate_unit: EvapotranspirationRateUnits;
       weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code if available
     };
   };
 
   estimated_time: number;
-  estimated_time_unit: string;
+  estimated_time_unit: EstimatedTimeUnits;
 
   // calculated by the backend
   estimated_water_consumption: number;
-  estimated_water_consumption_unit: string;
+  estimated_water_consumption_unit: WaterConsumptionUnits;
 
   // TODO: confirm with product if we are indeed getting only URI or VRI data per prescription
   prescription:
@@ -76,3 +79,19 @@ export type IrrigationPrescription = {
         uriData?: never;
       };
 };
+
+export type EstimatedTimeUnits = 'h';
+
+export type IrrigationPrescriptionDataTypes =
+  | 'temperature'
+  | 'wind_speed'
+  | 'cumulative_rainfall'
+  | 'et_rate'
+  | 'estimated_time'
+  | 'estimated_water_consumption';
+
+export type IrrigationPrescriptionDataTypeUnits =
+  | SensorReadingTypeUnits
+  | EvapotranspirationRateUnits
+  | WaterConsumptionUnits
+  | EstimatedTimeUnits;

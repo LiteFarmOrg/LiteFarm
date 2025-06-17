@@ -29,7 +29,10 @@ import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
-import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import type {
+  EstimatedTimeUnits,
+  IrrigationPrescription,
+} from '../../components/IrrigationPrescription/types';
 import { SensorReadingTypeUnits } from '../../store/api/types';
 import {
   mockField,
@@ -37,6 +40,10 @@ import {
   mockVriZones,
   mockPivot,
 } from '../../stories/IrrigationPrescription/mockData';
+import {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../util/convert-units/extendedMeasures';
 
 interface RouteParams {
   ip_pk: string;
@@ -85,14 +92,14 @@ const IrrigationPrescription = ({
         cumulative_rainfall: 5,
         cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
-        et_rate_unit: 'mm/h',
+        et_rate_unit: 'mm/h' as EvapotranspirationRateUnits,
         weather_icon_code: '02d',
       },
     },
     estimated_time: 2,
-    estimated_time_unit: 'h',
-    estimated_water_consumption: 100,
-    estimated_water_consumption_unit: 'l',
+    estimated_time_unit: 'h' as EstimatedTimeUnits,
+    estimated_water_consumption: 600000,
+    estimated_water_consumption_unit: 'l' as WaterConsumptionUnits,
   };
 
   const irrigationPrescription: IrrigationPrescription =

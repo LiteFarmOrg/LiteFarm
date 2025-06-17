@@ -91,7 +91,7 @@ function TaskReadOnly({ history, match, location }) {
       },
       estimated_time: 2,
       estimated_time_unit: 'h',
-      estimated_water_consumption: 100,
+      estimated_water_consumption: 600000,
       estimated_water_consumption_unit: 'l',
     };
 

@@ -112,6 +112,17 @@ export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
     },
     baseUnit: 'C',
   },
+  soil_water_potential: {
+    metric: {
+      unit: 'kPa',
+      displayUnit: 'kPa',
+    },
+    imperial: {
+      unit: 'psi',
+      displayUnit: 'psi',
+    },
+    baseUnit: 'kPa',
+  },
   wind_speed: {
     metric: {
       unit: 'km/h',

@@ -34,11 +34,11 @@ router.post(
   timeNotificationController.postDailyDueTodayTasks,
 );
 
-router.post(
-  '/new_irrigation_prescription/:farm_id',
-  checkSchedulerJwt,
-  checkSchedulerPermission('requestTimedNotifications'),
-  timeNotificationController.postDailyNewIrrigationPrescriptions,
-);
+// router.post(
+//   '/new_irrigation_prescription/:farm_id',
+//   checkSchedulerJwt,
+//   checkSchedulerPermission('requestTimedNotifications'),
+//   timeNotificationController.postDailyNewIrrigationPrescriptions,
+// );
 
 export default router;

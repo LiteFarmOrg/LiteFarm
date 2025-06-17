@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useGetIrrigationPrescriptionsQuery } from '../../../store/api/apiSlice';
+// import { useGetIrrigationPrescriptionsQuery } from '../../../store/api/apiSlice';
 import { Location, Task } from '../../../types';
 import { IrrigationPrescription } from '../../../store/api/types';
 import { useSelector } from 'react-redux';
@@ -29,7 +29,8 @@ export default function useIrrigationPrescriptions(location?: Location) {
     return [];
   }
 
-  const { data = [] } = useGetIrrigationPrescriptionsQuery();
+  // const { data = [] } = useGetIrrigationPrescriptionsQuery();
+  const data: IrrigationPrescription[] = [];
   const tasks = useSelector(tasksSelector);
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];

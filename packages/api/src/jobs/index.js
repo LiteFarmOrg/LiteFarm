@@ -16,7 +16,7 @@
 import './loadEnv.js';
 import sendOnSchedule from './notifications/index.js';
 import processExports from './certification/index.js';
-import scheduleApiRequests from './requests/index.js';
+// import scheduleApiRequests from './requests/index.js';
 import logger from '../common/logger.js';
 
 const redisConf = {
@@ -31,4 +31,4 @@ logger.info('starting job scheduler');
 
 processExports(redisConf);
 sendOnSchedule(redisConf);
-scheduleApiRequests();
+// scheduleApiRequests();

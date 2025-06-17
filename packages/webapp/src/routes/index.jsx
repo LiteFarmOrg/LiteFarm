@@ -31,7 +31,7 @@ import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 import {
   ADD_SENSORS_URL,
-  IRRIGATION_PRESCRIPTION_URL,
+  // IRRIGATION_PRESCRIPTION_URL,
   SENSORS_URL,
 } from '../util/siteMapConstants';
 
@@ -284,7 +284,7 @@ const TaskContainerMethod = React.lazy(() =>
 );
 const SensorList = React.lazy(() => import('../containers/SensorList'));
 const SensorReadings = React.lazy(() => import('../containers/SensorReadings/v2'));
-const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
+// const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('../containers/Notification/NotificationReadOnly'),
@@ -664,13 +664,13 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
-            <Route
+            {/* <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
               render={(props) => (
                 <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
-            />
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -1000,13 +1000,13 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
-            <Route
+            {/* <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
               render={(props) => (
                 <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
-            />
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -1134,13 +1134,13 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
               exact
               render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
-            <Route
+            {/* <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
               render={(props) => (
                 <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
               )}
-            />
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

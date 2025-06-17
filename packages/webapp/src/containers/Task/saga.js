@@ -663,9 +663,9 @@ export function* createTaskSaga({ payload }) {
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
-      if (task_translation_key === 'IRRIGATION_TASK') {
-        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
-      }
+      // if (task_translation_key === 'IRRIGATION_TASK') {
+      //   yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      // }
       if (alreadyCompleted) {
         const isCustomTaskWithAnimals =
           isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
@@ -1025,9 +1025,9 @@ export function* deleteTaskSaga({ payload: data }) {
         yield put(deleteTransplantTaskSuccess(result.data.task_id));
       }
       yield put(deleteTaskSuccess(result.data));
-      if (task_type.task_translation_key === 'IRRIGATION_TASK') {
-        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
-      }
+      // if (task_type.task_translation_key === 'IRRIGATION_TASK') {
+      //   yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      // }
       yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
     }
   } catch (e) {

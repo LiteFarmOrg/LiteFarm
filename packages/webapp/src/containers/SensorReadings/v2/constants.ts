@@ -14,6 +14,10 @@
  */
 
 import { colors } from '../../../assets/theme';
+import {
+  IrrigationPrescriptionDataTypes,
+  IrrigationPrescriptionDataTypeUnits,
+} from '../../../components/IrrigationPrescription/types';
 import type {
   SensorReadingTypes,
   SensorReadingTypeUnits,
@@ -93,14 +97,19 @@ interface UnitType {
     unit: ExtendedMeasureUnits;
     displayUnit: string;
   };
-  baseUnit: Extract<SensorReadingTypeUnits, ExtendedMeasureUnits>;
+  baseUnit: Extract<
+    SensorReadingTypeUnits | IrrigationPrescriptionDataTypeUnits,
+    ExtendedMeasureUnits
+  >;
 }
 
 // Mapping of sensor reading types that require unit conversion.
 // (baseUnit refers to the unit sent by ESci)
 // We use psi for water pressure, as it's commonly used in Canada,
 // even though the metric system is generally used.
-export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
+export const esciUnitTypeMap: Partial<
+  Record<SensorReadingTypes | IrrigationPrescriptionDataTypes, UnitType>
+> = {
   temperature: {
     metric: {
       unit: 'C',
@@ -144,5 +153,27 @@ export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
       displayUnit: 'in/h',
     },
     baseUnit: 'mm',
+  },
+  et_rate: {
+    metric: {
+      unit: 'mm/h',
+      displayUnit: 'mm/h',
+    },
+    imperial: {
+      unit: 'in/d',
+      displayUnit: 'in/d',
+    },
+    baseUnit: 'mm/h',
+  },
+  estimated_water_consumption: {
+    metric: {
+      unit: 'l',
+      displayUnit: 'L',
+    },
+    imperial: {
+      unit: 'ac⋅ft',
+      displayUnit: 'AF',
+    },
+    baseUnit: 'l',
   },
 };

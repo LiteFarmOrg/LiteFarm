@@ -1,7 +1,6 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Tiere hinzufügen",
-    "ADD_ANIMALS_FLOW": "Hinzufügen von Tieren",
     "ADD_ANIMALS_TITLE": "Tiere Hinzufügen",
     "ADD_DETAILS_INFO": "Füllen Sie unterhalb Ihre Tierdaten aus oder speichern Sie sie und machen Sie später weiter.",
     "ADD_TO_INVENTORY": "Fügen Sie Tiere zu Ihrem Bestand hinzu",
@@ -116,7 +115,6 @@
     "ASSIGN_DATE": "Aufgabendatum ändern",
     "ASSIGN_TASK": "Aufgabe zuweisen",
     "ASSIGNEE": "Beauftragter",
-    "CANCEL": "Aufgabenerstellung",
     "CANT_FIND_INFO_TASK": "Sie können auch Ihre eigenen benutzerdefinierten Aufgabentypen erstellen!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Geschätzter Wasserverbrauch",
@@ -311,7 +309,6 @@
     },
     "BATCH": "Charge",
     "BETA_SPOTLIGHT_HEADING": "Einführung der neuen Tierfunktion",
-    "EDIT_ANIMAL_FLOW": "bearbeite",
     "FILTER": {
       "BATCHES": "Chargen",
       "BATCHES_OR_INDIVIDUALS": "Chargen oder Einzeltiere",
@@ -328,6 +325,12 @@
     "TABS": {
       "BASIC_INFO": "Grundinfo",
       "TASKS": "Aufgaben"
+    }
+  },
+  "BADGE": {
+    "BETA": {
+      "ANIMALS_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>",
+      "TITLE": "Beta"
     }
   },
   "BED_PLAN": {
@@ -347,8 +350,7 @@
     "SEEDING_RATE": "Aussaatmenge"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Alle von Ihnen eingegebenen Informationen werden verworfen. Möchten Sie fortfahren?",
-    "TITLE": "Ihr {{flow}} abbrechen?"
+    "BODY": "Alle von Ihnen eingegebenen Informationen werden verworfen. Möchten Sie fortfahren?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -409,7 +411,6 @@
     "EXPORT_DOWNLOADING_MESSAGE": "Herunterladen Ihrer Bio-Zertifizierungsdateien ...",
     "EXPORT_FILE_TITLE": "Bio-Zertifizierung",
     "FILES_ARE_READY": "Ihre Zertifizierungsdateien sind jetzt bereit zum Export. Wir schicken sie Ihnen an:",
-    "FLOW_TITLE": "Export von Zertifizierungsdokumenten",
     "GOOD_NEWS": "Gute Nachrichten!",
     "HAVE_ALL_INFO": "Es sieht so aus, als ob LiteFarm alle Informationen hat, die wir für die Bearbeitung Ihrer Zertifizierungsunterlagen benötigen. Wir schicken sie Ihnen zu:",
     "NEXT_WE_WILL_CHECK": "Als Nächstes überprüfen wir, ob Ihr Zertifizierer zusätzliche Informationen benötigt, um Ihren Zertifizierungsantrag zu bearbeiten.",
@@ -465,7 +466,7 @@
   "CROP": {
     "ADD_CROP": "Kulturpflanze hinzufügen",
     "ADD_IMAGE": "Benutzerdefiniertes Bild hinzufügen",
-    "ANNUAL": "Jährlich",
+    "ANNUAL": "Einjährig",
     "ANNUAL_OR_PERENNIAL": "Handelt es sich um eine einjährige oder mehrjährige Pflanze?",
     "CULTIVAR_PLACEHOLDER": "Beispiel. Red Delicious",
     "CULTIVAR_SUBTEXT": "Erfahren Sie mehr über Sorten",
@@ -502,7 +503,6 @@
     "ADD_CROPS_T0_YOUR_FARM": "Ihrem Betrieb Pflanzen hinzufügen",
     "ADD_TO_YOUR_FARM": "Zu Ihrem Betrieb hinzufügen",
     "CAN_NOT_FIND": "Können Sie nicht finden, was Sie suchen?",
-    "CANCEL": "Schaffung von Kulturpflanzen",
     "COVER_CROP": "Kann dies als Deckfrucht angebaut werden?",
     "CREATE_MANAGEMENT_PLANS": "Anbaupläne erstellen",
     "CROP_CATALOGUE": "Kulturpflanzen-Katalog",
@@ -530,7 +530,7 @@
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Plan hinzufügen",
-    "ANNUAL": "Jährlich",
+    "ANNUAL": "Einjährig",
     "ANNUAL_PERENNIAL": "Handelt es sich um eine einjährige oder mehrjährige Pflanze?",
     "COMMERCIAL_AVAILABILITY": "Haben Sie eine Recherche zur kommerziellen Verfügbarkeit durchgeführt?",
     "DETAIL_TAB": "Details",
@@ -617,7 +617,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "Wenn Sie dieses Dokument archivieren, wird es in den archivierten Bereich Ihrer Dokumente verschoben, aber nicht gelöscht. Archivierte Dokumente werden nicht für Ihre Zertifizierungen exportiert. Möchten Sie fortfahren?",
     "ARCHIVED": "Archiviert",
     "CANCEL": "Abbrechen",
-    "CANCEL_MODAL": "Dokumentenerstellung",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Dokumente zur Einhaltung von Vorschriften und Ihre Zertifizierung",
     "DOCUMENTS": "Dokumente",
     "EDIT_DOCUMENT": "Dokument bearbeiten",
@@ -679,7 +678,6 @@
       "CUSTOM_EXPENSE_TYPE": "Benutzerdefinierte Ausgabenart",
       "DUPLICATE_NAME": "Eine Kostenart mit diesem Namen existiert bereits. Bitte wählen Sie eine andere.",
       "DUPLICATE_NAME_RETIRED": "Es gibt bereits eine ausgeschiedene Ausgabenart mit diesem Namen. Bitte wählen Sie eine andere.",
-      "FLOW": "Erstellung von Kosten",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Verwalten von benutzerdefinierten Ausgabentypen",
       "NEW_EXPENSE_ITEM": "Neuer Ausgabenposten",
       "TITLE": "Kosten hinzufügen",
@@ -732,56 +730,6 @@
       "NAME": "Name der Pufferzone",
       "TITLE": "Pufferzone hinzufügen",
       "WIDTH": "Breite der Pufferzone"
-    },
-    "BULK_UPLOAD_SENSORS": {
-      "DOWNLOAD_FILE": {
-        "DEFAULT": "Es ist ein Fehler aufgetreten. Bitte kontaktieren Sie support@litefarm.org für Hilfe.",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "Sie sollten jetzt auf Ihrer Hofkarte sichtbar sein. Diese Sensoren werden in zukünftigen Uploads ignoriert\n\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "Die folgenden Sensoren in Ihrer Datei wurden erfolgreich hochgeladen oder sind bereits auf Ihrem Betrieb vorhanden:\n\n",
-        "ROW": "[Reihe:{{ row }}][Spalte:{{ column }}]{{- errorMessage }} {{ value }}\n",
-        "SOME_ERRORS": "Leider sind beim Hochladen einige Fehler aufgetreten:\n\n"
-      },
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Klicken Sie hier, um die Vorlage herunterzuladen",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Keine Sensoren gefunden, bitte überprüfen Sie Ihren Upload und versuchen Sie es erneut.",
-      "INVALID_FILE_TYPE": "Die hochgeladene Datei muss eine CSV-Datei sein,",
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\"Wenn Sie bereits für eine andere Organisation registriert sind, wenden Sie sich bitte an den Ensemble-Support unter support@esci.io, um das Problem zu lösen.",
-        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" existiert nicht in der Ensemble-Datenbank. Bitte vergewissern Sie sich, dass Sie die External_ID für diesen Eintrag richtig geschrieben haben und dass der Sensor ein Ensemble-Sensor ist.",
-        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\"Der Upload ist fehlgeschlagen, bitte wenden Sie sich an den LiteFarm-Support unter support@litefarm.org, um das Problem zu lösen."
-      },
-      "SENSOR_FIELDS": {
-        "BRAND": "Marke",
-        "DEPTH": "Tiefe_cm",
-        "LATITUDE": "Breitengrad",
-        "LONGITUDE": "Längengrad",
-        "MODEL": "Modell",
-        "NAME": "Name",
-        "READING_TYPES": "Lesen_Typen",
-        "SENSOR_EXTERNAL_ID": "Externe_ID"
-      },
-      "TITLE": "Sensoren zur Karte hinzufügen",
-      "UPLOAD_ERROR_LINK": "Klicken Sie hier, um sie zu sehen.",
-      "UPLOAD_ERROR_MESSAGE": "Es gab einige Probleme mit dem Upload. ",
-      "UPLOAD_INSTRUCTION_MESSAGE": "für die korrekte Formatierung.",
-      "UPLOAD_LINK_MESSAGE": "Diese Vorlage herunterladen",
-      "UPLOAD_PLACEHOLDER": "CSV-Datei hochladen",
-      "VALIDATION": {
-        "EXTERNAL_ID": "Ungültige externe ID, muss zwischen 1 und 40 Zeichen lang sein.",
-        "FILE_ROW_LIMIT_EXCEEDED": "Dateireihen-Limit überschritten. Die maximale Anzahl von Sensoren, die aus einer Datei hochgeladen werden können, beträgt 100.",
-        "MISSING_COLUMNS": "Spalten sind erforderlich/fehlen.",
-        "SENSOR_BRAND": "Ungültiger Markenname, muss zwischen 1 und 100 Zeichen lang sein.",
-        "SENSOR_DEPTH": "Ungültiger Tiefenwert, muss zwischen 0 und 1000 liegen.",
-        "SENSOR_HARDWARE_VERSION": "Ungültiger Name der Hardware-Version, muss zwischen 1 und 100 Zeichen lang sein.",
-        "SENSOR_LATITUDE": "Ungültiger Breitengradwert, muss zwischen -85 und 85 liegen und weniger als 10 Dezimalstellen haben.",
-        "SENSOR_LONGITUDE": "Ungültiger Längengradwert, muss zwischen -180 und 180 liegen und weniger als 10 Dezimalstellen haben.",
-        "SENSOR_MODEL": "Ungültiger Modellname, muss zwischen 1 und 100 Zeichen lang sein.",
-        "SENSOR_NAME": "Ungültiger Sensorname, muss zwischen 1 und 100 Zeichen lang sein.",
-        "SENSOR_READING_TYPES": "Ungültiger Lesetyp erkannt:{{ reading_types }}. Gültige Werte sind: {{ allowed_reading_types }}."
-      }
-    },
-    "BULK_UPLOAD_TRANSITION": {
-      "BODY": "Wir werden Sie benachrichtigen, sobald Ihr Upload abgeschlossen ist und Ihre Sensoren erstellt wurden. Sie können dieses Fenster jederzeit verlassen.",
-      "TITLE": "Dies dauert länger als erwartet..."
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Zeremonieller Bereich bearbeiten",
@@ -861,7 +809,6 @@
       "WATERCOURSE": "Wasserlauf",
       "WATERCOURSE_TITLE": "Was sind die folgenden Breiten?"
     },
-    "LOCATION_CREATION_FLOW": "Schaffung von Standorten",
     "MAP_FILTER": {
       "ADD_TITLE": "Zu Ihrer Karte hinzufügen",
       "AREAS": "Bereiche",
@@ -887,7 +834,7 @@
       "SATELLITE": "Satellitenansicht",
       "SENSOR": "Sensor",
       "SHOW_ALL": "Alle anzeigen",
-      "SURFACE_WATER": "Oberflächenwasser",
+      "SURFACE_WATER": "Oberflächengewässer",
       "TITLE": "Filtern Sie Ihre Karte",
       "WATER_VALVE": "Wasserventil",
       "WATERCOURSE": "Wasserlauf",
@@ -914,15 +861,14 @@
       "HERE_YOU_CAN": "Hier können Sie:"
     },
     "SURFACE_WATER": {
-      "EDIT_TITLE": "Oberflächenwasser bearbeiten",
-      "IRRIGATION": "Wird dieses Gebiet zur Bewässerung genutzt?",
-      "NAME": "Name des Oberflächenwassers",
-      "TITLE": "Oberflächenwasser hinzufügen"
+      "EDIT_TITLE": "Oberflächengewässer bearbeiten",
+      "IRRIGATION": "Wird dieses Oberflächengewässer zur Bewässerung genutzt?",
+      "NAME": "Name des Oberflächengewässers",
+      "TITLE": "Oberflächengewässer hinzufügen"
     },
     "TAB": {
       "CROPS": "Kulturpflanzen",
       "DETAILS": "Details",
-      "READINGS": "Lesungen",
       "TASKS": "Aufgaben"
     },
     "TITLE": "Landwirtschaftskarte",
@@ -961,14 +907,14 @@
       "MUNICIPAL_WATER": "Kommunales Wasser",
       "NAME": "Name des Wasserventils",
       "RAIN_WATER": "Regenwasser",
-      "SURFACE_WATER": "Oberflächenwasser",
+      "SURFACE_WATER": "Oberflächengewässer",
       "TITLE": "Wasserventil hinzufügen",
       "WATER_VALVE_TYPE": "Was ist die Quelle?"
     },
     "WATERCOURSE": {
       "BUFFER": "Uferpuffer",
       "EDIT_TITLE": "Wasserlauf bearbeiten",
-      "IRRIGATION": "Wird dieses Gebiet zur Bewässerung genutzt?",
+      "IRRIGATION": "Wird dieses Oberflächengewässer zur Bewässerung genutzt?",
       "LENGTH": "Gesamtlänge",
       "NAME": "Name des Wasserlaufs",
       "TITLE": "Wasserlauf hinzufügen",
@@ -1056,7 +1002,6 @@
     "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
     "FEEDBACK_INVITATION": "Hilfe erhalten oder Feedback geben",
-    "SEND_US_FEEDBACK": "Senden Sie uns Feedback",
     "MESSAGE_LABEL": "Nachricht",
     "OPTIONS": {
       "OTHER": "Andere",
@@ -1066,6 +1011,7 @@
     },
     "PREFERRED_CONTACT": "Bevorzugte Kontaktmethode",
     "REQUIRED_LABEL": "Erforderliches Feld",
+    "SEND_US_FEEDBACK": "Senden Sie uns Feedback",
     "TYPE_SUPPORT_LABEL": "Art der Anfrage",
     "TYPE_SUPPORT_PLACEHOLDER": "Wählen Sie die Art der Unterstützung",
     "WHATSAPP": "Whatsapp",
@@ -1316,7 +1262,6 @@
     "IS_TRANSPLANT": "Wird diese Pflanze verpflanzt werden?",
     "KNOW_HOW_IS_CROP_PLANTED": "Wissen Sie, wie die Pflanze angebaut wurde?",
     "LOCATION_SUBTEXT": "Es werden nur Standorte angezeigt, an denen Nutzpflanzen angebaut werden können.",
-    "MANAGEMENT_PLAN_FLOW": "Erstellung von Anbauplänen",
     "MANAGEMENT_SPOTLIGHT_1": "Neue Pläne für diese Pflanze erstellen",
     "MANAGEMENT_SPOTLIGHT_2": "Pläne für diese Pflanze anzeigen und ändern",
     "MANAGEMENT_SPOTLIGHT_3": "Aufgaben erstellen und zuweisen",
@@ -1451,14 +1396,6 @@
     },
     "NONE_TO_DISPLAY": "Keine Benachrichtigungen.",
     "PAGE_TITLE": "Benachrichtigungen",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Ihr Sensor-Upload hat einige Fehler. Klicken Sie auf \"Bring mich hin\", um die Details zu sehen.",
-      "TITLE": "Sensor-Upload-Fehler"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Ihr Sensor-Upload wurde erfolgreich abgeschlossen.",
-      "TITLE": "Sensor-Upload abgeschlossen"
-    },
     "TAKE_ME_THERE": "Bring mich hin",
     "TASK_ABANDONED": {
       "BODY": "Eine Aufgabe von Typ {{taskType}} die Ihnen zugewiesen wurde, wurde von {{abandoner}} eingestellt.",
@@ -1649,7 +1586,6 @@
     "REPEAT_EVERY": "Wiederholen Sie jeden",
     "REPEAT_LIMIT_ERROR": "Dieser Plan kann nicht mehr als 20 Mal wiederholt werden",
     "REPEAT_ON": "Wiederholen Sie am",
-    "REPEAT_PLAN_FLOW": "Wiederholung von Anbauplänen",
     "REPETITIONS": "Wiederholungen",
     "REPETITIONS_OF": "Wiederholungen von {{planName}}",
     "START_DATE": "Beginnend",
@@ -1777,37 +1713,11 @@
     "ANIMALS_LOCATION": "Tierstandorte"
   },
   "SENSOR": {
-    "BRAND": "Marke",
-    "BRAND_HELPTEXT": "Die Marken, in die LiteFarm integriert werden kann, sind unten aufgeführt. Wenn Sie diese Sensormarke nicht mehr verwenden möchten, versuchen Sie stattdessen, diesen Sensor zu deaktivieren.",
     "DAYS_AGO": "{{time}} Tag(e) zuvor",
     "DEPTH": "Tiefe",
-    "DETAIL": {
-      "BRAND": "Marke",
-      "BRAND_TOOLTIP": "Marken, die LiteFarm integrieren kann, sind unten aufgeführt. Wenn Sie diese Sensormarke nicht mehr verwenden möchten, versuchen Sie stattdessen, diesen Sensor zu deaktivieren.",
-      "DEPTH": "Tiefe",
-      "EDIT": "Bearbeiten",
-      "EXTERNAL_ID_TOOLTIP": "Diese Kennung wird zur eindeutigen Identifizierung dieses Sensors in anderen integrierten Systemen verwendet und kann nicht geändert werden. Wenn er nicht mehr verwendet wird, versuchen Sie, diesen Sensor zu deaktivieren und einen neuen Sensor hinzuzufügen.",
-      "EXTERNAL_IDENTIFIER": "Externe Kennung",
-      "LATITUDE": "Breitengrad",
-      "LONGITUDE": "Längengrad",
-      "MODEL": "Modell",
-      "NAME": "Name des Sensors",
-      "RETIRE": "Deaktivieren"
-    },
-    "EXTERNAL_IDENTIFIER": "Externe Kennung",
     "HOURS_AGO": "{{time}} Stunde(n) zuvor",
-    "LAST_UPDATED": "Zuletzt aktualisiert{{latestReadingUpdate}}",
-    "LATITUDE": "Breitengrad",
-    "LONGTITUDE": "Längengrad",
     "MINUTES_AGO": "{{time}} Minute(n) vor",
-    "MODAL": {
-      "BODY": "Wenn Sie die Messwerttypen für diesen Sensor ändern, ändert sich die Art der Messwerte, die LiteFarm anzeigen kann. Möchten Sie fortfahren?",
-      "TITLE": "Leseart ändern?"
-    },
-    "MODEL": "Modell",
-    "MODEL_HELPTEXT": "Diese Kennung wird zur eindeutigen Identifizierung dieses Sensors in anderen integrierten Systemen verwendet und kann nicht geändert werden. Wenn er nicht mehr verwendet wird, versuchen Sie, diesen Sensor aus dem Verkehr zu ziehen und einen neuen Sensor hinzuzufügen.",
     "MONTHS_AGO": "vor {{time}} Monat(en)",
-    "NO_DATA": "(keine Daten)",
     "NO_DATA_FOUND": "Keine Sensormesswerte gefunden",
     "READING": {
       "SOIL_WATER_CONTENT": "Wassergehalt des Bodens",
@@ -1816,54 +1726,7 @@
       "TYPES": "Lesearten",
       "UNKNOWN": "Unbekannt"
     },
-    "READINGS_PREVIEW": {
-      "SOIL_WATER_POTENTIAL": "Aktuelles Bodenwasserpotenzial",
-      "TEMPERATURE": "Aktuelle Bodentemperatur"
-    },
-    "RETIRE": {
-      "BODY": "Wenn Sie diesen Sensor aus dem Verkehr ziehen, werden er und alle mit ihm verbundenen Messwerte von Ihrem Betrieb entfernt und alle Verbindungen mit dem Sensoranbieter beendet. Möchten Sie fortfahren?",
-      "CANCEL": "Abbrechen",
-      "RETIRE": "Ausscheiden",
-      "RETIRE_FAILURE": "Es gab einen Fehler beim Einstellen dieses Sensors",
-      "RETIRE_SUCCESS": "Erfolgreich ausgeschiedener Sensor",
-      "TITLE": "Sensor aufgeben?"
-    },
-    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor",
-    "SENSOR_FORECAST": {
-      "HIGH_AND_LOW_TEMPERATURE": "Hohe und niedrige Temperaturen:{{high}}{{unit}} /{{low}}{{unit}}",
-      "TITLE": "Die heutige Prognose",
-      "WEATHER_STATION": "Wetterstation: {{weatherStationLocation}}"
-    },
-    "SENSOR_NAME": "Name des Sensors",
-    "SENSOR_READING_CHART_SPOTLIGHT": {
-      "CONTENT": "Einzelne Sensoren können ein- oder ausgeblendet werden, indem Sie hier auf ihre Beschriftung klicken.",
-      "TITLE": "Serien können versteckt werden"
-    },
-    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "Wassergehalt des Bodens",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "Kilopascal (kPa)",
-      "PSI": "Pfund pro Quadratzoll (psi)",
-      "TITLE": "Wasserpotenzial im Boden",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Umgebungstemperatur für",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
-      "TITLE": "Bodentemperatur",
-      "Y_AXIS_LABEL": "in {{units}}"
-    },
-    "VALIDATION": {
-      "READING_TYPES": "Sensormesswerte sind erforderlich"
-    },
-    "VIEW_HEADER": {
-      "DETAILS": "Details",
-      "READINGS": "Lesungen",
-      "TASKS": "Aufgaben"
-    }
+    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor"
   },
   "SIGNUP": {
     "CHANGES": "Lesen Sie mehr über die Änderungen",
@@ -1951,12 +1814,11 @@
     "ADD_CUSTOM_HARVEST_USE": "Erstellen einer benutzerdefinierten Erntenutzung",
     "ADD_HARVEST_USE": "Eine weitere Verwendung für die Ernte hinzufügen",
     "ADD_TASK": "Erstellen Sie eine Aufgabe",
-    "ADD_TASK_FLOW": "Aufgabenerstellung",
     "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Tiere in dieser Aufgabe",
+    "ANIMAL_MOVING_TO_LOCATION": "Verschieben nach:",
     "ANIMALS": "Tiere",
     "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Mindestens ein Tier muss ausgewählt werden, um diese Aufgabe abzuschließen. Um alle Tiere zu entfernen, verlassen Sie stattdessen die Aufgabe.",
-    "ANIMAL_MOVING_TO_LOCATION": "Verschieben nach:",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Tiere in dieser Aufgabe",
     "CARD": {
       "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
       "MULTIPLE_LOCATIONS": "Mehrere Standorte",
@@ -1970,7 +1832,6 @@
     "COMPLETE_TASK": "Aufgabe abschließen",
     "COMPLETE_TASK_CHANGES": "Mussten Sie bei dieser Aufgabe irgendwelche Änderungen vornehmen?",
     "COMPLETE_TASK_DURATION": "Wie lange hat es gedauert, die Aufgabe zu erfüllen?",
-    "COMPLETE_TASK_FLOW": "Aufgabenerfüllung",
     "COMPLETION_DETAILS": "Details zur Aufgabenerfüllung",
     "COMPLETION_NOTES": "Notizen zur Erfüllung der Aufgabe",
     "COMPLETION_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
@@ -2080,11 +1941,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Jahr auswählen"
-  },
-  "BADGE": {
-    "BETA": {
-      "TITLE": "Beta",
-      "ANIMALS_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>"
-    }
   }
 }

@@ -28,7 +28,6 @@ import resetUserPasswordSaga from './containers/PasswordResetAccount/saga';
 import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
-import sensorDetailSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
@@ -44,6 +43,7 @@ import farmSiteBoundarySaga from './containers/LocationDetails/AreaDetails/FarmS
 import fenceSaga from './containers/LocationDetails/LineDetails/FenceDetailForm/saga';
 import bufferZoneSaga from './containers/LocationDetails/LineDetails/BufferZoneDetailForm/saga';
 import watercourseSaga from './containers/LocationDetails/LineDetails/WatercourseDetailForm/saga';
+import soilSampleLocationLocationSaga from './containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/saga';
 import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
@@ -60,10 +60,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
-import weatherSaga from './containers/WeatherBoard/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
-import sensorReadingsSaga from './containers/SensorReadings/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import theme from './assets/theme';
@@ -80,14 +78,16 @@ import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import './polyfillDateTimeFormat';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.7.6',
+    release: '3.7.7',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -103,7 +103,6 @@ sagaMiddleware.run(resetUserPasswordSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
-sagaMiddleware.run(sensorDetailSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
@@ -118,6 +117,7 @@ sagaMiddleware.run(waterValveSaga);
 sagaMiddleware.run(farmSiteBoundarySaga);
 sagaMiddleware.run(fenceSaga);
 sagaMiddleware.run(watercourseSaga);
+sagaMiddleware.run(soilSampleLocationLocationSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
@@ -129,12 +129,10 @@ sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
-sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
-sagaMiddleware.run(sensorReadingsSaga);
 sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(imageUploaderSaga);
@@ -155,13 +153,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                <Router history={history}>
-                  <>
-                    <App />
-                  </>
-                </Router>
-              </ErrorBoundary>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <ErrorBoundary FallbackComponent={ReactErrorFallback}>
+                  <Router history={history}>
+                    <>
+                      <App />
+                    </>
+                  </Router>
+                </ErrorBoundary>
+              </LocalizationProvider>
             </GoogleOAuthProvider>
           </>
         </ThemeProvider>

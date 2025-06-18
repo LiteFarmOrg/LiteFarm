@@ -18,6 +18,7 @@ import Model from './baseFormatModel.js';
 import BaseModel from './baseModel.js';
 import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
 import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
+import soilSampleTaskModel from './soilSampleTaskModel.js';
 import pestControlTask from './pestControlTask.js';
 import irrigationTaskModel from './irrigationTaskModel.js';
 import scoutingTaskModel from './scoutingTaskModel.js';
@@ -37,6 +38,8 @@ import AnimalModel from './animalModel.js';
 import AnimalBatchModel from './animalBatchModel.js';
 import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
 import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
+import DocumentModel from './documentModel.js';
+import TaskDocumentModel from './taskDocument.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -113,6 +116,14 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'soil_amendment_task_products.task_id',
+        },
+      },
+      soil_sample_task: {
+        modelClass: soilSampleTaskModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'task.task_id',
+          to: 'soil_sample_task.task_id',
         },
       },
       pest_control_task: {
@@ -238,6 +249,19 @@ class TaskModel extends BaseModel {
           to: 'location_tasks.task_id',
         },
       },
+      documents: {
+        modelClass: DocumentModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskDocumentModel,
+            from: 'task_document.task_id',
+            to: 'task_document.document_id',
+          },
+          to: 'document.document_id',
+        },
+      },
       animals: {
         relation: Model.ManyToManyRelation,
         modelClass: AnimalModel,
@@ -309,6 +333,7 @@ class TaskModel extends BaseModel {
       animal_movement_task: 'omit',
       managementPlans: 'omit',
       locations: 'edit',
+      documents: 'omit',
       animals: 'omit',
       animal_batches: 'omit',
     };
@@ -360,16 +385,19 @@ class TaskModel extends BaseModel {
    */
   static async getUnassignedTasksDueThisWeekFromIds(taskIds, isDayLaterThanUTC = false) {
     const dayLaterInterval = isDayLaterThanUTC ? '"1 day"' : '"0 days"';
-    return await TaskModel.query().select('*').whereIn('task_id', taskIds).whereRaw(
-      `
+    return await TaskModel.query()
+      .select('*')
+      .whereIn('task_id', taskIds)
+      .whereRaw(
+        `
       task.assignee_user_id IS NULL
       AND task.complete_date IS NULL
       AND task.abandon_date IS NULL
       AND task.due_date <= (now() + ('1 week')::interval + (?)::interval)::date
       AND task.due_date >= (now() + (?)::interval)::date
       `,
-      [dayLaterInterval, dayLaterInterval],
-    );
+        [dayLaterInterval, dayLaterInterval],
+      );
   }
 
   /**
@@ -509,6 +537,25 @@ class TaskModel extends BaseModel {
       .select('task_id')
       .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
       .whereIn('task_id', taskIds);
+  }
+
+  /**
+   * Returns farm tasks for an array of external ids
+   *
+   * @param {string} farmId - The farm requesting irrigation tasks.
+   * @param {number[]} externalIds - Array of external irrigation prescription ids of interest.
+   * @static
+   * @async
+   * @returns {import('./types.js').IrrigationTask[]} - Returns found irrigation tasks.
+   */
+  static async getIrrigationTasksWithExternalIdByFarm(farmId, externalIds) {
+    return await TaskModel.query()
+      .select('task.*')
+      .withGraphJoined('[locations, irrigation_task]')
+      .whereNotNull('irrigation_task.irrigation_prescription_external_id')
+      .whereIn('irrigation_task.irrigation_prescription_external_id', externalIds)
+      .where('locations.farm_id', farmId)
+      .whereNotDeleted();
   }
 }
 

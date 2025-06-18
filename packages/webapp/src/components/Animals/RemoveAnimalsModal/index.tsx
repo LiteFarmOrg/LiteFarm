@@ -124,7 +124,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
 
   return (
     <>
-      {/* @ts-ignore */}
       <Drawer
         title={t('REMOVE_ANIMALS.REMOVE_ANIMALS')}
         isOpen={props.isOpen}
@@ -138,9 +137,9 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             <p>{t('REMOVE_ANIMALS.REMOVED_AND_ARCHIVED')}</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit(props.onConfirm)}>
+          <form className={styles.form} onSubmit={handleSubmit(props.onConfirm)}>
             {isMobile ? (
-              <fieldset>
+              <fieldset className={styles.fieldset}>
                 <legend>{t('REMOVE_ANIMALS.WHY')}</legend>
                 {options.map(({ label, value }) => (
                   <label key={value} className={styles.mobileOption}>
@@ -189,7 +188,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             )}
 
             {!isCreatedInError(selectedOption) && (
-              /* @ts-ignore */
+              /* @ts-expect-error */
               <Input
                 type={'date'}
                 label={t('common:DATE')}
@@ -209,7 +208,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                 </div>
               ) : (
                 <>
-                  {/*@ts-ignore*/}
+                  {/*@ts-expect-error*/}
                   <Input
                     hookFormRegister={register(EXPLANATION)}
                     label={t('REMOVE_ANIMALS.EXPLANATION')}

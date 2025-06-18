@@ -13,7 +13,7 @@ import i18n from '../../locales/i18n';
 import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 
-export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
+export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO = true }) {
   const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const GENDER = 'gender';
@@ -84,7 +84,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
         <>
           {isNotSSO && ( // TODO LF-3798: Back button doesn't work in SSO as it will direct to Welcome Screen
             <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
-              {t('common:BACK')}
+              {t('common:GO_BACK')}
             </Button>
           )}
           <Button data-cy="createUser-create" disabled={disabled} type={'submit'} fullLength>
@@ -193,8 +193,4 @@ PureCreateUserAccount.propTypes = {
   onGoBack: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   isNotSSO: PropTypes.bool,
-};
-
-PureCreateUserAccount.defaultProps = {
-  isNotSSO: true,
 };

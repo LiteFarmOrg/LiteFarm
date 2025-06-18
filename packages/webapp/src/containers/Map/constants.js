@@ -18,6 +18,7 @@ export const getAreaLocationTypes = () => [
   locationEnum.surface_water,
   locationEnum.natural_area,
   locationEnum.residence,
+  locationEnum.irrigation_zone,
 ];
 
 export const isArea = (type) => {
@@ -41,11 +42,26 @@ export const isNoFillArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
+  return [
+    locationEnum.watercourse,
+    locationEnum.fence,
+    locationEnum.buffer_zone,
+    locationEnum.pivot_arm,
+  ].includes(type);
 };
 
 export const isPoint = (type) => {
-  return [locationEnum.gate, locationEnum.water_valve, locationEnum.sensor].includes(type);
+  return [
+    locationEnum.gate,
+    locationEnum.water_valve,
+    locationEnum.soil_sample_location,
+    locationEnum.sensor,
+    locationEnum.sensor_array,
+  ].includes(type);
+};
+
+export const isCircle = (type) => {
+  return [locationEnum.pivot].includes(type);
 };
 
 export const locationEnum = {
@@ -61,15 +77,14 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
+  soil_sample_location: 'soil_sample_location',
   sensor: 'sensor',
+  sensor_array: 'sensor_array',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
-};
-
-export const bulkSenorUploadErrorTypeEnum = {
-  unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
-  validation_failure: 'validation_failure',
-  timeout_and_show_transition_modal: 'timeout',
+  pivot: 'pivot',
+  pivot_arm: 'pivot_arm',
+  irrigation_zone: 'irrigation_zone',
 };
 
 export const polygonPath = (path, width, maps) => {
@@ -82,8 +97,6 @@ export const polygonPath = (path, width, maps) => {
   });
   return leftPoints.concat(rightPoints.reverse());
 };
-
-export const SENSOR_BULK_UPLOAD_SUCCESS = 'SENSOR_BULK_UPLOAD_SUCCESS';
 
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;

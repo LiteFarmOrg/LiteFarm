@@ -16,15 +16,16 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 import { ANIMAL_TASKS, checkAnimalAndBatchIds } from '../../util/animal.js';
-import { CUSTOM_TASK } from '../../util/task.js';
+import { CUSTOM_TASK, IRRIGATION_TASK, TASKS_WITH_DOCUMENTS } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
+import { validateFilesLength } from './checkDocument.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
 const clientRestrictedReasons = ['NO_ANIMALS'];
 
 export function noReqBodyCheckYet() {
-  return async (req, res, next) => {
+  return async (_req, _res, next) => {
     next();
   };
 }
@@ -39,13 +40,8 @@ export function checkAbandonTask() {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const {
-        abandonment_reason,
-        other_abandonment_reason,
-        happiness,
-        duration,
-        abandon_date,
-      } = req.body;
+      const { abandonment_reason, other_abandonment_reason, happiness, duration, abandon_date } =
+        req.body;
 
       // Notifications will not send without, and checks below will be faulty
       if (!user_id) {
@@ -130,6 +126,8 @@ export function checkCompleteTask(taskType) {
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
+      checkCompleteTaskDocument(req.body, taskType);
+
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
         .where({ task_id })
@@ -184,8 +182,14 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
+      checkCreateTaskDocument(req.body);
+
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
+      }
+
+      if (taskType === IRRIGATION_TASK) {
+        await checkIrrigationTask(req);
       }
 
       const checkProducts =
@@ -299,4 +303,48 @@ async function checkAnimalMovementTask(req) {
   if (req.body.animal_movement_task?.purpose_ids) {
     checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
   }
+}
+
+async function checkIrrigationTask(req) {
+  const esciExternalId = req.body?.irrigation_task?.irrigation_prescription_external_id;
+
+  if (esciExternalId) {
+    //   const { farm_id } = req.headers;
+    //   const existing = await TaskModel.query()
+    //     .whereNotDeleted()
+    //     .joinRelated('irrigation_task')
+    //     .join('location', 'irrigation_task.location_id', 'location.location_id')
+    //     .select('task.*')
+    //     .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
+    //     .andWhere('location.farm_id', farm_id)
+    //     .first();
+
+    //   if (existing) {
+    //     throw customError('Irrigation prescription already associated with task', 400);
+    //   }
+    // }
+    throw customError('Irrigation prescription not yet implemented', 400);
+  }
+}
+
+export function checkCreateTaskDocument(task) {
+  if ('documents' in task && task.documents.length) {
+    throw customError('Documents not permitted on task creation');
+  }
+}
+
+export function checkCompleteTaskDocument(task, taskType) {
+  if ('documents' in task && task.documents.length) {
+    if (TASKS_WITH_DOCUMENTS.includes(taskType)) {
+      checkTaskDocuments(task.documents);
+    } else {
+      throw customError('Documents not permitted on this task type');
+    }
+  }
+}
+
+function checkTaskDocuments(documents) {
+  documents.forEach((document) => {
+    validateFilesLength(document);
+  });
 }

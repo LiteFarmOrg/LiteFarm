@@ -1,10 +1,10 @@
-FROM node:18.16.1 as build
+FROM node:20.17 as build
 
 WORKDIR /usr/src/app
 
 COPY ./webapp/package.json ./webapp/.npmrc ./webapp/pnpm-lock.yaml /usr/src/app/
 
-RUN npm install pnpm -g && pnpm install
+RUN npm install pnpm@10.6.5 -g && pnpm install
 
 COPY ./webapp/ /usr/src/app/
 

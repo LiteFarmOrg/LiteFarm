@@ -32,11 +32,6 @@
       "UPDATE": "Successfully updated document"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Failed to upload the CSV file"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -54,9 +49,9 @@
     "ERROR": {
       "ADD": "Failed to add new expenses",
       "DELETE": "Failed to delete expenses",
-      "UPDATE": "Failed to update expenses!",
       "EXPENSE_DELETED": "This expense no longer exists",
-      "EXPENSE_TYPE_DELETED": "This expense type has been deleted"
+      "EXPENSE_TYPE_DELETED": "This expense type has been deleted",
+      "UPDATE": "Failed to update expenses!"
     },
     "SUCCESS": {
       "ADD": "Successfully added new expenses!",
@@ -85,6 +80,13 @@
     "SUCCESS": {
       "UPDATE": "Successfully updated farm info!"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Failed to disconnect addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Failed to get irrigation prescriptions"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -125,8 +127,7 @@
     "FAIL_POST": "Failed to add new",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved",
-    "SUCCESS_UPLOAD": "Successfully uploaded"
+    "SUCCESS_POST": "Successfully saved"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -185,18 +186,14 @@
     "ERROR": {
       "ADD": "Failed to add sale",
       "DELETE": "Failed to delete new sale",
-      "UPDATE": "Failed to update sale",
-      "SALE_DELETED": "This sale no longer exists"
+      "SALE_DELETED": "This sale no longer exists",
+      "UPDATE": "Failed to update sale"
     },
     "SUCCESS": {
       "ADD": "Successfully added sale",
       "DELETE": "Successfully deleted sale",
       "UPDATE": "Successfully updated sale"
     }
-  },
-  "SENSOR": {
-    "ERROR_UPDATE": "Error updating sensor",
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
   },
   "TASK": {
     "ABANDON": {

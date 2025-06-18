@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -40,6 +40,11 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
+import {
+  generateMockPieSliceZones,
+  mockUriData,
+} from '../../../stories/IrrigationPrescription/mockData';
+import { getCentroidOfPolygon } from '../../../util/geoUtils';
 
 function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
@@ -48,6 +53,85 @@ function TaskReadOnly({ history, match, location }) {
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
   const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
+    task?.irrigation_task?.irrigation_prescription_external_id != null;
+
+  /*--------------------------------------
+  
+  TODO LF-4788: Call the backend here to get the actual data for the given uuid 
+  
+  */
+  let mockPivot;
+  let commonMockData;
+  let irrigationPrescription;
+  if (isIrrigationTaskWithExternalPrescription) {
+    mockPivot = {
+      center: getCentroidOfPolygon(task.locations[0].grid_points),
+      radius: 150,
+    };
+
+    commonMockData = {
+      location_id: task.locations[0].location_id,
+      management_plan_id: null,
+      recommended_start_datetime: new Date().toISOString(),
+      pivot: mockPivot,
+      metadata: {
+        weather_forecast: {
+          temperature: 20,
+          temperature_unit: 'c',
+          wind_speed: 10,
+          wind_speed_unit: 'km/h',
+          cumulative_rainfall: 5,
+          cumulative_rainfall_unit: 'mm',
+          et_rate: 2,
+          et_rate_unit: 'mm/h',
+          weather_icon_code: '02d',
+        },
+      },
+      estimated_time: 2,
+      estimated_time_unit: 'h',
+      estimated_water_consumption: 100,
+      estimated_water_consumption_unit: 'l',
+    };
+
+    irrigationPrescription =
+      Math.random() < 0.5
+        ? {
+            ...commonMockData,
+            id: task?.irrigation_task?.irrigation_prescription_external_id,
+            prescription: {
+              uriData: mockUriData,
+            },
+          }
+        : {
+            ...commonMockData,
+            id: task?.irrigation_task?.irrigation_prescription_external_id,
+            prescription: {
+              vriData: {
+                zones: generateMockPieSliceZones(mockPivot),
+                file_url: 'https://example.com/vri_data.vri',
+              },
+            },
+          };
+  }
+
+  // Only fetch data if task is irrigation task with external id
+  const externalIrrigationPrescription = isIrrigationTaskWithExternalPrescription
+    ? irrigationPrescription
+    : undefined;
+
+  /* ------------------------------------- */
+
+  let files = [];
+  if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
+    files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
+  }
+  if (task.documents?.length) {
+    const documentFiles = task.documents.flatMap((doc) => doc.files);
+    files.push(...documentFiles);
+  }
+
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
@@ -133,6 +217,8 @@ function TaskReadOnly({ history, match, location }) {
           isAdmin={isAdmin}
           system={system}
           products={products}
+          externalIrrigationPrescription={externalIrrigationPrescription}
+          files={files}
           harvestUseTypes={harvestUseTypes}
           isTaskTypeCustom={isTaskTypeCustom}
           maxZoomRef={maxZoomRef}

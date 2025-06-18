@@ -135,6 +135,10 @@ export default function PureTaskComplete({
       data[taskProductKey] = persistedFormData?.[taskProductKey];
     }
 
+    if (task_type_name === 'soil_sample_task' && persistedFormData?.results_available) {
+      data.uploadedFiles = persistedFormData?.uploadedFiles ?? [];
+    }
+
     return data;
   };
 
@@ -164,7 +168,6 @@ export default function PureTaskComplete({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />

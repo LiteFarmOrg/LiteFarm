@@ -11,8 +11,8 @@ import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { isTaskType } from '../../Task/useIsTaskType';
-import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
-import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
+import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import useFinancesDateRange from '../../../components/Finances/DateRangeSelector/useFinancesDateRange';
 import { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
@@ -22,7 +22,7 @@ export default function EstimatedRevenue({ history, match }) {
   const onGoBack = () => history.push(FINANCES_HOME_URL);
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
-  const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+  const { startDate: fromDate, endDate: toDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
 
   const dispatch = useDispatch();
 
@@ -78,7 +78,7 @@ export default function EstimatedRevenue({ history, match }) {
       <Semibold style={{ marginBottom: '24px' }} sm>
         {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
-      <DateRangeSelector />
+      <FinancesDateRangeSelector />
 
       <FinanceListHeader
         firstColumn={t('FINANCES.DATE')}

@@ -18,13 +18,14 @@ import styles from '../styles.module.scss';
 
 export type IconTextProps = {
   iconName: IconName;
-  iconBorder: boolean;
-  text: string | number | null | undefined;
-  subtext: string | number | null | undefined;
-  highlightedText: string | number | null | undefined;
-  photoUrl: string | null;
+  iconBorder?: boolean;
+  text?: string | number | null;
+  subtext?: string | number | null;
+  highlightedText?: string | number | null;
+  photoUrl?: string | null;
   removed?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 };
 
 const IconText = ({
@@ -36,9 +37,10 @@ const IconText = ({
   removed,
   photoUrl,
   className,
+  style,
 }: IconTextProps) => {
   return (
-    <div className={clsx(styles.iconTextContainer, className)}>
+    <div className={clsx(styles.iconTextContainer, className)} style={style}>
       {photoUrl && iconName !== 'REMOVED_ANIMAL' ? (
         <img src={photoUrl} className={styles.photoUrl} />
       ) : (

@@ -234,7 +234,6 @@ export default function PureRepeatCropPlan({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        cancelModalTitle={t('REPEAT_PLAN.REPEAT_PLAN_FLOW')}
         title={t('REPEAT_PLAN.TITLE')}
         value={33}
         style={{ marginBottom: '24px' }}

@@ -19,6 +19,7 @@ const irrigationTaskProperties = [
   'default_location_application_depth',
   'default_irrigation_task_type_location',
   'default_irrigation_task_type_measurement',
+  'irrigation_prescription_external_id',
 ];
 const getIrrigationTask = (task) => {
   return {
@@ -39,6 +40,12 @@ const upsertManyIrrigationTask = (state, { payload: tasks }) => {
     tasks.map((task) => getIrrigationTask(task)),
   );
 };
+const setAllIrrigationTask = (state, { payload: tasks }) => {
+  irrigationTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getIrrigationTask(task)),
+  );
+};
 
 const irrigationTaskSlice = createSlice({
   name: 'irrigationTaskReducer',
@@ -52,6 +59,7 @@ const irrigationTaskSlice = createSlice({
     onLoadingIrrigationTaskStart: onLoadingStart,
     onLoadingIrrigationTaskFail: onLoadingFail,
     getIrrigationTasksSuccess: upsertManyIrrigationTask,
+    getAllIrrigationTasksSuccess: setAllIrrigationTask,
     postIrrigationTaskSuccess: upsertOneIrrigationTask,
     editIrrigationTaskSuccess: upsertOneIrrigationTask,
     deleteIrrigationTaskSuccess: irrigationTaskAdapter.removeOne,
@@ -60,6 +68,7 @@ const irrigationTaskSlice = createSlice({
 
 export const {
   getIrrigationTasksSuccess,
+  getAllIrrigationTasksSuccess,
   postIrrigationTaskSuccess,
   editIrrigationTaskSuccess,
   onLoadingIrrigationTaskStart,

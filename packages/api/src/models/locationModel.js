@@ -31,9 +31,9 @@ import surfaceWaterModel from './surfaceWaterModel.js';
 import naturalAreaModel from './naturalAreaModel.js';
 import residenceModel from './residenceModel.js';
 import waterValveModel from './waterValveModel.js';
+import soilSampleLocationModel from './soilSampleLocationModel.js';
 import taskModel from './taskModel.js';
 import locationTasksModel from './locationTasksModel.js';
-import sensorModel from './sensorModel.js';
 import fieldModel from './fieldModel.js';
 import pinModel from './pinModel.js';
 import locationDefaultsModel from './locationDefaultsModel.js';
@@ -210,12 +210,12 @@ class Location extends baseModel {
           },
         },
       },
-      sensor: {
-        modelClass: sensorModel,
+      soil_sample_location: {
+        modelClass: soilSampleLocationModel,
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
-          to: 'sensor.location_id',
+          to: 'soil_sample_location.location_id',
         },
       },
       location_defaults: {
@@ -268,20 +268,19 @@ class Location extends baseModel {
     }
   }
 
-  static async getSensorLocation(farm_id, partner_id, external_id, trx) {
+  /* Mirrors cropLocationsSelector but without buffer zone (which does not return a polygon) */
+  static async getCropSupportingLocationsByFarmId(farm_id, trx) {
     return Location.query(trx)
-      .withGraphJoined('[figure.point, sensor]')
-      .where('location.farm_id', farm_id)
-      .andWhere('sensor.partner_id', partner_id)
-      .andWhere('sensor.external_id', external_id)
-      .first();
-  }
-
-  static async unDeleteLocation(user_id, location_id, trx) {
-    return Location.query(trx)
-      .context({ user_id })
-      .where({ location_id })
-      .patch({ deleted: false });
+      .where({ 'location.farm_id': farm_id })
+      .whereExists(
+        Location.relatedQuery('figure', trx).whereIn('figure.type', [
+          'field',
+          'garden',
+          'greenhouse',
+        ]),
+      )
+      .withGraphFetched('[figure.[area], field, garden, greenhouse]')
+      .whereNotDeleted();
   }
 }
 

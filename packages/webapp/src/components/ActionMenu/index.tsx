@@ -60,7 +60,7 @@ const ActionMenu = ({ headerLeftText, textActions = [], iconActions }: ActionMen
             visible && (
               <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
                 <TextButton onClick={onClick}>
-                  <Icon iconName={iconName} className={styles.icon} />
+                  <Icon iconName={iconName} />
                 </TextButton>
                 <div className={styles.iconLabel}>{label}</div>
               </div>

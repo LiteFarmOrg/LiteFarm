@@ -22,3 +22,105 @@
     padding-bottom: 104px; // button height 72px + button top 16px + button bottom 16px
   }
 }
+
+.loadingScreen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 16px;
+  background-color: var(--White);
+  border-radius: 8px;
+  box-shadow: 0px 0px 1px 0px #2b303a4d;
+
+  height: calc(100vh - var(--global-navbar-height) - var(--vertical-margin) * 2);
+
+  &.withCompactSideMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width) - var(--horizontal-margin) * 2);
+  }
+  &.withExpandedSideMenu {
+    width: calc(100vw - var(--global-side-menu-width) - var(--horizontal-margin) * 2);
+  }
+
+  @include xs-breakpoint {
+    &.withCompactSideMenu,
+    &.withExpandedSideMenu {
+      width: calc(100vw - var(--mobile-margin) * 2);
+      height: calc(100vh - var(--global-navbar-height) - var(--mobile-margin) * 2);
+      margin: var(--mobile-margin);
+    }
+  }
+}
+
+.loadingText {
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.loadingMessage {
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/*----------------------------------------
+  HeaderWithBackAndClose
+----------------------------------------*/
+.headerWrapper {
+  width: 100%;
+  border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+
+  .container {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 8px 12px 8px;
+  }
+
+  .leftContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .backButton {
+    padding: 0;
+    min-width: 24px;
+    min-height: 24px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    path {
+      stroke: var(--Colors-Neutral-Neutral-600);
+      stroke-width: 2px;
+    }
+  }
+
+  .textTitle {
+    font-size: 16px;
+    letter-spacing: -0.352px;
+  }
+
+  .closeButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .closeButton {
+    width: 12px;
+    height: 12px;
+  }
+}

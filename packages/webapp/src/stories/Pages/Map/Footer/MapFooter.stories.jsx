@@ -24,7 +24,7 @@ const availableFilterSettings = {
   line: [locationEnum.buffer_zone, locationEnum.creek, locationEnum.fence],
   point: [locationEnum.gate, locationEnum.water_valve],
 };
-const Template = (args) => <PureMapFooter {...args} />;
+const Template = (args) => <PureMapFooter {...args} isCompactSideMenu={true} />;
 
 export const Admin = Template.bind({});
 Admin.args = {

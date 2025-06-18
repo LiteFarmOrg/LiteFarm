@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
@@ -19,11 +20,9 @@ import {
 } from './../src/middleware/validation/location.js';
 import { faker } from '@faker-js/faker';
 
-const figureMapping = Object.keys(origFigureMapping)
-  .filter((t) => t !== 'sensor')
-  .reduce((prev, currElement) => {
-    return { ...prev, [currElement]: origFigureMapping[currElement] };
-  }, {});
+const figureMapping = Object.keys(origFigureMapping).reduce((prev, currElement) => {
+  return { ...prev, [currElement]: origFigureMapping[currElement] };
+}, {});
 
 const locations = {
   BARN: 'barn',
@@ -39,6 +38,7 @@ const locations = {
   BUFFER_ZONE: 'buffer_zone',
   GATE: 'gate',
   WATER_VALVE: 'water_valve',
+  SOIL_SAMPLE_LOCATION: 'soil_sample_location',
 };
 
 const figureToPromise = {
@@ -63,6 +63,7 @@ const assetMock = {
   buffer_zone: mocks.fakeLine,
   gate: mocks.fakePoint,
   water_valve: mocks.fakePoint,
+  soil_sample_location: mocks.fakePoint,
 };
 
 const assetSpecificMock = {
@@ -80,6 +81,7 @@ const assetSpecificMock = {
   buffer_zone: () => ({}),
   gate: () => ({}),
   water_valve: mocks.fakeWaterValve,
+  soil_sample_location: () => ({}),
 };
 
 describe('Location tests', () => {
@@ -304,13 +306,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
       await createPlantTask(user_id, planting_management_plan_id);
 
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
@@ -326,13 +327,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
 
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
@@ -347,13 +347,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field2],
-        promisedField: [field2],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field2],
+          promisedField: [field2],
+        });
       await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
       await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
         complete_date: '2022-02-23',
@@ -377,13 +376,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
       await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
       await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id, {
         complete_date: '2022-02-23',
@@ -406,13 +404,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
       await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
       await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id, {
         complete_date: '2022-02-23',
@@ -440,13 +437,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
       await createPlantTask(user_id, planting_management_plan_id);
 
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
@@ -462,13 +458,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field2],
-        promisedField: [field2],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field2],
+          promisedField: [field2],
+        });
       await createPlantTask(user_id, planting_management_plan_id);
       await createTransplantTask(user_id, farm_id, field1.location_id, management_plan_id);
 
@@ -485,13 +480,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field2],
-        promisedField: [field2],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field2],
+          promisedField: [field2],
+        });
       await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-23' });
 
       await createLocationTask(user_id, field1.location_id);
@@ -509,13 +503,12 @@ describe('Location tests', () => {
       );
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
 
-      const [
-        { planting_management_plan_id, management_plan_id },
-      ] = await mocks.planting_management_planFactory({
-        promisedFarm: [{ farm_id }],
-        promisedLocation: [field1],
-        promisedField: [field1],
-      });
+      const [{ planting_management_plan_id, management_plan_id }] =
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [field1],
+          promisedField: [field1],
+        });
       await createPlantTask(user_id, planting_management_plan_id, { complete_date: '2022-02-22' });
       await createTransplantTask(user_id, farm_id, field2.location_id, management_plan_id, {
         complete_date: '2022-02-23',

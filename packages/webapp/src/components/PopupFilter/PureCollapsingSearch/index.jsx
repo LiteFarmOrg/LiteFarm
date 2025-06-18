@@ -24,11 +24,11 @@ import { Modal } from '../../Modals';
 
 export default function PureCollapsingSearch({
   value,
-  isSearchActive,
+  isSearchActive = false,
   onChange,
-  placeholderText,
-  className,
-  containerRef,
+  placeholderText = '',
+  className = '',
+  containerRef = null,
   isDesktop,
 }) {
   const searchRef = useRef(null);
@@ -138,15 +138,6 @@ PureCollapsingSearch.propTypes = {
   onChange: PropTypes.func,
   placeholderText: PropTypes.string,
   className: PropTypes.string,
-  overlayModalOnButton: PropTypes.bool,
   containerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   isDesktop: PropTypes.bool,
-};
-
-PureCollapsingSearch.defaultProps = {
-  placeholderText: '',
-  isSearchActive: false,
-  className: '',
-  overlayModalOnButton: true,
-  containerRef: null,
 };

@@ -29,6 +29,12 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
+import {
+  ADD_SENSORS_URL,
+  // IRRIGATION_PRESCRIPTION_URL,
+  SENSORS_URL,
+} from '../util/siteMapConstants';
+
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
@@ -80,9 +86,14 @@ const PostWaterValveForm = React.lazy(() =>
   import('../containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./WaterValveDetailsRoutes'));
-const EditSensor = React.lazy(() =>
-  import('../containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
+
+const PostSoilSampleLocationForm = React.lazy(() =>
+  import(
+    '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/PostSoilSampleLocation'
+  ),
 );
+
+const SoilSampleLocationDetails = React.lazy(() => import('./SoilSampleLocationDetailsRoutes'));
 
 const PostBarnForm = React.lazy(() =>
   import('../containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
@@ -131,7 +142,7 @@ const PostWatercourseForm = React.lazy(() =>
   import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
-const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
+const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('../containers/CropVarieties'));
@@ -271,6 +282,9 @@ const TaskRowGuidance = React.lazy(() =>
 const TaskContainerMethod = React.lazy(() =>
   import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
+const SensorList = React.lazy(() => import('../containers/SensorList'));
+const SensorReadings = React.lazy(() => import('../containers/SensorReadings/v2'));
+// const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
 const Notification = React.lazy(() => import('../containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('../containers/Notification/NotificationReadOnly'),
@@ -530,9 +544,21 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route
+              path={ADD_SENSORS_URL}
+              exact
+              render={(props) => (
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -544,11 +570,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
@@ -621,6 +659,18 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                 />
               )}
             />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
+            {/* <Route
+              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+              exact
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -638,7 +688,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/profile" exact component={Account} />
             <Route path="/people" exact component={People} />
             <Route path="/user/:user_id" exact component={EditUser} />
-
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop/new" exact component={AddNewCrop} />
@@ -814,9 +863,21 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route
+              path={ADD_SENSORS_URL}
+              exact
+              render={(props) => (
+                <AddSensorsForm isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -828,10 +889,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -921,6 +995,18 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                 />
               )}
             />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
+            {/* <Route
+              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+              exact
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -966,10 +1052,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
@@ -1030,6 +1129,18 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                 />
               )}
             />
+            <Route
+              path={SENSORS_URL}
+              exact
+              render={(props) => <SensorList isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
+            {/* <Route
+              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+              exact
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
+            /> */}
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

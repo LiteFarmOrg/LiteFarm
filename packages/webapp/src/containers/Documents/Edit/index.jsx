@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteUploadedFile,
   hookFormPersistSelector,
   initEditDocument,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { DocumentUploader } from '../DocumentUploader';
+
 import { updateDocument } from '../saga';
+import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 export default function EditDocument({ history, match }) {
   const dispatch = useDispatch();
@@ -37,21 +36,18 @@ export default function EditDocument({ history, match }) {
     );
   };
 
-  const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ url }));
-  };
+  const { isUploading, ...filePickerFunctions } = useFilePickerUpload();
 
   return (
     <>
       <PureDocumentDetailView
         onGoBack={onGoBack}
         submit={onSubmit}
-        deleteImage={deleteImage}
         isEdit={true}
         persistedFormData={document}
         useHookFormPersist={useHookFormPersist}
-        imageComponent={(props) => <MediaWithAuthentication {...props} />}
-        documentUploader={(props) => <DocumentUploader {...props} />}
+        isUploading={isUploading}
+        filePickerFunctions={filePickerFunctions}
       />
     </>
   );

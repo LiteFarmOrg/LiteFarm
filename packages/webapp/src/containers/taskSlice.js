@@ -22,6 +22,7 @@ import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTask
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
 import { animalMovementTaskEntitiesSelector } from './slice/taskSlice/animalMovementTaskSlice';
+import { soilSampleTaskEntitiesSelector } from './slice/taskSlice/soilSampleTaskSlice';
 import { getSubtaskName } from '../util/task';
 
 export const getTask = (obj) => {
@@ -51,6 +52,7 @@ export const getTask = (obj) => {
     'soil_amendment_task_products',
     'animals',
     'animal_batches',
+    'documents',
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;
@@ -184,6 +186,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
     animalMovementTaskEntitiesSelector,
+    soilSampleTaskEntitiesSelector,
     plantingManagementPlanEntitiesSelector,
   ],
   (
@@ -202,6 +205,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntities,
     transplantTaskEntities,
     animalMovementTaskEntities,
+    soilSampleTaskEntities,
     plantingManagementPlanEntities,
   ) => {
     const subTaskEntities = {
@@ -214,6 +218,7 @@ export const taskEntitiesSelector = createSelector(
       ...plantTaskEntities,
       ...transplantTaskEntities,
       ...animalMovementTaskEntities,
+      ...soilSampleTaskEntities,
     };
 
     const getManagementPlanByPlantingManagementPlan = ({

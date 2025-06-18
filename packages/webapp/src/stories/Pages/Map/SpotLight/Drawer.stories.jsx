@@ -38,7 +38,7 @@ const Template = (args) => (
     }}
   >
     <div style={{ flexGrow: 1 }} />
-    <PureMapFooter {...args} />
+    <PureMapFooter {...args} isCompactSideMenu={true} />
   </div>
 );
 

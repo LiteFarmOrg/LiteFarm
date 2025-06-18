@@ -57,7 +57,7 @@ services:
       - export
 
   export:
-    image: litefarm/node-awscli:0.0.2
+    image: litefarm/node-awscli:latest
     restart: unless-stopped
     volumes:
       - ./packages/api:/packages/api

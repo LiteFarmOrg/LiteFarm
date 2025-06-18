@@ -86,7 +86,7 @@ export default function PureHarvestAllocation({
         buttonGroup={
           <>
             <Button onClick={onBack} color={'secondary'} fullLength>
-              {t('common:BACK')}
+              {t('common:GO_BACK')}
             </Button>
             <Button type={'submit'} fullLength disabled={!formState.isValid}>
               {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}

@@ -17,13 +17,14 @@ import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/
 import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
+import { ReactComponent as SoilSampleLocation } from '../../assets/images/farmMapFilter/SoilSampleLocation.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { locationEnum } from '../../containers/Map/constants';
 import MapDrawerMenuItem from './MapDrawerMenuItem';
-import Drawer from '../Drawer';
+import Drawer, { DesktopDrawerVariants } from '../Drawer';
 import styles from './styles.module.scss';
 
 export default function MapDrawer({
@@ -33,6 +34,7 @@ export default function MapDrawer({
   filterSettings,
   availableFilterSettings,
   headerTitle,
+  isCompactSideMenu,
 }) {
   const { t } = useTranslation();
 
@@ -140,6 +142,11 @@ export default function MapDrawer({
           icon: () => <Sensor style={{ transform: 'translate(-5px, 5px)' }} />,
           key: locationEnum.sensor,
         },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),
+          icon: () => <SoilSampleLocation />,
+          key: locationEnum.soil_sample_location,
+        },
       ]
         .sort((firstLocationType, secondLocationType) =>
           firstLocationType.name.localeCompare(secondLocationType.name),
@@ -200,9 +207,8 @@ export default function MapDrawer({
         )}
 
         {!!areaImgDict.length && (
-          <Label className={styles.label}>
+          <Label className={clsx(styles.label, !!filterSettings && styles.sectionLabelPadding)}>
             {t('FARM_MAP.MAP_FILTER.AREAS')}
-            <span className={styles.labelDivider} />
           </Label>
         )}
         {areaImgDict.map(({ key, name, icon }) => {
@@ -220,10 +226,11 @@ export default function MapDrawer({
         })}
 
         {!!lineImgDict.length && (
-          <Label className={styles.label}>
-            {t('FARM_MAP.MAP_FILTER.LINES')}
-            <span className={styles.labelDivider} />
-          </Label>
+          <>
+            <Label className={clsx(styles.label, styles.sectionLabelPadding)}>
+              {t('FARM_MAP.MAP_FILTER.LINES')}
+            </Label>
+          </>
         )}
         {lineImgDict.map(({ key, name, icon }) => (
           <MapDrawerMenuItem
@@ -238,9 +245,8 @@ export default function MapDrawer({
         ))}
 
         {!!pointImgDict.length && (
-          <Label className={styles.label}>
+          <Label className={clsx(styles.label, styles.sectionLabelPadding)}>
             {t('FARM_MAP.MAP_FILTER.POINTS')}
-            <span className={styles.labelDivider} />
           </Label>
         )}
         {pointImgDict.map(({ key, name, icon }) => (
@@ -264,7 +270,14 @@ export default function MapDrawer({
         data-cy="map-drawer"
         title={headerTitle}
         isOpen={showMapDrawer}
+        desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
+        desktopSideDrawerDirection="left"
+        isCompactSideMenu={isCompactSideMenu}
+        addBackdrop={false}
         onClose={() => setShowMapDrawer(false)}
+        classes={{
+          desktopSideDrawerContainer: styles.sideDrawerContainer,
+        }}
       >
         {list()}
       </Drawer>

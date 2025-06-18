@@ -15,7 +15,7 @@
 
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
@@ -58,7 +58,11 @@ import {
   formatTaskReadOnlyDefaultValues,
 } from '../../../util/task';
 import PureMovementTask from '../MovementTask';
+import PureSoilSampleTask from '../SoilSampleTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import PureIrrigationPrescription from '../../IrrigationPrescription';
+import PureDocumentTile from '../../../containers/Documents/DocumentTile';
+import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -73,6 +77,8 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
+  externalIrrigationPrescription,
+  files,
   harvestUseTypes,
   maxZoomRef,
   getMaxZoom,
@@ -110,7 +116,6 @@ export default function PureTaskReadOnly({
       };
     }
   }, [task]);
-  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
     register,
@@ -170,6 +175,13 @@ export default function PureTaskReadOnly({
   const preDelete = () => {
     setIsDeleting(true);
   };
+
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(taskType, 'IRRIGATION_TASK') &&
+    task.irrigation_task?.irrigation_prescription_external_id != null;
+  const showLocations =
+    (task.locations?.length || task.pinCoordinates?.length) &&
+    !isIrrigationTaskWithExternalPrescription;
 
   return (
     <Layout
@@ -238,9 +250,9 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {task.locations?.length || task.pinCoordinates?.length ? (
+      {showLocations ? (
         <>
-          <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+          <Semibold className={styles.taskLocationsTitle}>{t('TASK.LOCATIONS')}</Semibold>
           {isTaskType(taskType, 'TRANSPLANT_TASK') && (
             <TransplantLocationLabel
               locations={task.locations}
@@ -253,15 +265,30 @@ export default function PureTaskReadOnly({
               //  TODO: fix onSelectLocationRef in LocationPicker
             }}
             readOnlyPinCoordinates={task.pinCoordinates}
-            style={{ minHeight: '160px', marginBottom: '40px' }}
+            style={{ minHeight: '320px', marginBottom: '40px' }}
             locations={task.locations}
             selectedLocationIds={task.selectedLocationIds || []}
             farmCenterCoordinate={user.grid_points}
             maxZoomRef={maxZoomRef}
             getMaxZoom={getMaxZoom}
+            disableHover={true}
           />
         </>
       ) : null}
+
+      {isIrrigationTaskWithExternalPrescription && (
+        <div className={styles.irrigationPrescription}>
+          <PureIrrigationPrescription
+            fieldLocation={task.locations[0]}
+            pivotCenter={externalIrrigationPrescription.pivot.center}
+            pivotRadiusInMeters={externalIrrigationPrescription.pivot.radius}
+            {...(externalIrrigationPrescription.prescription.uriData
+              ? { uriData: externalIrrigationPrescription.prescription.uriData }
+              : { vriData: externalIrrigationPrescription.prescription.vriData?.zones })}
+            system={system}
+          />
+        </div>
+      )}
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (
@@ -305,7 +332,9 @@ export default function PureTaskReadOnly({
 
       {isCompleted && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.COMPLETION_DETAILS')}
+          </Semibold>
           <TimeSlider
             style={{ marginBottom: '40px' }}
             label={t('TASK.DURATION')}
@@ -373,7 +402,9 @@ export default function PureTaskReadOnly({
 
       {isAbandoned && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.ABANDONMENT_DETAILS')}
+          </Semibold>
 
           <ReactSelect
             label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
@@ -429,7 +460,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+      <Semibold className={styles.filesTitle}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
@@ -459,6 +490,27 @@ export default function PureTaskReadOnly({
           optional
           disabled
         />
+      )}
+
+      {!!files.length && (
+        <div>
+          <Semibold className={styles.filesTitle}>
+            {isTaskType(taskType, 'IRRIGATION_TASK') &&
+              t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
+            {isTaskType(taskType, 'SOIL_SAMPLE_TASK') && t('TASK.LAB_DOCUMENTS')}
+          </Semibold>
+          <PureDocumentTileContainer gap={16} padding={0}>
+            {files.map((file, index) => (
+              <PureDocumentTile
+                key={index}
+                title={file.file_name ?? file.url.split('/').at(-1)}
+                extensionName={file.url.split('.').at(-1)}
+                fileUrls={[file.url]}
+                preview={file.thumbnail_url}
+              />
+            ))}
+          </PureDocumentTileContainer>
+        </div>
       )}
 
       {isAdmin && isCurrent && !isDeleting && (
@@ -539,4 +591,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

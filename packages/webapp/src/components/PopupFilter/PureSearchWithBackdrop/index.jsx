@@ -47,10 +47,10 @@ import { Backdrop } from '@mui/material';
 export default function PureSearchBarWithBackdrop({
   value,
   onChange,
-  placeholderText,
-  className,
-  isDesktop,
-  zIndexBase,
+  placeholderText = '',
+  className = '',
+  isDesktop = false,
+  zIndexBase = 1201,
 }) {
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
   const onSearchOpen = () => {
@@ -86,12 +86,4 @@ PureSearchBarWithBackdrop.propTypes = {
   placeholderText: PropTypes.string,
   className: PropTypes.string,
   isDesktop: PropTypes.bool,
-};
-
-PureSearchBarWithBackdrop.defaultProps = {
-  placeholderText: '',
-  isSearchActive: false,
-  className: '',
-  isDesktop: false,
-  zIndexBase: 1201,
 };

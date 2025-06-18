@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+@import '@assets/mixin.scss';
 
 .container {
   width: 100%;
@@ -53,4 +54,38 @@
 
 .marginBottom {
   margin-bottom: 104px;
+}
+
+.bento {
+  display: flex;
+  gap: var(--bentoGap);
+  flex-wrap: wrap;
+
+  & > div {
+    flex: 1 1 calc((100% - var(--bentoGap) * (var(--bentoColumns) - 1)) / var(--bentoColumns));
+  }
+  // This overrides default flex responsiveness and jumps to single column of rows style below medium
+  // Currently this is based of design so making it the default behaviour here despite it being unusual
+  &.bentoOffMedium {
+    @include md-breakpoint {
+      flex-direction: column;
+
+      & > div {
+        flex: unset;
+      }
+    }
+  }
+}
+
+.paperContainer {
+  background-color: white;
+  padding: 16px;
+
+  // card only past the width of mainColumn's max-content
+  @include lg-breakpoint {
+    margin: 16px auto;
+    border-radius: 4px;
+    border: 1px solid var(--Colors-Primary-Primary-teal-50);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  }
 }

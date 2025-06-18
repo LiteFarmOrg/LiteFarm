@@ -18,7 +18,13 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { areaSelector, lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import {
+  areaSelector,
+  lineSelector,
+  pointSelector,
+  externalPointSelector,
+  sortedAreaSelector,
+} from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -61,6 +67,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   const [points, setPoints] = useState({});
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
+  const assetGeometriesRef = useRef({});
+
+  // Keep ref (for cleanup) in sync with state
+  useEffect(() => {
+    assetGeometriesRef.current = assetGeometries;
+  }, [assetGeometries]);
+
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
@@ -103,7 +116,9 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   const areaAssets = useSelector(areaSelector);
   const lineAssets = useSelector(lineSelector);
-  const pointAssets = useSelector(pointSelector);
+  const internalPoints = useSelector(pointSelector);
+  const externalPoints = useSelector(externalPointSelector);
+  const pointAssets = { ...internalPoints, ...externalPoints };
   const { grid_points } = useSelector(userFarmSelector);
 
   useEffect(() => {
@@ -124,15 +139,20 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-      ? drawLine
-      : drawPoint;
+        ? drawLine
+        : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
-  }, [filterSettings?.gate, filterSettings?.water_valve, filterSettings?.sensor]);
+  }, [
+    filterSettings?.gate,
+    filterSettings?.water_valve,
+    filterSettings?.soil_sample_location,
+    filterSettings?.sensor,
+  ]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
   }, [isClickable]);
@@ -144,6 +164,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       point.marker.name = point.location_name;
       point.marker.asset = point.asset;
       point.marker.type = point.type;
+      point.marker.isAddonSensor = point.isAddonSensor;
       markers.push(point.marker);
     });
 
@@ -158,7 +179,9 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         const pointAssets = {
           gate: [],
           water_valve: [],
+          soil_sample_location: [],
           sensor: [],
+          sensor_array: [],
         };
         cluster.markers.map((point) => {
           pointAssets[point.type].push({
@@ -167,6 +190,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
             location_name: point.name,
             marker: point,
             type: point.type,
+            isAddonSensor: point.isAddonSensor,
           });
         });
 
@@ -265,6 +289,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     const pointsArray = [
       ...assetGeometries.gate,
       ...assetGeometries.water_valve,
+      ...assetGeometries.soil_sample_location,
       ...assetGeometries.sensor,
     ];
 
@@ -546,10 +571,18 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       location_name: point.name,
       asset: 'point',
       type: point.type,
+      isAddonSensor: point.isAddonSensor,
     };
   };
 
-  return { drawAssets, drawArea, drawPoint, drawLine };
+  return {
+    drawAssets,
+    drawArea,
+    drawPoint,
+    drawLine,
+    assetGeometriesRef,
+    markerClusterRef,
+  };
 };
 
 export default useMapAssetRenderer;

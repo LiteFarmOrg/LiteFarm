@@ -122,6 +122,34 @@ class ManagementPlan extends baseModel {
       crop_management_plan: 'edit',
     };
   }
+
+  /**
+   * Retrieves all management plans associated with a specific location
+   * Mirrors getManagementPlansByFarmId(), but includes the crop variety and crop
+   */
+  static async getManagementPlansByLocationId(location_id, trx = null) {
+    const planGraphJoinedQueryString =
+      '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+
+    const graphJoinedOptions = {
+      aliases: {
+        crop_management_plan: 'cmp',
+        planting_management_plans: 'pmps',
+      },
+    };
+
+    return await ManagementPlan.query(trx)
+      .whereNotDeleted()
+      .withGraphJoined(planGraphJoinedQueryString, graphJoinedOptions)
+      /*-----
+        this will ignore the original field of a planting task with transplant:
+          is_final_planting_management_plan = false
+        and the destination of a subsequent transplant task:
+          is_final_planting_management_plan = null */
+      .where('cmp:pmps.is_final_planting_management_plan', true)
+      /*------------*/
+      .andWhere('cmp:pmps.location_id', location_id);
+  }
 }
 
 export default ManagementPlan;

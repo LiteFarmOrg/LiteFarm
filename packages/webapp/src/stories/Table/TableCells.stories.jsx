@@ -12,11 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
 import { TableKind, CellKind } from '../../components/Table/types';
+import { Status } from '../../components/StatusIndicatorPill';
+import { getIntlDate } from '../../util/date-migrate-TS';
+import styles from './styles.module.scss';
 
 export default {
   title: 'Components/Tables/Cells',
@@ -24,7 +27,7 @@ export default {
   decorators: v2TableDecorator,
 };
 
-const getFakeColumns = () => {
+const getFakeColumnsOne = () => {
   return [
     {
       id: 'crop',
@@ -43,6 +46,62 @@ const getFakeColumns = () => {
       format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
     },
     {
+      id: 'StatusIndicatorPill',
+      label: 'Availability',
+      format: (d) => {
+        const isAvailable = Math.random() < 3 / 4;
+        return (
+          <Cell
+            kind={CellKind.STATUS_INDICATOR_PILL}
+            status={isAvailable ? Status.ONLINE : Status.OFFLINE}
+            pillText={isAvailable ? 'Available' : 'Sold out'}
+            tooltipText={isAvailable ? 'This crop is available' : 'This crop is sold out'}
+          />
+        );
+      },
+      sortable: false,
+    },
+    {
+      id: 'rightChevronLink',
+      label: '',
+      format: (d) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={'/'} />,
+      sortable: false,
+    },
+  ];
+};
+
+const getFakeColumnsTwo = () => {
+  return [
+    {
+      id: 'date',
+      label: 'Date',
+      format: (d) => (
+        <Cell
+          kind={CellKind.ICON_TEXT}
+          iconName={'CALENDAR'}
+          text={getIntlDate(d.date)}
+          className={styles.dateCell}
+        />
+      ),
+    },
+    {
+      id: 'taskStatus',
+      label: 'Task Status',
+      format: (d) => (
+        <Cell
+          kind={CellKind.TASK_STATUS_INDICATOR_PILL}
+          color={d.taskStatus}
+          label={d.taskStatus.charAt(0).toUpperCase() + d.taskStatus.slice(1)}
+          taskId={d.task_id}
+        />
+      ),
+    },
+    {
+      id: 'revenue',
+      label: 'Revenue',
+      format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
+    },
+    {
       id: 'rightChevronLink',
       label: '',
       format: (d) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={'/'} />,
@@ -54,42 +113,113 @@ const getFakeColumns = () => {
 const getFakeData = (length) => {
   return [
     {
+      date: Date.now(),
       crop: 'White corn, Corn',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 8796.0,
+      task_id: 1,
+      taskStatus: 'active',
     },
     {
+      date: Date.now() - 1000 * 60 * 3,
       crop: 'Koto, Buckwheat',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 692.5,
+      task_id: 1,
+      taskStatus: 'planned',
     },
     {
+      date: Date.now() - 1000 * 60 * 60 * 3,
       crop: 'Lutz green leaf, Beetroot',
       iconName: 'CROP',
       tasks: ['Task 1', 'Task 2'],
       revenue: 210.0,
+      task_id: 1,
+      taskStatus: 'late',
     },
-    { crop: 'Cox’s orange pippin, Apple', iconName: 'CROP', tasks: ['Task 1'], revenue: 340.0 },
-    { crop: 'Macoun, Apples', iconName: 'CROP', tasks: [], revenue: 1234.0 },
-    { crop: 'Butter Boy Hybrid, Butternut ', iconName: 'CROP', tasks: ['Task 1'], revenue: 785.5 },
-    { crop: 'King Edward, Potato', iconName: 'CROP', tasks: ['Task 1'], revenue: 237.0 },
-    { crop: 'Blanco Veneto, Celeriac', iconName: 'CROP', tasks: ['Task 1'], revenue: 895.0 },
-    { crop: 'Hollow Crown, Parsnips ', iconName: 'CROP', tasks: ['Task 1'], revenue: 354.0 },
     {
+      date: Date.now() - 1000 * 7 * 60 * 60 * 3,
+      crop: 'Cox’s orange pippin, Apple',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 340.0,
+      task_id: 1,
+      taskStatus: 'completed',
+    },
+    {
+      date: Date.now() - 1000 * 30 * 60 * 60 * 3,
+      crop: 'Macoun, Apples',
+      iconName: 'CROP',
+      tasks: [],
+      revenue: 1234.0,
+      task_id: 1,
+      taskStatus: 'abandoned',
+    },
+    {
+      date: Date.now() - 1000 * 366 * 60 * 60 * 3,
+      crop: 'Butter Boy Hybrid, Butternut ',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 785.5,
+      task_id: 1,
+      taskStatus: 'disabled',
+    },
+    {
+      date: Date.now(),
+      crop: 'King Edward, Potato',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 237.0,
+      task_id: 1,
+      taskStatus: 'planned',
+    },
+    {
+      date: Date.now(),
+      crop: 'Blanco Veneto, Celeriac',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 895.0,
+      task_id: 1,
+      taskStatus: 'planned',
+    },
+    {
+      date: Date.now(),
+      crop: 'Hollow Crown, Parsnips ',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 354.0,
+      task_id: 1,
+      taskStatus: 'planned',
+    },
+    {
+      date: Date.now(),
       crop: 'Early White Hybrid, Cauliflower',
       iconName: 'CROP',
       tasks: ['Task 1'],
       revenue: 789.5,
+      task_id: 1,
+      taskStatus: 'planned',
     },
   ].slice(0, length);
 };
 
-export const FakeTableWithCells = {
+export const FakeTableOneWithCells = {
   args: {
     kind: TableKind.V2,
-    columns: getFakeColumns(),
+    columns: getFakeColumnsOne(),
+    data: getFakeData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+  },
+};
+
+// Showcase more table cell types
+export const FakeTableTwoWithCells = {
+  args: {
+    kind: TableKind.V2,
+    columns: getFakeColumnsTwo(),
     data: getFakeData(10),
     minRows: 10,
     shouldFixTableLayout: true,

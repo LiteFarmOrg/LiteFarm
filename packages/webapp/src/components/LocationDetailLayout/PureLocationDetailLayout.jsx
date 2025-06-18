@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Label } from '../Typography';
 import LocationButtons from './LocationButtons';
 import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
@@ -9,6 +8,11 @@ import AreaDetails from './AreaDetails/AreaDetails';
 import LineDetails from './LineDetails/LineDetails';
 import PointDetails from './PointDetails/PointDetails';
 import RouterTab from '../RouterTab';
+import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
+import { useSelector } from 'react-redux';
+import { locationByIdSelector } from '../../containers/locationSlice';
+import { Variant } from '../RouterTab/Tab';
+import CardLayout from '../Layout/CardLayout';
 
 export function PureLocationDetailLayout({
   history,
@@ -20,14 +24,12 @@ export function PureLocationDetailLayout({
   isViewLocationPage,
   isEditLocationPage,
   persistedFormData,
-  useHookFormPersist,
   handleRetire,
   isAdmin,
   onSubmit,
   translationKey,
   detailsChildren,
   showPerimeter,
-  tabs,
 }) {
   const { t } = useTranslation();
   const formMethods = useForm({
@@ -47,10 +49,11 @@ export function PureLocationDetailLayout({
     (isEditLocationPage && t(`FARM_MAP.${translationKey}.EDIT_TITLE`)) ||
     (isViewLocationPage && persistedFormData.name);
 
-  const routerTabs = tabs.map((tab) => ({
-    label: t(`FARM_MAP.TAB.${tab.toUpperCase()}`),
-    path: `/${locationType}/${match.params.location_id}/${tab}`,
-  }));
+  // TODO: Move this up to container when just 1 container exists for locations
+  const { location_id } = match.params;
+  const location =
+    isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
+  const routerTabs = location && useLocationRouterTabs(location, match);
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {
@@ -95,41 +98,45 @@ export function PureLocationDetailLayout({
   }, [locationCategory]);
 
   return (
-    <FormProvider {...formMethods}>
-      <Form
-        buttonGroup={
-          <LocationButtons
-            disabled={disabled}
+    <CardLayout>
+      <FormProvider {...formMethods}>
+        <Form
+          buttonGroup={
+            <LocationButtons
+              disabled={disabled}
+              isCreateLocationPage={isCreateLocationPage}
+              isViewLocationPage={isViewLocationPage}
+              isEditLocationPage={isEditLocationPage}
+              onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+              onRetire={handleRetire}
+              isAdmin={isAdmin}
+            />
+          }
+          onSubmit={formMethods.handleSubmit(onSubmit, onError)}
+          fullWidthContent
+        >
+          <LocationPageHeader
+            title={title}
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
-            onRetire={handleRetire}
-            isAdmin={isAdmin}
-          />
-        }
-        onSubmit={formMethods.handleSubmit(onSubmit, onError)}
-      >
-        <LocationPageHeader
-          title={title}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          history={history}
-          match={match}
-          onCancel={historyCancel}
-          formMethods={formMethods}
-        />
-        {isViewLocationPage && (
-          <RouterTab
-            classes={{ container: { margin: '6px 0 26px 0' } }}
             history={history}
             match={match}
-            tabs={routerTabs}
+            onCancel={historyCancel}
+            formMethods={formMethods}
           />
-        )}
-        {details}
-      </Form>
-    </FormProvider>
+          {isViewLocationPage && (
+            <RouterTab
+              classes={{ container: { margin: '6px 0 26px 0' } }}
+              history={history}
+              match={match}
+              tabs={routerTabs}
+              variant={Variant.UNDERLINE}
+            />
+          )}
+          {details}
+        </Form>
+      </FormProvider>
+    </CardLayout>
   );
 }

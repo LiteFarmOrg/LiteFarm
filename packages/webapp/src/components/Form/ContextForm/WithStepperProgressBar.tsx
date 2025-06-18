@@ -27,14 +27,18 @@ import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
+import Loading from './Loading';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
   history: History;
-  steps: { formContent: ReactNode; title: string }[];
+  steps: {
+    formContent: ReactNode;
+    title: string;
+    dataName?: string;
+  }[];
   activeStepIndex: number;
-  cancelModalTitle: string;
   isCompactSideMenu: boolean;
   hasSummaryWithinForm: boolean;
   stepperProgressBarConfig?: {
@@ -59,14 +63,22 @@ interface WithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
   showCancelFlow?: boolean;
   setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
+  headerComponent?: ((props: HeaderProps) => JSX.Element) | null;
+  showPreviousButton?: boolean;
+  showLoading?: boolean;
+  onAfterSave?: (values: FieldValues) => void;
 }
 
+/**
+ * Only provide setIsEditing when the form needs to toggle to read-only mode (e.g., SingleAnimalView).
+ * If setIsEditing is provided, ContextForm will call setIsEditing(false) instead of history.back()
+ * when the user cancels or goes back from step 0
+ */
 export const WithStepperProgressBar = ({
   children,
   history,
   steps,
   activeStepIndex,
-  cancelModalTitle,
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
@@ -84,12 +96,18 @@ export const WithStepperProgressBar = ({
   setIsEditing,
   showCancelFlow,
   setShowCancelFlow,
+  headerComponent = StepperProgressBar,
+  showPreviousButton = true,
+  showLoading,
+  onAfterSave,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
     retry: undefined,
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
   const isSingleStep = steps.length === 1;
@@ -97,7 +115,7 @@ export const WithStepperProgressBar = ({
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
   useEffect(() => {
-    if (isSummaryPage || !isDirty) {
+    if (isSummaryPage || !isDirty || isSaved) {
       return;
     }
     const unblock = history.block((tx) => {
@@ -105,7 +123,20 @@ export const WithStepperProgressBar = ({
     });
 
     return () => unblock();
-  }, [isSummaryPage, isDirty, history]);
+  }, [isSummaryPage, isDirty, history, isSaved]);
+
+  useEffect(() => {
+    if (isSaved && onAfterSave) {
+      onAfterSave(getValues());
+    }
+  }, [isSaved, onAfterSave]);
+
+  useEffect(() => {
+    // Reset loading state whenever the step changes
+    if (isLoading) {
+      setIsLoading(false);
+    }
+  }, [activeStepIndex]);
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
@@ -124,8 +155,15 @@ export const WithStepperProgressBar = ({
 
   const onContinue = async () => {
     if (isFinalStep) {
+      setIsLoading(true);
       setIsSaving(true);
-      await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
+      try {
+        await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
+        setIsSaved(true);
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
+      }
       setIsSaving(false);
       return;
     }
@@ -137,7 +175,7 @@ export const WithStepperProgressBar = ({
       transition.unblock?.();
       transition.retry?.();
     } catch (e) {
-      console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
+      console.error(`Error during canceling: ${e}`);
     }
     reset();
     setIsEditing?.(false);
@@ -149,13 +187,21 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
+  if (showLoading && isLoading) {
+    return (
+      <Loading dataName={steps[activeStepIndex].dataName} isCompactSideMenu={isCompactSideMenu} />
+    );
+  }
+
   return (
     <StepperProgressBarWrapper
-      isSingleStep={isSingleStep}
       {...stepperProgressBarConfig}
       title={stepperProgressBarTitle}
       steps={steps.map(({ title }) => title)}
       activeStep={activeStepIndex}
+      onGoBack={onGoBack}
+      onCancel={onCancel}
+      headerComponent={headerComponent}
     >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
@@ -163,7 +209,7 @@ export const WithStepperProgressBar = ({
           <FormNavigationButtons
             onContinue={onContinue}
             onCancel={onCancel}
-            onPrevious={isSingleStep ? undefined : onGoBack}
+            onPrevious={isSingleStep || !showPreviousButton ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
             isDisabled={!isValid || isSaving}
@@ -171,32 +217,33 @@ export const WithStepperProgressBar = ({
         </FloatingContainer>
       )}
       {(transition.unblock || showCancelFlow) && (
-        <CancelFlowModal
-          flow={cancelModalTitle}
-          dismissModal={handleDismissModal}
-          handleCancel={handleCancel}
-        />
+        <CancelFlowModal dismissModal={handleDismissModal} handleCancel={handleCancel} />
       )}
     </StepperProgressBarWrapper>
   );
 };
 
-type StepperProgressBarWrapperProps = StepperProgressBarProps & {
+type HeaderProps = StepperProgressBarProps & {
+  onGoBack: () => void;
+  onCancel: () => void;
+};
+
+type StepperProgressBarWrapperProps = HeaderProps & {
   children: ReactNode;
-  isSingleStep: boolean;
+  headerComponent: ((props: HeaderProps) => JSX.Element) | null;
 };
 
 const StepperProgressBarWrapper = ({
   children,
-  isSingleStep,
+  headerComponent,
   ...stepperProgressBarProps
 }: StepperProgressBarWrapperProps) => {
-  if (isSingleStep) {
+  if (!headerComponent) {
     return <>{children}</>;
   }
 
   return (
-    <FixedHeaderContainer header={<StepperProgressBar {...stepperProgressBarProps} />}>
+    <FixedHeaderContainer header={headerComponent && headerComponent(stepperProgressBarProps)}>
       {children}
     </FixedHeaderContainer>
   );

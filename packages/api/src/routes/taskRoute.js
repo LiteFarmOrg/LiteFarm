@@ -94,6 +94,15 @@ router.post(
 );
 
 router.post(
+  '/soil_sample_task',
+  modelMapping['soil_sample_task'],
+  hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
+  isWorkerToSelfOrAdmin(),
+  checkCreateTask('soil_sample_task'),
+  taskController.createTask('soil_sample_task'),
+);
+
+router.post(
   '/cleaning_task',
   modelMapping['cleaning_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
@@ -116,6 +125,7 @@ router.post(
   modelMapping['irrigation_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
+  checkCreateTask('irrigation_task'),
   taskController.createTask('irrigation_task'),
 );
 
@@ -184,6 +194,15 @@ router.patch(
   checkScope(['edit:task']),
   checkCompleteTask('soil_amendment_task'),
   taskController.completeTask('soil_amendment_task'),
+);
+
+router.patch(
+  '/complete/soil_sample_task/:task_id',
+  modelMapping['soil_sample_task'],
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  checkCompleteTask('soil_sample_task'),
+  taskController.completeTask('soil_sample_task'),
 );
 
 router.patch(

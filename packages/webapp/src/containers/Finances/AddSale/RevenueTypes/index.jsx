@@ -66,7 +66,6 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
       <PureFinanceTypeSelection
         title={t('SALE.ADD_SALE.ADD_REVENUE')}
         leadText={t('SALE.ADD_SALE.WHICH_TYPE_TO_RECORD')}
-        cancelTitle={t('SALE.ADD_SALE.FLOW')}
         types={revenueTypes}
         onGoBack={history.back}
         progressValue={33}

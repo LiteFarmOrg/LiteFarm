@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
 import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
+import { validateOptionLength } from '../../Form/hookformValidationUtils';
 
 export type Option = {
   label: string;
@@ -49,12 +50,13 @@ export function AnimalTypeSelect<T extends FieldValues>({
         control={control}
         rules={{
           required: { value: true, message: t('common:REQUIRED') },
+          validate: validateOptionLength,
         }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
             options={typeOptions}
-            onChange={(option) => {
+            onChange={(option: any) => {
               onChange(option);
               onTypeChange?.(option);
             }}
@@ -94,6 +96,9 @@ export function AnimalBreedSelect<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
+        rules={{
+          validate: validateOptionLength,
+        }}
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             ref={breedSelectRef}
@@ -103,9 +108,8 @@ export function AnimalBreedSelect<T extends FieldValues>({
             controlShouldRenderValue={isTypeSelected}
             placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
             isDisabled={!isTypeSelected || isDisabled}
-            onChange={(option) => {
+            onChange={(option: any) => {
               onChange(option);
-              // @ts-ignore
               onBreedChange?.(option);
             }}
             value={value || null}

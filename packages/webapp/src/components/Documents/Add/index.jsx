@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -8,23 +7,18 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
-import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
-import { Loading } from '../../Loading/Loading';
-import { ContainerWithIcon } from '../../ContainerWithIcon/ContainerWithIcon';
-import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
+import FilePicker from '../../FilePicker';
+import _isEqual from 'lodash-es/isEqual';
 
 function PureDocumentDetailView({
   submit,
   onGoBack,
-  onCancel,
-  deleteImage,
   useHookFormPersist,
-  imageComponent,
   persistedFormData,
   isEdit,
-  documentUploader,
+  filePickerFunctions,
+  isUploading,
 }) {
   const { t } = useTranslation();
   const typeOptions = {
@@ -110,23 +104,12 @@ function PureDocumentDetailView({
     persistedData: { uploadedFiles },
     historyCancel,
   } = useHookFormPersist(getValues);
-  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
-  const onFileUpdateEnd = () => {
-    setIsFilesUpdated(true);
-  };
 
-  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
-    !isEdit && !uploadedFiles?.length,
-  );
-  const onUpload = () => {
-    setShouldShowLoadingImage(true);
-  };
-  useEffect(() => {
-    uploadedFiles?.length && setShouldShowLoadingImage(false);
-  }, [uploadedFiles?.length]);
+  // This only works because if one were to delete the original file, uploading that same file would create a "new" file
+  const isDirtyUploadedFiles = !_isEqual(defaultData.files, uploadedFiles);
 
   const disabled = isEdit
-    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isDirtyUploadedFiles) || isUploading
     : !isValid || uploadedFiles?.length === 0;
 
   return (
@@ -152,7 +135,6 @@ function PureDocumentDetailView({
           value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
-          cancelModalTitle={t('DOCUMENTS.CANCEL_MODAL')}
         />
       )}
       <Input
@@ -193,50 +175,13 @@ function PureDocumentDetailView({
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
-      <div
-        style={{
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: '24px',
-          paddingBottom: '16px',
-          alignItems: 'center',
-        }}
-      >
-        {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
-          <ContainerWithIcon
-            icon={<TrashIcon />}
-            onIconClick={() => {
-              deleteImage(url);
-              onFileUpdateEnd();
-            }}
-            key={index}
-            style={{ width: '100%', maxWidth: thumbnail_url ? '312px' : undefined }}
-          >
-            {thumbnail_url ? (
-              imageComponent({
-                width: '100%',
-                style: { width: '100%', height: '100%' },
-                height: '100%',
-                fileUrls: [thumbnail_url],
-                mediaType: mediaEnum.IMAGE,
-              })
-            ) : (
-              <CertifierSelectionMenuItem certifierName={file_name} />
-            )}
-          </ContainerWithIcon>
-        ))}
-        {shouldShowLoadingImage && (
-          <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />
-        )}
-      </div>
-      {uploadedFiles?.length < 5 &&
-        documentUploader({
-          style: { paddingBottom: '32px' },
-          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-          onUpload,
-          onUploadEnd: onFileUpdateEnd,
-        })}
+      <FilePicker
+        uploadedFiles={uploadedFiles}
+        linkText={t('DOCUMENTS.ADD.ADD_MORE_PAGES')}
+        showLoading={isUploading}
+        showUploader={!uploadedFiles || uploadedFiles?.length < 5}
+        {...filePickerFunctions}
+      />
       <InputAutoSize
         hookFormRegister={register(NOTES, {
           maxLength: { value: 10000, message: t('DOCUMENTS.NOTES_CHAR_LIMIT') },

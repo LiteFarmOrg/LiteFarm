@@ -30,7 +30,7 @@ export default function LockedInput<T extends FieldValues>({
       {...props}
       disabled
       className={className}
-      rightSection={<Icon iconName={'LOCKED'} className={clsx(styles.icon)} />}
+      rightSection={<Icon iconName={'LOCKED'} />}
     />
   );
 }

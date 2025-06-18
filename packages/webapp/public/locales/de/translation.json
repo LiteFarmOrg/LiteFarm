@@ -350,7 +350,9 @@
     "SEEDING_RATE": "Aussaatmenge"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Alle von Ihnen eingegebenen Informationen werden verworfen. Möchten Sie fortfahren?"
+    "BODY": "Alle von Ihnen eingegebenen Informationen werden verworfen. Möchten Sie fortfahren?",
+    "NO_BUTTON": "Nicht abbrechen",
+    "TITLE": "Sind Sie sicher, dass Sie abbrechen möchten?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -712,6 +714,7 @@
     "RESET_PASSWORD_LINK": "Link für neues Passwort senden."
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "Neuer Standort",
     "AREA_DETAILS": {
       "NETWORK": "Probleme mit der Netzwerkverbindung.",
       "PERIMETER": "Umfang",
@@ -745,6 +748,7 @@
       "ZERO_AREA_DETECTED": "Feld mit nicht erfasster Fläche. Bitte fügen Sie der aktuellen Zeichnung weitere Punkte hinzu oder zeichnen Sie erneut.",
       "ZERO_LENGTH_DETECTED": "Linie ohne Länge erkannt. Bitte noch einmal zeichnen."
     },
+    "EXPORT_MAP": "Kartenexport",
     "EXPORT_MODAL": {
       "BODY": "Wie möchten Sie Ihre Landwirtschaftskarte exportieren?",
       "DOWNLOAD": "Herunterladen",
@@ -774,6 +778,7 @@
       "TITLE": "Feld hinzufügen",
       "TRANSITIONING": "Umstellung"
     },
+    "FILTER_MAP": "Kartenfilter",
     "GARDEN": {
       "DATE": "Förderfähiges Übergangsdatum",
       "EDIT_TITLE": "Garten bearbeiten",

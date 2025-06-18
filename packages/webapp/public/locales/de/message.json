@@ -81,6 +81,13 @@
       "UPDATE": "Betriebsdaten erfolgreich aktualisiert!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": ""
+    },
+    "SUCCESS_DISCONNECT_ADDON": ""
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Beim Senden Ihres Feedbacks hat etwas nicht geklappt. Bitte versuchen Sie es erneut."

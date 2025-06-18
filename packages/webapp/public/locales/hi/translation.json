@@ -208,8 +208,11 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "आपको एक ऐसी जगह की ज़रूरत है जहाँ जानवरों को ले जाया जा सके। यह स्थान बनाने के लिए मैप पर जाएँ।",
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
+    "NEED_SOIL_SAMPLE_LOCATION": "",
+    "NEED_SOIL_SAMPLE_LOCATION_WORKER": "",
     "NO_ANIMAL_LOCATION": "जानवरों के लिए सही स्थान नहीं है",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
+    "NO_SOIL_SAMPLE_LOCATION": "",
     "NOTES_LABEL": "क्या इस कार्य से संबंधित कुछ विशेष जोड़ना है?",
     "NOTES_PLACEHOLDER": "निर्देश या असाइन किए गए व्यक्ति के लिए कोई विशेष विवरण जोड़ें",
     "PEST_CONTROL_VIEW": {
@@ -267,6 +270,17 @@
       "VOLUME": "मात्रा",
       "WEIGHT": "वजन"
     },
+    "SOIL_SAMPLE_VIEW": {
+      "LOCATION_COUNT": "",
+      "SAMPLE_DEPTH_RANGE": "",
+      "SAMPLE_PER_LOCATION_COUNT": "",
+      "SAMPLE_TOOL": {
+        "AUGER": "",
+        "SOIL_PROBE": "",
+        "SPADE": ""
+      },
+      "SAMPLING_TOOL": ""
+    },
     "TASK": "कार्य",
     "TASK_NOTES_CHAR_LIMIT": "नोट्स 10,000 अक्षरों से कम होने चाहिए",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "इस कार्य के बारे में बताएं",
@@ -276,6 +290,19 @@
     "WAGE_OVERRIDE": "मजदूरी अधिलेखन",
     "WHAT_PLANTING_METHOD": "प्रत्यारोपण की विधि क्या है?",
     "WILD_CROP": "जंगली फसलें"
+  },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CANCEL": "",
+      "CONFIRM": ""
+    },
+    "ESCI": {
+      "DISCONNECT_ESCI": "",
+      "INFO": "",
+      "MODAL_INFO": "",
+      "MODAL_TITLE": ""
+    },
+    "ORGANISATION_ID": ""
   },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "क्या आपके पास कोई और जानवर का प्रकार या अलग नस्ल है?",
@@ -350,7 +377,9 @@
     "SEEDING_RATE": "बीजारोपण दर"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "आपके द्वारा दर्ज की गई कोई भी जानकारी हटा दी जाएगी। क्या आप आगे बढ़ना चाहते हैं?"
+    "BODY": "आपके द्वारा दर्ज की गई कोई भी जानकारी हटा दी जाएगी। क्या आप आगे बढ़ना चाहते हैं?",
+    "NO_BUTTON": "रद्द न करें",
+    "TITLE": "क्या आप वाकई रद्द करना चाहते हैं?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -602,6 +631,24 @@
     "TUESDAY": "मं",
     "WEDNESDAY": "बु"
   },
+  "DIRECTION": {
+    "E": "",
+    "ENE": "",
+    "ESE": "",
+    "N": "",
+    "NE": "",
+    "NNE": "",
+    "NNW": "",
+    "NW": "",
+    "S": "",
+    "SE": "",
+    "SSE": "",
+    "SSW": "",
+    "SW": "",
+    "W": "",
+    "WNW": "",
+    "WSW": ""
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "अधिक पृष्ठ जोड़ें",
@@ -712,6 +759,7 @@
     "RESET_PASSWORD_LINK": "नया पासवर्ड लिंक भेजें।"
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "स्थान जोड़ें",
     "AREA_DETAILS": {
       "NETWORK": "नेटवर्क कनेक्टिविटी समस्याएं।",
       "PERIMETER": "परिधि",
@@ -745,6 +793,7 @@
       "ZERO_AREA_DETECTED": "क्षेत्रफल के बिना क्षेत्र पाया गया। कृपया और अधिक बिंदु जोड़ें या फिर से खींचें।",
       "ZERO_LENGTH_DETECTED": "लंबाई के बिना रेखा पाई गई। कृपया फिर से खींचें।"
     },
+    "EXPORT_MAP": "मानचित्र निर्यात करें",
     "EXPORT_MODAL": {
       "BODY": "आप अपने फार्म मानचित्र को कैसे निर्यात करना चाहते हैं?",
       "DOWNLOAD": "डाउनलोड करें",
@@ -774,6 +823,7 @@
       "TITLE": "खेत जोड़ें",
       "TRANSITIONING": "संक्रमणकालीन"
     },
+    "FILTER_MAP": "मानचित्र फ़िल्टर करें",
     "GARDEN": {
       "DATE": "पात्र संक्रमण तिथि",
       "EDIT_TITLE": "बगीचा संपादित करें",
@@ -834,6 +884,7 @@
       "SATELLITE": "उपग्रह पृष्ठभूमि",
       "SENSOR": "सेंसर",
       "SHOW_ALL": "सभी दिखाएं",
+      "SOIL_SAMPLE_LOCATION": "",
       "SURFACE_WATER": "सतही जल",
       "TITLE": "अपना नक्शा फ़िल्टर करें",
       "WATER_VALVE": "जल वाल्व",
@@ -850,6 +901,13 @@
       "EDIT_TITLE": "निवास संपादित करें",
       "NAME": "निवास का नाम",
       "TITLE": "निवास जोड़ें"
+    },
+    "SOIL_SAMPLE_LOCATION": {
+      "EDIT_TITLE": "",
+      "LATITUDE": "",
+      "LONGITUDE": "",
+      "NAME": "",
+      "TITLE": ""
     },
     "SPOTLIGHT": {
       "ADD": "अपने नक्शे में स्थान जोड़ें",
@@ -869,6 +927,8 @@
     "TAB": {
       "CROPS": "फसलें",
       "DETAILS": "विवरण",
+      "FIELD_TECHNOLOGY": "",
+      "IRRIGATION": "",
       "TASKS": "कार्य"
     },
     "TITLE": "फार्म का नक्शा",
@@ -1123,6 +1183,23 @@
     "WAGE": "प्रति घंटा मजदूरी",
     "WAGE_ERROR": "मजदूरी एक मान्य, नकारात्मक दशमलव संख्या होनी चाहिए",
     "WAGE_RANGE_ERROR": "वेतन एक सकारात्मक संख्या होनी चाहिए जो 999,999,999 से कम हो"
+  },
+  "IRRIGATION_PRESCRIPTION": {
+    "APPLICATION_DEPTH": "",
+    "APPROVE_AND_CREATE_TASK": "",
+    "DATA_FROM": "",
+    "ESTIMATED_WATER_CONSUMPTION": "",
+    "ET_RATE": "",
+    "IRRIGATION_PRESCRIPTION_FILES": "",
+    "IRRIGATION_PRESCRIPTIONS": "",
+    "IRRIGATION_ZONE": "",
+    "PRESCRIPTION_DATE": "",
+    "SOIL_MOISTURE_DEFICIT": "",
+    "START_DATE": "",
+    "START_TIME": "",
+    "TASK_STATUS": "",
+    "TITLE": "",
+    "ZONE": ""
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "आइए आपको कुछ महत्वपूर्ण चीजें दिखाते हैं!",
@@ -1394,6 +1471,10 @@
       "BODY": "आज आपके कार्य निर्धारित हैं।",
       "TITLE": "आज के कार्य निर्धारित"
     },
+    "NEW_IRRIGATION_PRESCRIPTION": {
+      "BODY": "",
+      "TITLE": ""
+    },
     "NONE_TO_DISPLAY": "दिखाने के लिए कोई अधिसूचनाएं नहीं हैं।",
     "PAGE_TITLE": "अधिसूचनाएं",
     "TAKE_ME_THERE": "मुझे वहाँ ले चलें",
@@ -1490,6 +1571,7 @@
       "USER_ADDRESS_LENGTH": "उपयोगकर्ता का पता 255 अक्षरों से अधिक नहीं हो सकता"
     },
     "FARM": {
+      "ADDONS": "",
       "ADDRESS": "पता",
       "CHANGE_IMAGE": "छवि बदलें",
       "CLICK_TO_UPLOAD": "अपलोड करने के लिए क्लिक करें",
@@ -1713,20 +1795,65 @@
     "ANIMALS_LOCATION": "जानवर स्थान"
   },
   "SENSOR": {
+    "ARRAY": "",
     "DAYS_AGO": "{{time}} दिन पहले",
     "DEPTH": "गहराई",
+    "DETAIL": {
+      "ADD_SENSORS": "",
+      "DETECTED_FIELD": "",
+      "DEVICE_TYPE": ""
+    },
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "",
+      "IR_TEMPERATURE_SENSOR": "",
+      "SOIL_WATER_POTENTIAL_SENSOR": "",
+      "WEATHER_STATION": "",
+      "WIND_SPEED_SENSOR": ""
+    },
+    "ESCI": {
+      "ACTIVE_CONNECTION": "",
+      "CONNECT_NEW_SENSOR": "",
+      "CURRENT_SUPPORT": "",
+      "ENSEMBLE_ESID": "",
+      "ENTER_ID": "",
+      "MANAGE_LINK": "",
+      "NAME": "",
+      "ORGANISATION_ID": "",
+      "ORGANISATION_ID_ERROR": "",
+      "ORGANISATION_ID_GENERIC_ERROR": "",
+      "SEE_ENSEMBLE_SENSOR_LIST": "",
+      "SHORT_NAME": "",
+      "TO_MANAGE_SENSORS": ""
+    },
     "HOURS_AGO": "{{time}} घंटे पहले",
     "MINUTES_AGO": "{{time}} मिनट पहले",
     "MONTHS_AGO": "{{time}} महीने पहले",
     "NO_DATA_FOUND": "कोई सेंसर रीडिंग नहीं मिली",
+    "NO_RECENT_SENSOR_READINGS": "",
+    "PARTNER_SENSOR_LIST": "",
     "READING": {
+      "BAROMETRIC_PRESSURE": "",
+      "CUMULATIVE_RAINFALL": "",
+      "LATEST_READING": "",
+      "RAINFALL_RATE": "",
+      "RELATIVE_HUMIDITY": "",
       "SOIL_WATER_CONTENT": "मिट्टी का जल सामग्री",
       "SOIL_WATER_POTENTIAL": "मिट्टी का जल संभाव्यता",
+      "SOLAR_RADIATION": "",
       "TEMPERATURE": "तापमान",
       "TYPES": "रीडिंग प्रकार",
-      "UNKNOWN": "अज्ञात"
+      "UNKNOWN": "अज्ञात",
+      "UPDATE_READINGS": "",
+      "WATER_PRESSURE": "",
+      "WIND_DIRECTION": "",
+      "WIND_SPEED": "",
+      "WIND_SPEED_AND_DIRECTION": ""
     },
-    "SECONDS_AGO": "{{time}} सेकंड पहले"
+    "SECONDS_AGO": "{{time}} सेकंड पहले",
+    "SENSOR_ARRAY": "",
+    "SENSOR_ARRAYS": "",
+    "STANDALONE_SENSOR": "",
+    "STANDALONE_SENSORS": ""
   },
   "SIGNUP": {
     "CHANGES": "परिवर्तनों के बारे में पढ़ें",
@@ -1756,7 +1883,13 @@
   "STATUS": {
     "ACTIVE": "सक्रिय",
     "INACTIVE": "निष्क्रिय",
-    "INVITED": "आमंत्रित"
+    "INVITED": "आमंत्रित",
+    "OFFLINE": "",
+    "ONLINE": "",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "",
+      "ONLINE_TOOLTIP": ""
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "उत्पादित किया गया",
@@ -1855,6 +1988,7 @@
     "DESCRIBE_HARVEST_USE": "फसल उपयोग का वर्णन करें",
     "DETAILS": "विवरण",
     "DID_YOU_ENJOY": "क्या आपको यह कार्य पसंद आया?",
+    "DID_YOU_GET_RESULTS": "",
     "DUE_DATE": "नियत तिथि",
     "DURATION": "अवधि",
     "FILTER": {
@@ -1876,6 +2010,7 @@
     "HARVEST_USE_ALREADY_EXISTS": "फसल उपयोग पहले से मौजूद है",
     "HOW_WILL_HARVEST_BE_USED": "फसल का उपयोग कैसे किया जाएगा?",
     "IRRIGATION_LOCATION": "एक सिंचाई स्थान चुनें",
+    "LAB_DOCUMENTS": "",
     "LOCATIONS": "स्थान(ओं)",
     "NO_LOCATIONS_FOR_TASK": "इस कार्य के लिए किसी विशेष स्थान की आवश्यकता नहीं है।",
     "NO_TASKS_TO_DISPLAY": "दिखाने के लिए कोई कार्य नहीं हैं।",
@@ -1891,6 +2026,7 @@
     "SELECT_TASK_LOCATIONS": "कार्य स्थान(ओं) का चयन करें",
     "SELECT_WILD_CROP": "यह कार्य एक जंगली फसल को लक्षित करता है",
     "SOIL_AMENDMENT_LOCATION": "मृदा सुधार स्थान(ओं) का चयन करें",
+    "SOIL_SAMPLING_LOCATION": "",
     "STATUS": {
       "ABANDONED": "छोड़ा हुआ",
       "COMPLETED": "पूरा हुआ",
@@ -1903,7 +2039,8 @@
     "TASKS_COUNT_other": "{{count}} कार्य",
     "TRANSPLANT": "प्रतिरोपण",
     "TRANSPLANT_LOCATIONS": "प्रतिरोपण स्थान का चयन करें",
-    "UNASSIGNED": "सौंपा नहीं गया"
+    "UNASSIGNED": "सौंपा नहीं गया",
+    "UPLOAD_LAB_DOCUMENT": ""
   },
   "UNIT": {
     "TIME": {

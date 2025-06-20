@@ -296,6 +296,49 @@ describe('Get Irrigation Prescription Tests', () => {
     });
   });
 
+  describe('Should return an error if Ensemble prescription is missing prescription data', () => {
+    test("Returns 500 if 'prescription' key is missing", async () => {
+      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+
+      const { farm, user } = await setupFarmEnvironment(1);
+
+      const MOCK_ID = 125;
+
+      const irrigationPrescription = await generateMockPrescriptionDetails({
+        farm_id: farm.farm_id,
+        irrigationPrescriptionId: MOCK_ID,
+      });
+
+      const { prescription, ...invalidIrrigationPrescription } = irrigationPrescription;
+
+      await mockedEnsembleAPICall.mockResolvedValueOnce({
+        data: invalidIrrigationPrescription,
+      });
+
+      await connectFarmToEnsemble(farm);
+
+      const res = await getIrrigationPrescriptionDetails({
+        farm_id: farm.farm_id,
+        user_id: user.user_id,
+        shouldSend: 'true',
+        irrigationPrescriptionId: MOCK_ID,
+      });
+
+      expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+        }),
+        expect.any(Function), // onError callback
+      );
+
+      expect(res.status).toBe(500);
+      expect(res.body).toMatchObject({
+        error: `Prescription data is missing`,
+      });
+    });
+  });
+
   describe('Water consumption calculuation tests', () => {
     test('API should calculate water consumption for a VRI prescription', async () => {
       const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;

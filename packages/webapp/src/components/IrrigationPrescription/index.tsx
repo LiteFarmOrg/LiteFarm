@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { Location, System } from '../../types';
 import IrrigationPrescriptionMapView from '../../components/IrrigationPrescription/IrrigationPrescriptionMapView';
@@ -48,20 +47,18 @@ const PureIrrigationPrescription = ({
   uriData,
   system,
 }: PureIrrigationPrescriptionProps) => {
-  const { t } = useTranslation();
+  const sortedVriData = vriData
+    ? [...vriData].sort((a, b) => a.application_depth - b.application_depth)
+    : undefined;
 
-  if (vriData) {
-    vriData.sort((a, b) => a.application_depth - b.application_depth);
-  }
-
-  const tableInfo = vriData
-    ? vriData.map(({ grid_points, ...zoneData }, index) => ({
+  const tableInfo = sortedVriData
+    ? sortedVriData.map(({ grid_points, ...zoneData }, index) => ({
         ...zoneData,
         id: index,
       }))
     : [
         {
-          ...uriData,
+          ...(uriData as UriPrescriptionData),
           id: 1,
         },
       ];
@@ -72,7 +69,7 @@ const PureIrrigationPrescription = ({
         fieldLocation={fieldLocation}
         pivotCenter={pivotCenter}
         pivotRadiusInMeters={pivotRadiusInMeters}
-        vriZones={vriData}
+        vriZones={sortedVriData}
         system={system}
       />
       <IrrigationPrescriptionTable data={tableInfo} />

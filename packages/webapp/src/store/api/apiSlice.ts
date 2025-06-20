@@ -60,6 +60,7 @@ import type {
   FarmAddon,
   SensorReadings,
   IrrigationPrescription,
+  IrrigationPrescriptionDetails,
 } from './types';
 
 /**
@@ -94,6 +95,7 @@ export const FarmTags = [
   'CustomAnimalTypes',
   'FarmAddon',
   'IrrigationPrescriptions',
+  'IrrigationPrescriptionDetails',
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
@@ -345,6 +347,10 @@ export const api = createApi({
       },
       providesTags: ['IrrigationPrescriptions'],
     }),
+    getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
+      query: (id) => `${irrigationPrescriptionUrl}/${id}?shouldSend=false`,
+      providesTags: ['IrrigationPrescriptionDetails'],
+    }),
   }),
 });
 
@@ -383,4 +389,5 @@ export const {
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
   useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionDetailsQuery,
 } = api;

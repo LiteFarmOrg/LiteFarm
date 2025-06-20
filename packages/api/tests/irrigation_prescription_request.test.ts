@@ -39,7 +39,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 import { setupFarmEnvironment, setupManagementPlans } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 
-xdescribe('Irrigation Prescription Request Tests', () => {
+describe('Irrigation Prescription Request Tests', () => {
   async function initiateIrrigationPrescriptionRequest({
     user_id,
     farm_id,

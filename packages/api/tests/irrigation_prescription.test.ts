@@ -46,7 +46,7 @@ import mocks from './mock.factories.js';
 import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 
-xdescribe('Get Irrigation Prescription Tests', () => {
+describe('Get Irrigation Prescription Tests', () => {
   let ESciAddonPartner: AddonPartner;
 
   async function getIrrigationPrescription({

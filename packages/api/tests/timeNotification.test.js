@@ -561,7 +561,7 @@ describe('Time Based Notification Tests', () => {
     });
   });
 
-  xdescribe('New Irrigation Prescription Notification Test', () => {
+  describe('New Irrigation Prescription Notification Test', () => {
     let farmWorker;
     beforeEach(async () => {
       [farmWorker] = await mocks.usersFactory();

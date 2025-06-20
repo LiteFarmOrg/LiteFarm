@@ -309,21 +309,19 @@ async function checkIrrigationTask(req) {
   const esciExternalId = req.body?.irrigation_task?.irrigation_prescription_external_id;
 
   if (esciExternalId) {
-    //   const { farm_id } = req.headers;
-    //   const existing = await TaskModel.query()
-    //     .whereNotDeleted()
-    //     .joinRelated('irrigation_task')
-    //     .join('location', 'irrigation_task.location_id', 'location.location_id')
-    //     .select('task.*')
-    //     .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
-    //     .andWhere('location.farm_id', farm_id)
-    //     .first();
+    const { farm_id } = req.headers;
+    const existing = await TaskModel.query()
+      .whereNotDeleted()
+      .joinRelated('irrigation_task')
+      .join('location', 'irrigation_task.location_id', 'location.location_id')
+      .select('task.*')
+      .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
+      .andWhere('location.farm_id', farm_id)
+      .first();
 
-    //   if (existing) {
-    //     throw customError('Irrigation prescription already associated with task', 400);
-    //   }
-    // }
-    throw customError('Irrigation prescription not yet implemented', 400);
+    if (existing) {
+      throw customError('Irrigation prescription already associated with task', 400);
+    }
   }
 }
 

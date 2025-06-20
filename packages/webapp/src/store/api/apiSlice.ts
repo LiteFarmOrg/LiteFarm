@@ -93,7 +93,7 @@ export const FarmTags = [
   'CustomAnimalBreeds',
   'CustomAnimalTypes',
   'FarmAddon',
-  // 'IrrigationPrescriptions',
+  'IrrigationPrescriptions',
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
@@ -321,30 +321,30 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
-    // getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
-    //   query: () => {
-    //     // After date is hard coded for now as the users current locale
-    //     const today = new Date();
-    //     const startTime = getStartOfDate(today).toISOString();
-    //     const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
-    //     const shouldSend = 'false';
-    //     const params = new URLSearchParams({ startTime, endTime, shouldSend });
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => {
+        // After date is hard coded for now as the users current locale
+        const today = new Date();
+        const startTime = getStartOfDate(today).toISOString();
+        const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
+        const shouldSend = 'false';
+        const params = new URLSearchParams({ startTime, endTime, shouldSend });
 
-    //     return `${irrigationPrescriptionUrl}?${params.toString()}`;
-    //   },
-    //   async onQueryStarted(_id, { dispatch, queryFulfilled }) {
-    //     try {
-    //       // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
-    //       dispatch({ type: 'getTasksSaga' });
-    //       await queryFulfilled;
-    //     } catch (error: unknown) {
-    //       // getTasksSaga has its own try/catch block, this error handler will not catch that one
-    //       // @ts-expect-error - error type not definable
-    //       console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
-    //     }
-    //   },
-    //   providesTags: ['IrrigationPrescriptions'],
-    // }),
+        return `${irrigationPrescriptionUrl}?${params.toString()}`;
+      },
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
   }),
 });
 
@@ -382,5 +382,5 @@ export const {
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
-  // useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionsQuery,
 } = api;

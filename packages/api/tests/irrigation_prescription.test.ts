@@ -253,6 +253,49 @@ describe('Get Irrigation Prescription Tests', () => {
     });
   });
 
+  describe('Users should not be able to GET irrigation prescription details for an IP associated with a different farm', () => {
+    [1, 2, 3, 5].forEach((role) => {
+      test(`User with role ${role} should not be able to request IP details for a different farm`, async () => {
+        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+
+        const { farm: farm1 } = await setupFarmEnvironment(role);
+        const { farm: farm2, user } = await setupFarmEnvironment(role);
+
+        const MOCK_ID = 124;
+
+        await mockedEnsembleAPICall.mockResolvedValueOnce({
+          data: await generateMockPrescriptionDetails({
+            farm_id: farm1.farm_id,
+            irrigationPrescriptionId: MOCK_ID,
+          }),
+        });
+
+        await connectFarmToEnsemble(farm1);
+        await connectFarmToEnsemble(farm2);
+
+        const res = await getIrrigationPrescriptionDetails({
+          farm_id: farm2.farm_id,
+          user_id: user.user_id,
+          shouldSend: 'true',
+          irrigationPrescriptionId: MOCK_ID,
+        });
+
+        expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'get',
+            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+          }),
+          expect.any(Function), // onError callback
+        );
+
+        expect(res.status).toBe(403);
+        expect(res.body).toMatchObject({
+          error: `Irrigation prescription ${MOCK_ID} belongs to a different farm`,
+        });
+      });
+    });
+  });
+
   describe('Water consumption calculuation tests', () => {
     test('API should calculate water consumption for a VRI prescription', async () => {
       const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;

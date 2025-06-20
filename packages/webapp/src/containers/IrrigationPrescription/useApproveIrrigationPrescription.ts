@@ -25,18 +25,11 @@ import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigati
 import { ADD_TASK_ASSIGNMENT, ADD_TASK_DETAILS } from '../../util/siteMapConstants';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
 import { waterUsage, convertFn } from '../../util/convert-units/unit';
-import { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 
 export default function useApproveIrrigationPrescription(
   history: History,
-  {
-    id,
-    location_id,
-    management_plan_id,
-    recommended_start_datetime,
-    estimated_water_consumption,
-    estimated_water_consumption_unit,
-  }: IrrigationPrescription,
+  prescriptionDetails?: IrrigationPrescriptionDetails,
 ) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -48,6 +41,20 @@ export default function useApproveIrrigationPrescription(
   const irrigationTaskType = useSelector(taskTypeByKeySelector('IRRIGATION_TASK'));
   const pivotType = useSelector(irrigationTypeByKeyAndFarmIdSelector('PIVOT'));
   const irrigationTasks = useSelector(irrigationTaskEntitiesSelector) || [];
+
+  if (!prescriptionDetails) {
+    return undefined;
+  }
+
+  const {
+    id,
+    location_id,
+    management_plan_id,
+    recommended_start_datetime,
+    estimated_water_consumption,
+    estimated_water_consumption_unit,
+  } = prescriptionDetails;
+
   const hasTask = Object.values(irrigationTasks).some(
     (task) => task.irrigation_prescription_external_id === id,
   );
@@ -60,7 +67,7 @@ export default function useApproveIrrigationPrescription(
       estimated_water_consumption,
       estimated_water_consumption_unit,
       'l',
-    ); // TODO: LF-4810 Adjust conversion once estimated_water_consumption_unit is confirmed
+    );
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,

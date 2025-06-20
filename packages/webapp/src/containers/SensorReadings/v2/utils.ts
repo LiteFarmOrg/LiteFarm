@@ -15,8 +15,9 @@
 
 import { TFunction } from 'react-i18next';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
+import { getUnixTime } from '../../../components/Charts/utils';
 import { getDateDifference } from '../../../util/moment';
-import { roundToTwo } from '../../../components/Map/PreviewPopup/utils';
+import { roundToOne } from '../../../util/rounding';
 import { convert } from '../../../util/convert-units/convert';
 import { isValidNumber } from '../../../util/validation';
 import { isLessThanTwelveHrsAgo } from '../../../util/date-migrate-TS';
@@ -151,6 +152,7 @@ export const formatSensorDatapoints = (
   data: SensorDatapoint[],
   truncPeriod: ChartTruncPeriod,
   dataKeys: string[],
+  startDate: string, // ISO 8601
   valueConverter?: (value: number) => number | null,
   timezoneOffset?: number,
 ): FormattedSensorDatapoint[] => {
@@ -161,7 +163,16 @@ export const formatSensorDatapoints = (
   const adjustDateTime = getAdjustDateTimeFunc(truncPeriod, timezoneOffset);
 
   const result: FormattedSensorDatapoint[] = [];
-  let currentTimeStamp = data[0].dateTime;
+
+  // If the first data point doesn't start at startDate, insert a placeholder
+  const firstTimeStamp = data[0].dateTime;
+  const adjustedFirstTimeStamp = adjustDateTime?.(firstTimeStamp) || firstTimeStamp;
+  const expectedFirstTimeStamp = getUnixTime(new Date(startDate));
+  if (adjustedFirstTimeStamp !== expectedFirstTimeStamp) {
+    result.push(formatDataPoint({ dateTime: expectedFirstTimeStamp }, dataKeys, undefined));
+  }
+
+  let currentTimeStamp = firstTimeStamp;
   let dataPointer = 0;
 
   while (dataPointer < data.length || currentTimeStamp <= data[data.length - 1].dateTime) {
@@ -207,10 +218,10 @@ export const convertEsciReadingValue = (
 ): number => {
   if (esciUnitTypeMap[param]) {
     const unitType = esciUnitTypeMap[param];
-    return roundToTwo(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
+    return roundToOne(convert(value).from(unitType.baseUnit).to(unitType[system].unit));
   }
 
-  return roundToTwo(value);
+  return roundToOne(value);
 };
 
 export const getReadingUnit = (

@@ -57,6 +57,13 @@ function isChartSupportedReadingType(
   return CHART_SUPPORTED_PARAMS.findIndex((param) => param === readingType) !== -1;
 }
 
+const getAdjustedEndTime = (endDate: string) => {
+  const dateObject = new Date(endDate);
+  dateObject.setDate(dateObject.getDate() + 1);
+
+  return new Date(dateObject).toISOString();
+};
+
 interface useFormattedSensorReadingsProps {
   sensors: Sensor[];
   startDate: string;
@@ -88,7 +95,7 @@ function useFormattedSensorReadings({
     {
       esids: sensorIds.join(','),
       startTime: startDate,
-      endTime: endDate,
+      endTime: getAdjustedEndTime(endDate),
       truncPeriod,
     },
     { refetchOnMountOrArgChange: true },
@@ -123,6 +130,7 @@ function useFormattedSensorReadings({
           readings,
           truncPeriod,
           sensorIds,
+          startDate,
           valueConverter,
           timezoneOffset,
         ),

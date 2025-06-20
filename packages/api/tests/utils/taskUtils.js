@@ -230,3 +230,13 @@ export const generateUserFarms = async (number) => {
 export async function getTask(task_id) {
   return knex('task').where({ task_id }).first();
 }
+
+export function expectTaskCompletionFields(
+  task,
+  { complete_date, duration, happiness, completion_notes },
+) {
+  expect(toLocal8601Extended(task.complete_date)).toBe(complete_date);
+  expect(task.duration).toBe(duration);
+  expect(task.happiness).toBe(happiness);
+  expect(task.completion_notes).toBe(completion_notes);
+}

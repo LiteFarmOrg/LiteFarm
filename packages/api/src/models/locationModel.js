@@ -34,7 +34,6 @@ import waterValveModel from './waterValveModel.js';
 import soilSampleLocationModel from './soilSampleLocationModel.js';
 import taskModel from './taskModel.js';
 import locationTasksModel from './locationTasksModel.js';
-import sensorModel from './sensorModel.js';
 import fieldModel from './fieldModel.js';
 import pinModel from './pinModel.js';
 import locationDefaultsModel from './locationDefaultsModel.js';
@@ -219,14 +218,6 @@ class Location extends baseModel {
           to: 'soil_sample_location.location_id',
         },
       },
-      sensor: {
-        modelClass: sensorModel,
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'location.location_id',
-          to: 'sensor.location_id',
-        },
-      },
       location_defaults: {
         modelClass: locationDefaultsModel,
         relation: Model.HasOneRelation,
@@ -275,22 +266,6 @@ class Location extends baseModel {
     } catch (error) {
       return error;
     }
-  }
-
-  static async getSensorLocation(farm_id, partner_id, external_id, trx) {
-    return Location.query(trx)
-      .withGraphJoined('[figure.point, sensor]')
-      .where('location.farm_id', farm_id)
-      .andWhere('sensor.partner_id', partner_id)
-      .andWhere('sensor.external_id', external_id)
-      .first();
-  }
-
-  static async unDeleteLocation(user_id, location_id, trx) {
-    return Location.query(trx)
-      .context({ user_id })
-      .where({ location_id })
-      .patch({ deleted: false });
   }
 
   /* Mirrors cropLocationsSelector but without buffer zone (which does not return a polygon) */

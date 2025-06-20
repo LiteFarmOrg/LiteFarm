@@ -77,7 +77,8 @@ export const createReadonlyCustomRevenueUrl = (id: string | number): string => {
 export const ADD_TASK_DETAILS = '/add_task/task_details';
 export const ADD_TASK_ASSIGNMENT = '/add_task/task_assignment';
 
-// First complete page for cleaning, field work, irrigation, pest, planting, soil amendment, transplant tasks
+// First complete page for cleaning, field work, irrigation, pest, planting, soil amendment,
+// transplant, animal movement, soil sample tasks
 export const createBeforeCompleteTaskUrl = (id: string | number): string => {
   return `/tasks/${id}/before_complete`;
 };

@@ -28,7 +28,6 @@ import resetUserPasswordSaga from './containers/PasswordResetAccount/saga';
 import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
-import sensorDetailSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
@@ -63,7 +62,6 @@ import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
-import sensorReadingsSaga from './containers/SensorReadings/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import theme from './assets/theme';
@@ -89,7 +87,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.7.6',
+    release: '3.7.7',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -105,7 +103,6 @@ sagaMiddleware.run(resetUserPasswordSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
-sagaMiddleware.run(sensorDetailSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
@@ -136,7 +133,6 @@ sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
-sagaMiddleware.run(sensorReadingsSaga);
 sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(imageUploaderSaga);

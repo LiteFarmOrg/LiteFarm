@@ -15,11 +15,8 @@
 
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../userFarmSlice';
-import {
-  container_planting_depth,
-  convertFn,
-  roundToTwoDecimal,
-} from '../../util/convert-units/unit';
+import { container_planting_depth, convertFn } from '../../util/convert-units/unit';
+import { roundToOne } from '../../util/rounding';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { areaSelector } from '../locationSlice';
 import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUtils';
@@ -38,6 +35,8 @@ export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARR
 
 export type GroupedSensors = {
   id: string;
+  label?: string;
+  system?: string;
   point: Sensor['point'];
   fields: Pick<Location, 'name' | 'location_id'>[];
   type: SensorType;
@@ -64,7 +63,7 @@ const formatSensorToSimpleTableFormat = (
   return {
     ...sensor,
     id: external_id,
-    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${displayUnit}`,
+    formattedDepth: `${roundToOne(convertedDepth)}${displayUnit}`,
     deviceTypeKey: sensor.name.toUpperCase().replaceAll(' ', '_'),
   };
 };
@@ -92,6 +91,7 @@ const formatSensorToGroup = (
 ) => {
   return {
     id: `sensor_${sensor.id}`,
+    label: sensor.label,
     location_id: sensor.location_id,
     sensors: [sensor],
     point: sensor.point,
@@ -102,17 +102,14 @@ const formatSensorToGroup = (
 };
 
 const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
-  const summaryMap = sensors.reduce(
-    (acc, { name }) => {
-      if (!(name in acc)) {
-        acc[name] = 0;
-      }
-      acc[name] += 1;
+  const summaryMap = sensors.reduce((acc, { name }) => {
+    if (!(name in acc)) {
+      acc[name] = 0;
+    }
+    acc[name] += 1;
 
-      return acc;
-    },
-    {} as Record<Sensor['name'], number>,
-  );
+    return acc;
+  }, {} as Record<Sensor['name'], number>);
 
   return {
     [SensorType.SENSOR_ARRAY]: sensor_arrays.length,

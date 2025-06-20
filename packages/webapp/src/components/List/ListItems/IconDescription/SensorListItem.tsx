@@ -19,7 +19,6 @@ import { ReactComponent as CheckedEnabled } from '../../../../assets/images/chec
 import { BsChevronRight } from 'react-icons/bs';
 import Icon, { IconName } from '../../../Icons';
 import styles from './styles.module.scss';
-import ElapsedTimeWidget from '../../../Widgets/ElapsedTime';
 import { StatusIndicatorPill, StatusIndicatorPillProps } from '../../../StatusIndicatorPill';
 
 type IconTextProps = {
@@ -43,7 +42,7 @@ const IconText = ({ iconText }: { iconText: IconTextProps }) => {
   );
 };
 
-type MiddleContentProps = {
+type SensorContentProps = {
   name: string;
   status: StatusIndicatorPillProps;
   classes?: {
@@ -90,19 +89,15 @@ const ActionIcon = ({ actionIcon }: { actionIcon: ActionIconProps }) => {
 
 interface SensorListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   iconText: IconTextProps;
-  middleContent: MiddleContentProps;
+  sensorContent: SensorContentProps;
   actionIcon: ActionIconProps;
-  lastSeen: Date;
-  showLastSeen: boolean;
   onlyActionClick: boolean;
 }
 
 export default function SensorListItem({
   iconText,
-  middleContent,
+  sensorContent,
   actionIcon,
-  lastSeen,
-  showLastSeen = true,
   onClick,
   onlyActionClick = true,
   className,
@@ -122,16 +117,16 @@ export default function SensorListItem({
       <div className={styles.leftAlignedContent}>
         <IconText iconText={iconText} />
         <div className={styles.mobileOnlyLeftContent}>
-          <span className={styles.middleText}>{middleContent.name}</span>
+          <span className={styles.middleText}>{sensorContent.name}</span>
+        </div>
+
+        <div className={styles.desktopOnlyMiddleContent}>
+          <div className={styles.middleText}>{sensorContent.name}</div>
         </div>
       </div>
 
-      <div className={styles.desktopOnlyMiddleContent}>
-        <div className={styles.middleText}>{middleContent.name}</div>
-      </div>
-      {middleContent.status && <StatusIndicatorPill {...middleContent.status} />}
       <div className={styles.rightAlignedContent}>
-        {showLastSeen && <ElapsedTimeWidget pastDate={lastSeen} />}
+        {sensorContent.status && <StatusIndicatorPill {...sensorContent.status} />}
         <ActionIcon actionIcon={actionIcon} />
       </div>
     </li>

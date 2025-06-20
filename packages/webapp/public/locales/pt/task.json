@@ -21,5 +21,6 @@
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Limpar",
   "SOIL_AMENDMENT_TASK": "Adubação e correção de solo",
-  "MOVEMENT_TASK": "Movimento"
+  "MOVEMENT_TASK": "Movimento",
+  "SOIL_SAMPLE_TASK": "Amostra de solo"
 }

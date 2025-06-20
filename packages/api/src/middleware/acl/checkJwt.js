@@ -26,7 +26,7 @@ const checkJwt = expressjwt({
     '/user/accept_invitation',
     '/user_farm/accept_invitation',
     '/notification_user/subscribe',
-    // '/irrigation_prescription_request/scheduler',
+    '/irrigation_prescription_request/scheduler',
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
     /\/api-docs\/*/,

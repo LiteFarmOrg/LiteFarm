@@ -66,7 +66,7 @@ const schedules = [
       { type: 'WeeklyUnassigned', checkRunCondition: isWeeklyNotificationDue },
     ],
   },
-  // { localHour: 4, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
+  { localHour: 4, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
 ];
 
 const sendOnSchedule = (queueConfig) => {
@@ -141,7 +141,7 @@ const sendOnSchedule = (queueConfig) => {
     const urls = {
       DailyTasksDue: 'time_notification/daily_due_today_tasks',
       WeeklyUnassigned: 'time_notification/weekly_unassigned_tasks',
-      // DailyNewIrrigationPrescription: 'time_notification/new_irrigation_prescription',
+      DailyNewIrrigationPrescription: 'time_notification/new_irrigation_prescription',
     };
     axios
       .post(`${apiUrl}/${urls[type]}/${farmId}`, { isDayLaterThanUtc }, reqConfig)

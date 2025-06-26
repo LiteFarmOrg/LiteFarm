@@ -196,12 +196,12 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
     const cropsAndLocations: LocationAndCropGraph[] = [];
 
     for (const location of locations) {
-      const managementPlanGraph = await ManagementPlanModel.getManagementPlansByLocationId(
+      const managementPlanGraph = await ManagementPlanModel.getMostRecentManagementPlanByLocationId(
         location.location_id,
       );
       cropsAndLocations.push({
         ...location,
-        management_plans: managementPlanGraph,
+        management_plan: managementPlanGraph,
       });
     }
 
@@ -243,7 +243,7 @@ function selectEnsembleProperties(
   return cropsAndLocations.map((location) => {
     return {
       ...selectLocationData(location),
-      crop_data: selectCropData(location.management_plans),
+      crop_data: selectCropData(location.management_plan),
     };
   });
 }
@@ -258,25 +258,24 @@ function selectLocationData(location: LocationAndCropGraph) {
   };
 }
 
-function selectCropData(managementPlans: ManagementPlan[]) {
-  if (managementPlans.length === 0) {
+function selectCropData(managementPlan: ManagementPlan) {
+  if (!managementPlan) {
     return [];
   }
 
-  return managementPlans.map((managementPlan: ManagementPlan) => {
-    const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
+  const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
 
-    const seed_date = managementPlan.crop_management_plan?.seed_date;
+  const seed_date = managementPlan.crop_management_plan?.seed_date;
 
-    return {
-      // plan_id for dev purposes; remove after QA on endpoint
+  return [
+    {
       management_plan_id: managementPlan.management_plan_id,
       crop_common_name,
       crop_genus,
       crop_specie,
       seed_date,
-    };
-  });
+    },
+  ];
 }
 
 /* Update Ensemble to indicate an irrigation prescription has been approved */

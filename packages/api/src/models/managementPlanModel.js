@@ -124,10 +124,9 @@ class ManagementPlan extends baseModel {
   }
 
   /**
-   * Retrieves all management plans associated with a specific location
-   * Mirrors getManagementPlansByFarmId(), but includes the crop variety and crop
+   * Retrieves the management plan with the most recent non-future seed date for a location
    */
-  static async getManagementPlansByLocationId(location_id, trx = null) {
+  static async getMostRecentManagementPlanByLocationId(location_id, trx = null) {
     const planGraphJoinedQueryString =
       '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
 
@@ -137,6 +136,8 @@ class ManagementPlan extends baseModel {
         planting_management_plans: 'pmps',
       },
     };
+
+    const currentDate = new Date().toISOString();
 
     return await ManagementPlan.query(trx)
       .whereNotDeleted()
@@ -148,7 +149,10 @@ class ManagementPlan extends baseModel {
           is_final_planting_management_plan = null */
       .where('cmp:pmps.is_final_planting_management_plan', true)
       /*------------*/
-      .andWhere('cmp:pmps.location_id', location_id);
+      .andWhere('cmp:pmps.location_id', location_id)
+      .andWhere('cmp.seed_date', '<=', currentDate)
+      .orderBy('cmp.seed_date', 'desc')
+      .first();
   }
 }
 

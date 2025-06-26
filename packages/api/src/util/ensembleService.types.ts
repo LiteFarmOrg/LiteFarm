@@ -64,7 +64,7 @@ export interface LocationAndCropGraph {
       grid_points: Point[];
     };
   };
-  management_plans: ManagementPlan[];
+  management_plan: ManagementPlan;
 }
 
 interface EnsembleCropData {

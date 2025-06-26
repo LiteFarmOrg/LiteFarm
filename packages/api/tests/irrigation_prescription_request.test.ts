@@ -92,6 +92,12 @@ describe('Irrigation Prescription Request Tests', () => {
           field,
         });
 
+        const seedDate = new Date(seedManagementPlan.seed_date);
+        const transplantDate = new Date(transplantManagementPlan.seed_date);
+
+        const mostRecentPlan =
+          seedDate > transplantDate ? seedManagementPlan : transplantManagementPlan;
+
         await initiateIrrigationPrescriptionRequest({
           user_id: user.user_id,
           farm_id: farm.farm_id,
@@ -103,19 +109,13 @@ describe('Irrigation Prescription Request Tests', () => {
           crop_specie: crop.crop_specie,
         };
 
-        const expectedSeedCrop = expect.objectContaining({
-          management_plan_id: seedManagementPlan.management_plan_id,
-          seed_date: seedManagementPlan.seed_date,
-          ...cropConstants,
-        });
-
-        const expectedTransplantCrop = expect.objectContaining({
-          management_plan_id: transplantManagementPlan.management_plan_id,
-          seed_date: transplantManagementPlan.seed_date,
-          ...cropConstants,
-        });
-
-        const expectedCropData = [expectedSeedCrop, expectedTransplantCrop];
+        const expectedCropData = [
+          expect.objectContaining({
+            management_plan_id: mostRecentPlan.management_plan_id,
+            seed_date: mostRecentPlan.seed_date,
+            ...cropConstants,
+          }),
+        ];
 
         const expectedFieldData = {
           farm_id: farm.farm_id,

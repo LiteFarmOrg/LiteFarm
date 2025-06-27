@@ -135,7 +135,7 @@ describe('Irrigation Prescription Request Tests', () => {
           expect.objectContaining({
             method: 'post',
             url: expect.stringContaining(`${farmAddon.org_pk}/prescriptions/`),
-            body: expectedFieldAndCropData,
+            data: expectedFieldAndCropData,
           }),
         );
       });

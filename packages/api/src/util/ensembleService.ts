@@ -381,7 +381,7 @@ export async function sendFieldAndCropDataToEsci(
   try {
     const axiosObject = {
       method: 'post',
-      body: organisationFarmData,
+      data: organisationFarmData,
       url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/`,
     };
 
@@ -446,7 +446,7 @@ export async function patchIrrigationPrescriptionApproval(id: number) {
   try {
     const axiosObject = {
       method: 'patch',
-      body: {
+      data: {
         approved: true,
       },
       url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD

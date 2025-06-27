@@ -21,10 +21,10 @@ import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
-import { customError } from './customErrors.js';
+import { customError, LiteFarmCustomError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
 import {
-  type OrganisationFarmData,
+  type AllOrganisationsFarmData,
   type LocationAndCropGraph,
   type EnsembleLocationAndCropData,
   type ManagementPlan,
@@ -165,7 +165,7 @@ export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: numbe
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
  *
  * @param {string} [farm_id] - Supply a farm_id to get data for a specific farm only. If no farm_id is provided, all farms connected to Ensemble will be queried.
- * @returns {Promise<OrganisationFarmData>} - Returns organisation farm data
+ * @returns {Promise<AllOrganisationsFarmData>} - Returns organisation farm data
  */
 export const getOrgLocationAndCropData = async (farm_id?: string) => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
@@ -188,7 +188,7 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
     }
   }
 
-  const organisationFarmData: OrganisationFarmData = {};
+  const organisationFarmData: AllOrganisationsFarmData = {};
 
   for (const org of organisations) {
     const locations = await LocationModel.getCropSupportingLocationsByFarmId(org.farm_id);
@@ -205,13 +205,43 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
       });
     }
 
-    (organisationFarmData[org.org_uuid] ??= []).push(
-      ...selectEnsembleProperties(cropsAndLocations),
-    );
+    (organisationFarmData[org.org_pk] ??= []).push(...selectEnsembleProperties(cropsAndLocations));
   }
 
   return organisationFarmData;
 };
+
+/**
+ * Process and send data for multiple organizations to Ensemble API sequentially
+ * Continues processing other organizations even if individual requests fail
+ */
+export async function sendAllFieldAndCropDataToEsci(allFarmData: AllOrganisationsFarmData) {
+  const results = [];
+
+  for (const [orgPk, orgData] of Object.entries(allFarmData)) {
+    if (!orgData || orgData.length === 0) {
+      continue;
+    }
+    try {
+      await sendFieldAndCropDataToEsci(orgData, Number(orgPk));
+      results.push({
+        organisationId: Number(orgPk),
+        status: 'success',
+      });
+    } catch (error) {
+      const { message, code } = error as LiteFarmCustomError;
+
+      results.push({
+        organisationId: orgPk,
+        status: 'error',
+        code,
+        message,
+      });
+    }
+  }
+
+  return results;
+}
 
 /**
  * Sends field and crop data to Ensemble API for a single organization

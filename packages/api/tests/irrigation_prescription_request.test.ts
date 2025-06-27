@@ -124,14 +124,12 @@ describe('Irrigation Prescription Request Tests', () => {
           grid_points: field.figure.area.grid_points,
         };
 
-        const expectedFieldAndCropData = {
-          [farmAddon.org_uuid]: [
-            {
-              ...expectedFieldData,
-              crop_data: expect.arrayContaining(expectedCropData),
-            },
-          ],
-        };
+        const expectedFieldAndCropData = [
+          {
+            ...expectedFieldData,
+            crop_data: expect.arrayContaining(expectedCropData),
+          },
+        ];
 
         expect(axios).toHaveBeenCalledWith(
           expect.objectContaining({

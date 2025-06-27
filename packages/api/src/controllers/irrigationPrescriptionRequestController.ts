@@ -14,7 +14,10 @@
  */
 
 import { Response } from 'express';
-import { getOrgLocationAndCropData, sendFieldAndCropDataToEsci } from '../util/ensembleService.js';
+import {
+  getOrgLocationAndCropData,
+  sendAllFieldAndCropDataToEsci,
+} from '../util/ensembleService.js';
 import { LiteFarmRequest } from '../types.js';
 
 interface HttpError extends Error {
@@ -37,14 +40,20 @@ const irrigationPrescriptionRequestController = {
       const { allOrgs, shouldSend } = req.query;
 
       try {
-        const farmData = await getOrgLocationAndCropData(allOrgs === 'true' ? undefined : farm_id);
+        const allFarmData = await getOrgLocationAndCropData(
+          allOrgs === 'true' ? undefined : farm_id,
+        );
 
         if (shouldSend === 'true') {
-          await sendFieldAndCropDataToEsci(farmData);
-          return res.sendStatus(204);
+          const results = await sendAllFieldAndCropDataToEsci(allFarmData);
+
+          const errorCount = results.filter((result) => result.status === 'error').length;
+          const statusCode = !errorCount ? 200 : errorCount === results.length ? 502 : 207;
+
+          return res.status(statusCode).send(results);
         } else {
           // Return data for dev purposes + QA
-          return res.status(200).send(farmData);
+          return res.status(200).send(allFarmData);
         }
       } catch (error: unknown) {
         console.error(error);

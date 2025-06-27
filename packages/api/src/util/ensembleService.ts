@@ -23,21 +23,28 @@ import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
-import {
-  type OrganisationFarmData,
-  type LocationAndCropGraph,
-  type EnsembleLocationAndCropData,
-  type ManagementPlan,
+import type {
+  OrganisationFarmData,
+  LocationAndCropGraph,
+  EnsembleLocationAndCropData,
+  ManagementPlan,
+  EsciReturnedPrescriptionDetails,
+  IrrigationPrescriptionDetails,
+  EsciWeatherUnits,
+  LiteFarmWeatherUnits,
+  VriPrescriptionData,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
+import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
+import { getAreaOfPolygon } from './geoUtils.js';
 
 /**
- * Retrieves the addon partner ID using a partners brand name.
+ * Retrieves Ensemble's addon partner id.
  *
  * @returns A promise that resolves to the addon partner id.
  * @throws Not found error as we expect that the addon partner is found.
  */
-const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
+const getEnsemblePartnerId = async (): Promise<AddonPartner['id']> => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
   if (!partner) {
     throw customError(`${ENSEMBLE_BRAND} partner not found`, 404);
@@ -46,18 +53,17 @@ const getAddonPartnerId = async (): Promise<AddonPartner['id']> => {
 };
 
 /**
- * Retrieves the external organisation IDs for a specific farm and partner.
+ * Retrieves the Ensemble addon partner ids for the given farm, and throws an error if the farm is not connected to Ensemble.
  *
  * @param farmId - The ID of the farm to retrieve external organisation IDs for.
- * @param addonPartnerId - The ID of addOnPartner for whose endpoint the ids are compatible with.
  * @returns A promise that resolves to the organisation IDs for the given farm and partner.
  * @throws Not found error as we expect that the farms addon partner ids exist.
  */
-const getExternalOrganisationIds = async (
+const getFarmEnsembleAddonIds = async (
   farmId: Farm['farm_id'],
-  addonPartnerId: AddonPartner['id'],
 ): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
-  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, addonPartnerId);
+  const esciPartnerId = await getEnsemblePartnerId();
+  const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, esciPartnerId);
   if (!farmAddonIds) {
     throw customError(`Farm not connected to ${ENSEMBLE_BRAND}`, 404);
   }
@@ -77,9 +83,7 @@ export const getIrrigationPrescriptions = async (
   startTime?: string,
   endTime?: string,
 ) => {
-  // Get external organisation ids
-  const addonPartnerId = await getAddonPartnerId();
-  const externalOrganizationIds = await getExternalOrganisationIds(farmId, addonPartnerId);
+  const externalOrganizationIds = await getFarmEnsembleAddonIds(farmId);
 
   // Endpoint config
   const axiosObject = {
@@ -123,11 +127,11 @@ export const mockGetFarmIrrigationPrescriptions = async (farm_id: string) => {
 
   const irrigationPrescriptionsMinimalMock = [
     {
-      id: new Date().getUTCDay(), // 0-6, 0 = Sunday
+      id: new Date().getUTCDate(),
       recommended_start_datetime: new Date().toISOString(),
     },
     {
-      id: new Date(Date.now() + ONE_DAY).getUTCDay(),
+      id: new Date(Date.now() + ONE_DAY).getUTCDate(),
       recommended_start_datetime: new Date(Date.now() + ONE_DAY).toISOString(),
     },
   ];
@@ -160,6 +164,130 @@ export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: numbe
     return;
   }
 }
+
+/**
+ * Retrieves detailed information for a specific irrigation prescription.
+ *
+ * @param {string} farm_id - The ID of the farm to retrieve the irrigation prescription for.
+ * @param {number} irrigationPrescriptionId - The ID of the irrigation prescription to retrieve.
+ * @param {boolean} shouldSend - Flag to determine whether to fetch real data or generate mock data.
+ * @returns {Promise<IrrigationPrescriptionDetails>} A promise that resolves to the irrigation prescription details with water consumption estimate.
+ * @throws {Error} Throws an error if the prescription is not found, belongs to a different farm, or if data is missing.
+ */
+export const getEnsembleIrrigationPrescriptionDetails = async (
+  farm_id: string,
+  irrigationPrescriptionId: number,
+  shouldSend: boolean,
+): Promise<IrrigationPrescriptionDetails> => {
+  // Validate farm connection to Ensemble (will throw if not connected)
+  await getFarmEnsembleAddonIds(farm_id);
+
+  // Fetch prescription data (real or mock)
+  const irrigationPrescription = shouldSend
+    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId)
+    : await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId });
+
+  if (!irrigationPrescription) {
+    throw customError(`Irrigation prescription with id ${irrigationPrescriptionId} not found`, 404);
+  }
+
+  // Validate prescription location and farm association
+  const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
+    irrigationPrescription.location_id,
+  );
+  if (!prescriptionFarmRecord) {
+    throw customError(`location_id on IP ${irrigationPrescriptionId} does not exist`, 404);
+  }
+  if (prescriptionFarmRecord.farm_id !== farm_id) {
+    throw customError(
+      `Irrigation prescription ${irrigationPrescriptionId} belongs to a different farm`,
+      403,
+    );
+  }
+
+  // Transform prescription data to LiteFarm format and validate details
+  const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
+  const prescriptionDetails = mappedPrescription.prescription;
+  if (!prescriptionDetails) {
+    throw customError('Prescription data is missing', 500);
+  }
+
+  // Calculate and return water consumption
+  const waterConsumptionL =
+    'uriData' in prescriptionDetails
+      ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot.radius ?? 0)
+      : calculateVRIWaterConsumption(prescriptionDetails);
+
+  return {
+    ...mappedPrescription,
+    estimated_water_consumption: waterConsumptionL,
+    estimated_water_consumption_unit: 'l',
+  };
+};
+
+/**
+ * Maps units from Ensemble API format to LiteFarm format.
+ *
+ * @param {EsciReturnedPrescriptionDetails} prescription - The prescription details from Ensemble API.
+ * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
+ */
+const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
+  const { metadata, ...rest } = prescription;
+
+  const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
+    if (unit === '˚C') return 'C';
+    return unit;
+  };
+
+  const mappedWeatherForecast = {
+    ...metadata.weather_forecast,
+    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
+    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
+    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
+  };
+
+  return {
+    ...rest,
+    metadata: {
+      weather_forecast: mappedWeatherForecast,
+    },
+  };
+};
+
+/**
+ * Calculates water consumption for Uniform Rate Irrigation (URI).
+ *
+ * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
+ * @param {number} pivotRadius - The radius of the pivot irrigation system in meters.
+ * @returns {number} The calculated water consumption in liters.
+ */
+const calculateURIWaterConsumption = (
+  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  pivotRadius: number,
+): number => {
+  const applicationDepthMm = prescription?.uriData?.application_depth ?? 0;
+  const pivotAreaM2 = Math.PI * Math.pow(pivotRadius, 2);
+  return pivotAreaM2 * applicationDepthMm;
+};
+
+/**
+ * Calculates water consumption for Variable Rate Irrigation (VRI).
+ *
+ * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing VRI data.
+ * @returns {number} The calculated water consumption in liters.
+ */
+const calculateVRIWaterConsumption = (
+  prescription: EsciReturnedPrescriptionDetails['prescription'],
+): number => {
+  const prescriptionZones: VriPrescriptionData[] = prescription.vriData!.zones;
+
+  return prescriptionZones.reduce((acc, zone) => {
+    const zoneAreaM2 = getAreaOfPolygon(zone.grid_points) ?? 0;
+    const zoneDepthMm = zone.application_depth;
+
+    return acc + zoneAreaM2 * zoneDepthMm;
+  }, 0);
+};
 
 /**
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
@@ -298,6 +426,32 @@ export async function patchIrrigationPrescriptionApproval(id: number) {
     };
 
     await ensembleAPICall(axiosObject, onError);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/* Fetch details for a particular irrigation_prescription by id */
+export async function fetchIrrigationPrescriptionDetails(
+  id: number,
+): Promise<EsciReturnedPrescriptionDetails> {
+  try {
+    const axiosObject = {
+      method: 'get',
+      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+    };
+
+    const onError = (error: AxiosError) => {
+      const status = error.response?.status || 500;
+      const errorDetail = error.message ? `: ${error.message}` : '';
+      const message = `Error fetching details for IP ${id} from ESci${errorDetail}`;
+      throw customError(message, status);
+    };
+
+    const { data: irrigationPrescription } = await ensembleAPICall(axiosObject, onError);
+
+    return irrigationPrescription;
   } catch (error) {
     console.log(error);
     throw error;

@@ -282,6 +282,18 @@ class Location extends baseModel {
       .withGraphFetched('[figure.[area], field, garden, greenhouse]')
       .whereNotDeleted();
   }
+
+  /**
+   * Get the farm_id for a specified location
+   * @param {string} location_id - The location to check
+   * @param {Knex.Transaction} [trx] - Optional transaction object
+   * @static
+   * @async
+   * @returns {Promise<{farm_id: string}|undefined>} Resolves to an object with `farm_id` if found, or `undefined` otherwise
+   */
+  static async getFarmIdByLocationId(location_id, trx) {
+    return Location.query(trx).select('farm_id').where('location_id', location_id).first();
+  }
 }
 
 export default Location;

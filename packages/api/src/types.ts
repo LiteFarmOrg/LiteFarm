@@ -21,8 +21,8 @@ export interface HttpError extends Error {
 }
 
 // TODO: Remove farm_id conditional and cast this in a checkScope() that takes the function and casts this to req
-export interface LiteFarmRequest<QueryParams = unknown>
-  extends Request<unknown, unknown, unknown, QueryParams> {
+export interface LiteFarmRequest<QueryParams = unknown, RouteParams = unknown>
+  extends Request<RouteParams, unknown, unknown, QueryParams> {
   headers: Request['headers'] & {
     farm_id?: string;
   };

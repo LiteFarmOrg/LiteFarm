@@ -213,13 +213,18 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
   return organisationFarmData;
 };
 
-/* Sends field and crop data to Ensemble API */
-export async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
+/**
+ * Sends field and crop data to Ensemble API for a single organization
+ */
+export async function sendFieldAndCropDataToEsci(
+  organisationFarmData: EnsembleLocationAndCropData[],
+  org_pk: number,
+) {
   try {
     const axiosObject = {
       method: 'post',
       body: organisationFarmData,
-      url: `${ensembleAPI}/irrigation_prescription/request/`, // real URL TBD
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/`,
     };
 
     const onError = (error: AxiosError) => {

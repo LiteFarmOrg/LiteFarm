@@ -136,9 +136,7 @@ describe('Irrigation Prescription Request Tests', () => {
         expect(axios).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'post',
-            url: expect.stringContaining(
-              `/irrigation_prescription/request`, // real URL here
-            ),
+            url: expect.stringContaining(`${farmAddon.org_pk}/prescriptions/`),
             body: expectedFieldAndCropData,
           }),
         );

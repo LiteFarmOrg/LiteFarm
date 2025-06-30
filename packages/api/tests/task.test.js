@@ -1399,7 +1399,7 @@ describe('Task tests', () => {
             url: expect.stringContaining(
               `/irrigation_prescription/${irrigation_prescription_external_id}/`,
             ),
-            body: { approved: true },
+            data: { approved: true },
           }),
         );
       });

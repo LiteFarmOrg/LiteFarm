@@ -545,7 +545,7 @@ const taskController = {
         }
         res.status(201).send(result);
 
-        triggerPostTaskCreatedActions(typeOfTask, result);
+        triggerPostTaskCreatedActions(typeOfTask, result, req.headers.farm_id);
       } catch (error) {
         console.log(error);
 

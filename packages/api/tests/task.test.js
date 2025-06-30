@@ -1362,7 +1362,7 @@ describe('Task tests', () => {
 
       test('Should call Ensemble API if an irrigation task is created with an irrigation_prescription_external_id', async () => {
         const { farm, field, user } = await setupFarmEnvironment(1);
-        await connectFarmToEnsemble(farm);
+        const { org_pk } = await connectFarmToEnsemble(farm);
 
         const [{ task_type_id }] = await mocks.task_typeFactory();
 
@@ -1397,7 +1397,7 @@ describe('Task tests', () => {
           expect.objectContaining({
             method: 'patch',
             url: expect.stringContaining(
-              `/irrigation_prescription/${irrigation_prescription_external_id}/`,
+              `organizations/${org_pk}/prescriptions/${irrigation_prescription_external_id}/`,
             ),
             data: { approved: true },
           }),

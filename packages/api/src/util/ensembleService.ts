@@ -59,7 +59,7 @@ const getEnsemblePartnerId = async (): Promise<AddonPartner['id']> => {
  * @returns A promise that resolves to the organisation IDs for the given farm and partner.
  * @throws Not found error as we expect that the farms addon partner ids exist.
  */
-const getFarmEnsembleAddonIds = async (
+export const getFarmEnsembleAddonIds = async (
   farmId: Farm['farm_id'],
 ): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
   const esciPartnerId = await getEnsemblePartnerId();
@@ -442,14 +442,14 @@ function selectCropData(managementPlan: ManagementPlan) {
 }
 
 /* Update Ensemble to indicate an irrigation prescription has been approved */
-export async function patchIrrigationPrescriptionApproval(id: number) {
+export async function patchIrrigationPrescriptionApproval(id: number, org_pk: number) {
   try {
     const axiosObject = {
       method: 'patch',
       data: {
         approved: true,
       },
-      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/${id}/`,
     };
 
     const onError = (error: AxiosError) => {

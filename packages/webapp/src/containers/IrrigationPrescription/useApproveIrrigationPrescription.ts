@@ -67,7 +67,7 @@ export default function useApproveIrrigationPrescription(
       estimated_water_consumption,
       estimated_water_consumption_unit,
       'l',
-    );
+    ); // TODO: LF-4810 Adjust conversion once estimated_water_consumption_unit is confirmed
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,

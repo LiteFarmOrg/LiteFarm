@@ -354,8 +354,8 @@ export type IrrigationPrescriptionDetails = {
       wind_speed_unit: SensorReadingTypeUnits;
       cumulative_rainfall: number;
       cumulative_rainfall_unit: SensorReadingTypeUnits;
-      evapotranspiration_rate: number;
-      evapotranspiration_rate_unit: string;
+      et_rate: number;
+      et_rate_unit: string;
       weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
     };
   };

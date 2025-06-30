@@ -79,8 +79,7 @@ export const generateKPIData = (
     estimated_water_consumption_unit,
   } = irrigationPrescription;
 
-  const { evapotranspiration_rate, evapotranspiration_rate_unit, weather_icon_code } =
-    weather_forecast;
+  const { et_rate, et_rate_unit, weather_icon_code } = weather_forecast;
 
   const [temperatureText, windSpeedText, cumulativeRainfallText] = WEATHER_PARAMS.map((param) => {
     const value = convertEsciReadingValue(weather_forecast[param], param, system);
@@ -111,12 +110,7 @@ export const generateKPIData = (
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ET_RATE'),
-      data: (
-        <IconAndText
-          icon={<WindIcon />}
-          text={getETRateText(evapotranspiration_rate, evapotranspiration_rate_unit, system)}
-        />
-      ),
+      data: <IconAndText icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
     },
     {
       label: t('common:ESTIMATED_TIME'),

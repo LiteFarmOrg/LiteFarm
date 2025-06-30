@@ -42,7 +42,7 @@ export const generateMockPrescriptionDetails = async ({
   farm_id,
   irrigationPrescriptionId,
   applicationDepths = [15, 10, 20],
-  pivotRadius = 150,
+  pivotRadius = 400,
 }: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 

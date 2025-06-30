@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
@@ -56,13 +57,18 @@ const IrrigationPrescription = ({
 
   const { ip_pk } = match.params;
 
-  const {
-    data: irrigationPrescription,
-    isLoading,
-    isError,
-  } = useGetIrrigationPrescriptionDetailsQuery(Number(ip_pk), {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data: irrigationPrescription, isLoading } = useGetIrrigationPrescriptionDetailsQuery(
+    Number(ip_pk),
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  useEffect(() => {
+    if (!isLoading && !irrigationPrescription) {
+      history.replace('/unknown_record');
+    }
+  }, [isLoading, irrigationPrescription]);
 
   const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
 
@@ -78,7 +84,7 @@ const IrrigationPrescription = ({
     );
   }
 
-  if (!irrigationPrescription || isError) {
+  if (!irrigationPrescription?.prescription) {
     return null;
   }
 

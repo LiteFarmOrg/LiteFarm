@@ -85,7 +85,7 @@ describe('Irrigation Prescription Request Tests', () => {
 
         const { farm, field, user } = await setupFarmEnvironment(role);
 
-        const { farmAddon } = await connectFarmToEnsemble(farm);
+        const farmAddon = await connectFarmToEnsemble(farm);
 
         const { crop, transplantManagementPlan, seedManagementPlan } = await setupManagementPlans({
           farm,

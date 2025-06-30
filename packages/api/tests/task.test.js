@@ -1406,6 +1406,7 @@ describe('Task tests', () => {
 
       test('Should return an error if there is an attempt to associate the same irrigation_prescription_external_id with a second task on the same farm', async () => {
         const { farm, field, user } = await setupFarmEnvironment(1);
+        await connectFarmToEnsemble(farm);
 
         const [{ task_type_id }] = await mocks.task_typeFactory();
 

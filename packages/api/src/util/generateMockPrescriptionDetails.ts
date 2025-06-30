@@ -67,6 +67,7 @@ export const generateMockPrescriptionDetails = async ({
     management_plan_id: managementPlans[0]?.management_plan_id ?? null,
     recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
     pivot: mockPivot,
+    system: 'NW System',
     metadata: {
       weather_forecast: {
         temperature: 20,

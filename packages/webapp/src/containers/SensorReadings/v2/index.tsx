@@ -39,7 +39,7 @@ import type { ChartSupportedReadingTypes } from './types';
 import { SensorType } from '../../../types/sensor';
 import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
-import { createSensorsDisplayName } from '../../../components/Sensor/v2/utils';
+import { createSmartIrrigationDisplayName } from '../../../util/smartIrrigation';
 
 interface RouteParams {
   id: string;
@@ -130,7 +130,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
   return (
     <CardLayout>
       <PageTitle
-        title={createSensorsDisplayName({
+        title={createSmartIrrigationDisplayName({
           label,
           system: sensorArray?.system,
           fallback: t(PAGE_TITLE_KEY[type]),

@@ -32,6 +32,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import Spinner from '../../components/Spinner';
 import type { CustomRouteComponentProps } from '../../types';
 import type { Location } from '../../types';
+import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
 interface RouteParams {
   ip_pk: string;
@@ -96,7 +97,10 @@ const IrrigationPrescription = ({
     <CardLayout className={styles.cardWrapper}>
       <div className={styles.irrigationPrescriptionContainer}>
         <PageTitle
-          title={t('IRRIGATION_PRESCRIPTION.TITLE')}
+          title={createSmartIrrigationDisplayName({
+            label: t('IRRIGATION_PRESCRIPTION.TITLE'),
+            system: irrigationPrescription.system,
+          })}
           onGoBack={history.back}
           classNames={{ wrapper: styles.title }}
         ></PageTitle>

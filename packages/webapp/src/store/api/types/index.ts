@@ -338,6 +338,8 @@ export type IrrigationPrescriptionDetails = {
   management_plan_id: number | null;
   recommended_start_datetime: string; // ISO string
 
+  system: string; // descriptive name for the irrigation system
+
   pivot: {
     center: { lat: number; lng: number };
     radius: number; // in meters

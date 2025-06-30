@@ -152,6 +152,7 @@ type CommonPrescriptionDetails = {
   id: number;
   location_id: string;
   management_plan_id: number | null;
+  system: string;
   recommended_start_datetime: string;
   pivot: {
     center: { lat: number; lng: number };

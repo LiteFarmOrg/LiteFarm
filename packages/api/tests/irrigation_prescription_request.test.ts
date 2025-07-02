@@ -43,12 +43,10 @@ describe('Irrigation Prescription Request Tests', () => {
   async function initiateIrrigationPrescriptionRequest({
     user_id,
     farm_id,
-    allOrgs,
     shouldSend = 'true',
   }: {
     user_id: string;
     farm_id: string;
-    allOrgs?: string;
     shouldSend?: string;
   }): Promise<Response> {
     return chai
@@ -57,7 +55,7 @@ describe('Irrigation Prescription Request Tests', () => {
       .set('content-type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .query({ allOrgs, shouldSend });
+      .query({ shouldSend });
   }
 
   beforeEach(async () => {

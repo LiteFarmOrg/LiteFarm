@@ -29,7 +29,6 @@ const endpointSchedules = [
     path: '/irrigation_prescription_request/scheduler',
     params: {
       shouldSend: true,
-      allOrgs: true,
     },
   },
 ];

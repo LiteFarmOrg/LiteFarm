@@ -26,7 +26,6 @@ interface HttpError extends Error {
 }
 
 interface InitiateFarmIrrigationPrescriptionQueryParams {
-  allOrgs?: string;
   shouldSend?: string;
 }
 
@@ -37,18 +36,11 @@ const irrigationPrescriptionRequestController = {
       res: Response,
     ) => {
       const { farm_id } = req.headers;
-      const { allOrgs, shouldSend } = req.query;
-      const requestingAllOrgs = allOrgs === 'true';
-
-      if (requestingAllOrgs && !isSchedulerRequest) {
-        return res.status(403).json({
-          error: 'Only the system scheduler can request data for all organisations',
-        });
-      }
+      const { shouldSend } = req.query;
 
       try {
         const allFarmData = await getOrgLocationAndCropData(
-          requestingAllOrgs ? undefined : farm_id,
+          isSchedulerRequest ? undefined : farm_id,
         );
 
         if (shouldSend === 'true') {

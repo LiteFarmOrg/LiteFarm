@@ -71,11 +71,8 @@ export const generateKPIData = (
   t: TFunction,
   system: System,
 ) => {
-  const {
-    metadata: { weather_forecast },
-    estimated_water_consumption,
-    estimated_water_consumption_unit,
-  } = irrigationPrescription;
+  const { weather_forecast, estimated_water_consumption, estimated_water_consumption_unit } =
+    irrigationPrescription;
 
   const { et_rate, et_rate_unit, weather_icon_code } = weather_forecast;
 

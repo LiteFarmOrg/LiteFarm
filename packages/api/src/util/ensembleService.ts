@@ -215,7 +215,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   // Calculate and return water consumption
   const waterConsumptionL =
     'uriData' in prescriptionDetails
-      ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot.radius ?? 0)
+      ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot?.radius ?? 0)
       : calculateVRIWaterConsumption(prescriptionDetails);
 
   return {
@@ -232,7 +232,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
  * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
  */
 const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
-  const { metadata, ...rest } = prescription;
+  const { weather_forecast, ...rest } = prescription;
 
   const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
     if (unit === '˚C') return 'C';
@@ -240,17 +240,15 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
   };
 
   const mappedWeatherForecast = {
-    ...metadata.weather_forecast,
-    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
-    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
-    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
+    ...weather_forecast,
+    temperature_unit: mapWeatherUnit(weather_forecast.temperature_unit),
+    wind_speed_unit: mapWeatherUnit(weather_forecast.wind_speed_unit),
+    cumulative_rainfall_unit: mapWeatherUnit(weather_forecast.cumulative_rainfall_unit),
   };
 
   return {
     ...rest,
-    metadata: {
-      weather_forecast: mappedWeatherForecast,
-    },
+    weather_forecast: mappedWeatherForecast,
   };
 };
 

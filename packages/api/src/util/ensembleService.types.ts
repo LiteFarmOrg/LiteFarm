@@ -114,8 +114,8 @@ export function isExternalIrrigationPrescriptionArray(
       return (
         typeof obj.id === 'number' &&
         typeof obj.location_id === 'string' &&
-        (obj.management_plan_id === undefined || typeof obj.management_plan_id === 'number') &&
-        typeof obj.recommended_start_datetime === 'string'
+        (obj.management_plan_id === null || typeof obj.management_plan_id === 'number')
+        // typeof obj.recommended_start_datetime === 'string'
       );
     })
   );
@@ -124,18 +124,16 @@ export function isExternalIrrigationPrescriptionArray(
 export type EsciWeatherUnits = 'mm' | 'mm/h' | '˚C' | 'm/s';
 export type LiteFarmWeatherUnits = 'mm' | 'mm/h' | 'C' | 'm/s';
 
-export type Metadata<Units> = {
-  weather_forecast: {
-    temperature: number;
-    temperature_unit: Units;
-    wind_speed: number;
-    wind_speed_unit: Units;
-    cumulative_rainfall: number;
-    cumulative_rainfall_unit: Units;
-    et_rate: number;
-    et_rate_unit: string;
-    weather_icon_code: string;
-  };
+export type WeatherData<Units> = {
+  temperature: number;
+  temperature_unit: Units;
+  wind_speed: number;
+  wind_speed_unit: Units;
+  cumulative_rainfall: number;
+  cumulative_rainfall_unit: Units;
+  et_rate: number;
+  et_rate_unit: string;
+  weather_icon_code: string;
 };
 
 interface UriPrescriptionData {
@@ -170,11 +168,11 @@ type CommonPrescriptionDetails = {
 };
 
 export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
-  metadata: Metadata<EsciWeatherUnits>;
+  weather_forecast: WeatherData<EsciWeatherUnits>;
 };
 
 export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
-  metadata: Metadata<LiteFarmWeatherUnits>;
+  weather_forecast: WeatherData<LiteFarmWeatherUnits>;
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;
 };

@@ -82,6 +82,7 @@ export const getAddonPartnerIrrigationPrescriptions = async (
       const irrigationPrescriptionsWithPartnerId = data.map((irrigationPrescription) => ({
         ...irrigationPrescription,
         partner_id: farmAddonPartnerId.addon_partner_id,
+        recommended_start_datetime: new Date().toISOString(),
       }));
 
       // Push prescriptions to return array

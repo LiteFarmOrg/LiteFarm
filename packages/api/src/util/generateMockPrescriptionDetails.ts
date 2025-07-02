@@ -81,8 +81,6 @@ export const generateMockPrescriptionDetails = async ({
         weather_icon_code: '02d',
       },
     },
-    estimated_time: 6,
-    estimated_time_unit: 'h',
   };
 
   const mockUriData = {

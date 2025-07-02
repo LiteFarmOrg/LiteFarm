@@ -158,8 +158,6 @@ type CommonPrescriptionDetails = {
     center: { lat: number; lng: number };
     radius: number;
   };
-  estimated_time: number;
-  estimated_time_unit: string;
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }
     | {

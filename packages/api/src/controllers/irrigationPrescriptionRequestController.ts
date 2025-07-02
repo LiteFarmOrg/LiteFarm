@@ -31,17 +31,24 @@ interface InitiateFarmIrrigationPrescriptionQueryParams {
 }
 
 const irrigationPrescriptionRequestController = {
-  initiateFarmIrrigationPrescription() {
+  initiateFarmIrrigationPrescription(isSchedulerRequest = false) {
     return async (
       req: LiteFarmRequest<InitiateFarmIrrigationPrescriptionQueryParams>,
       res: Response,
     ) => {
       const { farm_id } = req.headers;
       const { allOrgs, shouldSend } = req.query;
+      const requestingAllOrgs = allOrgs === 'true';
+
+      if (requestingAllOrgs && !isSchedulerRequest) {
+        return res.status(403).json({
+          error: 'Only the system scheduler can request data for all organisations',
+        });
+      }
 
       try {
         const allFarmData = await getOrgLocationAndCropData(
-          allOrgs === 'true' ? undefined : farm_id,
+          requestingAllOrgs ? undefined : farm_id,
         );
 
         if (shouldSend === 'true') {

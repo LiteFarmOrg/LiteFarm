@@ -45,7 +45,7 @@ const getEstimatedTimeAndUnit = (value: number, unit: string) => {
 
 const getWaterConsumptionAndUnit = (value: number, unit: string, system: System) => {
   // TODO: LF-4810
-  return { value: 79, unit: 'AF' };
+  return { value, unit: 'AF' };
 };
 
 export const IconAndText = ({ icon, text }: { icon: ReactElement; text: string }) => {

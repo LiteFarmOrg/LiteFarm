@@ -88,7 +88,7 @@ export const getIrrigationPrescriptions = async (
   // Endpoint config
   const axiosObject = {
     method: 'get',
-    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
+    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/prescriptions/`,
     params: {
       start_time: startTime, // ISO format
       end_time: endTime, // ISO format
@@ -180,11 +180,11 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   shouldSend: boolean,
 ): Promise<IrrigationPrescriptionDetails> => {
   // Validate farm connection to Ensemble (will throw if not connected)
-  await getFarmEnsembleAddonIds(farm_id);
+  const { org_pk } = await getFarmEnsembleAddonIds(farm_id);
 
   // Fetch prescription data (real or mock)
   const irrigationPrescription = shouldSend
-    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId)
+    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId, org_pk)
     : await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId });
 
   if (!irrigationPrescription) {
@@ -435,11 +435,12 @@ export async function patchIrrigationPrescriptionApproval(id: number) {
 /* Fetch details for a particular irrigation_prescription by id */
 export async function fetchIrrigationPrescriptionDetails(
   id: number,
+  org_pk: number,
 ): Promise<EsciReturnedPrescriptionDetails> {
   try {
     const axiosObject = {
       method: 'get',
-      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/${id}/`,
     };
 
     const onError = (error: AxiosError) => {

@@ -233,7 +233,7 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
-            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+            url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
           expect.any(Function), // onError callback
         );
@@ -283,7 +283,7 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
-            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+            url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
           expect.any(Function), // onError callback
         );
@@ -327,7 +327,7 @@ describe('Get Irrigation Prescription Tests', () => {
       expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+          url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
         }),
         expect.any(Function), // onError callback
       );

@@ -329,7 +329,7 @@ export const api = createApi({
         const today = new Date();
         const startTime = getStartOfDate(today).toISOString();
         const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
-        const shouldSend = 'false';
+        const shouldSend = 'true';
         const params = new URLSearchParams({ startTime, endTime, shouldSend });
 
         return `${irrigationPrescriptionUrl}?${params.toString()}`;
@@ -348,7 +348,7 @@ export const api = createApi({
       providesTags: ['IrrigationPrescriptions'],
     }),
     getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
-      query: (id) => `${irrigationPrescriptionUrl}/${id}?shouldSend=false`,
+      query: (id) => `${irrigationPrescriptionUrl}/${id}?shouldSend=true`,
       providesTags: ['IrrigationPrescriptionDetails'],
     }),
   }),

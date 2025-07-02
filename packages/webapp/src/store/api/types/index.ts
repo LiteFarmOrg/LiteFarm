@@ -360,9 +360,6 @@ export type IrrigationPrescriptionDetails = {
     };
   };
 
-  estimated_time: number;
-  estimated_time_unit: string;
-
   // calculated by the backend
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;

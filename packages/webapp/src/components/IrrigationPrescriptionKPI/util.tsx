@@ -73,8 +73,6 @@ export const generateKPIData = (
 ) => {
   const {
     metadata: { weather_forecast },
-    estimated_time,
-    estimated_time_unit,
     estimated_water_consumption,
     estimated_water_consumption_unit,
   } = irrigationPrescription;
@@ -111,12 +109,6 @@ export const generateKPIData = (
     {
       label: t('IRRIGATION_PRESCRIPTION.ET_RATE'),
       data: <IconAndText icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
-    },
-    {
-      label: t('common:ESTIMATED_TIME'),
-      data: <ValueAndUnit {...getEstimatedTimeAndUnit(estimated_time, estimated_time_unit)} />,
-      iconURL: ClockIcon,
-      labelSize: LabelSize.SMALL,
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ESTIMATED_WATER_CONSUMPTION'),

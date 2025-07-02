@@ -43,13 +43,16 @@ const IrrigationPrescriptionMapView = ({
 }: IrrigationPrescriptionMapViewProps) => {
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const pivotMapObjects = createPivotMapObjects(
-    pivotCenter,
-    pivotRadiusInMeters,
-    !!vriZones?.length,
-    (vriZones?.length || 0) > 3,
-    system,
-  );
+  const pivotMapObjects =
+    pivotCenter && pivotRadiusInMeters
+      ? createPivotMapObjects(
+          pivotCenter,
+          pivotRadiusInMeters,
+          !!vriZones?.length,
+          (vriZones?.length || 0) > 3,
+          system,
+        )
+      : [];
 
   const irrigationZoneMapObjects = vriZones ? createIrrigationZoneMapObjects(vriZones) : [];
 
@@ -63,7 +66,7 @@ const IrrigationPrescriptionMapView = ({
           ...pivotMapObjects,
         ]}
         selectedLocationIds={[]}
-        farmCenterCoordinate={pivotCenter}
+        farmCenterCoordinate={pivotCenter || fieldLocation?.grid_points?.[0]}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         showControls={false}

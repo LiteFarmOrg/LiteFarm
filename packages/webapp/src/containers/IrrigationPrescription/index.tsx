@@ -125,8 +125,8 @@ const IrrigationPrescription = ({
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}
-          pivotCenter={pivot.center}
-          pivotRadiusInMeters={pivot.radius}
+          pivotCenter={pivot?.center}
+          pivotRadiusInMeters={pivot?.radius}
           {...(uriData ? { uriData } : { vriData: vriData?.zones })}
         />
       </div>

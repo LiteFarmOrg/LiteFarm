@@ -71,7 +71,7 @@ export default function useApproveIrrigationPrescription(
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,
-      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime)),
+      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime ?? Date.now())),
       locations: [{ location_id }],
       show_wild_crop: false,
       managementPlans: management_plan_id ? [{ management_plan_id }] : [],

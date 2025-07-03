@@ -28,8 +28,7 @@ const endpointSchedules = [
     method: 'post',
     path: '/irrigation_prescription_request/scheduler',
     params: {
-      shouldSend: false, // true once ESci endpoint is live
-      allOrgs: true,
+      shouldSend: true,
     },
   },
 ];

@@ -21,10 +21,10 @@ import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
-import { customError } from './customErrors.js';
+import { customError, LiteFarmCustomError } from './customErrors.js';
 import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
 import type {
-  OrganisationFarmData,
+  AllOrganisationsFarmData,
   LocationAndCropGraph,
   EnsembleLocationAndCropData,
   ManagementPlan,
@@ -59,7 +59,7 @@ const getEnsemblePartnerId = async (): Promise<AddonPartner['id']> => {
  * @returns A promise that resolves to the organisation IDs for the given farm and partner.
  * @throws Not found error as we expect that the farms addon partner ids exist.
  */
-const getFarmEnsembleAddonIds = async (
+export const getFarmEnsembleAddonIds = async (
   farmId: Farm['farm_id'],
 ): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'>> => {
   const esciPartnerId = await getEnsemblePartnerId();
@@ -293,7 +293,7 @@ const calculateVRIWaterConsumption = (
 Gathers location and crop data to Ensemble API to initiate irrigation prescriptions
  *
  * @param {string} [farm_id] - Supply a farm_id to get data for a specific farm only. If no farm_id is provided, all farms connected to Ensemble will be queried.
- * @returns {Promise<OrganisationFarmData>} - Returns organisation farm data
+ * @returns {Promise<AllOrganisationsFarmData>} - Returns organisation farm data
  */
 export const getOrgLocationAndCropData = async (farm_id?: string) => {
   const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
@@ -316,7 +316,7 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
     }
   }
 
-  const organisationFarmData: OrganisationFarmData = {};
+  const organisationFarmData: AllOrganisationsFarmData = {};
 
   for (const org of organisations) {
     const locations = await LocationModel.getCropSupportingLocationsByFarmId(org.farm_id);
@@ -324,30 +324,65 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
     const cropsAndLocations: LocationAndCropGraph[] = [];
 
     for (const location of locations) {
-      const managementPlanGraph = await ManagementPlanModel.getManagementPlansByLocationId(
+      const managementPlanGraph = await ManagementPlanModel.getMostRecentManagementPlanByLocationId(
         location.location_id,
       );
       cropsAndLocations.push({
         ...location,
-        management_plans: managementPlanGraph,
+        management_plan: managementPlanGraph,
       });
     }
 
-    (organisationFarmData[org.org_uuid] ??= []).push(
-      ...selectEnsembleProperties(cropsAndLocations),
-    );
+    (organisationFarmData[org.org_pk] ??= []).push(...selectEnsembleProperties(cropsAndLocations));
   }
 
   return organisationFarmData;
 };
 
-/* Sends field and crop data to Ensemble API */
-export async function sendFieldAndCropDataToEsci(organisationFarmData: OrganisationFarmData) {
+/**
+ * Process and send data for multiple organizations to Ensemble API sequentially
+ * Continues processing other organizations even if individual requests fail
+ */
+export async function sendAllFieldAndCropDataToEsci(allFarmData: AllOrganisationsFarmData) {
+  const results = [];
+
+  for (const [orgPk, orgData] of Object.entries(allFarmData)) {
+    if (!orgData || orgData.length === 0) {
+      continue;
+    }
+    try {
+      await sendFieldAndCropDataToEsci(orgData, Number(orgPk));
+      results.push({
+        organisationId: Number(orgPk),
+        status: 'success',
+      });
+    } catch (error) {
+      const { message, code } = error as LiteFarmCustomError;
+
+      results.push({
+        organisationId: orgPk,
+        status: 'error',
+        code,
+        message,
+      });
+    }
+  }
+
+  return results;
+}
+
+/**
+ * Sends field and crop data to Ensemble API for a single organization
+ */
+export async function sendFieldAndCropDataToEsci(
+  organisationFarmData: EnsembleLocationAndCropData[],
+  org_pk: number,
+) {
   try {
     const axiosObject = {
       method: 'post',
-      body: organisationFarmData,
-      url: `${ensembleAPI}/irrigation_prescription/request/`, // real URL TBD
+      data: organisationFarmData,
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/`,
     };
 
     const onError = (error: AxiosError) => {
@@ -371,7 +406,7 @@ function selectEnsembleProperties(
   return cropsAndLocations.map((location) => {
     return {
       ...selectLocationData(location),
-      crop_data: selectCropData(location.management_plans),
+      crop_data: selectCropData(location.management_plan),
     };
   });
 }
@@ -386,36 +421,35 @@ function selectLocationData(location: LocationAndCropGraph) {
   };
 }
 
-function selectCropData(managementPlans: ManagementPlan[]) {
-  if (managementPlans.length === 0) {
+function selectCropData(managementPlan: ManagementPlan) {
+  if (!managementPlan) {
     return [];
   }
 
-  return managementPlans.map((managementPlan: ManagementPlan) => {
-    const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
+  const { crop_common_name, crop_genus, crop_specie } = managementPlan.crop_variety.crop;
 
-    const seed_date = managementPlan.crop_management_plan?.seed_date;
+  const seed_date = managementPlan.crop_management_plan?.seed_date;
 
-    return {
-      // plan_id for dev purposes; remove after QA on endpoint
+  return [
+    {
       management_plan_id: managementPlan.management_plan_id,
       crop_common_name,
       crop_genus,
       crop_specie,
       seed_date,
-    };
-  });
+    },
+  ];
 }
 
 /* Update Ensemble to indicate an irrigation prescription has been approved */
-export async function patchIrrigationPrescriptionApproval(id: number) {
+export async function patchIrrigationPrescriptionApproval(id: number, org_pk: number) {
   try {
     const axiosObject = {
       method: 'patch',
-      body: {
+      data: {
         approved: true,
       },
-      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/${id}/`,
     };
 
     const onError = (error: AxiosError) => {

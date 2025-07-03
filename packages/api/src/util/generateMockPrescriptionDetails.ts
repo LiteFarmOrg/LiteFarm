@@ -50,7 +50,7 @@ export const generateMockPrescriptionDetails = async ({
     throw customError('No crop supporting locations found for the farm', 404);
   }
 
-  const managementPlans = await ManagementPlanModel.getManagementPlansByLocationId(
+  const managementPlan = await ManagementPlanModel.getMostRecentManagementPlanByLocationId(
     locations[0].location_id,
   );
 
@@ -64,7 +64,7 @@ export const generateMockPrescriptionDetails = async ({
   const commonMockData = {
     id: irrigationPrescriptionId,
     location_id: locations[0].location_id,
-    management_plan_id: managementPlans[0]?.management_plan_id ?? null,
+    management_plan_id: managementPlan?.management_plan_id ?? null,
     recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
     pivot: mockPivot,
     metadata: {

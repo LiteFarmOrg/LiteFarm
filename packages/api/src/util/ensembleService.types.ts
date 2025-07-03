@@ -64,7 +64,7 @@ export interface LocationAndCropGraph {
       grid_points: Point[];
     };
   };
-  management_plans: ManagementPlan[];
+  management_plan: ManagementPlan;
 }
 
 interface EnsembleCropData {
@@ -83,8 +83,8 @@ export interface EnsembleLocationAndCropData {
   crop_data: EnsembleCropData[];
 }
 
-export interface OrganisationFarmData {
-  [org_uuid: string]: EnsembleLocationAndCropData[];
+export interface AllOrganisationsFarmData {
+  [org_pk: number]: EnsembleLocationAndCropData[];
 }
 
 export type ExternalIrrigationPrescription = {

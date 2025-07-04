@@ -53,16 +53,13 @@ function TaskReadOnly({ history, match, location }) {
     isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
     task?.irrigation_task?.irrigation_prescription_external_id != null;
 
-  const { data: irrigationPrescription } = useGetIrrigationPrescriptionDetailsQuery(
+  const { data: externalIrrigationPrescription } = useGetIrrigationPrescriptionDetailsQuery(
     task?.irrigation_task?.irrigation_prescription_external_id,
     {
       skip: !isIrrigationTaskWithExternalPrescription,
       refetchOnMountOrArgChange: true,
     },
   );
-  const externalIrrigationPrescription = isIrrigationTaskWithExternalPrescription
-    ? irrigationPrescription
-    : undefined;
 
   let files = [];
   if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {

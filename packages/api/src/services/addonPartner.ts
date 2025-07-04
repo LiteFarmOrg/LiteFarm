@@ -25,7 +25,7 @@ import {
 } from '../util/ensembleService.types.js';
 import MockAddonPartner from '../util/mockAddonPartner.js';
 
-const PARTNER_ID_MAP: Record<number, (shouldSend?: string) => AddonPartnerFunctions> = {
+const PARTNER_ID_MAP: Partial<Record<number, (shouldSend?: string) => AddonPartnerFunctions>> = {
   1: (shouldSend) => {
     return shouldSend === 'true' ? ESciAddon : MockAddonPartner;
   },
@@ -52,6 +52,10 @@ export const getAddonPartnerIrrigationPrescriptions = async (
   for (const farmAddonPartnerId of farmAddonPartnerIds) {
     try {
       const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
+
+      if (!addonPartner) {
+        continue;
+      }
 
       const { data } = await addonPartner(shouldSend).getIrrigationPrescriptions(
         farmId,

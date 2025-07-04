@@ -41,7 +41,7 @@ interface PlantingManagementPlan {
 }
 
 export interface ManagementPlan {
-  management_plan_id: string;
+  management_plan_id: number | null;
   crop_management_plan: {
     seed_date: string;
     planting_management_plans: PlantingManagementPlan[];
@@ -72,7 +72,7 @@ interface EnsembleCropData {
   crop_genus: string;
   crop_specie: string;
   seed_date: string;
-  management_plan_id?: string; // For dev purposes
+  management_plan_id: number | null;
 }
 
 export interface EnsembleLocationAndCropData {
@@ -90,7 +90,7 @@ export interface AllOrganisationsFarmData {
 export type ExternalIrrigationPrescription = {
   id: number;
   location_id: Location['location_id'];
-  management_plan_id?: ModelManagementPlan['management_plan_id'];
+  management_plan_id: ModelManagementPlan['management_plan_id'] | null;
   recommended_start_datetime: string;
 };
 

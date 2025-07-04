@@ -61,9 +61,6 @@ export type IrrigationPrescription = {
     };
   };
 
-  estimated_time: number;
-  estimated_time_unit: EstimatedTimeUnits;
-
   // calculated by the backend
   estimated_water_consumption: number;
   estimated_water_consumption_unit: WaterConsumptionUnits;
@@ -80,8 +77,6 @@ export type IrrigationPrescription = {
       };
 };
 
-export type EstimatedTimeUnits = 'h';
-
 export type IrrigationPrescriptionDataTypes =
   | 'temperature'
   | 'wind_speed'
@@ -93,5 +88,4 @@ export type IrrigationPrescriptionDataTypes =
 export type IrrigationPrescriptionDataTypeUnits =
   | SensorReadingTypeUnits
   | EvapotranspirationRateUnits
-  | WaterConsumptionUnits
-  | EstimatedTimeUnits;
+  | WaterConsumptionUnits;

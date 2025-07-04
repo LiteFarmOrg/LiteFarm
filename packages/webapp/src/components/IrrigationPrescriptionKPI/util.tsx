@@ -21,12 +21,11 @@ import { ReactComponent as RainfallIcon } from '../../assets/images/weather/drop
 import ThemometerWarmIcon from '../../assets/images/weather/thermometer-warm.svg';
 import WeatherIcon from '../WeatherBoard/WeatherIcon';
 import PivotIcon from '../../assets/images/irrigation/pivot-icon.svg';
-import ClockIcon from '../../assets/images/clock-stopwatch.svg';
 import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import weatherBoardUtil from '../../containers/WeatherBoard/utils';
 import { System } from '../../types';
 import type { SensorReadingTypes } from '../../store/api/types';
-import type { EstimatedTimeUnits, IrrigationPrescription } from '../IrrigationPrescription/types';
+import type { IrrigationPrescription } from '../IrrigationPrescription/types';
 import styles from './styles.module.scss';
 import {
   EvapotranspirationRateUnits,
@@ -43,10 +42,6 @@ const getETRateText = (value: number, unit: EvapotranspirationRateUnits, system:
   const displayValue = convertEsciReadingValue(value, param, system);
   const displayUnit = getReadingUnit(param, system, unit);
   return `${displayValue}${displayUnit}`;
-};
-
-const getEstimatedTimeAndUnit = (value: number, unit: EstimatedTimeUnits) => {
-  return { value: value, unit: unit };
 };
 
 const getWaterConsumptionAndUnit = (value: number, unit: WaterConsumptionUnits, system: System) => {
@@ -81,8 +76,6 @@ export const generateKPIData = (
 ) => {
   const {
     metadata: { weather_forecast },
-    estimated_time,
-    estimated_time_unit,
     estimated_water_consumption,
     estimated_water_consumption_unit,
   } = irrigationPrescription;
@@ -119,12 +112,6 @@ export const generateKPIData = (
     {
       label: t('IRRIGATION_PRESCRIPTION.ET_RATE'),
       data: <IconAndText icon={<WindIcon />} text={getETRateText(et_rate, et_rate_unit, system)} />,
-    },
-    {
-      label: t('common:ESTIMATED_TIME'),
-      data: <ValueAndUnit {...getEstimatedTimeAndUnit(estimated_time, estimated_time_unit)} />,
-      iconURL: ClockIcon,
-      labelSize: LabelSize.SMALL,
     },
     {
       label: t('IRRIGATION_PRESCRIPTION.ESTIMATED_WATER_CONSUMPTION'),

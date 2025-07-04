@@ -71,6 +71,29 @@ export const getFarmEnsembleAddonIds = async (
 };
 
 /**
+ * Safely retrieves the Ensemble addon partner ids for the given farm without throwing errors.
+ * This is designed for non-blocking flows where Ensemble connectivity is optional, such as:
+ * - Notification controller (postDailyNewIrrigationPrescriptions)
+ * - Post-response side effects (triggerPostTaskCreatedActions)
+ */
+export const safeGetFarmEnsembleAddonIds = async (
+  farmId: Farm['farm_id'],
+): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'> | null> => {
+  try {
+    const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+    if (!partner) return null;
+
+    const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, partner.id);
+    if (!farmAddonIds) return null;
+
+    return farmAddonIds;
+  } catch (error) {
+    console.error(`Error checking Ensemble connection for farm ${farmId}:`, error);
+    return null;
+  }
+};
+
+/**
  * Returns a list of irrigation prescriptions based for a specific farm.
  *
  * @param farmId - The ID of the farm to retrieve external irrigation prescriptions for.

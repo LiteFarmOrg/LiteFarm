@@ -25,11 +25,7 @@ import {
 } from '../util/ensembleService.types.js';
 import MockAddonPartner from '../util/mockAddonPartner.js';
 
-// TODO: LF-4710 - Delete partner_id = 0, remove Partial
 const PARTNER_ID_MAP: Record<number, (shouldSend?: string) => AddonPartnerFunctions> = {
-  0: () => {
-    return { getIrrigationPrescriptions: () => [] as unknown as Promise<AxiosResponse<unknown>> };
-  },
   1: (shouldSend) => {
     return shouldSend === 'true' ? ESciAddon : MockAddonPartner;
   },
@@ -56,11 +52,6 @@ export const getAddonPartnerIrrigationPrescriptions = async (
   for (const farmAddonPartnerId of farmAddonPartnerIds) {
     try {
       const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
-      // TODO: LF-4710 - Skip deprecated partner_id = 0 situation
-      // Type guard for undefined functions
-      if (!addonPartner || typeof addonPartner().getIrrigationPrescriptions !== 'function') {
-        continue;
-      }
 
       const { data } = await addonPartner(shouldSend).getIrrigationPrescriptions(
         farmId,

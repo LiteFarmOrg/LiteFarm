@@ -39,7 +39,7 @@ import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
 import LocationViewer from '../../../LocationPicker/LocationViewer';
 import { useMaxZoom } from '../../../../containers/Map/useMaxZoom';
-import { createSensorsDisplayName } from '../utils';
+import { createSmartIrrigationDisplayName } from '../../../../util/smartIrrigation';
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
   const Icon = statKey === SensorType.SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
@@ -175,7 +175,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSens
                         <div className={styles.mainContent}>
                           <SensorIconWithNumber number={sensors.length} />
                           <span>
-                            {createSensorsDisplayName({
+                            {createSmartIrrigationDisplayName({
                               label,
                               system,
                               fallback:

@@ -177,8 +177,7 @@ export default function PureTaskReadOnly({
   };
 
   const isIrrigationTaskWithExternalPrescription =
-    isTaskType(taskType, 'IRRIGATION_TASK') &&
-    task.irrigation_task?.irrigation_prescription_external_id != null;
+    isTaskType(taskType, 'IRRIGATION_TASK') && externalIrrigationPrescription;
   const showLocations =
     (task.locations?.length || task.pinCoordinates?.length) &&
     !isIrrigationTaskWithExternalPrescription;

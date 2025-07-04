@@ -27,12 +27,12 @@ import {
   watercourseSelectedColour,
   pivotCenterLabel,
 } from './styles.module.scss';
-import waterValve from '../../assets/images/map/water-valve.png';
-import waterValveHover from '../../assets/images/map/water-valve-hover.png';
-import waterValveActive from '../../assets/images/map/water-valve-active.png';
-import gate from '../../assets/images/map/gate.png';
-import gateHover from '../../assets/images/map/gate-hover.png';
-import gateActive from '../../assets/images/map/gate-active.png';
+import waterValve from '../../assets/images/map/water-valve.svg';
+import waterValveHover from '../../assets/images/map/water-valve-hover.svg';
+import waterValveActive from '../../assets/images/map/water-valve-active.svg';
+import gate from '../../assets/images/map/gate.svg';
+import gateHover from '../../assets/images/map/gate-hover.svg';
+import gateActive from '../../assets/images/map/gate-active.svg';
 import soilSampleLocation from '../../assets/images/map/soil-sample-location.svg';
 import soilSampleLocationHover from '../../assets/images/map/soil-sample-location-hover.svg';
 import soilSampleLocationActive from '../../assets/images/map/soil-sample-location-active.svg';

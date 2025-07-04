@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.7.6",
+  "version": "3.7.7",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -57,6 +57,8 @@
     "@aws-sdk/client-s3": "^3.622.0",
     "@googlemaps/google-maps-services-js": "^3.4.1",
     "@sentry/node": "^7.119.2",
+    "@turf/area": "^7.2.0",
+    "@turf/centroid": "^7.2.0",
     "adm-zip": "^0.4.16",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",

@@ -41,7 +41,7 @@ interface PlantingManagementPlan {
 }
 
 export interface ManagementPlan {
-  management_plan_id: number | null;
+  management_plan_id: number;
   crop_management_plan: {
     seed_date: string;
     planting_management_plans: PlantingManagementPlan[];
@@ -72,7 +72,7 @@ interface EnsembleCropData {
   crop_genus: string;
   crop_specie: string;
   seed_date: string;
-  management_plan_id: number | null;
+  management_plan_id: number;
 }
 
 export interface EnsembleLocationAndCropData {

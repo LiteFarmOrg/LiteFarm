@@ -69,7 +69,7 @@ export const getAddonPartnerIrrigationPrescriptions = async (
 
       if (!isExternalIrrigationPrescriptionArray(data)) {
         throw customError(
-          `Partner id: ${farmAddonPartnerId} - irrigation prescription data not in expected format`,
+          `Partner id: ${farmAddonPartnerId.addon_partner_id} - irrigation prescription data not in expected format`,
         );
       }
 

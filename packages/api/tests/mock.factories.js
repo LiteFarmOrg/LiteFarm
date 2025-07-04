@@ -2631,7 +2631,11 @@ export const buildExternalIrrigationPrescription = async ({
     (await locationFactory({ promisedFarm: Promise.resolve(farm) ?? undefined }));
   const managementPlan =
     providedManagementPlan ??
-    (await management_planFactory({ promisedFarm: Promise.resolve([farm]) ?? undefined }));
+    (
+      await management_planFactory({
+        promisedFarm: Promise.resolve([farm]),
+      })
+    )[0];
 
   return {
     id: id ?? 1,

@@ -21,31 +21,33 @@ import { ReactComponent as RainfallIcon } from '../../assets/images/weather/drop
 import ThemometerWarmIcon from '../../assets/images/weather/thermometer-warm.svg';
 import WeatherIcon from '../WeatherBoard/WeatherIcon';
 import PivotIcon from '../../assets/images/irrigation/pivot-icon.svg';
-import ClockIcon from '../../assets/images/clock-stopwatch.svg';
 import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import weatherBoardUtil from '../../containers/WeatherBoard/utils';
 import { System } from '../../types';
 import type { SensorReadingTypes, IrrigationPrescriptionDetails } from '../../store/api/types';
 import styles from './styles.module.scss';
+import {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../util/convert-units/extendedMeasures';
 
 const WEATHER_PARAMS: Extract<
   SensorReadingTypes,
   'temperature' | 'wind_speed' | 'cumulative_rainfall'
 >[] = ['temperature', 'wind_speed', 'cumulative_rainfall'];
 
-const getETRateText = (value: number, unit: string, system: System) => {
-  // TODO: LF-4810
-  return `${value}${unit}`;
+const getETRateText = (value: number, unit: EvapotranspirationRateUnits, system: System) => {
+  const param = 'et_rate';
+  const displayValue = convertEsciReadingValue(value, param, system);
+  const displayUnit = getReadingUnit(param, system, unit);
+  return `${displayValue}${displayUnit}`;
 };
 
-const getEstimatedTimeAndUnit = (value: number, unit: string) => {
-  // TODO: LF-4810
-  return { value: 14, unit: 'h' };
-};
-
-const getWaterConsumptionAndUnit = (value: number, unit: string, system: System) => {
-  // TODO: LF-4810
-  return { value, unit: 'AF' };
+const getWaterConsumptionAndUnit = (value: number, unit: WaterConsumptionUnits, system: System) => {
+  const param = 'estimated_water_consumption';
+  const displayValue = convertEsciReadingValue(value, param, system);
+  const displayUnit = getReadingUnit(param, system, unit);
+  return { value: displayValue, unit: displayUnit };
 };
 
 export const IconAndText = ({ icon, text }: { icon: ReactElement; text: string }) => {

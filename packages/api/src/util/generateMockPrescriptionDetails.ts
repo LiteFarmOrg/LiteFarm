@@ -76,7 +76,7 @@ export const generateMockPrescriptionDetails = async ({
       cumulative_rainfall: 5,
       cumulative_rainfall_unit: 'mm' as const,
       et_rate: 2,
-      et_rate_unit: 'mm/h',
+      et_rate_unit: 'mm/24h',
       weather_icon_code: '02d',
     },
   };

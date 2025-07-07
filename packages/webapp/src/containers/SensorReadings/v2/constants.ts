@@ -166,9 +166,10 @@ export const esciUnitTypeMap: Partial<
     baseUnit: 'mm/h',
   },
   estimated_water_consumption: {
+    // Use "AF" for both metric and imperial systems
     metric: {
-      unit: 'l',
-      displayUnit: 'L',
+      unit: 'ac⋅ft',
+      displayUnit: 'AF',
     },
     imperial: {
       unit: 'ac⋅ft',

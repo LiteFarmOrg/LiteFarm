@@ -24,8 +24,7 @@ import PivotIcon from '../../assets/images/irrigation/pivot-icon.svg';
 import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import weatherBoardUtil from '../../containers/WeatherBoard/utils';
 import { System } from '../../types';
-import type { SensorReadingTypes } from '../../store/api/types';
-import type { IrrigationPrescription } from '../IrrigationPrescription/types';
+import type { SensorReadingTypes, IrrigationPrescriptionDetails } from '../../store/api/types';
 import styles from './styles.module.scss';
 import {
   EvapotranspirationRateUnits,
@@ -70,7 +69,7 @@ const ValueAndUnit = ({ value, unit }: { value: number; unit: string }) => {
 };
 
 export const generateKPIData = (
-  irrigationPrescription: IrrigationPrescription,
+  irrigationPrescription: IrrigationPrescriptionDetails,
   t: TFunction,
   system: System,
 ) => {

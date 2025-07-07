@@ -42,7 +42,7 @@ export const generateMockPrescriptionDetails = async ({
   farm_id,
   irrigationPrescriptionId,
   applicationDepths = [15, 10, 20],
-  pivotRadius = 150,
+  pivotRadius = 400,
 }: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 
@@ -67,6 +67,7 @@ export const generateMockPrescriptionDetails = async ({
     management_plan_id: managementPlan?.management_plan_id ?? null,
     recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
     pivot: mockPivot,
+    system: 'NW System',
     metadata: {
       weather_forecast: {
         temperature: 20,

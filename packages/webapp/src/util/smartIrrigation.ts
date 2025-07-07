@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export function createSensorsDisplayName({
+export function createSmartIrrigationDisplayName({
   system,
   label,
   fallback,

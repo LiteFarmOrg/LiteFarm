@@ -17,11 +17,11 @@ import { useTranslation } from 'react-i18next';
 import DescriptionList from '../Tile/DescriptionList';
 import { generateKPIData } from './util';
 import { System } from '../../types';
-import type { IrrigationPrescription } from '../IrrigationPrescription/types';
+import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 import styles from './styles.module.scss';
 
 interface IrrigationPrescriptionKPIProps {
-  irrigationPrescription: IrrigationPrescription;
+  irrigationPrescription: IrrigationPrescriptionDetails;
   system: System;
 }
 

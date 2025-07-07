@@ -319,6 +319,9 @@ export const getOrgLocationAndCropData = async (farm_id?: string) => {
   const organisationFarmData: AllOrganisationsFarmData = {};
 
   for (const org of organisations) {
+    if (!org.org_pk) {
+      continue;
+    }
     const locations = await LocationModel.getCropSupportingLocationsByFarmId(org.farm_id);
 
     const cropsAndLocations: LocationAndCropGraph[] = [];

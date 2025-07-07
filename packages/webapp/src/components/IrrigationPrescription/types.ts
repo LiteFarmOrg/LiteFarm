@@ -38,7 +38,6 @@ export type IrrigationPrescriptionDataTypes =
   | 'wind_speed'
   | 'cumulative_rainfall'
   | 'et_rate'
-  | 'estimated_time'
   | 'estimated_water_consumption';
 
 export type IrrigationPrescriptionDataTypeUnits =

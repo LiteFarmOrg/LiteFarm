@@ -14,7 +14,11 @@
  */
 
 import { Point } from '../../util/geoUtils';
-
+import { SensorReadingTypeUnits } from '../../store/api/types';
+import {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../util/convert-units/extendedMeasures';
 export interface UriPrescriptionData {
   soil_moisture_deficit: number;
   application_depth: number;
@@ -28,3 +32,15 @@ export type VriPrescriptionData = UriPrescriptionData & {
 export type IrrigationPrescriptionTableInfo = UriPrescriptionData & {
   id: number;
 };
+
+export type IrrigationPrescriptionDataTypes =
+  | 'temperature'
+  | 'wind_speed'
+  | 'cumulative_rainfall'
+  | 'et_rate'
+  | 'estimated_water_consumption';
+
+export type IrrigationPrescriptionDataTypeUnits =
+  | SensorReadingTypeUnits
+  | EvapotranspirationRateUnits
+  | WaterConsumptionUnits;

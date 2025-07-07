@@ -24,7 +24,7 @@ import { getIrrigationTaskTypes } from '../Task/IrrigationTaskTypes/saga';
 import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigationTask';
 import { ADD_TASK_ASSIGNMENT, ADD_TASK_DETAILS } from '../../util/siteMapConstants';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
-import { waterUsage, convertFn } from '../../util/convert-units/unit';
+import { convert } from '../../util/convert-units/convert';
 import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 
 export default function useApproveIrrigationPrescription(
@@ -62,12 +62,9 @@ export default function useApproveIrrigationPrescription(
   const onApproveIrrigationPrescription = () => {
     dispatch(setPersistedPaths([ADD_TASK_DETAILS, ADD_TASK_ASSIGNMENT]));
 
-    const estimatedWaterUsageInL = convertFn(
-      waterUsage,
-      estimated_water_consumption,
-      estimated_water_consumption_unit,
-      'l',
-    ); // TODO: LF-4810 Adjust conversion once estimated_water_consumption_unit is confirmed
+    const estimatedWaterUsageInL = convert(estimated_water_consumption)
+      .from(estimated_water_consumption_unit)
+      .to('l');
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,

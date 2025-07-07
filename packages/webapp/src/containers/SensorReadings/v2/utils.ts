@@ -30,6 +30,10 @@ import {
 import type { System } from '../../../types';
 import { FormattedSensorDatapoint } from './types';
 import { Status } from '../../../components/StatusIndicatorPill';
+import {
+  IrrigationPrescriptionDataTypes,
+  IrrigationPrescriptionDataTypeUnits,
+} from '../../../components/IrrigationPrescription/types';
 
 const WIND_DIRECTION_KEYS = [
   'N', // t('N')
@@ -128,7 +132,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : data[dataKey] ?? null;
+          : (data[dataKey] ?? null);
 
       return { ...acc, [dataKey]: value };
     },
@@ -213,7 +217,7 @@ export const getTruncPeriod = (startDate?: Date, endDate?: Date): ChartTruncPeri
 
 export const convertEsciReadingValue = (
   value: number,
-  param: SensorReadingTypes,
+  param: SensorReadingTypes | IrrigationPrescriptionDataTypes,
   system: System,
 ): number => {
   if (esciUnitTypeMap[param]) {
@@ -225,9 +229,9 @@ export const convertEsciReadingValue = (
 };
 
 export const getReadingUnit = (
-  param: SensorReadingTypes,
+  param: SensorReadingTypes | IrrigationPrescriptionDataTypes,
   system: System,
-  apiUnit: SensorReadingTypeUnits,
+  apiUnit: SensorReadingTypeUnits | IrrigationPrescriptionDataTypeUnits,
 ): string => {
   if (esciUnitTypeMap[param]) {
     return esciUnitTypeMap[param][system].displayUnit;

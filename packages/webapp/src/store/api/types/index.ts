@@ -19,6 +19,10 @@ import {
   UriPrescriptionData,
   VriPrescriptionData,
 } from '../../../components/IrrigationPrescription/types';
+import type {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../../util/convert-units/extendedMeasures';
 
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
@@ -355,7 +359,7 @@ export type IrrigationPrescriptionDetails = {
       cumulative_rainfall: number;
       cumulative_rainfall_unit: SensorReadingTypeUnits;
       et_rate: number;
-      et_rate_unit: string;
+      et_rate_unit: EvapotranspirationRateUnits;
       weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
     };
   };
@@ -365,7 +369,7 @@ export type IrrigationPrescriptionDetails = {
 
   // calculated by the backend
   estimated_water_consumption: number;
-  estimated_water_consumption_unit: string;
+  estimated_water_consumption_unit: WaterConsumptionUnits;
 
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }

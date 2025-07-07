@@ -85,7 +85,7 @@ function TaskReadOnly({ history, match, location }) {
           cumulative_rainfall: 5,
           cumulative_rainfall_unit: 'mm',
           et_rate: 2,
-          et_rate_unit: 'mm/h',
+          et_rate_unit: 'mm/24h',
           weather_icon_code: '02d',
         },
       },

@@ -89,7 +89,7 @@ const IrrigationPrescription = ({
         cumulative_rainfall: 5,
         cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
-        et_rate_unit: 'mm/h' as EvapotranspirationRateUnits,
+        et_rate_unit: 'mm/24h' as EvapotranspirationRateUnits,
         weather_icon_code: '02d',
       },
     },

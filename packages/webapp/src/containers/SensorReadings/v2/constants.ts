@@ -163,7 +163,7 @@ export const esciUnitTypeMap: Partial<
       unit: 'in/24h',
       displayUnit: 'in/24h',
     },
-    baseUnit: 'mm/h',
+    baseUnit: 'mm/24h',
   },
   estimated_water_consumption: {
     // Use "AF" for both metric and imperial systems

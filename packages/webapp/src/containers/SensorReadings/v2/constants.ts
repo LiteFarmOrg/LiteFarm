@@ -156,12 +156,12 @@ export const esciUnitTypeMap: Partial<
   },
   et_rate: {
     metric: {
-      unit: 'mm/h',
-      displayUnit: 'mm/h',
+      unit: 'mm/24h',
+      displayUnit: 'mm/24h',
     },
     imperial: {
-      unit: 'in/d',
-      displayUnit: 'in/d',
+      unit: 'in/24h',
+      displayUnit: 'in/24h',
     },
     baseUnit: 'mm/h',
   },

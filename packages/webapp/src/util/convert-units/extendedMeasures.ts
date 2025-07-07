@@ -22,20 +22,27 @@ import volume, { VolumeSystems, VolumeUnits } from 'convert-units/lib/esm/defini
 // Extending measures: https://github.com/convert-units/convert-units?tab=readme-ov-file#extending-existing-measures
 
 // Extending Speed
-export type EvapotranspirationRateUnits = 'mm/h' | 'in/d';
+export type EvapotranspirationRateUnits = 'mm/24h' | 'in/24h';
 
 type NewSpeedUnits = SpeedUnits | EvapotranspirationRateUnits;
 export const extendedSpeed: Measure<SpeedSystems, NewSpeedUnits> = {
   systems: {
     metric: {
       ...speed.systems.metric,
+      'mm/24h': {
+        name: {
+          singular: 'Millimeter per 24 Hours',
+          plural: 'Millimeters per 24 Hours',
+        },
+        to_anchor: 0.000001 * (1 / 24),
+      },
     },
     imperial: {
       ...speed.systems.imperial,
-      'in/d': {
+      'in/24h': {
         name: {
-          singular: 'Inch per Day',
-          plural: 'Inches per Day',
+          singular: 'Inch per 24 Hours',
+          plural: 'Inches per 24 Hours',
         },
         to_anchor: (1 / 63360) * (1 / 24), // mile/in * d/h
       },

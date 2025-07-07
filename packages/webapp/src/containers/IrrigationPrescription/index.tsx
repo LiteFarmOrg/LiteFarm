@@ -29,10 +29,7 @@ import type { CustomRouteComponentProps } from '../../types';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import { Location } from '../../types';
-import type {
-  EstimatedTimeUnits,
-  IrrigationPrescription,
-} from '../../components/IrrigationPrescription/types';
+import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
 import { SensorReadingTypeUnits } from '../../store/api/types';
 import {
   mockField,
@@ -92,12 +89,10 @@ const IrrigationPrescription = ({
         cumulative_rainfall: 5,
         cumulative_rainfall_unit: 'mm' as SensorReadingTypeUnits,
         et_rate: 2,
-        et_rate_unit: 'mm/h' as EvapotranspirationRateUnits,
+        et_rate_unit: 'mm/24h' as EvapotranspirationRateUnits,
         weather_icon_code: '02d',
       },
     },
-    estimated_time: 2,
-    estimated_time_unit: 'h' as EstimatedTimeUnits,
     estimated_water_consumption: 600000,
     estimated_water_consumption_unit: 'l' as WaterConsumptionUnits,
   };

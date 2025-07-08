@@ -36,6 +36,7 @@ interface GenerateMockPrescriptionDetailsParams {
   irrigationPrescriptionId: number;
   applicationDepths?: number[];
   pivotRadius?: number;
+  pivotArc?: { start_angle: number; end_angle: number };
 }
 
 export const generateMockPrescriptionDetails = async ({
@@ -43,6 +44,7 @@ export const generateMockPrescriptionDetails = async ({
   irrigationPrescriptionId,
   applicationDepths = [15, 10, 20],
   pivotRadius = 400,
+  pivotArc = { start_angle: 190, end_angle: 45 },
 }: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 
@@ -97,10 +99,7 @@ export const generateMockPrescriptionDetails = async ({
         ...commonMockData,
         pivot: {
           ...mockPivot,
-          arc: {
-            start_angle: 190,
-            end_angle: 45,
-          },
+          arc: pivotArc,
         },
         prescription: {
           uriData: mockUriData,

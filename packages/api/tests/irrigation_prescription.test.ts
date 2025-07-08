@@ -392,6 +392,7 @@ describe('Get Irrigation Prescription Tests', () => {
           irrigationPrescriptionId: MOCK_ID,
           applicationDepths: [20], // in mm
           pivotRadius: 100, // in meters
+          pivotArc: { start_angle: 90, end_angle: 180 }, // clockwise, in mathematical degrees (3/4 circle)
         }),
       });
 
@@ -405,7 +406,7 @@ describe('Get Irrigation Prescription Tests', () => {
       });
 
       // Pi * r² = Area of circle
-      const pivotArea = Math.PI * Math.pow(100, 2); // in m²
+      const pivotArea = Math.PI * Math.pow(100, 2) * 0.75; // in m²
 
       // Total Volume in L = Area (m²) * Depth (mm)
       const totalVolumeL = pivotArea * 20;

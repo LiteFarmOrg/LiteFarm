@@ -24,6 +24,12 @@ interface CommonIrrigationPrescriptionProps {
   fieldLocation?: Location;
   pivotCenter: Point;
   pivotRadiusInMeters: number;
+  pivotArc?: {
+    start_angle: number;
+    end_angle: number;
+  };
+  vriData?: VriPrescriptionData[];
+  uriData?: UriPrescriptionData;
   system: System;
 }
 
@@ -43,6 +49,7 @@ const PureIrrigationPrescription = ({
   fieldLocation,
   pivotCenter,
   pivotRadiusInMeters,
+  pivotArc,
   vriData,
   uriData,
   system,
@@ -69,6 +76,7 @@ const PureIrrigationPrescription = ({
         fieldLocation={fieldLocation}
         pivotCenter={pivotCenter}
         pivotRadiusInMeters={pivotRadiusInMeters}
+        pivotArc={pivotArc}
         vriZones={sortedVriData}
         system={system}
       />

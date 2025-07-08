@@ -18,7 +18,7 @@ const getDocument = (obj) => {
     'files',
     'no_expiration',
     'archived',
-    'soil_analysis_reports',
+    'soilAnalysisReports',
   ]);
 };
 

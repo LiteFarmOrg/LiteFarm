@@ -129,6 +129,7 @@ export default function Documents({ history }) {
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
                       fileUrls={document?.files?.map((file) => file.url)}
+                      soilAnalysisReports={document.soilAnalysisReports}
                     />
                   );
                 })}

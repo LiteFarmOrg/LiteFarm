@@ -7,6 +7,7 @@ import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentica
 import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 import { useTranslation } from 'react-i18next';
 import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
+import SoilReportStatus, { getSoilReportStatus } from './SoilReportStatus';
 
 export default function PureDocumentTile({
   className,
@@ -18,10 +19,12 @@ export default function PureDocumentTile({
   noExpiration,
   extensionName,
   fileUrls,
+  soilAnalysisReports,
   imageComponent = (props) => <MediaWithAuthentication {...props} />,
   fileDownloadComponent = (props) => <MediaWithAuthentication {...props} />,
 }) {
   const { t } = useTranslation();
+  const soilReportStatus = getSoilReportStatus(soilAnalysisReports);
 
   return (
     <div className={styles.previewWrapper}>
@@ -64,6 +67,7 @@ export default function PureDocumentTile({
               </div>
             </>
           )}
+          {soilReportStatus && <SoilReportStatus status={soilReportStatus} />}
         </div>
       </div>
       {fileUrls?.length > 0 &&

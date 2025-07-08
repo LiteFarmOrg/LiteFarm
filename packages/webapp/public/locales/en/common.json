@@ -30,6 +30,8 @@
   "COUNT": "Count",
   "CREATE": "Create",
   "CREATE_A_TASK": "Create a task",
+  "DATA_NOT_UPLOADED": "Data not uploaded",
+  "DATA_UPLOADED": "Data uploaded",
   "DATE": "Date",
   "DELETE": "Delete",
   "DO_NOT_KNOW": "I don't know",

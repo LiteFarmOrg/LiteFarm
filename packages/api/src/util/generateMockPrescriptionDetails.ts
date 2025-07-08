@@ -95,6 +95,13 @@ export const generateMockPrescriptionDetails = async ({
   return irrigationPrescriptionId % 2 === 0
     ? {
         ...commonMockData,
+        pivot: {
+          ...mockPivot,
+          arc: {
+            start_angle: 190,
+            end_angle: 45,
+          },
+        },
         prescription: {
           uriData: mockUriData,
         },

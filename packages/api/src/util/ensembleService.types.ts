@@ -157,6 +157,10 @@ type CommonPrescriptionDetails = {
   pivot: {
     center: { lat: number; lng: number };
     radius: number;
+    arc?: {
+      start_angle: number;
+      end_angle: number;
+    };
   };
   estimated_time: number;
   estimated_time_unit: string;

@@ -112,13 +112,16 @@ const createPivotMapObjects = (
     const sectorCoordinates = createSectorCoordinates(center, radius, startAngle, endAngle);
 
     pivot = {
-      type: 'irrigation_zone', // or any polygon type
+      type: 'pivot_sector',
       location_id: 'pivot',
       grid_points: sectorCoordinates,
       name: label,
       fillOpacity: vriZonesPresent ? 0 : DEFAULT_POLYGON_OPACITY,
-      colour: moreThanThreeZones ? BRIGHT_PIVOT_COLOUR : undefined,
-      strokeColour: moreThanThreeZones ? BRIGHT_PIVOT_COLOUR : undefined,
+      ...(moreThanThreeZones && {
+        colour: BRIGHT_PIVOT_COLOUR,
+        strokeColour: BRIGHT_PIVOT_COLOUR,
+        markerColour: BRIGHT_PIVOT_COLOUR,
+      }),
     };
   } else {
     pivot = {

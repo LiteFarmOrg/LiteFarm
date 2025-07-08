@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.7.6',
+    release: '3.7.7',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -230,8 +230,6 @@ app.set('json replacer', (key: string, value: string) => {
 
 // Apply default express.json() request size limit to all routes except sensor webhook
 const applyExpressJSON: RequestHandler = (req, res, next) => {
-  if (req.path.startsWith('/sensor/reading/partner/1/farm/')) return next();
-
   const jsonMiddleware = express.json({ limit: '100kB' });
   jsonMiddleware(req, res, next);
 };

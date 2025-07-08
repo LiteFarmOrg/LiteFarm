@@ -31,6 +31,12 @@ const createData = (date) => {
   return { dateTime: getUnixTime(date) };
 };
 
+const getUTCDateISOString = (date) => {
+  const [year, month, day] = date.split('-').map((number) => +number);
+
+  return new Date(Date.UTC(year, month - 1, day)).toISOString();
+};
+
 describe('Test chart data formatting', () => {
   test('adjustDailyDateTime shifts UTC midnight to intended local midnight', () => {
     const localMidnight = new Date(2025, 3, 1); // April 1, 2025 at 00:00 LOCAL
@@ -108,7 +114,7 @@ describe('Test chart data formatting', () => {
         '2025-03-04',
         '2025-03-06',
       ].map(createData);
-      const result = formatSensorDatapoints(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString('2025-03-01'));
       expect(result).toEqual(expectedData);
     });
 
@@ -122,7 +128,7 @@ describe('Test chart data formatting', () => {
         '2025-03-03',
         '2025-03-04',
       ].map(createData);
-      const result = formatSensorDatapoints(fakeData, 'day', []);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString('2025-02-26'));
       expect(result).toEqual(expectedData);
     });
 
@@ -142,7 +148,12 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:00:00Z',
       ].map(createData);
 
-      const result = formatSensorDatapoints(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date('2025-03-01T00:00:00Z').toISOString(),
+      );
       expect(result).toEqual(expectedData);
     });
 
@@ -162,7 +173,48 @@ describe('Test chart data formatting', () => {
         '2025-03-01T05:15:00Z',
       ].map(createData);
 
-      const result = formatSensorDatapoints(fakeData, 'hour', []);
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date('2025-03-01T00:15:00Z').toISOString(),
+      );
+      expect(result).toEqual(expectedData);
+    });
+
+    test('fills missing start date correctly', () => {
+      const startDate = '2025-02-20';
+      const fakeData = ['2025-03-01', '2025-03-03', '2025-03-06'].map(createData);
+      const expectedData = [
+        '2025-02-20',
+        '2025-03-01',
+        '2025-03-02',
+        '2025-03-03',
+        '2025-03-04',
+        '2025-03-06',
+      ].map(createData);
+      const result = formatSensorDatapoints(fakeData, 'day', [], getUTCDateISOString(startDate));
+      expect(result).toEqual(expectedData);
+    });
+
+    test('fills missing start hour correctly', () => {
+      const startDateTime = '2025-03-01T00:00:00Z';
+      const fakeData = ['2025-03-01T03:00:00Z', '2025-03-01T04:00:00Z', '2025-03-01T05:00:00Z'].map(
+        createData,
+      );
+      const expectedData = [
+        '2025-03-01T00:00:00Z',
+        '2025-03-01T03:00:00Z',
+        '2025-03-01T04:00:00Z',
+        '2025-03-01T05:00:00Z',
+      ].map(createData);
+
+      const result = formatSensorDatapoints(
+        fakeData,
+        'hour',
+        [],
+        new Date(startDateTime).toISOString(),
+      );
       expect(result).toEqual(expectedData);
     });
   });
@@ -192,14 +244,14 @@ describe('Test chart data formatting', () => {
     test('convert reading values properly', () => {
       [
         ['barometric_pressure', 8, 8, 8],
-        ['cumulative_rainfall', 20, 20, 0.79],
-        ['rainfall_rate', 2, 2, 0.08],
+        ['cumulative_rainfall', 20, 20, 0.8],
+        ['rainfall_rate', 2, 2, 0.1],
         ['relative_humidity', 33, 33, 33],
         ['soil_water_potential', -210, -210, -210],
         ['solar_radiation', 20, 20, 20],
         ['temperature', 23, 23, 73.4],
         ['wind_direction', 11, 11, 11],
-        ['wind_speed', 2.22, 7.99, 4.97],
+        ['wind_speed', 2.22, 8, 5],
       ].forEach(([param, apiValue, expecteMetricValue, expecteImperialValue]) => {
         const metricValue = convertEsciReadingValue(apiValue, param, 'metric');
         const imperialValue = convertEsciReadingValue(apiValue, param, 'imperial');
@@ -266,7 +318,7 @@ describe('Test chart data formatting', () => {
           i18n.t,
         );
         expect(label).toBe(i18n.t('SENSOR.READING.WIND_SPEED'));
-        expect(data).toBe(system === 'metric' ? '9km/h' : '5.59mph');
+        expect(data).toBe(system === 'metric' ? '9km/h' : '5.6mph');
       });
     });
 
@@ -291,7 +343,7 @@ describe('Test chart data formatting', () => {
         );
         expect(label).toBe(i18n.t('SENSOR.READING.WIND_SPEED_AND_DIRECTION'));
         expect(JSON.stringify(data)).toContain(
-          `"speed":"${system === 'metric' ? '9km/h' : '5.59mph'}"`,
+          `"speed":"${system === 'metric' ? '9km/h' : '5.6mph'}"`,
         );
         expect(JSON.stringify(data)).toContain('"directionText":"NNE"');
       });

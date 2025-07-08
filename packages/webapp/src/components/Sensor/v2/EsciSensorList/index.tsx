@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { History } from 'history';
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
 import { TFunction, useTranslation } from 'react-i18next';
@@ -38,6 +39,7 @@ import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
 import LocationViewer from '../../../LocationPicker/LocationViewer';
 import { useMaxZoom } from '../../../../containers/Map/useMaxZoom';
+import { createSmartIrrigationDisplayName } from '../../../../util/smartIrrigation';
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
   const Icon = statKey === SensorType.SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
@@ -81,9 +83,10 @@ type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
   userFarm: UserFarm;
+  history: History;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -95,6 +98,20 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
   const handleSeeOnMap = (location: Location) => {
     setMapLocations([location]);
     setMapOpen(true);
+  };
+
+  const handleMapSelect = () => {
+    if (!mapLocations.length) return;
+    const selectedLocation = mapLocations[0];
+
+    const cleanSensorId = (id: string): string => id.replace(/^sensor_/, '');
+
+    const readingsUrl =
+      selectedLocation.type === SensorType.SENSOR_ARRAY
+        ? `/sensor_array/${selectedLocation.id}`
+        : `/sensor/${cleanSensorId(selectedLocation.id)}`;
+
+    history.push(readingsUrl);
   };
 
   const handleClose = () => {
@@ -124,6 +141,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
           handleClose={handleClose}
+          onSelect={handleMapSelect}
         />
       ) : (
         <div className={styles.wrapper}>
@@ -137,7 +155,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
             isCompact={isCompact}
           />
           <div className={styles.sensorGroups}>
-            {groupedSensors.map(({ id, point, type, sensors, fields }) => {
+            {groupedSensors.map(({ id, point, type, sensors, fields, label, system }) => {
               const isExpanded = expandedIds.includes(id);
 
               return (
@@ -157,9 +175,14 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                         <div className={styles.mainContent}>
                           <SensorIconWithNumber number={sensors.length} />
                           <span>
-                            {type === SensorType.SENSOR_ARRAY
-                              ? t('SENSOR.SENSOR_ARRAY')
-                              : t('SENSOR.STANDALONE_SENSOR')}
+                            {createSmartIrrigationDisplayName({
+                              label,
+                              system,
+                              fallback:
+                                type === SensorType.SENSOR_ARRAY
+                                  ? t('SENSOR.SENSOR_ARRAY')
+                                  : t('SENSOR.STANDALONE_SENSOR'),
+                            })}
                           </span>
                         </div>
                       </MainContent>

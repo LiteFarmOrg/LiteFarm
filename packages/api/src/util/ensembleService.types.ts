@@ -64,7 +64,7 @@ export interface LocationAndCropGraph {
       grid_points: Point[];
     };
   };
-  management_plans: ManagementPlan[];
+  management_plan: ManagementPlan;
 }
 
 interface EnsembleCropData {
@@ -83,8 +83,8 @@ export interface EnsembleLocationAndCropData {
   crop_data: EnsembleCropData[];
 }
 
-export interface OrganisationFarmData {
-  [org_uuid: string]: EnsembleLocationAndCropData[];
+export interface AllOrganisationsFarmData {
+  [org_pk: number]: EnsembleLocationAndCropData[];
 }
 
 export type ExternalIrrigationPrescription = {
@@ -120,3 +120,63 @@ export function isExternalIrrigationPrescriptionArray(
     })
   );
 }
+
+export type EsciWeatherUnits = 'mm' | 'mm/24h' | '˚C' | 'm/s';
+export type LiteFarmWeatherUnits = 'mm' | 'mm/24h' | 'C' | 'm/s';
+
+export type Metadata<Units> = {
+  weather_forecast: {
+    temperature: number;
+    temperature_unit: Units;
+    wind_speed: number;
+    wind_speed_unit: Units;
+    cumulative_rainfall: number;
+    cumulative_rainfall_unit: Units;
+    et_rate: number;
+    et_rate_unit: string;
+    weather_icon_code: string;
+  };
+};
+
+interface UriPrescriptionData {
+  soil_moisture_deficit: number;
+  application_depth: number;
+  application_depth_unit: string;
+}
+
+export type VriPrescriptionData = UriPrescriptionData & {
+  grid_points: Point[];
+};
+
+type CommonPrescriptionDetails = {
+  id: number;
+  location_id: string;
+  management_plan_id: number | null;
+  system: string;
+  recommended_start_datetime: string;
+  pivot: {
+    center: { lat: number; lng: number };
+    radius: number;
+  };
+  estimated_time: number;
+  estimated_time_unit: string;
+  prescription:
+    | { uriData: UriPrescriptionData; vriData?: never }
+    | {
+        vriData: {
+          zones: VriPrescriptionData[];
+          file_url: string;
+        };
+        uriData?: never;
+      };
+};
+
+export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
+  metadata: Metadata<EsciWeatherUnits>;
+};
+
+export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
+  metadata: Metadata<LiteFarmWeatherUnits>;
+  estimated_water_consumption: number;
+  estimated_water_consumption_unit: string;
+};

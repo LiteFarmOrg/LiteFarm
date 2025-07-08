@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector, shallowEqual } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -8,6 +8,7 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 function TaskCompleteStepOne({ history, match, location }) {
   const {
@@ -36,6 +37,8 @@ function TaskCompleteStepOne({ history, match, location }) {
     );
   }, []);
 
+  const { isUploading, ...filePickerFunctions } = useFilePickerUpload();
+
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
@@ -47,6 +50,8 @@ function TaskCompleteStepOne({ history, match, location }) {
         products={products}
         persistedPaths={persistedPaths}
         selectedTask={task}
+        filePickerFunctions={filePickerFunctions}
+        isUploading={isUploading}
       />
     </HookFormPersistProvider>
   );

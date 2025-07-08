@@ -25,6 +25,7 @@ type LocationViewerProps = {
   maxZoomRef: MutableRefObject<undefined>;
   getMaxZoom: (maps: any, map?: null) => Promise<void>;
   handleClose: () => void;
+  onSelect?: () => void;
 };
 
 const LocationViewer = ({
@@ -33,18 +34,16 @@ const LocationViewer = ({
   maxZoomRef,
   getMaxZoom,
   handleClose,
+  onSelect,
 }: LocationViewerProps) => {
   const { grid_points, farm_name } = userFarm;
   return (
     <>
       <PureMapHeader farmName={farm_name} handleClose={handleClose} />
       <LocationPicker
-        onSelectLocation={() => {
-          //  TODO: fix onSelectLocationRef in LocationPicker
-        }}
+        onSelectLocation={onSelect}
         locations={locations}
-        // Choose the active state as the way to view-only locations
-        selectedLocationIds={locations.map((l) => l.location_id)}
+        selectedLocationIds={[]}
         farmCenterCoordinate={grid_points}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}

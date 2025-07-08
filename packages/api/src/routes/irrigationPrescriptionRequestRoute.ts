@@ -31,7 +31,7 @@ router.post(
   '/scheduler',
   checkSchedulerJwt,
   checkSchedulerPermission('requestScheduledEndpoint'),
-  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
+  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(true),
 );
 
 export default router;

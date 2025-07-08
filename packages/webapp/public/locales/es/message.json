@@ -32,11 +32,6 @@
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "No se pudo subir el archivo CSV"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: No se pudo agregar variedad a la base de datos",
@@ -54,9 +49,9 @@
     "ERROR": {
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
-      "UPDATE": "No se pudo actualizar gastos!",
       "EXPENSE_DELETED": "Este gasto ha dejado de existir",
-      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado"
+      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado",
+      "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
@@ -85,6 +80,13 @@
     "SUCCESS": {
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Error al desconectar el addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Falta de prescripciones de irrigación"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Addon desconectado con éxito"
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -125,8 +127,7 @@
     "FAIL_POST": "Fallo al crear",
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
-    "SUCCESS_POST": " creo/a con éxito.",
-    "SUCCESS_UPLOAD": "Subido con éxito"
+    "SUCCESS_POST": " creo/a con éxito."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -185,18 +186,14 @@
     "ERROR": {
       "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
-      "UPDATE": "No se pudo actualizar venta",
-      "SALE_DELETED": "Esta venta ya no existe"
+      "SALE_DELETED": "Esta venta ya no existe",
+      "UPDATE": "No se pudo actualizar venta"
     },
     "SUCCESS": {
       "ADD": "Venta agregada exitosamente",
       "DELETE": "Venta borrada exitosamente",
       "UPDATE": "Venta actualizada exitosamente"
     }
-  },
-  "SENSOR": {
-    "ERROR_UPDATE": "No se pudo actualizar el sensor",
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
   },
   "TASK": {
     "ABANDON": {

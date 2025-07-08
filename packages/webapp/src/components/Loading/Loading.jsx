@@ -1,8 +1,7 @@
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
-import React from 'react';
 import { colors } from '../../assets/theme';
 
-export function Loading({ children, style, ...props }) {
+export function Loading({ children = <LoadingAnimation />, style, ...props }) {
   return (
     <div
       style={{
@@ -15,7 +14,7 @@ export function Loading({ children, style, ...props }) {
       }}
       {...props}
     >
-      {children || <LoadingAnimation />}
+      {children}
     </div>
   );
 }

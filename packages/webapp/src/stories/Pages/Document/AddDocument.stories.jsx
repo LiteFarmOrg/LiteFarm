@@ -1,8 +1,9 @@
-import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import { AddLink } from '../../../components/Typography';
+import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
+import { DocumentUploader } from '../../../containers/Documents/DocumentUploader';
 
 export default {
   title: 'Page/Document/AddDocument',
@@ -17,7 +18,7 @@ Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  deleteImage: () => {},
+
   useHookFormPersist: () => ({
     persistedData: {
       uploadedFiles: [
@@ -29,9 +30,15 @@ Primary.args = {
       ],
     },
   }),
-  imageComponent: (props) => <img {...props} />,
-  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
-  isEdit: true,
+  isEdit: false,
+  isUploading: false,
+  filePickerFunctions: {
+    deleteImage: () => {},
+    imageComponent: (props) => <MediaWithAuthentication {...props} />,
+    documentUploader: (props) => <DocumentUploader {...props} />,
+    onUpload: () => {},
+    onUploadEnd: () => {},
+  },
 };
 
 export const uploadingImage = Template.bind({});
@@ -39,7 +46,6 @@ uploadingImage.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  deleteImage: () => {},
   useHookFormPersist: () => ({
     persistedData: {
       uploadedFiles: [
@@ -51,9 +57,15 @@ uploadingImage.args = {
       ],
     },
   }),
-  imageComponent: (props) => <img {...props} />,
-  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   isEdit: false,
+  isUploading: true,
+  filePickerFunctions: {
+    deleteImage: () => {},
+    imageComponent: (props) => <MediaWithAuthentication {...props} />,
+    documentUploader: (props) => <DocumentUploader {...props} />,
+    onUpload: () => {},
+    onUploadEnd: () => {},
+  },
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

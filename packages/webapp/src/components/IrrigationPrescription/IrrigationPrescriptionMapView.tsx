@@ -104,7 +104,7 @@ const createPivotMapObjects = (
 
   const label = `${labelRadius}${unit}`;
 
-  const isPartialCircle = startAngle && endAngle;
+  const isPartialCircle = startAngle !== undefined && endAngle !== undefined;
 
   let pivot;
 

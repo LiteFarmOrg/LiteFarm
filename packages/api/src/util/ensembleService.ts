@@ -278,7 +278,7 @@ const calculateURIWaterConsumption = (
   const applicationDepthMm = prescription?.uriData?.application_depth ?? 0;
 
   let pivotAreaM2;
-  if (startAngle && endAngle) {
+  if (startAngle !== undefined && endAngle !== undefined) {
     const angleDiff = (startAngle - endAngle + 360) % 360;
     const proportion = angleDiff / 360;
     pivotAreaM2 = proportion * Math.PI * Math.pow(pivotRadius, 2);

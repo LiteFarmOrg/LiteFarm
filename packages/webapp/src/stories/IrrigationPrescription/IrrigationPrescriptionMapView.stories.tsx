@@ -76,8 +76,8 @@ export const PartialAnglePivotVRI: Story = {
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
     pivotArc: {
-      start_angle: 230,
-      end_angle: 50,
+      start_angle: 215,
+      end_angle: 360,
     },
     className: styles.mapContainer,
     vriZones: mockVriZones,
@@ -90,8 +90,8 @@ export const PartialAnglePivotURI: Story = {
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
     pivotArc: {
-      start_angle: 230,
-      end_angle: 50,
+      start_angle: 215,
+      end_angle: 360,
     },
     className: styles.mapContainer,
   },

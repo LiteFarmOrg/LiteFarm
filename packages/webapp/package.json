@@ -48,6 +48,7 @@
     "@turf/boolean-point-in-polygon": "7.2.0",
     "@turf/centroid": "^7.2.0",
     "@turf/helpers": "7.2.0",
+    "@turf/sector": "^7.2.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",

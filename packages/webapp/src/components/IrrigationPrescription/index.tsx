@@ -28,8 +28,6 @@ interface CommonIrrigationPrescriptionProps {
     start_angle: number;
     end_angle: number;
   };
-  vriData?: VriPrescriptionData[];
-  uriData?: UriPrescriptionData;
   system: System;
 }
 

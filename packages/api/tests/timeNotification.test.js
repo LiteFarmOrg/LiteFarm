@@ -36,6 +36,7 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js', () =>
 
 import axios from 'axios';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
+import { setupFarmEnvironment } from './utils/testDataSetup.js';
 jest.mock('axios');
 const mockedAxios = axios;
 
@@ -562,17 +563,11 @@ describe('Time Based Notification Tests', () => {
   });
 
   describe('New Irrigation Prescription Notification Test', () => {
-    let farmWorker;
-    beforeEach(async () => {
-      [farmWorker] = await mocks.usersFactory();
+    let farm;
+    let field;
 
-      await mocks.userFarmFactory(
-        {
-          promisedUser: [farmWorker],
-          promisedFarm: [farm],
-        },
-        mocks.fakeUserFarm({ role_id: 3 }),
-      );
+    beforeEach(async () => {
+      ({ farm, field } = await setupFarmEnvironment());
 
       await connectFarmToEnsemble(farm);
     });
@@ -586,8 +581,16 @@ describe('Time Based Notification Tests', () => {
         await mockedAxios.mockResolvedValue({
           status: 201,
           data: [
-            { id: 123, recommended_start_datetime: '2025-05-07T00:00:00Z' },
-            { id: 124, recommended_start_datetime: '2025-05-08T00:00:00Z' },
+            {
+              id: 123,
+              recommended_start_datetime: '2025-05-07T00:00:00Z',
+              location_id: field.location_id,
+            },
+            {
+              id: 124,
+              recommended_start_datetime: '2025-05-08T00:00:00Z',
+              location_id: field.location_id,
+            },
           ],
         });
 
@@ -612,8 +615,16 @@ describe('Time Based Notification Tests', () => {
         await mockedAxios.mockResolvedValue({
           status: 201,
           data: [
-            { id: 223, recommended_start_datetime: '2025-05-07T00:00:00Z' },
-            { id: 224, recommended_start_datetime: '2025-05-08T00:00:00Z' },
+            {
+              id: 223,
+              recommended_start_datetime: '2025-05-07T00:00:00Z',
+              location_id: field.location_id,
+            },
+            {
+              id: 224,
+              recommended_start_datetime: '2025-05-08T00:00:00Z',
+              location_id: field.location_id,
+            },
           ],
         });
         const res1 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });

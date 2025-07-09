@@ -16,6 +16,7 @@
 import { AxiosResponse } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import TaskModel from '../models/taskModel.js';
+import LocationModel from '../models/locationModel.js';
 import { Farm } from '../models/types.js';
 import { customError } from '../util/customErrors.js';
 import ESciAddon from '../util/ensembleService.js';
@@ -73,15 +74,29 @@ export const getAddonPartnerIrrigationPrescriptions = async (
         );
       }
 
-      // Add partner id to return object
-      const irrigationPrescriptionsWithPartnerId = data.map((irrigationPrescription) => ({
-        ...irrigationPrescription,
-        partner_id: farmAddonPartnerId.addon_partner_id,
+      // Filter by farm_id
+      // (Temporarily using model method; please replace with direct filtering on farm_id when available)
+      const irrigationPrescriptionsForFarm = [];
+      for (const irrigationPrescription of data) {
+        const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
+          irrigationPrescription.location_id,
+        );
+        if (prescriptionFarmRecord?.farm_id === farmId) {
+          irrigationPrescriptionsForFarm.push(irrigationPrescription);
+        }
+      }
 
-        // Temporary, until Ensemble returns a date
-        recommended_start_datetime:
-          irrigationPrescription.recommended_start_datetime ?? new Date().toISOString(),
-      }));
+      // Add partner id to return object
+      const irrigationPrescriptionsWithPartnerId = irrigationPrescriptionsForFarm.map(
+        (irrigationPrescription) => ({
+          ...irrigationPrescription,
+          partner_id: farmAddonPartnerId.addon_partner_id,
+
+          // Temporary, until Ensemble returns a date
+          recommended_start_datetime:
+            irrigationPrescription.recommended_start_datetime ?? new Date().toISOString(),
+        }),
+      );
 
       // Push prescriptions to return array
       irrigationPrescriptions.push(...irrigationPrescriptionsWithPartnerId);

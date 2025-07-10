@@ -91,7 +91,7 @@ export type ExternalIrrigationPrescription = {
   id: number;
   location_id: Location['location_id'];
   management_plan_id: ModelManagementPlan['management_plan_id'] | null;
-  recommended_start_datetime: string;
+  recommended_start_date: string;
 };
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
@@ -115,7 +115,7 @@ export function isExternalIrrigationPrescriptionArray(
         typeof obj.id === 'number' &&
         typeof obj.location_id === 'string' &&
         (obj.management_plan_id === null || typeof obj.management_plan_id === 'number')
-        // typeof obj.recommended_start_datetime === 'string'
+        // typeof obj.recommended_start_date === 'string'
       );
     })
   );
@@ -153,7 +153,7 @@ type CommonPrescriptionDetails = {
   location_id: string;
   management_plan_id: number | null;
   system: string;
-  recommended_start_datetime: string;
+  recommended_start_date: string;
   pivot: {
     center: { lat: number; lng: number };
     radius: number;

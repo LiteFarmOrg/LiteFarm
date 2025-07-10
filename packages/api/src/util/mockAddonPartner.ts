@@ -59,7 +59,7 @@ export const getIrrigationPrescriptions = async ({
     id,
     location_id: locations[0].location_id,
     management_plan_id: null,
-    recommended_start_datetime: recommendedDate.toISOString(),
+    recommended_start_date: recommendedDate.toISOString(),
   }));
 };
 

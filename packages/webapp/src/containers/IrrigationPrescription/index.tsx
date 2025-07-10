@@ -89,7 +89,7 @@ const IrrigationPrescription = ({
     return null;
   }
 
-  const { prescription, pivot, recommended_start_datetime } = irrigationPrescription;
+  const { prescription, pivot, recommended_start_date } = irrigationPrescription;
 
   const { uriData, vriData } = prescription;
 
@@ -106,7 +106,7 @@ const IrrigationPrescription = ({
         ></PageTitle>
         <div className={styles.recommendedSchedule}>
           <DateInput
-            date={recommended_start_datetime}
+            date={recommended_start_date}
             label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
             disabled
             labelStyles={dateTimeLabelStyles}

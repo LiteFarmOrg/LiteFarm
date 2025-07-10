@@ -330,7 +330,7 @@ export interface IrrigationPrescription {
   id: number;
   location_id: string;
   management_plan_id?: number | string;
-  recommended_start_datetime: string;
+  recommended_start_date: string;
   partner_id: number;
   task_id?: number | string;
 }
@@ -340,7 +340,7 @@ export type IrrigationPrescriptionDetails = {
 
   location_id: string;
   management_plan_id: number | null;
-  recommended_start_datetime: string; // ISO string
+  recommended_start_date: string; // ISO string
 
   system: string; // descriptive name for the irrigation system
 

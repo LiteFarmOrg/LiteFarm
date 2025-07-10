@@ -99,7 +99,7 @@ const IrrigationPrescription = ({
         <PageTitle
           title={createSmartIrrigationDisplayName({
             label: t('IRRIGATION_PRESCRIPTION.TITLE'),
-            system: irrigationPrescription.system,
+            system: irrigationPrescription.system_name,
           })}
           onGoBack={history.back}
           classNames={{ wrapper: styles.title }}

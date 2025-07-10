@@ -342,7 +342,8 @@ export type IrrigationPrescriptionDetails = {
   management_plan_id: number | null;
   recommended_start_date: string; // ISO string
 
-  system: string; // descriptive name for the irrigation system
+  system_name: string; // descriptive name for the irrigation system
+  system_id: string;
 
   pivot: {
     center: { lat: number; lng: number };

@@ -152,7 +152,8 @@ type CommonPrescriptionDetails = {
   id: number;
   location_id: string;
   management_plan_id: number | null;
-  system: string;
+  system_name: string;
+  system_id: number;
   recommended_start_date: string;
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }

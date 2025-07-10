@@ -583,12 +583,12 @@ describe('Time Based Notification Tests', () => {
           data: [
             {
               id: 123,
-              recommended_start_date: '2025-05-07T00:00:00Z',
+              recommended_start_date: '2025-05-07',
               location_id: field.location_id,
             },
             {
               id: 124,
-              recommended_start_date: '2025-05-08T00:00:00Z',
+              recommended_start_date: '2025-05-08',
               location_id: field.location_id,
             },
           ],
@@ -617,12 +617,12 @@ describe('Time Based Notification Tests', () => {
           data: [
             {
               id: 223,
-              recommended_start_date: '2025-05-07T00:00:00Z',
+              recommended_start_date: '2025-05-07',
               location_id: field.location_id,
             },
             {
               id: 224,
-              recommended_start_date: '2025-05-08T00:00:00Z',
+              recommended_start_date: '2025-05-08',
               location_id: field.location_id,
             },
           ],

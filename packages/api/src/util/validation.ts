@@ -44,3 +44,10 @@ export function isISO8601Format(value: unknown): boolean {
 
   return typeof value === 'string' && iso8601Regex.test(value);
 }
+
+export function isSimpleDateFormat(value: unknown): boolean {
+  // Regex to match YYYY-MM-DD format
+  const simpleDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+  return typeof value === 'string' && simpleDateRegex.test(value);
+}

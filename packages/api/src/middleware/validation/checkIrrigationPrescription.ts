@@ -14,7 +14,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { isISO8601Format } from '../../util/validation.js';
+import { isSimpleDateFormat } from '../../util/validation.js';
 
 export interface IrrigationPrescriptionQueryParams {
   startTime?: string;
@@ -34,11 +34,11 @@ export function checkGetIrrigationPrescription() {
       return res.status(400).send('Please provide shouldSend as true or false');
     }
 
-    if (!startTime || !isISO8601Format(startTime)) {
+    if (!startTime || !isSimpleDateFormat(startTime)) {
       return res.status(400).send('Please provide startTime in ISO 8601 format');
     }
 
-    if (!endTime || !isISO8601Format(endTime)) {
+    if (!endTime || !isSimpleDateFormat(endTime)) {
       return res.status(400).send('Please provide endTime in ISO 8601 format');
     }
 

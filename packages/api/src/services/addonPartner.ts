@@ -91,10 +91,6 @@ export const getAddonPartnerIrrigationPrescriptions = async (
         (irrigationPrescription) => ({
           ...irrigationPrescription,
           partner_id: farmAddonPartnerId.addon_partner_id,
-
-          // Temporary, until Ensemble returns a date
-          recommended_start_date:
-            irrigationPrescription.recommended_start_date ?? new Date().toISOString(),
         }),
       );
 

@@ -16,7 +16,6 @@
 import { customError } from './customErrors.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
-import { getStartOfDate } from './date.js';
 import { Point, getCentroidOfPolygon } from './geoUtils.js';
 import type {
   EsciReturnedPrescriptionDetails,
@@ -24,11 +23,11 @@ import type {
 } from './ensembleService.types.js';
 
 /* Reverse the logic generating the mock id to pull a datetime from it */
-export const getDateTimeFromDayOfMonth = (day: number): Date => {
+export const getDateFromDayOfMonth = (day: number): string => {
   const now = new Date();
   const date = new Date(now.getFullYear(), now.getMonth(), day);
 
-  return getStartOfDate(date);
+  return date.toISOString().split('T')[0];
 };
 
 interface GenerateMockPrescriptionDetailsParams {
@@ -67,7 +66,7 @@ export const generateMockPrescriptionDetails = async ({
     id: irrigationPrescriptionId,
     location_id: locations[0].location_id,
     management_plan_id: managementPlan?.management_plan_id ?? null,
-    recommended_start_date: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
+    recommended_start_date: getDateFromDayOfMonth(irrigationPrescriptionId),
     pivot: mockPivot,
     system: 'NW System',
     metadata: {

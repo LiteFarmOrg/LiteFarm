@@ -2641,7 +2641,7 @@ export const buildExternalIrrigationPrescription = async ({
     id: id ?? 1,
     location_id: location.location_id,
     management_plan_id: managementPlan.management_plan_id,
-    recommended_start_date: new Date().toISOString(),
+    recommended_start_date: new Date().toISOString().split('T')[0],
   };
 };
 

@@ -114,8 +114,8 @@ export function isExternalIrrigationPrescriptionArray(
       return (
         typeof obj.id === 'number' &&
         typeof obj.location_id === 'string' &&
-        (obj.management_plan_id === null || typeof obj.management_plan_id === 'number')
-        // typeof obj.recommended_start_date === 'string'
+        (obj.management_plan_id === null || typeof obj.management_plan_id === 'number') &&
+        typeof obj.recommended_start_date === 'string'
       );
     })
   );

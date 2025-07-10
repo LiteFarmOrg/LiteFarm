@@ -23,6 +23,7 @@ import { setFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hook
 import { getIrrigationTaskTypes } from '../Task/IrrigationTaskTypes/saga';
 import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigationTask';
 import { ADD_TASK_ASSIGNMENT, ADD_TASK_DETAILS } from '../../util/siteMapConstants';
+import { getDateInputFormat } from '../../util/moment';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
 import { convert } from '../../util/convert-units/convert';
 import type { IrrigationPrescriptionDetails } from '../../store/api/types';
@@ -68,7 +69,9 @@ export default function useApproveIrrigationPrescription(
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,
-      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_date ?? Date.now())),
+      due_date: recommended_start_date
+        ? getDateInputFormat(recommended_start_date)
+        : getLocalDateInYYYYDDMM(new Date()),
       locations: [{ location_id }],
       show_wild_crop: false,
       managementPlans: management_plan_id ? [{ management_plan_id }] : [],

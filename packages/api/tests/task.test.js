@@ -36,7 +36,6 @@ import {
   sampleNote,
   abandonTaskBody,
   expectTaskCompletionFields,
-  removeNonPatchableTaskFields,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
@@ -2156,7 +2155,7 @@ describe('Task tests', () => {
           }),
         );
 
-        const patchTaskData = removeNonPatchableTaskFields(createdTask);
+        const { animals, animal_batches, ...patchTaskData } = createdTask;
 
         // Update the task
         completeTaskRequest(
@@ -2540,7 +2539,7 @@ describe('Task tests', () => {
         createdTask.soil_amendment_task_products[indexOfFirstProduct].product_id =
           soilAmendmentProductTwo.product_id;
 
-        const patchTaskData = removeNonPatchableTaskFields(createdTask);
+        const { animals, animal_batches, ...patchTaskData } = createdTask;
 
         completeTaskRequest(
           { user_id, farm_id },

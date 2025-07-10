@@ -59,19 +59,6 @@ export const abandonTaskBody = {
   abandon_date: new Date(),
 };
 
-const NON_PATCHABLE_TASK_FIELDS = [
-  'animals',
-  'animal_batches',
-  'revision_date',
-  'revised_by_user_id',
-];
-
-export const removeNonPatchableTaskFields = (task) => {
-  return Object.fromEntries(
-    Object.entries(task).filter(([key]) => !NON_PATCHABLE_TASK_FIELDS.includes(key)),
-  );
-};
-
 export async function postTaskRequest({ user_id, farm_id }, type, data) {
   return chai
     .request(server)

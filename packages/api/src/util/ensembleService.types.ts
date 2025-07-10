@@ -157,6 +157,10 @@ type CommonPrescriptionDetails = {
   pivot: {
     center: { lat: number; lng: number };
     radius: number;
+    arc?: {
+      start_angle: number;
+      end_angle: number;
+    };
   };
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }

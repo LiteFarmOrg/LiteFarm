@@ -34,7 +34,8 @@ export const drawLocation = (map, maps, mapBounds, location, disableHover = fals
 const drawArea = (map, maps, mapBounds, location, disableHover) => {
   const { grid_points: points, name, type } = location;
   const styles = areaStyles[type];
-  const { colour, selectedColour, dashScale, dashLength } = styles;
+  const { colour, dashScale, dashLength, strokeColour, labelClass, markerColour, fontSize } =
+    styles;
 
   points.forEach((point) => {
     mapBounds.extend(point);
@@ -42,7 +43,7 @@ const drawArea = (map, maps, mapBounds, location, disableHover) => {
 
   const polygon = new maps.Polygon({
     paths: points,
-    strokeColor: location.strokeColour || defaultColour,
+    strokeColor: location.strokeColour ?? strokeColour ?? defaultColour,
     strokeWeight: 2,
     fillColor: location.colour || colour,
     fillOpacity: location.fillOpacity ?? DEFAULT_POLYGON_OPACITY,
@@ -92,9 +93,9 @@ const drawArea = (map, maps, mapBounds, location, disableHover) => {
     crossOnDrag: false,
     label: name && {
       text: name,
-      color: 'white',
-      fontSize: '16px',
-      className: styles.mapLabel,
+      color: location.markerColour ?? markerColour ?? 'white',
+      fontSize: fontSize ?? '16px',
+      className: labelClass ? styles.labelClass : styles.mapLabel,
     },
   });
   polygon.setMap(map);

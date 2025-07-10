@@ -179,7 +179,12 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   // Calculate and return water consumption
   const waterConsumptionL =
     'uriData' in prescriptionDetails
-      ? calculateURIWaterConsumption(prescriptionDetails, mappedPrescription.pivot?.radius ?? 0)
+      ? calculateURIWaterConsumption(
+          prescriptionDetails,
+          mappedPrescription.pivot?.radius ?? 0,
+          mappedPrescription.pivot?.arc?.start_angle,
+          mappedPrescription.pivot?.arc?.end_angle,
+        )
       : calculateVRIWaterConsumption(prescriptionDetails);
 
   return {
@@ -219,18 +224,31 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
 };
 
 /**
- * Calculates water consumption for Uniform Rate Irrigation (URI).
+ * Calculates water consumption for Uniform Rate Irrigation (URI),
+ * supporting both full circles and partial circle sectors.
  *
  * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
  * @param {number} pivotRadius - The radius of the pivot irrigation system in meters.
+ * @param {number} [startAngle] - Optional start angle in degrees (if defining a sector).
+ * @param {number} [endAngle] - Optional end angle in degrees (if defining a sector).
  * @returns {number} The calculated water consumption in liters.
  */
 const calculateURIWaterConsumption = (
   prescription: EsciReturnedPrescriptionDetails['prescription'],
   pivotRadius: number,
+  startAngle?: number,
+  endAngle?: number,
 ): number => {
   const applicationDepthMm = prescription?.uriData?.application_depth ?? 0;
-  const pivotAreaM2 = Math.PI * Math.pow(pivotRadius, 2);
+
+  let pivotAreaM2;
+  if (startAngle !== undefined && endAngle !== undefined) {
+    const angleDiff = (startAngle - endAngle + 360) % 360;
+    const proportion = angleDiff / 360;
+    pivotAreaM2 = proportion * Math.PI * Math.pow(pivotRadius, 2);
+  } else {
+    pivotAreaM2 = Math.PI * Math.pow(pivotRadius, 2);
+  }
   return pivotAreaM2 * applicationDepthMm;
 };
 

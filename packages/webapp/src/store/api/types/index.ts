@@ -347,6 +347,10 @@ export type IrrigationPrescriptionDetails = {
   pivot: {
     center: { lat: number; lng: number };
     radius: number; // in meters
+    arc?: {
+      start_angle: number; // in mathematical degrees (0 = east, 90 = north, etc.)
+      end_angle: number; // defined clockwise from start angle
+    };
   };
 
   metadata: {

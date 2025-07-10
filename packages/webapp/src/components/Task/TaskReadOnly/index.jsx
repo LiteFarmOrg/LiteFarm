@@ -281,6 +281,7 @@ export default function PureTaskReadOnly({
             fieldLocation={task.locations[0]}
             pivotCenter={externalIrrigationPrescription.pivot?.center}
             pivotRadiusInMeters={externalIrrigationPrescription.pivot?.radius}
+            pivotArc={externalIrrigationPrescription.pivot?.arc}
             {...(externalIrrigationPrescription.prescription.uriData
               ? { uriData: externalIrrigationPrescription.prescription.uriData }
               : { vriData: externalIrrigationPrescription.prescription.vriData?.zones })}

@@ -16,6 +16,7 @@
 import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon';
 import { point, polygon } from '@turf/helpers';
 import { centroid } from '@turf/centroid';
+import { sector } from '@turf/sector';
 
 export interface Point {
   lat: number;
@@ -150,4 +151,40 @@ export const getCentroidOfPolygon = (gridPoints: Point[]): Point | null => {
     console.error('Error computing centroid:', err);
     return null;
   }
+};
+
+/**
+ * Creates coordinates for a circular sector (pie slice)
+ *
+ * @param center - Center point of the circle
+ * @param radius - Radius in meters
+ * @param startAngle - Start angle in mathematical degrees (0 = east, 90 = north, etc.)
+ * @param endAngle - End angle in degrees, moving clockwise from start angle
+ * @returns Array of points representing the sector, including the center point
+ */
+export const createSectorCoordinates = (
+  center: Point,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+): Point[] => {
+  const centerPoint = [center.lng, center.lat];
+
+  // Turf sector expects radius in kilometers
+  const radiusKm = radius / 1000;
+
+  // Turf uses 0 = north, 90 = east so we need to adjust angles from standard mathematical angles
+  // Negative angles are permissible in turf.sector()
+  const turfStartAngle = (90 - startAngle) % 360;
+  const turfEndAngle = (90 - endAngle) % 360;
+
+  const sectorFeature = sector(centerPoint, radiusKm, turfStartAngle, turfEndAngle, { steps: 32 });
+
+  // Extract the outer (only) ring of the polygon and convert to {lat,lng} format
+  const coords = sectorFeature.geometry.coordinates[0].map((coord) => ({
+    lat: coord[1],
+    lng: coord[0],
+  }));
+
+  return coords;
 };

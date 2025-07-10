@@ -822,9 +822,6 @@ const taskController = {
           data = this.formatAnimalAndBatchIds(data);
         }
 
-        // Duplicates middleware until all endpoints are migrated to use middleware
-        checkCompleteTaskDocument(req.body, typeOfTask);
-
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
             trx,

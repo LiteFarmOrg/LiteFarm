@@ -61,7 +61,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
-            text={`${d.soil_moisture_deficit}%`}
+            text={`${d.soil_moisture_deficit}${d.soil_moisture_deficit_unit}`}
             className={styles.tableText}
           />
         ),

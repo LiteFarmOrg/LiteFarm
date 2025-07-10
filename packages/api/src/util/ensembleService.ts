@@ -217,6 +217,21 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
 
   return {
     ...rest,
+    pivot: rest.pivot
+      ? {
+          ...rest.pivot,
+          center: {
+            lat: Number(rest.pivot.center.lat),
+            lng: Number(rest.pivot.center.lng),
+          },
+          arc: rest.pivot.arc
+            ? {
+                start_angle: Number(rest.pivot.arc?.end_angle),
+                end_angle: Number(rest.pivot.arc?.start_angle), // defined CCW but we use CW
+              }
+            : undefined,
+        }
+      : null,
     metadata: {
       weather_forecast: mappedWeatherForecast,
     },

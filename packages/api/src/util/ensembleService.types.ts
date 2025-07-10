@@ -154,14 +154,6 @@ type CommonPrescriptionDetails = {
   management_plan_id: number | null;
   system: string;
   recommended_start_date: string;
-  pivot: {
-    center: { lat: number; lng: number };
-    radius: number;
-    arc?: {
-      start_angle: number;
-      end_angle: number;
-    };
-  };
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }
     | {
@@ -174,10 +166,26 @@ type CommonPrescriptionDetails = {
 };
 
 export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
+  pivot: {
+    center: { lat: string; lng: string };
+    radius: number;
+    arc?: {
+      start_angle: string;
+      end_angle: string; // defined CCW
+    };
+  } | null;
   metadata: Metadata<EsciWeatherUnits>;
 };
 
 export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
+  pivot: {
+    center: { lat: number; lng: number };
+    radius: number;
+    arc?: {
+      start_angle: number;
+      end_angle: number; // defined CW
+    };
+  } | null;
   metadata: Metadata<LiteFarmWeatherUnits>;
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;

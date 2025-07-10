@@ -392,7 +392,7 @@ describe('Get Irrigation Prescription Tests', () => {
           irrigationPrescriptionId: MOCK_ID,
           applicationDepths: [20], // in mm
           pivotRadius: 100, // in meters
-          pivotArc: { start_angle: 90, end_angle: 180 }, // clockwise, in mathematical degrees (3/4 circle)
+          pivotArc: { start_angle: '180', end_angle: '90' }, // counter-clockwise, in mathematical degrees (3/4 circle)
         }),
       });
 

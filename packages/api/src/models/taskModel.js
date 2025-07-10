@@ -93,6 +93,8 @@ class TaskModel extends BaseModel {
         photo: { type: ['string', 'null'] },
         // action_needed deprecated LF-3471
         action_needed: { type: 'boolean' },
+        revision_date: { type: ['string', 'null'], format: 'date-time' },
+        revised_by_user_id: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,

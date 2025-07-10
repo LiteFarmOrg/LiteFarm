@@ -170,7 +170,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   }
 
   // Transform prescription data to LiteFarm format and validate details
-  const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
+  const mappedPrescription = transformEnsemblePrescription(irrigationPrescription);
   const prescriptionDetails = mappedPrescription.prescription;
   if (!prescriptionDetails) {
     throw customError('Prescription data is missing', 500);
@@ -217,24 +217,47 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
 
   return {
     ...rest,
-    pivot: rest.pivot
-      ? {
-          ...rest.pivot,
-          center: {
-            lat: Number(rest.pivot.center.lat),
-            lng: Number(rest.pivot.center.lng),
-          },
-          arc: rest.pivot.arc
-            ? {
-                start_angle: Number(rest.pivot.arc?.end_angle),
-                end_angle: Number(rest.pivot.arc?.start_angle), // defined CCW but we use CW
-              }
-            : undefined,
-        }
-      : null,
     metadata: {
       weather_forecast: mappedWeatherForecast,
     },
+  };
+};
+
+/**
+ * Processes pivot data from Ensemble API format to LiteFarm format.
+ * Converts string values to numbers and swaps angle directions from CCW to CW.
+ *
+ * @param {EsciReturnedPrescriptionDetails['pivot']} pivot - The pivot data from Ensemble API.
+ * @returns {EsciReturnedPrescriptionDetails['pivot']} The processed pivot data.
+ */
+const processPivotData = (pivot: EsciReturnedPrescriptionDetails['pivot']) => {
+  if (!pivot) return null;
+
+  return {
+    ...pivot,
+    center: {
+      lat: Number(pivot.center.lat),
+      lng: Number(pivot.center.lng),
+    },
+    arc: pivot.arc
+      ? {
+          start_angle: Number(pivot.arc?.end_angle),
+          end_angle: Number(pivot.arc?.start_angle), // defined CCW but we use CW
+        }
+      : undefined,
+  };
+};
+
+/**
+ * Transforms prescription data from Ensemble API format to LiteFarm format.
+ * Maps units and processes pivot data to match LiteFarm's expected structure.
+ */
+const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
+  const unitsMappedPrescription = mapEnsembleUnitsToLiteFarmUnits(prescription);
+
+  return {
+    ...unitsMappedPrescription,
+    pivot: processPivotData(unitsMappedPrescription.pivot),
   };
 };
 

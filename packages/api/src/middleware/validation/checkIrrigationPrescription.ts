@@ -35,11 +35,11 @@ export function checkGetIrrigationPrescription() {
     }
 
     if (!startTime || !isSimpleDateFormat(startTime)) {
-      return res.status(400).send('Please provide startTime in ISO 8601 format');
+      return res.status(400).send('Please provide startTime in YYYY-MM-DD format');
     }
 
     if (!endTime || !isSimpleDateFormat(endTime)) {
-      return res.status(400).send('Please provide endTime in ISO 8601 format');
+      return res.status(400).send('Please provide endTime in YYYY-MM-DD format');
     }
 
     next();

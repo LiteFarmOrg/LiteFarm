@@ -48,7 +48,7 @@ import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import type { AddonPartner, Farm, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
-import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
+import { addDaysToDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 import { generateMockPrescriptionDetails } from '../src/util/generateMockPrescriptionDetails.js';
 import { getAreaOfPolygon } from '../src/util/geoUtils.js';
@@ -59,8 +59,8 @@ describe('Get Irrigation Prescription Tests', () => {
   async function getIrrigationPrescription({
     farm_id,
     user_id,
-    startTime = getStartOfDate(new Date()).toISOString(),
-    endTime = getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
+    startTime,
+    endTime,
     shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
@@ -162,14 +162,18 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptions.length).toBe(2);
         expect(irrigationPrescriptions[0].partner_id).toBe(ESciAddonPartner.id);
 
+        const today = new Date();
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+
         // Call our endpoint and mock external call
         const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
         mockedEnsembleAPICall.mockResolvedValueOnce({ data: externalIrrigationPrescriptions });
         const res = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          startTime: getStartOfDate(new Date()).toISOString(),
-          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
+          startTime: startDate,
+          endTime: endDate,
           shouldSend: 'true',
         });
 
@@ -196,8 +200,8 @@ describe('Get Irrigation Prescription Tests', () => {
         const res2 = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          startTime: getStartOfDate(new Date()).toISOString(),
-          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
+          startTime: startDate,
+          endTime: endDate,
           shouldSend: 'true',
         });
 

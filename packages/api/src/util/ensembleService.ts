@@ -196,7 +196,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
  * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
  */
 const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
-  const { weather_forecast, ...rest } = prescription;
+  const { metadata, ...rest } = prescription;
 
   const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
     if (unit === '˚C') return 'C';
@@ -204,15 +204,17 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
   };
 
   const mappedWeatherForecast = {
-    ...weather_forecast,
-    temperature_unit: mapWeatherUnit(weather_forecast.temperature_unit),
-    wind_speed_unit: mapWeatherUnit(weather_forecast.wind_speed_unit),
-    cumulative_rainfall_unit: mapWeatherUnit(weather_forecast.cumulative_rainfall_unit),
+    ...metadata.weather_forecast,
+    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
+    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
+    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
   };
 
   return {
     ...rest,
-    weather_forecast: mappedWeatherForecast,
+    metadata: {
+      weather_forecast: mappedWeatherForecast,
+    },
   };
 };
 

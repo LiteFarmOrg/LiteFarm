@@ -349,16 +349,19 @@ export type IrrigationPrescriptionDetails = {
     radius: number; // in meters
   };
 
-  weather_forecast: {
-    temperature: number;
-    temperature_unit: SensorReadingTypeUnits;
-    wind_speed: number;
-    wind_speed_unit: SensorReadingTypeUnits;
-    cumulative_rainfall: number;
-    cumulative_rainfall_unit: SensorReadingTypeUnits;
-    et_rate: number;
-    et_rate_unit: EvapotranspirationRateUnits;
-    weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
+  metadata: {
+    // metadata = external sources of information used to generate the irrigation prescription
+    weather_forecast: {
+      temperature: number;
+      temperature_unit: SensorReadingTypeUnits;
+      wind_speed: number;
+      wind_speed_unit: SensorReadingTypeUnits;
+      cumulative_rainfall: number;
+      cumulative_rainfall_unit: SensorReadingTypeUnits;
+      et_rate: number;
+      et_rate_unit: EvapotranspirationRateUnits;
+      weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
+    };
   };
 
   // calculated by the backend

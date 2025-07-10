@@ -242,9 +242,11 @@ describe('Get Irrigation Prescription Tests', () => {
           id: MOCK_ID,
           location_id: field.location_id,
           management_plan_id: null,
-          weather_forecast: {
-            // check units conversion
-            temperature_unit: 'C',
+          metadata: {
+            weather_forecast: {
+              // check units conversion
+              temperature_unit: 'C',
+            },
           },
         });
       });

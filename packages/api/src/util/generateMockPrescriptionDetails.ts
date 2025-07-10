@@ -68,16 +68,18 @@ export const generateMockPrescriptionDetails = async ({
     recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
     pivot: mockPivot,
     system: 'NW System',
-    weather_forecast: {
-      temperature: 20,
-      temperature_unit: '˚C' as const,
-      wind_speed: 10,
-      wind_speed_unit: 'm/s' as const,
-      cumulative_rainfall: 5,
-      cumulative_rainfall_unit: 'mm' as const,
-      et_rate: 2,
-      et_rate_unit: 'mm/24h',
-      weather_icon_code: '02d',
+    metadata: {
+      weather_forecast: {
+        temperature: 20,
+        temperature_unit: '˚C' as const,
+        wind_speed: 10,
+        wind_speed_unit: 'm/s' as const,
+        cumulative_rainfall: 5,
+        cumulative_rainfall_unit: 'mm' as const,
+        et_rate: 2,
+        et_rate_unit: 'mm/24h',
+        weather_icon_code: '02d',
+      },
     },
   };
 

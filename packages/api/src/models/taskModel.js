@@ -338,6 +338,8 @@ class TaskModel extends BaseModel {
       documents: 'omit',
       animals: 'omit',
       animal_batches: 'omit',
+      revision_date: 'omit',
+      revised_by_user_id: 'omit',
     };
   }
 

@@ -89,6 +89,7 @@ export const generateMockPrescriptionDetails = async ({
     application_depth: applicationDepths[0],
     application_depth_unit: 'mm',
     soil_moisture_deficit: 40,
+    soil_moisture_deficit_unit: '%',
   };
 
   // All even IP IDs will return URI data, odd ones will return VRI data
@@ -160,6 +161,7 @@ function generateMockPieSliceZones(
 
     zones.push({
       soil_moisture_deficit: 40 + i * 10,
+      soil_moisture_deficit_unit: '%',
       application_depth: applicationDepths[i],
       application_depth_unit: 'mm',
       grid_points: polygonPoints,

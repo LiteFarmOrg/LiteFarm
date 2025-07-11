@@ -802,6 +802,7 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const task_id = parseInt(req.params.task_id);
+        const { isReCompleting } = res.locals;
 
         if (await baseController.isDeleted(null, TaskModel, { task_id })) {
           return res.status(400).send('Task has been deleted');
@@ -820,6 +821,11 @@ const taskController = {
         );
         if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
+        }
+
+        if (isReCompleting) {
+          data.revision_date = new Date().toISOString();
+          data.revised_by_user_id = assignee_user_id;
         }
 
         const result = await TaskModel.transaction(async (trx) => {

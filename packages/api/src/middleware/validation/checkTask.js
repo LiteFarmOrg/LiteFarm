@@ -117,8 +117,17 @@ export function checkCompleteTask(taskType) {
       }
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
-      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
+      if (checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been abandoned');
+      }
+
+      // https://expressjs.com/en/api.html#res.locals
+      res.locals.isReCompleting = !!checkTaskStatus.complete_date;
+
+      if (checkTaskStatus.complete_date && taskType === 'animal_movement_task') {
+        return res
+          .status(400)
+          .send('Re-completion of animal movement tasks is not yet supported (see LF-4815)');
       }
 
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {

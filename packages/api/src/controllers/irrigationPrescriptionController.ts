@@ -60,14 +60,12 @@ const irrigationPrescriptionController = {
     ) => {
       const { farm_id } = req.headers;
       const { irrigationPrescriptionId } = req.params;
-      const { shouldSend } = req.query;
 
       try {
         const data = await getEnsembleIrrigationPrescriptionDetails(
           // @ts-expect-error - farm_id enforced by checkScope
           farm_id,
           Number(irrigationPrescriptionId),
-          shouldSend === 'true',
         );
 
         return res.status(200).send(data);

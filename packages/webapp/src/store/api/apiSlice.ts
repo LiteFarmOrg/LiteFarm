@@ -346,7 +346,7 @@ export const api = createApi({
       providesTags: ['IrrigationPrescriptions'],
     }),
     getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
-      query: (id) => `${irrigationPrescriptionUrl}/${id}?shouldSend=true`,
+      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
       providesTags: ['IrrigationPrescriptionDetails'],
     }),
   }),

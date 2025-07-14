@@ -134,22 +134,21 @@ export const getIrrigationPrescriptions = async (
  *
  * @param {string} farm_id - The ID of the farm to retrieve the irrigation prescription for.
  * @param {number} irrigationPrescriptionId - The ID of the irrigation prescription to retrieve.
- * @param {boolean} shouldSend - Flag to determine whether to fetch real data or generate mock data.
  * @returns {Promise<IrrigationPrescriptionDetails>} A promise that resolves to the irrigation prescription details with water consumption estimate.
  * @throws {Error} Throws an error if the prescription is not found, belongs to a different farm, or if data is missing.
  */
 export const getEnsembleIrrigationPrescriptionDetails = async (
   farm_id: string,
   irrigationPrescriptionId: number,
-  shouldSend: boolean,
 ): Promise<IrrigationPrescriptionDetails> => {
   // Validate farm connection to Ensemble (will throw if not connected)
   const { org_pk } = await getFarmEnsembleAddonIds(farm_id);
 
   // Fetch prescription data (real or mock)
-  const irrigationPrescription = shouldSend
-    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId, org_pk)
-    : await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId });
+  const irrigationPrescription =
+    process.env.NODE_ENV === 'development' && process.env.USE_IP_MOCK_DETAILS
+      ? await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId })
+      : await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId, org_pk);
 
   if (!irrigationPrescription) {
     throw customError(`Irrigation prescription with id ${irrigationPrescriptionId} not found`, 404);

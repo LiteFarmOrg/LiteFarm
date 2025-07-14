@@ -50,9 +50,7 @@ export interface PrescriptionDetailsRouteParams {
   irrigationPrescriptionId: number;
 }
 
-export interface PrescriptionDetailsQueryParams {
-  shouldSend: string;
-}
+export type PrescriptionDetailsQueryParams = Record<string, never>;
 
 export function checkGetPrescriptionDetails() {
   return async (
@@ -60,15 +58,10 @@ export function checkGetPrescriptionDetails() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { shouldSend } = req.query;
     const { irrigationPrescriptionId } = req.params;
 
     if (!Number.isInteger(Number(irrigationPrescriptionId))) {
       return res.status(400).send('Prescription ID must be an integer');
-    }
-
-    if (shouldSend != 'true' && shouldSend != 'false') {
-      return res.status(400).send('Please provide shouldSend as true or false');
     }
 
     next();

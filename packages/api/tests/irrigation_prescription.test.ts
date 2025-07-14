@@ -61,13 +61,11 @@ describe('Get Irrigation Prescription Tests', () => {
     user_id,
     startTime,
     endTime,
-    shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
     startTime: string;
     endTime: string;
-    shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
@@ -75,27 +73,24 @@ describe('Get Irrigation Prescription Tests', () => {
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .query({ startTime, endTime, shouldSend });
+      .query({ startTime, endTime });
   }
 
   async function getIrrigationPrescriptionDetails({
     farm_id,
     user_id,
     irrigationPrescriptionId,
-    shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
     irrigationPrescriptionId: number;
-    shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
       .get(`/irrigation_prescriptions/${irrigationPrescriptionId}/`)
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
-      .set('user_id', user_id)
-      .query({ shouldSend });
+      .set('user_id', user_id);
   }
 
   function removeUndefined<T extends Record<string, unknown>>(arr: T[]): Partial<T>[] {
@@ -174,7 +169,6 @@ describe('Get Irrigation Prescription Tests', () => {
           user_id: user.user_id,
           startTime: startDate,
           endTime: endDate,
-          shouldSend: 'true',
         });
 
         expect(res.body).toMatchObject(removeUndefined(irrigationPrescriptions));
@@ -202,7 +196,6 @@ describe('Get Irrigation Prescription Tests', () => {
           user_id: user.user_id,
           startTime: startDate,
           endTime: endDate,
-          shouldSend: 'true',
         });
 
         expect(res2.body).toMatchObject(removeUndefined(irrigationPrescriptionsWithTasks));
@@ -230,7 +223,6 @@ describe('Get Irrigation Prescription Tests', () => {
         const res = await getIrrigationPrescriptionDetails({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          shouldSend: 'true',
           irrigationPrescriptionId: MOCK_ID,
         });
 
@@ -280,7 +272,6 @@ describe('Get Irrigation Prescription Tests', () => {
         const res = await getIrrigationPrescriptionDetails({
           farm_id: farm2.farm_id,
           user_id: user.user_id,
-          shouldSend: 'true',
           irrigationPrescriptionId: MOCK_ID,
         });
 
@@ -324,7 +315,6 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 
@@ -368,7 +358,6 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 
@@ -405,7 +394,6 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 

@@ -19,7 +19,6 @@ import { isSimpleDateFormat } from '../../util/validation.js';
 export interface IrrigationPrescriptionQueryParams {
   startTime?: string;
   endTime?: string;
-  shouldSend?: string;
 }
 
 export function checkGetIrrigationPrescription() {
@@ -28,11 +27,7 @@ export function checkGetIrrigationPrescription() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { startTime, endTime, shouldSend } = req.query;
-
-    if (shouldSend != 'true' && shouldSend != 'false') {
-      return res.status(400).send('Please provide shouldSend as true or false');
-    }
+    const { startTime, endTime } = req.query;
 
     if (!startTime || !isSimpleDateFormat(startTime)) {
       return res.status(400).send('Please provide startTime in YYYY-MM-DD format');

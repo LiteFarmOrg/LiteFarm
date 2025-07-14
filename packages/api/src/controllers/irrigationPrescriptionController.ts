@@ -31,14 +31,13 @@ const irrigationPrescriptionController = {
     ) => {
       try {
         const { farm_id } = req.headers;
-        const { startTime, endTime, shouldSend } = req.query;
+        const { startTime, endTime } = req.query;
 
         const irrigationPrescriptions = await getAddonPartnerIrrigationPrescriptions(
           // @ts-expect-error - farm_id is guaranteed here by the checkScope middleware with single argument
           farm_id,
           startTime,
           endTime,
-          shouldSend,
         );
 
         return res.status(200).send(irrigationPrescriptions);

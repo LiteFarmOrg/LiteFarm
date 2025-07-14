@@ -327,8 +327,7 @@ export const api = createApi({
         const today = new Date();
         const startDate = today.toISOString().split('T')[0];
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
-        const shouldSend = 'true';
-        const params = new URLSearchParams({ startTime: startDate, endTime: endDate, shouldSend });
+        const params = new URLSearchParams({ startTime: startDate, endTime: endDate });
 
         return `${irrigationPrescriptionUrl}?${params.toString()}`;
       },

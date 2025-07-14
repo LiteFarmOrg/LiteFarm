@@ -26,17 +26,18 @@ import {
 } from '../util/ensembleService.types.js';
 import MockAddonPartner from '../util/mockAddonPartner.js';
 
-const PARTNER_ID_MAP: Partial<Record<number, (shouldSend?: string) => AddonPartnerFunctions>> = {
-  1: (shouldSend) => {
-    return shouldSend === 'true' ? ESciAddon : MockAddonPartner;
-  },
+const mockPartners: Partial<Record<string, AddonPartnerFunctions>> = {
+  ESCI: MockAddonPartner,
+};
+
+const PARTNER_ID_MAP: Partial<Record<number, AddonPartnerFunctions>> = {
+  1: ESciAddon,
 };
 
 export const getAddonPartnerIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   startTime: string,
   endTime: string,
-  shouldSend: string,
 ): Promise<IrrigationPrescription[]> => {
   const irrigationPrescriptions: IrrigationPrescription[] = [];
   const partnerErrors: unknown[] = [];
@@ -52,17 +53,17 @@ export const getAddonPartnerIrrigationPrescriptions = async (
   // Loop through addon partners
   for (const farmAddonPartnerId of farmAddonPartnerIds) {
     try {
-      const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
+      const selectedMockPartner = process.env.MOCK_ADDON_PARTNER || '';
+      const addonPartner =
+        process.env.NODE_ENV === 'development' && mockPartners[selectedMockPartner]
+          ? mockPartners[selectedMockPartner]
+          : PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
 
       if (!addonPartner) {
         continue;
       }
 
-      const { data } = await addonPartner(shouldSend).getIrrigationPrescriptions(
-        farmId,
-        startTime,
-        endTime,
-      );
+      const { data } = await addonPartner.getIrrigationPrescriptions(farmId, startTime, endTime);
 
       if (Array.isArray(data) && !data?.length) {
         continue;

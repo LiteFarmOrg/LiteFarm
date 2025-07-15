@@ -48,7 +48,7 @@ import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import type { AddonPartner, Farm, User } from '../src/models/types.js';
 import mocks from './mock.factories.js';
-import { addDaysToDate, getEndOfDate, getStartOfDate } from '../src/util/date.js';
+import { addDaysToDate } from '../src/util/date.js';
 import { ENSEMBLE_BRAND } from '../src/util/ensemble.js';
 import { generateMockPrescriptionDetails } from '../src/util/generateMockPrescriptionDetails.js';
 import { getAreaOfPolygon } from '../src/util/geoUtils.js';
@@ -59,15 +59,13 @@ describe('Get Irrigation Prescription Tests', () => {
   async function getIrrigationPrescription({
     farm_id,
     user_id,
-    startTime = getStartOfDate(new Date()).toISOString(),
-    endTime = getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
-    shouldSend = 'true',
+    startTime,
+    endTime,
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
     startTime: string;
     endTime: string;
-    shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
@@ -75,27 +73,24 @@ describe('Get Irrigation Prescription Tests', () => {
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .query({ startTime, endTime, shouldSend });
+      .query({ startTime, endTime });
   }
 
   async function getIrrigationPrescriptionDetails({
     farm_id,
     user_id,
     irrigationPrescriptionId,
-    shouldSend = 'true',
   }: {
     farm_id: Farm['farm_id'];
     user_id: User['user_id'];
     irrigationPrescriptionId: number;
-    shouldSend: string;
   }): Promise<Response> {
     return chai
       .request(server)
       .get(`/irrigation_prescriptions/${irrigationPrescriptionId}/`)
       .set('content-type', 'application/json')
       .set('farm_id', farm_id)
-      .set('user_id', user_id)
-      .query({ shouldSend });
+      .set('user_id', user_id);
   }
 
   function removeUndefined<T extends Record<string, unknown>>(arr: T[]): Partial<T>[] {
@@ -162,15 +157,18 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptions.length).toBe(2);
         expect(irrigationPrescriptions[0].partner_id).toBe(ESciAddonPartner.id);
 
+        const today = new Date();
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+
         // Call our endpoint and mock external call
         const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
         mockedEnsembleAPICall.mockResolvedValueOnce({ data: externalIrrigationPrescriptions });
         const res = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          startTime: getStartOfDate(new Date()).toISOString(),
-          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
-          shouldSend: 'true',
+          startTime: startDate,
+          endTime: endDate,
         });
 
         expect(res.body).toMatchObject(removeUndefined(irrigationPrescriptions));
@@ -196,9 +194,8 @@ describe('Get Irrigation Prescription Tests', () => {
         const res2 = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          startTime: getStartOfDate(new Date()).toISOString(),
-          endTime: getEndOfDate(addDaysToDate(new Date(), 1)).toISOString(),
-          shouldSend: 'true',
+          startTime: startDate,
+          endTime: endDate,
         });
 
         expect(res2.body).toMatchObject(removeUndefined(irrigationPrescriptionsWithTasks));
@@ -226,14 +223,13 @@ describe('Get Irrigation Prescription Tests', () => {
         const res = await getIrrigationPrescriptionDetails({
           farm_id: farm.farm_id,
           user_id: user.user_id,
-          shouldSend: 'true',
           irrigationPrescriptionId: MOCK_ID,
         });
 
         expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
-            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+            url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
           expect.any(Function), // onError callback
         );
@@ -276,14 +272,13 @@ describe('Get Irrigation Prescription Tests', () => {
         const res = await getIrrigationPrescriptionDetails({
           farm_id: farm2.farm_id,
           user_id: user.user_id,
-          shouldSend: 'true',
           irrigationPrescriptionId: MOCK_ID,
         });
 
         expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
-            url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+            url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
           expect.any(Function), // onError callback
         );
@@ -320,14 +315,13 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 
       expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: expect.stringContaining(`/irrigation_prescription/${MOCK_ID}`),
+          url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
         }),
         expect.any(Function), // onError callback
       );
@@ -364,7 +358,6 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 
@@ -392,7 +385,7 @@ describe('Get Irrigation Prescription Tests', () => {
           irrigationPrescriptionId: MOCK_ID,
           applicationDepths: [20], // in mm
           pivotRadius: 100, // in meters
-          pivotArc: { start_angle: 90, end_angle: 180 }, // clockwise, in mathematical degrees (3/4 circle)
+          pivotArc: { start_angle: '180', end_angle: '90' }, // counter-clockwise, in mathematical degrees (3/4 circle)
         }),
       });
 
@@ -401,7 +394,6 @@ describe('Get Irrigation Prescription Tests', () => {
       const res = await getIrrigationPrescriptionDetails({
         farm_id: farm.farm_id,
         user_id: user.user_id,
-        shouldSend: 'true',
         irrigationPrescriptionId: MOCK_ID,
       });
 

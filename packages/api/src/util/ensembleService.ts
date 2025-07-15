@@ -16,7 +16,7 @@
 /**
  * This file extends the Ensemble service (ensemble.js) using TypeScript. When the TS migration of ensemble.js is done, the contents of this file can be moved there.
  */
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
@@ -71,6 +71,29 @@ export const getFarmEnsembleAddonIds = async (
 };
 
 /**
+ * Safely retrieves the Ensemble addon partner ids for the given farm without throwing errors.
+ * This is designed for non-blocking flows where Ensemble connectivity is optional, such as:
+ * - Notification controller (postDailyNewIrrigationPrescriptions)
+ * - Post-response side effects (triggerPostTaskCreatedActions)
+ */
+export const safeGetFarmEnsembleAddonIds = async (
+  farmId: Farm['farm_id'],
+): Promise<Pick<FarmAddon, 'org_uuid' | 'org_pk'> | null> => {
+  try {
+    const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
+    if (!partner) return null;
+
+    const farmAddonIds = await FarmAddonModel.getOrganisationIds(farmId, partner.id);
+    if (!farmAddonIds) return null;
+
+    return farmAddonIds;
+  } catch (error) {
+    console.error(`Error checking Ensemble connection for farm ${farmId}:`, error);
+    return null;
+  }
+};
+
+/**
  * Returns a list of irrigation prescriptions based for a specific farm.
  *
  * @param farmId - The ID of the farm to retrieve external irrigation prescriptions for.
@@ -88,7 +111,7 @@ export const getIrrigationPrescriptions = async (
   // Endpoint config
   const axiosObject = {
     method: 'get',
-    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/irrigation_prescriptions`,
+    url: `${ensembleAPI}/organizations/${externalOrganizationIds.org_pk}/prescriptions/`,
     params: {
       start_time: startTime, // ISO format
       end_time: endTime, // ISO format
@@ -106,86 +129,26 @@ export const getIrrigationPrescriptions = async (
   return ensembleAPICall(axiosObject, onError);
 };
 
-// TODO: After LF-4674 is merged, this can be removed and that function used instead
-export const mockGetFarmIrrigationPrescriptions = async (farm_id: string) => {
-  const partner = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
-
-  if (!partner) {
-    throw customError('Ensemble partner not found', 400);
-  }
-
-  const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(farm_id, partner.id);
-
-  if (!farmEnsembleAddon) {
-    return [];
-  }
-
-  // In the real function, call Ensemble API here
-  // Pass organization_id and the correct time parameters
-
-  const ONE_DAY = 24 * 60 * 60 * 1000; // in ms
-
-  const irrigationPrescriptionsMinimalMock = [
-    {
-      id: new Date().getUTCDate(),
-      recommended_start_datetime: new Date().toISOString(),
-    },
-    {
-      id: new Date(Date.now() + ONE_DAY).getUTCDate(),
-      recommended_start_datetime: new Date(Date.now() + ONE_DAY).toISOString(),
-    },
-  ];
-
-  const mockData = await mockFetchIrrigationPrescriptionsFromEnsemble(farmEnsembleAddon.org_pk);
-
-  return mockData ?? irrigationPrescriptionsMinimalMock;
-};
-
-// Mock Ensemble API call allows mocking axios in tests
-export async function mockFetchIrrigationPrescriptionsFromEnsemble(org_pk: number) {
-  try {
-    const axiosObject = {
-      method: 'get',
-      url: `${ensembleAPI}/${org_pk}/irrigation_prescriptions/`,
-    };
-
-    const onError = (error: AxiosError) => {
-      const status = error.response?.status || 500;
-      const errorDetail = error.message ? `: ${error.message}` : '';
-      const message = `Error fetching IPs from ESci${errorDetail}`;
-      throw customError(message, status);
-    };
-
-    const { data } = (await ensembleAPICall(axiosObject, onError)) as AxiosResponse;
-
-    return data;
-  } catch (error) {
-    console.log(error);
-    return;
-  }
-}
-
 /**
  * Retrieves detailed information for a specific irrigation prescription.
  *
  * @param {string} farm_id - The ID of the farm to retrieve the irrigation prescription for.
  * @param {number} irrigationPrescriptionId - The ID of the irrigation prescription to retrieve.
- * @param {boolean} shouldSend - Flag to determine whether to fetch real data or generate mock data.
  * @returns {Promise<IrrigationPrescriptionDetails>} A promise that resolves to the irrigation prescription details with water consumption estimate.
  * @throws {Error} Throws an error if the prescription is not found, belongs to a different farm, or if data is missing.
  */
 export const getEnsembleIrrigationPrescriptionDetails = async (
   farm_id: string,
   irrigationPrescriptionId: number,
-  shouldSend: boolean,
 ): Promise<IrrigationPrescriptionDetails> => {
   // Validate farm connection to Ensemble (will throw if not connected)
-  await getFarmEnsembleAddonIds(farm_id);
+  const { org_pk } = await getFarmEnsembleAddonIds(farm_id);
 
   // Fetch prescription data (real or mock)
-  const irrigationPrescription = shouldSend
-    ? await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId)
-    : await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId });
+  const irrigationPrescription =
+    process.env.NODE_ENV === 'development' && process.env.USE_IP_MOCK_DETAILS
+      ? await generateMockPrescriptionDetails({ farm_id, irrigationPrescriptionId })
+      : await fetchIrrigationPrescriptionDetails(irrigationPrescriptionId, org_pk);
 
   if (!irrigationPrescription) {
     throw customError(`Irrigation prescription with id ${irrigationPrescriptionId} not found`, 404);
@@ -206,7 +169,7 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   }
 
   // Transform prescription data to LiteFarm format and validate details
-  const mappedPrescription = mapEnsembleUnitsToLiteFarmUnits(irrigationPrescription);
+  const mappedPrescription = transformEnsemblePrescription(irrigationPrescription);
   const prescriptionDetails = mappedPrescription.prescription;
   if (!prescriptionDetails) {
     throw customError('Prescription data is missing', 500);
@@ -256,6 +219,44 @@ const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionD
     metadata: {
       weather_forecast: mappedWeatherForecast,
     },
+  };
+};
+
+/**
+ * Processes pivot data from Ensemble API format to LiteFarm format.
+ * Converts string values to numbers and swaps angle directions from CCW to CW.
+ *
+ * @param {EsciReturnedPrescriptionDetails['pivot']} pivot - The pivot data from Ensemble API.
+ * @returns {EsciReturnedPrescriptionDetails['pivot']} The processed pivot data.
+ */
+const processPivotData = (pivot: EsciReturnedPrescriptionDetails['pivot']) => {
+  if (!pivot) return null;
+
+  return {
+    ...pivot,
+    center: {
+      lat: Number(pivot.center.lat),
+      lng: Number(pivot.center.lng),
+    },
+    arc: pivot.arc
+      ? {
+          start_angle: Number(pivot.arc?.end_angle),
+          end_angle: Number(pivot.arc?.start_angle), // defined CCW but we use CW
+        }
+      : undefined,
+  };
+};
+
+/**
+ * Transforms prescription data from Ensemble API format to LiteFarm format.
+ * Maps units and processes pivot data to match LiteFarm's expected structure.
+ */
+const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
+  const unitsMappedPrescription = mapEnsembleUnitsToLiteFarmUnits(prescription);
+
+  return {
+    ...unitsMappedPrescription,
+    pivot: processPivotData(unitsMappedPrescription.pivot),
   };
 };
 
@@ -490,11 +491,12 @@ export async function patchIrrigationPrescriptionApproval(id: number, org_pk: nu
 /* Fetch details for a particular irrigation_prescription by id */
 export async function fetchIrrigationPrescriptionDetails(
   id: number,
+  org_pk: number,
 ): Promise<EsciReturnedPrescriptionDetails> {
   try {
     const axiosObject = {
       method: 'get',
-      url: `${ensembleAPI}/irrigation_prescription/${id}/`, // real URL TBD
+      url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/${id}/`,
     };
 
     const onError = (error: AxiosError) => {

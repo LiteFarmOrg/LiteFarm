@@ -41,7 +41,7 @@ interface PlantingManagementPlan {
 }
 
 export interface ManagementPlan {
-  management_plan_id: string;
+  management_plan_id: number;
   crop_management_plan: {
     seed_date: string;
     planting_management_plans: PlantingManagementPlan[];
@@ -72,7 +72,7 @@ interface EnsembleCropData {
   crop_genus: string;
   crop_specie: string;
   seed_date: string;
-  management_plan_id?: string; // For dev purposes
+  management_plan_id: number;
 }
 
 export interface EnsembleLocationAndCropData {
@@ -90,8 +90,8 @@ export interface AllOrganisationsFarmData {
 export type ExternalIrrigationPrescription = {
   id: number;
   location_id: Location['location_id'];
-  management_plan_id?: ModelManagementPlan['management_plan_id'];
-  recommended_start_datetime: string;
+  management_plan_id: ModelManagementPlan['management_plan_id'] | null;
+  recommended_start_date: string;
 };
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
@@ -114,8 +114,8 @@ export function isExternalIrrigationPrescriptionArray(
       return (
         typeof obj.id === 'number' &&
         typeof obj.location_id === 'string' &&
-        (obj.management_plan_id === undefined || typeof obj.management_plan_id === 'number') &&
-        typeof obj.recommended_start_datetime === 'string'
+        (obj.management_plan_id === null || typeof obj.management_plan_id === 'number') &&
+        typeof obj.recommended_start_date === 'string'
       );
     })
   );
@@ -140,6 +140,7 @@ export type Metadata<Units> = {
 
 interface UriPrescriptionData {
   soil_moisture_deficit: number;
+  soil_moisture_deficit_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }
@@ -152,18 +153,9 @@ type CommonPrescriptionDetails = {
   id: number;
   location_id: string;
   management_plan_id: number | null;
-  system: string;
-  recommended_start_datetime: string;
-  pivot: {
-    center: { lat: number; lng: number };
-    radius: number;
-    arc?: {
-      start_angle: number;
-      end_angle: number;
-    };
-  };
-  estimated_time: number;
-  estimated_time_unit: string;
+  system_name: string;
+  system_id: number;
+  recommended_start_date: string;
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }
     | {
@@ -176,10 +168,26 @@ type CommonPrescriptionDetails = {
 };
 
 export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
+  pivot: {
+    center: { lat: string; lng: string };
+    radius: number;
+    arc?: {
+      start_angle: string;
+      end_angle: string; // defined CCW
+    };
+  } | null;
   metadata: Metadata<EsciWeatherUnits>;
 };
 
 export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
+  pivot: {
+    center: { lat: number; lng: number };
+    radius: number;
+    arc?: {
+      start_angle: number;
+      end_angle: number; // defined CW
+    };
+  } | null;
   metadata: Metadata<LiteFarmWeatherUnits>;
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;

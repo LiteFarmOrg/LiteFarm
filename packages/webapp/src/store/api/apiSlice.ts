@@ -114,7 +114,6 @@ export const FarmLibraryTags = [
   'DefaultAnimalTypes',
 ];
 import { addDaysToDate } from '../../util/date';
-import { getEndOfDate, getStartOfDate } from '../../util/date-migrate-TS';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -325,12 +324,10 @@ export const api = createApi({
     }),
     getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
       query: () => {
-        // After date is hard coded for now as the users current locale
         const today = new Date();
-        const startTime = getStartOfDate(today).toISOString();
-        const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
-        const shouldSend = 'false';
-        const params = new URLSearchParams({ startTime, endTime, shouldSend });
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+        const params = new URLSearchParams({ startTime: startDate, endTime: endDate });
 
         return `${irrigationPrescriptionUrl}?${params.toString()}`;
       },
@@ -348,7 +345,7 @@ export const api = createApi({
       providesTags: ['IrrigationPrescriptions'],
     }),
     getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
-      query: (id) => `${irrigationPrescriptionUrl}/${id}?shouldSend=false`,
+      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
       providesTags: ['IrrigationPrescriptionDetails'],
     }),
   }),

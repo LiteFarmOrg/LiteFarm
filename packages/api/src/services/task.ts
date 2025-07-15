@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { patchIrrigationPrescriptionApproval } from '../util/ensembleService.js';
-import AddonPartnerModel from '../models/addonPartnerModel.js';
-import FarmAddonModel from '../models/farmAddonModel.js';
-import { ENSEMBLE_BRAND } from '../util/ensemble.js';
+import {
+  safeGetFarmEnsembleAddonIds,
+  patchIrrigationPrescriptionApproval,
+} from '../util/ensembleService.js';
 import { IRRIGATION_TASK, TASK_TYPES } from '../util/task.js';
 
 type TaskType = (typeof TASK_TYPES)[number];
@@ -42,24 +42,12 @@ export async function triggerPostTaskCreatedActions(
           const esciExternalId = createdTask.irrigation_task?.irrigation_prescription_external_id;
 
           if (esciExternalId) {
-            // Using the model methods here, and not the Ensemble helper functions that send HTTP responses for the errors, to avoid 'Cannot set headers after they are sent to the client'
-            const ensembleRecord = await AddonPartnerModel.getPartnerId(ENSEMBLE_BRAND);
-            if (!ensembleRecord) {
-              console.error(`Partner not found for ${ENSEMBLE_BRAND}`);
+            const farmAddon = await safeGetFarmEnsembleAddonIds(farm_id);
+            if (!farmAddon) {
+              console.error(`Ensemble organization not found for farm ${farm_id}`);
               return;
             }
-            const farmEnsembleAddon = await FarmAddonModel.getOrganisationIds(
-              farm_id,
-              ensembleRecord.id,
-            );
-            if (!farmEnsembleAddon) {
-              console.error(
-                `Organization not found for farm ${farm_id} and partner ${ENSEMBLE_BRAND}`,
-              );
-              return;
-            }
-
-            await patchIrrigationPrescriptionApproval(esciExternalId, farmEnsembleAddon.org_pk);
+            await patchIrrigationPrescriptionApproval(esciExternalId, farmAddon.org_pk);
           }
         }
         break;

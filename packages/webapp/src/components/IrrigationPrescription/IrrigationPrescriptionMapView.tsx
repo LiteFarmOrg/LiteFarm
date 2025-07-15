@@ -74,7 +74,7 @@ const IrrigationPrescriptionMapView = ({
           ...pivotMapObjects,
         ]}
         selectedLocationIds={[]}
-        farmCenterCoordinate={pivotCenter}
+        farmCenterCoordinate={pivotCenter || fieldLocation?.grid_points?.[0]}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         showControls={false}

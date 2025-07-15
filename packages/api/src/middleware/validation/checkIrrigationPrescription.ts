@@ -14,12 +14,11 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { isISO8601Format } from '../../util/validation.js';
+import { isSimpleDateFormat } from '../../util/validation.js';
 
 export interface IrrigationPrescriptionQueryParams {
   startTime?: string;
   endTime?: string;
-  shouldSend?: string;
 }
 
 export function checkGetIrrigationPrescription() {
@@ -28,18 +27,14 @@ export function checkGetIrrigationPrescription() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { startTime, endTime, shouldSend } = req.query;
+    const { startTime, endTime } = req.query;
 
-    if (shouldSend != 'true' && shouldSend != 'false') {
-      return res.status(400).send('Please provide shouldSend as true or false');
+    if (!startTime || !isSimpleDateFormat(startTime)) {
+      return res.status(400).send('Please provide startTime in YYYY-MM-DD format');
     }
 
-    if (!startTime || !isISO8601Format(startTime)) {
-      return res.status(400).send('Please provide startTime in ISO 8601 format');
-    }
-
-    if (!endTime || !isISO8601Format(endTime)) {
-      return res.status(400).send('Please provide endTime in ISO 8601 format');
+    if (!endTime || !isSimpleDateFormat(endTime)) {
+      return res.status(400).send('Please provide endTime in YYYY-MM-DD format');
     }
 
     next();
@@ -50,9 +45,7 @@ export interface PrescriptionDetailsRouteParams {
   irrigationPrescriptionId: number;
 }
 
-export interface PrescriptionDetailsQueryParams {
-  shouldSend: string;
-}
+export type PrescriptionDetailsQueryParams = Record<string, never>;
 
 export function checkGetPrescriptionDetails() {
   return async (
@@ -60,15 +53,10 @@ export function checkGetPrescriptionDetails() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { shouldSend } = req.query;
     const { irrigationPrescriptionId } = req.params;
 
     if (!Number.isInteger(Number(irrigationPrescriptionId))) {
       return res.status(400).send('Prescription ID must be an integer');
-    }
-
-    if (shouldSend != 'true' && shouldSend != 'false') {
-      return res.status(400).send('Please provide shouldSend as true or false');
     }
 
     next();

@@ -16,10 +16,14 @@
 import UserFarmModel from '../models/userFarmModel.js';
 
 import TaskModel from '../models/taskModel.js';
+import LocationModel from '../models/locationModel.js';
 import NotificationModel from '../models/notificationModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import { getTasksForFarm } from './taskController.js';
-import { mockGetFarmIrrigationPrescriptions } from '../util/ensembleService.js';
+import {
+  safeGetFarmEnsembleAddonIds,
+  getIrrigationPrescriptions,
+} from '../util/ensembleService.js';
 
 const timeNotificationController = {
   /**
@@ -108,8 +112,23 @@ const timeNotificationController = {
     const { farm_id } = req.params;
     const { isDayLaterThanUtc } = req.body;
     try {
-      // TODO: Use real function after LF-4765 is merged
-      const farmIrrigationPrescriptions = await mockGetFarmIrrigationPrescriptions(farm_id);
+      const farmAddon = await safeGetFarmEnsembleAddonIds(farm_id);
+      if (!farmAddon) {
+        return res.status(200).send('0 irrigation prescription notifications sent.');
+      }
+
+      const { data: orgIrrigationPrescriptions } = await getIrrigationPrescriptions(farm_id);
+
+      // Filter by farm_id
+      const farmIrrigationPrescriptions = [];
+      for (const irrigationPrescription of orgIrrigationPrescriptions) {
+        const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
+          irrigationPrescription.location_id,
+        );
+        if (prescriptionFarmRecord?.farm_id === farm_id) {
+          farmIrrigationPrescriptions.push(irrigationPrescription);
+        }
+      }
 
       let notificationsSent = 0;
 

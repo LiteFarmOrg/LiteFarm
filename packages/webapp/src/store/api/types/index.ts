@@ -330,7 +330,7 @@ export interface IrrigationPrescription {
   id: number;
   location_id: string;
   management_plan_id?: number | string;
-  recommended_start_datetime: string;
+  recommended_start_date: string;
   partner_id: number;
   task_id?: number | string;
 }
@@ -340,9 +340,10 @@ export type IrrigationPrescriptionDetails = {
 
   location_id: string;
   management_plan_id: number | null;
-  recommended_start_datetime: string; // ISO string
+  recommended_start_date: string; // ISO string
 
-  system: string; // descriptive name for the irrigation system
+  system_name: string; // descriptive name for the irrigation system
+  system_id: string;
 
   pivot: {
     center: { lat: number; lng: number };
@@ -367,9 +368,6 @@ export type IrrigationPrescriptionDetails = {
       weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
     };
   };
-
-  estimated_time: number;
-  estimated_time_unit: string;
 
   // calculated by the backend
   estimated_water_consumption: number;

@@ -16,6 +16,7 @@
 import { AxiosResponse } from 'axios';
 import FarmAddonModel from '../models/farmAddonModel.js';
 import TaskModel from '../models/taskModel.js';
+import LocationModel from '../models/locationModel.js';
 import { Farm } from '../models/types.js';
 import { customError } from '../util/customErrors.js';
 import ESciAddon from '../util/ensembleService.js';
@@ -25,17 +26,18 @@ import {
 } from '../util/ensembleService.types.js';
 import MockAddonPartner from '../util/mockAddonPartner.js';
 
-const PARTNER_ID_MAP: Partial<Record<number, (shouldSend?: string) => AddonPartnerFunctions>> = {
-  1: (shouldSend) => {
-    return shouldSend === 'true' ? ESciAddon : MockAddonPartner;
-  },
+const mockPartners: Partial<Record<string, AddonPartnerFunctions>> = {
+  ESCI: MockAddonPartner,
+};
+
+const PARTNER_ID_MAP: Partial<Record<number, AddonPartnerFunctions>> = {
+  1: ESciAddon,
 };
 
 export const getAddonPartnerIrrigationPrescriptions = async (
   farmId: Farm['farm_id'],
   startTime: string,
   endTime: string,
-  shouldSend: string,
 ): Promise<IrrigationPrescription[]> => {
   const irrigationPrescriptions: IrrigationPrescription[] = [];
   const partnerErrors: unknown[] = [];
@@ -51,17 +53,17 @@ export const getAddonPartnerIrrigationPrescriptions = async (
   // Loop through addon partners
   for (const farmAddonPartnerId of farmAddonPartnerIds) {
     try {
-      const addonPartner = PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
+      const selectedMockPartner = process.env.MOCK_ADDON_PARTNER || '';
+      const addonPartner =
+        process.env.NODE_ENV === 'development' && mockPartners[selectedMockPartner]
+          ? mockPartners[selectedMockPartner]
+          : PARTNER_ID_MAP[farmAddonPartnerId.addon_partner_id];
 
       if (!addonPartner) {
         continue;
       }
 
-      const { data } = await addonPartner(shouldSend).getIrrigationPrescriptions(
-        farmId,
-        startTime,
-        endTime,
-      );
+      const { data } = await addonPartner.getIrrigationPrescriptions(farmId, startTime, endTime);
 
       if (Array.isArray(data) && !data?.length) {
         continue;
@@ -69,15 +71,29 @@ export const getAddonPartnerIrrigationPrescriptions = async (
 
       if (!isExternalIrrigationPrescriptionArray(data)) {
         throw customError(
-          `Partner id: ${farmAddonPartnerId} - irrigation prescription data not in expected format`,
+          `Partner id: ${farmAddonPartnerId.addon_partner_id} - irrigation prescription data not in expected format`,
         );
       }
 
+      // Filter by farm_id
+      // (Temporarily using model method; please replace with direct filtering on farm_id when available)
+      const irrigationPrescriptionsForFarm = [];
+      for (const irrigationPrescription of data) {
+        const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
+          irrigationPrescription.location_id,
+        );
+        if (prescriptionFarmRecord?.farm_id === farmId) {
+          irrigationPrescriptionsForFarm.push(irrigationPrescription);
+        }
+      }
+
       // Add partner id to return object
-      const irrigationPrescriptionsWithPartnerId = data.map((irrigationPrescription) => ({
-        ...irrigationPrescription,
-        partner_id: farmAddonPartnerId.addon_partner_id,
-      }));
+      const irrigationPrescriptionsWithPartnerId = irrigationPrescriptionsForFarm.map(
+        (irrigationPrescription) => ({
+          ...irrigationPrescription,
+          partner_id: farmAddonPartnerId.addon_partner_id,
+        }),
+      );
 
       // Push prescriptions to return array
       irrigationPrescriptions.push(...irrigationPrescriptionsWithPartnerId);

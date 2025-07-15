@@ -16,7 +16,6 @@
 import { customError } from './customErrors.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
-import { getStartOfDate } from './date.js';
 import { Point, getCentroidOfPolygon } from './geoUtils.js';
 import type {
   EsciReturnedPrescriptionDetails,
@@ -24,11 +23,11 @@ import type {
 } from './ensembleService.types.js';
 
 /* Reverse the logic generating the mock id to pull a datetime from it */
-export const getDateTimeFromDayOfMonth = (day: number): Date => {
+export const getDateFromDayOfMonth = (day: number): string => {
   const now = new Date();
   const date = new Date(now.getFullYear(), now.getMonth(), day);
 
-  return getStartOfDate(date);
+  return date.toISOString().split('T')[0];
 };
 
 interface GenerateMockPrescriptionDetailsParams {
@@ -36,7 +35,7 @@ interface GenerateMockPrescriptionDetailsParams {
   irrigationPrescriptionId: number;
   applicationDepths?: number[];
   pivotRadius?: number;
-  pivotArc?: { start_angle: number; end_angle: number };
+  pivotArc?: { start_angle: string; end_angle: string };
 }
 
 export const generateMockPrescriptionDetails = async ({
@@ -44,7 +43,7 @@ export const generateMockPrescriptionDetails = async ({
   irrigationPrescriptionId,
   applicationDepths = [15, 10, 20],
   pivotRadius = 400,
-  pivotArc = { start_angle: 190, end_angle: 45 },
+  pivotArc = { start_angle: '190', end_angle: '45' },
 }: GenerateMockPrescriptionDetailsParams): Promise<EsciReturnedPrescriptionDetails> => {
   const locations = await LocationModel.getCropSupportingLocationsByFarmId(farm_id);
 
@@ -67,9 +66,10 @@ export const generateMockPrescriptionDetails = async ({
     id: irrigationPrescriptionId,
     location_id: locations[0].location_id,
     management_plan_id: managementPlan?.management_plan_id ?? null,
-    recommended_start_datetime: getDateTimeFromDayOfMonth(irrigationPrescriptionId).toISOString(),
+    recommended_start_date: getDateFromDayOfMonth(irrigationPrescriptionId),
     pivot: mockPivot,
-    system: 'NW System',
+    system_name: 'NW System',
+    system_id: 12,
     metadata: {
       weather_forecast: {
         temperature: 20,
@@ -83,14 +83,13 @@ export const generateMockPrescriptionDetails = async ({
         weather_icon_code: '02d',
       },
     },
-    estimated_time: 6,
-    estimated_time_unit: 'h',
   };
 
   const mockUriData = {
     application_depth: applicationDepths[0],
     application_depth_unit: 'mm',
     soil_moisture_deficit: 40,
+    soil_moisture_deficit_unit: '%',
   };
 
   // All even IP IDs will return URI data, odd ones will return VRI data
@@ -162,6 +161,7 @@ function generateMockPieSliceZones(
 
     zones.push({
       soil_moisture_deficit: 40 + i * 10,
+      soil_moisture_deficit_unit: '%',
       application_depth: applicationDepths[i],
       application_depth_unit: 'mm',
       grid_points: polygonPoints,

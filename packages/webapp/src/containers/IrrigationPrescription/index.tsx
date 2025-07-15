@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../store/api/apiSlice';
 import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
-import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
+import { DateInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
 import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
 import FloatingContainer from '../../components/FloatingContainer';
@@ -89,7 +89,7 @@ const IrrigationPrescription = ({
     return null;
   }
 
-  const { prescription, pivot, recommended_start_datetime } = irrigationPrescription;
+  const { prescription, pivot, recommended_start_date } = irrigationPrescription;
 
   const { uriData, vriData } = prescription;
 
@@ -99,21 +99,15 @@ const IrrigationPrescription = ({
         <PageTitle
           title={createSmartIrrigationDisplayName({
             label: t('IRRIGATION_PRESCRIPTION.TITLE'),
-            system: irrigationPrescription.system,
+            system: irrigationPrescription.system_name,
           })}
           onGoBack={history.back}
           classNames={{ wrapper: styles.title }}
         ></PageTitle>
         <div className={styles.recommendedSchedule}>
           <DateInput
-            date={recommended_start_datetime}
+            date={recommended_start_date}
             label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
-            disabled
-            labelStyles={dateTimeLabelStyles}
-          />
-          <TimeInput
-            date={recommended_start_datetime}
-            label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
             disabled
             labelStyles={dateTimeLabelStyles}
           />

@@ -16,7 +16,7 @@
 import { ExternalIrrigationPrescription } from './ensembleService.types.js';
 import { Farm } from '../models/types.js';
 import LocationModel from '../models/locationModel.js';
-import { addDaysToDate, getEndOfDate, getStartOfDate } from './date.js';
+import { addDaysToDate } from './date.js';
 import { AxiosResponse } from 'axios';
 
 type fakeIrrigationPrescriptionsProps = {
@@ -37,16 +37,20 @@ export const getIrrigationPrescriptions = async ({
   startTime,
   endTime,
 }: fakeIrrigationPrescriptionsProps): Promise<ExternalIrrigationPrescription[]> => {
+  const today = new Date();
+  const todayString = today.toISOString().split('T')[0];
+  const tomorrowString = addDaysToDate(today, 1).toISOString().split('T')[0];
+
+  const startDate = startTime ? new Date(startTime) : today;
+
   const PRESCRIPTION_CONFIG = [
     {
-      id: new Date(startTime ?? Date.now()).getUTCDate(),
-      recommendedDate: startTime ? new Date(startTime) : getStartOfDate(new Date(Date.now())),
+      id: startDate.getUTCDate(),
+      recommendedDate: startTime ?? todayString,
     },
     {
-      id: new Date(startTime ?? Date.now()).getUTCDate() + 1,
-      recommendedDate: endTime
-        ? new Date(endTime)
-        : getEndOfDate(addDaysToDate(new Date(Date.now()), 1)),
+      id: startDate.getUTCDate() + 1,
+      recommendedDate: endTime ?? tomorrowString,
     },
   ];
 
@@ -58,8 +62,8 @@ export const getIrrigationPrescriptions = async ({
   return PRESCRIPTION_CONFIG.map(({ id, recommendedDate }) => ({
     id,
     location_id: locations[0].location_id,
-    management_plan_id: undefined,
-    recommended_start_datetime: recommendedDate.toISOString(),
+    management_plan_id: null,
+    recommended_start_date: recommendedDate,
   }));
 };
 

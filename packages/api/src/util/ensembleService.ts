@@ -159,7 +159,10 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
     irrigationPrescription.location_id,
   );
   if (!prescriptionFarmRecord) {
-    throw customError(`location_id on IP ${irrigationPrescriptionId} does not exist`, 404);
+    throw customError(
+      `location_id on IP ${irrigationPrescriptionId} does not exist or has been deleted`,
+      404,
+    );
   }
   if (prescriptionFarmRecord.farm_id !== farm_id) {
     throw customError(

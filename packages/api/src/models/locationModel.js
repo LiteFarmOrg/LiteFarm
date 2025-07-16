@@ -284,15 +284,20 @@ class Location extends baseModel {
   }
 
   /**
-   * Get the farm_id for a specified location
+   * Get the farm_id for a specified (non-deleted) location
    * @param {string} location_id - The location to check
    * @param {Knex.Transaction} [trx] - Optional transaction object
    * @static
    * @async
-   * @returns {Promise<{farm_id: string}|undefined>} Resolves to an object with `farm_id` if found, or `undefined` otherwise
+   * @returns {Promise<{farm_id: string}|undefined>}
+   *   Resolves to `{ farm_id }` if the location exists and is not deleted, otherwise `undefined`.
    */
   static async getFarmIdByLocationId(location_id, trx) {
-    return Location.query(trx).select('farm_id').where('location_id', location_id).first();
+    return Location.query(trx)
+      .select('farm_id')
+      .where('location_id', location_id)
+      .whereNotDeleted()
+      .first();
   }
 }
 

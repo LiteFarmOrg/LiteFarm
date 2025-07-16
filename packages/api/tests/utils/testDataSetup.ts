@@ -125,3 +125,25 @@ export async function setupManagementPlans({ farm, field }: { farm: Farm; field:
     seedManagementPlan,
   };
 }
+
+/**
+ * Creates a field for an existing farm and returns the location with field data
+ */
+export async function createField(farm: Farm) {
+  const [location] = await mocks.locationFactory({ promisedFarm: Promise.resolve([farm]) });
+
+  await mocks.fieldFactory({
+    promisedLocation: Promise.resolve([location]),
+  });
+
+  const field = await LocationModel
+    /* @ts-expect-error don't know how to fix */
+    .query()
+    .context({ showHidden: true })
+    .whereNotDeleted()
+    .findById(location.location_id).withGraphFetched(`[
+      figure.[area], field
+    ]`);
+
+  return field;
+}

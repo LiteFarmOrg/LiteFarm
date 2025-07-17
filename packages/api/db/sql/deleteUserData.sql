@@ -31,6 +31,7 @@ DECLARE
     target_user_id VARCHAR := 'user_id_here'; -- REPLACE WITH ACTUAL USER ID
     target_farm_id UUID;
     location_ids UUID[];
+    figure_ids UUID[];
     task_ids INTEGER[];
     management_plan_group_ids UUID[];
     farm_record RECORD;
@@ -74,11 +75,6 @@ BEGIN
         LOOP
             target_farm_id := farm_record.farm_id;
             RAISE NOTICE 'Deleting data for farm_id: %', target_farm_id;
-            
-            -- Get all location_ids associated with this farm
-            SELECT array_agg(location_id) INTO location_ids
-            FROM "location"
-            WHERE farm_id = target_farm_id;
 
             -- Get all task_ids associated with this far
             WITH farm_tasks AS (
@@ -285,9 +281,28 @@ BEGIN
             DELETE FROM "crop_variety" WHERE farm_id = target_farm_id;
             DELETE FROM "crop" WHERE farm_id = target_farm_id;
 
+            -- Get all location_ids associated with this farm
+            SELECT array_agg(location_id) INTO location_ids
+            FROM "location"
+            WHERE farm_id = target_farm_id;
+
             -- Delete location data
             IF location_ids IS NOT NULL AND array_length(location_ids, 1) > 0 THEN
+                -- Get all figure IDs associated with these locations
+                SELECT array_agg(figure_id) INTO figure_ids
+                FROM "figure" 
+                WHERE location_id IN (SELECT UNNEST(location_ids));
+                
+                -- Delete geometry data from child tables
+                DELETE FROM "area" WHERE figure_id = ANY(figure_ids);
+                DELETE FROM "line" WHERE figure_id = ANY(figure_ids);
+                DELETE FROM "point" WHERE figure_id = ANY(figure_ids);
+                
+                -- Now safe to delete the figures themselves
                 DELETE FROM "figure" WHERE location_id IN (SELECT UNNEST(location_ids));
+                
+                -- Then delete from the location type tables
+                DELETE FROM "field" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "field" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "garden" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "gate" WHERE location_id IN (SELECT UNNEST(location_ids));
@@ -299,7 +314,16 @@ BEGIN
                 DELETE FROM "farm_site_boundary" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "natural_area" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "surface_water" WHERE location_id IN (SELECT UNNEST(location_ids));
+
+                -- Update farm to remove farm_default_initial_location_id reference
+                -- (Cicular reference between these two tables)
+                UPDATE "farm" 
+                SET default_initial_location_id = NULL 
+                WHERE farm_id = target_farm_id;
+
                 DELETE FROM "organic_history" WHERE location_id IN (SELECT UNNEST(location_ids));
+
+                -- Finally delete the locations
                 DELETE FROM "location" WHERE farm_id = target_farm_id;
             END IF;
             

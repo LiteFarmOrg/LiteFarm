@@ -76,7 +76,7 @@ export const getAddonPartnerIrrigationPrescriptions = async (
       }
 
       // Filter by farm_id
-      // (Temporarily using model method; please replace with direct filtering on farm_id when available)
+      // (Temporarily using model method; please replace with direct filtering on farm_id when available. At that time, a different method to filter out deleted locations will also be needed.)
       const irrigationPrescriptionsForFarm = [];
       for (const irrigationPrescription of data) {
         const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(

@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import groupBy from 'lodash.groupby';
 import UserFarmModel from '../models/userFarmModel.js';
-
 import TaskModel from '../models/taskModel.js';
 import LocationModel from '../models/locationModel.js';
 import NotificationModel from '../models/notificationModel.js';
@@ -132,10 +132,15 @@ const timeNotificationController = {
 
       let notificationsSent = 0;
 
-      const latestIrrigationPrescription = farmIrrigationPrescriptions.at(-1);
+      // Notify on the latest irrigation prescription for each location
+      const prescriptionsByLocation = groupBy(
+        farmIrrigationPrescriptions,
+        ({ location_id }) => location_id,
+      );
 
-      if (latestIrrigationPrescription) {
-        const { id: irrigation_prescription_id } = latestIrrigationPrescription;
+      for (const locationId in prescriptionsByLocation) {
+        const latestPrescription = prescriptionsByLocation[locationId].at(-1);
+        const { id: irrigation_prescription_id } = latestPrescription;
 
         const previousNotification = await NotificationModel.query()
           .where('farm_id', farm_id)

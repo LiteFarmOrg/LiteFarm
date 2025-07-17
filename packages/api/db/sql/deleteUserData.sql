@@ -106,6 +106,26 @@ BEGIN
                 WHERE cv.farm_id = target_farm_id
                 
                 UNION
+
+                -- Tasks associated via transplant_task's planting_management_plan references
+                SELECT tt.task_id
+                FROM "transplant_task" tt
+                JOIN "planting_management_plan" pmp ON tt.planting_management_plan_id = pmp.planting_management_plan_id
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+
+                UNION
+
+                -- Tasks associated via transplant_task's prev_planting_management_plan references
+                SELECT tt.task_id
+                FROM "transplant_task" tt
+                JOIN "planting_management_plan" pmp ON tt.prev_planting_management_plan_id = pmp.planting_management_plan_id
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+
+                UNION
                 
                 -- Tasks associated with animals
                 SELECT tar.task_id

@@ -31,6 +31,7 @@ DECLARE
     target_user_id VARCHAR := 'user_id_here'; -- REPLACE WITH ACTUAL USER ID
     target_farm_id UUID;
     location_ids UUID[];
+    task_ids INTEGER[];
     farm_record RECORD;
     farm_count INTEGER;
     multi_user_farms TEXT := '';
@@ -78,6 +79,95 @@ BEGIN
             FROM "location"
             WHERE farm_id = target_farm_id;
 
+            -- Get all task_ids associated with this far
+            WITH farm_tasks AS (
+                -- Tasks associated via task_type
+                SELECT t.task_id
+                FROM "task" t
+                JOIN "task_type" tt ON t.task_type_id = tt.task_type_id
+                WHERE tt.farm_id = target_farm_id
+                
+                UNION
+                
+                -- Tasks associated via locations
+                SELECT lt.task_id
+                FROM "location_tasks" lt
+                JOIN "location" l ON lt.location_id = l.location_id
+                WHERE l.farm_id = target_farm_id
+                
+                UNION
+                
+                -- Tasks associated via management plans and crop varieties
+                SELECT mt.task_id
+                FROM "management_tasks" mt
+                JOIN "planting_management_plan" pmp ON mt.planting_management_plan_id = pmp.planting_management_plan_id
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+                
+                UNION
+                
+                -- Tasks associated with animals
+                SELECT tar.task_id
+                FROM "task_animal_relationship" tar
+                JOIN "animal" a ON tar.animal_id = a.id
+                WHERE a.farm_id = target_farm_id
+                
+                UNION
+                
+                -- Tasks associated with animal batches
+                SELECT tabr.task_id
+                FROM "task_animal_batch_relationship" tabr
+                JOIN "animal_batch" ab ON tabr.animal_batch_id = ab.id
+                WHERE ab.farm_id = target_farm_id
+            )
+            SELECT array_agg(task_id) INTO task_ids FROM farm_tasks;
+
+            IF task_ids IS NOT NULL THEN
+
+                DELETE FROM "location_tasks" WHERE task_id = ANY(task_ids);
+
+                -- Delete task products and their relationships
+                DELETE FROM "soil_amendment_task_products_purpose_relationship" WHERE task_products_id IN (
+                    SELECT id FROM "soil_amendment_task_products" WHERE task_id = ANY(task_ids));
+                DELETE FROM "soil_amendment_task_products" WHERE task_id = ANY(task_ids);
+
+                -- Delete specialized task types 
+                DELETE FROM "field_work_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "harvest_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "harvest_use" WHERE task_id = ANY(task_ids);
+                DELETE FROM "irrigation_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "scouting_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "pest_control_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "soil_amendment_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "soil_sample_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "cleaning_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "plant_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "transplant_task" WHERE task_id = ANY(task_ids);
+
+                -- Delete animal movement tasks and their relationships
+                DELETE FROM "animal_movement_task_purpose_relationship" WHERE task_id = ANY(task_ids);
+                DELETE FROM "animal_movement_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "task_animal_relationship" WHERE task_id = ANY(task_ids);
+                DELETE FROM "task_animal_batch_relationship" WHERE task_id = ANY(task_ids);
+
+                -- Legacy task types
+                DELETE FROM "soil_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "maintenance_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "transport_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "social_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "sale_task" WHERE task_id = ANY(task_ids);
+                DELETE FROM "wash_and_pack_task" WHERE task_id = ANY(task_ids);
+
+                -- Delete management task relationships
+                DELETE FROM "management_tasks" WHERE task_id = ANY(task_ids);
+
+                -- Finally delete the tasks themselves
+                DELETE FROM "task" WHERE task_id = ANY(task_ids);
+            
+            END IF;
+            --------------------------------
+
             -- Delete animal related data
             DELETE FROM "animal_batch_group_relationship" WHERE animal_batch_id IN (
                 SELECT id FROM "animal_batch" WHERE farm_id = target_farm_id
@@ -89,36 +179,6 @@ BEGIN
             DELETE FROM "animal" WHERE farm_id = target_farm_id;
             DELETE FROM "custom_animal_breed" WHERE farm_id = target_farm_id;
             DELETE FROM "custom_animal_type" WHERE farm_id = target_farm_id;
-            
-            -- Delete task-related data
-            DELETE FROM "location_tasks" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "field_work_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "harvest_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "harvest_use" WHERE harvest_task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id AND type = 'harvest'
-            );
-            DELETE FROM "irrigation_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "scouting_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "pest_control_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "soil_amendment_task" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "soil_amendment_task_products" WHERE task_id IN (
-                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-            );
-            DELETE FROM "task" WHERE farm_id = target_farm_id;
 
             -- Delete nomination data
             DELETE FROM "nomination_crop" WHERE nomination_id IN (
@@ -208,6 +268,9 @@ BEGIN
             
             -- Delete farm documents
             DELETE FROM "document" WHERE farm_id = target_farm_id;
+
+            -- Delete products
+            DELETE FROM "product" WHERE farm_id = target_farm_id;
             
             -- Delete financial data
             DELETE FROM "sale" WHERE farm_id = target_farm_id;
@@ -245,12 +308,14 @@ BEGIN
     -- Clean up user data not dependent on farm
     DELETE FROM "userLog" WHERE user_id = target_user_id;
     DELETE FROM "showedSpotlight" WHERE user_id = target_user_id;
-    DELETE FROM "emailToken" WHERE user_id = target_user_id;
     DELETE FROM "password" WHERE user_id = target_user_id;
     DELETE FROM "release_badge" WHERE user_id = target_user_id;
     DELETE FROM "notification_user" WHERE user_id = target_user_id;
     DELETE FROM "supportTicket" WHERE created_by_user_id = target_user_id;
     
+    -- emailToken (invitation) records cannot be deleted without a code change in application; however, single-user farms will not have any email tokens
+    DELETE FROM "emailToken" WHERE user_id = target_user_id;
+
     -- Finally, delete the user
     DELETE FROM "users" WHERE user_id = target_user_id;
 

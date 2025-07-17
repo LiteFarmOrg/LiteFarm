@@ -143,11 +143,21 @@ BEGIN
             IF task_ids IS NOT NULL THEN
 
                 DELETE FROM "location_tasks" WHERE task_id = ANY(task_ids);
+                DELETE FROM "task_document" WHERE task_id = ANY(task_ids);
+
+                -- Delete animal tasks and their relationships
+                DELETE FROM "animal_movement_task_purpose_relationship" WHERE task_id = ANY(task_ids);
+                DELETE FROM "task_animal_relationship" WHERE task_id = ANY(task_ids);
+                DELETE FROM "task_animal_batch_relationship" WHERE task_id = ANY(task_ids);
 
                 -- Delete task products and their relationships
                 DELETE FROM "soil_amendment_task_products_purpose_relationship" WHERE task_products_id IN (
                     SELECT id FROM "soil_amendment_task_products" WHERE task_id = ANY(task_ids));
                 DELETE FROM "soil_amendment_task_products" WHERE task_id = ANY(task_ids);
+
+                DELETE FROM "irrigation_type" WHERE farm_id = target_farm_id;
+                DELETE FROM "harvest_use_type" WHERE farm_id = target_farm_id;
+                DELETE FROM "field_work_type" WHERE farm_id = target_farm_id;
 
                 -- Delete specialized task types 
                 DELETE FROM "field_work_task" WHERE task_id = ANY(task_ids);
@@ -161,12 +171,7 @@ BEGIN
                 DELETE FROM "cleaning_task" WHERE task_id = ANY(task_ids);
                 DELETE FROM "plant_task" WHERE task_id = ANY(task_ids);
                 DELETE FROM "transplant_task" WHERE task_id = ANY(task_ids);
-
-                -- Delete animal movement tasks and their relationships
-                DELETE FROM "animal_movement_task_purpose_relationship" WHERE task_id = ANY(task_ids);
                 DELETE FROM "animal_movement_task" WHERE task_id = ANY(task_ids);
-                DELETE FROM "task_animal_relationship" WHERE task_id = ANY(task_ids);
-                DELETE FROM "task_animal_batch_relationship" WHERE task_id = ANY(task_ids);
 
                 -- Legacy task types
                 DELETE FROM "soil_task" WHERE task_id = ANY(task_ids);
@@ -277,8 +282,17 @@ BEGIN
             DELETE FROM "crop_variety_sale" WHERE crop_variety_id IN (
                 SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
             );
-
             DELETE FROM "crop_variety" WHERE farm_id = target_farm_id;
+
+            -- Delete legacy crop data
+            DELETE FROM "waterBalance" WHERE crop_id IN (
+                SELECT crop_id FROM "crop" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "waterBalanceSchedule" WHERE farm_id = target_farm_id;
+            DELETE FROM "cropDisease" WHERE 
+                disease_id IN (SELECT disease_id FROM "disease" WHERE farm_id = target_farm_id)
+                OR crop_id IN (SELECT crop_id FROM "crop" WHERE farm_id = target_farm_id);
+
             DELETE FROM "crop" WHERE farm_id = target_farm_id;
 
             -- Get all location_ids associated with this farm
@@ -314,6 +328,10 @@ BEGIN
                 DELETE FROM "farm_site_boundary" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "natural_area" WHERE location_id IN (SELECT UNNEST(location_ids));
                 DELETE FROM "surface_water" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "residence" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "greenhouse" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "ceremonial_area" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "pin" WHERE location_id IN (SELECT UNNEST(location_ids));
 
                 -- Update farm to remove farm_default_initial_location_id reference
                 -- (Cicular reference between these two tables)
@@ -334,11 +352,14 @@ BEGIN
             DELETE FROM "document" WHERE farm_id = target_farm_id;
 
             -- Delete products
+            DELETE FROM "soil_amendment_product" WHERE product_id IN (
+                SELECT product_id FROM "product" WHERE farm_id = target_farm_id
+            );
             DELETE FROM "product" WHERE farm_id = target_farm_id;
             
             -- Delete financial data
             DELETE FROM "sale" WHERE farm_id = target_farm_id;
-            DELETE FROM "expense" WHERE farm_id = target_farm_id;
+            DELETE FROM "farmExpense" WHERE farm_id = target_farm_id;
             DELETE FROM "farmExpenseType" WHERE farm_id = target_farm_id;
             DELETE FROM "revenue_type" WHERE farm_id = target_farm_id;
             
@@ -349,18 +370,24 @@ BEGIN
             DELETE FROM "shift" WHERE farm_id = target_farm_id;
             DELETE FROM "price" WHERE farm_id = target_farm_id;
             DELETE FROM "yield" WHERE farm_id = target_farm_id;
+            DELETE FROM "disease" WHERE farm_id = target_farm_id;
             
             -- Delete certifier survey
             DELETE FROM "organicCertifierSurvey" WHERE farm_id = target_farm_id;
-            
+
+            -- Delete notification data
+            DELETE FROM "notification_user" WHERE notification_id IN (
+                SELECT notification_id FROM "notification" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "notification" WHERE farm_id = target_farm_id;
+
             -- Delete remaining custom data
-            DELETE FROM "taskType" WHERE farm_id = target_farm_id;
+            DELETE FROM "task_type" WHERE farm_id = target_farm_id;
             DELETE FROM "fertilizer" WHERE farm_id = target_farm_id;
             DELETE FROM "pesticide" WHERE farm_id = target_farm_id;
             DELETE FROM "userLog" WHERE farm_id = target_farm_id;
-            DELETE FROM "notification" WHERE farm_id = target_farm_id;
-            DELETE FROM "weather_station" WHERE farm_id = target_farm_id;
-            
+            DELETE FROM "finance_report" WHERE farm_id = target_farm_id;
+
             -- Delete userFarm relationships
             DELETE FROM "userFarm" WHERE farm_id = target_farm_id;
             
@@ -374,7 +401,6 @@ BEGIN
     DELETE FROM "showedSpotlight" WHERE user_id = target_user_id;
     DELETE FROM "password" WHERE user_id = target_user_id;
     DELETE FROM "release_badge" WHERE user_id = target_user_id;
-    DELETE FROM "notification_user" WHERE user_id = target_user_id;
     DELETE FROM "supportTicket" WHERE created_by_user_id = target_user_id;
     
     -- emailToken (invitation) records cannot be deleted without a code change in application; however, single-user farms will not have any email tokens

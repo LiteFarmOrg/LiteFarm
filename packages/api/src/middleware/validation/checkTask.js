@@ -122,7 +122,7 @@ export function checkCompleteTask(taskType) {
       }
 
       // https://expressjs.com/en/api.html#res.locals
-      res.locals.isReCompleting = !!checkTaskStatus.complete_date;
+      res.locals.isRecompleting = !!checkTaskStatus.complete_date;
 
       if (checkTaskStatus.complete_date && taskType === 'animal_movement_task') {
         return res

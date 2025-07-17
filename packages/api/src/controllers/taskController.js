@@ -802,7 +802,7 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const task_id = parseInt(req.params.task_id);
-        const { isReCompleting } = res.locals;
+        const { isRecompleting } = res.locals;
 
         if (await baseController.isDeleted(null, TaskModel, { task_id })) {
           return res.status(400).send('Task has been deleted');
@@ -823,7 +823,7 @@ const taskController = {
           data = this.formatAnimalAndBatchIds(data);
         }
 
-        if (isReCompleting) {
+        if (isRecompleting) {
           data.revision_date = new Date().toISOString();
           data.revised_by_user_id = assignee_user_id;
         }

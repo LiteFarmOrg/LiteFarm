@@ -60,20 +60,8 @@ export async function setupFarmEnvironment(role: number = 1) {
     user = nonOwnerUser;
   }
 
-  const [location] = await mocks.locationFactory({ promisedFarm: Promise.resolve([farm]) });
+  const field = await createField(farm);
 
-  await mocks.fieldFactory({
-    promisedLocation: Promise.resolve([location]),
-  });
-
-  const field = await LocationModel
-    /* @ts-expect-error don't know how to fix */
-    .query()
-    .context({ showHidden: true })
-    .whereNotDeleted()
-    .findById(location.location_id).withGraphFetched(`[
-        figure.[area], field
-      ]`);
   return { owner, farm, field, user };
 }
 

@@ -55,11 +55,11 @@ BEGIN
         LOOP
             IF farm_record.user_count > 1 THEN
                 has_multi_user_farm := TRUE;
-                multi_user_farms := multi_user_farms || farm_record.farm_name || ' (ID: ' || farm_record.farm_id || '), ';
+                multi_user_farms := multi_user_farms || farm_record.farm_id || ', ';
             END IF;
         END LOOP;
         
-        -- If any farm has multiple users, abort the entire operation for safety
+        -- If any farm has multiple users, abort the entire operation
         IF has_multi_user_farm THEN
             RAISE EXCEPTION 'User belongs to farms with multiple users: %. This script only handles users who are sole owners of their farms. Aborting.', rtrim(multi_user_farms, ', ');
         END IF;

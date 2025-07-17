@@ -31,194 +31,215 @@ DECLARE
     target_user_id VARCHAR := 'user_id_here'; -- REPLACE WITH ACTUAL USER ID
     target_farm_id UUID;
     location_ids UUID[];
+    farm_record RECORD;
+    farm_count INTEGER;
+    multi_user_farms TEXT := '';
+    has_multi_user_farm BOOLEAN := FALSE;
 BEGIN
-    -- Get the farm_id associated with this user
-    SELECT farm_id INTO target_farm_id 
+    -- Count how many farms this user has
+    SELECT COUNT(*) INTO farm_count 
     FROM "userFarm"
-    WHERE user_id = target_user_id
-    LIMIT 1;
+    WHERE user_id = target_user_id;
 
-    -- Early check if farm exists for this user
-    IF target_farm_id IS NULL THEN
-        RAISE NOTICE 'No farm found for user_id: %. Will only delete user data.', target_user_id;
+    -- Early check if user has any farms
+    IF farm_count = 0 THEN
+        RAISE NOTICE 'No farms found for user_id: %. Will only delete user data.', target_user_id;
     ELSE
-        RAISE NOTICE 'Deleting data for farm_id: %', target_farm_id;
+        -- Check if any farms have multiple users and collect their IDs
+        FOR farm_record IN 
+            SELECT uf.farm_id, f.farm_name,
+                   (SELECT COUNT(*) FROM "userFarm" WHERE farm_id = uf.farm_id) as user_count
+            FROM "userFarm" uf
+            JOIN "farm" f ON uf.farm_id = f.farm_id
+            WHERE uf.user_id = target_user_id
+        LOOP
+            IF farm_record.user_count > 1 THEN
+                has_multi_user_farm := TRUE;
+                multi_user_farms := multi_user_farms || farm_record.farm_name || ' (ID: ' || farm_record.farm_id || '), ';
+            END IF;
+        END LOOP;
         
-        -- Check if this is the only user on the farm (to confirm full farm deletion is appropriate)
-        IF (SELECT COUNT(*) FROM "userFarm" WHERE farm_id = target_farm_id) > 1 THEN
-            RAISE EXCEPTION 'Multiple users found on farm_id: %. This script is intended only for single-user farms. Aborting.', target_farm_id;
-        END IF;
-
-        -- Get all location_ids associated with this farm
-        SELECT array_agg(location_id) INTO location_ids
-        FROM "location"
-        WHERE farm_id = target_farm_id;
-
-        -- Delete animal related data
-        DELETE FROM "animal_batch_group_relationship" WHERE animal_batch_id IN (
-            SELECT id FROM "animal_batch" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "animal_group_relationship" WHERE animal_id IN (
-            SELECT id FROM "animal" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "animal_batch" WHERE farm_id = target_farm_id;
-        DELETE FROM "animal" WHERE farm_id = target_farm_id;
-        DELETE FROM "custom_animal_breed" WHERE farm_id = target_farm_id;
-        DELETE FROM "custom_animal_type" WHERE farm_id = target_farm_id;
-    
-        -- Delete task-related data (not nullifying references since we're deleting entire farm)
-        DELETE FROM "location_tasks" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "field_work_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "harvest_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "harvest_use" WHERE harvest_task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id AND type = 'harvest'
-        );
-        DELETE FROM "irrigation_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "scouting_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "pest_control_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "soil_amendment_task" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "soil_amendment_task_products" WHERE task_id IN (
-            SELECT task_id FROM "task" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "task" WHERE farm_id = target_farm_id;
-
-        -- Delete nomination data
-        DELETE FROM "nomination_crop" WHERE nomination_id IN (
-            SELECT nomination_id FROM "nomination" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "nomination_status" WHERE nomination_id IN (
-            SELECT nomination_id FROM "nomination" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "nomination" WHERE farm_id = target_farm_id;
-
-        -- Delete planting management plans and related tables
-        DELETE FROM "management_tasks" WHERE planting_management_plan_id IN (
-            SELECT pmp.planting_management_plan_id 
-            FROM "planting_management_plan" pmp
-            JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
-            JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-            WHERE cv.farm_id = target_farm_id
-        );
-        DELETE FROM "container_method" WHERE planting_management_plan_id IN (
-            SELECT pmp.planting_management_plan_id 
-            FROM "planting_management_plan" pmp
-            JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
-            JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-            WHERE cv.farm_id = target_farm_id
-        );
-        DELETE FROM "broadcast_method" WHERE planting_management_plan_id IN (
-            SELECT pmp.planting_management_plan_id 
-            FROM "planting_management_plan" pmp
-            JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
-            JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-            WHERE cv.farm_id = target_farm_id
-        );
-        DELETE FROM "bed_method" WHERE planting_management_plan_id IN (
-            SELECT pmp.planting_management_plan_id 
-            FROM "planting_management_plan" pmp
-            JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
-            JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-            WHERE cv.farm_id = target_farm_id
-        );
-        DELETE FROM "row_method" WHERE planting_management_plan_id IN (
-            SELECT pmp.planting_management_plan_id 
-            FROM "planting_management_plan" pmp
-            JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
-            JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-            WHERE cv.farm_id = target_farm_id
-        );
-        DELETE FROM "planting_management_plan" WHERE management_plan_id IN (
-            SELECT management_plan_id FROM "management_plan"
-            WHERE crop_variety_id IN (
-                SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
-            )
-        );
-        
-        -- Delete farm crops, crop varieties, management plans, and related data
-        DELETE FROM "management_plan_group" WHERE management_plan_id IN (
-            SELECT management_plan_id FROM "management_plan" 
-            WHERE crop_variety_id IN (
-                SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
-            )
-        );
-        DELETE FROM "management_plan" WHERE crop_variety_id IN (
-            SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "crop_variety" WHERE farm_id = target_farm_id;
-        DELETE FROM "crop" WHERE farm_id = target_farm_id;
-
-        -- Delete location data
-        -- UNNEST converts array to rows for use in IN clauses
-        IF location_ids IS NOT NULL AND array_length(location_ids, 1) > 0 THEN
-            DELETE FROM "figure" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "field" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "garden" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "gate" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "water_valve" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "buffer_zone" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "watercourse" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "fence" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "barn" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "natural_area" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "surface_water" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "organic_history" WHERE location_id IN (SELECT UNNEST(location_ids));
-            DELETE FROM "location" WHERE farm_id = target_farm_id;
+        -- If any farm has multiple users, abort the entire operation for safety
+        IF has_multi_user_farm THEN
+            RAISE EXCEPTION 'User belongs to farms with multiple users: %. This script only handles users who are sole owners of their farms. Aborting.', rtrim(multi_user_farms, ', ');
         END IF;
         
-        -- Delete farm site boundary (handled separately as it's not part of the location table)
-        DELETE FROM "farm_site_boundary" WHERE farm_id = target_farm_id;
-        
-        -- Delete farm integrations
-        DELETE FROM "farm_addon" WHERE farm_id = target_farm_id;
-        
-        -- Delete farm documents (note: this only deletes database references, not the actual files)
-        DELETE FROM "document" WHERE farm_id = target_farm_id;
-        
-        -- Delete financial data
-        DELETE FROM "sale" WHERE farm_id = target_farm_id;
-        DELETE FROM "expense" WHERE farm_id = target_farm_id;
-        DELETE FROM "farmExpenseType" WHERE farm_id = target_farm_id;
-        DELETE FROM "revenue_type" WHERE farm_id = target_farm_id;
-        
-        -- Delete legacy tables (not likely to be populated)
-        DELETE FROM "shiftTask" WHERE shift_id IN (
-            SELECT shift_id FROM "shift" WHERE farm_id = target_farm_id
-        );
-        DELETE FROM "shift" WHERE farm_id = target_farm_id;
-        DELETE FROM "price" WHERE farm_id = target_farm_id;
-        DELETE FROM "yield" WHERE farm_id = target_farm_id;
-        
-        -- Delete certifier survey
-        DELETE FROM "organicCertifierSurvey" WHERE farm_id = target_farm_id;
-        
-        -- Delete any custom data
-        DELETE FROM "taskType" WHERE farm_id = target_farm_id;
-        DELETE FROM "fertilizer" WHERE farm_id = target_farm_id;
-        DELETE FROM "pesticide" WHERE farm_id = target_farm_id;
-        DELETE FROM "userLog" WHERE farm_id = target_farm_id;
-        DELETE FROM "notification" WHERE farm_id = target_farm_id;
-        DELETE FROM "weather_station" WHERE farm_id = target_farm_id;
+        -- Process each farm (now we know they're all single-user farms)
+        FOR farm_record IN 
+            SELECT uf.farm_id
+            FROM "userFarm" uf
+            WHERE uf.user_id = target_user_id
+        LOOP
+            target_farm_id := farm_record.farm_id;
+            RAISE NOTICE 'Deleting data for farm_id: %', target_farm_id;
+            
+            -- Get all location_ids associated with this farm
+            SELECT array_agg(location_id) INTO location_ids
+            FROM "location"
+            WHERE farm_id = target_farm_id;
 
-        
-        -- Delete userFarm relationships
-        DELETE FROM "userFarm" WHERE farm_id = target_farm_id;
-        
-        -- Finally delete the farm
-        DELETE FROM "farm" WHERE farm_id = target_farm_id;
+            -- Delete animal related data
+            DELETE FROM "animal_batch_group_relationship" WHERE animal_batch_id IN (
+                SELECT id FROM "animal_batch" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "animal_group_relationship" WHERE animal_id IN (
+                SELECT id FROM "animal" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "animal_batch" WHERE farm_id = target_farm_id;
+            DELETE FROM "animal" WHERE farm_id = target_farm_id;
+            DELETE FROM "custom_animal_breed" WHERE farm_id = target_farm_id;
+            DELETE FROM "custom_animal_type" WHERE farm_id = target_farm_id;
+            
+            -- Delete task-related data
+            DELETE FROM "location_tasks" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "field_work_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "harvest_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "harvest_use" WHERE harvest_task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id AND type = 'harvest'
+            );
+            DELETE FROM "irrigation_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "scouting_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "pest_control_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "soil_amendment_task" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "soil_amendment_task_products" WHERE task_id IN (
+                SELECT task_id FROM "task" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "task" WHERE farm_id = target_farm_id;
+
+            -- Delete nomination data
+            DELETE FROM "nomination_crop" WHERE nomination_id IN (
+                SELECT nomination_id FROM "nomination" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "nomination_status" WHERE nomination_id IN (
+                SELECT nomination_id FROM "nomination" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "nomination" WHERE farm_id = target_farm_id;
+
+            -- Delete planting management plans and related tables
+            DELETE FROM "management_tasks" WHERE planting_management_plan_id IN (
+                SELECT pmp.planting_management_plan_id 
+                FROM "planting_management_plan" pmp
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+            DELETE FROM "container_method" WHERE planting_management_plan_id IN (
+                SELECT pmp.planting_management_plan_id 
+                FROM "planting_management_plan" pmp
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+            DELETE FROM "broadcast_method" WHERE planting_management_plan_id IN (
+                SELECT pmp.planting_management_plan_id 
+                FROM "planting_management_plan" pmp
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+            DELETE FROM "bed_method" WHERE planting_management_plan_id IN (
+                SELECT pmp.planting_management_plan_id 
+                FROM "planting_management_plan" pmp
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+            DELETE FROM "row_method" WHERE planting_management_plan_id IN (
+                SELECT pmp.planting_management_plan_id 
+                FROM "planting_management_plan" pmp
+                JOIN "management_plan" mp ON pmp.management_plan_id = mp.management_plan_id
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+            DELETE FROM "planting_management_plan" WHERE management_plan_id IN (
+                SELECT management_plan_id FROM "management_plan"
+                WHERE crop_variety_id IN (
+                    SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
+                )
+            );
+            
+            -- Delete farm crops, crop varieties, management plans, and related data
+            DELETE FROM "management_plan_group" WHERE management_plan_id IN (
+                SELECT management_plan_id FROM "management_plan" 
+                WHERE crop_variety_id IN (
+                    SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
+                )
+            );
+            DELETE FROM "management_plan" WHERE crop_variety_id IN (
+                SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "crop_variety" WHERE farm_id = target_farm_id;
+            DELETE FROM "crop" WHERE farm_id = target_farm_id;
+
+            -- Delete location data
+            IF location_ids IS NOT NULL AND array_length(location_ids, 1) > 0 THEN
+                DELETE FROM "figure" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "field" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "garden" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "gate" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "water_valve" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "buffer_zone" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "watercourse" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "fence" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "barn" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "farm_site_boundary" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "natural_area" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "surface_water" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "organic_history" WHERE location_id IN (SELECT UNNEST(location_ids));
+                DELETE FROM "location" WHERE farm_id = target_farm_id;
+            END IF;
+            
+            -- Delete farm integrations
+            DELETE FROM "farm_addon" WHERE farm_id = target_farm_id;
+            
+            -- Delete farm documents
+            DELETE FROM "document" WHERE farm_id = target_farm_id;
+            
+            -- Delete financial data
+            DELETE FROM "sale" WHERE farm_id = target_farm_id;
+            DELETE FROM "expense" WHERE farm_id = target_farm_id;
+            DELETE FROM "farmExpenseType" WHERE farm_id = target_farm_id;
+            DELETE FROM "revenue_type" WHERE farm_id = target_farm_id;
+            
+            -- Delete data from legacy tables
+            DELETE FROM "shiftTask" WHERE shift_id IN (
+                SELECT shift_id FROM "shift" WHERE farm_id = target_farm_id
+            );
+            DELETE FROM "shift" WHERE farm_id = target_farm_id;
+            DELETE FROM "price" WHERE farm_id = target_farm_id;
+            DELETE FROM "yield" WHERE farm_id = target_farm_id;
+            
+            -- Delete certifier survey
+            DELETE FROM "organicCertifierSurvey" WHERE farm_id = target_farm_id;
+            
+            -- Delete remaining custom data
+            DELETE FROM "taskType" WHERE farm_id = target_farm_id;
+            DELETE FROM "fertilizer" WHERE farm_id = target_farm_id;
+            DELETE FROM "pesticide" WHERE farm_id = target_farm_id;
+            DELETE FROM "userLog" WHERE farm_id = target_farm_id;
+            DELETE FROM "notification" WHERE farm_id = target_farm_id;
+            DELETE FROM "weather_station" WHERE farm_id = target_farm_id;
+            
+            -- Delete userFarm relationships
+            DELETE FROM "userFarm" WHERE farm_id = target_farm_id;
+            
+            -- Finally delete the farm
+            DELETE FROM "farm" WHERE farm_id = target_farm_id;
+        END LOOP;
     END IF;
 
     -- Clean up user data not dependent on farm

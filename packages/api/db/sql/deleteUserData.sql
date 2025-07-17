@@ -263,12 +263,24 @@ BEGIN
             )
             SELECT array_agg(management_plan_group_id) INTO management_plan_group_ids FROM farm_management_plan_groups;
 
+            -- Delete crop management plans first
+            DELETE FROM "crop_management_plan" WHERE management_plan_id IN (
+                SELECT mp.management_plan_id 
+                FROM "management_plan" mp
+                JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+                WHERE cv.farm_id = target_farm_id
+            );
+
             DELETE FROM "management_plan" WHERE crop_variety_id IN (
                 SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
             );
             IF management_plan_group_ids IS NOT NULL THEN
                 DELETE FROM "management_plan_group" WHERE management_plan_group_id = ANY(management_plan_group_ids);
             END IF;
+
+            DELETE FROM "crop_variety_sale" WHERE crop_variety_id IN (
+                SELECT crop_variety_id FROM "crop_variety" WHERE farm_id = target_farm_id
+            );
 
             DELETE FROM "crop_variety" WHERE farm_id = target_farm_id;
             DELETE FROM "crop" WHERE farm_id = target_farm_id;

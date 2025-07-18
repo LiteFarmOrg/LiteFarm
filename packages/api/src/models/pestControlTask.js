@@ -72,6 +72,11 @@ class PestControlTask extends Model {
         json.weight = null;
         json.weight_unit = null;
       }
+    } else if (json.product_quantity === null) {
+      json.volume = null;
+      json.volume_unit = null;
+      json.weight = null;
+      json.weight_unit = null;
     }
     delete json.product_quantity;
     delete json.product_quantity_unit;

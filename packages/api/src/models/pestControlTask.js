@@ -95,8 +95,8 @@ class PestControlTask extends Model {
         product_id: { type: ['integer', 'null'] },
         product_quantity: { type: ['number', 'null'] },
         product_quantity_unit: {
-          type: 'string',
-          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
+          type: ['string', 'null'],
+          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz', null],
         },
         other_method: { type: ['string', 'null'] },
         pest_target: { type: ['string', 'null'] },

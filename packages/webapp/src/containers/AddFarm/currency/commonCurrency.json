@@ -1061,13 +1061,13 @@
     "code": "ZAR",
     "name_plural": "South African rand"
   },
-  "ZMK": {
+  "ZMW": {
     "symbol": "ZK",
     "name": "Zambian Kwacha",
     "symbol_native": "ZK",
     "decimal_digits": 0,
     "rounding": 0,
-    "code": "ZMK",
+    "code": "ZMW",
     "name_plural": "Zambian kwachas"
   }
 }

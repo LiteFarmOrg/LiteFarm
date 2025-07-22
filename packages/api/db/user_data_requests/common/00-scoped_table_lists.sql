@@ -15,6 +15,15 @@
 
 -- @description: Defines all tables queried by export and delete scripts
 
+-- @description returns tables related to task_products_id
+CREATE OR REPLACE FUNCTION get_task_product_tables()
+  RETURNS TABLE(table_name TEXT)
+  LANGUAGE sql AS $$
+    SELECT unnest(ARRAY[
+      'soil_amendment_task_products_purpose_relationship'
+    ]);
+$$;
+
 -- @description returns tables related to task_id
 CREATE OR REPLACE FUNCTION get_task_tables()
   RETURNS TABLE(table_name TEXT) 
@@ -55,12 +64,56 @@ CREATE OR REPLACE FUNCTION get_task_tables()
     ]);
 $$;
 
--- @description returns tables related to task_products_id
-CREATE OR REPLACE FUNCTION get_task_product_tables()
+-- @description returns tables related to planting_management_plan_id
+CREATE OR REPLACE FUNCTION get_pmp_tables()
   RETURNS TABLE(table_name TEXT)
   LANGUAGE sql AS $$
     SELECT unnest(ARRAY[
-      'soil_amendment_task_products_purpose_relationship'
+      'container_method',
+      'broadcast_method',
+      'bed_method',
+      'row_method',
+      'planting_management_plan'
+    ]);
+$$;
+
+-- @description returns tables related to management_plan_id
+CREATE OR REPLACE FUNCTION get_management_plan_tables()
+  RETURNS TABLE(table_name TEXT)
+  LANGUAGE sql AS $$
+    SELECT unnest(ARRAY[
+      'crop_management_plan',
+      'management_plan'
+    ]);
+$$;
+
+-- @description returns tables related to management_plan_group_id 
+CREATE OR REPLACE FUNCTION get_mp_repetition_tables()
+  RETURNS TABLE(table_name TEXT)
+  LANGUAGE sql AS $$
+    SELECT unnest(ARRAY[
+      'management_plan_group'
+    ]);
+$$;
+
+-- @description returns tables related to animal_id
+CREATE OR REPLACE FUNCTION get_animal_tables()
+  RETURNS TABLE(table_name TEXT)
+  LANGUAGE sql AS $$
+    SELECT unnest(ARRAY[
+      'animal_use_relationship',
+      'animal_group_relationship'
+    ]);
+$$;
+
+-- @description returns tables related to animal_batch_id
+CREATE OR REPLACE FUNCTION get_animal_batch_tables()
+  RETURNS TABLE(table_name TEXT)
+  LANGUAGE sql AS $$
+    SELECT unnest(ARRAY[
+      'animal_batch_use_relationship',
+      'animal_batch_group_relationship',
+      'animal_batch_sex_detail'
     ]);
 $$;
 
@@ -118,59 +171,6 @@ CREATE OR REPLACE FUNCTION get_location_export_tables()
      WHERE table_name NOT IN (
        'animal','animal_batch'
      );
-$$;
-
--- @description returns tables related to planting_management_plan_id
-CREATE OR REPLACE FUNCTION get_pmp_tables()
-  RETURNS TABLE(table_name TEXT)
-  LANGUAGE sql AS $$
-    SELECT unnest(ARRAY[
-      'container_method',
-      'broadcast_method',
-      'bed_method',
-      'row_method',
-      'planting_management_plan'
-    ]);
-$$;
-
--- @description returns tables related to management_plan_id
-CREATE OR REPLACE FUNCTION get_management_plan_tables()
-  RETURNS TABLE(table_name TEXT)
-  LANGUAGE sql AS $$
-    SELECT unnest(ARRAY[
-      'crop_management_plan',
-      'management_plan'
-    ]);
-$$;
-
--- @description returns tables related to management_plan_group_id 
-CREATE OR REPLACE FUNCTION get_mp_repetition_tables()
-  RETURNS TABLE(table_name TEXT)
-  LANGUAGE sql AS $$
-    SELECT unnest(ARRAY[
-      'management_plan_group'
-    ]);
-$$;
-
--- @description returns tables related to animal_id
-CREATE OR REPLACE FUNCTION get_animal_tables()
-  RETURNS TABLE(table_name TEXT)
-  LANGUAGE sql AS $$
-    SELECT unnest(ARRAY[
-      'animal_use_relationship',
-      'animal_group_relationship'
-    ]);
-$$;
-
--- @description returns tables related to animal_batch_id
-CREATE OR REPLACE FUNCTION get_animal_batch_tables()
-  RETURNS TABLE(table_name TEXT)
-  LANGUAGE sql AS $$
-    SELECT unnest(ARRAY[
-      'animal_batch_use_relationship',
-      'animal_batch_group_relationship',
-      'animal_batch_sex_detail'
-    ]);
 $$;
 
 -- @description returns tables related to farm_id via a join on a secondary table

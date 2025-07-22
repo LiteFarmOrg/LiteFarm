@@ -46,136 +46,136 @@ DECLARE
   farm_data farm_data_collections;
 BEGIN
 
+SELECT 
+  COALESCE(array_agg(farm_id), ARRAY[]::UUID[])
+  INTO result.user_farm_ids
+  FROM "userFarm"
+  WHERE user_id = p_user_id;
+
+result.farms := ARRAY[]::farm_data_collections[];
+
+FOR farm_record IN
+  SELECT unnest(result.user_farm_ids) AS farm_id
+LOOP
+  farm_data.farm_id := farm_record.farm_id;
+  
+  -- crop-plan related IDs
   SELECT 
-    COALESCE(array_agg(farm_id), ARRAY[]::UUID[])
-    INTO result.user_farm_ids
-    FROM "userFarm"
-    WHERE user_id = p_user_id;
+      COALESCE(array_agg(mp.management_plan_id), ARRAY[]::INTEGER[])
+  INTO farm_data.management_plan_ids
+  FROM "management_plan" mp
+  JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
+  WHERE cv.farm_id = farm_data.farm_id;
 
-  result.farms := ARRAY[]::farm_data_collections[];
+  SELECT 
+      COALESCE(array_agg(pmp.planting_management_plan_id), ARRAY[]::UUID[])
+    INTO farm_data.pmp_ids
+  FROM "planting_management_plan" pmp
+  WHERE pmp.management_plan_id = ANY(farm_data.management_plan_ids);
 
-  FOR farm_record IN
-    SELECT unnest(result.user_farm_ids) AS farm_id
-  LOOP
-    farm_data.farm_id := farm_record.farm_id;
-    
-    -- crop-plan related IDs
-    SELECT 
-        COALESCE(array_agg(mp.management_plan_id), ARRAY[]::INTEGER[])
-    INTO farm_data.management_plan_ids
-    FROM "management_plan" mp
-    JOIN "crop_variety" cv ON mp.crop_variety_id = cv.crop_variety_id
-    WHERE cv.farm_id = farm_data.farm_id;
+  SELECT
+    COALESCE(array_agg(DISTINCT mp.management_plan_group_id), ARRAY[]::UUID[])
+  INTO farm_data.management_plan_group_ids
+  FROM management_plan mp
+  WHERE mp.management_plan_id = ANY(farm_data.management_plan_ids)
+    AND mp.management_plan_group_id IS NOT NULL;
 
-    SELECT 
-        COALESCE(array_agg(pmp.planting_management_plan_id), ARRAY[]::UUID[])
-      INTO farm_data.pmp_ids
-    FROM "planting_management_plan" pmp
-    WHERE pmp.management_plan_id = ANY(farm_data.management_plan_ids);
+  -- task IDs
+  SELECT 
+      COALESCE(array_agg(DISTINCT id), ARRAY[]::INTEGER[])
+  INTO farm_data.task_ids
+  FROM (
+      -- via task_type (custom tasks)
+      SELECT t.task_id           AS id
+      FROM "task" t
+      JOIN "task_type" tt ON t.task_type_id = tt.task_type_id
+      AND tt.farm_id = farm_record.farm_id
 
-    SELECT
-      COALESCE(array_agg(DISTINCT mp.management_plan_group_id), ARRAY[]::UUID[])
-    INTO farm_data.management_plan_group_ids
-    FROM management_plan mp
-    WHERE mp.management_plan_id = ANY(farm_data.management_plan_ids)
-      AND mp.management_plan_group_id IS NOT NULL;
+      UNION
 
-    -- task IDs
-    SELECT 
-        COALESCE(array_agg(DISTINCT id), ARRAY[]::INTEGER[])
-    INTO farm_data.task_ids
-    FROM (
-        -- via task_type (custom tasks)
-        SELECT t.task_id           AS id
-        FROM "task" t
-        JOIN "task_type" tt ON t.task_type_id = tt.task_type_id
-        AND tt.farm_id = farm_record.farm_id
+      -- via location_tasks
+      SELECT lt.task_id          AS id
+      FROM "location_tasks" lt
+      JOIN "location" l ON lt.location_id = l.location_id
+      AND l.farm_id = farm_record.farm_id
 
-        UNION
+      UNION
 
-        -- via location_tasks
-        SELECT lt.task_id          AS id
-        FROM "location_tasks" lt
-        JOIN "location" l ON lt.location_id = l.location_id
-        AND l.farm_id = farm_record.farm_id
+      -- via management_tasks + planting_manangement_plans
+      SELECT mt.task_id          AS id
+      FROM "management_tasks" mt
+      WHERE mt.planting_management_plan_id = ANY(farm_data.pmp_ids)
 
-        UNION
+      UNION
 
-        -- via management_tasks + planting_manangement_plans
-        SELECT mt.task_id          AS id
-        FROM "management_tasks" mt
-        WHERE mt.planting_management_plan_id = ANY(farm_data.pmp_ids)
+      -- via transplant_task
+      SELECT tt.task_id          AS id
+      FROM transplant_task tt
+      WHERE tt.planting_management_plan_id = ANY(farm_data.pmp_ids)
+        OR tt.prev_planting_management_plan_id = ANY(farm_data.pmp_ids)
 
-        UNION
+      UNION
 
-        -- via transplant_task
-        SELECT tt.task_id          AS id
-        FROM transplant_task tt
-        WHERE tt.planting_management_plan_id = ANY(farm_data.pmp_ids)
-         OR tt.prev_planting_management_plan_id = ANY(farm_data.pmp_ids)
+      -- via planting management plan ids (plant tasks)
+      SELECT pt.task_id
+        FROM plant_task pt
+        WHERE pt.planting_management_plan_id = ANY(farm_data.pmp_ids)
 
-        UNION
+      UNION
 
-        -- via planting management plan ids (plant tasks)
-        SELECT pt.task_id
-          FROM plant_task pt
-          WHERE pt.planting_management_plan_id = ANY(farm_data.pmp_ids)
+      -- via task_animal_relationship
+      SELECT tar.task_id         AS id
+      FROM "task_animal_relationship" tar
+      JOIN "animal" a ON tar.animal_id = a.id
+      AND a.farm_id = farm_record.farm_id
 
-        UNION
+      UNION
 
-        -- via task_animal_relationship
-        SELECT tar.task_id         AS id
-        FROM "task_animal_relationship" tar
-        JOIN "animal" a ON tar.animal_id = a.id
-        AND a.farm_id = farm_record.farm_id
+      -- via task_animal_batch_relationship
+      SELECT tabr.task_id        AS id
+      FROM "task_animal_batch_relationship" tabr
+      JOIN "animal_batch" ab ON tabr.animal_batch_id = ab.id
+      AND ab.farm_id = farm_record.farm_id
+  ) AS farm_tasks;
 
-        UNION
+  -- soil amendment task products (needed for the purpose relationship table)
+  SELECT
+    COALESCE(array_agg(id), ARRAY[]::INTEGER[])
+  INTO farm_data.task_products_ids
+  FROM soil_amendment_task_products
+  WHERE task_id = ANY(farm_data.task_ids);
 
-        -- via task_animal_batch_relationship
-        SELECT tabr.task_id        AS id
-        FROM "task_animal_batch_relationship" tabr
-        JOIN "animal_batch" ab ON tabr.animal_batch_id = ab.id
-        AND ab.farm_id = farm_record.farm_id
-    ) AS farm_tasks;
+  -- locations
+  SELECT 
+      COALESCE(array_agg(location_id), ARRAY[]::UUID[])
+  INTO farm_data.location_ids
+  FROM "location"
+  WHERE farm_id = farm_data.farm_id;
 
-    -- soil amendment task products (needed for the purpose relationship table)
-    SELECT
+  -- figures
+  SELECT 
+      COALESCE(array_agg(figure_id), ARRAY[]::UUID[])
+  INTO farm_data.figure_ids
+  FROM "figure"
+  WHERE location_id = ANY(farm_data.location_ids);
+
+  -- animals & batches
+  SELECT 
       COALESCE(array_agg(id), ARRAY[]::INTEGER[])
-    INTO farm_data.task_products_ids
-    FROM soil_amendment_task_products
-    WHERE task_id = ANY(farm_data.task_ids);
+  INTO farm_data.animal_ids
+  FROM "animal"
+  WHERE farm_id = farm_data.farm_id;
 
-    -- locations
-    SELECT 
-        COALESCE(array_agg(location_id), ARRAY[]::UUID[])
-    INTO farm_data.location_ids
-    FROM "location"
-    WHERE farm_id = farm_data.farm_id;
+  SELECT 
+      COALESCE(array_agg(id), ARRAY[]::INTEGER[])
+  INTO farm_data.animal_batch_ids
+  FROM "animal_batch"
+  WHERE farm_id = farm_data.farm_id;
 
-    -- figures
-    SELECT 
-        COALESCE(array_agg(figure_id), ARRAY[]::UUID[])
-    INTO farm_data.figure_ids
-    FROM "figure"
-    WHERE location_id = ANY(farm_data.location_ids);
+  -- append this farm’s results
+  result.farms := array_append(result.farms, farm_data);
+END LOOP;
 
-    -- animals & batches
-    SELECT 
-        COALESCE(array_agg(id), ARRAY[]::INTEGER[])
-    INTO farm_data.animal_ids
-    FROM "animal"
-    WHERE farm_id = farm_data.farm_id;
-
-    SELECT 
-        COALESCE(array_agg(id), ARRAY[]::INTEGER[])
-    INTO farm_data.animal_batch_ids
-    FROM "animal_batch"
-    WHERE farm_id = farm_data.farm_id;
-
-    -- append this farm’s results
-    result.farms := array_append(result.farms, farm_data);
-  END LOOP;
-
-  RETURN result;
+RETURN result;
 END;
 $$;

@@ -86,6 +86,7 @@ CREATE OR REPLACE FUNCTION get_location_tables()
       'gate',
       'water_valve',
       'buffer_zone',
+      'soil_sample_location',
       'watercourse',
       'fence',
       'barn',

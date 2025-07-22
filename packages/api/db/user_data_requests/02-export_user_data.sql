@@ -60,7 +60,7 @@ user_data := get_user_data(target_user_id);
 FOREACH farm_data IN ARRAY user_data.farms LOOP
     farm_json := '{}'::jsonb;
 
-    -- ==== 1) TASK PRODUCT-SCOPED TABLE ====
+    -- ==== TASK PRODUCT-SCOPED TABLES ====
     FOR task_prod_tables IN SELECT * FROM get_task_product_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(t)) FROM %I t WHERE t.task_products_id = ANY($1)',
@@ -72,7 +72,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, task_prod_tables.table_name, table_data);
     END LOOP;
 
-    -- ==== 2) TASK‐SCOPED TABLES ====
+    -- ==== TASK‐SCOPED TABLES ====
     FOR task_tables IN SELECT * FROM get_task_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(t)) FROM %I t WHERE t.task_id = ANY($1)',
@@ -84,7 +84,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, task_tables.table_name, table_data);
     END LOOP;
 
-    -- ==== 3) CROP PLAN TABLES ====
+    -- ==== PLANTING MANAGEMENT PLAN TABLES ====
     FOR pmp_tables IN SELECT * FROM get_pmp_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(p)) FROM %I p ' ||
@@ -97,6 +97,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, pmp_tables.table_name, table_data);
     END LOOP;
 
+    -- ==== MANAGEMENT PLAN TABLES ====
     FOR mp_tables IN SELECT * FROM get_management_plan_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(m)) FROM %I m ' ||
@@ -109,6 +110,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, mp_tables.table_name, table_data);
     END LOOP;
 
+    -- ==== MANAGEMENT PLAN GROUP TABLES ====
     FOR plan_repetition_tables IN SELECT * FROM get_mp_repetition_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(r)) FROM %I r ' ||
@@ -121,7 +123,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, plan_repetition_tables.table_name, table_data);
     END LOOP;
 
-    -- ==== 3) ANIMALS ====
+    -- ==== ANIMALS ====
     FOR animal_tables IN SELECT * FROM get_animal_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(a)) FROM %I a ' ||
@@ -146,7 +148,7 @@ FOREACH farm_data IN ARRAY user_data.farms LOOP
       farm_json := jsonb_merge(farm_json, animal_batch_tables.table_name, table_data);
     END LOOP;
 
-    -- ==== 3) LOCATIONS ====
+    -- ==== LOCATIONS ====
     FOR figure_tables IN SELECT * FROM get_figure_tables() LOOP
       EXECUTE format(
         'SELECT json_agg(to_jsonb(f)) FROM %I f ' ||

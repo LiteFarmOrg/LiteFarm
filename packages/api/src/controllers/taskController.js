@@ -802,6 +802,7 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const task_id = parseInt(req.params.task_id);
+        const { isRecompleting } = res.locals;
 
         if (await baseController.isDeleted(null, TaskModel, { task_id })) {
           return res.status(400).send('Task has been deleted');
@@ -822,8 +823,10 @@ const taskController = {
           data = this.formatAnimalAndBatchIds(data);
         }
 
-        // Duplicates middleware until all endpoints are migrated to use middleware
-        checkCompleteTaskDocument(req.body, typeOfTask);
+        if (isRecompleting) {
+          data.revision_date = new Date().toISOString();
+          data.revised_by_user_id = assignee_user_id;
+        }
 
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(

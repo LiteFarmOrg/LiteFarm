@@ -210,6 +210,7 @@ router.patch(
   modelMapping['cleaning_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('cleaning_task'),
   createOrPatchProduct('cleaning_task'),
   taskController.completeTask('cleaning_task'),
 );
@@ -219,6 +220,7 @@ router.patch(
   modelMapping['pest_control_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('pest_control_task'),
   createOrPatchProduct('pest_control_task'),
   taskController.completeTask('pest_control_task'),
 );
@@ -228,6 +230,7 @@ router.patch(
   modelMapping['irrigation_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('irrigation_task'),
   taskController.completeTask('irrigation_task'),
 );
 
@@ -236,6 +239,7 @@ router.patch(
   modelMapping['scouting_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('scouting_task'),
   taskController.completeTask('scouting_task'),
 );
 
@@ -244,6 +248,7 @@ router.patch(
   modelMapping['soil_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('soil_task'),
   taskController.completeTask('soil_task'),
 );
 
@@ -252,6 +257,7 @@ router.patch(
   modelMapping['field_work_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('field_work_task'),
   taskController.completeTask('field_work_task'),
 );
 
@@ -268,6 +274,7 @@ router.patch(
   modelMapping['plant_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('plant_task'),
   taskController.completeTask('plant_task'),
 );
 
@@ -276,6 +283,7 @@ router.patch(
   modelMapping['plant_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkCompleteTask('transplant_task'),
   taskController.completeTask('transplant_task'),
 );
 

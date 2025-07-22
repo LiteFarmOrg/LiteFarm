@@ -34,7 +34,7 @@ AS $$
 DECLARE
     target_user_id            VARCHAR := 'user_id_here';
     user_data                 user_data_collections;
-    farm_item                 farm_data_collections;
+    farm_data                 farm_data_collections;
     farm_count                INTEGER;
 
     task_tables               RECORD;
@@ -57,7 +57,7 @@ DECLARE
 BEGIN
 user_data := get_user_data(target_user_id);
 
-FOREACH farm_item IN ARRAY user_data.farms LOOP
+FOREACH farm_data IN ARRAY user_data.farms LOOP
     farm_json := '{}'::jsonb;
 
     -- ==== 1) TASK PRODUCT-SCOPED TABLE ====
@@ -67,7 +67,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         task_prod_tables.table_name
       )
       INTO table_data
-      USING farm_item.task_products_ids;
+      USING farm_data.task_products_ids;
 
       farm_json := jsonb_merge(farm_json, task_prod_tables.table_name, table_data);
     END LOOP;
@@ -79,7 +79,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         task_tables.table_name
       )
       INTO table_data
-      USING farm_item.task_ids;
+      USING farm_data.task_ids;
 
       farm_json := jsonb_merge(farm_json, task_tables.table_name, table_data);
     END LOOP;
@@ -92,7 +92,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         pmp_tables.table_name
       )
       INTO table_data
-      USING farm_item.pmp_ids;
+      USING farm_data.pmp_ids;
 
       farm_json := jsonb_merge(farm_json, pmp_tables.table_name, table_data);
     END LOOP;
@@ -104,7 +104,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         mp_tables.table_name
       )
       INTO table_data
-      USING farm_item.management_plan_ids;
+      USING farm_data.management_plan_ids;
 
       farm_json := jsonb_merge(farm_json, mp_tables.table_name, table_data);
     END LOOP;
@@ -116,7 +116,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         plan_repetition_tables.table_name
       )
       INTO table_data
-      USING farm_item.management_plan_group_ids;
+      USING farm_data.management_plan_group_ids;
 
       farm_json := jsonb_merge(farm_json, plan_repetition_tables.table_name, table_data);
     END LOOP;
@@ -129,7 +129,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         animal_tables.table_name
       )
       INTO table_data
-      USING farm_item.animal_ids;
+      USING farm_data.animal_ids;
 
       farm_json := jsonb_merge(farm_json, animal_tables.table_name, table_data);
     END LOOP;
@@ -141,7 +141,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         animal_batch_tables.table_name
       )
       INTO table_data
-      USING farm_item.animal_batch_ids;
+      USING farm_data.animal_batch_ids;
 
       farm_json := jsonb_merge(farm_json, animal_batch_tables.table_name, table_data);
     END LOOP;
@@ -154,7 +154,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         figure_tables.table_name
       )
       INTO table_data
-      USING farm_item.figure_ids;
+      USING farm_data.figure_ids;
 
       farm_json := jsonb_merge(farm_json, figure_tables.table_name, table_data);
     END LOOP;
@@ -166,7 +166,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         location_tables.table_name
       )
       INTO table_data
-      USING farm_item.location_ids;
+      USING farm_data.location_ids;
 
       farm_json := jsonb_merge(farm_json, location_tables.table_name, table_data);
     END LOOP;
@@ -183,7 +183,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         secondary_tables.join_key
       )
       INTO table_data
-      USING farm_item.farm_id;
+      USING farm_data.farm_id;
 
       farm_json := jsonb_merge(farm_json, secondary_tables.child_table, table_data);
     END LOOP;
@@ -196,7 +196,7 @@ FOREACH farm_item IN ARRAY user_data.farms LOOP
         farm_tables.table_name
       )
       INTO table_data
-      USING farm_item.farm_id;
+      USING farm_data.farm_id;
 
       farm_json := jsonb_merge(farm_json, farm_tables.table_name, table_data);
     END LOOP;

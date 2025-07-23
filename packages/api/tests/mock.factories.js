@@ -1790,7 +1790,6 @@ function fakeIrrigationTask(defaultData = {}) {
   return {
     irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
     estimated_duration: faker.datatype.number(10),
-    measuring_type: 'DEPTH',
     ...defaultData,
   };
 }

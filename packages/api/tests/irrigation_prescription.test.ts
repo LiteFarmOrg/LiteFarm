@@ -422,9 +422,9 @@ describe('Get Irrigation Prescription Tests', () => {
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,
-          applicationDepths: [20], // in mm
-          pivotRadius: 100, // in meters
-          pivotArc: { start_angle: '0', end_angle: '360' }, // counter-clockwise, in mathematical degrees (3/4 circle)
+          applicationDepths: [20],
+          pivotRadius: 100,
+          pivotArc: { start_angle: '0', end_angle: '360' },
         }),
       });
 

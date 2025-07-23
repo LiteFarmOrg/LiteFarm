@@ -1790,6 +1790,7 @@ function fakeIrrigationTask(defaultData = {}) {
   return {
     irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
     estimated_duration: faker.datatype.number(10),
+    measuring_type: 'DEPTH',
     ...defaultData,
   };
 }
@@ -1810,6 +1811,14 @@ function fakeScoutingTask(defaultData = {}) {
     type: faker.helpers.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
     ...defaultData,
   };
+}
+
+async function cleaning_taskFactory({ promisedTask = taskFactory() } = {}, cleaning_task = {}) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('cleaning_task')
+    .insert({ task_id, ...cleaning_task })
+    .returning('*');
 }
 
 async function animal_movement_taskFactory(
@@ -2750,6 +2759,7 @@ export default {
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,
+  cleaning_taskFactory,
   fakeScoutingTask,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,

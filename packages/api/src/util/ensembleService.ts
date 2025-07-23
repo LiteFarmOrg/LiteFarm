@@ -466,13 +466,17 @@ function selectCropData(managementPlan: ManagementPlan) {
   ];
 }
 
-/* Update Ensemble to indicate an irrigation prescription has been approved */
-export async function patchIrrigationPrescriptionApproval(id: number, org_pk: number) {
+/* Update Ensemble to indicate an irrigation prescription has been approved or un-approved */
+export async function patchIrrigationPrescriptionApproval(
+  id: number,
+  org_pk: number,
+  approved: boolean,
+) {
   try {
     const axiosObject = {
       method: 'patch',
       data: {
-        approved: true,
+        approved,
       },
       url: `${ensembleAPI}/organizations/${org_pk}/prescriptions/${id}/`,
     };

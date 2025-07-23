@@ -47,7 +47,7 @@ export async function triggerPostTaskCreatedActions(
               console.error(`Ensemble organization not found for farm ${farm_id}`);
               return;
             }
-            await patchIrrigationPrescriptionApproval(esciExternalId, farmAddon.org_pk);
+            await patchIrrigationPrescriptionApproval(esciExternalId, farmAddon.org_pk, true);
           }
         }
         break;

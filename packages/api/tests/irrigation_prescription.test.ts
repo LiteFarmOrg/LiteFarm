@@ -371,7 +371,7 @@ describe('Get Irrigation Prescription Tests', () => {
       });
     });
 
-    test('API should calculate water consumption for a URI prescription', async () => {
+    test('API should calculate water consumption for a URI prescription with start and end angles spanning less than 360º', async () => {
       const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
 
       const { farm, user } = await setupFarmEnvironment(1);
@@ -399,6 +399,45 @@ describe('Get Irrigation Prescription Tests', () => {
 
       // Pi * r² = Area of circle
       const pivotArea = Math.PI * Math.pow(100, 2) * 0.75; // in m²
+
+      // Total Volume in L = Area (m²) * Depth (mm)
+      const totalVolumeL = pivotArea * 20;
+
+      expect(res.body).toMatchObject({
+        id: MOCK_ID,
+        estimated_water_consumption: totalVolumeL,
+        estimated_water_consumption_unit: 'l',
+      });
+    });
+
+    test('API should calculate water consumption for a URI prescription with start and end angles spanning exactly 360º', async () => {
+      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
+
+      const { farm, user } = await setupFarmEnvironment(1);
+
+      // Mock ID for URI prescription (even ID)
+      const MOCK_ID = 126;
+
+      await mockedEnsembleAPICall.mockResolvedValueOnce({
+        data: await generateMockPrescriptionDetails({
+          farm_id: farm.farm_id,
+          irrigationPrescriptionId: MOCK_ID,
+          applicationDepths: [20], // in mm
+          pivotRadius: 100, // in meters
+          pivotArc: { start_angle: '0', end_angle: '360' }, // counter-clockwise, in mathematical degrees (3/4 circle)
+        }),
+      });
+
+      await connectFarmToEnsemble(farm);
+
+      const res = await getIrrigationPrescriptionDetails({
+        farm_id: farm.farm_id,
+        user_id: user.user_id,
+        irrigationPrescriptionId: MOCK_ID,
+      });
+
+      // Pi * r² = Area of circle
+      const pivotArea = Math.PI * Math.pow(100, 2); // in m²
 
       // Total Volume in L = Area (m²) * Depth (mm)
       const totalVolumeL = pivotArea * 20;

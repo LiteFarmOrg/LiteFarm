@@ -519,6 +519,7 @@ class TaskModel extends BaseModel {
 
     const relatedProductTable = `${taskTypeKey}_products`;
 
+    let response;
     if (!farm_id && taskTypesWithProducts.includes(taskTypeKey)) {
       // Mark related products as deleted
       await TaskModel.relatedQuery(relatedProductTable, trx)
@@ -526,14 +527,16 @@ class TaskModel extends BaseModel {
         .context(user)
         .patch({ deleted: true });
       // Mark the task itself as deleted and fetch the updated task
-      return await TaskModel.query(trx)
+      response = await TaskModel.query(trx)
         .withGraphFetched(relatedProductTable)
         .context({ ...user, showHidden: true })
         .patchAndFetchById(task_id, { deleted: true });
     } else {
       // If the task is custom or does not have associated product, delete just the task
-      return TaskModel.deleteTask(task_id, user, trx);
+      response = await TaskModel.deleteTask(task_id, user, trx);
     }
+    response.taskType = taskType;
+    return response;
   }
 
   static async getTaskIdsWithAnimalAndBatchIds(trx, taskIds) {

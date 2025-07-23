@@ -36,6 +36,7 @@ import {
   sampleNote,
   abandonTaskBody,
   expectTaskCompletionFields,
+  irrigationTaskGenerator,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
@@ -3415,6 +3416,45 @@ describe('Task tests', () => {
         expect(res.status).toBe(403);
         done();
       });
+    });
+
+    test('Should call Ensemble API if an irrigation task is deleted that had an irrigation_prescription_external_id', async () => {
+      const { farm, field, user } = await setupFarmEnvironment(1);
+      const { org_pk } = await connectFarmToEnsemble(farm);
+
+      const irrigation_prescription_external_id = 124;
+
+      const { task } = await irrigationTaskGenerator({
+        farm,
+        user,
+        field,
+        irrigation: {
+          ...mocks.fakeIrrigationTask({ irrigation_type_name: 'PIVOT' }),
+          irrigation_prescription_external_id,
+          location_id: field.location_id,
+        },
+      });
+
+      const res = await chai
+        .request(server)
+        .delete(`/task/${task.task_id}`)
+        .set('user_id', user.user_id)
+        .set('farm_id', farm.farm_id);
+
+      expect(res.status).toBe(200);
+
+      // Pause execution of test to allow the post-response side effect to run, before asserting on mock
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      expect(axios).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'patch',
+          url: expect.stringContaining(
+            `organizations/${org_pk}/prescriptions/${irrigation_prescription_external_id}/`,
+          ),
+          data: { approved: false },
+        }),
+      );
     });
   });
 

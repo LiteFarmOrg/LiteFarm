@@ -210,6 +210,45 @@ export const animalTaskGenerator = async (taskData) => {
   return createdTask;
 };
 
+export const irrigationTaskGenerator = async ({ farm, user, field, irrigation }) => {
+  // Generate the irrigation task type
+  const [irrgationTaskType] = await mocks.task_typeFactory(
+    { promisedFarm: Promise.resolve([farm]) },
+    {
+      farm_id: null,
+      task_name: 'Irrigation',
+      task_translation_key: 'IRRIGATION_TASK',
+    },
+  );
+
+  // Insert the main task record
+  const [task] = await mocks.taskFactory(
+    {
+      promisedUser: Promise.resolve([user]),
+      promisedFarm: Promise.resolve([farm]),
+      promisedTaskType: Promise.resolve([irrgationTaskType]),
+    },
+    mocks.fakeTask({
+      task_type_id: irrgationTaskType.task_type_id,
+      owner_user_id: user.user_id,
+    }),
+  );
+
+  // Insert to location_tasks
+  await mocks.location_tasksFactory({
+    promisedTask: Promise.resolve([task]),
+    promisedField: Promise.resolve([field]),
+  });
+
+  // Insert the irrigation_task record
+  const [irrigationTask] = await mocks.irrigation_taskFactory(
+    { promisedTask: Promise.resolve([task]) },
+    irrigation,
+  );
+
+  return { task, irrigationTask };
+};
+
 export const generateUserFarms = async (number) => {
   const userFarms = [];
   const [user] = await mocks.usersFactory();

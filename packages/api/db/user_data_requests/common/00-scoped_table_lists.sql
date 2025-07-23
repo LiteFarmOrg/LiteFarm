@@ -279,8 +279,9 @@ CREATE OR REPLACE FUNCTION get_user_scoped_tables()
       'showedSpotlight',
       'release_badge',
 
-      -- invite tokens are not possible for single userFarm farms:
-      -- 'emailToken',
+      -- invite tokens are not possible for single userFarm farms
+      -- LF-4895 should be addressed if deletion is expanded beyond that
+      'emailToken',
 
       'users'
     ]);

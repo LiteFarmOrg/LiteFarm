@@ -21,7 +21,7 @@ import { setupSoilAmendmentTaskDependencies } from './testDataSetup.js';
 const fieldWorkName = faker.lorem.word();
 const fieldWorkTaskTestCases = {
   newFieldWorkType: {
-    initialData: undefined,
+    initialData: undefined, // No initial data passed; use factory default
     getFakeCompletionData: (initialData) => ({
       field_work_task: {
         task_id: initialData.task_id,
@@ -134,7 +134,7 @@ const irrigationTaskFakeCompletionData = {
 };
 const irrigationTaskTestCases = {
   newIrrigationType: {
-    initialData: undefined,
+    initialData: undefined, // No initial data passed; use factory default
     getFakeCompletionData: (initialData) => ({
       irrigation_task: {
         task_id: initialData.task_id,

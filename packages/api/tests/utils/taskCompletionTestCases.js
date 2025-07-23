@@ -21,6 +21,7 @@ import { setupSoilAmendmentTaskDependencies } from './testDataSetup.js';
 const fieldWorkName = faker.lorem.word();
 const fieldWorkTaskTestCases = {
   newFieldWorkType: {
+    initialData: undefined,
     getFakeCompletionData: (initialData) => ({
       field_work_task: {
         task_id: initialData.task_id,
@@ -50,6 +51,7 @@ const pestControlTaskInitialDataWithProduct = {
 };
 const pestControlTaskTestCases = {
   changeToMethodWithoutProduct: {
+    initialData: pestControlTaskInitialDataWithProduct,
     getFakeCompletionData: (initialData) => ({
       pest_control_task: {
         task_id: initialData.task_id,
@@ -85,6 +87,7 @@ const cleaningTaskInitialDataWithProduct = {
 };
 const cleaningTaskTestCases = {
   nullOptionalFields: {
+    initialData: cleaningTaskInitialDataWithProduct,
     getFakeCompletionData: (initialData) => ({
       cleaning_task: {
         task_id: initialData.task_id,
@@ -131,6 +134,7 @@ const irrigationTaskFakeCompletionData = {
 };
 const irrigationTaskTestCases = {
   newIrrigationType: {
+    initialData: undefined,
     getFakeCompletionData: (initialData) => ({
       irrigation_task: {
         task_id: initialData.task_id,
@@ -150,6 +154,7 @@ const irrigationTaskTestCases = {
     },
   },
   switchMeasuringType: {
+    initialData: irrigationTaskInitialData,
     getFakeCompletionData: (initialData) => ({
       irrigation_task: {
         task_id: initialData.task_id,
@@ -201,6 +206,7 @@ const soilAmendmentTaskProductInitialDataSetup = async (initialData, farmId) => 
 };
 const soilAmendmentTaskTestCases = {
   nullOptionalFields: {
+    initialData: soilAmendmentTaskInitialData,
     getFakeCompletionData: (initialData) => ({
       soil_amendment_task: {
         task_id: initialData.task_id,
@@ -216,6 +222,8 @@ const soilAmendmentTaskTestCases = {
     },
   },
   switchWeightToVolume: {
+    initialData: soilAmendmentTaskInitialData,
+    extraSetup: soilAmendmentTaskProductInitialDataSetup,
     getFakeCompletionData: (_initialData, associatedInitialData) => {
       const { soilAmendmentTaskProduct, soilAmendmentTaskProductsPurposeRelationship } =
         associatedInitialData;
@@ -242,37 +250,18 @@ const soilAmendmentTaskTestCases = {
 
 export const taskCompletionFieldUpdateTestCases = {
   'should update relevant fields': {
-    irrigation_task: [
-      { initialData: irrigationTaskInitialData, ...irrigationTaskTestCases.switchMeasuringType },
-    ],
+    irrigation_task: [irrigationTaskTestCases.switchMeasuringType],
   },
   'should remove irrelevant fields': {
-    cleaning_task: [
-      {
-        initialData: cleaningTaskInitialDataWithProduct,
-        ...cleaningTaskTestCases.nullOptionalFields,
-      },
-    ],
-    pest_control_task: [
-      {
-        initialData: pestControlTaskInitialDataWithProduct,
-        ...pestControlTaskTestCases.changeToMethodWithoutProduct,
-      },
-    ],
+    cleaning_task: [cleaningTaskTestCases.nullOptionalFields],
+    pest_control_task: [pestControlTaskTestCases.changeToMethodWithoutProduct],
     soil_amendment_task: [
-      {
-        initialData: soilAmendmentTaskInitialData,
-        ...soilAmendmentTaskTestCases.nullOptionalFields,
-      },
-      {
-        initialData: soilAmendmentTaskInitialData,
-        extraSetup: soilAmendmentTaskProductInitialDataSetup,
-        ...soilAmendmentTaskTestCases.switchWeightToVolume,
-      },
+      soilAmendmentTaskTestCases.nullOptionalFields,
+      soilAmendmentTaskTestCases.switchWeightToVolume,
     ],
   },
   'should add new type on completion': {
-    field_work_task: [{ initialData: {}, ...fieldWorkTaskTestCases.newFieldWorkType }],
-    irrigation_task: [{ initialData: {}, ...irrigationTaskTestCases.newIrrigationType }],
+    field_work_task: [fieldWorkTaskTestCases.newFieldWorkType],
+    irrigation_task: [irrigationTaskTestCases.newIrrigationType],
   },
 };

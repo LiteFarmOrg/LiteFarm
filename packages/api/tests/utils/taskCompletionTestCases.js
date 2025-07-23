@@ -42,7 +42,7 @@ const fieldWorkTaskTestCases = {
 };
 
 // pest_control_task
-const pestControlTaskInitialData = {
+const pestControlTaskInitialDataWithProduct = {
   weight: 2,
   weight_unit: 'kg',
   pest_target: 'Aphids',
@@ -53,6 +53,7 @@ const pestControlTaskTestCases = {
     getFakeCompletionData: (initialData) => ({
       pest_control_task: {
         task_id: initialData.task_id,
+        product_id: null,
         product_quantity: null,
         product_quantity_unit: null,
         pest_target: null,
@@ -61,6 +62,7 @@ const pestControlTaskTestCases = {
     }),
     getExpectedData: async () => {
       return {
+        product_id: null,
         weight: null,
         weight_unit: null,
         volume: null,
@@ -73,7 +75,7 @@ const pestControlTaskTestCases = {
 };
 
 // cleaning_task
-const cleaningTaskInitialData = {
+const cleaningTaskInitialDataWithProduct = {
   cleaning_target: 'Benches',
   agent_used: true,
   water_usage: 25,
@@ -90,6 +92,7 @@ const cleaningTaskTestCases = {
         agent_used: false,
         water_usage: null,
         water_usage_unit: 'l', // required by model, cannot be null
+        product_id: null,
         product_quantity: null,
         product_quantity_unit: null,
       },
@@ -97,6 +100,7 @@ const cleaningTaskTestCases = {
     getExpectedData: async () => ({
       cleaning_target: null,
       agent_used: false,
+      product_id: null,
       water_usage: null,
       water_usage_unit: 'l',
       volume: null,
@@ -244,11 +248,14 @@ export const taskCompletionFieldUpdateTestCases = {
   },
   'should remove irrelevant fields': {
     cleaning_task: [
-      { initialData: cleaningTaskInitialData, ...cleaningTaskTestCases.nullOptionalFields },
+      {
+        initialData: cleaningTaskInitialDataWithProduct,
+        ...cleaningTaskTestCases.nullOptionalFields,
+      },
     ],
     pest_control_task: [
       {
-        initialData: pestControlTaskInitialData,
+        initialData: pestControlTaskInitialDataWithProduct,
         ...pestControlTaskTestCases.changeToMethodWithoutProduct,
       },
     ],

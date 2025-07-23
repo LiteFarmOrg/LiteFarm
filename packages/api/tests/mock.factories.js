@@ -1812,11 +1812,16 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
-async function cleaning_taskFactory({ promisedTask = taskFactory() } = {}, cleaning_task = {}) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+async function cleaning_taskFactory(
+  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  cleaning_task = {},
+) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] =
+    Array.isArray(product) && product.length ? product : [{ product_id: undefined }];
   return knex('cleaning_task')
-    .insert({ task_id, ...cleaning_task })
+    .insert({ task_id, product_id, ...cleaning_task })
     .returning('*');
 }
 

@@ -3021,12 +3021,14 @@ describe('Task tests', () => {
       let farm_id;
       let user_id;
       let location_id;
+      let product_id;
 
       beforeAll(async () => {
         const { owner, farm, field } = await setupFarmEnvironment(1);
         farm_id = farm.farm_id;
         user_id = owner.user_id;
         location_id = field.location_id;
+        product_id = await mocks.productFactory({ promisedFarm: [{ farm_id }] });
       });
 
       describe.each(Object.entries(taskCompletionFieldUpdateTestCases))(
@@ -3038,7 +3040,7 @@ describe('Task tests', () => {
                 initialData: initialTaskTypeData,
                 extraSetup,
                 getFakeCompletionData: getFakeTaskTypeCompletionData,
-                getExpectedData: getTaskTypeExpectedData,
+                getExpectedData: getExpectedTaskTypeData,
               } = testCase;
 
               // Insert a task and location_task record
@@ -3072,15 +3074,15 @@ describe('Task tests', () => {
               );
 
               const completedTaskInDB = await knex('task').where({ task_id }).first();
-              const completedTaskTypeData = await knex(taskType).where({ task_id }).first();
+              const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
 
               expect(res.status).toBe(200);
               expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
 
-              const expectedData = getTaskTypeExpectedData ? await getTaskTypeExpectedData() : {};
+              const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
 
-              Object.entries(expectedData).forEach(([property, value]) => {
-                expect(completedTaskTypeData[property]).toBe(value);
+              Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+                expect(completedTaskTypeDataInDB[property]).toBe(value);
               });
 
               await testCase.extraExpect?.(task_id);

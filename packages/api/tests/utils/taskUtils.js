@@ -240,3 +240,32 @@ export function expectTaskCompletionFields(
   expect(task.happiness).toBe(happiness);
   expect(task.completion_notes).toBe(completion_notes);
 }
+
+export const taskWithLocationFactory = async ({ userId, locationId, taskTypeId, farmId }) => {
+  if (!taskTypeId && farmId) {
+    const taskType = await mocks.task_typeFactory({
+      promisedFarm: Promise.resolve([{ farm_id: farmId }]),
+    });
+    taskTypeId = taskType[0].task_type_id;
+  }
+
+  const fakeTask = mocks.fakeTask({
+    task_type_id: taskTypeId,
+    owner_user_id: userId,
+    assignee_user_id: userId,
+  });
+
+  const [task] = await mocks.taskFactory(
+    {
+      promisedUser: Promise.resolve([{ user_id: userId }]),
+      promisedTaskType: Promise.resolve([{ task_type_id: taskTypeId }]),
+    },
+    fakeTask,
+  );
+  await mocks.location_tasksFactory({
+    promisedTask: Promise.resolve([task]),
+    promisedField: Promise.resolve([{ location_id: locationId }]),
+  });
+
+  return task;
+};

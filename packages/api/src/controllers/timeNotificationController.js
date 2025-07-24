@@ -119,22 +119,18 @@ const timeNotificationController = {
 
       const { data: orgIrrigationPrescriptions } = await getIrrigationPrescriptions(farm_id);
 
-      // Filter by farm_id
-      const farmIrrigationPrescriptions = [];
-      for (const irrigationPrescription of orgIrrigationPrescriptions) {
-        const prescriptionFarmRecord = await LocationModel.getFarmIdByLocationId(
-          irrigationPrescription.location_id,
-        );
-        if (prescriptionFarmRecord?.farm_id === farm_id) {
-          farmIrrigationPrescriptions.push(irrigationPrescription);
-        }
-      }
+      // Filter by non-deleted locations belonging to the farm
+      const activeLocationIds = await LocationModel.getActiveLocationIdsByFarm(farm_id);
+
+      const irrigationPrescriptionsForFarm = orgIrrigationPrescriptions.filter(({ location_id }) =>
+        activeLocationIds.includes(location_id),
+      );
 
       let notificationsSent = 0;
 
       // Notify on the latest irrigation prescription for each location
       const prescriptionsByLocation = groupBy(
-        farmIrrigationPrescriptions,
+        irrigationPrescriptionsForFarm,
         ({ location_id }) => location_id,
       );
 

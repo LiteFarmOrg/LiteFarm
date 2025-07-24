@@ -299,6 +299,20 @@ class Location extends baseModel {
       .whereNotDeleted()
       .first();
   }
+
+  /**
+   * Return all non‐deleted location_ids for a farm.
+   * @param {string} farm_id
+   * @param {Knex.Transaction} [trx]
+   * @returns {Promise<string[]>}
+   */
+  static async getActiveLocationIdsByFarm(farm_id, trx) {
+    const records = await Location.query(trx)
+      .select('location_id')
+      .where('farm_id', farm_id)
+      .whereNotDeleted();
+    return records.map(({ location_id }) => location_id);
+  }
 }
 
 export default Location;

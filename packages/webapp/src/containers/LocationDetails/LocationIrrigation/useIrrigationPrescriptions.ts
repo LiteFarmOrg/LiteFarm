@@ -29,12 +29,20 @@ export default function useIrrigationPrescriptions(location?: Location) {
     return [];
   }
 
-  const { data = [] } = useGetIrrigationPrescriptionsQuery();
+  const today = new Date().toISOString().split('T')[0];
+
+  const { prescriptionList = [] } = useGetIrrigationPrescriptionsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      prescriptionList: data?.filter(
+        (prescription) => prescription.recommended_start_date >= today,
+      ),
+    }),
+  });
   const tasks = useSelector(tasksSelector);
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
   if (location.grid_points) {
-    filteredIrrigationPrescriptionsWithTask = data
+    filteredIrrigationPrescriptionsWithTask = prescriptionList
       .filter(
         // return matching plans for this location
         ({ location_id }) => location_id === location.location_id,

@@ -18,6 +18,7 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import { roundToTwo } from '../../util/rounding';
 import Table from '../Table';
 import Cell from '../Table/Cell';
 import { Alignment, CellKind, TableKind } from '../Table/types';
@@ -61,7 +62,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
-            text={`${d.soil_moisture_deficit}${d.soil_moisture_deficit_unit}`}
+            text={`${roundToTwo(d.soil_moisture_deficit)}${d.soil_moisture_deficit_unit}`}
             className={styles.tableText}
           />
         ),
@@ -74,7 +75,7 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
-            text={`${d.application_depth}${d.application_depth_unit}`}
+            text={`${roundToTwo(d.application_depth)}${d.application_depth_unit}`}
             className={styles.tableText}
           />
         ),

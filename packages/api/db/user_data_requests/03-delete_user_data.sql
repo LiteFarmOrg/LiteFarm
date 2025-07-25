@@ -50,15 +50,15 @@ user_data := get_user_data(target_user_id);
 
 FOREACH farm_data IN ARRAY user_data.farms LOOP
     -- prevent deletion of multi-user farms
-    SELECT COUNT(*) INTO farm_count
+    SELECT COUNT(*) INTO user_count
         FROM "userFarm"
         WHERE farm_id = farm_data.farm_id;
 
-        IF farm_count > 1 THEN
+        IF user_count > 1 THEN
         RAISE EXCEPTION
             'Cannot delete: farm % has % users',
             farm_data.farm_id,
-            farm_count;
+            user_count;
         END IF;
 
     FOR task_prod_tables IN SELECT * FROM get_task_product_tables() LOOP

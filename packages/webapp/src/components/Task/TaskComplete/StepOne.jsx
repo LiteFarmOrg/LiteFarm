@@ -30,6 +30,13 @@ const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   return !isValid;
 };
 
+const getFieldsToKeep = (taskType) => {
+  if (!taskType || taskType.farm_id) {
+    return [];
+  }
+  return [taskType.task_translation_key.toLowerCase()];
+};
+
 export default function PureCompleteStepOne({
   persistedFormData,
   onContinue,
@@ -74,7 +81,7 @@ export default function PureCompleteStepOne({
   const {
     persistedData: { uploadedFiles },
     historyCancel,
-  } = useHookFormPersist(getValues);
+  } = useHookFormPersist(getValues, [], getFieldsToKeep(selectedTaskType));
 
   const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);

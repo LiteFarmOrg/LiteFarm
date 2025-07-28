@@ -12,7 +12,19 @@ import {
 import { useCallback, useEffect, useLayoutEffect } from 'react';
 import history from '../../../history';
 
-export default function useHookFormPersist(getValues = () => ({}), persistedPathNames = []) {
+/**
+ * Persists form values when navigating between routes.
+ *
+ * @param {Function} getValues - Returns the current form values.
+ * @param {string[]} persistedPathNames - Route paths where form data should be preserved.
+ * @param {string[]} formFieldsToKeep - Field names that should not be removed during cleanup, even if null or empty.
+ * @returns {{ persistedData: any, historyCancel: Function }}
+ */
+export default function useHookFormPersist(
+  getValues = () => ({}),
+  persistedPathNames = [],
+  formFieldsToKeep = [],
+) {
   const dispatch = useDispatch();
 
   const historyStack = useSelector(hookFormPersistHistoryStackSelector);
@@ -36,7 +48,9 @@ export default function useHookFormPersist(getValues = () => ({}), persistedPath
         persistedPathsSet.has(history.location.pathname) ||
         persistedPathNames.includes(history.location.pathname)
       ) {
-        dispatch(hookFormPersistUnMount(getValues()));
+        dispatch(
+          hookFormPersistUnMount({ values: getValues(), propertiesToKeep: formFieldsToKeep }),
+        );
         switch (history.action) {
           case 'PUSH':
             dispatch(pushHistoryStack(history.location.pathname));

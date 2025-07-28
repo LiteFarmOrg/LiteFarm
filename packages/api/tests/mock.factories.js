@@ -1815,6 +1815,19 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function cleaning_taskFactory(
+  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  cleaning_task = {},
+) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] =
+    Array.isArray(product) && product.length ? product : [{ product_id: undefined }];
+  return knex('cleaning_task')
+    .insert({ task_id, product_id, ...cleaning_task })
+    .returning('*');
+}
+
 async function animal_movement_taskFactory(
   { promisedTask = taskFactory() } = {},
   animal_movement_task = fakeAnimalMovementTask(),
@@ -2753,6 +2766,7 @@ export default {
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,
+  cleaning_taskFactory,
   fakeScoutingTask,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,

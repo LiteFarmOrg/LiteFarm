@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import knex from '../../src/util/knex.js';
 import mocks from '../mock.factories.js';
 import LocationModel from '../../src/models/locationModel.js';
 import { Farm, Location, User } from '../../src/models/types.js';
@@ -135,3 +136,51 @@ export async function createField(farm: Farm) {
 
   return field;
 }
+
+export const setupSoilAmendmentTaskDependencies = async ({
+  farmId,
+  taskId,
+  soilAmendmentTaskProductData = {},
+}: {
+  farmId: string;
+  taskId: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  soilAmendmentTaskProductData: { [key: string]: any };
+}) => {
+  const [product] = await mocks.productFactory(
+    { promisedFarm: Promise.resolve([{ farm_id: farmId }]) },
+    mocks.fakeProduct({ type: 'soil_amendment_task' }),
+  );
+  // Make product details available
+  await mocks.soil_amendment_productFactory({
+    promisedProduct: Promise.resolve([product]),
+  });
+
+  const [soilAmendmentPurpose] = await mocks.soil_amendment_purposeFactory();
+
+  const fakeSoilAmendmentTaskProduct = mocks.fakeSoilAmendmentTaskProduct({
+    product_id: product.product_id,
+    ...soilAmendmentTaskProductData,
+  });
+
+  const [soilAmendmentTaskProduct] = await mocks.soil_amendment_task_productsFactory(
+    { promisedTask: Promise.resolve([{ task_id: taskId }]) },
+    fakeSoilAmendmentTaskProduct,
+  );
+
+  const soilAmendmentProduct = await knex('soil_amendment_product')
+    .where({ product_id: product.product_id })
+    .first();
+
+  const [soilAmendmentTaskProductsPurposeRelationship] = await knex(
+    'soil_amendment_task_products_purpose_relationship',
+  )
+    .insert({ task_products_id: soilAmendmentTaskProduct.id, purpose_id: soilAmendmentPurpose.id })
+    .returning('*');
+
+  return {
+    soilAmendmentProduct,
+    soilAmendmentTaskProduct,
+    soilAmendmentTaskProductsPurposeRelationship,
+  };
+};

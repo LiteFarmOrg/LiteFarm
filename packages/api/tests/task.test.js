@@ -38,6 +38,7 @@ import {
   expectTaskCompletionFields,
   irrigationTaskGenerator,
   completeTaskRequest as completeTaskRequestAsync,
+  deleteTaskRequest as deleteTaskRequestAsync,
   taskWithLocationFactory,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
@@ -3513,11 +3514,10 @@ describe('Task tests', () => {
         },
       });
 
-      const res = await chai
-        .request(server)
-        .delete(`/task/${task.task_id}`)
-        .set('user_id', user.user_id)
-        .set('farm_id', farm.farm_id);
+      const res = await deleteTaskRequestAsync(
+        { user_id: user.user_id, farm_id: farm.farm_id },
+        task.task_id,
+      );
 
       expect(res.status).toBe(200);
 

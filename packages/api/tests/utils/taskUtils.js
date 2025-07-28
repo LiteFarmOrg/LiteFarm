@@ -103,6 +103,14 @@ export async function abandonTaskRequest({ user_id, farm_id }, data, task_id) {
     .send(data);
 }
 
+export async function deleteTaskRequest({ user_id, farm_id }, task_id) {
+  return chai
+    .request(server)
+    .delete(`/task/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
 export function fakeUserFarm(role = 1) {
   return { ...mocks.fakeUserFarm(), role_id: role };
 }

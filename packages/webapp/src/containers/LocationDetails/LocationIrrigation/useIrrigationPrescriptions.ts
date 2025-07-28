@@ -34,7 +34,9 @@ export default function useIrrigationPrescriptions(location?: Location) {
   const { prescriptionList = [] } = useGetIrrigationPrescriptionsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       prescriptionList: data?.filter(
-        (prescription) => prescription.recommended_start_date >= today,
+        (prescription) =>
+          prescription.recommended_start_date >= today &&
+          prescription.location_id === location.location_id,
       ),
     }),
   });
@@ -42,12 +44,8 @@ export default function useIrrigationPrescriptions(location?: Location) {
 
   let filteredIrrigationPrescriptionsWithTask: LocationIrrigationPrescription[] = [];
   if (location.grid_points) {
-    filteredIrrigationPrescriptionsWithTask = prescriptionList
-      .filter(
-        // return matching plans for this location
-        ({ location_id }) => location_id === location.location_id,
-      )
-      .map(({ task_id, ...irrigationPrescription }) => {
+    filteredIrrigationPrescriptionsWithTask = prescriptionList.map(
+      ({ task_id, ...irrigationPrescription }) => {
         // map the plan to a new object that includes select task properties
         const task = task_id ? tasks.find((t) => t.task_id == task_id) : null;
         return {
@@ -59,7 +57,8 @@ export default function useIrrigationPrescriptions(location?: Location) {
               }
             : undefined,
         };
-      });
+      },
+    );
   }
   return filteredIrrigationPrescriptionsWithTask;
 }

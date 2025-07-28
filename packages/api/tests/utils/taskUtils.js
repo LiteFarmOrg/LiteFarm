@@ -221,23 +221,12 @@ export const irrigationTaskGenerator = async ({ farm, user, field, irrigation })
     },
   );
 
-  // Insert the main task record
-  const [task] = await mocks.taskFactory(
-    {
-      promisedUser: Promise.resolve([user]),
-      promisedFarm: Promise.resolve([farm]),
-      promisedTaskType: Promise.resolve([irrgationTaskType]),
-    },
-    mocks.fakeTask({
-      task_type_id: irrgationTaskType.task_type_id,
-      owner_user_id: user.user_id,
-    }),
-  );
-
-  // Insert to location_tasks
-  await mocks.location_tasksFactory({
-    promisedTask: Promise.resolve([task]),
-    promisedField: Promise.resolve([field]),
+  // Insert the main task record + location_tasks record
+  const task = await taskWithLocationFactory({
+    userId: user.user_id,
+    locationId: field.location_id,
+    taskTypeId: irrgationTaskType.task_type_id,
+    farmId: farm.farm_id,
   });
 
   // Insert the irrigation_task record

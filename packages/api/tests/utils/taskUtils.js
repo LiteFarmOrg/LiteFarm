@@ -212,7 +212,7 @@ export const animalTaskGenerator = async (taskData) => {
 
 export const irrigationTaskGenerator = async ({ farm, user, field, irrigation }) => {
   // Generate the irrigation task type
-  const [irrgationTaskType] = await mocks.task_typeFactory(
+  const [irrigationTaskType] = await mocks.task_typeFactory(
     { promisedFarm: Promise.resolve([farm]) },
     {
       farm_id: null,
@@ -225,7 +225,7 @@ export const irrigationTaskGenerator = async ({ farm, user, field, irrigation })
   const task = await taskWithLocationFactory({
     userId: user.user_id,
     locationId: field.location_id,
-    taskTypeId: irrgationTaskType.task_type_id,
+    taskTypeId: irrigationTaskType.task_type_id,
     farmId: farm.farm_id,
   });
 

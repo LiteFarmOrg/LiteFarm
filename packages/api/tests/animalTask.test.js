@@ -17,12 +17,11 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
-import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -37,10 +36,7 @@ import {
   postTaskRequest,
   getTasksRequest,
   completeTaskRequest,
-  patchTaskDateRequest,
   userFarmTaskGenerator,
-  todayWithTimezone,
-  yesterdayInYYYYMMDD,
   fakeCompletionData,
   animalTaskGenerator,
 } from './utils/taskUtils.js';
@@ -114,7 +110,6 @@ describe('Animal task tests', () => {
   let animal1, animal2, animal3, animal4, batch1, batch2, batch3, batch4;
   let farmBId, farmBAnimal1, farmBBatch1, location2Id, farmBLocationId;
   let removedAnimal1, removedBatch1, deletedAnimal1, deletedBatch1;
-  let animalBornToday, animalBroughtInToday;
   let purpose1, purpose2, otherPurpose;
 
   beforeAll(async () => {
@@ -125,13 +120,8 @@ describe('Animal task tests', () => {
       task_translation_key: 'SOIL_AMENDMENT_TASK',
     });
 
-    ({
-      user_id,
-      farm_id,
-      location_id,
-      task_type_id,
-      planting_management_plan_id,
-    } = await userFarmTaskGenerator());
+    ({ user_id, farm_id, location_id, task_type_id, planting_management_plan_id } =
+      await userFarmTaskGenerator());
 
     [{ location_id: location2Id }] = await mocks.locationFactory({
       promisedFarm: [{ farm_id }],
@@ -173,15 +163,6 @@ describe('Animal task tests', () => {
     });
     [farmBAnimal1] = await mocks.animalFactory({ promisedFarm: [{ farm_id: farmBId }] });
     [farmBBatch1] = await mocks.animal_batchFactory({ promisedFarm: [{ farm_id: farmBId }] });
-
-    [animalBornToday] = await mocks.animalFactory({
-      promisedFarm: [{ farm_id }],
-      properties: { birth_date: todayWithTimezone },
-    });
-    [animalBroughtInToday] = await mocks.animalFactory({
-      promisedFarm: [{ farm_id }],
-      properties: { brought_in_date: todayWithTimezone },
-    });
 
     [otherPurpose] = await mocks.animal_movement_purposeFactory('OTHER');
     [[purpose1], [purpose2]] = await Promise.all(
@@ -684,7 +665,7 @@ describe('Animal task tests', () => {
         if (type === 'custom_task') {
           test('should complete a custom task with an attempt to remove all animals and batches from the task', async () => {
             const emptyIdsVariants = [[], null];
-            for (let emptyIds of emptyIdsVariants) {
+            for (const emptyIds of emptyIdsVariants) {
               await checkBeforeAfterAnimals({
                 beforeAnimalIds: [animal1.id, animal2.id, animal3.id],
                 beforeBatchIds: [batch1.id, batch2.id, batch3.id],
@@ -696,7 +677,7 @@ describe('Animal task tests', () => {
         } else {
           test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
             const emptyIdsVariants = [[], null];
-            for (let emptyIds of emptyIdsVariants) {
+            for (const emptyIds of emptyIdsVariants) {
               const { task_id } = await animalTaskFactory(fakeTaskData[type]());
               const patchRes = await completeTaskRequest(
                 { user_id, farm_id },
@@ -901,7 +882,7 @@ describe('Animal task tests', () => {
             { before: [purpose1, purpose2], after: [otherPurpose] },
           ];
 
-          for (let { before, after } of purposes) {
+          for (const { before, after } of purposes) {
             await checkCompletedMovementTask(before, null, after, null);
           }
         });

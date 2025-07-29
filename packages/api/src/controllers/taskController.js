@@ -38,7 +38,7 @@ import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js'
 import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
-import { triggerPostTaskCreatedActions } from '../services/task.js';
+import { triggerPostTaskCreatedActions, triggerPostTaskDeletedActions } from '../services/task.js';
 import {
   checkCompleteTaskDocument,
   checkCreateTaskDocument,
@@ -1063,7 +1063,15 @@ const taskController = {
         farm_id,
       );
 
-      return res.status(200).send(result);
+      res.status(200).send(result);
+
+      triggerPostTaskDeletedActions(
+        result.taskType.farm_id
+          ? 'custom_task'
+          : result.taskType.task_translation_key.toLowerCase(),
+        result,
+        farm_id,
+      );
     } catch (error) {
       console.error(error);
       return res.status(400).json({ error });

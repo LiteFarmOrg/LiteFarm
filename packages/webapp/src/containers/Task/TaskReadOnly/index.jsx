@@ -65,7 +65,7 @@ function TaskReadOnly({ history, match, location }) {
   if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
     files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
   }
-  if (task.documents?.length) {
+  if (task?.documents?.length) {
     const documentFiles = task.documents.flatMap((doc) => doc.files);
     files.push(...documentFiles);
   }

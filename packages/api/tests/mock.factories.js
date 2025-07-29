@@ -1324,8 +1324,11 @@ function fakePesticide(defaultData = {}) {
 }
 
 function fakeTaskType(defaultData = {}) {
+  const task_name = faker.lorem.word();
+  const task_translation_key = defaultData.task_translation_key ?? task_name;
   return {
-    task_name: faker.lorem.word(),
+    task_name,
+    task_translation_key,
     ...defaultData,
   };
 }

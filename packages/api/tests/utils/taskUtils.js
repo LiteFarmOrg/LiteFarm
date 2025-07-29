@@ -103,6 +103,14 @@ export async function abandonTaskRequest({ user_id, farm_id }, data, task_id) {
     .send(data);
 }
 
+export async function deleteTaskRequest({ user_id, farm_id }, task_id) {
+  return chai
+    .request(server)
+    .delete(`/task/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
 export function fakeUserFarm(role = 1) {
   return { ...mocks.fakeUserFarm(), role_id: role };
 }
@@ -208,6 +216,34 @@ export const animalTaskGenerator = async (taskData) => {
   }
 
   return createdTask;
+};
+
+export const irrigationTaskGenerator = async ({ farm, user, field, irrigation }) => {
+  // Generate the irrigation task type
+  const [irrigationTaskType] = await mocks.task_typeFactory(
+    { promisedFarm: Promise.resolve([farm]) },
+    {
+      farm_id: null,
+      task_name: 'Irrigation',
+      task_translation_key: 'IRRIGATION_TASK',
+    },
+  );
+
+  // Insert the main task record + location_tasks record
+  const task = await taskWithLocationFactory({
+    userId: user.user_id,
+    locationId: field.location_id,
+    taskTypeId: irrigationTaskType.task_type_id,
+    farmId: farm.farm_id,
+  });
+
+  // Insert the irrigation_task record
+  const [irrigationTask] = await mocks.irrigation_taskFactory(
+    { promisedTask: Promise.resolve([task]) },
+    irrigation,
+  );
+
+  return { task, irrigationTask };
 };
 
 export const generateUserFarms = async (number) => {

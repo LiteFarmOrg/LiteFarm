@@ -62,6 +62,9 @@ export const getIrrigationPrescriptions = async ({
   return PRESCRIPTION_CONFIG.map(({ id, recommendedDate }) => ({
     id,
     location_id: locations[0].location_id,
+    farm_id: farmId,
+    system_name: 'NW System',
+    system_id: 5,
     management_plan_id: null,
     recommended_start_date: recommendedDate,
   }));

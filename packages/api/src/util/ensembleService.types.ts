@@ -89,6 +89,9 @@ export interface AllOrganisationsFarmData {
 
 export type ExternalIrrigationPrescription = {
   id: number;
+  system_id: number | null;
+  system_name: string | null;
+  farm_id: string | null;
   location_id: Location['location_id'];
   management_plan_id: ModelManagementPlan['management_plan_id'] | null;
   recommended_start_date: string;
@@ -153,8 +156,9 @@ type CommonPrescriptionDetails = {
   id: number;
   location_id: string;
   management_plan_id: number | null;
-  system_name: string;
-  system_id: number;
+  farm_id: string | null;
+  system_name: string | null;
+  system_id: number | null;
   recommended_start_date: string;
   prescription:
     | { uriData: UriPrescriptionData; vriData?: never }

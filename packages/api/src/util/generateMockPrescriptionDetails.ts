@@ -64,6 +64,7 @@ export const generateMockPrescriptionDetails = async ({
 
   const commonMockData = {
     id: irrigationPrescriptionId,
+    farm_id,
     location_id: locations[0].location_id,
     management_plan_id: managementPlan?.management_plan_id ?? null,
     recommended_start_date: getDateFromDayOfMonth(irrigationPrescriptionId),

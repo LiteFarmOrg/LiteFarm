@@ -261,7 +261,8 @@ export type SensorReadingTypes =
   | 'voltage'
   | 'water_pressure'
   | 'wind_direction'
-  | 'wind_speed';
+  | 'wind_speed'
+  | 'wind_speed_metadata'; // irrigation prescription metadata
 
 export interface Sensor {
   name: SensorTypes;
@@ -314,7 +315,8 @@ export type SensorReadingTypeUnits =
   | 'V'
   | 'psi'
   | 'deg'
-  | 'm/s';
+  | 'm/s'
+  | 'km/h'; // wind speed unit in prescription metadata
 
 export interface SensorDatapoint {
   dateTime: number; // Unix timestamp

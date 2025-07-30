@@ -77,7 +77,7 @@ export const generateMockPrescriptionDetails = async ({
         temperature: 20,
         temperature_unit: '˚C' as const,
         wind_speed: 10,
-        wind_speed_unit: 'm/s' as const,
+        wind_speed_unit: 'km/h' as const,
         cumulative_rainfall: 5,
         cumulative_rainfall_unit: 'mm' as const,
         et_rate: 2,

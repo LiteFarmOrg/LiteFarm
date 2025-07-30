@@ -124,8 +124,8 @@ export function isExternalIrrigationPrescriptionArray(
   );
 }
 
-export type EsciWeatherUnits = 'mm' | 'mm/24h' | '˚C' | 'm/s';
-export type LiteFarmWeatherUnits = 'mm' | 'mm/24h' | 'C' | 'm/s';
+export type EsciWeatherUnits = 'mm' | 'mm/24h' | '˚C' | 'km/h';
+export type LiteFarmWeatherUnits = 'mm' | 'mm/24h' | 'C' | 'km/h';
 
 export type Metadata<Units> = {
   weather_forecast: {

@@ -3036,59 +3036,61 @@ describe('Task tests', () => {
       describe.each(Object.entries(taskCompletionFieldUpdateTestCases))(
         '%s',
         (_description, testCases) => {
-          test.each(Object.entries(testCases))(`%s`, async (taskType, taskTypeTestCases) => {
-            for (const testCase of taskTypeTestCases) {
-              const {
-                initialData: initialTaskTypeData,
-                extraSetup,
-                getFakeCompletionData: getFakeTaskTypeCompletionData,
-                getExpectedData: getExpectedTaskTypeData,
-              } = testCase;
+          const formattedTestCases = Object.entries(testCases).flatMap(
+            ([taskType, taskTypeTestCases]) =>
+              taskTypeTestCases.map((testCase) => [taskType, testCase]),
+          );
+          test.each(formattedTestCases)(`%s`, async (taskType, testCase) => {
+            const {
+              initialData: initialTaskTypeData,
+              extraSetup,
+              getFakeCompletionData: getFakeTaskTypeCompletionData,
+              getExpectedData: getExpectedTaskTypeData,
+            } = testCase;
 
-              // Insert a task and location_task record
-              const { task_id } = await taskWithLocationFactory({
-                userId: user_id,
-                locationId: location_id,
-                farmId: farm_id,
-              });
+            // Insert a task and location_task record
+            const { task_id } = await taskWithLocationFactory({
+              userId: user_id,
+              locationId: location_id,
+              farmId: farm_id,
+            });
 
-              // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
-              const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
-                { promisedTask: [{ task_id }] },
-                initialTaskTypeData,
-              );
+            // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+            const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+              { promisedTask: [{ task_id }] },
+              initialTaskTypeData,
+            );
 
-              // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
-              const extraInitialDataInDB = extraSetup
-                ? await extraSetup(initialTaskTypeDataInDB, farm_id)
-                : {};
+            // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+            const extraInitialDataInDB = extraSetup
+              ? await extraSetup(initialTaskTypeDataInDB, farm_id)
+              : {};
 
-              const fakeReqBody = {
-                ...fakeCompletionData,
-                ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
-              };
+            const fakeReqBody = {
+              ...fakeCompletionData,
+              ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
+            };
 
-              const res = await completeTaskRequestAsync(
-                { user_id, farm_id },
-                fakeReqBody,
-                task_id,
-                taskType,
-              );
+            const res = await completeTaskRequestAsync(
+              { user_id, farm_id },
+              fakeReqBody,
+              task_id,
+              taskType,
+            );
 
-              const completedTaskInDB = await knex('task').where({ task_id }).first();
-              const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
+            const completedTaskInDB = await knex('task').where({ task_id }).first();
+            const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
 
-              expect(res.status).toBe(200);
-              expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+            expect(res.status).toBe(200);
+            expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
 
-              const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
+            const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
 
-              Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
-                expect(completedTaskTypeDataInDB[property]).toBe(value);
-              });
+            Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+              expect(completedTaskTypeDataInDB[property]).toBe(value);
+            });
 
-              await testCase.extraExpect?.(task_id);
-            }
+            await testCase.extraExpect?.(task_id);
           });
         },
       );

@@ -30,11 +30,9 @@ import type {
   ManagementPlan,
   EsciReturnedPrescriptionDetails,
   IrrigationPrescriptionDetails,
-  EsciWeatherUnits,
-  LiteFarmWeatherUnits,
   VriPrescriptionData,
 } from './ensembleService.types.js';
-import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
+import { AddonPartner, Farm, FarmAddon, Point } from '../models/types.js';
 import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
 import { getAreaOfPolygon } from './geoUtils.js';
 
@@ -171,57 +169,28 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
     );
   }
 
-  // Transform prescription data to LiteFarm format and validate details
-  const mappedPrescription = transformEnsemblePrescription(irrigationPrescription);
-  const prescriptionDetails = mappedPrescription.prescription;
-  if (!prescriptionDetails) {
+  if (!irrigationPrescription.prescription) {
     throw customError('Prescription data is missing', 500);
   }
 
+  // Transform prescription data to LiteFarm format and validate details
+  const mappedPrescription = transformEnsemblePrescription(irrigationPrescription);
+  const prescriptionDetails = mappedPrescription.prescription;
+
   // Calculate and return water consumption
-  const waterConsumptionL =
-    'uriData' in prescriptionDetails
-      ? calculateURIWaterConsumption(
-          prescriptionDetails,
-          mappedPrescription.pivot?.radius ?? 0,
-          mappedPrescription.pivot?.arc?.start_angle,
-          mappedPrescription.pivot?.arc?.end_angle,
-        )
-      : calculateVRIWaterConsumption(prescriptionDetails);
+  const waterConsumptionL = prescriptionDetails?.uriData
+    ? calculateURIWaterConsumption(
+        prescriptionDetails,
+        mappedPrescription.pivot?.radius ?? 0,
+        mappedPrescription.pivot?.arc?.start_angle,
+        mappedPrescription.pivot?.arc?.end_angle,
+      )
+    : calculateVRIWaterConsumption(prescriptionDetails);
 
   return {
     ...mappedPrescription,
     estimated_water_consumption: waterConsumptionL,
     estimated_water_consumption_unit: 'l',
-  };
-};
-
-/**
- * Maps units from Ensemble API format to LiteFarm format.
- *
- * @param {EsciReturnedPrescriptionDetails} prescription - The prescription details from Ensemble API.
- * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
- */
-const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
-  const { metadata, ...rest } = prescription;
-
-  const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
-    if (unit === '˚C') return 'C';
-    return unit;
-  };
-
-  const mappedWeatherForecast = {
-    ...metadata.weather_forecast,
-    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
-    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
-    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
-  };
-
-  return {
-    ...rest,
-    metadata: {
-      weather_forecast: mappedWeatherForecast,
-    },
   };
 };
 
@@ -251,15 +220,41 @@ const processPivotData = (pivot: EsciReturnedPrescriptionDetails['pivot']) => {
 };
 
 /**
- * Transforms prescription data from Ensemble API format to LiteFarm format.
- * Maps units and processes pivot data to match LiteFarm's expected structure.
+ * Transforms VRI data from Ensemble API format to LiteFarm format.
+ * Converts lat / lng strings to numbers
  */
-const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
-  const unitsMappedPrescription = mapEnsembleUnitsToLiteFarmUnits(prescription);
+const processVriData = (vriData: EsciReturnedPrescriptionDetails['prescription']['vriData']) => {
+  if (!vriData) return;
 
   return {
-    ...unitsMappedPrescription,
-    pivot: processPivotData(unitsMappedPrescription.pivot),
+    ...vriData,
+    zones: vriData.zones.map((zone) => ({
+      ...zone,
+      grid_points: zone.grid_points.map((point) => ({
+        lat: Number(point.lat),
+        lng: Number(point.lng),
+      })),
+    })),
+  };
+};
+
+/**
+ * Transforms prescription data from Ensemble API format to LiteFarm format.
+ * Processes pivot & prescription data to match LiteFarm's expected structure.
+ */
+const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
+  return {
+    ...prescription,
+    pivot: processPivotData(prescription.pivot),
+    prescription: {
+      // ESci is sending the opposite (uriData/vriData) key as null; remove these
+      ...(prescription.prescription.uriData && {
+        uriData: prescription.prescription.uriData,
+      }),
+      ...(prescription.prescription.vriData && {
+        vriData: processVriData(prescription.prescription.vriData),
+      }),
+    },
   };
 };
 
@@ -267,14 +262,14 @@ const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDet
  * Calculates water consumption for Uniform Rate Irrigation (URI),
  * supporting both full circles and partial circle sectors.
  *
- * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
+ * @param {IrrigationPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
  * @param {number} pivotRadius - The radius of the pivot irrigation system in meters.
  * @param {number} [startAngle] - Optional start angle in degrees (if defining a sector).
  * @param {number} [endAngle] - Optional end angle in degrees (if defining a sector).
  * @returns {number} The calculated water consumption in liters.
  */
 const calculateURIWaterConsumption = (
-  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  prescription: IrrigationPrescriptionDetails['prescription'],
   pivotRadius: number,
   startAngle?: number,
   endAngle?: number,
@@ -299,9 +294,9 @@ const calculateURIWaterConsumption = (
  * @returns {number} The calculated water consumption in liters.
  */
 const calculateVRIWaterConsumption = (
-  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  prescription: IrrigationPrescriptionDetails['prescription'],
 ): number => {
-  const prescriptionZones: VriPrescriptionData[] = prescription.vriData!.zones;
+  const prescriptionZones: VriPrescriptionData<Point>[] = prescription.vriData!.zones;
 
   return prescriptionZones.reduce((acc, zone) => {
     const zoneAreaM2 = getAreaOfPolygon(zone.grid_points) ?? 0;

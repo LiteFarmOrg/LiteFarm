@@ -82,8 +82,9 @@ export const generateKPIData = (
   const { et_rate, et_rate_unit, weather_icon_code } = weather_forecast;
 
   const [temperatureText, windSpeedText, cumulativeRainfallText] = WEATHER_PARAMS.map((param) => {
-    const value = convertEsciReadingValue(weather_forecast[param], param, system);
-    const displayUnit = getReadingUnit(param, system, weather_forecast[`${param}_unit`]);
+    const unitsParam = param === 'wind_speed' ? 'wind_speed_metadata' : param;
+    const value = convertEsciReadingValue(weather_forecast[param], unitsParam, system);
+    const displayUnit = getReadingUnit(unitsParam, system, weather_forecast[`${param}_unit`]);
 
     return `${value}${displayUnit}`;
   });

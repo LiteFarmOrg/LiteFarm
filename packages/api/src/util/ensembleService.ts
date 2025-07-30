@@ -30,8 +30,6 @@ import type {
   ManagementPlan,
   EsciReturnedPrescriptionDetails,
   IrrigationPrescriptionDetails,
-  EsciWeatherUnits,
-  LiteFarmWeatherUnits,
   VriPrescriptionData,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon, Point } from '../models/types.js';
@@ -196,35 +194,6 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
 };
 
 /**
- * Maps units from Ensemble API format to LiteFarm format.
- *
- * @param {EsciReturnedPrescriptionDetails} prescription - The prescription details from Ensemble API.
- * @returns {EsciReturnedPrescriptionDetails} The prescription with units mapped to LiteFarm format.
- */
-const mapEnsembleUnitsToLiteFarmUnits = (prescription: EsciReturnedPrescriptionDetails) => {
-  const { metadata, ...rest } = prescription;
-
-  const mapWeatherUnit = (unit: EsciWeatherUnits): LiteFarmWeatherUnits => {
-    if (unit === '˚C') return 'C';
-    return unit;
-  };
-
-  const mappedWeatherForecast = {
-    ...metadata.weather_forecast,
-    temperature_unit: mapWeatherUnit(metadata.weather_forecast.temperature_unit),
-    wind_speed_unit: mapWeatherUnit(metadata.weather_forecast.wind_speed_unit),
-    cumulative_rainfall_unit: mapWeatherUnit(metadata.weather_forecast.cumulative_rainfall_unit),
-  };
-
-  return {
-    ...rest,
-    metadata: {
-      weather_forecast: mappedWeatherForecast,
-    },
-  };
-};
-
-/**
  * Processes pivot data from Ensemble API format to LiteFarm format.
  * Converts string values to numbers and swaps angle directions from CCW to CW.
  *
@@ -270,20 +239,19 @@ const processVriData = (vriData: EsciReturnedPrescriptionDetails['prescription']
 
 /**
  * Transforms prescription data from Ensemble API format to LiteFarm format.
- * Maps units and processes pivot & prescription data to match LiteFarm's expected structure.
+ * Processes pivot & prescription data to match LiteFarm's expected structure.
  */
 const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
-  const unitsMappedPrescription = mapEnsembleUnitsToLiteFarmUnits(prescription);
   return {
-    ...unitsMappedPrescription,
-    pivot: processPivotData(unitsMappedPrescription.pivot),
+    ...prescription,
+    pivot: processPivotData(prescription.pivot),
     prescription: {
       // ESci is sending the opposite (uriData/vriData) key as null; remove these
-      ...(unitsMappedPrescription.prescription.uriData && {
-        uriData: unitsMappedPrescription.prescription.uriData,
+      ...(prescription.prescription.uriData && {
+        uriData: prescription.prescription.uriData,
       }),
-      ...(unitsMappedPrescription.prescription.vriData && {
-        vriData: processVriData(unitsMappedPrescription.prescription.vriData),
+      ...(prescription.prescription.vriData && {
+        vriData: processVriData(prescription.prescription.vriData),
       }),
     },
   };

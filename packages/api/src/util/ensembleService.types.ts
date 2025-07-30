@@ -148,8 +148,13 @@ interface UriPrescriptionData {
   application_depth_unit: string;
 }
 
-export type VriPrescriptionData = UriPrescriptionData & {
-  grid_points: Point[];
+export interface StringPoint {
+  lat: string;
+  lng: string;
+}
+
+export type VriPrescriptionData<GridPoint> = UriPrescriptionData & {
+  grid_points: GridPoint[];
 };
 
 type CommonPrescriptionDetails = {
@@ -160,15 +165,6 @@ type CommonPrescriptionDetails = {
   system_name: string | null;
   system_id: number | null;
   recommended_start_date: string;
-  prescription:
-    | { uriData: UriPrescriptionData; vriData?: never }
-    | {
-        vriData: {
-          zones: VriPrescriptionData[];
-          file_url: string;
-        };
-        uriData?: never;
-      };
 };
 
 export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
@@ -181,6 +177,13 @@ export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
     };
   } | null;
   metadata: Metadata<EsciWeatherUnits>;
+  prescription: {
+    uriData?: UriPrescriptionData | null;
+    vriData?: {
+      zones: VriPrescriptionData<StringPoint>[];
+      file_url: string;
+    };
+  };
 };
 
 export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
@@ -195,4 +198,11 @@ export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
   metadata: Metadata<LiteFarmWeatherUnits>;
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;
+  prescription: {
+    uriData?: UriPrescriptionData;
+    vriData?: {
+      zones: VriPrescriptionData<Point>[];
+      file_url: string;
+    };
+  };
 };

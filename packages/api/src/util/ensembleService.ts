@@ -34,7 +34,7 @@ import type {
   LiteFarmWeatherUnits,
   VriPrescriptionData,
 } from './ensembleService.types.js';
-import { AddonPartner, Farm, FarmAddon } from '../models/types.js';
+import { AddonPartner, Farm, FarmAddon, Point } from '../models/types.js';
 import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
 import { getAreaOfPolygon } from './geoUtils.js';
 
@@ -251,6 +251,25 @@ const processPivotData = (pivot: EsciReturnedPrescriptionDetails['pivot']) => {
 };
 
 /**
+ * Transforms VRI data from Ensemble API format to LiteFarm format.
+ * Converts lat / lng strings to numbers
+ */
+const processVriData = (vriData: EsciReturnedPrescriptionDetails['prescription']['vriData']) => {
+  if (!vriData) return;
+
+  return {
+    ...vriData,
+    zones: vriData.zones.map((zone) => ({
+      ...zone,
+      grid_points: zone.grid_points.map((point) => ({
+        lat: Number(point.lat),
+        lng: Number(point.lng),
+      })),
+    })),
+  };
+};
+
+/**
  * Transforms prescription data from Ensemble API format to LiteFarm format.
  * Maps units and processes pivot data to match LiteFarm's expected structure.
  */
@@ -260,6 +279,10 @@ const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDet
   return {
     ...unitsMappedPrescription,
     pivot: processPivotData(unitsMappedPrescription.pivot),
+    prescription: {
+      uriData: unitsMappedPrescription.prescription.uriData ?? undefined,
+      vriData: processVriData(unitsMappedPrescription.prescription.vriData),
+    },
   };
 };
 
@@ -267,14 +290,14 @@ const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDet
  * Calculates water consumption for Uniform Rate Irrigation (URI),
  * supporting both full circles and partial circle sectors.
  *
- * @param {EsciReturnedPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
+ * @param {IrrigationPrescriptionDetails['prescription']} prescription - The prescription object containing URI data.
  * @param {number} pivotRadius - The radius of the pivot irrigation system in meters.
  * @param {number} [startAngle] - Optional start angle in degrees (if defining a sector).
  * @param {number} [endAngle] - Optional end angle in degrees (if defining a sector).
  * @returns {number} The calculated water consumption in liters.
  */
 const calculateURIWaterConsumption = (
-  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  prescription: IrrigationPrescriptionDetails['prescription'],
   pivotRadius: number,
   startAngle?: number,
   endAngle?: number,
@@ -299,9 +322,9 @@ const calculateURIWaterConsumption = (
  * @returns {number} The calculated water consumption in liters.
  */
 const calculateVRIWaterConsumption = (
-  prescription: EsciReturnedPrescriptionDetails['prescription'],
+  prescription: IrrigationPrescriptionDetails['prescription'],
 ): number => {
-  const prescriptionZones: VriPrescriptionData[] = prescription.vriData!.zones;
+  const prescriptionZones: VriPrescriptionData<Point>[] = prescription.vriData!.zones;
 
   return prescriptionZones.reduce((acc, zone) => {
     const zoneAreaM2 = getAreaOfPolygon(zone.grid_points) ?? 0;

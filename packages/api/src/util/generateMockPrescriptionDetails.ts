@@ -17,6 +17,7 @@ import { customError } from './customErrors.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { Point, getCentroidOfPolygon } from './geoUtils.js';
+import type { StringPoint } from './ensembleService.types.js';
 import type {
   EsciReturnedPrescriptionDetails,
   VriPrescriptionData,
@@ -140,8 +141,8 @@ function generateMockPieSliceZones(
     radius: number;
   },
   applicationDepths: number[],
-): VriPrescriptionData[] {
-  const zones: VriPrescriptionData[] = [];
+): VriPrescriptionData<StringPoint>[] {
+  const zones: VriPrescriptionData<StringPoint>[] = [];
   const zoneCount = 3;
   const arcSpan = 120;
 
@@ -150,15 +151,33 @@ function generateMockPieSliceZones(
     const endAngle = startAngle + arcSpan;
     const step = 30;
 
-    const arcPoints: Point[] = [];
+    const arcPoints: StringPoint[] = [];
     for (let angle = startAngle; angle <= endAngle; angle += step) {
-      arcPoints.push(offsetPoint(center, radius, angle));
+      const point = offsetPoint(center, radius, angle);
+      arcPoints.push({
+        lat: point.lat.toString(),
+        lng: point.lng.toString(),
+      });
     }
 
     const innerEdgePoint = offsetPoint(center, radius * 0.6, endAngle);
     const innerStartPoint = offsetPoint(center, radius * 0.6, startAngle);
 
-    const polygonPoints = [...arcPoints, innerEdgePoint, center, innerStartPoint];
+    const polygonPoints: StringPoint[] = [
+      ...arcPoints,
+      {
+        lat: innerEdgePoint.lat.toString(),
+        lng: innerEdgePoint.lng.toString(),
+      },
+      {
+        lat: center.lat.toString(),
+        lng: center.lng.toString(),
+      },
+      {
+        lat: innerStartPoint.lat.toString(),
+        lng: innerStartPoint.lng.toString(),
+      },
+    ];
 
     zones.push({
       soil_moisture_deficit: 40 + i * 10,

@@ -169,12 +169,13 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
     );
   }
 
+  if (!irrigationPrescription.prescription) {
+    throw customError('Prescription data is missing', 500);
+  }
+
   // Transform prescription data to LiteFarm format and validate details
   const mappedPrescription = transformEnsemblePrescription(irrigationPrescription);
   const prescriptionDetails = mappedPrescription.prescription;
-  if (!prescriptionDetails) {
-    throw customError('Prescription data is missing', 500);
-  }
 
   // Calculate and return water consumption
   const waterConsumptionL = prescriptionDetails?.uriData

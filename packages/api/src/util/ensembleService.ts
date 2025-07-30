@@ -179,15 +179,14 @@ export const getEnsembleIrrigationPrescriptionDetails = async (
   }
 
   // Calculate and return water consumption
-  const waterConsumptionL =
-    'uriData' in prescriptionDetails
-      ? calculateURIWaterConsumption(
-          prescriptionDetails,
-          mappedPrescription.pivot?.radius ?? 0,
-          mappedPrescription.pivot?.arc?.start_angle,
-          mappedPrescription.pivot?.arc?.end_angle,
-        )
-      : calculateVRIWaterConsumption(prescriptionDetails);
+  const waterConsumptionL = prescriptionDetails?.uriData
+    ? calculateURIWaterConsumption(
+        prescriptionDetails,
+        mappedPrescription.pivot?.radius ?? 0,
+        mappedPrescription.pivot?.arc?.start_angle,
+        mappedPrescription.pivot?.arc?.end_angle,
+      )
+    : calculateVRIWaterConsumption(prescriptionDetails);
 
   return {
     ...mappedPrescription,
@@ -271,17 +270,21 @@ const processVriData = (vriData: EsciReturnedPrescriptionDetails['prescription']
 
 /**
  * Transforms prescription data from Ensemble API format to LiteFarm format.
- * Maps units and processes pivot data to match LiteFarm's expected structure.
+ * Maps units and processes pivot & prescription data to match LiteFarm's expected structure.
  */
 const transformEnsemblePrescription = (prescription: EsciReturnedPrescriptionDetails) => {
   const unitsMappedPrescription = mapEnsembleUnitsToLiteFarmUnits(prescription);
-
   return {
     ...unitsMappedPrescription,
     pivot: processPivotData(unitsMappedPrescription.pivot),
     prescription: {
-      uriData: unitsMappedPrescription.prescription.uriData ?? undefined,
-      vriData: processVriData(unitsMappedPrescription.prescription.vriData),
+      // ESci is sending the opposite (uriData/vriData) key as null; remove these
+      ...(unitsMappedPrescription.prescription.uriData && {
+        uriData: unitsMappedPrescription.prescription.uriData,
+      }),
+      ...(unitsMappedPrescription.prescription.vriData && {
+        vriData: processVriData(unitsMappedPrescription.prescription.vriData),
+      }),
     },
   };
 };

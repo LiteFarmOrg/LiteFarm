@@ -182,7 +182,7 @@ export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
     vriData?: {
       zones: VriPrescriptionData<StringPoint>[];
       file_url: string;
-    };
+    } | null;
   };
 };
 

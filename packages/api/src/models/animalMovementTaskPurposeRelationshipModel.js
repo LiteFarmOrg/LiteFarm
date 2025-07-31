@@ -34,7 +34,7 @@ class AnimalMovementTaskPurposeRelationship extends Model {
       properties: {
         task_id: { type: 'integer' },
         purpose_id: { type: 'integer' },
-        other_purpose: { type: ['string', 'null'], minLength: 1, maxLength: 255 },
+        other_purpose: { type: ['string', 'null'], maxLength: 255 },
       },
       additionalProperties: false,
     };

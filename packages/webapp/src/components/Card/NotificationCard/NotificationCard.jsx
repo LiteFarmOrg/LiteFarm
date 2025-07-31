@@ -1,9 +1,9 @@
 import Card from '../index';
 import { Semibold, Text } from '../../Typography';
-import styles from '../card.module.scss';
+import cardStyles from '../card.module.scss';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { colors } from '../../../assets/theme';
 import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 import getNotificationTypeIcon from '../../util/getNotificationTypeIcon';
@@ -43,76 +43,24 @@ export function PureNotificationCard({
   return (
     <Card
       data-cy="notification-card"
-      className={clsx(status === 'Read' ? styles.notificationRead : styles.notificationUnread)}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '16px',
-        alignItems: 'center',
-        padding: '16px',
-        borderTopWidth: '2px',
-        borderBottomWidth: '0px',
-        borderLeftWidth: '0px',
-        borderRightWidth: '0px',
-        borderTopRightRadius: '0px',
-        borderTopLeftRadius: '0px',
-        borderBottomLeftRadius: '0px',
-        borderBottomRightRadius: '0px',
-        borderColor: '#D4DAE3',
-        boxShadow: '0 0 0',
-        cursor: 'pointer',
-        backgroundColor: 'var(--bgInputListTile)',
-      }}
-      classes={{
-        card: {
-          display: 'flex',
-          flexDirection: 'row',
-          minHeight: '98px',
-          width: '100%',
-          padding: '160px',
-        },
-      }}
+      className={clsx(
+        status === 'Read' ? cardStyles.notificationRead : cardStyles.notificationUnread,
+        styles.notificationCard,
+      )}
+      classes={{ card: styles.card }}
       onClick={onClick}
     >
       <div>
-        <div
-          style={{
-            width: '49px',
-            height: '8px',
-            left: '16px',
-            top: '313px',
-            fontFamily: '"Open Sans", "Manjari"',
-            fontStyle: 'normal',
-            fontWeight: '400',
-            fontSize: '10px',
-            lineHeight: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            textAlign: 'center',
-            color: '#66738A',
-            marginBottom: '10px',
-          }}
-        >
-          {created_at}
-        </div>
-
-        {Icon && (
-          <Icon
-            style={{
-              height: '32px',
-              width: '32px',
-              marginRight: '16px',
-            }}
-          />
-        )}
+        <div className={styles.date}>{created_at}</div>
+        {Icon && <Icon className={styles.icon} />}
       </div>
 
       <div>
-        <Semibold style={{ color: colors.teal700, marginBottom: '12px', lineHeight: '20px' }}>
+        <Semibold className={styles.title}>
           {title.translation_key ? t(title.translation_key) : title[currentLang]}
-          {alert && <AlertIcon style={{ marginLeft: '8px', marginBottom: '2px' }} />}
+          {alert && <AlertIcon className={styles.alertIcon} />}
         </Semibold>
-        <Text style={{ margin: 0, lineHeight: '18px' }}>
+        <Text className={styles.body}>
           {body.translation_key ? t(body.translation_key, tOptions) : body[currentLang]}
         </Text>
       </div>

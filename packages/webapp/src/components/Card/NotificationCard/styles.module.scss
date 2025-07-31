@@ -1,0 +1,78 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.notificationCard {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border-top: 2px solid #d4dae3;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  background-color: var(--bgInputListTile);
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  min-height: 98px;
+  width: 100%;
+  padding: 160px;
+}
+
+.date {
+  width: 49px;
+  height: 8px;
+  font-family: 'Open Sans', 'Manjari';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #66738a;
+  margin-bottom: 10px;
+}
+
+.icon {
+  height: 32px;
+  width: 32px;
+  margin-right: 16px;
+}
+
+.title {
+  color: var(--Colors-Primary-Primary-teal-700-2); // theme.colors.teal700
+  margin-bottom: 12px;
+  line-height: 20px;
+}
+
+.body {
+  margin: 0;
+  line-height: 18px;
+}
+
+.alertIcon {
+  margin-left: 8px;
+  margin-bottom: 2px;
+}

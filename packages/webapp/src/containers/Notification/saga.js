@@ -39,17 +39,24 @@ export function* getNotificationSaga() {
 
 export const readNotification = createAction('readNotificationSaga');
 
-export function* readNotificationSaga({ payload }) {
+export function* readNotificationSaga({
+  payload: { notificationId, notificationType, redirectUrl },
+}) {
   const { user_id, farm_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
   try {
     yield call(
       axios.patch,
       notificationsUrl,
-      { notification_ids: [payload], status: 'Read' },
+      { notification_ids: [notificationId], status: 'Read' },
       header,
     );
-    history.push(`/notifications/${payload}/read_only`);
+
+    if (notificationType === 'NEW_IRRIGATION_PRESCRIPTION' && redirectUrl) {
+      history.push(redirectUrl);
+    } else {
+      history.push(`/notifications/${notificationId}/read_only`);
+    }
   } catch (e) {
     console.error(e);
   }

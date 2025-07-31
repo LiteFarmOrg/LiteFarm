@@ -64,7 +64,15 @@ export default function NotificationPage() {
           <NotificationCard
             key={notification.notification_id}
             variables={notification.variables}
-            onClick={() => dispatch(readNotification(notification.notification_id))}
+            onClick={() =>
+              dispatch(
+                readNotification({
+                  notificationId: notification.notification_id,
+                  notificationType: notification.context?.notification_type,
+                  redirectUrl: notification.ref?.url,
+                }),
+              )
+            }
             {...notification}
           />
         );

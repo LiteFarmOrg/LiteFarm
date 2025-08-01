@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin';
+
 .notificationCard {
   display: flex;
   flex-direction: row;
@@ -30,6 +32,11 @@
   box-shadow: none;
   cursor: pointer;
   background-color: var(--bgInputListTile);
+
+  > div:last-child {
+    max-width: 100%;
+    overflow: hidden;
+  }
 }
 
 .card {
@@ -65,6 +72,8 @@
   color: var(--Colors-Primary-Primary-teal-700-2); // theme.colors.teal700
   margin-bottom: 12px;
   line-height: 20px;
+
+  @include truncateText();
 }
 
 .body {

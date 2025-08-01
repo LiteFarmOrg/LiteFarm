@@ -1472,8 +1472,8 @@
       "TITLE": "Tarefas para hoje"
     },
     "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "Uma nova prescrição de irrigação foi gerada com base nos dados atuais de clima, solo e cultura.",
-      "TITLE": "Nova prescrição de irrigação pronta"
+      "BODY": "Uma nova prescrição de irrigação foi gerada com base nos dados atuais de clima, solo e cultura para {{date}}.",
+      "TITLE": "Prescrição de irrigação | {{location}}"
     },
     "NONE_TO_DISPLAY": "Não há notificações para exibir.",
     "PAGE_TITLE": "Notificações",

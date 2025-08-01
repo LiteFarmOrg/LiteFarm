@@ -150,13 +150,13 @@ const Input = ({
             onClick={setVisibility}
           />
         ))}
-      {unit && <div className={styles.unit}>{unit}</div>}
       {currency && (
         <div ref={currencyRef} className={styles.currency}>
           {currency}
         </div>
       )}
       <div className={styles.inputWrapper}>
+        {unit && <div className={styles.unit}>{unit}</div>}
         {showError && !unit && showCross && (
           <Cross
             className={clsx(styles.clearIcon, inputType === 'date' && styles.date)}

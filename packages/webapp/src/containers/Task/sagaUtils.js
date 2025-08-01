@@ -114,3 +114,14 @@ export const getCompleteSoilSampleTaskBody = ({ taskData, uploadedFiles }) => {
     ...formatSoilSampleDocuments(uploadedFiles),
   };
 };
+
+export const postTaskRequestHasNewProduct = (reqBody, taskTypeTranslationKey) => {
+  const taskType = taskTypeTranslationKey.toLowerCase();
+  if (!reqBody[taskType]?.product) {
+    return false;
+  }
+
+  const { product_id, name } = reqBody[taskType].product;
+
+  return !!(!product_id && name);
+};

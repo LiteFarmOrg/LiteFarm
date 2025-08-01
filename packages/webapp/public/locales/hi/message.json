@@ -81,6 +81,13 @@
       "UPDATE": "खेत की जानकारी सफलतापूर्वक अपडेट की गई!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": ""
+    },
+    "SUCCESS_DISCONNECT_ADDON": ""
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "आपके फीडबैक को सबमिट करते समय कुछ गलत हो गया। कृपया पुनः प्रयास करें।"

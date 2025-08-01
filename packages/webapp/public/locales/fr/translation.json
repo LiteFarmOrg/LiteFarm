@@ -1472,8 +1472,8 @@
       "TITLE": "Tâches à accomplir aujourd'hui"
     },
     "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "Une nouvelle ordonnance d’irrigation a été créée en fonction des données météorologiques actuelles, du sol et des cultures actuelles.",
-      "TITLE": "Nouvelle prescription d'irrigation prête"
+      "BODY": "Une nouvelle ordonnance d’irrigation a été créée en fonction des données météorologiques actuelles, du sol et des cultures actuelles pour {{date}}.",
+      "TITLE": "Ordonnance d'irrigation | {{location}}"
     },
     "NONE_TO_DISPLAY": "Il n'y a aucune notification à afficher.",
     "PAGE_TITLE": "Notifications",

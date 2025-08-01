@@ -8,6 +8,7 @@ import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 import getNotificationTypeIcon from '../../util/getNotificationTypeIcon';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { getLocalizedDateString } from '../../../util/moment';
 
 /**
  * Renders a card containing notification data.
@@ -35,6 +36,14 @@ export function PureNotificationCard({
     return options;
   }, {});
 
+  // Localize YYYY-MM-DD date string
+  if ('date' in tOptions) {
+    tOptions.date = getLocalizedDateString(tOptions.date, {
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
   let Icon;
   // The "context" can indicate that a particular type of task icon is appropriate.
   if (context?.task_translation_key) Icon = getTaskTypeIcon(context.task_translation_key);
@@ -57,7 +66,7 @@ export function PureNotificationCard({
 
       <div>
         <Semibold className={styles.title}>
-          {title.translation_key ? t(title.translation_key) : title[currentLang]}
+          {title.translation_key ? t(title.translation_key, tOptions) : title[currentLang]}
           {alert && <AlertIcon className={styles.alertIcon} />}
         </Semibold>
         <Text className={styles.body}>

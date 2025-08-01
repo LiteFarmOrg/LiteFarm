@@ -208,11 +208,8 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Du brauchst einen Ort oder ein Gebiet, wo Tiere bewegt werden können. Gehe zur Karte, um einen Tierstandort zu erstellen.",
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
-    "NEED_SOIL_SAMPLE_LOCATION": "",
-    "NEED_SOIL_SAMPLE_LOCATION_WORKER": "",
     "NO_ANIMAL_LOCATION": "Keine zugelassenen Tierstandorte",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
-    "NO_SOIL_SAMPLE_LOCATION": "",
     "NOTES_LABEL": "Gibt es etwas Spezielles, das zu dieser Aufgabe hinzugefügt werden sollte?",
     "NOTES_PLACEHOLDER": "Anweisungen oder Spezifikationen für den Beauftragten hinzufügen",
     "PEST_CONTROL_VIEW": {
@@ -270,17 +267,6 @@
       "VOLUME": "Volumen",
       "WEIGHT": "Gewicht"
     },
-    "SOIL_SAMPLE_VIEW": {
-      "LOCATION_COUNT": "",
-      "SAMPLE_DEPTH_RANGE": "",
-      "SAMPLE_PER_LOCATION_COUNT": "",
-      "SAMPLE_TOOL": {
-        "AUGER": "",
-        "SOIL_PROBE": "",
-        "SPADE": ""
-      },
-      "SAMPLING_TOOL": ""
-    },
     "TASK": "Aufgabe",
     "TASK_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Erzählen Sie uns von dieser Aufgabe",
@@ -290,19 +276,6 @@
     "WAGE_OVERRIDE": "Lohnaufhebung",
     "WHAT_PLANTING_METHOD": "Was ist die Umpflanzmethode?",
     "WILD_CROP": "Wildfrüchte"
-  },
-  "ADDON": {
-    "DISCONNECT_MODAL": {
-      "CANCEL": "",
-      "CONFIRM": ""
-    },
-    "ESCI": {
-      "DISCONNECT_ESCI": "",
-      "INFO": "",
-      "MODAL_INFO": "",
-      "MODAL_TITLE": ""
-    },
-    "ORGANISATION_ID": ""
   },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Haben Sie einen anderen Tiertyp oder eine andere Rasse?",
@@ -631,24 +604,6 @@
     "TUESDAY": "D",
     "WEDNESDAY": "M"
   },
-  "DIRECTION": {
-    "E": "",
-    "ENE": "",
-    "ESE": "",
-    "N": "",
-    "NE": "",
-    "NNE": "",
-    "NNW": "",
-    "NW": "",
-    "S": "",
-    "SE": "",
-    "SSE": "",
-    "SSW": "",
-    "SW": "",
-    "W": "",
-    "WNW": "",
-    "WSW": ""
-  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Weitere Seiten hinzufügen",
@@ -884,7 +839,6 @@
       "SATELLITE": "Satellitenansicht",
       "SENSOR": "Sensor",
       "SHOW_ALL": "Alle anzeigen",
-      "SOIL_SAMPLE_LOCATION": "",
       "SURFACE_WATER": "Oberflächengewässer",
       "TITLE": "Filtern Sie Ihre Karte",
       "WATER_VALVE": "Wasserventil",
@@ -901,13 +855,6 @@
       "EDIT_TITLE": "Residenz bearbeiten",
       "NAME": "Name der Residenz",
       "TITLE": "Wohnsitz hinzufügen"
-    },
-    "SOIL_SAMPLE_LOCATION": {
-      "EDIT_TITLE": "",
-      "LATITUDE": "",
-      "LONGITUDE": "",
-      "NAME": "",
-      "TITLE": ""
     },
     "SPOTLIGHT": {
       "ADD": "Standorte zu Ihrer Karte hinzufügen",
@@ -927,8 +874,6 @@
     "TAB": {
       "CROPS": "Kulturpflanzen",
       "DETAILS": "Details",
-      "FIELD_TECHNOLOGY": "",
-      "IRRIGATION": "",
       "TASKS": "Aufgaben"
     },
     "TITLE": "Landwirtschaftskarte",
@@ -1183,23 +1128,6 @@
     "WAGE": "Stundenlohn",
     "WAGE_ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",
     "WAGE_RANGE_ERROR": "Das Gehalt muss eine positive Zahl sein, die kleiner als 999.999.999 ist."
-  },
-  "IRRIGATION_PRESCRIPTION": {
-    "APPLICATION_DEPTH": "",
-    "APPROVE_AND_CREATE_TASK": "",
-    "DATA_FROM": "",
-    "ESTIMATED_WATER_CONSUMPTION": "",
-    "ET_RATE": "",
-    "IRRIGATION_PRESCRIPTION_FILES": "",
-    "IRRIGATION_PRESCRIPTIONS": "",
-    "IRRIGATION_ZONE": "",
-    "PRESCRIPTION_DATE": "",
-    "SOIL_MOISTURE_DEFICIT": "",
-    "START_DATE": "",
-    "START_TIME": "",
-    "TASK_STATUS": "",
-    "TITLE": "",
-    "ZONE": ""
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Lassen Sie uns Ihnen ein paar wichtige Dinge zeigen!",
@@ -1471,10 +1399,6 @@
       "BODY": "Sie haben heute Aufgaben zu erledigen.",
       "TITLE": "Heute fällige Aufgaben"
     },
-    "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "",
-      "TITLE": ""
-    },
     "NONE_TO_DISPLAY": "Keine Benachrichtigungen.",
     "PAGE_TITLE": "Benachrichtigungen",
     "TAKE_ME_THERE": "Bring mich hin",
@@ -1571,7 +1495,6 @@
       "USER_ADDRESS_LENGTH": "Die Benutzeradresse darf 255 Zeichen nicht überschreiten"
     },
     "FARM": {
-      "ADDONS": "",
       "ADDRESS": "Adresse",
       "CHANGE_IMAGE": "Bild wechseln",
       "CLICK_TO_UPLOAD": "Zum Hochladen klicken",
@@ -1795,65 +1718,20 @@
     "ANIMALS_LOCATION": "Tierstandorte"
   },
   "SENSOR": {
-    "ARRAY": "",
     "DAYS_AGO": "{{time}} Tag(e) zuvor",
     "DEPTH": "Tiefe",
-    "DETAIL": {
-      "ADD_SENSORS": "",
-      "DETECTED_FIELD": "",
-      "DEVICE_TYPE": ""
-    },
-    "DEVICE_TYPES": {
-      "DRIP_LINE_PRESSURE_SENSOR": "",
-      "IR_TEMPERATURE_SENSOR": "",
-      "SOIL_WATER_POTENTIAL_SENSOR": "",
-      "WEATHER_STATION": "",
-      "WIND_SPEED_SENSOR": ""
-    },
-    "ESCI": {
-      "ACTIVE_CONNECTION": "",
-      "CONNECT_NEW_SENSOR": "",
-      "CURRENT_SUPPORT": "",
-      "ENSEMBLE_ESID": "",
-      "ENTER_ID": "",
-      "MANAGE_LINK": "",
-      "NAME": "",
-      "ORGANISATION_ID": "",
-      "ORGANISATION_ID_ERROR": "",
-      "ORGANISATION_ID_GENERIC_ERROR": "",
-      "SEE_ENSEMBLE_SENSOR_LIST": "",
-      "SHORT_NAME": "",
-      "TO_MANAGE_SENSORS": ""
-    },
     "HOURS_AGO": "{{time}} Stunde(n) zuvor",
     "MINUTES_AGO": "{{time}} Minute(n) vor",
     "MONTHS_AGO": "vor {{time}} Monat(en)",
     "NO_DATA_FOUND": "Keine Sensormesswerte gefunden",
-    "NO_RECENT_SENSOR_READINGS": "",
-    "PARTNER_SENSOR_LIST": "",
     "READING": {
-      "BAROMETRIC_PRESSURE": "",
-      "CUMULATIVE_RAINFALL": "",
-      "LATEST_READING": "",
-      "RAINFALL_RATE": "",
-      "RELATIVE_HUMIDITY": "",
       "SOIL_WATER_CONTENT": "Wassergehalt des Bodens",
       "SOIL_WATER_POTENTIAL": "Wasserpotenzial im Boden",
-      "SOLAR_RADIATION": "",
       "TEMPERATURE": "Temperatur",
       "TYPES": "Lesearten",
-      "UNKNOWN": "Unbekannt",
-      "UPDATE_READINGS": "",
-      "WATER_PRESSURE": "",
-      "WIND_DIRECTION": "",
-      "WIND_SPEED": "",
-      "WIND_SPEED_AND_DIRECTION": ""
+      "UNKNOWN": "Unbekannt"
     },
-    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor",
-    "SENSOR_ARRAY": "",
-    "SENSOR_ARRAYS": "",
-    "STANDALONE_SENSOR": "",
-    "STANDALONE_SENSORS": ""
+    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor"
   },
   "SIGNUP": {
     "CHANGES": "Lesen Sie mehr über die Änderungen",
@@ -1883,13 +1761,7 @@
   "STATUS": {
     "ACTIVE": "Aktiv",
     "INACTIVE": "Inaktiv",
-    "INVITED": "Eingeladen",
-    "OFFLINE": "",
-    "ONLINE": "",
-    "SENSOR": {
-      "OFFLINE_TOOLTIP": "",
-      "ONLINE_TOOLTIP": ""
-    }
+    "INVITED": "Eingeladen"
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produziert am",
@@ -1988,7 +1860,6 @@
     "DESCRIBE_HARVEST_USE": "Beschreiben Sie die Verwendung der Ernte",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Hat Ihnen diese Aufgabe Spaß gemacht?",
-    "DID_YOU_GET_RESULTS": "",
     "DUE_DATE": "Fälligkeitsdatum",
     "DURATION": "Dauer",
     "FILTER": {
@@ -2010,7 +1881,6 @@
     "HARVEST_USE_ALREADY_EXISTS": "Ernteeinsatz bereits vorhanden",
     "HOW_WILL_HARVEST_BE_USED": "Wie wird die Ernte genutzt?",
     "IRRIGATION_LOCATION": "Wählen Sie einen Bewässerungsstandort",
-    "LAB_DOCUMENTS": "",
     "LOCATIONS": "Standort(e)",
     "NO_LOCATIONS_FOR_TASK": "Kein spezieller Standort für diese Aufgabe erforderlich",
     "NO_TASKS_TO_DISPLAY": "Es gibt keine Aufgaben anzuzeigen.",
@@ -2026,7 +1896,6 @@
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",
     "SOIL_AMENDMENT_LOCATION": "Wählen Sie den/die Standort(e) der Bodenverbesserung",
-    "SOIL_SAMPLING_LOCATION": "",
     "STATUS": {
       "ABANDONED": "Eingestellt",
       "COMPLETED": "Abgeschlossen",
@@ -2039,8 +1908,7 @@
     "TASKS_COUNT_other": "{{count}} Aufgaben",
     "TRANSPLANT": "Umpflanzen",
     "TRANSPLANT_LOCATIONS": "Wählen Sie einen Umpflanzstandort",
-    "UNASSIGNED": "Nicht zugewiesen",
-    "UPLOAD_LAB_DOCUMENT": ""
+    "UNASSIGNED": "Nicht zugewiesen"
   },
   "UNIT": {
     "TIME": {

@@ -106,6 +106,7 @@ import {
   getEndpoint,
   getMovementTaskBody,
   getSoilSampleTaskBody,
+  postTaskRequestHasNewProduct,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
@@ -647,18 +648,14 @@ export function* createTaskSaga({ payload }) {
       managementPlanWithCurrentLocationEntitiesSelector,
     );
     data = getCompleteCustomTaskTypeBody(data, task_translation_key);
-    const result = yield call(
-      axios.post,
-      `${taskUrl}/${endpoint}`,
-      getPostTaskReqBody(
-        data,
-        endpoint,
-        task_translation_key,
-        isCustomTask,
-        managementPlanWithCurrentLocationEntities,
-      ),
-      header,
+    const reqBody = getPostTaskReqBody(
+      data,
+      endpoint,
+      task_translation_key,
+      isCustomTask,
+      managementPlanWithCurrentLocationEntities,
     );
+    const result = yield call(axios.post, `${taskUrl}/${endpoint}`, reqBody, header);
     if (result) {
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
@@ -667,6 +664,9 @@ export function* createTaskSaga({ payload }) {
         yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
       }
       if (alreadyCompleted) {
+        if (postTaskRequestHasNewProduct(reqBody, task_translation_key)) {
+          yield call(getProductsSaga);
+        }
         const isCustomTaskWithAnimals =
           isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
         yield call(onReqSuccessSaga, {

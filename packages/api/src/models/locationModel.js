@@ -313,6 +313,20 @@ class Location extends baseModel {
       .whereNotDeleted();
     return records.map(({ location_id }) => location_id);
   }
+
+  /**
+   * Return the name of a location by its id, with an empty‐string fallback.
+   *
+   * @param {string} location_id - The id of the location to look up.
+   * @param {Knex.Transaction} [trx] - Optional transaction object.
+   * @static
+   * @async
+   * @returns {Promise<{ name: string }>}
+   */
+  static async getLocationNameById(location_id, trx) {
+    const location = await Location.query(trx).findById(location_id).select('name').first();
+    return location || { name: '' };
+  }
 }
 
 export default Location;

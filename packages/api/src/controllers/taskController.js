@@ -38,6 +38,7 @@ import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js'
 import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
+import { checkAndTrimString } from '../util/util.js';
 import { triggerPostTaskCreatedActions, triggerPostTaskDeletedActions } from '../services/task.js';
 import {
   checkCompleteTaskDocument,
@@ -87,7 +88,9 @@ async function formatAnimalMovementTaskForDB(data) {
     data.animal_movement_task.purpose_ids.forEach((id) => {
       const purposeRelationship = { purpose_id: id };
       if (id === otherPurposeId) {
-        purposeRelationship.other_purpose = data.animal_movement_task.other_purpose;
+        purposeRelationship.other_purpose = checkAndTrimString(
+          data.animal_movement_task.other_purpose,
+        );
       }
       data.animal_movement_task.purpose_relationships.push(purposeRelationship);
     });

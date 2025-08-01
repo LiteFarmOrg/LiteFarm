@@ -1472,8 +1472,8 @@
       "TITLE": "Tasks due today"
     },
     "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "A new irrigation prescription has been generated based on current weather, soil, and crop data.",
-      "TITLE": "New irrigation prescription ready"
+      "BODY": "A new irrigation prescription has been generated based on current weather, soil, and crop data for {{date}}.",
+      "TITLE": "Irrigation prescription | {{location}}"
     },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
     "PAGE_TITLE": "Notifications",

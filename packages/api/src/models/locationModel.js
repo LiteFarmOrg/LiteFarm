@@ -315,17 +315,17 @@ class Location extends baseModel {
   }
 
   /**
-   * Return the name of a location by its id, with an empty‐string fallback.
-   *
-   * @param {string} location_id - The id of the location to look up.
-   * @param {Knex.Transaction} [trx] - Optional transaction object.
+   * Retrieves the name of a location by its id
+   * @param {string} location_id - The id of the location to look up
+   * @param {Knex.Transaction} [trx] - Optional transaction object
    * @static
    * @async
-   * @returns {Promise<{ name: string }>}
+   * @returns {Promise<string|null>}
+   *   Resolves to the location name if found, otherwise null
    */
   static async getLocationNameById(location_id, trx) {
-    const location = await Location.query(trx).findById(location_id).select('name').first();
-    return location || { name: '' };
+    const location = await Location.query(trx).findById(location_id).select('name');
+    return location?.name ?? null;
   }
 }
 

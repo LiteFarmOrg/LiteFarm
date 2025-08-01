@@ -257,7 +257,7 @@ async function sendDailyNewIrrigationPrescriptionNotification(
   }
   const todayStr = today.toISOString().split('T')[0];
 
-  const { name: locationName } = await LocationModel.getLocationNameById(location_id);
+  const locationName = await LocationModel.getLocationNameById(location_id);
 
   await NotificationUser.notify(
     {

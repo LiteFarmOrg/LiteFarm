@@ -56,7 +56,6 @@ export function PureNotificationCard({
         status === 'Read' ? cardStyles.notificationRead : cardStyles.notificationUnread,
         styles.notificationCard,
       )}
-      classes={{ card: styles.card }}
       onClick={onClick}
     >
       <div>
@@ -64,7 +63,7 @@ export function PureNotificationCard({
         {Icon && <Icon className={styles.icon} />}
       </div>
 
-      <div>
+      <div className={styles.content}>
         <Semibold className={styles.title}>
           {title.translation_key ? t(title.translation_key, tOptions) : title[currentLang]}
           {alert && <AlertIcon className={styles.alertIcon} />}

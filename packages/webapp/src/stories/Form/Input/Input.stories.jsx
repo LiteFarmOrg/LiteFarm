@@ -103,6 +103,12 @@ WithUnit.args = {
   unit: 'unit',
 };
 
+export const WithUnitWithoutLabel = Template.bind({});
+WithUnitWithoutLabel.args = {
+  type: 'number',
+  unit: 'unit',
+};
+
 export const WithCurrency = Template.bind({});
 WithCurrency.args = {
   label: 'number',

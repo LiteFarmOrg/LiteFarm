@@ -17,7 +17,7 @@ import { expect, describe, test } from 'vitest';
 import { postTaskRequestHasNewProduct } from '../containers/Task/sagaUtils';
 
 const createFakeProduct = (productId, name) => {
-  return { product: { product_id: productId, name } };
+  return { product: { name }, product_id: productId };
 };
 
 describe('Task saga utils test', () => {
@@ -40,7 +40,7 @@ describe('Task saga utils test', () => {
 
     test('returns false when product has a productId', () => {
       expect(
-        postTaskRequestHasNewProduct({ cleaning_task: createFakeProduct('xxxx') }, 'CLEANING_TASK'),
+        postTaskRequestHasNewProduct({ cleaning_task: createFakeProduct('xxxx', 'Existing Product') }, 'CLEANING_TASK'),
       ).toBe(false);
     });
 

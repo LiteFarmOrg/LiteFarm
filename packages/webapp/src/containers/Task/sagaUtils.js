@@ -121,7 +121,10 @@ export const postTaskRequestHasNewProduct = (reqBody, taskTypeTranslationKey) =>
     return false;
   }
 
-  const { product_id, name } = reqBody[taskType].product;
+  const {
+    product_id,
+    product: { name },
+  } = reqBody[taskType];
 
   return !!(!product_id && name);
 };

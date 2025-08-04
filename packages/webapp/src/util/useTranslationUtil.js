@@ -1,22 +1,34 @@
 import { getLanguageFromLocalStorage } from './getLanguageFromLocalStorage';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedDateString } from './moment';
 
 const useTranslationUtil = () => {
   const { t } = useTranslation();
   const currentLang = getLanguageFromLocalStorage();
 
-  const getNotificationTitle = (title) => {
-    return title.translation_key ? t(title.translation_key) : title[currentLang];
+  const getNotificationTitle = (title, variables) => {
+    const tOptions = getTranslationOptions(variables);
+    return title.translation_key ? t(title.translation_key, tOptions) : title[currentLang];
   };
 
   const getTranslationOptions = (variables) => {
-    return variables?.reduce((optionsSoFar, currentOption) => {
+    const tOptions = variables?.reduce((optionsSoFar, currentOption) => {
       let options = { ...optionsSoFar };
       options[currentOption.name] = currentOption.translate
         ? t(currentOption.value)
         : currentOption.value;
       return options;
     }, {});
+
+    // Localize YYYY-MM-DD date string
+    if ('date' in tOptions) {
+      tOptions.date = getLocalizedDateString(tOptions.date, {
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+
+    return tOptions;
   };
 
   const getNotificationBody = (body, variables) => {

@@ -23,20 +23,14 @@ import { setFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hook
 import { getIrrigationTaskTypes } from '../Task/IrrigationTaskTypes/saga';
 import { generateIrrigationTypeOption } from '../../components/Task/PureIrrigationTask';
 import { ADD_TASK_ASSIGNMENT, ADD_TASK_DETAILS } from '../../util/siteMapConstants';
+import { getDateInputFormat } from '../../util/moment';
 import { getLocalDateInYYYYDDMM } from '../../util/date';
-import { waterUsage, convertFn } from '../../util/convert-units/unit';
-import { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
+import { convert } from '../../util/convert-units/convert';
+import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 
 export default function useApproveIrrigationPrescription(
   history: History,
-  {
-    id,
-    location_id,
-    management_plan_id,
-    recommended_start_datetime,
-    estimated_water_consumption,
-    estimated_water_consumption_unit,
-  }: IrrigationPrescription,
+  prescriptionDetails?: IrrigationPrescriptionDetails,
 ) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -48,6 +42,20 @@ export default function useApproveIrrigationPrescription(
   const irrigationTaskType = useSelector(taskTypeByKeySelector('IRRIGATION_TASK'));
   const pivotType = useSelector(irrigationTypeByKeyAndFarmIdSelector('PIVOT'));
   const irrigationTasks = useSelector(irrigationTaskEntitiesSelector) || [];
+
+  if (!prescriptionDetails) {
+    return undefined;
+  }
+
+  const {
+    id,
+    location_id,
+    management_plan_id,
+    recommended_start_date,
+    estimated_water_consumption,
+    estimated_water_consumption_unit,
+  } = prescriptionDetails;
+
   const hasTask = Object.values(irrigationTasks).some(
     (task) => task.irrigation_prescription_external_id === id,
   );
@@ -55,16 +63,15 @@ export default function useApproveIrrigationPrescription(
   const onApproveIrrigationPrescription = () => {
     dispatch(setPersistedPaths([ADD_TASK_DETAILS, ADD_TASK_ASSIGNMENT]));
 
-    const estimatedWaterUsageInL = convertFn(
-      waterUsage,
-      estimated_water_consumption,
-      estimated_water_consumption_unit,
-      'l',
-    ); // TODO: LF-4810 Adjust conversion once estimated_water_consumption_unit is confirmed
+    const estimatedWaterUsageInL = convert(estimated_water_consumption)
+      .from(estimated_water_consumption_unit)
+      .to('l');
 
     const taskData = {
       task_type_id: irrigationTaskType?.task_type_id,
-      due_date: getLocalDateInYYYYDDMM(new Date(recommended_start_datetime)),
+      due_date: recommended_start_date
+        ? getDateInputFormat(recommended_start_date)
+        : getLocalDateInYYYYDDMM(new Date()),
       locations: [{ location_id }],
       show_wild_crop: false,
       managementPlans: management_plan_id ? [{ management_plan_id }] : [],

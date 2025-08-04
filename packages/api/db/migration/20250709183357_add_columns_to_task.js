@@ -13,14 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export function createSensorsDisplayName({
-  system,
-  label,
-  fallback,
-}: {
-  system?: string;
-  label?: string;
-  fallback?: string;
-}) {
-  return [system, label].filter(Boolean).join(' | ') || fallback;
-}
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async (knex) => {
+  await knex.schema.alterTable('task', (table) => {
+    table.dateTime('revision_date');
+    table.string('revised_by_user_id').references('user_id').inTable('users');
+  });
+};
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async (knex) => {
+  await knex.schema.table('task', (table) => {
+    table.dropColumn('revision_date');
+    table.dropColumn('revised_by_user_id');
+  });
+};

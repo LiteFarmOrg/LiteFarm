@@ -79,7 +79,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {getNotificationTitle(notification.title)}
+        {getNotificationTitle(notification.title, notification.variables)}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
         {getNotificationBody(notification.body, notification.variables)}

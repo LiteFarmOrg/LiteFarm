@@ -26,6 +26,7 @@ import {
   watercourseColour,
   watercourseSelectedColour,
   pivotCenterLabel,
+  pivotSectorLabel,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.svg';
 import waterValveHover from '../../assets/images/map/water-valve-hover.svg';
@@ -104,6 +105,16 @@ export const areaStyles = {
     selectedColour: irrigationZoneColour,
     dashScale: 0,
     dashLength: 0,
+  },
+  pivot_sector: {
+    colour: pivotColour,
+    strokeColour: pivotArmColour,
+    fillColour: pivotColour,
+    markerColour: pivotArmColour,
+    dashScale: 0,
+    dashLength: 0,
+    labelClass: pivotSectorLabel,
+    fontSize: '10px',
   },
 };
 

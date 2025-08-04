@@ -96,7 +96,7 @@ describe('Sensor Tests', () => {
 
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const { farmAddon } = await connectFarmToEnsemble(mainFarm);
+        const farmAddon = await connectFarmToEnsemble(mainFarm);
 
         const res = await getSensorReadingsRequest({
           user_id: user.user_id,

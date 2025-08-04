@@ -19,6 +19,7 @@ export const getAreaLocationTypes = () => [
   locationEnum.natural_area,
   locationEnum.residence,
   locationEnum.irrigation_zone,
+  locationEnum.pivot_sector,
 ];
 
 export const isArea = (type) => {
@@ -85,6 +86,7 @@ export const locationEnum = {
   pivot: 'pivot',
   pivot_arm: 'pivot_arm',
   irrigation_zone: 'irrigation_zone',
+  pivot_sector: 'pivot_sector',
 };
 
 export const polygonPath = (path, width, maps) => {

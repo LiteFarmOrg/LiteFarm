@@ -282,6 +282,51 @@ class Location extends baseModel {
       .withGraphFetched('[figure.[area], field, garden, greenhouse]')
       .whereNotDeleted();
   }
+
+  /**
+   * Get the farm_id for a specified (non-deleted) location
+   * @param {string} location_id - The location to check
+   * @param {Knex.Transaction} [trx] - Optional transaction object
+   * @static
+   * @async
+   * @returns {Promise<{farm_id: string}|undefined>}
+   *   Resolves to `{ farm_id }` if the location exists and is not deleted, otherwise `undefined`.
+   */
+  static async getFarmIdByLocationId(location_id, trx) {
+    return Location.query(trx)
+      .select('farm_id')
+      .where('location_id', location_id)
+      .whereNotDeleted()
+      .first();
+  }
+
+  /**
+   * Return all non‐deleted location_ids for a farm.
+   * @param {string} farm_id
+   * @param {Knex.Transaction} [trx]
+   * @returns {Promise<string[]>}
+   */
+  static async getActiveLocationIdsByFarm(farm_id, trx) {
+    const records = await Location.query(trx)
+      .select('location_id')
+      .where('farm_id', farm_id)
+      .whereNotDeleted();
+    return records.map(({ location_id }) => location_id);
+  }
+
+  /**
+   * Retrieves the name of a location by its id
+   * @param {string} location_id - The id of the location to look up
+   * @param {Knex.Transaction} [trx] - Optional transaction object
+   * @static
+   * @async
+   * @returns {Promise<string|null>}
+   *   Resolves to the location name if found, otherwise null
+   */
+  static async getLocationNameById(location_id, trx) {
+    const location = await Location.query(trx).findById(location_id).select('name');
+    return location?.name ?? null;
+  }
 }
 
 export default Location;

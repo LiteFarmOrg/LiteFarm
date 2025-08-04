@@ -117,8 +117,17 @@ export function checkCompleteTask(taskType) {
       }
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
-      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
+      if (checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been abandoned');
+      }
+
+      // https://expressjs.com/en/api.html#res.locals
+      res.locals.isRecompleting = !!checkTaskStatus.complete_date;
+
+      if (checkTaskStatus.complete_date && taskType === 'animal_movement_task') {
+        return res
+          .status(400)
+          .send('Re-completion of animal movement tasks is not yet supported (see LF-4815)');
       }
 
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
@@ -309,21 +318,19 @@ async function checkIrrigationTask(req) {
   const esciExternalId = req.body?.irrigation_task?.irrigation_prescription_external_id;
 
   if (esciExternalId) {
-    //   const { farm_id } = req.headers;
-    //   const existing = await TaskModel.query()
-    //     .whereNotDeleted()
-    //     .joinRelated('irrigation_task')
-    //     .join('location', 'irrigation_task.location_id', 'location.location_id')
-    //     .select('task.*')
-    //     .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
-    //     .andWhere('location.farm_id', farm_id)
-    //     .first();
+    const { farm_id } = req.headers;
+    const existing = await TaskModel.query()
+      .whereNotDeleted()
+      .joinRelated('irrigation_task')
+      .join('location', 'irrigation_task.location_id', 'location.location_id')
+      .select('task.*')
+      .where('irrigation_task.irrigation_prescription_external_id', esciExternalId)
+      .andWhere('location.farm_id', farm_id)
+      .first();
 
-    //   if (existing) {
-    //     throw customError('Irrigation prescription already associated with task', 400);
-    //   }
-    // }
-    throw customError('Irrigation prescription not yet implemented', 400);
+    if (existing) {
+      throw customError('Irrigation prescription already associated with task', 400);
+    }
   }
 }
 

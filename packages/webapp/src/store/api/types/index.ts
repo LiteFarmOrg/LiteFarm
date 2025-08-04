@@ -15,6 +15,14 @@
 
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { OrganicStatus } from '../../../types';
+import {
+  UriPrescriptionData,
+  VriPrescriptionData,
+} from '../../../components/IrrigationPrescription/types';
+import type {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../../util/convert-units/extendedMeasures';
 
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
@@ -253,7 +261,8 @@ export type SensorReadingTypes =
   | 'voltage'
   | 'water_pressure'
   | 'wind_direction'
-  | 'wind_speed';
+  | 'wind_speed'
+  | 'wind_speed_metadata'; // irrigation prescription metadata
 
 export interface Sensor {
   name: SensorTypes;
@@ -306,7 +315,8 @@ export type SensorReadingTypeUnits =
   | 'V'
   | 'psi'
   | 'deg'
-  | 'm/s';
+  | 'm/s'
+  | 'km/h'; // wind speed unit in prescription metadata
 
 export interface SensorDatapoint {
   dateTime: number; // Unix timestamp
@@ -322,7 +332,56 @@ export interface IrrigationPrescription {
   id: number;
   location_id: string;
   management_plan_id?: number | string;
-  recommended_start_datetime: string;
+  recommended_start_date: string;
   partner_id: number;
   task_id?: number | string;
 }
+
+export type IrrigationPrescriptionDetails = {
+  id: number;
+
+  location_id: string;
+  management_plan_id: number | null;
+  recommended_start_date: string; // ISO string
+
+  system_name: string; // descriptive name for the irrigation system
+  system_id: string;
+
+  pivot: {
+    center: { lat: number; lng: number };
+    radius: number; // in meters
+    arc?: {
+      start_angle: number; // in mathematical degrees (0 = east, 90 = north, etc.)
+      end_angle: number; // defined clockwise from start angle
+    };
+  };
+
+  metadata: {
+    // metadata = external sources of information used to generate the irrigation prescription
+    weather_forecast: {
+      temperature: number;
+      temperature_unit: SensorReadingTypeUnits;
+      wind_speed: number;
+      wind_speed_unit: SensorReadingTypeUnits;
+      cumulative_rainfall: number;
+      cumulative_rainfall_unit: SensorReadingTypeUnits;
+      et_rate: number;
+      et_rate_unit: EvapotranspirationRateUnits;
+      weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code
+    };
+  };
+
+  // calculated by the backend
+  estimated_water_consumption: number;
+  estimated_water_consumption_unit: WaterConsumptionUnits;
+
+  prescription:
+    | { uriData: UriPrescriptionData; vriData?: never }
+    | {
+        vriData: {
+          zones: VriPrescriptionData[];
+          file_url: string;
+        };
+        uriData?: never;
+      };
+};

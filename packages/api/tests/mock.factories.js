@@ -157,16 +157,20 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ])
       : [
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.helpers.arrayElement(['m2', 'ha', 'ft2', 'ac']),
@@ -1320,8 +1324,11 @@ function fakePesticide(defaultData = {}) {
 }
 
 function fakeTaskType(defaultData = {}) {
+  const task_name = faker.lorem.word();
+  const task_translation_key = defaultData.task_translation_key ?? task_name;
   return {
-    task_name: faker.lorem.word(),
+    task_name,
+    task_translation_key,
     ...defaultData,
   };
 }
@@ -1806,6 +1813,19 @@ function fakeScoutingTask(defaultData = {}) {
     type: faker.helpers.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
     ...defaultData,
   };
+}
+
+async function cleaning_taskFactory(
+  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  cleaning_task = {},
+) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] =
+    Array.isArray(product) && product.length ? product : [{ product_id: undefined }];
+  return knex('cleaning_task')
+    .insert({ task_id, product_id, ...cleaning_task })
+    .returning('*');
 }
 
 async function animal_movement_taskFactory(
@@ -2627,13 +2647,17 @@ export const buildExternalIrrigationPrescription = async ({
     (await locationFactory({ promisedFarm: Promise.resolve(farm) ?? undefined }));
   const managementPlan =
     providedManagementPlan ??
-    (await management_planFactory({ promisedFarm: Promise.resolve([farm]) ?? undefined }));
+    (
+      await management_planFactory({
+        promisedFarm: Promise.resolve([farm]),
+      })
+    )[0];
 
   return {
     id: id ?? 1,
     location_id: location.location_id,
     management_plan_id: managementPlan.management_plan_id,
-    recommended_start_datetime: new Date().toISOString(),
+    recommended_start_date: new Date().toISOString().split('T')[0],
   };
 };
 
@@ -2742,6 +2766,7 @@ export default {
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,
+  cleaning_taskFactory,
   fakeScoutingTask,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,

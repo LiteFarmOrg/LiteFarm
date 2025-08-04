@@ -13,13 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import groupBy from 'lodash.groupby';
 import UserFarmModel from '../models/userFarmModel.js';
-
 import TaskModel from '../models/taskModel.js';
+import LocationModel from '../models/locationModel.js';
 import NotificationModel from '../models/notificationModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import { getTasksForFarm } from './taskController.js';
-import { mockGetFarmIrrigationPrescriptions } from '../util/ensembleService.js';
+import {
+  safeGetFarmEnsembleAddonIds,
+  getIrrigationPrescriptions,
+} from '../util/ensembleService.js';
 
 const timeNotificationController = {
   /**
@@ -108,15 +112,31 @@ const timeNotificationController = {
     const { farm_id } = req.params;
     const { isDayLaterThanUtc } = req.body;
     try {
-      // TODO: Use real function after LF-4765 is merged
-      const farmIrrigationPrescriptions = await mockGetFarmIrrigationPrescriptions(farm_id);
+      const farmAddon = await safeGetFarmEnsembleAddonIds(farm_id);
+      if (!farmAddon) {
+        return res.status(200).send('0 irrigation prescription notifications sent.');
+      }
+
+      const { data: orgIrrigationPrescriptions } = await getIrrigationPrescriptions(farm_id);
+
+      // Filter by non-deleted locations belonging to the farm
+      const activeLocationIds = await LocationModel.getActiveLocationIdsByFarm(farm_id);
+
+      const irrigationPrescriptionsForFarm = orgIrrigationPrescriptions.filter(({ location_id }) =>
+        activeLocationIds.includes(location_id),
+      );
 
       let notificationsSent = 0;
 
-      const latestIrrigationPrescription = farmIrrigationPrescriptions.at(-1);
+      // Notify on the latest irrigation prescription for each location
+      const prescriptionsByLocation = groupBy(
+        irrigationPrescriptionsForFarm,
+        ({ location_id }) => location_id,
+      );
 
-      if (latestIrrigationPrescription) {
-        const { id: irrigation_prescription_id } = latestIrrigationPrescription;
+      for (const locationId in prescriptionsByLocation) {
+        const latestPrescription = prescriptionsByLocation[locationId].at(-1);
+        const { id: irrigation_prescription_id, recommended_start_date } = latestPrescription;
 
         const previousNotification = await NotificationModel.query()
           .where('farm_id', farm_id)
@@ -136,6 +156,8 @@ const timeNotificationController = {
             userIds,
             isDayLaterThanUtc,
             irrigation_prescription_id,
+            locationId,
+            recommended_start_date,
           );
           notificationsSent += userIds.length;
         }
@@ -216,6 +238,9 @@ async function sendDailyDueTodayTaskNotification(farmId, userId, isDayLaterThanU
  * @param {String} farmId
  * @param {String[]} userIds
  * @param {Boolean} isDayLaterThanUtc  - offset “today” by +1 day for UTC+ zones
+ * @param {Number} irrigation_prescription_id
+ * @param {String} location_id
+ * @param {String} recommended_start_date
  * @async
  */
 async function sendDailyNewIrrigationPrescriptionNotification(
@@ -223,17 +248,33 @@ async function sendDailyNewIrrigationPrescriptionNotification(
   userIds,
   isDayLaterThanUtc,
   irrigation_prescription_id,
+  location_id,
+  recommended_start_date,
 ) {
   const today = new Date();
   if (isDayLaterThanUtc) {
     today.setDate(today.getDate() + 1);
   }
   const todayStr = today.toISOString().split('T')[0];
+
+  const locationName = await LocationModel.getLocationNameById(location_id);
+
   await NotificationUser.notify(
     {
       title: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE' },
       body: { translation_key: 'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.BODY' },
-      variables: [],
+      variables: [
+        {
+          name: 'date',
+          value: recommended_start_date,
+          translate: false,
+        },
+        {
+          name: 'location',
+          value: locationName,
+          translate: false,
+        },
+      ],
       ref: { url: `/irrigation_prescription/${irrigation_prescription_id}` },
       context: {
         icon_translation_key: 'IRRIGATION_PRESCRIPTION',

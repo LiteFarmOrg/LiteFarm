@@ -177,8 +177,7 @@ export default function PureTaskReadOnly({
   };
 
   const isIrrigationTaskWithExternalPrescription =
-    isTaskType(taskType, 'IRRIGATION_TASK') &&
-    task.irrigation_task?.irrigation_prescription_external_id != null;
+    isTaskType(taskType, 'IRRIGATION_TASK') && externalIrrigationPrescription;
   const showLocations =
     (task.locations?.length || task.pinCoordinates?.length) &&
     !isIrrigationTaskWithExternalPrescription;
@@ -280,8 +279,9 @@ export default function PureTaskReadOnly({
         <div className={styles.irrigationPrescription}>
           <PureIrrigationPrescription
             fieldLocation={task.locations[0]}
-            pivotCenter={externalIrrigationPrescription.pivot.center}
-            pivotRadiusInMeters={externalIrrigationPrescription.pivot.radius}
+            pivotCenter={externalIrrigationPrescription.pivot?.center}
+            pivotRadiusInMeters={externalIrrigationPrescription.pivot?.radius}
+            pivotArc={externalIrrigationPrescription.pivot?.arc}
             {...(externalIrrigationPrescription.prescription.uriData
               ? { uriData: externalIrrigationPrescription.prescription.uriData }
               : { vriData: externalIrrigationPrescription.prescription.vriData?.zones })}

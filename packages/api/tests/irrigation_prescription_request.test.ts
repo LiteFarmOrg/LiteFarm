@@ -39,16 +39,14 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 import { setupFarmEnvironment, setupManagementPlans } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 
-xdescribe('Irrigation Prescription Request Tests', () => {
+describe('Irrigation Prescription Request Tests', () => {
   async function initiateIrrigationPrescriptionRequest({
     user_id,
     farm_id,
-    allOrgs,
     shouldSend = 'true',
   }: {
     user_id: string;
     farm_id: string;
-    allOrgs?: string;
     shouldSend?: string;
   }): Promise<Response> {
     return chai
@@ -57,7 +55,7 @@ xdescribe('Irrigation Prescription Request Tests', () => {
       .set('content-type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .query({ allOrgs, shouldSend });
+      .query({ shouldSend });
   }
 
   beforeEach(async () => {
@@ -85,12 +83,18 @@ xdescribe('Irrigation Prescription Request Tests', () => {
 
         const { farm, field, user } = await setupFarmEnvironment(role);
 
-        const { farmAddon } = await connectFarmToEnsemble(farm);
+        const farmAddon = await connectFarmToEnsemble(farm);
 
         const { crop, transplantManagementPlan, seedManagementPlan } = await setupManagementPlans({
           farm,
           field,
         });
+
+        const seedDate = new Date(seedManagementPlan.seed_date);
+        const transplantDate = new Date(transplantManagementPlan.seed_date);
+
+        const mostRecentPlan =
+          seedDate > transplantDate ? seedManagementPlan : transplantManagementPlan;
 
         await initiateIrrigationPrescriptionRequest({
           user_id: user.user_id,
@@ -103,19 +107,13 @@ xdescribe('Irrigation Prescription Request Tests', () => {
           crop_specie: crop.crop_specie,
         };
 
-        const expectedSeedCrop = expect.objectContaining({
-          management_plan_id: seedManagementPlan.management_plan_id,
-          seed_date: seedManagementPlan.seed_date,
-          ...cropConstants,
-        });
-
-        const expectedTransplantCrop = expect.objectContaining({
-          management_plan_id: transplantManagementPlan.management_plan_id,
-          seed_date: transplantManagementPlan.seed_date,
-          ...cropConstants,
-        });
-
-        const expectedCropData = [expectedSeedCrop, expectedTransplantCrop];
+        const expectedCropData = [
+          expect.objectContaining({
+            management_plan_id: mostRecentPlan.management_plan_id,
+            seed_date: mostRecentPlan.seed_date,
+            ...cropConstants,
+          }),
+        ];
 
         const expectedFieldData = {
           farm_id: farm.farm_id,
@@ -124,22 +122,18 @@ xdescribe('Irrigation Prescription Request Tests', () => {
           grid_points: field.figure.area.grid_points,
         };
 
-        const expectedFieldAndCropData = {
-          [farmAddon.org_uuid]: [
-            {
-              ...expectedFieldData,
-              crop_data: expect.arrayContaining(expectedCropData),
-            },
-          ],
-        };
+        const expectedFieldAndCropData = [
+          {
+            ...expectedFieldData,
+            crop_data: expect.arrayContaining(expectedCropData),
+          },
+        ];
 
         expect(axios).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'post',
-            url: expect.stringContaining(
-              `/irrigation_prescription/request`, // real URL here
-            ),
-            body: expectedFieldAndCropData,
+            url: expect.stringContaining(`organizations/${farmAddon.org_pk}/prescriptions/`),
+            data: expectedFieldAndCropData,
           }),
         );
       });

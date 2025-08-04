@@ -26,7 +26,7 @@ import { getDeviceType } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
-import { createSensorsDisplayName } from '../Sensor/v2/utils';
+import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
 export default function PureLocationFieldTechnology({
   location,
@@ -123,7 +123,7 @@ export default function PureLocationFieldTechnology({
           fieldTechnology.addonSensorArrays.map((addonSensorArray) => (
             <SensorList
               key={addonSensorArray.name}
-              title={createSensorsDisplayName({
+              title={createSmartIrrigationDisplayName({
                 ...addonSensorArray,
                 fallback: t('SENSOR.SENSOR_ARRAY'),
               })}

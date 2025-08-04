@@ -69,3 +69,30 @@ export const ImperialUnitsPivotArm: Story = {
     system: 'imperial',
   },
 };
+
+export const PartialAnglePivotVRI: Story = {
+  args: {
+    fieldLocation: mockField,
+    pivotCenter: mockPivot.center,
+    pivotRadiusInMeters: mockPivot.radius,
+    pivotArc: {
+      start_angle: 215,
+      end_angle: 360,
+    },
+    className: styles.mapContainer,
+    vriZones: mockVriZones,
+  },
+};
+
+export const PartialAnglePivotURI: Story = {
+  args: {
+    fieldLocation: mockField,
+    pivotCenter: mockPivot.center,
+    pivotRadiusInMeters: mockPivot.radius,
+    pivotArc: {
+      start_angle: 215,
+      end_angle: 360,
+    },
+    className: styles.mapContainer,
+  },
+};

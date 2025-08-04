@@ -60,6 +60,7 @@ import type {
   FarmAddon,
   SensorReadings,
   IrrigationPrescription,
+  IrrigationPrescriptionDetails,
 } from './types';
 
 /**
@@ -93,7 +94,8 @@ export const FarmTags = [
   'CustomAnimalBreeds',
   'CustomAnimalTypes',
   'FarmAddon',
-  // 'IrrigationPrescriptions',
+  'IrrigationPrescriptions',
+  'IrrigationPrescriptionDetails',
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
@@ -112,7 +114,6 @@ export const FarmLibraryTags = [
   'DefaultAnimalTypes',
 ];
 import { addDaysToDate } from '../../util/date';
-import { getEndOfDate, getStartOfDate } from '../../util/date-migrate-TS';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -321,30 +322,32 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
-    // getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
-    //   query: () => {
-    //     // After date is hard coded for now as the users current locale
-    //     const today = new Date();
-    //     const startTime = getStartOfDate(today).toISOString();
-    //     const endTime = getEndOfDate(addDaysToDate(today, 1)).toISOString();
-    //     const shouldSend = 'false';
-    //     const params = new URLSearchParams({ startTime, endTime, shouldSend });
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => {
+        const today = new Date();
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+        const params = new URLSearchParams({ startTime: startDate, endTime: endDate });
 
-    //     return `${irrigationPrescriptionUrl}?${params.toString()}`;
-    //   },
-    //   async onQueryStarted(_id, { dispatch, queryFulfilled }) {
-    //     try {
-    //       // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
-    //       dispatch({ type: 'getTasksSaga' });
-    //       await queryFulfilled;
-    //     } catch (error: unknown) {
-    //       // getTasksSaga has its own try/catch block, this error handler will not catch that one
-    //       // @ts-expect-error - error type not definable
-    //       console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
-    //     }
-    //   },
-    //   providesTags: ['IrrigationPrescriptions'],
-    // }),
+        return `${irrigationPrescriptionUrl}?${params.toString()}`;
+      },
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
+    getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
+      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
+      providesTags: ['IrrigationPrescriptionDetails'],
+    }),
   }),
 });
 
@@ -382,5 +385,6 @@ export const {
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
-  // useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionDetailsQuery,
 } = api;

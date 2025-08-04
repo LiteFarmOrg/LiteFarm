@@ -38,7 +38,8 @@ import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js'
 import { ANIMAL_TASKS } from '../util/animal.js';
 import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
-import { triggerPostTaskCreatedActions } from '../services/task.js';
+import { checkAndTrimString } from '../util/util.js';
+import { triggerPostTaskCreatedActions, triggerPostTaskDeletedActions } from '../services/task.js';
 import {
   checkCompleteTaskDocument,
   checkCreateTaskDocument,
@@ -87,7 +88,9 @@ async function formatAnimalMovementTaskForDB(data) {
     data.animal_movement_task.purpose_ids.forEach((id) => {
       const purposeRelationship = { purpose_id: id };
       if (id === otherPurposeId) {
-        purposeRelationship.other_purpose = data.animal_movement_task.other_purpose;
+        purposeRelationship.other_purpose = checkAndTrimString(
+          data.animal_movement_task.other_purpose,
+        );
       }
       data.animal_movement_task.purpose_relationships.push(purposeRelationship);
     });
@@ -545,7 +548,7 @@ const taskController = {
         }
         res.status(201).send(result);
 
-        triggerPostTaskCreatedActions(typeOfTask, result);
+        triggerPostTaskCreatedActions(typeOfTask, result, req.headers.farm_id);
       } catch (error) {
         console.log(error);
 
@@ -802,6 +805,7 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const task_id = parseInt(req.params.task_id);
+        const { isRecompleting } = res.locals;
 
         if (await baseController.isDeleted(null, TaskModel, { task_id })) {
           return res.status(400).send('Task has been deleted');
@@ -822,8 +826,10 @@ const taskController = {
           data = this.formatAnimalAndBatchIds(data);
         }
 
-        // Duplicates middleware until all endpoints are migrated to use middleware
-        checkCompleteTaskDocument(req.body, typeOfTask);
+        if (isRecompleting) {
+          data.revision_date = new Date().toISOString();
+          data.revised_by_user_id = assignee_user_id;
+        }
 
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
@@ -1060,7 +1066,15 @@ const taskController = {
         farm_id,
       );
 
-      return res.status(200).send(result);
+      res.status(200).send(result);
+
+      triggerPostTaskDeletedActions(
+        result.taskType.farm_id
+          ? 'custom_task'
+          : result.taskType.task_translation_key.toLowerCase(),
+        result,
+        farm_id,
+      );
     } catch (error) {
       console.error(error);
       return res.status(400).json({ error });

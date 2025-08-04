@@ -18,7 +18,7 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { getIntlDate } from '../../util/date-migrate-TS';
+import { getLocalizedDateString } from '../../util/moment';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../Table/types';
@@ -65,7 +65,7 @@ export default function PureLocationIrrigation({
             kind={CellKind.ICON_TEXT}
             iconName="CALENDAR"
             className={styles.dateCell}
-            text={getIntlDate(data.recommended_start_datetime)}
+            text={getLocalizedDateString(data.recommended_start_date, { dateStyle: 'medium' })}
           />
         ),
       },

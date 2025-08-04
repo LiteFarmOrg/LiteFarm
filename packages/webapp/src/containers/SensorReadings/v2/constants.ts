@@ -14,6 +14,10 @@
  */
 
 import { colors } from '../../../assets/theme';
+import {
+  IrrigationPrescriptionDataTypes,
+  IrrigationPrescriptionDataTypeUnits,
+} from '../../../components/IrrigationPrescription/types';
 import type {
   SensorReadingTypes,
   SensorReadingTypeUnits,
@@ -93,14 +97,19 @@ interface UnitType {
     unit: ExtendedMeasureUnits;
     displayUnit: string;
   };
-  baseUnit: Extract<SensorReadingTypeUnits, ExtendedMeasureUnits>;
+  baseUnit: Extract<
+    SensorReadingTypeUnits | IrrigationPrescriptionDataTypeUnits,
+    ExtendedMeasureUnits
+  >;
 }
 
 // Mapping of sensor reading types that require unit conversion.
 // (baseUnit refers to the unit sent by ESci)
 // We use psi for water pressure, as it's commonly used in Canada,
 // even though the metric system is generally used.
-export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
+export const esciUnitTypeMap: Partial<
+  Record<SensorReadingTypes | IrrigationPrescriptionDataTypes, UnitType>
+> = {
   temperature: {
     metric: {
       unit: 'C',
@@ -123,6 +132,17 @@ export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
     },
     baseUnit: 'm/s',
   },
+  wind_speed_metadata: {
+    metric: {
+      unit: 'km/h',
+      displayUnit: 'km/h',
+    },
+    imperial: {
+      unit: 'mph',
+      displayUnit: 'mph',
+    },
+    baseUnit: 'km/h',
+  },
   cumulative_rainfall: {
     metric: {
       unit: 'mm',
@@ -144,5 +164,28 @@ export const esciUnitTypeMap: Partial<Record<SensorReadingTypes, UnitType>> = {
       displayUnit: 'in/h',
     },
     baseUnit: 'mm',
+  },
+  et_rate: {
+    metric: {
+      unit: 'mm/24h',
+      displayUnit: 'mm/24h',
+    },
+    imperial: {
+      unit: 'in/24h',
+      displayUnit: 'in/24h',
+    },
+    baseUnit: 'mm/24h',
+  },
+  estimated_water_consumption: {
+    // Use "AF" for both metric and imperial systems
+    metric: {
+      unit: 'ac⋅ft',
+      displayUnit: 'AF',
+    },
+    imperial: {
+      unit: 'ac⋅ft',
+      displayUnit: 'AF',
+    },
+    baseUnit: 'l',
   },
 };

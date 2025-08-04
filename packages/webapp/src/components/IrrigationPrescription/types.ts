@@ -15,9 +15,13 @@
 
 import { Point } from '../../util/geoUtils';
 import { SensorReadingTypeUnits } from '../../store/api/types';
-
+import {
+  EvapotranspirationRateUnits,
+  WaterConsumptionUnits,
+} from '../../util/convert-units/extendedMeasures';
 export interface UriPrescriptionData {
   soil_moisture_deficit: number;
+  soil_moisture_deficit_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }
@@ -30,49 +34,14 @@ export type IrrigationPrescriptionTableInfo = UriPrescriptionData & {
   id: number;
 };
 
-// TODO LF-4788: This is the backend-received data structure and belongs in the RTK Query slice types once that endpoint is implemented
-export type IrrigationPrescription = {
-  id: number;
+export type IrrigationPrescriptionDataTypes =
+  | 'temperature'
+  | 'wind_speed'
+  | 'cumulative_rainfall'
+  | 'et_rate'
+  | 'estimated_water_consumption';
 
-  location_id: string;
-  management_plan_id: number | null;
-  recommended_start_datetime: string; // ISO string
-
-  pivot: {
-    center: { lat: number; lng: number };
-    radius: number; // in meters
-  };
-
-  metadata: {
-    // metadata = external sources of information used to generate the irrigation prescription
-    weather_forecast: {
-      temperature: number;
-      temperature_unit: SensorReadingTypeUnits;
-      wind_speed: number;
-      wind_speed_unit: SensorReadingTypeUnits;
-      cumulative_rainfall: number;
-      cumulative_rainfall_unit: SensorReadingTypeUnits;
-      et_rate: number;
-      et_rate_unit: string;
-      weather_icon_code: string; // '02d', '50n', OpenWeatherMap icon code if available
-    };
-  };
-
-  estimated_time: number;
-  estimated_time_unit: string;
-
-  // calculated by the backend
-  estimated_water_consumption: number;
-  estimated_water_consumption_unit: string;
-
-  // TODO: confirm with product if we are indeed getting only URI or VRI data per prescription
-  prescription:
-    | { uriData: UriPrescriptionData; vriData?: never }
-    | {
-        vriData: {
-          zones: VriPrescriptionData[];
-          file_url: string;
-        };
-        uriData?: never;
-      };
-};
+export type IrrigationPrescriptionDataTypeUnits =
+  | SensorReadingTypeUnits
+  | EvapotranspirationRateUnits
+  | WaterConsumptionUnits;

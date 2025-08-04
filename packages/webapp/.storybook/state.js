@@ -1467,6 +1467,12 @@ export default {
       loading: false,
       loaded: false,
     },
+    soilSampleLocationReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
+    },
     showedSpotlightReducer: {
       loaded: true,
       loading: false,

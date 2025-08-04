@@ -39,9 +39,7 @@ export function* getNotificationSaga() {
 
 export const readNotification = createAction('readNotificationSaga');
 
-export function* readNotificationSaga({
-  payload: { notificationId, notificationType, redirectUrl },
-}) {
+export function* readNotificationSaga({ payload: { notificationId } }) {
   const { user_id, farm_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
   try {
@@ -51,12 +49,7 @@ export function* readNotificationSaga({
       { notification_ids: [notificationId], status: 'Read' },
       header,
     );
-
-    if (notificationType === 'NEW_IRRIGATION_PRESCRIPTION' && redirectUrl) {
-      history.push(redirectUrl);
-    } else {
-      history.push(`/notifications/${notificationId}/read_only`);
-    }
+    history.push(`/notifications/${notificationId}/read_only`);
   } catch (e) {
     console.error(e);
   }

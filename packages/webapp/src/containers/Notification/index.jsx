@@ -68,8 +68,6 @@ export default function NotificationPage() {
               dispatch(
                 readNotification({
                   notificationId: notification.notification_id,
-                  notificationType: notification.context?.notification_type,
-                  redirectUrl: notification.ref?.url,
                 }),
               )
             }

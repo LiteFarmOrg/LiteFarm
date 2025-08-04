@@ -174,6 +174,7 @@ import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
 import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
+import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -341,7 +342,8 @@ app
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
-  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
+  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
+  .use('/dfc', dataFoodConsortiumRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

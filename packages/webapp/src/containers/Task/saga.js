@@ -106,7 +106,6 @@ import {
   getEndpoint,
   getMovementTaskBody,
   getSoilSampleTaskBody,
-  postTaskRequestHasNewProduct,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
@@ -664,7 +663,7 @@ export function* createTaskSaga({ payload }) {
         yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
       }
       if (alreadyCompleted) {
-        if (postTaskRequestHasNewProduct(reqBody, task_translation_key)) {
+        if (['CLEANING_TASK', 'PEST_CONTROL_TASK'].includes(task_translation_key)) {
           yield call(getProductsSaga);
         }
         const isCustomTaskWithAnimals =

@@ -37,7 +37,7 @@ export function PureNotificationCard({
   }, {});
 
   // Localize YYYY-MM-DD date string
-  if ('date' in tOptions) {
+  if (tOptions && 'date' in tOptions) {
     tOptions.date = getLocalizedDateString(tOptions.date, {
       month: 'long',
       day: 'numeric',

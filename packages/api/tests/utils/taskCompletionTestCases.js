@@ -16,6 +16,7 @@
 import { faker } from '@faker-js/faker';
 import knex from '../../src/util/knex.js';
 import { setupSoilAmendmentTaskDependencies } from './testDataSetup.js';
+import mocks from '../mock.factories.js';
 
 // field_work_task
 const fieldWorkName = faker.lorem.word();
@@ -248,9 +249,25 @@ const soilAmendmentTaskTestCases = {
   },
 };
 
+// soil_sample_task
+const soilSampleTaskFakeCompletionData = mocks.fakeSoilSampleTask();
+const soilSampleTaskTestCases = {
+  updateFields: {
+    initialData: undefined,
+    getFakeCompletionData: (initialData) => ({
+      soil_sample_task: {
+        task_id: initialData.task_id,
+        ...soilSampleTaskFakeCompletionData,
+      },
+    }),
+    getExpectedData: async () => soilSampleTaskFakeCompletionData,
+  },
+};
+
 export const taskCompletionFieldUpdateTestCases = {
   'should update relevant fields': {
     irrigation_task: [irrigationTaskTestCases.switchMeasuringType],
+    soil_sample_task: [soilSampleTaskTestCases.updateFields],
   },
   'should remove irrelevant fields': {
     cleaning_task: [cleaningTaskTestCases.nullOptionalFields],

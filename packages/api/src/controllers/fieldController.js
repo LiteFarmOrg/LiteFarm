@@ -22,7 +22,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const fieldController = {
   addField() {
-    return async (req, res, next) => {
+    return async (req, res, _next) => {
       const trx = await transaction.start(Model.knex());
       try {
         const result = await this.postWithResponse(req, trx);
@@ -31,9 +31,9 @@ const fieldController = {
           return res.sendStatus(403);
         } else {
           await trx.commit();
-          res.status(201).send(result);
-          req.field = { fieldId: result.field_id, point: result.grid_points[0] };
-          next();
+          const field = { fieldId: result.field_id, point: result.grid_points[0] };
+          mapFieldsToStationId([field]);
+          return res.status(201).send(result);
         }
       } catch (error) {
         //handle more exceptions
@@ -128,7 +128,7 @@ const fieldController = {
   },
 
   // eslint-disable-next-line no-unused-vars
-  mapFieldToStation(req, res) {
+  mapFieldToStation(req, _res) {
     mapFieldsToStationId([req.field]);
   },
 };

@@ -3087,7 +3087,11 @@ describe('Task tests', () => {
             const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
 
             Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
-              expect(completedTaskTypeDataInDB[property]).toBe(value);
+              if (typeof value === 'object') {
+                expect(completedTaskTypeDataInDB[property]).toEqual(value);
+              } else {
+                expect(completedTaskTypeDataInDB[property]).toBe(value);
+              }
             });
 
             await testCase.extraExpect?.(task_id);

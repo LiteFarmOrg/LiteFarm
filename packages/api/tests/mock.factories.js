@@ -1621,8 +1621,8 @@ async function harvest_taskFactory(
   { promisedTask = taskFactory() } = {},
   harvestLog = fakeHarvestTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('harvest_task')
     .insert({ task_id, ...harvestLog })
     .returning('*');
@@ -1669,8 +1669,8 @@ async function plant_taskFactory(
   { promisedTask = taskFactory() } = {},
   plant_task = fakePlantTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('plant_task')
     .insert({ task_id, ...plant_task })
     .returning('*');
@@ -1716,8 +1716,8 @@ async function field_work_taskFactory(
   { promisedTask = taskFactory() } = {},
   field_work_task = fakeFieldWorkTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('field_work_task')
     .insert({ task_id, ...field_work_task })
     .returning('*');
@@ -1730,8 +1730,8 @@ function fakeFieldWorkTask(defaultData = {}) {
 }
 
 async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task = fakeSoilTask()) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('soil_task')
     .insert({ task_id, ...soil_task })
     .returning('*');
@@ -1782,8 +1782,8 @@ async function irrigation_taskFactory(
   { promisedTask = taskFactory() } = {},
   irrigationTask = fakeIrrigationTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('irrigation_task')
     .insert({ task_id, ...irrigationTask })
     .returning('*');
@@ -1801,8 +1801,8 @@ async function scouting_taskFactory(
   { promisedTask = taskFactory() } = {},
   scouting_task = fakeScoutingTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('scouting_task')
     .insert({ task_id, ...scouting_task })
     .returning('*');
@@ -1832,8 +1832,8 @@ async function animal_movement_taskFactory(
   { promisedTask = taskFactory() } = {},
   animal_movement_task = fakeAnimalMovementTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('animal_movement_task')
     .insert({ task_id, ...animal_movement_task })
     .returning('*');

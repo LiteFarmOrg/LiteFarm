@@ -115,6 +115,7 @@ const cleaningTaskTestCases = {
 // irrigation_task
 const irrigationTypeName = faker.lorem.word();
 const irrigationTaskInitialData = {
+  irrigation_type_name: 'irrigation type name',
   measuring_type: 'VOLUME',
   estimated_duration: 60,
   estimated_duration_unit: 'minutes',
@@ -125,7 +126,6 @@ const irrigationTaskInitialData = {
 };
 const irrigationTaskFakeCompletionData = {
   measuring_type: 'DEPTH',
-  irrigation_type_name: 'HAND_WATERING',
   percent_of_location_irrigated: 3,
   application_depth_unit: 'mm',
   application_depth: 0.002,

@@ -1779,11 +1779,25 @@ function fakeSoilTask(defaultData = {}) {
 }
 
 async function irrigation_taskFactory(
-  { promisedTask = taskFactory() } = {},
+  { promisedTask = taskFactory(), promisedFarm } = {},
   irrigationTask = fakeIrrigationTask(),
 ) {
   const [task] = await Promise.all([promisedTask]);
   const [{ task_id }] = task;
+
+  if (!irrigationTask.irrigation_type_id) {
+    const properties =
+      irrigationTask.irrigation_type_name && irrigationTask.measuring_type
+        ? {
+            irrigation_type_name: irrigationTask.irrigation_type_name,
+            default_measuring_type: irrigationTask.measuring_type,
+          }
+        : {};
+    const [irrigationType] = await irrigation_typeFactory({ promisedFarm, properties });
+
+    irrigationTask.irrigation_type_id = irrigationType.irrigation_type_id;
+  }
+
   return knex('irrigation_task')
     .insert({ task_id, ...irrigationTask })
     .returning('*');
@@ -1793,6 +1807,25 @@ function fakeIrrigationTask(defaultData = {}) {
   return {
     irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
     estimated_duration: faker.datatype.number(10),
+    ...defaultData,
+  };
+}
+
+async function irrigation_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  irrigationType = fakeIrrigationType(properties),
+) {
+  const [[{ farm_id }], [{ user_id }]] = await Promise.all([promisedFarm, usersFactory()]);
+  const base = baseProperties(user_id);
+  return knex('irrigation_type')
+    .insert({ farm_id, ...base, ...irrigationType })
+    .returning('*');
+}
+
+function fakeIrrigationType(defaultData = {}) {
+  return {
+    irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
+    default_measuring_type: faker.helpers.arrayElement(['VOLUME', 'DEPTH']),
     ...defaultData,
   };
 }

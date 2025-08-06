@@ -40,10 +40,14 @@ import {
   completeTaskRequest as completeTaskRequestAsync,
   deleteTaskRequest as deleteTaskRequestAsync,
   taskWithLocationFactory,
+  commonTaskTypes,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
-import { taskCompletionFieldUpdateTestCases } from './utils/taskCompletionTestCases.js';
+import {
+  taskCompletionFieldUpdateTestCases,
+  taskRecompletionTestCases,
+} from './utils/taskCompletionTestCases.js';
 
 describe('Task tests', () => {
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
@@ -3098,6 +3102,105 @@ describe('Task tests', () => {
           });
         },
       );
+    });
+  });
+
+  describe('Patch tasks re-completion tests', () => {
+    let farm_id;
+    let user_id;
+    let location_id;
+
+    beforeAll(async () => {
+      const { owner, farm, field } = await setupFarmEnvironment(1);
+      farm_id = farm.farm_id;
+      user_id = owner.user_id;
+      location_id = field.location_id;
+    });
+
+    describe.each(commonTaskTypes)(`%s`, (taskType) => {
+      const testCases = taskRecompletionTestCases[taskType] || {};
+      const { initialData: initialTaskTypeData, extraSetup, recompletionData = [{}] } = testCases;
+      let task_id;
+      let initialTaskTypeDataInDB;
+      let extraInitialDataInDB;
+      let completeRequest;
+
+      beforeAll(async () => {
+        // Insert a task and location_task record
+        ({ task_id } = await taskWithLocationFactory({
+          userId: user_id,
+          locationId: location_id,
+          farmId: farm_id,
+        }));
+
+        // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+        [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+          { promisedTask: [{ task_id }] },
+          initialTaskTypeData,
+        );
+
+        // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+        extraInitialDataInDB = extraSetup ? await extraSetup(initialTaskTypeDataInDB, farm_id) : {};
+
+        completeRequest = async (taskData) => {
+          return completeTaskRequestAsync({ user_id, farm_id }, taskData, task_id, taskType);
+        };
+
+        // Test completion
+        await completeRequest(fakeCompletionData);
+        const completedTaskInDB = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+        expect(completedTaskInDB.revision_date).toBeNull();
+        expect(completedTaskInDB.revised_by_user_id).toBeNull();
+      });
+
+      // Re-complete
+      let previousRevisionDate = null;
+      test.each(recompletionData)(`re-complete %#`, async (testCase) => {
+        const {
+          getFakeCompletionData: getFakeTaskTypeCompletionData,
+          getExpectedData: getExpectedTaskTypeData,
+        } = testCase;
+
+        const taskTypeDataBeforeRecompletion = await knex(taskType).where({ task_id }).first();
+
+        const fakeRecompletionData = {
+          complete_date: faker.date.recent().toISOString().split('T')[0],
+          duration: Math.floor(Math.random() * 12 * 60) + 15,
+          happiness: Math.floor(Math.random() * 5) + 1,
+          completion_notes: faker.lorem.sentence(),
+        };
+
+        const fakeReqBody = {
+          ...fakeRecompletionData,
+          ...(getFakeTaskTypeCompletionData?.(
+            taskTypeDataBeforeRecompletion,
+            extraInitialDataInDB,
+          ) || {}),
+        };
+
+        const recompleteTaskRes = await completeRequest(fakeReqBody);
+        expect(recompleteTaskRes.status).toBe(200);
+        const recompletedTask = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(recompletedTask, fakeRecompletionData);
+        expect(previousRevisionDate < new Date(recompletedTask.revision_date).getTime()).toBe(true);
+        expect(recompletedTask.revised_by_user_id).toBe(user_id);
+        previousRevisionDate = new Date(recompletedTask.revision_date).getTime();
+
+        const expectedTaskTypeData =
+          (await getExpectedTaskTypeData?.(taskTypeDataBeforeRecompletion)) || {};
+        const recompletedTaskTypeData = await knex(taskType).where({ task_id }).first();
+
+        Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+          if (typeof value === 'object') {
+            expect(recompletedTaskTypeData[property]).toEqual(value);
+          } else {
+            expect(recompletedTaskTypeData[property]).toBe(value);
+          }
+        });
+
+        await testCase.extraExpect?.(task_id);
+      });
     });
   });
 

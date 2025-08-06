@@ -290,3 +290,37 @@ export const taskCompletionFieldUpdateTestCases = {
     irrigation_task: [irrigationTaskTestCases.newIrrigationType],
   },
 };
+
+export const taskRecompletionTestCases = {
+  irrigation_task: {
+    initialData: irrigationTaskInitialData,
+    recompletionData: [
+      irrigationTaskTestCases.switchMeasuringType,
+      getIrrigationTaskNewTypeTestCase(faker.lorem.word()),
+    ],
+  },
+  cleaning_task: {
+    initialData: cleaningTaskInitialDataWithProduct,
+    recompletionData: [cleaningTaskTestCases.nullOptionalFields],
+  },
+  pest_control_task: {
+    initialData: pestControlTaskInitialDataWithProduct,
+    recompletionData: [pestControlTaskTestCases.changeToMethodWithoutProduct],
+  },
+  soil_amendment_task: {
+    initialData: soilAmendmentTaskInitialData,
+    extraSetup: soilAmendmentTaskProductInitialDataSetup,
+    recompletionData: [
+      soilAmendmentTaskTestCases.nullOptionalFields,
+      soilAmendmentTaskTestCases.switchWeightToVolume,
+    ],
+  },
+  field_work_task: {
+    initialData: undefined,
+    recompletionData: [getFieldWorkTaskNewTypeTestCase(faker.lorem.word())],
+  },
+  soil_sample_task: {
+    initialData: undefined,
+    recompletionData: [soilSampleTaskTestCases.updateFields],
+  },
+};

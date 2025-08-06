@@ -554,6 +554,9 @@ export default function PureTaskReadOnly({
           primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
         />
       )}
+
+      {isCompleted && canCompleteTask && <Button onClick={onComplete}>Re-complete</Button>}
+
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}

@@ -19,10 +19,8 @@ import { setupSoilAmendmentTaskDependencies } from './testDataSetup.js';
 import mocks from '../mock.factories.js';
 
 // field_work_task
-const fieldWorkName = faker.lorem.word();
-const fieldWorkTaskTestCases = {
-  newFieldWorkType: {
-    initialData: undefined, // No initial data passed; use factory default
+const getFieldWorkTaskNewTypeTestCase = (fieldWorkName) => {
+  return {
     getFakeCompletionData: (initialData) => ({
       field_work_task: {
         task_id: initialData.task_id,
@@ -40,6 +38,12 @@ const fieldWorkTaskTestCases = {
 
       return { field_work_type_id };
     },
+  };
+};
+const fieldWorkTaskTestCases = {
+  newFieldWorkType: {
+    initialData: undefined, // No initial data passed; use factory default
+    ...getFieldWorkTaskNewTypeTestCase(faker.lorem.word()),
   },
 };
 
@@ -114,7 +118,27 @@ const cleaningTaskTestCases = {
 };
 
 // irrigation_task
-const irrigationTypeName = faker.lorem.word();
+const getIrrigationTaskNewTypeTestCase = (irrigationTypeName) => {
+  return {
+    getFakeCompletionData: (initialData) => ({
+      irrigation_task: {
+        task_id: initialData.task_id,
+        irrigation_type_name: irrigationTypeName,
+        measuring_type: 'VOLUME',
+      },
+    }),
+    getExpectedData: async () => {
+      const { irrigation_type_id } = await knex('irrigation_type')
+        .where({ irrigation_type_name: irrigationTypeName })
+        .first();
+
+      return {
+        irrigation_type_id,
+        irrigation_type_name: irrigationTypeName,
+      };
+    },
+  };
+};
 const irrigationTaskInitialData = {
   irrigation_type_name: 'irrigation type name',
   measuring_type: 'VOLUME',
@@ -136,23 +160,7 @@ const irrigationTaskFakeCompletionData = {
 const irrigationTaskTestCases = {
   newIrrigationType: {
     initialData: undefined, // No initial data passed; use factory default
-    getFakeCompletionData: (initialData) => ({
-      irrigation_task: {
-        task_id: initialData.task_id,
-        irrigation_type_name: irrigationTypeName,
-        measuring_type: 'VOLUME',
-      },
-    }),
-    getExpectedData: async () => {
-      const { irrigation_type_id } = await knex('irrigation_type')
-        .where({ irrigation_type_name: irrigationTypeName })
-        .first();
-
-      return {
-        irrigation_type_id,
-        irrigation_type_name: irrigationTypeName,
-      };
-    },
+    ...getIrrigationTaskNewTypeTestCase(faker.lorem.word()),
   },
   switchMeasuringType: {
     initialData: irrigationTaskInitialData,

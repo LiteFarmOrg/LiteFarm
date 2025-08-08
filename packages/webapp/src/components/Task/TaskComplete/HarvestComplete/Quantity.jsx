@@ -33,6 +33,8 @@ export default function PureHarvestCompleteQuantity({
     defaultValues: {
       ...persistedFormData,
       actual_quantity: persistedFormData.actual_quantity || task.harvest_task.projected_quantity,
+      actual_quantity_unit:
+        persistedFormData.actual_quantity_unit || task.harvest_task.projected_quantity_unit,
     },
   });
 

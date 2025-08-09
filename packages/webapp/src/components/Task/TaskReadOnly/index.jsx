@@ -558,7 +558,6 @@ export default function PureTaskReadOnly({
           primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
         />
       )}
-
       {showTaskAssignModal && (
         <TaskQuickAssignModal
           task_id={task.task_id}

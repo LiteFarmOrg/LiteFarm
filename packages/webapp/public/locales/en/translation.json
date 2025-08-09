@@ -1706,6 +1706,10 @@
       "REVENUE_TYPE": "Revenue type"
     }
   },
+  "REVISION_PROMPT": {
+    "NOTICED_SOMETHING_OFF": "Noticed something off?",
+    "REVISIT_AND_UPDATE_THIS_ENTITY": "You can revisit and update the info you submitted for {{entity}}."
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",
     "FARM_MANAGER": "Farm Manager",
@@ -2039,6 +2043,7 @@
     "TASK": "task",
     "TASKS_COUNT_one": "{{count}} task",
     "TASKS_COUNT_other": "{{count}} tasks",
+    "THIS_TASK": "this task",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned",

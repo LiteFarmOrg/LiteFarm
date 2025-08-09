@@ -63,6 +63,7 @@ import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import PureIrrigationPrescription from '../../IrrigationPrescription';
 import PureDocumentTile from '../../../containers/Documents/DocumentTile';
 import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
+import RecompletePrompt from '../RevisionPrompt';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -221,6 +222,9 @@ export default function PureTaskReadOnly({
           />
         }
       />
+      {isCompleted && canCompleteTask && (
+        <RecompletePrompt onClick={onComplete} entityName={t('TASK.THIS_TASK')} />
+      )}
       <div className={styles.editableContainer}>
         <Input
           label={t('ADD_TASK.ASSIGNEE')}
@@ -554,8 +558,6 @@ export default function PureTaskReadOnly({
           primaryButtonLabel={t('TASK.DELETE.CONFIRM_DELETION')}
         />
       )}
-
-      {isCompleted && canCompleteTask && <Button onClick={onComplete}>Re-complete</Button>}
 
       {showTaskAssignModal && (
         <TaskQuickAssignModal

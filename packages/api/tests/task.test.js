@@ -40,10 +40,14 @@ import {
   completeTaskRequest as completeTaskRequestAsync,
   deleteTaskRequest as deleteTaskRequestAsync,
   taskWithLocationFactory,
+  commonTaskTypes,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
-import { taskCompletionFieldUpdateTestCases } from './utils/taskCompletionTestCases.js';
+import {
+  taskCompletionFieldUpdateTestCases,
+  taskRecompletionTestCases,
+} from './utils/taskCompletionTestCases.js';
 
 describe('Task tests', () => {
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
@@ -3036,62 +3040,167 @@ describe('Task tests', () => {
       describe.each(Object.entries(taskCompletionFieldUpdateTestCases))(
         '%s',
         (_description, testCases) => {
-          test.each(Object.entries(testCases))(`%s`, async (taskType, taskTypeTestCases) => {
-            for (const testCase of taskTypeTestCases) {
-              const {
-                initialData: initialTaskTypeData,
-                extraSetup,
-                getFakeCompletionData: getFakeTaskTypeCompletionData,
-                getExpectedData: getExpectedTaskTypeData,
-              } = testCase;
+          const formattedTestCases = Object.entries(testCases).flatMap(
+            ([taskType, taskTypeTestCases]) =>
+              taskTypeTestCases.map((testCase) => [taskType, testCase]),
+          );
+          test.each(formattedTestCases)(`%s`, async (taskType, testCase) => {
+            const {
+              initialData: initialTaskTypeData,
+              extraSetup,
+              getFakeCompletionData: getFakeTaskTypeCompletionData,
+              getExpectedData: getExpectedTaskTypeData,
+            } = testCase;
 
-              // Insert a task and location_task record
-              const { task_id } = await taskWithLocationFactory({
-                userId: user_id,
-                locationId: location_id,
-                farmId: farm_id,
-              });
+            // Insert a task and location_task record
+            const { task_id } = await taskWithLocationFactory({
+              userId: user_id,
+              locationId: location_id,
+              farmId: farm_id,
+            });
 
-              // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
-              const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
-                { promisedTask: [{ task_id }] },
-                initialTaskTypeData,
-              );
+            // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+            const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+              { promisedTask: [{ task_id }] },
+              initialTaskTypeData,
+            );
 
-              // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
-              const extraInitialDataInDB = extraSetup
-                ? await extraSetup(initialTaskTypeDataInDB, farm_id)
-                : {};
+            // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+            const extraInitialDataInDB = extraSetup
+              ? await extraSetup(initialTaskTypeDataInDB, farm_id)
+              : {};
 
-              const fakeReqBody = {
-                ...fakeCompletionData,
-                ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
-              };
+            const fakeReqBody = {
+              ...fakeCompletionData,
+              ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
+            };
 
-              const res = await completeTaskRequestAsync(
-                { user_id, farm_id },
-                fakeReqBody,
-                task_id,
-                taskType,
-              );
+            const res = await completeTaskRequestAsync(
+              { user_id, farm_id },
+              fakeReqBody,
+              task_id,
+              taskType,
+            );
 
-              const completedTaskInDB = await knex('task').where({ task_id }).first();
-              const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
+            const completedTaskInDB = await knex('task').where({ task_id }).first();
+            const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
 
-              expect(res.status).toBe(200);
-              expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+            expect(res.status).toBe(200);
+            expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
 
-              const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
+            const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
 
-              Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+            Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+              if (typeof value === 'object') {
+                expect(completedTaskTypeDataInDB[property]).toEqual(value);
+              } else {
                 expect(completedTaskTypeDataInDB[property]).toBe(value);
-              });
+              }
+            });
 
-              await testCase.extraExpect?.(task_id);
-            }
+            await testCase.extraExpect?.(task_id);
           });
         },
       );
+    });
+  });
+
+  describe('Patch tasks re-completion tests', () => {
+    let farm_id;
+    let user_id;
+    let location_id;
+
+    beforeAll(async () => {
+      const { owner, farm, field } = await setupFarmEnvironment(1);
+      farm_id = farm.farm_id;
+      user_id = owner.user_id;
+      location_id = field.location_id;
+    });
+
+    describe.each(commonTaskTypes)(`%s`, (taskType) => {
+      const testCases = taskRecompletionTestCases[taskType] || {};
+      const { initialData: initialTaskTypeData, extraSetup, recompletionData = [{}] } = testCases;
+      let task_id;
+      let initialTaskTypeDataInDB;
+      let extraInitialDataInDB;
+      let completeRequest;
+
+      beforeAll(async () => {
+        // Insert a task and location_task record
+        ({ task_id } = await taskWithLocationFactory({
+          userId: user_id,
+          locationId: location_id,
+          farmId: farm_id,
+        }));
+
+        // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+        [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+          { promisedTask: [{ task_id }] },
+          initialTaskTypeData,
+        );
+
+        // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+        extraInitialDataInDB = extraSetup ? await extraSetup(initialTaskTypeDataInDB, farm_id) : {};
+
+        completeRequest = async (taskData) => {
+          return completeTaskRequestAsync({ user_id, farm_id }, taskData, task_id, taskType);
+        };
+
+        // Test completion
+        await completeRequest(fakeCompletionData);
+        const completedTaskInDB = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+        expect(completedTaskInDB.revision_date).toBeNull();
+        expect(completedTaskInDB.revised_by_user_id).toBeNull();
+      });
+
+      // Re-complete
+      let previousRevisionDate = null;
+      test.each(recompletionData)(`re-complete %#`, async (testCase) => {
+        const {
+          getFakeCompletionData: getFakeTaskTypeCompletionData,
+          getExpectedData: getExpectedTaskTypeData,
+        } = testCase;
+
+        const taskTypeDataBeforeRecompletion = await knex(taskType).where({ task_id }).first();
+
+        const fakeRecompletionData = {
+          complete_date: faker.date.recent().toISOString().split('T')[0],
+          duration: Math.floor(Math.random() * 12 * 60) + 15,
+          happiness: Math.floor(Math.random() * 5) + 1,
+          completion_notes: faker.lorem.sentence(),
+        };
+
+        const fakeReqBody = {
+          ...fakeRecompletionData,
+          ...(getFakeTaskTypeCompletionData?.(
+            taskTypeDataBeforeRecompletion,
+            extraInitialDataInDB,
+          ) || {}),
+        };
+
+        const recompleteTaskRes = await completeRequest(fakeReqBody);
+        expect(recompleteTaskRes.status).toBe(200);
+        const recompletedTask = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(recompletedTask, fakeRecompletionData);
+        expect(previousRevisionDate < new Date(recompletedTask.revision_date).getTime()).toBe(true);
+        expect(recompletedTask.revised_by_user_id).toBe(user_id);
+        previousRevisionDate = new Date(recompletedTask.revision_date).getTime();
+
+        const expectedTaskTypeData =
+          (await getExpectedTaskTypeData?.(taskTypeDataBeforeRecompletion)) || {};
+        const recompletedTaskTypeData = await knex(taskType).where({ task_id }).first();
+
+        Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+          if (typeof value === 'object') {
+            expect(recompletedTaskTypeData[property]).toEqual(value);
+          } else {
+            expect(recompletedTaskTypeData[property]).toBe(value);
+          }
+        });
+
+        await testCase.extraExpect?.(task_id);
+      });
     });
   });
 

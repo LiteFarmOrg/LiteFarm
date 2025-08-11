@@ -31,7 +31,7 @@ const RevisionPrompt = ({ entityName, onClick }: RevisionPromptProps) => {
         <h3>{t('REVISION_PROMPT.NOTICED_SOMETHING_OFF')}</h3>
         <p>{t('REVISION_PROMPT.REVISIT_AND_UPDATE_THIS_ENTITY', { entity: entityName })}</p>
       </div>
-      <Button type="button" sm color="secondary-2" onClick={onClick}>
+      <Button className={styles.button} type="button" sm color="secondary-2" onClick={onClick}>
         {t('common:FIX_IT_NOW')}
       </Button>
     </div>

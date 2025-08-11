@@ -12,6 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
+@import '@assets/mixin.scss';
+
 .revisionPrompt {
   display: flex;
   justify-content: space-between;
@@ -27,5 +30,15 @@
   p {
     color: #000;
     font-size: 16px;
+  }
+
+  .button {
+    white-space: nowrap;
+  }
+
+  @include md-breakpoint {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
   }
 }

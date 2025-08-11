@@ -1,4 +1,18 @@
-import React, { useMemo } from 'react';
+/*
+ *  Copyright 2021 - 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+import { useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -9,7 +23,6 @@ import Unit from '../../../Form/Unit';
 import { harvestAmounts, roundToTwoDecimal } from '../../../../util/convert-units/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
-import { cloneObject } from '../../../../util';
 import { colors } from '../../../../assets/theme';
 import PageBreak from '../../../PageBreak';
 
@@ -64,14 +77,14 @@ export default function PureHarvestUses({
     getValues,
     setValue,
     control,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
       harvest_uses: formatHarvestUses(persistedFormData, task, harvestUseTypes, t),
-      ...cloneObject(task),
+      ...structuredClone(task),
     },
   });
 
@@ -88,7 +101,7 @@ export default function PureHarvestUses({
   const watchFields = watch('harvest_uses');
   const quantities = watchFields.map((field) => field[HARVEST_USE_QUANTITY]);
 
-  const { allocated_amount, amount_to_allocate } = useMemo(() => {
+  const { amount_to_allocate } = useMemo(() => {
     let allocated_amount = 0;
     for (let field of watchFields) {
       const quantity = field[HARVEST_USE_QUANTITY] || 0;
@@ -96,7 +109,7 @@ export default function PureHarvestUses({
         allocated_amount += quantity;
       }
     }
-    return { allocated_amount, amount_to_allocate: amount - allocated_amount };
+    return { amount_to_allocate: amount - allocated_amount };
   }, [quantities]);
 
   const harvestUseIds = watchFields.map((field) => field?.[HARVEST_USE_TYPE]?.value);

@@ -13,6 +13,36 @@ import { cloneObject } from '../../../../util';
 import { colors } from '../../../../assets/theme';
 import PageBreak from '../../../PageBreak';
 
+const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
+const HARVEST_USE_QUANTITY = 'quantity';
+const HARVEST_USE_TYPE = 'harvest_use_type_id';
+
+const formatHarvestUse = (harvestUse, harvestUseTypes, t) => {
+  const { quantity, quantity_unit, harvest_use_type_id } = harvestUse;
+  const useType = harvestUseTypes.find((type) => type.harvest_use_type_id === harvest_use_type_id);
+
+  return {
+    [HARVEST_USE_QUANTITY]: quantity,
+    [HARVEST_USE_QUANTITY_UNIT]: quantity_unit,
+    [HARVEST_USE_TYPE]: {
+      value: harvest_use_type_id,
+      label: t(`harvest_uses:${useType.harvest_use_type_translation_key}`),
+    },
+  };
+};
+
+const formatHarvestUses = (persistedFormData, task, harvestUseTypes, t) => {
+  if (persistedFormData?.harvest_uses) {
+    return persistedFormData.harvest_uses;
+  }
+
+  const isCompleted = !!task.complete_date;
+
+  return isCompleted
+    ? task.harvest_task.harvest_use.map((use) => formatHarvestUse(use, harvestUseTypes, t))
+    : [{}];
+};
+
 export default function PureHarvestUses({
   onContinue,
   onGoBack,
@@ -40,7 +70,7 @@ export default function PureHarvestUses({
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      harvest_uses: persistedFormData?.harvest_uses ?? [{}],
+      harvest_uses: formatHarvestUses(persistedFormData, task, harvestUseTypes, t),
       ...cloneObject(task),
     },
   });
@@ -48,10 +78,6 @@ export default function PureHarvestUses({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const progress = 50;
-
-  const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
-  const HARVEST_USE_QUANTITY = 'quantity';
-  const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
   const { fields, append, remove, swap } = useFieldArray({
     control,

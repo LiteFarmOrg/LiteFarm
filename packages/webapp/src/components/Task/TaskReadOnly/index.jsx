@@ -140,7 +140,8 @@ export default function PureTaskReadOnly({
     ),
   };
 
-  const assignee = users.find((user) => user.user_id === task.assignee_user_id);
+  const getUserById = (id) => users.find((user) => user.user_id === id);
+  const assignee = getUserById(task.assignee_user_id);
   const isInactiveAssignee = assignee?.status === 'Inactive';
   let assigneeName = '';
   if (assignee !== undefined) {

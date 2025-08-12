@@ -63,7 +63,7 @@ import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import PureIrrigationPrescription from '../../IrrigationPrescription';
 import PureDocumentTile from '../../../containers/Documents/DocumentTile';
 import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
-import RecompletePrompt from '../RevisionPrompt';
+import RevisionPrompt from '../RevisionPrompt';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -223,7 +223,7 @@ export default function PureTaskReadOnly({
         }
       />
       {isCompleted && canCompleteTask && (
-        <RecompletePrompt onClick={onComplete} entityName={t('TASK.THIS_TASK')} />
+        <RevisionPrompt onClick={onComplete} entityName={t('TASK.THIS_TASK')} />
       )}
       <div className={styles.editableContainer}>
         <Input

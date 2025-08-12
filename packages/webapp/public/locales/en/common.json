@@ -79,7 +79,7 @@
   "REMOVE_ITEM": "Remove item",
   "REQUIRED": "Required",
   "RETIRE": "Retire",
-  "REVISION_INFO": "Revised on <1>{{date}}</1> <3>by</3> <5>{{user}}</5>",
+  "REVISION_INFO": "Revised on <strong>{{date}}</strong> <i>by</i> <strong>{{user}}</strong>",
   "SAVE": "Save",
   "SAVE_CHANGES": "Save Changes",
   "SEARCH": "Search",

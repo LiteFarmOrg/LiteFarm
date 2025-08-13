@@ -46,7 +46,7 @@ export function isLessThanTwelveHrsAgo(datetime: Date): boolean {
   return Date.now() - new Date(datetime).getTime() < TwelveHrsInMs;
 }
 
-export const getIntlDate = (date: Date, language: Intl.LocalesArgument = 'en') => {
+export const getIntlDate = (date: Date | string, language: Intl.LocalesArgument = 'en') => {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
 };
 

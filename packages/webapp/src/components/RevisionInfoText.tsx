@@ -15,18 +15,27 @@
 
 import { Trans } from 'react-i18next';
 import { getFirstNameWithLastInitial } from '../util';
+import { getIntlDate } from '../util/date-migrate-TS';
 
-const formatRevisionDate = (date: Date, language: string = 'en'): string => {
-  return new Intl.DateTimeFormat(language, {
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(date));
+/**
+ * Formats a date string into a localized display format.
+ * - If the date is in the current year, returns a short month–day format (e.g., "Aug 14").
+ * - Otherwise, delegates to `getIntlDate` for a medium date format including the year.
+ */
+const formatDate = (date: string, language: Intl.LocalesArgument = 'en'): string => {
+  if (new Date(date).getFullYear() === new Date().getFullYear()) {
+    return new Intl.DateTimeFormat(language, { month: 'short', day: 'numeric' }).format(
+      new Date(date),
+    );
+  }
+
+  return getIntlDate(date, language);
 };
 
 interface RevisionInfoTextProps {
-  revisionDate: Date;
+  revisionDate: string;
   reviser: { first_name: string; last_name: string };
-  language: string;
+  language: Intl.LocalesArgument;
 }
 
 export default function RevisionInfoText({
@@ -38,7 +47,7 @@ export default function RevisionInfoText({
     <Trans
       i18nKey="common:REVISION_INFO"
       values={{
-        date: formatRevisionDate(revisionDate, language),
+        date: formatDate(revisionDate, language),
         user: getFirstNameWithLastInitial(reviser),
       }}
       components={{

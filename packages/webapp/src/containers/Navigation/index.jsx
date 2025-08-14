@@ -14,18 +14,18 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
-import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { matchPath } from 'react-router-dom';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
-  const historyLocation = useHistoryLocation(history);
+  const historyLocation = useLocation();
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>

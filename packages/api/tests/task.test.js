@@ -3191,14 +3191,14 @@ describe('Task tests', () => {
       });
 
       const recompletionScenarios = [
-        ['replace with two new use types', [2, 4]],
-        ['replace with one different use type', [4, 5]],
+        // Format: [scenario description, [startIndex, endIndex] for slicing harvestUseTypes]
+        ['replace existing use types with two different ones', [2, 4]],
+        ['replace existing use types with a different one', [4, 5]],
         ['update quantity of existing use type', [4, 5]],
       ];
 
       test.each(recompletionScenarios)('re-complete %# (%s)', async (_, slice) => {
         const useTypes = harvestUseTypes.slice(...slice);
-
         const fakeRecompletionData = generateFakeCompletionData();
         const { actualQuantity, harvestUses } = generateFakeHarvestTaskCompletionData(
           task_id,

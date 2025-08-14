@@ -886,6 +886,7 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
+      const { task } = req.body;
 
       if (await baseController.isDeleted(null, TaskModel, { task_id })) {
         return res.status(400).send('Harvest task has been deleted');
@@ -898,28 +899,51 @@ const taskController = {
       );
 
       // Duplicates middleware until all endpoints are migrated to use middleware
-      checkCompleteTaskDocument(req.body.task, 'harvest_task');
+      checkCompleteTaskDocument(task, 'harvest_task');
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been abandoned');
+      }
+
+      const isRecompleting = !!checkTaskStatus.complete_date;
+
+      if (isRecompleting) {
+        task.revision_date = new Date().toISOString();
+        task.revised_by_user_id = assignee_user_id;
+      }
 
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await updateTaskWithCompletedData(
           trx,
           user_id,
           task_id,
-          req.body.task,
+          task,
           finalWage,
           nonModifiable,
         );
         const result = removeNullTypes(updated_task);
         delete result.harvest_task; // Not needed by front end.
 
-        // Write harvest uses to database.
-        const harvest_uses = req.body.harvest_uses.map((harvest_use) => ({
-          ...harvest_use,
-          task_id,
-        }));
-        await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
+        const shouldModifyUses = !isRecompleting || req.body.harvest_uses !== undefined;
 
-        await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
+        if (shouldModifyUses) {
+          if (isRecompleting) {
+            // Clear existing harvest uses
+            await HarvestUse.query(trx).delete().where({ task_id });
+          }
+
+          if (req.body.harvest_uses?.length) {
+            // Write harvest uses to database.
+            const harvest_uses = req.body.harvest_uses.map((harvest_use) => ({
+              ...harvest_use,
+              task_id,
+            }));
+            await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
+          }
+        }
+
+        await patchManagementPlanStartDate(trx, req, 'harvest_task', task);
 
         return result;
       });

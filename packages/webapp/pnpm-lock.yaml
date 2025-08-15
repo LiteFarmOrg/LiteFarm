@@ -251,6 +251,9 @@ importers:
       '@types/google.maps':
         specifier: ^3.58.1
         version: 3.58.1
+      '@types/history':
+        specifier: '4'
+        version: 4.7.11
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12

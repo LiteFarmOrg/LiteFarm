@@ -73,7 +73,7 @@ export default function CropPlansModal({
                 onClick={() =>
                   history.push(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    history.location.state,
                   )
                 }
               />

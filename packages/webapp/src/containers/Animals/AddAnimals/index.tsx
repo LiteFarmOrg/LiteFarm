@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
@@ -41,10 +41,10 @@ export const STEPS = {
 
 interface AddAnimalsProps {
   isCompactSideMenu: boolean;
-  history: History;
 }
 
-function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
+function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
+  const history = useHistory();
   const { t } = useTranslation(['translation', 'common', 'message']);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

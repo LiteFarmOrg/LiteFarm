@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
@@ -12,7 +13,9 @@ import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { animalLocationsSelector } from '../../locationSlice';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 
-function TaskTypeSelection({ history, match, location }) {
+function TaskTypeSelection() {
+  const location = useLocation();
+  const history = useHistory();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);

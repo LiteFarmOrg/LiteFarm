@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import PureEditCustomTask from '../../../components/Task/PureEditCustomTask';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,7 +6,8 @@ import { deleteTaskType } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { taskTypeSelector } from '../../taskTypeSlice';
 
-function EditCustomTask({ history, match }) {
+function EditCustomTask() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const onGoBackPath = '/add_task/manage_custom_tasks';
   const onEditPath = '/add_task/edit_custom_task_update';

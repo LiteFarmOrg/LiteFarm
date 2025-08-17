@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PureInviteSignup from '../../components/InviteSignup';
 import { decodeToken } from 'react-jwt';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,8 @@ import axios from 'axios';
 import Button from '../../components/Form/Button';
 import { isChrome } from '../../util';
 
-function InviteSignUp({ history }) {
+function InviteSignUp() {
+  const history = useHistory();
   const invite_token = history.location.state;
   const GOOGLE = 1;
   const [selectedKey, setSelectedKey] = useState(0);

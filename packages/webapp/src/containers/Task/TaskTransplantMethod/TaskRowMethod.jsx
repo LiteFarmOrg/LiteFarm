@@ -1,3 +1,4 @@
+import { useHistory, useLocation } from 'react-router-dom';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureRowMethod from '../../../components/Crop/RowMethod';
 import { useSelector } from 'react-redux';
@@ -6,7 +7,9 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskRowMethod({ history, match, location }) {
+export default function TaskRowMethod() {
+  const history = useHistory();
+  const location = useLocation();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(

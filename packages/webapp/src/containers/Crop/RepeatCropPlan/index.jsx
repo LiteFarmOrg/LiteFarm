@@ -14,6 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -28,9 +29,10 @@ import {
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
 
-function RepeatCropPlan({ history, match }) {
+function RepeatCropPlan() {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const { management_plan_id, variety_id } = match.params;
+  const { management_plan_id, variety_id } = useParams();
   useEffect(() => {
     dispatch(
       setPersistedPaths([

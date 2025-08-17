@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
@@ -23,7 +24,8 @@ import { Underlined } from '../../components/Typography';
 import { resetDocumentsFilter } from '../filterSlice';
 import Drawer from '../../components/Drawer';
 
-export default function Documents({ history }) {
+export default function Documents() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();

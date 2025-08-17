@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 import { locationEnum } from '../Map/constants';
@@ -32,7 +33,8 @@ const fieldTechnologyLocations = [
 ];
 const irrigationPrescriptionLocations = fieldTechnologyLocations;
 
-export default function useLocationRouterTabs(location, match) {
+export default function useLocationRouterTabs(location) {
+  const match = useRouteMatch();
   const { t } = useTranslation();
 
   if (!location) {

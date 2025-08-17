@@ -1,5 +1,5 @@
+/* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
-import React from 'react';
 import EditFenceDetailForm from '../containers/LocationDetails/LineDetails/FenceDetailForm/EditFence';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -9,9 +9,11 @@ export default function FenceDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route path="/fence/:location_id/details" exact component={EditFenceDetailForm} />
-      {isAdmin && <Route path="/fence/:location_id/edit" exact component={EditFenceDetailForm} />}
-      <Route path="/fence/:location_id/tasks" exact component={LocationTasks} />
+      <Route path="/fence/:location_id/details" exact children={<EditFenceDetailForm />} />
+      {isAdmin && (
+        <Route path="/fence/:location_id/edit" exact children={<EditFenceDetailForm />} />
+      )}
+      <Route path="/fence/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { FieldValues } from 'react-hook-form';
-import { History } from 'history';
 import { ContextForm, Variant } from '../../components/Form/ContextForm';
 import Partners from './Partners';
 import PageTitle from '../../components/PageTitle/v2';
@@ -28,11 +28,11 @@ import { createSensorsUrl } from '../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
 interface AddSensorProps {
-  history: History;
   isCompactSideMenu: boolean;
 }
 
-const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
+const AddSensor = ({ isCompactSideMenu }: AddSensorProps) => {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

@@ -10,10 +10,14 @@ import {
   resetAndUnLockFormData,
 } from './hookFormPersistSlice';
 import { useCallback, useEffect, useLayoutEffect } from 'react';
-import history from '../../../history';
+import { useHistory } from 'react-router-dom';
 
 /**
  * Persists form values when navigating between routes.
+ *
+ * ⚠️ Do NOT use `useLocation()` here.
+ * It may be out-of-sync with `history` during back/forward navigation.
+ * Always use `history.location` to get the correct path and state.
  *
  * @param {Function} getValues - Returns the current form values.
  * @param {string[]} persistedPathNames - Route paths where form data should be preserved.
@@ -25,6 +29,7 @@ export default function useHookFormPersist(
   persistedPathNames = [],
   formFieldsToKeep = [],
 ) {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const historyStack = useSelector(hookFormPersistHistoryStackSelector);

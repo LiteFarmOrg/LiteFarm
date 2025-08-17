@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useHistory, useParams } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +22,9 @@ import { expenseTypeByIdSelector, allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 
-function EditCustomExpense({ history, match }) {
-  const expense_type_id = match.params.expense_type_id;
+function EditCustomExpense() {
+  const history = useHistory();
+  const { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));

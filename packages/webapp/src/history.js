@@ -20,7 +20,7 @@ const history = createBrowserHistory();
 // Temporary `back()` shim for backward compatibility.
 // We were previously using history@5, but downgraded to history@4 to be compatible with React Router v5.1.
 // `goBack()` is the correct method in v4, so this shim ensures existing history.back() calls continue to work.
-// TODO: Remove when upgrading to history@5.
+// TODO: LF-4242 Remove when upgrading to history@5.
 history.back = () => history.goBack();
 
 export default history;

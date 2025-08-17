@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureExpiredTokenScreen from '../../components/ExpiredTokenScreen';
@@ -6,7 +7,8 @@ import ResetPassword from '../ResetPassword';
 import { sendResetPasswordEmail } from '../CustomSignUp/saga';
 import { useDispatch } from 'react-redux';
 
-export default function ExpiredTokenScreen({ history }) {
+export default function ExpiredTokenScreen() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { translation_key, email } = history.location.state;

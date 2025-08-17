@@ -14,7 +14,7 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
@@ -23,15 +23,16 @@ import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { matchPath } from 'react-router-dom';
 
-const Navigation = ({ history, children, ...props }) => {
+const Navigation = ({ children, ...props }) => {
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const historyLocation = useLocation();
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
-    matchPath(history.location.pathname, path),
+    matchPath(location.pathname, path),
   );
-  const isLoginPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const isLoginPage = location.state?.component === CUSTOM_SIGN_UP;
   // Hides the top navigation bar with logo on the login component
   const showNav = !isLoginPage;
   // Shows the navigation links when farm is selected and not accepting an farm invitation

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PureWelcomeScreen from '../../components/WelcomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { getUserFarms } from '../ChooseFarm/saga';
 import { userLogReducerSelector } from '../userLogSlice';
 
-export default function WelcomeScreen({ history }) {
+export default function WelcomeScreen() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const hasUserFarm = useSelector(userFarmLengthSelector);
   const { loaded, loading } = useSelector(userFarmStatusSelector);

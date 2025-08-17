@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureRepeatCropPlanConfirmation from '../../../components/RepeatCropPlan/Confirmation';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -21,7 +21,9 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { postRepeatCropPlan } from '../saga';
 
-function RepeatCropPlanConfirmation({ history, match }) {
+function RepeatCropPlanConfirmation() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const { management_plan_id, variety_id } = match.params;

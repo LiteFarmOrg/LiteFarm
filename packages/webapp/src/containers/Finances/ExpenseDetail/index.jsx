@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -15,7 +16,9 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
-const ExpenseDetail = ({ history, match }) => {
+const ExpenseDetail = () => {
+  const history = useHistory();
+  const match = useRouteMatch();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

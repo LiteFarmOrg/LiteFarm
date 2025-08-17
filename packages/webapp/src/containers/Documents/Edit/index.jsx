@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,9 +12,10 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateDocument } from '../saga';
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
-export default function EditDocument({ history, match }) {
+export default function EditDocument() {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const { document_id } = match.params;
+  const { document_id } = useParams();
 
   const document = useSelector(documentSelector(document_id));
   const { uploadedFiles } = useSelector(hookFormPersistSelector);

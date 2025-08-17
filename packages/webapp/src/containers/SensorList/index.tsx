@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { History } from 'history';
+import { useHistory } from 'react-router-dom';
 import Loading from '../../components/Form/ContextForm/Loading';
 import PureEsciSensors from '../../components/Sensor/v2/EsciSensorList';
 import useGroupedSensors from './useGroupedSensors';
@@ -23,10 +23,10 @@ import { userFarmSelector } from '../userFarmSlice';
 
 interface SensorListProps {
   isCompactSideMenu: boolean;
-  history: History;
 }
 
-const SensorList = ({ isCompactSideMenu, history }: SensorListProps) => {
+const SensorList = ({ isCompactSideMenu }: SensorListProps) => {
+  const history = useHistory();
   const urlSearchParams = new URLSearchParams(history.location?.search);
   const partnerId = urlSearchParams.get('partner_id');
   const userFarm = useSelector(userFarmSelector);

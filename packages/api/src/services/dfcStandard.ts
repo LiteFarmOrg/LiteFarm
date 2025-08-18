@@ -14,18 +14,29 @@
  */
 
 import { Connector } from '@datafoodconsortium/connector';
-import { apiUrl } from '../util/appUrls.js';
 import type { MarketListingData } from './marketData.js';
+
+const createAddressUrl = (latLngString: string): string => {
+  return `/dfc/address/${latLngString}`;
+};
+
+const createUserUrl = (user_id: string): string => {
+  return `/dfc/user/${user_id}`;
+};
+
+const createEnterpriseUrl = (farm_id: string): string => {
+  return `/dfc/farm/${farm_id}`;
+};
 
 const connector = new Connector();
 
 export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
-  const { farm_id, farm_name, country, grid_points, farm_address } = farmListingData;
+  const { farm_id, farm_name, country, grid_points, farm_address, user } = farmListingData;
 
-  // @ts-expect-error createAddress params don't match the constructor
-  // Q3: Should I open a PR to match the createAddress() method to the constructor?
+  // Q: Should the createAddress() method be matched to the constructor?
+  // @ts-expect-error lat, lng, and region missing from createAddress()
   const address = connector.createAddress({
-    // Q4: What is the semantic id for an address?
+    // Q: Can I create any semantic ID for an address if it's not an entity in our system
     semanticId: createAddressUrl(`${grid_points.lat},${grid_points.lng}`),
     latitude: grid_points.lat,
     longitude: grid_points.lng,
@@ -36,24 +47,25 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     country,
   });
 
-  // @ts-expect-error params don't match the constructor
+  const contactUser = connector.createPerson({
+    semanticId: createUserUrl(user.user_id),
+    firstName: user.first_name,
+    lastName: user.last_name,
+    // Q: What's the correct way to link up to a phone number?
+  });
+
+  // @ts-expect-error name and mainContact missing from createEnterprise
   const farm = connector.createEnterprise({
-    // Q1: Is this supposed to be completely circular? Is this the same URL we are calling against?
-    // Q2: Should it include /enterprises, or is /farm equally okay?
+    // Q: Is this supposed to be completely circular? Is this the same URL we are calling against?
+    // Q: Should it include /enterprise at this point, or is dfc/farm equally okay?
+    // Q: Relative route correct?
     semanticId: createEnterpriseUrl(farm_id),
     name: farm_name,
     localizations: [address],
+    mainContact: [contactUser],
   });
 
-  const exportFormattedData = await connector.export([farm, address]);
+  const exportFormattedData = await connector.export([farm, address, contactUser]);
 
   return exportFormattedData;
-};
-
-const createEnterpriseUrl = (farm_id: string): string => {
-  return `${apiUrl()}/dfc/enterprises/${farm_id}`;
-};
-
-const createAddressUrl = (latLngString: string): string => {
-  return `${apiUrl()}/dfc/addresses/${latLngString}`;
 };

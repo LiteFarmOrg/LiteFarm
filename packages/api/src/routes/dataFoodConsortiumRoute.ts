@@ -19,7 +19,7 @@ import DataFoodConsortiumController from '../controllers/dataFoodConsortiumContr
 const router = express.Router();
 
 router.get(
-  '/enterprises/:farm_id',
+  '/farm/:farm_id',
   // This is an open URL that will not require authentication to call
   DataFoodConsortiumController.getFarmData(),
 );

@@ -14,6 +14,8 @@
  */
 
 import FarmModel from '../models/farmModel.js';
+import UserFarmModel from '../models/userFarmModel.js';
+import UserModel from '../models/userModel.js';
 import { getAddressComponents } from '../util/googleMaps.js';
 
 export interface MarketListingData {
@@ -25,6 +27,12 @@ export interface MarketListingData {
   grid_points: {
     lat: number;
     lng: number;
+  };
+  user: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string | null;
   };
 }
 
@@ -38,7 +46,14 @@ export const getMarketListingData = async (farm_id: string): Promise<MarketListi
 
   const addressComponents = (await getAddressComponents(address)) ?? [];
 
-  // I think email, website, etc might need to go on a different DB table? Or just more columns here?
+  // I think email, website, etc might need to go on a different DB table? Or we can define a main contact for the farm?
+
+  const userFarmRecords = await UserFarmModel.getFarmManagementByFarmId(farm_id);
+
+  // TODO: don't simply pick one arbitrarily, but assign a contact user
+  const managementUserId = userFarmRecords[0].user_id;
+
+  const user = await UserModel.query().findById(managementUserId);
 
   return {
     // @ts-expect-error strings in actual return not matching strings from package
@@ -48,6 +63,13 @@ export const getMarketListingData = async (farm_id: string): Promise<MarketListi
     farm_name,
     farm_phone_number,
     farm_id,
+    user: {
+      user_id: managementUserId,
+      first_name: user?.first_name,
+      last_name: user?.last_name,
+      // @ts-expect-error Maybe it's the union type ['string', 'null'] that makes this property problematic?
+      phone_number: user?.phone_number,
+    },
   };
 };
 export interface FarmAddressDetails {

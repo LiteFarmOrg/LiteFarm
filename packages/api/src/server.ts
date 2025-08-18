@@ -285,6 +285,7 @@ app
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
+  .use('/dfc', dataFoodConsortiumRoute)
   // ACL middleware
   .use(checkJwt)
 
@@ -342,8 +343,7 @@ app
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
-  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
-  .use('/dfc', dataFoodConsortiumRoute);
+  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

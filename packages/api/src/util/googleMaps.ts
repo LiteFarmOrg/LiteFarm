@@ -13,15 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
+import { Client } from '@googlemaps/google-maps-services-js';
+const googleClient = new Client({});
 
-const router = express.Router();
-
-router.get(
-  '/enterprises/:farm_id',
-  // This is an open URL that will not require authentication to call
-  DataFoodConsortiumController.getFarmData(),
-);
-
-export default router;
+export async function getAddressComponents(address: string) {
+  try {
+    const response = await googleClient.geocode({
+      params: {
+        address,
+        key: process.env.GOOGLE_API_KEY!,
+      },
+    });
+    return response.data.results[0]?.address_components;
+  } catch (error) {
+    console.error(error);
+  }
+}

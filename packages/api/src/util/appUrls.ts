@@ -13,15 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
-import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
-
-const router = express.Router();
-
-router.get(
-  '/enterprises/:farm_id',
-  // This is an open URL that will not require authentication to call
-  DataFoodConsortiumController.getFarmData(),
-);
-
-export default router;
+export function apiUrl(defaultUrl = 'http://localhost:5001') {
+  const environment = process.env.NODE_ENV || 'development';
+  let apiUrl = defaultUrl;
+  if (environment === 'integration') {
+    apiUrl = 'https://api.beta.litefarm.org';
+  } else if (environment === 'production') {
+    apiUrl = 'https://api.app.litefarm.org';
+  }
+  return apiUrl;
+}

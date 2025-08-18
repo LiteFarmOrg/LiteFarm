@@ -23,16 +23,18 @@ interface HttpError extends Error {
   code?: number;
 }
 
+interface DfcFarmDataRouteParams {
+  farm_id: string;
+}
+
 const dataFoodConsortiumController = {
   getFarmData() {
-    return async (req: LiteFarmRequest, res: Response) => {
-      const { farm_id } = req.headers;
+    return async (req: LiteFarmRequest<unknown, DfcFarmDataRouteParams>, res: Response) => {
+      const { farm_id } = req.params;
 
       try {
-        // service file to get farm data
         const marketListingData = await getMarketListingData(farm_id!);
 
-        // service file for DFC standard export
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketListingData);
 
         return res.status(200).send(dfcFormattedListingData);

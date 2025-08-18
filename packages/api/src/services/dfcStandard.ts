@@ -14,20 +14,46 @@
  */
 
 import { Connector } from '@datafoodconsortium/connector';
+import { apiUrl } from '../util/appUrls.js';
+import type { MarketListingData } from './marketData.js';
 
 const connector = new Connector();
 
-interface FarmListingData {
-  farm_id: string;
-}
+export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
+  const { farm_id, farm_name, country, grid_points, farm_address } = farmListingData;
 
-export const formatFarmDataToDfcStandard = async (farmListingData: FarmListingData) => {
-  const { farm_id } = farmListingData;
-  const farm = connector.createEnterprise({
-    // isn't this kind of circular?
-    semanticId: `https://api.app.litefarm.org/dfc/farm/${farm_id}`,
+  // @ts-expect-error createAddress params don't match the constructor
+  // Q3: Should I open a PR to match the createAddress() method to the constructor?
+  const address = connector.createAddress({
+    // Q4: What is the semantic id for an address?
+    semanticId: createAddressUrl(`${grid_points.lat},${grid_points.lng}`),
+    latitude: grid_points.lat,
+    longitude: grid_points.lng,
+    street: farm_address.street,
+    city: farm_address.city,
+    region: farm_address.region,
+    postalCode: farm_address.postalCode,
+    country,
   });
-  const exportFormattedData = await connector.export([farm]);
+
+  // @ts-expect-error params don't match the constructor
+  const farm = connector.createEnterprise({
+    // Q1: Is this supposed to be completely circular? Is this the same URL we are calling against?
+    // Q2: Should it include /enterprises, or is /farm equally okay?
+    semanticId: createEnterpriseUrl(farm_id),
+    name: farm_name,
+    localizations: [address],
+  });
+
+  const exportFormattedData = await connector.export([farm, address]);
 
   return exportFormattedData;
+};
+
+const createEnterpriseUrl = (farm_id: string): string => {
+  return `${apiUrl()}/dfc/enterprises/${farm_id}`;
+};
+
+const createAddressUrl = (latLngString: string): string => {
+  return `${apiUrl()}/dfc/addresses/${latLngString}`;
 };

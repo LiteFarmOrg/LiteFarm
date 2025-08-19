@@ -24,29 +24,26 @@ export interface MarketListingData {
   farm_name: string;
   farm_phone_number: string | null;
   farm_id: string;
-  grid_points: {
-    lat: number;
-    lng: number;
-  };
   user: {
     user_id: string;
     first_name: string;
     last_name: string;
     phone_number: string | null;
+    email: string | null;
   };
 }
 
 export const getMarketListingData = async (farm_id: string): Promise<MarketListingData> => {
   // TODO check for participation in this program against the FarmAddonModel
 
-  // Grab data already on the farm record
   const farmRecord = await FarmModel.getFarmById(farm_id);
 
-  const { address, country_name, farm_name, farm_phone_number, grid_points } = farmRecord;
+  const { address, country_name, farm_name, farm_phone_number } = farmRecord;
 
   const addressComponents = (await getAddressComponents(address)) ?? [];
 
-  // I think email, website, etc might need to go on a different DB table? Or we can define a main contact for the farm?
+  // I think email, website, etc might need to go on a different DB table?
+  // Also think main contact will not be necessary at that point
 
   const userFarmRecords = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
@@ -58,7 +55,6 @@ export const getMarketListingData = async (farm_id: string): Promise<MarketListi
   return {
     // @ts-expect-error strings in actual return not matching strings from package
     farm_address: parseAddressComponents(addressComponents),
-    grid_points,
     country: country_name,
     farm_name,
     farm_phone_number,
@@ -69,6 +65,7 @@ export const getMarketListingData = async (farm_id: string): Promise<MarketListi
       last_name: user?.last_name,
       // @ts-expect-error Maybe it's the union type ['string', 'null'] that makes this property problematic?
       phone_number: user?.phone_number,
+      email: user?.email,
     },
   };
 };

@@ -16,30 +16,18 @@
 import { Connector } from '@datafoodconsortium/connector';
 import type { MarketListingData } from './marketData.js';
 
-const createAddressUrl = (latLngString: string): string => {
-  return `/dfc/address/${latLngString}`;
-};
-
-const createUserUrl = (user_id: string): string => {
-  return `/dfc/user/${user_id}`;
-};
-
 const createEnterpriseUrl = (farm_id: string): string => {
-  return `/dfc/farm/${farm_id}`;
+  return `https://api.app.litefarm.org/dfc/enterprise/${farm_id}`;
 };
 
 const connector = new Connector();
 
 export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
-  const { farm_id, farm_name, country, grid_points, farm_address, user } = farmListingData;
+  const { farm_id, farm_name, country, farm_address, user } = farmListingData;
 
-  // Q: Should the createAddress() method be matched to the constructor?
   // @ts-expect-error lat, lng, and region missing from createAddress()
   const address = connector.createAddress({
-    // Q: Can I create any semantic ID for an address if it's not an entity in our system
-    semanticId: createAddressUrl(`${grid_points.lat},${grid_points.lng}`),
-    latitude: grid_points.lat,
-    longitude: grid_points.lng,
+    semanticId: `${createEnterpriseUrl(farm_id)}#address`,
     street: farm_address.street,
     city: farm_address.city,
     region: farm_address.region,
@@ -47,25 +35,22 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     country,
   });
 
-  const contactUser = connector.createPerson({
-    semanticId: createUserUrl(user.user_id),
+  const mainContact = connector.createPerson({
+    semanticId: `${createEnterpriseUrl(farm_id)}#person`,
     firstName: user.first_name,
     lastName: user.last_name,
-    // Q: What's the correct way to link up to a phone number?
   });
 
-  // @ts-expect-error name and mainContact missing from createEnterprise
+  // NB: website, email, socials should all be included within enterprise according to the ruby connector
+  // @ts-expect-error name and mainContact missing from createEnterprise()
   const farm = connector.createEnterprise({
-    // Q: Is this supposed to be completely circular? Is this the same URL we are calling against?
-    // Q: Should it include /enterprise at this point, or is dfc/farm equally okay?
-    // Q: Relative route correct?
     semanticId: createEnterpriseUrl(farm_id),
     name: farm_name,
     localizations: [address],
-    mainContact: [contactUser],
+    mainContact,
   });
 
-  const exportFormattedData = await connector.export([farm, address, contactUser]);
+  const exportFormattedData = await connector.export([farm, address, mainContact]);
 
   return exportFormattedData;
 };

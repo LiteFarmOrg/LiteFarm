@@ -98,6 +98,7 @@ export type ExternalIrrigationPrescription = {
 };
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
+  organisation_name?: string;
   partner_id: AddonPartner['id'];
   task_id?: Task['task_id'];
 }

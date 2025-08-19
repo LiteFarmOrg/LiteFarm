@@ -22,7 +22,7 @@ import AddonPartnerModel from '../models/addonPartnerModel.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { customError, LiteFarmCustomError } from './customErrors.js';
-import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall } from './ensemble.js';
+import { ENSEMBLE_BRAND, ensembleAPI, ensembleAPICall, getValidEnsembleOrg } from './ensemble.js';
 import type {
   AllOrganisationsFarmData,
   LocationAndCropGraph,
@@ -31,6 +31,7 @@ import type {
   EsciReturnedPrescriptionDetails,
   IrrigationPrescriptionDetails,
   VriPrescriptionData,
+  ExternalIrrigationPrescription,
 } from './ensembleService.types.js';
 import { AddonPartner, Farm, FarmAddon, Point } from '../models/types.js';
 import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetails.js';
@@ -124,7 +125,18 @@ export const getIrrigationPrescriptions = async (
   };
 
   // Get and check data
-  return ensembleAPICall(axiosObject, onError);
+  const irrigationPrescriptionListResponse = await ensembleAPICall(axiosObject, onError);
+
+  // Add organisation name to each prescription
+  const organisation = await getValidEnsembleOrg(externalOrganizationIds.org_uuid);
+  irrigationPrescriptionListResponse.data = irrigationPrescriptionListResponse.data.map(
+    (prescription: ExternalIrrigationPrescription) => ({
+      ...prescription,
+      organization_name: organisation?.name,
+    }),
+  );
+
+  return irrigationPrescriptionListResponse;
 };
 
 /**

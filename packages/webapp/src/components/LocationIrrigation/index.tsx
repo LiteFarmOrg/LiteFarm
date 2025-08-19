@@ -18,6 +18,8 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import { IconLink } from '../Typography';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link-01.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
@@ -51,6 +53,10 @@ export default function PureLocationIrrigation({
   const getPartnerName = (id: number) => {
     const partner = partnerEntities.find((partner) => id === partner.id);
     return partner ? partner.shortName : ' — ';
+  };
+
+  const handleExternalLink = () => {
+    window.open('', '_blank');
   };
 
   const getColumns = (): TableV2Column[] => {
@@ -117,6 +123,16 @@ export default function PureLocationIrrigation({
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
+      <div className={styles.linkContainer}>
+        <IconLink
+          className={styles.linkText}
+          icon={<ExternalLinkIcon />}
+          isIconClickable
+          onClick={handleExternalLink}
+        >
+          {t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}
+        </IconLink>
+      </div>
       <h2 className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</h2>
       <Table
         kind={TableKind.V2}

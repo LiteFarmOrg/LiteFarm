@@ -57,12 +57,12 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
         sortable: false,
       },
       {
-        id: !vriZonesPresent || !isMobile ? 'soil_moisture_deficit' : null,
-        label: t('IRRIGATION_PRESCRIPTION.SOIL_MOISTURE_DEFICIT'),
+        id: !vriZonesPresent || !isMobile ? 'available_soil_moisture' : null,
+        label: t('IRRIGATION_PRESCRIPTION.AVAILABLE_SOIL_MOISTURE'),
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
-            text={`${roundToTwo(d.soil_moisture_deficit)}${d.soil_moisture_deficit_unit}`}
+            text={`${roundToTwo(d.available_soil_moisture)}${d.available_soil_moisture_unit}`}
             className={styles.tableText}
           />
         ),

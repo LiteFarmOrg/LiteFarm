@@ -14,19 +14,20 @@
  */
 
 import { Connector } from '@datafoodconsortium/connector';
+import { Enterprise, SocialMedia, Address } from '@datafoodconsortium/connector';
 import type { MarketListingData } from './marketData.js';
 
 const createEnterpriseUrl = (farm_id: string): string => {
   return `https://api.app.litefarm.org/dfc/enterprise/${farm_id}`;
 };
 
-const connector = new Connector();
-
 export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
+  const connector = new Connector();
+
   const { farm_id, farm_name, country, farm_address, user } = farmListingData;
 
-  // @ts-expect-error lat, lng, and region missing from createAddress()
-  const address = connector.createAddress({
+  const address = new Address({
+    connector,
     semanticId: `${createEnterpriseUrl(farm_id)}#address`,
     street: farm_address.street,
     city: farm_address.city,
@@ -41,16 +42,27 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     lastName: user.last_name,
   });
 
-  // NB: website, email, socials should all be included within enterprise according to the ruby connector
-  // @ts-expect-error name and mainContact missing from createEnterprise()
-  const farm = connector.createEnterprise({
+  const socialMedia = new SocialMedia({
+    connector,
+    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia`,
+    name: 'Instagram',
+    url: 'https://www.instagram.com/dfc_test_farm_insta/',
+  });
+
+  const farm = new Enterprise({
+    connector,
     semanticId: createEnterpriseUrl(farm_id),
     name: farm_name,
     localizations: [address],
     mainContact,
   });
 
-  const exportFormattedData = await connector.export([farm, address, mainContact]);
+  // setter methods on Agent.ts
+  farm.addEmailAddress(user.email!);
+  farm.addSocialMedia(socialMedia);
+  farm.addWebsite('https://www.dfc_test_farm.com');
+
+  const exportFormattedData = await connector.export([farm, address, mainContact, socialMedia]);
 
   return exportFormattedData;
 };

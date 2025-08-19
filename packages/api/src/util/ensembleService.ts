@@ -132,7 +132,7 @@ export const getIrrigationPrescriptions = async (
   irrigationPrescriptionListResponse.data = irrigationPrescriptionListResponse.data.map(
     (prescription: ExternalIrrigationPrescription) => ({
       ...prescription,
-      organization_name: organisation?.name,
+      organisation_name: organisation?.name,
     }),
   );
 

@@ -188,4 +188,15 @@ export const esciUnitTypeMap: Partial<
     },
     baseUnit: 'l',
   },
+  application_depth: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in',
+    },
+    baseUnit: 'mm',
+  },
 };

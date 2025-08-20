@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -9,7 +9,6 @@ import {
   customSignUp,
   sendResetPasswordEmail,
 } from './saga';
-import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
@@ -34,6 +33,7 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
+  const history = useHistory();
   const location = useLocation();
   const {
     register,

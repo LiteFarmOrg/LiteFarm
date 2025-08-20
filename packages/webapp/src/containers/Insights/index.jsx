@@ -14,10 +14,10 @@
  */
 
 import React, { useEffect, Component, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import history from '../../history';
 // images
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
@@ -40,6 +40,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 
 const Insights = () => {
+  const history = useHistory();
   const farm = useSelector(userFarmSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import {
-  PureInterestedOrganic,
-} from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
+import { useHistory } from 'react-router-dom';
+import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getOrganicSurveyReqBody } from '../SetCertificationSummary/utils/getOrganicSurveyReqBody';
@@ -17,6 +15,7 @@ import {
 import { setInterested } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function OnboardingInterestedOrganic() {
+  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
 

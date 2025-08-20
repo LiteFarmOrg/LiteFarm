@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
 import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import RequireCondition from './RequireCondition';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -75,52 +76,126 @@ function OnboardingFlow({
         <Route path="/welcome" exact children={<WelcomeScreen />} />
         <Route path="/add_farm" exact children={<AddFarm />} />
 
-        {step_one && <Route path="/role_selection" exact children={<RoleSelection />} />}
-        {step_two && !step_five && <Route path="/consent" exact children={<ConsentForm />} />}
-        {step_five && !has_consent && (
-          <Route path="/consent" exact>
-            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
-          </Route>
-        )}
-        {step_three && (
-          <Route
-            path="/certification/interested_in_organic"
-            exact
-            children={<InterestedOrganic />}
-          />
-        )}
-        {(step_four || interested) && (
-          <Route path="/certification/selection" exact children={<CertificationSelection />} />
-        )}
-        {(step_four || interested) && (
-          <Route
-            path="/certification/certifier/selection"
-            exact
-            children={<CertifierSelectionMenu />}
-          />
-        )}
-        {(step_four || interested) && (
-          <Route path="/certification/certifier/request" exact children={<RequestCertifier />} />
-        )}
-        {(step_four || interested) && (
-          <Route path="/certification/summary" exact children={<SetCertificationSummary />} />
-        )}
-        {step_four && <Route path="/outro" exact children={<Outro />} />}
+        <Route
+          path="/role_selection"
+          exact
+          element={
+            <RequireCondition condition={step_one}>
+              <RoleSelection />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/consent"
+          exact
+          element={
+            <RequireCondition condition={step_two && !step_five}>
+              <ConsentForm />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/consent"
+          exact
+          element={
+            <RequireCondition condition={step_five && !has_consent}>
+              <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
+            </RequireCondition>
+          }
+        />
 
-        <Route>
-          <>
-            {!step_one && <Redirect to={'/add_farm'} />}
-            {step_four && !has_consent && <Redirect to={'/consent'} />}
-            {!farm_id && hasUserFarms && <Redirect to={'/farm_selection'} />}
-            {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
-            {step_one && !step_two && <Redirect to={'/role_selection'} />}
-            {step_two && !step_three && <Redirect to={'/consent'} />}
-            {step_one && step_three && !step_four && (
-              <Redirect to={'/certification/interested_in_organic'} />
-            )}
-            {step_one && step_four && !step_five && <Redirect to={'/outro'} />}
-          </>
-        </Route>
+        <Route
+          path="/certification/interested_in_organic"
+          exact
+          element={
+            <RequireCondition condition={step_three}>
+              <InterestedOrganic />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/certification/selection"
+          exact
+          element={
+            <RequireCondition condition={step_four || interested}>
+              <CertificationSelection />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/certification/certifier/selection"
+          exact
+          element={
+            <RequireCondition condition={step_four || interested}>
+              <CertifierSelectionMenu />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/certification/certifier/request"
+          exact
+          element={
+            <RequireCondition condition={step_four || interested}>
+              <RequestCertifier />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/certification/summary"
+          exact
+          element={
+            <RequireCondition condition={step_four || interested}>
+              <SetCertificationSummary />
+            </RequireCondition>
+          }
+        />
+        <Route
+          path="/outro"
+          exact
+          element={
+            <RequireCondition condition={step_four}>
+              <Outro />
+            </RequireCondition>
+          }
+        />
+
+        <Route
+          render={() => {
+            if (!step_one) {
+              return <Redirect to="/add_farm" />;
+            }
+
+            if (step_four && !has_consent) {
+              return <Redirect to="/consent" />;
+            }
+
+            if (!farm_id && hasUserFarms) {
+              return <Redirect to="/farm_selection" />;
+            }
+
+            if ((!farm_id || !step_one) && !hasUserFarms) {
+              return <Redirect to="/welcome" />;
+            }
+
+            if (step_one && !step_two) {
+              return <Redirect to="/role_selection" />;
+            }
+
+            if (step_two && !step_three) {
+              return <Redirect to="/consent" />;
+            }
+
+            if (step_one && step_three && !step_four) {
+              return <Redirect to="/certification/interested_in_organic" />;
+            }
+
+            if (step_one && step_four && !step_five) {
+              return <Redirect to="/outro" />;
+            }
+
+            return null;
+          }}
+        />
       </Switch>
     </Suspense>
   );

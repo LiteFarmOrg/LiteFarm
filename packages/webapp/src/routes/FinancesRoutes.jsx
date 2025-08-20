@@ -125,7 +125,7 @@ const FinancesRoutes = () => (
       exact
       children={<EditCustomRevenue />}
     />
-    <Redirect to={'/'} />
+    <Route render={() => <Redirect to={'/'} />} />
   </Switch>
 );
 

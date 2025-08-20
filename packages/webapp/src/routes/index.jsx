@@ -335,7 +335,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       <ConsentForm goForwardTo={'/outro'} goBackTo={null} />
                     </Route>
                     <Route path="/outro" exact children={<JoinFarmSuccessScreen />} />
-                    {!has_consent && <Redirect to={'/consent'} />}
+                    <Route render={() => !has_consent && <Redirect to="/consent" />} />
                   </Switch>
                 );
               } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
@@ -347,7 +347,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/consent" exact>
                       <ConsentForm goForwardTo={'/'} goBackTo={null} />
                     </Route>
-                    {!has_consent && <Redirect to={'/consent'} />}
+                    <Route render={() => <Redirect to="/consent" />} />
                   </Switch>
                 );
               } else if (role_id === 1) {
@@ -747,9 +747,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path="/unknown_record" exact children={<UnknownRecord />} />
-                    <Redirect
-                      to={'/'}
+                    <Route
                       //TODO change to 404
+                      render={() => <Redirect to={'/'} />}
                     />
                   </Switch>
                 );
@@ -1153,7 +1153,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path="/unknown_record" exact children={<UnknownRecord />} />
-                    <Redirect to={'/'} />
+                    <Route render={() => <Redirect to={'/'} />} />
                   </Switch>
                 );
               } else {
@@ -1309,7 +1309,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path="/unknown_record" exact children={<UnknownRecord />} />
-                    <Redirect to={'/'} />
+                    <Route render={() => <Redirect to={'/'} />} />
                   </Switch>
                 );
               }
@@ -1326,9 +1326,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                   <Route path="/password_reset" children={<PasswordResetAccount />} />
                   <Route path={'/expired'} children={<ExpiredTokenScreen />} />
                   <Route path="/" exact children={<CustomSignUp />} />
-                  <Redirect
-                    to={'/'}
+                  <Route
                     //TODO change to 404
+                    render={() => <Redirect to={'/'} />}
                   />
                 </Switch>
               );

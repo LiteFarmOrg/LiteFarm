@@ -24,3 +24,18 @@ export function createSmartIrrigationDisplayName({
 }) {
   return [system, label].filter(Boolean).join(' | ') || fallback;
 }
+
+export const createESciReportLink = ({
+  system_url_name,
+  org_url_name,
+}: {
+  system_url_name?: string;
+  org_url_name?: string;
+}) => {
+  if (!org_url_name) {
+    // missing system name is OK; link will just direct to a list of all systems within that org
+    return;
+  }
+
+  return `https://app.esci.io/${org_url_name}/${system_url_name}/irrigation-report`;
+};

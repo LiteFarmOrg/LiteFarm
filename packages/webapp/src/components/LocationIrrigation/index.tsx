@@ -32,6 +32,7 @@ import clsx from 'clsx';
 import { Location } from '../../types';
 import { LocationTab } from '../../containers/LocationDetails/types';
 import CardLayout from '../Layout/CardLayout';
+import { createESciReportLink } from '../../util/smartIrrigation';
 
 type LocationIrrigationProps = {
   location: Location;
@@ -55,8 +56,13 @@ export default function PureLocationIrrigation({
     return partner ? partner.shortName : ' — ';
   };
 
+  const externalLink = createESciReportLink({
+    system_url_name: irrigationPrescriptions[0]?.system_url_name,
+    org_url_name: irrigationPrescriptions[0]?.organisation_url_name,
+  });
+
   const handleExternalLink = () => {
-    window.open('', '_blank');
+    window.open(externalLink!, '_blank');
   };
 
   const getColumns = (): TableV2Column[] => {
@@ -123,16 +129,18 @@ export default function PureLocationIrrigation({
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
-      <div className={styles.linkContainer}>
-        <IconLink
-          className={styles.linkText}
-          icon={<ExternalLinkIcon />}
-          isIconClickable
-          onClick={handleExternalLink}
-        >
-          {t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}
-        </IconLink>
-      </div>
+      {externalLink && (
+        <div className={styles.linkContainer}>
+          <IconLink
+            className={styles.linkText}
+            icon={<ExternalLinkIcon />}
+            isIconClickable
+            onClick={handleExternalLink}
+          >
+            {t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}
+          </IconLink>
+        </div>
+      )}
       <h2 className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</h2>
       <Table
         kind={TableKind.V2}

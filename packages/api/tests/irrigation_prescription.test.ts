@@ -15,7 +15,7 @@
 
 import axios from 'axios';
 jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedAxios = axios as jest.MockedFunction<typeof axios>;
 
 jest.mock('../src/util/geoUtils', () => ({
   ...jest.requireActual('../src/util/geoUtils'),
@@ -159,12 +159,12 @@ describe('Get Irrigation Prescription Tests', () => {
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
 
         // GET prescription list
-        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        mockedAxios.mockResolvedValueOnce({
           data: externalIrrigationPrescriptions,
         });
 
         // GET Ensemble Organisation (org content not part of tests)
-        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        mockedAxios.mockResolvedValueOnce({
           data: [],
         });
 
@@ -194,12 +194,12 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptionsWithTasks[0].task_id).toBeTruthy();
 
         // GET prescription list
-        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        mockedAxios.mockResolvedValueOnce({
           data: irrigationPrescriptionsWithTasks,
         });
 
         // GET Ensemble Organisation (org content not part of tests)
-        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        mockedAxios.mockResolvedValueOnce({
           data: [],
         });
 
@@ -221,7 +221,7 @@ describe('Get Irrigation Prescription Tests', () => {
         const { farm, field, user } = await setupFarmEnvironment(role);
 
         const MOCK_ID = 123;
-        await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        await mockedAxios.mockResolvedValueOnce({
           data: await generateMockPrescriptionDetails({
             farm_id: farm.farm_id,
             irrigationPrescriptionId: MOCK_ID,
@@ -266,7 +266,7 @@ describe('Get Irrigation Prescription Tests', () => {
 
         const MOCK_ID = 124;
 
-        await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+        await mockedAxios.mockResolvedValueOnce({
           data: await generateMockPrescriptionDetails({
             farm_id: farm1.farm_id,
             irrigationPrescriptionId: MOCK_ID,
@@ -310,7 +310,7 @@ describe('Get Irrigation Prescription Tests', () => {
 
       const { prescription, ...invalidIrrigationPrescription } = irrigationPrescription;
 
-      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+      await mockedAxios.mockResolvedValueOnce({
         data: invalidIrrigationPrescription,
       });
 
@@ -347,7 +347,7 @@ describe('Get Irrigation Prescription Tests', () => {
       // Mock ID for VRI prescription (odd ID)
       const MOCK_ID = 123;
 
-      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+      await mockedAxios.mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,
@@ -379,7 +379,7 @@ describe('Get Irrigation Prescription Tests', () => {
       // Mock ID for URI prescription (even ID)
       const MOCK_ID = 124;
 
-      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+      await mockedAxios.mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,
@@ -416,7 +416,7 @@ describe('Get Irrigation Prescription Tests', () => {
       // Mock ID for URI prescription (even ID)
       const MOCK_ID = 126;
 
-      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+      await mockedAxios.mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,

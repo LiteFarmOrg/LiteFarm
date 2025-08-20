@@ -40,6 +40,7 @@ import {
   OTHER_EXPENSE_URL,
   REVENUE_TYPES_URL,
 } from '../util/siteMapConstants';
+import WithNavigation from './WithNavigation';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
 const UpdateEstimatedCropRevenue = React.lazy(() =>
@@ -100,8 +101,12 @@ const FinancesRoutes = () => (
     <Route path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
     <Route path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
     <Route path={createEditExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
-    <Route path={EXPENSE_CATEGORIES_URL} exact children={<ExpenseCategories />} />
-    <Route path={ADD_EXPENSE_URL} exact children={<AddExpense />} />
+    <Route
+      path={EXPENSE_CATEGORIES_URL}
+      exact
+      render={() => <WithNavigation component={ExpenseCategories} />}
+    />
+    <Route path={ADD_EXPENSE_URL} exact render={() => <WithNavigation component={AddExpense} />} />
     <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
     <Route path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
     <Route

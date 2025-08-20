@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
 import { setSelectedExpenseTypes } from '../../actions';
-import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
@@ -29,7 +28,7 @@ class ExpenseCategories extends Component {
   nextPage(event) {
     event.preventDefault();
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-    history.push(ADD_EXPENSE_URL);
+    this.props.history.push(ADD_EXPENSE_URL);
   }
 
   addRemoveType(id) {
@@ -46,7 +45,7 @@ class ExpenseCategories extends Component {
   }
 
   render() {
-    const { expenseTypes } = this.props;
+    const { expenseTypes, history } = this.props;
 
     const miscellaneous_type_id = expenseTypes.find(
       (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
@@ -64,7 +63,7 @@ class ExpenseCategories extends Component {
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           types={filteredExpenseTypes}
           onContinue={this.nextPage}
-          onGoBack={this.props.history.back}
+          onGoBack={history.back}
           progressValue={33}
           onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}

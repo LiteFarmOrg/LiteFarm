@@ -158,8 +158,14 @@ describe('Get Irrigation Prescription Tests', () => {
         const startDate = today.toISOString().split('T')[0];
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
 
-        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
+        // GET prescription list
+        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
           data: externalIrrigationPrescriptions,
+        });
+
+        // GET Ensemble Organisation (org content not part of tests)
+        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+          data: [],
         });
 
         const res = await getIrrigationPrescription({
@@ -187,8 +193,14 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptionsWithTasks.length).toBe(2);
         expect(irrigationPrescriptionsWithTasks[0].task_id).toBeTruthy();
 
-        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
+        // GET prescription list
+        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
           data: irrigationPrescriptionsWithTasks,
+        });
+
+        // GET Ensemble Organisation (org content not part of tests)
+        (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
+          data: [],
         });
 
         const res2 = await getIrrigationPrescription({

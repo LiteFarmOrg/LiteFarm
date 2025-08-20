@@ -58,11 +58,13 @@ export default function PureLocationIrrigation({
 
   const externalLink = createESciReportLink({
     system_url_name: irrigationPrescriptions[0]?.system_url_name,
-    org_url_name: irrigationPrescriptions[0]?.organisation_url_name,
+    organisation_url_name: irrigationPrescriptions[0]?.organisation_url_name,
   });
 
   const handleExternalLink = () => {
-    window.open(externalLink!, '_blank');
+    if (externalLink) {
+      window.open(externalLink, '_blank');
+    }
   };
 
   const getColumns = (): TableV2Column[] => {

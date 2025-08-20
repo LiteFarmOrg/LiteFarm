@@ -137,8 +137,7 @@ export const getIrrigationPrescriptions = async (
     (prescription: ExternalIrrigationPrescription) => ({
       ...prescription,
       organisation_url_name: organisation?.url_name,
-      system_url_name:
-        prescription.system_id != null ? systemUrlNames[prescription.system_id] : undefined,
+      system_url_name: prescription.system_id ? systemUrlNames[prescription.system_id] : undefined,
     }),
   );
 

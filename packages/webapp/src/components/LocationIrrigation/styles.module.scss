@@ -66,8 +66,6 @@
   margin-inline: auto;
   padding-block: 16px;
 
-  @include svgColorFill(var(--Colors-Secondary-Secondary-green-600));
-
   .linkText {
     display: flex;
     padding-block: 8px;

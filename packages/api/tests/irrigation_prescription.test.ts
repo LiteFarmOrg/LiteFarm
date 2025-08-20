@@ -13,12 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ensembleAPICall } from '../src/util/ensemble.js';
-
-jest.mock('../src/util/ensemble.js', () => ({
-  ...jest.requireActual('../src/util/ensemble.js'),
-  ensembleAPICall: jest.fn(async () => ({ data: [] })), // placeholder
-}));
+import axios from 'axios';
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 jest.mock('../src/util/geoUtils', () => ({
   ...jest.requireActual('../src/util/geoUtils'),
@@ -161,9 +158,10 @@ describe('Get Irrigation Prescription Tests', () => {
         const startDate = today.toISOString().split('T')[0];
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
 
-        // Call our endpoint and mock external call
-        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-        mockedEnsembleAPICall.mockResolvedValueOnce({ data: externalIrrigationPrescriptions });
+        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
+          data: externalIrrigationPrescriptions,
+        });
+
         const res = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
@@ -189,8 +187,10 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptionsWithTasks.length).toBe(2);
         expect(irrigationPrescriptionsWithTasks[0].task_id).toBeTruthy();
 
-        // Re-call our endpoint and mock external call now seeing tasks populated
-        mockedEnsembleAPICall.mockResolvedValueOnce({ data: irrigationPrescriptionsWithTasks });
+        (mockedAxios as unknown as jest.Mock).mockResolvedValue({
+          data: irrigationPrescriptionsWithTasks,
+        });
+
         const res2 = await getIrrigationPrescription({
           farm_id: farm.farm_id,
           user_id: user.user_id,
@@ -206,12 +206,10 @@ describe('Get Irrigation Prescription Tests', () => {
   describe('All users should be able to GET irrigation prescription details', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should request IP details`, async () => {
-        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-
         const { farm, field, user } = await setupFarmEnvironment(role);
 
         const MOCK_ID = 123;
-        await mockedEnsembleAPICall.mockResolvedValueOnce({
+        await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
           data: await generateMockPrescriptionDetails({
             farm_id: farm.farm_id,
             irrigationPrescriptionId: MOCK_ID,
@@ -226,12 +224,11 @@ describe('Get Irrigation Prescription Tests', () => {
           irrigationPrescriptionId: MOCK_ID,
         });
 
-        expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+        expect(mockedAxios).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
             url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
-          expect.any(Function), // onError callback
         );
 
         expect(res.body).toMatchObject({
@@ -252,14 +249,12 @@ describe('Get Irrigation Prescription Tests', () => {
   describe('Users should not be able to GET irrigation prescription details for an IP associated with a different farm', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should not be able to request IP details for a different farm`, async () => {
-        const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-
         const { farm: farm1 } = await setupFarmEnvironment(role);
         const { farm: farm2, user } = await setupFarmEnvironment(role);
 
         const MOCK_ID = 124;
 
-        await mockedEnsembleAPICall.mockResolvedValueOnce({
+        await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
           data: await generateMockPrescriptionDetails({
             farm_id: farm1.farm_id,
             irrigationPrescriptionId: MOCK_ID,
@@ -275,12 +270,11 @@ describe('Get Irrigation Prescription Tests', () => {
           irrigationPrescriptionId: MOCK_ID,
         });
 
-        expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+        expect(mockedAxios).toHaveBeenCalledWith(
           expect.objectContaining({
             method: 'get',
             url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
           }),
-          expect.any(Function), // onError callback
         );
 
         expect(res.status).toBe(403);
@@ -293,8 +287,6 @@ describe('Get Irrigation Prescription Tests', () => {
 
   describe('Should return an error if Ensemble prescription is missing prescription data', () => {
     test("Returns 500 if 'prescription' key is missing", async () => {
-      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-
       const { farm, user } = await setupFarmEnvironment(1);
 
       const MOCK_ID = 125;
@@ -306,7 +298,7 @@ describe('Get Irrigation Prescription Tests', () => {
 
       const { prescription, ...invalidIrrigationPrescription } = irrigationPrescription;
 
-      await mockedEnsembleAPICall.mockResolvedValueOnce({
+      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
         data: invalidIrrigationPrescription,
       });
 
@@ -318,12 +310,11 @@ describe('Get Irrigation Prescription Tests', () => {
         irrigationPrescriptionId: MOCK_ID,
       });
 
-      expect(mockedEnsembleAPICall).toHaveBeenCalledWith(
+      expect(mockedAxios).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
           url: expect.stringContaining(`/prescriptions/${MOCK_ID}`),
         }),
-        expect.any(Function), // onError callback
       );
 
       expect(res.status).toBe(500);
@@ -335,7 +326,6 @@ describe('Get Irrigation Prescription Tests', () => {
 
   describe('Water consumption calculuation tests', () => {
     test('API should calculate water consumption for a VRI prescription', async () => {
-      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
       const mockedGetAreaOfPolygon = getAreaOfPolygon as jest.Mock;
 
       mockedGetAreaOfPolygon.mockReturnValue(100); // Mock area of each zone to 100 m²
@@ -345,7 +335,7 @@ describe('Get Irrigation Prescription Tests', () => {
       // Mock ID for VRI prescription (odd ID)
       const MOCK_ID = 123;
 
-      await mockedEnsembleAPICall.mockResolvedValueOnce({
+      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,
@@ -372,14 +362,12 @@ describe('Get Irrigation Prescription Tests', () => {
     });
 
     test('API should calculate water consumption for a URI prescription with start and end angles spanning less than 360º', async () => {
-      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-
       const { farm, user } = await setupFarmEnvironment(1);
 
       // Mock ID for URI prescription (even ID)
       const MOCK_ID = 124;
 
-      await mockedEnsembleAPICall.mockResolvedValueOnce({
+      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,
@@ -411,14 +399,12 @@ describe('Get Irrigation Prescription Tests', () => {
     });
 
     test('API should calculate water consumption for a URI prescription with start and end angles spanning exactly 360º', async () => {
-      const mockedEnsembleAPICall = ensembleAPICall as jest.Mock;
-
       const { farm, user } = await setupFarmEnvironment(1);
 
       // Mock ID for URI prescription (even ID)
       const MOCK_ID = 126;
 
-      await mockedEnsembleAPICall.mockResolvedValueOnce({
+      await (mockedAxios as unknown as jest.Mock).mockResolvedValueOnce({
         data: await generateMockPrescriptionDetails({
           farm_id: farm.farm_id,
           irrigationPrescriptionId: MOCK_ID,

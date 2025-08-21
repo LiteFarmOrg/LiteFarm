@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* eslint-disable react/no-children-prop */
 import { ReactNode } from 'react';
 import { Redirect } from 'react-router-dom';
 

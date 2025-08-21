@@ -1026,7 +1026,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       exact
                       children={<ComplianceInfo />}
                     />
-                    <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/insights" exact children={<Insights />} />
                     <Route path="/insights/soilom" exact children={<SoilOM />} />
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />

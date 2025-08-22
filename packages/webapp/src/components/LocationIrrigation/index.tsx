@@ -18,7 +18,6 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { IconLink } from '../Typography';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link-01.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import { Variant } from '../RouterTab/Tab';
@@ -60,12 +59,6 @@ export default function PureLocationIrrigation({
     system_url_name: irrigationPrescriptions[0]?.system_url_name,
     organisation_url_name: irrigationPrescriptions[0]?.organisation_url_name,
   });
-
-  const handleExternalLink = () => {
-    if (externalLink) {
-      window.open(externalLink, '_blank');
-    }
-  };
 
   const getColumns = (): TableV2Column[] => {
     return [
@@ -133,14 +126,10 @@ export default function PureLocationIrrigation({
       />
       {externalLink && (
         <div className={styles.linkContainer}>
-          <IconLink
-            className={styles.linkText}
-            icon={<ExternalLinkIcon />}
-            isIconClickable
-            onClick={handleExternalLink}
-          >
-            {t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}
-          </IconLink>
+          <a className={styles.linkText} href={externalLink} target="_blank" rel="noreferrer">
+            <ExternalLinkIcon />
+            <span>{t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}</span>
+          </a>
         </div>
       )}
       <h2 className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</h2>

@@ -332,6 +332,9 @@ export interface IrrigationPrescription {
   id: number;
   location_id: string;
   management_plan_id?: number | string;
+  system_name?: string;
+  organisation_url_name?: string;
+  system_url_name?: string;
   recommended_start_date: string;
   partner_id: number;
   task_id?: number | string;

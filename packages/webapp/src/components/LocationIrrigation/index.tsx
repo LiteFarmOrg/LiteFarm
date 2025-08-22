@@ -18,6 +18,7 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link-01.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
@@ -30,6 +31,7 @@ import clsx from 'clsx';
 import { Location } from '../../types';
 import { LocationTab } from '../../containers/LocationDetails/types';
 import CardLayout from '../Layout/CardLayout';
+import { createESciReportLink } from '../../util/smartIrrigation';
 
 type LocationIrrigationProps = {
   location: Location;
@@ -52,6 +54,11 @@ export default function PureLocationIrrigation({
     const partner = partnerEntities.find((partner) => id === partner.id);
     return partner ? partner.shortName : ' — ';
   };
+
+  const externalLink = createESciReportLink({
+    system_url_name: irrigationPrescriptions[0]?.system_url_name,
+    organisation_url_name: irrigationPrescriptions[0]?.organisation_url_name,
+  });
 
   const getColumns = (): TableV2Column[] => {
     return [
@@ -117,6 +124,14 @@ export default function PureLocationIrrigation({
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
+      {externalLink && (
+        <div className={styles.linkContainer}>
+          <a className={styles.linkText} href={externalLink} target="_blank" rel="noreferrer">
+            <ExternalLinkIcon />
+            <span>{t('IRRIGATION_PRESCRIPTION.FULL_IRRIGATION_REPORT')}</span>
+          </a>
+        </div>
+      )}
       <h2 className={styles.subtitle}>{t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTIONS')}</h2>
       <Table
         kind={TableKind.V2}

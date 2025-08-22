@@ -1472,8 +1472,8 @@
       "TITLE": "Tareas para hoy"
     },
     "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "Se ha generado una nueva prescripción de riego basada en los datos meteorológicos, edáficos y de cultivo actuales.",
-      "TITLE": "Lista la nueva prescripción de riego"
+      "BODY": "Se ha generado una nueva prescripción de riego basada en los datos meteorológicos, edáficos y de cultivo actuales para {{date}}.",
+      "TITLE": "Prescripción de riego | {{location}}"
     },
     "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
     "PAGE_TITLE": "Notificaciones",

@@ -132,6 +132,17 @@ export const esciUnitTypeMap: Partial<
     },
     baseUnit: 'm/s',
   },
+  wind_speed_metadata: {
+    metric: {
+      unit: 'km/h',
+      displayUnit: 'km/h',
+    },
+    imperial: {
+      unit: 'mph',
+      displayUnit: 'mph',
+    },
+    baseUnit: 'km/h',
+  },
   cumulative_rainfall: {
     metric: {
       unit: 'mm',
@@ -176,5 +187,16 @@ export const esciUnitTypeMap: Partial<
       displayUnit: 'AF',
     },
     baseUnit: 'l',
+  },
+  application_depth: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in',
+    },
+    baseUnit: 'mm',
   },
 };

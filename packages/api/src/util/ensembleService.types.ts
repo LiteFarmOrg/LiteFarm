@@ -98,6 +98,8 @@ export type ExternalIrrigationPrescription = {
 };
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
+  organisation_url_name?: string;
+  system_url_name?: string;
   partner_id: AddonPartner['id'];
   task_id?: Task['task_id'];
 }
@@ -124,32 +126,36 @@ export function isExternalIrrigationPrescriptionArray(
   );
 }
 
-export type EsciWeatherUnits = 'mm' | 'mm/24h' | '˚C' | 'm/s';
-export type LiteFarmWeatherUnits = 'mm' | 'mm/24h' | 'C' | 'm/s';
+export type WeatherUnits = 'mm' | 'mm/24h' | 'C' | 'km/h';
 
-export type Metadata<Units> = {
+export type Metadata = {
   weather_forecast: {
     temperature: number;
-    temperature_unit: Units;
+    temperature_unit: WeatherUnits;
     wind_speed: number;
-    wind_speed_unit: Units;
+    wind_speed_unit: WeatherUnits;
     cumulative_rainfall: number;
-    cumulative_rainfall_unit: Units;
+    cumulative_rainfall_unit: WeatherUnits;
     et_rate: number;
     et_rate_unit: string;
-    weather_icon_code: string;
+    weather_icon_code: string | null;
   };
 };
 
 interface UriPrescriptionData {
-  soil_moisture_deficit: number;
-  soil_moisture_deficit_unit: string;
+  available_soil_moisture: number;
+  available_soil_moisture_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }
 
-export type VriPrescriptionData = UriPrescriptionData & {
-  grid_points: Point[];
+export interface StringPoint {
+  lat: string;
+  lng: string;
+}
+
+export type VriPrescriptionData<GridPoint> = UriPrescriptionData & {
+  grid_points: GridPoint[];
 };
 
 type CommonPrescriptionDetails = {
@@ -160,15 +166,6 @@ type CommonPrescriptionDetails = {
   system_name: string | null;
   system_id: number | null;
   recommended_start_date: string;
-  prescription:
-    | { uriData: UriPrescriptionData; vriData?: never }
-    | {
-        vriData: {
-          zones: VriPrescriptionData[];
-          file_url: string;
-        };
-        uriData?: never;
-      };
 };
 
 export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
@@ -180,7 +177,14 @@ export type EsciReturnedPrescriptionDetails = CommonPrescriptionDetails & {
       end_angle: string; // defined CCW
     };
   } | null;
-  metadata: Metadata<EsciWeatherUnits>;
+  metadata: Metadata;
+  prescription: {
+    uriData?: UriPrescriptionData | null;
+    vriData?: {
+      zones: VriPrescriptionData<StringPoint>[];
+      file_url: string;
+    } | null;
+  };
 };
 
 export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
@@ -192,7 +196,14 @@ export type IrrigationPrescriptionDetails = CommonPrescriptionDetails & {
       end_angle: number; // defined CW
     };
   } | null;
-  metadata: Metadata<LiteFarmWeatherUnits>;
+  metadata: Metadata;
   estimated_water_consumption: number;
   estimated_water_consumption_unit: string;
+  prescription: {
+    uriData?: UriPrescriptionData;
+    vriData?: {
+      zones: VriPrescriptionData<Point>[];
+      file_url: string;
+    };
+  };
 };

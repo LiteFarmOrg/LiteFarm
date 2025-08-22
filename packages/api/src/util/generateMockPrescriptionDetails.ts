@@ -17,6 +17,7 @@ import { customError } from './customErrors.js';
 import LocationModel from '../models/locationModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import { Point, getCentroidOfPolygon } from './geoUtils.js';
+import type { StringPoint } from './ensembleService.types.js';
 import type {
   EsciReturnedPrescriptionDetails,
   VriPrescriptionData,
@@ -74,9 +75,9 @@ export const generateMockPrescriptionDetails = async ({
     metadata: {
       weather_forecast: {
         temperature: 20,
-        temperature_unit: '˚C' as const,
+        temperature_unit: 'C' as const,
         wind_speed: 10,
-        wind_speed_unit: 'm/s' as const,
+        wind_speed_unit: 'km/h' as const,
         cumulative_rainfall: 5,
         cumulative_rainfall_unit: 'mm' as const,
         et_rate: 2,
@@ -89,8 +90,8 @@ export const generateMockPrescriptionDetails = async ({
   const mockUriData = {
     application_depth: applicationDepths[0],
     application_depth_unit: 'mm',
-    soil_moisture_deficit: 40,
-    soil_moisture_deficit_unit: '%',
+    available_soil_moisture: 40,
+    available_soil_moisture_unit: '%',
   };
 
   // All even IP IDs will return URI data, odd ones will return VRI data
@@ -140,8 +141,8 @@ function generateMockPieSliceZones(
     radius: number;
   },
   applicationDepths: number[],
-): VriPrescriptionData[] {
-  const zones: VriPrescriptionData[] = [];
+): VriPrescriptionData<StringPoint>[] {
+  const zones: VriPrescriptionData<StringPoint>[] = [];
   const zoneCount = 3;
   const arcSpan = 120;
 
@@ -150,19 +151,37 @@ function generateMockPieSliceZones(
     const endAngle = startAngle + arcSpan;
     const step = 30;
 
-    const arcPoints: Point[] = [];
+    const arcPoints: StringPoint[] = [];
     for (let angle = startAngle; angle <= endAngle; angle += step) {
-      arcPoints.push(offsetPoint(center, radius, angle));
+      const point = offsetPoint(center, radius, angle);
+      arcPoints.push({
+        lat: point.lat.toString(),
+        lng: point.lng.toString(),
+      });
     }
 
     const innerEdgePoint = offsetPoint(center, radius * 0.6, endAngle);
     const innerStartPoint = offsetPoint(center, radius * 0.6, startAngle);
 
-    const polygonPoints = [...arcPoints, innerEdgePoint, center, innerStartPoint];
+    const polygonPoints: StringPoint[] = [
+      ...arcPoints,
+      {
+        lat: innerEdgePoint.lat.toString(),
+        lng: innerEdgePoint.lng.toString(),
+      },
+      {
+        lat: center.lat.toString(),
+        lng: center.lng.toString(),
+      },
+      {
+        lat: innerStartPoint.lat.toString(),
+        lng: innerStartPoint.lng.toString(),
+      },
+    ];
 
     zones.push({
-      soil_moisture_deficit: 40 + i * 10,
-      soil_moisture_deficit_unit: '%',
+      available_soil_moisture: 40 + i * 10,
+      available_soil_moisture_unit: '%',
       application_depth: applicationDepths[i],
       application_depth_unit: 'mm',
       grid_points: polygonPoints,

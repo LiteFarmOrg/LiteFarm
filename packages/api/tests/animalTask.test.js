@@ -64,15 +64,11 @@ const createFakeMovementTask = (purposeRelationships) => {
   return mocks.fakeAnimalMovementTask(movementTask);
 };
 
-const createMovementTaskForReqBody = (purposeIds, otherPurpose) => {
-  const animalMovementTask = {};
-
-  if (purposeIds) {
-    animalMovementTask.purpose_ids = purposeIds;
-  }
-  if (otherPurpose) {
-    animalMovementTask.other_purpose = otherPurpose;
-  }
+const createMovementTaskForReqBody = (purposeIds = undefined, otherPurpose = undefined) => {
+  const animalMovementTask = {
+    purpose_ids: purposeIds,
+    other_purpose: otherPurpose,
+  };
 
   return { animal_movement_task: animalMovementTask };
 };

@@ -143,8 +143,8 @@ export type Metadata = {
 };
 
 interface UriPrescriptionData {
-  soil_moisture_deficit: number;
-  soil_moisture_deficit_unit: string;
+  available_soil_moisture: number;
+  available_soil_moisture_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }

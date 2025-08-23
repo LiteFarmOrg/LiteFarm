@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import PureJoinFarmSuccessScreen from '../../components/JoinFarmSuccessScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseFarmFlowSelector, endInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { deselectFarmSuccess, loginSelector } from '../userFarmSlice';
 
-export default function JoinFarmSuccessScreen({ history }) {
+export default function JoinFarmSuccessScreen() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const { showSpotLight, skipChooseFarm } = useSelector(chooseFarmFlowSelector);
@@ -28,7 +28,3 @@ export default function JoinFarmSuccessScreen({ history }) {
     />
   );
 }
-
-JoinFarmSuccessScreen.prototype = {
-  history: PropTypes.object,
-};

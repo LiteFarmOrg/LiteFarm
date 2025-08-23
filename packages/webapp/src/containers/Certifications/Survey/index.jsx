@@ -1,6 +1,5 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { certifierSelector } from '../../OrganicCertifierSurvey/certifierSlice';
@@ -9,8 +8,8 @@ import { exportCertificationData } from '../saga';
 import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 
-function CertificationSurveyPage({ history, match }) {
-  const { t } = useTranslation();
+function CertificationSurveyPage() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const onExport = (exportData) => {
     dispatch(exportCertificationData(exportData));

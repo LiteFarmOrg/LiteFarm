@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
@@ -60,7 +61,8 @@ interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
-function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAnimalsProps) {
+function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
+  const history = useHistory();
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   // Header logic + display
@@ -101,11 +103,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   ];
 
   const { defaultFormValues, selectedAnimal, selectedBatch, isFetchingAnimalsOrBatches } =
-    useInitialAnimalData({
-      history,
-      match,
-      location,
-    });
+    useInitialAnimalData();
 
   const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
   const locationText = locations?.find(
@@ -193,6 +191,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     const result = await onConfirmRemoveAnimals(formData);
 
     if (!result.error) {
+      // @ts-expect-error: temporary shim, will remove when upgrading to history@5
       history.back();
     }
   };
@@ -209,6 +208,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
+                // @ts-expect-error: temporary shim, will remove when upgrading to history@5
                 onBack={history.back}
                 /* @ts-expect-error */
                 animalOrBatch={defaultFormValues}

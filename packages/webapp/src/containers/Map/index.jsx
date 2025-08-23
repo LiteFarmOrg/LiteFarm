@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -62,7 +63,8 @@ import {
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
 
-export default function Map({ history, isCompactSideMenu }) {
+export default function Map({ isCompactSideMenu }) {
+  const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);

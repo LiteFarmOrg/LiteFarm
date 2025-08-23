@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
 
-function Callback({ history }) {
+function Callback() {
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     const params = new URLSearchParams(history.location.search.substring(1));

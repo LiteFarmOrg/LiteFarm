@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -25,7 +26,8 @@ import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/siteMapConstants';
 
-export default function RevenueTypes({ useHookFormPersist, history }) {
+export default function RevenueTypes({ useHookFormPersist }) {
+  const history = useHistory();
   const { t } = useTranslation(['translation', 'revenue']);
   const revenueTypes = useSortedRevenueTypes();
   const persistedFormData = useSelector(hookFormPersistSelector);

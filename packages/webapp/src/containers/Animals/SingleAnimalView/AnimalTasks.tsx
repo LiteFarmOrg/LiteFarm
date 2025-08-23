@@ -13,13 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
 // TODO: Most likely to be scoped after movement tasks. It is not part of this user story.
-const AnimalTasks = ({ match, history }: RouteComponentProps) => {
+const AnimalTasks = () => {
+  const history = useHistory();
+  const match = useRouteMatch();
   const { t } = useTranslation();
 
   const routerTabs = [

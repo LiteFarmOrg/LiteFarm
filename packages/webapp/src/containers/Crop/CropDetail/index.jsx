@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/Detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
   currentAndPlannedManagementPlansByCropVarietySelector,
@@ -15,7 +16,10 @@ import UnableToRetireCropModal from '../../../components/Modals/CropModals/Unabl
 import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
 
-function CropDetail({ history, match, location }) {
+function CropDetail() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const { variety_id } = match.params;
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));

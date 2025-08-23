@@ -1,9 +1,11 @@
+import { useHistory } from 'react-router-dom';
 import { PureManageCustomTasks } from '../../../components/Task/PureTaskTypeSelection/PureManageCustomTasks';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 
-function ManageCustomTasks({ history, match }) {
+function ManageCustomTasks() {
+  const history = useHistory();
   const onAddCustomTaskPath = '/add_task/add_custom_task';
   const onEditCustomTaskPath = '/add_task/edit_custom_task';
   const handleGoBack = () => {

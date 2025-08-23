@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import history from '../../history';
+import { useHistory } from 'react-router-dom';
 import {
   deselectFarmSuccess,
   loginSelector,
@@ -31,6 +31,7 @@ import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 import { selectFarmAndFetchAll } from '../saga';
 
 function ChooseFarm() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

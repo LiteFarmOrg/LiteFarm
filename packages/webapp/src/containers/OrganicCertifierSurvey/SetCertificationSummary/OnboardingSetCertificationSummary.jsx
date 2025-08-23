@@ -1,7 +1,5 @@
-import React from 'react';
-import {
-  PureSetCertificationSummary,
-} from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
+import { useHistory } from 'react-router-dom';
+import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCertificationName } from '../useCertificationName';
 import { useCertifiers } from '../useCertifiers';
@@ -12,7 +10,8 @@ import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
 import { postOrganicCertifierSurvey, putOrganicCertifierSurvey } from '../saga';
 import { certifierSurveySelector } from '../slice';
 
-export default function OnboardingSetCertificationSummary({ history }) {
+export default function OnboardingSetCertificationSummary() {
+  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const requestCertifierPath = '/certification/certifier/request';

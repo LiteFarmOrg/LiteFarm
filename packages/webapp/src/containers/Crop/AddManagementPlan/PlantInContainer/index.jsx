@@ -1,3 +1,4 @@
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PurePlantInContainer from '../../../../components/Crop/PlantInContainer';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -7,7 +8,10 @@ import { useMemo } from 'react';
 import { getContainerMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-export default function PlantInContainer({ history, match, location }) {
+export default function PlantInContainer() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/container_method';

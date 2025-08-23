@@ -1,15 +1,13 @@
-import React from 'react';
-import {
-  PureCertificationSelection,
-} from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
+import { useHistory } from 'react-router-dom';
+import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import { useSelector } from 'react-redux';
-import history from '../../../history';
 import { certificationsSelector } from '../certificationSlice';
 import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useGetCertifiers } from '../useCertifiers';
 
 export default function CertificationSelection() {
+  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
 
   const certifications = useSelector(certificationsSelector);

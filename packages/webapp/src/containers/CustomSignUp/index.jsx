@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -8,7 +9,6 @@ import {
   customSignUp,
   sendResetPasswordEmail,
 } from './saga';
-import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
@@ -33,6 +33,8 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
+  const history = useHistory();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -43,7 +45,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = history.location?.state || {};
+  const { user, component: componentToShow } = location?.state || {};
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: validEmailRegex });
@@ -67,7 +69,7 @@ function CustomSignUp() {
     setShowResetModal(false);
   };
   useEffect(() => {
-    const params = new URLSearchParams(history.location.search.substring(1));
+    const params = new URLSearchParams(location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue, ready]);
 
@@ -139,7 +141,7 @@ function CustomSignUp() {
     );
   };
 
-  const errorMessage = history.location.state?.error;
+  const errorMessage = location.state?.error;
   return (
     <>
       <Suspense fallback={<Spinner />}>

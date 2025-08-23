@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import useFinancesDateRange from '../../../components/Finances/DateRangeSelector/useFinancesDateRange';
@@ -27,7 +28,8 @@ import {
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
 
-export default function ActualRevenue({ history, match }) {
+export default function ActualRevenue() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBack = () => history.push(FINANCES_HOME_URL);
@@ -87,7 +89,6 @@ export default function ActualRevenue({ history, match }) {
         <ActualRevenueItem
           key={item.sale.sale_id}
           revenueItem={item}
-          history={history}
           style={{ marginBottom: '16px' }}
         />
       ))}

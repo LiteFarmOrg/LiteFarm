@@ -14,6 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
@@ -27,9 +28,9 @@ import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { getBiodiversityData } from '../actions';
 import BiodiversityLoadingModal from '../../../components/Modals/BiodiversityLoadingModal/BiodiversityLoadingModal';
-import history from '../../../history';
 
 const Biodiversity = () => {
+  const history = useHistory();
   const biodiversityData = useSelector(biodiversitySelector);
   const biodiversityLoading = useSelector(biodiversityLoadingSelector);
   const biodiversityError = useSelector(biodiversityErrorSelector);
@@ -77,10 +78,7 @@ const Biodiversity = () => {
       </div>
       <hr className={insightStyles.defaultLine} />
       {biodiversityLoading || biodiversityError ? (
-        <BiodiversityLoadingModal
-          dismissModal={dismissModal}
-          loadingError={biodiversityError}
-        />
+        <BiodiversityLoadingModal dismissModal={dismissModal} loadingError={biodiversityError} />
       ) : (
         biodiversityInfoItems
       )}

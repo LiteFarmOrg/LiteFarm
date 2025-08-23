@@ -1,3 +1,4 @@
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -40,7 +41,10 @@ const seedingTypeIsSeedMap = {
   SEEDLING_OR_PLANTING_STOCK: false,
 };
 
-function CropManagement({ history, match, location }) {
+function CropManagement() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const selectedVariety = useSelector(cropVarietySelector(variety_id));

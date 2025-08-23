@@ -7,6 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
@@ -14,7 +15,10 @@ import { deleteManagementPlan } from '../saga';
 import { checkManagementPlanDependencies } from '../saga';
 import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
 
-export default function ManagementTasks({ history, match, location }) {
+export default function ManagementTasks() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));

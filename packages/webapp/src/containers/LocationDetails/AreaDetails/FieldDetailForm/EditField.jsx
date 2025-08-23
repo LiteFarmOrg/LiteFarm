@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
 import { deleteFieldLocation, editFieldLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -13,7 +14,10 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
-function EditFieldDetailForm({ history, match }) {
+function EditFieldDetailForm() {
+  const history = useHistory();
+  const location = useLocation();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -24,14 +28,12 @@ function EditFieldDetailForm({ history, match }) {
   const field = useSelector(fieldSelector(match.params.location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error) {
+    if (location?.state?.error) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
   const { location_id } = match.params;

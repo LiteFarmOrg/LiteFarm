@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
@@ -11,7 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { AddLink } from '../../components/Typography';
 
-function AddCropVarietyForm({ history, match }) {
+function AddCropVarietyForm() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
   const crop_id = match.params.crop_id;

@@ -1,3 +1,4 @@
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -26,7 +27,9 @@ import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 
-export default function TaskLocationsSwitch({ history, match, location }) {
+export default function TaskLocationsSwitch() {
+  const location = useLocation();
+  const history = useHistory();
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');

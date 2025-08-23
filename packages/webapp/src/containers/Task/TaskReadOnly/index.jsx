@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -42,8 +43,10 @@ import {
 } from '../saga';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
 
-function TaskReadOnly({ history, match, location }) {
-  const task_id = match.params.task_id;
+function TaskReadOnly() {
+  const location = useLocation();
+  const history = useHistory();
+  const { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);

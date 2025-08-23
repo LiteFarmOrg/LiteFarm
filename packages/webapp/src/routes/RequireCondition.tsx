@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,21 +12,18 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useLayoutEffect, useState } from 'react';
 
-function useHistoryLocation(history) {
-  const [historyLocation, setHistoryLocation] = useState(history.location);
+import { ReactNode } from 'react';
+import { Redirect } from 'react-router-dom';
 
-  // Set up a listener to update the historyLocation state synchronously
-  // after DOM mutations, ensuring immediate processing of history events.
-  useLayoutEffect(() => {
-    const unlisten = history.listen(({ location }) => {
-      setHistoryLocation(location);
-    });
-    return () => unlisten();
-  }, [history]);
-
-  return historyLocation;
+interface RequireConditionProps {
+  condition: boolean;
+  children: ReactNode;
 }
 
-export default useHistoryLocation;
+// Reference: https://gist.github.com/mjackson/d54b40a094277b7afdd6b81f51a0393f#get-started-upgrading-today
+const RequireCondition = ({ condition, children }: RequireConditionProps) => {
+  return condition ? children : <Redirect to="/" />;
+};
+
+export default RequireCondition;

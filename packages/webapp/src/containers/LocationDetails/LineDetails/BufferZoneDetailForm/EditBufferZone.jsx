@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureBufferZone from '../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { deleteBufferZoneLocation, editBufferZoneLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -13,7 +14,10 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
-function EditBufferZoneDetailForm({ history, match }) {
+function EditBufferZoneDetailForm() {
+  const history = useHistory();
+  const match = useRouteMatch();
+  const location = useLocation();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -30,14 +34,12 @@ function EditBufferZoneDetailForm({ history, match }) {
   const bufferZone = useSelector(bufferZoneSelector(match.params.location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);

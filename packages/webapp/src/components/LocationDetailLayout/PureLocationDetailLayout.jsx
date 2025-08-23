@@ -53,7 +53,7 @@ export function PureLocationDetailLayout({
   const { location_id } = match.params;
   const location =
     isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
-  const routerTabs = location && useLocationRouterTabs(location, match);
+  const routerTabs = location && useLocationRouterTabs(location);
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {

@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { postDocument } from '../saga';
@@ -5,7 +6,8 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
-function AddDocument({ history }) {
+function AddDocument() {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {

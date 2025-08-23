@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { History } from 'history';
+import { useHistory } from 'react-router-dom';
 import { AddAnimalsSummaryCard } from '../../../../components/Animals/AddAnimalsSummaryCard';
 import { ANIMALS_INVENTORY_URL } from '../../../../util/siteMapConstants';
 import {
@@ -28,11 +28,11 @@ import { formatDBAnimalsToSummary, formatDBBatchesToSummary } from '../../AddAni
 import { Animal, AnimalBatch } from '../../../../store/api/types';
 
 type AddAnimalSummaryProps = {
-  history: History;
   formResultData: { animals: Animal[]; batches: AnimalBatch[] };
 };
 
-const AddAnimalSummary = ({ formResultData, history }: AddAnimalSummaryProps) => {
+const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
+  const history = useHistory();
   const { data: config, isLoading } = useQueries([
     { label: 'defaultTypes', hook: useGetDefaultAnimalTypesQuery },
     { label: 'customTypes', hook: useGetCustomAnimalTypesQuery },

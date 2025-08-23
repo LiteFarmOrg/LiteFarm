@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
 import EditGreenhouseDetailForm from '../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/EditGreenhouse';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
@@ -11,18 +12,22 @@ export default function GreenhouseDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
     <>
-      <Route path="/greenhouse/:location_id/details" exact component={EditGreenhouseDetailForm} />
+      <Route
+        path="/greenhouse/:location_id/details"
+        exact
+        children={<EditGreenhouseDetailForm />}
+      />
       {isAdmin && (
-        <Route path="/greenhouse/:location_id/edit" exact component={EditGreenhouseDetailForm} />
+        <Route path="/greenhouse/:location_id/edit" exact children={<EditGreenhouseDetailForm />} />
       )}
-      <Route path="/greenhouse/:location_id/crops" exact component={LocationManagementPlan} />
-      <Route path="/greenhouse/:location_id/tasks" exact component={LocationTasks} />
+      <Route path="/greenhouse/:location_id/crops" exact children={<LocationManagementPlan />} />
+      <Route path="/greenhouse/:location_id/tasks" exact children={<LocationTasks />} />
       <Route
         path="/greenhouse/:location_id/field_technology"
         exact
-        component={LocationFieldTechnology}
+        children={<LocationFieldTechnology />}
       />
-      <Route path="/greenhouse/:location_id/irrigation" exact component={LocationIrrigation} />
+      <Route path="/greenhouse/:location_id/irrigation" exact children={<LocationIrrigation />} />
     </>
   );
 }

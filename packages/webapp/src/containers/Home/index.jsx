@@ -18,7 +18,7 @@ import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 
-export default function Home({ history }) {
+export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);

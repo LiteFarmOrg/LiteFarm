@@ -767,11 +767,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/tasks" exact children={<Tasks />} />
                     <Route path="/tasks/:task_id/read_only" exact children={<TaskReadOnly />} />
                     <Route
-                      path="/crop/:crop_id/add_crop_variety/compliance"
-                      exact
-                      children={<ComplianceInfo />}
-                    />
-                    <Route
                       path="/crop/:variety_id/add_management_plan/planted_already"
                       exact
                       children={<PlantedAlready />}
@@ -912,8 +907,12 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       exact
                       children={<CropVarieties />}
                     />
-                    <Route path="/crop/:variety_id/detail" children={<CropDetail />} />
-                    <Route path="/crop/:variety_id/management" children={<CropManagement />} />
+                    <Route path="/crop/:variety_id/detail" exact children={<CropDetail />} />
+                    <Route
+                      path="/crop/:variety_id/management"
+                      exact
+                      children={<CropManagement />}
+                    />
                     <Route
                       path="/crop/:variety_id/edit_crop_variety"
                       exact
@@ -1019,7 +1018,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/sensor_array/:id" exact>
                       <SensorReadings type={'sensor_array'} />
                     </Route>
-                    <Route path="/crop/new" exact children={<AddNewCrop />} />
                     <Route path="/crop/:crop_id/add_crop_variety" exact children={<AddCrop />} />
                     <Route
                       path="/crop/:crop_id/add_crop_variety/compliance"
@@ -1138,7 +1136,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       exact
                       children={<NotificationReadOnly />}
                     />
-                    <Route path="/finances" children={<Finances />} />
+                    <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
                       <Animals
                         isCompactSideMenu={isCompactSideMenu}

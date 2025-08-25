@@ -3105,8 +3105,8 @@ describe('Task tests', () => {
       let previousRevisionDate = null;
       test.each(recompletionData)(`re-complete %#`, async (testCase) => {
         const {
-          getFakeCompletionData: getFakeTaskTypeCompletionData,
-          getExpectedData: getExpectedTaskTypeData,
+          getFakeCompletionData: getFakeTaskTypeRecompletionData,
+          getExpectedData: getExpectedDataAfterRecompletion,
         } = testCase;
 
         const taskTypeDataBeforeRecompletion = await knex(taskType).where({ task_id }).first();
@@ -3115,7 +3115,7 @@ describe('Task tests', () => {
 
         const fakeReqBody = {
           ...fakeRecompletionData,
-          ...(getFakeTaskTypeCompletionData?.(
+          ...(getFakeTaskTypeRecompletionData?.(
             taskTypeDataBeforeRecompletion,
             extraInitialDataInDB,
           ) || {}),
@@ -3130,7 +3130,7 @@ describe('Task tests', () => {
         previousRevisionDate = new Date(recompletedTask.revision_date).getTime();
 
         const expectedTaskTypeData =
-          (await getExpectedTaskTypeData?.(taskTypeDataBeforeRecompletion)) || {};
+          (await getExpectedDataAfterRecompletion?.(taskTypeDataBeforeRecompletion)) || {};
         const recompletedTaskTypeData = await knex(taskType).where({ task_id }).first();
 
         Object.entries(expectedTaskTypeData).forEach(([property, value]) => {

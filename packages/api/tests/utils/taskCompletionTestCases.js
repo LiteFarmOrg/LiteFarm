@@ -16,12 +16,11 @@
 import { faker } from '@faker-js/faker';
 import knex from '../../src/util/knex.js';
 import { setupSoilAmendmentTaskDependencies } from './testDataSetup.js';
+import mocks from '../mock.factories.js';
 
 // field_work_task
-const fieldWorkName = faker.lorem.word();
-const fieldWorkTaskTestCases = {
-  newFieldWorkType: {
-    initialData: undefined, // No initial data passed; use factory default
+const getFieldWorkTaskNewTypeTestCase = (fieldWorkName) => {
+  return {
     getFakeCompletionData: (initialData) => ({
       field_work_task: {
         task_id: initialData.task_id,
@@ -39,6 +38,12 @@ const fieldWorkTaskTestCases = {
 
       return { field_work_type_id };
     },
+  };
+};
+const fieldWorkTaskTestCases = {
+  newFieldWorkType: {
+    initialData: undefined, // No initial data passed; use factory default
+    ...getFieldWorkTaskNewTypeTestCase(faker.lorem.word()),
   },
 };
 
@@ -113,28 +118,8 @@ const cleaningTaskTestCases = {
 };
 
 // irrigation_task
-const irrigationTypeName = faker.lorem.word();
-const irrigationTaskInitialData = {
-  measuring_type: 'VOLUME',
-  estimated_duration: 60,
-  estimated_duration_unit: 'minutes',
-  estimated_flow_rate: 1.5,
-  estimated_flow_rate_unit: 'l/min',
-  estimated_water_usage: 90,
-  estimated_water_usage_unit: 'l',
-};
-const irrigationTaskFakeCompletionData = {
-  measuring_type: 'DEPTH',
-  irrigation_type_name: 'HAND_WATERING',
-  percent_of_location_irrigated: 3,
-  application_depth_unit: 'mm',
-  application_depth: 0.002,
-  estimated_water_usage: 388.74,
-  estimated_water_usage_unit: 'fl-oz',
-};
-const irrigationTaskTestCases = {
-  newIrrigationType: {
-    initialData: undefined, // No initial data passed; use factory default
+const getIrrigationTaskNewTypeTestCase = (irrigationTypeName) => {
+  return {
     getFakeCompletionData: (initialData) => ({
       irrigation_task: {
         task_id: initialData.task_id,
@@ -152,6 +137,30 @@ const irrigationTaskTestCases = {
         irrigation_type_name: irrigationTypeName,
       };
     },
+  };
+};
+const irrigationTaskInitialData = {
+  irrigation_type_name: 'irrigation type name',
+  measuring_type: 'VOLUME',
+  estimated_duration: 60,
+  estimated_duration_unit: 'minutes',
+  estimated_flow_rate: 1.5,
+  estimated_flow_rate_unit: 'l/min',
+  estimated_water_usage: 90,
+  estimated_water_usage_unit: 'l',
+};
+const irrigationTaskFakeCompletionData = {
+  measuring_type: 'DEPTH',
+  percent_of_location_irrigated: 3,
+  application_depth_unit: 'mm',
+  application_depth: 0.002,
+  estimated_water_usage: 388.74,
+  estimated_water_usage_unit: 'fl-oz',
+};
+const irrigationTaskTestCases = {
+  newIrrigationType: {
+    initialData: undefined, // No initial data passed; use factory default
+    ...getIrrigationTaskNewTypeTestCase(faker.lorem.word()),
   },
   switchMeasuringType: {
     initialData: irrigationTaskInitialData,
@@ -248,9 +257,25 @@ const soilAmendmentTaskTestCases = {
   },
 };
 
+// soil_sample_task
+const soilSampleTaskFakeCompletionData = mocks.fakeSoilSampleTask();
+const soilSampleTaskTestCases = {
+  updateFields: {
+    initialData: undefined,
+    getFakeCompletionData: (initialData) => ({
+      soil_sample_task: {
+        task_id: initialData.task_id,
+        ...soilSampleTaskFakeCompletionData,
+      },
+    }),
+    getExpectedData: async () => soilSampleTaskFakeCompletionData,
+  },
+};
+
 export const taskCompletionFieldUpdateTestCases = {
   'should update relevant fields': {
     irrigation_task: [irrigationTaskTestCases.switchMeasuringType],
+    soil_sample_task: [soilSampleTaskTestCases.updateFields],
   },
   'should remove irrelevant fields': {
     cleaning_task: [cleaningTaskTestCases.nullOptionalFields],
@@ -263,5 +288,39 @@ export const taskCompletionFieldUpdateTestCases = {
   'should add new type on completion': {
     field_work_task: [fieldWorkTaskTestCases.newFieldWorkType],
     irrigation_task: [irrigationTaskTestCases.newIrrigationType],
+  },
+};
+
+export const taskRecompletionTestCases = {
+  irrigation_task: {
+    initialData: irrigationTaskInitialData,
+    recompletionData: [
+      irrigationTaskTestCases.switchMeasuringType,
+      getIrrigationTaskNewTypeTestCase(faker.lorem.word()),
+    ],
+  },
+  cleaning_task: {
+    initialData: cleaningTaskInitialDataWithProduct,
+    recompletionData: [cleaningTaskTestCases.nullOptionalFields],
+  },
+  pest_control_task: {
+    initialData: pestControlTaskInitialDataWithProduct,
+    recompletionData: [pestControlTaskTestCases.changeToMethodWithoutProduct],
+  },
+  soil_amendment_task: {
+    initialData: soilAmendmentTaskInitialData,
+    extraSetup: soilAmendmentTaskProductInitialDataSetup,
+    recompletionData: [
+      soilAmendmentTaskTestCases.nullOptionalFields,
+      soilAmendmentTaskTestCases.switchWeightToVolume,
+    ],
+  },
+  field_work_task: {
+    initialData: undefined,
+    recompletionData: [getFieldWorkTaskNewTypeTestCase(faker.lorem.word())],
+  },
+  soil_sample_task: {
+    initialData: undefined,
+    recompletionData: [soilSampleTaskTestCases.updateFields],
   },
 };

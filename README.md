@@ -206,7 +206,24 @@ If you are unable to use Docker, please contact a core team member to get instru
 
 # Testing
 
-## api
+## WebApp E2e tests
+
+When running Cypress E2E tests, it's recommended to use a dedicated test database. This helps keep your main development database free from testing data.
+
+### Setup
+
+1. Start the dedicated test database container with `docker compose --profile testing up testing-db`
+1. Run the `dev` migrations `npm run migrate:dev:db` from `packages/api`.
+1. Go to `packages/end-to-end` directory.
+1. Install the E2e test dependencies`npm i`.
+
+### Execution
+
+1. Run the tests `npx cypress run`.
+
+As result videos and logs are going to be stored in the directories prompted by the shell.
+
+## API Integration tests
 
 To run [ESLint](https://eslint.org/) checks execute `npm run lint`
 
@@ -214,19 +231,27 @@ The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries 
 
 You'll want to confirm that you have an empty `test_farm` database (otherwise use your preferred database client to create one) before continuing with the following:
 
+### Setup
+
 1. In a terminal, navigate to the `packages/api` folder.
-2. Execute `npm run migrate:testing:db` to set up the test database.
-3. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
+1. Execute `npm run migrate:testing:db` to set up the test database.
+
+### Execution
+
+1. Execute `npm test` to launch the tests.
+1. (Optionally) to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
 While the tests do attempt to clean up after themselves, it's a good idea to periodically use `psql` or your database client to `DROP` and `CREATE` the `test_farm` database, followed by the migrations from step 2 above.
 
-## webapp
+## WebApp testing
 
 To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
 
-You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
+You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode.
+To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port.
+Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
 
 # ngrok
 

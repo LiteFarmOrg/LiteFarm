@@ -101,7 +101,7 @@ const getAnimalLocations = async (animalOrBatch, ids) => {
 
 const getAnimalOrBatchIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
 
-const createAnimalsAndBatches = async (farm_id, animalCount = 3, batchCount = 2) => {
+const createAnimalsAndBatches = async (farm_id, animalCount = 2, batchCount = 2) => {
   const animals = await Promise.all(
     new Array(animalCount).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
   );
@@ -118,7 +118,7 @@ const createAnimalsAndBatches = async (farm_id, animalCount = 3, batchCount = 2)
   };
 };
 
-const createLocations = async (farm_id, count = 3) => {
+const createLocations = async (farm_id, count = 2) => {
   const locations = await Promise.all(
     new Array(count).fill().map(() =>
       mocks.locationFactory({
@@ -132,8 +132,12 @@ const createLocations = async (farm_id, count = 3) => {
 
 const createDateOffset = (offset = {}) => {
   const date = new Date();
-  if (offset.days) date.setDate(date.getDate() + offset.days);
-  if (offset.months) date.setMonth(date.getMonth() + offset.months);
+  if (offset.days) {
+    date.setDate(date.getDate() + offset.days);
+  }
+  if (offset.months) {
+    date.setMonth(date.getMonth() + offset.months);
+  }
   return date;
 };
 
@@ -1090,7 +1094,7 @@ describe('Animal task tests', () => {
 
             const [locationA, locationB] = await createLocations(farm_id);
 
-            // Complete + check locations on a task completed a month ago
+            // Complete a movement task a month ago
             const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
               locationId: locationA.location_id,
               animals: [animalA, animalB],
@@ -1106,24 +1110,21 @@ describe('Animal task tests', () => {
               },
             });
 
-            // Re-complete the same task for today
-            await completeTaskRequest(
-              { user_id, farm_id },
+            // Re-complete the same task for today (don't touch animals or locations)
+            await completeMovementTaskReq(
               {
                 ...fakeCompletionData,
                 complete_date: toLocal8601Extended(dateToday),
-                ...createMovementTaskForReqBody(),
               },
               task_id,
-              'animal_movement_task',
             );
 
-            // Complete and check locations on a task for a week ago
+            // Complete a new movement task a week ago
+            // Animals and batches should not be moved as they were moved more recently
             await checkAnimalMovementWithSpecificCompleteDate({
               locationId: locationB.location_id,
               animals: [animalA, animalB],
               completeDate: toLocal8601Extended(dateWeekAgo),
-              // Animals and batches should not have been moved
               expectedAnimalLocations: {
                 [animalA.id]: locationA.location_id,
                 [animalB.id]: locationA.location_id,

@@ -1,4 +1,18 @@
-import React, { useMemo } from 'react';
+/*
+ *  Copyright 2021 - 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+import { useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -9,9 +23,38 @@ import Unit from '../../../Form/Unit';
 import { harvestAmounts, roundToTwoDecimal } from '../../../../util/convert-units/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
-import { cloneObject } from '../../../../util';
 import { colors } from '../../../../assets/theme';
 import PageBreak from '../../../PageBreak';
+
+const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
+const HARVEST_USE_QUANTITY = 'quantity';
+const HARVEST_USE_TYPE = 'harvest_use_type_id';
+
+const formatHarvestUse = (harvestUse, harvestUseTypes, t) => {
+  const { quantity, quantity_unit, harvest_use_type_id } = harvestUse;
+  const useType = harvestUseTypes.find((type) => type.harvest_use_type_id === harvest_use_type_id);
+
+  return {
+    [HARVEST_USE_QUANTITY]: quantity,
+    [HARVEST_USE_QUANTITY_UNIT]: quantity_unit,
+    [HARVEST_USE_TYPE]: {
+      value: harvest_use_type_id,
+      label: t(`harvest_uses:${useType.harvest_use_type_translation_key}`),
+    },
+  };
+};
+
+const formatHarvestUses = (persistedFormData, task, harvestUseTypes, t) => {
+  if (persistedFormData?.harvest_uses) {
+    return persistedFormData.harvest_uses;
+  }
+
+  const isCompleted = !!task.complete_date;
+
+  return isCompleted
+    ? task.harvest_task.harvest_use.map((use) => formatHarvestUse(use, harvestUseTypes, t))
+    : [{}];
+};
 
 export default function PureHarvestUses({
   onContinue,
@@ -34,24 +77,20 @@ export default function PureHarvestUses({
     getValues,
     setValue,
     control,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      harvest_uses: persistedFormData?.harvest_uses ?? [{}],
-      ...cloneObject(task),
+      harvest_uses: formatHarvestUses(persistedFormData, task, harvestUseTypes, t),
+      ...structuredClone(task),
     },
   });
 
   const { historyCancel } = useHookFormPersist(getValues);
 
   const progress = 50;
-
-  const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
-  const HARVEST_USE_QUANTITY = 'quantity';
-  const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
   const { fields, append, remove, swap } = useFieldArray({
     control,
@@ -62,7 +101,7 @@ export default function PureHarvestUses({
   const watchFields = watch('harvest_uses');
   const quantities = watchFields.map((field) => field[HARVEST_USE_QUANTITY]);
 
-  const { allocated_amount, amount_to_allocate } = useMemo(() => {
+  const { amount_to_allocate } = useMemo(() => {
     let allocated_amount = 0;
     for (let field of watchFields) {
       const quantity = field[HARVEST_USE_QUANTITY] || 0;
@@ -70,7 +109,7 @@ export default function PureHarvestUses({
         allocated_amount += quantity;
       }
     }
-    return { allocated_amount, amount_to_allocate: amount - allocated_amount };
+    return { amount_to_allocate: amount - allocated_amount };
   }, [quantities]);
 
   const harvestUseIds = watchFields.map((field) => field?.[HARVEST_USE_TYPE]?.value);

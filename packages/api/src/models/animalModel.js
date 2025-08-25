@@ -250,6 +250,26 @@ class Animal extends baseModel {
       .whereIn('id', animalIds);
   }
 
+  static async getNewestOtherCompletedTaskId(animalId, taskTypeId, excludeTaskId) {
+    const animal = await Animal.query()
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.task_type_id');
+        builder
+          .where('deleted', false)
+          .whereNotNull('complete_date')
+          .where('task.task_type_id', taskTypeId)
+          .whereNot('task.task_id', excludeTaskId);
+        builder.orderBy('complete_date', 'desc');
+        builder.limit(1);
+      })
+      .where('id', animalId)
+      .first();
+
+    return animal?.tasks?.[0]?.task_id ?? null;
+  }
+
   static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
     let unrelatedTaskIds = [];
     const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);

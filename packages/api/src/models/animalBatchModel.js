@@ -255,6 +255,27 @@ class AnimalBatchModel extends baseModel {
       .whereIn('id', batchIds);
   }
 
+  static async getNewestOtherCompletedTaskId(batchId, taskTypeId, excludeTaskId) {
+    const batch = await AnimalBatchModel.query()
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.task_type_id');
+        builder
+          .where('deleted', false)
+          .whereNotNull('complete_date')
+          .where('task.task_type_id', taskTypeId)
+          .whereNot('task.task_id', excludeTaskId);
+        builder.orderBy('complete_date', 'desc');
+        builder.limit(1);
+      })
+      .where('id', batchId)
+      .first();
+
+    // Return the task_id of the newest task or null if no tasks exist
+    return batch?.tasks?.[0]?.task_id ?? null;
+  }
+
   static async unrelateIncompleteTasksForBatches(trx, batchIds) {
     let unrelatedTaskIds = [];
     const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);

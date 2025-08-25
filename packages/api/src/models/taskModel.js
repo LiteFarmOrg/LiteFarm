@@ -547,6 +547,21 @@ class TaskModel extends BaseModel {
   }
 
   /**
+   * Gets the primary location ID for a task
+   *
+   * @param {number|string} taskId - The ID of the task
+   * @returns {Promise<string|null>} - Returns the first location ID associated with the task, or null if no location exists
+   */
+  static async getTaskLocationId(taskId) {
+    const { locations } = await TaskModel.query()
+      .findById(taskId)
+      .withGraphFetched('locations(selectLocationId, filterDeleted)')
+      .first();
+
+    return locations && locations.length > 0 ? locations[0].location_id : null;
+  }
+
+  /**
    * Returns farm tasks for an array of external ids
    *
    * @param {string} farmId - The farm requesting irrigation tasks.

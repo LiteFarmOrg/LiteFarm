@@ -109,6 +109,7 @@ async function updateTaskWithCompletedData(
   wagePatchData,
   nonModifiable,
   typeOfTask,
+  isRecompleting = false,
 ) {
   switch (typeOfTask) {
     case 'soil_amendment_task': {
@@ -190,6 +191,63 @@ async function updateTaskWithCompletedData(
         data.animal_batches,
         AnimalBatchModel.getBatchesWithNewerCompletedTasks,
       );
+
+      const updateRemovedEntityLocations = async (
+        removedIds,
+        task_id,
+        getNewestOtherCompletedTask,
+        updateLocation,
+      ) => {
+        if (!removedIds?.length) {
+          return;
+        }
+
+        for (const entityId of removedIds) {
+          const newestTaskId = await getNewestOtherCompletedTask(entityId, task_type_id, task_id);
+
+          if (newestTaskId) {
+            const locationId = await TaskModel.getTaskLocationId(newestTaskId);
+            await updateLocation(entityId, locationId);
+          } else {
+            // If no other completed tasks, set location to null
+            await updateLocation(entityId, null);
+          }
+        }
+      };
+
+      if (isRecompleting) {
+        const removedAnimalIds = animals
+          .filter((animal) => !data.animals?.some((a) => a.id === animal.id))
+          .map((a) => a.id);
+
+        const removedBatchIds = animal_batches
+          .filter((batch) => !data.animal_batches?.some((b) => b.id === batch.id))
+          .map((b) => b.id);
+
+        await updateRemovedEntityLocations(
+          removedAnimalIds,
+          task_id,
+          AnimalModel.getNewestOtherCompletedTaskId,
+          async (id, locationId) => {
+            await AnimalModel.query()
+              .context({ user_id })
+              .findById(id)
+              .patch({ location_id: locationId });
+          },
+        );
+
+        await updateRemovedEntityLocations(
+          removedBatchIds,
+          task_id,
+          AnimalBatchModel.getNewestOtherCompletedTaskId,
+          async (id, locationId) => {
+            await AnimalBatchModel.query()
+              .context({ user_id })
+              .findById(id)
+              .patch({ location_id: locationId });
+          },
+        );
+      }
 
       if (!data.animal_movement_task) {
         data.animal_movement_task = {};
@@ -840,6 +898,7 @@ const taskController = {
             finalWage,
             nonModifiable,
             typeOfTask,
+            isRecompleting,
           );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);

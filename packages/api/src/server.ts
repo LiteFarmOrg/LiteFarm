@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.7.5',
+    release: '3.8.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -173,6 +173,7 @@ import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
 import weatherRoute from './routes/weatherRoute.js';
+import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
 
 // register API
@@ -230,8 +231,6 @@ app.set('json replacer', (key: string, value: string) => {
 
 // Apply default express.json() request size limit to all routes except sensor webhook
 const applyExpressJSON: RequestHandler = (req, res, next) => {
-  if (req.path.startsWith('/sensor/reading/partner/1/farm/')) return next();
-
   const jsonMiddleware = express.json({ limit: '100kB' });
   jsonMiddleware(req, res, next);
 };
@@ -343,6 +342,7 @@ app
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
   .use('/weather', weatherRoute)
+  .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data

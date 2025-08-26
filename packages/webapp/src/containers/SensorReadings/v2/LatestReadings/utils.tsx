@@ -40,7 +40,7 @@ import {
   type SensorReadingTypeUnits,
 } from '../../../../store/api/types';
 import type { System } from '../../../../types';
-import type { TileData } from '../../../../components/WeatherKPI';
+import type { TileData } from '../../../../components/Tile/DescriptionList';
 import Arrow from '../../../../assets/images/arrow-circle-up.svg';
 import styles from '../styles.module.scss';
 

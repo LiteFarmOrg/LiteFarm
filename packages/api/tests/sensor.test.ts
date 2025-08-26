@@ -40,14 +40,7 @@ import { returnUserFarms } from './utils/testDataSetup.js';
 import { Response } from 'superagent';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
 import { mockedFormattedReadingsData, mockedEnsembleReadingsData } from './utils/sensorMockData.js';
-
-interface User {
-  user_id: string;
-}
-
-interface Farm {
-  farm_id: string;
-}
+import { Farm, User } from '../src/models/types.js';
 
 describe('Sensor Tests', () => {
   let farm: Farm;
@@ -61,8 +54,8 @@ describe('Sensor Tests', () => {
     endTime,
     truncPeriod,
   }: {
-    user_id: string;
-    farm_id: string;
+    user_id: User['user_id'];
+    farm_id: Farm['farm_id'];
     esids: string;
     startTime?: string;
     endTime?: string;
@@ -103,7 +96,7 @@ describe('Sensor Tests', () => {
 
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const { farmAddon } = await connectFarmToEnsemble(mainFarm);
+        const farmAddon = await connectFarmToEnsemble(mainFarm);
 
         const res = await getSensorReadingsRequest({
           user_id: user.user_id,

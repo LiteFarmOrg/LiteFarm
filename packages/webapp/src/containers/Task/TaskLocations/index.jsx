@@ -24,6 +24,7 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
+import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
@@ -31,6 +32,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   const isSoilAmendmentLocation = useIsTaskType('SOIL_AMENDMENT_TASK');
   const isAnimalLocation = useIsTaskType('MOVEMENT_TASK');
+  const isSoilSampleLocation = useIsTaskType('SOIL_SAMPLE_TASK');
   const isCustomLocation = useIsTaskType('CUSTOM_TASK');
 
   if (isHarvestLocation) {
@@ -51,6 +53,10 @@ export default function TaskLocationsSwitch({ history, match, location }) {
 
   if (isAnimalLocation) {
     return <TaskAnimalLocations history={history} location={location} />;
+  }
+
+  if (isSoilSampleLocation) {
+    return <TaskSoilSampleLocations history={history} location={location} />;
   }
 
   if (isCustomLocation) {
@@ -164,6 +170,24 @@ function TaskAnimalLocations({ history, location }) {
       onContinue={onContinue}
       location={location}
       isAnimalTask={true}
+    />
+  );
+}
+
+function TaskSoilSampleLocations({ history, location }) {
+  const { t } = useTranslation();
+  const soilSampleLocations = useSelector(soilSampleLocationsSelector);
+  const onContinue = () => {
+    history.push('/add_task/task_details', location.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={soilSampleLocations}
+      history={history}
+      title={t('TASK.SOIL_SAMPLING_LOCATION')}
+      onContinue={onContinue}
+      location={location}
     />
   );
 }

@@ -103,6 +103,12 @@ WithUnit.args = {
   unit: 'unit',
 };
 
+export const WithUnitWithoutLabel = Template.bind({});
+WithUnitWithoutLabel.args = {
+  type: 'number',
+  unit: 'unit',
+};
+
 export const WithCurrency = Template.bind({});
 WithCurrency.args = {
   label: 'number',
@@ -151,6 +157,12 @@ export const WithError = Template.bind({});
 WithError.args = {
   errors: 'error error error error',
   label: 'With error',
+};
+
+export const WithErrorWithoutLabel = Template.bind({});
+WithErrorWithoutLabel.args = {
+  errors: 'error error error error',
+  label: null,
 };
 
 export const WithInfo = Template.bind({});
@@ -202,4 +214,17 @@ PasswordWithLink.args = {
   label: 'Password',
   type: 'password',
   icon: <Underlined>Forget password</Underlined>,
+};
+
+export const Date = Template.bind({});
+Date.args = {
+  type: 'date',
+  label: 'Date',
+};
+
+export const DateWithError = Template.bind({});
+DateWithError.args = {
+  type: 'date',
+  label: 'Date',
+  errors: 'error error error error',
 };

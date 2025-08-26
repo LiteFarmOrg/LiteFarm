@@ -93,6 +93,7 @@ export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser
 export const productUrl = `${URI}/product`;
 export const farmAddonUrl = `${URI}/farm_addon`;
 export const weatherUrl = `${URI}/weather`;
+export const irrigationPrescriptionUrl = `${URI}/irrigation_prescriptions`;
 
 export const url = URI;
 

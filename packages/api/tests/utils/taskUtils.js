@@ -59,6 +59,17 @@ export const abandonTaskBody = {
   abandon_date: new Date(),
 };
 
+export const commonTaskTypes = [
+  'scouting_task',
+  'soil_task',
+  'field_work_task',
+  'pest_control_task',
+  'cleaning_task',
+  'irrigation_task',
+  'soil_amendment_task',
+  'soil_sample_task',
+];
+
 export async function postTaskRequest({ user_id, farm_id }, type, data) {
   return chai
     .request(server)
@@ -101,6 +112,14 @@ export async function abandonTaskRequest({ user_id, farm_id }, data, task_id) {
     .set('user_id', user_id)
     .set('farm_id', farm_id)
     .send(data);
+}
+
+export async function deleteTaskRequest({ user_id, farm_id }, task_id) {
+  return chai
+    .request(server)
+    .delete(`/task/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
 }
 
 export function fakeUserFarm(role = 1) {
@@ -210,6 +229,34 @@ export const animalTaskGenerator = async (taskData) => {
   return createdTask;
 };
 
+export const irrigationTaskGenerator = async ({ farm, user, field, irrigation }) => {
+  // Generate the irrigation task type
+  const [irrigationTaskType] = await mocks.task_typeFactory(
+    { promisedFarm: Promise.resolve([farm]) },
+    {
+      farm_id: null,
+      task_name: 'Irrigation',
+      task_translation_key: 'IRRIGATION_TASK',
+    },
+  );
+
+  // Insert the main task record + location_tasks record
+  const task = await taskWithLocationFactory({
+    userId: user.user_id,
+    locationId: field.location_id,
+    taskTypeId: irrigationTaskType.task_type_id,
+    farmId: farm.farm_id,
+  });
+
+  // Insert the irrigation_task record
+  const [irrigationTask] = await mocks.irrigation_taskFactory(
+    { promisedTask: Promise.resolve([task]) },
+    irrigation,
+  );
+
+  return { task, irrigationTask };
+};
+
 export const generateUserFarms = async (number) => {
   const userFarms = [];
   const [user] = await mocks.usersFactory();
@@ -230,3 +277,42 @@ export const generateUserFarms = async (number) => {
 export async function getTask(task_id) {
   return knex('task').where({ task_id }).first();
 }
+
+export function expectTaskCompletionFields(
+  task,
+  { complete_date, duration, happiness, completion_notes },
+) {
+  expect(toLocal8601Extended(task.complete_date)).toBe(complete_date);
+  expect(task.duration).toBe(duration);
+  expect(task.happiness).toBe(happiness);
+  expect(task.completion_notes).toBe(completion_notes);
+}
+
+export const taskWithLocationFactory = async ({ userId, locationId, taskTypeId, farmId }) => {
+  if (!taskTypeId && farmId) {
+    const taskType = await mocks.task_typeFactory({
+      promisedFarm: Promise.resolve([{ farm_id: farmId }]),
+    });
+    taskTypeId = taskType[0].task_type_id;
+  }
+
+  const fakeTask = mocks.fakeTask({
+    task_type_id: taskTypeId,
+    owner_user_id: userId,
+    assignee_user_id: userId,
+  });
+
+  const [task] = await mocks.taskFactory(
+    {
+      promisedUser: Promise.resolve([{ user_id: userId }]),
+      promisedTaskType: Promise.resolve([{ task_type_id: taskTypeId }]),
+    },
+    fakeTask,
+  );
+  await mocks.location_tasksFactory({
+    promisedTask: Promise.resolve([task]),
+    promisedField: Promise.resolve([{ location_id: locationId }]),
+  });
+
+  return task;
+};

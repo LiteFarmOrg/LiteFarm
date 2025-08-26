@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Point } from '../../util/geoUtils';
+
 // Pass your real location object
 export const mockField = {
   name: 'Second Field',
@@ -59,7 +61,8 @@ export const mockPivot = {
 export const mockUriData = {
   application_depth: 10,
   application_depth_unit: 'mm',
-  soil_moisture_deficit: 40,
+  available_soil_moisture: 40,
+  available_soil_moisture_unit: '%',
 };
 
 /* -----------------
@@ -85,7 +88,8 @@ const zone1Outer = [
 const zone1Inner = [boundaryA, innerMeeting, boundaryC];
 
 export const mockZone1 = {
-  soil_moisture_deficit: 40,
+  available_soil_moisture: 40,
+  available_soil_moisture_unit: '%',
   application_depth: 10,
   application_depth_unit: 'mm',
   grid_points: [...zone1Outer, ...zone1Inner],
@@ -101,7 +105,8 @@ const zone2Outer = [
 const zone2Inner = [boundaryB, innerMeeting, boundaryA];
 
 export const mockZone2 = {
-  soil_moisture_deficit: 50,
+  available_soil_moisture: 50,
+  available_soil_moisture_unit: '%',
   application_depth: 15,
   application_depth_unit: 'mm',
   grid_points: [...zone2Outer, ...zone2Inner],
@@ -117,13 +122,85 @@ const zone3Outer = [
 const zone3Inner = [boundaryC, innerMeeting, boundaryB];
 
 export const mockZone3 = {
-  soil_moisture_deficit: 60,
+  available_soil_moisture: 60,
+  available_soil_moisture_unit: '%',
   application_depth: 20,
   application_depth_unit: 'mm',
   grid_points: [...zone3Outer, ...zone3Inner],
 };
 
 export const mockVriZones = [mockZone2, mockZone3, mockZone1];
+
+/* -----------------
+3-zone dynamic test case
+--------------------*/
+// Dynamic mock data for VRI zones (AI-generated function using haversine formula)
+interface VriZone {
+  available_soil_moisture: number;
+  available_soil_moisture_unit: string;
+  application_depth: number;
+  application_depth_unit: 'mm';
+  grid_points: Point[];
+}
+
+const EARTH_RADIUS = 6371000; // meters
+
+function offsetPoint(center: Point, distance: number, angleDeg: number): Point {
+  const angleRad = (angleDeg * Math.PI) / 180;
+  const deltaLat = (distance * Math.cos(angleRad)) / EARTH_RADIUS;
+  const deltaLng =
+    (distance * Math.sin(angleRad)) / (EARTH_RADIUS * Math.cos((center.lat * Math.PI) / 180));
+
+  return {
+    lat: center.lat + (deltaLat * 180) / Math.PI,
+    lng: center.lng + (deltaLng * 180) / Math.PI,
+  };
+}
+
+export function generateMockPieSliceZones({
+  center,
+  radius,
+}: {
+  center: Point;
+  radius: number;
+}): VriZone[] {
+  const zones: VriZone[] = [];
+  const zoneCount = 3;
+  const arcSpan = 120; // degrees per slice
+
+  for (let i = 0; i < zoneCount; i++) {
+    const startAngle = i * arcSpan;
+    const endAngle = startAngle + arcSpan;
+    const step = 30; // spacing for outer arc points
+
+    // Generate arc points in increasing angle order
+    const arcPoints: Point[] = [];
+    for (let angle = startAngle; angle <= endAngle; angle += step) {
+      arcPoints.push(offsetPoint(center, radius, angle));
+    }
+
+    // Add points forming the inner triangle: arc end -> center -> arc start (in reverse to maintain winding)
+    const innerEdgePoint = offsetPoint(center, radius * 0.6, endAngle);
+    const innerStartPoint = offsetPoint(center, radius * 0.6, startAngle);
+
+    const polygonPoints = [
+      ...arcPoints, // outer arc (clockwise or CCW)
+      innerEdgePoint, // from outer arc end inward
+      center, // center point
+      innerStartPoint, // from center back out to arc start
+    ];
+
+    zones.push({
+      available_soil_moisture: 40 + i * 10,
+      available_soil_moisture_unit: '%',
+      application_depth: 10 + i * 5,
+      application_depth_unit: 'mm',
+      grid_points: polygonPoints,
+    });
+  }
+
+  return zones;
+}
 
 /* -----------------
 5-zone test case
@@ -196,35 +273,40 @@ const zone4InnerOrganic = [b4, innerMeeting4, b5];
 const zone5InnerOrganic = [b5, innerMeeting5, b1];
 
 export const mockZone1Organic = {
-  soil_moisture_deficit: 40,
+  available_soil_moisture: 40,
+  available_soil_moisture_unit: '%',
   application_depth: 10,
   application_depth_unit: 'mm',
   grid_points: [...zone1OuterOrganic, ...zone1InnerOrganic],
 };
 
 export const mockZone2Organic = {
-  soil_moisture_deficit: 50,
+  available_soil_moisture: 50,
+  available_soil_moisture_unit: '%',
   application_depth: 15,
   application_depth_unit: 'mm',
   grid_points: [...zone2OuterOrganic, ...zone2InnerOrganic],
 };
 
 export const mockZone3Organic = {
-  soil_moisture_deficit: 60,
+  available_soil_moisture: 60,
+  available_soil_moisture_unit: '%',
   application_depth: 20,
   application_depth_unit: 'mm',
   grid_points: [...zone3OuterOrganic, ...zone3InnerOrganic],
 };
 
 export const mockZone4Organic = {
-  soil_moisture_deficit: 70,
+  available_soil_moisture: 70,
+  available_soil_moisture_unit: '%',
   application_depth: 25,
   application_depth_unit: 'mm',
   grid_points: [...zone4OuterOrganic, ...zone4InnerOrganic],
 };
 
 export const mockZone5Organic = {
-  soil_moisture_deficit: 80,
+  available_soil_moisture: 80,
+  available_soil_moisture_unit: '%',
   application_depth: 30,
   application_depth_unit: 'mm',
   grid_points: [...zone5OuterOrganic, ...zone5InnerOrganic],

@@ -23,7 +23,7 @@ import SensorKPI, { SensorKPIprops } from '../../../../components/Tile/SensorTil
 import SensorReadingKPI, {
   SensorReadingKPIprops,
 } from '../../../../components/Tile/SensorTile/SensorReadingKPI';
-import WeatherKPI, { type TileData } from '../../../../components/WeatherKPI';
+import DescriptionList, { type TileData } from '../../../../components/Tile/DescriptionList';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { OverlaySpinner } from '../../../../components/Spinner';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -86,7 +86,7 @@ const LatestReadings = (props: LatestReadingsProps) => {
       <div className={clsx(styles.kpi, styles[type])}>
         {isFetching && <OverlaySpinner />}
         {isWeatherKPIData(kpiData) ? (
-          <WeatherKPI data={kpiData} />
+          <DescriptionList descriptionListTilesProps={kpiData} className={styles.weatherKPI} />
         ) : (
           <BentoLayout>
             {kpiData.map((kpiProps) => {

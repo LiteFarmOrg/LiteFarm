@@ -61,7 +61,7 @@ const useStyles = makeStyles({
   },
 });
 
-enum TaskStatus {
+export enum TaskStatus {
   ACTIVE = 'active',
   PLANNED = 'planned',
   LATE = 'late',
@@ -73,9 +73,9 @@ enum TaskStatus {
 type StatusLabelProps = {
   color: TaskStatus;
   label: string;
-  sm: boolean;
-  children: React.ReactNode;
-  props: HTMLAttributes<HTMLDivElement>;
+  sm?: boolean;
+  children?: React.ReactNode;
+  props?: HTMLAttributes<HTMLDivElement>;
 };
 
 export const StatusLabel = ({

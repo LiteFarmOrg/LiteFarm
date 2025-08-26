@@ -42,7 +42,7 @@ import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
-import sensorReducer from '../containers/sensorSlice';
+import soilSampleLocationReducer from '../containers/soilSampleLocationSlice';
 
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
@@ -55,6 +55,7 @@ import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmen
 import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
 import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
 import animalMovementTaskReducer from '../containers/slice/taskSlice/animalMovementTaskSlice';
+import soilSampleTaskReducer from '../containers/slice/taskSlice/soilSampleTaskSlice';
 import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
@@ -63,11 +64,7 @@ import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
-import mapSensorReducer from '../containers/Map/mapSensorSlice';
-import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
-import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
-import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import filterReducer from '../containers/filterSlice';
@@ -180,10 +177,8 @@ const entitiesReducer = combineReducers({
   fenceReducer,
   gateReducer,
   waterValveReducer,
-  sensorReducer,
+  soilSampleLocationReducer,
   showedSpotlightReducer,
-  bulkSensorsUploadReducer,
-  bulkSensorsReadingsReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
   plantingManagementPlanReducer,
@@ -203,6 +198,7 @@ const entitiesReducer = combineReducers({
   plantTaskReducer,
   transplantTaskReducer,
   animalMovementTaskReducer,
+  soilSampleTaskReducer,
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,
@@ -222,8 +218,6 @@ const persistedStateReducer = combineReducers({
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
   mapCacheReducer,
-  mapSensorReducer,
-  sensorReadingTypesReducer,
   appSettingReducer,
 });
 

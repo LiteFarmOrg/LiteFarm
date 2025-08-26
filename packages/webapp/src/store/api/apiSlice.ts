@@ -36,6 +36,7 @@ import {
   animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
+  irrigationPrescriptionUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -58,8 +59,62 @@ import type {
   SensorData,
   FarmAddon,
   SensorReadings,
+  IrrigationPrescription,
+  IrrigationPrescriptionDetails,
 } from './types';
 import { getAllTags } from './apiTags';
+
+/**
+ * These tags have endpoints that do not return farm specific data, and are not created by a farm
+ *
+ *  LiteFarm provides these data as defaults
+ */
+export const LibraryTags = [
+  'AnimalSexes',
+  'AnimalIdentifierTypes',
+  'AnimalIdentifierColors',
+  'AnimalMovementPurposes',
+  'AnimalOrigins',
+  'AnimalUses',
+  'AnimalRemovalReasons',
+  'DefaultAnimalBreeds',
+  'SoilAmendmentMethods',
+  'SoilAmendmentPurposes',
+  'SoilAmendmentFertiliserTypes',
+];
+
+/**
+ * These tags contain endpoints that return farm specific data
+ *
+ * These data should not persist when switching farms,
+ * or should be stored in a separate farm store.
+ */
+export const FarmTags = [
+  'Animals',
+  'AnimalBatches',
+  'CustomAnimalBreeds',
+  'CustomAnimalTypes',
+  'FarmAddon',
+  'IrrigationPrescriptions',
+  'IrrigationPrescriptionDetails',
+  'SoilAmendmentProduct',
+  'Sensors',
+  'SensorReadings',
+  'Weather',
+];
+
+/**
+ * These tags contain endpoints that could either return farm specific data
+ * or farm neutral defaults data.
+ *
+ * For data safety these data should also not persist when switching farms,
+ * or should be stored in a separate farm store.
+ */
+export const FarmLibraryTags = [
+  // 'count' param returns farm specific data
+  'DefaultAnimalTypes',
+];
+import { addDaysToDate } from '../../util/date';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -71,12 +126,11 @@ export const api = createApi({
       headers.set('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
       headers.set('user_id', state.entitiesReducer.userFarmReducer.user_id || '');
       headers.set('farm_id', state.entitiesReducer.userFarmReducer.farm_id || '');
-
       return headers;
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: getAllTags(),
+  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -269,6 +323,32 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => {
+        const today = new Date();
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+        const params = new URLSearchParams({ startTime: startDate, endTime: endDate });
+
+        return `${irrigationPrescriptionUrl}?${params.toString()}`;
+      },
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
+    getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
+      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
+      providesTags: ['IrrigationPrescriptionDetails'],
+    }),
   }),
 });
 
@@ -306,4 +386,6 @@ export const {
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
+  useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionDetailsQuery,
 } = api;

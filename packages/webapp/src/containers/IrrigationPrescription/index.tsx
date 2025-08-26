@@ -13,98 +13,83 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
+import { useGetIrrigationPrescriptionDetailsQuery } from '../../store/api/apiSlice';
 import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
-import { DateInput, TimeInput } from '../../components/Inputs/DateTime';
+import { DateInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
-import type { CustomRouteComponentProps } from '../../types';
+import FormNavigationButtons from '../../components/Form/FormNavigationButtons';
+import FloatingContainer from '../../components/FloatingContainer';
+import useApproveIrrigationPrescription from './useApproveIrrigationPrescription';
+import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKPI';
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
-import { Location } from '../../types';
-import type { IrrigationPrescription } from '../../components/IrrigationPrescription/types';
-import {
-  mockField,
-  mockUriData,
-  mockVriZones,
-  mockPivot,
-} from '../../stories/IrrigationPrescription/mockData';
+import Spinner from '../../components/Spinner';
+import type { CustomRouteComponentProps } from '../../types';
+import type { Location } from '../../types';
+import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
 interface RouteParams {
   ip_pk: string;
 }
 
-interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {}
+interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {
+  isCompactSideMenu: boolean;
+}
 
 const dateTimeLabelStyles = {
   color: 'var(--Colors-Neutral-Neutral-500)',
   fontSize: '16px',
 };
 
-const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps) => {
+const IrrigationPrescription = ({
+  match,
+  history,
+  isCompactSideMenu,
+}: IrrigationPrescriptionProps) => {
   const { t } = useTranslation();
 
   const system = useSelector(measurementSelector);
 
   const { ip_pk } = match.params;
 
-  /*--------------------------------------
-  
-  TODO LF-4788: Call the backend here to get the actual data for the given uuid 
-  
-  Also handle case of no matching uuid (unknown record) */
-
-  const commonMockData = {
-    location_id: mockField.location_id,
-    recommended_start_datetime: new Date().toISOString(),
-    pivot: mockPivot,
-    metadata: {
-      weather_forecast: {
-        temperature: 20,
-        temperature_unit: 'c',
-        wind_speed: 10,
-        wind_speed_unit: 'km/h',
-        cumulative_rainfall: 5,
-        cumultative_rainfall_unit: 'mm',
-        et_rate: 2,
-        et_rate_unit: 'mm/h',
-        weather_icon_code: '02d',
-      },
+  const { data: irrigationPrescription, isLoading } = useGetIrrigationPrescriptionDetailsQuery(
+    Number(ip_pk),
+    {
+      refetchOnMountOrArgChange: true,
     },
-    estimated_time: 2,
-    estimated_time_unit: 'h',
-    estimated_water_consumption: 100,
-    estimated_water_consumption_unit: 'l',
-  };
+  );
 
-  const irrigationPrescription: IrrigationPrescription =
-    ip_pk === 'uri_pk'
-      ? {
-          ...commonMockData,
-          id: 1,
-          prescription: {
-            uriData: mockUriData,
-          },
-        }
-      : {
-          ...commonMockData,
-          id: 2,
-          prescription: {
-            vriData: {
-              zones: mockVriZones,
-              file_url: 'https://example.com/vri_data.json',
-            },
-          },
-        };
+  useEffect(() => {
+    if (!isLoading && !irrigationPrescription) {
+      history.replace('/unknown_record');
+    }
+  }, [isLoading, irrigationPrescription]);
 
-  const fieldLocation: Location | undefined =
-    useSelector(locationByIdSelector(irrigationPrescription?.location_id ?? '')) || mockField;
+  const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
 
-  /* ------------------------------------- */
+  const fieldLocation: Location | undefined = useSelector(
+    locationByIdSelector(irrigationPrescription?.location_id ?? ''),
+  );
 
-  const { prescription, pivot, recommended_start_datetime } = irrigationPrescription;
+  if (isLoading) {
+    return (
+      <div className={styles.spinnerWrapper}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!irrigationPrescription?.prescription) {
+    return null;
+  }
+
+  const { prescription, pivot, recommended_start_date } = irrigationPrescription;
 
   const { uriData, vriData } = prescription;
 
@@ -112,33 +97,58 @@ const IrrigationPrescription = ({ match, history }: IrrigationPrescriptionProps)
     <CardLayout className={styles.cardWrapper}>
       <div className={styles.irrigationPrescriptionContainer}>
         <PageTitle
-          title={t('IRRIGATION_PRESCRIPTION.TITLE')}
+          title={createSmartIrrigationDisplayName({
+            label: t('IRRIGATION_PRESCRIPTION.TITLE'),
+            system: irrigationPrescription.system_name,
+          })}
           onGoBack={history.back}
           classNames={{ wrapper: styles.title }}
         ></PageTitle>
         <div className={styles.recommendedSchedule}>
           <DateInput
-            date={recommended_start_datetime}
+            date={recommended_start_date}
             label={t('IRRIGATION_PRESCRIPTION.START_DATE')}
             disabled
             labelStyles={dateTimeLabelStyles}
           />
-          <TimeInput
-            date={recommended_start_datetime}
-            label={t('IRRIGATION_PRESCRIPTION.START_TIME')}
-            disabled
-            labelStyles={dateTimeLabelStyles}
-          />
         </div>
-
+        <IrrigationPrescriptionKPI
+          irrigationPrescription={irrigationPrescription}
+          system={system}
+        />
         <PureIrrigationPrescription
           system={system}
           fieldLocation={fieldLocation}
-          pivotCenter={pivot.center}
-          pivotRadiusInMeters={pivot.radius}
+          pivotCenter={pivot?.center}
+          pivotRadiusInMeters={pivot?.radius}
+          pivotArc={pivot?.arc}
           {...(uriData ? { uriData } : { vriData: vriData?.zones })}
         />
       </div>
+
+      {onApprove && (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <FormNavigationButtons
+            isFinalStep={true}
+            isDisabled={false}
+            informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
+            onCancel={history.back}
+            onContinue={onApprove}
+            cancelButtonContent={
+              <>
+                <ChevronLeft />
+                <span>{t('common:BACK')}</span>
+              </>
+            }
+            saveButtonContent={
+              <>
+                <span>{t('common:APPROVE')}</span>
+                <ChevronRight />
+              </>
+            }
+          />
+        </FloatingContainer>
+      )}
     </CardLayout>
   );
 };

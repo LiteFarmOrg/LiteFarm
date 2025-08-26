@@ -32,11 +32,6 @@
       "UPDATE": "Document mis à jour"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Le chargement du fichier CSV sur le serveur a échoué"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erreur à l'ajout de la variété",
@@ -54,9 +49,9 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter de nouvelles dépenses",
       "DELETE": "Impossible de supprimer les dépenses",
-      "UPDATE": "Impossible de mettre à jour les dépenses",
       "EXPENSE_DELETED": "Cette dépense n'existe plus",
-      "EXPENSE_TYPE_DELETED": "Ce type de dépense a été supprimé"
+      "EXPENSE_TYPE_DELETED": "Ce type de dépense a été supprimé",
+      "UPDATE": "Impossible de mettre à jour les dépenses"
     },
     "SUCCESS": {
       "ADD": "Nouvelles dépenses ajoutées",
@@ -85,6 +80,13 @@
     "SUCCESS": {
       "UPDATE": "Informations sur l'exploitation mises à jour !"
     }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Échec de la déconnexion de l’extension",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Échec de la récupération des prescriptions d’irrigation"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Extension déconnectée avec succès"
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -125,8 +127,7 @@
     "FAIL_POST": "Impossible d'ajouter",
     "SUCCESS_DELETE": "Supprimé avec succès",
     "SUCCESS_PATCH": "Mise à jour réussie",
-    "SUCCESS_POST": "Enregistré avec succès",
-    "SUCCESS_UPLOAD": "Téléchargé avec succès"
+    "SUCCESS_POST": "Enregistré avec succès"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -185,18 +186,14 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter la vente",
       "DELETE": "Impossible de supprimer la vente",
-      "UPDATE": "Impossible de mettre à jour la vente",
-      "SALE_DELETED": "Cette vente n'existe plus"
+      "SALE_DELETED": "Cette vente n'existe plus",
+      "UPDATE": "Impossible de mettre à jour la vente"
     },
     "SUCCESS": {
       "ADD": "Vente ajoutée",
       "DELETE": "Vente supprimée",
       "UPDATE": "Vente mise à jour"
     }
-  },
-  "SENSOR": {
-    "ERROR_UPDATE": "Erreur de mise à jour du capteur",
-    "SUCCESSFUL_UPDATE": "Le capteur a été mis à jour"
   },
   "TASK": {
     "ABANDON": {

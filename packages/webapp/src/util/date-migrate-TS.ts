@@ -49,3 +49,15 @@ export function isLessThanTwelveHrsAgo(datetime: Date): boolean {
 export const getIntlDate = (date: Date, language: Intl.LocalesArgument = 'en') => {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
 };
+
+export const getStartOfDate = (date: Date): Date => {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
+};
+
+export const getEndOfDate = (date: Date): Date => {
+  const newDate = new Date(date);
+  newDate.setHours(23, 59, 59, 999);
+  return newDate;
+};

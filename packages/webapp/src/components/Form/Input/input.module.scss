@@ -129,7 +129,7 @@ input:focus::placeholder {
   @include fontFamily();
   position: absolute;
   right: 0;
-  transform: translate(-8px, 33px);
+  transform: translate(-8px, 14px);
 }
 
 .currency {
@@ -194,4 +194,16 @@ input:focus::placeholder {
 
 .inputWrapper input:disabled + .stepper .stepperIcons {
   pointer-events: none;
+}
+
+.clearIcon {
+  position: absolute;
+  right: 17px;
+  top: -5px;
+  cursor: pointer;
+  z-index: 1;
+
+  &.date {
+    right: 26px;
+  }
 }

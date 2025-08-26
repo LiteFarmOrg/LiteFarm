@@ -84,16 +84,6 @@ class FarmAddon extends baseModel {
   }
 
   /**
-   * Updates the webhook address for a farm.
-   * @param farmId
-   * @param webhookId
-   * @return {Promise<*>}
-   */
-  static async updateWebhookId(farmId, webhookId) {
-    return FarmAddon.query().patch({ webhook_id: webhookId }).where('farm_id', farmId);
-  }
-
-  /**
    * Retrieves organization identifiers (uuid, pk) for a given addon partner and farm
    *
    * @param {string} farmId - The ID of the farm.
@@ -119,6 +109,19 @@ class FarmAddon extends baseModel {
     return FarmAddon.query()
       .select('org_uuid', 'org_pk', 'farm_id')
       .where('addon_partner_id', addonPartnerId)
+      .whereNotDeleted();
+  }
+
+  /**
+   * Retrieves unique addon partner ids from farm addons.
+   *
+   * @param {string} farmId - The ID of the farm.
+   * @returns {Promise<Array<{addon_partner_id: number}>>} The partner identifiers for the farm queried.
+   */
+  static async getDistinctFarmAddonPartnerIds(farmId) {
+    return FarmAddon.query()
+      .distinct('addon_partner_id')
+      .where('farm_id', farmId)
       .whereNotDeleted();
   }
 }

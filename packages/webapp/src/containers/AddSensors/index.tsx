@@ -65,7 +65,12 @@ const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
     history.push(createSensorsUrl(+values[PARTNER]?.[FarmAddonField.PARTNER_ID]));
   };
 
-  const getFormSteps = () => [{ FormContent: Partners, dataName: PARTNERS.ESCI.shortName }];
+  const getFormSteps = () => [
+    {
+      FormContent: () => <Partners setIsEditing={setIsEditing} />,
+      dataName: PARTNERS.ESCI.shortName,
+    },
+  ];
 
   const defaultFormValues = {
     [PARTNER]: { [FarmAddonField.PARTNER_ID]: PARTNERS.ESCI.id, [FarmAddonField.ORG_UUID]: '' },
@@ -88,7 +93,6 @@ const AddSensor = ({ history, isCompactSideMenu }: AddSensorProps) => {
         isCompactSideMenu={isCompactSideMenu}
         onAfterSave={onAfterSave}
         showLoading
-        setIsEditing={setIsEditing}
         isEditing={isEditing}
       />
     </div>

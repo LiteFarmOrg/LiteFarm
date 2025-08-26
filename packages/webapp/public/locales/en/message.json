@@ -32,11 +32,6 @@
       "UPDATE": "Successfully updated document"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Failed to upload the CSV file"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -88,6 +83,9 @@
   },
   "FARM_ADDON": {
     "FAILED_DISCONNECT_ADDON": "Failed to disconnect addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Failed to get irrigation prescriptions"
+    },
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
   "HELP_REQUEST": {
@@ -129,8 +127,7 @@
     "FAIL_POST": "Failed to add new",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved",
-    "SUCCESS_UPLOAD": "Successfully uploaded"
+    "SUCCESS_POST": "Successfully saved"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -197,10 +194,6 @@
       "DELETE": "Successfully deleted sale",
       "UPDATE": "Successfully updated sale"
     }
-  },
-  "SENSOR": {
-    "ERROR_UPDATE": "Error updating sensor",
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
   },
   "TASK": {
     "ABANDON": {

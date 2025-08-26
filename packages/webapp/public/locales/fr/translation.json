@@ -1,7 +1,6 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Ajouter des animaux",
-    "ADD_ANIMALS_FLOW": "ajout d'animaux",
     "ADD_ANIMALS_TITLE": "Ajouter des animaux",
     "ADD_DETAILS_INFO": "Remplissez les détails de votre animal ci-dessous ou enregistrez pour y revenir plus tard.",
     "ADD_TO_INVENTORY": "Ajouter des animaux à votre inventaire",
@@ -116,7 +115,6 @@
     "ASSIGN_DATE": "Attribuer une date d'échéance",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Personne responsable",
-    "CANCEL": "création de tâches",
     "CANT_FIND_INFO_TASK": "Vous pouvez aussi créer vos propres types de tâches personnalisées!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Consommation d'eau estimée",
@@ -210,8 +208,11 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Vous aurez besoin d'un emplacement ou d'une zone où les animaux peuvent être déplacés. Allez sur la carte pour créer un emplacement animal.",
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
+    "NEED_SOIL_SAMPLE_LOCATION": "Vous devez désigner un emplacement spécifique pour l’échantillonnage du sol. Allez sur la carte pour créer un emplacement d’échantillonnage du sol.",
+    "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Le manager doit créer au moins un emplacement d’échantillon de sol avant que vous puissiez créer une tâche d’échantillonnage de sol.",
     "NO_ANIMAL_LOCATION": "Aucun emplacement animal éligible",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
+    "NO_SOIL_SAMPLE_LOCATION": "Pas d'emplacement d’échantillonnage du sol admissible",
     "NOTES_LABEL": "Quelque chose de spécifique à ajouter à cette tâche?",
     "NOTES_PLACEHOLDER": "Ajouter des instructions ou des précisions pour le responsable",
     "PEST_CONTROL_VIEW": {
@@ -269,6 +270,17 @@
       "VOLUME": "Volume",
       "WEIGHT": "Poids"
     },
+    "SOIL_SAMPLE_VIEW": {
+      "LOCATION_COUNT": "Nombre d’emplacements d’échantillonnage",
+      "SAMPLE_DEPTH_RANGE": "Plage de profondeur d’échantillonnage #{{number}}",
+      "SAMPLE_PER_LOCATION_COUNT": "Nombre d’échantillons par emplacement",
+      "SAMPLE_TOOL": {
+        "AUGER": "Tarière",
+        "SOIL_PROBE": "Sonde de sol",
+        "SPADE": "Bêche"
+      },
+      "SAMPLING_TOOL": "Outil d’échantillonnage"
+    },
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Décrivez cette tache",
@@ -278,6 +290,19 @@
     "WAGE_OVERRIDE": "Dérogation de salaire",
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage ?",
     "WILD_CROP": "Cultures sauvages"
+  },
+  "ADDON": {
+    "DISCONNECT_MODAL": {
+      "CANCEL": "Ne pas déconnecter",
+      "CONFIRM": "Déconnecter"
+    },
+    "ESCI": {
+      "DISCONNECT_ESCI": "Déconnecter ESci",
+      "INFO": "Vous pouvez déconnecter les capteurs Ensemble Scientific de votre ferme, ce qui supprimera tous les capteurs provenant d’ESci. Vous pourrez toujours accéder à vos capteurs et aux données associées sur votre tableau de bord ESci.",
+      "MODAL_INFO": "Vous ne pourrez pas accéder aux données de vos capteurs ESci tant que vous ne les aurez pas reconnectés.",
+      "MODAL_TITLE": "Voulez-vous vraiment déconnecter vos capteurs ESci ?"
+    },
+    "ORGANISATION_ID": "ID de l’organisation :"
   },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Avez-vous un autre type d'animal ou une race différente?",
@@ -311,7 +336,6 @@
     },
     "BATCH": "Lot",
     "BETA_SPOTLIGHT_HEADING": "Introduction de la nouvelle fonctionnalité Animaux",
-    "EDIT_ANIMAL_FLOW": "édition",
     "FILTER": {
       "BATCHES": "Lots",
       "BATCHES_OR_INDIVIDUALS": "Lots ou individus",
@@ -328,6 +352,12 @@
     "TABS": {
       "BASIC_INFO": "Informations de base",
       "TASKS": "Tâches"
+    }
+  },
+  "BADGE": {
+    "BETA": {
+      "ANIMALS_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>",
+      "TITLE": "Béta"
     }
   },
   "BED_PLAN": {
@@ -348,7 +378,8 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Toutes les informations que vous avez saisies seront supprimées. Voulez-vous continuer ?",
-    "TITLE": "Annuler votre {{flow}} ?"
+    "NO_BUTTON": "Ne pas annuler",
+    "TITLE": "Voulez-vous vraiment annuler ?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -409,7 +440,6 @@
     "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos documents de certification biologique ...",
     "EXPORT_FILE_TITLE": "Certification biologique",
     "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous les enverrons à :",
-    "FLOW_TITLE": "export des documents de certification",
     "GOOD_NEWS": "Bonne nouvelle !",
     "HAVE_ALL_INFO": "Il semblerait que LiteFarm dispose de toutes les informations dont nous avons besoin pour traiter vos documents de certification. Nous vous les enverrons à :",
     "NEXT_WE_WILL_CHECK": "Nous vérifierons ensuite si votre certificateur a besoin d'informations supplémentaires pour traiter votre soumission de certification.",
@@ -502,7 +532,6 @@
     "ADD_CROPS_T0_YOUR_FARM": "Ajouter des cultures à votre exploitation",
     "ADD_TO_YOUR_FARM": "Ajouter à votre exploitation",
     "CAN_NOT_FIND": "Vous ne trouvez pas ce que vous cherchez ?",
-    "CANCEL": "création de culture",
     "COVER_CROP": "Est-ce que cela peut être cultivé comme plante de couverture ?",
     "CREATE_MANAGEMENT_PLANS": "Créer des plans de culture",
     "CROP_CATALOGUE": "Catalogue des cultures",
@@ -602,6 +631,24 @@
     "TUESDAY": "M",
     "WEDNESDAY": "M"
   },
+  "DIRECTION": {
+    "E": "E",
+    "ENE": "ENE",
+    "ESE": "ESE",
+    "N": "N",
+    "NE": "NE",
+    "NNE": "NNE",
+    "NNW": "NNO",
+    "NW": "NO",
+    "S": "S",
+    "SE": "SE",
+    "SSE": "SSE",
+    "SSW": "SSO",
+    "SW": "SO",
+    "W": "O",
+    "WNW": "ONO",
+    "WSW": "OSO"
+  },
   "DOCUMENTS": {
     "ADD": {
       "ADD_MORE_PAGES": "Ajouter plus de pages",
@@ -617,7 +664,6 @@
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer ?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
-    "CANCEL_MODAL": "création de document",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documents de conformité et votre certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Modifier le document",
@@ -679,7 +725,6 @@
       "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
       "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre.",
       "DUPLICATE_NAME_RETIRED": "Un type de dépense desactivée portant ce nom existe déjà. Veuillez en choisir un autre.",
-      "FLOW": "Création d'une dépense",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer les types de dépenses personnalisées",
       "NEW_EXPENSE_ITEM": "Nouvel article de dépense",
       "TITLE": "Ajouter une dépense",
@@ -714,6 +759,7 @@
     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
   },
   "FARM_MAP": {
+    "ADD_LOCATION": "Ajouter un emplacement",
     "AREA_DETAILS": {
       "NETWORK": "Problèmes de connectivité réseau.",
       "PERIMETER": "Périmètre",
@@ -733,56 +779,6 @@
       "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
-    "BULK_UPLOAD_SENSORS": {
-      "DOWNLOAD_FILE": {
-        "DEFAULT": "Quelque chose a mal tourné. Veuillez contacter support@litefarm.org pour obtenir de l'aide.",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "Ils devraient maintenant être visibles sur votre carte de l'exploitation. Ces capteurs seront ignorés dans les téléchargements futurs\n\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "Les capteurs suivants dans votre fichier ont été téléchargés avec succès ou existent déjà sur votre exploitation :\n\n",
-        "ROW": "[Ligne : {{ row }}][Colonne : {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "SOME_ERRORS": "Malheureusement, des erreurs sont survenues avec votre téléchargement:\n\n"
-      },
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Cliquez ici pour télécharger le modèle",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléversement et essayer à nouveau.",
-      "INVALID_FILE_TYPE": "Le fichier téléversé doit être un fichier csv",
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "Le capteur \"{{ sensorId }}\" est déjà enregistré chez une autre organisation. Veuillez contacter le support d'Ensemble à support@esci.io pour résoudre ce problème.",
-        "DOES_NOT_EXIST": "Le capteur \"{{ sensorId }}\" n'existe pas dans la base de données d'Ensemble. Veuillez vous assurer que vous avez bien orthographié l'ID externe pour cette entrée, et que le capteur est un capteur d'Ensemble.",
-        "INTERNAL_ERROR": "Le téléchargement du capteur \"{{ sensorId }}\" a échoué, veuillez communiquer avec le support de LiteFarm à support@litefarm.org pour résoudre."
-      },
-      "SENSOR_FIELDS": {
-        "BRAND": "Marque",
-        "DEPTH": "Profondeur_cm",
-        "LATITUDE": "Latitude",
-        "LONGITUDE": "Longitude",
-        "MODEL": "Modele",
-        "NAME": "Nom",
-        "READING_TYPES": "Type_de_données_relevées",
-        "SENSOR_EXTERNAL_ID": "ID_externe"
-      },
-      "TITLE": "Ajouter des capteurs à la carte",
-      "UPLOAD_ERROR_LINK": "Cliquez ici pour les voir.",
-      "UPLOAD_ERROR_MESSAGE": "Des problèmes sont survenus lors de votre téléversement. ",
-      "UPLOAD_INSTRUCTION_MESSAGE": "pour un formatage correct.",
-      "UPLOAD_LINK_MESSAGE": "Télécharger ce modèle",
-      "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
-      "VALIDATION": {
-        "EXTERNAL_ID": "ID externe non valide, il doit être compris entre 1 et 20 caractères.",
-        "FILE_ROW_LIMIT_EXCEEDED": "Limite de lignes du fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
-        "MISSING_COLUMNS": "Les colonnes sont requises ou manquantes",
-        "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
-        "SENSOR_DEPTH": "Valeur de profondeur non valide, elle doit être comprise entre 0 et 1000.",
-        "SENSOR_HARDWARE_VERSION": "Version matérielle non valide, elle doit être comprise entre 1 et 100 caractères.",
-        "SENSOR_LATITUDE": "La valeur de latitude n'est pas valide, elle doit être comprise entre -85 et 85 et avec moins de 10 décimales.",
-        "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
-        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté : {{ reading_types }}. Les valeurs valides sont : {{ allowed_reading_types }}."
-      }
-    },
-    "BULK_UPLOAD_TRANSITION": {
-      "BODY": "Nous vous informerons quand votre téléchargement est terminé et vos capteurs ont été créés. Vous pouvez quitter cette fenêtre.",
-      "TITLE": "Cela prend plus de temps que prévu..."
-    },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",
@@ -797,6 +793,7 @@
       "ZERO_AREA_DETECTED": "Champ sans surface détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau.",
       "ZERO_LENGTH_DETECTED": "Ligne sans longueur détectée. Veuillez dessiner à nouveau."
     },
+    "EXPORT_MAP": "Exporter la carte",
     "EXPORT_MODAL": {
       "BODY": "Comment voulez-vous exporter la carte de votre exploitation ?",
       "DOWNLOAD": "Télécharger",
@@ -826,6 +823,7 @@
       "TITLE": "Ajouter un champ",
       "TRANSITIONING": "Transition"
     },
+    "FILTER_MAP": "Filtrer la carte",
     "GARDEN": {
       "DATE": "Fin de période de transition",
       "EDIT_TITLE": "Modifier le jardin",
@@ -861,7 +859,6 @@
       "WATERCOURSE": "Flux d'eau",
       "WATERCOURSE_TITLE": "Quelles sont les largeurs suivantes ?"
     },
-    "LOCATION_CREATION_FLOW": "création d'emplacement",
     "MAP_FILTER": {
       "ADD_TITLE": "Ajouter à votre carte",
       "AREAS": "Zones",
@@ -887,6 +884,7 @@
       "SATELLITE": "Image satellite",
       "SENSOR": "Capteur",
       "SHOW_ALL": "Afficher tout",
+      "SOIL_SAMPLE_LOCATION": "Emplacement de l’échantillon de sol",
       "SURFACE_WATER": "Eaux de surface",
       "TITLE": "Filtrer votre carte",
       "WATER_VALVE": "Vanne à eau",
@@ -903,6 +901,13 @@
       "EDIT_TITLE": "Modifier la résidence",
       "NAME": "Nom de la résidence",
       "TITLE": "Ajouter résidence"
+    },
+    "SOIL_SAMPLE_LOCATION": {
+      "EDIT_TITLE": "Modifier l’emplacement de l’échantillon de sol",
+      "LATITUDE": "Latitude",
+      "LONGITUDE": "Longitude",
+      "NAME": "Nom de l’emplacement de l’échantillon de sol",
+      "TITLE": "Ajouter un emplacement d’échantillon de sol"
     },
     "SPOTLIGHT": {
       "ADD": "Ajouter des emplacements à votre carte",
@@ -922,7 +927,8 @@
     "TAB": {
       "CROPS": "Cultures",
       "DETAILS": "Détails",
-      "READINGS": "Lectures",
+      "FIELD_TECHNOLOGY": "Technologie de terrain",
+      "IRRIGATION": "Irrigation",
       "TASKS": "Tâches"
     },
     "TITLE": "Carte de l'exploitation",
@@ -1056,7 +1062,6 @@
     "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
     "EMAIL": "Courriel",
     "FEEDBACK_INVITATION": "Obtenez de l'aide ou donnez-nous votre avis",
-    "SEND_US_FEEDBACK": "Envoyez-nous votre avis",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Autre",
@@ -1066,6 +1071,7 @@
     },
     "PREFERRED_CONTACT": "Méthode de contact préférée",
     "REQUIRED_LABEL": "Champ obligatoire",
+    "SEND_US_FEEDBACK": "Envoyez-nous votre avis",
     "TYPE_SUPPORT_LABEL": "Type de support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
     "WHATSAPP": "Whatsapp",
@@ -1177,6 +1183,23 @@
     "WAGE": "Salaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999 999 999"
+  },
+  "IRRIGATION_PRESCRIPTION": {
+    "APPLICATION_DEPTH": "Profondeur d’application",
+    "APPROVE_AND_CREATE_TASK": "En approuvant, vous créerez une tâche d’irrigation",
+    "DATA_FROM": "Données provenant de",
+    "ESTIMATED_WATER_CONSUMPTION": "Consommation d’eau estimée",
+    "ET_RATE": "Taux d’ET",
+    "IRRIGATION_PRESCRIPTION_FILES": "Fichiers d’irrigation",
+    "IRRIGATION_PRESCRIPTIONS": "Ordonnances d’irrigation",
+    "IRRIGATION_ZONE": "Zone d'Irrigation",
+    "PRESCRIPTION_DATE": "Date de l’ordonnance",
+    "SOIL_MOISTURE_DEFICIT": "Déficit d'humidité du sol",
+    "START_DATE": "Date de début",
+    "START_TIME": "Heure de début",
+    "TASK_STATUS": "Statut de la tâche",
+    "TITLE": "Ordonnances d’irrigation",
+    "ZONE": "Zone"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Laissez-nous vous montrer quelques choses importantes !",
@@ -1316,7 +1339,6 @@
     "IS_TRANSPLANT": "Cette culture sera-t-elle repiquée ?",
     "KNOW_HOW_IS_CROP_PLANTED": "Savez-vous comment la culture a été plantée ?",
     "LOCATION_SUBTEXT": "Seuls les emplacements pouvant faire pousser des cultures sont affichés.",
-    "MANAGEMENT_PLAN_FLOW": "création du plan de culture",
     "MANAGEMENT_SPOTLIGHT_1": "Créer de nouveaux plans pour cette culture",
     "MANAGEMENT_SPOTLIGHT_2": "Afficher et modifier les plans pour cette culture",
     "MANAGEMENT_SPOTLIGHT_3": "Créer et attribuer des tâches",
@@ -1449,16 +1471,12 @@
       "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
       "TITLE": "Tâches à accomplir aujourd'hui"
     },
+    "NEW_IRRIGATION_PRESCRIPTION": {
+      "BODY": "Une nouvelle ordonnance d’irrigation a été créée en fonction des données météorologiques actuelles, du sol et des cultures actuelles pour {{date}}.",
+      "TITLE": "Ordonnance d'irrigation | {{location}}"
+    },
     "NONE_TO_DISPLAY": "Il n'y a aucune notification à afficher.",
     "PAGE_TITLE": "Notifications",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Quelques erreurs sont survenues pendant votre téléchargement de capteur. Cliquez sur “Allons-y” pour voir les détails.",
-      "TITLE": "Erreurs de téléchargement du capteur"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Le chargement de votre capteur a été terminé avec succès",
-      "TITLE": "Chargement du capteur terminé"
-    },
     "TAKE_ME_THERE": "Allons-y !",
     "TASK_ABANDONED": {
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}.",
@@ -1553,6 +1571,7 @@
       "USER_ADDRESS_LENGTH": "L’adresse utilisateur ne peut pas dépasser 255 caractères"
     },
     "FARM": {
+      "ADDONS": "Add-ons",
       "ADDRESS": "Adresse",
       "CHANGE_IMAGE": "Changer image",
       "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
@@ -1649,7 +1668,6 @@
     "REPEAT_EVERY": "Répéter tous les",
     "REPEAT_LIMIT_ERROR": "Impossible de répéter ce plan plus de 20 fois",
     "REPEAT_ON": "Répéter le",
-    "REPEAT_PLAN_FLOW": "répétition d'un plan de culture",
     "REPETITIONS": "répétitions",
     "REPETITIONS_OF": "Répétition de {{planName}}",
     "START_DATE": "Début",
@@ -1777,93 +1795,65 @@
     "ANIMALS_LOCATION": "Emplacements des animaux"
   },
   "SENSOR": {
-    "BRAND": "Marque",
-    "BRAND_HELPTEXT": "Les marques avec lesquelles LiteFarm peut s’intégrer sont indiquées ci-dessous. Si vous ne souhaitez plus utiliser cette marque de capteur, essayez de retirer ce capteur.",
+    "ARRAY": "Pile",
     "DAYS_AGO": "il y a {{time}} jour(s)",
     "DEPTH": "Profondeur",
     "DETAIL": {
-      "BRAND": "Marque",
-      "BRAND_TOOLTIP": "Les marques avec lesquelles LiteFarm peut s’intégrer sont indiquées ci-dessous. Si vous ne souhaitez plus utiliser cette branche de capteur, essayez de retirer ce capteur.",
-      "DEPTH": "Profondeur",
-      "EDIT": "Modifier",
-      "EXTERNAL_ID_TOOLTIP": "Cet identifiant est utilisé pour identifier uniquement le capteur dans d’autres systèmes intégrés et ne peut pas être modifié. S’il n’est plus utilisé, essayez de retirer ce capteur et d’en ajouter un nouveau.",
-      "EXTERNAL_IDENTIFIER": "Identifiant externe",
-      "LATITUDE": "Latitude",
-      "LONGITUDE": "Longitude",
-      "MODEL": "Modèle",
-      "NAME": "Nom du capteur",
-      "RETIRE": "Retirer"
+      "ADD_SENSORS": "Ajouter capteurs",
+      "DETECTED_FIELD": "Nous avons détecté l'emplacement du champ :",
+      "DEVICE_TYPE": "Type d'appareil"
     },
-    "EXTERNAL_IDENTIFIER": "Identifiant externe",
+    "DEVICE_TYPES": {
+      "DRIP_LINE_PRESSURE_SENSOR": "Capteur de pression de ligne de goutte",
+      "IR_TEMPERATURE_SENSOR": "Capteur de température infrarouge",
+      "SOIL_WATER_POTENTIAL_SENSOR": "Potentiel hydrique du sol",
+      "WEATHER_STATION": "Station Météo",
+      "WIND_SPEED_SENSOR": "Capteur de vitesse du vent"
+    },
+    "ESCI": {
+      "ACTIVE_CONNECTION": "Vous avez une connexion ESci active",
+      "CONNECT_NEW_SENSOR": "Connectez une nouvelle configuration de capteur depuis ESci",
+      "CURRENT_SUPPORT": "Actuellement, nous ne supportons que les capteurs de \"Ensemble Scientific\"",
+      "ENSEMBLE_ESID": "Ensemble ESID",
+      "ENTER_ID": "Entrez l’identifiant de votre organisation « Ensemble Scientific »",
+      "MANAGE_LINK": "Gérer le lien ESci",
+      "NAME": "Ensemble Scientific",
+      "ORGANISATION_ID": "ESci organisation ID",
+      "ORGANISATION_ID_ERROR": "ID de l'organisation invalide",
+      "ORGANISATION_ID_GENERIC_ERROR": "Impossible de se connecter à ESci. Veuillez réessayer plus tard.",
+      "SEE_ENSEMBLE_SENSOR_LIST": "Voir la liste des capteurs d'ensemble",
+      "SHORT_NAME": "ESci",
+      "TO_MANAGE_SENSORS": "Pour gérer vos capteurs individuellement, veuillez vous connecter à votre tableau de bord ESci à {{url}}"
+    },
     "HOURS_AGO": "il y a {{time}} heure(s)",
-    "LAST_UPDATED": "Dernière mise à jour à {{latestReadingUpdate}}",
-    "LATITUDE": "Latitude",
-    "LONGTITUDE": "Longitude",
     "MINUTES_AGO": "il y a {{time}} minute(s)",
-    "MODAL": {
-      "BODY": "Changer les types de données relevées par  ce capteur va modifier les données que LiteFarm peut afficher. Voulez-vous continuer ?",
-      "TITLE": "Changer les types de capteurs ?"
-    },
-    "MODEL": "Modèle",
-    "MODEL_HELPTEXT": "Cet identifiant est utilisé pour identifier le capteur de façon unique dans d’autres systèmes intégrés et ne peut pas être modifié. S’il n’est plus utilisé, essayez de retirer ce capteur et d’en ajouter un nouveau.",
     "MONTHS_AGO": "il y a {{time}} mois",
-    "NO_DATA": "(aucune donnée)",
     "NO_DATA_FOUND": "Aucun donnée de capteurs trouvé.",
+    "NO_RECENT_SENSOR_READINGS": "Aucune lecture récente des capteurs (dernières 2 heures)",
+    "PARTNER_SENSOR_LIST": "Liste des capteurs {{partner}}",
     "READING": {
+      "BAROMETRIC_PRESSURE": "Pression barométrique",
+      "CUMULATIVE_RAINFALL": "Pluie cumulée",
+      "LATEST_READING": "Dernière lecture :",
+      "RAINFALL_RATE": "Taux de pluie",
+      "RELATIVE_HUMIDITY": "Humidité relative",
       "SOIL_WATER_CONTENT": "Teneur en eau du sol",
       "SOIL_WATER_POTENTIAL": "Potentiel hydrique du sol",
+      "SOLAR_RADIATION": "Rayonnement solaire",
       "TEMPERATURE": "Température",
       "TYPES": "Type de données relevées par les capteurs",
-      "UNKNOWN": "Inconnue"
-    },
-    "READINGS_PREVIEW": {
-      "SOIL_WATER_POTENTIAL": "Potentiel hydrique actuel du sol",
-      "TEMPERATURE": "Température actuelle du sol"
-    },
-    "RETIRE": {
-      "BODY": "La mise hors service de ce capteur l’enlèvera de votre exploitation ainsi que de toute connexion avec le fournisseur de capteurs. Voulez-vous continuer ?",
-      "CANCEL": "Annuler",
-      "RETIRE": "Retirer",
-      "RETIRE_FAILURE": "Il y a eu une erreur lors du retrait de ce capteur",
-      "RETIRE_SUCCESS": "Retrait du capteur réussi",
-      "TITLE": "Retirer le capteur ?"
+      "UNKNOWN": "Inconnue",
+      "UPDATE_READINGS": "Mise à jour des lectures",
+      "WATER_PRESSURE": "Pression de l'eau",
+      "WIND_DIRECTION": "Direction du vent",
+      "WIND_SPEED": "Vitesse du vent",
+      "WIND_SPEED_AND_DIRECTION": "Vitesse & direction du vent"
     },
     "SECONDS_AGO": "il y a {{time}} seconde(s)",
-    "SENSOR_FORECAST": {
-      "HIGH_AND_LOW_TEMPERATURE": "Haute et basse température : {{high}}{{unit}} / {{low}}{{unit}}",
-      "TITLE": "La météo d'aujourd'hui",
-      "WEATHER_STATION": "Station météorologique : {{weatherStationLocation}}"
-    },
-    "SENSOR_NAME": "Nom du capteur",
-    "SENSOR_READING_CHART_SPOTLIGHT": {
-      "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici.",
-      "TITLE": "Les séries peuvent être masquées"
-    },
-    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "Teneur en eau du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "kilopascals (kPa)",
-      "PSI": "livres par pouce carré (psi)",
-      "TITLE": "Potentiel hydrique du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
-    },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
-      "TITLE": "Température du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
-    },
-    "VALIDATION": {
-      "READING_TYPES": "Les types de données relevées par les capteurs sont requis"
-    },
-    "VIEW_HEADER": {
-      "DETAILS": "Détails",
-      "READINGS": "Données",
-      "TASKS": "Tâches"
-    }
+    "SENSOR_ARRAY": "Pile de capteurs",
+    "SENSOR_ARRAYS": "Piles de capteurs",
+    "STANDALONE_SENSOR": "Capteur autonome",
+    "STANDALONE_SENSORS": "Capteurs autonomes"
   },
   "SIGNUP": {
     "CHANGES": "En savoir plus sur les changements",
@@ -1893,7 +1883,13 @@
   "STATUS": {
     "ACTIVE": "Actif",
     "INACTIVE": "Inactif",
-    "INVITED": "Invité"
+    "INVITED": "Invité",
+    "OFFLINE": "Déconnecté",
+    "ONLINE": "Connecté",
+    "SENSOR": {
+      "OFFLINE_TOOLTIP": "L'appareil n'a pas envoyé de données depuis plus de 12 heures",
+      "ONLINE_TOOLTIP": "L'appareil a envoyé des données au cours des 12 dernières heures"
+    }
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produit le",
@@ -1951,12 +1947,11 @@
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
     "ADD_TASK": "Créer une tâche",
-    "ADD_TASK_FLOW": "création de tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
+    "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",
     "ANIMALS": "Animaux",
     "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "Au moins un animal doit être sélectionné pour accomplir cette tâche. Pour supprimer tous les animaux, abandonnez la tâche.",
-    "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements",
@@ -1970,7 +1965,6 @@
     "COMPLETE_TASK": "Terminer la tâche",
     "COMPLETE_TASK_CHANGES": "Avez-vous dû apporter des modifications à cette tâche ?",
     "COMPLETE_TASK_DURATION": "Combien de temps la tâche a-t-elle pris pour se terminer ?",
-    "COMPLETE_TASK_FLOW": "achèvement de la tâche",
     "COMPLETION_DETAILS": "Détails de la tâche",
     "COMPLETION_NOTES": "Notes sur la tâche",
     "COMPLETION_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
@@ -1994,6 +1988,7 @@
     "DESCRIBE_HARVEST_USE": "Décrivez l'utilisation de la récolte",
     "DETAILS": "Détails",
     "DID_YOU_ENJOY": "Avez-vous apprécié cette tâche ?",
+    "DID_YOU_GET_RESULTS": "Avez-vous obtenu les résultats du laboratoire?",
     "DUE_DATE": "Date d'échéance",
     "DURATION": "Durée",
     "FILTER": {
@@ -2015,6 +2010,7 @@
     "HARVEST_USE_ALREADY_EXISTS": "Cet usage de la récolte existe déjà",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée ?",
     "IRRIGATION_LOCATION": "Sélectionner un emplacement d’irrigation",
+    "LAB_DOCUMENTS": "Documents Labo",
     "LOCATIONS": "Emplacement(s)",
     "NO_LOCATIONS_FOR_TASK": "Aucun emplacement spécifique requis pour cette tâche",
     "NO_TASKS_TO_DISPLAY": "Il n'y a aucune tâche à afficher.",
@@ -2030,6 +2026,7 @@
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",
     "SOIL_AMENDMENT_LOCATION": "Sélectionnez le(s) emplacement(s) d'amendement du sol",
+    "SOIL_SAMPLING_LOCATION": "Sélectionnez le(s) emplacement(s) d'échantillonnage du sol",
     "STATUS": {
       "ABANDONED": "Abandonnée",
       "COMPLETED": "Terminée",
@@ -2042,7 +2039,8 @@
     "TASKS_COUNT_other": "{{count}} tâches",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
-    "UNASSIGNED": "Non attribué"
+    "UNASSIGNED": "Non attribué",
+    "UPLOAD_LAB_DOCUMENT": "Charger un document de labo"
   },
   "UNIT": {
     "TIME": {
@@ -2080,11 +2078,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
-  },
-  "BADGE": {
-    "BETA": {
-      "TITLE": "Béta",
-      "ANIMALS_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>"
-    }
   }
 }

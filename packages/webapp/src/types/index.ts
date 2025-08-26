@@ -52,3 +52,8 @@ export interface UserFarm {
 
   [key: string]: any;
 }
+
+export interface Task {
+  task_id: number | string;
+  [key: string]: any;
+}

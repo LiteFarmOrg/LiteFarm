@@ -21,13 +21,18 @@ import LocationPicker from '../LocationPicker/SingleLocationPicker';
 import { GestureHandling } from '../LocationPicker/SingleLocationPicker/types';
 import { Location, System } from '../../types';
 import { IRRIGATION_ZONE_COLOURS, EARTH_RADIUS, BRIGHT_PIVOT_COLOUR } from './constants';
+import { DEFAULT_POLYGON_OPACITY } from '../LocationPicker/SingleLocationPicker/drawLocations';
 import { VriPrescriptionData } from './types';
-import type { Point } from '../../util/geoUtils';
+import { createSectorCoordinates, type Point } from '../../util/geoUtils';
 
 interface IrrigationPrescriptionMapViewProps {
   fieldLocation?: Location;
   pivotCenter: Point;
   pivotRadiusInMeters: number;
+  pivotArc?: {
+    start_angle: number;
+    end_angle: number;
+  };
   className?: string;
   vriZones?: VriPrescriptionData[];
   system?: System;
@@ -37,19 +42,25 @@ const IrrigationPrescriptionMapView = ({
   fieldLocation,
   pivotCenter,
   pivotRadiusInMeters,
+  pivotArc,
   className,
   vriZones,
   system = 'metric',
 }: IrrigationPrescriptionMapViewProps) => {
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
 
-  const pivotMapObjects = createPivotMapObjects(
-    pivotCenter,
-    pivotRadiusInMeters,
-    !!vriZones?.length,
-    (vriZones?.length || 0) > 3,
-    system,
-  );
+  const pivotMapObjects =
+    pivotCenter && pivotRadiusInMeters
+      ? createPivotMapObjects(
+          pivotCenter,
+          pivotRadiusInMeters,
+          !!vriZones?.length,
+          (vriZones?.length || 0) > 3,
+          system,
+          pivotArc?.start_angle,
+          pivotArc?.end_angle,
+        )
+      : [];
 
   const irrigationZoneMapObjects = vriZones ? createIrrigationZoneMapObjects(vriZones) : [];
 
@@ -63,7 +74,7 @@ const IrrigationPrescriptionMapView = ({
           ...pivotMapObjects,
         ]}
         selectedLocationIds={[]}
-        farmCenterCoordinate={pivotCenter}
+        farmCenterCoordinate={pivotCenter || fieldLocation?.grid_points?.[0]}
         maxZoomRef={maxZoomRef}
         getMaxZoom={getMaxZoom}
         showControls={false}
@@ -83,6 +94,8 @@ const createPivotMapObjects = (
   vriZonesPresent: boolean,
   moreThanThreeZones: boolean,
   system: System,
+  startAngle?: number,
+  endAngle?: number,
 ) => {
   const unit = system === 'imperial' ? 'ft' : 'm';
 
@@ -91,25 +104,65 @@ const createPivotMapObjects = (
 
   const label = `${labelRadius}${unit}`;
 
-  const pivot = {
-    type: 'pivot',
-    location_id: 'pivot',
-    center,
-    radius,
-    name: label,
-    ...(vriZonesPresent ? { fillOpacity: 0 } : {}),
-    ...(moreThanThreeZones
-      ? {
-          markerColour: BRIGHT_PIVOT_COLOUR,
-          lineColour: BRIGHT_PIVOT_COLOUR,
-        }
-      : {}),
-  };
+  const isPartialCircle = startAngle !== undefined && endAngle !== undefined;
 
-  // Calculate the endpoint on the circle's circumference (eastward) [Source: Copilot]
-  const latRad = center.lat * (Math.PI / 180);
-  const deltaLng = (radius / (EARTH_RADIUS * Math.cos(latRad))) * (180 / Math.PI);
-  const endpoint = { lat: center.lat, lng: center.lng + deltaLng };
+  let pivot;
+
+  if (isPartialCircle) {
+    const sectorCoordinates = createSectorCoordinates(center, radius, startAngle, endAngle);
+
+    pivot = {
+      type: 'pivot_sector',
+      location_id: 'pivot',
+      grid_points: sectorCoordinates,
+      name: label,
+      fillOpacity: vriZonesPresent ? 0 : DEFAULT_POLYGON_OPACITY,
+      ...(moreThanThreeZones && {
+        colour: BRIGHT_PIVOT_COLOUR,
+        strokeColour: BRIGHT_PIVOT_COLOUR,
+        markerColour: BRIGHT_PIVOT_COLOUR,
+      }),
+    };
+  } else {
+    pivot = {
+      type: 'pivot',
+      location_id: 'pivot',
+      center,
+      radius,
+      name: label,
+      ...(vriZonesPresent ? { fillOpacity: 0 } : {}),
+      ...(moreThanThreeZones
+        ? {
+            markerColour: BRIGHT_PIVOT_COLOUR,
+            lineColour: BRIGHT_PIVOT_COLOUR,
+          }
+        : {}),
+    };
+  }
+
+  let endpoint;
+
+  if (isPartialCircle) {
+    const clockwiseAngleDiff = (startAngle - endAngle + 360) % 360;
+    const midpointAngle = (startAngle - clockwiseAngleDiff / 2 + 360) % 360;
+
+    const midAngleRad = midpointAngle * (Math.PI / 180);
+    const latRad = center.lat * (Math.PI / 180);
+
+    const deltaLat = (radius / EARTH_RADIUS) * (180 / Math.PI) * Math.sin(midAngleRad);
+    const deltaLng =
+      (radius / (EARTH_RADIUS * Math.cos(latRad))) * (180 / Math.PI) * Math.cos(midAngleRad);
+
+    endpoint = {
+      lat: center.lat + deltaLat,
+      lng: center.lng + deltaLng,
+    };
+  } else {
+    // For full circles, use due eastward direction
+    const latRad = center.lat * (Math.PI / 180);
+    const deltaLng = (radius / (EARTH_RADIUS * Math.cos(latRad))) * (180 / Math.PI);
+    endpoint = { lat: center.lat, lng: center.lng + deltaLng };
+  }
 
   const pivotArm = {
     type: 'pivot_arm',

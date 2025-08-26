@@ -15,16 +15,15 @@
 
 import mocks from '../mock.factories.js';
 import { ENSEMBLE_BRAND } from '../../src/util/ensemble.js';
+import { AddonPartner, Farm } from '../../src/models/types.js';
 
-export interface Farm {
-  farm_id: string;
-}
-
-export const connectFarmToEnsemble = async (farm: Farm) => {
+export const connectFarmToEnsemble = async (farm: Farm, partner?: AddonPartner) => {
   const [farmAddon] = await mocks.farm_addonFactory({
     promisedFarm: Promise.resolve([farm]),
-    promisedPartner: mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
+    promisedPartner: partner
+      ? Promise.resolve([partner])
+      : mocks.addon_partnerFactory({ name: ENSEMBLE_BRAND }),
   });
 
-  return { farmAddon };
+  return farmAddon;
 };

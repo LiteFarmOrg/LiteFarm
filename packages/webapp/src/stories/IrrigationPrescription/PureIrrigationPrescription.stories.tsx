@@ -37,7 +37,8 @@ export const URIPrescription: Story = {
     uriData: {
       application_depth: mockUriData.application_depth,
       application_depth_unit: mockUriData.application_depth_unit,
-      soil_moisture_deficit: mockUriData.soil_moisture_deficit,
+      available_soil_moisture: mockUriData.available_soil_moisture,
+      available_soil_moisture_unit: mockUriData.available_soil_moisture_unit,
     },
   },
 };

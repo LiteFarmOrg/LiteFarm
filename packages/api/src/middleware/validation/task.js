@@ -1,6 +1,7 @@
 import knex from '../../util/knex.js';
 const typesOfTask = [
   'soil_amendment_task',
+  'soil_sample_task',
   'pest_control_task',
   'irrigation_task',
   'scouting_task',
@@ -14,6 +15,7 @@ const typesOfTask = [
 
 const modelMapping = {
   soil_amendment_task: modelValidation('soil_amendment_task'),
+  soil_sample_task: modelValidation('soil_sample_task'),
   pest_control_task: modelValidation('pest_control_task'),
   irrigation_task: modelValidation('irrigation_task'),
   scouting_task: modelValidation('scouting_task'),
@@ -37,11 +39,12 @@ function modelValidation(asset) {
     }
     const nonModifiable = typesOfTask.filter((p) => p !== asset);
     const isTryingToModifyOtherAssets = Object.keys(data).some((k) => nonModifiable.includes(k));
-    !isTryingToModifyOtherAssets
-      ? next()
-      : res.status(400).send({
-          message: 'You are trying to modify an unallowed object',
-        });
+    if (!isTryingToModifyOtherAssets) {
+      return next();
+    }
+    res.status(400).send({
+      message: 'You are trying to modify an unallowed object',
+    });
   };
 }
 

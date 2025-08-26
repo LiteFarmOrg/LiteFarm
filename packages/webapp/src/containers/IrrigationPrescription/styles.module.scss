@@ -14,7 +14,7 @@
  */
 
 .cardWrapper {
-  margin-bottom: 88px; /* padding for floating form buttons */
+  margin-bottom: 116px; /* padding for floating form buttons */
 }
 
 .title {
@@ -35,4 +35,9 @@
   > div {
     width: 100%;
   }
+}
+
+.spinnerWrapper {
+  width: 100%;
+  height: 100px;
 }

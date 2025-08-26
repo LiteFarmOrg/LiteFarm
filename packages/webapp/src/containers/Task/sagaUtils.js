@@ -70,3 +70,47 @@ export const getCompleteMovementTaskBody = ({ taskData }) => {
     ...formatMovementTask(movement_task),
   };
 };
+
+const formatSoilSampleTask = (soilSampleTask) => {
+  if (!soilSampleTask) {
+    return {};
+  }
+  const { sample_depths_unit, ...rest } = soilSampleTask;
+
+  return { soil_sample_task: { ...rest, sample_depths_unit: sample_depths_unit.value } };
+};
+
+export const getSoilSampleTaskBody = (data, endpoint) => {
+  const { soil_sample_task, managementPlans, ...formattedData } = getPostTaskBody(data, endpoint);
+  // Remove managementPlans from the data
+  return { ...formattedData, ...formatSoilSampleTask(soil_sample_task) };
+};
+
+const formatSoilSampleDocuments = (uploadedFiles) => {
+  if (!uploadedFiles || !uploadedFiles.length) {
+    return {};
+  }
+
+  return {
+    documents: uploadedFiles.map((file) => ({
+      files: [file],
+      name: file.file_name,
+      no_expiration: true,
+      notes: '',
+      thumbnail_url: file.thumbnail_url ?? null,
+      type: 'SOIL_SAMPLE_RESULTS',
+      valid_until: null,
+    })),
+  };
+};
+
+export const getCompleteSoilSampleTaskBody = ({ taskData, uploadedFiles }) => {
+  const { soil_sample_task, managementPlans, ...formattedData } = taskData;
+
+  // Remove managementPlans from the data
+  return {
+    ...formattedData,
+    ...formatSoilSampleTask(soil_sample_task),
+    ...formatSoilSampleDocuments(uploadedFiles),
+  };
+};

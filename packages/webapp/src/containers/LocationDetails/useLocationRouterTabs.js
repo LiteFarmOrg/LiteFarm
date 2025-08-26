@@ -16,6 +16,7 @@
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 import { locationEnum } from '../Map/constants';
+import useIrrigationPrescriptions from './LocationIrrigation/useIrrigationPrescriptions';
 
 const cropLocations = [
   locationEnum.field,
@@ -29,7 +30,7 @@ const fieldTechnologyLocations = [
   locationEnum.greenhouse,
   locationEnum.farm_site_boundary,
 ];
-const readingsLocations = [locationEnum.sensor, locationEnum.sensor_array];
+const irrigationPrescriptionLocations = fieldTechnologyLocations;
 
 export default function useLocationRouterTabs(location, match) {
   const { t } = useTranslation();
@@ -38,31 +39,30 @@ export default function useLocationRouterTabs(location, match) {
     return [];
   }
 
-  const { type, isAddonSensor } = location;
+  const { type } = location;
 
-  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'readings'];
+  const TABS = ['details', 'tasks', 'crops', 'field_technology', 'irrigation'];
 
   const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 
   const fieldTechnology = useFieldTechnology(location);
   const hasLocationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
 
-  const routerTabs = [];
+  const irrigationPrescriptions = useIrrigationPrescriptions(location);
+  const hasLocationIrrigationPrescriptions = !!irrigationPrescriptions.length;
+
+  const routerTabs = [
+    {
+      label: t('FARM_MAP.TAB.DETAILS'),
+      path: match.url.replace(currentTab, 'details'),
+    },
+    {
+      label: t('FARM_MAP.TAB.TASKS'),
+      path: match.url.replace(currentTab, 'tasks'),
+    },
+  ];
 
   // Order of following statements reflects tab order
-  if (!isAddonSensor) {
-    // External sensors do not have base tabs
-    routerTabs.push(
-      {
-        label: t('FARM_MAP.TAB.DETAILS'),
-        path: match.url.replace(currentTab, 'details'),
-      },
-      {
-        label: t('FARM_MAP.TAB.TASKS'),
-        path: match.url.replace(currentTab, 'tasks'),
-      },
-    );
-  }
   if (cropLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.CROPS'),
@@ -75,10 +75,10 @@ export default function useLocationRouterTabs(location, match) {
       path: match.url.replace(currentTab, 'field_technology'),
     });
   }
-  if (readingsLocations.includes(type)) {
+  if (hasLocationIrrigationPrescriptions && irrigationPrescriptionLocations.includes(type)) {
     routerTabs.push({
-      label: t('FARM_MAP.TAB.READINGS'),
-      path: match.url.replace(currentTab, 'readings'),
+      label: t('FARM_MAP.TAB.IRRIGATION'),
+      path: match.url.replace(currentTab, 'irrigation'),
     });
   }
 

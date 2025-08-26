@@ -124,7 +124,7 @@ export const FilterMultiSelectV2 = ({
     const sorted = [...options].sort((a, b) => {
       const isSelected = (option: ComponentFilterOption) =>
         value.some((item) => item.label === option.label);
-      return Number(isSelected(b)) - Number(isSelected(a)) || a.label.localeCompare(b.label);
+      return Number(isSelected(b)) - Number(isSelected(a)) || a.label?.localeCompare(b.label);
     });
     return sorted;
   }, [options, value]);

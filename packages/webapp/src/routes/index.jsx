@@ -60,87 +60,89 @@ const Prices = React.lazy(() => import('../containers/Insights/Prices'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 const MapVideo = React.lazy(() => import('../components/Map/Videos'));
-const PostFarmSiteBoundaryForm = React.lazy(
-  () =>
-    import(
-      '../containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'
-    ),
+const PostFarmSiteBoundaryForm = React.lazy(() =>
+  import(
+    '../containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'
+  ),
 );
 const FarmSiteBoundaryDetails = React.lazy(() => import('./FarmSiteBoundaryDetailsRoutes'));
 
-const PostFieldForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
+const PostFieldForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
 );
 const FieldDetails = React.lazy(() => import('./FieldDetailsRoutes'));
 
-const PostGardenForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/GardenDetailForm/PostGarden'),
+const PostGardenForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/GardenDetailForm/PostGarden'),
 );
 const GardenDetails = React.lazy(() => import('./GardenDetailsRoutes'));
 
-const PostGateForm = React.lazy(
-  () => import('../containers/LocationDetails/PointDetails/GateDetailForm/PostGate'),
+const PostGateForm = React.lazy(() =>
+  import('../containers/LocationDetails/PointDetails/GateDetailForm/PostGate'),
 );
 const GateDetails = React.lazy(() => import('./GateDetailsRoutes'));
 
-const PostWaterValveForm = React.lazy(
-  () => import('../containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
+const PostWaterValveForm = React.lazy(() =>
+  import('../containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
 const WaterValveDetails = React.lazy(() => import('./WaterValveDetailsRoutes'));
-const EditSensor = React.lazy(
-  () => import('../containers/LocationDetails/PointDetails/SensorDetail/EditSensor'),
+
+const PostSoilSampleLocationForm = React.lazy(() =>
+  import(
+    '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/PostSoilSampleLocation'
+  ),
 );
 
-const PostBarnForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
+const SoilSampleLocationDetails = React.lazy(() => import('./SoilSampleLocationDetailsRoutes'));
+
+const PostBarnForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
 );
 const BarnDetails = React.lazy(() => import('./BarnDetailsRoutes'));
 
-const PostNaturalAreaForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/PostNaturalArea'),
+const PostNaturalAreaForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/PostNaturalArea'),
 );
 const NaturalAreaDetails = React.lazy(() => import('./NaturalAreaDetailsRoutes'));
 
-const PostSurfaceWaterForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/PostSurfaceWater'),
+const PostSurfaceWaterForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/PostSurfaceWater'),
 );
 const SurfaceWaterDetails = React.lazy(() => import('./SurfaceWaterDetailsRoutes'));
 
-const PostResidenceForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/ResidenceDetailForm/PostResidence'),
+const PostResidenceForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/ResidenceDetailForm/PostResidence'),
 );
 const ResidenceDetails = React.lazy(() => import('./ResidenceDetailsRoutes'));
 
-const PostCeremonialForm = React.lazy(
-  () =>
-    import('../containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/PostCeremonialArea'),
+const PostCeremonialForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/PostCeremonialArea'),
 );
 const CeremonialAreaDetails = React.lazy(() => import('./CeremonialAreaDetailsRoutes'));
 
-const PostGreenhouseForm = React.lazy(
-  () => import('../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
+const PostGreenhouseForm = React.lazy(() =>
+  import('../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
 const GreenhouseDetails = React.lazy(() => import('./GreenhouseDetailsRoutes'));
 
 const CropManagement = React.lazy(() => import('../containers/Crop/CropManagement'));
 const CropDetail = React.lazy(() => import('../containers/Crop/CropDetail/index'));
 
-const PostFenceForm = React.lazy(
-  () => import('../containers/LocationDetails/LineDetails/FenceDetailForm/PostFence'),
+const PostFenceForm = React.lazy(() =>
+  import('../containers/LocationDetails/LineDetails/FenceDetailForm/PostFence'),
 );
 const FenceDetails = React.lazy(() => import('./FenceDetailsRoutes'));
 
-const PostBufferZoneForm = React.lazy(
-  () => import('../containers/LocationDetails/LineDetails/BufferZoneDetailForm/PostBufferZone'),
+const PostBufferZoneForm = React.lazy(() =>
+  import('../containers/LocationDetails/LineDetails/BufferZoneDetailForm/PostBufferZone'),
 );
 const BufferZoneDetails = React.lazy(() => import('./BufferZoneDetailsRoutes'));
 
-const PostWatercourseForm = React.lazy(
-  () => import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
+const PostWatercourseForm = React.lazy(() =>
+  import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
 const WatercourseDetails = React.lazy(() => import('./WatercourseDetailsRoutes'));
 const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
-const SensorDetails = React.lazy(() => import('./SensorDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('../containers/CropVarieties'));
@@ -148,34 +150,34 @@ const AddCrop = React.lazy(() => import('../containers/AddCropVariety/AddCropVar
 const EditCrop = React.lazy(() => import('../containers/EditCropVariety'));
 const ComplianceInfo = React.lazy(() => import('../containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('../containers/AddNewCrop'));
-const PlantingLocation = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantingLocation'),
+const PlantingLocation = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantingLocation'),
 );
 const Transplant = React.lazy(() => import('../containers/Crop/AddManagementPlan/Transplant'));
 const PlantingDate = React.lazy(() => import('../containers/Crop/AddManagementPlan/PlantingDate'));
-const PlantingMethod = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantingMethod'),
+const PlantingMethod = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantingMethod'),
 );
-const PlantInContainer = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantInContainer'),
+const PlantInContainer = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantInContainer'),
 );
-const PlantBroadcast = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/BroadcastPlan'),
+const PlantBroadcast = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/BroadcastPlan'),
 );
 const BedPlan = React.lazy(() => import('../containers/Crop/AddManagementPlan/BedPlan/BedPlan'));
-const BedPlanGuidance = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
+const BedPlanGuidance = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
 );
-const ManagementPlanName = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/ManagementPlanName'),
+const ManagementPlanName = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 const RowMethod = React.lazy(() => import('../containers/Crop/AddManagementPlan/RowMethod'));
-const RowMethodGuidance = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/RowMethod/RowGuidance'),
+const RowMethodGuidance = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/RowMethod/RowGuidance'),
 );
 
-const PlantedAlready = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantedAlready'),
+const PlantedAlready = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantedAlready'),
 );
 
 const Documents = React.lazy(() => import('../containers/Documents'));
@@ -184,63 +186,60 @@ const EditDocument = React.lazy(() => import('../containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('../containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('../containers/Documents/Main'));
-const CertificationReportingPeriod = React.lazy(
-  () => import('../containers/Certifications/ReportingPeriod'),
+const CertificationReportingPeriod = React.lazy(() =>
+  import('../containers/Certifications/ReportingPeriod'),
 );
 const CertificationSurvey = React.lazy(() => import('../containers/Certifications/Survey'));
 
-const InterestedOrganic = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'
-    ),
-);
-
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'
-    ),
+const CertificationSelection = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'
+  ),
 );
 
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
-    ),
+const CertifierSelectionMenu = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'
+  ),
 );
 
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
+  ),
 );
-const ViewCertification = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
+);
+const ViewCertification = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
 );
 
 const RenderSurvey = React.lazy(() => import('../containers/RenderSurvey/RenderSurvey'));
 const ExportDownload = React.lazy(() => import('../containers/ExportDownload'));
 
-const ManagementTasks = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/ManagementTasks'),
+const ManagementTasks = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/ManagementTasks'),
 );
-const ManagementDetails = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/ManagementDetails'),
+const ManagementDetails = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/ManagementDetails'),
 );
-const EditManagementDetails = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/EditManagementDetails'),
+const EditManagementDetails = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/EditManagementDetails'),
 );
-const CompleteManagementPlan = React.lazy(
-  () => import('../containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
+const CompleteManagementPlan = React.lazy(() =>
+  import('../containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
 );
-const AbandonManagementPlan = React.lazy(
-  () => import('../containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
+const AbandonManagementPlan = React.lazy(() =>
+  import('../containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
 );
 const RepeatCropPlan = React.lazy(() => import('../containers/Crop/RepeatCropPlan'));
-const RepeatCropPlanConfirmation = React.lazy(
-  () => import('../containers/Crop/RepeatCropPlan/Confirmation'),
+const RepeatCropPlanConfirmation = React.lazy(() =>
+  import('../containers/Crop/RepeatCropPlan/Confirmation'),
 );
 
 const TaskAssignment = React.lazy(() => import('../containers/Task/TaskAssignment'));
@@ -254,43 +253,44 @@ const Tasks = React.lazy(() => import('../containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('../containers/Task/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('../containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('../containers/Task/TaskComplete'));
-const HarvestCompleteQuantity = React.lazy(
-  () => import('../containers/Task/TaskComplete/HarvestComplete/Quantity'),
+const HarvestCompleteQuantity = React.lazy(() =>
+  import('../containers/Task/TaskComplete/HarvestComplete/Quantity'),
 );
-const HarvestUses = React.lazy(
-  () => import('../containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
+const HarvestUses = React.lazy(() =>
+  import('../containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
 );
 const TaskCompleteStepOne = React.lazy(() => import('../containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('../containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('../containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('../containers/Task/TaskAbandon'));
 const EditCustomTaskUpdate = React.lazy(() => import('../containers/Task/EditCustomTaskUpdate'));
-const TaskTransplantMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
+const TaskTransplantMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
 );
-const TaskBedMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskBedMethod'),
+const TaskBedMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskBedMethod'),
 );
-const TaskBedGuidance = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskBedGuidance'),
+const TaskBedGuidance = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskBedGuidance'),
 );
-const TaskRowMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskRowMethod'),
+const TaskRowMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskRowMethod'),
 );
-const TaskRowGuidance = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskRowGuidance'),
+const TaskRowGuidance = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskRowGuidance'),
 );
-const TaskContainerMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
+const TaskContainerMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
 const SensorList = React.lazy(() => import('../containers/SensorList'));
+const SensorReadings = React.lazy(() => import('../containers/SensorReadings/v2'));
 const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
 const Notification = React.lazy(() => import('../containers/Notification'));
-const NotificationReadOnly = React.lazy(
-  () => import('../containers/Notification/NotificationReadOnly'),
+const NotificationReadOnly = React.lazy(() =>
+  import('../containers/Notification/NotificationReadOnly'),
 );
-const UnknownRecord = React.lazy(
-  () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
+const UnknownRecord = React.lazy(() =>
+  import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
 const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
@@ -544,6 +544,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
@@ -565,13 +570,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id/edit" exact component={EditSensor} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
@@ -652,7 +667,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -671,7 +688,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/profile" exact component={Account} />
             <Route path="/people" exact component={People} />
             <Route path="/user/:user_id" exact component={EditUser} />
-
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop/new" exact component={AddNewCrop} />
@@ -847,6 +863,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route
+              path="/create_location/soil_sample_location"
+              exact
+              component={PostSoilSampleLocationForm}
+            />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
@@ -868,11 +889,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -970,7 +1003,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -1017,11 +1052,23 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/gate/:location_id" component={GateDetails} />
             <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route
+              path="/soil_sample_location/:location_id"
+              component={SoilSampleLocationDetails}
+            />
             <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
-            <Route path="/sensor/:location_id" component={SensorDetails} />
-            <Route path="/sensor_array/:location_id" component={SensorDetails} />
+            <Route
+              path="/sensor/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor'} />}
+            />
+            <Route
+              path="/sensor_array/:id"
+              exact
+              render={(props) => <SensorReadings {...props} type={'sensor_array'} />}
+            />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
@@ -1090,7 +1137,9 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
             <Route
               path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
               exact
-              render={(props) => <IrrigationPrescription {...props} />}
+              render={(props) => (
+                <IrrigationPrescription isCompactSideMenu={isCompactSideMenu} {...props} />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

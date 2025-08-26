@@ -16,6 +16,8 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import IrrigationPrescriptionRequestController from '../controllers/irrigationPrescriptionRequestController.js';
+import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
+import checkSchedulerPermission from '../middleware/acl/checkSchedulerPermission.js';
 
 const router = express.Router();
 
@@ -23,6 +25,13 @@ router.post(
   '/',
   checkScope(['get:smart_irrigation']),
   IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(),
+);
+
+router.post(
+  '/scheduler',
+  checkSchedulerJwt,
+  checkSchedulerPermission('requestScheduledEndpoint'),
+  IrrigationPrescriptionRequestController.initiateFarmIrrigationPrescription(true),
 );
 
 export default router;

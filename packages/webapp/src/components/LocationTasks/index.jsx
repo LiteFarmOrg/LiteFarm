@@ -7,9 +7,9 @@ import TaskCount from '../Task/TaskCount';
 import TaskCard from '../../containers/Task/TaskCard';
 import PageBreak from '../PageBreak';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { onAddTask } from '../../containers/Task/onAddTask';
-import { useDispatch } from 'react-redux';
 import { Variant } from '../RouterTab/Tab';
+import FloatingActionButton from '../Button/FloatingActionButton';
+import styles from './styles.module.scss';
 
 export default function PureLocationTasks({
   location,
@@ -17,12 +17,11 @@ export default function PureLocationTasks({
   match,
   tasks,
   count,
-  isAdmin,
   routerTabs,
+  handleAddTask,
 }) {
   const language = getLanguageFromLocalStorage();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   const renderTasksForDay = (dateString, tasksForDate) => (
     <div key={`tasks-${dateString}`}>
@@ -58,25 +57,30 @@ export default function PureLocationTasks({
   };
 
   return (
-    <CardLayout>
-      <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
-      <RouterTab
-        classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
-        match={match}
-        tabs={routerTabs}
-        variant={Variant.UNDERLINE}
-      />
-      <TaskCount
-        handleAddTask={onAddTask(dispatch, history, { location })}
-        count={count}
-        isAdmin={isAdmin}
-      />
-      {count > 0 ? (
-        renderTasksByDay(tasks)
-      ) : (
-        <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
-      )}
-    </CardLayout>
+    <>
+      <CardLayout>
+        <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
+        <RouterTab
+          classes={{ container: { margin: '30px 0 26px 0' } }}
+          history={history}
+          match={match}
+          tabs={routerTabs}
+          variant={Variant.UNDERLINE}
+        />
+        <TaskCount count={count} />
+        {count > 0 ? (
+          renderTasksByDay(tasks)
+        ) : (
+          <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
+        )}
+      </CardLayout>
+      <div className={styles.ctaButtonWrapper}>
+        <FloatingActionButton
+          type={'add'}
+          onClick={handleAddTask}
+          aria-label={t('TASK.ADD_TASK')}
+        />
+      </div>
+    </>
   );
 }

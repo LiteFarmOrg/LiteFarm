@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.7.5",
+  "version": "3.8.0",
   "description": "LiteFarm Web application",
   "type": "module",
   "devEngines": {
@@ -46,7 +46,9 @@
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
     "@turf/boolean-point-in-polygon": "7.2.0",
+    "@turf/centroid": "^7.2.0",
     "@turf/helpers": "7.2.0",
+    "@turf/sector": "^7.2.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",
@@ -55,7 +57,7 @@
     "d3": "^7.6.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^6.5.1",
-    "google-map-react": "^2.2.0",
+    "google-map-react": "^2.2.5",
     "history": "^5.3.0",
     "html2canvas": "^1.4.1",
     "i18next": "^21.10.0",

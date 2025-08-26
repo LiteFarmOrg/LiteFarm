@@ -124,7 +124,6 @@ import {
   onLoadingRowMethodFail,
   onLoadingRowMethodStart,
 } from './rowMethodSlice';
-import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
 import {
   getSurfaceWatersSuccess,
   onLoadingSurfaceWaterFail,
@@ -151,7 +150,11 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
-import { api } from '../store/api/apiSlice';
+import { api, FarmLibraryTags, FarmTags } from '../store/api/apiSlice';
+import {
+  getSoilSampleLocationsSuccess,
+  onLoadingSoilSampleLocationFail,
+} from './soilSampleLocationSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -335,7 +338,6 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
-  yield put(onLoadingSensorStart());
 }
 
 export const getLocations = createAction('getLocationsSaga');
@@ -387,7 +389,10 @@ const figureTypeActionMap = {
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
-  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
+  soil_sample_location: {
+    success: getSoilSampleLocationsSuccess,
+    fail: onLoadingSoilSampleLocationFail,
+  },
 };
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
@@ -623,16 +628,7 @@ export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
 
-  yield put(
-    api.util.invalidateTags([
-      'Animals',
-      'AnimalBatches',
-      'CustomAnimalBreeds',
-      'CustomAnimalTypes',
-      'DefaultAnimalTypes', // needs to be cleared for KPI count
-      'FarmAddon',
-    ]),
-  );
+  yield put(api.util.invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
 
-import { React, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -40,6 +40,7 @@ import {
   setUserFarmWageDoNotAskAgain,
   deleteTask,
 } from '../saga';
+import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
 
 function TaskReadOnly({ history, match, location }) {
   const task_id = match.params.task_id;
@@ -48,6 +49,27 @@ function TaskReadOnly({ history, match, location }) {
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
   const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
+    task?.irrigation_task?.irrigation_prescription_external_id != null;
+
+  const { data: externalIrrigationPrescription } = useGetIrrigationPrescriptionDetailsQuery(
+    task?.irrigation_task?.irrigation_prescription_external_id,
+    {
+      skip: !isIrrigationTaskWithExternalPrescription,
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  let files = [];
+  if (externalIrrigationPrescription?.prescription?.vriData?.file_url) {
+    files.push({ url: externalIrrigationPrescription.prescription.vriData.file_url });
+  }
+  if (task?.documents?.length) {
+    const documentFiles = task.documents.flatMap((doc) => doc.files);
+    files.push(...documentFiles);
+  }
+
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
@@ -133,6 +155,8 @@ function TaskReadOnly({ history, match, location }) {
           isAdmin={isAdmin}
           system={system}
           products={products}
+          externalIrrigationPrescription={externalIrrigationPrescription}
+          files={files}
           harvestUseTypes={harvestUseTypes}
           isTaskTypeCustom={isTaskTypeCustom}
           maxZoomRef={maxZoomRef}

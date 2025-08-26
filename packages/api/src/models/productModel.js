@@ -35,7 +35,7 @@ class ProductModel extends baseModel {
       properties: {
         product_id: { type: 'integer' },
         name: { type: 'string' },
-        product_translation_key: { type: 'string' },
+        product_translation_key: { type: ['string', 'null'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         on_permitted_substances_list: {
           type: ['string', 'null'],

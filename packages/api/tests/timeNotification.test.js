@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /*
- *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022, 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -31,6 +33,12 @@ jest.mock('../src/middleware/acl/checkSchedulerJwt.js', () =>
     next();
   }),
 );
+
+import axios from 'axios';
+import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
+import { createField, setupFarmEnvironment } from './utils/testDataSetup.js';
+jest.mock('axios');
+const mockedAxios = axios;
 
 describe('Time Based Notification Tests', () => {
   let farmOwner;
@@ -149,6 +157,16 @@ describe('Time Based Notification Tests', () => {
       .post(`/time_notification/daily_due_today_tasks/${farm_id}`)
       .send({ isDayLaterThanUtc })
       .end(callback);
+  }
+
+  async function postDailyNewIrrigationPrescriptions(data) {
+    const { farm_id } = data;
+    const response = await chai
+      .request(server)
+      .post(`/time_notification/new_irrigation_prescription/${farm_id}`)
+      .send({ isDayLaterThanUtc });
+
+    return response;
   }
 
   // Clean up after test finishes
@@ -396,6 +414,30 @@ describe('Time Based Notification Tests', () => {
         });
       });
 
+      test('Daily notification_date correctly matches due_date when isDayLaterThanUtc=true', async (done) => {
+        isDayLaterThanUtc = true;
+        fakeToday = new Date();
+        fakeToday.setDate(fakeToday.getDate() + 1);
+
+        await createFullTask({
+          due_date: fakeToday.toISOString().split('T')[0],
+          assignee_user_id: farmWorker.user_id,
+        });
+
+        postDailyDueTodayTasks({ farm_id: farm.farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const notifications = await knex('notification').where({
+            'notification.farm_id': farm.farm_id,
+            'notification.deleted': false,
+          });
+
+          const expectedDate = fakeToday.toISOString().split('T')[0];
+          expect(notifications[0].context.notification_date).toBe(expectedDate);
+
+          done();
+        });
+      });
+
       test('Farm owner should receive a due today notification', async (done) => {
         await createFullTask({
           due_date: fakeToday.toISOString().split('T')[0],
@@ -516,6 +558,164 @@ describe('Time Based Notification Tests', () => {
           expect(notifications.length).toBe(0);
           done();
         });
+      });
+    });
+  });
+
+  describe('New Irrigation Prescription Notification Test', () => {
+    let farm;
+    let field;
+    let secondField;
+
+    beforeEach(async () => {
+      ({ farm, field } = await setupFarmEnvironment());
+
+      secondField = await createField(farm);
+
+      await connectFarmToEnsemble(farm);
+    });
+
+    describe('Notification sent tests', () => {
+      beforeEach(async () => {
+        await mockedAxios.mockClear();
+      });
+
+      test('One notification record should be created for the latest irrigation prescription on each location', async () => {
+        await mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            {
+              id: 122,
+              recommended_start_date: '2025-05-07',
+              location_id: field.location_id,
+            },
+            {
+              id: 123,
+              recommended_start_date: '2025-05-07',
+              location_id: secondField.location_id,
+            },
+            {
+              id: 124,
+              recommended_start_date: '2025-05-08',
+              location_id: field.location_id,
+            },
+            {
+              id: 125,
+              recommended_start_date: '2025-05-08',
+              location_id: secondField.location_id,
+            },
+          ],
+        });
+
+        const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
+
+        expect(res.status).toBe(201);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw(
+            "(context->'irrigation_prescription_id') IN (?, ?, ?, ?)",
+            [122, 123, 124, 125],
+          );
+
+        expect(rows).toHaveLength(2);
+
+        expect(rows[0].context.irrigation_prescription_id).toBe(124);
+        expect(rows[0].ref.url).toBe('/irrigation_prescription/124');
+        expect(rows[0].title.translation_key).toBe(
+          'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
+        );
+
+        expect(rows[1].context.irrigation_prescription_id).toBe(125);
+        expect(rows[1].ref.url).toBe('/irrigation_prescription/125');
+        expect(rows[1].title.translation_key).toBe(
+          'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
+        );
+      });
+
+      test('Repeat notifications are not sent for the same irrigation prescription', async () => {
+        await mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            {
+              id: 223,
+              recommended_start_date: '2025-05-07',
+              location_id: field.location_id,
+            },
+            {
+              id: 224,
+              recommended_start_date: '2025-05-08',
+              location_id: field.location_id,
+            },
+          ],
+        });
+        const res1 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
+
+        // 201 is controller response for notifications sent
+        expect(res1.status).toBe(201);
+
+        const res2 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
+
+        // 200 is controller response for no notifications sent
+        expect(res2.status).toBe(200);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [223, 224]);
+
+        // There should be exactly 1 record in the DB
+        expect(rows).toHaveLength(1);
+      });
+
+      test('Notifications should not be sent for irrigation prescriptions associated with deleted locations', async () => {
+        await mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            {
+              id: 301,
+              recommended_start_date: '2025-05-07',
+              location_id: field.location_id,
+            },
+            {
+              id: 302,
+              recommended_start_date: '2025-05-07',
+              location_id: secondField.location_id,
+            },
+            {
+              id: 303,
+              recommended_start_date: '2025-05-08',
+              location_id: field.location_id,
+            },
+            {
+              id: 304,
+              recommended_start_date: '2025-05-08',
+              location_id: secondField.location_id,
+            },
+          ],
+        });
+
+        // Delete the first location
+        await knex('location').where({ location_id: field.location_id }).update({ deleted: true });
+
+        const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
+
+        expect(res.status).toBe(201);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw(
+            "(context->'irrigation_prescription_id') IN (?, ?, ?, ?)",
+            [301, 302, 303, 304],
+          );
+
+        expect(rows).toHaveLength(1);
+
+        // Only the latest IP for the non-deleted location should be present
+        expect(rows[0].context.irrigation_prescription_id).toBe(304);
+        expect(rows[0].ref.url).toBe('/irrigation_prescription/304');
+        expect(rows[0].title.translation_key).toBe(
+          'NOTIFICATION.NEW_IRRIGATION_PRESCRIPTION.TITLE',
+        );
       });
     });
   });

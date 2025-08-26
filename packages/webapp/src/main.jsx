@@ -28,7 +28,6 @@ import resetUserPasswordSaga from './containers/PasswordResetAccount/saga';
 import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
-import sensorDetailSaga from './containers/LocationDetails/PointDetails/SensorDetail/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
@@ -44,6 +43,7 @@ import farmSiteBoundarySaga from './containers/LocationDetails/AreaDetails/FarmS
 import fenceSaga from './containers/LocationDetails/LineDetails/FenceDetailForm/saga';
 import bufferZoneSaga from './containers/LocationDetails/LineDetails/BufferZoneDetailForm/saga';
 import watercourseSaga from './containers/LocationDetails/LineDetails/WatercourseDetailForm/saga';
+import soilSampleLocationLocationSaga from './containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/saga';
 import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
@@ -62,7 +62,6 @@ import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
-import sensorReadingsSaga from './containers/SensorReadings/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import theme from './assets/theme';
@@ -88,7 +87,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.7.5',
+    release: '3.8.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -104,7 +103,6 @@ sagaMiddleware.run(resetUserPasswordSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
-sagaMiddleware.run(sensorDetailSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
@@ -119,6 +117,7 @@ sagaMiddleware.run(waterValveSaga);
 sagaMiddleware.run(farmSiteBoundarySaga);
 sagaMiddleware.run(fenceSaga);
 sagaMiddleware.run(watercourseSaga);
+sagaMiddleware.run(soilSampleLocationLocationSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
@@ -134,7 +133,6 @@ sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
-sagaMiddleware.run(sensorReadingsSaga);
 sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(imageUploaderSaga);

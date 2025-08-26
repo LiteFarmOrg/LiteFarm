@@ -84,7 +84,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
         <>
           {isNotSSO && ( // TODO LF-3798: Back button doesn't work in SSO as it will direct to Welcome Screen
             <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
-              {t('common:BACK')}
+              {t('common:GO_BACK')}
             </Button>
           )}
           <Button data-cy="createUser-create" disabled={disabled} type={'submit'} fullLength>

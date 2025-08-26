@@ -199,7 +199,8 @@ export default function useNumberInput({
   return {
     numericValue,
     inputProps,
-    reset: () => update(initialValue ?? NaN),
+    // TODO: Fix before use (LF-4798)
+    reset: (value?: number | null) => update(value ? value : NaN),
     clear: () => update(NaN),
     update,
     increment,

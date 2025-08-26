@@ -37,12 +37,8 @@ async function tableCleanup(knex) {
     .whereNotNull('default_initial_location_id')
     .update({ default_initial_location_id: null });
   return knex.raw(`
-    DELETE FROM "partner_reading_type";
     DELETE FROM "farm_addon";
-    DELETE FROM "addon_partner";
-    DELETE FROM "sensor_reading_type";
-    DELETE FROM "sensor_reading";
-    DELETE FROM "sensor";
+    DELETE FROM "addon_partner"; 
     DELETE FROM "notification_user";
     DELETE FROM "notification";
     DELETE FROM "supportTicket";
@@ -57,6 +53,7 @@ async function tableCleanup(knex) {
     DELETE FROM "harvest_task";
     DELETE FROM "harvest_use_type";
     DELETE FROM "irrigation_task";
+    DELETE FROM "irrigation_type";
     DELETE FROM "scouting_task";
     DELETE FROM "pest_control_task";
     DELETE FROM "social_task";
@@ -71,6 +68,7 @@ async function tableCleanup(knex) {
     DELETE FROM "soil_amendment_method";
     DELETE FROM "soil_amendment_product";
     DELETE FROM "soil_amendment_fertiliser_type";
+    DELETE FROM "soil_sample_task";
     DELETE FROM "product";
     DELETE FROM "management_tasks";
     DELETE FROM "plant_task";
@@ -108,6 +106,7 @@ async function tableCleanup(knex) {
     DELETE FROM "greenhouse";
     DELETE FROM "gate";
     DELETE FROM "water_valve";
+    DELETE FROM "soil_sample_location";
     DELETE FROM "buffer_zone";
     DELETE FROM "watercourse";
     DELETE FROM "fence";

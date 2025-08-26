@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import knex from '../src/util/knex';
+import knex from '../src/util/knex.js';
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -15,8 +15,8 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-function usersFactory(userObject = fakeUser()) {
-  return knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser()) {
+  return await knex('users').insert(userObject).returning('*');
 }
 
 function fakeUser(defaultData = {}) {
@@ -157,16 +157,20 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ])
       : [
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.helpers.arrayElement(['m2', 'ha', 'ft2', 'ac']),
@@ -1238,6 +1242,40 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
   };
 }
 
+async function soil_sample_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  soilSampleTask = fakeSoilSampleTask(),
+) {
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  return knex('soil_sample_task')
+    .insert({
+      task_id,
+      ...soilSampleTask,
+      sample_depths: JSON.stringify(soilSampleTask.sample_depths),
+    })
+    .returning('*');
+}
+
+function fakeSoilSampleTask(defaultData = {}) {
+  const samples_per_location = faker.datatype.number({ min: 1, max: 5 });
+  const sample_depths = Array(samples_per_location)
+    .fill(null)
+    .map(() => ({
+      from: faker.datatype.number({ min: 0, max: 100 }),
+      to: faker.datatype.number({ min: 0, max: 100 }),
+    }));
+
+  return {
+    samples_per_location,
+    sample_depths,
+    sample_depths_unit: faker.helpers.arrayElement(['cm', 'in']),
+    sampling_tool: faker.helpers.arrayElement(['SOIL_PROBE', 'AUGER', 'SPADE']),
+    ...defaultData,
+  };
+}
+
 async function management_tasksFactory({
   promisedTask = taskFactory(),
   promisedPlantingManagementPlan = planting_management_planFactory(),
@@ -1286,8 +1324,11 @@ function fakePesticide(defaultData = {}) {
 }
 
 function fakeTaskType(defaultData = {}) {
+  const task_name = faker.lorem.word();
+  const task_translation_key = defaultData.task_translation_key ?? task_name;
   return {
-    task_name: faker.lorem.word(),
+    task_name,
+    task_translation_key,
     ...defaultData,
   };
 }
@@ -1580,8 +1621,8 @@ async function harvest_taskFactory(
   { promisedTask = taskFactory() } = {},
   harvestLog = fakeHarvestTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('harvest_task')
     .insert({ task_id, ...harvestLog })
     .returning('*');
@@ -1628,8 +1669,8 @@ async function plant_taskFactory(
   { promisedTask = taskFactory() } = {},
   plant_task = fakePlantTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('plant_task')
     .insert({ task_id, ...plant_task })
     .returning('*');
@@ -1675,8 +1716,8 @@ async function field_work_taskFactory(
   { promisedTask = taskFactory() } = {},
   field_work_task = fakeFieldWorkTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('field_work_task')
     .insert({ task_id, ...field_work_task })
     .returning('*');
@@ -1689,8 +1730,8 @@ function fakeFieldWorkTask(defaultData = {}) {
 }
 
 async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task = fakeSoilTask()) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('soil_task')
     .insert({ task_id, ...soil_task })
     .returning('*');
@@ -1738,11 +1779,25 @@ function fakeSoilTask(defaultData = {}) {
 }
 
 async function irrigation_taskFactory(
-  { promisedTask = taskFactory() } = {},
+  { promisedTask = taskFactory(), promisedFarm } = {},
   irrigationTask = fakeIrrigationTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  if (!irrigationTask.irrigation_type_id) {
+    const properties =
+      irrigationTask.irrigation_type_name && irrigationTask.measuring_type
+        ? {
+            irrigation_type_name: irrigationTask.irrigation_type_name,
+            default_measuring_type: irrigationTask.measuring_type,
+          }
+        : {};
+    const [irrigationType] = await irrigation_typeFactory({ promisedFarm, properties });
+
+    irrigationTask.irrigation_type_id = irrigationType.irrigation_type_id;
+  }
+
   return knex('irrigation_task')
     .insert({ task_id, ...irrigationTask })
     .returning('*');
@@ -1756,12 +1811,31 @@ function fakeIrrigationTask(defaultData = {}) {
   };
 }
 
+async function irrigation_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  irrigationType = fakeIrrigationType(properties),
+) {
+  const [[{ farm_id }], [{ user_id }]] = await Promise.all([promisedFarm, usersFactory()]);
+  const base = baseProperties(user_id);
+  return knex('irrigation_type')
+    .insert({ farm_id, ...base, ...irrigationType })
+    .returning('*');
+}
+
+function fakeIrrigationType(defaultData = {}) {
+  return {
+    irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
+    default_measuring_type: faker.helpers.arrayElement(['VOLUME', 'DEPTH']),
+    ...defaultData,
+  };
+}
+
 async function scouting_taskFactory(
   { promisedTask = taskFactory() } = {},
   scouting_task = fakeScoutingTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('scouting_task')
     .insert({ task_id, ...scouting_task })
     .returning('*');
@@ -1774,12 +1848,25 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function cleaning_taskFactory(
+  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  cleaning_task = {},
+) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] =
+    Array.isArray(product) && product.length ? product : [{ product_id: undefined }];
+  return knex('cleaning_task')
+    .insert({ task_id, product_id, ...cleaning_task })
+    .returning('*');
+}
+
 async function animal_movement_taskFactory(
   { promisedTask = taskFactory() } = {},
   animal_movement_task = fakeAnimalMovementTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('animal_movement_task')
     .insert({ task_id, ...animal_movement_task })
     .returning('*');
@@ -2548,14 +2635,22 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
-async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
-  return knex('addon_partner')
-    .insert({
-      ...partner,
-      access_token: faker.datatype.access_token,
-      refresh_token: faker.datatype.refresh_token,
-    })
-    .returning('*');
+async function addon_partnerFactory(partner) {
+  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const [existingPartner] = await knex('addon_partner').where({
+    name: partner ? partner.name : fakePartner.name,
+  });
+
+  if (!existingPartner) {
+    return knex('addon_partner')
+      .insert({
+        ...(partner ? partner : fakePartner),
+        access_token: faker.datatype.access_token,
+        refresh_token: faker.datatype.refresh_token,
+      })
+      .returning('*');
+  }
+  return [existingPartner];
 }
 
 async function farm_addonFactory({
@@ -2571,6 +2666,66 @@ async function farm_addonFactory({
     .insert({ farm_id, addon_partner_id, org_pk, org_uuid })
     .returning('*');
 }
+
+// External endpoint helper mocks
+export const buildExternalIrrigationPrescription = async ({
+  id,
+  providedFarm,
+  providedLocation,
+  providedManagementPlan = null,
+}) => {
+  const farm = providedFarm ?? farmFactory();
+  const location =
+    providedLocation ??
+    (await locationFactory({ promisedFarm: Promise.resolve(farm) ?? undefined }));
+  const managementPlan =
+    providedManagementPlan ??
+    (
+      await management_planFactory({
+        promisedFarm: Promise.resolve([farm]),
+      })
+    )[0];
+
+  return {
+    id: id ?? 1,
+    location_id: location.location_id,
+    management_plan_id: managementPlan.management_plan_id,
+    recommended_start_date: new Date().toISOString().split('T')[0],
+  };
+};
+
+export const buildIrrigationPrescription = async ({
+  providedExternalIrrigationPrescription,
+  providedPartner,
+  linkToTask = false,
+  providedFarm = {},
+  providedLocation = {},
+  providedIrrigationTask = null,
+}) => {
+  const externalIrrigationPrescription =
+    providedExternalIrrigationPrescription ?? (await buildExternalIrrigationPrescription({}));
+  const addonPartner = providedPartner ?? (await addon_partnerFactory());
+
+  const mockIrrigationTask = fakeIrrigationTask({
+    location_id: externalIrrigationPrescription.location_id,
+    irrigation_prescription_external_id: externalIrrigationPrescription.id,
+  });
+
+  let irrigationTask;
+  if (providedIrrigationTask) {
+    irrigationTask = providedIrrigationTask;
+  } else if (linkToTask && !providedIrrigationTask) {
+    const task = await taskFactory({ promisedFarm: [providedFarm] });
+    await location_tasksFactory({ promisedTask: task, promisedField: [providedLocation] });
+    [irrigationTask] = await irrigation_taskFactory({ promisedTask: task }, mockIrrigationTask);
+  }
+
+  return {
+    ...externalIrrigationPrescription,
+    partner_id: addonPartner.id,
+    task_id: irrigationTask?.task_id,
+  };
+};
 
 export default {
   weather_stationFactory,
@@ -2639,9 +2794,12 @@ export default {
   soil_taskFactory,
   fakeSoilTask,
   fakeSoilAmendmentTaskProduct,
+  fakeSoilSampleTask,
+  soil_sample_taskFactory,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,
+  cleaning_taskFactory,
   fakeScoutingTask,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,
@@ -2734,5 +2892,7 @@ export default {
   animal_type_use_relationshipFactory,
   addon_partnerFactory,
   farm_addonFactory,
+  buildExternalIrrigationPrescription,
+  buildIrrigationPrescription,
   baseProperties,
 };

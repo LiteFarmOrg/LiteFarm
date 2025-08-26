@@ -132,7 +132,7 @@ export const WithStepperProgressBar = ({
           historyAction(location);
         }
       };
-      setTransition({ unblock: blockAndTransition, retry: blockAndTransition });
+      setTransition({ unblock: blockAndTransition });
 
       return false; // block transition
     });

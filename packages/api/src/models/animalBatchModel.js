@@ -255,24 +255,33 @@ class AnimalBatchModel extends baseModel {
       .whereIn('id', batchIds);
   }
 
-  static async getNewestOtherCompletedTaskId(batchId, taskTypeId, excludeTaskId) {
+  /**
+   * Retrieves the id of the most recently completed task, of a specific task type, for an animal batch. Optionally exclude a specified task from the results
+   *
+   * @param {number} batchId - The id of the animal batch to query
+   * @param {number} taskTypeId - The task type to filter by
+   * @param {number|null} [excludeTaskId=null] - Optional. The id of a task to exclude from results
+   * @returns {Promise<number|null>} The task_id of the most recently completed task matching the criteria, or null if no matching tasks exist
+   */
+  static async getLatestCompletedTaskIdByTypeExcluding(batchId, taskTypeId, excludeTaskId = null) {
     const batch = await AnimalBatchModel.query()
-      .select('id')
+      .findById(batchId)
       .withGraphFetched('tasks')
       .modifyGraph('tasks', (builder) => {
         builder.select('task.task_id', 'task.complete_date', 'task.task_type_id');
         builder
           .where('deleted', false)
           .whereNotNull('complete_date')
-          .where('task.task_type_id', taskTypeId)
-          .whereNot('task.task_id', excludeTaskId);
+          .where('task.task_type_id', taskTypeId);
+
+        if (excludeTaskId) {
+          builder.whereNot('task.task_id', excludeTaskId);
+        }
+
         builder.orderBy('complete_date', 'desc');
         builder.limit(1);
-      })
-      .where('id', batchId)
-      .first();
+      });
 
-    // Return the task_id of the newest task or null if no tasks exist
     return batch?.tasks?.[0]?.task_id ?? null;
   }
 

@@ -198,15 +198,15 @@ async function updateTaskWithCompletedData(
         }
 
         for (const entityId of removedIds) {
-          const newestTaskId = await entityModel.getNewestOtherCompletedTaskId(
+          const otherTaskId = await entityModel.getLatestCompletedTaskIdByTypeExcluding(
             entityId,
             task_type_id,
             task_id,
           );
 
           let locationId;
-          if (newestTaskId) {
-            [locationId] = await TaskModel.getTaskLocationIds(newestTaskId);
+          if (otherTaskId) {
+            [locationId] = await TaskModel.getTaskLocationIds(otherTaskId);
           }
 
           await entityModel

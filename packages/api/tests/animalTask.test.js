@@ -1253,6 +1253,62 @@ describe('Animal task tests', () => {
             expect(updatedAnimalB.location_id).toBeNull();
             expect(updatedBatchB.location_id).toBeNull();
           });
+
+          test('should re-calculate animal locations if re-completing to a date before another completed task', async () => {
+            const {
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches(farm_id, 1, 1);
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task today
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateToday),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Complete a new movement task a week ago
+            // Animals and batches should not be moved as they were moved more recently
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Re-complete the original task for a month ago
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                complete_date: toLocal8601Extended(dateMonthAgo),
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedBatchA] = await Promise.all([
+              knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+              knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+            ]);
+
+            // animalA and batchA should reflect the location of the second task (locationB)
+            expect(updatedAnimalA.location_id).toBe(locationB.location_id);
+            expect(updatedBatchA.location_id).toBe(locationB.location_id);
+          });
         });
       });
     });

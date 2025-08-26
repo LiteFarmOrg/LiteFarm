@@ -14,49 +14,30 @@
  */
 
 // Central registry for all API tags in the application
-export const API_TAGS = {
-  // Weather tags
-  WEATHER: {
-    WEATHER: 'Weather',
-  },
+export const WEATHER_TAGS = {
+  WEATHER: 'Weather',
 } as const;
 
 /**
    * TODO: Organize the following tags into logical groups 
-   * and move them into the TAGS object. Example structure:
-   * ANIMALS: {
+   * Example structure:
+   * ANIMALS_TAGS: {
         ANIMALS: 'Animals',
         BATCHES: 'Batches',
         CUSTOM_BREADS: 'CustomBreeds',
         DEFAULT_BREADS: 'DefaultBreeds'
     }
    */
-const baseTags: string[] = [
-  'Animals',
-  'AnimalBatches',
-  'CustomAnimalBreeds',
-  'CustomAnimalTypes',
-  'DefaultAnimalBreeds',
-  'DefaultAnimalTypes',
-  'AnimalSexes',
-  'AnimalIdentifierTypes',
-  'AnimalIdentifierColors',
-  'AnimalMovementPurposes',
-  'AnimalOrigins',
-  'AnimalUses',
-  'AnimalRemovalReasons',
-  'SoilAmendmentMethods',
-  'SoilAmendmentPurposes',
-  'SoilAmendmentFertiliserTypes',
-  'SoilAmendmentProduct',
-  'Sensors',
-  'SensorReadings',
-  'FarmAddon',
-];
 
-// Helper to get all tag values for API initialization
-export const getAllTags = (): string[] => {
-  const tags = Object.values(API_TAGS).flatMap((tagGroup) => Object.values(tagGroup)) as string[];
+// helper to preserve literal tuple
+function tuple<T extends readonly string[]>(...args: T) {
+  return args;
+}
 
-  return [...baseTags, ...tags];
-};
+const TAG_GROUPS = { WEATHER_TAGS } as const;
+
+export const API_TAGS = tuple(
+  ...Object.values(TAG_GROUPS).flatMap((group) => Object.values(group)),
+);
+
+export type ApiTag = (typeof API_TAGS)[number];

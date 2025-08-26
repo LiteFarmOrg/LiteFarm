@@ -1186,7 +1186,6 @@ describe('Animal task tests', () => {
               task_id,
             );
 
-            // Query updated animals and batches
             const [updatedAnimalA, updatedAnimalB, updatedBatchA, updatedBatchB] =
               await Promise.all([
                 knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
@@ -1238,7 +1237,6 @@ describe('Animal task tests', () => {
               task_id,
             );
 
-            // Query updated animals and batches
             const [updatedAnimalA, updatedAnimalB, updatedBatchA, updatedBatchB] =
               await Promise.all([
                 knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
@@ -1251,7 +1249,7 @@ describe('Animal task tests', () => {
             expect(updatedAnimalA.location_id).toBe(locationA.location_id);
             expect(updatedBatchA.location_id).toBe(locationA.location_id);
 
-            // animalB and batchB should have NULL location_id
+            // animalB and batchB should have null location_id
             expect(updatedAnimalB.location_id).toBeNull();
             expect(updatedBatchB.location_id).toBeNull();
           });

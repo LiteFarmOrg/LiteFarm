@@ -186,12 +186,6 @@ async function updateTaskWithCompletedData(
         });
       };
 
-      await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
-      await updateEntityLocations(
-        data.animal_batches,
-        AnimalBatchModel.getBatchesWithNewerCompletedTasks,
-      );
-
       const updateRemovedEntityLocations = async (removedIds, entityModel) => {
         if (!removedIds?.length) {
           return;
@@ -217,6 +211,12 @@ async function updateTaskWithCompletedData(
             .patch({ location_id: locationId ?? null });
         }
       };
+
+      await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
+      await updateEntityLocations(
+        data.animal_batches,
+        AnimalBatchModel.getBatchesWithNewerCompletedTasks,
+      );
 
       if (isRecompleting) {
         const removedAnimalIds = animals

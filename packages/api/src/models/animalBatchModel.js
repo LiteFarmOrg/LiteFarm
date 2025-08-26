@@ -241,7 +241,7 @@ class AnimalBatchModel extends baseModel {
     );
   }
 
-  static async getBatchesWithNewerCompletedTasks(batchIds, taskTypeId, completedDate) {
+  static async getBatchesWithNewerCompletedTasks(batchIds, taskTypeId, completedDate, taskId) {
     return AnimalBatchModel.query()
       .select('id')
       .withGraphFetched('tasks')
@@ -250,7 +250,9 @@ class AnimalBatchModel extends baseModel {
         builder
           .where('deleted', false)
           .where('complete_date', '>', completedDate)
-          .where('task_type_id', taskTypeId);
+          .where('task_type_id', taskTypeId)
+          .whereNot('task.task_id', taskId)
+          .orderBy('complete_date', 'desc');
       })
       .whereIn('id', batchIds);
   }

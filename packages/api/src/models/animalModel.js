@@ -236,7 +236,7 @@ class Animal extends baseModel {
     );
   }
 
-  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate) {
+  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate, taskId) {
     return Animal.query()
       .select('id')
       .withGraphFetched('tasks')
@@ -245,7 +245,9 @@ class Animal extends baseModel {
         builder
           .where('deleted', false)
           .where('complete_date', '>', completedDate)
-          .where('task_type_id', taskTypeId);
+          .where('task_type_id', taskTypeId)
+          .whereNot('task.task_id', taskId)
+          .orderBy('complete_date', 'desc');
       })
       .whereIn('id', animalIds);
   }

@@ -79,7 +79,7 @@ function OnboardingFlow({
         <Route
           path="/role_selection"
           exact
-          element={
+          children={
             <RequireCondition condition={step_one}>
               <RoleSelection />
             </RequireCondition>
@@ -88,7 +88,7 @@ function OnboardingFlow({
         <Route
           path="/consent"
           exact
-          element={
+          children={
             <RequireCondition condition={step_two && !step_five}>
               <ConsentForm />
             </RequireCondition>
@@ -97,7 +97,7 @@ function OnboardingFlow({
         <Route
           path="/consent"
           exact
-          element={
+          children={
             <RequireCondition condition={step_five && !has_consent}>
               <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
             </RequireCondition>
@@ -107,7 +107,7 @@ function OnboardingFlow({
         <Route
           path="/certification/interested_in_organic"
           exact
-          element={
+          children={
             <RequireCondition condition={step_three}>
               <InterestedOrganic />
             </RequireCondition>
@@ -116,7 +116,7 @@ function OnboardingFlow({
         <Route
           path="/certification/selection"
           exact
-          element={
+          children={
             <RequireCondition condition={step_four || interested}>
               <CertificationSelection />
             </RequireCondition>
@@ -125,7 +125,7 @@ function OnboardingFlow({
         <Route
           path="/certification/certifier/selection"
           exact
-          element={
+          children={
             <RequireCondition condition={step_four || interested}>
               <CertifierSelectionMenu />
             </RequireCondition>
@@ -134,7 +134,7 @@ function OnboardingFlow({
         <Route
           path="/certification/certifier/request"
           exact
-          element={
+          children={
             <RequireCondition condition={step_four || interested}>
               <RequestCertifier />
             </RequireCondition>
@@ -143,7 +143,7 @@ function OnboardingFlow({
         <Route
           path="/certification/summary"
           exact
-          element={
+          children={
             <RequireCondition condition={step_four || interested}>
               <SetCertificationSummary />
             </RequireCondition>
@@ -152,7 +152,7 @@ function OnboardingFlow({
         <Route
           path="/outro"
           exact
-          element={
+          children={
             <RequireCondition condition={step_four}>
               <Outro />
             </RequireCondition>

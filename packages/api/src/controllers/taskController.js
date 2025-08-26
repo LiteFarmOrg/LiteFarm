@@ -173,17 +173,25 @@ async function updateTaskWithCompletedData(
           entities.map(({ id }) => id),
           task_type_id,
           data.complete_date,
+          task_id,
         );
 
-        entities.forEach((entity) => {
+        for (const entity of entities) {
           const newerCompletedTasks =
             entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
 
           // If there's no newer completed task, update the location
           if (!newerCompletedTasks.length) {
             entity.location_id = locationId;
+          } else if (isRecompleting) {
+            // If completed tasks exist after the current task's (new) complete date
+            const [latestTaskLocationId] = await TaskModel.getTaskLocationIds(
+              newerCompletedTasks[0].task_id,
+            );
+            // Update the entity's location to the latest completed task's location
+            entity.location_id = latestTaskLocationId;
           }
-        });
+        }
       };
 
       const updateRemovedEntityLocations = async (removedIds, entityModel) => {

@@ -192,26 +192,29 @@ async function updateTaskWithCompletedData(
         AnimalBatchModel.getBatchesWithNewerCompletedTasks,
       );
 
-      const updateRemovedEntityLocations = async (
-        removedIds,
-        task_id,
-        getNewestOtherCompletedTask,
-        updateLocation,
-      ) => {
+      const updateRemovedEntityLocations = async (removedIds, entityModel) => {
         if (!removedIds?.length) {
           return;
         }
 
         for (const entityId of removedIds) {
-          const newestTaskId = await getNewestOtherCompletedTask(entityId, task_type_id, task_id);
+          const newestTaskId = await entityModel.getNewestOtherCompletedTaskId(
+            entityId,
+            task_type_id,
+            task_id,
+          );
 
+          let locationId;
           if (newestTaskId) {
-            const locationId = await TaskModel.getTaskLocationId(newestTaskId);
-            await updateLocation(entityId, locationId);
-          } else {
-            // If no other completed tasks, set location to null
-            await updateLocation(entityId, null);
+            [locationId] = await TaskModel.getTaskLocationIds(newestTaskId);
           }
+
+          await entityModel
+            .query()
+            .context({ user_id })
+            .findById(entityId)
+            // If no other completed task locations, set location to null
+            .patch({ location_id: locationId ?? null });
         }
       };
 
@@ -224,29 +227,8 @@ async function updateTaskWithCompletedData(
           .filter((batch) => !data.animal_batches?.some((b) => b.id === batch.id))
           .map((b) => b.id);
 
-        await updateRemovedEntityLocations(
-          removedAnimalIds,
-          task_id,
-          AnimalModel.getNewestOtherCompletedTaskId,
-          async (id, locationId) => {
-            await AnimalModel.query()
-              .context({ user_id })
-              .findById(id)
-              .patch({ location_id: locationId });
-          },
-        );
-
-        await updateRemovedEntityLocations(
-          removedBatchIds,
-          task_id,
-          AnimalBatchModel.getNewestOtherCompletedTaskId,
-          async (id, locationId) => {
-            await AnimalBatchModel.query()
-              .context({ user_id })
-              .findById(id)
-              .patch({ location_id: locationId });
-          },
-        );
+        await updateRemovedEntityLocations(removedAnimalIds, AnimalModel);
+        await updateRemovedEntityLocations(removedBatchIds, AnimalBatchModel);
       }
 
       if (!data.animal_movement_task) {

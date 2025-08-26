@@ -547,18 +547,17 @@ class TaskModel extends BaseModel {
   }
 
   /**
-   * Gets the primary location ID for a task
+   * Gets all location_ids for a task, or an empty array if none found
    *
-   * @param {number|string} taskId - The ID of the task
-   * @returns {Promise<string|null>} - Returns the first location ID associated with the task, or null if no location exists
+   * @param {number|string} taskId - The id of the task
+   * @returns {Promise<string[]>} - Returns an array of location ids associated with the task
    */
-  static async getTaskLocationId(taskId) {
+  static async getTaskLocationIds(taskId) {
     const { locations } = await TaskModel.query()
       .findById(taskId)
-      .withGraphFetched('locations(selectLocationId, filterDeleted)')
-      .first();
+      .withGraphFetched('locations(selectLocationId, filterDeleted)');
 
-    return locations && locations.length > 0 ? locations[0].location_id : null;
+    return locations?.map((location) => location.location_id) || [];
   }
 
   /**

@@ -11,7 +11,7 @@ import { completeManagementPlan } from './saga';
 export default function CompleteManagementPlan() {
   const location = useLocation();
   const history = useHistory();
-  const { management_plan_id, crop_variety_id } = useParams();
+  const { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const [management_plan] = useSelector(
     managementPlanByManagementPlanIDSelector(management_plan_id),

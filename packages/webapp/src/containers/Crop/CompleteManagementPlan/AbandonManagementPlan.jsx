@@ -15,7 +15,7 @@ import { useAbandonReasonOptions } from './useAbandonReasonOptions';
 export default function AbandonManagementPlan() {
   const location = useLocation();
   const history = useHistory();
-  const { management_plan_id, crop_variety_id } = useParams();
+  const { management_plan_id, variety_id: crop_variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();

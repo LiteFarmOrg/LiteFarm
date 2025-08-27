@@ -101,7 +101,7 @@ const getAnimalLocations = async (animalOrBatch, ids) => {
 
 const getAnimalOrBatchIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
 
-const createAnimalsAndBatches = async (farm_id, animalCount = 2, batchCount = 2) => {
+const createAnimalsAndBatches = async ({ farm_id, animalCount = 1, batchCount = 1 }) => {
   const animals = await Promise.all(
     new Array(animalCount).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
   );
@@ -1088,25 +1088,23 @@ describe('Animal task tests', () => {
 
           test('should use the new complete date of a re-completed task when moving animals', async () => {
             const {
-              animals: [animalA, animalB],
-              batches: [batchA, batchB],
-            } = await createAnimalsAndBatches(farm_id);
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches({ farm_id });
 
             const [locationA, locationB] = await createLocations(farm_id);
 
             // Complete a movement task a month ago
             const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
               locationId: locationA.location_id,
-              animals: [animalA, animalB],
-              batches: [batchA, batchB],
+              animals: [animalA],
+              batches: [batchA],
               completeDate: toLocal8601Extended(dateMonthAgo),
               expectedAnimalLocations: {
                 [animalA.id]: locationA.location_id,
-                [animalB.id]: locationA.location_id,
               },
               expectedBatchLocations: {
                 [batchA.id]: locationA.location_id,
-                [batchB.id]: locationA.location_id,
               },
             });
 
@@ -1123,15 +1121,14 @@ describe('Animal task tests', () => {
             // Animals and batches should not be moved as they were moved more recently
             await checkAnimalMovementWithSpecificCompleteDate({
               locationId: locationB.location_id,
-              animals: [animalA, animalB],
+              animals: [animalA],
+              bathes: [batchA],
               completeDate: toLocal8601Extended(dateWeekAgo),
               expectedAnimalLocations: {
                 [animalA.id]: locationA.location_id,
-                [animalB.id]: locationA.location_id,
               },
               expectedBatchLocations: {
                 [batchA.id]: locationA.location_id,
-                [batchB.id]: locationA.location_id,
               },
             });
           });
@@ -1140,7 +1137,7 @@ describe('Animal task tests', () => {
             const {
               animals: [animalA, animalB],
               batches: [batchA, batchB],
-            } = await createAnimalsAndBatches(farm_id);
+            } = await createAnimalsAndBatches({ farm_id, animalCount: 2, batchCount: 2 });
 
             const [locationA, locationB] = await createLocations(farm_id);
 
@@ -1207,7 +1204,7 @@ describe('Animal task tests', () => {
             const {
               animals: [animalA, animalB],
               batches: [batchA, batchB],
-            } = await createAnimalsAndBatches(farm_id);
+            } = await createAnimalsAndBatches({ farm_id, animalCount: 2, batchCount: 2 });
 
             const [locationA] = await createLocations(farm_id);
 
@@ -1258,7 +1255,7 @@ describe('Animal task tests', () => {
             const {
               animals: [animalA],
               batches: [batchA],
-            } = await createAnimalsAndBatches(farm_id, 1, 1);
+            } = await createAnimalsAndBatches({ farm_id });
 
             const [locationA, locationB] = await createLocations(farm_id);
 

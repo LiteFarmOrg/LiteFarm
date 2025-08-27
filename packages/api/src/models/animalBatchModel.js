@@ -258,7 +258,7 @@ class AnimalBatchModel extends baseModel {
   }
 
   /**
-   * Retrieves the id of the most recently completed task, of a specific task type, for an animal batch.
+   * Retrieves the id of the most recently completed task, excluding the specified task_id, of a specific task type, for an animal batch.
    *
    * @param {number} batchId - The id of the animal batch to query
    * @param {number} taskTypeId - The task type to filter by

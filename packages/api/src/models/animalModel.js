@@ -253,7 +253,7 @@ class Animal extends baseModel {
   }
 
   /**
-   * Retrieves the id of the most recently completed task, of a specific task type, for an animal.
+   * Retrieves the id of the most recently completed task, excluding the specified task_id, of a specific task type, for an animal.
    *
    * @param {number} animalId - The id of the animal to query
    * @param {number} taskTypeId - The task type to filter by

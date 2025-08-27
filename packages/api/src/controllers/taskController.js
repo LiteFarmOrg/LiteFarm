@@ -180,16 +180,18 @@ async function updateTaskWithCompletedData(
           const newerCompletedTasks =
             entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
 
-          // If there's no newer completed task, update the location
           if (!newerCompletedTasks.length) {
+            // Case 1: No newer tasks - use current task's location
             entity.location_id = locationId;
           } else if (isRecompleting) {
-            // If completed tasks exist after the current task's (new) complete date
+            // Case 2: Recompleting and newer tasks (now) exist - use latest task's location
             const [latestTaskLocationId] = await TaskModel.getTaskLocationIds(
               newerCompletedTasks[0].task_id,
             );
-            // Update the entity's location to the latest completed task's location
             entity.location_id = latestTaskLocationId;
+          } else {
+            // Case 3: Not recompleting and newer tasks exist - don't change location
+            continue;
           }
         }
       };

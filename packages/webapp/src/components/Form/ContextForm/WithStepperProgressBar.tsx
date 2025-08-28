@@ -122,7 +122,7 @@ export const WithStepperProgressBar = ({
     // TODO: LF-4242 Replace this with the original one below when upgrading to history@5
     // https://github.com/remix-run/history/blob/v4/docs/Blocking.md#blocking-transitions
     const unblock = history.block((location, action) => {
-      const blockAndTransition = () => {
+      const unblockAndTransition = () => {
         unblock();
         if (action === 'POP') {
           // @ts-expect-error: temporary shim, will remove when upgrading to history@5
@@ -132,7 +132,7 @@ export const WithStepperProgressBar = ({
           historyAction(location);
         }
       };
-      setTransition({ unblock: blockAndTransition });
+      setTransition({ unblock: unblockAndTransition });
 
       return false; // block transition
     });

@@ -78,7 +78,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   externalIrrigationPrescription,
-  files,
+  files = [],
   harvestUseTypes,
   maxZoomRef,
   getMaxZoom,

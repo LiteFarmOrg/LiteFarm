@@ -21,7 +21,6 @@ import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
 import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
-import RequireCondition from './RequireCondition';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -54,21 +53,18 @@ const RequestCertifier = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
-function OnboardingFlow({
-  step_one,
-  step_two,
-  step_three,
-  step_four,
-  step_five,
-  has_consent,
-  farm_id,
-}) {
+function OnboardingFlow(props) {
+  const { step_one, step_two, step_three, step_four, step_five, has_consent } = props;
+
   const { interested } = useSelector(
     hookFormPersistSelector,
     (pre, next) => pre.interested === next.interested,
   );
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
+
+  const requireConditionProps = { ...props, hasUserFarms };
+
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
@@ -80,7 +76,7 @@ function OnboardingFlow({
           path="/role_selection"
           exact
           children={
-            <RequireCondition condition={step_one}>
+            <RequireCondition condition={step_one} {...requireConditionProps}>
               <RoleSelection />
             </RequireCondition>
           }
@@ -89,7 +85,7 @@ function OnboardingFlow({
           path="/consent"
           exact
           children={
-            <RequireCondition condition={step_two && !step_five}>
+            <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
               <ConsentForm />
             </RequireCondition>
           }
@@ -98,7 +94,7 @@ function OnboardingFlow({
           path="/consent"
           exact
           children={
-            <RequireCondition condition={step_five && !has_consent}>
+            <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
               <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
             </RequireCondition>
           }
@@ -108,7 +104,7 @@ function OnboardingFlow({
           path="/certification/interested_in_organic"
           exact
           children={
-            <RequireCondition condition={step_three}>
+            <RequireCondition condition={step_three} {...requireConditionProps}>
               <InterestedOrganic />
             </RequireCondition>
           }
@@ -117,7 +113,7 @@ function OnboardingFlow({
           path="/certification/selection"
           exact
           children={
-            <RequireCondition condition={step_four || interested}>
+            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
               <CertificationSelection />
             </RequireCondition>
           }
@@ -126,7 +122,7 @@ function OnboardingFlow({
           path="/certification/certifier/selection"
           exact
           children={
-            <RequireCondition condition={step_four || interested}>
+            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
               <CertifierSelectionMenu />
             </RequireCondition>
           }
@@ -135,7 +131,7 @@ function OnboardingFlow({
           path="/certification/certifier/request"
           exact
           children={
-            <RequireCondition condition={step_four || interested}>
+            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
               <RequestCertifier />
             </RequireCondition>
           }
@@ -144,7 +140,7 @@ function OnboardingFlow({
           path="/certification/summary"
           exact
           children={
-            <RequireCondition condition={step_four || interested}>
+            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
               <SetCertificationSummary />
             </RequireCondition>
           }
@@ -153,52 +149,66 @@ function OnboardingFlow({
           path="/outro"
           exact
           children={
-            <RequireCondition condition={step_four}>
+            <RequireCondition condition={step_four} {...requireConditionProps}>
               <Outro />
             </RequireCondition>
           }
-        />
-
-        <Route
-          render={() => {
-            if (!step_one) {
-              return <Redirect to="/add_farm" />;
-            }
-
-            if (step_four && !has_consent) {
-              return <Redirect to="/consent" />;
-            }
-
-            if (!farm_id && hasUserFarms) {
-              return <Redirect to="/farm_selection" />;
-            }
-
-            if ((!farm_id || !step_one) && !hasUserFarms) {
-              return <Redirect to="/welcome" />;
-            }
-
-            if (step_one && !step_two) {
-              return <Redirect to="/role_selection" />;
-            }
-
-            if (step_two && !step_three) {
-              return <Redirect to="/consent" />;
-            }
-
-            if (step_one && step_three && !step_four) {
-              return <Redirect to="/certification/interested_in_organic" />;
-            }
-
-            if (step_one && step_four && !step_five) {
-              return <Redirect to="/outro" />;
-            }
-
-            return null;
-          }}
         />
       </Switch>
     </Suspense>
   );
 }
+
+// Reference: https://gist.github.com/mjackson/d54b40a094277b7afdd6b81f51a0393f#get-started-upgrading-today
+const RequireCondition = ({
+  condition,
+  children,
+  step_one,
+  step_two,
+  step_three,
+  step_four,
+  step_five,
+  has_consent,
+  farm_id,
+  hasUserFarms,
+}) => {
+  if (condition) {
+    return children;
+  }
+
+  if (!step_one) {
+    return <Redirect to="/add_farm" />;
+  }
+
+  if (step_four && !has_consent) {
+    return <Redirect to="/consent" />;
+  }
+
+  if (!farm_id && hasUserFarms) {
+    return <Redirect to="/farm_selection" />;
+  }
+
+  if ((!farm_id || !step_one) && !hasUserFarms) {
+    return <Redirect to="/welcome" />;
+  }
+
+  if (step_one && !step_two) {
+    return <Redirect to="/role_selection" />;
+  }
+
+  if (step_two && !step_three) {
+    return <Redirect to="/consent" />;
+  }
+
+  if (step_one && step_three && !step_four) {
+    return <Redirect to="/certification/interested_in_organic" />;
+  }
+
+  if (step_one && step_four && !step_five) {
+    return <Redirect to="/outro" />;
+  }
+
+  return null;
+};
 
 export default OnboardingFlow;

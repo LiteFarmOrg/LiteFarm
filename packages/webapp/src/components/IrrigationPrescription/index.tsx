@@ -78,7 +78,7 @@ const PureIrrigationPrescription = ({
         vriZones={sortedVriData}
         system={system}
       />
-      <IrrigationPrescriptionTable data={tableInfo} />
+      <IrrigationPrescriptionTable data={tableInfo} system={system} />
     </div>
   );
 };

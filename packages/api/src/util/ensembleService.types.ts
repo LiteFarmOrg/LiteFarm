@@ -98,6 +98,8 @@ export type ExternalIrrigationPrescription = {
 };
 
 export interface IrrigationPrescription extends ExternalIrrigationPrescription {
+  organisation_url_name?: string;
+  system_url_name?: string;
   partner_id: AddonPartner['id'];
   task_id?: Task['task_id'];
 }
@@ -141,8 +143,8 @@ export type Metadata = {
 };
 
 interface UriPrescriptionData {
-  soil_moisture_deficit: number;
-  soil_moisture_deficit_unit: string;
+  available_soil_moisture: number;
+  available_soil_moisture_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }

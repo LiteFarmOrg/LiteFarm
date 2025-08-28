@@ -59,6 +59,17 @@ export const abandonTaskBody = {
   abandon_date: new Date(),
 };
 
+export const commonTaskTypes = [
+  'scouting_task',
+  'soil_task',
+  'field_work_task',
+  'pest_control_task',
+  'cleaning_task',
+  'irrigation_task',
+  'soil_amendment_task',
+  'soil_sample_task',
+];
+
 export async function postTaskRequest({ user_id, farm_id }, type, data) {
   return chai
     .request(server)

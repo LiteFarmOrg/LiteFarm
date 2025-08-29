@@ -66,96 +66,94 @@ function OnboardingFlow(props) {
   const requireConditionProps = { ...props, hasUserFarms };
 
   return (
-    <Suspense fallback={<Spinner />}>
-      <Switch>
-        <Route path="/farm_selection" exact children={<ChooseFarm />} />
-        <Route path="/welcome" exact children={<WelcomeScreen />} />
-        <Route path="/add_farm" exact children={<AddFarm />} />
+    <Switch>
+      <Route path="/farm_selection" exact children={<ChooseFarm />} />
+      <Route path="/welcome" exact children={<WelcomeScreen />} />
+      <Route path="/add_farm" exact children={<AddFarm />} />
 
-        <Route
-          path="/role_selection"
-          exact
-          children={
-            <RequireCondition condition={step_one} {...requireConditionProps}>
-              <RoleSelection />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/consent"
-          exact
-          children={
-            <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
-              <ConsentForm />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/consent"
-          exact
-          children={
-            <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
-              <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
-            </RequireCondition>
-          }
-        />
+      <Route
+        path="/role_selection"
+        exact
+        children={
+          <RequireCondition condition={step_one} {...requireConditionProps}>
+            <RoleSelection />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/consent"
+        exact
+        children={
+          <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
+            <ConsentForm />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/consent"
+        exact
+        children={
+          <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
+            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
+          </RequireCondition>
+        }
+      />
 
-        <Route
-          path="/certification/interested_in_organic"
-          exact
-          children={
-            <RequireCondition condition={step_three} {...requireConditionProps}>
-              <InterestedOrganic />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/certification/selection"
-          exact
-          children={
-            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-              <CertificationSelection />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/certification/certifier/selection"
-          exact
-          children={
-            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-              <CertifierSelectionMenu />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/certification/certifier/request"
-          exact
-          children={
-            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-              <RequestCertifier />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/certification/summary"
-          exact
-          children={
-            <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-              <SetCertificationSummary />
-            </RequireCondition>
-          }
-        />
-        <Route
-          path="/outro"
-          exact
-          children={
-            <RequireCondition condition={step_four} {...requireConditionProps}>
-              <Outro />
-            </RequireCondition>
-          }
-        />
-      </Switch>
-    </Suspense>
+      <Route
+        path="/certification/interested_in_organic"
+        exact
+        children={
+          <RequireCondition condition={step_three} {...requireConditionProps}>
+            <InterestedOrganic />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/certification/selection"
+        exact
+        children={
+          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
+            <CertificationSelection />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/certification/certifier/selection"
+        exact
+        children={
+          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
+            <CertifierSelectionMenu />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/certification/certifier/request"
+        exact
+        children={
+          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
+            <RequestCertifier />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/certification/summary"
+        exact
+        children={
+          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
+            <SetCertificationSummary />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/outro"
+        exact
+        children={
+          <RequireCondition condition={step_four} {...requireConditionProps}>
+            <Outro />
+          </RequireCondition>
+        }
+      />
+    </Switch>
   );
 }
 

@@ -1159,7 +1159,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/" exact children={<Home />} />
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
-                    <Route path="/farm" exact children={<Farm />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop_catalogue" exact children={<CropCatalogue />} />
                     <Route

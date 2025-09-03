@@ -109,6 +109,7 @@ async function updateTaskWithCompletedData(
   wagePatchData,
   nonModifiable,
   typeOfTask,
+  isRecompleting = false,
 ) {
   switch (typeOfTask) {
     case 'soil_amendment_task': {
@@ -172,17 +173,53 @@ async function updateTaskWithCompletedData(
           entities.map(({ id }) => id),
           task_type_id,
           data.complete_date,
+          task_id,
         );
 
-        entities.forEach((entity) => {
+        for (const entity of entities) {
           const newerCompletedTasks =
             entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
 
-          // If there's no newer completed task, update the location
           if (!newerCompletedTasks.length) {
+            // Case 1: No newer tasks - use current task's location
             entity.location_id = locationId;
+          } else if (isRecompleting) {
+            // Case 2: Recompleting and newer tasks (now) exist - use latest task's location
+            const [latestTaskLocationId] = await TaskModel.getTaskLocationIds(
+              newerCompletedTasks[0].task_id,
+            );
+            entity.location_id = latestTaskLocationId;
+          } else {
+            // Case 3: Not recompleting and newer tasks exist - don't change location
+            continue;
           }
-        });
+        }
+      };
+
+      const updateRemovedEntityLocations = async (removedIds, entityModel) => {
+        if (!removedIds?.length) {
+          return;
+        }
+
+        for (const entityId of removedIds) {
+          const otherTaskId = await entityModel.getLatestCompletedTaskIdByTypeExcluding(
+            entityId,
+            task_type_id,
+            task_id,
+          );
+
+          let locationId;
+          if (otherTaskId) {
+            [locationId] = await TaskModel.getTaskLocationIds(otherTaskId);
+          }
+
+          await entityModel
+            .query()
+            .context({ user_id })
+            .findById(entityId)
+            // If no other completed task locations, set location to null
+            .patch({ location_id: locationId ?? null });
+        }
       };
 
       await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
@@ -190,6 +227,19 @@ async function updateTaskWithCompletedData(
         data.animal_batches,
         AnimalBatchModel.getBatchesWithNewerCompletedTasks,
       );
+
+      if (isRecompleting) {
+        const removedAnimalIds = animals
+          .filter((animal) => !data.animals?.some((a) => a.id === animal.id))
+          .map((a) => a.id);
+
+        const removedBatchIds = animal_batches
+          .filter((batch) => !data.animal_batches?.some((b) => b.id === batch.id))
+          .map((b) => b.id);
+
+        await updateRemovedEntityLocations(removedAnimalIds, AnimalModel);
+        await updateRemovedEntityLocations(removedBatchIds, AnimalBatchModel);
+      }
 
       if (!data.animal_movement_task) {
         data.animal_movement_task = {};
@@ -840,6 +890,7 @@ const taskController = {
             finalWage,
             nonModifiable,
             typeOfTask,
+            isRecompleting,
           );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);

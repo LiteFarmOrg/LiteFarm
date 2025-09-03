@@ -333,10 +333,9 @@ export const generateHarvestUseTypes = async (farmId, count = 3) => {
     ),
   );
 
-  return promisedHarvestUseTypes.reduce(
-    (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
-    [],
-  );
+  return promisedHarvestUseTypes.map(([useType]) => ({
+    harvest_use_type_id: useType.harvest_use_type_id,
+  }));
 };
 
 export const generateFakeHarvestTaskCompletionData = (taskId, harvestUseTypes) => {

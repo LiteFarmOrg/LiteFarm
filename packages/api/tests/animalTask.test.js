@@ -1302,9 +1302,70 @@ describe('Animal task tests', () => {
               knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
             ]);
 
-            // animalA and batchA should reflect the location of the second task (locationB)
+            // animals should reflect the location of the second task (locationB)
             expect(updatedAnimalA.location_id).toBe(locationB.location_id);
             expect(updatedBatchA.location_id).toBe(locationB.location_id);
+          });
+
+          test('should null animal locations if most recent task location is retired', async () => {
+            const {
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches({ farm_id });
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task a week ago
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Complete a new movement task today
+            // Animals and batches should be moved to locationB
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateToday),
+              expectedAnimalLocations: {
+                [animalA.id]: locationB.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationB.location_id,
+              },
+            });
+
+            // Delete locationA
+            await knex('location')
+              .update({ deleted: true })
+              .where({ location_id: locationA.location_id });
+
+            // Re-complete the 2nd task for a month ago
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                complete_date: toLocal8601Extended(dateMonthAgo),
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedBatchA] = await Promise.all([
+              knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+              knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+            ]);
+
+            // animals should have null location_id since the most recent task refers to a deleted location
+            expect(updatedAnimalA.location_id).toBeNull();
+            expect(updatedBatchA.location_id).toBeNull();
           });
         });
       });

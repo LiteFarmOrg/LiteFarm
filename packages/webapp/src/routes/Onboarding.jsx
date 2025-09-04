@@ -153,6 +153,8 @@ function OnboardingFlow(props) {
           </RequireCondition>
         }
       />
+      {/* Fallback route - handles redirects when no other routes match */}
+      <Route render={() => <RequireCondition {...requireConditionProps} />} />
     </Switch>
   );
 }
@@ -174,36 +176,36 @@ const RequireCondition = ({
     return children;
   }
 
-  if (!step_one) {
-    return <Redirect to="/add_farm" />;
-  }
-
-  if (step_four && !has_consent) {
-    return <Redirect to="/consent" />;
-  }
-
-  if (!farm_id && hasUserFarms) {
-    return <Redirect to="/farm_selection" />;
-  }
-
-  if ((!farm_id || !step_one) && !hasUserFarms) {
-    return <Redirect to="/welcome" />;
-  }
-
-  if (step_one && !step_two) {
-    return <Redirect to="/role_selection" />;
-  }
-
-  if (step_two && !step_three) {
-    return <Redirect to="/consent" />;
+  if (step_one && step_four && !step_five) {
+    return <Redirect to="/outro" />;
   }
 
   if (step_one && step_three && !step_four) {
     return <Redirect to="/certification/interested_in_organic" />;
   }
 
-  if (step_one && step_four && !step_five) {
-    return <Redirect to="/outro" />;
+  if (step_two && !step_three) {
+    return <Redirect to="/consent" />;
+  }
+
+  if (step_one && !step_two) {
+    return <Redirect to="/role_selection" />;
+  }
+
+  if ((!farm_id || !step_one) && !hasUserFarms) {
+    return <Redirect to="/welcome" />;
+  }
+
+  if (!farm_id && hasUserFarms) {
+    return <Redirect to="/farm_selection" />;
+  }
+
+  if (step_four && !has_consent) {
+    return <Redirect to="/consent" />;
+  }
+
+  if (!step_one) {
+    return <Redirect to="/add_farm" />;
   }
 
   return null;

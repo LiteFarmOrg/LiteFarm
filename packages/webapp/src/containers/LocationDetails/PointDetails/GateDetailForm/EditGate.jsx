@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureGate from '../../../../components/LocationDetailLayout/PointDetails/Gate';
 import { deleteGateLocation, editGateLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -13,7 +14,10 @@ import {
   plannedManagementPlansByLocationIdSelector,
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
-function EditGateDetailForm({ history, match }) {
+function EditGateDetailForm() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -24,14 +28,12 @@ function EditGateDetailForm({ history, match }) {
   const gate = useSelector(gateSelector(match.params.location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);

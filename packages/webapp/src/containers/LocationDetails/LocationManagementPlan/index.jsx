@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
@@ -7,13 +8,15 @@ import { useTranslation } from 'react-i18next';
 import useLocationCrops from './useLocationCrops';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 
-function LocationManagementPlan({ history, match }) {
+function LocationManagementPlan() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
   const location = useSelector(cropLocationByIdSelector(location_id));
   const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
-  const routerTabs = useLocationRouterTabs(location, match);
+  const routerTabs = useLocationRouterTabs(location);
   const { t } = useTranslation();
 
   const onFilterChange = (e) => {

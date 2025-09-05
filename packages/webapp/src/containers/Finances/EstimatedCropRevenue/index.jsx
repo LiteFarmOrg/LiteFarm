@@ -1,6 +1,6 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanTileDate } from '../../../util/moment';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -9,8 +9,8 @@ import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapConstants';
 
-const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...props }) => {
-  const dispatch = useDispatch();
+const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
+  const history = useHistory();
   const { t } = useTranslation();
 
   const cropVariety = useSelector(cropVarietySelector(cropVarietyId));

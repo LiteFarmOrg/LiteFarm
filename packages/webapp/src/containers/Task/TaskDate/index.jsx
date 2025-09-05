@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import PureTaskDate from '../../../components/Task/TaskDate';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useIsTaskType } from '../useIsTaskType';
@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getProgress } from '../util';
 
-function TaskDate({ history, match, location }) {
+function TaskDate() {
+  const location = useLocation();
+  const history = useHistory();
   const onGoBack = () => {
     history.back();
   };
@@ -22,8 +24,8 @@ function TaskDate({ history, match, location }) {
     return isTransplantTask
       ? '/add_task/task_crops'
       : isMovementTask
-        ? '/add_task/task_animal_selection'
-        : '/add_task/task_locations';
+      ? '/add_task/task_animal_selection'
+      : '/add_task/task_locations';
   };
 
   const onContinue = (date) => () => {

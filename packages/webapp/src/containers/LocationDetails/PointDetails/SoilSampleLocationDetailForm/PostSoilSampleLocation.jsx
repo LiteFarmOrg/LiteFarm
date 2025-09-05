@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import PureSoilSampleLocation from '../../../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 import { postSoilSampleLocationLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +21,9 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostSoilSampleLocationDetailForm({ history, match }) {
+function PostSoilSampleLocationDetailForm() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);

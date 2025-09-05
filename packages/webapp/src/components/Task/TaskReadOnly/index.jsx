@@ -223,7 +223,7 @@ export default function PureTaskReadOnly({
         }
       />
       {isCompleted && canCompleteTask && (
-        <RevisionPrompt onClick={onComplete} entityName={t('TASK.THIS_TASK')} />
+        <RevisionPrompt onClick={onComplete} text={t('REVISION_PROMPT.UPDATE_THIS_TASK')} />
       )}
       <div className={styles.editableContainer}>
         <Input

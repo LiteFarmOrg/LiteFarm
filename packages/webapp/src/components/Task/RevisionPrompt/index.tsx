@@ -18,18 +18,18 @@ import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 
 interface RevisionPromptProps {
-  entityName: string;
+  text: string;
   onClick: () => void;
 }
 
-const RevisionPrompt = ({ entityName, onClick }: RevisionPromptProps) => {
+const RevisionPrompt = ({ text, onClick }: RevisionPromptProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
     <div className={styles.revisionPrompt}>
       <div>
         <h3>{t('REVISION_PROMPT.NOTICED_SOMETHING_OFF')}</h3>
-        <p>{t('REVISION_PROMPT.REVISIT_AND_UPDATE_THIS_ENTITY', { entity: entityName })}</p>
+        <p>{text}</p>
       </div>
       <Button className={styles.button} type="button" sm color="secondary-2" onClick={onClick}>
         {t('common:FIX_IT_NOW')}

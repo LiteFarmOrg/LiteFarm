@@ -32,7 +32,7 @@ const RevisionPrompt = ({ text, onClick }: RevisionPromptProps) => {
         <p>{text}</p>
       </div>
       <Button className={styles.button} type="button" sm color="secondary-2" onClick={onClick}>
-        {t('common:FIX_IT_NOW')}
+        {t('REVISION_PROMPT.FIX_IT_NOW')}
       </Button>
     </div>
   );

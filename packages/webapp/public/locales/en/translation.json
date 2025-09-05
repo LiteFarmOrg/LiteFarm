@@ -1706,6 +1706,11 @@
       "REVENUE_TYPE": "Revenue type"
     }
   },
+  "REVISION_PROMPT": {
+    "FIX_IT_NOW": "Fix it now",
+    "NOTICED_SOMETHING_OFF": "Noticed something off?",
+    "UPDATE_THIS_TASK": "You can revisit and update the info you submitted for this task."
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",
     "FARM_MANAGER": "Farm Manager",

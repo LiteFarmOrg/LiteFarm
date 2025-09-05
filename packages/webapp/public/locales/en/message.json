@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types"
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"

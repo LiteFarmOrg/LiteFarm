@@ -59,6 +59,67 @@ class TaskAssigneeModel extends Model {
       },
     };
   }
+
+  static async assignTask(taskId, assigneeUserIds, trx) {
+    // TODO: LF-4926 remove parameter trx and wrap method in a transaction internally
+    //       (uncomment the next and last lines)
+    // return TaskAssigneeModel.transaction(async (trx) => {
+
+    // Remove assignees that are no longer assigned
+    await TaskAssigneeModel.query(trx)
+      .delete()
+      .where({ task_id: taskId })
+      .whereNotIn('assignee_user_id', assigneeUserIds || []);
+
+    if (assigneeUserIds?.length) {
+      // Insert new assignees (or keep existing ones)
+      // https://knexjs.org/guide/query-builder.html#onconflict
+      await TaskAssigneeModel.query(trx)
+        .insert(
+          assigneeUserIds.map((assigneeUserId) => ({
+            task_id: taskId,
+            assignee_user_id: assigneeUserId,
+          })),
+        )
+        .onConflict(['task_id', 'assignee_user_id'])
+        .merge();
+    }
+
+    // Return assignees
+    return TaskAssigneeModel.query(trx).where({ task_id: taskId });
+    // });
+  }
+
+  static async assignTasks(taskIds, assigneeUserIds, trx) {
+    // TODO: LF-4926 remove parameter trx and wrap method in a transaction internally
+    //       (uncomment the next and last lines)
+    // return TaskAssigneeModel.transaction(async (trx) => {
+
+    // Remove assignees that are no longer assigned
+    await TaskAssigneeModel.query(trx)
+      .delete()
+      .whereIn('task_id', taskIds)
+      .whereNotIn('assignee_user_id', assigneeUserIds || []);
+
+    if (assigneeUserIds?.length) {
+      const taskAssignees = [];
+      for (const taskId of taskIds) {
+        for (const assigneeUserId of assigneeUserIds) {
+          taskAssignees.push({ task_id: taskId, assignee_user_id: assigneeUserId });
+        }
+      }
+
+      // Insert new assignees (or keep existing ones)
+      await TaskAssigneeModel.query(trx)
+        .insert(taskAssignees)
+        .onConflict(['task_id', 'assignee_user_id'])
+        .merge();
+    }
+
+    // Return assignees
+    return TaskAssigneeModel.query(trx).whereIn('task_id', taskIds);
+    // });
+  }
 }
 
 export default TaskAssigneeModel;

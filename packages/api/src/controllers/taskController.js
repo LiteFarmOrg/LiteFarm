@@ -309,7 +309,7 @@ async function updateTaskWithCompletedData(
 const taskController = {
   async assignTask(req, res) {
     try {
-      const { task_id } = req.params;
+      const task_id = parseInt(req.params.task_id);
       const { farm_id } = req.headers;
       const { user_id } = req.auth;
       const { assignee_user_id: newAssigneeUserId } = req.body;
@@ -360,7 +360,7 @@ const taskController = {
         assignee_user_id: oldAssigneeUserId,
         task_translation_key: currentTaskTranslationKey,
       } = req.checkTaskStatus;
-      const { task_id: current_task_id } = req.params;
+      const current_task_id = parseInt(req.params.task_id);
       const tasks = await getTasksForFarm(farm_id);
       const taskIds = tasks.map(({ task_id }) => task_id);
       let updatedTask;

@@ -40,6 +40,7 @@ import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
 import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
 import DocumentModel from './documentModel.js';
 import TaskDocumentModel from './taskDocument.js';
+import TaskAssigneeModel from './taskAssigneeModel.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -95,6 +96,7 @@ class TaskModel extends BaseModel {
         action_needed: { type: 'boolean' },
         revision_date: { type: ['string', 'null'], format: 'date-time' },
         revised_by_user_id: { type: ['string', 'null'] },
+        task_hourly_wage: { type: ['number', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -290,6 +292,14 @@ class TaskModel extends BaseModel {
           to: 'animal_batch.id',
         },
       },
+      assignees: {
+        relation: Model.HasManyRelation,
+        modelClass: TaskAssigneeModel,
+        join: {
+          from: 'task.task_id',
+          to: 'task_assignee.task_id',
+        },
+      },
     };
   }
 
@@ -340,9 +350,11 @@ class TaskModel extends BaseModel {
       animal_batches: 'omit',
       revision_date: 'omit',
       revised_by_user_id: 'omit',
+      assignees: 'edit',
     };
   }
 
+  // TODO: LF-4926 Remove
   /**
    * Gets the assignee of a task.
    * @param {number} taskId - the ID of the task.
@@ -363,6 +375,30 @@ class TaskModel extends BaseModel {
       )
       .where({ 'task.task_id': taskId, 'uf.farm_id': farmId })
       .first();
+  }
+
+  /**
+   * Gets the assignees info with task_hourly_wage.
+   * @param {number} taskId - the ID of the task.
+   * @param {number} farmId - the ID of the farm.
+   * @returns {Object} - Object {assignee_user_id, assignee_role_id, task_hourly_wage, user_farm_wage}
+   */
+  static async getTaskAssignees(taskId, farmId) {
+    return TaskModel.query()
+      .whereNotDeleted()
+      .join('task_assignee', 'task.task_id', 'task_assignee.task_id')
+      .join('users', 'task_assignee.assignee_user_id', 'users.user_id')
+      .join('userFarm as uf', 'users.user_id', 'uf.user_id')
+      .join('role', 'role.role_id', 'uf.role_id')
+      .select(
+        TaskModel.knex().raw(`
+          users.user_id as assignee_user_id,
+          role.role_id as assignee_role_id,
+          task.task_hourly_wage as task_hourly_wage,
+          uf.wage as user_farm_wage
+        `),
+      )
+      .where({ 'task.task_id': taskId, 'uf.farm_id': farmId });
   }
 
   /**
@@ -404,6 +440,7 @@ class TaskModel extends BaseModel {
       );
   }
 
+  // TODO: LF-4926 Remove assignee_user_id
   /**
    * Gets the tasks that are due this week and are unassigned
    * @param {uuid} taskId - the ID of the task whose status is being checked
@@ -414,15 +451,17 @@ class TaskModel extends BaseModel {
   static async getTaskStatus(taskId) {
     return await TaskModel.query()
       .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+      .withGraphFetched('assignees')
       .select('complete_date', 'abandon_date', 'assignee_user_id', 'task_translation_key')
       .where('task_id', taskId)
       .andWhere('task.deleted', false)
       .first();
   }
 
+  // TODO: LF-4926 Replace this method with TaskAssigneeModel.assignTask directly
   /**
    * Assign the task to the user with the given assigneeUserId.
-   * @param {uuid} taskId - the ID of the task
+   * @param {number} taskId - the ID of the task
    * @param {uuid} assigneeUserId - the ID of user whose the task is being assigned too
    * @param {Object} user - the user who requested this task assignment
    * @static
@@ -430,11 +469,16 @@ class TaskModel extends BaseModel {
    * @returns {Object} - Task Object
    */
   static async assignTask(taskId, assigneeUserId, user) {
-    return await TaskModel.query()
-      .context(user)
-      .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
+    return TaskModel.transaction(async (trx) => {
+      await TaskAssigneeModel.assignTask(taskId, assigneeUserId ? [assigneeUserId] : [], trx);
+
+      return await TaskModel.query(trx)
+        .context(user)
+        .patchAndFetchById(taskId, { assignee_user_id: assigneeUserId });
+    });
   }
 
+  // TODO: LF-4926 Replace this method with TaskAssigneeModel.assignTasks directly
   /**
    * Assign tasks to the user with the given assigneeUserId.
    * @param {uuid} taskIds - the IDs of the tasks
@@ -445,12 +489,16 @@ class TaskModel extends BaseModel {
    * @returns {Object} - Task Object
    */
   static async assignTasks(taskIds, assigneeUserId, user) {
-    return await TaskModel.query()
-      .context(user)
-      .patch({
-        assignee_user_id: assigneeUserId,
-      })
-      .whereIn('task_id', taskIds);
+    return TaskModel.transaction(async (trx) => {
+      await TaskAssigneeModel.assignTasks(taskIds, assigneeUserId ? [assigneeUserId] : [], trx);
+
+      return await TaskModel.query(trx)
+        .context(user)
+        .patch({
+          assignee_user_id: assigneeUserId,
+        })
+        .whereIn('task_id', taskIds);
+    });
   }
 
   /**
@@ -464,12 +512,22 @@ class TaskModel extends BaseModel {
   static async hasTasksDueTodayForUserFromFarm(userId, taskIds, isDayLaterThanUTC = false) {
     const today = new Date();
     if (isDayLaterThanUTC) today.setDate(today.getDate() + 1);
+
+    // TODO: LF-4926 Replace assignee logic (task.assignee_user_id) with task_assignee join
     const tasksDueToday = await TaskModel.query()
       .select('*')
       .whereIn('task_id', taskIds)
       .whereNotDeleted()
       .andWhere('task.assignee_user_id', userId)
       .andWhere('task.due_date', today);
+
+    // const tasksDueToday = await TaskModel.query()
+    //   .select('task.*')
+    //   .join('task_assignee', 'task.task_id', 'task_assignee.task_id')
+    //   .whereIn('task.task_id', taskIds)
+    //   .whereNotDeleted()
+    //   .andWhere('task_assignee.assignee_user_id', userId)
+    //   .andWhere('task.due_date', today);
 
     return tasksDueToday && tasksDueToday.length;
   }
@@ -485,6 +543,7 @@ class TaskModel extends BaseModel {
    * @returns {Object} - Task Object.
    */
   static async getAvailableTasksOnDate(taskIds, date, user) {
+    // TODO: LF-4926 Replace assignee check (task.assignee_user_id) with task_assignee table check
     return await TaskModel.query()
       .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
       .context(user)
@@ -497,6 +556,20 @@ class TaskModel extends BaseModel {
         builder.where('task.abandon_date', null);
         builder.where('task.deleted', false);
       });
+
+    // return TaskModel.query()
+    //   .leftOuterJoin('task_type', 'task.task_type_id', 'task_type.task_type_id')
+    //   .leftJoin('task_assignee', 'task.task_id', 'task_assignee.task_id')
+    //   .context(user)
+    //   .select('task.*', 'task_type.*')
+    //   .where((builder) => {
+    //     builder.where('task.due_date', date);
+    //     builder.whereIn('task.task_id', taskIds);
+    //     builder.where('task_assignee.assignee_user_id', null);
+    //     builder.where('task.complete_date', null);
+    //     builder.where('task.abandon_date', null);
+    //     builder.where('task.deleted', false);
+    //   });
   }
 
   static async deleteTask(task_id, user, trx) {

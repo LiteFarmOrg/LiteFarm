@@ -642,6 +642,21 @@ export function* createTaskSaga({ payload }) {
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
   const endpoint = getEndpoint(isCustomTask, task_translation_key, true);
+
+  // // --- Optimistic update code would go here ---
+  // *** don't actually use this example code! It's not addable to Redux without creating a crash on some sort of task-management plan association ***
+
+  // const tempTaskId = 1234567890;
+
+  // const optimisticTask = {
+  //   task_id: tempTaskId,
+  //   owner_user_id: user_id,
+  //   ...data,
+  // };
+
+  // yield call(getTasksSuccessSaga, { payload: [optimisticTask] });
+  // ------------------
+
   try {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,
@@ -656,6 +671,17 @@ export function* createTaskSaga({ payload }) {
     );
     const result = yield call(axios.post, `${taskUrl}/${endpoint}`, reqBody, header);
     if (result) {
+      // --- Reconciliation start ---
+
+      // Kept for reference but putting reconcilation code here will not work because it is not the saga that is re-run, but rather the request itself. We will need a saga triggered by the synched request firing in the service worker -- see the accompanying code.
+
+      // THAT saga could do a reconciliation like:
+      // yield put(replaceOptimisticTask({ tempId: tempTaskId, realTask: realTask }));
+
+      // But this would require a very complicated message from the service worker. The easier way is to simply re-fetch the tasks, as shown in the example code.
+
+      // ------------------
+
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
@@ -688,8 +714,13 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    if (e.response.data === 'location deleted') {
+    if (e.response?.data === 'location deleted') {
       setShowCannotCreateModal(true);
+    } else if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      // We can show a message that the task is saved and will sync when online
+      yield put(enqueueSuccessSnackbar('Offline. Will sync task when back online'));
+      history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
     }

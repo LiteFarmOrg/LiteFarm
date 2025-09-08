@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAction } from '@reduxjs/toolkit';
+
+export const serviceWorkerMessageReceived = createAction(
+  'offlineDetector/serviceWorkerMessageReceived',
+);
 
 const initialState = {
   isOffline: false,

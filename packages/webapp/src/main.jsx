@@ -71,6 +71,7 @@ import taskSaga from './containers/Task/saga';
 import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
 import notificationSaga from './containers/Notification/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
+import offlineSyncSaga from './containers/hooks/useOfflineDetector/offlineSyncSaga.js';
 import App from './App';
 import ReactErrorFallback from './containers/ErrorHandler/ReactErrorFallback/';
 import { sagaMiddleware } from './store/sagaMiddleware';
@@ -143,6 +144,7 @@ sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
 sagaMiddleware.run(irrigationTaskTypesSaga);
+sagaMiddleware.run(offlineSyncSaga);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

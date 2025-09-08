@@ -60,6 +60,14 @@ class TaskAssigneeModel extends Model {
     };
   }
 
+  /**
+   * Assign the task to the users with the given assigneeUserIds.
+   * Existing assignees not in the list will be removed; new assignees will be inserted (or kept if already assigned).
+   * @param {number} taskId - The ID of the task.
+   * @param {Array<string>} assigneeUserIds - Array of user IDs (UUIDs) to assign the task to.
+   * @param {Object} [trx] - Transaction object (temporary, will be removed in LF-4926).
+   * @returns {Promise<Array<Object>>} - Array of task_assignee rows after assignment.
+   */
   static async assignTask(taskId, assigneeUserIds, trx) {
     // TODO: LF-4926 remove parameter trx and wrap method in a transaction internally
     //       (uncomment the next and last lines)
@@ -90,6 +98,14 @@ class TaskAssigneeModel extends Model {
     // });
   }
 
+  /**
+   * Assign multiple tasks to the users with the given assigneeUserIds.
+   * Existing assignees not in the list will be removed; new assignees will be inserted (or kept if already assigned).
+   * @param {Array<number>} taskIds - Array of task IDs to assign users to.
+   * @param {Array<string>} assigneeUserIds - Array of user IDs (UUIDs) to assign the tasks to.
+   * @param {Object} [trx] - Optional transaction object (temporary, will be removed in LF-4926).
+   * @returns {Promise<Array<Object>>} - Array of task_assignee rows after assignment.
+   */
   static async assignTasks(taskIds, assigneeUserIds, trx) {
     // TODO: LF-4926 remove parameter trx and wrap method in a transaction internally
     //       (uncomment the next and last lines)

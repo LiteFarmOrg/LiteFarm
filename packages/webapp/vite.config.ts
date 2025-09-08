@@ -30,6 +30,31 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
+      // --- Create sw.js via generateSW strategy ---
+      // see https://vite-pwa-org.netlify.app/workbox/generate-sw
+      // workbox: {
+      //   runtimeCaching: [
+      //     {
+      //       // createTask
+      //       urlPattern: ({ url }) => url.pathname.match('/task/'),
+      //       method: 'POST',
+      //       handler: 'NetworkOnly',
+      //       options: {
+      //         backgroundSync: {
+      //           name: 'create-task-queue',
+      //           options: {
+      //             maxRetentionTime: 24 * 60, // Retry for up to 24 hours
+      //           },
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
+      // --- Create own sw.js and inject ---
+      // see https://vite-pwa-org.netlify.app/guide/inject-manifest.html
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
     }),
   ],
   build: {

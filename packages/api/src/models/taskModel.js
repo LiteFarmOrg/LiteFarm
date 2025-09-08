@@ -443,7 +443,7 @@ class TaskModel extends BaseModel {
   // TODO: LF-4926 Remove assignee_user_id
   /**
    * Gets the tasks that are due this week and are unassigned
-   * @param {uuid} taskId - the ID of the task whose status is being checked
+   * @param {number} taskId - the ID of the task whose status is being checked
    * @static
    * @async
    * @returns {Object} - Object {complete_date, abandon_date, assignee_user_id, task_translation_key}
@@ -481,7 +481,7 @@ class TaskModel extends BaseModel {
   // TODO: LF-4926 Replace this method with TaskAssigneeModel.assignTasks directly
   /**
    * Assign tasks to the user with the given assigneeUserId.
-   * @param {uuid} taskIds - the IDs of the tasks
+   * @param {number} taskIds - the IDs of the tasks
    * @param {uuid} assigneeUserId - the ID of user whose the task is being assigned too
    * @param {Object} user - the user who requested this task assignment
    * @static

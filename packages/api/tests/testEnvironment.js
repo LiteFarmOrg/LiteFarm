@@ -79,6 +79,7 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_movement_task";
     DELETE FROM "task_animal_relationship";
     DELETE FROM "task_animal_batch_relationship";
+    DELETE FROM "task_assignee";
     DELETE FROM "task";
     DELETE FROM "yield";
     DELETE FROM "cropDisease";

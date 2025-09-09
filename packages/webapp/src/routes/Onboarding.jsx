@@ -14,12 +14,11 @@
  */
 
 /* eslint-disable react/no-children-prop */
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
-import Spinner from '../components/Spinner';
 import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));

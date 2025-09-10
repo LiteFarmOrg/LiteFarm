@@ -71,7 +71,11 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
     }
 
     const { defaultAnimalTypes, customAnimalTypes } = data;
-    const types = formatAnimalTypes([...defaultAnimalTypes, ...customAnimalTypes], onTypeClick, t);
+    const types = formatAnimalTypes(
+      [...(defaultAnimalTypes || []), ...(customAnimalTypes || [])],
+      onTypeClick,
+      t,
+    );
     types.sort(getComparator('asc', 'label'));
 
     return types;

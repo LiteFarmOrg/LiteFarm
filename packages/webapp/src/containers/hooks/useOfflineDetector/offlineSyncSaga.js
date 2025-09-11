@@ -7,11 +7,21 @@ import { getTasksSaga } from '../../Task/saga';
 
 function* serviceWorkerMessageRouter({ payload: message }) {
   const { type, payload } = message;
-  const { area, url, error } = payload;
+  const { area, url, error, response } = payload;
 
   if (type === 'SYNC_ITEM_SUCCESS') {
     switch (area) {
       case 'tasks.create':
+        // Note: Responses can succeed in the queue sense, but still return an error from the API
+        if (response?.error) {
+          yield put(
+            enqueueErrorSnackbar(
+              `Failed to sync new task: ${response.error.message ?? 'Unknown error'}`,
+            ),
+          );
+          break;
+        }
+
         yield put(enqueueSuccessSnackbar('New task synced'));
         yield call(getTasksSaga);
         break;

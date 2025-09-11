@@ -35,14 +35,20 @@ const createOnSyncHandler = (area) => {
     while ((entry = await queue.shiftRequest())) {
       try {
         // replay the request just like workbox-default
-        await fetch(entry.request.clone());
+        const response = await fetch(entry.request.clone());
 
+        // Send the parsed JSON response in payload for further handling
+        const responseJson = await response.clone().json();
         // notify clients of success for this URL
         const successClients = await self.clients.matchAll();
         successClients.forEach((client) =>
           client.postMessage({
             type: 'SYNC_ITEM_SUCCESS',
-            payload: { area, url: entry.request.url },
+            payload: {
+              area,
+              url: entry.request.url,
+              response: responseJson,
+            },
           }),
         );
       } catch (error) {

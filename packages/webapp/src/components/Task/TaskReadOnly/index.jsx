@@ -64,6 +64,7 @@ import PureIrrigationPrescription from '../../IrrigationPrescription';
 import PureDocumentTile from '../../../containers/Documents/DocumentTile';
 import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
 import RevisionPrompt from '../RevisionPrompt';
+import RevisionInfoText from '../../RevisionInfoText';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -90,6 +91,7 @@ export default function PureTaskReadOnly({
   onChangeTaskWage,
   onSetUserFarmWageDoNotAskAgain,
   wage_at_moment,
+  language,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -140,7 +142,8 @@ export default function PureTaskReadOnly({
     ),
   };
 
-  const assignee = users.find((user) => user.user_id === task.assignee_user_id);
+  const getUserById = (id) => users.find((user) => user.user_id === id);
+  const assignee = getUserById(task.assignee_user_id);
   const isInactiveAssignee = assignee?.status === 'Inactive';
   let assigneeName = '';
   if (assignee !== undefined) {
@@ -156,6 +159,7 @@ export default function PureTaskReadOnly({
   const isOtherReason = task.abandonment_reason === 'OTHER';
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
+  const isRevised = !!task.revision_date;
 
   const showTaskNotes =
     !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
@@ -221,6 +225,16 @@ export default function PureTaskReadOnly({
             color={taskStatus}
           />
         }
+        subtext={
+          isRevised && (
+            <RevisionInfoText
+              revisionDate={task.revision_date}
+              reviser={getUserById(task.revised_by_user_id)}
+              language={language}
+            />
+          )
+        }
+        classNames={{ subtext: styles.revisionInfo }}
       />
       {isCompleted && canCompleteTask && (
         <RevisionPrompt onClick={onComplete} text={t('REVISION_PROMPT.UPDATE_THIS_TASK')} />

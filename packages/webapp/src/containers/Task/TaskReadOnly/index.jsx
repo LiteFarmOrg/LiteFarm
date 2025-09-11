@@ -42,6 +42,7 @@ import {
   deleteTask,
 } from '../saga';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 function TaskReadOnly() {
   const location = useLocation();
@@ -77,6 +78,7 @@ function TaskReadOnly() {
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
+  const language = getLanguageFromLocalStorage();
 
   const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
   const [isHarvest, setIsHarvest] = useState(undefined);
@@ -171,6 +173,7 @@ function TaskReadOnly() {
           onUpdateUserFarmWage={onUpdateUserFarmWage}
           onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           wage_at_moment={wageAtMoment}
+          language={language}
         />
       )}
     </>

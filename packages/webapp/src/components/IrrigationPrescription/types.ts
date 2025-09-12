@@ -20,8 +20,8 @@ import {
   WaterConsumptionUnits,
 } from '../../util/convert-units/extendedMeasures';
 export interface UriPrescriptionData {
-  soil_moisture_deficit: number;
-  soil_moisture_deficit_unit: string;
+  available_soil_moisture: number;
+  available_soil_moisture_unit: string;
   application_depth: number;
   application_depth_unit: string;
 }
@@ -39,7 +39,8 @@ export type IrrigationPrescriptionDataTypes =
   | 'wind_speed'
   | 'cumulative_rainfall'
   | 'et_rate'
-  | 'estimated_water_consumption';
+  | 'estimated_water_consumption'
+  | 'application_depth';
 
 export type IrrigationPrescriptionDataTypeUnits =
   | SensorReadingTypeUnits

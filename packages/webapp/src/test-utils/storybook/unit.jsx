@@ -53,8 +53,15 @@ export default class UnitTest {
   }
 
   async selectUnit(unit) {
-    await selectEvent.openMenu(within(this.select).getByRole('combobox'));
-    await selectEvent.select(within(this.select).getByRole('combobox'), unit);
+    const combobox = within(this.select).getByRole('combobox');
+    await userEvent.click(combobox);
+
+    // Wait for the listbox to appear
+    const listbox = await screen.findByRole('listbox');
+
+    // Now search within the listbox
+    const option = within(listbox).getByText(unit);
+    await userEvent.click(option);
   }
 
   async selectedUnitToBeInTheDocument(selectedUnit) {

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
@@ -39,92 +40,97 @@ import {
   OTHER_EXPENSE_URL,
   REVENUE_TYPES_URL,
 } from '../util/siteMapConstants';
+import WithNavigation from './WithNavigation';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
-const UpdateEstimatedCropRevenue = React.lazy(() =>
-  import('../containers/Finances/UpdateEstimatedCropRevenue'),
+const UpdateEstimatedCropRevenue = React.lazy(
+  () => import('../containers/Finances/UpdateEstimatedCropRevenue'),
 );
 const RevenueTypes = React.lazy(() => import('../containers/Finances/AddSale/RevenueTypes'));
 const AddSale = React.lazy(() => import('../containers/Finances/AddSale'));
-const ManageRevenueTypes = React.lazy(() =>
-  import('../containers/Finances/ManageCustomRevenueTypes'),
+const ManageRevenueTypes = React.lazy(
+  () => import('../containers/Finances/ManageCustomRevenueTypes'),
 );
 const RevenueDetail = React.lazy(() => import('../containers/Finances/RevenueDetail'));
 const EstimatedRevenue = React.lazy(() => import('../containers/Finances/EstimatedRevenue'));
 const Labour = React.lazy(() => import('../containers/Finances/Labour'));
 const OtherExpense = React.lazy(() => import('../containers/Finances/OtherExpense'));
 const ExpenseDetail = React.lazy(() => import('../containers/Finances/ExpenseDetail'));
-const ExpenseCategories = React.lazy(() =>
-  import('../containers/Finances/NewExpense/ExpenseCategories'),
+const ExpenseCategories = React.lazy(
+  () => import('../containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('../containers/Finances/NewExpense/AddExpense'));
-const ManageExpenseTypes = React.lazy(() =>
-  import('../containers/Finances/ManageCustomExpenseTypes'),
+const ManageExpenseTypes = React.lazy(
+  () => import('../containers/Finances/ManageCustomExpenseTypes'),
 );
-const AddCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
+const AddCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
 );
-const ReadOnlyCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
+const ReadOnlyCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
 );
-const EditCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
+const EditCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
 );
-const AddCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/AddCustomRevenue'),
+const AddCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/AddCustomRevenue'),
 );
-const ReadOnlyCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
+const ReadOnlyCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
 );
-const EditCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
+const EditCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
 
 const FinancesRoutes = () => (
   <Switch>
-    <Route path={FINANCES_HOME_URL} exact component={Finances} />
-    <Route path={ACTUAL_REVENUE_URL} exact component={ActualRevenue} />
+    <Route path={FINANCES_HOME_URL} exact children={<Finances />} />
+    <Route path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
     <Route
       path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
       exact
-      component={UpdateEstimatedCropRevenue}
+      children={<UpdateEstimatedCropRevenue />}
     />
-    <Route path={REVENUE_TYPES_URL} exact component={RevenueTypes} />
-    <Route path={ADD_REVENUE_URL} exact component={AddSale} />
-    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact component={ManageRevenueTypes} />
-    <Route path={createRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
-    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
-    <Route path={ESTIMATED_REVENUE_URL} exact component={EstimatedRevenue} />
-    <Route path={LABOUR_URL} exact component={Labour} />
-    <Route path={OTHER_EXPENSE_URL} exact component={OtherExpense} />
-    <Route path={createExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
-    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
-    <Route path={EXPENSE_CATEGORIES_URL} exact component={ExpenseCategories} />
-    <Route path={ADD_EXPENSE_URL} exact component={AddExpense} />
-    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact component={ManageExpenseTypes} />
-    <Route path={ADD_CUSTOM_EXPENSE_URL} exact component={AddCustomExpense} />
+    <Route path={REVENUE_TYPES_URL} exact children={<RevenueTypes />} />
+    <Route path={ADD_REVENUE_URL} exact children={<AddSale />} />
+    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact children={<ManageRevenueTypes />} />
+    <Route path={createRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
+    <Route path={ESTIMATED_REVENUE_URL} exact children={<EstimatedRevenue />} />
+    <Route path={LABOUR_URL} exact children={<Labour />} />
+    <Route path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
+    <Route path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route
+      path={EXPENSE_CATEGORIES_URL}
+      exact
+      render={() => <WithNavigation component={ExpenseCategories} />}
+    />
+    <Route path={ADD_EXPENSE_URL} exact render={() => <WithNavigation component={AddExpense} />} />
+    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
+    <Route path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
     <Route
       path={createReadonlyCustomExpenseURL(':expense_type_id')}
       exact
-      component={ReadOnlyCustomExpense}
+      children={<ReadOnlyCustomExpense />}
     />
     <Route
       path={createEditCustomExpenseURL(':expense_type_id')}
       exact
-      component={EditCustomExpense}
+      children={<EditCustomExpense />}
     />
-    <Route path={ADD_CUSTOM_REVENUE_URL} exact component={AddCustomRevenue} />
+    <Route path={ADD_CUSTOM_REVENUE_URL} exact children={<AddCustomRevenue />} />
     <Route
       path={createReadonlyCustomRevenueUrl(':revenue_type_id')}
       exact
-      component={ReadOnlyCustomRevenue}
+      children={<ReadOnlyCustomRevenue />}
     />
     <Route
       path={createEditCustomRevenueUrl(':revenue_type_id')}
       exact
-      component={EditCustomRevenue}
+      children={<EditCustomRevenue />}
     />
-    <Redirect to={'/'} />
+    <Route render={() => <Redirect to={'/'} />} />
   </Switch>
 );
 

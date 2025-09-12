@@ -1,10 +1,11 @@
+import { useHistory } from 'react-router-dom';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddCustomTask from '../../../components/Task/PureAddCustomTask';
 import { addCustomTaskType } from '../saga';
 import { useDispatch } from 'react-redux';
 
-function AddCustomTask({ history, match }) {
-
+function AddCustomTask() {
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -19,10 +20,7 @@ function AddCustomTask({ history, match }) {
 
   return (
     <HookFormPersistProvider>
-      <PureAddCustomTask
-        handleGoBack={handleGoBack}
-        onSave={onSave}
-      />
+      <PureAddCustomTask handleGoBack={handleGoBack} onSave={onSave} />
     </HookFormPersistProvider>
   );
 }

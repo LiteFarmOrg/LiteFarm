@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
 import { useSelector } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
-function CertificationReportingPeriod({ history, match }) {
+function CertificationReportingPeriod() {
+  const history = useHistory();
   const { email } = useSelector(userFarmSelector);
   const { interested } = useSelector(certifierSurveySelector);
   const onError = (error) => {

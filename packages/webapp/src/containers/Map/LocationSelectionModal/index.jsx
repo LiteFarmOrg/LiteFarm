@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import useSelectionHandler from '../useSelectionHandler';
 import styles from '../styles.module.scss';
 import PureSelectionHandler from '../../../components/Map/SelectionHandler';
@@ -5,7 +6,8 @@ import { useSelector } from 'react-redux';
 import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 import { isTouchDevice } from '../../../util/device';
 
-export default function LocationSelectionModal({ history, selectingOnly }) {
+export default function LocationSelectionModal({ selectingOnly }) {
+  const history = useHistory();
   const { dismissSelectionModal } = useSelectionHandler();
   const showSelection = useSelector(canShowSelectionSelector);
   const locations = useSelector(mapLocationsSelector);

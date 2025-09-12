@@ -53,6 +53,8 @@ export const getTask = (obj) => {
     'animals',
     'animal_batches',
     'documents',
+    'revision_date',
+    'revised_by_user_id',
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;

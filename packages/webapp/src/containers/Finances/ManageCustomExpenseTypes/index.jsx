@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
@@ -36,7 +37,8 @@ const getPaths = (typeId) => ({
   edit: createEditCustomExpenseURL(typeId),
 });
 
-export default function ManageExpenseTypes({ history }) {
+export default function ManageExpenseTypes() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const customTypes = useCustomExpenseTypeTileContents();

@@ -21,7 +21,7 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <Navigation history={history} />
+        <Navigation />
         <div
           className="app"
           style={{
@@ -51,7 +51,7 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <Navigation history={history} />
+        <Navigation />
         <div
           className="app"
           style={{

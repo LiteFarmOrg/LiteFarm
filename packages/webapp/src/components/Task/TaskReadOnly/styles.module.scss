@@ -1,3 +1,5 @@
+@import '@assets/mixin.scss';
+
 .mapContainer {
   position: relative;
   height: 160px;
@@ -107,7 +109,7 @@
   margin-bottom: 16px;
 }
 
-.filesTitle { 
+.filesTitle {
   margin-top: 8px;
   margin-bottom: 18px;
 }
@@ -118,4 +120,15 @@
 
 .completeAbandonDetailsTitle {
   margin-bottom: 24px;
+}
+
+.revisionInfo {
+  margin-top: -4px;
+  color: var(--teal900);
+  text-align: right;
+
+  @include md-breakpoint {
+    margin-top: 0;
+    text-align: left;
+  }
 }

@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
@@ -40,8 +41,8 @@ const getLanguageConsent = (language) => languageConsent[language] || languageCo
 function ConsentForm({
   goBackTo = '/role_selection',
   goForwardTo = '/certification/interested_in_organic',
-  history,
 }) {
+  const history = useHistory();
   const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);

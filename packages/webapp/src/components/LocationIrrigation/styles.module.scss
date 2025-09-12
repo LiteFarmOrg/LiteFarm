@@ -61,3 +61,20 @@
 .tableBody.tableBody::before {
   display: none;
 }
+
+.linkContainer {
+  margin-inline: auto;
+  padding-block: 16px;
+
+  .linkText {
+    display: flex;
+    padding-block: 8px;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--Colors-Secondary-Secondary-green-600);
+    font-weight: 600;
+    letter-spacing: -0.16px;
+    text-decoration: none;
+  }
+}

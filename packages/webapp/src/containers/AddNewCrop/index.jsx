@@ -1,11 +1,12 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PureAddNewCrop from '../../components/AddNewCrop';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
-function AddNewCrop({ history }) {
+function AddNewCrop() {
+  const history = useHistory();
   const { t } = useTranslation(['translation']);
   const onError = (error) => {
     console.log(error);

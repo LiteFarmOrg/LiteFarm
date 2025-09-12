@@ -42,7 +42,7 @@ const ESCI_TO_CONVERT_UNITS_MAP = {
 /**
  * Retrieves a valid Ensemble organisation by its UUID.
  * @param {uuid} org_uuid
- * @returns {Object} - The organisation object.
+ * @returns {{name: string, pk: number, uuid: string, url_name: string, systems: Array<{pk: number, url_name: string}>}} The organisation object.
  * @async
  */
 const getValidEnsembleOrg = async (org_uuid) => {

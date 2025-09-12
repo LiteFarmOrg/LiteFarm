@@ -979,7 +979,6 @@ export function* getHarvestUseTypesSaga() {
   } catch (e) {
     console.log('failed to get harvest use types');
     yield put(onLoadingHarvestUseTypeFail());
-    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
   }
 }
 

@@ -14,6 +14,7 @@
  */
 
 import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import CardLayout from '../../../components/Layout/CardLayout';
@@ -34,18 +35,13 @@ import {
   SENSOR_READING_TYPES,
   STANDALONE_SENSOR_COLORS_MAP,
 } from './constants';
-import type { CustomRouteComponentProps } from '../../../types';
 import type { ChartSupportedReadingTypes } from './types';
 import { SensorType } from '../../../types/sensor';
 import { Sensor } from '../../../store/api/types';
 import styles from './styles.module.scss';
 import { createSmartIrrigationDisplayName } from '../../../util/smartIrrigation';
 
-interface RouteParams {
-  id: string;
-}
-
-interface SensorReadingsProps extends CustomRouteComponentProps<RouteParams> {
+interface SensorReadingsProps {
   type: SensorType;
 }
 
@@ -100,7 +96,9 @@ const PAGE_TITLE_KEY = {
   [SensorType.SENSOR]: 'SENSOR.STANDALONE_SENSOR',
 };
 
-const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
+const SensorReadings = ({ type }: SensorReadingsProps) => {
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
@@ -109,10 +107,10 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
   const { sensors, sensorArray, isFetching } = useGetSensorsQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       return {
-        sensors: filterSensors(match.params.id, type, data?.sensors),
+        sensors: filterSensors(id, type, data?.sensors),
         sensorArray:
           type === SensorType.SENSOR_ARRAY
-            ? data?.sensor_arrays?.find(({ id }) => `${id}` === match.params.id)
+            ? data?.sensor_arrays?.find(({ id }) => `${id}` === id)
             : undefined,
         isFetching,
       };
@@ -135,6 +133,7 @@ const SensorReadings = ({ match, history, type }: SensorReadingsProps) => {
           system: sensorArray?.system,
           fallback: t(PAGE_TITLE_KEY[type]),
         })}
+        // @ts-expect-error: temporary shim, will remove when upgrading to history@5
         onGoBack={history.back}
         classNames={{ wrapper: styles.title }}
       />

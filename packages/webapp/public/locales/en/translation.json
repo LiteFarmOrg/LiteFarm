@@ -1187,9 +1187,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Application depth",
     "APPROVE_AND_CREATE_TASK": "By approving you’ll create an irrigation task",
+    "AVAILABLE_SOIL_MOISTURE": "Available soil moisture",
     "DATA_FROM": "Data From",
     "ESTIMATED_WATER_CONSUMPTION": "Estimated water consumption",
     "ET_RATE": "ET Rate",
+    "FULL_IRRIGATION_REPORT": "Find the full irrigation report here",
     "IRRIGATION_PRESCRIPTION_FILES": "Irrigation prescription files",
     "IRRIGATION_PRESCRIPTIONS": "Irrigation prescriptions",
     "IRRIGATION_ZONE": "Irrigation zone",
@@ -1703,6 +1705,11 @@
       "RETIRED": "(retired)",
       "REVENUE_TYPE": "Revenue type"
     }
+  },
+  "REVISION_PROMPT": {
+    "FIX_IT_NOW": "Fix it now",
+    "NOTICED_SOMETHING_OFF": "Noticed something off?",
+    "UPDATE_THIS_TASK": "You can revisit and update the info you submitted for this task."
   },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",

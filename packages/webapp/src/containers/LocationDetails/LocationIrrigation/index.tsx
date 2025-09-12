@@ -19,22 +19,16 @@ import PureLocationIrrigation from '../../../components/LocationIrrigation';
 import useIrrigationPrescriptions from './useIrrigationPrescriptions';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 import { useEffect } from 'react';
-import { match } from 'react-router-dom';
-import { History } from 'history';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 
-function LocationIrrigation({
-  history,
-  match,
-}: {
-  history: History;
-  match: match<{ location_id: string }>;
-}) {
+function LocationIrrigation() {
+  const history = useHistory();
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
 
-  const { location_id } = match.params;
+  const { location_id } = useParams<{ location_id: string }>();
   const location = useSelector(locationByIdSelector(location_id));
 
   useEffect(() => {
@@ -44,7 +38,7 @@ function LocationIrrigation({
   }, [location]);
 
   const irrigationPrescriptions = useIrrigationPrescriptions(location);
-  const routerTabs = useLocationRouterTabs(location, match);
+  const routerTabs = useLocationRouterTabs(location);
 
   return (
     location && (

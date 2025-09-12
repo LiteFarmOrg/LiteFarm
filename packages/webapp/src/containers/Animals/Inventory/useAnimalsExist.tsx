@@ -23,7 +23,9 @@ const useAnimalsExist = () => {
 
   const animalsExistOnFarm =
     !isLoading &&
-    [...data.animals, ...data.animalBatches].some((entity) => !entity.animal_removal_reason_id);
+    [...(data.animals || []), ...(data.animalBatches || [])].some(
+      (entity) => !entity.animal_removal_reason_id,
+    );
 
   return { animalsExistOnFarm };
 };

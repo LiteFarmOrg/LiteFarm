@@ -19,17 +19,23 @@ import { useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { roundToTwo } from '../../util/rounding';
+import { convertEsciReadingValue, getReadingUnit } from '../../containers/SensorReadings/v2/utils';
 import Table from '../Table';
 import Cell from '../Table/Cell';
 import { Alignment, CellKind, TableKind } from '../Table/types';
 import { IRRIGATION_ZONE_COLOURS } from './constants';
-import type { IrrigationPrescriptionTableInfo } from './types';
+import type { IrrigationPrescriptionDataTypeUnits, IrrigationPrescriptionTableInfo } from './types';
+import type { System } from '../../types';
 
 interface IrrigationPrescriptionTableProps {
   data: IrrigationPrescriptionTableInfo[];
+  system: System;
 }
 
-export default function IrrigationPrescriptionTable({ data }: IrrigationPrescriptionTableProps) {
+export default function IrrigationPrescriptionTable({
+  data,
+  system,
+}: IrrigationPrescriptionTableProps) {
   const { t } = useTranslation();
 
   const theme = useTheme();
@@ -57,12 +63,12 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
         sortable: false,
       },
       {
-        id: !vriZonesPresent || !isMobile ? 'soil_moisture_deficit' : null,
-        label: t('IRRIGATION_PRESCRIPTION.SOIL_MOISTURE_DEFICIT'),
+        id: !vriZonesPresent || !isMobile ? 'available_soil_moisture' : null,
+        label: t('IRRIGATION_PRESCRIPTION.AVAILABLE_SOIL_MOISTURE'),
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}
-            text={`${roundToTwo(d.soil_moisture_deficit)}${d.soil_moisture_deficit_unit}`}
+            text={`${roundToTwo(d.available_soil_moisture)}${d.available_soil_moisture_unit}`}
             className={styles.tableText}
           />
         ),
@@ -72,18 +78,30 @@ export default function IrrigationPrescriptionTable({ data }: IrrigationPrescrip
       {
         id: 'application_depth',
         label: t('IRRIGATION_PRESCRIPTION.APPLICATION_DEPTH'),
-        format: (d: IrrigationPrescriptionTableInfo) => (
-          <Cell
-            kind={CellKind.PLAIN}
-            text={`${roundToTwo(d.application_depth)}${d.application_depth_unit}`}
-            className={styles.tableText}
-          />
-        ),
+        format: (d: IrrigationPrescriptionTableInfo) => {
+          const displayValue = convertEsciReadingValue(
+            d.application_depth,
+            'application_depth',
+            system,
+          );
+          const displayUnit = getReadingUnit(
+            'application_depth',
+            system,
+            d.application_depth_unit as IrrigationPrescriptionDataTypeUnits,
+          );
+          return (
+            <Cell
+              kind={CellKind.PLAIN}
+              text={`${displayValue}${displayUnit}`}
+              className={styles.tableText}
+            />
+          );
+        },
         sortable: false,
         align: vriZonesPresent || isMobile ? Alignment.RIGHT : Alignment.LEFT,
       },
     ],
-    [isMobile, vriZonesPresent],
+    [isMobile, vriZonesPresent, system],
   );
 
   return (

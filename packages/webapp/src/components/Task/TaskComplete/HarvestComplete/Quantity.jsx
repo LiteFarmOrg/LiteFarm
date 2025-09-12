@@ -18,6 +18,7 @@ export default function PureHarvestCompleteQuantity({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
+  const isCompleted = !!task.complete_date;
 
   const {
     register,
@@ -32,7 +33,14 @@ export default function PureHarvestCompleteQuantity({
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      actual_quantity: persistedFormData.actual_quantity || task.harvest_task.projected_quantity,
+      actual_quantity:
+        persistedFormData.actual_quantity ||
+        (isCompleted ? task.harvest_task.actual_quantity : task.harvest_task.projected_quantity),
+      actual_quantity_unit:
+        persistedFormData.actual_quantity_unit ||
+        (isCompleted
+          ? task.harvest_task.actual_quantity_unit
+          : task.harvest_task.projected_quantity_unit),
     },
   });
 

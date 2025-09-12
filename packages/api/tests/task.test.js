@@ -40,10 +40,17 @@ import {
   completeTaskRequest as completeTaskRequestAsync,
   deleteTaskRequest as deleteTaskRequestAsync,
   taskWithLocationFactory,
+  commonTaskTypes,
+  generateHarvestUseTypes,
+  generateFakeCompletionData,
+  generateFakeHarvestTaskCompletionData,
 } from './utils/taskUtils.js';
 import { setupFarmEnvironment } from './utils/testDataSetup.js';
 import { connectFarmToEnsemble } from './utils/ensembleUtils.js';
-import { taskCompletionFieldUpdateTestCases } from './utils/taskCompletionTestCases.js';
+import {
+  taskCompletionFieldUpdateTestCases,
+  taskRecompletionTestCases,
+} from './utils/taskCompletionTestCases.js';
 
 describe('Task tests', () => {
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
@@ -928,17 +935,7 @@ describe('Task tests', () => {
             promisedField: [{ location_id }],
           });
           await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
-          const promisedHarvestUseTypes = await Promise.all(
-            [...Array(3)].map(async () =>
-              mocks.harvest_use_typeFactory({
-                promisedFarm: { farm_id },
-              }),
-            ),
-          );
-          const harvest_types = promisedHarvestUseTypes.reduce(
-            (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
-            [],
-          );
+          const harvest_types = await generateHarvestUseTypes(farm_id);
           const harvest_uses = [];
           for (let i = 0; i < harvest_types.length; i++) {
             const [harvest_use] = await mocks.harvest_useFactory({
@@ -983,17 +980,7 @@ describe('Task tests', () => {
             promisedField: [{ location_id }],
           });
           await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
-          const promisedHarvestUseTypes = await Promise.all(
-            [...Array(3)].map(async () =>
-              mocks.harvest_use_typeFactory({
-                promisedFarm: { farm_id },
-              }),
-            ),
-          );
-          const harvest_types = promisedHarvestUseTypes.reduce(
-            (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
-            [],
-          );
+          const harvest_types = await generateHarvestUseTypes(farm_id);
           const harvest_uses = [];
           for (let i = 0; i < harvest_types.length; i++) {
             const [harvest_use] = await mocks.harvest_useFactory({
@@ -2757,28 +2744,10 @@ describe('Task tests', () => {
         promisedField: [{ location_id }],
       });
       await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
-      const harvest_uses = [];
-      const promisedHarvestUseTypes = await Promise.all(
-        [...Array(3)].map(async () =>
-          mocks.harvest_use_typeFactory({
-            promisedFarm: [{ farm_id }],
-          }),
-        ),
-      );
-      const harvest_types = promisedHarvestUseTypes.reduce(
-        (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
-        [],
-      );
+      const harvest_types = await generateHarvestUseTypes(farm_id);
+      const { actualQuantity: actual_quantity, harvestUses: harvest_uses } =
+        generateFakeHarvestTaskCompletionData(task_id, harvest_types);
 
-      let actual_quantity = 0;
-      harvest_types.forEach(({ harvest_use_type_id }) => {
-        const harvest_use = mocks.fakeHarvestUse({
-          task_id,
-          harvest_use_type_id,
-        });
-        harvest_uses.push(harvest_use);
-        actual_quantity += harvest_use.quantity;
-      });
       completeTaskRequest(
         { user_id, farm_id },
         {
@@ -2829,28 +2798,10 @@ describe('Task tests', () => {
         promisedField: [{ location_id }],
       });
       await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
-      const harvest_uses = [];
-      const promisedHarvestUseTypes = await Promise.all(
-        [...Array(3)].map(async () =>
-          mocks.harvest_use_typeFactory({
-            promisedFarm: [{ farm_id }],
-          }),
-        ),
-      );
-      const harvest_types = promisedHarvestUseTypes.reduce(
-        (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
-        [],
-      );
+      const harvest_types = await generateHarvestUseTypes(farm_id);
+      const { actualQuantity: actual_quantity, harvestUses: harvest_uses } =
+        generateFakeHarvestTaskCompletionData(task_id, harvest_types);
 
-      let actual_quantity = 0;
-      harvest_types.forEach(({ harvest_use_type_id }) => {
-        const harvest_use = mocks.fakeHarvestUse({
-          task_id,
-          harvest_use_type_id,
-        });
-        harvest_uses.push(harvest_use);
-        actual_quantity += harvest_use.quantity;
-      });
       completeTaskRequest(
         { user_id, farm_id },
         {
@@ -3036,62 +2987,249 @@ describe('Task tests', () => {
       describe.each(Object.entries(taskCompletionFieldUpdateTestCases))(
         '%s',
         (_description, testCases) => {
-          test.each(Object.entries(testCases))(`%s`, async (taskType, taskTypeTestCases) => {
-            for (const testCase of taskTypeTestCases) {
-              const {
-                initialData: initialTaskTypeData,
-                extraSetup,
-                getFakeCompletionData: getFakeTaskTypeCompletionData,
-                getExpectedData: getExpectedTaskTypeData,
-              } = testCase;
+          const formattedTestCases = Object.entries(testCases).flatMap(
+            ([taskType, taskTypeTestCases]) =>
+              taskTypeTestCases.map((testCase) => [taskType, testCase]),
+          );
+          test.each(formattedTestCases)(`%s`, async (taskType, testCase) => {
+            const {
+              initialData: initialTaskTypeData,
+              extraSetup,
+              getFakeCompletionData: getFakeTaskTypeCompletionData,
+              getExpectedData: getExpectedTaskTypeData,
+            } = testCase;
 
-              // Insert a task and location_task record
-              const { task_id } = await taskWithLocationFactory({
-                userId: user_id,
-                locationId: location_id,
-                farmId: farm_id,
-              });
+            // Insert a task and location_task record
+            const { task_id } = await taskWithLocationFactory({
+              userId: user_id,
+              locationId: location_id,
+              farmId: farm_id,
+            });
 
-              // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
-              const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
-                { promisedTask: [{ task_id }] },
-                initialTaskTypeData,
-              );
+            // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+            const [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+              { promisedTask: [{ task_id }] },
+              initialTaskTypeData,
+            );
 
-              // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
-              const extraInitialDataInDB = extraSetup
-                ? await extraSetup(initialTaskTypeDataInDB, farm_id)
-                : {};
+            // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+            const extraInitialDataInDB = extraSetup
+              ? await extraSetup(initialTaskTypeDataInDB, farm_id)
+              : {};
 
-              const fakeReqBody = {
-                ...fakeCompletionData,
-                ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
-              };
+            const fakeReqBody = {
+              ...fakeCompletionData,
+              ...getFakeTaskTypeCompletionData(initialTaskTypeDataInDB, extraInitialDataInDB),
+            };
 
-              const res = await completeTaskRequestAsync(
-                { user_id, farm_id },
-                fakeReqBody,
-                task_id,
-                taskType,
-              );
+            const res = await completeTaskRequestAsync(
+              { user_id, farm_id },
+              fakeReqBody,
+              task_id,
+              taskType,
+            );
 
-              const completedTaskInDB = await knex('task').where({ task_id }).first();
-              const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
+            const completedTaskInDB = await knex('task').where({ task_id }).first();
+            const completedTaskTypeDataInDB = await knex(taskType).where({ task_id }).first();
 
-              expect(res.status).toBe(200);
-              expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+            expect(res.status).toBe(200);
+            expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
 
-              const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
+            const expectedTaskTypeData = (await getExpectedTaskTypeData?.()) || {};
 
-              Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+            Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+              if (typeof value === 'object') {
+                expect(completedTaskTypeDataInDB[property]).toEqual(value);
+              } else {
                 expect(completedTaskTypeDataInDB[property]).toBe(value);
-              });
+              }
+            });
 
-              await testCase.extraExpect?.(task_id);
-            }
+            await testCase.extraExpect?.(task_id);
           });
         },
       );
+    });
+  });
+
+  describe('Patch tasks re-completion tests', () => {
+    let farm_id;
+    let user_id;
+    let location_id;
+
+    beforeAll(async () => {
+      const { owner, farm, field } = await setupFarmEnvironment(1);
+      farm_id = farm.farm_id;
+      user_id = owner.user_id;
+      location_id = field.location_id;
+    });
+
+    describe.each(commonTaskTypes)(`%s`, (taskType) => {
+      const testCases = taskRecompletionTestCases[taskType] || {};
+      const { initialData: initialTaskTypeData, extraSetup, recompletionData = [{}] } = testCases;
+      let task_id;
+      let initialTaskTypeDataInDB;
+      let extraInitialDataInDB;
+      let completeRequest;
+
+      beforeAll(async () => {
+        // Insert a task and location_task record
+        ({ task_id } = await taskWithLocationFactory({
+          userId: user_id,
+          locationId: location_id,
+          farmId: farm_id,
+        }));
+
+        // Create a task-type-specific record (e.g. soil_amendment_task, cleaning_task, etc.)
+        [initialTaskTypeDataInDB] = await mocks[`${taskType}Factory`](
+          { promisedTask: [{ task_id }] },
+          initialTaskTypeData,
+        );
+
+        // extraSetup sets up task-type-specific related records (e.g. products, purposes, relationships)
+        extraInitialDataInDB = extraSetup ? await extraSetup(initialTaskTypeDataInDB, farm_id) : {};
+
+        completeRequest = async (taskData) => {
+          return completeTaskRequestAsync({ user_id, farm_id }, taskData, task_id, taskType);
+        };
+
+        // Test completion
+        await completeRequest(fakeCompletionData);
+        const completedTaskInDB = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+        expect(completedTaskInDB.revision_date).toBeNull();
+        expect(completedTaskInDB.revised_by_user_id).toBeNull();
+      });
+
+      // Re-complete
+      let previousRevisionDate = null;
+      test.each(recompletionData)(`re-complete %#`, async (testCase) => {
+        const {
+          getFakeCompletionData: getFakeTaskTypeRecompletionData,
+          getExpectedData: getExpectedDataAfterRecompletion,
+        } = testCase;
+
+        const taskTypeDataBeforeRecompletion = await knex(taskType).where({ task_id }).first();
+
+        const fakeRecompletionData = generateFakeCompletionData();
+
+        const fakeReqBody = {
+          ...fakeRecompletionData,
+          ...(getFakeTaskTypeRecompletionData?.(
+            taskTypeDataBeforeRecompletion,
+            extraInitialDataInDB,
+          ) || {}),
+        };
+
+        const recompleteTaskRes = await completeRequest(fakeReqBody);
+        expect(recompleteTaskRes.status).toBe(200);
+        const recompletedTask = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(recompletedTask, fakeRecompletionData);
+        expect(previousRevisionDate < new Date(recompletedTask.revision_date).getTime()).toBe(true);
+        expect(recompletedTask.revised_by_user_id).toBe(user_id);
+        previousRevisionDate = new Date(recompletedTask.revision_date).getTime();
+
+        const expectedTaskTypeData =
+          (await getExpectedDataAfterRecompletion?.(taskTypeDataBeforeRecompletion)) || {};
+        const recompletedTaskTypeData = await knex(taskType).where({ task_id }).first();
+
+        Object.entries(expectedTaskTypeData).forEach(([property, value]) => {
+          if (typeof value === 'object') {
+            expect(recompletedTaskTypeData[property]).toEqual(value);
+          } else {
+            expect(recompletedTaskTypeData[property]).toBe(value);
+          }
+        });
+
+        await testCase.extraExpect?.(task_id);
+      });
+    });
+
+    describe('harvest_task', () => {
+      let task_id;
+      let completeRequest;
+      let harvestUseTypes;
+      let previousRevisionDate = null;
+
+      beforeAll(async () => {
+        ({ task_id } = await taskWithLocationFactory({
+          userId: user_id,
+          locationId: location_id,
+          farmId: farm_id,
+        }));
+
+        completeRequest = async (completionData, actualQuantity, harvestUses) => {
+          return completeTaskRequestAsync(
+            { user_id, farm_id },
+            {
+              task: {
+                ...completionData,
+                harvest_task: { task_id, actual_quantity: actualQuantity },
+              },
+              harvest_uses: harvestUses,
+            },
+            task_id,
+            'harvest_task',
+          );
+        };
+
+        await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
+        harvestUseTypes = await generateHarvestUseTypes(farm_id, 5);
+
+        const { actualQuantity, harvestUses } = generateFakeHarvestTaskCompletionData(
+          task_id,
+          harvestUseTypes.slice(0, 2),
+        );
+
+        await completeRequest(fakeCompletionData, actualQuantity, harvestUses);
+
+        // Test completion
+        const completedTaskInDB = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(completedTaskInDB, fakeCompletionData);
+        expect(completedTaskInDB.revision_date).toBeNull();
+        expect(completedTaskInDB.revised_by_user_id).toBeNull();
+      });
+
+      const recompletionScenarios = [
+        // Format: [scenario description, [startIndex, endIndex] for slicing harvestUseTypes]
+        ['replace existing use types with two different ones', [2, 4]],
+        ['replace existing use types with a different one', [4, 5]],
+        ['update quantity of existing use type', [4, 5]],
+      ];
+
+      test.each(recompletionScenarios)('re-complete %# (%s)', async (_, slice) => {
+        const useTypes = harvestUseTypes.slice(...slice);
+        const fakeRecompletionData = generateFakeCompletionData();
+        const { actualQuantity, harvestUses } = generateFakeHarvestTaskCompletionData(
+          task_id,
+          useTypes,
+        );
+
+        const recompleteTaskRes = await completeRequest(
+          fakeRecompletionData,
+          actualQuantity,
+          harvestUses,
+        );
+
+        expect(recompleteTaskRes.status).toBe(200);
+        const recompletedTask = await knex('task').where({ task_id }).first();
+        expectTaskCompletionFields(recompletedTask, fakeRecompletionData);
+        expect(recompletedTask.revised_by_user_id).toBe(user_id);
+        expect(previousRevisionDate < new Date(recompletedTask.revision_date).getTime()).toBe(true);
+        previousRevisionDate = new Date(recompletedTask.revision_date).getTime();
+
+        const recompletedHarvestTaskData = await knex('harvest_task').where({ task_id }).first();
+        expect(recompletedHarvestTaskData.actual_quantity).toBe(actualQuantity);
+
+        const recompletedHarvestUsesData = await knex('harvest_use').where({ task_id });
+        expect(recompletedHarvestUsesData.length).toBe(useTypes.length);
+        recompletedHarvestUsesData.forEach(({ harvest_use_type_id, quantity }) => {
+          const expectedUse = harvestUses.find(
+            (use) => use.harvest_use_type_id === harvest_use_type_id,
+          );
+          expect(quantity).toBe(expectedUse.quantity);
+        });
+      });
     });
   });
 

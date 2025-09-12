@@ -24,8 +24,8 @@ function TaskDate() {
     return isTransplantTask
       ? '/add_task/task_crops'
       : isMovementTask
-        ? '/add_task/task_animal_selection'
-        : '/add_task/task_locations';
+      ? '/add_task/task_animal_selection'
+      : '/add_task/task_locations';
   };
 
   const onContinue = (date) => () => {

@@ -19,8 +19,8 @@ export default function CompleteManagementPlan() {
   const status = management_plan?.complete_date
     ? 'completed'
     : management_plan?.abandon_date
-      ? 'abandoned'
-      : '';
+    ? 'abandoned'
+    : '';
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();
 

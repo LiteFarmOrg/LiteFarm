@@ -27,8 +27,8 @@ export default function AbandonManagementPlan() {
   const status = management_plan?.complete_date
     ? 'completed'
     : management_plan?.abandon_date
-      ? 'abandoned'
-      : '';
+    ? 'abandoned'
+    : '';
 
   const onGoBack = () => {
     history.push(`/crop/${crop_variety_id}/management`, location?.state);

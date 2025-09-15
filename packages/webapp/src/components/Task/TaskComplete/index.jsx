@@ -52,7 +52,7 @@ const formatDefaultValues = (persistedFormData, dueDateDisabled) => {
     ...persistedFormData,
     [DATE_CHOICE]: dateChoice,
     [ANOTHER_DATE]: anotherDate,
-    [PREFER_NOT_TO_SAY]: !persistedFormData?.happiness,
+    [PREFER_NOT_TO_SAY]: completeDate && !persistedFormData?.happiness,
   };
 };
 

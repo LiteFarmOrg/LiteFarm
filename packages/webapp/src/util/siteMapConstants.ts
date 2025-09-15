@@ -126,3 +126,6 @@ const LOCATION_TYPE_ROUTES = [
 
 // For top menu navigation title
 export const MAP_ROUTES = [...LOCATION_TYPE_ROUTES, IRRIGATION_PRESCRIPTION_URL];
+
+// Product inventory
+export const PRODUCT_INVENTORY_URL = '/inventory';

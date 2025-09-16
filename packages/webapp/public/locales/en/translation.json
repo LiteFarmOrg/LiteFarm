@@ -1139,6 +1139,10 @@
     "BODY": "The farm map has new features. It is now found under the My Farm menu.",
     "TITLE": "We've updated farm maps!"
   },
+  "INVENTORY": {
+    "ADD_PRODUCT": "Add product",
+    "ADD_SOIL_AMENDMENT_PRODUCT": "Add soil amendment product"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",

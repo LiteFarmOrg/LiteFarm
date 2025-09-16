@@ -191,7 +191,7 @@ export interface SoilAmendmentFertiliserType {
   key: string;
 }
 
-interface Product {
+export interface Product {
   product_id: number | string;
   name: string;
   product_translation_key?: string;

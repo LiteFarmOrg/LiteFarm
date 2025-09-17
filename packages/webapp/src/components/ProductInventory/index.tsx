@@ -28,11 +28,15 @@ import AnimalsFilter from '../../containers/Animals/AnimalsFilter';
 // ------
 import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
-import { Product } from '../../store/api/types';
 import type { SearchProps } from '../Animals/Inventory';
 
+//--- table
+import Table from '../Table';
+import { TableKind } from '../Table/types';
+import { TableProduct } from '../../containers/ProductInventory';
+
 export type PureProductInventory = {
-  filteredInventory: Product[];
+  filteredInventory: TableProduct[];
   zIndexBase: number;
   isDesktop: boolean;
   searchProps: SearchProps;
@@ -43,6 +47,7 @@ export type PureProductInventory = {
   showSearchBarAndFilter?: boolean;
   showActionFloaterButton: boolean;
   hideNoResultsBlock?: boolean;
+  productColumns?: any;
 };
 
 const PureProductInventory = ({
@@ -56,6 +61,7 @@ const PureProductInventory = ({
   showSearchBarAndFilter = true,
   showActionFloaterButton,
   hideNoResultsBlock,
+  productColumns,
 }: PureProductInventory) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -108,9 +114,24 @@ const PureProductInventory = ({
       >
         {/* placeholder inventory */}
         {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
-          <pre className={productInventoryStyles.placeholderTable}>
-            {JSON.stringify(filteredInventory, null, 2)}
-          </pre>
+          <Table
+            kind={TableKind.V2}
+            columns={productColumns}
+            data={filteredInventory}
+            shouldFixTableLayout={isDesktop}
+            minRows={totalInventoryCount}
+            dense={true}
+            showHeader={true}
+            selectedIds={undefined} // add
+            stickyHeader={isDesktop}
+            maxHeight={undefined} // maybe add?
+            spacerRowHeight={undefined} // doesn't seem to do anything?
+            headerClass={styles.headerClass}
+            onRowClick={() => {}} // add
+            extraRowSpacing={undefined} // not sure if needed
+            comparator={undefined} // truly not sure what this is
+            // Hover where?
+          />
         ) : (
           <NoSearchResults
             className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}

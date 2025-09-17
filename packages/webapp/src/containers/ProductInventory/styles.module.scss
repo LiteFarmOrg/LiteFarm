@@ -1,0 +1,43 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+/* Selectors a bit strange because of the specificity of classes in ICON_TEXT */
+.nameCellDesktop div {
+  font-weight: 600;
+  color: #000;
+}
+
+.nameCellMobile {
+  padding: 8px;
+}
+
+.nameCellMobile :nth-child(2) {
+  padding-block: 8px;
+}
+
+.nameCellMobile div {
+  color: #000;
+  font-size: 14px;
+}
+
+.supplierMobile.supplierMobile,
+.typeMobile.typeMobile {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.supplierMobile.supplierMobile {
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+}

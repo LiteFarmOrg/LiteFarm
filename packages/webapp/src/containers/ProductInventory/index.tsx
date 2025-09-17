@@ -12,22 +12,39 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import styles from '../Animals/Inventory/styles.module.scss';
+import productTableStyles from './styles.module.scss';
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import { isAdminSelector } from '../userFarmSlice';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
 import { productsSelector } from '../productSlice';
-import { TASK_TYPES } from '../Task/constants';
 import { Product } from '../../store/api/types';
 import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
+import Cell from '../../components/Table/Cell';
+import { CellKind } from '../../components/Table/types';
+
+export type TableProduct = Product & { id: Product['product_id'] };
+
+enum TASK_TYPES {
+  CLEANING = 'cleaning_task',
+  FIELD_WORK = 'field_work_task',
+  PEST_CONTROL = 'pest_control_task',
+  SOIL_AMENDMENT = 'soil_amendment_task',
+  HARVEST = 'harvest_tasks',
+  IRRIGATION = 'irrigation_task',
+}
+
+const taskTypeToTypeLabelMap: Partial<Record<TASK_TYPES, string>> = {
+  [TASK_TYPES.SOIL_AMENDMENT]: 'INVENTORY.SOIL_AMENDMENT',
+};
 
 export default function ProductInventory() {
   const history = useHistory();
@@ -45,9 +62,12 @@ export default function ProductInventory() {
 
   const productInventory = useSelector(productsSelector);
 
-  const inventory: Product[] = productInventory.filter(
-    (product) => product.type === TASK_TYPES.SOIL_AMENDMENT,
-  );
+  const inventory = productInventory
+    .filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT)
+    .map((product) => ({
+      ...product,
+      id: product.product_id,
+    }));
 
   // Complete placeholder for actual filter state
   const [filtersActive, setFiltersActive] = useState(true);
@@ -56,14 +76,14 @@ export default function ProductInventory() {
 
   const dispatch = useDispatch();
 
-  const makeProductsSearchableString = (product: Product) => {
+  const makeProductsSearchableString = (product: TableProduct) => {
     return [product.name, product.supplier].filter(Boolean).join(' ');
   };
 
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     inventory,
     makeProductsSearchableString,
-  ) as [Product[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [TableProduct[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -74,6 +94,46 @@ export default function ProductInventory() {
       count: searchAndFilteredInventory?.length,
     }),
   };
+
+  const productColumns = useMemo(
+    () => [
+      {
+        id: 'name',
+        label: t('INVENTORY.PRODUCT_NAME').toLocaleUpperCase(),
+        format: (d: TableProduct) => (
+          <Cell
+            kind={CellKind.ICON_TEXT}
+            text={d.name}
+            subtext={isDesktop ? null : (d.supplier ?? '')}
+            className={
+              isDesktop ? productTableStyles.nameCellDesktop : productTableStyles.nameCellMobile
+            }
+            subtextClassName={productTableStyles.supplierMobile}
+          />
+        ),
+      },
+      {
+        id: isDesktop ? 'supplier' : null,
+        label: t('ADD_PRODUCT.SUPPLIER_LABEL'),
+        align: 'center',
+        format: (d: TableProduct) => <Cell kind={CellKind.PLAIN} text={d.supplier ?? ''} />,
+      },
+      {
+        id: 'type',
+        label: t('INVENTORY.PRODUCT_TYPE'),
+        align: 'right',
+        format: (d: TableProduct) => (
+          <Cell
+            kind={CellKind.PLAIN}
+            /* @ts-expect-error todo: fix */
+            text={t(taskTypeToTypeLabelMap[d.type])}
+            className={isDesktop ? '' : productTableStyles.typeMobile}
+          />
+        ),
+      },
+    ],
+    [t, isDesktop],
+  );
 
   return (
     <FixedHeaderContainer
@@ -92,6 +152,7 @@ export default function ProductInventory() {
         history={history}
         showSearchBarAndFilter={true}
         showActionFloaterButton={isAdmin}
+        productColumns={productColumns}
       />
     </FixedHeaderContainer>
   );

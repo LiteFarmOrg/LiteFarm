@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { forwardRef } from 'react';
 import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -123,13 +124,14 @@ const PureProductInventory = ({
 
 export default PureProductInventory;
 
-const AddProductMenuItems = (props: any) => {
+const AddProductMenuItems = forwardRef((props: any, ref) => {
   const { t } = useTranslation();
 
   const handleAddSoilAmendmentProduct = () => {};
 
   return (
     <FloatingMenu
+      ref={ref}
       options={[
         {
           label: t('INVENTORY.SOIL_AMENDMENT'),
@@ -139,4 +141,4 @@ const AddProductMenuItems = (props: any) => {
       {...props}
     />
   );
-};
+});

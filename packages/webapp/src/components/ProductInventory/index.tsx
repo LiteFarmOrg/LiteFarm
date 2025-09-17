@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from '../Animals/Inventory/styles.module.scss';
 import productInventoryStyles from './styles.module.scss';
-import Icon from '../Icons';
 import PureSearchBarWithBackdrop from '../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
@@ -26,8 +25,7 @@ import ClearFiltersButton, {
 // Placeholder
 import AnimalsFilter from '../../containers/Animals/AnimalsFilter';
 // ------
-import FloatingActionButton from '../Button/FloatingActionButton';
-import DropdownButton from '../Form/DropDownButton';
+import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import { Product } from '../../store/api/types';
 import type { SearchProps } from '../Animals/Inventory';
@@ -58,8 +56,6 @@ const PureProductInventory = ({
   showActionFloaterButton,
   hideNoResultsBlock,
 }: PureProductInventory) => {
-  const { t } = useTranslation();
-
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
@@ -80,7 +76,7 @@ const PureProductInventory = ({
             isDesktop={isDesktop}
             className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
           />
-          {/* obviously placeholder filter! */}
+          {/* placeholder filter! */}
           <AnimalsFilter isFilterActive={isFilterActive} />
           <div
             className={clsx(
@@ -98,24 +94,9 @@ const PureProductInventory = ({
               onClick={clearFilters}
             />
           </div>
-          {showActionFloaterButton &&
-            (isDesktop ? (
-              <>
-                <DropdownButton type={'v2'} noIcon={true} Menu={Menu}>
-                  <Icon iconName="PLUS_CIRCLE" />
-                  {t<string>('INVENTORY.ADD_PRODUCT')}
-                </DropdownButton>
-              </>
-            ) : (
-              <div className={styles.ctaButtonWrapper}>
-                <FloatingActionButton
-                  // @ts-expect-error
-                  type={'add'}
-                  onClick={() => {}}
-                  aria-label={t('INVENTORY.ADD_PRODUCT')}
-                />
-              </div>
-            ))}
+          {showActionFloaterButton && (
+            <FloatingButtonMenu type={'add'} Menu={AddProductMenuItems} />
+          )}
         </div>
       )}
       <div
@@ -124,7 +105,7 @@ const PureProductInventory = ({
           productInventoryStyles.placeholderTableWrapperCommon,
         )}
       >
-        {/* Show all inventory contents in a text block for now */}
+        {/* placeholder inventory */}
         <pre className={productInventoryStyles.placeholderTable}>
           {JSON.stringify(filteredInventory, null, 2)}
         </pre>
@@ -142,7 +123,7 @@ const PureProductInventory = ({
 
 export default PureProductInventory;
 
-const Menu = (props: any) => {
+const AddProductMenuItems = (props: any) => {
   const { t } = useTranslation();
 
   const handleAddSoilAmendmentProduct = () => {};
@@ -151,7 +132,7 @@ const Menu = (props: any) => {
     <FloatingMenu
       options={[
         {
-          label: t('INVENTORY.ADD_SOIL_AMENDMENT_PRODUCT'),
+          label: t('INVENTORY.SOIL_AMENDMENT'),
           onClick: handleAddSoilAmendmentProduct,
         },
       ]}

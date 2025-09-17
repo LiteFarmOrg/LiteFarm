@@ -1140,8 +1140,7 @@
     "TITLE": "We've updated farm maps!"
   },
   "INVENTORY": {
-    "ADD_PRODUCT": "Add product",
-    "ADD_SOIL_AMENDMENT_PRODUCT": "Add soil amendment product"
+    "SOIL_AMENDMENT": "Soil amendment"
   },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",

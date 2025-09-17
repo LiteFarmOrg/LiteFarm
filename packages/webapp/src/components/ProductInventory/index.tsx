@@ -107,10 +107,11 @@ const PureProductInventory = ({
         )}
       >
         {/* placeholder inventory */}
-        <pre className={productInventoryStyles.placeholderTable}>
-          {JSON.stringify(filteredInventory, null, 2)}
-        </pre>
-        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? null : (
+        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
+          <pre className={productInventoryStyles.placeholderTable}>
+            {JSON.stringify(filteredInventory, null, 2)}
+          </pre>
+        ) : (
           <NoSearchResults
             className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
             searchTerm={searchString || ''}

@@ -17,7 +17,7 @@ import Icon, { IconName } from '../../../Icons';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  iconName: IconName;
+  iconName?: IconName;
   iconBorder?: boolean;
   text?: string | number | null;
   subtext?: string | number | null;
@@ -25,6 +25,7 @@ export type IconTextProps = {
   photoUrl?: string | null;
   removed?: boolean;
   className?: string;
+  subtextClassName?: string;
   style?: React.CSSProperties;
 };
 
@@ -37,6 +38,7 @@ const IconText = ({
   removed,
   photoUrl,
   className,
+  subtextClassName,
   style,
 }: IconTextProps) => {
   return (
@@ -44,10 +46,12 @@ const IconText = ({
       {photoUrl && iconName !== 'REMOVED_ANIMAL' ? (
         <img src={photoUrl} className={styles.photoUrl} />
       ) : (
-        <Icon
-          iconName={iconName}
-          className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
-        />
+        iconName && (
+          <Icon
+            iconName={iconName}
+            className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
+          />
+        )
       )}
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
         <div className={clsx(styles.mainText, removed && styles.removed)}>
@@ -71,6 +75,7 @@ const IconText = ({
             styles.overflowText,
             subtext && styles.withSubtextSubtext,
             removed && styles.removed,
+            subtextClassName,
           )}
         >
           {subtext}

@@ -21,12 +21,12 @@ import { TASK_TYPE_PRODUCT_MAP } from '../../../containers/Task/constants';
 import { isSameDay } from '../../../util/date-migrate-TS';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
-const DURATION = 'duration';
-const COMPLETION_NOTES = 'completion_notes';
-const HAPPINESS = 'happiness';
-const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
-const DATE_CHOICE = 'date_choice';
-const ANOTHER_DATE = 'date_another';
+export const DURATION = 'duration';
+export const COMPLETION_NOTES = 'completion_notes';
+export const HAPPINESS = 'happiness';
+export const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
+export const DATE_CHOICE = 'date_choice';
+export const ANOTHER_DATE = 'date_another';
 
 const formatDefaultValues = (persistedFormData, dueDateDisabled) => {
   if (persistedFormData[DATE_CHOICE]) {

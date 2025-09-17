@@ -272,7 +272,7 @@ const TaskCompleteStepOne = React.lazy(() => import('../containers/Task/TaskComp
 const TaskReadOnly = React.lazy(() => import('../containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('../containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('../containers/Task/TaskAbandon'));
-const EditCustomTaskUpdate = React.lazy(() => import('../containers/Task/EditCustomTaskUpdate'));
+// const EditCustomTaskUpdate = React.lazy(() => import('../containers/Task/EditCustomTaskUpdate'));
 const TaskTransplantMethod = React.lazy(
   () => import('../containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
 );
@@ -716,11 +716,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/add_task/add_custom_task" exact children={<AddCustomTask />} />
                     <Route path="/add_task/edit_custom_task" exact children={<EditCustomTask />} />
-                    <Route
+                    {/* <Route
                       path="/add_task/edit_custom_task_update"
                       exact
                       children={<EditCustomTaskUpdate />}
-                    />
+                    /> */}
                     <Route
                       path="/add_task/planting_method"
                       exact
@@ -1122,11 +1122,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/add_task/add_custom_task" exact children={<AddCustomTask />} />
                     <Route path="/add_task/edit_custom_task" exact children={<EditCustomTask />} />
-                    <Route
+                    {/* <Route
                       path="/add_task/edit_custom_task_update"
                       exact
                       children={<EditCustomTaskUpdate />}
-                    />
+                    /> */}
                     <Route
                       path="/add_task/planting_method"
                       exact
@@ -1173,8 +1173,6 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/" exact children={<Home />} />
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
-                    <Route path="/people" exact children={<People />} />
-                    <Route path="/farm" exact children={<Farm />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop_catalogue" exact children={<CropCatalogue />} />
                     <Route
@@ -1282,11 +1280,11 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/add_task/add_custom_task" exact children={<AddCustomTask />} />
                     <Route path="/add_task/edit_custom_task" exact children={<EditCustomTask />} />
-                    <Route
+                    {/* <Route
                       path="/add_task/edit_custom_task_update"
                       exact
                       children={<EditCustomTaskUpdate />}
-                    />
+                    /> */}
                     <Route
                       path="/add_task/planting_method"
                       exact

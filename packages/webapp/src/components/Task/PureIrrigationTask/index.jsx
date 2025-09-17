@@ -66,9 +66,6 @@ export default function PureIrrigationTask({
       )[0],
     };
   })[0];
-  const [irrigationTypeValue, setIrrigationTypeValue] = useState(() => {
-    if (locationDefaults?.irrigation_task_type) return locationDefaults?.irrigation_task_type;
-  });
   const [totalVolumeWaterUsage, setTotalVolumeWaterUsage] = useState();
   const [totalDepthWaterUsage, setTotalDepthWaterUsage] = useState();
   const [estimatedWaterUsageComputed, setEstimatedWaterUsageComputed] = useState(false);
@@ -85,7 +82,7 @@ export default function PureIrrigationTask({
     return defaultIrrigationTaskTypes;
   };
 
-  const IrrigationTypeOptions = useMemo(() => {
+  const irrigationTypeOptions = useMemo(() => {
     const defaultIrrigationTaskTypes = getDefaultIrrigationTypes();
     const options = irrigationTaskTypes.map((irrigationType) => {
       return generateIrrigationTypeOption(irrigationType, defaultIrrigationTaskTypes, t);
@@ -106,8 +103,7 @@ export default function PureIrrigationTask({
   const stateController = () => {
     return { register, getValues, watch, control, setValue, reset };
   };
-  const IRRIGATION_TYPE = 'irrigation_task.irrigation_type_name';
-  const IRRIGATION_TYPE_ID = 'irrigation_task.irrigation_type_id';
+  const IRRIGATION_TYPE = 'irrigation_task.irrigation_type';
   const DEFAULT_IRRIGATION_TASK_LOCATION = 'irrigation_task.default_irrigation_task_type_location';
   const DEFAULT_IRRIGATION_MEASUREMENT = 'irrigation_task.default_irrigation_task_type_measurement';
   const IRRIGATION_TYPE_OTHER = 'irrigation_task.irrigation_task_type_other';
@@ -119,6 +115,7 @@ export default function PureIrrigationTask({
   const estimated_water_usage_unit = watch(ESTIMATED_WATER_USAGE_UNIT);
   const irrigation_type = watch(IRRIGATION_TYPE);
   const measurement_type = watch(MEASUREMENT_TYPE);
+  const irrigationTypeValue = irrigation_type?.value;
 
   // If the task is being modified on completion then set the "set default" flags to false in the form
   // this is to avoid overwriting default setting set by another task during that task's creation
@@ -157,32 +154,29 @@ export default function PureIrrigationTask({
   };
 
   useEffect(() => {
+    if (irrigation_type?.irrigation_type_name && !irrigation_type?.value) {
+      setValue(
+        IRRIGATION_TYPE,
+        irrigationTypeOptions.find(
+          (option) => option.irrigation_type_id === irrigation_type.irrigation_type_id,
+        ),
+      );
+    }
+
     if (!createTask) return;
     if (locationDefaults?.irrigation_type_id) {
       setValue(
         IRRIGATION_TYPE,
-        IrrigationTypeOptions.find(
+        irrigationTypeOptions.find(
           (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
         ),
       );
-      setValue(IRRIGATION_TYPE_ID, locationDefaults.irrigation_type_id);
     }
     if (locationDefaults?.default_measuring_type) {
       setValue(MEASUREMENT_TYPE, locationDefaults?.default_measuring_type);
     }
   }, []);
 
-  const getDefaultIrrigationTypeOptions = () => {
-    if (locationDefaults?.irrigation_type_id) {
-      return IrrigationTypeOptions.find(
-        (options) => options.irrigation_type_id === locationDefaults?.irrigation_type_id,
-      );
-    } else {
-      return IrrigationTypeOptions.find(
-        (options) => options.irrigation_type_id === irrigation_type?.irrigation_type_id,
-      );
-    }
-  };
   useEffect(() => {
     if (
       estimated_water_usage !== totalDepthWaterUsage &&
@@ -211,22 +205,24 @@ export default function PureIrrigationTask({
         control={control}
         name={IRRIGATION_TYPE}
         rules={{ required: true }}
-        render={({ field: { onChange, onBlur, onFocus } }) => {
+        render={({ field: { onChange, onBlur, onFocus, value } }) => {
           return (
             <ReactSelect
               onFocus={onFocus}
               label={t('ADD_TASK.IRRIGATION_VIEW.TYPE_OF_IRRIGATION')}
-              options={IrrigationTypeOptions}
+              options={irrigationTypeOptions}
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
-                setIrrigationTypeValue(e.value);
                 setValue(MEASUREMENT_TYPE, e.default_measuring_type);
-                setValue(IRRIGATION_TYPE_ID, e.irrigation_type_id);
               }}
               isDisabled={disabled}
-              value={IrrigationTypeOptions.find((options) => options.value === irrigation_type)}
-              defaultValue={getDefaultIrrigationTypeOptions}
+              value={
+                value &&
+                irrigationTypeOptions.find(
+                  (option) => option.irrigation_type_id === (value.irrigation_type_id || null),
+                )
+              }
             />
           );
         }}

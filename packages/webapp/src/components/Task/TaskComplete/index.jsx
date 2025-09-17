@@ -155,6 +155,16 @@ export default function PureTaskComplete({
       data.location_id = persistedFormData?.locations[0].location_id;
     }
 
+    if (persistedFormData?.need_changes && isIrrigationLocation) {
+      const irrigationType = formData.irrigation_task.irrigation_type;
+      if (irrigationType.value === 'OTHER') {
+        data.taskData.irrigation_task.irrigation_type_name =
+          data.taskData.irrigation_task.irrigation_task_type_other;
+      } else {
+        data.taskData.irrigation_task.irrigation_type_id = irrigationType.irrigation_type_id;
+      }
+    }
+
     // Won't send task type details if need_changes is false
     if (persistedFormData?.need_changes && TASK_TYPE_PRODUCT_MAP[data.task_translation_key]) {
       const taskProductKey = TASK_TYPE_PRODUCT_MAP[data.task_translation_key];

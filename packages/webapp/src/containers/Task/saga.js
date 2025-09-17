@@ -769,19 +769,6 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
       const taskType = task_translation_key.toLowerCase();
       const irrigation_task = data.taskData[taskType];
       if (irrigation_task) {
-        let isOtherIrrigationType;
-        if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
-          isOtherIrrigationType = !!data.taskData[taskType]?.irrigation_task_type_other;
-          data.taskData[taskType].irrigation_type_name = isOtherIrrigationType
-            ? data.taskData[taskType]?.irrigation_task_type_other
-            : data.taskData[taskType]?.irrigation_type_name;
-        } else {
-          isOtherIrrigationType = data.taskData[taskType].irrigation_type_name.value === 'OTHER';
-          data.taskData[taskType].irrigation_type_name = isOtherIrrigationType
-            ? data.taskData[taskType].irrigation_task_type_other
-            : data.taskData[taskType].irrigation_type_name.value;
-        }
-
         data.taskData.location_defaults = [
           {
             location_id: data.location_id,
@@ -803,11 +790,6 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
         if (data.location_id) {
           data.taskData[taskType].location_id = data.location_id;
           delete data.location_id;
-        }
-
-        if (!isOtherIrrigationType) {
-          data.taskData[taskType].irrigation_type_id =
-            data.taskData[taskType].irrigation_type.irrigation_type_id;
         }
 
         for (const element in data.taskData[taskType]) {

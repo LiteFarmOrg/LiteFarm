@@ -155,6 +155,7 @@ export default function PureIrrigationTask({
 
   useEffect(() => {
     if (irrigation_type?.irrigation_type_name && !irrigation_type?.value) {
+      // Transform DB irrigation type into ReactSelect option format
       setValue(
         IRRIGATION_TYPE,
         irrigationTypeOptions.find(

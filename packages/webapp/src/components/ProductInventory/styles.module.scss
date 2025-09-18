@@ -31,3 +31,26 @@
   margin-block: 1rem;
   height: 100%;
 }
+
+.row.row {
+  &:hover {
+    background-color: var(--Colors-Backgrounds-table-row-hover);
+  }
+
+  /* remove the --Colors-Accent-Accent-yellow-400 border from selected rows */
+  &[aria-checked='true'],
+  &[aria-checked='true']:hover {
+    & > td {
+      border-color: transparent;
+
+      &:first-child {
+        border-color: transparent;
+        border-left: none;
+      }
+      &:last-child {
+        border-color: transparent;
+        border-right: none;
+      }
+    }
+  }
+}

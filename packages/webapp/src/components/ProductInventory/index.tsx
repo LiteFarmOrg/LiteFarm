@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { forwardRef } from 'react';
+import { forwardRef, ChangeEvent } from 'react';
 import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -48,6 +48,8 @@ export type PureProductInventory = {
   showActionFloaterButton: boolean;
   hideNoResultsBlock?: boolean;
   productColumns?: any;
+  selectedIds: number[];
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
 };
 
 const PureProductInventory = ({
@@ -62,6 +64,8 @@ const PureProductInventory = ({
   showActionFloaterButton,
   hideNoResultsBlock,
   productColumns,
+  selectedIds,
+  onRowClick,
 }: PureProductInventory) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -112,7 +116,6 @@ const PureProductInventory = ({
           productInventoryStyles.placeholderTableWrapperCommon,
         )}
       >
-        {/* placeholder inventory */}
         {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
           <Table
             kind={TableKind.V2}
@@ -122,12 +125,13 @@ const PureProductInventory = ({
             minRows={totalInventoryCount}
             dense={true}
             showHeader={true}
-            selectedIds={undefined} // add
+            selectedIds={selectedIds}
             stickyHeader={isDesktop}
             maxHeight={undefined} // maybe add?
             spacerRowHeight={undefined} // doesn't seem to do anything?
             headerClass={styles.headerClass}
-            onRowClick={() => {}} // add
+            rowClass={productInventoryStyles.row}
+            onRowClick={onRowClick}
             extraRowSpacing={undefined} // not sure if needed
             comparator={undefined} // truly not sure what this is
             // Hover where?

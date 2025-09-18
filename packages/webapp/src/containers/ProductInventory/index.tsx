@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/Fi
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
 
-export type TableProduct = Product & { id: Product['product_id'] };
+export type TableProduct = Product & { id: Extract<Product['product_id'], number> };
 
 enum TASK_TYPES {
   CLEANING = 'cleaning_task',
@@ -95,11 +95,23 @@ export default function ProductInventory() {
     }),
   };
 
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  // Complete placeholder for viewing selected styles
+  // Actual row click will trigger form
+  const handleRowClick = (_event: ChangeEvent<HTMLInputElement>, row: TableProduct) => {
+    if (selectedIds.includes(row.id)) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds([row.id]);
+    }
+  };
+
   const productColumns = useMemo(
     () => [
       {
         id: 'name',
-        label: t('INVENTORY.PRODUCT_NAME').toLocaleUpperCase(),
+        label: t('INVENTORY.PRODUCT_NAME'),
         format: (d: TableProduct) => (
           <Cell
             kind={CellKind.ICON_TEXT}
@@ -115,8 +127,14 @@ export default function ProductInventory() {
       {
         id: isDesktop ? 'supplier' : null,
         label: t('ADD_PRODUCT.SUPPLIER_LABEL'),
-        align: 'center',
-        format: (d: TableProduct) => <Cell kind={CellKind.PLAIN} text={d.supplier ?? ''} />,
+        align: 'left',
+        format: (d: TableProduct) => (
+          <Cell
+            kind={CellKind.PLAIN}
+            text={d.supplier ?? ''}
+            className={productTableStyles.textCell}
+          />
+        ),
       },
       {
         id: 'type',
@@ -127,7 +145,7 @@ export default function ProductInventory() {
             kind={CellKind.PLAIN}
             /* @ts-expect-error todo: fix */
             text={t(taskTypeToTypeLabelMap[d.type])}
-            className={isDesktop ? '' : productTableStyles.typeMobile}
+            className={isDesktop ? productTableStyles.textCell : productTableStyles.typeMobile}
           />
         ),
       },
@@ -153,6 +171,8 @@ export default function ProductInventory() {
         showSearchBarAndFilter={true}
         showActionFloaterButton={isAdmin}
         productColumns={productColumns}
+        selectedIds={selectedIds}
+        onRowClick={handleRowClick}
       />
     </FixedHeaderContainer>
   );

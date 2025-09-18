@@ -15,8 +15,14 @@
 
 /* Selectors a bit strange because of the specificity of classes in ICON_TEXT */
 .nameCellDesktop div {
+  font-size: 14px;
   font-weight: 600;
   color: #000;
+}
+
+.textCell.textCell {
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .nameCellMobile {

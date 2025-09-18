@@ -157,10 +157,12 @@ export default function PureTaskComplete({
 
     if (persistedFormData?.need_changes && isIrrigationLocation) {
       const irrigationType = formData.irrigation_task.irrigation_type;
-      if (irrigationType.value === 'OTHER') {
-        data.taskData.irrigation_task.irrigation_type_name =
-          data.taskData.irrigation_task.irrigation_task_type_other;
-      } else {
+      data.taskData.irrigation_task.irrigation_type_name =
+        irrigationType.value === 'OTHER'
+          ? data.taskData.irrigation_task.irrigation_task_type_other
+          : irrigationType.value;
+
+      if (irrigationType.value !== 'OTHER') {
         data.taskData.irrigation_task.irrigation_type_id = irrigationType.irrigation_type_id;
       }
     }

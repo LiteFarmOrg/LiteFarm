@@ -13,37 +13,44 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* Selectors a bit strange because of the specificity of classes in ICON_TEXT */
-.nameCellDesktop div {
-  font-size: 14px;
-  font-weight: 600;
-  color: #000;
-}
+@import '@assets/mixin.scss';
 
-.textCell.textCell {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.nameCellMobile {
+.nameContainer {
   padding: 8px;
+
+  .nameAndIcon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  .name,
+  .supplier {
+    padding-block: 4px;
+    text-overflow: ellipsis;
+  }
+
+  .name {
+    color: #000;
+    font-weight: 600;
+  }
+
+  .supplierMobile {
+    @include lg-breakpoint {
+      display: none;
+    }
+  }
 }
 
-.nameCellMobile :nth-child(2) {
-  padding-block: 8px;
+.type.type {
+  padding: 4px 8px 4px 16px;
 }
 
-.nameCellMobile div {
-  color: #000;
+.supplier.supplier,
+.type.type {
   font-size: 14px;
-}
-
-.supplierMobile.supplierMobile,
-.typeMobile.typeMobile {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.supplierMobile.supplierMobile {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
 }

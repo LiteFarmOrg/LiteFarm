@@ -18,8 +18,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
-import styles from '../Animals/Inventory/styles.module.scss';
-import productTableStyles from './styles.module.scss';
+import animalInventoryStyles from '../Animals/Inventory/styles.module.scss';
+import styles from './styles.module.scss';
+import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg';
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import { isAdminSelector } from '../userFarmSlice';
 import PureProductInventory from '../../components/ProductInventory';
@@ -32,7 +33,10 @@ import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/Fi
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
 
-export type TableProduct = Product & { id: Extract<Product['product_id'], number> };
+export type TableProduct = Product & {
+  id: Extract<Product['product_id'], number>;
+  isLibraryProduct: boolean;
+};
 
 const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: 'INVENTORY.SOIL_AMENDMENT',
@@ -60,6 +64,8 @@ export default function ProductInventory() {
     .map((product) => ({
       ...product,
       id: product.product_id,
+      /* Placeholder until library products are defined */
+      isLibraryProduct: product.product_id % 2 === 0,
     }));
 
   // Complete placeholder for actual filter state
@@ -105,28 +111,25 @@ export default function ProductInventory() {
       {
         id: 'name',
         label: t('INVENTORY.PRODUCT_NAME'),
-        format: (d: TableProduct) => (
-          <Cell
-            kind={CellKind.ICON_TEXT}
-            text={d.name}
-            subtext={isDesktop ? null : (d.supplier ?? '')}
-            className={
-              isDesktop ? productTableStyles.nameCellDesktop : productTableStyles.nameCellMobile
-            }
-            subtextClassName={productTableStyles.supplierMobile}
-          />
-        ),
+        format: (d: TableProduct) => {
+          return (
+            // Custom JSX used over <IconCell /> to reduce style override complexity
+            <div className={styles.nameContainer}>
+              <div className={styles.nameAndIcon}>
+                {d.isLibraryProduct && <BookIcon />}
+                <span className={styles.name}>{d.name}</span>
+              </div>
+              <span className={styles.supplierMobile}>{d.supplier}</span>
+            </div>
+          );
+        },
       },
       {
         id: isDesktop ? 'supplier' : null,
         label: t('ADD_PRODUCT.SUPPLIER_LABEL'),
         align: 'left',
         format: (d: TableProduct) => (
-          <Cell
-            kind={CellKind.PLAIN}
-            text={d.supplier ?? ''}
-            className={productTableStyles.textCell}
-          />
+          <Cell kind={CellKind.PLAIN} text={d.supplier ?? ''} className={styles.supplier} />
         ),
       },
       {
@@ -137,7 +140,7 @@ export default function ProductInventory() {
           <Cell
             kind={CellKind.PLAIN}
             text={t(PRODUCT_TYPE_LABELS[d.type] ?? '')}
-            className={isDesktop ? productTableStyles.textCell : productTableStyles.typeMobile}
+            className={styles.type}
           />
         ),
       },
@@ -148,7 +151,7 @@ export default function ProductInventory() {
   return (
     <FixedHeaderContainer
       header={null}
-      classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
+      classes={{ paper: animalInventoryStyles.paper, divWrapper: animalInventoryStyles.divWrapper }}
       kind={ContainerKind.PAPER}
     >
       <PureProductInventory

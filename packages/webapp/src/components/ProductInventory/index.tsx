@@ -17,6 +17,7 @@ import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from '../Animals/Inventory/styles.module.scss';
+import { usedHeight } from '../../containers/Animals/Inventory';
 import productInventoryStyles from './styles.module.scss';
 import PureSearchBarWithBackdrop from '../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../components/Card/NoSearchResults';
@@ -29,8 +30,6 @@ import AnimalsFilter from '../../containers/Animals/AnimalsFilter';
 import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import type { SearchProps } from '../Animals/Inventory';
-
-//--- table
 import Table from '../Table';
 import { TableKind } from '../Table/types';
 import { TableProduct } from '../../containers/ProductInventory';
@@ -39,6 +38,7 @@ export type PureProductInventory = {
   filteredInventory: TableProduct[];
   zIndexBase: number;
   isDesktop: boolean;
+  containerHeight?: number;
   searchProps: SearchProps;
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -56,6 +56,7 @@ const PureProductInventory = ({
   filteredInventory,
   zIndexBase,
   isDesktop,
+  containerHeight,
   searchProps,
   totalInventoryCount,
   isFilterActive,
@@ -111,10 +112,7 @@ const PureProductInventory = ({
         </div>
       )}
       <div
-        className={clsx(
-          isDesktop ? '' : styles.tableWrapper,
-          productInventoryStyles.placeholderTableWrapperCommon,
-        )}
+        className={clsx(isDesktop ? '' : styles.tableWrapper, productInventoryStyles.tableWrapper)}
       >
         {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
           <Table
@@ -124,17 +122,14 @@ const PureProductInventory = ({
             shouldFixTableLayout={isDesktop}
             minRows={totalInventoryCount}
             dense={true}
-            showHeader={true}
+            showHeader={isDesktop}
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
-            maxHeight={undefined} // maybe add?
-            spacerRowHeight={undefined} // doesn't seem to do anything?
             headerClass={styles.headerClass}
             rowClass={productInventoryStyles.row}
             onRowClick={onRowClick}
-            extraRowSpacing={undefined} // not sure if needed
-            comparator={undefined} // truly not sure what this is
-            // Hover where?
+            defaultOrderBy={'name'}
+            maxHeight={!isDesktop || !containerHeight ? undefined : containerHeight - usedHeight}
           />
         ) : (
           <NoSearchResults

@@ -56,7 +56,7 @@ const HEIGHTS = {
   filterAndSearch: 64,
   containerPadding: 32,
 };
-const usedHeight = sumObjectValues(HEIGHTS);
+export const usedHeight = sumObjectValues(HEIGHTS);
 
 export enum View {
   DEFAULT = 'default',

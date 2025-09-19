@@ -167,6 +167,7 @@ export default function ProductInventory() {
         productColumns={productColumns}
         selectedIds={selectedIds}
         onRowClick={handleRowClick}
+        onAddMenuItemClick={console.log}
       />
     </FixedHeaderContainer>
   );

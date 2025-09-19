@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { forwardRef, ChangeEvent } from 'react';
+import { forwardRef, ChangeEvent, useMemo } from 'react';
 import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -33,6 +33,7 @@ import type { SearchProps } from '../Animals/Inventory';
 import Table from '../Table';
 import { TableKind } from '../Table/types';
 import { TableProduct } from '../../containers/ProductInventory';
+import { ProductType } from './types';
 
 export type PureProductInventory = {
   filteredInventory: TableProduct[];
@@ -48,6 +49,7 @@ export type PureProductInventory = {
   productColumns?: any;
   selectedIds: number[];
   onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
+  onAddMenuItemClick: (type: ProductType) => void;
 };
 
 const PureProductInventory = ({
@@ -63,9 +65,15 @@ const PureProductInventory = ({
   productColumns,
   selectedIds,
   onRowClick,
+  onAddMenuItemClick,
 }: PureProductInventory) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
+
+  const AddProductMenuItems = useMemo(
+    () => createAddProductMenuItems(onAddMenuItemClick),
+    [onAddMenuItemClick],
+  );
 
   return (
     <>
@@ -137,21 +145,20 @@ const PureProductInventory = ({
 
 export default PureProductInventory;
 
-const AddProductMenuItems = forwardRef((props: any, ref) => {
-  const { t } = useTranslation();
+const createAddProductMenuItems = (onMenuItemClick: (type: ProductType) => void) =>
+  forwardRef((props: any, ref) => {
+    const { t } = useTranslation();
 
-  const handleAddSoilAmendmentProduct = () => {};
-
-  return (
-    <FloatingMenu
-      ref={ref}
-      options={[
-        {
-          label: t('INVENTORY.SOIL_AMENDMENT'),
-          onClick: handleAddSoilAmendmentProduct,
-        },
-      ]}
-      {...props}
-    />
-  );
-});
+    return (
+      <FloatingMenu
+        ref={ref}
+        options={[
+          {
+            label: t('INVENTORY.SOIL_AMENDMENT'),
+            onClick: () => onMenuItemClick(ProductType.SOIL_AMENDMENT),
+          },
+        ]}
+        {...props}
+      />
+    );
+  });

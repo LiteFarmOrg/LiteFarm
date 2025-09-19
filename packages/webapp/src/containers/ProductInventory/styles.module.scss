@@ -29,9 +29,10 @@
   }
 
   .name,
-  .supplier {
+  .supplierMobile {
     padding-block: 4px;
-    text-overflow: ellipsis;
+    line-height: normal;
+    letter-spacing: -0.308px;
   }
 
   .name {
@@ -53,4 +54,5 @@
 .supplier.supplier,
 .type.type {
   font-size: 14px;
+  letter-spacing: -0.308px;
 }

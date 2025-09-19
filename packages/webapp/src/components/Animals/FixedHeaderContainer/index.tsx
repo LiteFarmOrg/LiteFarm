@@ -85,7 +85,7 @@ const FixedHeaderContainer = ({
   );
 
   useLayoutEffect(() => {
-    if (kind === ContainerKind.OVERFLOW) {
+    if (kind === ContainerKind.OVERFLOW || !header) {
       return;
     }
 

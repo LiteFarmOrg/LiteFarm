@@ -1139,6 +1139,9 @@
     "BODY": "The farm map has new features. It is now found under the My Farm menu.",
     "TITLE": "We've updated farm maps!"
   },
+  "INVENTORY": {
+    "SOIL_AMENDMENT": "Soil amendment"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
@@ -1435,6 +1438,7 @@
     "FARM_SETTINGS": "Farm settings",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
+    "INVENTORY": "Inventory",
     "LABOUR_EXPENSES": "Labour expenses",
     "MAP": "Map",
     "OTHER_EXPENSES": "Other expenses",

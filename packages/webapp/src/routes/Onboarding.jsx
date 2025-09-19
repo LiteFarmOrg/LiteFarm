@@ -27,29 +27,33 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
+const InterestedOrganic = React.lazy(
+  () =>
+    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-  ),
-);
-
-const CertifierSelectionMenu = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-  ),
+const CertificationSelection = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+    ),
 );
 
-const SetCertificationSummary = React.lazy(() =>
-  import(
-    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-  ),
+const CertifierSelectionMenu = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+    ),
 );
 
-const RequestCertifier = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+const SetCertificationSummary = React.lazy(
+  () =>
+    import(
+      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+    ),
+);
+
+const RequestCertifier = React.lazy(
+  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 function OnboardingFlow(props) {

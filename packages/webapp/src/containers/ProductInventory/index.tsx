@@ -22,7 +22,6 @@ import animalInventoryStyles from '../Animals/Inventory/styles.module.scss';
 import styles from './styles.module.scss';
 import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg';
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
-import { isAdminSelector } from '../userFarmSlice';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
 import { productsSelector } from '../productSlice';
@@ -47,8 +46,6 @@ export default function ProductInventory() {
   const { t } = useTranslation();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-
-  const isAdmin = useSelector(isAdminSelector);
 
   const zIndexBase = theme.zIndex.drawer;
 
@@ -163,8 +160,10 @@ export default function ProductInventory() {
         isFilterActive={filtersActive}
         clearFilters={() => setFiltersActive(false)}
         history={history}
-        showSearchBarAndFilter={true}
-        showActionFloaterButton={isAdmin}
+        showActionFloaterButton={
+          /* placeholder. Eventually button should be hid when form is open */
+          true
+        }
         productColumns={productColumns}
         selectedIds={selectedIds}
         onRowClick={handleRowClick}

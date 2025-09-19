@@ -44,9 +44,7 @@ export type PureProductInventory = {
   isFilterActive: boolean;
   clearFilters: () => void;
   history: History;
-  showSearchBarAndFilter?: boolean;
   showActionFloaterButton: boolean;
-  hideNoResultsBlock?: boolean;
   productColumns?: any;
   selectedIds: number[];
   onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
@@ -61,9 +59,7 @@ const PureProductInventory = ({
   totalInventoryCount,
   isFilterActive,
   clearFilters,
-  showSearchBarAndFilter = true,
   showActionFloaterButton,
-  hideNoResultsBlock,
   productColumns,
   selectedIds,
   onRowClick,
@@ -73,48 +69,44 @@ const PureProductInventory = ({
 
   return (
     <>
-      {showSearchBarAndFilter && (
+      <div
+        className={clsx(
+          isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
+          styles.searchAndFilterCommon,
+        )}
+      >
+        <PureSearchBarWithBackdrop
+          value={searchString}
+          onChange={(e: any) => setSearchString(e.target.value)}
+          placeholderText={placeHolderText}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
+        />
+        {/* placeholder filter! */}
+        <AnimalsFilter isFilterActive={isFilterActive} />
         <div
           className={clsx(
-            isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
-            styles.searchAndFilterCommon,
+            isDesktop ? styles.searchResultsDesktop : styles.searchResults,
+            styles.searchResultsText,
+            isFilterActive ? styles.filterActive : '',
           )}
         >
-          <PureSearchBarWithBackdrop
-            value={searchString}
-            onChange={(e: any) => setSearchString(e.target.value)}
-            placeholderText={placeHolderText}
-            zIndexBase={zIndexBase}
-            isDesktop={isDesktop}
-            className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
-          />
-          {/* placeholder filter! */}
-          <AnimalsFilter isFilterActive={isFilterActive} />
-          <div
-            className={clsx(
-              isDesktop ? styles.searchResultsDesktop : styles.searchResults,
-              styles.searchResultsText,
-              isFilterActive ? styles.filterActive : '',
-            )}
-          >
-            {searchResultsText}
-          </div>
-          <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
-            <ClearFiltersButton
-              type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
-              isFilterActive={isFilterActive}
-              onClick={clearFilters}
-            />
-          </div>
-          {showActionFloaterButton && (
-            <FloatingButtonMenu type={'add'} Menu={AddProductMenuItems} />
-          )}
+          {searchResultsText}
         </div>
-      )}
+        <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
+          <ClearFiltersButton
+            type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
+            isFilterActive={isFilterActive}
+            onClick={clearFilters}
+          />
+        </div>
+        {showActionFloaterButton && <FloatingButtonMenu type={'add'} Menu={AddProductMenuItems} />}
+      </div>
       <div
         className={clsx(isDesktop ? '' : styles.tableWrapper, productInventoryStyles.tableWrapper)}
       >
-        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
+        {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
             columns={productColumns}

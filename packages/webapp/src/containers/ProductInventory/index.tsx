@@ -26,6 +26,7 @@ import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
 import { productsSelector } from '../productSlice';
 import { Product } from '../../store/api/types';
+import { TASK_TYPES } from '../Task/constants';
 import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import Cell from '../../components/Table/Cell';
@@ -33,16 +34,7 @@ import { CellKind } from '../../components/Table/types';
 
 export type TableProduct = Product & { id: Extract<Product['product_id'], number> };
 
-enum TASK_TYPES {
-  CLEANING = 'cleaning_task',
-  FIELD_WORK = 'field_work_task',
-  PEST_CONTROL = 'pest_control_task',
-  SOIL_AMENDMENT = 'soil_amendment_task',
-  HARVEST = 'harvest_tasks',
-  IRRIGATION = 'irrigation_task',
-}
-
-const taskTypeToTypeLabelMap: Partial<Record<TASK_TYPES, string>> = {
+const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: 'INVENTORY.SOIL_AMENDMENT',
 };
 
@@ -64,6 +56,7 @@ export default function ProductInventory() {
 
   const inventory = productInventory
     .filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT)
+    /* Table requires each array object to have an "id" key */
     .map((product) => ({
       ...product,
       id: product.product_id,
@@ -143,8 +136,7 @@ export default function ProductInventory() {
         format: (d: TableProduct) => (
           <Cell
             kind={CellKind.PLAIN}
-            /* @ts-expect-error todo: fix */
-            text={t(taskTypeToTypeLabelMap[d.type])}
+            text={t(PRODUCT_TYPE_LABELS[d.type] ?? '')}
             className={isDesktop ? productTableStyles.textCell : productTableStyles.typeMobile}
           />
         ),

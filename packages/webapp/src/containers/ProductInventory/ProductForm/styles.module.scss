@@ -1,0 +1,63 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.sideDrawerContainer {
+  max-width: 520px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 16px;
+}
+
+.buttons {
+  display: flex;
+  gap: 4px;
+  padding-left: 16px;
+
+  > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--Colors-Primary-Primary-teal-50);
+
+    svg {
+      width: 20px;
+
+      path {
+        stroke: currentColor;
+      }
+    }
+
+    &:nth-of-type(3) {
+      svg {
+        width: 22px;
+      }
+    }
+  }
+}
+
+.formWrapper {
+  padding: 32px 8px 0 16px;
+}
+
+.inFormButtons {
+  padding-top: 16px;
+}

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021-2024 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,18 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Model } from 'objection';
 import baseModel from './baseModel.js';
-import ProductFarmModel from './productFarmModel.js';
-import soilAmendmentProductModel from './soilAmendmentProductModel.js';
 
-class ProductModel extends baseModel {
+class ProductFarmModel extends baseModel {
   static get tableName() {
-    return 'product';
+    return 'product_farm';
   }
 
   static get idColumn() {
-    return 'product_id';
+    return 'product_farm_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -32,41 +29,22 @@ class ProductModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'type'],
+      required: ['product_id', 'farm_id'],
       properties: {
+        product_farm_id: { type: 'integer' },
         product_id: { type: 'integer' },
-        name: { type: 'string' },
-        product_translation_key: { type: ['string', 'null'] },
-        type: {
-          type: 'string',
-          enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
+        farm_id: { type: 'string' },
+        archived: { type: 'boolean', default: false },
+        supplier: { type: ['string', 'null'], maxLength: 255 },
+        on_permitted_substances_list: {
+          type: ['string', 'null'],
+          enum: ['YES', 'NO', 'NOT_SURE', null],
         },
         ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    return {
-      product_farms: {
-        relation: Model.HasManyRelation,
-        modelClass: ProductFarmModel,
-        join: {
-          from: 'product.product_id',
-          to: 'product_farm.product_id',
-        },
-      },
-      soil_amendment_product: {
-        relation: Model.HasOneRelation,
-        modelClass: soilAmendmentProductModel,
-        join: {
-          from: 'product.product_id',
-          to: 'soil_amendment_product.product_id',
-        },
-      },
-    };
-  }
 }
 
-export default ProductModel;
+export default ProductFarmModel;

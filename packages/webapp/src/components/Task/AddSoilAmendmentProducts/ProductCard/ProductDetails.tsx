@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -73,15 +73,11 @@ const molecularCompoundsUnitOptions = [
   { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
 ];
 
-export type ProductDetailsProps = {
+type CommonProps = {
   productId: number | string;
   products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
-  isExpanded: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
-  expand: () => void;
-  unExpand: () => void;
-  toggleExpanded: () => void;
   clearProduct: () => void;
   setProductId: (id: ProductId) => void;
   onSave: (
@@ -89,7 +85,19 @@ export type ProductDetailsProps = {
     callback?: (id: ProductId) => void,
   ) => Promise<void>;
   fertiliserTypeOptions: { label: string; value: number }[];
+};
+
+export type NestedProductDetailsProps = CommonProps & {
+  isNestedForm: true;
+  isExpanded: boolean;
+  expand: () => void;
+  unExpand: () => void;
+  toggleExpanded: () => void;
   productsVersion: number;
+};
+
+export type StandaloneProductDetailsProps = CommonProps & {
+  isNestedForm: false;
 };
 
 export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -115,23 +123,29 @@ export const defaultValues = {
 
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
-const ProductDetails = ({
-  productId,
-  products = [],
-  isReadOnly,
-  isExpanded,
-  farm: { country_id, interested },
-  expand,
-  unExpand,
-  toggleExpanded: toggleProductDetailsExpanded,
-  clearProduct,
-  setProductId,
-  onSave,
-  fertiliserTypeOptions,
-  productsVersion,
-}: ProductDetailsProps) => {
+function isNestedFormProps(
+  props: NestedProductDetailsProps | StandaloneProductDetailsProps,
+): props is NestedProductDetailsProps {
+  return props.isNestedForm;
+}
+
+const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
+  const isNestedForm = isNestedFormProps(props);
+  const {
+    productId,
+    products = [],
+    isReadOnly,
+    farm: { country_id, interested },
+    clearProduct,
+    setProductId,
+    onSave,
+    fertiliserTypeOptions,
+  } = props;
+  const isExpanded = isNestedForm ? props.isExpanded : undefined;
+  const productsVersion = isNestedForm ? props.productsVersion : undefined;
+
   const { t } = useTranslation();
-  const [isEditingProduct, setIsEditingProduct] = useState(false);
+  const [isEditingProduct, setIsEditingProduct] = useState(isNestedForm ? false : !isReadOnly);
   const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
@@ -184,6 +198,9 @@ const ProductDetails = ({
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
 
   useEffect(() => {
+    if (!isNestedForm) {
+      return;
+    }
     const selectedProduct = products.find(({ product_id }) => product_id === productId);
     const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
     const isAddingNewProduct = !!(productId && !selectedProduct);
@@ -224,7 +241,7 @@ const ProductDetails = ({
 
     setIsEditingProduct(isAddingNewProduct);
     if (isAddingNewProduct) {
-      expand();
+      props.expand();
     }
 
     trigger();
@@ -242,7 +259,9 @@ const ProductDetails = ({
     if (isNewProduct(productId)) {
       clearProduct();
       setProductId(undefined);
-      unExpand();
+      if (isNestedForm) {
+        props.unExpand();
+      }
     } else {
       reset();
       setIsEditingProduct(false);
@@ -273,7 +292,10 @@ const ProductDetails = ({
   };
 
   const toggleProductDetails = () => {
-    toggleProductDetailsExpanded();
+    if (!isNestedForm) {
+      return;
+    }
+    props.toggleExpanded();
 
     if (isAdditionalNutrientsExpanded) {
       unExpandAdditionalNutrients(additionalNutrientsId);
@@ -348,17 +370,21 @@ const ProductDetails = ({
         styles.productDetails,
       )}
     >
-      <TextButton
-        disabled={!isProductEntered}
-        onClick={toggleProductDetails}
-        className={clsx(styles.productDetailsTitle)}
-      >
-        <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
-        <KeyboardArrowDownIcon className={clsx(styles.expandIcon, isExpanded && styles.expanded)} />
-      </TextButton>
+      {isNestedForm && (
+        <TextButton
+          disabled={!isProductEntered}
+          onClick={toggleProductDetails}
+          className={clsx(styles.productDetailsTitle)}
+        >
+          <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+          <KeyboardArrowDownIcon
+            className={clsx(styles.expandIcon, isExpanded && styles.expanded)}
+          />
+        </TextButton>
+      )}
 
-      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
-        <div className={styles.productDetailsContent}>
+      <Wrapper collapsible={isNestedForm} productId={productId} isExpanded={isExpanded}>
+        <div className={clsx(styles.productDetailsContent, isNestedForm && styles.isNestedForm)}>
           {/* @ts-expect-error */}
           <Input
             name={SUPPLIER}
@@ -422,7 +448,7 @@ const ProductDetails = ({
 
           <div className={clsx(styles.additionalNutrients)}>
             <TextButton
-              disabled={!isProductEntered}
+              disabled={isNestedForm && !isProductEntered}
               onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
               className={clsx(styles.additionalNutrientsTitle)}
             >
@@ -475,9 +501,28 @@ const ProductDetails = ({
             />
           )}
         </div>
-      </Collapse>
+      </Wrapper>
     </div>
   );
 };
 
 export default ProductDetails;
+
+interface WrapperProps {
+  collapsible: boolean;
+  productId: ProductId;
+  isExpanded?: boolean;
+  children: ReactNode;
+}
+
+const Wrapper = ({ collapsible, productId, isExpanded, children }: WrapperProps) => {
+  if (collapsible) {
+    return (
+      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
+        {children}
+      </Collapse>
+    );
+  }
+
+  return children;
+};

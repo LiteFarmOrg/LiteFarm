@@ -90,8 +90,11 @@
   border: solid 1px transparent;
 
   .productDetailsContent {
-    padding: 8px 16px 16px 16px;
     @include flex-column-gap(24px);
+
+    &.isNestedForm {
+      padding: 8px 16px 16px 16px;
+    }
   }
 
   .expandIcon {

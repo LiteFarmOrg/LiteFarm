@@ -21,18 +21,21 @@ import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import { Error } from '../../../Typography';
-import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
+import ProductDetails, { type NestedProductDetailsProps } from './ProductDetails';
 import { PRODUCT_FIELD_NAMES } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 
-export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
+export type ProductCardProps = Omit<
+  NestedProductDetailsProps,
+  'clearProduct' | 'onSave' | 'isNestedForm'
+> & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
-  onSaveProduct: ProductDetailsProps['onSave'];
+  onSaveProduct: NestedProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
@@ -165,6 +168,7 @@ const SoilAmendmentProductCard = ({
         ) : (
           <ProductDetails
             {...props}
+            isNestedForm
             onSave={onSaveProduct}
             isReadOnly={isReadOnly}
             clearProduct={clearProduct}

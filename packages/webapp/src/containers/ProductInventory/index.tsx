@@ -31,6 +31,8 @@ import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
+import ProductForm from './ProductForm';
+import { ProductType } from '../../components/ProductInventory/types';
 
 export type TableProduct = Product & {
   id: Extract<Product['product_id'], number>;
@@ -41,6 +43,14 @@ const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: 'INVENTORY.SOIL_AMENDMENT',
 };
 
+export enum FormMode {
+  ADD = 'add',
+  EDIT = 'edit',
+  DUPLICATE = 'duplicate',
+  DELETE = 'delete',
+  READ_ONLY = 'read_only',
+}
+
 export default function ProductInventory() {
   const history = useHistory();
   const { t } = useTranslation();
@@ -50,7 +60,7 @@ export default function ProductInventory() {
   const zIndexBase = theme.zIndex.drawer;
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts(undefined));
   }, []);
 
   const productInventory = useSelector(productsSelector);
@@ -67,6 +77,9 @@ export default function ProductInventory() {
 
   // Complete placeholder for actual filter state
   const [filtersActive, setFiltersActive] = useState(true);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<FormMode | null>(null);
+  const [productFormType, setProductFormType] = useState<ProductType | null>(null);
 
   const totalInventoryCount = inventory.length;
 
@@ -145,6 +158,35 @@ export default function ProductInventory() {
     [t, isDesktop],
   );
 
+  const onFormActionButtonClick = (action: Partial<FormMode>) => {
+    setFormMode(action);
+  };
+
+  const resetForm = () => {
+    setFormMode(null);
+    setProductFormType(null);
+  };
+
+  const onAddMenuItemClick = (type: ProductType) => {
+    setFormMode(FormMode.ADD);
+    setProductFormType(type);
+    setIsFormOpen(true);
+  };
+
+  const onCloseForm = () => {
+    setIsFormOpen(false);
+  };
+
+  const onCancelForm = () => {
+    resetForm();
+    onCloseForm();
+  };
+
+  const saveProduct = () => {
+    console.log('TODO');
+    onCancelForm();
+  };
+
   return (
     <FixedHeaderContainer
       header={null}
@@ -167,7 +209,17 @@ export default function ProductInventory() {
         productColumns={productColumns}
         selectedIds={selectedIds}
         onRowClick={handleRowClick}
-        onAddMenuItemClick={console.log}
+        onAddMenuItemClick={onAddMenuItemClick}
+      />
+      <ProductForm
+        isFormOpen={isFormOpen}
+        productFormType={productFormType}
+        mode={formMode}
+        isSaveDisabled={false} // TODO
+        onActionButtonClick={onFormActionButtonClick}
+        onSave={saveProduct}
+        onClose={onCloseForm}
+        onCancel={onCancelForm}
       />
     </FixedHeaderContainer>
   );

@@ -26,9 +26,9 @@ const productController = {
         const rows = await ProductModel.query()
           .context({ user_id: req.auth.user_id })
           .whereNotDeleted()
-          .where({
-            farm_id,
-          })
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', farm_id)
+          .modify('flattenProductFarm')
           .withGraphFetched('soil_amendment_product');
         return res.status(200).send(rows);
       } catch (error) {

@@ -47,9 +47,22 @@ class ProductModel extends baseModel {
     };
   }
 
+  static get modifiers() {
+    return {
+      flattenProductFarm(builder) {
+        builder.select(
+          'product.*',
+          'product_farm.supplier',
+          'product_farm.on_permitted_substances_list',
+          'product_farm.farm_id',
+        );
+      },
+    };
+  }
+
   static get relationMappings() {
     return {
-      product_farms: {
+      product_farm: {
         relation: Model.HasManyRelation,
         modelClass: ProductFarmModel,
         join: {

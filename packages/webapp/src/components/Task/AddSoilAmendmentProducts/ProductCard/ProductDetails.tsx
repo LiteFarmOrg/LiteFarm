@@ -490,7 +490,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
             </Collapse>
           </div>
 
-          {!isReadOnly && (
+          {isNestedForm && !isReadOnly && (
             <Buttons
               isEditingProduct={isEditingProduct}
               isEditDisabled={!isProductEntered}

@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseModel from './baseModel.js';
+import Model from './baseFormatModel.js';
 
-class ProductFarmModel extends baseModel {
+class ProductFarmModel extends Model {
   static get tableName() {
     return 'product_farm';
   }
@@ -40,7 +40,6 @@ class ProductFarmModel extends baseModel {
           type: ['string', 'null'],
           enum: ['YES', 'NO', 'NOT_SURE', null],
         },
-        ...this.baseProperties,
       },
       additionalProperties: false,
     };

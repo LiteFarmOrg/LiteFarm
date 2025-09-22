@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .tableWrapper {
   flex: 1;
   overflow-y: auto;
@@ -39,4 +41,8 @@
       }
     }
   }
+}
+
+.soilAmendmentProductForm {
+  @include flex-column-gap(24px);
 }

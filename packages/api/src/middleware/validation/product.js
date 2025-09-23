@@ -18,18 +18,21 @@ function createOrPatchProduct(taskType) {
           await productModel
             .query()
             .context({ user_id })
-            .upsertGraph({
-              ...productData,
-              product_id,
-              product_farm: [
-                {
-                  farm_id: req.headers.farm_id,
-                  product_id,
-                  supplier,
-                  on_permitted_substances_list,
-                },
-              ],
-            });
+            .upsertGraph(
+              {
+                ...productData,
+                product_id,
+                product_farm: [
+                  {
+                    farm_id: req.headers.farm_id,
+                    product_id,
+                    supplier,
+                    on_permitted_substances_list,
+                  },
+                ],
+              },
+              { insertMissing: true },
+            );
           delete req.body[taskType].product;
         } else if (req.body[taskType].product) {
           const { product } = req.body[taskType];

@@ -21,7 +21,7 @@ class ProductFarmModel extends Model {
   }
 
   static get idColumn() {
-    return 'product_farm_id';
+    return ['product_id', 'farm_id'];
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -31,7 +31,6 @@ class ProductFarmModel extends Model {
       type: 'object',
       required: ['product_id', 'farm_id'],
       properties: {
-        product_farm_id: { type: 'integer' },
         product_id: { type: 'integer' },
         farm_id: { type: 'string' },
         archived: { type: 'boolean', default: false },

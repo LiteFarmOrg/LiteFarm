@@ -20,13 +20,12 @@
 export const up = async (knex) => {
   return knex.transaction(async (trx) => {
     await trx.schema.createTable('product_farm', (table) => {
-      // Table requires its own pk (beyond product_id and farm_id) as we are allowing these records to be deleted and archived
-      table.increments('product_farm_id').primary();
       table.integer('product_id').references('product_id').inTable('product').notNullable();
       table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
       table.boolean('archived').notNullable().defaultTo(false);
       table.string('supplier');
       table.enum('on_permitted_substances_list', ['YES', 'NO', 'NOT_SURE']);
+      table.primary(['product_id', 'farm_id']);
     });
 
     // Move existing data from product to product_farm

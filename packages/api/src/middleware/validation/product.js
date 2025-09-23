@@ -15,12 +15,6 @@ function createOrPatchProduct(taskType) {
             ...productData
           } = product;
 
-          const productFarmRecord = await productModel
-            .relatedQuery('product_farm')
-            .for(product_id)
-            .where('farm_id', req.headers.farm_id)
-            .first();
-
           await productModel
             .query()
             .context({ user_id })
@@ -29,8 +23,8 @@ function createOrPatchProduct(taskType) {
               product_id,
               product_farm: [
                 {
-                  product_farm_id: productFarmRecord?.product_farm_id,
                   farm_id: req.headers.farm_id,
+                  product_id,
                   supplier,
                   on_permitted_substances_list,
                 },

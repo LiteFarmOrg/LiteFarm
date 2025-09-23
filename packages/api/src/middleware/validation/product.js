@@ -30,6 +30,7 @@ function createOrPatchProduct(taskType) {
               product_farm: [
                 {
                   product_farm_id: productFarmRecord?.product_farm_id,
+                  farm_id: req.headers.farm_id,
                   supplier,
                   on_permitted_substances_list,
                 },

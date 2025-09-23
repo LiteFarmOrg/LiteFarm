@@ -48,6 +48,7 @@ const renderDrawerTitle = (
   }
 
   const text = {
+    [FormMode.CREATE]: t('ADD_PRODUCT.ADD_NEW_PRODUCT'),
     [FormMode.ADD]: t('ADD_PRODUCT.ADD_NEW_PRODUCT'),
     [FormMode.DUPLICATE]: t('common:DUPLICATING'),
     [FormMode.EDIT]: t('common:EDITING'),

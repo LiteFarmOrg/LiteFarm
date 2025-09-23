@@ -43,7 +43,8 @@ const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
 };
 
 export enum FormMode {
-  ADD = 'add',
+  CREATE = 'create', // new product
+  ADD = 'add', // library product
   EDIT = 'edit',
   DUPLICATE = 'duplicate',
   DELETE = 'delete',
@@ -167,7 +168,7 @@ export default function ProductInventory() {
   };
 
   const onAddMenuItemClick = (type: Product['type']) => {
-    setFormMode(FormMode.ADD);
+    setFormMode(FormMode.CREATE);
     setProductFormType(type);
     setIsFormOpen(true);
   };

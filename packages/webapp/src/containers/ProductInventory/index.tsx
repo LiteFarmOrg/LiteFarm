@@ -32,7 +32,6 @@ import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/Fi
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
-import { ProductType } from '../../components/ProductInventory/types';
 
 export type TableProduct = Product & {
   id: Extract<Product['product_id'], number>;
@@ -79,7 +78,7 @@ export default function ProductInventory() {
   const [filtersActive, setFiltersActive] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<FormMode | null>(null);
-  const [productFormType, setProductFormType] = useState<ProductType | null>(null);
+  const [productFormType, setProductFormType] = useState<Product['type'] | null>(null);
 
   const totalInventoryCount = inventory.length;
 
@@ -167,7 +166,7 @@ export default function ProductInventory() {
     setProductFormType(null);
   };
 
-  const onAddMenuItemClick = (type: ProductType) => {
+  const onAddMenuItemClick = (type: Product['type']) => {
     setFormMode(FormMode.ADD);
     setProductFormType(type);
     setIsFormOpen(true);

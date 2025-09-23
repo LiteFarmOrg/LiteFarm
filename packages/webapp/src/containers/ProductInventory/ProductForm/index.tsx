@@ -21,8 +21,9 @@ import TextButton from '../../../components/Form/Button/TextButton';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
-import { ProductType } from '../../../components/ProductInventory/types';
+import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
+import { Product } from '../../../store/api/types';
 import styles from './styles.module.scss';
 
 const renderDrawerTitle = (
@@ -57,12 +58,12 @@ const renderDrawerTitle = (
 };
 
 const productFormMap = {
-  [ProductType.SOIL_AMENDMENT]: SoilAmendmentProductForm,
+  [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
 };
 
 interface ProductFormProps {
   isFormOpen: boolean;
-  productFormType: ProductType | null;
+  productFormType: Product['type'] | null;
   mode: FormMode | null;
   isSaveDisabled: boolean;
   onActionButtonClick: (action: Partial<FormMode>) => void;

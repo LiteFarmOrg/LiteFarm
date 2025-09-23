@@ -33,7 +33,8 @@ import type { SearchProps } from '../Animals/Inventory';
 import Table from '../Table';
 import { TableKind } from '../Table/types';
 import { TableProduct } from '../../containers/ProductInventory';
-import { ProductType } from './types';
+import { Product } from '../../store/api/types';
+import { TASK_TYPES } from '../../containers/Task/constants';
 
 export type PureProductInventory = {
   filteredInventory: TableProduct[];
@@ -49,7 +50,7 @@ export type PureProductInventory = {
   productColumns?: any;
   selectedIds: number[];
   onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
-  onAddMenuItemClick: (type: ProductType) => void;
+  onAddMenuItemClick: (type: Product['type']) => void;
 };
 
 const PureProductInventory = ({
@@ -145,7 +146,7 @@ const PureProductInventory = ({
 
 export default PureProductInventory;
 
-const createAddProductMenuItems = (onMenuItemClick: (type: ProductType) => void) =>
+const createAddProductMenuItems = (onMenuItemClick: (type: Product['type']) => void) =>
   forwardRef((props: any, ref) => {
     const { t } = useTranslation();
 
@@ -155,7 +156,7 @@ const createAddProductMenuItems = (onMenuItemClick: (type: ProductType) => void)
         options={[
           {
             label: t('INVENTORY.SOIL_AMENDMENT'),
-            onClick: () => onMenuItemClick(ProductType.SOIL_AMENDMENT),
+            onClick: () => onMenuItemClick(TASK_TYPES.SOIL_AMENDMENT),
           },
         ]}
         {...props}

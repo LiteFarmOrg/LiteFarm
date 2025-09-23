@@ -1137,9 +1137,36 @@ async function productFactory({ promisedFarm = farmFactory() } = {}, product = f
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('product')
-    .insert({ ...product, ...base, farm_id })
+
+  const { supplier, on_permitted_substances_list, ...productProperties } = product;
+  const productTableRecord = await knex('product')
+    .insert({
+      ...productProperties,
+      ...base,
+    })
     .returning('*');
+
+  let productFarm = [{}];
+
+  // Products without a farm_id can be considered as library products not yet added to inventory. These products would have no record in product_farm
+  if (farm_id) {
+    productFarm = await knex('product_farm')
+      .insert({
+        product_id: productTableRecord[0].product_id,
+        supplier,
+        on_permitted_substances_list,
+        farm_id,
+      })
+      .returning('*');
+  }
+
+  // Return the product with flattened productFarm details, same as the API
+  const flattenedProduct = {
+    ...productTableRecord[0],
+    ...productFarm[0],
+  };
+
+  return [flattenedProduct];
 }
 
 function fakeProduct(defaultData = {}) {

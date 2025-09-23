@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (product.test.js) is part of LiteFarm.
@@ -102,6 +104,7 @@ describe('Product Tests', () => {
   describe('Get products ', () => {
     let userFarmToTest;
     beforeEach(async () => {
+      await knex('product_farm').del();
       await knex('product').del();
       [userFarmToTest] = await mocks.userFarmFactory({}, fakeUserFarm());
     });
@@ -122,7 +125,7 @@ describe('Product Tests', () => {
       );
     });
 
-    test('Should get products on my farm but not default products', async (done) => {
+    test('Should get products on my farm but not library products not yet added to inventory', async (done) => {
       await Promise.all(
         [...Array(10)].map(() =>
           mocks.productFactory({ promisedFarm: [{ farm_id: userFarmToTest.farm_id }] }),
@@ -141,7 +144,7 @@ describe('Product Tests', () => {
       );
     });
 
-    test('should get products on my farm, but not my other farms or defaults', async (done) => {
+    test('should get products on my farm, but not my other farms or un-added library products', async (done) => {
       const [otherUserFarm] = await mocks.userFarmFactory({
         promisedUser: [{ user_id: userFarmToTest.user_id }],
       });

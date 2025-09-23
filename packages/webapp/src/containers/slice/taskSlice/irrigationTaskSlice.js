@@ -24,7 +24,6 @@ const irrigationTaskProperties = [
 const getIrrigationTask = (task) => {
   return {
     ...pick(task, irrigationTaskProperties),
-    ...pick(task.irrigation_type, ['irrigation_type_translation_key', 'irrigation_type_name']),
   };
 };
 const irrigationTaskAdapter = createEntityAdapter({

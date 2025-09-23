@@ -13,30 +13,46 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.tableWrapper {
-  flex: 1;
-  overflow-y: auto;
-}
+@import '@assets/mixin.scss';
 
-.row.row {
-  &:hover {
-    background-color: var(--Colors-Backgrounds-table-row-hover);
-  }
+.nameContainer {
+  padding: 8px;
 
-  /* remove the default border on selected rows */
-  &[aria-checked='true'],
-  &[aria-checked='true']:hover {
-    & > td {
-      border-color: transparent;
+  .nameAndIcon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
-      &:first-child {
-        border-color: transparent;
-        border-left: none;
-      }
-      &:last-child {
-        border-color: transparent;
-        border-right: none;
-      }
+    svg {
+      flex-shrink: 0;
     }
   }
+
+  .name,
+  .supplierMobile {
+    padding-block: 4px;
+    line-height: normal;
+    letter-spacing: -0.308px;
+  }
+
+  .name {
+    color: #000;
+    font-weight: 600;
+  }
+
+  .supplierMobile {
+    @include lg-breakpoint {
+      display: none;
+    }
+  }
+}
+
+.type.type {
+  padding: 4px 8px 4px 16px;
+}
+
+.supplier.supplier,
+.type.type {
+  font-size: 14px;
+  letter-spacing: -0.308px;
 }

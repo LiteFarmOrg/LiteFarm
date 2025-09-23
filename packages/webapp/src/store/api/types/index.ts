@@ -196,7 +196,7 @@ export interface Product {
   name: string;
   product_translation_key?: string;
   supplier?: string;
-  type?:
+  type:
     | typeof TASK_TYPES.SOIL_AMENDMENT
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;

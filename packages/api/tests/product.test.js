@@ -191,7 +191,6 @@ describe('Product Tests', () => {
 
     test('should successfully create a product with minimal data', async (done) => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-      prod.farm_id = userFarm.farm_id;
       postProductRequest(prod, userFarm, (err, res) => {
         expect(res.status).toBe(201);
         done();
@@ -202,13 +201,14 @@ describe('Product Tests', () => {
       const allUserRoles = [1, 2, 3, 5];
       for (const role of allUserRoles) {
         const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
-        prod.farm_id = userFarm.farm_id;
         postProductRequest(prod, userFarm, async (err, res) => {
           expect(res.status).toBe(201);
           const productsSaved = await productModel
             .query()
             .context({ showHidden: true })
-            .where('farm_id', userFarm.farm_id);
+            .joinRelated('product_farm')
+            .where('product_farm.farm_id', userFarm.farm_id);
+
           expect(productsSaved.length).toBe(1);
           done();
         });
@@ -219,7 +219,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         soil_amendment_product: {
           n: 70,
           p: 30,
@@ -237,7 +236,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         soil_amendment_product: {
           n: 70,
           p: 30,
@@ -280,7 +278,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const soilAmendmentProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         type: 'soil_amendment_task',
         soil_amendment_product: {
           n: 1,
@@ -296,7 +293,8 @@ describe('Product Tests', () => {
         const [productRecord] = await productModel
           .query()
           .context({ showHidden: true })
-          .where('farm_id', userFarm.farm_id);
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', userFarm.farm_id);
 
         const [soilAmendmentProductRecord] = await soilAmendmentProductModel
           .query()

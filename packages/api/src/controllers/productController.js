@@ -78,10 +78,27 @@ const productController = {
         const { product_id } = req.params;
         const data = req.body;
 
+        const { supplier, on_permitted_substances_list, ...productData } = data;
+
+        const productFarmRecord = await ProductModel.relatedQuery('product_farm', trx)
+          .for(product_id)
+          .where('farm_id', farm_id)
+          .first();
+
         // This will replace the entire related object (e.g. soil_amendment_product) so keep that in mind when constructing the request
         await baseController.upsertGraph(
           ProductModel,
-          { ...data, farm_id, product_id: parseInt(product_id) },
+          {
+            ...productData,
+            product_id: parseInt(product_id),
+            product_farm: [
+              {
+                product_farm_id: productFarmRecord?.product_farm_id,
+                supplier,
+                on_permitted_substances_list,
+              },
+            ],
+          },
           req,
           { trx },
         );

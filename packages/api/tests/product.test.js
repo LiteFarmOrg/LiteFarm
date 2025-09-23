@@ -331,7 +331,10 @@ describe('Product Tests', () => {
 
         const [updatedProduct] = await productModel
           .query()
-          .where({ product_id: origProduct.product_id });
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', userFarm.farm_id)
+          .modify('flattenProductFarm')
+          .where('product.product_id', origProduct.product_id);
 
         expect(updatedProduct.supplier).toBe('UBC Botanical Garden');
       }

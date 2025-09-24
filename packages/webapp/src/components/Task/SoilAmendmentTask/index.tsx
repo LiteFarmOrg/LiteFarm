@@ -51,7 +51,7 @@ type PureSoilAmendmentTaskProps = UseFormReturn &
     locations: { location_id: number }[];
   };
 
-const hasNoValue = (
+export const hasNoValue = (
   keys: (Nutrients | MolecularCompound)[],
   object: Omit<SoilAmendmentProduct['soil_amendment_product'], 'product_id' | 'name'>,
 ): boolean => {

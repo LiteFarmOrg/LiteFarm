@@ -14,6 +14,7 @@
  */
 
 import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
@@ -30,15 +31,10 @@ import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKP
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import Spinner from '../../components/Spinner';
-import type { CustomRouteComponentProps } from '../../types';
 import type { Location } from '../../types';
 import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
-interface RouteParams {
-  ip_pk: string;
-}
-
-interface IrrigationPrescriptionProps extends CustomRouteComponentProps<RouteParams> {
+interface IrrigationPrescriptionProps {
   isCompactSideMenu: boolean;
 }
 
@@ -47,16 +43,13 @@ const dateTimeLabelStyles = {
   fontSize: '16px',
 };
 
-const IrrigationPrescription = ({
-  match,
-  history,
-  isCompactSideMenu,
-}: IrrigationPrescriptionProps) => {
+const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionProps) => {
+  const history = useHistory();
   const { t } = useTranslation();
 
   const system = useSelector(measurementSelector);
 
-  const { ip_pk } = match.params;
+  const { ip_pk } = useParams<{ ip_pk: string }>();
 
   const { data: irrigationPrescription, isLoading } = useGetIrrigationPrescriptionDetailsQuery(
     Number(ip_pk),
@@ -101,6 +94,7 @@ const IrrigationPrescription = ({
             label: t('IRRIGATION_PRESCRIPTION.TITLE'),
             system: irrigationPrescription.system_name,
           })}
+          // @ts-expect-error: temporary shim, will remove when upgrading to history@5
           onGoBack={history.back}
           classNames={{ wrapper: styles.title }}
         ></PageTitle>
@@ -132,6 +126,7 @@ const IrrigationPrescription = ({
             isFinalStep={true}
             isDisabled={false}
             informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
+            // @ts-expect-error: temporary shim, will remove when upgrading to history@5
             onCancel={history.back}
             onContinue={onApprove}
             cancelButtonContent={

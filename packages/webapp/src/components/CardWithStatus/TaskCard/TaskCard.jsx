@@ -32,8 +32,9 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
-import useLanguageOptions, { languageCodes } from '../../../hooks/useLanguageOptions';
+import { languageCodes } from '../../../hooks/useLanguageOptions';
 import { getIntlDate } from '../../../util/date-migrate-TS';
+import { getFirstNameWithLastInitial } from '../../../util';
 
 export const PureTaskCard = ({
   taskType,
@@ -67,12 +68,7 @@ export const PureTaskCard = ({
   };
 
   const isAssigneeInactive = assignee?.status === 'Inactive';
-  let assigneeName = '';
-  if (assignee !== null) {
-    const lastName =
-      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : '';
-    assigneeName = `${assignee.first_name} ${lastName}`;
-  }
+  const assigneeName = assignee ? getFirstNameWithLastInitial(assignee) : '';
 
   return (
     <CardWithStatus

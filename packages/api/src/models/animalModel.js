@@ -236,7 +236,7 @@ class Animal extends baseModel {
     );
   }
 
-  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate) {
+  static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate, taskId) {
     return Animal.query()
       .select('id')
       .withGraphFetched('tasks')
@@ -245,9 +245,30 @@ class Animal extends baseModel {
         builder
           .where('deleted', false)
           .where('complete_date', '>', completedDate)
-          .where('task_type_id', taskTypeId);
+          .where('task_type_id', taskTypeId)
+          .whereNot('task.task_id', taskId)
+          .orderBy('complete_date', 'desc');
       })
       .whereIn('id', animalIds);
+  }
+
+  /**
+   * Retrieves the id of the most recently completed task, excluding the specified task_id, of a specific task type, for an animal.
+   *
+   * @param {number} animalId - The id of the animal to query
+   * @param {number} taskTypeId - The task type to filter by
+   * @param {number} excludeTaskId - The id of a task to exclude from results
+   * @returns {Promise<number|null>} The task_id of the most recently completed task matching the criteria, or null if no matching tasks exist
+   */
+  static async getLatestCompletedTaskIdByTypeExcluding(animalId, taskTypeId, excludeTaskId) {
+    const [animal] = await Animal.getAnimalsWithNewerCompletedTasks(
+      [animalId],
+      taskTypeId,
+      '1970-01-01', // include all completed tasks
+      excludeTaskId,
+    );
+
+    return animal?.tasks?.[0]?.task_id ?? null;
   }
 
   static async unrelateIncompleteTasksForAnimals(trx, animalIds) {

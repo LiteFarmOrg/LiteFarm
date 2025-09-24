@@ -78,10 +78,9 @@ export default function useApproveIrrigationPrescription(
       irrigation_task: {
         default_irrigation_task_type_location: false,
         default_irrigation_task_type_measurement: false,
-        irrigation_type_name: pivotType && generateIrrigationTypeOption(pivotType, ['PIVOT'], t),
+        irrigation_type: pivotType && generateIrrigationTypeOption(pivotType, ['PIVOT'], t),
         measuring_type: 'DEPTH',
         estimated_water_usage: estimatedWaterUsageInL,
-        irrigation_type_id: pivotType?.irrigation_type_id,
         irrigation_prescription_external_id: id,
       },
     };

@@ -118,9 +118,28 @@ export const WithStepperProgressBar = ({
     if (isSummaryPage || !isDirty || isSaved) {
       return;
     }
-    const unblock = history.block((tx) => {
-      setTransition({ unblock, retry: tx.retry });
+
+    // TODO: LF-4242 Replace this with the original one below when upgrading to history@5
+    // https://github.com/remix-run/history/blob/v4/docs/Blocking.md#blocking-transitions
+    const unblock = history.block((location, action) => {
+      const unblockAndTransition = () => {
+        unblock();
+        if (action === 'POP') {
+          // @ts-expect-error: temporary shim, will remove when upgrading to history@5
+          history.back();
+        } else {
+          const historyAction = action === 'PUSH' ? history.push : history.replace;
+          historyAction(location);
+        }
+      };
+      setTransition({ unblock: unblockAndTransition });
+
+      return false; // block transition
     });
+
+    // const unblock = history.block((tx) => {
+    //   setTransition({ unblock, retry: tx.retry });
+    // });
 
     return () => unblock();
   }, [isSummaryPage, isDirty, history, isSaved]);

@@ -539,22 +539,26 @@ const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocation
 };
 
 const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
-  const irrigation_task_type =
-    data.irrigation_task?.irrigation_type_name.value === 'OTHER'
+  const irrigationTypeName =
+    data.irrigation_task?.irrigation_type.value === 'OTHER'
       ? data.irrigation_task?.irrigation_task_type_other
-      : data.irrigation_task?.irrigation_type_name.value;
+      : data.irrigation_task?.irrigation_type.value;
+  const irrigationType = { irrigation_type_name: irrigationTypeName };
+  if (data.irrigation_task.irrigation_type.value !== 'OTHER') {
+    irrigationType.irrigation_type_id = data.irrigation_task.irrigation_type.irrigation_type_id;
+  }
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
       data.irrigation_task = {
         ...data.irrigation_task,
-        irrigation_type_name: irrigation_task_type,
+        ...irrigationType,
         location_id: data.locations[0]?.location_id,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
         irrigation_task_type: data.irrigation_task.default_irrigation_task_type_location
-          ? irrigation_task_type
+          ? irrigationTypeName
           : undefined,
         ...(data.irrigation_task.default_location_application_depth
           ? pick(data.irrigation_task, ['application_depth', 'application_depth_unit'])
@@ -567,6 +571,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
         delete data.irrigation_task?.estimated_water_usage_unit;
       for (const element in data.irrigation_task) {
         [
+          'irrigation_type',
           'irrigation_task_type_other',
           'percent_of_location_irrigated_unit',
           'irrigated_area',
@@ -769,18 +774,6 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
       const taskType = task_translation_key.toLowerCase();
       const irrigation_task = data.taskData[taskType];
       if (irrigation_task) {
-        if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
-          data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
-            ?.irrigation_task_type_other
-            ? data.taskData[taskType]?.irrigation_task_type_other
-            : data.taskData[taskType]?.irrigation_type_name;
-        } else {
-          data.taskData[taskType].irrigation_type_name =
-            data.taskData[taskType].irrigation_type_name.value === 'OTHER'
-              ? data.taskData[taskType].irrigation_task_type_other
-              : data.taskData[taskType].irrigation_type_name.value;
-        }
-
         data.taskData.location_defaults = [
           {
             location_id: data.location_id,
@@ -979,7 +972,6 @@ export function* getHarvestUseTypesSaga() {
   } catch (e) {
     console.log('failed to get harvest use types');
     yield put(onLoadingHarvestUseTypeFail());
-    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
   }
 }
 

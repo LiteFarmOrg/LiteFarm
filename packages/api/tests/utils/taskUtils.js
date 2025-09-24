@@ -50,6 +50,13 @@ export const fakeCompletionData = {
   completion_notes: faker.lorem.sentence(),
 };
 
+export const generateFakeCompletionData = () => ({
+  complete_date: faker.date.recent().toISOString().split('T')[0],
+  duration: Math.floor(Math.random() * 12 * 60) + 15,
+  happiness: Math.floor(Math.random() * 5) + 1,
+  completion_notes: faker.lorem.sentence(),
+});
+
 export const CROP_FAILURE = 'CROP_FAILURE';
 export const sampleNote = 'This is a sample note';
 export const abandonTaskBody = {
@@ -315,4 +322,34 @@ export const taskWithLocationFactory = async ({ userId, locationId, taskTypeId, 
   });
 
   return task;
+};
+
+export const generateHarvestUseTypes = async (farmId, count = 3) => {
+  const promisedHarvestUseTypes = await Promise.all(
+    [...Array(count)].map(async () =>
+      mocks.harvest_use_typeFactory({
+        promisedFarm: { farm_id: farmId },
+      }),
+    ),
+  );
+
+  return promisedHarvestUseTypes.map(([useType]) => ({
+    harvest_use_type_id: useType.harvest_use_type_id,
+  }));
+};
+
+export const generateFakeHarvestTaskCompletionData = (taskId, harvestUseTypes) => {
+  const harvestUses = [];
+  let actualQuantity = 0;
+
+  harvestUseTypes.forEach(({ harvest_use_type_id }) => {
+    const harvestUse = mocks.fakeHarvestUse({
+      task_id: taskId,
+      harvest_use_type_id,
+    });
+    harvestUses.push(harvestUse);
+    actualQuantity += harvestUse.quantity;
+  });
+
+  return { harvestUses, actualQuantity };
 };

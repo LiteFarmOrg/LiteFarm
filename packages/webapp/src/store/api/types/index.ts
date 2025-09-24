@@ -191,12 +191,12 @@ export interface SoilAmendmentFertiliserType {
   key: string;
 }
 
-interface Product {
+export interface Product {
   product_id: number | string;
   name: string;
   product_translation_key?: string;
   supplier?: string;
-  type?:
+  type:
     | typeof TASK_TYPES.SOIL_AMENDMENT
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;

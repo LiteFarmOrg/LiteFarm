@@ -109,6 +109,7 @@ async function updateTaskWithCompletedData(
   wagePatchData,
   nonModifiable,
   typeOfTask,
+  isRecompleting = false,
 ) {
   switch (typeOfTask) {
     case 'soil_amendment_task': {
@@ -172,17 +173,53 @@ async function updateTaskWithCompletedData(
           entities.map(({ id }) => id),
           task_type_id,
           data.complete_date,
+          task_id,
         );
 
-        entities.forEach((entity) => {
+        for (const entity of entities) {
           const newerCompletedTasks =
             entitiesWithNewerCompletedTasks.find(({ id }) => id === entity.id)?.tasks || [];
 
-          // If there's no newer completed task, update the location
           if (!newerCompletedTasks.length) {
+            // Case 1: No newer tasks - use current task's location
             entity.location_id = locationId;
+          } else if (isRecompleting) {
+            // Case 2: Recompleting and newer tasks (now) exist - use latest task's location
+            const [latestTaskLocationId] = await TaskModel.getTaskLocationIds(
+              newerCompletedTasks[0].task_id,
+            );
+            entity.location_id = latestTaskLocationId;
+          } else {
+            // Case 3: Not recompleting and newer tasks exist - don't change location
+            continue;
           }
-        });
+        }
+      };
+
+      const updateRemovedEntityLocations = async (removedIds, entityModel) => {
+        if (!removedIds?.length) {
+          return;
+        }
+
+        for (const entityId of removedIds) {
+          const otherTaskId = await entityModel.getLatestCompletedTaskIdByTypeExcluding(
+            entityId,
+            task_type_id,
+            task_id,
+          );
+
+          let locationId;
+          if (otherTaskId) {
+            [locationId] = await TaskModel.getTaskLocationIds(otherTaskId);
+          }
+
+          await entityModel
+            .query()
+            .context({ user_id })
+            .findById(entityId)
+            // If no other completed task locations, set location to null
+            .patch({ location_id: locationId ?? null });
+        }
       };
 
       await updateEntityLocations(data.animals, AnimalModel.getAnimalsWithNewerCompletedTasks);
@@ -190,6 +227,19 @@ async function updateTaskWithCompletedData(
         data.animal_batches,
         AnimalBatchModel.getBatchesWithNewerCompletedTasks,
       );
+
+      if (isRecompleting) {
+        const removedAnimalIds = animals
+          .filter((animal) => !data.animals?.some((a) => a.id === animal.id))
+          .map((a) => a.id);
+
+        const removedBatchIds = animal_batches
+          .filter((batch) => !data.animal_batches?.some((b) => b.id === batch.id))
+          .map((b) => b.id);
+
+        await updateRemovedEntityLocations(removedAnimalIds, AnimalModel);
+        await updateRemovedEntityLocations(removedBatchIds, AnimalBatchModel);
+      }
 
       if (!data.animal_movement_task) {
         data.animal_movement_task = {};
@@ -840,6 +890,7 @@ const taskController = {
             finalWage,
             nonModifiable,
             typeOfTask,
+            isRecompleting,
           );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);
@@ -886,6 +937,7 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
+      const { task } = req.body;
 
       if (await baseController.isDeleted(null, TaskModel, { task_id })) {
         return res.status(400).send('Harvest task has been deleted');
@@ -898,28 +950,51 @@ const taskController = {
       );
 
       // Duplicates middleware until all endpoints are migrated to use middleware
-      checkCompleteTaskDocument(req.body.task, 'harvest_task');
+      checkCompleteTaskDocument(task, 'harvest_task');
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been abandoned');
+      }
+
+      const isRecompleting = !!checkTaskStatus.complete_date;
+
+      if (isRecompleting) {
+        task.revision_date = new Date().toISOString();
+        task.revised_by_user_id = assignee_user_id;
+      }
 
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await updateTaskWithCompletedData(
           trx,
           user_id,
           task_id,
-          req.body.task,
+          task,
           finalWage,
           nonModifiable,
         );
         const result = removeNullTypes(updated_task);
         delete result.harvest_task; // Not needed by front end.
 
-        // Write harvest uses to database.
-        const harvest_uses = req.body.harvest_uses.map((harvest_use) => ({
-          ...harvest_use,
-          task_id,
-        }));
-        await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
+        const shouldModifyUses = !isRecompleting || req.body.harvest_uses !== undefined;
 
-        await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
+        if (shouldModifyUses) {
+          if (isRecompleting) {
+            // Clear existing harvest uses
+            await HarvestUse.query(trx).delete().where({ task_id });
+          }
+
+          if (req.body.harvest_uses?.length) {
+            // Write harvest uses to database.
+            const harvest_uses = req.body.harvest_uses.map((harvest_use) => ({
+              ...harvest_use,
+              task_id,
+            }));
+            await HarvestUse.query(trx).context({ user_id }).insert(harvest_uses);
+          }
+        }
+
+        await patchManagementPlanStartDate(trx, req, 'harvest_task', task);
 
         return result;
       });

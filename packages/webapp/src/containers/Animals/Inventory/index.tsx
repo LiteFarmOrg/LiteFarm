@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -55,7 +56,7 @@ const HEIGHTS = {
   filterAndSearch: 64,
   containerPadding: 32,
 };
-const usedHeight = sumObjectValues(HEIGHTS);
+export const usedHeight = sumObjectValues(HEIGHTS);
 
 export enum View {
   DEFAULT = 'default',
@@ -86,7 +87,6 @@ interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
   setFeedbackSurveyOpen: () => void;
   containerHeight: number;
-  history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
   isCompleteView?: boolean;
@@ -204,9 +204,7 @@ const MainAnimalInventory = ({
   return (
     <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
       <FixedHeaderContainer
-        header={
-          <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
-        }
+        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
         kind={ContainerKind.PAPER}
       >
@@ -244,13 +242,13 @@ export default function AnimalInventory({
   view = View.DEFAULT,
   isCompactSideMenu,
   setFeedbackSurveyOpen,
-  history,
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
   hideNoResultsBlock,
   showRemoved = false,
 }: AnimalInventoryProps) {
+  const history = useHistory();
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   useEffect(() => {

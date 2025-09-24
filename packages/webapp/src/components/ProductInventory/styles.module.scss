@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,21 +12,31 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useLayoutEffect, useState } from 'react';
 
-function useHistoryLocation(history) {
-  const [historyLocation, setHistoryLocation] = useState(history.location);
-
-  // Set up a listener to update the historyLocation state synchronously
-  // after DOM mutations, ensuring immediate processing of history events.
-  useLayoutEffect(() => {
-    const unlisten = history.listen(({ location }) => {
-      setHistoryLocation(location);
-    });
-    return () => unlisten();
-  }, [history]);
-
-  return historyLocation;
+.tableWrapper {
+  flex: 1;
+  overflow-y: auto;
 }
 
-export default useHistoryLocation;
+.row.row {
+  &:hover {
+    background-color: var(--Colors-Backgrounds-table-row-hover);
+  }
+
+  /* remove the default border on selected rows */
+  &[aria-checked='true'],
+  &[aria-checked='true']:hover {
+    & > td {
+      border-color: transparent;
+
+      &:first-child {
+        border-color: transparent;
+        border-left: none;
+      }
+      &:last-child {
+        border-color: transparent;
+        border-right: none;
+      }
+    }
+  }
+}

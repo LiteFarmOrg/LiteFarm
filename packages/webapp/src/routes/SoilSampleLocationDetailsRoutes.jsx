@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
 import EditSoilSampleLocationDetailForm from '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/EditSoilSampleLocation';
 import { useSelector } from 'react-redux';
@@ -26,16 +27,16 @@ export default function SoilSampleLocationDetailsRoutes() {
       <Route
         path="/soil_sample_location/:location_id/details"
         exact
-        component={EditSoilSampleLocationDetailForm}
+        children={<EditSoilSampleLocationDetailForm />}
       />
       {isAdmin && (
         <Route
           path="/soil_sample_location/:location_id/edit"
           exact
-          component={EditSoilSampleLocationDetailForm}
+          children={<EditSoilSampleLocationDetailForm />}
         />
       )}
-      <Route path="/soil_sample_location/:location_id/tasks" exact component={LocationTasks} />
+      <Route path="/soil_sample_location/:location_id/tasks" exact children={<LocationTasks />} />
     </>
   );
 }

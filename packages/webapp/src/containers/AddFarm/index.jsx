@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
@@ -17,11 +18,11 @@ import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_er
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import history from '../../history';
 import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
 
 const AddFarm = () => {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);

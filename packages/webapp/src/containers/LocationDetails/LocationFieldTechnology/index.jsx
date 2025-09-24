@@ -19,8 +19,11 @@ import PureLocationFieldTechnology from '../../../components/LocationFieldTechno
 import useFieldTechnology from './useFieldTechnology';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 import { useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
-function LocationFieldTechnology({ history, match }) {
+function LocationFieldTechnology() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
@@ -31,7 +34,7 @@ function LocationFieldTechnology({ history, match }) {
   }, [location]);
 
   const fieldTechnology = useFieldTechnology(location);
-  const routerTabs = useLocationRouterTabs(location, match);
+  const routerTabs = useLocationRouterTabs(location);
 
   return (
     location && (

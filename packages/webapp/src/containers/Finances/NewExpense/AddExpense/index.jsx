@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
-import history from '../../../../history';
 import { addExpenses } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
@@ -77,7 +76,7 @@ class AddExpense extends Component {
       formattedData.filter((expense) => expense.value < 0 || isNaN(expense.value)).length === 0
     ) {
       this.props.dispatch(addExpenses(formattedData));
-      history.push(FINANCES_HOME_URL);
+      this.props.history.push(FINANCES_HOME_URL);
     }
   }
 
@@ -87,7 +86,7 @@ class AddExpense extends Component {
       <HookFormPersistProvider>
         <PureAddExpense
           types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={history.back}
+          onGoBack={this.props.history.back}
           onSubmit={this.handleSubmit}
         />
       </HookFormPersistProvider>

@@ -13,24 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, {
   type StandaloneProductDetailsProps,
 } from '../../Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { productDefaultValues } from '../../../containers/ProductInventory/ProductForm/constants';
+import { TASK_TYPES } from '../../../containers/Task/constants';
 import styles from '../styles.module.scss';
 
 const PRODUCT_NAME = 'name';
 
 const PureSoilAmendmentProductForm = (props: StandaloneProductDetailsProps) => {
   const { t } = useTranslation();
-  const formMethods = useForm();
   const {
     register,
+    reset,
     formState: { errors },
-  } = formMethods;
+  } = useFormContext();
+
+  useEffect(() => {
+    reset(productDefaultValues[TASK_TYPES.SOIL_AMENDMENT]);
+  }, []);
 
   return (
     <div className={styles.soilAmendmentProductForm}>
@@ -46,10 +53,7 @@ const PureSoilAmendmentProductForm = (props: StandaloneProductDetailsProps) => {
         hasLeaf={true}
         errors={getInputErrors(errors, PRODUCT_NAME)}
       />
-
-      <FormProvider {...formMethods}>
-        <ProductDetails {...props} />
-      </FormProvider>
+      <ProductDetails {...props} />
     </div>
   );
 };

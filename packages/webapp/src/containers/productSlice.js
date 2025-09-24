@@ -13,6 +13,7 @@ export const getProduct = (obj) => {
     'type',
     'farm_id',
     'soil_amendment_product',
+    'removed',
   ]);
 };
 

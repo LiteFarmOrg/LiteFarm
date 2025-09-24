@@ -1161,10 +1161,7 @@ async function productFactory({ promisedFarm = farmFactory() } = {}, product = f
   }
 
   // Remove farm_id from the returned properties as this causes the factory test to fail
-  const {
-    // farm_id: removedFarmId,
-    ...productFarmDetails
-  } = productFarm;
+  const { farm_id: removedFarmId, ...productFarmDetails } = productFarm;
 
   // Return the product with flattened productFarm details, same as the API
   const flattenedProduct = {

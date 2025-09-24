@@ -74,16 +74,10 @@ const molecularCompoundsUnitOptions = [
 ];
 
 type CommonProps = {
-  productId: number | string;
+  productId?: number | string;
   products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
-  clearProduct: () => void;
-  setProductId: (id: ProductId) => void;
-  onSave: (
-    data: ProductFormFields & { product_id: ProductId },
-    callback?: (id: ProductId) => void,
-  ) => Promise<void>;
   fertiliserTypeOptions: { label: string; value: number }[];
 };
 
@@ -94,6 +88,12 @@ export type NestedProductDetailsProps = CommonProps & {
   unExpand: () => void;
   toggleExpanded: () => void;
   productsVersion: number;
+  clearProduct: () => void;
+  setProductId: (id: ProductId) => void;
+  onSave: (
+    data: ProductFormFields & { product_id: ProductId },
+    callback?: (id: ProductId) => void,
+  ) => Promise<void>;
 };
 
 export type StandaloneProductDetailsProps = CommonProps & {
@@ -119,9 +119,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     products = [],
     isReadOnly,
     farm: { country_id, interested },
-    clearProduct,
-    setProductId,
-    onSave,
     fertiliserTypeOptions,
   } = props;
   const isExpanded = isNestedForm ? props.isExpanded : undefined;
@@ -236,9 +233,12 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   }, [productId, productsVersion]);
 
   const onCancel = () => {
+    if (!isNestedForm) {
+      return;
+    }
     if (isNewProduct(productId)) {
-      clearProduct();
-      setProductId(undefined);
+      props.clearProduct();
+      props.setProductId(undefined);
       if (isNestedForm) {
         props.unExpand();
       }
@@ -249,15 +249,18 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   };
 
   const onSubmit = (data: ProductFormFields) => {
+    if (!isNestedForm) {
+      return;
+    }
     const callback = (id: ProductId) => {
       if (isNewProduct(productId)) {
-        setProductId(id);
+        props.setProductId(id);
       }
 
       setIsEditingProduct(false);
       reset(getValues());
     };
-    onSave({ ...data, product_id: productId }, callback);
+    props.onSave({ ...data, product_id: productId }, callback);
   };
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {

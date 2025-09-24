@@ -18,10 +18,6 @@ import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiS
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import {
-  ProductId,
-  ProductFormFields,
-} from '../../../components/Task/AddSoilAmendmentProducts/types';
 
 export default function SoilAmendmentProductForm() {
   const { t } = useTranslation();
@@ -44,13 +40,6 @@ export default function SoilAmendmentProductForm() {
       isNestedForm={false}
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
-      productId={'TODO'}
-      clearProduct={() => console.log('Function not implemented.')}
-      setProductId={(id: ProductId) => console.log('Function not implemented.')}
-      onSave={async (
-        data: ProductFormFields & { product_id: ProductId },
-        callback?: (id: ProductId) => void,
-      ) => console.log('Function not implemented.')}
     />
   );
 }

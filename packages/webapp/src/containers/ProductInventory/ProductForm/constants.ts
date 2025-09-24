@@ -24,11 +24,7 @@ export const productFormMap = {
 const {
   PRODUCT_ID,
   NAME,
-  FERTILISER_TYPE_ID,
-  MOISTURE_CONTENT,
-  DRY_MATTER_CONTENT,
   SUPPLIER,
-  PERMITTED,
   COMPOSITION,
   ELEMENTAL_UNIT,
   N,
@@ -40,34 +36,30 @@ const {
   CU,
   MN,
   B,
-  AMMONIUM,
-  NITRATE,
   MOLECULAR_COMPOUNDS_UNIT,
 } = PRODUCT_FIELD_NAMES;
+
+export const soilAmendmentProductDetailsDefaultValues = {
+  [SUPPLIER]: '',
+  [COMPOSITION]: {
+    [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
+    [N]: NaN,
+    [P]: NaN,
+    [K]: NaN,
+    [CA]: NaN,
+    [MG]: NaN,
+    [S]: NaN,
+    [CU]: NaN,
+    [MN]: NaN,
+    [B]: NaN,
+  },
+  [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
+};
 
 export const productDefaultValues = {
   [TASK_TYPES.SOIL_AMENDMENT]: {
     [PRODUCT_ID]: '',
     [NAME]: '',
-    [SUPPLIER]: '',
-    [PERMITTED]: undefined,
-    [FERTILISER_TYPE_ID]: undefined,
-    [MOISTURE_CONTENT]: NaN,
-    [DRY_MATTER_CONTENT]: undefined,
-    [COMPOSITION]: {
-      [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
-      [N]: NaN,
-      [P]: NaN,
-      [K]: NaN,
-      [CA]: NaN,
-      [MG]: NaN,
-      [S]: NaN,
-      [CU]: NaN,
-      [MN]: NaN,
-      [B]: NaN,
-    },
-    [AMMONIUM]: NaN,
-    [NITRATE]: NaN,
-    [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
+    ...soilAmendmentProductDetailsDefaultValues,
   },
 };

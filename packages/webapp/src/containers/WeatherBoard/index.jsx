@@ -11,7 +11,7 @@ export default function WeatherBoard() {
   const { t } = useTranslation();
   const { tempUnit, speedUnit } = utils.getUnits(data?.measurement);
   const formattedForecast = {
-    humidity: `${t('WEATHER.HUMIDITY')}: ${data?.humidity}`,
+    humidity: `${t('WEATHER.HUMIDITY')}: ${data?.humidity}%`,
     iconName: utils.getIcon(data?.icon),
     date: utils.formatDate(language_preference, data?.date ? data?.date * 1000 : new Date()),
     temperature: `${data?.temp}${tempUnit}`,

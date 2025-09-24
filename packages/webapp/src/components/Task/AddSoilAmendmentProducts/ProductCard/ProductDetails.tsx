@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useRef, useState, ReactNode } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
@@ -104,23 +104,6 @@ export const isNewProduct = (productId: ProductId): boolean => typeof productId 
 
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
-export const defaultValues = {
-  [SUPPLIER]: '',
-  [COMPOSITION]: {
-    [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
-    [N]: NaN,
-    [P]: NaN,
-    [K]: NaN,
-    [CA]: NaN,
-    [MG]: NaN,
-    [S]: NaN,
-    [CU]: NaN,
-    [MN]: NaN,
-    [B]: NaN,
-  },
-  [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
-};
-
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
 function isNestedFormProps(
@@ -165,10 +148,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     trigger,
     register,
     formState: { errors, isValid },
-  } = useForm<ProductFormFields>({
-    mode: 'onBlur',
-    defaultValues,
-  });
+  } = useFormContext<ProductFormFields>();
 
   const [
     moistureContent,

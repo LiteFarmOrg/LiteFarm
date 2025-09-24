@@ -14,7 +14,7 @@
  */
 
 import { ReactNode, useEffect, useRef } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
@@ -22,11 +22,12 @@ import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import { Error } from '../../../Typography';
 import ProductDetails, { type NestedProductDetailsProps } from './ProductDetails';
-import { PRODUCT_FIELD_NAMES } from '../types';
+import { PRODUCT_FIELD_NAMES, ProductFormFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
+import { soilAmendmentProductDetailsDefaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 
 export type ProductCardProps = Omit<
   NestedProductDetailsProps,
@@ -108,6 +109,11 @@ const SoilAmendmentProductCard = ({
     formState: { errors },
   } = useFormContext();
 
+  const nestedFormMethods = useForm<ProductFormFields>({
+    mode: 'onBlur',
+    defaultValues: soilAmendmentProductDetailsDefaultValues,
+  });
+
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
@@ -166,14 +172,16 @@ const SoilAmendmentProductCard = ({
         {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
           <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
         ) : (
-          <ProductDetails
-            {...props}
-            isNestedForm
-            onSave={onSaveProduct}
-            isReadOnly={isReadOnly}
-            clearProduct={clearProduct}
-            products={products}
-          />
+          <FormProvider {...nestedFormMethods}>
+            <ProductDetails
+              {...props}
+              isNestedForm
+              onSave={onSaveProduct}
+              isReadOnly={isReadOnly}
+              clearProduct={clearProduct}
+              products={products}
+            />
+          </FormProvider>
         )}
       </div>
       <Controller

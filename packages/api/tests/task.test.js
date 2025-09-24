@@ -1137,8 +1137,7 @@ describe('Task tests', () => {
       const fakeTaskData = {
         soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
         soil_sample_task: () => mocks.fakeSoilSampleTask(),
-        pest_control_task: () =>
-          mocks.fakePestControlTask({ product_id: product, product: productData }),
+        pest_control_task: () => mocks.fakePestControlTask(),
         irrigation_task: () => mocks.fakeIrrigationTask(),
         scouting_task: () => mocks.fakeScoutingTask(),
         soil_task: () => mocks.fakeSoilTask(),
@@ -1958,9 +1957,7 @@ describe('Task tests', () => {
 
     const fakeTaskData = {
       soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
-
-      pest_control_task: () =>
-        mocks.fakePestControlTask({ product_id: product, product: productData }),
+      pest_control_task: () => mocks.fakePestControlTask(),
       irrigation_task: () => mocks.fakeIrrigationTask(),
       scouting_task: () => mocks.fakeScoutingTask(),
       soil_task: () => mocks.fakeSoilTask(),

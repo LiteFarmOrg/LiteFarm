@@ -22,7 +22,7 @@ export const up = async (knex) => {
     await trx.schema.createTable('product_farm', (table) => {
       table.integer('product_id').references('product_id').inTable('product').notNullable();
       table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
-      table.boolean('archived').notNullable().defaultTo(false);
+      table.boolean('removed').notNullable().defaultTo(false);
       table.string('supplier');
       table.enum('on_permitted_substances_list', ['YES', 'NO', 'NOT_SURE']);
       table.primary(['product_id', 'farm_id']);
@@ -32,7 +32,7 @@ export const up = async (knex) => {
     const productDataToMigrate = await trx('product')
       .select('product_id', 'farm_id', 'supplier', 'on_permitted_substances_list')
       .whereNotNull('farm_id')
-      .select(trx.raw('false as archived'));
+      .select(trx.raw('false as removed'));
 
     /* Note: This will not move the legacy library data that has null farm_id, but nor will any data be lost when migrationing + rolling back, as those products all have null supplier and on_permitted_substances_list fields anyway */
 

@@ -33,7 +33,7 @@ class ProductFarmModel extends Model {
       properties: {
         product_id: { type: 'integer' },
         farm_id: { type: 'string' },
-        archived: { type: 'boolean', default: false },
+        removed: { type: 'boolean', default: false },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         on_permitted_substances_list: {
           type: ['string', 'null'],

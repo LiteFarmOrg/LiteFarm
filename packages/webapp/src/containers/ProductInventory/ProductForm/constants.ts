@@ -12,14 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import SoilAmendmentProductForm from './SoilAmendmentProductForm';
 import { TASK_TYPES } from '../../Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
-
-export const productFormMap = {
-  [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
-};
 
 const {
   PRODUCT_ID,

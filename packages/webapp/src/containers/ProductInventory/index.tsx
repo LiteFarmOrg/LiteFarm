@@ -162,7 +162,7 @@ export default function ProductInventory() {
     setFormMode(action);
   };
 
-  const resetForm = () => {
+  const resetSelection = () => {
     setFormMode(null);
     setProductFormType(null);
   };
@@ -177,14 +177,9 @@ export default function ProductInventory() {
     setIsFormOpen(false);
   };
 
-  const onCancelForm = () => {
-    resetForm();
+  const onCancel = () => {
+    resetSelection();
     onCloseForm();
-  };
-
-  const saveProduct = () => {
-    console.log('TODO');
-    onCancelForm();
   };
 
   return (
@@ -215,11 +210,9 @@ export default function ProductInventory() {
         isFormOpen={isFormOpen}
         productFormType={productFormType}
         mode={formMode}
-        isSaveDisabled={false} // TODO
         onActionButtonClick={onFormActionButtonClick}
-        onSave={saveProduct}
         onClose={onCloseForm}
-        onCancel={onCancelForm}
+        onCancel={onCancel}
       />
     </FixedHeaderContainer>
   );

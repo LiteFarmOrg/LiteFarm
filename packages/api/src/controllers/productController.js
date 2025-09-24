@@ -15,6 +15,8 @@
 
 import baseController from '../controllers/baseController.js';
 import ProductModel from '../models/productModel.js';
+import ProductFarmModel from '../models/productFarmModel.js';
+import TaskModel from '../models/taskModel.js';
 import { transaction, Model } from 'objection';
 import { handleObjectionError } from '../util/errorCodes.js';
 
@@ -98,6 +100,69 @@ const productController = {
           req,
           { trx },
         );
+        await trx.commit();
+        res.status(204).send();
+      } catch (error) {
+        await handleObjectionError(error, res, trx);
+      }
+    };
+  },
+  removeProduct() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        const { product_id } = req.params;
+
+        const taskModelRelationsToProducts = [
+          'pest_control_task',
+          'cleaning_task',
+          'soil_amendment_task_products',
+        ];
+
+        const tasksUsingProduct = await TaskModel.query(trx)
+          .where({ deleted: false })
+          .where((builder) => {
+            taskModelRelationsToProducts.forEach((relation) => {
+              builder.orWhereExists(
+                TaskModel.relatedQuery(relation).where('product_id', product_id),
+              );
+            });
+          });
+
+        const plannedTasksUsingProduct = tasksUsingProduct.filter(
+          (task) => task.complete_date === null && task.abandon_date === null,
+        );
+
+        if (plannedTasksUsingProduct.length) {
+          return res.status(400).send('Cannot remove; planned tasks are using this product');
+        }
+
+        const product = await ProductModel.query(trx)
+          .joinRelated('product_farm')
+          .findById(product_id);
+
+        if (!product) {
+          return res.status(404).send('Product not found');
+        }
+
+        if (product.deleted) {
+          return res.status(400).send('Product already deleted');
+        }
+
+        const isCustomProduct = product.product_translation_key === null;
+
+        if (isCustomProduct && !tasksUsingProduct.length) {
+          await baseController.delete(ProductModel, product_id, req, { trx });
+        }
+
+        await ProductFarmModel.query(trx)
+          .where({
+            product_id,
+            farm_id,
+          })
+          .patch({ removed: true });
+
         await trx.commit();
         res.status(204).send();
       } catch (error) {

@@ -43,4 +43,11 @@ router.patch(
   productController.updateProduct(),
 );
 
+router.delete(
+  '/:product_id',
+  hasFarmAccess({ params: 'product_id' }),
+  checkScope(['delete:product']),
+  productController.removeProduct(),
+);
+
 export default router;

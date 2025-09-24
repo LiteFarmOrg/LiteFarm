@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.labelContainer {
+ .labelContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Keep items together */
   min-height: 20px;
   position: relative;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 .sm {

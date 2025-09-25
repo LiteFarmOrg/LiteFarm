@@ -57,7 +57,7 @@ const productController = {
             product_farm: [{ farm_id, supplier, on_permitted_substances_list }],
           });
 
-        const flattenenedResult = await ProductModel.query(trx)
+        const flattenedResult = await ProductModel.query(trx)
           .findById(inserted.product_id)
           .joinRelated('product_farm')
           .where('product_farm.farm_id', farm_id)
@@ -66,7 +66,7 @@ const productController = {
           .first();
 
         await trx.commit();
-        res.status(201).send(flattenenedResult);
+        res.status(201).send(flattenedResult);
       } catch (error) {
         await handleObjectionError(error, res, trx);
       }

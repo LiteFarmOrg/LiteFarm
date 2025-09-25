@@ -18,8 +18,9 @@ import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiS
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { FormMode } from '..';
 
-export default function SoilAmendmentProductForm() {
+export default function SoilAmendmentProductForm({ mode }: { mode: FormMode | null }) {
   const { t } = useTranslation();
 
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
@@ -34,9 +35,11 @@ export default function SoilAmendmentProductForm() {
     label: t(`ADD_PRODUCT.${key}_FERTILISER`),
   }));
 
+  const isReadOnly = mode === FormMode.READ_ONLY;
+
   return (
     <PureSoilAmendmentProductForm
-      isReadOnly={false}
+      isReadOnly={isReadOnly}
       isNestedForm={false}
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}

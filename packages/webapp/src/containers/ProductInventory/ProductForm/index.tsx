@@ -93,7 +93,9 @@ export default function ProductForm({
     })();
   };
 
-  const Component = productFormType ? productFormMap[productFormType] : null;
+  const Component: (({ mode }: { mode: FormMode | null }) => JSX.Element) | null = productFormType
+    ? productFormMap[productFormType]
+    : null;
 
   return (
     <Drawer
@@ -108,7 +110,7 @@ export default function ProductForm({
       <div className={styles.formWrapper}>
         {Component && (
           <FormProvider {...formMethods}>
-            <Component />
+            <Component mode={mode} />
           </FormProvider>
         )}
         <InFormButtons

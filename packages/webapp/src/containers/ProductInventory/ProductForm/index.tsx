@@ -22,7 +22,7 @@ import SoilAmendmentProductForm from './SoilAmendmentProductForm';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
-import useSaveProduct from '../useSaveProduct';
+import useSaveProduct from './useSaveProduct';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';

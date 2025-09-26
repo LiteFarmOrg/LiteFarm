@@ -17,13 +17,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { getProducts } from '../../Task/saga';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
-import { TASK_TYPES } from '../../Task/constants';
 import { hasNoValue } from '../../../components/Task/SoilAmendmentTask';
-import { Product, SoilAmendmentProduct } from '../../../store/api/types';
 import {
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
 } from '../../../store/api/apiSlice';
+import { TASK_TYPES } from '../../Task/constants';
+import { Product, SoilAmendmentProduct } from '../../../store/api/types';
 import {
   MolecularCompound,
   Nutrients,
@@ -32,7 +32,10 @@ import {
 } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import { FormMode } from '../';
 
-type SoilAmendmentProductFormFields = ProductFormFields & { product_id?: ProductId; name?: string };
+type SoilAmendmentProductFormFields = ProductFormFields & {
+  product_id?: Product['product_id'];
+  name?: Product['name'];
+};
 
 const formatSoilAmendmentProduct = (data: SoilAmendmentProductFormFields) => {
   const { name, product_id, supplier, on_permitted_substances_list, composition, ...body } = data;

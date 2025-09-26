@@ -51,7 +51,7 @@ export const soilAmendmentProductDetailsDefaultValues = {
   [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
 };
 
-export const productDefaultValues = {
+export const productDefaultValuesByType = {
   [TASK_TYPES.SOIL_AMENDMENT]: {
     [PRODUCT_ID]: '',
     [NAME]: '',

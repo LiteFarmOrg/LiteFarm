@@ -71,7 +71,7 @@ interface ProductFormProps {
   mode: FormMode | null;
   onActionButtonClick: (action: Partial<FormMode>) => void;
   onClose: () => void;
-  onCancel: () => void;
+  resetAndCloseForm: () => void;
 }
 
 export default function ProductForm({
@@ -80,7 +80,7 @@ export default function ProductForm({
   mode,
   onActionButtonClick,
   onClose,
-  onCancel,
+  resetAndCloseForm,
 }: ProductFormProps) {
   const { t } = useTranslation();
   const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
@@ -89,7 +89,7 @@ export default function ProductForm({
 
   const onSave = () => {
     formMethods.handleSubmit((data) => {
-      saveProduct?.(data, onCancel);
+      saveProduct?.(data, resetAndCloseForm);
     })();
   };
 
@@ -117,7 +117,7 @@ export default function ProductForm({
           className={styles.inFormButtons}
           statusText={t('common:EDITING')}
           confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
-          onCancel={onCancel}
+          onCancel={resetAndCloseForm}
           informationalText={t('ADD_PRODUCT.BUTTON_WARNING')}
           isDisabled={!formMethods.formState.isValid}
           onConfirm={onSave}

@@ -60,7 +60,7 @@ export default function ProductInventory() {
   const zIndexBase = theme.zIndex.drawer;
 
   useEffect(() => {
-    dispatch(getProducts(undefined));
+    dispatch(getProducts());
   }, []);
 
   const productInventory = useSelector(productsSelector);
@@ -177,7 +177,7 @@ export default function ProductInventory() {
     setIsFormOpen(false);
   };
 
-  const onCancel = () => {
+  const resetAndCloseForm = () => {
     resetSelection();
     onCloseForm();
   };
@@ -212,7 +212,7 @@ export default function ProductInventory() {
         mode={formMode}
         onActionButtonClick={onFormActionButtonClick}
         onClose={onCloseForm}
-        onCancel={onCancel}
+        resetAndCloseForm={resetAndCloseForm}
       />
     </FixedHeaderContainer>
   );

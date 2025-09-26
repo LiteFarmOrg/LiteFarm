@@ -21,7 +21,7 @@ import ProductDetails, {
   type StandaloneProductDetailsProps,
 } from '../../Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
-import { productDefaultValues } from '../../../containers/ProductInventory/ProductForm/constants';
+import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { Product } from '../../../store/api/types';
 import styles from '../styles.module.scss';
@@ -44,7 +44,7 @@ const PureSoilAmendmentProductForm = ({
   } = useFormContext();
 
   useEffect(() => {
-    reset(productDefaultValues[TASK_TYPES.SOIL_AMENDMENT]);
+    reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
   }, []);
 
   const productNames: Product['name'][] = products.map(({ name }) => name);

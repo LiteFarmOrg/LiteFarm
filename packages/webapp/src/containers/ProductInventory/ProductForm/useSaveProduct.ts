@@ -42,12 +42,12 @@ const formatSoilAmendmentProduct = (data: SoilAmendmentProductFormFields) => {
   delete body.dry_matter_content;
 
   const formattedData: Partial<SoilAmendmentProduct> = {
-    name,
-    product_id,
     type: TASK_TYPES.SOIL_AMENDMENT,
     supplier,
     on_permitted_substances_list,
     soil_amendment_product: { ...body, ...composition },
+    ...(name ? { name } : {}),
+    ...(product_id ? { product_id } : {}),
   };
 
   if (hasNoValue(Object.values(Nutrients), formattedData.soil_amendment_product!)) {

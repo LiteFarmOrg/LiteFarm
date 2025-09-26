@@ -19,25 +19,30 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
-import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
-import Input, { getInputErrors } from '../../../Form/Input';
-import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
-import TextButton from '../../../Form/Button/TextButton';
-import RadioGroup from '../../../Form/RadioGroup';
-import CompositionInputs from '../../../Form/CompositionInputs';
-import ReactSelect from '../../../Form/ReactSelect';
+import InputBaseLabel from '../InputBase/InputBaseLabel';
+import Input, { getInputErrors } from '../Input';
+import { hookFormMaxCharsValidation } from '../hookformValidationUtils';
+import TextButton from '../Button/TextButton';
+import RadioGroup from '../RadioGroup';
+import CompositionInputs from '../CompositionInputs';
+import ReactSelect from '../ReactSelect';
 import Buttons from './Buttons';
-import { type ProductFormFields, type ProductId, PRODUCT_FIELD_NAMES, Nutrients } from '../types';
+import {
+  type ProductFormFields,
+  type ProductId,
+  PRODUCT_FIELD_NAMES,
+  Nutrients,
+} from '../../Task/AddSoilAmendmentProducts/types';
 import {
   ElementalUnit,
   MolecularCompoundsUnit,
   type SoilAmendmentProduct,
-} from '../../../../store/api/types';
+} from '../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
-import { CANADA } from '../../AddProduct/constants';
-import { roundToTwoDecimal } from '../../../../util';
-import useExpandable from '../../../Expandable/useExpandableItem';
-import styles from '../styles.module.scss';
+import { CANADA } from '../../Task/AddProduct/constants';
+import { roundToTwoDecimal } from '../../../util';
+import useExpandable from '../../Expandable/useExpandableItem';
+import styles from './styles.module.scss';
 
 const {
   FERTILISER_TYPE_ID,
@@ -347,7 +352,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   return (
     <div
       className={clsx(
-        styles.border,
         !isProductEntered && styles.disabled,
         isExpanded && styles.expanded,
         styles.productDetails,

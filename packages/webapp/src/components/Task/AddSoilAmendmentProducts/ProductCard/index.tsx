@@ -21,7 +21,7 @@ import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import { Error } from '../../../Typography';
-import ProductDetails, { type NestedProductDetailsProps } from './ProductDetails';
+import ProductDetails, { type NestedProductDetailsProps } from '../../../Form/ProductDetails';
 import { PRODUCT_FIELD_NAMES, ProductFormFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';

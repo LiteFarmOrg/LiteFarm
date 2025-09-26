@@ -17,9 +17,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
-import ProductDetails, {
-  type StandaloneProductDetailsProps,
-} from '../../Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import ProductDetails, { type StandaloneProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';

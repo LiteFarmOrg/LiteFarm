@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { PRODUCT_FIELD_NAMES } from '../types';
+import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
 
 const { MOISTURE_CONTENT, DRY_MATTER_CONTENT, N, P, K, CA, MG, S, CU, MN, B, AMMONIUM, NITRATE } =
   PRODUCT_FIELD_NAMES;

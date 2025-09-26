@@ -30,7 +30,7 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
-import { isNewProduct } from '../AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import { isNewProduct } from '../../Form/ProductDetails';
 import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,

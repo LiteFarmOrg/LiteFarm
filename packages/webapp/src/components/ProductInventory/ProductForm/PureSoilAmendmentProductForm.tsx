@@ -23,11 +23,19 @@ import ProductDetails, {
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { productDefaultValues } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
+import { Product } from '../../../store/api/types';
 import styles from '../styles.module.scss';
 
 const PRODUCT_NAME = 'name';
 
-const PureSoilAmendmentProductForm = (props: StandaloneProductDetailsProps) => {
+type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
+  products: Product[];
+};
+
+const PureSoilAmendmentProductForm = ({
+  products,
+  ...props
+}: PureSoilAmendmentProductFormProps) => {
   const { t } = useTranslation();
   const {
     register,
@@ -39,6 +47,8 @@ const PureSoilAmendmentProductForm = (props: StandaloneProductDetailsProps) => {
     reset(productDefaultValues[TASK_TYPES.SOIL_AMENDMENT]);
   }, []);
 
+  const productNames: Product['name'][] = products.map(({ name }) => name);
+
   return (
     <div className={styles.soilAmendmentProductForm}>
       {/* @ts-expect-error */}
@@ -48,6 +58,11 @@ const PureSoilAmendmentProductForm = (props: StandaloneProductDetailsProps) => {
         hookFormRegister={register(PRODUCT_NAME, {
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
+          validate: (value) => {
+            if (productNames.includes(value.trim())) {
+              return t('ADD_TASK.DUPLICATE_NAME');
+            }
+          },
         })}
         disabled={props.isReadOnly}
         hasLeaf={true}

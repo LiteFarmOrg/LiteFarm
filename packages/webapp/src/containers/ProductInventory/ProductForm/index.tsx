@@ -83,7 +83,7 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
-  const formMethods = useForm<ProductFormFields>();
+  const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 

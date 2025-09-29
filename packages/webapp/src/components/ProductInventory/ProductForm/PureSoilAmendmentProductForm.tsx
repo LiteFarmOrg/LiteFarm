@@ -19,19 +19,21 @@ import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, { type StandaloneProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
-import { Product } from '../../../store/api/types';
+import { type SoilAmendmentProduct } from '../../../store/api/types';
 import styles from '../styles.module.scss';
 
 const PRODUCT_NAME = 'name';
 
 type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
-  products: Product[];
+  products: SoilAmendmentProduct[];
 };
 
 const PureSoilAmendmentProductForm = ({
   products,
+  productId,
   ...props
 }: PureSoilAmendmentProductFormProps) => {
   const { t } = useTranslation();
@@ -42,10 +44,21 @@ const PureSoilAmendmentProductForm = ({
   } = useFormContext();
 
   useEffect(() => {
-    reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
-  }, []);
+    if (productId) {
+      const product = products.find(({ product_id }) => productId === product_id)!;
 
-  const productNames: Product['name'][] = products.map(({ name }) => name);
+      reset({
+        product_id: productId,
+        name: product.name,
+        ...getSoilAmendmentFormValues(product),
+      });
+      return;
+    }
+
+    reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
+  }, [productId]);
+
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   return (
     <div className={styles.soilAmendmentProductForm}>

@@ -16,7 +16,6 @@
 import baseController from '../controllers/baseController.js';
 import ProductModel from '../models/productModel.js';
 import ProductFarmModel from '../models/productFarmModel.js';
-import TaskModel from '../models/taskModel.js';
 import { transaction, Model } from 'objection';
 import { handleObjectionError } from '../util/errorCodes.js';
 
@@ -113,18 +112,7 @@ const productController = {
       try {
         const { farm_id } = req.headers;
         const { product_id } = req.params;
-
-        const tasksUsingProduct = await TaskModel.query(trx)
-          .where({ deleted: false })
-          .modify('usingProduct', product_id);
-
-        const plannedTasksUsingProduct = tasksUsingProduct.filter(
-          (task) => task.complete_date === null && task.abandon_date === null,
-        );
-
-        if (plannedTasksUsingProduct.length) {
-          return res.status(400).send('Cannot remove; planned tasks are using this product');
-        }
+        const { isUnusedByTasks } = res.locals;
 
         const product = await ProductModel.query(trx)
           .joinRelated('product_farm')
@@ -141,7 +129,7 @@ const productController = {
         // LF-4963 - confirm property that will distinguish custom from library products
         const isLibraryProduct = product.product_translation_key;
 
-        if (!isLibraryProduct && !tasksUsingProduct.length) {
+        if (!isLibraryProduct && isUnusedByTasks) {
           await baseController.delete(ProductModel, product_id, req, { trx });
         }
 

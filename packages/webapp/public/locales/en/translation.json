@@ -1498,10 +1498,6 @@
       "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}.",
       "TITLE": "Task completed"
     },
-    "TASK_RECOMPLETED_BY_OTHER_USER": {
-      "BODY": "A {{taskType}} task assigned to you was revised and recompleted by {{assigner}}.",
-      "TITLE": "Task recompleted"
-    },
     "TASK_DELETED": {
       "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
       "TITLE": "Task deleted"
@@ -1509,6 +1505,10 @@
     "TASK_REASSIGNED": {
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
+    },
+    "TASK_RECOMPLETED_BY_OTHER_USER": {
+      "BODY": "A {{taskType}} task assigned to you was revised and recompleted by {{assigner}}.",
+      "TITLE": "Task recompleted"
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",

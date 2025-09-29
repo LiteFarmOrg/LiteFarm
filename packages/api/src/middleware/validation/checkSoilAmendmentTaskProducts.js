@@ -88,11 +88,10 @@ export function checkSoilAmendmentTaskProducts() {
         }
 
         const existingProduct = await ProductModel.query()
-          .where({
-            product_id: product.product_id,
-            farm_id: req.headers.farm_id,
-            type: 'soil_amendment_task',
-          })
+          .joinRelated('product_farm')
+          .where('product.product_id', product.product_id)
+          .andWhere('product.type', 'soil_amendment_task')
+          .andWhere('product_farm.farm_id', req.headers.farm_id)
           .first();
 
         if (!existingProduct) {

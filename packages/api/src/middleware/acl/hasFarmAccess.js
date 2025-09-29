@@ -29,7 +29,7 @@ const entitiesGetters = {
   taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
   nomination_id: fromNomination,
   transplant_task: fromTransPlantTask,
-  product_id: fromProduct,
+  product_id: fromProductFarm,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -274,8 +274,8 @@ function fromOrganicCertifierSurvey(survey_id) {
   return knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
-function fromProduct(product_id) {
-  return knex('product').where({ product_id }).first();
+function fromProductFarm(product_id) {
+  return knex('product_farm').where({ product_id }).first();
 }
 
 function sameFarm(object, farm) {

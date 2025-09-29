@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (product.test.js) is part of LiteFarm.
@@ -102,6 +104,7 @@ describe('Product Tests', () => {
   describe('Get products ', () => {
     let userFarmToTest;
     beforeEach(async () => {
+      await knex('product_farm').del();
       await knex('product').del();
       [userFarmToTest] = await mocks.userFarmFactory({}, fakeUserFarm());
     });
@@ -122,7 +125,7 @@ describe('Product Tests', () => {
       );
     });
 
-    test('Should get products on my farm but not default products', async (done) => {
+    test('Should get products on my farm but not library products not yet added to inventory', async (done) => {
       await Promise.all(
         [...Array(10)].map(() =>
           mocks.productFactory({ promisedFarm: [{ farm_id: userFarmToTest.farm_id }] }),
@@ -141,7 +144,7 @@ describe('Product Tests', () => {
       );
     });
 
-    test('should get products on my farm, but not my other farms or defaults', async (done) => {
+    test('should get products on my farm, but not my other farms or un-added library products', async (done) => {
       const [otherUserFarm] = await mocks.userFarmFactory({
         promisedUser: [{ user_id: userFarmToTest.user_id }],
       });
@@ -188,7 +191,6 @@ describe('Product Tests', () => {
 
     test('should successfully create a product with minimal data', async (done) => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-      prod.farm_id = userFarm.farm_id;
       postProductRequest(prod, userFarm, (err, res) => {
         expect(res.status).toBe(201);
         done();
@@ -199,13 +201,14 @@ describe('Product Tests', () => {
       const allUserRoles = [1, 2, 3, 5];
       for (const role of allUserRoles) {
         const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
-        prod.farm_id = userFarm.farm_id;
         postProductRequest(prod, userFarm, async (err, res) => {
           expect(res.status).toBe(201);
           const productsSaved = await productModel
             .query()
             .context({ showHidden: true })
-            .where('farm_id', userFarm.farm_id);
+            .joinRelated('product_farm')
+            .where('product_farm.farm_id', userFarm.farm_id);
+
           expect(productsSaved.length).toBe(1);
           done();
         });
@@ -216,7 +219,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         soil_amendment_product: {
           n: 70,
           p: 30,
@@ -234,7 +236,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         soil_amendment_product: {
           n: 70,
           p: 30,
@@ -277,7 +278,6 @@ describe('Product Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const soilAmendmentProduct = mocks.fakeProduct({
-        farm_id: userFarm.farm_id,
         type: 'soil_amendment_task',
         soil_amendment_product: {
           n: 1,
@@ -293,7 +293,8 @@ describe('Product Tests', () => {
         const [productRecord] = await productModel
           .query()
           .context({ showHidden: true })
-          .where('farm_id', userFarm.farm_id);
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', userFarm.farm_id);
 
         const [soilAmendmentProductRecord] = await soilAmendmentProductModel
           .query()
@@ -330,7 +331,10 @@ describe('Product Tests', () => {
 
         const [updatedProduct] = await productModel
           .query()
-          .where({ product_id: origProduct.product_id });
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', userFarm.farm_id)
+          .modify('flattenProductFarm')
+          .where('product.product_id', origProduct.product_id);
 
         expect(updatedProduct.supplier).toBe('UBC Botanical Garden');
       }

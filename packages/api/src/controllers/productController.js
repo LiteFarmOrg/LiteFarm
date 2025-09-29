@@ -26,9 +26,9 @@ const productController = {
         const rows = await ProductModel.query()
           .context({ user_id: req.auth.user_id })
           .whereNotDeleted()
-          .where({
-            farm_id,
-          })
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', farm_id)
+          .modify('flattenProductFarm')
           .withGraphFetched('soil_amendment_product');
         return res.status(200).send(rows);
       } catch (error) {
@@ -46,11 +46,25 @@ const productController = {
       try {
         const { farm_id } = req.headers;
         const data = req.body;
-        const result = await ProductModel.query(trx)
+        const { supplier, on_permitted_substances_list, ...productData } = data;
+
+        const inserted = await ProductModel.query(trx)
           .context({ user_id: req?.auth?.user_id })
-          .insertGraph({ ...data, farm_id });
+          .insertGraph({
+            ...productData,
+            product_farm: [{ farm_id, supplier, on_permitted_substances_list }],
+          });
+
+        const flattenedResult = await ProductModel.query(trx)
+          .findById(inserted.product_id)
+          .joinRelated('product_farm')
+          .where('product_farm.farm_id', farm_id)
+          .modify('flattenProductFarm')
+          .withGraphFetched('soil_amendment_product')
+          .first();
+
         await trx.commit();
-        res.status(201).send(result);
+        res.status(201).send(flattenedResult);
       } catch (error) {
         await handleObjectionError(error, res, trx);
       }
@@ -64,10 +78,23 @@ const productController = {
         const { product_id } = req.params;
         const data = req.body;
 
+        const { supplier, on_permitted_substances_list, ...productData } = data;
+
         // This will replace the entire related object (e.g. soil_amendment_product) so keep that in mind when constructing the request
         await baseController.upsertGraph(
           ProductModel,
-          { ...data, farm_id, product_id: parseInt(product_id) },
+          {
+            ...productData,
+            product_id: parseInt(product_id),
+            product_farm: [
+              {
+                product_id: parseInt(product_id),
+                farm_id,
+                supplier,
+                on_permitted_substances_list,
+              },
+            ],
+          },
           req,
           { trx },
         );

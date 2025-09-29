@@ -114,21 +114,9 @@ const productController = {
         const { farm_id } = req.headers;
         const { product_id } = req.params;
 
-        const taskModelRelationsToProducts = [
-          'pest_control_task',
-          'cleaning_task',
-          'soil_amendment_task_products',
-        ];
-
         const tasksUsingProduct = await TaskModel.query(trx)
           .where({ deleted: false })
-          .where((builder) => {
-            taskModelRelationsToProducts.forEach((relation) => {
-              builder.orWhereExists(
-                TaskModel.relatedQuery(relation).where('product_id', product_id),
-              );
-            });
-          });
+          .modify('usingProduct', product_id);
 
         const plannedTasksUsingProduct = tasksUsingProduct.filter(
           (task) => task.complete_date === null && task.abandon_date === null,

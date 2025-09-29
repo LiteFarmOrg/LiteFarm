@@ -101,6 +101,26 @@ class TaskModel extends BaseModel {
     };
   }
 
+  static get modifiers() {
+    return {
+      usingProduct(builder, product_id) {
+        const taskModelRelationsToProducts = [
+          'pest_control_task',
+          'cleaning_task',
+          'soil_amendment_task_products',
+        ];
+
+        builder.where((subBuilder) => {
+          taskModelRelationsToProducts.forEach((relation) => {
+            subBuilder.orWhereExists(
+              builder.modelClass().relatedQuery(relation).where('product_id', product_id),
+            );
+          });
+        });
+      },
+    };
+  }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {

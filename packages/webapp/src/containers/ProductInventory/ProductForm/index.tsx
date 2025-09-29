@@ -22,11 +22,10 @@ import SoilAmendmentProductForm from './SoilAmendmentProductForm';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
-import useSaveProduct from './useSaveProduct';
+import useSaveProduct, { type SoilAmendmentProductFormAllFields } from './useSaveProduct';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
-import { SoilAmendmentProductFormCommonFields } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import styles from './styles.module.scss';
 
 export interface FormContentProps {
@@ -90,7 +89,7 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
-  const formMethods = useForm<SoilAmendmentProductFormCommonFields>({ mode: 'onBlur' });
+  const formMethods = useForm<SoilAmendmentProductFormAllFields>({ mode: 'onBlur' });
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 

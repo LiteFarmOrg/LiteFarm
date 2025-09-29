@@ -32,12 +32,12 @@ import {
 } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import { FormMode } from '../';
 
-type SoilAmendmentProductFormFields = SoilAmendmentProductFormCommonFields & {
+export type SoilAmendmentProductFormAllFields = SoilAmendmentProductFormCommonFields & {
   product_id?: Product['product_id'];
   name?: Product['name'];
 };
 
-const formatSoilAmendmentProduct = (data: SoilAmendmentProductFormFields) => {
+const formatSoilAmendmentProduct = (data: SoilAmendmentProductFormAllFields) => {
   const { name, product_id, supplier, on_permitted_substances_list, composition, ...body } = data;
   delete body.dry_matter_content;
 
@@ -77,7 +77,7 @@ const useSaveProduct = ({ formMode, productFormType }: UseSaveProductProps) => {
   const [updateSoilAmendmentProduct] = useUpdateSoilAmendmentProductMutation();
 
   const onSave = async (
-    data: SoilAmendmentProductFormFields,
+    data: SoilAmendmentProductFormAllFields,
     callback: (product_id: ProductId) => void = () => {},
   ) => {
     if (!formMode || !productFormType) {

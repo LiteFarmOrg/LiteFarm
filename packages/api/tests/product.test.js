@@ -557,7 +557,29 @@ describe('Product Tests', () => {
       expect(productRecord.deleted).toBe(false);
     });
 
-    test('Should remove but not delete a library product', async () => {});
+    test('Should remove but not delete a library product', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        // LF-4963 - confirm shape of library products
+        name: 'Sodium hydroxide',
+        type: 'cleaning_task',
+        product_translation_key: 'SODIUM_HYDROXIDE',
+      });
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(204);
+
+      const [productRecord] = await productModel
+        .query()
+        .context({ showHidden: true })
+        .withGraphFetched('product_farm')
+        .where('product.product_id', product.product_id);
+
+      expect(productRecord.product_farm[0].removed).toBe(true);
+      expect(productRecord.deleted).toBe(false);
+    });
 
     test('Should delete a custom product unused in any tasks', async () => {});
 

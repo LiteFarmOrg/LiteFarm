@@ -150,9 +150,10 @@ const productController = {
           return res.status(400).send('Product already deleted');
         }
 
-        const isCustomProduct = product.product_translation_key === null;
+        // LF-4963 - confirm property that will distinguish custom from library products
+        const isLibraryProduct = product.product_translation_key;
 
-        if (isCustomProduct && !tasksUsingProduct.length) {
+        if (!isLibraryProduct && !tasksUsingProduct.length) {
           await baseController.delete(ProductModel, product_id, req, { trx });
         }
 

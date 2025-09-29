@@ -477,13 +477,13 @@ describe('Product Tests', () => {
     });
 
     test('Farm workers should not be able to delete a product', async () => {
-      const { mainFarm: workerFarm, user: farmWorker } = await returnUserFarms(3);
+      const { mainFarm: workersFarm, user: farmWorker } = await returnUserFarms(3);
 
-      const product = await createProductInDatabase(mainFarm);
+      const product = await createProductInDatabase(workersFarm);
 
       const res = await deleteRequest(product.product_id, {
         user_id: farmWorker.user_id,
-        farm_id: workerFarm.farm_id,
+        farm_id: workersFarm.farm_id,
       });
       expect(res.status).toBe(403);
     });

@@ -122,10 +122,6 @@ const productController = {
           return res.status(404).send('Product not found');
         }
 
-        if (product.deleted) {
-          return res.status(400).send('Product already deleted');
-        }
-
         // LF-4963 - confirm property that will distinguish custom from library products
         const isLibraryProduct = product.product_translation_key;
 

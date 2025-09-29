@@ -581,8 +581,48 @@ describe('Product Tests', () => {
       expect(productRecord.deleted).toBe(false);
     });
 
-    test('Should delete a custom product unused in any tasks', async () => {});
+    test('Should delete a custom product unused in any tasks', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Vermicompost',
+        type: 'soil_amendment_task',
+      });
 
-    test('Should be able to create a custom product with the same name as a removed custom product', async () => {});
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(204);
+
+      const [productRecord] = await productModel
+        .query()
+        .context({ showHidden: true })
+        .withGraphFetched('product_farm')
+        .where('product.product_id', product.product_id);
+
+      expect(productRecord.product_farm[0].removed).toBe(true);
+      expect(productRecord.deleted).toBe(true);
+    });
+
+    test('Should be able to create a custom product with the same name as a removed custom product', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Copper sulfate',
+        type: 'pest_control_task',
+      });
+
+      const deleteRes = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(deleteRes.status).toBe(204);
+
+      const postRes = await chai
+        .request(server)
+        .post(`/product`)
+        .set('user_id', user.user_id)
+        .set('farm_id', mainFarm.farm_id)
+        .send(mocks.fakeProduct({ name: 'Copper sulfate', type: 'pest_control_task' }));
+
+      expect(postRes.status).toBe(201);
+    });
   });
 });

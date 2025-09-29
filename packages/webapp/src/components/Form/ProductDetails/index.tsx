@@ -118,7 +118,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
-  const isDetailDisabled = isReadOnly || !isEditingProduct;
+  const isDetailDisabled = isReadOnly || (isNestedForm && !isEditingProduct);
   const isProductEntered = !!productId;
 
   const additionalNutrientsId = `additional-nutrients-${productId}`;

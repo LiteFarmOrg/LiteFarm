@@ -27,12 +27,12 @@ import { Product, SoilAmendmentProduct } from '../../../store/api/types';
 import {
   MolecularCompound,
   Nutrients,
-  type ProductFormFields,
+  type SoilAmendmentProductFormCommonFields,
   type ProductId,
 } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import { FormMode } from '../';
 
-type SoilAmendmentProductFormFields = ProductFormFields & {
+type SoilAmendmentProductFormFields = SoilAmendmentProductFormCommonFields & {
   product_id?: Product['product_id'];
   name?: Product['name'];
 };

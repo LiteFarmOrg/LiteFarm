@@ -35,7 +35,10 @@ import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
 } from '../../../containers/Snackbar/snackbarSlice';
-import type { ProductFormFields, ProductId } from '../AddSoilAmendmentProducts/types';
+import type {
+  SoilAmendmentProductFormCommonFields,
+  ProductId,
+} from '../AddSoilAmendmentProducts/types';
 import { MolecularCompound, Nutrients, TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { getProducts } from '../../../containers/Task/saga';
@@ -113,7 +116,7 @@ const PureSoilAmendmentTask = ({
   }, {});
 
   const onSaveProduct = async (
-    data: ProductFormFields & { product_id: ProductId },
+    data: SoilAmendmentProductFormCommonFields & { product_id: ProductId },
     callback: (product_id: ProductId) => void = () => ({}),
   ) => {
     const { product_id, supplier, on_permitted_substances_list, composition, ...body } = data;

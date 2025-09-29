@@ -26,7 +26,7 @@ import useSaveProduct from './useSaveProduct';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
-import { ProductFormFields } from '../../../components/Task/AddSoilAmendmentProducts/types';
+import { SoilAmendmentProductFormCommonFields } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import styles from './styles.module.scss';
 
 export interface FormContentProps {
@@ -90,7 +90,7 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
-  const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
+  const formMethods = useForm<SoilAmendmentProductFormCommonFields>({ mode: 'onBlur' });
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 

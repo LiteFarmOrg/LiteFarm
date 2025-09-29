@@ -29,7 +29,14 @@ import { Product } from '../../../store/api/types';
 import { ProductFormFields } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import styles from './styles.module.scss';
 
-export const productFormMap = {
+export interface FormContentProps {
+  mode: FormMode | null;
+  productId?: Product['product_id'];
+}
+
+type ProductFormComponent = React.ComponentType<FormContentProps>;
+
+export const productFormMap: Partial<Record<Product['type'], ProductFormComponent>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
 };
 
@@ -69,6 +76,7 @@ interface ProductFormProps {
   isFormOpen: boolean;
   productFormType: Product['type'] | null;
   mode: FormMode | null;
+  productId?: Product['product_id'];
   onActionButtonClick: (action: Partial<FormMode>) => void;
   onCancel: () => void;
 }
@@ -77,6 +85,7 @@ export default function ProductForm({
   isFormOpen,
   productFormType,
   mode,
+  productId,
   onActionButtonClick,
   onCancel,
 }: ProductFormProps) {
@@ -91,9 +100,7 @@ export default function ProductForm({
     })();
   };
 
-  const Component: (({ mode }: { mode: FormMode | null }) => JSX.Element) | null = productFormType
-    ? productFormMap[productFormType]
-    : null;
+  const FormContent = productFormType ? productFormMap[productFormType] : null;
 
   return (
     <Drawer
@@ -106,9 +113,9 @@ export default function ProductForm({
       classes={{ desktopSideDrawerContainer: styles.sideDrawerContainer }}
     >
       <div className={styles.formWrapper}>
-        {Component && (
+        {FormContent && (
           <FormProvider {...formMethods}>
-            <Component mode={mode} />
+            <FormContent mode={mode} productId={productId} />
           </FormProvider>
         )}
         <InFormButtons

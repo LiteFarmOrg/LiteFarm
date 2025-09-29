@@ -118,15 +118,17 @@ export default function ProductForm({
             <FormContent mode={mode} productId={productId} />
           </FormProvider>
         )}
-        <InFormButtons
-          className={styles.inFormButtons}
-          statusText={t('common:EDITING')}
-          confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
-          onCancel={onCancel}
-          informationalText={mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined}
-          isDisabled={!formMethods.formState.isValid}
-          onConfirm={onSave}
-        />
+        {mode !== FormMode.READ_ONLY && (
+          <InFormButtons
+            className={styles.inFormButtons}
+            statusText={t('common:EDITING')}
+            confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
+            onCancel={onCancel}
+            informationalText={mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined}
+            isDisabled={!formMethods.formState.isValid}
+            onConfirm={onSave}
+          />
+        )}
       </div>
     </Drawer>
   );

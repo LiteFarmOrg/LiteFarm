@@ -43,12 +43,14 @@ const PureSoilAmendmentProductForm = ({
     formState: { errors },
   } = useFormContext();
 
-  const product = productId ? products.find(({ product_id }) => productId === product_id) : null;
+  const product = productId
+    ? products.find(({ product_id }) => productId === product_id)
+    : undefined;
 
   useEffect(() => {
-    if (productId && product) {
+    if (product) {
       reset({
-        product_id: productId,
+        product_id: product.product_id,
         name: product.name,
         ...getSoilAmendmentFormValues(product),
       });
@@ -56,7 +58,7 @@ const PureSoilAmendmentProductForm = ({
     }
 
     reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
-  }, [productId]);
+  }, [product]);
 
   const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
@@ -70,6 +72,7 @@ const PureSoilAmendmentProductForm = ({
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
           validate: (value) => {
+            // Allow duplicate check to pass if keeping the original name during edit
             if (value !== product?.name && productNames.includes(value.trim())) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }

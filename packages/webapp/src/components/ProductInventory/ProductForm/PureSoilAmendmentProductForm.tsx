@@ -22,10 +22,11 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
+import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
 import { type SoilAmendmentProduct } from '../../../store/api/types';
 import styles from '../styles.module.scss';
 
-const PRODUCT_NAME = 'name';
+const { PRODUCT_ID, NAME } = PRODUCT_FIELD_NAMES;
 
 type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
   products: SoilAmendmentProduct[];
@@ -50,8 +51,8 @@ const PureSoilAmendmentProductForm = ({
   useEffect(() => {
     if (product) {
       reset({
-        product_id: product.product_id,
-        name: product.name,
+        [PRODUCT_ID]: product.product_id,
+        [NAME]: product.name,
         ...getSoilAmendmentFormValues(product),
       });
       return;
@@ -66,9 +67,9 @@ const PureSoilAmendmentProductForm = ({
     <div className={styles.soilAmendmentProductForm}>
       {/* @ts-expect-error */}
       <Input
-        name={PRODUCT_NAME}
+        name={NAME}
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
-        hookFormRegister={register(PRODUCT_NAME, {
+        hookFormRegister={register(NAME, {
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
           validate: (value) => {
@@ -80,7 +81,7 @@ const PureSoilAmendmentProductForm = ({
         })}
         disabled={props.isReadOnly}
         hasLeaf={true}
-        errors={getInputErrors(errors, PRODUCT_NAME)}
+        errors={getInputErrors(errors, NAME)}
       />
       <ProductDetails {...props} />
     </div>

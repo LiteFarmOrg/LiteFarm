@@ -118,6 +118,13 @@ class TaskModel extends BaseModel {
           });
         });
       },
+      onFarmByLocationTasks(builder, farm_id) {
+        builder
+          .joinRelated('locations')
+          .where('locations.farm_id', farm_id)
+          .distinct('task.task_id')
+          .select('task.*');
+      },
     };
   }
 

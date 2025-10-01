@@ -21,11 +21,13 @@ export function checkProductUsageInTasks() {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { product_id } = req.params;
+      const { farm_id } = req.headers;
 
       const tasksUsingProduct: Task[] = await TaskModel
         // @ts-expect-error known issue on models
         .query()
-        .where({ deleted: false })
+        .where({ 'task.deleted': false })
+        .modify('onFarmByLocationTasks', farm_id)
         .modify('usingProduct', product_id);
 
       const plannedTasksUsingProduct = tasksUsingProduct.filter(

@@ -110,7 +110,10 @@ export default function ProductForm({
       addBackdrop={false}
       desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
       fullHeight={true}
-      classes={{ desktopSideDrawerContainer: styles.sideDrawerContainer }}
+      classes={{
+        desktopSideDrawerContainer: styles.sideDrawerContainer,
+        drawerHeader: styles.drawerHeader,
+      }}
     >
       <div className={styles.formWrapper}>
         {FormContent && (

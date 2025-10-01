@@ -20,6 +20,7 @@ const {
   PRODUCT_ID,
   NAME,
   SUPPLIER,
+  PERMITTED,
   COMPOSITION,
   ELEMENTAL_UNIT,
   N,
@@ -36,6 +37,7 @@ const {
 
 export const soilAmendmentProductDetailsDefaultValues = {
   [SUPPLIER]: '',
+  [PERMITTED]: null,
   [COMPOSITION]: {
     [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
     [N]: NaN,

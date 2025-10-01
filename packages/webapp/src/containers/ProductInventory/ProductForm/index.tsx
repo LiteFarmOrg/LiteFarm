@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -24,6 +25,7 @@ import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
 import useSaveProduct, { type SoilAmendmentProductFormAllFields } from './useSaveProduct';
 import { TASK_TYPES } from '../../Task/constants';
+import { PRODUCT_FIELD_NAMES } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
 import styles from './styles.module.scss';
@@ -38,6 +40,8 @@ type ProductFormComponent = React.ComponentType<FormContentProps>;
 export const productFormMap: Partial<Record<Product['type'], ProductFormComponent>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
 };
+
+type FormFields = SoilAmendmentProductFormAllFields;
 
 const renderDrawerTitle = (
   mode: ProductFormProps['mode'],
@@ -89,7 +93,17 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
-  const formMethods = useForm<SoilAmendmentProductFormAllFields>({ mode: 'onBlur' });
+  const formMethods = useForm<FormFields>({ mode: 'onBlur' });
+
+  useEffect(() => {
+    if (mode === FormMode.DUPLICATE) {
+      formMethods.setValue(PRODUCT_FIELD_NAMES.PRODUCT_ID, '');
+
+      setTimeout(() => {
+        formMethods.setFocus(PRODUCT_FIELD_NAMES.NAME);
+      }, 0);
+    }
+  }, [mode]);
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 

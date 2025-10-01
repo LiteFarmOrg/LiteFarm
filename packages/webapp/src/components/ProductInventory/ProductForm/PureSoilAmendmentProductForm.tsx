@@ -24,17 +24,20 @@ import { productDefaultValuesByType } from '../../../containers/ProductInventory
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
 import { type SoilAmendmentProduct } from '../../../store/api/types';
+import { FormMode } from '../../../containers/ProductInventory';
 import styles from '../styles.module.scss';
 
 const { PRODUCT_ID, NAME } = PRODUCT_FIELD_NAMES;
 
 type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
   products: SoilAmendmentProduct[];
+  mode: FormMode | null;
 };
 
 const PureSoilAmendmentProductForm = ({
   products,
   productId,
+  mode,
   ...props
 }: PureSoilAmendmentProductFormProps) => {
   const { t } = useTranslation();
@@ -74,7 +77,10 @@ const PureSoilAmendmentProductForm = ({
           maxLength: hookFormMaxCharsValidation(255),
           validate: (value) => {
             // Allow duplicate check to pass if keeping the original name during edit
-            if (value !== product?.name && productNames.includes(value.trim())) {
+            if (
+              !(mode === FormMode.EDIT && value === product?.name) &&
+              productNames.includes(value.trim())
+            ) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }
           },

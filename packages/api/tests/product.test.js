@@ -554,7 +554,7 @@ describe('Product Tests', () => {
         taskType: 'pest_control_task',
       });
 
-      // Delete the product from otherFarm
+      // Remove the product from otherFarm
       const res = await deleteRequest(libraryProduct.product_id, {
         user_id: otherUser.user_id,
         farm_id: otherFarm.farm_id,

@@ -1146,7 +1146,7 @@ async function productFactory({ promisedFarm = farmFactory() } = {}, product = f
     })
     .returning('*');
 
-  let productFarm = [{}];
+  let productFarm = {};
 
   // Products without a farm_id can be considered as library products not yet added to inventory. These products would have no record in product_farm
   if (farm_id) {

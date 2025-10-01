@@ -352,7 +352,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   return (
     <div
       className={clsx(
-        !isProductEntered && styles.disabled,
+        isNestedForm && !isProductEntered && styles.disabled,
         isExpanded && styles.expanded,
         styles.productDetails,
       )}

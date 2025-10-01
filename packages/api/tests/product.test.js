@@ -522,6 +522,47 @@ describe('Product Tests', () => {
       expect(res.status).toBe(400);
     });
 
+    test("Should ignore library products used in other farms' tasks", async () => {
+      const { mainFarm: otherFarm, user: otherUser } = await returnUserFarms(1);
+
+      const [libraryProduct] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id: null }] },
+        // LF-4963 - confirm shape of library products
+        {
+          name: 'Fennel oil',
+          type: 'pest_control_task',
+          product_translation_key: 'FENNEL_OIL',
+        },
+      );
+
+      // Add product to inventories of two farms
+      await knex('product_farm').insert({
+        farm_id: mainFarm.farm_id,
+        product_id: libraryProduct.product_id,
+      });
+      await knex('product_farm').insert({
+        farm_id: otherFarm.farm_id,
+        product_id: libraryProduct.product_id,
+      });
+
+      // Create task on main farm using the library product
+      await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product: libraryProduct,
+        taskType: 'pest_control_task',
+      });
+
+      // Delete the product from otherFarm
+      const res = await deleteRequest(libraryProduct.product_id, {
+        user_id: otherUser.user_id,
+        farm_id: otherFarm.farm_id,
+      });
+
+      expect(res.status).toBe(204);
+    });
+
     test('Should remove, but not delete, a product used in a completed task', async () => {
       const product = await createProductInDatabase(mainFarm, {
         name: 'Mushroom compost',

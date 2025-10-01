@@ -34,8 +34,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import productModel from '../src/models/productModel.js';
 import soilAmendmentProductModel from '../src/models/soilAmendmentProductModel.js';
-import { returnUserFarms } from './utils/testDataSetup.js';
-import { toLocal8601Extended } from './utils/taskUtils.js';
+import { returnUserFarms, setupFarmEnvironment } from './utils/testDataSetup.js';
+import { taskUsingProductGenerator, toLocal8601Extended } from './utils/taskUtils.js';
 
 describe('Product Tests', () => {
   // let middleware;
@@ -463,9 +463,10 @@ describe('Product Tests', () => {
   describe('Delete products ', () => {
     let user;
     let mainFarm;
+    let field;
 
     beforeEach(async () => {
-      ({ mainFarm, user } = await returnUserFarms(1));
+      ({ farm: mainFarm, user, field } = await setupFarmEnvironment(1));
 
       // Clean up products before each test
       await knex('pest_control_task').del();
@@ -506,9 +507,12 @@ describe('Product Tests', () => {
         type: 'pest_control_task',
       });
 
-      await mocks.pest_control_taskFactory({
-        promisedFarm: [mainFarm],
-        promisedProduct: [product],
+      await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product,
+        taskType: 'pest_control_task',
       });
 
       const res = await deleteRequest(product.product_id, {
@@ -525,15 +529,12 @@ describe('Product Tests', () => {
       });
 
       // Create task + soil_amendment_task records
-      const [soilAmendmentTask] = await mocks.soil_amendment_taskFactory({
-        promisedFarm: [mainFarm],
-        promisedProduct: [product],
-      });
-
-      // Add join table record
-      await knex('soil_amendment_task_products').insert({
-        task_id: soilAmendmentTask.task_id,
-        product_id: product.product_id,
+      const { task: soilAmendmentTask } = await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product,
+        taskType: 'soil_amendment_task',
       });
 
       // Complete task

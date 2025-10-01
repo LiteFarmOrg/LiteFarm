@@ -72,7 +72,7 @@ export default ({ params = null, body = null, mixed = null, tableName = null }) 
     // A generic entity getter for tables that use plain 'id' for index name
     const farmIdObjectFromEntity = tableName
       ? await knex(tableName).where({ id }).first()
-      : await entitiesGetters[entity_key](id, next);
+      : await entitiesGetters[entity_key](id, next, farm_id);
     // Is getting a seeded table and accessing community data. Go through.
     if (
       seededEntities.includes(entity_key) &&
@@ -274,8 +274,8 @@ function fromOrganicCertifierSurvey(survey_id) {
   return knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
-function fromProductFarm(product_id) {
-  return knex('product_farm').where({ product_id }).first();
+function fromProductFarm(product_id, _next, farm_id) {
+  return knex('product_farm').where({ product_id, farm_id }).first();
 }
 
 function sameFarm(object, farm) {

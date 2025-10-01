@@ -70,8 +70,7 @@ interface ProductFormProps {
   productFormType: Product['type'] | null;
   mode: FormMode | null;
   onActionButtonClick: (action: Partial<FormMode>) => void;
-  onClose: () => void;
-  resetAndCloseForm: () => void;
+  onCancel: () => void;
 }
 
 export default function ProductForm({
@@ -79,8 +78,7 @@ export default function ProductForm({
   productFormType,
   mode,
   onActionButtonClick,
-  onClose,
-  resetAndCloseForm,
+  onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
   const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
@@ -89,7 +87,7 @@ export default function ProductForm({
 
   const onSave = () => {
     formMethods.handleSubmit((data) => {
-      saveProduct?.(data, resetAndCloseForm);
+      saveProduct?.(data, onCancel);
     })();
   };
 
@@ -100,7 +98,7 @@ export default function ProductForm({
   return (
     <Drawer
       isOpen={isFormOpen && !!productFormType && !!mode}
-      onClose={onClose}
+      onClose={onCancel}
       title={renderDrawerTitle(mode, onActionButtonClick, t)}
       addBackdrop={false}
       desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
@@ -117,7 +115,7 @@ export default function ProductForm({
           className={styles.inFormButtons}
           statusText={t('common:EDITING')}
           confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
-          onCancel={resetAndCloseForm}
+          onCancel={onCancel}
           informationalText={t('ADD_PRODUCT.BUTTON_WARNING')}
           isDisabled={!formMethods.formState.isValid}
           onConfirm={onSave}

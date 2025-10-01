@@ -162,24 +162,16 @@ export default function ProductInventory() {
     setFormMode(action);
   };
 
-  const resetSelection = () => {
-    setFormMode(null);
-    setProductFormType(null);
-  };
-
   const onAddMenuItemClick = (type: Product['type']) => {
     setFormMode(FormMode.CREATE);
     setProductFormType(type);
     setIsFormOpen(true);
   };
 
-  const onCloseForm = () => {
+  const onCancel = () => {
+    setFormMode(null);
+    setProductFormType(null);
     setIsFormOpen(false);
-  };
-
-  const resetAndCloseForm = () => {
-    resetSelection();
-    onCloseForm();
   };
 
   return (
@@ -211,8 +203,7 @@ export default function ProductInventory() {
         productFormType={productFormType}
         mode={formMode}
         onActionButtonClick={onFormActionButtonClick}
-        onClose={onCloseForm}
-        resetAndCloseForm={resetAndCloseForm}
+        onCancel={onCancel}
       />
     </FixedHeaderContainer>
   );

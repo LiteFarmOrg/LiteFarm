@@ -27,6 +27,7 @@ export function checkProductUsageInTasks() {
         // @ts-expect-error known issue on models
         .query()
         .where({ 'task.deleted': false })
+        // Note: Query via location_tasks will work for soil amendment tasks, but once deletion is extended to cleaning + pest control, this needs extending to cover wild crops without a location_tasks record
         .modify('onFarmByLocationTasks', farm_id)
         .modify('usingProduct', product_id);
 

@@ -129,6 +129,7 @@ export function checkProductValidity() {
       const existingRecord = await ProductModel.query(trx)
         .joinRelated('product_farm')
         .where('product_farm.farm_id', farm_id)
+        .andWhere('product_farm.removed', false)
         .andWhere('product.type', type)
         .andWhere('product.name', name)
         .whereNot('product.product_id', product_id ?? null)

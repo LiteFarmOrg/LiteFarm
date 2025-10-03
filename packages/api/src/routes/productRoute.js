@@ -20,6 +20,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import productController from './../controllers/productController.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import { checkProductValidity } from '../middleware/validation/checkProductValidity.js';
+import { checkProductUsageInTasks } from '../middleware/validation/checkProductUsageInTasks.js';
 
 // Get the crop on a bed
 router.get(
@@ -41,6 +42,14 @@ router.patch(
   checkScope(['edit:product']),
   checkProductValidity(),
   productController.updateProduct(),
+);
+
+router.delete(
+  '/:product_id',
+  hasFarmAccess({ params: 'product_id' }),
+  checkScope(['delete:product']),
+  checkProductUsageInTasks(),
+  productController.removeProduct(),
 );
 
 export default router;

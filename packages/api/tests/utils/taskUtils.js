@@ -264,6 +264,46 @@ export const irrigationTaskGenerator = async ({ farm, user, field, irrigation })
   return { task, irrigationTask };
 };
 
+export const taskUsingProductGenerator = async ({ farm, user, field, taskType, product }) => {
+  const productTaskTypeNames = {
+    pest_control_task: 'Pest Control',
+    soil_amendment_task: 'Soil Amendment',
+    cleaning_task: 'Cleaning',
+  };
+
+  const [taskTypeRecord] = await mocks.task_typeFactory(
+    { promisedFarm: Promise.resolve([farm]) },
+    {
+      farm_id: null,
+      task_name: productTaskTypeNames[taskType],
+      task_translation_key: taskType.toUpperCase(),
+    },
+  );
+
+  // Insert the main task record + location_tasks record
+  const taskRecord = await taskWithLocationFactory({
+    userId: user.user_id,
+    locationId: field.location_id,
+    taskTypeId: taskTypeRecord.task_type_id,
+    farmId: farm.farm_id,
+  });
+
+  // Insert type specific record (soil_amendment_task, pest_control_task)
+  await mocks[`${taskType}Factory`]({
+    promisedTask: Promise.resolve([taskRecord]),
+    promisedProduct: Promise.resolve([product]),
+  });
+
+  if (taskType === 'soil_amendment_task') {
+    // Insert join table record
+    await knex('soil_amendment_task_products')
+      .insert({ task_id: taskRecord.task_id, product_id: product.product_id })
+      .returning('*');
+  }
+
+  return { task: taskRecord };
+};
+
 export const generateUserFarms = async (number) => {
   const userFarms = [];
   const [user] = await mocks.usersFactory();

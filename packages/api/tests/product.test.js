@@ -34,6 +34,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import productModel from '../src/models/productModel.js';
 import soilAmendmentProductModel from '../src/models/soilAmendmentProductModel.js';
+import { returnUserFarms, setupFarmEnvironment } from './utils/testDataSetup.js';
+import { taskUsingProductGenerator, toLocal8601Extended } from './utils/taskUtils.js';
 
 describe('Product Tests', () => {
   // let middleware;
@@ -66,6 +68,15 @@ describe('Product Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data);
+  }
+
+  async function deleteRequest(product_id, { user_id, farm_id }) {
+    return await chai
+      .request(server)
+      .delete(`/product/${product_id}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
   }
 
   function fakeUserFarm(role = 1) {
@@ -446,6 +457,214 @@ describe('Product Tests', () => {
       expect(updatedSoilAmendmentProduct.ammonium).toBe(78);
       expect(updatedSoilAmendmentProduct.nitrate).toBe(112);
       expect(updatedSoilAmendmentProduct.molecular_compounds_unit).toBe('ppm');
+    });
+  });
+
+  describe('Delete products ', () => {
+    let user;
+    let mainFarm;
+    let field;
+
+    beforeEach(async () => {
+      ({ farm: mainFarm, user, field } = await setupFarmEnvironment(1));
+
+      // Clean up products before each test
+      await knex('pest_control_task').del();
+      await knex('cleaning_task').del();
+      await knex('soil_amendment_task_products').del();
+      await knex('soil_amendment_product').del();
+      await knex('product_farm').del();
+      await knex('product').del();
+    });
+
+    test('Farm workers should not be able to delete a product', async () => {
+      const { mainFarm: workersFarm, user: farmWorker } = await returnUserFarms(3);
+
+      const product = await createProductInDatabase(workersFarm);
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: farmWorker.user_id,
+        farm_id: workersFarm.farm_id,
+      });
+      expect(res.status).toBe(403);
+    });
+
+    test('Should not be able to delete a product belonging to a different farm', async () => {
+      const { mainFarm: otherFarm } = await returnUserFarms(1);
+
+      const product = await createProductInDatabase(otherFarm);
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(403);
+    });
+
+    test('Should not be able to delete a product used in a planned task', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Neem oil',
+        type: 'pest_control_task',
+      });
+
+      await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product,
+        taskType: 'pest_control_task',
+      });
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test("Should ignore library products used in other farms' tasks", async () => {
+      const { mainFarm: otherFarm, user: otherUser } = await returnUserFarms(1);
+
+      const [libraryProduct] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id: null }] },
+        // LF-4963 - confirm shape of library products
+        {
+          name: 'Fennel oil',
+          type: 'pest_control_task',
+          product_translation_key: 'FENNEL_OIL',
+        },
+      );
+
+      // Add product to inventories of two farms
+      await knex('product_farm').insert({
+        farm_id: mainFarm.farm_id,
+        product_id: libraryProduct.product_id,
+      });
+      await knex('product_farm').insert({
+        farm_id: otherFarm.farm_id,
+        product_id: libraryProduct.product_id,
+      });
+
+      // Create task on main farm using the library product
+      await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product: libraryProduct,
+        taskType: 'pest_control_task',
+      });
+
+      // Remove the product from otherFarm
+      const res = await deleteRequest(libraryProduct.product_id, {
+        user_id: otherUser.user_id,
+        farm_id: otherFarm.farm_id,
+      });
+
+      expect(res.status).toBe(204);
+    });
+
+    test('Should remove, but not delete, a product used in a completed task', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Mushroom compost',
+        type: 'soil_amendment_task',
+      });
+
+      // Create task + soil_amendment_task records
+      const { task: soilAmendmentTask } = await taskUsingProductGenerator({
+        farm: mainFarm,
+        user,
+        field,
+        product,
+        taskType: 'soil_amendment_task',
+      });
+
+      // Complete task
+      await knex('task')
+        .where('task_id', soilAmendmentTask.task_id)
+        .update({ complete_date: toLocal8601Extended(new Date()) });
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(204);
+
+      const [productRecord] = await productModel
+        .query()
+        .context({ showHidden: true })
+        .withGraphFetched('product_farm')
+        .where('product.product_id', product.product_id);
+
+      expect(productRecord.product_farm[0].removed).toBe(true);
+      expect(productRecord.deleted).toBe(false);
+    });
+
+    test('Should remove but not delete a library product', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        // LF-4963 - confirm shape of library products
+        name: 'Sodium hydroxide',
+        type: 'cleaning_task',
+        product_translation_key: 'SODIUM_HYDROXIDE',
+      });
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(204);
+
+      const [productRecord] = await productModel
+        .query()
+        .context({ showHidden: true })
+        .withGraphFetched('product_farm')
+        .where('product.product_id', product.product_id);
+
+      expect(productRecord.product_farm[0].removed).toBe(true);
+      expect(productRecord.deleted).toBe(false);
+    });
+
+    test('Should delete a custom product unused in any tasks', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Vermicompost',
+        type: 'soil_amendment_task',
+      });
+
+      const res = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(204);
+
+      const [productRecord] = await productModel
+        .query()
+        .context({ showHidden: true })
+        .withGraphFetched('product_farm')
+        .where('product.product_id', product.product_id);
+
+      expect(productRecord.product_farm[0].removed).toBe(true);
+      expect(productRecord.deleted).toBe(true);
+    });
+
+    test('Should be able to create a custom product with the same name as a removed custom product', async () => {
+      const product = await createProductInDatabase(mainFarm, {
+        name: 'Copper sulfate',
+        type: 'pest_control_task',
+      });
+
+      const deleteRes = await deleteRequest(product.product_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(deleteRes.status).toBe(204);
+
+      const postRes = await chai
+        .request(server)
+        .post(`/product`)
+        .set('user_id', user.user_id)
+        .set('farm_id', mainFarm.farm_id)
+        .send(mocks.fakeProduct({ name: 'Copper sulfate', type: 'pest_control_task' }));
+
+      expect(postRes.status).toBe(201);
     });
   });
 });

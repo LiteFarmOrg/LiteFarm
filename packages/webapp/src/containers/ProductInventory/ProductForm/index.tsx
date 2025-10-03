@@ -116,7 +116,7 @@ export default function ProductForm({
           statusText={t('common:EDITING')}
           confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
           onCancel={onCancel}
-          informationalText={t('ADD_PRODUCT.BUTTON_WARNING')}
+          informationalText={mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined}
           isDisabled={!formMethods.formState.isValid}
           onConfirm={onSave}
         />

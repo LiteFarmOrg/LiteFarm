@@ -30,7 +30,7 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
-import { isNewProduct } from '../AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import { isNewProduct } from '../../Form/ProductDetails';
 import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
@@ -51,7 +51,7 @@ type PureSoilAmendmentTaskProps = UseFormReturn &
     locations: { location_id: number }[];
   };
 
-const hasNoValue = (
+export const hasNoValue = (
   keys: (Nutrients | MolecularCompound)[],
   object: Omit<SoilAmendmentProduct['soil_amendment_product'], 'product_id' | 'name'>,
 ): boolean => {

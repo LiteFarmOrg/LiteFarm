@@ -31,6 +31,7 @@ import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
+import ProductForm from './ProductForm';
 
 export type TableProduct = Product & {
   id: Extract<Product['product_id'], number>;
@@ -40,6 +41,15 @@ export type TableProduct = Product & {
 const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: 'INVENTORY.SOIL_AMENDMENT',
 };
+
+export enum FormMode {
+  CREATE = 'create', // new product
+  ADD = 'add', // library product
+  EDIT = 'edit',
+  DUPLICATE = 'duplicate',
+  DELETE = 'delete',
+  READ_ONLY = 'read_only',
+}
 
 export default function ProductInventory() {
   const history = useHistory();
@@ -67,6 +77,9 @@ export default function ProductInventory() {
 
   // Complete placeholder for actual filter state
   const [filtersActive, setFiltersActive] = useState(true);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<FormMode | null>(null);
+  const [productFormType, setProductFormType] = useState<Product['type'] | null>(null);
 
   const totalInventoryCount = inventory.length;
 
@@ -145,6 +158,22 @@ export default function ProductInventory() {
     [t, isDesktop],
   );
 
+  const onFormActionButtonClick = (action: Partial<FormMode>) => {
+    setFormMode(action);
+  };
+
+  const onAddMenuItemClick = (type: Product['type']) => {
+    setFormMode(FormMode.CREATE);
+    setProductFormType(type);
+    setIsFormOpen(true);
+  };
+
+  const onCancel = () => {
+    setFormMode(null);
+    setProductFormType(null);
+    setIsFormOpen(false);
+  };
+
   return (
     <FixedHeaderContainer
       header={null}
@@ -167,6 +196,14 @@ export default function ProductInventory() {
         productColumns={productColumns}
         selectedIds={selectedIds}
         onRowClick={handleRowClick}
+        onAddMenuItemClick={onAddMenuItemClick}
+      />
+      <ProductForm
+        isFormOpen={isFormOpen}
+        productFormType={productFormType}
+        mode={formMode}
+        onActionButtonClick={onFormActionButtonClick}
+        onCancel={onCancel}
       />
     </FixedHeaderContainer>
   );

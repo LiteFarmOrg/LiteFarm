@@ -13,36 +13,51 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
-
-.tableWrapper {
-  flex: 1;
-  overflow-y: auto;
+.sideDrawerContainer {
+  max-width: 520px;
 }
 
-.row.row {
-  &:hover {
-    background-color: var(--Colors-Backgrounds-table-row-hover);
-  }
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 16px;
+}
 
-  /* remove the default border on selected rows */
-  &[aria-checked='true'],
-  &[aria-checked='true']:hover {
-    & > td {
-      border-color: transparent;
+.buttons {
+  display: flex;
+  gap: 4px;
+  padding-left: 16px;
 
-      &:first-child {
-        border-color: transparent;
-        border-left: none;
+  > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--Colors-Primary-Primary-teal-50);
+
+    svg {
+      width: 20px;
+
+      path {
+        stroke: currentColor;
       }
-      &:last-child {
-        border-color: transparent;
-        border-right: none;
+    }
+
+    &:nth-of-type(3) {
+      svg {
+        width: 22px;
       }
     }
   }
 }
 
-.soilAmendmentProductForm {
-  @include flex-column-gap(24px);
+.formWrapper {
+  padding: 0 8px 0 16px;
+}
+
+.inFormButtons {
+  padding-top: 16px;
 }

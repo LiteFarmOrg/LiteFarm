@@ -13,31 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useRef, useState, ReactNode } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
-import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
-import Input, { getInputErrors } from '../../../Form/Input';
-import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
-import TextButton from '../../../Form/Button/TextButton';
-import RadioGroup from '../../../Form/RadioGroup';
-import CompositionInputs from '../../../Form/CompositionInputs';
-import ReactSelect from '../../../Form/ReactSelect';
+import InputBaseLabel from '../InputBase/InputBaseLabel';
+import Input, { getInputErrors } from '../Input';
+import { hookFormMaxCharsValidation } from '../hookformValidationUtils';
+import TextButton from '../Button/TextButton';
+import RadioGroup from '../RadioGroup';
+import CompositionInputs from '../CompositionInputs';
+import ReactSelect from '../ReactSelect';
 import Buttons from './Buttons';
-import { type ProductFormFields, type ProductId, PRODUCT_FIELD_NAMES, Nutrients } from '../types';
+import {
+  type ProductFormFields,
+  type ProductId,
+  PRODUCT_FIELD_NAMES,
+  Nutrients,
+} from '../../Task/AddSoilAmendmentProducts/types';
 import {
   ElementalUnit,
   MolecularCompoundsUnit,
   type SoilAmendmentProduct,
-} from '../../../../store/api/types';
+} from '../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
-import { CANADA } from '../../AddProduct/constants';
-import { roundToTwoDecimal } from '../../../../util';
-import useExpandable from '../../../Expandable/useExpandableItem';
-import styles from '../styles.module.scss';
+import { CANADA } from '../../Task/AddProduct/constants';
+import { roundToTwoDecimal } from '../../../util';
+import useExpandable from '../../Expandable/useExpandableItem';
+import styles from './styles.module.scss';
 
 const {
   FERTILISER_TYPE_ID,
@@ -73,65 +78,53 @@ const molecularCompoundsUnitOptions = [
   { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
 ];
 
-export type ProductDetailsProps = {
-  productId: number | string;
+type CommonProps = {
+  productId?: number | string;
   products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
-  isExpanded: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
+  fertiliserTypeOptions: { label: string; value: number }[];
+};
+
+export type NestedProductDetailsProps = CommonProps & {
+  isNestedForm: true;
+  isExpanded: boolean;
   expand: () => void;
   unExpand: () => void;
   toggleExpanded: () => void;
+  productsVersion: number;
   clearProduct: () => void;
   setProductId: (id: ProductId) => void;
   onSave: (
     data: ProductFormFields & { product_id: ProductId },
     callback?: (id: ProductId) => void,
   ) => Promise<void>;
-  fertiliserTypeOptions: { label: string; value: number }[];
-  productsVersion: number;
+};
+
+export type StandaloneProductDetailsProps = CommonProps & {
+  isNestedForm: false;
 };
 
 export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
 
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
-export const defaultValues = {
-  [SUPPLIER]: '',
-  [COMPOSITION]: {
-    [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
-    [N]: NaN,
-    [P]: NaN,
-    [K]: NaN,
-    [CA]: NaN,
-    [MG]: NaN,
-    [S]: NaN,
-    [CU]: NaN,
-    [MN]: NaN,
-    [B]: NaN,
-  },
-  [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
-};
-
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
-const ProductDetails = ({
-  productId,
-  products = [],
-  isReadOnly,
-  isExpanded,
-  farm: { country_id, interested },
-  expand,
-  unExpand,
-  toggleExpanded: toggleProductDetailsExpanded,
-  clearProduct,
-  setProductId,
-  onSave,
-  fertiliserTypeOptions,
-  productsVersion,
-}: ProductDetailsProps) => {
+const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
+  const {
+    isNestedForm,
+    productId,
+    products = [],
+    isReadOnly,
+    farm: { country_id, interested },
+    fertiliserTypeOptions,
+  } = props;
+  const isExpanded = isNestedForm ? props.isExpanded : undefined;
+  const productsVersion = isNestedForm ? props.productsVersion : undefined;
+
   const { t } = useTranslation();
-  const [isEditingProduct, setIsEditingProduct] = useState(false);
+  const [isEditingProduct, setIsEditingProduct] = useState(isNestedForm ? false : !isReadOnly);
   const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
@@ -151,10 +144,7 @@ const ProductDetails = ({
     trigger,
     register,
     formState: { errors, isValid },
-  } = useForm<ProductFormFields>({
-    mode: 'onBlur',
-    defaultValues,
-  });
+  } = useFormContext<ProductFormFields>();
 
   const [
     moistureContent,
@@ -184,6 +174,9 @@ const ProductDetails = ({
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
 
   useEffect(() => {
+    if (!isNestedForm) {
+      return;
+    }
     const selectedProduct = products.find(({ product_id }) => product_id === productId);
     const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
     const isAddingNewProduct = !!(productId && !selectedProduct);
@@ -224,7 +217,7 @@ const ProductDetails = ({
 
     setIsEditingProduct(isAddingNewProduct);
     if (isAddingNewProduct) {
-      expand();
+      props.expand();
     }
 
     trigger();
@@ -239,10 +232,15 @@ const ProductDetails = ({
   }, [productId, productsVersion]);
 
   const onCancel = () => {
+    if (!isNestedForm) {
+      return;
+    }
     if (isNewProduct(productId)) {
-      clearProduct();
-      setProductId(undefined);
-      unExpand();
+      props.clearProduct();
+      props.setProductId(undefined);
+      if (isNestedForm) {
+        props.unExpand();
+      }
     } else {
       reset();
       setIsEditingProduct(false);
@@ -250,15 +248,18 @@ const ProductDetails = ({
   };
 
   const onSubmit = (data: ProductFormFields) => {
+    if (!isNestedForm) {
+      return;
+    }
     const callback = (id: ProductId) => {
       if (isNewProduct(productId)) {
-        setProductId(id);
+        props.setProductId(id);
       }
 
       setIsEditingProduct(false);
       reset(getValues());
     };
-    onSave({ ...data, product_id: productId }, callback);
+    props.onSave({ ...data, product_id: productId }, callback);
   };
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
@@ -273,7 +274,10 @@ const ProductDetails = ({
   };
 
   const toggleProductDetails = () => {
-    toggleProductDetailsExpanded();
+    if (!isNestedForm) {
+      return;
+    }
+    props.toggleExpanded();
 
     if (isAdditionalNutrientsExpanded) {
       unExpandAdditionalNutrients(additionalNutrientsId);
@@ -342,23 +346,26 @@ const ProductDetails = ({
   return (
     <div
       className={clsx(
-        styles.border,
-        !isProductEntered && styles.disabled,
+        isNestedForm && !isProductEntered && styles.disabled,
         isExpanded && styles.expanded,
         styles.productDetails,
       )}
     >
-      <TextButton
-        disabled={!isProductEntered}
-        onClick={toggleProductDetails}
-        className={clsx(styles.productDetailsTitle)}
-      >
-        <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
-        <KeyboardArrowDownIcon className={clsx(styles.expandIcon, isExpanded && styles.expanded)} />
-      </TextButton>
+      {isNestedForm && (
+        <TextButton
+          disabled={!isProductEntered}
+          onClick={toggleProductDetails}
+          className={clsx(styles.productDetailsTitle)}
+        >
+          <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+          <KeyboardArrowDownIcon
+            className={clsx(styles.expandIcon, isExpanded && styles.expanded)}
+          />
+        </TextButton>
+      )}
 
-      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
-        <div className={styles.productDetailsContent}>
+      <Wrapper collapsible={isNestedForm} productId={productId} isExpanded={isExpanded}>
+        <div className={clsx(styles.productDetailsContent, isNestedForm && styles.isNestedForm)}>
           {/* @ts-expect-error */}
           <Input
             name={SUPPLIER}
@@ -422,7 +429,7 @@ const ProductDetails = ({
 
           <div className={clsx(styles.additionalNutrients)}>
             <TextButton
-              disabled={!isProductEntered}
+              disabled={isNestedForm && !isProductEntered}
               onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
               className={clsx(styles.additionalNutrientsTitle)}
             >
@@ -464,7 +471,7 @@ const ProductDetails = ({
             </Collapse>
           </div>
 
-          {!isReadOnly && (
+          {isNestedForm && !isReadOnly && (
             <Buttons
               isEditingProduct={isEditingProduct}
               isEditDisabled={!isProductEntered}
@@ -475,9 +482,28 @@ const ProductDetails = ({
             />
           )}
         </div>
-      </Collapse>
+      </Wrapper>
     </div>
   );
 };
 
 export default ProductDetails;
+
+interface WrapperProps {
+  collapsible: boolean;
+  productId: ProductId;
+  isExpanded?: boolean;
+  children: ReactNode;
+}
+
+const Wrapper = ({ collapsible, productId, isExpanded, children }: WrapperProps) => {
+  if (collapsible) {
+    return (
+      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
+        {children}
+      </Collapse>
+    );
+  }
+
+  return children;
+};

@@ -31,11 +31,11 @@ export function checkProductUsageInTasks() {
         .modify('onFarmByLocationTasks', farm_id)
         .modify('usingProduct', product_id);
 
-      const plannedTasksUsingProduct = tasksUsingProduct.filter(
+      const plannedTasksUsingProduct = tasksUsingProduct.some(
         (task) => task.complete_date === null && task.abandon_date === null,
       );
 
-      if (plannedTasksUsingProduct.length) {
+      if (plannedTasksUsingProduct) {
         return res.status(400).send('Cannot remove; planned tasks are using this product');
       }
 

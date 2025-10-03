@@ -111,15 +111,9 @@ const MG_KG_REACT_SELECT_WIDTH = 76;
 
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
-function isNestedFormProps(
-  props: NestedProductDetailsProps | StandaloneProductDetailsProps,
-): props is NestedProductDetailsProps {
-  return props.isNestedForm;
-}
-
 const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
-  const isNestedForm = isNestedFormProps(props);
   const {
+    isNestedForm,
     productId,
     products = [],
     isReadOnly,

@@ -16,7 +16,7 @@
 import ProductModel from '../../models/productModel.js';
 import SoilAmendmentPurposeModel from '../../models/soilAmendmentPurposeModel.js';
 
-export function checkSoilAmendmentTaskProducts() {
+export function checkSoilAmendmentTaskProducts({ newTask = false } = {}) {
   return async (req, res, next) => {
     try {
       const { soil_amendment_task_products } = req.body;
@@ -92,9 +92,10 @@ export function checkSoilAmendmentTaskProducts() {
           .where('product.product_id', product.product_id)
           .andWhere('product.type', 'soil_amendment_task')
           .andWhere('product_farm.farm_id', req.headers.farm_id)
+          .modify('flattenProductFarm')
           .first();
 
-        if (!existingProduct) {
+        if (!existingProduct || (newTask && existingProduct.removed)) {
           return res
             .status(400)
             .send(

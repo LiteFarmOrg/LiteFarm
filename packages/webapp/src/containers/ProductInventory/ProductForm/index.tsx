@@ -39,7 +39,7 @@ export const productFormMap: Partial<Record<Product['type'], ProductFormComponen
   [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
 };
 
-type FormFields = SoilAmendmentProductFormAllFields;
+type ProductFormFields = SoilAmendmentProductFormAllFields;
 
 const renderDrawerTitle = (
   mode: ProductFormProps['mode'],
@@ -91,7 +91,7 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   const { t } = useTranslation();
-  const formMethods = useForm<FormFields>({ mode: 'onBlur' });
+  const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 

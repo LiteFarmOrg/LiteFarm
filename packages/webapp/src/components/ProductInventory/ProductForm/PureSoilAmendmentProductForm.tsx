@@ -44,6 +44,8 @@ const PureSoilAmendmentProductForm = ({
   const {
     register,
     reset,
+    setValue,
+    setFocus,
     formState: { errors },
   } = useFormContext();
 
@@ -63,6 +65,16 @@ const PureSoilAmendmentProductForm = ({
 
     reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
   }, [product]);
+
+  useEffect(() => {
+    if (mode === FormMode.DUPLICATE) {
+      setValue(PRODUCT_ID, '');
+
+      setTimeout(() => {
+        setFocus(NAME);
+      }, 0);
+    }
+  }, [mode]);
 
   const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 

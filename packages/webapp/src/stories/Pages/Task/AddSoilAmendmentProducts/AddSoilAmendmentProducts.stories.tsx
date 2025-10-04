@@ -19,7 +19,7 @@ import { componentDecorators } from '../../config/Decorators';
 import AddSoilAmendmentProducts, {
   type AddSoilAmendmentProductsProps,
 } from '../../../../components/Task/AddSoilAmendmentProducts';
-import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import { soilAmendmentProductDetailsDefaultValues as defaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { products } from './products';
 
 const purposes = [

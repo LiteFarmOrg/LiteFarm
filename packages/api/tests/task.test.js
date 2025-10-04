@@ -170,7 +170,7 @@ describe('Task tests', () => {
       .end(callback);
   }
 
-  const tasksWithProducts = ['soil_amendment_task'];
+  const tasksWithTaskTypeProductTable = ['soil_amendment_task'];
 
   beforeAll(async () => {
     // Check in controller expects Soil Amendment Task to exist
@@ -1137,8 +1137,7 @@ describe('Task tests', () => {
       const fakeTaskData = {
         soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
         soil_sample_task: () => mocks.fakeSoilSampleTask(),
-        pest_control_task: () =>
-          mocks.fakePestControlTask({ product_id: product, product: productData }),
+        pest_control_task: () => mocks.fakePestControlTask(),
         irrigation_task: () => mocks.fakeIrrigationTask(),
         scouting_task: () => mocks.fakeScoutingTask(),
         soil_task: () => mocks.fakeSoilTask(),
@@ -1458,9 +1457,10 @@ describe('Task tests', () => {
             managementPlans: [{ planting_management_plan_id }],
           };
 
-          if (tasksWithProducts.some((task) => task == type)) {
+          if (tasksWithTaskTypeProductTable.includes(type)) {
             data[`${type}_products`] = await fakeProductData[`${type}_products`](farm_id);
           }
+
           postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
             expect(res.status).toBe(201);
             const { task_id } = res.body;
@@ -1958,9 +1958,7 @@ describe('Task tests', () => {
 
     const fakeTaskData = {
       soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
-
-      pest_control_task: () =>
-        mocks.fakePestControlTask({ product_id: product, product: productData }),
+      pest_control_task: () => mocks.fakePestControlTask(),
       irrigation_task: () => mocks.fakeIrrigationTask(),
       scouting_task: () => mocks.fakeScoutingTask(),
       soil_task: () => mocks.fakeSoilTask(),

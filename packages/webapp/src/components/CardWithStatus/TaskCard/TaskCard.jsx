@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
@@ -35,6 +34,7 @@ export const taskStatusTranslateKey = {
 import { languageCodes } from '../../../hooks/useLanguageOptions';
 import { getIntlDate } from '../../../util/date-migrate-TS';
 import { getFirstNameWithLastInitial } from '../../../util';
+import RevisionInfoText from '../../RevisionInfoText';
 
 export const PureTaskCard = ({
   taskType,
@@ -53,6 +53,8 @@ export const PureTaskCard = ({
   isAdmin,
   isAssignee,
   language,
+  revision_date,
+  reviser,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -69,6 +71,8 @@ export const PureTaskCard = ({
 
   const isAssigneeInactive = assignee?.status === 'Inactive';
   const assigneeName = assignee ? getFirstNameWithLastInitial(assignee) : '';
+
+  const isRevised = !!revision_date;
 
   return (
     <CardWithStatus
@@ -153,6 +157,9 @@ export const PureTaskCard = ({
           )}
         </div>
       </div>
+      {isRevised && (
+        <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
+      )}
     </CardWithStatus>
   );
 };

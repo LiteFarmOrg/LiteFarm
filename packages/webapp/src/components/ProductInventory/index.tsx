@@ -24,9 +24,7 @@ import NoSearchResults from '../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../components/Button/ClearFiltersButton';
-// Placeholder
-import AnimalsFilter from '../../containers/Animals/AnimalsFilter';
-// ------
+import ProductInventoryFilter from '../../containers/ProductInventory/ProductFilter';
 import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import type { SearchProps } from '../Animals/Inventory';
@@ -92,8 +90,7 @@ const PureProductInventory = ({
           isDesktop={isDesktop}
           className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
-        {/* placeholder filter! */}
-        <AnimalsFilter isFilterActive={isFilterActive} />
+        <ProductInventoryFilter isFilterActive={isFilterActive} />
         <div
           className={clsx(
             isDesktop ? styles.searchResultsDesktop : styles.searchResults,

@@ -13,16 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
 import {
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
-  useAddSoilAmendmentProductMutation,
-  useUpdateSoilAmendmentProductMutation,
 } from '../../../store/api/apiSlice';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -30,19 +27,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
-import { isNewProduct } from '../../Form/ProductDetails';
-import {
-  enqueueErrorSnackbar,
-  enqueueSuccessSnackbar,
-} from '../../../containers/Snackbar/snackbarSlice';
-import type {
-  SoilAmendmentProductFormCommonFields,
-  ProductId,
-} from '../AddSoilAmendmentProducts/types';
 import { MolecularCompound, Nutrients, TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
-import { getProducts } from '../../../containers/Task/saga';
-import { TASK_TYPES } from '../../../containers/Task/constants';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import { locationsSelector } from '../../../containers/locationSlice';
@@ -68,8 +54,6 @@ const PureSoilAmendmentTask = ({
   disabled = false,
   ...props
 }: PureSoilAmendmentTaskProps) => {
-  const [productsVersion, setProductsVersion] = useState(0);
-
   const {
     control,
     register,
@@ -80,7 +64,6 @@ const PureSoilAmendmentTask = ({
   } = props;
 
   const { t } = useTranslation(['translation', 'message']);
-  const dispatch = useDispatch();
 
   const { task, locations: propLocations } = props;
   const taskLocationIds = (task?.locations || propLocations)?.map(({ location_id }) => location_id);
@@ -91,8 +74,6 @@ const PureSoilAmendmentTask = ({
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
   const { data: purposes = [] } = useGetSoilAmendmentPurposesQuery();
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
-  const [addProduct] = useAddSoilAmendmentProductMutation();
-  const [updateProduct] = useUpdateSoilAmendmentProductMutation();
 
   // t('ADD_TASK.SOIL_AMENDMENT_VIEW.BROADCAST')
   // t('ADD_TASK.SOIL_AMENDMENT_VIEW.BANDED')
@@ -114,55 +95,6 @@ const PureSoilAmendmentTask = ({
   const methodIdsMap = methods.reduce<{ [key: string]: number }>((acc, currentValue) => {
     return { ...acc, [currentValue.key]: currentValue.id };
   }, {});
-
-  const onSaveProduct = async (
-    data: SoilAmendmentProductFormCommonFields & { product_id: ProductId },
-    callback: (product_id: ProductId) => void = () => ({}),
-  ) => {
-    const { product_id, supplier, on_permitted_substances_list, composition, ...body } = data;
-    const isNew = isNewProduct(product_id);
-    delete body.dry_matter_content;
-
-    const formattedData = {
-      type: TASK_TYPES.SOIL_AMENDMENT,
-      supplier,
-      on_permitted_substances_list,
-      soil_amendment_product: { ...body, ...composition },
-      [isNew ? 'name' : 'product_id']: product_id,
-    };
-
-    if (hasNoValue(Object.values(Nutrients), formattedData.soil_amendment_product)) {
-      delete formattedData.soil_amendment_product.elemental_unit;
-    }
-    if (hasNoValue(Object.values(MolecularCompound), formattedData.soil_amendment_product)) {
-      delete formattedData.soil_amendment_product.molecular_compounds_unit;
-    }
-
-    let result = {} as SoilAmendmentProduct;
-
-    try {
-      result = await (isNew ? addProduct : updateProduct)(formattedData).unwrap();
-    } catch (e) {
-      console.log(e);
-      const message = isNew ? t('message:PRODUCT.ERROR.CREATE') : t('message:PRODUCT.ERROR.UPDATE');
-      dispatch(enqueueErrorSnackbar(message));
-      return;
-    }
-
-    const onProductsFetched = () => {
-      const message = isNew
-        ? t('message:PRODUCT.SUCCESS.CREATE')
-        : t('message:PRODUCT.SUCCESS.UPDATE');
-      dispatch(enqueueSuccessSnackbar(message));
-
-      setProductsVersion((prev) => prev + 1);
-
-      // Set product_id for the newly created product. Should be called after getProducts()
-      callback(result?.product_id);
-    };
-
-    dispatch(getProducts({ callback: onProductsFetched }));
-  };
 
   return (
     <>
@@ -230,9 +162,7 @@ const PureSoilAmendmentTask = ({
           purposes={purposes}
           fertiliserTypes={fertiliserTypes}
           isReadOnly={disabled}
-          onSaveProduct={onSaveProduct}
           locations={locations}
-          productsVersion={productsVersion}
         />
       </FormProvider>
     </>

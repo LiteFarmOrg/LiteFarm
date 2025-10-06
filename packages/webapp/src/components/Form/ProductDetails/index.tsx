@@ -26,7 +26,6 @@ import TextButton from '../Button/TextButton';
 import RadioGroup from '../RadioGroup';
 import CompositionInputs from '../CompositionInputs';
 import ReactSelect from '../ReactSelect';
-import Buttons from './Buttons';
 import {
   type SoilAmendmentProductFormCommonFields,
   type ProductId,
@@ -82,22 +81,14 @@ export type NestedProductDetailsProps = CommonProps & {
   isNestedForm: true;
   isExpanded: boolean;
   expand: () => void;
-  unExpand: () => void;
   toggleExpanded: () => void;
-  productsVersion: number;
-  clearProduct: () => void;
-  setProductId: (id: ProductId) => void;
-  onSave: (
-    data: SoilAmendmentProductFormCommonFields & { product_id: ProductId },
-    callback?: (id: ProductId) => void,
-  ) => Promise<void>;
 };
 
 export type StandaloneProductDetailsProps = CommonProps & {
   isNestedForm: false;
 };
 
-export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
+const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
 
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
@@ -111,7 +102,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     fertiliserTypeOptions,
   } = props;
   const isExpanded = isNestedForm ? props.isExpanded : undefined;
-  const productsVersion = isNestedForm ? props.productsVersion : undefined;
 
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(isNestedForm ? false : !isReadOnly);
@@ -127,13 +117,11 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     control,
     watch,
     setValue,
-    getValues,
-    handleSubmit,
     reset,
     setFocus,
     trigger,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useFormContext<SoilAmendmentProductFormCommonFields>();
 
   const [
@@ -190,38 +178,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
       }, 0);
     }
     previousProductIdRef.current = productId;
-  }, [productId, productsVersion]);
-
-  const onCancel = () => {
-    if (!isNestedForm) {
-      return;
-    }
-    if (isNewProduct(productId)) {
-      props.clearProduct();
-      props.setProductId(undefined);
-      if (isNestedForm) {
-        props.unExpand();
-      }
-    } else {
-      reset();
-      setIsEditingProduct(false);
-    }
-  };
-
-  const onSubmit = (data: SoilAmendmentProductFormCommonFields) => {
-    if (!isNestedForm) {
-      return;
-    }
-    const callback = (id: ProductId) => {
-      if (isNewProduct(productId)) {
-        props.setProductId(id);
-      }
-
-      setIsEditingProduct(false);
-      reset(getValues());
-    };
-    props.onSave({ ...data, product_id: productId }, callback);
-  };
+  }, [productId]);
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
     const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
@@ -428,17 +385,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
               </div>
             </Collapse>
           </div>
-
-          {isNestedForm && !isReadOnly && (
-            <Buttons
-              isEditingProduct={isEditingProduct}
-              isEditDisabled={!isProductEntered}
-              isSaveDisabled={!isProductEntered || !isValid}
-              onCancel={onCancel}
-              onEdit={() => setIsEditingProduct(true)}
-              onSave={handleSubmit(onSubmit)}
-            />
-          )}
         </div>
       </Wrapper>
     </div>

@@ -36,7 +36,6 @@ export type ProductCardProps = Omit<
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
-  onSaveProduct: NestedProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
@@ -90,7 +89,6 @@ const SoilAmendmentProductCard = ({
   namePrefix,
   onRemove,
   system,
-  onSaveProduct,
   isReadOnly,
   products = [],
   productNames = [],
@@ -125,10 +123,6 @@ const SoilAmendmentProductCard = ({
   const productOptions = products.map(({ product_id, name, ...rest }) => {
     return { value: product_id, label: name, data: rest };
   });
-
-  const clearProduct = () => {
-    selectRef?.current?.clearValue();
-  };
 
   useEffect(() => {
     if (otherPurposeId && !getValues(OTHER_PURPOSE_ID)) {
@@ -173,14 +167,7 @@ const SoilAmendmentProductCard = ({
           <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
         ) : (
           <FormProvider {...nestedFormMethods}>
-            <ProductDetails
-              {...props}
-              isNestedForm
-              onSave={onSaveProduct}
-              isReadOnly={isReadOnly}
-              clearProduct={clearProduct}
-              products={products}
-            />
+            <ProductDetails {...props} isNestedForm isReadOnly={isReadOnly} products={products} />
           </FormProvider>
         )}
       </div>

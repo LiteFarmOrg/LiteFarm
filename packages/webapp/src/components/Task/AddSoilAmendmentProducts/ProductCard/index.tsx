@@ -27,6 +27,7 @@ import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 import { soilAmendmentProductDetailsDefaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
+import { getSoilAmendmentFormValues } from '../../../Form/ProductDetails/utils';
 
 export type ProductCardProps = Omit<
   NestedProductDetailsProps,
@@ -39,6 +40,7 @@ export type ProductCardProps = Omit<
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
   locations: Location[];
+  products?: SoilAmendmentProduct[];
 };
 
 interface ProductOption {
@@ -144,7 +146,11 @@ const SoilAmendmentProductCard = ({
               ref={selectRef}
               label={t('ADD_PRODUCT.PRODUCT_LABEL')}
               options={productOptions}
-              onChange={(e) => onChange(e?.value)}
+              onChange={(e) => {
+                onChange(e?.value);
+                const selectedProduct = products.find(({ product_id }) => product_id === e?.value);
+                nestedFormMethods.reset(getSoilAmendmentFormValues(selectedProduct));
+              }}
               placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
               value={productOptions.find(({ value: id }) => id === value)}
               hasLeaf={true}
@@ -155,7 +161,7 @@ const SoilAmendmentProductCard = ({
           )}
         />
         <FormProvider {...nestedFormMethods}>
-          <ProductDetails {...props} isNestedForm isReadOnly products={products} />
+          <ProductDetails {...props} isNestedForm isReadOnly />
         </FormProvider>
       </div>
       <Controller

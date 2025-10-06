@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -32,15 +32,11 @@ import {
   PRODUCT_FIELD_NAMES,
   Nutrients,
 } from '../../Task/AddSoilAmendmentProducts/types';
-import {
-  ElementalUnit,
-  MolecularCompoundsUnit,
-  type SoilAmendmentProduct,
-} from '../../../store/api/types';
+import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../Task/AddProduct/constants';
 import { roundToTwoDecimal } from '../../../util';
-import { getSoilAmendmentFormValues, subtractFrom100 } from './utils';
+import { subtractFrom100 } from './utils';
 import useExpandable from '../../Expandable/useExpandableItem';
 import styles from './styles.module.scss';
 
@@ -71,7 +67,6 @@ const molecularCompoundsUnitOptions = [
 
 type CommonProps = {
   productId?: number | string;
-  products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
   fertiliserTypeOptions: { label: string; value: number }[];
@@ -94,7 +89,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const {
     isNestedForm,
     productId,
-    products = [],
     isReadOnly,
     farm: { country_id, interested },
     fertiliserTypeOptions,
@@ -112,7 +106,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     control,
     watch,
     setValue,
-    reset,
     register,
     formState: { errors },
   } = useFormContext<SoilAmendmentProductFormCommonFields>();
@@ -143,15 +136,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
 
   const isAdditionalNutrientsExpanded =
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
-
-  useEffect(() => {
-    if (!productId) {
-      return;
-    }
-    const selectedProduct = products.find(({ product_id }) => product_id === productId);
-
-    reset(getSoilAmendmentFormValues(selectedProduct));
-  }, [productId]);
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
     const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;

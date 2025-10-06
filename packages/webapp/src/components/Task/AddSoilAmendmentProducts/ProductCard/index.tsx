@@ -179,7 +179,11 @@ const SoilAmendmentProductCard = ({
           >
             <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
             <KeyboardArrowDownIcon
-              className={clsx(styles.expandIcon, props.isExpanded && styles.expanded)}
+              className={clsx(
+                styles.expandIcon,
+                props.isExpanded && styles.expanded,
+                !productId && styles.disabled,
+              )}
             />
           </TextButton>
 

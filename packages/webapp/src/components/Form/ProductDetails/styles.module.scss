@@ -19,21 +19,7 @@
   @include flex-column-gap(24px);
 
   .expandIcon {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid #cce3ff;
-    background: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
-    transform: rotate(180deg);
-
-    path {
-      stroke-width: 2px;
-      stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
-    }
-
-    &.expanded {
-      transform: rotate(0deg);
-    }
+    @include blueExpandIcon();
   }
 
   .permitedSubstance {

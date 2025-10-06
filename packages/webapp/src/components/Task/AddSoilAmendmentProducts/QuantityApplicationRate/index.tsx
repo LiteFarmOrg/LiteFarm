@@ -175,7 +175,9 @@ const QuantityApplicationRate = ({
         <div className={clsx(styles.border, styles.advancedSection, isExpanded && styles.expanded)}>
           <TextButton onClick={toggleExpanded} className={clsx(styles.advancedTitle)}>
             <span>{t('ADD_TASK.SOIL_AMENDMENT_VIEW.ADVANCED')}</span>
-            <KeyboardArrowDownIcon className={styles.expandIcon} />
+            <KeyboardArrowDownIcon
+              className={clsx(styles.expandIcon, isExpanded && styles.expanded)}
+            />
           </TextButton>
 
           <Collapse id={'application_rate'} in={isExpanded} timeout="auto">

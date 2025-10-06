@@ -24,7 +24,7 @@ import SmallButton from '../../../Form/Button/SmallButton';
 import TextButton from '../../../Form/Button/TextButton';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import ProductDetails, { type NestedProductDetailsProps } from '../../../Form/ProductDetails';
+import ProductDetails, { type ProductDetailsProps } from '../../../Form/ProductDetails';
 import { PRODUCT_FIELD_NAMES, SoilAmendmentProductFormCommonFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
@@ -33,10 +33,7 @@ import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtil
 import { soilAmendmentProductDetailsDefaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { getSoilAmendmentFormValues } from '../../../Form/ProductDetails/utils';
 
-export type ProductCardProps = Omit<
-  NestedProductDetailsProps,
-  'clearProduct' | 'onSave' | 'isNestedForm'
-> & {
+export type ProductCardProps = ProductDetailsProps & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
@@ -45,6 +42,8 @@ export type ProductCardProps = Omit<
   productNames: SoilAmendmentProduct['name'][];
   locations: Location[];
   products?: SoilAmendmentProduct[];
+  isExpanded: boolean;
+  toggleExpanded: () => void;
 };
 
 interface ProductOption {
@@ -100,6 +99,8 @@ const SoilAmendmentProductCard = ({
   purposeOptions,
   otherPurposeId,
   locations,
+  isExpanded,
+  toggleExpanded,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
@@ -168,20 +169,20 @@ const SoilAmendmentProductCard = ({
         <div
           className={clsx(
             !productId && styles.disabled,
-            props.isExpanded && styles.expanded,
+            isExpanded && styles.expanded,
             styles.productDetailsWrapper,
           )}
         >
           <TextButton
             disabled={!productId}
-            onClick={props.toggleExpanded}
+            onClick={toggleExpanded}
             className={clsx(styles.productDetailsTitle)}
           >
             <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
             <KeyboardArrowDownIcon
               className={clsx(
                 styles.expandIcon,
-                props.isExpanded && styles.expanded,
+                isExpanded && styles.expanded,
                 !productId && styles.disabled,
               )}
             />
@@ -189,13 +190,13 @@ const SoilAmendmentProductCard = ({
 
           <Collapse
             id={`product_details-${productId}`}
-            in={props.isExpanded}
+            in={isExpanded}
             timeout="auto"
             unmountOnExit
             className={styles.formWrapper}
           >
             <FormProvider {...nestedFormMethods}>
-              <ProductDetails {...props} isNestedForm isReadOnly />
+              <ProductDetails {...props} isReadOnly />
             </FormProvider>
           </Collapse>
         </div>

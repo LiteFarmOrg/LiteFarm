@@ -140,7 +140,6 @@ const AddSoilAmendmentProducts = ({
               productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
-              expand={() => expand(field.id)}
               productId={productId}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}

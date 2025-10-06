@@ -51,7 +51,6 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
     <PureSoilAmendmentProductForm
       mode={mode}
       isReadOnly={isReadOnly}
-      isNestedForm={false}
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
       products={soilAmendmentCustomProducts}

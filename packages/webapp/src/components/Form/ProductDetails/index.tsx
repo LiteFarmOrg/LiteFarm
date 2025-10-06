@@ -63,38 +63,24 @@ const molecularCompoundsUnitOptions = [
   { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
 ];
 
-type CommonProps = {
+export type ProductDetailsProps = {
   productId?: number | string;
   isReadOnly: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
   fertiliserTypeOptions: { label: string; value: number }[];
 };
 
-export type NestedProductDetailsProps = CommonProps & {
-  isNestedForm: true;
-  isExpanded: boolean;
-  expand: () => void;
-  toggleExpanded: () => void;
-};
-
-export type StandaloneProductDetailsProps = CommonProps & {
-  isNestedForm: false;
-};
-
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
-const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
-  const {
-    isNestedForm,
-    productId,
-    isReadOnly,
-    farm: { country_id, interested },
-    fertiliserTypeOptions,
-  } = props;
+const ProductDetails = ({
+  productId,
+  isReadOnly,
+  farm: { country_id, interested },
+  fertiliserTypeOptions,
+}: ProductDetailsProps) => {
   const { t } = useTranslation();
 
   const inCanada = country_id === CANADA;
-  const isProductEntered = !!productId;
 
   const additionalNutrientsId = `additional-nutrients-${productId}`;
 
@@ -264,7 +250,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
 
       <div className={clsx(styles.additionalNutrients)}>
         <TextButton
-          disabled={isNestedForm && !isProductEntered}
           onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
           className={clsx(styles.additionalNutrientsTitle)}
         >

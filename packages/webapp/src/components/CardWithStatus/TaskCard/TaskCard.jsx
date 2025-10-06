@@ -158,7 +158,9 @@ export const PureTaskCard = ({
         </div>
       </div>
       {isRevised && (
-        <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
+        <div className={styles.revisionInfo}>
+          <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
+        </div>
       )}
     </CardWithStatus>
   );

@@ -16,15 +16,7 @@
 @import '@assets/mixin.scss';
 
 .productDetails {
-  border: solid 1px transparent;
-
-  .productDetailsContent {
-    @include flex-column-gap(24px);
-
-    &.isNestedForm {
-      padding: 8px 16px 16px 16px;
-    }
-  }
+  @include flex-column-gap(24px);
 
   .expandIcon {
     width: 16px;
@@ -41,41 +33,6 @@
 
     &.expanded {
       transform: rotate(0deg);
-    }
-  }
-  .productDetailsTitle {
-    padding: 4px 8px;
-    text-align: left;
-    font-size: 14px;
-    color: var(--Colors-Accent---singles-Blue-full, #0669e1);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  &.disabled {
-    .productDetailsTitle {
-      color: var(--Colors-Neutral-Neutral-100, #d0d4db);
-    }
-    .expandIcon {
-      background: #f1f1f1;
-      border-color: #efefef;
-
-      path {
-        stroke: #d6d6d6;
-      }
-    }
-  }
-
-  &.expanded {
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
-
-    .productDetailsTitle {
-      width: 100%;
-      background: var(--Colors-Backgrounds-table-row-bg, #f7fbff);
     }
   }
 

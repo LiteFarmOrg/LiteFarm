@@ -15,9 +15,13 @@
 
 import { ReactNode, useEffect, useRef } from 'react';
 import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
+import { Collapse } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
 import SmallButton from '../../../Form/Button/SmallButton';
+import TextButton from '../../../Form/Button/TextButton';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import ProductDetails, { type NestedProductDetailsProps } from '../../../Form/ProductDetails';
@@ -118,6 +122,7 @@ const SoilAmendmentProductCard = ({
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
   const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
+  const productId = watch(PRODUCT_ID);
   const purposes = watch(PURPOSES);
 
   const selectRef = useRef<SelectRef>(null);
@@ -160,9 +165,36 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        <FormProvider {...nestedFormMethods}>
-          <ProductDetails {...props} isNestedForm isReadOnly />
-        </FormProvider>
+        <div
+          className={clsx(
+            !productId && styles.disabled,
+            props.isExpanded && styles.expanded,
+            styles.productDetailsWrapper,
+          )}
+        >
+          <TextButton
+            disabled={!productId}
+            onClick={props.toggleExpanded}
+            className={clsx(styles.productDetailsTitle)}
+          >
+            <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+            <KeyboardArrowDownIcon
+              className={clsx(styles.expandIcon, props.isExpanded && styles.expanded)}
+            />
+          </TextButton>
+
+          <Collapse
+            id={`product_details-${productId}`}
+            in={props.isExpanded}
+            timeout="auto"
+            unmountOnExit
+            className={styles.formWrapper}
+          >
+            <FormProvider {...nestedFormMethods}>
+              <ProductDetails {...props} isNestedForm isReadOnly />
+            </FormProvider>
+          </Collapse>
+        </div>
       </div>
       <Controller
         control={control}

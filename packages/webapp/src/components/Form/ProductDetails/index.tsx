@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +27,6 @@ import CompositionInputs from '../CompositionInputs';
 import ReactSelect from '../ReactSelect';
 import {
   type SoilAmendmentProductFormCommonFields,
-  type ProductId,
   PRODUCT_FIELD_NAMES,
   Nutrients,
 } from '../../Task/AddSoilAmendmentProducts/types';
@@ -93,8 +91,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     farm: { country_id, interested },
     fertiliserTypeOptions,
   } = props;
-  const isExpanded = isNestedForm ? props.isExpanded : undefined;
-
   const { t } = useTranslation();
 
   const inCanada = country_id === CANADA;
@@ -129,7 +125,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const {
     expandedIds: expandedAdditionalNutrientsIds,
     toggleExpanded: toggleAdditionalNutrientsExpanded,
-    unExpand: unExpandAdditionalNutrients,
   } = useExpandable();
 
   const inputsInfo = useInputsInfo();
@@ -146,17 +141,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
 
     setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
     setValue(theOtherField, theOtherFieldValue);
-  };
-
-  const toggleProductDetails = () => {
-    if (!isNestedForm) {
-      return;
-    }
-    props.toggleExpanded();
-
-    if (isAdditionalNutrientsExpanded) {
-      unExpandAdditionalNutrients(additionalNutrientsId);
-    }
   };
 
   const renderCompositionInputsWithController = ({
@@ -221,150 +205,105 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   };
 
   return (
-    <div
-      className={clsx(
-        isNestedForm && !isProductEntered && styles.disabled,
-        isExpanded && styles.expanded,
-        styles.productDetails,
+    <div className={clsx(styles.productDetails)}>
+      {/* @ts-expect-error */}
+      <Input
+        name={SUPPLIER}
+        label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
+        hookFormRegister={register(SUPPLIER, {
+          required: interested,
+          maxLength: hookFormMaxCharsValidation(255),
+          setValueAs: (value) => value.trim(),
+        })}
+        disabled={isReadOnly}
+        hasLeaf={true}
+        errors={getInputErrors(errors, SUPPLIER)}
+        optional={!interested}
+      />
+      {interested && inCanada && (
+        <div className={styles.permitedSubstance}>
+          <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
+          {/* @ts-expect-error */}
+          <RadioGroup
+            hookFormControl={control}
+            name={PERMITTED}
+            required={true}
+            disabled={isReadOnly}
+            showNotSure
+          />
+        </div>
       )}
-    >
-      {isNestedForm && (
+
+      <ReactSelect
+        value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
+        isDisabled={isReadOnly}
+        label={t('ADD_PRODUCT.FERTILISER_TYPE')}
+        options={fertiliserTypeOptions}
+        onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
+        optional
+      />
+
+      <CompositionInputs
+        disabled={isReadOnly}
+        onChange={(fieldName: string, value: string | number | null): void => {
+          handleMoistureDryMatterContentChange(
+            fieldName,
+            value === null || value === undefined ? undefined : +value,
+          );
+        }}
+        inputsInfo={inputsInfo.moistureDrymatterContents}
+        values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
+        unit="%"
+      />
+
+      {renderCompositionInputsWithController({
+        mainLabel: t('ADD_PRODUCT.COMPOSITION'),
+        inputsInfo: inputsInfo.npk,
+        shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
+      })}
+
+      <div className={clsx(styles.additionalNutrients)}>
         <TextButton
-          disabled={!isProductEntered}
-          onClick={toggleProductDetails}
-          className={clsx(styles.productDetailsTitle)}
+          disabled={isNestedForm && !isProductEntered}
+          onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
+          className={clsx(styles.additionalNutrientsTitle)}
         >
-          <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+          <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
           <KeyboardArrowDownIcon
-            className={clsx(styles.expandIcon, isExpanded && styles.expanded)}
+            className={clsx(styles.expandIcon, isAdditionalNutrientsExpanded && styles.expanded)}
           />
         </TextButton>
-      )}
 
-      <Wrapper collapsible={isNestedForm} productId={productId} isExpanded={isExpanded}>
-        <div className={clsx(styles.productDetailsContent, isNestedForm && styles.isNestedForm)}>
-          {/* @ts-expect-error */}
-          <Input
-            name={SUPPLIER}
-            label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-            hookFormRegister={register(SUPPLIER, {
-              required: interested,
-              maxLength: hookFormMaxCharsValidation(255),
-              setValueAs: (value) => value.trim(),
+        <Collapse
+          id={additionalNutrientsId}
+          in={isAdditionalNutrientsExpanded}
+          timeout="auto"
+          unmountOnExit
+        >
+          <div className={styles.additionalNutrientsBody}>
+            {renderCompositionInputsWithController({
+              inputsInfo: inputsInfo.additionalNutrients,
+              shouldShowErrorMessage: true,
             })}
-            disabled={isReadOnly}
-            hasLeaf={true}
-            errors={getInputErrors(errors, SUPPLIER)}
-            optional={!interested}
-          />
-          {interested && inCanada && (
-            <div className={styles.permitedSubstance}>
-              <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
-              {/* @ts-expect-error */}
-              <RadioGroup
-                hookFormControl={control}
-                name={PERMITTED}
-                required={true}
-                disabled={isReadOnly}
-                showNotSure
-              />
-            </div>
-          )}
 
-          <ReactSelect
-            value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
-            isDisabled={isReadOnly}
-            label={t('ADD_PRODUCT.FERTILISER_TYPE')}
-            options={fertiliserTypeOptions}
-            onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
-            optional
-          />
-
-          <CompositionInputs
-            disabled={isReadOnly}
-            onChange={(fieldName: string, value: string | number | null): void => {
-              handleMoistureDryMatterContentChange(
-                fieldName,
-                value === null || value === undefined ? undefined : +value,
-              );
-            }}
-            inputsInfo={inputsInfo.moistureDrymatterContents}
-            values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
-            unit="%"
-          />
-
-          {renderCompositionInputsWithController({
-            mainLabel: t('ADD_PRODUCT.COMPOSITION'),
-            inputsInfo: inputsInfo.npk,
-            shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
-          })}
-
-          <div className={clsx(styles.additionalNutrients)}>
-            <TextButton
-              disabled={isNestedForm && !isProductEntered}
-              onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
-              className={clsx(styles.additionalNutrientsTitle)}
-            >
-              <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
-              <KeyboardArrowDownIcon
-                className={clsx(
-                  styles.expandIcon,
-                  isAdditionalNutrientsExpanded && styles.expanded,
-                )}
-              />
-            </TextButton>
-
-            <Collapse
-              id={additionalNutrientsId}
-              in={isAdditionalNutrientsExpanded}
-              timeout="auto"
-              unmountOnExit
-            >
-              <div className={styles.additionalNutrientsBody}>
-                {renderCompositionInputsWithController({
-                  inputsInfo: inputsInfo.additionalNutrients,
-                  shouldShowErrorMessage: true,
-                })}
-
-                <CompositionInputs
-                  disabled={isReadOnly}
-                  onChange={handleMolecularCompoundsChange}
-                  inputsInfo={inputsInfo.ammoniumNitrate}
-                  values={{
-                    [AMMONIUM]: ammonium,
-                    [NITRATE]: nitrate,
-                    [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
-                  }}
-                  unitOptions={molecularCompoundsUnitOptions}
-                  unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
-                  reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
-                />
-              </div>
-            </Collapse>
+            <CompositionInputs
+              disabled={isReadOnly}
+              onChange={handleMolecularCompoundsChange}
+              inputsInfo={inputsInfo.ammoniumNitrate}
+              values={{
+                [AMMONIUM]: ammonium,
+                [NITRATE]: nitrate,
+                [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
+              }}
+              unitOptions={molecularCompoundsUnitOptions}
+              unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
+              reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
+            />
           </div>
-        </div>
-      </Wrapper>
+        </Collapse>
+      </div>
     </div>
   );
 };
 
 export default ProductDetails;
-
-interface WrapperProps {
-  collapsible: boolean;
-  productId: ProductId;
-  isExpanded?: boolean;
-  children: ReactNode;
-}
-
-const Wrapper = ({ collapsible, productId, isExpanded, children }: WrapperProps) => {
-  if (collapsible) {
-    return (
-      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
-        {children}
-      </Collapse>
-    );
-  }
-
-  return children;
-};

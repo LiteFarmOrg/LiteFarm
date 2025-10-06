@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useRef, useState, ReactNode } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -88,8 +88,6 @@ export type StandaloneProductDetailsProps = CommonProps & {
   isNestedForm: false;
 };
 
-const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
-
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
 const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
@@ -104,11 +102,8 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const isExpanded = isNestedForm ? props.isExpanded : undefined;
 
   const { t } = useTranslation();
-  const [isEditingProduct, setIsEditingProduct] = useState(isNestedForm ? false : !isReadOnly);
-  const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
-  const isDetailDisabled = isReadOnly || (isNestedForm && !isEditingProduct);
   const isProductEntered = !!productId;
 
   const additionalNutrientsId = `additional-nutrients-${productId}`;
@@ -118,8 +113,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     watch,
     setValue,
     reset,
-    setFocus,
-    trigger,
     register,
     formState: { errors },
   } = useFormContext<SoilAmendmentProductFormCommonFields>();
@@ -152,32 +145,12 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
 
   useEffect(() => {
-    if (!isNestedForm) {
+    if (!productId) {
       return;
     }
     const selectedProduct = products.find(({ product_id }) => product_id === productId);
-    const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
-    const isAddingNewProduct = !!(productId && !selectedProduct);
-    const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
-    if (!productId || !shouldNotResetFields) {
-      reset(getSoilAmendmentFormValues(selectedProduct));
-    }
-
-    setIsEditingProduct(isAddingNewProduct);
-    if (isAddingNewProduct) {
-      props.expand();
-    }
-
-    trigger();
-
-    if (isAddingNewProduct && productId) {
-      // Wait for the card to be expaneded
-      setTimeout(() => {
-        setFocus(SUPPLIER);
-      }, 0);
-    }
-    previousProductIdRef.current = productId;
+    reset(getSoilAmendmentFormValues(selectedProduct));
   }, [productId]);
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
@@ -235,7 +208,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
               mainLabel={mainLabel}
               unitOptions={elementalUnitOptions}
               inputsInfo={inputsInfo}
-              disabled={isDetailDisabled}
+              disabled={isReadOnly}
               error={fieldState.error?.message}
               shouldShowErrorMessage={shouldShowErrorMessage}
               values={field.value || {}}
@@ -295,7 +268,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
               maxLength: hookFormMaxCharsValidation(255),
               setValueAs: (value) => value.trim(),
             })}
-            disabled={isDetailDisabled}
+            disabled={isReadOnly}
             hasLeaf={true}
             errors={getInputErrors(errors, SUPPLIER)}
             optional={!interested}
@@ -308,7 +281,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
                 hookFormControl={control}
                 name={PERMITTED}
                 required={true}
-                disabled={isDetailDisabled}
+                disabled={isReadOnly}
                 showNotSure
               />
             </div>
@@ -316,7 +289,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
 
           <ReactSelect
             value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
-            isDisabled={isDetailDisabled}
+            isDisabled={isReadOnly}
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
             options={fertiliserTypeOptions}
             onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
@@ -324,7 +297,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
           />
 
           <CompositionInputs
-            disabled={isDetailDisabled}
+            disabled={isReadOnly}
             onChange={(fieldName: string, value: string | number | null): void => {
               handleMoistureDryMatterContentChange(
                 fieldName,
@@ -370,7 +343,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
                 })}
 
                 <CompositionInputs
-                  disabled={isDetailDisabled}
+                  disabled={isReadOnly}
                   onChange={handleMolecularCompoundsChange}
                   inputsInfo={inputsInfo.ammoniumNitrate}
                   values={{

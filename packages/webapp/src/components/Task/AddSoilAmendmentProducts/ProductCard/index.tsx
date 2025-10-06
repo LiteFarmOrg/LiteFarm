@@ -167,7 +167,7 @@ const SoilAmendmentProductCard = ({
           <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
         ) : (
           <FormProvider {...nestedFormMethods}>
-            <ProductDetails {...props} isNestedForm isReadOnly={isReadOnly} products={products} />
+            <ProductDetails {...props} isNestedForm isReadOnly products={products} />
           </FormProvider>
         )}
       </div>

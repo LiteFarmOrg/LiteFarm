@@ -18,9 +18,8 @@ import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-fo
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
-import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
+import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import { Error } from '../../../Typography';
 import ProductDetails, { type NestedProductDetailsProps } from '../../../Form/ProductDetails';
 import { PRODUCT_FIELD_NAMES, SoilAmendmentProductFormCommonFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
@@ -139,17 +138,9 @@ const SoilAmendmentProductCard = ({
         <Controller
           control={control}
           name={PRODUCT_ID}
-          rules={{
-            required: true,
-            validate: (value) => {
-              if (typeof value === 'string' && productNames.includes(value.trim())) {
-                return 'DUPLICATE_NAME';
-              }
-              return typeof value === 'number';
-            },
-          }}
+          rules={{ required: true }}
           render={({ field: { value, onChange } }) => (
-            <CreatableSelect
+            <ReactSelect
               ref={selectRef}
               label={t('ADD_PRODUCT.PRODUCT_LABEL')}
               options={productOptions}
@@ -163,13 +154,9 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
-          <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
-        ) : (
-          <FormProvider {...nestedFormMethods}>
-            <ProductDetails {...props} isNestedForm isReadOnly products={products} />
-          </FormProvider>
-        )}
+        <FormProvider {...nestedFormMethods}>
+          <ProductDetails {...props} isNestedForm isReadOnly products={products} />
+        </FormProvider>
       </div>
       <Controller
         control={control}

@@ -41,6 +41,7 @@ import {
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../Task/AddProduct/constants';
 import { roundToTwoDecimal } from '../../../util';
+import { getSoilAmendmentFormValues, subtractFrom100 } from './utils';
 import useExpandable from '../../Expandable/useExpandableItem';
 import styles from './styles.module.scss';
 
@@ -52,15 +53,6 @@ const {
   PERMITTED,
   COMPOSITION,
   ELEMENTAL_UNIT,
-  N,
-  P,
-  K,
-  CA,
-  MG,
-  S,
-  CU,
-  MN,
-  B,
   AMMONIUM,
   NITRATE,
   MOLECULAR_COMPOUNDS_UNIT,
@@ -109,8 +101,6 @@ export const isNewProduct = (productId: ProductId): boolean => typeof productId 
 
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
-const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
-
 const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
   const {
     isNestedForm,
@@ -128,7 +118,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
-  const isDetailDisabled = isReadOnly || !isEditingProduct;
+  const isDetailDisabled = isReadOnly || (isNestedForm && !isEditingProduct);
   const isProductEntered = !!productId;
 
   const additionalNutrientsId = `additional-nutrients-${productId}`;
@@ -182,37 +172,8 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     const isAddingNewProduct = !!(productId && !selectedProduct);
     const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
-    const selectedProductData = selectedProduct?.soil_amendment_product;
-
-    const newDryMatterContent =
-      typeof selectedProductData?.[MOISTURE_CONTENT] === 'number'
-        ? subtractFrom100(selectedProductData[MOISTURE_CONTENT] as number)
-        : undefined;
-
     if (!productId || !shouldNotResetFields) {
-      reset({
-        [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
-        [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
-        [FERTILISER_TYPE_ID]: selectedProductData?.[FERTILISER_TYPE_ID] || undefined,
-        [MOISTURE_CONTENT]: selectedProductData?.[MOISTURE_CONTENT] ?? NaN,
-        [DRY_MATTER_CONTENT]: newDryMatterContent,
-        [COMPOSITION]: {
-          [ELEMENTAL_UNIT]: selectedProductData?.[ELEMENTAL_UNIT] || ElementalUnit.RATIO,
-          [N]: selectedProductData?.[N] ?? NaN,
-          [P]: selectedProductData?.[P] ?? NaN,
-          [K]: selectedProductData?.[K] ?? NaN,
-          [CA]: selectedProductData?.[CA] ?? NaN,
-          [MG]: selectedProductData?.[MG] ?? NaN,
-          [S]: selectedProductData?.[S] ?? NaN,
-          [CU]: selectedProductData?.[CU] ?? NaN,
-          [MN]: selectedProductData?.[MN] ?? NaN,
-          [B]: selectedProductData?.[B] ?? NaN,
-        },
-        [AMMONIUM]: selectedProductData?.[AMMONIUM] ?? NaN,
-        [NITRATE]: selectedProductData?.[NITRATE] ?? NaN,
-        [MOLECULAR_COMPOUNDS_UNIT]:
-          selectedProductData?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
-      });
+      reset(getSoilAmendmentFormValues(selectedProduct));
     }
 
     setIsEditingProduct(isAddingNewProduct);

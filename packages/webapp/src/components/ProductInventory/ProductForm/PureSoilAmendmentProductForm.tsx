@@ -19,19 +19,22 @@ import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, { type StandaloneProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
-import { Product } from '../../../store/api/types';
+import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
+import { type SoilAmendmentProduct } from '../../../store/api/types';
 import styles from '../styles.module.scss';
 
-const PRODUCT_NAME = 'name';
+const { PRODUCT_ID, NAME } = PRODUCT_FIELD_NAMES;
 
 type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
-  products: Product[];
+  products: SoilAmendmentProduct[];
 };
 
 const PureSoilAmendmentProductForm = ({
   products,
+  productId,
   ...props
 }: PureSoilAmendmentProductFormProps) => {
   const { t } = useTranslation();
@@ -41,30 +44,44 @@ const PureSoilAmendmentProductForm = ({
     formState: { errors },
   } = useFormContext();
 
-  useEffect(() => {
-    reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
-  }, []);
+  const product = productId
+    ? products.find(({ product_id }) => productId === product_id)
+    : undefined;
 
-  const productNames: Product['name'][] = products.map(({ name }) => name);
+  useEffect(() => {
+    if (product) {
+      reset({
+        [PRODUCT_ID]: product.product_id,
+        [NAME]: product.name,
+        ...getSoilAmendmentFormValues(product),
+      });
+      return;
+    }
+
+    reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
+  }, [product]);
+
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   return (
     <div className={styles.soilAmendmentProductForm}>
       {/* @ts-expect-error */}
       <Input
-        name={PRODUCT_NAME}
+        name={NAME}
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
-        hookFormRegister={register(PRODUCT_NAME, {
+        hookFormRegister={register(NAME, {
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
           validate: (value) => {
-            if (productNames.includes(value.trim())) {
+            // Allow duplicate check to pass if keeping the original name during edit
+            if (value !== product?.name && productNames.includes(value.trim())) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }
           },
         })}
         disabled={props.isReadOnly}
         hasLeaf={true}
-        errors={getInputErrors(errors, PRODUCT_NAME)}
+        errors={getInputErrors(errors, NAME)}
       />
       <ProductDetails {...props} />
     </div>

@@ -65,7 +65,7 @@ const TaskCard = ({
   } else {
     taskUnassigned = true;
   }
-  const getUserById = (id) => users.find((user) => user.user_id === id);
+  const reviser = users.find((user) => user.user_id === revised_by_user_id);
 
   return (
     <>
@@ -96,7 +96,7 @@ const TaskCard = ({
         isAssignee={isAssignee}
         language={language}
         revision_date={revision_date}
-        reviser={getUserById(revised_by_user_id)}
+        reviser={reviser}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

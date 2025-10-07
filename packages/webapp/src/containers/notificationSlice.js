@@ -78,9 +78,11 @@ export const latestNotificationsByEntitySelector = createSelector(
     const entityIdSet = new Set();
 
     for (let notification of notifications) {
-      const entityId = notification.ref.entity?.id;
-      if (entityId == null || entityIdSet.has(entityId)) continue;
-      entityIdSet.add(Number(entityId));
+      const entityId = notification.ref?.entity?.id;
+      if (entityId != null) {
+        if (entityIdSet.has(entityId)) continue;
+        entityIdSet.add(Number(entityId));
+      }
       latest.push(notification);
     }
 

@@ -15,6 +15,66 @@
 
 @import '@assets/mixin.scss';
 
+.primary {
+  --pristine-background: var(--White);
+  --pristine-text: var(--teal700);
+
+  --hover-background: var(--Colors-Primary-Primary-teal-100);
+  --hover-text: var(--teal700);
+
+  --active-background: var(--teal50);
+  --active-text: var(--teal700);
+
+  --mobile-pristine-background: var(--teal700);
+  --mobile-pristine-text: var(--teal50);
+
+  --mobile-hover-background: var(--teal50);
+  --mobile-hover-text: var(--teal700);
+
+  --mobile-active-background: var(--Colors-Primary-Primary-teal-200);
+  --mobile-active-text: var(--teal700);
+}
+
+.secondary {
+  --pristine-background: var(--blue200);
+  --pristine-text: var(--blue700);
+
+  --hover-background: var(--Colors-Accent---singles-Blue-dark);
+  --hover-text: var(--secondaryGreen50);
+
+  --active-background: var(--blue700);
+  --active-text: var(--blue200);
+
+  --mobile-pristine-background: var(--teal600);
+  --mobile-pristine-text: var(--teal50);
+
+  --mobile-hover-background: var(--teal50);
+  --mobile-hover-text: var(--teal700);
+
+  --mobile-active-background: var(--Colors-Primary-Primary-teal-200);
+  --mobile-active-text: var(--teal700);
+}
+
+.tertiary {
+  --pristine-background: var(--White);
+  --pristine-text: var(--teal700);
+
+  --hover-background: var(--teal50);
+  --hover-text: var(--teal700);
+
+  --active-background: var(--secondaryGreen50);
+  --active-text: var(--Colors-Secondary-Secondary-green-900);
+
+  --mobile-pristine-background: var(--white);
+  --mobile-pristine-text: var(--teal700);
+
+  --mobile-hover-background: var(--teal50);
+  --mobile-hover-text: var(--teal700);
+
+  --mobile-active-background: var(--secondaryGreen50);
+  --mobile-active-text: var(--Colors-Secondary-Secondary-green-900);
+}
+
 @keyframes menu-collapse {
   0% {
     flex: 0 0 var(--global-side-menu-width);

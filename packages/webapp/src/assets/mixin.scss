@@ -100,12 +100,12 @@
   height: 16px;
   border-radius: 50%;
   border: 1px solid #cce3ff;
-  background: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  background: var(--Colors-Accent---singles-Blue-light);
   transform: rotate(180deg);
 
   path {
     stroke-width: 2px;
-    stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    stroke: var(--Colors-Accent---singles-Blue-full);
   }
 
   &.expanded {

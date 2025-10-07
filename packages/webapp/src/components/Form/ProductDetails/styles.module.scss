@@ -45,19 +45,3 @@
     color: var(--Colors-Accent---singles-Blue-full, #0669e1);
   }
 }
-
-/*----------------------------------------
-  Buttons
-----------------------------------------*/
-.inFormButtons {
-  button {
-    @include xs-breakpoint {
-      max-width: 150px;
-    }
-  }
-}
-
-.editButton {
-  width: fit-content;
-  align-self: center;
-}

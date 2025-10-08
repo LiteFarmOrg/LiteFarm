@@ -16,7 +16,7 @@ export type ModalComponentProps = {
   title: ReactNode;
   titleClassName?: string;
   icon?: React.ReactNode;
-  contents?: string[];
+  contents?: ReactNode[];
   dismissModal: () => void;
   buttonGroup?: React.ReactNode;
   children?: React.ReactNode;

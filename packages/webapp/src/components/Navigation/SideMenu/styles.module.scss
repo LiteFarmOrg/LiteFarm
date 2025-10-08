@@ -236,8 +236,7 @@
   }
 }
 
-
-.sideMenu {
+.drawer {
   .drawerContainer {
     background-color: var(--teal700);
     z-index: 1299;
@@ -257,7 +256,7 @@
   }
 }
 
-.container {
+.sideMenuContent {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -284,7 +283,7 @@
     z-index: 1299;
   }
 
-  &.compactContainer {
+  &.compactSideMenuContent {
     flex: 0 0 var(--global-compact-side-menu-width);
     animation-name: menu-collapse;
     animation-duration: 0.5s;
@@ -300,14 +299,14 @@
     }
   }
 
-  &.expandedContainer {
+  &.expandedSideMenuContent {
     animation-name: menu-expand;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     overflow: visible;
   }
 
-  &.compactContainer, &.expandedContainer {
+  &.compactSideMenuContent, &.expandedSideMenuContent {
     .animatedContent {
       transition: opacity 0.5s;
     
@@ -338,186 +337,235 @@
 
 .list {
   padding: 0;
-}
 
-.listItem {
-  padding: 16px;
-  border-top: 1px solid #E9EBF8;
-  display: flex;
-  justify-content: flex-start;
-
-  &.logoListItem {
-    justify-content: center;
-  }
-
-  @include sm-breakpoint {
-    &:hover {
-      background-color: var(--teal50);
-    }
-  }
-
-  @include xs-breakpoint {
-    border: none;
-
+  .listItem {
+    padding: 16px;
+    border-top: 1px solid #E9EBF8;
+    display: flex;
+    justify-content: flex-start;
+  
     &.logoListItem {
-      display: none;
+      justify-content: center;
     }
 
-    &.adminActionListItem {
-      background-color: var(--teal600);
-      border-top: 1px solid var(--teal700);
-    }
-  }
-
-  &:hover span {
-    overflow: visible;
-  }
-}
-
-.activeListItem {
-  background-color: #A2D2CD;
-
-  &.subItem:not(:hover) {
-    background-color: var(--secondaryGreen50);
-
-    .subItemText {
-      span {
-        text-shadow: var(--secondaryGreen200) 0px 1px;
-        color: var(--secondaryGreen800);
-      }
-    }
-  }
-
-  @include xs-breakpoint {
-    &.subItem {
-      background-color: var(--secondaryGreen50);
-    }
-
-    &.adminActionListItem {
-      background-color: #A2D2CD;
-    }
-
-    &:hover {
-      background-color: #A2D2CD;
-
-      .listItemText {
-        color: var(--teal700);
-      }
-
-      .icon {
-        path {
-          stroke: var(--teal700);
-        }
-      }
-
-      .expandCollapseIcon {
-        path {
-          fill: var(--teal700);
-        }
-      }
-    }
-  }
-}
-
-.inactiveListItem {
-  @include xs-breakpoint {
     .listItemText {
-      color: var(--teal50);
-    }
-
-    .icon {
-      path {
-        stroke: var(--teal50);
+      margin: 0;
+      margin-left: 8px;
+    
+      span {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+    }
+    
+    .icon {
+      min-width: 0px;
     }
 
     .expandCollapseIcon {
-      path {
-        fill: var(--teal50);
+      width: 24px;
+      height: 24px;
+      transition: transform 0.5s;
+    
+      &.collapseIcon {
+        transform: rotate(-180deg);
+      }
+    
+      &.compactExpandIcon {
+        transform: rotate(-90deg);
       }
     }
 
-    &.subItem {
-      background-color: white;
-    }
-
-
-    &:hover:not(.subItem) {
-      background-color: var(--teal700);
-
-      &.adminActionListItem {
-        background-color: var(--teal600);
-      }
-
+    @include sm-breakpoint {
+      background-color: var(--pristine-background);
       .listItemText {
-        color: var(--teal50);
+        color: var(--pristine-text)
+      }
+      .icon {
+        @include svgColorFill(var(--pristine-text));
+      }
+      .expandCollapseIcon {
+        path {
+          fill: var(--pristine-text);
+        }
+      }
+      &:hover {
+        background-color: var(--hover-background);
+        .listItemText {
+          color: var(--hover-text);
+        }
+        .icon {
+          @include svgColorFill(var(--hover-text));
+        }
+        .expandCollapseIcon {
+          path {
+            fill: var(--hover-text);
+          }
+        }
+      }
+      &.active {
+        background-color: var(--active-background);
+        .listItemText {
+          color: var(--active-text);
+        }
+        .icon {
+          @include svgColorFill(var(--active-text));
+        }
+        .expandCollapseIcon {
+          path {
+            fill: var(--active-text);
+          }
+        }
+      }
+
+    }
+  
+    @include xs-breakpoint {
+      background-color: var(--mobile-pristine-background);
+      .listItemText {
+        color: var(--mobile-pristine-text);
       }
 
       .icon {
-        path {
-          stroke: var(--teal50);
-        }
+        min-width: 0px;
+        @include svgColorFill(var(--mobile-pristine-text));
       }
-
+  
       .expandCollapseIcon {
         path {
-          fill: var(--teal50);
+          fill: var(--mobile-pristine-text);
+        }
+      }
+  
+      &:hover {
+        // Ignore mobile hover styles
+        background-color: var(--mobile-pristine-background);
+  
+        .listItemText {
+         // Ignore mobile hover styles
+          color: var(--mobile-pristine-text);
+        }
+  
+        .icon {
+          // Ignore mobile hover styles
+          @include svgColorFill(--mobile-pristine-text);
+        }
+  
+        .expandCollapseIcon {
+          // Ignore mobile hover styles
+          path {
+            fill: var(--mobile-pristine-text);
+          }
+        }
+      }
+      border: none;
+  
+      &.logoListItem {
+        display: none;
+      }
+  
+      &.adminActionListItem {
+        border-top: 1px solid var(--teal700);
+      }
+  
+      &.active {
+        background-color: var(--mobile-active-background);
+        &.subItem {
+          background-color: var(--secondaryGreen50);
+        }
+  
+        .listItemText {
+          color: var(--mobile-active-text);
+        }
+
+        .icon {
+          @include svgColorFill(var(--mobile-active-text));
+        }
+
+        .expandCollapseIcon {
+          path {
+            fill: var(--mobile-active-text);
+          }
         }
       }
     }
-  }
-}
-
-.listItemText {
-  margin: 0;
-  color: var(--teal700);
-  margin-left: 8px;
-
-  span {
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.icon {
-  min-width: 0px;
-
-}
-
-.expandCollapseIcon {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.5s;
-
-  path {
-    fill: var(--teal700);
+  
+    &:hover span {
+      overflow: visible;
+    }
   }
 
-  &.collapseIcon {
-    transform: rotate(-180deg);
-  }
+  .subList {
+    padding: 8px 0;
+    background-color: var(--pristine-background);
+    
+    .subItem {
+      border: none;
+      padding: 8px 16px;
+      @include sm-breakpoint {
+        background-color: var(--pristine-background);
 
-  &.compactExpandIcon {
-    transform: rotate(-90deg);
-  }
-}
+        .subItemText {
+          color: var(--pristine-text);
+          span {
+            font-weight: 600;
+          }
+        }
 
-.subList {
-  padding: 8px 0;
-  background-color: var(--bgInputListTile);
-}
+        &.active {
+          background-color: var(--active-background);
+  
+          .subItemText {
+            span {
+              text-shadow: var(--secondaryGreen200) 0px 1px;
+              color: var(--active-text);
+            }
+          }
+        }
+  
+        &:hover {
+          background-color: var(--hover-background);
+    
+          .subItemText {
+            color: var(--hover-text);
+          }
+        }
+  
+        
+      }
 
-.subItem {
-  border: none;
-  padding: 8px 16px;
-}
+      @include xs-breakpoint {
+        .subItemText {
+          color: var(--pristine-text);
+        
+          span {
+            font-weight: 600;
+          }
+        }
 
-.subItemText {
-  color: var(--teal700);
-
-  span {
-    font-weight: 600;
+        &.active:not(:hover) {
+          background-color: var(--active-background);
+  
+          .subItemText {
+            span {
+              text-shadow: var(--secondaryGreen200) 0px 1px;
+              color: var(--active-text);
+            }
+          }
+        }
+  
+        &:hover {
+          // Ignore mobile hover styles
+          background-color: var(--pristine-background);
+    
+          .subItemText {
+           // Ignore mobile hover styles
+            color: var(--pristine-text);
+          }
+        }
+      }
+    }
   }
 }
 

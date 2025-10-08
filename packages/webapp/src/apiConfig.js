@@ -60,7 +60,6 @@ export const financeReportUrl = URI + '/export/finances';
 //export const contactURL = URI + '/contact';
 //export const farmDataUrl = URI + '/farmdata';
 export const userFarmUrl = `${URI}/user_farm`;
-export const weatherAPIKey = import.meta.env.VITE_WEATHER_API_KEY;
 // export const   userFarm = URI + '/user_farm';
 export const rolesUrl = URI + '/roles';
 //export const signUpUrl = `${URI}/sign_up`;
@@ -125,7 +124,6 @@ export default {
   //contactURL,
   //farmDataUrl,
   userFarmUrl,
-  weatherAPIKey,
   // userFarm,
   rolesUrl,
   //signUpUrl,

@@ -23,6 +23,9 @@ import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
 import useSaveProduct from './useSaveProduct';
+import useRemoveProduct from './useRemoveProduct';
+import RemoveProductConfirmationModal from '../../../components/Modals/RemoveProductConfirmationModal';
+import UnableToRemoveProductModal from '../../../components/Modals/UnableToRemoveProductModal';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
@@ -100,39 +103,75 @@ export default function ProductForm({
     })();
   };
 
+  const { onRemove, isRemoveModalOpen, isCannotRemoveModalOpen, closeRemoveModal, productName } =
+    useRemoveProduct({
+      formMode: mode,
+      productFormType,
+      productId,
+    });
+
+  const handleRemoveCancel = () => {
+    closeRemoveModal();
+    onActionButtonClick(FormMode.READ_ONLY);
+  };
+
+  const handleRemoveConfirm = () => {
+    onRemove(onCancel);
+  };
+
   const FormContent = productFormType ? productFormMap[productFormType] : null;
 
   return (
-    <Drawer
-      isOpen={isFormOpen && !!productFormType && !!mode}
-      onClose={onCancel}
-      title={renderDrawerTitle(mode, onActionButtonClick, t)}
-      addBackdrop={false}
-      desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
-      fullHeight={true}
-      classes={{
-        desktopSideDrawerContainer: styles.sideDrawerContainer,
-        drawerHeader: styles.drawerHeader,
-      }}
-    >
-      <div className={styles.formWrapper}>
-        {FormContent && (
-          <FormProvider {...formMethods}>
-            <FormContent mode={mode} productId={productId} />
-          </FormProvider>
-        )}
-        {mode !== FormMode.READ_ONLY && (
-          <InFormButtons
-            className={styles.inFormButtons}
-            statusText={t('common:EDITING')}
-            confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
-            onCancel={onCancel}
-            informationalText={mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined}
-            isDisabled={!formMethods.formState.isValid}
-            onConfirm={onSave}
-          />
-        )}
-      </div>
-    </Drawer>
+    <>
+      <Drawer
+        isOpen={
+          isFormOpen &&
+          !!productFormType &&
+          !!mode &&
+          !isRemoveModalOpen &&
+          !isCannotRemoveModalOpen
+        }
+        onClose={onCancel}
+        title={renderDrawerTitle(mode, onActionButtonClick, t)}
+        addBackdrop={false}
+        desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
+        fullHeight={true}
+        classes={{
+          desktopSideDrawerContainer: styles.sideDrawerContainer,
+          drawerHeader: styles.drawerHeader,
+        }}
+      >
+        <div className={styles.formWrapper}>
+          {FormContent && (
+            <FormProvider {...formMethods}>
+              <FormContent mode={mode} productId={productId} />
+            </FormProvider>
+          )}
+          {mode !== FormMode.READ_ONLY && (
+            <InFormButtons
+              className={styles.inFormButtons}
+              statusText={t('common:EDITING')}
+              confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
+              onCancel={onCancel}
+              informationalText={
+                mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined
+              }
+              isDisabled={!formMethods.formState.isValid}
+              onConfirm={onSave}
+            />
+          )}
+        </div>
+      </Drawer>
+      {isRemoveModalOpen && (
+        <RemoveProductConfirmationModal
+          dismissModal={handleRemoveCancel}
+          handleRemove={handleRemoveConfirm}
+          productName={productName}
+        />
+      )}
+      {isCannotRemoveModalOpen && (
+        <UnableToRemoveProductModal dismissModal={handleRemoveCancel} productName={productName} />
+      )}
+    </>
   );
 }

@@ -112,3 +112,13 @@ AbandonedSelected.args = {
   selected: true,
   abandonDate: '2023-04-12T00:00:00.000',
 };
+
+export const WithRevisionDate = Template.bind({});
+WithRevisionDate.args = {
+  ...templateData,
+  revision_date: '2023-04-12T00:00:00.000',
+  reviser: {
+    first_name: 'First',
+    last_name: 'Last',
+  },
+};

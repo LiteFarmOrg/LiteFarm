@@ -88,11 +88,12 @@ const PureSoilAmendmentProductForm = ({
         hookFormRegister={register(NAME, {
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
+          setValueAs: (value) => value.trim(),
           validate: (value) => {
             // Allow duplicate check to pass if keeping the original name during edit
             if (
               !(mode === FormMode.EDIT && value === product?.name) &&
-              productNames.includes(value.trim())
+              productNames.includes(value)
             ) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }

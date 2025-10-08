@@ -336,12 +336,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
             hookFormRegister={register(SUPPLIER, {
               required: interested,
               maxLength: hookFormMaxCharsValidation(255),
-              validate: (value) => {
-                if (interested && value?.trim().length === 0) {
-                  return t('COMMON_ERRORS.UNIT.REQUIRED');
-                }
-                return true;
-              },
+              setValueAs: (value) => value.trim(),
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}

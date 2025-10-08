@@ -36,10 +36,6 @@ const ProductInventoryFilterContent = ({
 
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
 
-  const handleChange = (filterKey: string, filterState: FilterState) => {
-    onChange?.(filterKey, filterState);
-  };
-
   const filters: ComponentFilter[] = [
     {
       subject: t('filter:INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
@@ -80,7 +76,7 @@ const ProductInventoryFilterContent = ({
     <FilterGroup
       filters={filters.map(sortFilterOptions)}
       filterContainerClassName={filterContainerClassName}
-      onChange={handleChange}
+      onChange={onChange}
       showIndividualFilterControls
     />
   );

@@ -69,6 +69,7 @@ const PureSoilAmendmentProductForm = ({
   useEffect(() => {
     if (mode === FormMode.DUPLICATE) {
       setValue(PRODUCT_ID, '');
+      setValue(NAME, t('common:COPY_OF', { item: product?.[NAME] }));
 
       setTimeout(() => {
         setFocus(NAME);

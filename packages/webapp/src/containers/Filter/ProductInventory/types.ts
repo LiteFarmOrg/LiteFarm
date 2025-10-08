@@ -14,7 +14,6 @@
  */
 
 export enum InventoryFilterKeys {
-  PRODUCT_TYPE = 'PRODUCT_TYPE',
   CUSTOM_OR_LIBRARY = 'CUSTOM_OR_LIBRARY',
   FERTILISER_TYPE = 'FERTILISER_TYPE',
 }

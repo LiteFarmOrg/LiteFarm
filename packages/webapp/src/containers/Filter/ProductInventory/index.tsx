@@ -20,7 +20,6 @@ import { FilterType, type ComponentFilter } from '../../../components/Filter/typ
 import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
 import { ProductSource, InventoryFilterKeys } from './types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
-import { TASK_TYPES } from '../../Task/constants';
 
 interface ProductInventoryFilterContentProps {
   inventoryFilter: ReduxFilterEntity<InventoryFilterKeys>;
@@ -42,20 +41,6 @@ const ProductInventoryFilterContent = ({
   };
 
   const filters: ComponentFilter[] = [
-    {
-      subject: t('INVENTORY.PRODUCT_TYPE'),
-      type: FilterType.SEARCHABLE_MULTI_SELECT,
-      filterKey: InventoryFilterKeys.PRODUCT_TYPE,
-      options: [
-        {
-          value: TASK_TYPES.SOIL_AMENDMENT,
-          default:
-            inventoryFilter[InventoryFilterKeys.PRODUCT_TYPE][TASK_TYPES.SOIL_AMENDMENT]?.active ??
-            false,
-          label: t('INVENTORY.SOIL_AMENDMENT'),
-        },
-      ],
-    },
     {
       subject: t('INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,

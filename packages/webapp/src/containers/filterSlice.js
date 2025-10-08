@@ -52,7 +52,6 @@ export const initialAnimalsFilter = {
 };
 
 export const initialInventoryFilter = {
-  PRODUCT_TYPE: {},
   CUSTOM_OR_LIBRARY: {},
   FERTILISER_TYPE: {},
 };

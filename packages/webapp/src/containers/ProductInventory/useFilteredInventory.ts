@@ -22,16 +22,12 @@ import { isInactive } from '../Filter/utils';
 
 export const useFilteredInventory = (inventory: TableProduct[]) => {
   const {
-    [InventoryFilterKeys.PRODUCT_TYPE]: productTypeFilter,
     [InventoryFilterKeys.CUSTOM_OR_LIBRARY]: customOrLibraryFilter,
     [InventoryFilterKeys.FERTILISER_TYPE]: fertiliserTypeFilter,
   } = useSelector(inventoryFilterSelector);
 
   const filterMatches = useMemo(() => {
     return inventory.filter((product) => {
-      const productTypeMatches =
-        isInactive(productTypeFilter) || productTypeFilter[product.type]?.active;
-
       const key = product.isLibraryProduct ? ProductSource.LIBRARY : ProductSource.CUSTOM;
       const customOrLibraryMatches =
         isInactive(customOrLibraryFilter) || customOrLibraryFilter[key]?.active;
@@ -41,9 +37,9 @@ export const useFilteredInventory = (inventory: TableProduct[]) => {
         isInactive(fertiliserTypeFilter) ||
         (fertilizerTypeId && fertiliserTypeFilter[fertilizerTypeId]?.active);
 
-      return productTypeMatches && customOrLibraryMatches && fertiliserTypeMatches;
+      return customOrLibraryMatches && fertiliserTypeMatches;
     });
-  }, [inventory, productTypeFilter, customOrLibraryFilter, fertiliserTypeFilter]);
+  }, [inventory, customOrLibraryFilter, fertiliserTypeFilter]);
 
   return filterMatches;
 };

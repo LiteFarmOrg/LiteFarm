@@ -1141,15 +1141,6 @@
     "TITLE": "We've updated farm maps!"
   },
   "INVENTORY": {
-    "CUSTOM": "Custom",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "Custom or LiteFarm library",
-    "FERTILISER_TYPE": "Fertiliser type",
-    "FILTER": {
-      "DRY": "Dry",
-      "LIQUID": "Liquid",
-      "TITLE": "Filter soil amendment products"
-    },
-    "LITEFARM_LIBRARY": "LiteFarm library",
     "PRODUCT_NAME": "Product name",
     "PRODUCT_TYPE": "Product type",
     "SOIL_AMENDMENT": "Soil amendment"

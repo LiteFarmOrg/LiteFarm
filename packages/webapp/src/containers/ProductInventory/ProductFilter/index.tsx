@@ -54,7 +54,7 @@ const ProductInventoryFilter = ({ isFilterActive }: { isFilterActive: boolean })
       <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
       <Drawer
         isOpen={isFilterOpen}
-        title={t('INVENTORY.FILTER.TITLE')}
+        title={t('filter:INVENTORY.TITLE')}
         onClose={() => setIsFilterOpen(false)}
         buttonGroup={
           <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>

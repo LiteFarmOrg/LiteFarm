@@ -42,7 +42,7 @@ const ProductInventoryFilterContent = ({
 
   const filters: ComponentFilter[] = [
     {
-      subject: t('INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
+      subject: t('filter:INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,
       filterKey: InventoryFilterKeys.CUSTOM_OR_LIBRARY,
       options: [
@@ -51,27 +51,27 @@ const ProductInventoryFilterContent = ({
           default:
             inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.CUSTOM]
               ?.active ?? false,
-          label: t('INVENTORY.CUSTOM'),
+          label: t('filter:INVENTORY.CUSTOM'),
         },
         {
           value: ProductCategory.LIBRARY,
           default:
             inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.LIBRARY]
               ?.active ?? false,
-          label: t('INVENTORY.LITEFARM_LIBRARY'),
+          label: t('filter:INVENTORY.LITEFARM_LIBRARY'),
         },
       ],
     },
     {
-      subject: t('INVENTORY.FERTILISER_TYPE'),
+      subject: t('filter:INVENTORY.FERTILISER_TYPE'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,
       filterKey: InventoryFilterKeys.FERTILISER_TYPE,
       options: fertiliserTypes.map((type) => ({
         value: type.id,
         default: inventoryFilter[InventoryFilterKeys.FERTILISER_TYPE][type.id]?.active ?? false,
-        // t('INVENTORY.FILTER.DRY')
-        // t('INVENTORY.FILTER.LIQUID')
-        label: t(`INVENTORY.FILTER.${type.key}`),
+        // t('filter:INVENTORY.DRY')
+        // t('filter:INVENTORY.LIQUID')
+        label: t(`filter:INVENTORY.${type.key}`),
       })),
     },
   ];

@@ -96,7 +96,6 @@ export const FarmTags = [
   'FarmAddon',
   'IrrigationPrescriptions',
   'IrrigationPrescriptionDetails',
-  'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
   'Weather',
@@ -279,6 +278,12 @@ export const api = createApi({
         }),
       },
     ),
+    deleteSoilAmendmentProduct: build.mutation<void, SoilAmendmentProduct['product_id']>({
+      query: (productId) => ({
+        url: `${productUrl}/${productId}`,
+        method: 'DELETE',
+      }),
+    }),
     getSensors: build.query<SensorData, void>({
       query: () => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
@@ -378,6 +383,7 @@ export const {
   useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
+  useDeleteSoilAmendmentProductMutation,
   useGetSensorsQuery,
   useGetSensorReadingsQuery,
   useLazyGetSensorsQuery,

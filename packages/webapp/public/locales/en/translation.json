@@ -1151,6 +1151,7 @@
     },
     "LITEFARM_LIBRARY": "LiteFarm library",
     "PRODUCT_NAME": "Product name",
+    "PRODUCT_TYPE": "Product type",
     "SOIL_AMENDMENT": "Soil amendment"
   },
   "INVITATION": {

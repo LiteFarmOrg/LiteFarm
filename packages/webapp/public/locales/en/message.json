@@ -145,10 +145,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Failed to create product",
+      "REMOVE": "Failed to remove product",
       "UPDATE": "Failed to update product"
     },
     "SUCCESS": {
       "CREATE": "Successfully created product",
+      "REMOVE": "Successfully removed product",
       "UPDATE": "Successfully updated product"
     }
   },

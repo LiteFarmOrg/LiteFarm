@@ -17,6 +17,11 @@
   max-width: 520px;
 }
 
+.drawerHeader {
+  align-items: center;
+  height: 44px;
+}
+
 .titleWrapper {
   display: flex;
   align-items: center;
@@ -49,6 +54,7 @@
     &:nth-of-type(3) {
       svg {
         width: 22px;
+        padding-top: 1px;
       }
     }
   }

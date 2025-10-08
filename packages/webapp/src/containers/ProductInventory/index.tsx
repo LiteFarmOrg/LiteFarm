@@ -110,14 +110,16 @@ export default function ProductInventory() {
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  // Complete placeholder for viewing selected styles
-  // Actual row click will trigger form
   const handleRowClick = (_event: ChangeEvent<HTMLInputElement>, row: TableProduct) => {
-    if (selectedIds.includes(row.id)) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds([row.id]);
+    // Prevent switching products while an operation is in progress
+    if (isFormOpen && formMode !== FormMode.READ_ONLY) {
+      return;
     }
+
+    setSelectedIds([row.id]);
+    setFormMode(FormMode.READ_ONLY);
+    setProductFormType(row.type);
+    setIsFormOpen(true);
   };
 
   const productColumns = useMemo(
@@ -173,6 +175,7 @@ export default function ProductInventory() {
   };
 
   const onCancel = () => {
+    setSelectedIds([]);
     setFormMode(null);
     setProductFormType(null);
     setIsFormOpen(false);
@@ -206,6 +209,7 @@ export default function ProductInventory() {
         isFormOpen={isFormOpen}
         productFormType={productFormType}
         mode={formMode}
+        productId={selectedIds?.[0] || undefined}
         onActionButtonClick={onFormActionButtonClick}
         onCancel={onCancel}
       />

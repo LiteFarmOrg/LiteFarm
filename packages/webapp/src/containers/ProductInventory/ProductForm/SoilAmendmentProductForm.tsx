@@ -21,8 +21,9 @@ import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { productsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
+import { FormContentProps } from '.';
 
-export default function SoilAmendmentProductForm({ mode }: { mode: FormMode | null }) {
+export default function SoilAmendmentProductForm({ mode, productId }: FormContentProps) {
   const { t } = useTranslation();
 
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
@@ -53,6 +54,7 @@ export default function SoilAmendmentProductForm({ mode }: { mode: FormMode | nu
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
       products={soilAmendmentCustomProducts}
+      productId={productId}
     />
   );
 }

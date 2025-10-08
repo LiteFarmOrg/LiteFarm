@@ -18,7 +18,7 @@ import FilterGroup from '../../../components/Filter/FilterGroup';
 import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
-import { ProductSource, InventoryFilterKeys } from './types';
+import { ProductCategory, InventoryFilterKeys } from './types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface ProductInventoryFilterContentProps {
@@ -47,17 +47,17 @@ const ProductInventoryFilterContent = ({
       filterKey: InventoryFilterKeys.CUSTOM_OR_LIBRARY,
       options: [
         {
-          value: ProductSource.CUSTOM,
+          value: ProductCategory.CUSTOM,
           default:
-            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductSource.CUSTOM]?.active ??
-            false,
+            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.CUSTOM]
+              ?.active ?? false,
           label: t('INVENTORY.CUSTOM'),
         },
         {
-          value: ProductSource.CUSTOM,
+          value: ProductCategory.LIBRARY,
           default:
-            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductSource.LIBRARY]?.active ??
-            false,
+            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.LIBRARY]
+              ?.active ?? false,
           label: t('INVENTORY.LITEFARM_LIBRARY'),
         },
       ],

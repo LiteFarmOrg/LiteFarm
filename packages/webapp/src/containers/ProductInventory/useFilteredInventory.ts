@@ -16,7 +16,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import type { TableProduct } from '.';
-import { ProductSource, InventoryFilterKeys } from '../Filter/ProductInventory/types';
+import { ProductCategory, InventoryFilterKeys } from '../Filter/ProductInventory/types';
 import { inventoryFilterSelector } from '../filterSlice';
 import { isInactive } from '../Filter/utils';
 
@@ -28,7 +28,7 @@ export const useFilteredInventory = (inventory: TableProduct[]) => {
 
   const filterMatches = useMemo(() => {
     return inventory.filter((product) => {
-      const key = product.isLibraryProduct ? ProductSource.LIBRARY : ProductSource.CUSTOM;
+      const key = product.isLibraryProduct ? ProductCategory.LIBRARY : ProductCategory.CUSTOM;
       const customOrLibraryMatches =
         isInactive(customOrLibraryFilter) || customOrLibraryFilter[key]?.active;
 

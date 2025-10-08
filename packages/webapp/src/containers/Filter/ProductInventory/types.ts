@@ -18,7 +18,7 @@ export enum InventoryFilterKeys {
   FERTILISER_TYPE = 'FERTILISER_TYPE',
 }
 
-export enum ProductSource {
+export enum ProductCategory {
   CUSTOM = 'custom',
   LIBRARY = 'library',
 }

@@ -62,7 +62,6 @@ import type {
   IrrigationPrescription,
   IrrigationPrescriptionDetails,
 } from './types';
-import { API_TAGS } from './apiTags';
 
 /**
  * These tags have endpoints that do not return farm specific data, and are not created by a farm
@@ -100,6 +99,7 @@ export const FarmTags = [
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',
+  'Weather',
 ];
 
 /**
@@ -129,7 +129,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags, ...API_TAGS],
+  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

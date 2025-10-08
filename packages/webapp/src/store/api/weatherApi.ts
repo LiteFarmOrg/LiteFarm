@@ -16,13 +16,12 @@
 import { api } from './apiSlice';
 import { weatherUrl } from '../../apiConfig';
 import { WeatherData } from './types';
-import { WEATHER_TAGS, ApiTag } from './apiTags';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({
     getWeather: build.query<WeatherData, void>({
       query: () => `${weatherUrl}`,
-      providesTags: (): ApiTag[] => [WEATHER_TAGS.WEATHER],
+      providesTags: ['Weather'],
       keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
     }),
   }),

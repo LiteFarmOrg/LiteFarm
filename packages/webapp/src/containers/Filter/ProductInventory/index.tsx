@@ -32,7 +32,7 @@ const ProductInventoryFilterContent = ({
   filterContainerClassName,
   onChange,
 }: ProductInventoryFilterContentProps) => {
-  const { t } = useTranslation(['translation', 'filter']);
+  const { t } = useTranslation(['filter']);
 
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
 

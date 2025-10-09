@@ -185,18 +185,52 @@ describe('Notification tests', () => {
       });
     });
 
-    test('Users can clear alert flag on a set of their notifications', async (done) => {
-      const [notification] = await mocks.notification_userFactory({
+    test("Clears only the specified alerts when notification id's are provided", async (done) => {
+      // Notifications in current farm
+      const [notification1] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],
       });
-      expect(notification.alert).toBe(true);
-      clearAlerts({ notification_ids: [notification.notification_id] }, {}, (err, res) => {
+      const [notification2] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+      // Notifications in another farm
+      const [otherFarm] = await mocks.farmFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
+      const [otherFarmNotification] = await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
+
+      expect(notification1.alert).toBe(true);
+      expect(notification2.alert).toBe(true);
+      expect(otherFarmNotification.alert).toBe(true);
+
+      clearAlerts({ notification_ids: [notification1.notification_id] }, {}, async (err, res) => {
         expect(err).toBe(null);
         expect(res.status).toBe(200);
-        getRequest('/notification_user', {}, (_, res) => {
-          expect(res.body[0].alert).toBe(false);
-          done();
+
+        const notifications = await NotificationUser.getNotificationsForFarmUser(
+          farm.farm_id,
+          user.user_id,
+        );
+        const otherFarmNotifications = await NotificationUser.getNotificationsForFarmUser(
+          otherFarm.farm_id,
+          user.user_id,
+        );
+
+        notifications.forEach(({ alert, notification_id }) => {
+          if (notification_id === notification1.notification_id) {
+            expect(alert).toBe(false);
+          } else {
+            expect(alert).toBe(true);
+          }
         });
+
+        expect(otherFarmNotifications[0].alert).toBe(true);
+
+        done();
       });
     });
 

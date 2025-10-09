@@ -123,7 +123,7 @@ const SoilAmendmentProductCard = ({
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
   const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
-  const productId = watch(PRODUCT_ID);
+  const productId = getValues(PRODUCT_ID);
   const purposes = watch(PURPOSES);
 
   const selectRef = useRef<SelectRef>(null);

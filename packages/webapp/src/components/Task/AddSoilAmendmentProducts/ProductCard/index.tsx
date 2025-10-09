@@ -166,17 +166,11 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        <div
-          className={clsx(
-            !productId && styles.disabled,
-            isExpanded && styles.expanded,
-            styles.productDetailsWrapper,
-          )}
-        >
+        <div className={clsx(isExpanded && styles.expanded, styles.productDetailsWrapper)}>
           <TextButton
             disabled={!productId}
             onClick={toggleExpanded}
-            className={clsx(styles.productDetailsTitle)}
+            className={clsx(styles.productDetailsTitle, !productId && styles.disabled)}
           >
             <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
             <KeyboardArrowDownIcon

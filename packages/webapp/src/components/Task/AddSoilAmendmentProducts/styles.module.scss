@@ -93,6 +93,7 @@
   .expandIcon {
     @include blueExpandIcon();
   }
+
   .productDetailsTitle {
     padding: 4px 8px;
     text-align: left;
@@ -101,10 +102,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
-  }
 
-  &.disabled {
-    .productDetailsTitle {
+    &.disabled {
       color: var(--Colors-Neutral-Neutral-100, #d0d4db);
     }
   }

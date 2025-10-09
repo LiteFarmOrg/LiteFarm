@@ -103,21 +103,14 @@ export default function ProductForm({
     })();
   };
 
-  const { onRemove, isRemoveModalOpen, isCannotRemoveModalOpen, closeRemoveModal, productName } =
+  const { onRemove, cancelRemoval, isRemoveModalOpen, isCannotRemoveModalOpen, productName } =
     useRemoveProduct({
       formMode: mode,
       productFormType,
       productId,
+      onRemovalSuccess: onCancel,
+      onRemovalCancel: () => onActionButtonClick(FormMode.READ_ONLY),
     });
-
-  const handleRemoveCancel = () => {
-    closeRemoveModal();
-    onActionButtonClick(FormMode.READ_ONLY);
-  };
-
-  const handleRemoveConfirm = () => {
-    onRemove(onCancel);
-  };
 
   const FormContent = productFormType ? productFormMap[productFormType] : null;
 
@@ -164,13 +157,13 @@ export default function ProductForm({
       </Drawer>
       {isRemoveModalOpen && (
         <RemoveProductConfirmationModal
-          dismissModal={handleRemoveCancel}
-          handleRemove={handleRemoveConfirm}
+          dismissModal={cancelRemoval}
+          handleRemove={onRemove}
           productName={productName}
         />
       )}
       {isCannotRemoveModalOpen && (
-        <UnableToRemoveProductModal dismissModal={handleRemoveCancel} productName={productName} />
+        <UnableToRemoveProductModal dismissModal={cancelRemoval} productName={productName} />
       )}
     </>
   );

@@ -28,9 +28,17 @@ interface useRemoveProductProps {
   productFormType: Product['type'] | null;
   formMode: FormMode | null;
   productId?: Product['product_id'];
+  onRemovalSuccess: () => void;
+  onRemovalCancel: () => void;
 }
 
-const useRemoveProduct = ({ productFormType, formMode, productId }: useRemoveProductProps) => {
+const useRemoveProduct = ({
+  productFormType,
+  formMode,
+  productId,
+  onRemovalSuccess,
+  onRemovalCancel,
+}: useRemoveProductProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isRemoveModalOpen, setisRemoveModalOpen] = useState(false);
@@ -53,7 +61,7 @@ const useRemoveProduct = ({ productFormType, formMode, productId }: useRemovePro
     }
   }, [formMode, productId, isProductInUse]);
 
-  const onRemove = async (callback: () => void) => {
+  const onRemove = async () => {
     if (!formMode || !productFormType || !productId) {
       return;
     }
@@ -78,20 +86,20 @@ const useRemoveProduct = ({ productFormType, formMode, productId }: useRemovePro
     const onProductsFetched = () => {
       dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
       setisRemoveModalOpen(false);
+      onRemovalSuccess();
     };
 
     dispatch(getProducts({ callback: onProductsFetched }));
-
-    callback();
   };
 
   return {
     isRemoveModalOpen,
     isCannotRemoveModalOpen,
     onRemove,
-    closeRemoveModal: () => {
+    cancelRemoval: () => {
       setisRemoveModalOpen(false);
       setisCannotRemoveModalOpen(false);
+      onRemovalCancel();
     },
     productName,
   };

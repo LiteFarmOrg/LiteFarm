@@ -15,6 +15,8 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
+import { isAdminSelector } from '../../userFarmSlice';
 import Drawer, { DesktopDrawerVariants } from '../../../components/Drawer';
 import InFormButtons from '../../../components/Form/InFormButtons';
 import TextButton from '../../../components/Form/Button/TextButton';
@@ -47,6 +49,7 @@ const renderDrawerTitle = (
   mode: ProductFormProps['mode'],
   onActionButtonClick: ProductFormProps['onActionButtonClick'],
   t: TFunction,
+  isAdmin: boolean,
 ) => {
   if (mode === FormMode.READ_ONLY) {
     return (
@@ -57,9 +60,11 @@ const renderDrawerTitle = (
         <TextButton onClick={() => onActionButtonClick(FormMode.DUPLICATE)}>
           <CopyIcon />
         </TextButton>
-        <TextButton onClick={() => onActionButtonClick(FormMode.DELETE)}>
-          <TrashIcon />
-        </TextButton>
+        {isAdmin && (
+          <TextButton onClick={() => onActionButtonClick(FormMode.DELETE)}>
+            <TrashIcon />
+          </TextButton>
+        )}
       </div>
     );
   }
@@ -94,6 +99,7 @@ export default function ProductForm({
 }: ProductFormProps) {
   const { t } = useTranslation();
   const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
+  const isAdmin = useSelector(isAdminSelector);
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 
@@ -125,7 +131,7 @@ export default function ProductForm({
           !isCannotRemoveModalOpen
         }
         onClose={onCancel}
-        title={renderDrawerTitle(mode, onActionButtonClick, t)}
+        title={renderDrawerTitle(mode, onActionButtonClick, t, isAdmin)}
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
         fullHeight={true}

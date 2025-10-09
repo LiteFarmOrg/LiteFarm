@@ -28,7 +28,7 @@ import CompositionInputs from '../CompositionInputs';
 import ReactSelect from '../ReactSelect';
 import Buttons from './Buttons';
 import {
-  type ProductFormFields,
+  type SoilAmendmentProductFormCommonFields,
   type ProductId,
   PRODUCT_FIELD_NAMES,
   Nutrients,
@@ -88,7 +88,7 @@ export type NestedProductDetailsProps = CommonProps & {
   clearProduct: () => void;
   setProductId: (id: ProductId) => void;
   onSave: (
-    data: ProductFormFields & { product_id: ProductId },
+    data: SoilAmendmentProductFormCommonFields & { product_id: ProductId },
     callback?: (id: ProductId) => void,
   ) => Promise<void>;
 };
@@ -134,7 +134,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     trigger,
     register,
     formState: { errors, isValid },
-  } = useFormContext<ProductFormFields>();
+  } = useFormContext<SoilAmendmentProductFormCommonFields>();
 
   const [
     moistureContent,
@@ -208,7 +208,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     }
   };
 
-  const onSubmit = (data: ProductFormFields) => {
+  const onSubmit = (data: SoilAmendmentProductFormCommonFields) => {
     if (!isNestedForm) {
       return;
     }
@@ -259,7 +259,9 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
         name={COMPOSITION}
         control={control}
         rules={{
-          validate: (value: ProductFormFields['composition']): boolean | string => {
+          validate: (
+            value: SoilAmendmentProductFormCommonFields['composition'],
+          ): boolean | string => {
             if (!value || value[ELEMENTAL_UNIT] !== ElementalUnit.PERCENT) {
               return true;
             }
@@ -334,12 +336,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
             hookFormRegister={register(SUPPLIER, {
               required: interested,
               maxLength: hookFormMaxCharsValidation(255),
-              validate: (value) => {
-                if (interested && value?.trim().length === 0) {
-                  return t('COMMON_ERRORS.UNIT.REQUIRED');
-                }
-                return true;
-              },
+              setValueAs: (value) => value.trim(),
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}

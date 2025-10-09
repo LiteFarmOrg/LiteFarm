@@ -22,7 +22,7 @@ import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import { Error } from '../../../Typography';
 import ProductDetails, { type NestedProductDetailsProps } from '../../../Form/ProductDetails';
-import { PRODUCT_FIELD_NAMES, ProductFormFields } from '../types';
+import { PRODUCT_FIELD_NAMES, SoilAmendmentProductFormCommonFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
@@ -109,7 +109,7 @@ const SoilAmendmentProductCard = ({
     formState: { errors },
   } = useFormContext();
 
-  const nestedFormMethods = useForm<ProductFormFields>({
+  const nestedFormMethods = useForm<SoilAmendmentProductFormCommonFields>({
     mode: 'onBlur',
     defaultValues: soilAmendmentProductDetailsDefaultValues,
   });

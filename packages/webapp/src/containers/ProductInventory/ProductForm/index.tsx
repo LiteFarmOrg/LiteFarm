@@ -24,14 +24,13 @@ import SoilAmendmentProductForm from './SoilAmendmentProductForm';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
-import useSaveProduct from './useSaveProduct';
+import useSaveProduct, { type SoilAmendmentProductFormAllFields } from './useSaveProduct';
 import useRemoveProduct from './useRemoveProduct';
 import RemoveProductConfirmationModal from '../../../components/Modals/RemoveProductConfirmationModal';
 import UnableToRemoveProductModal from '../../../components/Modals/UnableToRemoveProductModal';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
-import { ProductFormFields } from '../../../components/Task/AddSoilAmendmentProducts/types';
 import styles from './styles.module.scss';
 
 export interface FormContentProps {
@@ -44,6 +43,8 @@ type ProductFormComponent = React.ComponentType<FormContentProps>;
 export const productFormMap: Partial<Record<Product['type'], ProductFormComponent>> = {
   [TASK_TYPES.SOIL_AMENDMENT]: SoilAmendmentProductForm,
 };
+
+type ProductFormFields = SoilAmendmentProductFormAllFields;
 
 const renderDrawerTitle = (
   mode: ProductFormProps['mode'],

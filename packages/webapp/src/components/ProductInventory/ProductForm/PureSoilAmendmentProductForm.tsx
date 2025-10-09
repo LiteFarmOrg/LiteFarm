@@ -24,23 +24,28 @@ import { productDefaultValuesByType } from '../../../containers/ProductInventory
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
 import { type SoilAmendmentProduct } from '../../../store/api/types';
+import { FormMode } from '../../../containers/ProductInventory';
 import styles from '../styles.module.scss';
 
 const { PRODUCT_ID, NAME } = PRODUCT_FIELD_NAMES;
 
 type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
   products: SoilAmendmentProduct[];
+  mode: FormMode | null;
 };
 
 const PureSoilAmendmentProductForm = ({
   products,
   productId,
+  mode,
   ...props
 }: PureSoilAmendmentProductFormProps) => {
   const { t } = useTranslation();
   const {
     register,
     reset,
+    setValue,
+    setFocus,
     formState: { errors },
   } = useFormContext();
 
@@ -61,6 +66,17 @@ const PureSoilAmendmentProductForm = ({
     reset(productDefaultValuesByType[TASK_TYPES.SOIL_AMENDMENT]);
   }, [product]);
 
+  useEffect(() => {
+    if (mode === FormMode.DUPLICATE) {
+      setValue(PRODUCT_ID, '');
+      setValue(NAME, t('common:COPY_OF', { item: product?.[NAME] }));
+
+      setTimeout(() => {
+        setFocus(NAME);
+      }, 0);
+    }
+  }, [mode]);
+
   const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   return (
@@ -72,9 +88,13 @@ const PureSoilAmendmentProductForm = ({
         hookFormRegister={register(NAME, {
           required: true,
           maxLength: hookFormMaxCharsValidation(255),
+          setValueAs: (value) => value.trim(),
           validate: (value) => {
             // Allow duplicate check to pass if keeping the original name during edit
-            if (value !== product?.name && productNames.includes(value.trim())) {
+            if (
+              !(mode === FormMode.EDIT && value === product?.name) &&
+              productNames.includes(value)
+            ) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }
           },

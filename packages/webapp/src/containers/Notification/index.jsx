@@ -40,15 +40,12 @@ export default function NotificationPage() {
 
   useEffect(() => {
     dispatch(getNotification());
+    dispatch(clearAlerts());
   }, []);
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const notifications = useStringFilteredNotifications(cardContents, filterString);
-  const alertIds = notifications
-    .filter((notification) => notification.alert)
-    .map((notification) => notification.notification_id);
-  if (alertIds.length) dispatch(clearAlerts(alertIds));
 
   const notificationCards = useMemo(() => {
     // only need to dispatch each type of update once, so we use a Set

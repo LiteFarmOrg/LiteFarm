@@ -33,6 +33,13 @@ import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtil
 import { soilAmendmentProductDetailsDefaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { getSoilAmendmentFormValues } from '../../../Form/ProductDetails/utils';
 
+const findProduct = (
+  products?: SoilAmendmentProduct[],
+  productId?: SoilAmendmentProduct['product_id'],
+) => {
+  return products?.find(({ product_id }) => product_id === productId);
+};
+
 export type ProductCardProps = ProductDetailsProps & {
   namePrefix: string;
   system: 'metric' | 'imperial';
@@ -137,6 +144,11 @@ const SoilAmendmentProductCard = ({
     }
   }, [otherPurposeId]);
 
+  useEffect(() => {
+    const selectedProduct = findProduct(products, productId);
+    nestedFormMethods.reset(getSoilAmendmentFormValues(selectedProduct));
+  }, []);
+
   return (
     <div className={styles.productCard}>
       {!isReadOnly && onRemove && (
@@ -154,7 +166,7 @@ const SoilAmendmentProductCard = ({
               options={productOptions}
               onChange={(e) => {
                 onChange(e?.value);
-                const selectedProduct = products.find(({ product_id }) => product_id === e?.value);
+                const selectedProduct = findProduct(products, e?.value);
                 nestedFormMethods.reset(getSoilAmendmentFormValues(selectedProduct));
               }}
               placeholder={t('ADD_PRODUCT.PRESS_ENTER')}

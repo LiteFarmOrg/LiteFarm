@@ -101,7 +101,6 @@ const useRemoveProduct = ({
     onRemove,
     cancelRemoval: () => {
       setModalType(ModalType.NONE);
-      setModalType(ModalType.NONE);
       onRemovalCancel();
     },
     productName,

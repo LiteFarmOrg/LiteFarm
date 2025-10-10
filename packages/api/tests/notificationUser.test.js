@@ -268,6 +268,15 @@ describe('Notification tests', () => {
       );
     });
 
+    test('Responds with 400 when notification_ids contains non-UUID values', (done) => {
+      clearAlerts({ notification_ids: [123, 'not-a-uuid'] }, {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBeDefined();
+        done();
+      });
+    });
+
     test('Users can modify the status for a set of their notifications', async (done) => {
       const [notification] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],

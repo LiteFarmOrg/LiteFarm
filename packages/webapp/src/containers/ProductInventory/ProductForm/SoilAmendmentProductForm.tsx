@@ -18,7 +18,7 @@ import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiS
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { productsSelector } from '../../productSlice';
+import { filteredProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { FormContentProps } from '.';
@@ -38,11 +38,8 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
     label: t(`ADD_PRODUCT.${key}_FERTILISER`),
   }));
 
-  const products = useSelector(productsSelector);
-
-  // TODO: Filter out removed products
-  const soilAmendmentCustomProducts = products.filter(
-    (product) => product.type === TASK_TYPES.SOIL_AMENDMENT,
+  const soilAmendmentProducts = useSelector(
+    filteredProductsSelector({ type: TASK_TYPES.SOIL_AMENDMENT }),
   );
 
   const isReadOnly = mode === FormMode.READ_ONLY;
@@ -53,7 +50,7 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
       isReadOnly={isReadOnly}
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
-      products={soilAmendmentCustomProducts}
+      products={soilAmendmentProducts}
       productId={productId}
     />
   );

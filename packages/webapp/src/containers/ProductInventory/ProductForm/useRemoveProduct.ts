@@ -32,6 +32,12 @@ interface useRemoveProductProps {
   onRemovalCancel: () => void;
 }
 
+export enum ModalType {
+  NONE = 'none',
+  CONFIRM = 'confirm',
+  CANNOT_REMOVE = 'cannotRemove',
+}
+
 const useRemoveProduct = ({
   productFormType,
   formMode,
@@ -41,8 +47,8 @@ const useRemoveProduct = ({
 }: useRemoveProductProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-  const [isCannotRemoveModalOpen, setIsCannotRemoveModalOpen] = useState(false);
+
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
 
   const product = useSelector(productSelector(productId));
   const productName = product?.name;
@@ -54,9 +60,9 @@ const useRemoveProduct = ({
   useEffect(() => {
     if (formMode === FormMode.DELETE && productId) {
       if (isProductInUse) {
-        setIsCannotRemoveModalOpen(true);
+        setModalType(ModalType.CANNOT_REMOVE);
       } else {
-        setIsRemoveModalOpen(true);
+        setModalType(ModalType.CONFIRM);
       }
     }
   }, [formMode, productId, isProductInUse]);
@@ -78,25 +84,24 @@ const useRemoveProduct = ({
       await apiCall(productId).unwrap();
 
       dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
-      setIsRemoveModalOpen(false);
+      setModalType(ModalType.NONE);
       onRemovalSuccess();
 
       dispatch(getProducts());
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:PRODUCT.ERROR.REMOVE')));
-      setIsRemoveModalOpen(false);
+      setModalType(ModalType.NONE);
       return;
     }
   };
 
   return {
-    isRemoveModalOpen,
-    isCannotRemoveModalOpen,
+    modalType,
     onRemove,
     cancelRemoval: () => {
-      setIsRemoveModalOpen(false);
-      setIsCannotRemoveModalOpen(false);
+      setModalType(ModalType.NONE);
+      setModalType(ModalType.NONE);
       onRemovalCancel();
     },
     productName,

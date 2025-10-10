@@ -25,7 +25,7 @@ import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/images/copy-01.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/animals/trash_icon_new.svg';
 import useSaveProduct, { type SoilAmendmentProductFormAllFields } from './useSaveProduct';
-import useRemoveProduct from './useRemoveProduct';
+import useRemoveProduct, { ModalType } from './useRemoveProduct';
 import RemoveProductConfirmationModal from '../../../components/Modals/RemoveProductConfirmationModal';
 import UnableToRemoveProductModal from '../../../components/Modals/UnableToRemoveProductModal';
 import { TASK_TYPES } from '../../Task/constants';
@@ -110,27 +110,20 @@ export default function ProductForm({
     })();
   };
 
-  const { onRemove, cancelRemoval, isRemoveModalOpen, isCannotRemoveModalOpen, productName } =
-    useRemoveProduct({
-      formMode: mode,
-      productFormType,
-      productId,
-      onRemovalSuccess: onCancel,
-      onRemovalCancel: () => onActionButtonClick(FormMode.READ_ONLY),
-    });
+  const { onRemove, cancelRemoval, modalType, productName } = useRemoveProduct({
+    formMode: mode,
+    productFormType,
+    productId,
+    onRemovalSuccess: onCancel,
+    onRemovalCancel: () => onActionButtonClick(FormMode.READ_ONLY),
+  });
 
   const FormContent = productFormType ? productFormMap[productFormType] : null;
 
   return (
     <>
       <Drawer
-        isOpen={
-          isFormOpen &&
-          !!productFormType &&
-          !!mode &&
-          !isRemoveModalOpen &&
-          !isCannotRemoveModalOpen
-        }
+        isOpen={isFormOpen && !!productFormType && !!mode && modalType === ModalType.NONE}
         onClose={onCancel}
         title={renderDrawerTitle(mode, onActionButtonClick, t, isAdmin)}
         addBackdrop={false}
@@ -162,14 +155,14 @@ export default function ProductForm({
           )}
         </div>
       </Drawer>
-      {isRemoveModalOpen && (
+      {modalType === ModalType.CONFIRM && (
         <RemoveProductConfirmationModal
           dismissModal={cancelRemoval}
           handleRemove={onRemove}
           productName={productName}
         />
       )}
-      {isCannotRemoveModalOpen && (
+      {modalType === ModalType.CANNOT_REMOVE && (
         <UnableToRemoveProductModal dismissModal={cancelRemoval} productName={productName} />
       )}
     </>

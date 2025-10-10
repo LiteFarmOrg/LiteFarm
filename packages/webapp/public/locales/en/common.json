@@ -79,6 +79,7 @@
   "QUANTITY": "Quantity",
   "REMOVE": "Remove",
   "REMOVE_ITEM": "Remove item",
+  "REMOVED": "Removed",
   "REQUIRED": "Required",
   "RETIRE": "Retire",
   "REVISION_INFO": "Revised on <strong>{{date}}</strong> <i>by</i> <strong>{{user}}</strong>",

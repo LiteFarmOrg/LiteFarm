@@ -62,6 +62,27 @@ export const productsSelector = createSelector(
   },
 );
 
+// Filters products by library/custom, task type, farm, and removed status
+export const filteredProductsSelector = ({
+  includeLibrary = true,
+  includeCustom = true,
+  type = '',
+  farm = false,
+  includeRemoved = false,
+}) =>
+  createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
+    return products.filter((product) => {
+      const isLibraryProduct = !!product.product_translation_key;
+
+      const matchesIsLibrary = isLibraryProduct ? includeLibrary : includeCustom;
+      const matchesType = !type || product.type === type;
+      const matchesFarm = !farm || product.farm_id === farm_id;
+      const matchesRemoved = includeRemoved || !product.removed;
+
+      return matchesIsLibrary && matchesType && matchesFarm && matchesRemoved;
+    });
+  });
+
 export const productsForTaskTypeSelector = (taskType) => {
   return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
     if (taskType === undefined) {

@@ -76,20 +76,18 @@ const useRemoveProduct = ({
 
     try {
       await apiCall(productId).unwrap();
+
+      dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
+      setIsRemoveModalOpen(false);
+      onRemovalSuccess();
+
+      dispatch(getProducts());
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:PRODUCT.ERROR.REMOVE')));
       setIsRemoveModalOpen(false);
       return;
     }
-
-    const onProductsFetched = () => {
-      dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
-      setIsRemoveModalOpen(false);
-      onRemovalSuccess();
-    };
-
-    dispatch(getProducts({ callback: onProductsFetched }));
   };
 
   return {

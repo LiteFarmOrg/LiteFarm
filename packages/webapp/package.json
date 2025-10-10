@@ -60,7 +60,7 @@
     "google-map-react": "^2.2.5",
     "history": "^4.10.1",
     "html2canvas": "^1.4.1",
-    "i18next": "^21.10.0",
+    "i18next": "^25.6.0",
     "i18next-browser-languagedetector": "^6.1.8",
     "i18next-xhr-backend": "^3.2.2",
     "immer": "^9.0.16",

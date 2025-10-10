@@ -92,6 +92,7 @@ const useRemoveProduct = ({
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:PRODUCT.ERROR.REMOVE')));
       setModalType(ModalType.NONE);
+      onRemovalCancel();
       return;
     }
   };

@@ -22,6 +22,23 @@ import PureMovementTask from '../MovementTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import { ANIMAL_IDS } from '../TaskAnimalInventory';
 import FilePicker from '../../FilePicker';
+import {
+  ANOTHER_DATE,
+  COMPLETION_NOTES,
+  DATE_CHOICE,
+  DURATION,
+  HAPPINESS,
+  PREFER_NOT_TO_SAY,
+} from '.';
+
+const COMPLETION_FIELDS = [
+  DURATION,
+  HAPPINESS,
+  COMPLETION_NOTES,
+  PREFER_NOT_TO_SAY,
+  DATE_CHOICE,
+  ANOTHER_DATE,
+];
 
 const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   if (!needsChange) {
@@ -54,6 +71,13 @@ export default function PureCompleteStepOne({
   const defaultsToUse = formatTaskReadOnlyDefaultValues(
     persistedFormData.need_changes ? persistedFormData : selectedTask,
   );
+  const preserveCompletionFields = (persistedFormData) => {
+    // If `/complete` form is visited, duration will always be defined
+    if (persistedFormData.duration === undefined) {
+      return {};
+    }
+    return Object.fromEntries(COMPLETION_FIELDS.map((field) => [field, persistedFormData[field]]));
+  };
   const {
     register,
     handleSubmit,
@@ -71,6 +95,7 @@ export default function PureCompleteStepOne({
       need_changes: false,
       ...defaultsToUse,
       ...(persistedFormData[ANIMAL_IDS] && { [ANIMAL_IDS]: persistedFormData[ANIMAL_IDS] }),
+      ...preserveCompletionFields(persistedFormData),
       results_available: persistedFormData.uploadedFiles?.length ? true : false,
     },
   });

@@ -94,3 +94,30 @@
   flex-direction: column;
   gap: $gap;
 }
+
+@mixin blueExpandIcon() {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #cce3ff;
+  background: var(--Colors-Accent---singles-Blue-light);
+  transform: rotate(180deg);
+
+  path {
+    stroke-width: 2px;
+    stroke: var(--Colors-Accent---singles-Blue-full);
+  }
+
+  &.expanded {
+    transform: rotate(0deg);
+  }
+
+  &.disabled {
+    background: #f1f1f1;
+    border-color: #efefef;
+
+    path {
+      stroke: #d6d6d6;
+    }
+  }
+}

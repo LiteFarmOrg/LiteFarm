@@ -41,8 +41,8 @@ const useRemoveProduct = ({
 }: useRemoveProductProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [isRemoveModalOpen, setisRemoveModalOpen] = useState(false);
-  const [isCannotRemoveModalOpen, setisCannotRemoveModalOpen] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+  const [isCannotRemoveModalOpen, setIsCannotRemoveModalOpen] = useState(false);
 
   const product = useSelector(productSelector(productId));
   const productName = product?.name;
@@ -54,9 +54,9 @@ const useRemoveProduct = ({
   useEffect(() => {
     if (formMode === FormMode.DELETE && productId) {
       if (isProductInUse) {
-        setisCannotRemoveModalOpen(true);
+        setIsCannotRemoveModalOpen(true);
       } else {
-        setisRemoveModalOpen(true);
+        setIsRemoveModalOpen(true);
       }
     }
   }, [formMode, productId, isProductInUse]);
@@ -79,13 +79,13 @@ const useRemoveProduct = ({
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:PRODUCT.ERROR.REMOVE')));
-      setisRemoveModalOpen(false);
+      setIsRemoveModalOpen(false);
       return;
     }
 
     const onProductsFetched = () => {
       dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
-      setisRemoveModalOpen(false);
+      setIsRemoveModalOpen(false);
       onRemovalSuccess();
     };
 
@@ -97,8 +97,8 @@ const useRemoveProduct = ({
     isCannotRemoveModalOpen,
     onRemove,
     cancelRemoval: () => {
-      setisRemoveModalOpen(false);
-      setisCannotRemoveModalOpen(false);
+      setIsRemoveModalOpen(false);
+      setIsCannotRemoveModalOpen(false);
       onRemovalCancel();
     },
     productName,

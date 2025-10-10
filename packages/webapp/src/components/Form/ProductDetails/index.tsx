@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useRef, useState, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -26,22 +25,16 @@ import TextButton from '../Button/TextButton';
 import RadioGroup from '../RadioGroup';
 import CompositionInputs from '../CompositionInputs';
 import ReactSelect from '../ReactSelect';
-import Buttons from './Buttons';
 import {
   type SoilAmendmentProductFormCommonFields,
-  type ProductId,
   PRODUCT_FIELD_NAMES,
   Nutrients,
 } from '../../Task/AddSoilAmendmentProducts/types';
-import {
-  ElementalUnit,
-  MolecularCompoundsUnit,
-  type SoilAmendmentProduct,
-} from '../../../store/api/types';
+import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../Task/AddProduct/constants';
 import { roundToTwoDecimal } from '../../../util';
-import { getSoilAmendmentFormValues, subtractFrom100 } from './utils';
+import { subtractFrom100 } from './utils';
 import useExpandable from '../../Expandable/useExpandableItem';
 import styles from './styles.module.scss';
 
@@ -70,56 +63,24 @@ const molecularCompoundsUnitOptions = [
   { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
 ];
 
-type CommonProps = {
+export type ProductDetailsProps = {
   productId?: number | string;
-  products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
   fertiliserTypeOptions: { label: string; value: number }[];
 };
 
-export type NestedProductDetailsProps = CommonProps & {
-  isNestedForm: true;
-  isExpanded: boolean;
-  expand: () => void;
-  unExpand: () => void;
-  toggleExpanded: () => void;
-  productsVersion: number;
-  clearProduct: () => void;
-  setProductId: (id: ProductId) => void;
-  onSave: (
-    data: SoilAmendmentProductFormCommonFields & { product_id: ProductId },
-    callback?: (id: ProductId) => void,
-  ) => Promise<void>;
-};
-
-export type StandaloneProductDetailsProps = CommonProps & {
-  isNestedForm: false;
-};
-
-export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
-
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
-const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDetailsProps) => {
-  const {
-    isNestedForm,
-    productId,
-    products = [],
-    isReadOnly,
-    farm: { country_id, interested },
-    fertiliserTypeOptions,
-  } = props;
-  const isExpanded = isNestedForm ? props.isExpanded : undefined;
-  const productsVersion = isNestedForm ? props.productsVersion : undefined;
-
+const ProductDetails = ({
+  productId,
+  isReadOnly,
+  farm: { country_id, interested },
+  fertiliserTypeOptions,
+}: ProductDetailsProps) => {
   const { t } = useTranslation();
-  const [isEditingProduct, setIsEditingProduct] = useState(isNestedForm ? false : !isReadOnly);
-  const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
-  const isDetailDisabled = isReadOnly || (isNestedForm && !isEditingProduct);
-  const isProductEntered = !!productId;
 
   const additionalNutrientsId = `additional-nutrients-${productId}`;
 
@@ -127,13 +88,8 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
     control,
     watch,
     setValue,
-    getValues,
-    handleSubmit,
-    reset,
-    setFocus,
-    trigger,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useFormContext<SoilAmendmentProductFormCommonFields>();
 
   const [
@@ -155,73 +111,12 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   const {
     expandedIds: expandedAdditionalNutrientsIds,
     toggleExpanded: toggleAdditionalNutrientsExpanded,
-    unExpand: unExpandAdditionalNutrients,
   } = useExpandable();
 
   const inputsInfo = useInputsInfo();
 
   const isAdditionalNutrientsExpanded =
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
-
-  useEffect(() => {
-    if (!isNestedForm) {
-      return;
-    }
-    const selectedProduct = products.find(({ product_id }) => product_id === productId);
-    const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
-    const isAddingNewProduct = !!(productId && !selectedProduct);
-    const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
-
-    if (!productId || !shouldNotResetFields) {
-      reset(getSoilAmendmentFormValues(selectedProduct));
-    }
-
-    setIsEditingProduct(isAddingNewProduct);
-    if (isAddingNewProduct) {
-      props.expand();
-    }
-
-    trigger();
-
-    if (isAddingNewProduct && productId) {
-      // Wait for the card to be expaneded
-      setTimeout(() => {
-        setFocus(SUPPLIER);
-      }, 0);
-    }
-    previousProductIdRef.current = productId;
-  }, [productId, productsVersion]);
-
-  const onCancel = () => {
-    if (!isNestedForm) {
-      return;
-    }
-    if (isNewProduct(productId)) {
-      props.clearProduct();
-      props.setProductId(undefined);
-      if (isNestedForm) {
-        props.unExpand();
-      }
-    } else {
-      reset();
-      setIsEditingProduct(false);
-    }
-  };
-
-  const onSubmit = (data: SoilAmendmentProductFormCommonFields) => {
-    if (!isNestedForm) {
-      return;
-    }
-    const callback = (id: ProductId) => {
-      if (isNewProduct(productId)) {
-        props.setProductId(id);
-      }
-
-      setIsEditingProduct(false);
-      reset(getValues());
-    };
-    props.onSave({ ...data, product_id: productId }, callback);
-  };
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
     const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
@@ -232,17 +127,6 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
 
     setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
     setValue(theOtherField, theOtherFieldValue);
-  };
-
-  const toggleProductDetails = () => {
-    if (!isNestedForm) {
-      return;
-    }
-    props.toggleExpanded();
-
-    if (isAdditionalNutrientsExpanded) {
-      unExpandAdditionalNutrients(additionalNutrientsId);
-    }
   };
 
   const renderCompositionInputsWithController = ({
@@ -278,7 +162,7 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
               mainLabel={mainLabel}
               unitOptions={elementalUnitOptions}
               inputsInfo={inputsInfo}
-              disabled={isDetailDisabled}
+              disabled={isReadOnly}
               error={fieldState.error?.message}
               shouldShowErrorMessage={shouldShowErrorMessage}
               values={field.value || {}}
@@ -307,161 +191,104 @@ const ProductDetails = (props: NestedProductDetailsProps | StandaloneProductDeta
   };
 
   return (
-    <div
-      className={clsx(
-        isNestedForm && !isProductEntered && styles.disabled,
-        isExpanded && styles.expanded,
-        styles.productDetails,
+    <div className={clsx(styles.productDetails)}>
+      {/* @ts-expect-error */}
+      <Input
+        name={SUPPLIER}
+        label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
+        hookFormRegister={register(SUPPLIER, {
+          required: interested,
+          maxLength: hookFormMaxCharsValidation(255),
+          setValueAs: (value) => value.trim(),
+        })}
+        disabled={isReadOnly}
+        hasLeaf={true}
+        errors={getInputErrors(errors, SUPPLIER)}
+        optional={!interested}
+      />
+      {interested && inCanada && (
+        <div className={styles.permitedSubstance}>
+          <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
+          {/* @ts-expect-error */}
+          <RadioGroup
+            hookFormControl={control}
+            name={PERMITTED}
+            required={true}
+            disabled={isReadOnly}
+            showNotSure
+          />
+        </div>
       )}
-    >
-      {isNestedForm && (
+
+      <ReactSelect
+        value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
+        isDisabled={isReadOnly}
+        label={t('ADD_PRODUCT.FERTILISER_TYPE')}
+        options={fertiliserTypeOptions}
+        onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
+        optional
+      />
+
+      <CompositionInputs
+        disabled={isReadOnly}
+        onChange={(fieldName: string, value: string | number | null): void => {
+          handleMoistureDryMatterContentChange(
+            fieldName,
+            value === null || value === undefined ? undefined : +value,
+          );
+        }}
+        inputsInfo={inputsInfo.moistureDrymatterContents}
+        values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
+        unit="%"
+      />
+
+      {renderCompositionInputsWithController({
+        mainLabel: t('ADD_PRODUCT.COMPOSITION'),
+        inputsInfo: inputsInfo.npk,
+        shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
+      })}
+
+      <div className={clsx(styles.additionalNutrients)}>
         <TextButton
-          disabled={!isProductEntered}
-          onClick={toggleProductDetails}
-          className={clsx(styles.productDetailsTitle)}
+          onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
+          className={clsx(styles.additionalNutrientsTitle)}
         >
-          <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+          <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
           <KeyboardArrowDownIcon
-            className={clsx(styles.expandIcon, isExpanded && styles.expanded)}
+            className={clsx(styles.expandIcon, isAdditionalNutrientsExpanded && styles.expanded)}
           />
         </TextButton>
-      )}
 
-      <Wrapper collapsible={isNestedForm} productId={productId} isExpanded={isExpanded}>
-        <div className={clsx(styles.productDetailsContent, isNestedForm && styles.isNestedForm)}>
-          {/* @ts-expect-error */}
-          <Input
-            name={SUPPLIER}
-            label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-            hookFormRegister={register(SUPPLIER, {
-              required: interested,
-              maxLength: hookFormMaxCharsValidation(255),
-              setValueAs: (value) => value.trim(),
+        <Collapse
+          id={additionalNutrientsId}
+          in={isAdditionalNutrientsExpanded}
+          timeout="auto"
+          unmountOnExit
+        >
+          <div className={styles.additionalNutrientsBody}>
+            {renderCompositionInputsWithController({
+              inputsInfo: inputsInfo.additionalNutrients,
+              shouldShowErrorMessage: true,
             })}
-            disabled={isDetailDisabled}
-            hasLeaf={true}
-            errors={getInputErrors(errors, SUPPLIER)}
-            optional={!interested}
-          />
-          {interested && inCanada && (
-            <div className={styles.permitedSubstance}>
-              <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
-              {/* @ts-expect-error */}
-              <RadioGroup
-                hookFormControl={control}
-                name={PERMITTED}
-                required={true}
-                disabled={isDetailDisabled}
-                showNotSure
-              />
-            </div>
-          )}
 
-          <ReactSelect
-            value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
-            isDisabled={isDetailDisabled}
-            label={t('ADD_PRODUCT.FERTILISER_TYPE')}
-            options={fertiliserTypeOptions}
-            onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
-            optional
-          />
-
-          <CompositionInputs
-            disabled={isDetailDisabled}
-            onChange={(fieldName: string, value: string | number | null): void => {
-              handleMoistureDryMatterContentChange(
-                fieldName,
-                value === null || value === undefined ? undefined : +value,
-              );
-            }}
-            inputsInfo={inputsInfo.moistureDrymatterContents}
-            values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
-            unit="%"
-          />
-
-          {renderCompositionInputsWithController({
-            mainLabel: t('ADD_PRODUCT.COMPOSITION'),
-            inputsInfo: inputsInfo.npk,
-            shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
-          })}
-
-          <div className={clsx(styles.additionalNutrients)}>
-            <TextButton
-              disabled={isNestedForm && !isProductEntered}
-              onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
-              className={clsx(styles.additionalNutrientsTitle)}
-            >
-              <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
-              <KeyboardArrowDownIcon
-                className={clsx(
-                  styles.expandIcon,
-                  isAdditionalNutrientsExpanded && styles.expanded,
-                )}
-              />
-            </TextButton>
-
-            <Collapse
-              id={additionalNutrientsId}
-              in={isAdditionalNutrientsExpanded}
-              timeout="auto"
-              unmountOnExit
-            >
-              <div className={styles.additionalNutrientsBody}>
-                {renderCompositionInputsWithController({
-                  inputsInfo: inputsInfo.additionalNutrients,
-                  shouldShowErrorMessage: true,
-                })}
-
-                <CompositionInputs
-                  disabled={isDetailDisabled}
-                  onChange={handleMolecularCompoundsChange}
-                  inputsInfo={inputsInfo.ammoniumNitrate}
-                  values={{
-                    [AMMONIUM]: ammonium,
-                    [NITRATE]: nitrate,
-                    [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
-                  }}
-                  unitOptions={molecularCompoundsUnitOptions}
-                  unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
-                  reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
-                />
-              </div>
-            </Collapse>
-          </div>
-
-          {isNestedForm && !isReadOnly && (
-            <Buttons
-              isEditingProduct={isEditingProduct}
-              isEditDisabled={!isProductEntered}
-              isSaveDisabled={!isProductEntered || !isValid}
-              onCancel={onCancel}
-              onEdit={() => setIsEditingProduct(true)}
-              onSave={handleSubmit(onSubmit)}
+            <CompositionInputs
+              disabled={isReadOnly}
+              onChange={handleMolecularCompoundsChange}
+              inputsInfo={inputsInfo.ammoniumNitrate}
+              values={{
+                [AMMONIUM]: ammonium,
+                [NITRATE]: nitrate,
+                [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
+              }}
+              unitOptions={molecularCompoundsUnitOptions}
+              unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
+              reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />
-          )}
-        </div>
-      </Wrapper>
+          </div>
+        </Collapse>
+      </div>
     </div>
   );
 };
 
 export default ProductDetails;
-
-interface WrapperProps {
-  collapsible: boolean;
-  productId: ProductId;
-  isExpanded?: boolean;
-  children: ReactNode;
-}
-
-const Wrapper = ({ collapsible, productId, isExpanded, children }: WrapperProps) => {
-  if (collapsible) {
-    return (
-      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
-        {children}
-      </Collapse>
-    );
-  }
-
-  return children;
-};

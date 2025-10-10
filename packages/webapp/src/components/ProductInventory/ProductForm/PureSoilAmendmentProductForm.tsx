@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
-import ProductDetails, { type StandaloneProductDetailsProps } from '../../Form/ProductDetails';
+import ProductDetails, { type ProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
@@ -29,7 +29,7 @@ import styles from '../styles.module.scss';
 
 const { PRODUCT_ID, NAME } = PRODUCT_FIELD_NAMES;
 
-type PureSoilAmendmentProductFormProps = StandaloneProductDetailsProps & {
+type PureSoilAmendmentProductFormProps = ProductDetailsProps & {
   products: SoilAmendmentProduct[];
   mode: FormMode | null;
 };

@@ -2,6 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
+import { isLibraryProduct } from '../util/product';
 
 export const getProduct = (obj) => {
   return pick(obj, [
@@ -72,9 +73,7 @@ export const filteredProductsSelector = ({
 }) =>
   createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
     return products.filter((product) => {
-      const isLibraryProduct = !!product.product_translation_key;
-
-      const matchesIsLibrary = isLibraryProduct ? includeLibrary : includeCustom;
+      const matchesIsLibrary = isLibraryProduct(product) ? includeLibrary : includeCustom;
       const matchesType = !type || product.type === type;
       const matchesFarm = !farm || product.farm_id === farm_id;
       const matchesRemoved = includeRemoved || !product.removed;

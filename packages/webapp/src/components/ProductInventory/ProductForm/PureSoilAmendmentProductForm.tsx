@@ -46,6 +46,7 @@ const PureSoilAmendmentProductForm = ({
     reset,
     setValue,
     setFocus,
+    trigger,
     formState: { errors },
   } = useFormContext();
 
@@ -70,6 +71,7 @@ const PureSoilAmendmentProductForm = ({
     if (mode === FormMode.DUPLICATE) {
       setValue(PRODUCT_ID, '');
       setValue(NAME, t('common:COPY_OF', { item: product?.[NAME] }));
+      trigger();
 
       setTimeout(() => {
         setFocus(NAME);

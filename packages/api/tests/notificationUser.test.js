@@ -234,6 +234,40 @@ describe('Notification tests', () => {
       });
     });
 
+    test('Does not clear alerts for another farm when provided notification id belongs to another farm', async (done) => {
+      // Notification for another farm
+      const [otherFarm] = await mocks.farmFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
+      const [otherFarmNotification] = await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
+
+      expect(otherFarmNotification.alert).toBe(true);
+
+      // Try to clear using a notification_id that belongs to another farm
+      clearAlerts(
+        { notification_ids: [otherFarmNotification.notification_id] },
+        {},
+        async (err, res) => {
+          expect(err).toBe(null);
+          expect(res.status).toBe(200);
+
+          const otherFarmNotifications = await NotificationUser.getNotificationsForFarmUser(
+            otherFarm.farm_id,
+            user.user_id,
+          );
+
+          // Unchanged
+          expect(otherFarmNotifications[0].alert).toBe(true);
+
+          done();
+        },
+      );
+    });
+
     test('Users can modify the status for a set of their notifications', async (done) => {
       const [notification] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],

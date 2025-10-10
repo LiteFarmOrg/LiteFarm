@@ -23,7 +23,7 @@ const userLogController = {
       const { user_id } = req.auth;
       const { screen_width, screen_height, farm_id } = req.body;
       try {
-        const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress;
+        const { ip } = req;
         const ua = parser(req.headers['user-agent']);
         const languages = req.acceptsLanguages();
         await UserLogModel.query().insert({

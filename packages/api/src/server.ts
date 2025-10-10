@@ -264,6 +264,9 @@ app
   .use(express.urlencoded({ extended: true }))
   .disable('x-powered-by')
 
+  // https://expressjs.com/en/api.html#trust.proxy.options.table
+  .enable('trust proxy')
+
   // prevent CORS errors
   .use(cors())
   .use((req, res, next) => {

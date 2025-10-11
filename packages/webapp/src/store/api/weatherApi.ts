@@ -19,10 +19,10 @@ import { WeatherData } from './types';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getWeather: build.query<WeatherData, void>({
-      query: () => `${weatherUrl}`,
+    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
+      query: ({ measurementSystem }) => `${weatherUrl}`,
       providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
+      keepUnusedDataFor: 2, // Cache data for 2 hours (7200 seconds)
     }),
   }),
 });

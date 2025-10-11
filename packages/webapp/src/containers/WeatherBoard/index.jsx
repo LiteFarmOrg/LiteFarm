@@ -1,11 +1,23 @@
 import PureWeatherBoard from '../../components/WeatherBoard';
+import { useSelector } from 'react-redux';
 import utils from './utils';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { userFarmSelector } from '../userFarmSlice';
 import { useGetWeatherQuery } from '../../store/api/weatherApi';
 
 export default function WeatherBoard() {
-  const { data, error, isSuccess: loaded } = useGetWeatherQuery();
+  const {
+    units: { measurement },
+  } = useSelector(userFarmSelector);
+
+  const {
+    data,
+    error,
+    isSuccess: loaded,
+  } = useGetWeatherQuery({
+    measurementSystem: measurement,
+  });
   const language_preference = getLanguageFromLocalStorage();
 
   const { t } = useTranslation();

@@ -17,6 +17,7 @@ import { Request, Response } from 'express';
 import baseController from './baseController.js';
 import FarmModel from '../models/farmModel.js';
 import weatherService from '../services/weatherService.js';
+import { HttpError } from '../types.js';
 
 const weatherController = {
   async getWeather(req: Request, res: Response) {
@@ -35,11 +36,9 @@ const weatherController = {
       });
 
       res.status(200).send(weatherData);
-    } catch (error) {
-      console.error('Fetch error:', error);
-      res.status(400).json({
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
-      });
+    } catch (error: unknown) {
+      console.error(error);
+      res.status((error as HttpError).status || 500).json({ error });
     }
   },
 };

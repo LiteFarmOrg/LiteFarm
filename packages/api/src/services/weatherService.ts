@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import axios, { AxiosError } from 'axios';
 import credentials from '../credentials.js';
 import endpoints from '../endPoints.js';
 
@@ -39,13 +40,9 @@ export const weatherService = {
   async getWeather({ lat, lon, units = 'metric' }: WeatherParams): Promise<WeatherData> {
     try {
       const url = `${openWeatherAPI}?units=${units}&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en&cnt=1`;
-      const response = await fetch(url);
+      const response = await axios.get(url);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error: ${JSON.stringify(response)}`);
-      }
-
-      const data = await response.json();
+      const data = await response.data;
 
       return {
         humidity: data.main.humidity,
@@ -57,8 +54,11 @@ export const weatherService = {
         measurement: units,
       };
     } catch (error) {
-      console.error('Error fetching weather data:', error);
-      throw new Error('Failed to fetch weather data');
+      const axiosError = error as AxiosError;
+      throw Object.assign(new Error('Failed to fetch weather data'), {
+        status: axiosError.response?.status,
+        details: axiosError.response?.data ?? axiosError.message,
+      });
     }
   },
 };

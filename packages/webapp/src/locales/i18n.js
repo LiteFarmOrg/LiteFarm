@@ -31,12 +31,18 @@ i18n
       queryStringParams: { v: APP_VERSION },
       backends: [
         HttpBackend,
-        resourcesToBackend((lng, ns) => import(`./locales/${lng}/${ns}.json`)),
+        resourcesToBackend((lng, ns) => {
+          if (lng === i18n.language) {
+            return import(`../../public/locales/${lng}/${ns}.json`);
+          }
+          throw new Error(`Language ${lng} not available offline`);
+        }),
       ],
       backendOptions: [
         {
           loadPath: '/locales/{{lng}}/{{ns}}.json',
         },
+        {},
       ],
     },
   });

@@ -66,12 +66,52 @@ export const FARM_LIBRARY_TAGS = {
   DEFAULT_ANIMAL_TYPES: 'DefaultAnimalTypes',
 } as const;
 
+/**
+ * If the tags are array of strings
+ */
+export const LibraryTags = [
+  'AnimalSexes',
+  'AnimalIdentifierTypes',
+  'AnimalIdentifierColors',
+  'AnimalMovementPurposes',
+  'AnimalOrigins',
+  'AnimalUses',
+  'AnimalRemovalReasons',
+  'DefaultAnimalBreeds',
+  'SoilAmendmentMethods',
+  'SoilAmendmentPurposes',
+  'SoilAmendmentFertiliserTypes',
+] as const;
+
+export const FarmTags = [
+  'Animals',
+  'AnimalBatches',
+  'CustomAnimalBreeds',
+  'CustomAnimalTypes',
+  'FarmAddon',
+  'IrrigationPrescriptions',
+  'IrrigationPrescriptionDetails',
+  'SoilAmendmentProduct',
+  'Sensors',
+  'SensorReadings',
+  'Weather',
+] as const;
+
+export const FarmLibraryTags = [
+  // 'count' param returns farm specific data
+  'DefaultAnimalTypes',
+] as const;
+
 // helper to preserve literal tuple
 function tuple<T extends readonly string[]>(...args: T) {
   return args;
 }
 
+// un-comment if defining tags as objects
 const TAG_GROUPS = { LIBRARY_TAGS, FARM_TAGS, FARM_LIBRARY_TAGS } as const;
+
+//un-comment if defining tags as array of strings
+//const TAG_GROUPS = { LibraryTags, FarmTags, FarmLibraryTags } as const;
 
 export const API_TAGS = tuple(
   ...Object.values(TAG_GROUPS).flatMap((group) => Object.values(group)),

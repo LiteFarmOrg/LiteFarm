@@ -63,56 +63,6 @@ import type {
   IrrigationPrescriptionDetails,
 } from './types';
 
-/**
- * These tags have endpoints that do not return farm specific data, and are not created by a farm
- *
- *  LiteFarm provides these data as defaults
- */
-export const LibraryTags = [
-  'AnimalSexes',
-  'AnimalIdentifierTypes',
-  'AnimalIdentifierColors',
-  'AnimalMovementPurposes',
-  'AnimalOrigins',
-  'AnimalUses',
-  'AnimalRemovalReasons',
-  'DefaultAnimalBreeds',
-  'SoilAmendmentMethods',
-  'SoilAmendmentPurposes',
-  'SoilAmendmentFertiliserTypes',
-];
-
-/**
- * These tags contain endpoints that return farm specific data
- *
- * These data should not persist when switching farms,
- * or should be stored in a separate farm store.
- */
-export const FarmTags = [
-  'Animals',
-  'AnimalBatches',
-  'CustomAnimalBreeds',
-  'CustomAnimalTypes',
-  'FarmAddon',
-  'IrrigationPrescriptions',
-  'IrrigationPrescriptionDetails',
-  'SoilAmendmentProduct',
-  'Sensors',
-  'SensorReadings',
-  'Weather',
-];
-
-/**
- * These tags contain endpoints that could either return farm specific data
- * or farm neutral defaults data.
- *
- * For data safety these data should also not persist when switching farms,
- * or should be stored in a separate farm store.
- */
-export const FarmLibraryTags = [
-  // 'count' param returns farm specific data
-  'DefaultAnimalTypes',
-];
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag, FARM_TAGS } from './apiTags';
 
@@ -136,11 +86,11 @@ export const api = createApi({
     // <ResultType, QueryArg>
     getAnimals: build.query<Animal[], void>({
       query: () => `${animalsUrl}`,
-      providesTags: ['Animals'],
+      providesTags: [FARM_TAGS.ANIMALS], // if tags are defined as objects
     }),
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,
-      providesTags: ['AnimalBatches'],
+      providesTags: ['AnimalBatches'], // if tags are defined as array of strings
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,

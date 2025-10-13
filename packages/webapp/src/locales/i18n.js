@@ -34,6 +34,8 @@ i18n
         resourcesToBackend((lng, ns) => {
           if (lng === i18n.language) {
             return import(`../../public/locales/${lng}/${ns}.json`);
+          } else if (lng === 'en') {
+            return import(`../../public/locales/${lng}/${ns}.json`);
           }
           throw new Error(`Language ${lng} not available offline`);
         }),

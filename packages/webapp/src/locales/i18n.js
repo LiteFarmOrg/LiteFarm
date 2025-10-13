@@ -18,7 +18,7 @@ i18n
     fallbackLng: 'en',
     supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'], // i18n allow list
     locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'],
-    debug: true,
+    debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],
       lookupLocalStorage: 'litefarm_lang',

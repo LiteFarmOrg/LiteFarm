@@ -114,6 +114,7 @@ export const FarmLibraryTags = [
   'DefaultAnimalTypes',
 ];
 import { addDaysToDate } from '../../util/date';
+import { API_TAGS, ApiTag, FARM_TAGS } from './apiTags';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -129,7 +130,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags],
+  tagTypes: API_TAGS,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

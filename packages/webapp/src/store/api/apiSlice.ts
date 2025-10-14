@@ -66,6 +66,18 @@ import type {
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag, FARM_TAGS } from './apiTags';
 
+/**
+ * Invalidates one or more RTK Query cache tags.
+ *
+ * This helper provides a type-safe wrapper around `api.util.invalidateTags`
+ * ensuring only valid `ApiTag` values (defined in `API_TAGS`) can be used.
+ *
+ * @param {ApiTag[]} tags - An array of tag names to invalidate.
+ * @returns - The invalidateTags action,
+ * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
+ */
+export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: url,
@@ -86,11 +98,11 @@ export const api = createApi({
     // <ResultType, QueryArg>
     getAnimals: build.query<Animal[], void>({
       query: () => `${animalsUrl}`,
-      providesTags: [FARM_TAGS.ANIMALS], // if tags are defined as objects
+      providesTags: [FARM_TAGS.ANIMALS], // if tags are declared as objects
     }),
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,
-      providesTags: ['AnimalBatches'], // if tags are defined as array of strings
+      providesTags: ['AnimalBatches'], // if tags are declared as array of strings
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,

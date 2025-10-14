@@ -107,10 +107,10 @@ function tuple<T extends readonly string[]>(...args: T) {
   return args;
 }
 
-// un-comment if defining tags as objects
+// un-comment if declaring tags as objects
 const TAG_GROUPS = { LIBRARY_TAGS, FARM_TAGS, FARM_LIBRARY_TAGS } as const;
 
-//un-comment if defining tags as array of strings
+//un-comment if declaring tags as array of strings
 //const TAG_GROUPS = { LibraryTags, FarmTags, FarmLibraryTags } as const;
 
 export const API_TAGS = tuple(

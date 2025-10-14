@@ -5,7 +5,7 @@ import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAn
 import { Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
-import { notificationsSelector } from '../notificationSlice';
+import { latestNotificationsByEntitySelector } from '../notificationSlice';
 import NotificationCard from './NotificationCard';
 import { getNotification, readNotification, clearAlerts } from './saga';
 import useStringFilteredNotifications from './useStringFilteredNotifications';
@@ -20,7 +20,7 @@ export default function NotificationPage() {
   const { t } = useTranslation();
 
   // Get the data.
-  const cardContents = useSelector(notificationsSelector);
+  const cardContents = useSelector(latestNotificationsByEntitySelector);
 
   // queue of updates which need to be made to records referenced from notifications
   const [requiredUpdates, setRequiredUpdates] = useState([]);
@@ -40,45 +40,38 @@ export default function NotificationPage() {
 
   useEffect(() => {
     dispatch(getNotification());
+    dispatch(clearAlerts());
   }, []);
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const notifications = useStringFilteredNotifications(cardContents, filterString);
-  const alertIds = notifications
-    .filter((notification) => notification.alert)
-    .map((notification) => notification.notification_id);
-  if (alertIds.length) dispatch(clearAlerts(alertIds));
 
   const notificationCards = useMemo(() => {
     // only need to dispatch each type of update once, so we use a Set
     const updates = new Set();
-    const cards = notifications
-      .sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      })
-      .map((notification) => {
-        // this only adds the update if the update is not already in the set
-        updates.add(getUpdateFromNotification(notification));
-        return (
-          <NotificationCard
-            key={notification.notification_id}
-            variables={notification.variables}
-            onClick={() =>
-              dispatch(
-                readNotification({
-                  notificationId: notification.notification_id,
-                }),
-              )
-            }
-            {...notification}
-          />
-        );
-      });
+    const cards = notifications.map((notification) => {
+      // this only adds the update if the update is not already in the set
+      updates.add(getUpdateFromNotification(notification));
+      return (
+        <NotificationCard
+          key={notification.notification_id}
+          variables={notification.variables}
+          onClick={() =>
+            dispatch(
+              readNotification({
+                notificationId: notification.notification_id,
+              }),
+            )
+          }
+          {...notification}
+        />
+      );
+    });
     // update the queue of pending updates, triggering the dispatch of various update actions
     setRequiredUpdates([...updates]);
     return cards;
-  }, [notifications.length]);
+  }, [notifications]);
 
   return (
     <Layout classes={{ container: { width: '100%', padding: '0px' } }}>

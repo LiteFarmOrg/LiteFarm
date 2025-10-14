@@ -86,7 +86,7 @@ export default function ModalComponent({
 ModalComponent.propTypes = {
   title: PropTypes.node.isRequired || PropTypes.string.isRequired,
   icon: PropTypes.node,
-  contents: PropTypes.arrayOf(PropTypes.string),
+  contents: PropTypes.arrayOf(PropTypes.node),
   dismissModal: PropTypes.func,
   buttonGroup: PropTypes.node,
   children: PropTypes.node,

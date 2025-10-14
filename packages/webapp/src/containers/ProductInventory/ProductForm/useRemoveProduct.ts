@@ -17,7 +17,8 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../Task/saga';
-import { isProductUsedInPlannedTasksSelector, productSelector } from '../../productSlice';
+import { productSelector } from '../../productSlice';
+import { selectIsProductUsedInPlannedTasks } from '../../taskSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { useDeleteSoilAmendmentProductMutation } from '../../../store/api/apiSlice';
 import { TASK_TYPES } from '../../Task/constants';
@@ -53,7 +54,10 @@ const useRemoveProduct = ({
   const product = useSelector(productSelector(productId));
   const productName = product?.name;
 
-  const isProductInUse = useSelector(isProductUsedInPlannedTasksSelector(productId));
+  const isProductInUse = useSelector((state) =>
+    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
+    selectIsProductUsedInPlannedTasks(state, productId),
+  );
 
   const [deleteSoilAmendmentProduct] = useDeleteSoilAmendmentProductMutation();
 

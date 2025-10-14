@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { pendingTasksSelector } from './taskSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
 
@@ -72,26 +71,6 @@ export const productsForTaskTypeSelector = (taskType) => {
       (product) =>
         product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),
     );
-  });
-};
-
-export const isProductUsedInPlannedTasksSelector = (product_id) => {
-  return createSelector([pendingTasksSelector], (pendingTasks) => {
-    if (!product_id || !pendingTasks || pendingTasks.length === 0) {
-      return false;
-    }
-
-    return pendingTasks.some((task) => {
-      if (task.soil_amendment_task_products?.length) {
-        return task.soil_amendment_task_products.some(
-          (taskProduct) => taskProduct.product_id === product_id,
-        );
-      }
-
-      /* Note: other task types (cleaning_task, pest_control_task) will reference product_id directly on their subtask object when that feature is added */
-
-      return false;
-    });
   });
 };
 

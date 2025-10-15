@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -17,37 +17,82 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import { makeSelectValueByKey, valueByKeySelector } from './homeSlice';
 
-export default function Home() {
-  const { t } = useTranslation();
-  const userFarm = useSelector(userFarmSelector);
-  const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);
-  const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
-  const dispatch = useDispatch();
-  const showSwitchFarmModal = useSelector(switchFarmSelector);
-  const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
-  const dismissExportModal = () => dispatch(endExportModal(userFarm.farm_id));
-  const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
-    fileUrls: [userFarm.farm_image_url],
-  });
+const SmallComponent = ({ id }) => {
+  const [counter, setCounter] = useState(0);
+  const [key, setKey] = useState(null);
 
-  const { refetch: refetchSensors } = useGetSensorsQuery();
+  // const selectorCreatedInComponent = makeSelectValueByKey();
+  // const value = useSelector((state) => selectorCreatedInComponent(state, key));
 
-  useEffect(() => {
-    refetchSensors();
-    dispatch(getAlert());
-  }, []);
+  const memoizedSelector = useMemo(() => makeSelectValueByKey(), []);
+  const value = useSelector((state) => memoizedSelector(state, key));
+
+  // const value = useSelector((state) => valueByKeySelector(state, key));
 
   return (
-    <PureHome
-      greeting={t('HOME.GREETING')}
-      first_name={userFarm?.first_name}
-      imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
+    <div
+      style={{
+        border: 'solid 1px #000',
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 20,
+      }}
     >
-      {userFarm ? <WeatherBoard /> : null}
-      {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
+      <b>
+        Component {id}: {value}
+      </b>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 10,
+        }}
+      >
+        <span>{counter}</span>
+        <button onClick={() => setCounter((prev) => prev + 1)}>+</button>
+        <span>{`(triggers re-render)`}</span>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 10,
+        }}
+      >
+        <span>key:</span>
+        <button onClick={() => setKey(1)}>1</button>
+        <button onClick={() => setKey(2)}>2</button>
+        <button onClick={() => setKey(3)}>3</button>
+        <button onClick={() => setKey(4)}>4</button>
+      </div>
+    </div>
+  );
+};
 
-      {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
-    </PureHome>
+export default function Home() {
+  return (
+    <div>
+      <div>
+        <b>Redux store </b>
+        <code>{`{ values: { 1: 10, 2: 20, 3: 30, 4: 40 } }`}</code>
+      </div>
+      <div>
+        <b>Selector </b>
+        <code>{`(key) => values[key]`}</code>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <SmallComponent id={1} />
+        <SmallComponent id={2} />
+        <SmallComponent id={3} />
+        <SmallComponent id={4} />
+        <ol>
+          <li>Selector</li>
+          <li>Selector factory without useMemo</li>
+          <li>Selector factory with useMemo</li>
+        </ol>
+      </div>
+    </div>
   );
 }

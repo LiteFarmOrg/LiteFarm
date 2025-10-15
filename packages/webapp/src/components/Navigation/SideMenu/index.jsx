@@ -215,12 +215,14 @@ const PureSideMenu = ({
 
   useLayoutEffect(() => {
     const rootElement = document.querySelector(':root');
-    if (selectedLanguage.includes('ml')) {
+    if (isMobile) {
+      rootElement.style.setProperty('--global-side-menu-width', '0px');
+    } else if (selectedLanguage.includes('ml')) {
       rootElement.style.setProperty('--global-side-menu-width', '224px');
     } else {
       rootElement.style.setProperty('--global-side-menu-width', '188px');
     }
-  }, [selectedLanguage]);
+  }, [selectedLanguage, isMobile]);
 
   const toggleSideMenu = () => {
     setHasBeenExpanded(isCompact);

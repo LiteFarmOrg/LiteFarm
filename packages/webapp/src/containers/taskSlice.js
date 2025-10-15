@@ -363,3 +363,16 @@ export const taskWithProductSelector = (task_id) =>
     }
     return task;
   });
+
+export const selectIsProductUsedInPlannedTasks = createSelector(
+  [pendingTasksSelector, (_state, product_id) => product_id],
+  (pendingTasks, product_id) => {
+    if (!product_id || !pendingTasks?.length) {
+      return false;
+    }
+
+    return pendingTasks.some((task) =>
+      task.soil_amendment_task_products?.some((product) => product.product_id === product_id),
+    );
+  },
+);

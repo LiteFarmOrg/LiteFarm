@@ -94,21 +94,19 @@ export const useGetMenuItems = () => {
           },
         ],
       });
-      list.push(
-        {
-          label: t('MENU.DOCUMENTS'),
-          icon: <DocumentsIcon />,
-          path: '/documents',
-          key: 'documents',
-        },
-        {
-          label: t('MENU.INVENTORY'),
-          icon: <InventoryIcon />,
-          path: PRODUCT_INVENTORY_URL,
-          key: 'inventory',
-        },
-      );
+      list.push({
+        label: t('MENU.DOCUMENTS'),
+        icon: <DocumentsIcon />,
+        path: '/documents',
+        key: 'documents',
+      });
     }
+    list.push({
+      label: t('MENU.INVENTORY'),
+      icon: <InventoryIcon />,
+      path: PRODUCT_INVENTORY_URL,
+      key: 'inventory',
+    });
     return list;
   }, [isAdmin, t]);
 

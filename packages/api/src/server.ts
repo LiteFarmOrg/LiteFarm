@@ -172,6 +172,7 @@ import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
+import weatherRoute from './routes/weatherRoute.js';
 import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
 import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
@@ -342,6 +343,7 @@ app
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
+  .use('/weather', weatherRoute)
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
 

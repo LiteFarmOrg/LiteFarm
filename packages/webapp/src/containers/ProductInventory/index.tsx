@@ -25,15 +25,17 @@ import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
 import { productsSelector } from '../productSlice';
-import { Product } from '../../store/api/types';
+import { Product, SoilAmendmentProduct } from '../../store/api/types';
 import { TASK_TYPES } from '../Task/constants';
 import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
+import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filterSlice';
+import { useFilteredInventory } from './useFilteredInventory';
 
-export type TableProduct = Product & {
+export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
   isLibraryProduct: boolean;
 };
@@ -75,8 +77,10 @@ export default function ProductInventory() {
       isLibraryProduct: product.product_id % 2 === 0,
     }));
 
-  // Complete placeholder for actual filter state
-  const [filtersActive, setFiltersActive] = useState(true);
+  const filteredInventory = useFilteredInventory(inventory);
+  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('inventory'));
+  const clearFilters = () => dispatch(resetInventoryFilter());
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<FormMode | null>(null);
   const [productFormType, setProductFormType] = useState<Product['type'] | null>(null);
@@ -90,7 +94,7 @@ export default function ProductInventory() {
   };
 
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
-    inventory,
+    filteredInventory,
     makeProductsSearchableString,
   ) as [TableProduct[], SearchProps['searchString'], SearchProps['setSearchString']];
 
@@ -189,8 +193,8 @@ export default function ProductInventory() {
         zIndexBase={zIndexBase}
         isDesktop={isDesktop}
         totalInventoryCount={totalInventoryCount}
-        isFilterActive={filtersActive}
-        clearFilters={() => setFiltersActive(false)}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
         history={history}
         showActionFloaterButton={
           /* placeholder. Eventually button should be hid when form is open */

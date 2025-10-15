@@ -328,6 +328,16 @@ export interface SensorReadings {
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];
 }
+
+export interface WeatherData {
+  humidity: number;
+  icon: string;
+  date: number;
+  temp: number;
+  wind: number;
+  city: string;
+  measurement: string;
+}
 export interface IrrigationPrescription {
   id: number;
   location_id: string;

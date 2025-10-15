@@ -133,16 +133,17 @@ const SoilAmendmentProductCard = ({
   const productId = getValues(PRODUCT_ID);
   const purposes = watch(PURPOSES);
 
+  const initialProductId = useRef(productId);
+
   const selectRef = useRef<SelectRef>(null);
   const productOptions = products.flatMap(({ product_id, name, ...rest }) => {
-    const { removed } = rest;
-    if (removed && product_id !== productId) {
+    if (rest.removed && product_id !== initialProductId.current) {
       return [];
     }
 
-    const label = name + (removed ? ` (${t('common:REMOVED')})` : '');
+    const label = name + (rest.removed ? ` (${t('common:REMOVED')})` : '');
 
-    return { value: product_id, label, isDisabled: removed, data: rest };
+    return { value: product_id, label, data: rest };
   });
 
   useEffect(() => {

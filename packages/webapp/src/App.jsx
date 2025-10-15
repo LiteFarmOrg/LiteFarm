@@ -49,7 +49,7 @@ function App() {
                 horizontal: 'center',
               }}
               classes={{
-                root: clsx(styles.root, isCompactSideMenu && styles.isCompact),
+                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
                 containerRoot: clsx(
                   styles.containerRoot,
                   isCompactSideMenu && styles.compactContainerRoot,

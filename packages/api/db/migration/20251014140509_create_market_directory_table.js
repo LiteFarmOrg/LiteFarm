@@ -34,6 +34,7 @@ export const up = async (knex) => {
     table.string('facebook');
     table.string('x');
     table.string('youtube');
+    table.string('linkedin');
     table
       .string('created_by_user_id')
       .references('user_id')

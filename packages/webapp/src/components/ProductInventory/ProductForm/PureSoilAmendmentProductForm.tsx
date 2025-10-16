@@ -80,7 +80,7 @@ const PureSoilAmendmentProductForm = ({
     }
   }, [mode]);
 
-  const customProductNames: SoilAmendmentProduct['name'][] = products
+  const customProductNames = products
     .filter((product) => !isLibraryProduct(product))
     .map(({ name }) => name);
 

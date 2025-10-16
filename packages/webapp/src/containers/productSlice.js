@@ -56,6 +56,7 @@ const productSelectors = productAdapter.getSelectors(
   (state) => state.entitiesReducer[productSlice.name],
 );
 
+// Select farm products including removed ones
 export const productsSelector = createSelector(
   [productSelectors.selectAll, loginSelector],
   (products, { farm_id }) => {
@@ -63,7 +64,20 @@ export const productsSelector = createSelector(
   },
 );
 
-// Filters products by library/custom, task type, farm, and removed status
+// Select farm products for a given type including removed ones
+export const productsForTaskTypeSelector = (taskType) => {
+  return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
+    if (taskType === undefined) {
+      return undefined;
+    }
+    return products.filter(
+      (product) =>
+        product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),
+    );
+  });
+};
+
+// Select products filtered by library/custom, type, farm, and removed status
 export const makeFilteredProductsSelector = () =>
   createSelector(
     [productSelectors.selectAll, loginSelector, (_state, args) => args],
@@ -82,18 +96,6 @@ export const makeFilteredProductsSelector = () =>
       });
     },
   );
-
-export const productsForTaskTypeSelector = (taskType) => {
-  return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
-    if (taskType === undefined) {
-      return undefined;
-    }
-    return products.filter(
-      (product) =>
-        product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),
-    );
-  });
-};
 
 export const productEntitiesSelector = productSelectors.selectEntities;
 

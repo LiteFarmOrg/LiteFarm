@@ -12,16 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useMemo } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { filteredProductsSelector } from '../../productSlice';
+import { makeFilteredProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { FormContentProps } from '.';
+
+const productsSelectorArgs = { type: TASK_TYPES.SOIL_AMENDMENT };
 
 export default function SoilAmendmentProductForm({ mode, productId }: FormContentProps) {
   const { t } = useTranslation();
@@ -38,8 +41,10 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
     label: t(`ADD_PRODUCT.${key}_FERTILISER`),
   }));
 
-  const soilAmendmentProducts = useSelector(
-    filteredProductsSelector({ type: TASK_TYPES.SOIL_AMENDMENT }),
+  const productsSelector = useMemo(() => makeFilteredProductsSelector(), []);
+  const soilAmendmentProducts = useSelector((state) =>
+    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
+    productsSelector(state, productsSelectorArgs),
   );
 
   const isReadOnly = mode === FormMode.READ_ONLY;

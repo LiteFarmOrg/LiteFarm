@@ -64,23 +64,24 @@ export const productsSelector = createSelector(
 );
 
 // Filters products by library/custom, task type, farm, and removed status
-export const filteredProductsSelector = ({
-  includeLibrary = true,
-  includeCustom = true,
-  type = '',
-  farm = false,
-  includeRemoved = false,
-}) =>
-  createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
-    return products.filter((product) => {
-      const matchesIsLibrary = isLibraryProduct(product) ? includeLibrary : includeCustom;
-      const matchesType = !type || product.type === type;
-      const matchesFarm = !farm || product.farm_id === farm_id;
-      const matchesRemoved = includeRemoved || !product.removed;
+export const makeFilteredProductsSelector = () =>
+  createSelector(
+    [productSelectors.selectAll, loginSelector, (_state, args) => args],
+    (
+      products,
+      { farm_id },
+      { includeLibrary, includeCustom = true, type = '', farm = false, includeRemoved = false },
+    ) => {
+      return products.filter((product) => {
+        const matchesIsLibrary = isLibraryProduct(product) ? includeLibrary : includeCustom;
+        const matchesType = !type || product.type === type;
+        const matchesFarm = !farm || product.farm_id === farm_id;
+        const matchesRemoved = includeRemoved || !product.removed;
 
-      return matchesIsLibrary && matchesType && matchesFarm && matchesRemoved;
-    });
-  });
+        return matchesIsLibrary && matchesType && matchesFarm && matchesRemoved;
+      });
+    },
+  );
 
 export const productsForTaskTypeSelector = (taskType) => {
   return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {

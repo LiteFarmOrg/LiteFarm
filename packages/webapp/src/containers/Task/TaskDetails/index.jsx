@@ -1,10 +1,10 @@
 import PureTaskDetails from '../../../components/Task/PureTaskDetails';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
-import { filteredProductsSelector } from '../../productSlice';
+import { makeFilteredProductsSelector } from '../../productSlice';
 import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -28,9 +28,14 @@ function TaskDetails() {
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
-  const products = useSelector(
-    filteredProductsSelector({ type: selectedTaskType.task_translation_key?.toLowerCase() }),
+  const productsSelector = useMemo(() => makeFilteredProductsSelector(), []);
+  const productsSelectorArgs = useMemo(
+    () => ({ type: selectedTaskType.task_translation_key?.toLowerCase() }),
+    [selectedTaskType.task_translation_key],
   );
+  /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
+  const products = useSelector((state) => productsSelector(state, productsSelectorArgs));
+
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );

@@ -41,21 +41,20 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
     return (
       <Menu
         open={isExpanded}
-        className={clsx(styles.list, styles.subList, styles.tertiary)}
+        className={clsx(styles.list)}
+        classes={{ list: styles.popoverMenu }}
         {...props}
       >
-        {children}
+        <List component="div" disablePadding className={clsx(styles.subList, styles.tertiary)}>
+          {children}
+        </List>
       </Menu>
     );
   }
 
   return (
     <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-      <List
-        component="div"
-        disablePadding
-        className={clsx(styles.list, styles.subList, styles.tertiary)}
-      >
+      <List component="div" disablePadding className={clsx(styles.subList, styles.tertiary)}>
         {children}
       </List>
     </Collapse>

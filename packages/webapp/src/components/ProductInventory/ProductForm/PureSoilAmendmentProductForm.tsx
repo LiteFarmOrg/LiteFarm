@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -80,9 +80,24 @@ const PureSoilAmendmentProductForm = ({
     }
   }, [mode]);
 
-  const customProductNames = products
-    .filter((product) => !isLibraryProduct(product))
-    .map(({ name }) => name);
+  const { customProductsInInventory } = useMemo(() => {
+    const libraryProductsOutsideInventory: SoilAmendmentProduct[] = [];
+    const customProductsInInventory: SoilAmendmentProduct[] = [];
+
+    products.forEach((product) => {
+      if (isLibraryProduct(product)) {
+        if (!product.farm_id || product.removed) {
+          libraryProductsOutsideInventory.push(product);
+        }
+      } else if (!product.removed) {
+        customProductsInInventory.push(product);
+      }
+    });
+
+    return { libraryProductsOutsideInventory, customProductsInInventory };
+  }, [products]);
+
+  const customProductNames = customProductsInInventory.map(({ name }) => name);
 
   return (
     <div className={styles.soilAmendmentProductForm}>

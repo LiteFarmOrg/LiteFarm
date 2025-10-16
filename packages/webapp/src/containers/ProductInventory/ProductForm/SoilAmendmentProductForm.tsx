@@ -24,7 +24,7 @@ import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { FormContentProps } from '.';
 
-const productsSelectorArgs = { type: TASK_TYPES.SOIL_AMENDMENT };
+const productsSelectorArgs = { type: TASK_TYPES.SOIL_AMENDMENT, includeRemoved: true };
 
 export default function SoilAmendmentProductForm({ mode, productId }: FormContentProps) {
   const { t } = useTranslation();

@@ -81,6 +81,7 @@ const PureSoilAmendmentProductForm = ({
   }, [mode]);
 
   const { customProductsInInventory } = useMemo(() => {
+    // LF-4963 - library product select options
     const libraryProductsOutsideInventory: SoilAmendmentProduct[] = [];
     const customProductsInInventory: SoilAmendmentProduct[] = [];
 

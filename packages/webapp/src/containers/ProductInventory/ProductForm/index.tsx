@@ -135,6 +135,7 @@ export default function ProductForm({
           desktopSideDrawerContainer: styles.sideDrawerContainer,
           drawerHeader: styles.drawerHeader,
         }}
+        closeButtonLabel={t('common:CANCEL')}
       >
         <div className={styles.formWrapper}>
           {FormContent && (

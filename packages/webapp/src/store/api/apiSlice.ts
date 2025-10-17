@@ -64,7 +64,7 @@ import type {
 } from './types';
 
 import { addDaysToDate } from '../../util/date';
-import { API_TAGS, ApiTag, FARM_TAGS } from './apiTags';
+import { API_TAGS, ApiTag } from './apiTags';
 
 /**
  * Invalidates one or more RTK Query cache tags.
@@ -98,11 +98,11 @@ export const api = createApi({
     // <ResultType, QueryArg>
     getAnimals: build.query<Animal[], void>({
       query: () => `${animalsUrl}`,
-      providesTags: [FARM_TAGS.ANIMALS], // if tags are declared as objects
+      providesTags: ['Animals'],
     }),
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,
-      providesTags: ['AnimalBatches'], // if tags are declared as array of strings
+      providesTags: ['AnimalBatches'],
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,

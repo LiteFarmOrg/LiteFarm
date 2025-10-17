@@ -151,7 +151,7 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api, invalidateTags } from '../store/api/apiSlice';
-import { FARM_LIBRARY_TAGS, FARM_TAGS, FarmLibraryTags, FarmTags } from '../store/api/apiTags';
+import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
@@ -628,11 +628,6 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
-
-  // if tags are declared as objects
-  yield put(invalidateTags([...Object.values(FARM_TAGS), ...Object.values(FARM_LIBRARY_TAGS)]));
-
-  // if tags are declared as array of strings
   yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state

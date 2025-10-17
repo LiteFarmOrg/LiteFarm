@@ -42,11 +42,18 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     lastName: user.last_name,
   });
 
-  const socialMedia = new SocialMedia({
+  const instagram = new SocialMedia({
     connector,
-    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia`,
+    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-instagram`,
     name: 'Instagram',
-    url: 'https://www.instagram.com/dfc_test_farm_insta/',
+    url: 'https://www.instagram.com/dfc_test_farm/',
+  });
+
+  const twitter = new SocialMedia({
+    connector,
+    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-twitter`,
+    name: 'Twitter',
+    url: 'https://twitter.com/dfc_test_farm',
   });
 
   const farm = new Enterprise({
@@ -59,10 +66,17 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
 
   // setter methods on Agent.ts
   farm.addEmailAddress(user.email!);
-  farm.addSocialMedia(socialMedia);
+  farm.addSocialMedia(instagram);
+  farm.addSocialMedia(twitter);
   farm.addWebsite('https://www.dfc_test_farm.com');
 
-  const exportFormattedData = await connector.export([farm, address, mainContact, socialMedia]);
+  const exportFormattedData = await connector.export([
+    farm,
+    address,
+    mainContact,
+    instagram,
+    twitter,
+  ]);
 
   return exportFormattedData;
 };

@@ -41,6 +41,7 @@ type CommonDrawerProps = {
     drawerContainer?: string; // applied to all drawers
     desktopSideDrawerContainer?: string;
   };
+  closeButtonLabel?: string;
 };
 
 type DrawerProps = CommonDrawerProps &
@@ -81,6 +82,7 @@ const Drawer = ({
   desktopSideDrawerDirection = 'right',
   isCompactSideMenu,
   addBackdrop = true,
+  closeButtonLabel,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -126,9 +128,12 @@ const Drawer = ({
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
-          <IconButton className={styles.close} onClick={onClose}>
-            <Close />
-          </IconButton>
+          <div className={styles.closeButtonWrapper}>
+            {closeButtonLabel && <span> {closeButtonLabel}</span>}
+            <IconButton className={styles.close} onClick={onClose}>
+              <Close />
+            </IconButton>
+          </div>
         </div>
         <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}

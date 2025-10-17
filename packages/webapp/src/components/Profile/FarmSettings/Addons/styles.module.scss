@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin.scss';
+@import '@assets/mixin.scss';
 
 .container {
+  margin: 16px;
   display: flex;
   padding: 16px;
   flex-direction: column;

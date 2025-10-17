@@ -13,19 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { putFarm } from '../../../saga';
 import { isAdminSelector, userFarmSelector } from '../../../userFarmSlice';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import PureBasicProfile from '../../../../components/Profile/FarmSettings/PureBasicProfile';
 import CardLayout from '../../../../components/Layout/CardLayout';
-import Tab, { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
+import RouterTab from '../../../../components/RouterTab';
+import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const BasicProfile = () => {
   const history = useHistory();
-  const match = useRouteMatch();
   const routerTabs = useFarmSettingsRouterTabs();
 
   const isAdmin = useSelector(isAdminSelector);
@@ -39,12 +39,7 @@ const BasicProfile = () => {
 
   return (
     <CardLayout>
-      <Tab
-        tabs={routerTabs}
-        variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
-        onClick={(tab) => history.push(tab.path)}
-      />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
       <PureBasicProfile
         isAdmin={isAdmin}
         userFarm={userFarm}

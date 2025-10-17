@@ -13,25 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CardLayout from '../../../../components/Layout/CardLayout';
-import Tab, { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
+import RouterTab from '../../../../components/RouterTab';
+import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 
 const MarketDirectory = () => {
   const history = useHistory();
-  const match = useRouteMatch();
 
   const routerTabs = useFarmSettingsRouterTabs();
 
   return (
     <CardLayout>
-      <Tab
-        tabs={routerTabs}
-        variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
-        onClick={(tab) => history.push(tab.path)}
-      />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
       <h3>
         <i>Coming soon!</i>
       </h3>

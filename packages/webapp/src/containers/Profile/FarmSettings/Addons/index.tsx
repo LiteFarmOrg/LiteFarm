@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -20,12 +20,12 @@ import PureFarmAddons from '../../../../components/Profile/FarmSettings/Addons';
 import { useGetFarmAddonQuery, useDeleteFarmAddonMutation } from '../../../../store/api/apiSlice';
 import { PARTNERS } from '../../../AddSensors/constants';
 import CardLayout from '../../../../components/Layout/CardLayout';
-import Tab, { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
+import RouterTab from '../../../../components/RouterTab';
+import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const FarmAddons = () => {
   const history = useHistory();
-  const match = useRouteMatch();
   const routerTabs = useFarmSettingsRouterTabs();
 
   const { data: esciDataArray = [] } = useGetFarmAddonQuery(
@@ -65,12 +65,7 @@ const FarmAddons = () => {
   return (
     hasAnyActiveConnection && (
       <CardLayout>
-        <Tab
-          tabs={routerTabs}
-          variant={TabVariants.UNDERLINE}
-          isSelected={(tab) => tab.path === match.url}
-          onClick={(tab) => history.push(tab.path)}
-        />
+        <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
         <PureFarmAddons
           hasActiveConnection={hasActiveConnection}
           organizationIds={organizationIds}

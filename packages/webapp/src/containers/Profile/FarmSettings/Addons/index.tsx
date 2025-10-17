@@ -60,19 +60,15 @@ const FarmAddons = () => {
     esci: () => handleDisconnect(esciData?.id),
   };
 
-  const hasAnyActiveConnection = Object.values(hasActiveConnection).some(Boolean);
-
   return (
-    hasAnyActiveConnection && (
-      <CardLayout>
-        <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
-        <PureFarmAddons
-          hasActiveConnection={hasActiveConnection}
-          organizationIds={organizationIds}
-          onDisconnect={onDisconnect}
-        />
-      </CardLayout>
-    )
+    <CardLayout>
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
+      <PureFarmAddons
+        hasActiveConnection={hasActiveConnection}
+        organizationIds={organizationIds}
+        onDisconnect={onDisconnect}
+      />
+    </CardLayout>
   );
 };
 

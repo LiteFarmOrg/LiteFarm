@@ -33,6 +33,8 @@ import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 import { NoSoilSampleLocationsModal } from '../../Modals/NoSoilSampleLocationsModal';
+import { NoSoilAmendmentProductsModal } from '../../Modals/NoSoilAmendmentProductsModal';
+import { PRODUCT_INVENTORY_URL } from '../../../util/siteMapConstants';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -72,6 +74,7 @@ export const PureTaskTypeSelection = ({
   hasAnimalMovementLocations,
   hasAnimals,
   hasSoilSampleLocations,
+  hasSoilAmendmentProducts,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -96,6 +99,7 @@ export const PureTaskTypeSelection = ({
 
   const goToCatalogue = () => history.push('/crop_catalogue');
   const goToMap = () => history.push('/map');
+  const goToInventory = () => history.push(PRODUCT_INVENTORY_URL);
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setErrorModal('PLANT_TASK');
@@ -112,7 +116,8 @@ export const PureTaskTypeSelection = ({
       ((isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) &&
         !hasCurrentManagementPlans) ||
       (isTaskType(taskType, 'MOVEMENT_TASK') && !hasAnimalMovementLocations) ||
-      (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations)
+      (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations) ||
+      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts)
     ) {
       return setErrorModal(taskType.task_translation_key);
     }
@@ -237,6 +242,12 @@ export const PureTaskTypeSelection = ({
           dismissModal={() => setErrorModal('')}
           goToMap={goToMap}
           isAdmin={isAdmin}
+        />
+      )}
+      {errorModal === 'SOIL_AMENDMENT_TASK' && (
+        <NoSoilAmendmentProductsModal
+          dismissModal={() => setErrorModal('')}
+          goToInventory={goToInventory}
         />
       )}
     </>

@@ -92,39 +92,30 @@ export const PureTaskTypeSelection = ({
     onContinue();
   };
 
-  const [showPlantTaskModal, setShowPlantTaskModal] = useState();
+  const [errorModal, setErrorModal] = useState('');
+
   const goToCatalogue = () => history.push('/crop_catalogue');
   const goToMap = () => history.push('/map');
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
-      setShowPlantTaskModal(true);
+      setErrorModal('PLANT_TASK');
     } else {
       goToCatalogue();
     }
   };
-  const [showNoManagementPlanModal, setShowNoManagementPlanModal] = useState();
-  const onHarvestTransplantTaskClick = (task_type_id) => {
-    hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
-  };
-
-  const [showNoAnimalLocationsModal, setShowNoAnimalLocationsModal] = useState();
-  const onMovementTaskClick = (task_type_id) => {
-    hasAnimalMovementLocations ? onSelectTask(task_type_id) : setShowNoAnimalLocationsModal(true);
-  };
-
-  const [showNoSoilSampleLocationsModal, setShowNoSoilSampleLocationsModal] = useState();
-  const onSoilSampleTaskClick = (task_type_id) => {
-    hasSoilSampleLocations ? onSelectTask(task_type_id) : setShowNoSoilSampleLocationsModal(true);
-  };
 
   const onTileClick = (taskType) => {
-    if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
-    if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
-      return onHarvestTransplantTaskClick(taskType.task_type_id);
+    if (isTaskType(taskType, 'PLANT_TASK')) {
+      return onPlantTaskTypeClick(taskType.task_type_id);
     }
-    if (isTaskType(taskType, 'MOVEMENT_TASK')) return onMovementTaskClick(taskType.task_type_id);
-    if (isTaskType(taskType, 'SOIL_SAMPLE_TASK'))
-      return onSoilSampleTaskClick(taskType.task_type_id);
+    if (
+      ((isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) &&
+        !hasCurrentManagementPlans) ||
+      (isTaskType(taskType, 'MOVEMENT_TASK') && !hasAnimalMovementLocations) ||
+      (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations)
+    ) {
+      return setErrorModal(taskType.task_translation_key);
+    }
     return onSelectTask(taskType.task_type_id);
   };
 
@@ -225,28 +216,25 @@ export const PureTaskTypeSelection = ({
           </div>
         )}
       </Form>
-      {showPlantTaskModal && shouldShowPlantTaskSpotLight && (
+      {errorModal === 'PLANT_TASK' && shouldShowPlantTaskSpotLight && (
         <PlantingTaskModal
           goToCatalogue={goToCatalogue}
-          dismissModal={() => setShowPlantTaskModal(false)}
+          dismissModal={() => setErrorModal('')}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       )}
-      {showNoManagementPlanModal && (
+      {['TRANSPLANT_TASK', 'HARVEST_TASK'].includes(errorModal) && (
         <NoCropManagementPlanModal
-          dismissModal={() => setShowNoManagementPlanModal(false)}
+          dismissModal={() => setErrorModal('')}
           goToCatalogue={goToCatalogue}
         />
       )}
-      {showNoAnimalLocationsModal && (
-        <NoAnimalLocationsModal
-          dismissModal={() => setShowNoAnimalLocationsModal(false)}
-          goToMap={goToMap}
-        />
+      {errorModal === 'MOVEMENT_TASK' && (
+        <NoAnimalLocationsModal dismissModal={() => setErrorModal('')} goToMap={goToMap} />
       )}
-      {showNoSoilSampleLocationsModal && (
+      {errorModal === 'SOIL_SAMPLE_TASK' && (
         <NoSoilSampleLocationsModal
-          dismissModal={() => setShowNoSoilSampleLocationsModal(false)}
+          dismissModal={() => setErrorModal('')}
           goToMap={goToMap}
           isAdmin={isAdmin}
         />

@@ -30,7 +30,7 @@ function TaskDetails() {
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const productsSelector = useMemo(() => makeFilteredProductsSelector(), []);
   const productsSelectorArgs = useMemo(
-    () => ({ type: selectedTaskType.task_translation_key?.toLowerCase() }),
+    () => ({ type: selectedTaskType.task_translation_key?.toLowerCase(), filterByFarm: true }),
     [selectedTaskType.task_translation_key],
   );
   /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */

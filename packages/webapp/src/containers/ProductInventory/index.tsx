@@ -36,7 +36,7 @@ import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filter
 import { useFilteredInventory } from './useFilteredInventory';
 import { RootState } from '../../store/store';
 
-const productsSelectorArgs = { farm: true, type: TASK_TYPES.SOIL_AMENDMENT };
+const productsSelectorArgs = { filterByFarm: true, type: TASK_TYPES.SOIL_AMENDMENT };
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;

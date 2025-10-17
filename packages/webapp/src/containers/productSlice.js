@@ -88,14 +88,14 @@ export const makeFilteredProductsSelector = () =>
         includeLibrary = true,
         includeCustom = true,
         type = '',
-        farm = false,
+        filterByFarm = false,
         includeRemoved = false,
       },
     ) => {
       return products.filter((product) => {
         const matchesIsLibrary = isLibraryProduct(product) ? includeLibrary : includeCustom;
         const matchesType = !type || product.type === type;
-        const matchesFarm = !farm || product.farm_id === farm_id;
+        const matchesFarm = !filterByFarm || product.farm_id === farm_id;
         const matchesRemoved = includeRemoved || !product.removed;
 
         return matchesIsLibrary && matchesType && matchesFarm && matchesRemoved;

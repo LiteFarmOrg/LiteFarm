@@ -1,0 +1,115 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../Task/saga';
+import { productSelector } from '../../productSlice';
+import { selectIsProductUsedInPlannedTasks } from '../../taskSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
+import { useDeleteSoilAmendmentProductMutation } from '../../../store/api/apiSlice';
+import { TASK_TYPES } from '../../Task/constants';
+import type { Product } from '../../../store/api/types';
+import { FormMode } from '..';
+
+interface useRemoveProductProps {
+  productFormType: Product['type'] | null;
+  formMode: FormMode | null;
+  productId?: Product['product_id'];
+  onRemovalSuccess: () => void;
+  onRemovalCancel: () => void;
+}
+
+export enum ModalType {
+  NONE = 'none',
+  CONFIRM = 'confirm',
+  CANNOT_REMOVE = 'cannotRemove',
+}
+
+const useRemoveProduct = ({
+  productFormType,
+  formMode,
+  productId,
+  onRemovalSuccess,
+  onRemovalCancel,
+}: useRemoveProductProps) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
+
+  const product = useSelector(productSelector(productId));
+  const productName = product?.name;
+
+  const isProductInUse = useSelector((state) =>
+    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
+    selectIsProductUsedInPlannedTasks(state, productId),
+  );
+
+  const [deleteSoilAmendmentProduct] = useDeleteSoilAmendmentProductMutation();
+
+  useEffect(() => {
+    if (formMode === FormMode.DELETE && productId) {
+      if (isProductInUse) {
+        setModalType(ModalType.CANNOT_REMOVE);
+      } else {
+        setModalType(ModalType.CONFIRM);
+      }
+    }
+  }, [formMode, productId, isProductInUse]);
+
+  const onRemove = async () => {
+    if (!formMode || !productFormType || !productId) {
+      return;
+    }
+
+    let apiCall = null;
+
+    if (productFormType === TASK_TYPES.SOIL_AMENDMENT) {
+      apiCall = deleteSoilAmendmentProduct;
+    } else {
+      throw new Error(`Unsupported product type: ${productFormType}`);
+    }
+
+    try {
+      await apiCall(productId).unwrap();
+
+      dispatch(enqueueSuccessSnackbar(t('message:PRODUCT.SUCCESS.REMOVE')));
+      setModalType(ModalType.NONE);
+      onRemovalSuccess();
+
+      dispatch(getProducts());
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:PRODUCT.ERROR.REMOVE')));
+      setModalType(ModalType.NONE);
+      onRemovalCancel();
+      return;
+    }
+  };
+
+  return {
+    modalType,
+    onRemove,
+    cancelRemoval: () => {
+      setModalType(ModalType.NONE);
+      onRemovalCancel();
+    },
+    productName,
+  };
+};
+
+export default useRemoveProduct;

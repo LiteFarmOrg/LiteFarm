@@ -13,18 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherData } from './types';
+import { useTranslation } from 'react-i18next';
+import ModalComponent from '../ModalComponent/v2';
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
-      query: ({ measurementSystem }) => `${weatherUrl}`,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
-    }),
-  }),
-});
-
-export const { useGetWeatherQuery } = weatherApi;
+export default function UnableToRemoveProductModal({
+  dismissModal,
+  productName,
+}: {
+  dismissModal: () => void;
+  productName: string;
+}) {
+  const { t } = useTranslation();
+  return (
+    <ModalComponent
+      title={t('INVENTORY.UNABLE_TO_REMOVE.TITLE')}
+      contents={[t('INVENTORY.UNABLE_TO_REMOVE.BODY', { name: productName })]}
+      dismissModal={dismissModal}
+      error
+    />
+  );
+}

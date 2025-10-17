@@ -22,13 +22,14 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
   }),
 );
 import mocks from './mock.factories.js';
+import NotificationUser from '../src/models/notificationUserModel.js';
 
 describe('Notification tests', () => {
   function getRequest(url, { user_id = user.user_id, farm_id = farm.farm_id }, callback) {
@@ -139,18 +140,140 @@ describe('Notification tests', () => {
         .end(callback);
     }
 
-    test('Users can clear alert flag on a set of their notifications', async (done) => {
-      const [notification] = await mocks.notification_userFactory({
+    test("Clears all alerts for the user's current farm when notification id's are missing.", async (done) => {
+      // Notifications in current farm
+      const [notification1] = await mocks.notification_userFactory({
         promisedUserFarm: [userFarm],
       });
-      expect(notification.alert).toBe(true);
-      clearAlerts({ notification_ids: [notification.notification_id] }, {}, (err, res) => {
+      const [notification2] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+
+      // Notification in another farm
+      const [otherFarm] = await mocks.farmFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
+      const [otherFarmNotification] = await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
+
+      expect(notification1.alert).toBe(true);
+      expect(notification2.alert).toBe(true);
+      expect(otherFarmNotification.alert).toBe(true);
+
+      clearAlerts(undefined, {}, async (err, res) => {
         expect(err).toBe(null);
         expect(res.status).toBe(200);
-        getRequest('/notification_user', {}, (_, res) => {
-          expect(res.body[0].alert).toBe(false);
-          done();
+
+        const notifications = await NotificationUser.getNotificationsForFarmUser(
+          farm.farm_id,
+          user.user_id,
+        );
+
+        const otherFarmNotifications = await NotificationUser.getNotificationsForFarmUser(
+          otherFarm.farm_id,
+          user.user_id,
+        );
+
+        expect(notifications[0].alert).toBe(false);
+        expect(notifications[1].alert).toBe(false);
+        expect(otherFarmNotifications[0].alert).toBe(true);
+
+        done();
+      });
+    });
+
+    test("Clears only the specified alerts when notification id's are provided", async (done) => {
+      // Notifications in current farm
+      const [notification1] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+      const [notification2] = await mocks.notification_userFactory({
+        promisedUserFarm: [userFarm],
+      });
+      // Notifications in another farm
+      const [otherFarm] = await mocks.farmFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
+      const [otherFarmNotification] = await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
+
+      expect(notification1.alert).toBe(true);
+      expect(notification2.alert).toBe(true);
+      expect(otherFarmNotification.alert).toBe(true);
+
+      clearAlerts({ notification_ids: [notification1.notification_id] }, {}, async (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(200);
+
+        const notifications = await NotificationUser.getNotificationsForFarmUser(
+          farm.farm_id,
+          user.user_id,
+        );
+        const otherFarmNotifications = await NotificationUser.getNotificationsForFarmUser(
+          otherFarm.farm_id,
+          user.user_id,
+        );
+
+        notifications.forEach(({ alert, notification_id }) => {
+          if (notification_id === notification1.notification_id) {
+            expect(alert).toBe(false);
+          } else {
+            expect(alert).toBe(true);
+          }
         });
+
+        expect(otherFarmNotifications[0].alert).toBe(true);
+
+        done();
+      });
+    });
+
+    test('Does not clear alerts for another farm when provided notification id belongs to another farm', async (done) => {
+      // Notification for another farm
+      const [otherFarm] = await mocks.farmFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [user],
+        promisedFarm: [otherFarm],
+      });
+      const [otherFarmNotification] = await mocks.notification_userFactory({
+        promisedUserFarm: [otherUserFarm],
+      });
+
+      expect(otherFarmNotification.alert).toBe(true);
+
+      // Try to clear using a notification_id that belongs to another farm
+      clearAlerts(
+        { notification_ids: [otherFarmNotification.notification_id] },
+        {},
+        async (err, res) => {
+          expect(err).toBe(null);
+          expect(res.status).toBe(200);
+
+          const otherFarmNotifications = await NotificationUser.getNotificationsForFarmUser(
+            otherFarm.farm_id,
+            user.user_id,
+          );
+
+          // Unchanged
+          expect(otherFarmNotifications[0].alert).toBe(true);
+
+          done();
+        },
+      );
+    });
+
+    test('Responds with 400 when notification_ids contains non-UUID values', (done) => {
+      clearAlerts({ notification_ids: [123, 'not-a-uuid'] }, {}, (err, res) => {
+        expect(err).toBe(null);
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBeDefined();
+        done();
       });
     });
 

@@ -13,18 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherData } from './types';
+import express from 'express';
+import weatherController from '../controllers/weatherController.js';
+import authFarmId from '../middleware/acl/authFarmId.js';
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
-      query: ({ measurementSystem }) => `${weatherUrl}`,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
-    }),
-  }),
-});
+const router = express.Router();
 
-export const { useGetWeatherQuery } = weatherApi;
+router.get('/', authFarmId, weatherController.getWeather);
+
+export default router;

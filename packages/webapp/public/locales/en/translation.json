@@ -1143,7 +1143,15 @@
   "INVENTORY": {
     "PRODUCT_NAME": "Product name",
     "PRODUCT_TYPE": "Product type",
-    "SOIL_AMENDMENT": "Soil amendment"
+    "REMOVE_CONFIRMATION": {
+      "BODY": "Are you sure you want to remove the product <strong>{{name}}</strong> from the inventory?",
+      "TITLE": "Remove product from inventory?"
+    },
+    "SOIL_AMENDMENT": "Soil amendment",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "This product is still used in a planned task. At least one soil amendment task is scheduled with “{{name}}”.",
+      "TITLE": "Unable to remove"
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
@@ -1506,6 +1514,10 @@
     "TASK_REASSIGNED": {
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
+    },
+    "TASK_RECOMPLETED_BY_OTHER_USER": {
+      "BODY": "A {{taskType}} task assigned to you was revised and recompleted by {{assigner}}.",
+      "TITLE": "Task recompleted"
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",

@@ -49,8 +49,11 @@ function App() {
                 horizontal: 'center',
               }}
               classes={{
-                root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
-                containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
+                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                containerRoot: clsx(
+                  styles.containerRoot,
+                  isCompactSideMenu && styles.compactContainerRoot,
+                ),
               }}
               // https://notistack.com/features/customization#custom-component
               Components={{ common: NotistackSnackbar }}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024-25 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,27 +14,31 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { setAnimalsFilter, animalsFilterSelector, initialAnimalsFilter } from '../../filterSlice';
+import {
+  setInventoryFilter,
+  inventoryFilterSelector,
+  initialInventoryFilter,
+} from '../../filterSlice';
 import FilterDrawerContainer from '../../Filter/FilterDrawerContainer';
-import AnimalsFilterContent from '../../Filter/Animals/';
-import type { AnimalsFilterKeys } from '../../Filter/Animals/types';
+import ProductInventoryFilterContent from '../../Filter/ProductInventory/';
+import type { InventoryFilterKeys } from '../../Filter/ProductInventory/types';
 
-const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
-  const { t } = useTranslation();
+const ProductInventoryFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
+  const { t } = useTranslation(['filter']);
 
   return (
-    <FilterDrawerContainer<AnimalsFilterKeys>
+    <FilterDrawerContainer<InventoryFilterKeys>
       isFilterActive={isFilterActive}
-      filterSelector={animalsFilterSelector}
-      setFilterAction={setAnimalsFilter}
-      initialFilter={initialAnimalsFilter}
-      drawerTitle={t('ANIMAL.FILTER.TITLE')}
+      filterSelector={inventoryFilterSelector}
+      setFilterAction={setInventoryFilter}
+      initialFilter={initialInventoryFilter}
+      drawerTitle={t('filter:INVENTORY.TITLE')}
     >
       {({ filter, onChange }) => (
-        <AnimalsFilterContent animalsFilter={filter} onChange={onChange} />
+        <ProductInventoryFilterContent inventoryFilter={filter} onChange={onChange} />
       )}
     </FilterDrawerContainer>
   );
 };
 
-export default AnimalsFilter;
+export default ProductInventoryFilter;

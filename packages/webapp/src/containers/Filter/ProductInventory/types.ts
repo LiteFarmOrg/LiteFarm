@@ -13,18 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherData } from './types';
+export enum InventoryFilterKeys {
+  CUSTOM_OR_LIBRARY = 'CUSTOM_OR_LIBRARY',
+  FERTILISER_TYPE = 'FERTILISER_TYPE',
+}
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
-      query: ({ measurementSystem }) => `${weatherUrl}`,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
-    }),
-  }),
-});
-
-export const { useGetWeatherQuery } = weatherApi;
+export enum ProductCategory {
+  CUSTOM = 'custom',
+  LIBRARY = 'library',
+}

@@ -31,9 +31,7 @@ const BasicProfile = () => {
   const isAdmin = useSelector(isAdminSelector);
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  /* @ts-expect-error not typing this for now */
-  const onSubmit = (data) => {
-    /* @ts-expect-error not typing this for now */
+  const onSubmit = (data: any) => {
     dispatch(putFarm(getProcessedFormData(data)));
   };
 

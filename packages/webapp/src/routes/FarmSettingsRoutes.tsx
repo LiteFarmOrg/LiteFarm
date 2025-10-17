@@ -39,6 +39,8 @@ const FarmSettingsRoutes = () => (
       <Route path="/farm_settings" exact>
         <Redirect to="/farm_settings/basic_profile" />
       </Route>
+      {/* Redirect on non-matches */}
+      <Route render={() => <Redirect to={'/'} />} />
     </Switch>
   </FarmSettingsProvider>
 );

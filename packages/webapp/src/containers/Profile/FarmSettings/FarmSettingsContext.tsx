@@ -39,7 +39,7 @@ export const FarmSettingsProvider = ({ children }: { children: ReactNode }) => {
 
 export const useFarmSettingsContext = () => {
   const context = useContext(FarmSettingsContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useFarmSettingsContext must be used within a FarmSettingsProvider');
   }
   return context;

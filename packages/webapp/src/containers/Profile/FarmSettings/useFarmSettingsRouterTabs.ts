@@ -17,13 +17,13 @@ import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFarmSettingsContext } from './FarmSettingsContext';
 
+const TABS = ['basic_profile', 'market_directory', 'addons'];
+
 export const useFarmSettingsRouterTabs = () => {
   const match = useRouteMatch();
   const { t } = useTranslation();
 
   const { showAddonsTab } = useFarmSettingsContext();
-
-  const TABS = ['basic_profile', 'market_directory', 'addons'];
 
   const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
 

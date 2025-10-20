@@ -75,11 +75,9 @@ export const productsForTaskTypeSelector = (taskType) => {
 };
 
 export const hasAvailableProductsSelector = createSelector(
-  [productSelectors.selectAll, loginSelector, (_state, type) => type],
-  (products, { farm_id }, type) => {
-    return products.some((product) => {
-      return !product.removed && (!type || product.type === type) && product.farm_id === farm_id;
-    });
+  [productsSelector, (_state, type) => type],
+  (products, type) => {
+    return products.some((product) => !product.removed && (!type || product.type === type));
   },
 );
 

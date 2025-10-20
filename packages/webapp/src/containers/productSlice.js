@@ -65,17 +65,15 @@ export const productsSelector = createSelector(
 );
 
 // Select farm products for a given type including removed ones
-export const productsForTaskTypeSelector = (taskType) => {
-  return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
+export const productsForTaskTypeSelector = createSelector(
+  [productsSelector, (_state, taskType) => taskType],
+  (products, taskType) => {
     if (taskType === undefined) {
       return undefined;
     }
-    return products.filter(
-      (product) =>
-        product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),
-    );
-  });
-};
+    return products.filter(({ type }) => type === taskType.task_translation_key.toLowerCase());
+  },
+);
 
 export const productInventorySelector = createSelector([productsSelector], (products) => {
   return products.filter((product) => !product.removed);

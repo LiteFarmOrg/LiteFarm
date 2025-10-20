@@ -24,7 +24,7 @@ import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg'
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
-import { makeFilteredProductsSelector } from '../productSlice';
+import { productInventorySelector } from '../productSlice';
 import { Product, SoilAmendmentProduct } from '../../store/api/types';
 import { TASK_TYPES } from '../Task/constants';
 import { SearchProps } from '../../components/Animals/Inventory';
@@ -34,9 +34,6 @@ import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
 import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filterSlice';
 import { useFilteredInventory } from './useFilteredInventory';
-import { RootState } from '../../store/store';
-
-const productsSelectorArgs = { filterByFarm: true, type: TASK_TYPES.SOIL_AMENDMENT };
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
@@ -68,13 +65,10 @@ export default function ProductInventory() {
     dispatch(getProducts());
   }, []);
 
-  const productsSelector = useMemo(() => makeFilteredProductsSelector(), []);
-  const productInventory = useSelector((state: RootState) =>
-    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
-    productsSelector(state, productsSelectorArgs),
-  );
+  const productInventory = useSelector(productInventorySelector);
 
   const inventory = productInventory
+    .filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT)
     /* Table requires each array object to have an "id" key */
     .map((product) => ({
       ...product,

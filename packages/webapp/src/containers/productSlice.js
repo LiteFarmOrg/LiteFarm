@@ -77,6 +77,10 @@ export const productsForTaskTypeSelector = (taskType) => {
   });
 };
 
+export const productInventorySelector = createSelector([productsSelector], (products) => {
+  return products.filter((product) => !product.removed);
+});
+
 // Select products filtered by library/custom, type, farm, and removed status
 export const makeFilteredProductsSelector = () =>
   createSelector(

@@ -289,7 +289,10 @@ export function* getFarmInfoSaga() {
   }
 }
 
-export const putFarm = createAction(`putFarmSaga`);
+/**
+ * @type {import('@reduxjs/toolkit').ActionCreatorWithPayload<any, 'putFarmSaga'>}
+ */
+export const putFarm = createAction('putFarmSaga');
 
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;

@@ -29,7 +29,7 @@ export default function ManageESciSection({ t }: { t: TFunction }) {
         />
       </div>
       <div className={styles.manageLink}>
-        <Link to={{ pathname: '/farm', hash: '#esci-addon' }}>
+        <Link to={{ pathname: '/farm_settings/addons', hash: '#esci-addon' }}>
           <Icon iconName="EXTERNAL_LINK" className={styles.externalLinkIcon} />
           <span>{t('SENSOR.ESCI.MANAGE_LINK')}</span>
         </Link>

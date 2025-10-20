@@ -982,6 +982,13 @@
       "WIDTH": "Watercourse width"
     }
   },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "Addons",
+      "BASIC_PROFILE": "Basic Profile",
+      "MARKET_DIRECTORY": "Market Directory"
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "Supplier",

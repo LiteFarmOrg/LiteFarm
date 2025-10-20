@@ -16,16 +16,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Main, Semibold } from '../../Typography';
-import { PARTNERS } from '../../../containers/AddSensors/constants';
-import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
-import { ReactComponent as BrokenLinkIcon } from '../../../assets/images/link-broken.svg';
+import { Main, Semibold } from '../../../Typography';
+import { PARTNERS } from '../../../../containers/AddSensors/constants';
+import { ReactComponent as ExternalLinkIcon } from '../../../../assets/images/icon_external_link.svg';
+import { ReactComponent as BrokenLinkIcon } from '../../../../assets/images/link-broken.svg';
 import styles from './styles.module.scss';
-import { Partner } from '../../AddSensors/Partners';
-import Button from '../../Form/Button';
-import ModalComponent from '../../Modals/ModalComponent/v2';
-import { AddonPartner } from '../../../types';
-import { createSensorsUrl } from '../../../util/siteMapConstants';
+import { Partner } from '../../../AddSensors/Partners';
+import Button from '../../../Form/Button';
+import ModalComponent from '../../../Modals/ModalComponent/v2';
+import { AddonPartner } from '../../../../types';
+import { createSensorsUrl } from '../../../../util/siteMapConstants';
 
 type PureFarmAddonsProps = {
   hasActiveConnection: Record<AddonPartner, boolean>;

@@ -13,20 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { integerOnKeyDown } from '../../../Form/Input';
 import { Controller, useController, useForm } from 'react-hook-form';
-import { userFarmEnum } from '../../../containers/constants';
-import ReactSelect from '../../Form/ReactSelect';
+import { userFarmEnum } from '../../../../containers/constants';
+import ReactSelect from '../../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import Button from '../../Form/Button';
+import Button from '../../../Form/Button';
 import PropTypes from 'prop-types';
-import ProfileLayout from '../ProfileLayout';
-import { Label } from '../../Typography';
-import ImagePicker from '../../ImagePicker';
-import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
-import FarmAddons from '../../../containers/Profile/Farm/Addons';
+import ProfileLayout from '../../ProfileLayout';
+import { Label } from '../../../Typography';
+import ImagePicker from '../../../ImagePicker';
+import useMediaWithAuthentication from '../../../../containers/hooks/useMediaWithAuthentication';
 
-export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
+export default function PureBasicProfile({ userFarm, onSubmit, history, isAdmin }) {
   const MEASUREMENT = 'units.measurement';
   const IMAGE_FILE = 'imageFile';
   const SHOULD_REMOVE_IMAGE = 'shouldRemoveImage';
@@ -142,12 +141,11 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
           />
         )}
       </div>
-      <FarmAddons />
     </ProfileLayout>
   );
 }
 
-PureFarm.propTypes = {
+PureBasicProfile.propTypes = {
   userFarm: PropTypes.shape({
     farm_name: PropTypes.string,
     farm_phone_number: PropTypes.string,

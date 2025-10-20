@@ -13,6 +13,7 @@ export const getProduct = (obj) => {
     'type',
     'farm_id',
     'soil_amendment_product',
+    'removed',
   ]);
 };
 
@@ -20,7 +21,7 @@ const addManyProducts = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  productAdapter.upsertMany(
+  productAdapter.setAll(
     state,
     tasks.map((task) => getProduct(task)),
   );

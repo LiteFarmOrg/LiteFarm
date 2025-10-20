@@ -22,16 +22,11 @@ import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
+  const isActive = matchPath(history.location.pathname, path);
   return (
     <ListItemButton
       onClick={onClick ?? (() => history.push(path))}
-      className={clsx(
-        styles.listItem,
-        matchPath(history.location.pathname, path)
-          ? styles.activeListItem
-          : styles.inactiveListItem,
-        className,
-      )}
+      className={clsx(styles.listItem, isActive && styles.active, className)}
       ref={ref}
     >
       {children}
@@ -44,7 +39,11 @@ MenuItem.displayName = 'MenuItem';
 const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   if (compact) {
     return (
-      <Menu open={isExpanded} {...props}>
+      <Menu
+        open={isExpanded}
+        className={clsx(styles.list, styles.subList, styles.tertiary)}
+        {...props}
+      >
         {children}
       </Menu>
     );
@@ -52,7 +51,11 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 
   return (
     <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding className={styles.subList}>
+      <List
+        component="div"
+        disablePadding
+        className={clsx(styles.list, styles.subList, styles.tertiary)}
+      >
         {children}
       </List>
     </Collapse>
@@ -84,12 +87,12 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
     <div
       role="presentation"
       className={clsx(
-        styles.container,
-        isCompact && styles.compactContainer,
-        !isCompact && hasBeenExpanded && styles.expandedContainer,
+        styles.sideMenuContent,
+        isCompact && styles.compactSideMenuContent,
+        !isCompact && hasBeenExpanded && styles.expandedSideMenuContent,
       )}
     >
-      <List className={styles.list}>
+      <List className={clsx(styles.list, styles.primary)}>
         <ListItemButton
           onClick={() => handleClick('/')}
           className={clsx(styles.listItem, styles.logoListItem)}
@@ -99,85 +102,80 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           </div>
         </ListItemButton>
         {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {
-          if (!subMenu) {
+          if (subMenu) {
             return (
-              <MenuItem
-                history={history}
-                key={key}
-                path={path}
-                onClick={() => onMenuItemClick(path)}
-              >
-                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                <ListItemText
-                  primary={label}
-                  className={clsx(
-                    styles.listItemText,
-                    styles.animatedContent,
-                    isCompact && styles.hiddenContent,
-                  )}
-                />
-                {!isCompact && badge}
-              </MenuItem>
+              <React.Fragment key={key}>
+                <MenuItem
+                  history={history}
+                  onClick={() => toggleExpanded(key)}
+                  path={path}
+                  ref={(el) => (expandableItemsRef.current[key] = el)}
+                >
+                  <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+                  <ListItemText
+                    primary={label}
+                    className={clsx(
+                      styles.listItemText,
+                      styles.animatedContent,
+                      isCompact && styles.hiddenContent,
+                    )}
+                  />
+                  {!isCompact && badge}
+                  <ExpandMore
+                    className={clsx(
+                      styles.expandCollapseIcon,
+                      expandedIds.includes(key) && styles.collapseIcon,
+                      isCompact && styles.compactExpandIcon,
+                    )}
+                  />
+                </MenuItem>
+                <SubMenu
+                  compact={isCompact}
+                  isExpanded={expandedIds.includes(key)}
+                  onClose={resetExpanded}
+                  anchorEl={expandableItemsRef.current[key]}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                >
+                  {subMenu.map(({ label: subMenuLabel, path: subMenuPath, key: subMenuKey }) => {
+                    return (
+                      <MenuItem
+                        history={history}
+                        key={subMenuKey}
+                        path={subMenuPath}
+                        className={styles.subItem}
+                        onClick={() =>
+                          isCompact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
+                        }
+                      >
+                        <ListItemText primary={subMenuLabel} className={styles.subItemText} />
+                      </MenuItem>
+                    );
+                  })}
+                </SubMenu>
+              </React.Fragment>
             );
           }
 
           return (
-            <React.Fragment key={key}>
-              <MenuItem
-                history={history}
-                onClick={() => toggleExpanded(key)}
-                path={path}
-                ref={(el) => (expandableItemsRef.current[key] = el)}
-              >
-                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                <ListItemText
-                  primary={label}
-                  className={clsx(
-                    styles.listItemText,
-                    styles.animatedContent,
-                    isCompact && styles.hiddenContent,
-                  )}
-                />
-                {!isCompact && badge}
-                <ExpandMore
-                  className={clsx(
-                    styles.expandCollapseIcon,
-                    expandedIds.includes(key) && styles.collapseIcon,
-                    isCompact && styles.compactExpandIcon,
-                  )}
-                />
-              </MenuItem>
-              <SubMenu
-                compact={isCompact}
-                isExpanded={expandedIds.includes(key)}
-                onClose={resetExpanded}
-                anchorEl={expandableItemsRef.current[key]}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                {subMenu.map(({ label: subMenuLabel, path: subMenuPath, key: subMenuKey }) => {
-                  return (
-                    <MenuItem
-                      history={history}
-                      key={subMenuKey}
-                      path={subMenuPath}
-                      className={styles.subItem}
-                      onClick={() =>
-                        isCompact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
-                      }
-                    >
-                      <ListItemText primary={subMenuLabel} className={styles.subItemText} />
-                    </MenuItem>
-                  );
-                })}
-              </SubMenu>
-            </React.Fragment>
+            <MenuItem history={history} key={key} path={path} onClick={() => onMenuItemClick(path)}>
+              <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+              <ListItemText
+                primary={label}
+                className={clsx(
+                  styles.listItemText,
+                  styles.animatedContent,
+                  isCompact && styles.hiddenContent,
+                )}
+              />
+              {!isCompact && badge}
+            </MenuItem>
           );
         })}
       </List>
-      <List className={styles.list}>
+      <List className={clsx(styles.list, styles.secondary)}>
         {adminActions.map(({ icon, label, path, key }) => {
           return (
             <MenuItem
@@ -217,12 +215,14 @@ const PureSideMenu = ({
 
   useLayoutEffect(() => {
     const rootElement = document.querySelector(':root');
-    if (selectedLanguage.includes('ml')) {
+    if (isMobile) {
+      rootElement.style.setProperty('--global-side-menu-width', '0px');
+    } else if (selectedLanguage.includes('ml')) {
       rootElement.style.setProperty('--global-side-menu-width', '224px');
     } else {
       rootElement.style.setProperty('--global-side-menu-width', '188px');
     }
-  }, [selectedLanguage]);
+  }, [selectedLanguage, isMobile]);
 
   const toggleSideMenu = () => {
     setHasBeenExpanded(isCompact);
@@ -230,7 +230,7 @@ const PureSideMenu = ({
   };
 
   return isMobile ? (
-    <div className={styles.sideMenu}>
+    <div className={styles.drawer}>
       <Drawer
         isOpen={isDrawerOpen}
         onClose={onDrawerClose}

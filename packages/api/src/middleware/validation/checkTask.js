@@ -197,7 +197,7 @@ export function checkCreateTask(taskType) {
 
       const checkProducts =
         checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
-      checkProducts()(req, res, next);
+      checkProducts({ newTask: true })(req, res, next);
     } catch (error) {
       console.error(error);
 

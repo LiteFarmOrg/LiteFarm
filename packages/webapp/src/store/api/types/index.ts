@@ -191,12 +191,12 @@ export interface SoilAmendmentFertiliserType {
   key: string;
 }
 
-interface Product {
+export interface Product {
   product_id: number | string;
   name: string;
   product_translation_key?: string;
   supplier?: string;
-  type?:
+  type:
     | typeof TASK_TYPES.SOIL_AMENDMENT
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;
@@ -327,6 +327,16 @@ export interface SensorReadings {
   reading_type: SensorReadingTypes;
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];
+}
+
+export interface WeatherData {
+  humidity: number;
+  icon: string;
+  date: number;
+  temp: number;
+  wind: number;
+  city: string;
+  measurement: string;
 }
 export interface IrrigationPrescription {
   id: number;

@@ -1,0 +1,58 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.nameContainer {
+  padding: 8px;
+
+  .nameAndIcon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  .name,
+  .supplierMobile {
+    padding-block: 4px;
+    line-height: normal;
+    letter-spacing: -0.308px;
+  }
+
+  .name {
+    color: #000;
+    font-weight: 600;
+  }
+
+  .supplierMobile {
+    @include lg-breakpoint {
+      display: none;
+    }
+  }
+}
+
+.type.type {
+  padding: 4px 8px 4px 16px;
+}
+
+.supplier.supplier,
+.type.type {
+  font-size: 14px;
+  letter-spacing: -0.308px;
+}

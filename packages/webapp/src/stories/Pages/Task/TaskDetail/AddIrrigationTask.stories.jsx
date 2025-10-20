@@ -41,7 +41,7 @@ const args = {
     irrigation_task: {
       default_irrigation_task_type_location: false,
       default_irrigation_task_type_measurement: false,
-      irrigation_type_name: {
+      irrigation_type: {
         value: 'CHANNEL',
         label: 'CHANNEL',
         default_measuring_type: 'VOLUME',

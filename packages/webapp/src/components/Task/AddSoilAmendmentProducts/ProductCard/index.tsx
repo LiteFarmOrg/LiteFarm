@@ -14,29 +14,36 @@
  */
 
 import { ReactNode, useEffect, useRef } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
+import { Collapse } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
 import SmallButton from '../../../Form/Button/SmallButton';
-import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
+import TextButton from '../../../Form/Button/TextButton';
+import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import { Error } from '../../../Typography';
-import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
-import { PRODUCT_FIELD_NAMES } from '../types';
+import ProductDetails, { type ProductDetailsProps } from '../../../Form/ProductDetails';
+import { PRODUCT_FIELD_NAMES, SoilAmendmentProductFormCommonFields } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
+import { soilAmendmentProductDetailsDefaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
+import { getSoilAmendmentFormValues } from '../../../Form/ProductDetails/utils';
 
-export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
+export type ProductCardProps = ProductDetailsProps & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
-  onSaveProduct: ProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
   locations: Location[];
+  products?: SoilAmendmentProduct[];
+  isExpanded: boolean;
+  toggleExpanded: () => void;
 };
 
 interface ProductOption {
@@ -86,13 +93,14 @@ const SoilAmendmentProductCard = ({
   namePrefix,
   onRemove,
   system,
-  onSaveProduct,
   isReadOnly,
   products = [],
   productNames = [],
   purposeOptions,
   otherPurposeId,
   locations,
+  isExpanded,
+  toggleExpanded,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
@@ -105,21 +113,23 @@ const SoilAmendmentProductCard = ({
     formState: { errors },
   } = useFormContext();
 
+  const nestedFormMethods = useForm<SoilAmendmentProductFormCommonFields>({
+    mode: 'onBlur',
+    defaultValues: soilAmendmentProductDetailsDefaultValues,
+  });
+
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
   const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
+  const productId = getValues(PRODUCT_ID);
   const purposes = watch(PURPOSES);
 
   const selectRef = useRef<SelectRef>(null);
   const productOptions = products.map(({ product_id, name, ...rest }) => {
     return { value: product_id, label: name, data: rest };
   });
-
-  const clearProduct = () => {
-    selectRef?.current?.clearValue();
-  };
 
   useEffect(() => {
     if (otherPurposeId && !getValues(OTHER_PURPOSE_ID)) {
@@ -136,21 +146,17 @@ const SoilAmendmentProductCard = ({
         <Controller
           control={control}
           name={PRODUCT_ID}
-          rules={{
-            required: true,
-            validate: (value) => {
-              if (typeof value === 'string' && productNames.includes(value.trim())) {
-                return 'DUPLICATE_NAME';
-              }
-              return typeof value === 'number';
-            },
-          }}
+          rules={{ required: true }}
           render={({ field: { value, onChange } }) => (
-            <CreatableSelect
+            <ReactSelect
               ref={selectRef}
               label={t('ADD_PRODUCT.PRODUCT_LABEL')}
               options={productOptions}
-              onChange={(e) => onChange(e?.value)}
+              onChange={(e) => {
+                onChange(e?.value);
+                const selectedProduct = products.find(({ product_id }) => product_id === e?.value);
+                nestedFormMethods.reset(getSoilAmendmentFormValues(selectedProduct));
+              }}
               placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
               value={productOptions.find(({ value: id }) => id === value)}
               hasLeaf={true}
@@ -160,17 +166,34 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
-          <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
-        ) : (
-          <ProductDetails
-            {...props}
-            onSave={onSaveProduct}
-            isReadOnly={isReadOnly}
-            clearProduct={clearProduct}
-            products={products}
-          />
-        )}
+        <div className={clsx(isExpanded && styles.expanded, styles.productDetailsWrapper)}>
+          <TextButton
+            disabled={!productId}
+            onClick={toggleExpanded}
+            className={clsx(styles.productDetailsTitle, !productId && styles.disabled)}
+          >
+            <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
+            <KeyboardArrowDownIcon
+              className={clsx(
+                styles.expandIcon,
+                isExpanded && styles.expanded,
+                !productId && styles.disabled,
+              )}
+            />
+          </TextButton>
+
+          <Collapse
+            id={`product_details-${productId}`}
+            in={isExpanded}
+            timeout="auto"
+            unmountOnExit
+            className={styles.formWrapper}
+          >
+            <FormProvider {...nestedFormMethods}>
+              <ProductDetails {...props} isReadOnly />
+            </FormProvider>
+          </Collapse>
+        </div>
       </div>
       <Controller
         control={control}

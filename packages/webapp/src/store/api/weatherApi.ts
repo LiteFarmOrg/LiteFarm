@@ -14,52 +14,15 @@
  */
 
 import { api } from './apiSlice';
-import { axios } from '../../containers/saga';
-import utils from '../../containers/WeatherBoard/utils';
+import { weatherUrl } from '../../apiConfig';
+import { WeatherData } from './types';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getWeather: build.query({
-      queryFn: async (arg) => {
-        const apikey = import.meta.env.VITE_WEATHER_API_KEY;
-        const params = {
-          ...arg,
-          appid: apikey,
-          cnt: 1,
-        };
-
-        const openWeatherUrl = new URL('https://api.openweathermap.org/data/2.5/weather');
-        for (const key in params) {
-          openWeatherUrl.searchParams.append(key, params[key]);
-        }
-
-        try {
-          const response = await axios.get(openWeatherUrl.toString());
-          const data = response.data;
-
-          const weatherPayload = {
-            humidity: `${data.main?.humidity}%`,
-            iconName: utils.getIcon(data.weather[0]?.icon),
-            date: data.dt + data.timezone,
-            temperature: `${Math.round(data.main?.temp)}`,
-            wind: `${data.wind?.speed}`,
-            city: data.name,
-            measurement: arg.measurement,
-            lastUpdated: Date.now(), // Store timestamp in RTK Query cache
-          };
-
-          return { data: weatherPayload };
-        } catch (error) {
-          return {
-            error: {
-              status: 400,
-              statusText: 'Weather Api Error',
-              data: 'Failed to fetch weather data',
-            },
-          };
-        }
-      },
+    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
+      query: ({ measurementSystem }) => `${weatherUrl}`,
       providesTags: ['Weather'],
+      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
     }),
   }),
 });

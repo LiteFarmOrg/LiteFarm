@@ -1708,6 +1708,22 @@ export default {
       loading: false,
       loaded: false,
     },
+    irrigationTaskTypesReducer: {
+      irrigationTaskTypes: [
+        {
+          irrigation_type_id: 1,
+          irrigation_type_name: 'CHANNEL',
+          farm_id: null,
+          default_measuring_type: 'VOLUME',
+          created_by_user_id: '1',
+          updated_by_user_id: '1',
+          created_at: '2000-01-01T00:00:00.000Z',
+          updated_at: '2000-01-01T00:00:00.000Z',
+          deleted: false,
+          irrigation_type_translation_key: 'CHANNEL',
+        },
+      ],
+    },
     productReducer: {
       ids: [],
       entities: {},

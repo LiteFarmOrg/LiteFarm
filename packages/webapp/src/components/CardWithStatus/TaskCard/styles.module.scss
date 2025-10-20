@@ -99,3 +99,15 @@
   background-color: var(--grey500);
   color: white;
 }
+
+.revisionInfo {
+  position: absolute;
+  bottom: 16px;
+  right: 8px;
+  color: var(--teal900);
+  text-align: right;
+
+  @include md-breakpoint {
+    visibility: hidden;
+  }
+}

@@ -127,10 +127,12 @@ export function checkProductValidity() {
 
       // Check name uniqueness
       const existingRecord = await ProductModel.query(trx)
-        .where({ farm_id })
-        .andWhere({ type })
-        .andWhere({ name })
-        .whereNot({ product_id: product_id ?? null })
+        .joinRelated('product_farm')
+        .where('product_farm.farm_id', farm_id)
+        .andWhere('product_farm.removed', false)
+        .andWhere('product.type', type)
+        .andWhere('product.name', name)
+        .whereNot('product.product_id', product_id ?? null)
         .whereNotDeleted();
 
       if (existingRecord.length) {

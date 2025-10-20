@@ -81,32 +81,6 @@ export const productInventorySelector = createSelector([productsSelector], (prod
   return products.filter((product) => !product.removed);
 });
 
-// Select products filtered by library/custom, type, farm, and removed status
-export const makeFilteredProductsSelector = () =>
-  createSelector(
-    [productSelectors.selectAll, loginSelector, (_state, args) => args],
-    (
-      products,
-      { farm_id },
-      {
-        includeLibrary = true,
-        includeCustom = true,
-        type = '',
-        filterByFarm = false,
-        includeRemoved = false,
-      },
-    ) => {
-      return products.filter((product) => {
-        const matchesIsLibrary = isLibraryProduct(product) ? includeLibrary : includeCustom;
-        const matchesType = !type || product.type === type;
-        const matchesFarm = !filterByFarm || product.farm_id === farm_id;
-        const matchesRemoved = includeRemoved || !product.removed;
-
-        return matchesIsLibrary && matchesType && matchesFarm && matchesRemoved;
-      });
-    },
-  );
-
 export const productEntitiesSelector = productSelectors.selectEntities;
 
 export const productSelector = (product_id) => (state) =>

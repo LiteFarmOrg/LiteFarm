@@ -74,7 +74,9 @@ export default function ModalComponent({
             <Close />
           </IconButton>
         </div>
-        {contents?.map((line, index) => <Info key={index}>{line}</Info>)}
+        {contents?.map((line, index) => (
+          <Info key={index}>{line}</Info>
+        ))}
 
         {children}
         {!!buttonGroup && <div className={styles.buttonGroup}>{buttonGroup}</div>}

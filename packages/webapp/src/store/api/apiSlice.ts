@@ -63,56 +63,20 @@ import type {
   IrrigationPrescriptionDetails,
 } from './types';
 
-/**
- * These tags have endpoints that do not return farm specific data, and are not created by a farm
- *
- *  LiteFarm provides these data as defaults
- */
-export const LibraryTags = [
-  'AnimalSexes',
-  'AnimalIdentifierTypes',
-  'AnimalIdentifierColors',
-  'AnimalMovementPurposes',
-  'AnimalOrigins',
-  'AnimalUses',
-  'AnimalRemovalReasons',
-  'DefaultAnimalBreeds',
-  'SoilAmendmentMethods',
-  'SoilAmendmentPurposes',
-  'SoilAmendmentFertiliserTypes',
-];
-
-/**
- * These tags contain endpoints that return farm specific data
- *
- * These data should not persist when switching farms,
- * or should be stored in a separate farm store.
- */
-export const FarmTags = [
-  'Animals',
-  'AnimalBatches',
-  'CustomAnimalBreeds',
-  'CustomAnimalTypes',
-  'FarmAddon',
-  'IrrigationPrescriptions',
-  'IrrigationPrescriptionDetails',
-  'Sensors',
-  'SensorReadings',
-  'Weather',
-];
-
-/**
- * These tags contain endpoints that could either return farm specific data
- * or farm neutral defaults data.
- *
- * For data safety these data should also not persist when switching farms,
- * or should be stored in a separate farm store.
- */
-export const FarmLibraryTags = [
-  // 'count' param returns farm specific data
-  'DefaultAnimalTypes',
-];
 import { addDaysToDate } from '../../util/date';
+import { API_TAGS, ApiTag } from './apiTags';
+
+/**
+ * Invalidates one or more RTK Query cache tags.
+ *
+ * This helper provides a type-safe wrapper around `api.util.invalidateTags`
+ * ensuring only valid `ApiTag` values (defined in `API_TAGS`) can be used.
+ *
+ * @param {ApiTag[]} tags - An array of tag names to invalidate.
+ * @returns - The invalidateTags action,
+ * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
+ */
+export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -128,7 +92,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [...LibraryTags, ...FarmTags, ...FarmLibraryTags],
+  tagTypes: API_TAGS,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

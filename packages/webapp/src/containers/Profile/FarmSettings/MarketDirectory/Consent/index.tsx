@@ -26,9 +26,9 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   // LF-5016 -- RTK Query setup for Market Directories here
 
   return (
-    <div className={styles.consentSection}>
+    <div className={styles.consentContainer}>
       <h3 className={styles.consentTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
-      {disabled && <ConsentBadge t={t} />}
+      {disabled && <MissingDetailsWarning t={t} />}
       <div className={clsx(styles.marketTiles, disabled && styles.disabled)}>
         {/* LF-5016 -- replace with actual Pure Component */}
         <div />
@@ -39,14 +39,12 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   );
 };
 
-clsx;
-
 export default MarketDirectoryConsent;
 
-const ConsentBadge = ({ t }: { t: TFunction }) => {
+const MissingDetailsWarning = ({ t }: { t: TFunction }) => {
   return (
-    <div className={clsx(styles.badge, styles.consentBadge)}>
-      <h4 className={styles.title}>{t('MARKET_DIRECTORY.BADGES.ALMOST_READY')}</h4>
+    <div className={styles.warningBanner}>
+      <h4>{t('MARKET_DIRECTORY.BADGES.ALMOST_READY')}</h4>
     </div>
   );
 };

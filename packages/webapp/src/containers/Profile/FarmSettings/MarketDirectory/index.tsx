@@ -26,8 +26,8 @@ import ExpandableItem from '../../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../../components/Expandable/useExpandableItem';
 import { ReactComponent as CheckComplete } from '../../../../assets/images/check-complete.svg';
 import { ReactComponent as CheckIncomplete } from '../../../../assets/images/check-incomplete.svg';
-import MarketDirectoryInfoForm from './MarketDirectoryInfoForm';
-import MarketDirectoryConsent from './MarketDirectoryConsent';
+import MarketDirectoryInfoForm from './InfoForm';
+import MarketDirectoryConsent from './Consent';
 
 enum FormCards {
   INFO,
@@ -71,7 +71,7 @@ const MarketDirectory = () => {
       <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
 
       <div className={styles.container}>
-        <DirectoryBadge t={t} />
+        <DirectoryCallout t={t} />
 
         {formCards.map(({ key, title, content }) => {
           const isExpanded = expandedIds.includes(key);
@@ -83,7 +83,7 @@ const MarketDirectory = () => {
                 isExpanded={isExpanded}
                 onClick={() => toggleExpanded(key)}
                 mainContent={
-                  <FormHeader
+                  <ExpandableHeader
                     title={title}
                     isExpanded={isExpanded}
                     isComplete={completionStatus[key]}
@@ -105,16 +105,16 @@ const MarketDirectory = () => {
 
 export default MarketDirectory;
 
-const DirectoryBadge = ({ t }: { t: TFunction }) => {
+const DirectoryCallout = ({ t }: { t: TFunction }) => {
   return (
-    <div className={styles.badge}>
-      <h4 className={styles.title}>{t('MARKET_DIRECTORY.BADGES.GET_LISTED')}</h4>
+    <div className={styles.infoPanel}>
+      <h4 className={styles.infoPanelTitle}>{t('MARKET_DIRECTORY.BADGES.GET_LISTED')}</h4>
       <p>{t('MARKET_DIRECTORY.BADGES.COMPLETE_PROFILE')}</p>
     </div>
   );
 };
 
-const FormHeader = ({
+const ExpandableHeader = ({
   title,
   isExpanded,
   isComplete,
@@ -124,7 +124,7 @@ const FormHeader = ({
   isComplete: boolean;
 }) => {
   return (
-    <div className={clsx(styles.formCardHeader, isExpanded && styles.expanded)}>
+    <div className={clsx(styles.expandableHeader, isExpanded && styles.expanded)}>
       <p>{title}</p>
       {isComplete ? <CheckComplete /> : <CheckIncomplete />}
     </div>

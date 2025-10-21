@@ -35,6 +35,7 @@ export const up = async (knex) => {
     table.string('x');
     table.string('youtube');
     table.string('linkedin');
+    table.boolean('deleted').notNullable().defaultTo(false);
     table
       .string('created_by_user_id')
       .references('user_id')

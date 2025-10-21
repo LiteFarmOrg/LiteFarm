@@ -16,7 +16,7 @@
 import styles from './styles.module.scss';
 
 interface MarketDirectoryInfoFormProps {
-  setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsComplete: (isComplete: boolean) => void;
   isComplete?: boolean;
   close: () => void;
 }

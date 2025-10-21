@@ -40,7 +40,17 @@ const MarketDirectory = () => {
 
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
 
-  const [isComplete, setIsComplete] = useState(false);
+  const [completionStatus, setCompletionStatus] = useState<Record<FormCards, boolean>>({
+    [FormCards.INFO]: false,
+  });
+  const allFormsComplete = Object.values(completionStatus).every(Boolean);
+
+  const updateCompletionStatus = (formKey: FormCards, isComplete: boolean) => {
+    setCompletionStatus((prev) => ({
+      ...prev,
+      [formKey]: isComplete,
+    }));
+  };
 
   const formCards = [
     {
@@ -48,8 +58,8 @@ const MarketDirectory = () => {
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
       content: (
         <MarketDirectoryInfoForm
-          isComplete={isComplete}
-          setIsComplete={setIsComplete}
+          isComplete={completionStatus[FormCards.INFO]}
+          setIsComplete={(isComplete) => updateCompletionStatus(FormCards.INFO, isComplete)}
           close={() => unExpand(FormCards.INFO)}
         />
       ),
@@ -72,7 +82,11 @@ const MarketDirectory = () => {
                 isExpanded={isExpanded}
                 onClick={() => toggleExpanded(key)}
                 mainContent={
-                  <FormHeader title={title} isExpanded={isExpanded} isComplete={isComplete} />
+                  <FormHeader
+                    title={title}
+                    isExpanded={isExpanded}
+                    isComplete={completionStatus[key]}
+                  />
                 }
                 expandedContent={content}
                 leftCollapseIcon
@@ -82,7 +96,7 @@ const MarketDirectory = () => {
           );
         })}
 
-        <MarketDirectoryConsent disabled={!isComplete} />
+        <MarketDirectoryConsent disabled={!allFormsComplete} />
       </div>
     </CardLayout>
   );

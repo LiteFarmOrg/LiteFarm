@@ -75,8 +75,9 @@ const MarketDirectory = () => {
 
         {formCards.map(({ key, title, content }) => {
           const isExpanded = expandedIds.includes(key);
+
           return (
-            <div key={key} className={clsx(styles.form, isExpanded && styles.expanded)}>
+            <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
               <ExpandableItem
                 itemKey={key}
                 isExpanded={isExpanded}
@@ -123,7 +124,7 @@ const FormHeader = ({
   isComplete: boolean;
 }) => {
   return (
-    <div className={clsx(styles.formHeader, isExpanded && styles.expanded)}>
+    <div className={clsx(styles.formCardHeader, isExpanded && styles.expanded)}>
       <p>{title}</p>
       {isComplete ? <CheckComplete /> : <CheckIncomplete />}
     </div>

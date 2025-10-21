@@ -43,7 +43,6 @@ const MarketDirectory = () => {
   const [completionStatus, setCompletionStatus] = useState<Record<FormCards, boolean>>({
     [FormCards.INFO]: false,
   });
-  const allFormsComplete = Object.values(completionStatus).every(Boolean);
 
   const updateCompletionStatus = (formKey: FormCards, isComplete: boolean) => {
     setCompletionStatus((prev) => ({
@@ -51,6 +50,8 @@ const MarketDirectory = () => {
       [formKey]: isComplete,
     }));
   };
+
+  const areAllFormsComplete = Object.values(completionStatus).every(Boolean);
 
   const formCards = [
     {
@@ -97,7 +98,7 @@ const MarketDirectory = () => {
           );
         })}
 
-        <MarketDirectoryConsent disabled={!allFormsComplete} />
+        <MarketDirectoryConsent disabled={!areAllFormsComplete} />
       </div>
     </CardLayout>
   );
@@ -107,9 +108,9 @@ export default MarketDirectory;
 
 const DirectoryCallout = ({ t }: { t: TFunction }) => {
   return (
-    <div className={styles.infoPanel}>
-      <h4 className={styles.infoPanelTitle}>{t('MARKET_DIRECTORY.BADGES.GET_LISTED')}</h4>
-      <p>{t('MARKET_DIRECTORY.BADGES.COMPLETE_PROFILE')}</p>
+    <div className={styles.callout}>
+      <h4 className={styles.calloutTitle}>{t('MARKET_DIRECTORY.GET_LISTED')}</h4>
+      <p>{t('MARKET_DIRECTORY.COMPLETE_PROFILE')}</p>
     </div>
   );
 };

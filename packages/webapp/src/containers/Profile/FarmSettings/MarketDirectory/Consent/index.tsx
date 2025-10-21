@@ -28,9 +28,9 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   return (
     <div className={styles.consentContainer}>
       <h3 className={styles.consentTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
-      {disabled && <MissingDetailsWarning t={t} />}
+      {disabled && <WarningBanner t={t} />}
+      {/* LF-5016 -- replace with actual Pure Component */}
       <div className={clsx(styles.marketTiles, disabled && styles.disabled)}>
-        {/* LF-5016 -- replace with actual Pure Component */}
         <div />
         <div />
         <div />
@@ -41,10 +41,10 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
 
 export default MarketDirectoryConsent;
 
-const MissingDetailsWarning = ({ t }: { t: TFunction }) => {
+const WarningBanner = ({ t }: { t: TFunction }) => {
   return (
     <div className={styles.warningBanner}>
-      <h4>{t('MARKET_DIRECTORY.BADGES.ALMOST_READY')}</h4>
+      <p>{t('MARKET_DIRECTORY.CONSENT.MISSING_DETAILS')}</p>
     </div>
   );
 };

@@ -34,16 +34,14 @@
   background: var(--Colors-Accent---singles-Red-light);
   border: 1px solid var(--Colors-Accent---singles-Red-light);
 
-  h4 {
-    color: var(--Colors-Accent---singles-Red-dark);
-    font-style: italic;
-    font-size: 16px;
-    font-weight: 700;
-  }
+  color: var(--Colors-Accent---singles-Red-dark);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 /*------------------
- Placeholder styles -- remove when Pure Components are added */
+ Placeholder styles -- remove in LF-5016 */
 .marketTiles {
   width: 100%;
   display: grid;

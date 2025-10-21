@@ -21,7 +21,7 @@
   gap: 32px;
 }
 
-.infoPanel {
+.callout {
   padding: 24px 16px;
   border-radius: 8px;
 
@@ -33,7 +33,7 @@
   font-size: 16px;
   font-weight: 400;
 
-  .infoPanelTitle {
+  .calloutTitle {
     font-size: 16px;
     font-weight: 700;
   }
@@ -51,8 +51,8 @@
 }
 
 .expandableHeader {
+  padding-left: 8px;
   display: flex;
   justify-content: space-between;
   font-size: 16px;
-  padding-left: 8px;
 }

@@ -20,10 +20,6 @@ class MarketDirectoryInfo extends baseModel {
     return 'market_directory_info';
   }
 
-  static get hidden() {
-    return [...super.hidden];
-  }
-
   static get idColumn() {
     return 'id';
   }

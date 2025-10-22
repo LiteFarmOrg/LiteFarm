@@ -26,7 +26,7 @@ export const up = async (knex) => {
     table.string('logo');
     table.text('about');
     table.string('contact_first_name').notNullable();
-    table.string('contact_last_name').notNullable().defaultTo('');
+    table.string('contact_last_name').nullable();
     table.string('contact_email').notNullable();
     table.string('email');
     table.integer('country_code');

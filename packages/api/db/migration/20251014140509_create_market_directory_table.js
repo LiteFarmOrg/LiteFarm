@@ -29,6 +29,7 @@ export const up = async (knex) => {
     table.string('contact_last_name').notNullable().defaultTo('');
     table.string('contact_email').notNullable();
     table.string('email');
+    table.integer('country_code');
     table.string('phone_number');
     table.string('address').notNullable();
     table.text('website');

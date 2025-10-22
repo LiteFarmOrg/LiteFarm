@@ -157,7 +157,6 @@ const SoilAmendmentProductCard = ({
                 const selectedProduct = products.find(({ product_id }) => product_id === e?.value);
                 nestedFormMethods.reset(getSoilAmendmentFormValues(selectedProduct));
               }}
-              placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
               value={productOptions.find(({ value: id }) => id === value)}
               hasLeaf={true}
               isDisabled={isReadOnly}

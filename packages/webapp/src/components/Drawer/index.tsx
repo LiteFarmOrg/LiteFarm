@@ -18,6 +18,7 @@ import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import TextButton from '../Form/Button/TextButton';
 
 export enum DesktopDrawerVariants {
   DRAWER = 'drawer',
@@ -41,6 +42,7 @@ type CommonDrawerProps = {
     drawerContainer?: string; // applied to all drawers
     desktopSideDrawerContainer?: string;
   };
+  closeButtonLabel?: string;
 };
 
 type DrawerProps = CommonDrawerProps &
@@ -81,11 +83,14 @@ const Drawer = ({
   desktopSideDrawerDirection = 'right',
   isCompactSideMenu,
   addBackdrop = true,
+  closeButtonLabel,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const isDesktopSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
+
+  const CloseButton = closeButtonLabel ? TextButton : IconButton;
 
   return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
@@ -126,9 +131,16 @@ const Drawer = ({
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
-          <IconButton className={styles.close} onClick={onClose}>
+          <CloseButton
+            className={clsx(
+              styles.closeButton,
+              closeButtonLabel ? styles.textButton : styles.iconButton,
+            )}
+            onClick={onClose}
+          >
+            {closeButtonLabel && <span>{closeButtonLabel}</span>}
             <Close />
-          </IconButton>
+          </CloseButton>
         </div>
         <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}

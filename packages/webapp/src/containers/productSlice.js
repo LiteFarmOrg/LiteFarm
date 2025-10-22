@@ -74,6 +74,13 @@ export const productsForTaskTypeSelector = (taskType) => {
   });
 };
 
+export const hasAvailableProductsSelector = createSelector(
+  [productsSelector, (_state, type) => type],
+  (products, type) => {
+    return products.some((product) => !product.removed && (!type || product.type === type));
+  },
+);
+
 export const productEntitiesSelector = productSelectors.selectEntities;
 
 export const productSelector = (product_id) => (state) =>

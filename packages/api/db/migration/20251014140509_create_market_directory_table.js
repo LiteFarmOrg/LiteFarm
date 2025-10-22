@@ -21,7 +21,7 @@
 export const up = async (knex) => {
   await knex.schema.createTable('market_directory_info', (table) => {
     table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-    table.uuid('farm_id').unique().references('farm_id').inTable('farm');
+    table.uuid('farm_id').unique().notNullable().references('farm_id').inTable('farm');
     table.string('farm_name').notNullable();
     table.string('logo');
     table.text('about');

@@ -138,7 +138,7 @@ const Drawer = ({
             )}
             onClick={onClose}
           >
-            {closeButtonLabel && <span> {closeButtonLabel}</span>}
+            {closeButtonLabel && <span>{closeButtonLabel}</span>}
             <Close />
           </CloseButton>
         </div>

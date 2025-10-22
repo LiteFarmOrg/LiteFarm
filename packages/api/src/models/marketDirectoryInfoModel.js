@@ -45,7 +45,6 @@ class MarketDirectoryInfo extends baseModel {
         contact_last_name: { type: 'string', maxLength: 255 },
         contact_email: { type: 'string', minLength: 1, maxLength: 255 },
         email: { type: 'string', maxLength: 255 },
-        country_code: { type: ['number', 'null'], format: 'integer', minimum: 1, maximum: 999 },
         phone_number: { type: 'string', maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
         website: { type: ['string', `null`], maxLength: 255 },

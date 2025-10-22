@@ -17,7 +17,7 @@ import baseModel from './baseModel.js';
 
 class Farm extends baseModel {
   static get tableName() {
-    return 'market_directory_data';
+    return 'market_directory_info';
   }
 
   static get hidden() {
@@ -25,7 +25,7 @@ class Farm extends baseModel {
   }
 
   static get idColumn() {
-    return 'farm_id';
+    return 'id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -34,23 +34,23 @@ class Farm extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_name', 'representative_first_name', 'email', 'address'],
+      required: ['farm_id', 'farm_name', 'contact_first_name', 'contact_email', 'address'],
       properties: {
+        id: { type: 'string' },
         farm_id: { type: 'string' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
         logo: { type: ['string', `null`], maxLength: 255 },
         about: { type: ['string', `null`] },
-        representative_first_name: { type: 'string', minLength: 1, maxLength: 255 },
-        representative_last_name: { type: ['string', `null`], maxLength: 255 },
-        email: { type: 'string', minLength: 1, maxLength: 255 },
+        contact_first_name: { type: 'string', minLength: 1, maxLength: 255 },
+        contact_last_name: { type: 'string', maxLength: 255 },
+        contact_email: { type: 'string', minLength: 1, maxLength: 255 },
+        email: { type: 'string', maxLength: 255 },
         phone_number: { type: 'string', maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
         website: { type: ['string', `null`], maxLength: 255 },
         instagram: { type: ['string', `null`], maxLength: 255 },
         facebook: { type: ['string', `null`], maxLength: 255 },
         x: { type: ['string', `null`], maxLength: 255 },
-        youtube: { type: ['string', `null`], maxLength: 255 },
-        linkedin: { type: ['string', `null`], maxLength: 255 },
         ...this.baseProperties,
       },
       additionalProperties: false,

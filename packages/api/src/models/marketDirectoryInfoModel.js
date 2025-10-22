@@ -15,7 +15,7 @@
 
 import baseModel from './baseModel.js';
 
-class Farm extends baseModel {
+class MarketDirectoryInfo extends baseModel {
   static get tableName() {
     return 'market_directory_info';
   }
@@ -45,6 +45,7 @@ class Farm extends baseModel {
         contact_last_name: { type: 'string', maxLength: 255 },
         contact_email: { type: 'string', minLength: 1, maxLength: 255 },
         email: { type: 'string', maxLength: 255 },
+        country_code: { type: ['number', 'null'], format: 'integer', minimum: 1, maximum: 999 },
         phone_number: { type: 'string', maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
         website: { type: ['string', `null`], maxLength: 255 },
@@ -58,4 +59,4 @@ class Farm extends baseModel {
   }
 }
 
-export default Farm;
+export default MarketDirectoryInfo;

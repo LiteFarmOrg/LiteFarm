@@ -18,6 +18,7 @@ import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import TextButton from '../Form/Button/TextButton';
 
 export enum DesktopDrawerVariants {
   DRAWER = 'drawer',
@@ -89,6 +90,8 @@ const Drawer = ({
 
   const isDesktopSideDrawer = isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER;
 
+  const CloseButton = closeButtonLabel ? TextButton : IconButton;
+
   return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
       className={classes.modal}
@@ -128,12 +131,16 @@ const Drawer = ({
       >
         <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
-          <div className={styles.closeButtonWrapper}>
+          <CloseButton
+            className={clsx(
+              styles.closeButton,
+              closeButtonLabel ? styles.textButton : styles.iconButton,
+            )}
+            onClick={onClose}
+          >
             {closeButtonLabel && <span> {closeButtonLabel}</span>}
-            <IconButton className={styles.close} onClick={onClose}>
-              <Close />
-            </IconButton>
-          </div>
+            <Close />
+          </CloseButton>
         </div>
         <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}

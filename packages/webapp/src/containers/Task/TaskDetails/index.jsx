@@ -29,8 +29,6 @@ function TaskDetails() {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
-  const productsInInventory = products?.filter((product) => !product.removed);
-
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );
@@ -66,7 +64,7 @@ function TaskDetails() {
         persistedPaths={persistedPaths}
         selectedTaskType={selectedTaskType}
         system={system}
-        products={productsInInventory}
+        products={products}
         farm={{ farm_id, country_id, interested }}
         managementPlanByLocations={managementPlanByLocations}
         wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}

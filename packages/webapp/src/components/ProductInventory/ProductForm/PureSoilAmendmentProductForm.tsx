@@ -83,7 +83,6 @@ const PureSoilAmendmentProductForm = ({
 
   return (
     <div className={styles.soilAmendmentProductForm}>
-      {/* @ts-expect-error */}
       <Input
         name={NAME}
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}

@@ -138,7 +138,6 @@ const PureSoilAmendmentTask = ({
         )}
         {methodId === methodIdsMap['OTHER'] && (
           <>
-            {/* @ts-expect-error */}
             <Input
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD')}
               name={OTHER_APPLICATION_METHOD}

@@ -96,7 +96,6 @@ const PureSoilSampleTask = ({
 
   return (
     <div className={styles.wrapper}>
-      {/* @ts-expect-error */}
       <Input
         label={t('ADD_TASK.SOIL_SAMPLE_VIEW.LOCATION_COUNT')}
         value={locationLength}

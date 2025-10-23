@@ -80,25 +80,11 @@ const PureSoilAmendmentProductForm = ({
     }
   }, [mode]);
 
-  const { customProductsInInventory } = useMemo(() => {
-    // LF-4963 - library product select options
-    const libraryProductsOutsideInventory: SoilAmendmentProduct[] = [];
-    const customProductsInInventory: SoilAmendmentProduct[] = [];
-
-    products.forEach((product) => {
-      if (isLibraryProduct(product)) {
-        if (!product.farm_id || product.removed) {
-          libraryProductsOutsideInventory.push(product);
-        }
-      } else if (!product.removed) {
-        customProductsInInventory.push(product);
-      }
-    });
-
-    return { libraryProductsOutsideInventory, customProductsInInventory };
+  const customProductNames = useMemo(() => {
+    return products
+      .filter((product) => !product.removed && !isLibraryProduct(product))
+      .map(({ name }) => name);
   }, [products]);
-
-  const customProductNames = customProductsInInventory.map(({ name }) => name);
 
   return (
     <div className={styles.soilAmendmentProductForm}>

@@ -1446,6 +1446,15 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "MARKET_DIRECTORY": {
+    "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
+    "GET_LISTED": "Get your farm listed in trusted directories",
+    "CONSENT": {
+      "TITLE": "Consent",
+      "MISSING_DETAILS": "You’re almost ready to publish! Just fill in the missing details in your Market directory info form above first."
+    },
+    "MARKET_DIRECTORY_INFO": "Market directory info"
+  },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",
     "ANIMALS": "Animals",

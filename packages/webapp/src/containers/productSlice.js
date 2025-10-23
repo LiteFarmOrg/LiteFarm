@@ -80,9 +80,9 @@ export const productInventorySelector = createSelector([productsSelector], (prod
 });
 
 export const hasAvailableProductsSelector = createSelector(
-  [productsSelector, (_state, type) => type],
-  (products, type) => {
-    return products.some((product) => !product.removed && (!type || product.type === type));
+  [productInventorySelector, (_state, type) => type],
+  (productInventory, type) => {
+    return productInventory.some((product) => !type || product.type === type);
   },
 );
 

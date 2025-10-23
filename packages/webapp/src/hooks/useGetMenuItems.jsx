@@ -117,7 +117,7 @@ export const useGetMenuItems = () => {
             {
               label: t('MENU.FARM_SETTINGS'),
               icon: <FarmSettingsIcon />,
-              path: '/farm',
+              path: '/farm_settings/',
               key: 'farm',
             },
             { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },

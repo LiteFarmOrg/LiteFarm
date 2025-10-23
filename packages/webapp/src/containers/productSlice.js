@@ -79,6 +79,13 @@ export const productInventorySelector = createSelector([productsSelector], (prod
   return products.filter((product) => !product.removed);
 });
 
+export const hasAvailableProductsSelector = createSelector(
+  [productsSelector, (_state, type) => type],
+  (products, type) => {
+    return products.some((product) => !product.removed && (!type || product.type === type));
+  },
+);
+
 export const productEntitiesSelector = productSelectors.selectEntities;
 
 export const productSelector = (product_id) => (state) =>

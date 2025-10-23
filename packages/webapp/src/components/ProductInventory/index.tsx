@@ -34,6 +34,8 @@ import { TableProduct } from '../../containers/ProductInventory';
 import { Product } from '../../store/api/types';
 import { TASK_TYPES } from '../../containers/Task/constants';
 
+const TABLE_MIN_ROWS = 20;
+
 export type PureProductInventory = {
   filteredInventory: TableProduct[];
   zIndexBase: number;
@@ -118,7 +120,7 @@ const PureProductInventory = ({
             columns={productColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
-            minRows={totalInventoryCount}
+            minRows={TABLE_MIN_ROWS}
             dense={true}
             showHeader={isDesktop}
             selectedIds={selectedIds}

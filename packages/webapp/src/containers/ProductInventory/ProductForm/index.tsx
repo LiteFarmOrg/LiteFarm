@@ -55,9 +55,11 @@ const renderDrawerTitle = (
   if (mode === FormMode.READ_ONLY) {
     return (
       <div className={clsx(styles.buttons, styles.titleWrapper)}>
-        <TextButton onClick={() => onActionButtonClick(FormMode.EDIT)}>
-          <EditIcon />
-        </TextButton>
+        {isAdmin && (
+          <TextButton onClick={() => onActionButtonClick(FormMode.EDIT)}>
+            <EditIcon />
+          </TextButton>
+        )}
         <TextButton onClick={() => onActionButtonClick(FormMode.DUPLICATE)}>
           <CopyIcon />
         </TextButton>
@@ -133,6 +135,7 @@ export default function ProductForm({
           desktopSideDrawerContainer: styles.sideDrawerContainer,
           drawerHeader: styles.drawerHeader,
         }}
+        closeButtonLabel={t('common:CANCEL')}
       >
         <div className={styles.formWrapper}>
           {FormContent && (

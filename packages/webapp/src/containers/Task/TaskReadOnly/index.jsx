@@ -104,7 +104,8 @@ function TaskReadOnly() {
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (isTaskTypeCustom && !hasAnimals) {
-      dispatch(setFormData({ task_id, taskType: task.taskType }));
+      const duration = task.duration || undefined; // ensure duration is undefined instead of null
+      dispatch(setFormData({ ...task, duration }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
       history.push(`/tasks/${task_id}/before_complete`, location?.state);

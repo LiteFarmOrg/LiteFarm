@@ -136,9 +136,9 @@ const Input = ({
     if (input.current) {
       input.current.value = '';
       onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
-      hookFormRegister?.onChange({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
+      hookFormRegister?.onChange({ target: input.current });
       // Manually trigger validation against the new value ''
-      trigger?.(name as string);
+      trigger?.(name);
       setShowError(false);
       onCleared?.();
     }
@@ -154,7 +154,7 @@ const Input = ({
       }
       hookFormRegister?.onChange?.({
         target: input.current,
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
       onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
     }
   };
@@ -167,7 +167,7 @@ const Input = ({
       }
       hookFormRegister?.onChange?.({
         target: input.current,
-      } as React.ChangeEvent<HTMLInputElement>);
+      });
       onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
     }
   };
@@ -270,19 +270,19 @@ const Input = ({
                 input.current.value = String(max);
                 hookFormRegister?.onChange?.({
                   target: input.current,
-                } as React.ChangeEvent<HTMLInputElement>);
+                });
               } else if (min !== undefined && Number(e.target.value) < Number(min)) {
                 input.current.value = String(min);
                 hookFormRegister?.onChange?.({
                   target: input.current,
-                } as React.ChangeEvent<HTMLInputElement>);
+                });
               }
             }
             onBlur?.(e);
             if (input.current) {
               hookFormRegister?.onChange?.({
                 target: input.current,
-              } as React.ChangeEvent<HTMLInputElement>);
+              });
             }
             hookFormRegister?.onBlur?.(e);
             i18n.t('common:REQUIRED') === errors && setShowError(true);
@@ -342,7 +342,7 @@ const isEventOkForIntegerInput = (event: React.KeyboardEvent<HTMLInputElement>):
  */
 export const numberOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
   if (event.key.length == 1) {
-    const target = event.target as HTMLInputElement;
+    const target = event.currentTarget;
     if (target.value.length == 0 || /\./.test(target.value)) {
       !/[0-9]/.test(event.key) && event.preventDefault();
     } else {

@@ -5,7 +5,7 @@
   "main": "./api/src/server.js",
   "type": "module",
   "engines": {
-    "node": "20.17"
+    "node": "22.21"
   },
   "scripts": {
     "test": "node --inspect ./node_modules/.bin/jest --runInBand",

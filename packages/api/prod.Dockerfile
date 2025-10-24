@@ -1,4 +1,4 @@
-FROM node:20.17
+FROM node:22.21
 
 # Install rsync
 RUN apt-get update && apt-get install -y rsync

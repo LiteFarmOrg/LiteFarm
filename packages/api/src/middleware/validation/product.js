@@ -12,6 +12,8 @@ function createOrPatchProduct(taskType) {
             on_permitted_substances_list,
             // omit the body sent farm_id
             farm_id,
+            // "removed" belongs to product_farm but shouldn't be updated via this upsert
+            removed,
             ...productData
           } = product;
 
@@ -39,6 +41,8 @@ function createOrPatchProduct(taskType) {
             on_permitted_substances_list,
             // omit the body sent farm_id
             farm_id,
+            // "removed" belongs to product_farm but shouldn't be added via this upsert
+            removed,
             ...productData
           } = product;
 

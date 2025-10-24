@@ -52,7 +52,7 @@ function TaskReadOnly() {
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const isIrrigationTaskWithExternalPrescription =
     isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
     task?.irrigation_task?.irrigation_prescription_external_id != null;

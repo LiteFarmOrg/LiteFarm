@@ -13,13 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
+import { isLibraryProduct } from '../../../util/product';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
@@ -79,7 +80,11 @@ const PureSoilAmendmentProductForm = ({
     }
   }, [mode]);
 
-  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
+  const customProductNames = useMemo(() => {
+    return products
+      .filter((product) => !product.removed && !isLibraryProduct(product))
+      .map(({ name }) => name);
+  }, [products]);
 
   return (
     <div className={styles.soilAmendmentProductForm}>
@@ -95,7 +100,7 @@ const PureSoilAmendmentProductForm = ({
             // Allow duplicate check to pass if keeping the original name during edit
             if (
               !(mode === FormMode.EDIT && value === product?.name) &&
-              productNames.includes(value)
+              customProductNames.includes(value)
             ) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }

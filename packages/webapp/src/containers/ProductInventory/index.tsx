@@ -24,7 +24,7 @@ import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg'
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
-import { productsSelector } from '../productSlice';
+import { productInventorySelector } from '../productSlice';
 import { Product, SoilAmendmentProduct } from '../../store/api/types';
 import { TASK_TYPES } from '../Task/constants';
 import { SearchProps } from '../../components/Animals/Inventory';
@@ -65,7 +65,7 @@ export default function ProductInventory() {
     dispatch(getProducts());
   }, []);
 
-  const productInventory = useSelector(productsSelector);
+  const productInventory = useSelector(productInventorySelector);
 
   const inventory = productInventory
     .filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT)

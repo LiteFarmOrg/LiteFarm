@@ -18,10 +18,12 @@ import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiS
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { productsSelector } from '../../productSlice';
+import { productsForTaskTypeSelector } from '../../productSlice';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { FormContentProps } from '.';
+
+const taskType = { task_translation_key: TASK_TYPES.SOIL_AMENDMENT.toUpperCase() };
 
 export default function SoilAmendmentProductForm({ mode, productId }: FormContentProps) {
   const { t } = useTranslation();
@@ -38,12 +40,9 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
     label: t(`ADD_PRODUCT.${key}_FERTILISER`),
   }));
 
-  const products = useSelector(productsSelector);
-
-  // TODO: Filter out removed products
-  const soilAmendmentCustomProducts = products.filter(
-    (product) => product.type === TASK_TYPES.SOIL_AMENDMENT,
-  );
+  const soilAmendmentProducts =
+    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
+    useSelector((state) => productsForTaskTypeSelector(state, taskType)) || [];
 
   const isReadOnly = mode === FormMode.READ_ONLY;
 
@@ -53,7 +52,7 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
       isReadOnly={isReadOnly}
       farm={{ farm_id, interested, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
-      products={soilAmendmentCustomProducts}
+      products={soilAmendmentProducts}
       productId={productId}
     />
   );

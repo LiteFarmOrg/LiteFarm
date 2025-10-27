@@ -73,8 +73,7 @@ interface InputProps
   onChange?: (
     event:
       | React.ChangeEvent<HTMLInputElement>
-      // Plain object with only target
-      // (from onClear, increment, decrement)
+      // (onClear, increment, decrement)
       | { target: HTMLInputElement },
   ) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;

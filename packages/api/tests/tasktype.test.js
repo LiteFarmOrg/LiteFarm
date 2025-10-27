@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -32,12 +32,12 @@ import mocks from './mock.factories.js';
 import taskTypeModel from '../src/models/taskTypeModel.js';
 
 xdescribe('taskType Tests', () => {
-  let token;
+  let _token;
   let owner;
   let farm;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -80,16 +80,15 @@ xdescribe('taskType Tests', () => {
     await knex.raw('DELETE from "taskType"');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory(
+    const [_ownerFarm] = await mocks.userFarmFactory(
       { promisedUser: [owner], promisedFarm: [farm] },
       fakeUserFarm(1),
     );
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Get && delete taskType', () => {
@@ -98,7 +97,7 @@ xdescribe('taskType Tests', () => {
       [taskType] = await mocks.taskTypeFactory({ promisedFarm: [farm] });
     });
 
-    test('Get by farm_id should filter out deleted task types', async (done) => {
+    test('Get by farm_id should filter out deleted task types', async () => {
       await taskTypeModel
         .query()
         .context({
@@ -107,13 +106,12 @@ xdescribe('taskType Tests', () => {
         })
         .findById(taskType.task_id)
         .delete();
-      getRequest({ user_id: owner.user_id }, (err, res) => {
+      getRequest({ user_id: owner.user_id }, (_err, res) => {
         expect(res.status).toBe(404);
-        done();
       });
     });
 
-    test('Get by task_id should filter out deleted task types', async (done) => {
+    test('Get by task_id should filter out deleted task types', async () => {
       await taskTypeModel
         .query()
         .context({
@@ -122,21 +120,19 @@ xdescribe('taskType Tests', () => {
         })
         .findById(taskType.task_id)
         .delete();
-      getRequest({ user_id: owner.user_id, url: `/task_type/${taskType.task_id}` }, (err, res) => {
+      getRequest({ user_id: owner.user_id, url: `/task_type/${taskType.task_id}` }, (_err, res) => {
         expect(res.status).toBe(404);
-        done();
       });
     });
 
-    test('Workers should get seeded taskType', async (done) => {
-      let [seedtaskType] = await mocks.taskTypeFactory(
+    test('Workers should get seeded taskType', async () => {
+      const [seedtaskType] = await mocks.taskTypeFactory(
         { promisedFarm: [{ farm_id: null }] },
         mocks.fakeTaskType(),
       );
-      getRequest({ user_id: owner.user_id }, (err, res) => {
+      getRequest({ user_id: owner.user_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[1].taskType_id).toBe(seedtaskType.taskType_id);
-        done();
       });
     });
 
@@ -148,132 +144,121 @@ xdescribe('taskType Tests', () => {
 
       beforeEach(async () => {
         [worker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory(
+        const [_workerFarm] = await mocks.userFarmFactory(
           { promisedUser: [worker], promisedFarm: [farm] },
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory(
+        const [_managerFarm] = await mocks.userFarmFactory(
           { promisedUser: [manager], promisedFarm: [farm] },
           fakeUserFarm(2),
         );
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+        const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
           { promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] },
           fakeUserFarm(1),
         );
       });
 
-      test('Owner should get taskType by farm id', async (done) => {
-        getRequest({ user_id: owner.user_id }, (err, res) => {
+      test('Owner should get taskType by farm id', async () => {
+        getRequest({ user_id: owner.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
         });
       });
 
-      test('Manager should get taskType by farm id', async (done) => {
-        getRequest({ user_id: manager.user_id }, (err, res) => {
+      test('Manager should get taskType by farm id', async () => {
+        getRequest({ user_id: manager.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
         });
       });
 
-      test('Worker should get taskType by farm id', async (done) => {
-        getRequest({ user_id: worker.user_id }, (err, res) => {
+      test('Worker should get taskType by farm id', async () => {
+        getRequest({ user_id: worker.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
         });
       });
 
-      test('Should get status 403 if an unauthorizedUser tries to get taskType by farm_id', async (done) => {
-        getRequest({ user_id: unAuthorizedUser.user_id }, (err, res) => {
+      test('Should get status 403 if an unauthorizedUser tries to get taskType by farm_id', async () => {
+        getRequest({ user_id: unAuthorizedUser.user_id }, (_err, res) => {
           expect(res.status).toBe(403);
-          done();
         });
       });
 
-      test('Circumvent authorization by modifying farm_id', async (done) => {
+      test('Circumvent authorization by modifying farm_id', async () => {
         getRequest(
           { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Owner should get taskType by task_id', async (done) => {
+      test('Owner should get taskType by task_id', async () => {
         getRequest(
           { user_id: owner.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
           },
         );
       });
 
-      test('Manager should get taskType by task_id', async (done) => {
+      test('Manager should get taskType by task_id', async () => {
         getRequest(
           { user_id: manager.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
           },
         );
       });
 
-      test('Worker should get taskType by task_id', async (done) => {
+      test('Worker should get taskType by task_id', async () => {
         getRequest(
           { user_id: worker.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
           },
         );
       });
 
-      test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async (done) => {
+      test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async () => {
         getRequest(
           { user_id: unAuthorizedUser.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Get taskType by task_id circumvent authorization by modifying farm_id', async (done) => {
+      test('Get taskType by task_id circumvent authorization by modifying farm_id', async () => {
         getRequest(
           {
             user_id: unAuthorizedUser.user_id,
             farm_id: farmunAuthorizedUser.farm_id,
             url: `/task_type/${taskType.task_id}`,
           },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
     });
 
     describe('Delete task type', function () {
-      test('should return 403 if user tries to delete a seeded taskType', async (done) => {
-        let [seedTaskType] = await mocks.taskTypeFactory(
+      test('should return 403 if user tries to delete a seeded taskType', async () => {
+        const [seedTaskType] = await mocks.taskTypeFactory(
           { promisedFarm: [{ farm_id: null }] },
           mocks.fakeTaskType(),
         );
-        deleteRequest({ task_id: seedTaskType.task_id }, async (err, res) => {
+        deleteRequest({ task_id: seedTaskType.task_id }, async (_err, res) => {
           expect(res.status).toBe(403);
-          done();
         });
       });
 
@@ -285,26 +270,26 @@ xdescribe('taskType Tests', () => {
 
         beforeEach(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory(
+          const [_workerFarm] = await mocks.userFarmFactory(
             { promisedUser: [worker], promisedFarm: [farm] },
             fakeUserFarm(3),
           );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory(
+          const [_managerFarm] = await mocks.userFarmFactory(
             { promisedUser: [manager], promisedFarm: [farm] },
             fakeUserFarm(2),
           );
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+          const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
             { promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] },
             fakeUserFarm(1),
           );
         });
 
-        test('Owner should delete a task type', async (done) => {
-          deleteRequest({ task_id: taskType.task_id }, async (err, res) => {
+        test('Owner should delete a task type', async () => {
+          deleteRequest({ task_id: taskType.task_id }, async (_err, res) => {
             expect(res.status).toBe(200);
             const taskTypeRes = await taskTypeModel
               .query()
@@ -312,14 +297,13 @@ xdescribe('taskType Tests', () => {
               .where('task_id', taskType.task_id);
             expect(taskTypeRes.length).toBe(1);
             expect(taskTypeRes[0].deleted).toBe(true);
-            done();
           });
         });
 
-        test('Manager should delete a taskType', async (done) => {
+        test('Manager should delete a taskType', async () => {
           deleteRequest(
             { user_id: manager.user_id, task_id: taskType.task_id },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(200);
               const taskTypeRes = await taskTypeModel
                 .query()
@@ -327,41 +311,37 @@ xdescribe('taskType Tests', () => {
                 .where('task_id', taskType.task_id);
               expect(taskTypeRes.length).toBe(1);
               expect(taskTypeRes[0].deleted).toBe(true);
-              done();
             },
           );
         });
 
-        test('should return 403 if an unauthorized user tries to delete a taskType', async (done) => {
+        test('should return 403 if an unauthorized user tries to delete a taskType', async () => {
           deleteRequest(
             { user_id: unAuthorizedUser.user_id, task_id: taskType.task_id },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
 
-        test('should return 403 if a worker tries to delete a taskType', async (done) => {
+        test('should return 403 if a worker tries to delete a taskType', async () => {
           deleteRequest(
             { user_id: worker.user_id, task_id: taskType.task_id },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
 
-        test('Circumvent authorization by modifying farm_id', async (done) => {
+        test('Circumvent authorization by modifying farm_id', async () => {
           deleteRequest(
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser.farm_id,
               task_id: taskType.task_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
@@ -376,11 +356,10 @@ xdescribe('taskType Tests', () => {
       fakeTaskType = getfakeTaskType();
     });
 
-    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+    test('should return 403 status if headers.farm_id is set to null', async () => {
       fakeTaskType.farm_id = null;
-      postRequest(fakeTaskType, {}, (err, res) => {
+      postRequest(fakeTaskType, {}, (_err, res) => {
         expect(res.status).toBe(403);
-        done();
       });
     });
 
@@ -392,26 +371,26 @@ xdescribe('taskType Tests', () => {
 
       beforeEach(async () => {
         [worker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory(
+        const [_workerFarm] = await mocks.userFarmFactory(
           { promisedUser: [worker], promisedFarm: [farm] },
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory(
+        const [_managerFarm] = await mocks.userFarmFactory(
           { promisedUser: [manager], promisedFarm: [farm] },
           fakeUserFarm(2),
         );
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+        const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
           { promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] },
           fakeUserFarm(1),
         );
       });
 
-      test('Owner should post and get a valid taskType', async (done) => {
-        postRequest(fakeTaskType, {}, async (err, res) => {
+      test('Owner should post and get a valid taskType', async () => {
+        postRequest(fakeTaskType, {}, async (_err, res) => {
           expect(res.status).toBe(201);
           const taskTypes = await taskTypeModel
             .query()
@@ -419,12 +398,11 @@ xdescribe('taskType Tests', () => {
             .where('farm_id', farm.farm_id);
           expect(taskTypes.length).toBe(1);
           expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
-          done();
         });
       });
 
-      test('Manager should post and get a valid taskType', async (done) => {
-        postRequest(fakeTaskType, { user_id: manager.user_id }, async (err, res) => {
+      test('Manager should post and get a valid taskType', async () => {
+        postRequest(fakeTaskType, { user_id: manager.user_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const taskTypes = await taskTypeModel
             .query()
@@ -432,37 +410,33 @@ xdescribe('taskType Tests', () => {
             .where('farm_id', farm.farm_id);
           expect(taskTypes.length).toBe(1);
           expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
-          done();
         });
       });
 
-      test('should return 403 status if taskType is posted by worker', async (done) => {
-        postRequest(fakeTaskType, { user_id: worker.user_id }, async (err, res) => {
+      test('should return 403 status if taskType is posted by worker', async () => {
+        postRequest(fakeTaskType, { user_id: worker.user_id }, async (_err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe(
             'User does not have the following permission(s): add:task_types',
           );
-          done();
         });
       });
 
-      test('should return 403 status if taskType is posted by unauthorized user', async (done) => {
-        postRequest(fakeTaskType, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
+      test('should return 403 status if taskType is posted by unauthorized user', async () => {
+        postRequest(fakeTaskType, { user_id: unAuthorizedUser.user_id }, async (_err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe(
             'User does not have the following permission(s): add:task_types',
           );
-          done();
         });
       });
 
-      test('Circumvent authorization by modify farm_id', async (done) => {
+      test('Circumvent authorization by modify farm_id', async () => {
         postRequest(
           fakeTaskType,
           { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });

@@ -1,14 +1,13 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import moment from 'moment';
 chai.use(chaiHttp);
 import server from './../src/server.js';
 import knex from '../src/util/knex.js';
 // import emailMiddleware from '../src/templates/sendEmailTemplate.js';
 jest.mock('jsdom');
-jest.mock('axios');
+const mockedAxios = jest.mocked('axios');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -22,23 +21,21 @@ import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 
 describe('Invite user', () => {
-  let axios;
-
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
-  function postCreateUser({ user_id, farm_id }, data, callback) {
-    chai
+  async function postCreateUser({ user_id, farm_id }, data, callback) {
+    return chai
       .request(server)
       .post('/user/invite')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .set('Content-Type', 'application/json')
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
   function fakeUser(farm_id, role_id) {
@@ -61,46 +58,42 @@ describe('Invite user', () => {
     let user;
     let farm;
     beforeEach(async () => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory(
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory(
         {},
         { role_id: 1, status: 'Active' },
       );
       user = user_id;
       farm = farm_id;
-      axios = require('axios');
-      axios.mockImplementation(() => {
+      mockedAxios.mockResolvedValuesOnce(() => {
         return new Promise((resolve) =>
           resolve({ data: fakeUser(farm_id, 2), status: 201, user_id: '123914249120' }),
         );
       });
     });
 
-    test('Owner should be able to invite a user', async (done) => {
-      postCreateUser({ user_id: user, farm_id: farm }, fakeUser(farm, 2), (err, res) => {
+    test('Owner should be able to invite a user', async () => {
+      await postCreateUser({ user_id: user, farm_id: farm }, fakeUser(farm, 2), (_err, res) => {
         expect(res.status).toBe(201);
-        done();
       });
     });
 
-    test('Manager should be able to invite a user', async (done) => {
-      let [{ user_id }] = await mocks.userFarmFactory(
+    test('Manager should be able to invite a user', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id: farm }] },
         { role_id: 2, status: 'Active' },
       );
-      postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 2), (err, res) => {
+      await postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 2), (_err, res) => {
         expect(res.status).toBe(201);
-        done();
       });
     });
 
-    test('Worker should fail to invite a user', async (done) => {
-      let [{ user_id }] = await mocks.userFarmFactory(
+    test('Worker should fail to invite a user', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id: farm }] },
         { role_id: 3, status: 'Active' },
       );
-      postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 3), (err, res) => {
+      await postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 3), (_err, res) => {
         expect(res.status).toBe(403);
-        done();
       });
     });
   });

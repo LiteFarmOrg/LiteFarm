@@ -18,7 +18,6 @@
 import chai from 'chai';
 
 import chaiHttp from 'chai-http';
-import moment from 'moment';
 chai.use(chaiHttp);
 import server from './../src/server.js';
 import knex from '../src/util/knex.js';
@@ -40,28 +39,30 @@ import { taskUsingProductGenerator, toLocal8601Extended } from './utils/taskUtil
 describe('Product Tests', () => {
   // let middleware;
 
-  function postProductRequest(data, { user_id, farm_id }, callback) {
-    chai
+  async function postProductRequest(data, { user_id, farm_id }, callback) {
+    return chai
       .request(server)
       .post(`/product`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function getRequest({ user_id, farm_id }, callback) {
-    chai
+  async function getRequest({ user_id, farm_id }, callback) {
+    return chai
       .request(server)
       .get(`/product/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
   async function patchRequest(data, product_id, { user_id, farm_id }) {
-    return await chai
+    return chai
       .request(server)
       .patch(`/product/${product_id}`)
       .set('Content-Type', 'application/json')
@@ -71,7 +72,7 @@ describe('Product Tests', () => {
   }
 
   async function deleteRequest(product_id, { user_id, farm_id }) {
-    return await chai
+    return chai
       .request(server)
       .delete(`/product/${product_id}`)
       .set('Content-Type', 'application/json')
@@ -106,10 +107,9 @@ describe('Product Tests', () => {
     }
   }
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Get products ', () => {
@@ -120,23 +120,22 @@ describe('Product Tests', () => {
       [userFarmToTest] = await mocks.userFarmFactory({}, fakeUserFarm());
     });
 
-    test('Should get products on my farm', async (done) => {
+    test('Should get products on my farm', async () => {
       await Promise.all(
         [...Array(10)].map(() =>
           mocks.productFactory({ promisedFarm: [{ farm_id: userFarmToTest.farm_id }] }),
         ),
       );
-      getRequest(
+      await getRequest(
         { user_id: userFarmToTest.user_id, farm_id: userFarmToTest.farm_id },
-        (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(10);
-          done();
         },
       );
     });
 
-    test('Should get products on my farm but not library products not yet added to inventory', async (done) => {
+    test('Should get products on my farm but not library products not yet added to inventory', async () => {
       await Promise.all(
         [...Array(10)].map(() =>
           mocks.productFactory({ promisedFarm: [{ farm_id: userFarmToTest.farm_id }] }),
@@ -145,17 +144,16 @@ describe('Product Tests', () => {
       await Promise.all(
         [...Array(10)].map(() => mocks.productFactory({ promisedFarm: [{ farm_id: null }] })),
       );
-      getRequest(
+      await getRequest(
         { user_id: userFarmToTest.user_id, farm_id: userFarmToTest.farm_id },
-        (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(10);
-          done();
         },
       );
     });
 
-    test('should get products on my farm, but not my other farms or un-added library products', async (done) => {
+    test('should get products on my farm, but not my other farms or un-added library products', async () => {
       const [otherUserFarm] = await mocks.userFarmFactory({
         promisedUser: [{ user_id: userFarmToTest.user_id }],
       });
@@ -172,14 +170,13 @@ describe('Product Tests', () => {
           mocks.productFactory({ promisedFarm: [{ farm_id: otherUserFarm.farm_id }] }),
         ),
       );
-      getRequest(
+      await getRequest(
         { user_id: userFarmToTest.user_id, farm_id: userFarmToTest.farm_id },
-        (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(10);
           const ids = res.body.map(({ product_id }) => product_id);
           expect(otherFarmProducts.some(({ product_id }) => ids.includes(product_id))).toBe(false);
-          done();
         },
       );
     });
@@ -192,27 +189,29 @@ describe('Product Tests', () => {
       prod = mocks.fakeProduct();
     });
 
-    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+    test('should return 403 status if headers.farm_id is set to null', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-      postProductRequest(prod, { user_id: userFarm.user_id, farm_id: null }, (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      await postProductRequest(
+        prod,
+        { user_id: userFarm.user_id, farm_id: null },
+        async (_err, res) => {
+          expect(res.status).toBe(403);
+        },
+      );
     });
 
-    test('should successfully create a product with minimal data', async (done) => {
+    test('should successfully create a product with minimal data', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-      postProductRequest(prod, userFarm, (err, res) => {
+      await postProductRequest(prod, userFarm, async (_err, res) => {
         expect(res.status).toBe(201);
-        done();
       });
     });
 
-    test('All users should be able to post and get a product', async (done) => {
+    test('All users should be able to post and get a product', async () => {
       const allUserRoles = [1, 2, 3, 5];
       for (const role of allUserRoles) {
         const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
-        postProductRequest(prod, userFarm, async (err, res) => {
+        await postProductRequest(prod, userFarm, async (_err, res) => {
           expect(res.status).toBe(201);
           const productsSaved = await productModel
             .query()
@@ -221,12 +220,11 @@ describe('Product Tests', () => {
             .where('product_farm.farm_id', userFarm.farm_id);
 
           expect(productsSaved.length).toBe(1);
-          done();
         });
       }
     });
 
-    test('should return 400 if elemental value is provided without elemental_unit', async (done) => {
+    test('should return 400 if elemental value is provided without elemental_unit', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
@@ -237,13 +235,12 @@ describe('Product Tests', () => {
         },
       });
 
-      postProductRequest(npkProduct, userFarm, (err, res) => {
+      await postProductRequest(npkProduct, userFarm, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('should return 400 if elemental_unit is percent and n + p + k > 100', async (done) => {
+    test('should return 400 if elemental_unit is percent and n + p + k > 100', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
@@ -255,13 +252,12 @@ describe('Product Tests', () => {
         },
       });
 
-      postProductRequest(npkProduct, userFarm, (err, res) => {
+      await postProductRequest(npkProduct, userFarm, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('should return 409 conflict if a product is created with the same name as an existing product', async (done) => {
+    test('should return 409 conflict if a product is created with the same name as an existing product', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const fertiliserProductA = mocks.fakeProduct({
@@ -275,17 +271,16 @@ describe('Product Tests', () => {
 
       await createProductInDatabase(userFarm, fertiliserProductA);
 
-      postProductRequest(
+      await postProductRequest(
         { ...fertiliserProductA, ...soilAmendmentProductDetails },
         userFarm,
-        (err, res) => {
+        async (_err, res) => {
           expect(res.status).toBe(409);
-          done();
         },
       );
     });
 
-    test('should successfully populate soil_amendment_product table', async (done) => {
+    test('should successfully populate soil_amendment_product table', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const soilAmendmentProduct = mocks.fakeProduct({
@@ -298,7 +293,7 @@ describe('Product Tests', () => {
         },
       });
 
-      postProductRequest(soilAmendmentProduct, userFarm, async (err, res) => {
+      await postProductRequest(soilAmendmentProduct, userFarm, async (_err, res) => {
         expect(res.status).toBe(201);
 
         const [productRecord] = await productModel
@@ -315,8 +310,6 @@ describe('Product Tests', () => {
         expect(soilAmendmentProductRecord.p).toBe(2);
         expect(soilAmendmentProductRecord.k).toBe(1);
         expect(soilAmendmentProductRecord.elemental_unit).toBe('ratio');
-
-        done();
       });
     });
   });

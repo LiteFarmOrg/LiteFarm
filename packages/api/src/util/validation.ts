@@ -57,8 +57,3 @@ const VALID_EMAIL_REGEX = /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i;
 export const isValidEmail = (email: string): boolean => {
   return VALID_EMAIL_REGEX.test(email);
 };
-
-export const isValidURL = async (url: string) => {
-  // TODO: LF-5011
-  return !!url;
-};

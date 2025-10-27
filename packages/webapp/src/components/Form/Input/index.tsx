@@ -70,7 +70,13 @@ interface InputProps
   toolTipContent?: string;
   unit?: string;
   showCross?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      // Plain object with only target
+      // (from onClear, increment, decrement)
+      | { target: HTMLInputElement },
+  ) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   hasLeaf?: boolean;
   placeholder?: string;
@@ -135,7 +141,7 @@ const Input = ({
   const onClear = () => {
     if (input.current) {
       input.current.value = '';
-      onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
+      onChange?.({ target: input.current });
       hookFormRegister?.onChange({ target: input.current });
       // Manually trigger validation against the new value ''
       trigger?.(name);
@@ -155,7 +161,7 @@ const Input = ({
       hookFormRegister?.onChange?.({
         target: input.current,
       });
-      onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
+      onChange?.({ target: input.current });
     }
   };
 
@@ -168,7 +174,7 @@ const Input = ({
       hookFormRegister?.onChange?.({
         target: input.current,
       });
-      onChange?.({ target: input.current } as React.ChangeEvent<HTMLInputElement>);
+      onChange?.({ target: input.current });
     }
   };
 

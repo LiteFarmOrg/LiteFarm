@@ -16,12 +16,11 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  min-height: 20px;
   align-items: baseline;
-
   margin-bottom: 4px;
 
-  .label {
+  h5,
+  span {
     margin-bottom: 0;
   }
 }
@@ -34,11 +33,11 @@
 .rightContent {
   display: flex;
   gap: 4px;
-  align-items: baseline;
+  align-items: center;
   cursor: default;
 
   .tooltipIcon {
-    transform: translateY(4px);
+    transform: translateY(3px);
     cursor: pointer;
   }
 }

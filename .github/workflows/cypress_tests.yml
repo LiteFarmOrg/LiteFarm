@@ -69,14 +69,11 @@ jobs:
           DEV_DATABASE_PASSWORD: postgres
           NODE_ENV: development
 
-      - uses: pnpm/action-setup@v4
-        with:
-          package_json_file: "packages/webapp/package.json"
       - name: Run Webapp
         working-directory: packages/webapp
         run: |
-          pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
-          pnpm dev &
+          npm install --config.auto-install-peers=true --no-frozen-lockfile --force
+          npm dev &
         env:
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}

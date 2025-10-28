@@ -13,14 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
-import { HttpError } from '../types.js';
+import { Response } from 'express';
+import baseController from './baseController.js';
+import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
+import { MarketDirectoryInfoReqBody } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import { HttpError, LiteFarmRequest } from '../types.js';
 
 const marketDirectoryInfoController = {
   addMarketDirectoryInfo() {
-    return async (_req: Request, res: Response) => {
+    return async (
+      req: LiteFarmRequest<unknown, unknown, unknown, MarketDirectoryInfoReqBody>,
+      res: Response,
+    ) => {
+      const { farm_id } = req.headers;
+
       try {
-        res.status(201).send();
+        const result = await baseController.post(
+          MarketDirectoryInfoModel,
+          { ...req.body, farm_id },
+          req,
+        );
+
+        return res.status(201).send(result);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

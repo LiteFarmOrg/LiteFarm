@@ -121,7 +121,7 @@ const taskTypeEndpoint = [
 
 // TypeScript complains without payload.
 // https://redux-toolkit.js.org/api/createAction#using-prepare-callbacks-to-customize-action-contents
-export const getProducts = createAction('getProductsSaga', function prepare(payload) {
+export const getProducts = createAction('getProductsSaga', function prepare(payload = {}) {
   return { payload };
 });
 

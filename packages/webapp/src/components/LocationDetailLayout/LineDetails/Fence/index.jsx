@@ -106,7 +106,10 @@ export function FenceDetailsChildren({ system, isViewLocationPage }) {
           label={t('FARM_MAP.FENCE.PRESSURE_TREATED')}
           hasLeaf={true}
           optional={true}
-          labelStyles={{ marginBottom: '8px' }}
+          labelStyles={{
+            marginBottom: '12px',
+            fontSize: '16px',
+          }}
         />
         <div style={{ marginBottom: '16px' }}>
           <RadioGroup

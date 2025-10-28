@@ -93,7 +93,10 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
         label={t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
         hasLeaf={true}
         optional={true}
-        labelStyles={{ marginBottom: '8px' }}
+        labelStyles={{
+          marginBottom: '12px',
+          fontSize: '16px',
+        }}
       />
       <RadioGroup
         required={true}
@@ -136,7 +139,10 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               label={t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
               hasLeaf={true}
               optional={true}
-              labelStyles={{ marginBottom: '8px' }}
+              labelStyles={{
+                marginBottom: '12px',
+                fontSize: '16px',
+              }}
             />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup
@@ -150,7 +156,10 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               label={t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
               hasLeaf={true}
               optional={true}
-              labelStyles={{ marginBottom: '8px' }}
+              labelStyles={{
+                marginBottom: '12px',
+                fontSize: '16px',
+              }}
             />
 
             <div style={{ marginBottom: '16px' }}>
@@ -165,7 +174,10 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               label={t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
               hasLeaf={true}
               optional={true}
-              labelStyles={{ marginBottom: '8px' }}
+              labelStyles={{
+                marginBottom: '12px',
+                fontSize: '16px',
+              }}
             />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup

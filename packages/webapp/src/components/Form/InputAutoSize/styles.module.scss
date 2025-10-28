@@ -22,8 +22,10 @@
   position: relative;
 }
 
-.sm {
-  margin-left: 8px;
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .inputError {
@@ -40,4 +42,3 @@
   color: var(--grey600);
   border-color: var(--inputDefault);
 }
-

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const isValidUrl = async (url) => {
+export const isValidUrl = async (url: string) => {
   // TODO: LF-5011
   return !!url;
 };

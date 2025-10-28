@@ -13,30 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { isValidURL } from "../../api/src/util/validation.js";
+import { isValidUrl } from './url.js';
 
-export const SOCIALS = {
-  INSTAGRAM: "instagram",
-  FACEBOOK: "facebook",
-  X: "x",
-};
+export enum Social {
+  INSTAGRAM = 'instagram',
+  FACEBOOK = 'facebook',
+  X = 'x',
+}
 
 const SOCIAL_DOMAINS = {
-  [SOCIALS.INSTAGRAM]: "instagram.com",
-  [SOCIALS.FACEBOOK]: "facebook.com",
-  [SOCIALS.X]: "x.com",
+  [Social.INSTAGRAM]: 'instagram.com',
+  [Social.FACEBOOK]: 'facebook.com',
+  [Social.X]: 'x.com',
 };
 
-export const validateAndExtractUsernameOrUrl = async (
-  social,
-  usernameOrUrl
-) => {
+export const SOCIALS = Object.values(Social);
+
+export const validateAndExtractUsernameOrUrl = async (social: Social, usernameOrUrl: string) => {
   const domain = SOCIAL_DOMAINS[social];
   const isUrl = usernameOrUrl.includes(domain);
-  const trimmedInput = isUrl
-    ? usernameOrUrl.trim()
-    : usernameOrUrl.trim().replace(/^@/, "");
+  const trimmedInput = isUrl ? usernameOrUrl.trim() : usernameOrUrl.trim().replace(/^@/, '');
   const urlToCheck = isUrl ? trimmedInput : `https://${domain}/${trimmedInput}`;
 
-  return (await isValidURL(urlToCheck)) ? trimmedInput : false;
+  return (await isValidUrl(urlToCheck)) ? trimmedInput : false;
 };

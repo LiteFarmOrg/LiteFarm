@@ -17,11 +17,13 @@
   display: flex;
   justify-content: space-between;
   min-height: 20px;
-  position: relative;
-}
+  align-items: baseline;
 
-.sm {
-  margin-left: 8px;
+  margin-bottom: 4px;
+
+  .label {
+    margin-bottom: 0;
+  }
 }
 
 .leaf {
@@ -29,19 +31,18 @@
   margin-left: 4px;
 }
 
-.tooltipIconContainer {
-  width: 100%;
+.rightContent {
   display: flex;
-  justify-content: flex-end;
+  gap: 4px;
+  align-items: baseline;
+  cursor: default;
+
+  .tooltipIcon {
+    transform: translateY(4px);
+    cursor: pointer;
+  }
 }
 
 .icon {
-  position: absolute;
-  right: 0;
-  top: -8px;
   color: var(--iconDefault);
-}
-
-.icon > * {
-  cursor: pointer;
 }

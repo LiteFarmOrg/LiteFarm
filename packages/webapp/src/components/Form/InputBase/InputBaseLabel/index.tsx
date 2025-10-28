@@ -34,21 +34,21 @@ export default function InputBaseLabel(props: InputBaseLabelProps) {
 
   return (
     <div className={styles.labelContainer}>
-      <Label style={props.labelStyles}>
+      <Label style={props.labelStyles} className={styles.label}>
         {props.label}
+        {props.hasLeaf && <Leaf className={styles.leaf} />}
+      </Label>
+      <div className={styles.rightContent}>
+        {props.toolTipContent && (
+          <Infoi content={props.toolTipContent} className={styles.tooltipIcon} />
+        )}
+        {props.icon && <span className={styles.icon}>{props.icon}</span>}
         {props.optional && (
-          <Label sm className={styles.sm}>
+          <Label sm className={styles.label}>
             {t('common:OPTIONAL')}
           </Label>
         )}
-        {props.hasLeaf && <Leaf className={styles.leaf} />}
-      </Label>
-      {props.toolTipContent && (
-        <div className={styles.tooltipIconContainer}>
-          <Infoi content={props.toolTipContent} />
-        </div>
-      )}
-      {props.icon && <span className={styles.icon}>{props.icon}</span>}
+      </div>
     </div>
   );
 }

@@ -26,7 +26,8 @@ import clsx from 'clsx';
 import i18n from '../../../locales/i18n';
 import styles from './input.module.scss';
 import { mergeRefs } from '../utils';
-import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
+import { Error, Info, TextWithExternalLink } from '../../Typography';
+import InputBaseLabel from '../InputBase/InputBaseLabel';
 import { Cross } from '../../Icons';
 import {
   MdVisibility,
@@ -37,8 +38,6 @@ import {
 import { ReactComponent as SearchIcon } from '../../../assets/images/search.svg';
 import { ReactComponent as SearchClearIcon } from '../../../assets/images/search-close.svg';
 import TextButton from '../Button/TextButton';
-import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
-import Infoi from '../../Tooltip/Infoi';
 import useElementWidth from '../../hooks/useElementWidth';
 
 interface InputClasses {
@@ -195,23 +194,13 @@ const Input = ({
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       {(label || toolTipContent || icon) && (
-        <div className={styles.labelContainer}>
-          <Label style={{ position: 'absolute', bottom: 0 }}>
-            {label}
-            {optional && (
-              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
-                {t('common:OPTIONAL')}
-              </Label>
-            )}
-            {hasLeaf && <Leaf className={styles.leaf} />}
-          </Label>
-          {toolTipContent && (
-            <div className={styles.tooltipIconContainer}>
-              <Infoi content={toolTipContent} />
-            </div>
-          )}
-          {icon && <span className={styles.icon}>{icon}</span>}
-        </div>
+        <InputBaseLabel
+          label={label}
+          optional={optional}
+          hasLeaf={hasLeaf}
+          toolTipContent={toolTipContent}
+          icon={icon}
+        />
       )}
       {isPassword &&
         !showError &&

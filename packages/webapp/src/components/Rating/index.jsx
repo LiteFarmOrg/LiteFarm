@@ -24,7 +24,7 @@ const Rating = ({
     <>
       {label && (
         <div className={styles.labelContainer}>
-          <Label className>{label}</Label>
+          <Label>{label}</Label>
           {optional && <Label sm>{t('common:OPTIONAL')}</Label>}
         </div>
       )}

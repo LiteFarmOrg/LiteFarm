@@ -23,3 +23,10 @@ export const FiveStar = Template.bind({});
 FiveStar.args = {
   stars: 5,
 };
+
+export const Optional = Template.bind({});
+Optional.args = {
+  stars: 0,
+  optional: true,
+  label: 'Optional',
+};

@@ -92,7 +92,6 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
       <InputBaseLabel
         label={t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
         hasLeaf={true}
-        optional={true}
         labelStyles={{
           marginBottom: '12px',
           fontSize: '16px',

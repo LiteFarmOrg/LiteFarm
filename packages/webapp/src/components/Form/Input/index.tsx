@@ -202,27 +202,27 @@ const Input = ({
           icon={icon}
         />
       )}
-      {isPassword &&
-        !showError &&
-        (showPassword ? (
-          <MdVisibility
-            aria-label="hide-password"
-            className={styles.visibilityIcon}
-            onClick={setVisibility}
-          />
-        ) : (
-          <MdVisibilityOff
-            aria-label="show-password"
-            className={styles.visibilityIcon}
-            onClick={setVisibility}
-          />
-        ))}
-      {currency && (
-        <div ref={currencyRef} className={styles.currency}>
-          {currency}
-        </div>
-      )}
       <div className={styles.inputWrapper}>
+        {isPassword &&
+          !showError &&
+          (showPassword ? (
+            <MdVisibility
+              aria-label="hide-password"
+              className={styles.visibilityIcon}
+              onClick={setVisibility}
+            />
+          ) : (
+            <MdVisibilityOff
+              aria-label="show-password"
+              className={styles.visibilityIcon}
+              onClick={setVisibility}
+            />
+          ))}
+        {currency && (
+          <div ref={currencyRef} className={styles.currency}>
+            {currency}
+          </div>
+        )}
         {unit && <div className={styles.unit}>{unit}</div>}
         {showError && !unit && showCross && (
           <Cross
@@ -299,12 +299,13 @@ const Input = ({
           </div>
         )}
         {isSearchBar && input?.current?.value && (
-          <TextButton onClick={onClear}>
+          <TextButton onClick={onClear} className={styles.searchClearButton}>
             <SearchClearIcon className={styles.searchClearIcon} />
           </TextButton>
         )}
+        {isSearchBar && <SearchIcon className={styles.searchIcon} />}
       </div>
-      {isSearchBar && <SearchIcon className={styles.searchIcon} />}
+
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
         <Error data-cy="error" style={classes.errors}>

@@ -62,11 +62,11 @@ export function checkAndTransformMarketDirectoryInfo() {
       }
     }
 
-    if (address && !isValidAddress(address)) {
+    if (address && !(await isValidAddress(address))) {
       return res.status(400).send('Invalid address');
     }
 
-    if (website && !isValidUrl(website) /* TODO: LF-5011 */) {
+    if (website && !(await isValidUrl(website)) /* TODO: LF-5011 */) {
       return res.status(400).send('Invalid website');
     }
 

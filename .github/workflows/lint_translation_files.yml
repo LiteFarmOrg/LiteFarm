@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Run linters
-        run: npx eslint './public/locales/**/*.json'
+        run: pnpx eslint './public/locales/**/*.json'
 
   run-linters-in-api:
     name: Run linters in api

@@ -26,6 +26,11 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
 const { usersFactory, farmFactory, userFarmFactory } = mocks;
+jest.mock('jsdom');
+jest.mock('../src/util/jwt.js');
+jest.mock('../src/templates/sendEmailTemplate.js');
+jest.mock('../src/middleware/acl/checkGoogleJwt.js');
+jest.mock('../src/middleware/acl/checkGoogleAccessToken.js');
 import { createToken, tokenType } from '../src/util/jwt.js';
 import checkGoogleJwt from '../src/middleware/acl/checkGoogleJwt.js';
 import checkGoogleAccessToken from '../src/middleware/acl/checkGoogleAccessToken.js';
@@ -33,11 +38,6 @@ import userFarmModel from '../src/models/userFarmModel.js';
 import userModel from '../src/models/userModel.js';
 import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
 // import emailMiddleware from '../src/templates/sendEmailTemplate.js';
-jest.mock('jsdom');
-jest.mock('../src/util/jwt.js');
-jest.mock('../src/templates/sendEmailTemplate.js');
-jest.mock('../src/middleware/acl/checkGoogleJwt.js');
-jest.mock('../src/middleware/acl/checkGoogleAccessToken.js');
 
 describe('JWT Tests', () => {
   let newUser;
@@ -406,9 +406,14 @@ describe('JWT Tests', () => {
     function fakeGoogleTokenContent() {
       const user = mocks.fakeUser();
       return {
-        sub: faker.datatype
-          .number({ min: 100000000000000000000n, max: 199999999999999999999n })
-          .toString(),
+        sub: BigInt(
+          faker.datatype.number({
+            // eslint-disable-next-line no-loss-of-precision
+            min: 100000000000000000000,
+            // eslint-disable-next-line no-loss-of-precision
+            max: 199999999999999999999,
+          }),
+        ).toString(),
         email: faker.internet.email(user.first_name, user.last_name, 'gmail.com').toLowerCase(),
       };
     }

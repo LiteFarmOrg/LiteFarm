@@ -5,7 +5,9 @@ import server from './../src/server.js';
 import knex from '../src/util/knex.js';
 // import emailMiddleware from '../src/templates/sendEmailTemplate.js';
 jest.mock('jsdom');
-const mockedAxios = jest.mocked('axios');
+jest.mock('axios');
+import axios from 'axios';
+
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, _res, next) => {
     req.auth = {};
@@ -54,6 +56,10 @@ describe('Invite user', () => {
     };
   }
 
+  beforeEach(async () => {
+    axios.mockClear();
+  });
+
   describe('Authorization', () => {
     let user;
     let farm;
@@ -64,7 +70,7 @@ describe('Invite user', () => {
       );
       user = user_id;
       farm = farm_id;
-      mockedAxios.mockResolvedValuesOnce(() => {
+      axios.mockResolvedValueOnce(() => {
         return new Promise((resolve) =>
           resolve({ data: fakeUser(farm_id, 2), status: 201, user_id: '123914249120' }),
         );

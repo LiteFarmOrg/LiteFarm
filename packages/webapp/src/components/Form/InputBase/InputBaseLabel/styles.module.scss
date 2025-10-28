@@ -23,6 +23,11 @@
   span {
     margin-bottom: 0;
   }
+
+  &.leftJustified {
+    justify-content: flex-start;
+    gap: 8px;
+  }
 }
 
 .leaf {

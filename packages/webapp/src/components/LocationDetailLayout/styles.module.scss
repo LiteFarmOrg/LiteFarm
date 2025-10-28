@@ -15,9 +15,10 @@
 
 .radioLabel {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
   margin-bottom: 12px;
+  gap: 8px;
 
   h5 {
     font-size: 16px;

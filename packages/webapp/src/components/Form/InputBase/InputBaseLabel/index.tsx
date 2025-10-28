@@ -13,12 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from 'react-i18next';
+import { ReactNode } from 'react';
+import clsx from 'clsx';
 import Infoi from '../../../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../../../assets/images/signUp/leaf.svg';
 import { Label } from '../../../Typography';
 import styles from './styles.module.scss';
-import { useTranslation } from 'react-i18next';
-import { ReactNode } from 'react';
 
 export type InputBaseLabelProps = {
   label?: string;
@@ -27,13 +28,14 @@ export type InputBaseLabelProps = {
   toolTipContent?: string;
   icon?: ReactNode;
   labelStyles?: React.CSSProperties;
+  leftJustified?: boolean;
 };
 
 export default function InputBaseLabel(props: InputBaseLabelProps) {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.labelContainer}>
+    <div className={clsx(styles.labelContainer, props.leftJustified && styles.leftJustified)}>
       <Label style={props.labelStyles}>
         {props.label}
         {props.hasLeaf && <Leaf className={styles.leaf} />}

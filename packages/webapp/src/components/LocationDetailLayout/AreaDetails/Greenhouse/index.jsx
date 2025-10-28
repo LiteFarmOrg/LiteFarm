@@ -96,6 +96,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
           marginBottom: '12px',
           fontSize: '16px',
         }}
+        leftJustified
       />
       <RadioGroup
         required={true}
@@ -142,6 +143,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
                 marginBottom: '12px',
                 fontSize: '16px',
               }}
+              leftJustified
             />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup
@@ -159,6 +161,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
                 marginBottom: '12px',
                 fontSize: '16px',
               }}
+              leftJustified
             />
 
             <div style={{ marginBottom: '16px' }}>
@@ -177,6 +180,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
                 marginBottom: '12px',
                 fontSize: '16px',
               }}
+              leftJustified
             />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup

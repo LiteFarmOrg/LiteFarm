@@ -18,6 +18,7 @@ import { LiteFarmRequest } from '../../types.js';
 import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateAndExtractUsernameOrUrl } from '../../util/socials.js';
+import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
 
 export interface MarketDirectoryInfoReqBody {
   farm_name?: string;
@@ -42,6 +43,17 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
+    if (req.method === 'POST') {
+      // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+      const record = await MarketDirectoryInfoModel.query()
+        .where({ farm_id: req.headers.farm_id })
+        .first();
+
+      if (record) {
+        return res.status(409).send('Market directory info for this farm already exists');
+      }
+    }
+
     const { address, website } = req.body;
 
     for (const emailProperty of ['contact_email', 'email'] as const) {

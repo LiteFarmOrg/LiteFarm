@@ -10,6 +10,7 @@ import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
+import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 
 export default function PureGreenhouseWrapper(props) {
   return (
@@ -88,12 +89,12 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
   const [transitionalDate, setTransitionalDate] = useState(watch(greenhouseEnum.transition_date));
   return (
     <div>
-      <div style={{ marginBottom: '20px' }}>
-        <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
-          {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
-        </Label>
-        <img src={Leaf} style={{ display: 'inline-block' }} />
-      </div>
+      <InputBaseLabel
+        label={t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
+        hasLeaf={true}
+        optional={true}
+        labelStyles={{ marginBottom: '8px' }}
+      />
       <RadioGroup
         required={true}
         disabled={isViewLocationPage}
@@ -131,15 +132,12 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
       <div>
         {greenhouseTypeSelection === 'Organic' && (
           <div>
-            <div style={{ marginBottom: '20px' }}>
-              <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-                {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
-              </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-              <Label style={{ display: 'inline-block' }} sm>
-                {t('common:OPTIONAL')}
-              </Label>
-            </div>
+            <InputBaseLabel
+              label={t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
+              hasLeaf={true}
+              optional={true}
+              labelStyles={{ marginBottom: '8px' }}
+            />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup
                 row
@@ -148,15 +146,13 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
                 hookFormControl={control}
               />
             </div>
-            <div style={{ marginBottom: '20px' }}>
-              <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-                {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
-              </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-              <Label style={{ display: 'inline-block' }} sm>
-                {t('common:OPTIONAL')}
-              </Label>
-            </div>
+            <InputBaseLabel
+              label={t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
+              hasLeaf={true}
+              optional={true}
+              labelStyles={{ marginBottom: '8px' }}
+            />
+
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup
                 row
@@ -165,15 +161,12 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
                 hookFormControl={control}
               />
             </div>
-            <div style={{ marginBottom: '20px' }}>
-              <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-                {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
-              </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-              <Label style={{ display: 'inline-block' }} sm>
-                {t('common:OPTIONAL')}
-              </Label>
-            </div>
+            <InputBaseLabel
+              label={t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
+              hasLeaf={true}
+              optional={true}
+              labelStyles={{ marginBottom: '8px' }}
+            />
             <div style={{ marginBottom: '16px' }}>
               <RadioGroup
                 row

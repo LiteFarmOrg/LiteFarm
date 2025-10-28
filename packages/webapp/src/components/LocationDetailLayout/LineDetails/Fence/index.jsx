@@ -9,6 +9,7 @@ import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from '../../PureLocationDetailLayout';
+import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 
 export default function PureFenceWrapper(props) {
   return (
@@ -101,15 +102,12 @@ export function FenceDetailsChildren({ system, isViewLocationPage }) {
         />
       </div>
       <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-            {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
-          </Label>
-          <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
-        </div>
+        <InputBaseLabel
+          label={t('FARM_MAP.FENCE.PRESSURE_TREATED')}
+          hasLeaf={true}
+          optional={true}
+          labelStyles={{ marginBottom: '8px' }}
+        />
         <div style={{ marginBottom: '16px' }}>
           <RadioGroup
             row

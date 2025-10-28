@@ -17,3 +17,9 @@
   overflow: visible;
   position: relative;
 }
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

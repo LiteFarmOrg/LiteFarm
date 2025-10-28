@@ -13,10 +13,69 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { LiteFarmRequest } from '../../types.js';
+import { isValidAddress, isValidEmail } from '../../util/validation.js';
+import { isValidUrl } from '../../util/url.js';
+import { SOCIALS, validateAndExtractUsernameOrUrl } from '../../util/socials.js';
 
-export function checkMarketDirectoryInfo() {
-  return async (_req: Request, _res: Response, next: NextFunction) => {
+export interface MarketDirectoryInfoReqBody {
+  farm_name?: string;
+  logo?: string;
+  about?: string;
+  contact_first_name?: string;
+  contact_last_name?: string;
+  contact_email?: string;
+  email?: string;
+  country_code?: number;
+  phone_number?: string;
+  address?: string;
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+}
+
+export function checkAndTransformMarketDirectoryInfo() {
+  return async (
+    req: LiteFarmRequest<unknown, unknown, unknown, MarketDirectoryInfoReqBody>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const { address, website } = req.body;
+
+    for (const emailProperty of ['contact_email', 'email'] as const) {
+      if (req.body[emailProperty] && !isValidEmail(req.body[emailProperty])) {
+        return res.status(400).send(`Invalid ${emailProperty}`);
+      }
+    }
+
+    if (address && !isValidAddress(address)) {
+      return res.status(400).send('Invalid address');
+    }
+
+    if (website && !isValidUrl(website) /* TODO: LF-5011 */) {
+      return res.status(400).send('Invalid website');
+    }
+
+    const invalidSocials = (
+      await Promise.all(
+        SOCIALS.filter((social) => req.body[social]?.trim()).map(async (social) => {
+          const formattedSocial = await validateAndExtractUsernameOrUrl(social, req.body[social]!);
+
+          if (formattedSocial) {
+            req.body[social] = formattedSocial;
+            return null;
+          }
+          return social;
+        }),
+      )
+    ).filter((social) => social !== null);
+
+    if (invalidSocials.length) {
+      return res.status(400).send(`Invalid ${invalidSocials.join(', ')}`);
+    }
+
     next();
   };
 }

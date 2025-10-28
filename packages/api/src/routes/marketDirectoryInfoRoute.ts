@@ -15,7 +15,7 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import { checkMarketDirectoryInfo } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import { checkAndTransformMarketDirectoryInfo } from '../middleware/validation/checkMarketDirectoryInfo.js';
 import MarketDirectoryInfoController from '../controllers/marketDirectoryInfoController.js';
 
 const router = express.Router();
@@ -23,7 +23,7 @@ const router = express.Router();
 router.post(
   '/',
   checkScope(['add:market_directory_info']),
-  checkMarketDirectoryInfo(),
+  checkAndTransformMarketDirectoryInfo(),
   MarketDirectoryInfoController.addMarketDirectoryInfo(),
 );
 

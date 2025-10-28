@@ -2,15 +2,15 @@ FROM node:22.21 as build
 
 WORKDIR /usr/src/app
 
-COPY ./webapp/package.json ./webapp/.npmrc ./webapp/pnpm-lock.yaml /usr/src/app/
+COPY ./webapp/package.json ./webapp/.npmrc ./webapp/package-lock.json /usr/src/app/
 
-RUN npm install pnpm@10.6.5 -g && pnpm install
+RUN npm install
 
 COPY ./webapp/ /usr/src/app/
 
 COPY ./shared/ /usr/src/shared/
 
-RUN pnpm run build
+RUN npm run build
 
 FROM nginx:1.25.1
 

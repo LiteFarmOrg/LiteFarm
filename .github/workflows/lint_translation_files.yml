@@ -28,7 +28,8 @@ jobs:
         run: pnpm install
 
       - name: Run linters
-        run: pnpx eslint './public/locales/**/*.json'
+        run: |
+    pnpx eslint@latest "./public/locales/**/*.json" --no-config-lookup --ext .json --plugin eslint-plugin-json --parser @typescript-eslint/parser --rule "json/*: error"
 
   run-linters-in-api:
     name: Run linters in api

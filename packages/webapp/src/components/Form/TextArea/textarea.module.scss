@@ -11,6 +11,11 @@
   background-color: var(--bgInputListTile);
 }
 
+.textArea:focus:enabled {
+  outline: none;
+  border-color: var(--inputActive);
+}
+
 .container {
   display: flex;
   flex-direction: column;

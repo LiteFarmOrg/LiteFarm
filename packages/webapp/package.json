@@ -7,17 +7,11 @@
     "runtime": {
       "name": "node",
       "version": "22.21"
-    },
-    "packageManager": {
-      "name": "pnpm",
-      "version": "10.6.5"
     }
   },
   "engines": {
-    "node": "22.21",
-    "pnpm": ">=9.7.0"
+    "node": "22.21"
   },
-  "packageManager": "pnpm@10.6.5",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
@@ -150,11 +144,27 @@
     "vite-plugin-svgr": "^2.4.0",
     "vitest": "^0.34.5"
   },
-  "pnpm": {
-    "overrides": {
-      "trim@<0.0.3": ">=0.0.3",
-      "glob-parent@<5.1.2": ">=5.1.2",
-      "semver@<7.5.2": ">=7.5.2"
+  "overrides": {
+    "trim@<0.0.3": ">=0.0.3",
+    "glob-parent@<5.1.2": ">=5.1.2",
+    "semver@<7.5.2": ">=7.5.2",
+    "rc-year-calendar": {
+      "react": "$react"
+    },
+    "react-google-login": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-redux-form": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-table": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "@mdx-js/react": {
+      "react": "$react"
     }
   }
 }

@@ -17,8 +17,9 @@ button {
 
 .labelContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
+  gap: 8px;
   margin-bottom: 4px;
 }
 

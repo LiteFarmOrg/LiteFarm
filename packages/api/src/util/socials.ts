@@ -21,7 +21,7 @@ export enum Social {
   X = 'x',
 }
 
-const SOCIAL_DOMAINS = {
+export const SOCIAL_DOMAINS = {
   [Social.INSTAGRAM]: 'instagram.com',
   [Social.FACEBOOK]: 'facebook.com',
   [Social.X]: 'x.com',

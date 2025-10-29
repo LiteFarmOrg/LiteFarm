@@ -20,7 +20,7 @@ export const PrivateBadge = () => {
   const { t } = useTranslation();
   return (
     <div className={styles.private}>
-      <span>{t('MARKET_DIRECTORY.INFO_FORM.PRIVATE')}</span>
+      <span>{t('SIMPLE_BADGE.PRIVATE')}</span>
     </div>
   );
 };

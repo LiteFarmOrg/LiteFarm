@@ -35,6 +35,11 @@ export const up = async function (knex) {
       name: 'delete:market_directory_info',
       description: 'delete market_directory_info',
     },
+    {
+      permission_id: 182,
+      name: 'get:market_directory_info',
+      description: 'get market_directory_info',
+    },
   ]);
   await knex('rolePermissions').insert([
     { role_id: 1, permission_id: 179 },
@@ -46,6 +51,9 @@ export const up = async function (knex) {
     { role_id: 1, permission_id: 181 },
     { role_id: 2, permission_id: 181 },
     { role_id: 5, permission_id: 181 },
+    { role_id: 1, permission_id: 182 },
+    { role_id: 2, permission_id: 182 },
+    { role_id: 5, permission_id: 182 },
   ]);
 };
 
@@ -54,7 +62,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = function (knex) {
-  const permissions = [179, 180, 181];
+  const permissions = [179, 180, 181, 182];
   return Promise.all([
     knex('rolePermissions').whereIn('permission_id', permissions).del(),
     knex('permissions').whereIn('permission_id', permissions).del(),

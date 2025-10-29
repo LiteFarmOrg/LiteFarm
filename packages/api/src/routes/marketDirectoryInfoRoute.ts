@@ -20,6 +20,12 @@ import MarketDirectoryInfoController from '../controllers/marketDirectoryInfoCon
 
 const router = express.Router();
 
+router.get(
+  '/',
+  checkScope(['get:market_directory_info']),
+  MarketDirectoryInfoController.getMarketDirectoryInfoByFarm(),
+);
+
 router.post(
   '/',
   checkScope(['add:market_directory_info']),

@@ -22,7 +22,7 @@ async function usersFactory(userObject = fakeUser()) {
 function fakeUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.uuid(),
@@ -38,7 +38,7 @@ function fakeUser(defaultData = {}) {
 function fakeSSOUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.number({ min: 2, max: 10 }),

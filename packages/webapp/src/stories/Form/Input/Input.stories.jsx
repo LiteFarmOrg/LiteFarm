@@ -1,9 +1,9 @@
-import React from 'react';
+import { userEvent, within } from '@storybook/test';
+import { expect } from '@storybook/test';
 import Input from '../../../components/Form/Input';
 import { Underlined } from '../../../components/Typography';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { userEvent, within } from '@storybook/test';
-import { expect } from '@storybook/test';
+import PrivateBadge from '../../../components/SimpleBadges/PrivateBadge';
 
 export default {
   title: 'Components/Input',
@@ -135,6 +135,13 @@ Optional.args = {
   optional: true,
 };
 
+export const OptionalWithTooltip = Template.bind({});
+OptionalWithTooltip.args = {
+  optional: true,
+  label: 'Optional with tooltip',
+  toolTipContent: 'Content of tooltip',
+};
+
 export const HasLeaf = Template.bind({});
 HasLeaf.args = {
   label: 'Leaf',
@@ -149,8 +156,16 @@ Disabled.args = {
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  icon: <div style={{ position: 'absolute', right: 0 }}>icon</div>,
+  icon: <div>icon</div>,
   label: 'With icon',
+};
+
+export const PrivateIconOptionalTooltip = Template.bind({});
+PrivateIconOptionalTooltip.args = {
+  icon: <PrivateBadge />,
+  optional: true,
+  label: 'With private icon, optional and tooltip',
+  toolTipContent: 'Tooltip content',
 };
 
 export const WithError = Template.bind({});

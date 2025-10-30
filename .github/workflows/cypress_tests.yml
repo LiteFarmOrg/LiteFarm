@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 30
     services:
       postgres:
-        image: postgres
+        image: postgres:13
         env:
           POSTGRES_DB: "pg-litefarm"
           POSTGRES_USER: "postgres"

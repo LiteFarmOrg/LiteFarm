@@ -99,7 +99,6 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
           <div>{t('SENSOR.ESCI.CONNECT_NEW_SENSOR')}</div>
           <div className={styles.idInputWrapper}>
             <InputBaseLabel label={t('SENSOR.ESCI.ENTER_ID')} />
-            {/* @ts-ignore */}
             <Input
               placeholder={t('SENSOR.ESCI.ORGANISATION_ID')}
               type="text"

@@ -17,15 +17,14 @@ import React, { useRef } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Info, Label } from '../../Typography';
+import { Error, Info } from '../../Typography';
+import InputBaseLabel from '../InputBase/InputBaseLabel';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
 import { preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { area_total_area } from '../../../util/convert-units/unit';
-import Infoi from '../../Tooltip/Infoi';
 import { Controller } from 'react-hook-form';
-import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import useUnit from './useUnit';
 import useReactSelectStyles from './useReactSelectStyles';
 import useElementWidth from '../../hooks/useElementWidth';
@@ -110,22 +109,13 @@ const Unit = ({
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
-        <div className={styles.labelContainer}>
-          <Label style={classes.label}>
-            {label}{' '}
-            {optional && (
-              <Label sm className={styles.sm}>
-                {t('common:OPTIONAL')}
-              </Label>
-            )}
-            {hasLeaf && <Leaf className={styles.leaf} />}
-          </Label>
-          {toolTipContent && (
-            <div>
-              <Infoi content={toolTipContent} />
-            </div>
-          )}
-        </div>
+        <InputBaseLabel
+          label={label}
+          optional={optional}
+          hasLeaf={hasLeaf}
+          toolTipContent={toolTipContent}
+          icon={props.icon}
+        />
       )}
       <div className={styles.inputContainer}>
         <div className={styles.inputWrapper}>

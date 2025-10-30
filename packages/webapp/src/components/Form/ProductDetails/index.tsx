@@ -192,7 +192,6 @@ const ProductDetails = ({
 
   return (
     <div className={clsx(styles.productDetails)}>
-      {/* @ts-expect-error */}
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}

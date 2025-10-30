@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { Label } from '../../../Typography';
+import locationDetailStyles from '../../styles.module.scss';
 import {
   area_total_area,
   line_length,
@@ -172,13 +173,9 @@ export function WatercourseDetailsChildren({ system, isViewLocationPage, isEditL
         />
       </div>
       <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
-            {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
-          </Label>
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
+        <div className={locationDetailStyles.radioLabel}>
+          <Label>{t('FARM_MAP.WATERCOURSE.IRRIGATION')}</Label>
+          <Label sm>{t('common:OPTIONAL')}</Label>
         </div>
         <div style={{ marginBottom: '16px' }}>
           <RadioGroup

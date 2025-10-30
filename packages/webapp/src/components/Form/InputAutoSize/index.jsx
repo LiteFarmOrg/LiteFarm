@@ -32,16 +32,11 @@ export default function InputAutoSize({
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       {label && (
-        <Label>
-          {label}
-          {optional && (
-            <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
-              {t('common:OPTIONAL')}
-            </Label>
-          )}
-        </Label>
+        <div className={styles.labelContainer}>
+          <Label>{label}</Label>
+          {optional && <Label sm>{t('common:OPTIONAL')}</Label>}
+        </div>
       )}
-
       <TextareaAutosize
         maxRows={maxRows}
         minRows={minRows}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2025 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,40 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.labelContainer {
+.private {
+  height: 20px;
+  padding: 8px;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 4px;
-
-  h5,
-  span {
-    margin-bottom: 0;
-  }
-
-  &.leftJustified {
-    justify-content: flex-start;
-    gap: 8px;
-  }
-}
-
-.leaf {
-  transform: translate(4px, 3px);
-  margin-left: 4px;
-}
-
-.rightContent {
-  display: flex;
-  gap: 4px;
   align-items: center;
-  cursor: default;
 
-  .tooltipIcon {
-    transform: translateY(3px);
-    cursor: pointer;
-  }
-}
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Accent---singles-Red-light);
 
-.icon {
-  color: var(--iconDefault);
+  text-transform: uppercase;
+  color: var(--Colors-Accent---singles-Red-dark);
+  font-size: 12px;
+  line-height: 20px;
 }

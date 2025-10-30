@@ -1917,6 +1917,9 @@
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
+  "SIMPLE_BADGE": {
+    "PRIVATE": "Private"
+  },
   "SLIDE_MENU": {
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",

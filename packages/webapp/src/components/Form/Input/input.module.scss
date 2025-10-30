@@ -1,5 +1,20 @@
 @import '@assets/mixin.scss';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  position: relative;
+  min-width: 0;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .input {
   width: 100%;
   border: 1px solid var(--grey400);
@@ -52,14 +67,6 @@ input:focus::placeholder {
   flex-grow: 1;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  overflow: visible;
-  position: relative;
-  min-width: 0;
-}
-
 .inputError {
   border-color: var(--error);
 }
@@ -69,26 +76,16 @@ input:focus::placeholder {
   border-color: var(--inputActive);
 }
 
-.icon {
-  position: absolute;
-  right: 0;
-  top: -8px;
-  color: var(--iconDefault);
-}
-
-.icon > * {
-  cursor: pointer;
-}
-.sm {
-  margin-left: 8px;
-}
-
 .searchIcon {
   width: 22px;
   height: 22px;
   position: absolute;
   left: 11px;
-  top: 13px;
+}
+
+.searchClearButton {
+  display: inline-flex;
+  align-items: center;
 }
 
 .searchClearIcon {
@@ -96,7 +93,6 @@ input:focus::placeholder {
   height: 17px;
   position: absolute;
   right: 12px;
-  top: 15px;
 }
 
 .searchBar {
@@ -105,43 +101,27 @@ input:focus::placeholder {
 
 .visibilityIcon {
   position: absolute;
-  right: 0;
-  transform: translate(-8px, 32px);
+  right: 8px;
   font-size: 22px;
   color: var(--iconDefault);
   cursor: pointer;
   z-index: 1;
 }
 
-.labelContainer {
-  display: flex;
-  justify-content: space-between;
-  min-height: 20px;
-  position: relative;
-}
-
 .unit {
   font-size: 16px;
-  line-height: 20px;
   color: var(--labels);
-  font-style: normal;
-  font-weight: normal;
   @include fontFamily();
   position: absolute;
-  right: 0;
-  transform: translate(-8px, 14px);
+  right: 8px;
 }
 
 .currency {
   font-size: 16px;
-  line-height: 20px;
   color: var(--labels);
-  font-style: normal;
-  font-weight: normal;
   @include fontFamily();
   position: absolute;
-  left: 0;
-  transform: translate(8px, 34px);
+  left: 8px;
   z-index: 1; // otherwise hidden behind the disabled background color
 }
 
@@ -154,12 +134,6 @@ input:focus::placeholder {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-}
-
-/* Wrapper for Input + stepper buttons */
-.inputWrapper {
-  position: relative;
-  width: 100%;
 }
 
 .stepper {
@@ -199,7 +173,6 @@ input:focus::placeholder {
 .clearIcon {
   position: absolute;
   right: 17px;
-  top: -5px;
   cursor: pointer;
   z-index: 1;
 

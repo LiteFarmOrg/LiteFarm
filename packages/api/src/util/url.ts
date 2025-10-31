@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { isUriSafeByWebRisk } from '../services/google.js';
+
 export const isValidUrl = async (url: string) => {
-  // TODO: LF-5011
-  return !!url;
+  return isUriSafeByWebRisk(url);
 };

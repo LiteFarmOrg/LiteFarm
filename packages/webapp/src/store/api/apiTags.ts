@@ -52,6 +52,7 @@ export const FarmTags = [
   'Sensors',
   'SensorReadings',
   'Weather',
+  'MarketDirectoryInfo',
 ] as const;
 
 /**

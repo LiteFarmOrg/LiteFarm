@@ -35,6 +35,11 @@
   > div {
     width: 100%;
   }
+
+  @include md-breakpoint {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .phoneContainer {

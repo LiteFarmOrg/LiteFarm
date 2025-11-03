@@ -1,0 +1,84 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.formContainer {
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactNameContainer {
+  display: flex;
+  gap: 24px;
+
+  > div {
+    width: 100%;
+  }
+}
+
+.phoneContainer {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-top: -16px;
+
+  > :first-child {
+    width: 68px; // 3 digits
+  }
+
+  > :nth-child(2) {
+    flex-grow: 1;
+  }
+}
+
+.socialsInput {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  justify-content: flex-start;
+
+  > div:nth-child(2) {
+    flex: 1;
+  }
+}
+
+.socialsIcon {
+  border-radius: 8px;
+  background: var(--Colors-Neutral-Neutral-50);
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.privateInfoContainer {
+  display: flex;
+  gap: 8px;
+
+  color: var(--Colors-Accent---singles-Brown-dark);
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: italic;
+}

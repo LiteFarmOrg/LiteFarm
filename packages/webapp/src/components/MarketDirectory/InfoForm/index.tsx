@@ -16,7 +16,8 @@
 import { useSelector } from 'react-redux';
 import { useController, useFormContext, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { getCountryCallingCode } from 'react-phone-number-input/input';
+import { getCountryCallingCode, getExampleNumber } from 'libphonenumber-js/min';
+import examples from 'libphonenumber-js/mobile/examples';
 import styles from './styles.module.scss';
 import { Semibold } from '../../Typography';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
@@ -75,6 +76,9 @@ const PureMarketDirectoryInfoForm = ({
 
   // @ts-expect-error -- userFarmSelector issue
   const { country_code } = useSelector(userFarmSelector);
+
+  const exampleNumber = country_code ? getExampleNumber(country_code, examples) : undefined;
+  const examplePhoneNumber = exampleNumber?.formatNational();
 
   return (
     <div className={styles.formContainer}>
@@ -166,6 +170,7 @@ const PureMarketDirectoryInfoForm = ({
             hookFormRegister={register(DIRECTORY_INFO_FIELDS.PHONE_NUMBER)}
             optional
             disabled={readonly}
+            placeholder={examplePhoneNumber || t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')}
           />
         </div>
         <Input

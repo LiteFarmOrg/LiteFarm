@@ -21,6 +21,7 @@ import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
 
 export interface MarketDirectoryInfoReqBody {
+  farm_id?: string;
   farm_name?: string;
   logo?: string;
   about?: string;
@@ -35,6 +36,10 @@ export interface MarketDirectoryInfoReqBody {
   instagram?: string;
   facebook?: string;
   x?: string;
+}
+
+export interface MarketDirectoryInfoRouteParams {
+  id: string;
 }
 
 export function checkAndTransformMarketDirectoryInfo() {
@@ -77,6 +82,26 @@ export function checkAndTransformMarketDirectoryInfo() {
         return res.status(400).send(`Invalid ${social}`);
       }
       req.body[social] = socialUsername;
+    }
+
+    next();
+  };
+}
+
+export function checkMarketDirectoryInfoRecord() {
+  return async (
+    req: LiteFarmRequest<unknown, MarketDirectoryInfoRouteParams, unknown, unknown>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+    const record = await MarketDirectoryInfoModel.query()
+      .where({ id: req.params.id, farm_id: req.headers.farm_id })
+      .whereNotDeleted()
+      .first();
+
+    if (!record) {
+      return res.status(404).send('Market directory info not found');
     }
 
     next();

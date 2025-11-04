@@ -3,6 +3,5 @@
   "compilerOptions": {
     "allowJs": true,
     "outDir": "../dist"
-  },
-  "exclude": ["**/*.test.*"]
+  }
 }

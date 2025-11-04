@@ -61,9 +61,9 @@ const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   country_code: Math.floor(Math.random() * 999) + 1,
   phone_number: faker.phone.phoneNumber(),
   website: faker.internet.url(),
-  instagram: 'username',
-  facebook: 'username',
-  x: 'username',
+  instagram: faker.internet.userName(),
+  facebook: faker.internet.userName(),
+  x: faker.internet.userName(),
 });
 
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;

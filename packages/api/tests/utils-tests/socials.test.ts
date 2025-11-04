@@ -69,22 +69,25 @@ describe('Test socials', () => {
       expect(result).toBe(username);
     });
 
-    test.each(invalidUsernames)(
-      'Return false for username with invalid character (%s)',
-      (invalidUsername) => {
+    describe('Return false for username with invalid character', () => {
+      test.each(invalidUsernames)('%s', (invalidUsername) => {
         const result = validateSocialAndExtractUsername(social1, invalidUsername);
         expect(result).toBe(false);
-      },
-    );
-
-    test.each(validUrls)('Extract username for valid URL (%s)', (url) => {
-      const result = validateSocialAndExtractUsername(social1, url);
-      expect(result).toBe(username);
+      });
     });
 
-    test.each(invalidUrls)('Return false for invalid URL (%s)', (url) => {
-      const result = validateSocialAndExtractUsername(social1, url);
-      expect(result).toBe(false);
+    describe('Extract username for valid URL', () => {
+      test.each(validUrls)('%s', (url) => {
+        const result = validateSocialAndExtractUsername(social1, url);
+        expect(result).toBe(username);
+      });
+    });
+
+    describe('Return false for invalid URL', () => {
+      test.each(invalidUrls)('%s', (url) => {
+        const result = validateSocialAndExtractUsername(social1, url);
+        expect(result).toBe(false);
+      });
     });
   });
 });

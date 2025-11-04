@@ -61,9 +61,9 @@ const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   country_code: Math.floor(Math.random() * 999) + 1,
   phone_number: faker.phone.phoneNumber(),
   website: faker.internet.url(),
-  instagram: `https://${SOCIAL_DOMAINS.instagram}/username`,
-  facebook: `https://${SOCIAL_DOMAINS.facebook}/username`,
-  x: `https://${SOCIAL_DOMAINS.x}/username`,
+  instagram: 'username',
+  facebook: 'username',
+  x: 'username',
 });
 
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;
@@ -73,9 +73,9 @@ const invalidTestCases = [
   ['website', fakeInvalidString(faker.internet.url())],
   ['contact_email', faker.lorem.word()],
   ['email', faker.lorem.word()],
-  ['instagram', fakeInvalidString(faker.lorem.word())], // mock username
-  ['facebook', fakeInvalidString(SOCIAL_DOMAINS.facebook)], // mock url
-  ['x', `https://${fakeInvalidString(SOCIAL_DOMAINS.x)}`], // mock url
+  ['instagram', SOCIAL_DOMAINS['instagram']], // domain without username
+  ['facebook', `/${faker.internet.userName()}`], // username with invalid character
+  ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
 ];
 
 async function postRequest(data: MarketDirectoryInfoReqBody, { user_id, farm_id }: HeadersParams) {

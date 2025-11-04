@@ -17,7 +17,7 @@ import { Response, NextFunction } from 'express';
 import { LiteFarmRequest } from '../../types.js';
 import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
-import { SOCIALS, validateAndExtractUsernameOrUrl } from '../../util/socials.js';
+import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
 
 export interface MarketDirectoryInfoReqBody {
@@ -70,22 +70,13 @@ export function checkAndTransformMarketDirectoryInfo() {
       return res.status(400).send('Invalid website');
     }
 
-    const invalidSocials = (
-      await Promise.all(
-        SOCIALS.filter((social) => req.body[social]?.trim()).map(async (social) => {
-          const formattedSocial = await validateAndExtractUsernameOrUrl(social, req.body[social]!);
+    for (const social of SOCIALS.filter((social) => req.body[social]?.trim())) {
+      const socialUsername = validateSocialAndExtractUsername(social, req.body[social]!);
 
-          if (formattedSocial) {
-            req.body[social] = formattedSocial;
-            return null;
-          }
-          return social;
-        }),
-      )
-    ).filter((social) => social !== null);
-
-    if (invalidSocials.length) {
-      return res.status(400).send(`Invalid ${invalidSocials.join(', ')}`);
+      if (!socialUsername) {
+        return res.status(400).send(`Invalid ${social}`);
+      }
+      req.body[social] = socialUsername;
     }
 
     next();

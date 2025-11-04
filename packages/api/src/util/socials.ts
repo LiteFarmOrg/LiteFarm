@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { isValidUrl } from './url.js';
-
 export enum Social {
   INSTAGRAM = 'instagram',
   FACEBOOK = 'facebook',
@@ -29,11 +27,44 @@ export const SOCIAL_DOMAINS = {
 
 export const SOCIALS = Object.values(Social);
 
-export const validateAndExtractUsernameOrUrl = async (social: Social, usernameOrUrl: string) => {
+/**
+ * Validates a social username or URL and extracts the username.
+ *
+ * This function handles:
+ * - Full URLs with optional scheme (http/https) and optional "www."
+ *   e.g., "https://www.instagram.com/username/?hl=en", "http://instagram.com/username/#"
+ * - Direct usernames with or without a leading "@"
+ *   e.g., "username", "@username"
+ *
+ * It rejects:
+ * - Domain-only inputs, e.g., "instagram.com" or "www.instagram.com"
+ * - Usernames containing invalid characters (only A-Z, a-z, 0-9, ".", "_", "-" are allowed)
+ */
+export const validateSocialAndExtractUsername = (social: Social, usernameOrUrl: string) => {
+  const trimmedInput = usernameOrUrl.trim();
   const domain = SOCIAL_DOMAINS[social];
-  const isUrl = usernameOrUrl.includes(domain);
-  const trimmedInput = isUrl ? usernameOrUrl.trim() : usernameOrUrl.trim().replace(/^@/, '');
-  const urlToCheck = isUrl ? trimmedInput : `https://${domain}/${trimmedInput}`;
 
-  return (await isValidUrl(urlToCheck)) ? trimmedInput : false;
+  // reject if it’s just the url without username
+  if (new RegExp(`^(https?://)?(www.)?${domain}/?$`).test(trimmedInput)) {
+    return false;
+  }
+
+  // Match URL: [http(s)://][www.]domain/{username}[optional trailing path or query]
+  // Capture groups:
+  // 1: http(s):// (optional)
+  // 2: www. (optional)
+  // 3: username ([A-Za-z0-9._-]+)
+  // 4: trailing path/query (optional) ([/?#].*)? e.g., "/?hl=en", "/#"
+  const urlMatch = trimmedInput.match(
+    new RegExp(`^(https?://)?(www.)?${domain}/([A-Za-z0-9._-]+)([/?#].*)?$`),
+  );
+
+  if (urlMatch) {
+    return urlMatch[3];
+  }
+
+  const username = trimmedInput.replace(/^@/, '');
+
+  // validate allowed characters
+  return /^[A-Za-z0-9._-]+$/.test(username) ? username : false;
 };

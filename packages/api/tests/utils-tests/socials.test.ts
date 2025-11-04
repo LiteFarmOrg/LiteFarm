@@ -14,7 +14,11 @@
  */
 
 import { faker } from '@faker-js/faker';
-import { SOCIAL_DOMAINS, SOCIALS, validateSocialAndExtractUsername } from './socials.js';
+import {
+  SOCIAL_DOMAINS,
+  SOCIALS,
+  validateSocialAndExtractUsername,
+} from '../../src/util/socials.js';
 
 const social1 = SOCIALS[0];
 const social2 = SOCIALS[1];

@@ -15,7 +15,10 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import { checkAndTransformMarketDirectoryInfo } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import {
+  checkAndTransformMarketDirectoryInfo,
+  checkMarketDirectoryInfoRecord,
+} from '../middleware/validation/checkMarketDirectoryInfo.js';
 import MarketDirectoryInfoController from '../controllers/marketDirectoryInfoController.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
@@ -34,6 +37,16 @@ router.post(
   checkScope(['add:market_directory_info']),
   checkAndTransformMarketDirectoryInfo(),
   MarketDirectoryInfoController.addMarketDirectoryInfo(),
+);
+
+router.patch(
+  '/:id',
+  // @ts-expect-error null or undefined is expected for tableName
+  hasFarmAccess({ tableName: 'market_directory_info' }),
+  checkScope(['edit:market_directory_info']),
+  checkMarketDirectoryInfoRecord(),
+  checkAndTransformMarketDirectoryInfo(),
+  MarketDirectoryInfoController.updateMarketDirectoryInfo(),
 );
 
 router.post(

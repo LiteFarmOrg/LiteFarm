@@ -14,6 +14,7 @@
  */
 
 import baseModel from './baseModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 class MarketDirectoryInfo extends baseModel {
   static get tableName() {
@@ -22,6 +23,34 @@ class MarketDirectoryInfo extends baseModel {
 
   static get idColumn() {
     return 'id';
+  }
+
+  static get stringProperties() {
+    const stringProperties = [];
+    for (const [key, value] of Object.entries(this.jsonSchema.properties)) {
+      if (value.type.includes('string')) {
+        stringProperties.push(key);
+      }
+    }
+    return stringProperties;
+  }
+
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
+    this.trimStringProperties();
+  }
+
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
+    this.trimStringProperties();
+  }
+
+  trimStringProperties() {
+    for (const key of this.constructor.stringProperties) {
+      if (key in this) {
+        this[key] = checkAndTrimString(this[key]);
+      }
+    }
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -36,7 +65,7 @@ class MarketDirectoryInfo extends baseModel {
         farm_id: { type: 'string' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
         logo: { type: ['string', 'null'], maxLength: 255 },
-        about: { type: ['string', 'null'] },
+        about: { type: ['string', 'null'], maxLength: 3000 },
         contact_first_name: { type: 'string', minLength: 1, maxLength: 255 },
         contact_last_name: { type: ['string', 'null'], maxLength: 255 },
         contact_email: { type: 'string', minLength: 1, maxLength: 255 },
@@ -44,7 +73,7 @@ class MarketDirectoryInfo extends baseModel {
         country_code: { type: ['integer', 'null'], minimum: 1, maximum: 999 },
         phone_number: { type: ['string', 'null'], maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
-        website: { type: ['string', 'null'] },
+        website: { type: ['string', 'null'], maxLength: 2000 },
         instagram: { type: ['string', 'null'], maxLength: 255 },
         facebook: { type: ['string', 'null'], maxLength: 255 },
         x: { type: ['string', 'null'], maxLength: 255 },

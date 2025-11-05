@@ -197,6 +197,8 @@ const PureMarketDirectoryInfoForm = ({
           onBlur={checkAddressOnBlur}
           errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS)}
           disabled={readonly}
+          id="market-directory-address"
+          autoComplete="off"
           placeholder={t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER')}
         />
 

@@ -27,6 +27,7 @@ import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/mark
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
 import { isLatLng, reverseGeocode } from '../../../../../util/google-maps/reverseGeocode';
+import { useGooglePlacesAutocomplete } from '../../../../../hooks/useGooglePlacesAutocomplete';
 
 export enum FormMode {
   ADD = 'add',
@@ -121,13 +122,34 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
     }
   };
 
+  // Handle place selection from autocomplete
+  const handlePlaceSelected = ({ formattedAddress }: { formattedAddress?: string }) => {
+    formMethods.setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress ?? '', {
+      shouldValidate: true,
+    });
+  };
+
+  // Initialize autocomplete hook
+  const { initAutocomplete } = useGooglePlacesAutocomplete({
+    inputId: 'market-directory-address',
+    onPlaceSelected: handlePlaceSelected,
+    types: ['address'],
+  });
+
+  const handleScriptLoad = () => {
+    handleGeocode();
+    if (formMode !== FormMode.READONLY) {
+      initAutocomplete();
+    }
+  };
+
   return (
     <>
       <Script
         url={`https://maps.googleapis.com/maps/api/js?key=${
           import.meta.env.VITE_GOOGLE_MAPS_API_KEY
         }&libraries=places&language=en-US`}
-        onLoad={handleGeocode}
+        onLoad={handleScriptLoad}
       />
       <FormProvider {...formMethods}>
         <PureMarketDirectoryInfoForm

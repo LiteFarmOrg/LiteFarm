@@ -14,7 +14,7 @@
  */
 
 import { useSelector } from 'react-redux';
-import { useController, useFormContext, UseFormReturn } from 'react-hook-form';
+import { FieldErrors, useController, useFormContext, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { getCountryCallingCode, getExampleNumber } from 'libphonenumber-js/min';
 import examples from 'libphonenumber-js/mobile/examples';
@@ -22,10 +22,14 @@ import styles from './styles.module.scss';
 import { Semibold } from '../../Typography';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import TextArea from '../../Form/TextArea';
 import NumberInput from '../../Form/NumberInput';
-import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import {
+  hookFormMaxCharsValidation,
+  hookFormMaxValidation,
+  hookFormMinValidation,
+} from '../../Form/hookformValidationUtils';
 import ImagePicker from '../../ImagePicker';
 import { ReactComponent as InstagramIcon } from '../../../assets/images/socials/instagram.svg';
 import { ReactComponent as FacebookIcon } from '../../../assets/images/socials/facebook.svg';
@@ -37,6 +41,8 @@ import {
   MarketDirectoryInfoFormFields,
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm';
+import { isAddressGoogleMapsParseable } from '../../../util/google-maps/isAddressGoogleMapsParseable';
+import { Social, validateSocialAndExtractUsername } from '../../../util/socials';
 
 // ImagePickerWrapper/saga.js
 const marketDirectoryUrl = 'marketDirectoryInfo';
@@ -86,13 +92,20 @@ const PureMarketDirectoryInfoForm = ({
         <Semibold>{t('MARKET_DIRECTORY.INFO_FORM.FARM_IDENTITY')}</Semibold>
         <Input
           label={t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.FARM_NAME, { required: true })}
+          hookFormRegister={register(DIRECTORY_INFO_FIELDS.FARM_NAME, {
+            required: true,
+            maxLength: hookFormMaxCharsValidation(255),
+            setValueAs: (value) => value.trim(),
+          })}
+          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.FARM_NAME)}
           disabled={readonly}
         />
         {/* @ts-expect-error */}
         <TextArea
           label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.ABOUT)}
+          hookFormRegister={register(DIRECTORY_INFO_FIELDS.ABOUT, {
+            maxLength: hookFormMaxCharsValidation(3000),
+          })}
           optional
           disabled={readonly}
         />
@@ -114,13 +127,19 @@ const PureMarketDirectoryInfoForm = ({
             label={t('PROFILE.ACCOUNT.FIRST_NAME')}
             hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_FIRST_NAME, {
               required: true,
+              maxLength: hookFormMaxCharsValidation(255),
+              setValueAs: (value) => value.trim(),
             })}
+            errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.CONTACT_FIRST_NAME)}
             icon={<PrivateBadge />}
             disabled={readonly}
           />
           <Input
             label={t('PROFILE.ACCOUNT.LAST_NAME')}
-            hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_LAST_NAME)}
+            hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_LAST_NAME, {
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.CONTACT_LAST_NAME)}
             optional
             icon={<PrivateBadge />}
             disabled={readonly}
@@ -128,7 +147,12 @@ const PureMarketDirectoryInfoForm = ({
         </div>
         <Input
           label={t('MARKET_DIRECTORY.INFO_FORM.EMAIL_ADDRESS')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_EMAIL, { required: true })}
+          hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_EMAIL, {
+            required: true,
+            maxLength: hookFormMaxCharsValidation(255),
+            setValueAs: (value) => value.trim(),
+          })}
+          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.CONTACT_EMAIL)}
           icon={<PrivateBadge />}
           disabled={readonly}
         />
@@ -146,8 +170,16 @@ const PureMarketDirectoryInfoForm = ({
           label={t('MARKET_DIRECTORY.INFO_FORM.FARM_STORE_LOCATION')}
           hookFormRegister={register(DIRECTORY_INFO_FIELDS.ADDRESS, {
             required: true,
+            maxLength: hookFormMaxCharsValidation(255),
+            setValueAs: (value) => value.trim(),
+            validate: async (value) => {
+              const isValid = await isAddressGoogleMapsParseable(value);
+              return isValid || t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS');
+            },
           })}
+          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS)}
           disabled={readonly}
+          placeholder={t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER')}
         />
 
         <InputBaseLabel label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} optional />
@@ -167,7 +199,10 @@ const PureMarketDirectoryInfoForm = ({
             placeholder={country_code ? getCountryCallingCode(country_code) : '1'}
           />
           <Input
-            hookFormRegister={register(DIRECTORY_INFO_FIELDS.PHONE_NUMBER)}
+            hookFormRegister={register(DIRECTORY_INFO_FIELDS.PHONE_NUMBER, {
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.PHONE_NUMBER)}
             optional
             disabled={readonly}
             placeholder={examplePhoneNumber || t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')}
@@ -175,7 +210,10 @@ const PureMarketDirectoryInfoForm = ({
         </div>
         <Input
           label={t('MARKET_DIRECTORY.INFO_FORM.EMAIL_ADDRESS')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.EMAIL)}
+          hookFormRegister={register(DIRECTORY_INFO_FIELDS.EMAIL, {
+            maxLength: hookFormMaxCharsValidation(255),
+          })}
+          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.EMAIL)}
           optional
           disabled={readonly}
         />
@@ -186,7 +224,10 @@ const PureMarketDirectoryInfoForm = ({
 
         <Input
           label={t('MARKET_DIRECTORY.INFO_FORM.WEBSITE')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.WEBSITE)}
+          hookFormRegister={register(DIRECTORY_INFO_FIELDS.WEBSITE, {
+            maxLength: hookFormMaxCharsValidation(2000),
+          })}
+          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.WEBSITE)}
           placeholder="www.url.com"
           optional
           disabled={readonly}
@@ -197,6 +238,7 @@ const PureMarketDirectoryInfoForm = ({
           name={DIRECTORY_INFO_FIELDS.INSTAGRAM}
           register={register}
           disabled={readonly}
+          errors={errors}
         />
 
         <SocialsInput
@@ -204,6 +246,7 @@ const PureMarketDirectoryInfoForm = ({
           name={DIRECTORY_INFO_FIELDS.FACEBOOK}
           register={register}
           disabled={readonly}
+          errors={errors}
         />
 
         <SocialsInput
@@ -211,6 +254,7 @@ const PureMarketDirectoryInfoForm = ({
           name={DIRECTORY_INFO_FIELDS.X}
           register={register}
           disabled={readonly}
+          errors={errors}
         />
       </section>
     </div>
@@ -224,18 +268,31 @@ interface SocialsInputProps {
   name: string;
   register: UseFormReturn['register'];
   disabled?: boolean;
+  errors: FieldErrors<MarketDirectoryInfoFormFields>;
 }
 
-export const SocialsInput = ({ icon, name, register, disabled }: SocialsInputProps) => {
+export const SocialsInput = ({ icon, name, register, disabled, errors }: SocialsInputProps) => {
   const { t } = useTranslation();
   return (
     <div className={styles.socialsInput}>
       <div className={styles.socialsIcon}>{icon}</div>
 
       <Input
-        hookFormRegister={register(name)}
+        hookFormRegister={register(name, {
+          maxLength: hookFormMaxCharsValidation(255),
+          validate: (value) => {
+            if (!value) {
+              return true;
+            }
+            const isValid = !!validateSocialAndExtractUsername(name as Social, value);
+            return (
+              isValid || t('MARKET_DIRECTORY.INFO_FORM.INVALID_USERNAME_OR_URL', { social: name })
+            );
+          },
+        })}
         placeholder={t('MARKET_DIRECTORY.INFO_FORM.AT_USERNAME')}
         disabled={disabled}
+        errors={getInputErrors(errors, name)}
       />
     </div>
   );

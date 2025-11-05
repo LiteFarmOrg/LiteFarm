@@ -45,7 +45,7 @@
 .phoneContainer {
   display: flex;
   gap: 16px;
-  align-items: flex-end;
+  align-items: flex-start;
   margin-top: -16px;
 
   > :first-child {
@@ -59,9 +59,13 @@
 
 .socialsInput {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 8px;
   justify-content: flex-start;
+
+  > div:first-child {
+    margin-top: 4px;
+  }
 
   > div:nth-child(2) {
     flex: 1;

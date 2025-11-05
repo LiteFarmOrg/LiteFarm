@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import baseController from './baseController.js';
 import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
 import { MarketDirectoryInfoReqBody } from '../middleware/validation/checkMarketDirectoryInfo.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
+import { uploadPublicImage } from '../util/imageUpload.js';
 
 const marketDirectoryInfoController = {
   addMarketDirectoryInfo() {
@@ -43,6 +44,11 @@ const marketDirectoryInfoController = {
           error: err.message || err,
         });
       }
+    };
+  },
+  uploadFarmLogo() {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      await uploadPublicImage('farm_logo')(req, res, next);
     };
   },
 };

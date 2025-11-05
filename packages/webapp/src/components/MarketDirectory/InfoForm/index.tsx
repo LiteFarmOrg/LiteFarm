@@ -43,6 +43,7 @@ import {
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm';
 import { isAddressGoogleMapsParseable } from '../../../util/google-maps/isAddressGoogleMapsParseable';
 import { Social, validateSocialAndExtractUsername } from '../../../util/socials';
+import { VALID_EMAIL_REGEX } from '../../../util/validation';
 
 // ImagePickerWrapper/saga.js
 const marketDirectoryUrl = 'marketDirectoryInfo';
@@ -149,6 +150,10 @@ const PureMarketDirectoryInfoForm = ({
           label={t('MARKET_DIRECTORY.INFO_FORM.EMAIL_ADDRESS')}
           hookFormRegister={register(DIRECTORY_INFO_FIELDS.CONTACT_EMAIL, {
             required: true,
+            pattern: {
+              value: VALID_EMAIL_REGEX,
+              message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+            },
             maxLength: hookFormMaxCharsValidation(255),
             setValueAs: (value) => value.trim(),
           })}
@@ -212,6 +217,10 @@ const PureMarketDirectoryInfoForm = ({
           label={t('MARKET_DIRECTORY.INFO_FORM.EMAIL_ADDRESS')}
           hookFormRegister={register(DIRECTORY_INFO_FIELDS.EMAIL, {
             maxLength: hookFormMaxCharsValidation(255),
+            pattern: {
+              value: VALID_EMAIL_REGEX,
+              message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
+            },
           })}
           errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.EMAIL)}
           optional

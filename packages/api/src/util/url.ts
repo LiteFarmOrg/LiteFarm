@@ -15,6 +15,39 @@
 
 import { isUriSafeByWebRisk } from '../services/google.js';
 
-export const isValidUrl = async (url: string) => {
-  return isUriSafeByWebRisk(url);
+export const isValidUrl = async (url: string): Promise<boolean> => {
+  const trimmedURL = url.trim();
+  return isValidHttpURLFormat(trimmedURL) && (await isUriSafeByWebRisk(trimmedURL));
+};
+
+/**
+ * Checks whether a URL has a valid HTTP/HTTPS format (protocol optional).
+ * Validates domain structure and optional port.
+ * The URL must have at least <second-level domain>.<top-level domain>,
+ * with the TLD at least 2 characters long.
+ */
+export const isValidHttpURLFormat = (url: string): boolean => {
+  const domainNameAndPort = url.replace(/^(https?:\/\/)?(www\.)?/, '')?.split('/')[0];
+  const [domainName, portString] = domainNameAndPort.split(':');
+
+  if (domainNameAndPort.includes(':') && (!portString || !isValidPortNumber(portString))) {
+    return false;
+  }
+
+  return isValidDomainNameFormat(domainName);
+};
+
+const isValidPortNumber = (port: string | number): boolean => {
+  const portNumber = Number(port);
+  // Port Number Ranges https://www.rfc-editor.org/rfc/rfc6335#section-8.1.2
+  return !(isNaN(portNumber) || portNumber < 1 || portNumber > 65535);
+};
+
+const isValidDomainNameFormat = (domain: string): boolean => {
+  const labels = domain.split('.');
+  const topLevelDomain = labels.length >= 2 && labels[labels.length - 1];
+
+  return (
+    !!topLevelDomain && topLevelDomain.length >= 2 && labels.every((label) => label.length > 0)
+  );
 };

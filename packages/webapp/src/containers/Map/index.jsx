@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
+import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';

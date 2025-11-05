@@ -7,7 +7,6 @@ import GoogleMap from 'google-map-react';
 import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
 import {
   DEFAULT_ZOOM,
-  GMAPS_API_KEY,
   isPoint,
   isCircle,
   DEFAULT_MAX_ZOOM,

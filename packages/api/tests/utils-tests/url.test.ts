@@ -24,6 +24,7 @@ const validUrls = [
   `http://example.com`,
   `https://example.com`,
   `https://example.com/`,
+  `https://example.com`.toUpperCase(),
 
   // With port
   `https://example.com:8000`,

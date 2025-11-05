@@ -27,7 +27,7 @@ export const isValidUrl = async (url: string): Promise<boolean> => {
  * with the TLD at least 2 characters long.
  */
 export const isValidHttpURLFormat = (url: string): boolean => {
-  const domainNameAndPort = url.replace(/^(https?:\/\/)?(www\.)?/, '')?.split('/')[0];
+  const domainNameAndPort = url.replace(/^(https?:\/\/)?(www\.)?/i, '')?.split('/')[0];
   const [domainName, portString] = domainNameAndPort.split(':');
 
   if (domainNameAndPort.includes(':') && (!portString || !isValidPortNumber(portString))) {

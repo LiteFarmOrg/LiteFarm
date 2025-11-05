@@ -45,7 +45,7 @@ export const validateSocialAndExtractUsername = (social: Social, usernameOrUrl: 
   const domain = SOCIAL_DOMAINS[social];
 
   // reject if it’s just the url without username
-  if (new RegExp(`^(https?://)?(www.)?${domain}/?$`).test(trimmedInput)) {
+  if (new RegExp(`^(https?://)?(www.)?${domain}/?$`, 'i').test(trimmedInput)) {
     return false;
   }
 
@@ -56,7 +56,7 @@ export const validateSocialAndExtractUsername = (social: Social, usernameOrUrl: 
   // 3: username ([A-Za-z0-9._-]+)
   // 4: trailing path/query (optional) ([/?#].*)? e.g., "/?hl=en", "/#"
   const urlMatch = trimmedInput.match(
-    new RegExp(`^(https?://)?(www.)?${domain}/([A-Za-z0-9._-]+)([/?#].*)?$`),
+    new RegExp(`^(https?://)?(www.)?${domain}/([A-Za-z0-9._-]+)([/?#].*)?$`, 'i'),
   );
 
   if (urlMatch) {

@@ -66,8 +66,24 @@ const PureMarketDirectoryInfoForm = ({
     register,
     control,
     resetField,
+    getValues,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useFormContext<MarketDirectoryInfoFormFields>();
+
+  const checkAddressOnBlur = async () => {
+    const value = getValues(DIRECTORY_INFO_FIELDS.ADDRESS);
+    const isValid = await isAddressGoogleMapsParseable(value);
+    if (!isValid) {
+      setError(DIRECTORY_INFO_FIELDS.ADDRESS, {
+        type: 'manual',
+        message: t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS'),
+      });
+    } else {
+      clearErrors(DIRECTORY_INFO_FIELDS.ADDRESS);
+    }
+  };
 
   const { field } = useController({ control, name: DIRECTORY_INFO_FIELDS.LOGO });
 
@@ -177,11 +193,8 @@ const PureMarketDirectoryInfoForm = ({
             required: true,
             maxLength: hookFormMaxCharsValidation(255),
             setValueAs: (value) => value.trim(),
-            validate: async (value) => {
-              const isValid = await isAddressGoogleMapsParseable(value);
-              return isValid || t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS');
-            },
           })}
+          onBlur={checkAddressOnBlur}
           errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS)}
           disabled={readonly}
           placeholder={t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER')}

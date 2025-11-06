@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-// @ts-expect-error untyped package
-import Script from 'react-load-script';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
 import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
@@ -43,6 +42,8 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
+
+  const { isLoaded } = useGoogleMapsLoader(['places']);
 
   // LF-4991 const { data: marketDirectoryInfo } = useGetMarketDirectoryInfoQuery();
   const hasExistingRecord = false; //!!marketDirectoryInfo
@@ -109,63 +110,21 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
     setFormMode(FormMode.READONLY);
   };
 
-  // Geocode lat/lng address if needed
-  const handleGeocode = () => {
-    const address = defaultValues[DIRECTORY_INFO_FIELDS.ADDRESS];
-
-    if (address && isLatLng(address)) {
-      reverseGeocode(address).then((formattedAddress) => {
-        formMethods.setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress, {
-          shouldValidate: true,
-        });
-      });
-    }
-  };
-
-  // Handle place selection from autocomplete
-  const handlePlaceSelected = ({ formattedAddress }: { formattedAddress?: string }) => {
-    formMethods.setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress ?? '', {
-      shouldValidate: true,
-    });
-  };
-
-  // Initialize autocomplete hook
-  const { initAutocomplete } = useGooglePlacesAutocomplete({
-    inputId: 'market-directory-address',
-    onPlaceSelected: handlePlaceSelected,
-    types: ['address'],
-  });
-
-  const handleScriptLoad = () => {
-    handleGeocode();
-    if (formMode !== FormMode.READONLY) {
-      initAutocomplete();
-    }
-  };
-
   return (
-    <>
-      <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${
-          import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-        }&libraries=places&language=en-US`}
-        onLoad={handleScriptLoad}
+    <FormProvider {...formMethods}>
+      <PureMarketDirectoryInfoForm
+        close={close}
+        getOnFileUpload={getOnFileUpload}
+        formMode={formMode}
       />
-      <FormProvider {...formMethods}>
-        <PureMarketDirectoryInfoForm
-          close={close}
-          getOnFileUpload={getOnFileUpload}
-          formMode={formMode}
-        />
-        <InFormButtons
-          confirmText={formMode === FormMode.READONLY ? t('common:EDIT') : t('common:SAVE')}
-          onCancel={formMode === FormMode.READONLY ? undefined : onCancel}
-          onConfirm={formMethods.handleSubmit(onSubmit)}
-          isDisabled={!formMethods.formState.isValid}
-          confirmButtonType="submit"
-        />
-      </FormProvider>
-    </>
+      <InFormButtons
+        confirmText={formMode === FormMode.READONLY ? t('common:EDIT') : t('common:SAVE')}
+        onCancel={formMode === FormMode.READONLY ? undefined : onCancel}
+        onConfirm={formMethods.handleSubmit(onSubmit)}
+        isDisabled={!formMethods.formState.isValid}
+        confirmButtonType="submit"
+      />
+    </FormProvider>
   );
 };
 

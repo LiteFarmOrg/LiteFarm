@@ -41,9 +41,9 @@ import {
   MarketDirectoryInfoFormFields,
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm';
-import { isAddressGoogleMapsParseable } from '../../../util/google-maps/isAddressGoogleMapsParseable';
 import { Social, validateSocialAndExtractUsername } from '../../../util/socials';
 import { VALID_EMAIL_REGEX } from '../../../util/validation';
+import AddressInput from './AddressInput';
 
 // ImagePickerWrapper/saga.js
 const marketDirectoryUrl = 'marketDirectoryInfo';
@@ -66,24 +66,8 @@ const PureMarketDirectoryInfoForm = ({
     register,
     control,
     resetField,
-    getValues,
-    setError,
-    clearErrors,
     formState: { errors },
   } = useFormContext<MarketDirectoryInfoFormFields>();
-
-  const checkAddressOnBlur = async () => {
-    const value = getValues(DIRECTORY_INFO_FIELDS.ADDRESS);
-    const isValid = await isAddressGoogleMapsParseable(value);
-    if (!isValid) {
-      setError(DIRECTORY_INFO_FIELDS.ADDRESS, {
-        type: 'manual',
-        message: t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS'),
-      });
-    } else {
-      clearErrors(DIRECTORY_INFO_FIELDS.ADDRESS);
-    }
-  };
 
   const { field } = useController({ control, name: DIRECTORY_INFO_FIELDS.LOGO });
 
@@ -187,20 +171,7 @@ const PureMarketDirectoryInfoForm = ({
       <section className={styles.section}>
         <Semibold>{t('MARKET_DIRECTORY.INFO_FORM.FARM_STORE_CONTACT')}</Semibold>
 
-        <Input
-          label={t('MARKET_DIRECTORY.INFO_FORM.FARM_STORE_LOCATION')}
-          hookFormRegister={register(DIRECTORY_INFO_FIELDS.ADDRESS, {
-            required: true,
-            maxLength: hookFormMaxCharsValidation(255),
-            setValueAs: (value) => value.trim(),
-          })}
-          onBlur={checkAddressOnBlur}
-          errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS)}
-          disabled={readonly}
-          id="market-directory-address"
-          autoComplete="off"
-          placeholder={t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER')}
-        />
+        <AddressInput formMode={formMode} />
 
         <InputBaseLabel label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} optional />
 

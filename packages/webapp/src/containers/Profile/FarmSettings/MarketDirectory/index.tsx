@@ -80,7 +80,7 @@ const MarketDirectory = () => {
             <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
               <ExpandableItem
                 itemKey={key}
-                isExpanded={isExpanded}
+                isExpanded={true}
                 onClick={() => toggleExpanded(key)}
                 mainContent={
                   <ExpandableHeader

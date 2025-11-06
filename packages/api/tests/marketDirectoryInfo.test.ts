@@ -67,6 +67,19 @@ const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   x: faker.internet.userName(),
 });
 
+const marketDirectoryInfoOptionalFieldsNull = {
+  logo: null,
+  about: null,
+  contact_last_name: null,
+  email: null,
+  country_code: null,
+  phone_number: null,
+  website: null,
+  instagram: null,
+  facebook: null,
+  x: null,
+};
+
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;
 
 const invalidTestCases = [
@@ -254,6 +267,27 @@ describe('Market Directory Info Tests', () => {
         expect(res.status).toBe(200);
         await expectMarketDirectoryInfo(farm_id, marketDirectoryInfo);
       }
+    });
+
+    test('Should be able to remove optional fields', async () => {
+      const [{ farm_id: secondFarmId }] = await mocks.userFarmFactory({
+        promisedUser: Promise.resolve([{ user_id: userFarmIds.user_id }]),
+        roleId: 1,
+      });
+      const userSecondFarmIds = { user_id: userFarmIds.user_id, farm_id: secondFarmId };
+      const [record] = await mocks.market_directory_infoFactory({
+        promisedUserFarm: Promise.resolve([userSecondFarmIds]),
+        marketDirectoryInfo,
+      });
+
+      const res = await patchRequest(
+        record.id,
+        marketDirectoryInfoOptionalFieldsNull,
+        userSecondFarmIds,
+      );
+
+      expect(res.status).toBe(200);
+      await expectMarketDirectoryInfo(secondFarmId, marketDirectoryInfoOptionalFieldsNull);
     });
 
     test('Worker should not be able to edit a market directory info', async () => {

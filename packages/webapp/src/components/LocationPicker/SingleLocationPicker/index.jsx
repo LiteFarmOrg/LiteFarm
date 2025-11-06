@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
+import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
 import {
   DEFAULT_ZOOM,
-  GMAPS_API_KEY,
   isPoint,
   isCircle,
   DEFAULT_MAX_ZOOM,
@@ -51,6 +51,7 @@ const LocationPicker = ({
   showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
+  useGoogleMapsLoader(['maps']);
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
@@ -358,11 +359,6 @@ const LocationPicker = ({
     >
       <GoogleMap
         style={{ flexGrow: 1 }}
-        bootstrapURLKeys={{
-          key: GMAPS_API_KEY,
-          libraries: ['drawing', 'geometry', 'places'],
-          language: localStorage.getItem('litefarm_lang'),
-        }}
         defaultCenter={farmCenterCoordinate}
         defaultZoom={DEFAULT_ZOOM}
         yesIWantToUseGoogleMapApiInternals

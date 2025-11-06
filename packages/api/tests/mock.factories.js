@@ -22,7 +22,7 @@ async function usersFactory(userObject = fakeUser()) {
 function fakeUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.uuid(),
@@ -38,7 +38,7 @@ function fakeUser(defaultData = {}) {
 function fakeSSOUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.number({ min: 2, max: 10 }),
@@ -1935,7 +1935,7 @@ async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale =
 
 function fakeSale(defaultData = {}) {
   return {
-    customer_name: faker.name.findName(),
+    customer_name: faker.name.firstName(),
     sale_date: faker.date.recent(),
     ...defaultData,
   };
@@ -2697,6 +2697,29 @@ async function farm_addonFactory({
     .returning('*');
 }
 
+function fakeMarketDirectoryInfo(defaultData = {}) {
+  return {
+    farm_name: faker.lorem.word(),
+    contact_first_name: faker.name.firstName(),
+    contact_email: faker.internet.email(),
+    address: faker.address.streetAddress(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_infoFactory({
+  promisedUserFarm = userFarmFactory(),
+  marketDirectoryInfo = fakeMarketDirectoryInfo(),
+} = {}) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ farm_id, user_id }] = userFarm;
+  const base = baseProperties(user_id);
+
+  return await knex('market_directory_info')
+    .insert({ farm_id, ...base, ...marketDirectoryInfo })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2924,5 +2947,7 @@ export default {
   farm_addonFactory,
   buildExternalIrrigationPrescription,
   buildIrrigationPrescription,
+  fakeMarketDirectoryInfo,
+  market_directory_infoFactory,
   baseProperties,
 };

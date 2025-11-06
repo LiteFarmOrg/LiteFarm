@@ -149,6 +149,7 @@
       "TYPE_OF_FIELD_WORK": "Type of field work"
     },
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
+    "GO_TO_INVENTORY": "Go to inventory",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
     "HOURLY_WAGE": {
@@ -209,10 +210,12 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "You'll need a location or area where animals can be moved. Go to the map to create an animal location.",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
+    "NEED_SOIL_AMENDMENT_PRODUCTS": "Looks like you don’t have a soil amendment product yet. Head to the inventory to add one before creating your soil amendment task.",
     "NEED_SOIL_SAMPLE_LOCATION": "You'll need a specific location designated to sample the soil. Go to the map to create a soil sampling location.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "You’ll need management to create at least one soil sample location before you can create a soil sample task.",
     "NO_ANIMAL_LOCATION": "No eligible animal locations",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
+    "NO_SOIL_AMENDMENT_PRODUCTS": "Add a soil amendment product first",
     "NO_SOIL_SAMPLE_LOCATION": "No eligible soil sample locations",
     "NOTES_LABEL": "Anything specific to add related to this task?",
     "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
@@ -982,6 +985,13 @@
       "WIDTH": "Watercourse width"
     }
   },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "Addons",
+      "BASIC_PROFILE": "Basic Profile",
+      "MARKET_DIRECTORY": "Market Directory"
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "Supplier",
@@ -1143,7 +1153,15 @@
   "INVENTORY": {
     "PRODUCT_NAME": "Product name",
     "PRODUCT_TYPE": "Product type",
-    "SOIL_AMENDMENT": "Soil amendment"
+    "REMOVE_CONFIRMATION": {
+      "BODY": "Are you sure you want to remove the product <strong>{{name}}</strong> from the inventory?",
+      "TITLE": "Remove product from inventory?"
+    },
+    "SOIL_AMENDMENT": "Soil amendment",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "This product is still used in a planned task. At least one soil amendment task is scheduled with “{{name}}”.",
+      "TITLE": "Unable to remove"
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
@@ -1427,6 +1445,15 @@
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
+  },
+  "MARKET_DIRECTORY": {
+    "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
+    "GET_LISTED": "Get your farm listed in trusted directories",
+    "CONSENT": {
+      "TITLE": "Consent",
+      "MISSING_DETAILS": "You’re almost ready to publish! Just fill in the missing details in your Market directory info form above first."
+    },
+    "MARKET_DIRECTORY_INFO": "Market directory info"
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",
@@ -1889,6 +1916,9 @@
     "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
+  },
+  "SIMPLE_BADGE": {
+    "PRIVATE": "Private"
   },
   "SLIDE_MENU": {
     "CROPS": "Crops",

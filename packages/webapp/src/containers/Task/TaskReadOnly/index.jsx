@@ -52,7 +52,7 @@ function TaskReadOnly() {
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const isIrrigationTaskWithExternalPrescription =
     isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
     task?.irrigation_task?.irrigation_prescription_external_id != null;
@@ -104,7 +104,8 @@ function TaskReadOnly() {
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (isTaskTypeCustom && !hasAnimals) {
-      dispatch(setFormData({ task_id, taskType: task.taskType }));
+      const duration = task.duration || undefined; // ensure duration is undefined instead of null
+      dispatch(setFormData({ ...task, duration }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
       history.push(`/tasks/${task_id}/before_complete`, location?.state);

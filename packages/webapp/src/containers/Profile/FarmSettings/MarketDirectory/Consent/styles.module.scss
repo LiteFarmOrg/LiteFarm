@@ -1,0 +1,75 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.consentContainer {
+  width: 100%;
+  display: flex;
+  padding-inline: 24px;
+  flex-direction: column;
+  gap: 16px;
+
+  .consentTitle {
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+
+  @include xs-breakpoint {
+    padding-inline: 0;
+  }
+}
+
+.warningBanner {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+
+  border-radius: 4px;
+  background: var(--Colors-Accent---singles-Red-light);
+  border: 1px solid var(--Colors-Accent---singles-Red-light);
+
+  color: var(--Colors-Accent---singles-Red-dark);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/*------------------
+ Placeholder styles -- remove in LF-5016 */
+.marketTiles {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding: 32px;
+
+  div {
+    background-color: var(--Colors-Accent---singles-Purple-light);
+    height: 100px;
+    border-radius: 8px;
+  }
+
+  &.disabled {
+    div {
+      background-color: var(--Colors-Neutral-Neutral-100);
+    }
+  }
+
+  @include xs-breakpoint {
+    padding: 16px;
+    gap: 16px;
+  }
+}
+/*------------------*/

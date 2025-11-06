@@ -81,7 +81,10 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
         <div className={styles.connectionInfo}>
           <div className={styles.activeConnection}>
             <Main className={styles.infoText}>{t('SENSOR.ESCI.ACTIVE_CONNECTION')}</Main>
-            <Link className={styles.manage} to={{ pathname: '/farm', hash: '#esci-addon' }}>
+            <Link
+              className={styles.manage}
+              to={{ pathname: '/farm_settings/addons', hash: '#esci-addon' }}
+            >
               <ExternalLinkIcon />
               <span>{t('common:MANAGE_ENTITY', { entity: PARTNERS.ESCI.shortName })}</span>
             </Link>
@@ -96,7 +99,6 @@ const Partners = ({ hasActiveConnection }: PartnersProps) => {
           <div>{t('SENSOR.ESCI.CONNECT_NEW_SENSOR')}</div>
           <div className={styles.idInputWrapper}>
             <InputBaseLabel label={t('SENSOR.ESCI.ENTER_ID')} />
-            {/* @ts-ignore */}
             <Input
               placeholder={t('SENSOR.ESCI.ORGANISATION_ID')}
               type="text"

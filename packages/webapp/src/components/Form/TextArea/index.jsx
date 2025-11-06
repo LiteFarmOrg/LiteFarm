@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './textarea.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -6,7 +7,17 @@ import { Label } from '../../Typography';
 
 import { mergeRefs } from '../utils';
 
-const TextArea = ({ classes = {}, style, label, hookFormRegister, onBlur, onChange, ...props }) => {
+const TextArea = ({
+  classes = {},
+  style,
+  label,
+  optional,
+  hookFormRegister,
+  onBlur,
+  onChange,
+  ...props
+}) => {
+  const { t } = useTranslation();
   const input = useRef();
   const name = hookFormRegister?.name ?? props?.name;
 
@@ -15,7 +26,12 @@ const TextArea = ({ classes = {}, style, label, hookFormRegister, onBlur, onChan
       className={clsx(styles.container)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      {label && <Label>{label}</Label>}
+      {label && (
+        <div className={styles.labelContainer}>
+          <Label>{label}</Label>
+          {optional && <Label sm>{t('common:OPTIONAL')}</Label>}
+        </div>
+      )}
       <textarea
         name={name}
         className={clsx(styles.textArea)}
@@ -36,6 +52,7 @@ const TextArea = ({ classes = {}, style, label, hookFormRegister, onBlur, onChan
 
 TextArea.propTypes = {
   label: PropTypes.string,
+  optional: PropTypes.bool,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,

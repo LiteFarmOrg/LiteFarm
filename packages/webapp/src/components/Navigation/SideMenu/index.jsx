@@ -41,21 +41,20 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
     return (
       <Menu
         open={isExpanded}
-        className={clsx(styles.list, styles.subList, styles.tertiary)}
+        className={clsx(styles.list)}
+        classes={{ list: styles.popoverMenu }}
         {...props}
       >
-        {children}
+        <List component="div" disablePadding className={clsx(styles.subList, styles.tertiary)}>
+          {children}
+        </List>
       </Menu>
     );
   }
 
   return (
     <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-      <List
-        component="div"
-        disablePadding
-        className={clsx(styles.list, styles.subList, styles.tertiary)}
-      >
+      <List component="div" disablePadding className={clsx(styles.subList, styles.tertiary)}>
         {children}
       </List>
     </Collapse>
@@ -215,12 +214,14 @@ const PureSideMenu = ({
 
   useLayoutEffect(() => {
     const rootElement = document.querySelector(':root');
-    if (selectedLanguage.includes('ml')) {
+    if (isMobile) {
+      rootElement.style.setProperty('--global-side-menu-width', '0px');
+    } else if (selectedLanguage.includes('ml')) {
       rootElement.style.setProperty('--global-side-menu-width', '224px');
     } else {
       rootElement.style.setProperty('--global-side-menu-width', '188px');
     }
-  }, [selectedLanguage]);
+  }, [selectedLanguage, isMobile]);
 
   const toggleSideMenu = () => {
     setHasBeenExpanded(isCompact);

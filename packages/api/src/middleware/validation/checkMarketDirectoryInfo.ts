@@ -95,10 +95,7 @@ export function checkMarketDirectoryInfoRecord() {
     next: NextFunction,
   ) => {
     // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-    const record = await MarketDirectoryInfoModel.query()
-      .where({ id: req.params.id, farm_id: req.headers.farm_id })
-      .whereNotDeleted()
-      .first();
+    const record = await MarketDirectoryInfoModel.query().findById(req.params.id).whereNotDeleted();
 
     if (!record) {
       return res.status(404).send('Market directory info not found');

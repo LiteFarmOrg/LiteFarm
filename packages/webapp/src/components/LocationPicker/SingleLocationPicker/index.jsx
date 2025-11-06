@@ -51,7 +51,7 @@ const LocationPicker = ({
   showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
-  useGoogleMapsLoader(['maps']);
+  useGoogleMapsLoader(['maps', 'geometry']);
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);

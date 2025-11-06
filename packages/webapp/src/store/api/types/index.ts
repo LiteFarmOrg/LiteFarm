@@ -202,6 +202,7 @@ export interface Product {
     | typeof TASK_TYPES.PEST_CONTROL;
   farm_id?: string;
   on_permitted_substances_list?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  removed: boolean;
 }
 
 export enum ElementalUnit {

@@ -22,7 +22,7 @@ function TaskCompleteStepOne() {
   const { task_id } = useParams();
   const task = useSelector(taskWithProductSelector(task_id));
   const selectedTaskType = task?.taskType;
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {

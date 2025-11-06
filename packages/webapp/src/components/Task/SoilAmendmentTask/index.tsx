@@ -33,10 +33,22 @@ import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import { locationsSelector } from '../../../containers/locationSlice';
 
+// Return products in inventory plus removed ones already used in the task.
+const getAvailableProducts = (
+  usedProductsInTask: SoilAmendmentProduct[] | undefined,
+  products: SoilAmendmentProduct[],
+) => {
+  const usedProductIds = new Set(usedProductsInTask?.map(({ product_id }) => product_id));
+  return products.filter((product) => !product.removed || usedProductIds.has(product.product_id));
+};
+
 type PureSoilAmendmentTaskProps = UseFormReturn &
   Pick<ProductCardProps, 'farm' | 'system' | 'products'> & {
     disabled: boolean;
-    task?: { locations: { location_id: number }[] };
+    task?: {
+      locations: { location_id: number }[];
+      soil_amendment_task_products: SoilAmendmentProduct[];
+    };
     locations: { location_id: number }[];
   };
 
@@ -138,7 +150,6 @@ const PureSoilAmendmentTask = ({
         )}
         {methodId === methodIdsMap['OTHER'] && (
           <>
-            {/* @ts-expect-error */}
             <Input
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD')}
               name={OTHER_APPLICATION_METHOD}
@@ -158,7 +169,7 @@ const PureSoilAmendmentTask = ({
         <AddSoilAmendmentProducts
           farm={farm}
           system={system}
-          products={products}
+          products={getAvailableProducts(task?.soil_amendment_task_products, products)}
           purposes={purposes}
           fertiliserTypes={fertiliserTypes}
           isReadOnly={disabled}

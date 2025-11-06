@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
+import locationDetailStyles from '../../styles.module.scss';
 import Unit from '../../../Form/Unit';
 import { waterValveEnum } from '../../../../containers/constants';
 import { water_valve_flow_rate } from '../../../../util/convert-units/unit';
@@ -72,12 +73,10 @@ export function WaterValveDetailsChildren({ isViewLocationPage, system }) {
   } = useFormContext();
   return (
     <div>
-      <Label style={{ marginBottom: '25px' }}>
-        {t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}
-        <Label sm style={{ marginLeft: '4px' }}>
-          {t('common:OPTIONAL')}
-        </Label>
-      </Label>
+      <div className={locationDetailStyles.radioLabel}>
+        <Label>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</Label>
+        <Label sm>{t('common:OPTIONAL')}</Label>
+      </div>
       <RadioGroup
         disabled={isViewLocationPage}
         hookFormControl={control}

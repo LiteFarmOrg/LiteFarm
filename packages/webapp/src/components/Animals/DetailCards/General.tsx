@@ -168,7 +168,6 @@ const GeneralDetails = ({
       )}
       {animalOrBatch === AnimalOrBatchKeys.BATCH && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
@@ -225,7 +224,6 @@ const GeneralDetails = ({
       />
       {isOtherUseSelected && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}

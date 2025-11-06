@@ -79,7 +79,6 @@ const OtherDetails = ({
     <div className={styles.sectionWrapper}>
       {animalOrBatch === AnimalOrBatchKeys.ANIMAL && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}

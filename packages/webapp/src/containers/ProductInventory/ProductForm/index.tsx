@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -55,9 +56,11 @@ const renderDrawerTitle = (
   if (mode === FormMode.READ_ONLY) {
     return (
       <div className={clsx(styles.buttons, styles.titleWrapper)}>
-        <TextButton onClick={() => onActionButtonClick(FormMode.EDIT)}>
-          <EditIcon />
-        </TextButton>
+        {isAdmin && (
+          <TextButton onClick={() => onActionButtonClick(FormMode.EDIT)}>
+            <EditIcon />
+          </TextButton>
+        )}
         <TextButton onClick={() => onActionButtonClick(FormMode.DUPLICATE)}>
           <CopyIcon />
         </TextButton>
@@ -98,6 +101,8 @@ export default function ProductForm({
   onActionButtonClick,
   onCancel,
 }: ProductFormProps) {
+  const [isSaving, setIsSaving] = useState(false);
+
   const { t } = useTranslation();
   const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
   const isAdmin = useSelector(isAdminSelector);
@@ -105,8 +110,17 @@ export default function ProductForm({
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 
   const onSave = () => {
+    setIsSaving(true);
+
+    const onSuccess = () => {
+      onCancel();
+      setIsSaving(false);
+    };
+
+    const onError = () => setIsSaving(false);
+
     formMethods.handleSubmit((data) => {
-      saveProduct?.(data, onCancel);
+      saveProduct?.(data, onSuccess, onError);
     })();
   };
 
@@ -133,6 +147,7 @@ export default function ProductForm({
           desktopSideDrawerContainer: styles.sideDrawerContainer,
           drawerHeader: styles.drawerHeader,
         }}
+        closeButtonLabel={t('common:CANCEL')}
       >
         <div className={styles.formWrapper}>
           {FormContent && (
@@ -149,7 +164,7 @@ export default function ProductForm({
               informationalText={
                 mode === FormMode.EDIT ? t('ADD_PRODUCT.BUTTON_WARNING') : undefined
               }
-              isDisabled={!formMethods.formState.isValid}
+              isDisabled={!formMethods.formState.isValid || isSaving}
               onConfirm={onSave}
             />
           )}

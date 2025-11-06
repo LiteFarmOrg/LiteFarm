@@ -1,15 +1,15 @@
 import React from 'react';
-import PureFarm from '../../../components/Profile/Farm';
+import PureBasicProfile from '../../../components/Profile/FarmSettings/PureBasicProfile';
 import decorator from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
-  title: 'Form/Profile/Farm',
+  title: 'Form/Profile/FarmSettings/BasicProfile',
   decorators: decorator,
-  component: PureFarm,
+  component: PureBasicProfile,
 };
 
-const Template = (args) => <PureFarm {...args} />;
+const Template = (args) => <PureBasicProfile {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

@@ -11,9 +11,26 @@
   background-color: var(--bgInputListTile);
 }
 
+.textArea:focus:enabled {
+  outline: none;
+  border-color: var(--inputActive);
+}
+
 .container {
   display: flex;
   flex-direction: column;
   overflow: visible;
   position: relative;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+
+  h5,
+  span {
+    margin-bottom: 0;
+  }
 }

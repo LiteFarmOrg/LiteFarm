@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef, useCallback } from 'react';
+/* Hook for Google Places autocomplete integration, based on AddFarm */
+
+import { useRef, useCallback, useState } from 'react';
 import { getLanguageFromLocalStorage } from '../util/getLanguageFromLocalStorage';
 
 type PlaceSelectedData = {
@@ -27,51 +29,57 @@ interface UseGooglePlacesAutocompleteParams {
   inputId: string;
   onPlaceSelected: (data: PlaceSelectedData) => void;
   types?: string[];
+  initiallyValid?: boolean;
 }
 
 export const useGooglePlacesAutocomplete = ({
   inputId,
   onPlaceSelected,
   types = ['address'],
+  initiallyValid = false,
 }: UseGooglePlacesAutocompleteParams) => {
   const placesAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const [hasValidPlace, setHasValidPlace] = useState(initiallyValid);
 
   const handlePlaceChanged = useCallback(() => {
     const place = placesAutocompleteRef.current?.getPlace();
     if (place?.geometry?.location && place?.address_components) {
+      setHasValidPlace(true);
       onPlaceSelected({
         place,
         formattedAddress: place.formatted_address,
         addressComponents: place.address_components,
         geometry: place.geometry,
       });
+    } else {
+      setHasValidPlace(false);
     }
   }, [onPlaceSelected]);
 
-  // Call this function after Google Maps script loads
+  const clearValidPlace = useCallback(() => {
+    setHasValidPlace(false);
+  }, []);
+
   const initAutocomplete = useCallback(() => {
     const options = {
       types,
       language: getLanguageFromLocalStorage(),
     };
 
-    // Initialize Google Autocomplete
     placesAutocompleteRef.current = new window.google.maps.places.Autocomplete(
       document.getElementById(inputId) as HTMLInputElement,
       options,
     );
 
-    // Avoid paying for data that you don't need by restricting the set of
-    // place fields that are returned to just the address components and formatted
-    // address.
     placesAutocompleteRef.current.setFields(['geometry', 'formatted_address', 'address_component']);
 
-    // Fire Event when a suggested name is selected
     placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
   }, [inputId, types, handlePlaceChanged]);
 
   return {
     initAutocomplete,
     autocompleteRef: placesAutocompleteRef,
+    hasValidPlace,
+    clearValidPlace,
   };
 };

@@ -109,6 +109,7 @@ const PureMarketDirectoryInfoForm = ({
           })}
           optional
           disabled={readonly}
+          placeholder={t('MARKET_DIRECTORY.INFO_FORM.ABOUT_PLACEHOLDER')}
         />
 
         {!readonly && (
@@ -211,6 +212,7 @@ const PureMarketDirectoryInfoForm = ({
           errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.EMAIL)}
           optional
           disabled={readonly}
+          placeholder={t('MARKET_DIRECTORY.INFO_FORM.EMAIL_PLACEHOLDER')}
         />
       </section>
 

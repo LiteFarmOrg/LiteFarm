@@ -44,7 +44,7 @@ export default MarketDirectoryConsent;
 const WarningBanner = ({ t }: { t: TFunction }) => {
   return (
     <div className={styles.warningBanner}>
-      <p>{t('MARKET_DIRECTORY.CONSENT.MISSING_DETAILS')}</p>
+      <p>{t('MARKET_DIRECTORY.CONSENT.ALMOST_READY')}</p>
     </div>
   );
 };

@@ -13,6 +13,10 @@
   @include fontFamily();
 }
 
+.textArea::placeholder {
+  color: var(--Colors-Neutral-Neutral-400);
+}
+
 .textArea:focus:enabled {
   outline: none;
   border-color: var(--inputActive);

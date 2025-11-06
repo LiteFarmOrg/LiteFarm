@@ -1449,15 +1449,17 @@
   "MARKET_DIRECTORY": {
     "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
     "CONSENT": {
-      "MISSING_DETAILS": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
+      "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
       "TITLE": "Consent"
     },
     "GET_LISTED": "Get your farm listed in trusted directories",
     "INFO_FORM": {
       "ABOUT": "About the farm",
+      "ABOUT_PLACEHOLDER": "Provide a description for your farm",
       "AT_USERNAME": "@username",
       "COUNTRY_CODE": "Country code",
       "EMAIL_ADDRESS": "Email address",
+      "EMAIL_PLACEHOLDER": "Your farm shop email address",
       "FARM_IDENTITY": "Farm identity",
       "FARM_NAME": "Farm name",
       "FARM_REPRESENTATIVE": "Farm representative",

@@ -13,11 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
-import { useGooglePlacesAutocomplete } from '../../../hooks/useGooglePlacesAutocomplete';
+import {
+  SelectedAddressInfo,
+  useGooglePlacesAutocomplete,
+} from '../../../hooks/useGooglePlacesAutocomplete';
 import { isLatLng, reverseGeocode } from '../../../util/google-maps/reverseGeocode';
 import Input, { getInputErrors } from '../../Form/Input';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
@@ -34,6 +37,7 @@ interface AddressInputProps {
 const AddressInput = ({ formMode }: AddressInputProps) => {
   const { t } = useTranslation();
   const readonly = formMode === FormMode.READONLY;
+  const [hasValidPlace, setHasValidPlace] = useState(true);
 
   const {
     register,
@@ -59,23 +63,22 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
   };
 
   // Handle place selection from autocomplete
-  const handlePlaceSelected = ({ formattedAddress }: { formattedAddress?: string }) => {
+  const updateAddressFromAutocomplete = ({ formattedAddress }: SelectedAddressInfo) => {
+    setHasValidPlace(!!formattedAddress);
     setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress ?? '', {
       shouldValidate: true,
     });
   };
 
-  // Initialize autocomplete hook
-  const { initAutocomplete, hasValidPlace, clearValidPlace } = useGooglePlacesAutocomplete({
+  const { initAutocomplete } = useGooglePlacesAutocomplete({
     inputId: 'market-directory-address',
-    onPlaceSelected: handlePlaceSelected,
+    onPlaceSelected: updateAddressFromAutocomplete,
     types: ['address'],
-    initiallyValid: !!getValues(DIRECTORY_INFO_FIELDS.ADDRESS),
   });
 
   // Handle manual address input change
   const handleAddressChange = () => {
-    clearValidPlace();
+    setHasValidPlace(false);
   };
 
   const handleAddressBlur = () => {

@@ -37,6 +37,7 @@ export const useGooglePlacesAutocomplete = ({
   types = ['address'],
 }: UseGooglePlacesAutocompleteParams) => {
   const placesAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const listenerRef = useRef<google.maps.MapsEventListener | null>(null);
 
   const handlePlaceChanged = useCallback(() => {
     const place = placesAutocompleteRef.current?.getPlace();
@@ -63,11 +64,23 @@ export const useGooglePlacesAutocomplete = ({
 
     placesAutocompleteRef.current.setFields(['geometry', 'formatted_address', 'address_component']);
 
-    placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
+    listenerRef.current = placesAutocompleteRef.current.addListener(
+      'place_changed',
+      handlePlaceChanged,
+    );
   }, [inputId, types, handlePlaceChanged]);
+
+  const cleanup = useCallback(() => {
+    if (listenerRef.current) {
+      window.google.maps.event.removeListener(listenerRef.current);
+      listenerRef.current = null;
+    }
+    placesAutocompleteRef.current = null;
+  }, []);
 
   return {
     initAutocomplete,
+    cleanup,
     autocompleteRef: placesAutocompleteRef,
   };
 };

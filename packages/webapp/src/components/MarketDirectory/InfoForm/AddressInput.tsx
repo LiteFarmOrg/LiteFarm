@@ -80,7 +80,7 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     setValue(VALID_PLACE, !!formattedAddress, { shouldValidate: true });
   };
 
-  const { initAutocomplete } = useGooglePlacesAutocomplete({
+  const { initAutocomplete, cleanup } = useGooglePlacesAutocomplete({
     inputId: 'market-directory-address',
     onPlaceSelected: updateAddressFromAutocomplete,
     types: ['address'],
@@ -102,10 +102,10 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     if (!isLoaded) {
       return;
     }
-
     handleGeocode();
     if (formMode !== FormMode.READONLY) {
       initAutocomplete();
+      return cleanup;
     }
   }, [isLoaded, formMode]);
 

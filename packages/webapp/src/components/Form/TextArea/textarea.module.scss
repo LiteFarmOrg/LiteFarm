@@ -22,6 +22,10 @@
   border-color: var(--inputActive);
 }
 
+.textArea:disabled {
+  background-color: var(--inputDisabled);
+}
+
 .container {
   display: flex;
   flex-direction: column;

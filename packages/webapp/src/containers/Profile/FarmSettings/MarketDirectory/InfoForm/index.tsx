@@ -13,20 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
-import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
+import { MarketDirectoryInfoFormFields } from './types';
 import useImagePickerUpload from '../../../../../components/ImagePicker/useImagePickerUpload';
 import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
-import { isLatLng, reverseGeocode } from '../../../../../util/google-maps/reverseGeocode';
-import { useGooglePlacesAutocomplete } from '../../../../../hooks/useGooglePlacesAutocomplete';
 
 export enum FormMode {
   ADD = 'add',

@@ -30,8 +30,6 @@ import {
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/index';
 
-// Store address validity in a form field, mirroring grid_points in AddFarm
-export const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
 interface AddressInputProps {
   formMode: FormMode;
 }
@@ -50,7 +48,7 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
 
   const { isLoaded } = useGoogleMapsLoader(['places']);
 
-  // Geocode lat/lng address if needed
+  // Geocode initial lat/lng address if needed
   const handleGeocode = () => {
     const address = getValues(DIRECTORY_INFO_FIELDS.ADDRESS);
 
@@ -63,7 +61,10 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     }
   };
 
-  // Register valid_place with the error message we want to show on Address, following the grid_points in AddFarm
+  // Store address validity in a form field, mirroring grid_points in AddFarm
+  const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
+
+  // Register valid_place with the error we want to show on Address
   useEffect(() => {
     register(VALID_PLACE, {
       validate: (value) => value || t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS'),
@@ -76,7 +77,7 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress ?? '', {
       shouldValidate: true,
     });
-    setValue(VALID_PLACE, true, { shouldValidate: true });
+    setValue(VALID_PLACE, !!formattedAddress, { shouldValidate: true });
   };
 
   const { initAutocomplete } = useGooglePlacesAutocomplete({

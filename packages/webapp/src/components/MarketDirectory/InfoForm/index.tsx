@@ -42,6 +42,7 @@ import {
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm';
 import { Social, validateSocialAndExtractUsername } from '../../../util/socials';
+import { uppercaseTheFirstLetter } from '../../../util';
 import { VALID_EMAIL_REGEX } from '../../../util/validation';
 import AddressInput from './AddressInput';
 
@@ -112,14 +113,13 @@ const PureMarketDirectoryInfoForm = ({
           placeholder={t('MARKET_DIRECTORY.INFO_FORM.ABOUT_PLACEHOLDER')}
         />
 
-        {!readonly && (
-          <ImagePicker
-            label={'Farm Logo'}
-            onFileUpload={onFileUpload}
-            onRemoveImage={handleRemoveImage}
-            defaultUrl={field.value}
-          />
-        )}
+        <ImagePicker
+          label={'Farm Logo'}
+          onFileUpload={onFileUpload}
+          onRemoveImage={handleRemoveImage}
+          defaultUrl={field.value}
+          isDisabled={readonly}
+        />
       </section>
 
       <section className={styles.section}>
@@ -175,7 +175,6 @@ const PureMarketDirectoryInfoForm = ({
         <AddressInput formMode={formMode} />
 
         <InputBaseLabel label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} optional />
-
         <div className={styles.phoneContainer}>
           <NumberInput
             name={DIRECTORY_INFO_FIELDS.COUNTRY_CODE}
@@ -195,7 +194,6 @@ const PureMarketDirectoryInfoForm = ({
               maxLength: hookFormMaxCharsValidation(255),
             })}
             errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.PHONE_NUMBER)}
-            optional
             disabled={readonly}
             placeholder={examplePhoneNumber || t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')}
           />
@@ -287,7 +285,10 @@ export const SocialsInput = ({ icon, name, register, disabled, errors }: Socials
             }
             const isValid = !!validateSocialAndExtractUsername(name as Social, value);
             return (
-              isValid || t('MARKET_DIRECTORY.INFO_FORM.INVALID_USERNAME_OR_URL', { social: name })
+              isValid ||
+              t('MARKET_DIRECTORY.INFO_FORM.INVALID_USERNAME_OR_URL', {
+                social: uppercaseTheFirstLetter(name),
+              })
             );
           },
         })}

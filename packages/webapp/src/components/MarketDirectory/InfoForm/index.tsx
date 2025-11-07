@@ -14,7 +14,7 @@
  */
 
 import { useSelector } from 'react-redux';
-import { FieldErrors, useController, useFormContext, UseFormReturn } from 'react-hook-form';
+import { FieldErrors, useController, useFormContext, UseFormRegister } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { getCountryCallingCode, getExampleNumber } from 'libphonenumber-js/min';
 import examples from 'libphonenumber-js/mobile/examples';
@@ -260,10 +260,14 @@ const PureMarketDirectoryInfoForm = ({
 
 export default PureMarketDirectoryInfoForm;
 
+type SocialField =
+  | typeof DIRECTORY_INFO_FIELDS.INSTAGRAM
+  | typeof DIRECTORY_INFO_FIELDS.FACEBOOK
+  | typeof DIRECTORY_INFO_FIELDS.X;
 interface SocialsInputProps {
   icon: React.ReactNode;
-  name: string;
-  register: UseFormReturn['register'];
+  name: SocialField;
+  register: UseFormRegister<MarketDirectoryInfoFormFields>;
   disabled?: boolean;
   errors: FieldErrors<MarketDirectoryInfoFormFields>;
 }

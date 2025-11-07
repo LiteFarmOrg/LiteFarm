@@ -43,7 +43,7 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
 
-  const { isLoaded } = useGoogleMapsLoader(['places']);
+  useGoogleMapsLoader(['places']);
 
   // LF-4991 const { data: marketDirectoryInfo } = useGetMarketDirectoryInfoQuery();
   const hasExistingRecord = false; //!!marketDirectoryInfo
@@ -64,7 +64,7 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
   const [addMarketDirectoryInfo] = useAddMarketDirectoryInfoMutation();
   // LF-5012 const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
     if (formMode === FormMode.READONLY) {
       setFormMode(FormMode.EDIT);
       return;

@@ -56,6 +56,7 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
     mode: 'onBlur',
+    reValidateMode: 'onBlur',
     defaultValues: defaultValues,
   });
 

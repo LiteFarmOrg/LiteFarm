@@ -25,6 +25,7 @@ import useImagePickerUpload from '../../../../../components/ImagePicker/useImage
 import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
+import type { MarketDirectoryInfo } from '../../../../../store/api/types';
 
 export enum FormMode {
   ADD = 'add',
@@ -32,19 +33,18 @@ export enum FormMode {
   READONLY = 'readonly',
 }
 interface MarketDirectoryInfoFormProps {
-  setIsComplete: (isComplete: boolean) => void;
+  marketDirectoryInfo?: MarketDirectoryInfo;
   close: () => void;
 }
 
-const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFormProps) => {
+const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
 
   useGoogleMapsLoader(['places']);
 
-  // LF-4991 const { data: marketDirectoryInfo } = useGetMarketDirectoryInfoQuery();
-  const hasExistingRecord = false; //!!marketDirectoryInfo
+  const hasExistingRecord = !!marketDirectoryInfo;
 
   const initialFormMode = hasExistingRecord ? FormMode.READONLY : FormMode.ADD;
   const [formMode, setFormMode] = useState<FormMode>(initialFormMode);
@@ -84,7 +84,6 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
         : t('message:MARKET_DIRECTORY.SUCCESS.SAVE');
 
       dispatch(enqueueSuccessSnackbar(message));
-      setIsComplete(true);
       close();
     } catch (error) {
       console.error(error);

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -28,6 +28,7 @@ import { ReactComponent as CheckComplete } from '../../../../assets/images/check
 import { ReactComponent as CheckIncomplete } from '../../../../assets/images/check-incomplete.svg';
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
+import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 
 enum FormCards {
   INFO,
@@ -53,13 +54,22 @@ const MarketDirectory = () => {
 
   const areAllFormsComplete = Object.values(completionStatus).every(Boolean);
 
+  const { data: marketDirectoryInfo, isLoading: isMarketDirectoryInfoLoading } =
+    useGetMarketDirectoryInfoQuery();
+
+  useEffect(() => {
+    if (!isMarketDirectoryInfoLoading && marketDirectoryInfo) {
+      updateCompletionStatus(FormCards.INFO, true);
+    }
+  }, [isMarketDirectoryInfoLoading, marketDirectoryInfo]);
+
   const formCards = [
     {
       key: FormCards.INFO,
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
       content: (
         <MarketDirectoryInfoForm
-          setIsComplete={(isComplete) => updateCompletionStatus(FormCards.INFO, isComplete)}
+          marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}
         />
       ),

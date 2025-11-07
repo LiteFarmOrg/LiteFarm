@@ -65,6 +65,7 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
   // LF-5012 const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
 
   const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
+    const { valid_place, ...dataToSubmit } = formData;
     if (formMode === FormMode.READONLY) {
       setFormMode(FormMode.EDIT);
       return;
@@ -76,7 +77,7 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
         addMarketDirectoryInfo;
 
     try {
-      await apiCall(formData).unwrap();
+      await apiCall(dataToSubmit).unwrap();
 
       const message = hasExistingRecord
         ? // LF-5012 t('message:MARKET_DIRECTORY.SUCCESS.UPDATE')

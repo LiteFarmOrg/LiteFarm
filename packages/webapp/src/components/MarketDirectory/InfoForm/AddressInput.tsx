@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
@@ -30,6 +30,8 @@ import {
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/index';
 
+// Store address validity in a form field, mirroring grid_points in AddFarm
+export const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
 interface AddressInputProps {
   formMode: FormMode;
 }
@@ -37,7 +39,6 @@ interface AddressInputProps {
 const AddressInput = ({ formMode }: AddressInputProps) => {
   const { t } = useTranslation();
   const readonly = formMode === FormMode.READONLY;
-  const [hasValidPlace, setHasValidPlace] = useState(true);
 
   const {
     register,
@@ -62,12 +63,20 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     }
   };
 
+  // Register valid_place with the error message we want to show on Address, following the grid_points in AddFarm
+  useEffect(() => {
+    register(VALID_PLACE, {
+      validate: (value) => value || t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS'),
+    });
+    setValue(VALID_PLACE, true);
+  }, []);
+
   // Handle place selection from autocomplete
   const updateAddressFromAutocomplete = ({ formattedAddress }: SelectedAddressInfo) => {
-    setHasValidPlace(!!formattedAddress);
     setValue(DIRECTORY_INFO_FIELDS.ADDRESS, formattedAddress ?? '', {
       shouldValidate: true,
     });
+    setValue(VALID_PLACE, true, { shouldValidate: true });
   };
 
   const { initAutocomplete } = useGooglePlacesAutocomplete({
@@ -78,13 +87,13 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
 
   // Handle manual address input change
   const handleAddressChange = () => {
-    setHasValidPlace(false);
+    setValue(VALID_PLACE, false);
   };
 
   const handleAddressBlur = () => {
     // Follow AddFarm pattern and validate after delay
     setTimeout(() => {
-      trigger(DIRECTORY_INFO_FIELDS.ADDRESS);
+      trigger(DIRECTORY_INFO_FIELDS.VALID_PLACE);
     }, 100);
   };
 
@@ -106,9 +115,10 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
         required: true,
         maxLength: hookFormMaxCharsValidation(255),
         setValueAs: (value) => value.trim(),
-        validate: () => hasValidPlace || t('MARKET_DIRECTORY.INFO_FORM.INVALID_ADDRESS'),
       })}
-      errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS)}
+      errors={
+        getInputErrors(errors, DIRECTORY_INFO_FIELDS.ADDRESS) || getInputErrors(errors, VALID_PLACE)
+      }
       disabled={readonly}
       id="market-directory-address"
       autoComplete="off"

@@ -14,6 +14,9 @@
  */
 
 export const DIRECTORY_INFO_FIELDS = {
+  // Only for form internal logic
+  VALID_PLACE: 'valid_place',
+
   // Farm identity
   FARM_NAME: 'farm_name',
   ABOUT: 'about',
@@ -38,6 +41,7 @@ export const DIRECTORY_INFO_FIELDS = {
 } as const;
 
 export type MarketDirectoryInfoFormFields = {
+  [DIRECTORY_INFO_FIELDS.VALID_PLACE]: boolean;
   [DIRECTORY_INFO_FIELDS.FARM_NAME]: string;
   [DIRECTORY_INFO_FIELDS.ABOUT]?: string;
   [DIRECTORY_INFO_FIELDS.LOGO]?: string;

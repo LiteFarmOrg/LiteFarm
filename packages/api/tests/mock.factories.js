@@ -69,7 +69,7 @@ function fakeFarm(defaultData = {}) {
 }
 
 async function userFarmFactory(
-  { promisedUser = usersFactory(), promisedFarm = farmFactory(), roleId } = {},
+  { promisedUser = usersFactory(), promisedFarm = farmFactory(), roleId = 0 } = {},
   userFarm = fakeUserFarm(),
 ) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);

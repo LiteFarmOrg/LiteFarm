@@ -29,7 +29,7 @@ const marketDirectoryInfoController = {
           .whereNotDeleted()
           .first();
 
-        return res.status(200).send(data || {});
+        return res.status(200).json(data || null);
       } catch (error: unknown) {
         console.error(error);
 

@@ -153,11 +153,11 @@ describe('Market Directory Info Tests', () => {
       expect(res.status).toBe(403);
     });
 
-    test('Should get an empty object when there is no market directory info', async () => {
+    test('Should get null when there is no market directory info', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const res = await getRequest(userFarmIds);
       expect(res.status).toBe(200);
-      expect(res.body).toEqual({});
+      expect(res.body).toBe(null);
     });
   });
 

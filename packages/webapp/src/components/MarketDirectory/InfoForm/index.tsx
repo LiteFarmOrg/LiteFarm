@@ -114,7 +114,7 @@ const PureMarketDirectoryInfoForm = ({
         />
 
         <ImagePicker
-          label={'Farm Logo'}
+          label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
           onFileUpload={onFileUpload}
           onRemoveImage={handleRemoveImage}
           defaultUrl={field.value}
@@ -277,6 +277,9 @@ export const SocialsInput = ({ icon, name, register, disabled, errors }: Socials
       <div className={styles.socialsIcon}>{icon}</div>
 
       <Input
+        aria-label={t('MARKET_DIRECTORY.INFO_FORM.SOCIAL_INPUT_LABEL', {
+          social: uppercaseTheFirstLetter(name),
+        })}
         hookFormRegister={register(name, {
           maxLength: hookFormMaxCharsValidation(255),
           validate: (value) => {

@@ -165,7 +165,9 @@ const PureMarketDirectoryInfoForm = ({
 
         <div className={styles.privateInfoContainer}>
           <PrivateBadge />
-          <span>{t('MARKET_DIRECTORY.INFO_FORM.PRIVATE_INFO_NOTE')}</span>
+          <span className={styles.privateInfoNote}>
+            {t('MARKET_DIRECTORY.INFO_FORM.PRIVATE_INFO_NOTE')}
+          </span>
         </div>
       </section>
 

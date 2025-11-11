@@ -82,7 +82,9 @@
   display: flex;
   gap: 8px;
 
-  color: var(--Colors-Accent---singles-Brown-dark);
-  font-size: 12px;
-  font-style: italic;
+  .privateInfoNote {
+    color: var(--Colors-Accent---singles-Brown-dark);
+    font-size: 12px;
+    font-style: italic;
+  }
 }

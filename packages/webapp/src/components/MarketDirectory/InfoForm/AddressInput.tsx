@@ -30,6 +30,9 @@ import {
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/index';
 
+// Store address validity in a form field, mirroring grid_points in AddFarm
+const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
+
 interface AddressInputProps {
   formMode: FormMode;
 }
@@ -60,9 +63,6 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
       });
     }
   };
-
-  // Store address validity in a form field, mirroring grid_points in AddFarm
-  const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
 
   // Register valid_place with the error we want to show on Address
   useEffect(() => {

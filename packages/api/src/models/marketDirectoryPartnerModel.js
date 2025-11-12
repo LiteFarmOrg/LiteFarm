@@ -29,10 +29,10 @@ class MarketDirectoryPartner extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name'],
+      required: ['key'],
       properties: {
         id: { type: 'integer' },
-        name: { type: 'string' },
+        key: { type: 'string' },
       },
       additionalProperties: false,
     };

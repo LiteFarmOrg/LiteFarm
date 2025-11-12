@@ -66,7 +66,7 @@ export function checkAndTransformMarketDirectoryInfo() {
       return res.status(400).send('Invalid address');
     }
 
-    if (website && !(await isValidUrl(website)) /* TODO: LF-5011 */) {
+    if (website && !(await isValidUrl(website))) {
       return res.status(400).send('Invalid website');
     }
 

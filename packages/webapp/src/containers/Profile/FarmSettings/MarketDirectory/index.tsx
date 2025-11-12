@@ -59,7 +59,6 @@ const MarketDirectory = () => {
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
       content: (
         <MarketDirectoryInfoForm
-          isComplete={completionStatus[FormCards.INFO]}
           setIsComplete={(isComplete) => updateCompletionStatus(FormCards.INFO, isComplete)}
           close={() => unExpand(FormCards.INFO)}
         />

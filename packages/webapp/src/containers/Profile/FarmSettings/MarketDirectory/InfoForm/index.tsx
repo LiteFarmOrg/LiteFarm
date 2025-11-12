@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
-import { MarketDirectoryInfoFormFields } from './types';
+import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
 import useImagePickerUpload from '../../../../../components/ImagePicker/useImagePickerUpload';
 import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
@@ -87,6 +87,14 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
       close();
     } catch (error) {
       console.error(error);
+
+      if ((error as any)?.data === 'Invalid website') {
+        formMethods.setError(DIRECTORY_INFO_FIELDS.WEBSITE, {
+          type: 'manual',
+          message: t('MARKET_DIRECTORY.INFO_FORM.INVALID_WEBSITE'),
+        });
+        return;
+      }
 
       const message = hasExistingRecord
         ? // LF-5012 t('message:MARKET_DIRECTORY.ERROR.UPDATE')

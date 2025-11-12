@@ -256,7 +256,15 @@ describe('Farm Tests', () => {
         { promisedUser: [newUser], promisedFarm: [farm] },
         { role_id: 1, status: 'Active' },
       );
-      await minimalPutFarmRequest(farmImNotPartOf.farm_id, farm, newUser, farmImNotPartOf);
+      await otherFarmPutFarmRequest(
+        { farm_id: farmImNotPartOf.farm_id, farm_name: 'OtherTestFarm' },
+        farmImNotPartOf,
+        farm,
+        newUser,
+        async (_err, res) => {
+          expect(res.status).toBe(403);
+        },
+      );
     });
 
     test('should fail to delete a farm Im not a part of ', async () => {
@@ -266,7 +274,9 @@ describe('Farm Tests', () => {
         { promisedUser: [newUser], promisedFarm: [farm] },
         { role_id: 1, status: 'Active' },
       );
-      await minimalDeleteRequest(farmImNotPartOf.farm_id, farm, newUser);
+      await otherFarmDeleteRequest(farmImNotPartOf, farm, newUser, async (_err, res) => {
+        expect(res.status).toBe(403);
+      });
     });
   });
   describe('Patch default location test', () => {
@@ -338,16 +348,15 @@ async function putFarmRequest(data, user, callback) {
 }
 
 // builder
-async function minimalPutFarmRequest(farmId, farm, newUser, farmImNotPartOf) {
+async function otherFarmPutFarmRequest(data, otherFarm, farm, newUser, callback) {
   return chai
     .request(server)
-    .put(`/farm/${farmId}`)
+    .put(`/farm/${otherFarm.farm_id}`)
     .set('farm_id', farm.farm_id)
     .set('user_id', newUser.user_id)
-    .send({ farm_id: farmImNotPartOf.farm_id, farm_name: 'OtherTestFarm' })
-    .end((_err, res) => {
-      expect(res.status).toBe(403);
-    });
+    .send(data)
+    .then((res) => callback(null, res))
+    .catch((_err) => callback(_err));
 }
 
 async function deleteRequest(data, user, callback) {
@@ -361,15 +370,14 @@ async function deleteRequest(data, user, callback) {
 }
 
 // builder
-async function minimalDeleteRequest(farmId, farm, newUser) {
+async function otherFarmDeleteRequest(otherFarm, farm, newUser, callback) {
   return chai
     .request(server)
-    .delete(`/farm/${farmId}`)
+    .delete(`/farm/${otherFarm.farm_id}`)
     .set('farm_id', farm.farm_id)
     .set('user_id', newUser.user_id)
-    .end((_err, res) => {
-      expect(res.status).toBe(403);
-    });
+    .then((res) => callback(null, res))
+    .catch((_err) => callback(_err));
 }
 
 async function patchDefaultLocationRequest(farm_id, data, user, callback) {

@@ -1461,6 +1461,7 @@
       "EMAIL_ADDRESS": "Email address",
       "EMAIL_PLACEHOLDER": "Your farm shop email address",
       "FARM_IDENTITY": "Farm identity",
+      "FARM_LOGO": "Farm logo",
       "FARM_NAME": "Farm name",
       "FARM_REPRESENTATIVE": "Farm representative",
       "FARM_STORE_CONTACT": "Farm store contact",
@@ -1470,6 +1471,7 @@
       "ONLINE_PRESENCE": "Online presence",
       "PHONE_NUMBER": "Phone number",
       "PRIVATE_INFO_NOTE": "Private fields will be shared with directory partners, but won't be published",
+      "SOCIAL_INPUT_LABEL": "{{social}} username",
       "WEBSITE": "Website"
     },
     "MARKET_DIRECTORY_INFO": "Market directory info"

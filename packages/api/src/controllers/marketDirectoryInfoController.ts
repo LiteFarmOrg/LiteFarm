@@ -21,6 +21,27 @@ import { HttpError, LiteFarmRequest } from '../types.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 
 const marketDirectoryInfoController = {
+  getMarketDirectoryInfoByFarm() {
+    return async (req: LiteFarmRequest, res: Response) => {
+      try {
+        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+        const data = await MarketDirectoryInfoModel.query()
+          .where({ farm_id: req.headers.farm_id })
+          .whereNotDeleted()
+          .first();
+
+        return res.status(200).json(data || null);
+      } catch (error: unknown) {
+        console.error(error);
+
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({
+          error: err.message || err,
+        });
+      }
+    };
+  },
   addMarketDirectoryInfo() {
     return async (
       req: LiteFarmRequest<unknown, unknown, unknown, MarketDirectoryInfoReqBody>,

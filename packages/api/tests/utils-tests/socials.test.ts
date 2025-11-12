@@ -82,6 +82,10 @@ describe('Test socials', () => {
         const result = validateSocialAndExtractUsername(social1, url);
         expect(result).toBe(username);
       });
+      test.each(validUrls.map((url) => url.toUpperCase()))('%s', (url) => {
+        const result = validateSocialAndExtractUsername(social1, url);
+        expect(result).toBe(username.toUpperCase());
+      });
     });
 
     describe('Return false for invalid URL', () => {

@@ -56,40 +56,12 @@ export const up = async function (knex) {
 
   await knex('permissions').insert([
     {
-      permission_id: 179,
-      name: 'get:market_directory_info',
-      description: 'get market directory info',
-    },
-    {
-      permission_id: 180,
-      name: 'add:market_directory_info',
-      description: 'add market directory info',
-    },
-    {
-      permission_id: 181,
-      name: 'edit:market_directory_info',
-      description: 'edit market directory info',
-    },
-    {
-      permission_id: 182,
-      name: 'delete:market_directory_info',
-      description: 'delete market directory info',
-    },
-    {
       permission_id: 183,
-      name: 'get:market_product_category',
-      description: 'get market directory info',
+      name: 'get:market_product_categories',
+      description: 'get market product categories',
     },
   ]);
   await knex('rolePermissions').insert([
-    { role_id: 1, permission_id: 179 },
-    { role_id: 2, permission_id: 179 },
-    { role_id: 1, permission_id: 180 },
-    { role_id: 2, permission_id: 180 },
-    { role_id: 1, permission_id: 181 },
-    { role_id: 2, permission_id: 181 },
-    { role_id: 1, permission_id: 182 },
-    { role_id: 2, permission_id: 182 },
     { role_id: 1, permission_id: 183 },
     { role_id: 2, permission_id: 183 },
     { role_id: 3, permission_id: 183 },
@@ -102,7 +74,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
-  const permissions = [179, 180, 181, 182, 183];
+  const permissions = [183];
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();
 

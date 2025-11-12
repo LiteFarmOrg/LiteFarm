@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Farm, User } from '../src/models/types.js';
+
 export interface HeadersParams {
-  user_id: string;
-  farm_id: string;
+  user_id: User['user_id'];
+  farm_id: Farm['farm_id'];
 }

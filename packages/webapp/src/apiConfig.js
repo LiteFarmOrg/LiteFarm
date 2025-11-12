@@ -93,6 +93,7 @@ export const productUrl = `${URI}/product`;
 export const farmAddonUrl = `${URI}/farm_addon`;
 export const weatherUrl = `${URI}/weather`;
 export const irrigationPrescriptionUrl = `${URI}/irrigation_prescriptions`;
+export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
 
 export const url = URI;
 
@@ -155,5 +156,6 @@ export default {
   productUrl,
   farmAddonUrl,
   weatherUrl,
+  marketDirectoryInfoUrl,
   url,
 };

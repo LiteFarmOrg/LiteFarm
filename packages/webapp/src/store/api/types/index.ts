@@ -399,3 +399,20 @@ export type IrrigationPrescriptionDetails = {
         uriData?: never;
       };
 };
+
+export interface MarketDirectoryInfo {
+  farm_name: string;
+  about?: string;
+  logo?: string;
+  contact_first_name: string;
+  contact_last_name?: string;
+  contact_email: string;
+  address: string;
+  country_code?: number;
+  phone_number?: string;
+  email?: string;
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+}

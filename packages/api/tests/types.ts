@@ -13,14 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/*------------------
- Placeholder styles -- remove in LF-4990 */
-.checkboxLabel {
-  font-size: 16px;
-  font-weight: 700;
-  padding: 32px;
-  display: flex;
-  gap: 8px;
-  width: 100%;
+import { Farm, User } from '../src/models/types.js';
+
+export interface HeadersParams {
+  user_id: User['user_id'];
+  farm_id: Farm['farm_id'];
 }
-/*------------------*/

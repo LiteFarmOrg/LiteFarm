@@ -15,9 +15,9 @@
 
 import Model from './baseFormatModel.js';
 
-class MarketDirectoryCategory extends Model {
+class MarketProductCategory extends Model {
   static get tableName() {
-    return 'market_directory_category';
+    return 'market_product_category';
   }
 
   static get idColumn() {
@@ -40,4 +40,4 @@ class MarketDirectoryCategory extends Model {
   }
 }
 
-export default MarketDirectoryCategory;
+export default MarketProductCategory;

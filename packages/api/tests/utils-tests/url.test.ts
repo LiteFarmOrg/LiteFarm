@@ -46,6 +46,8 @@ const invalidUrls = [
   // Invalid or too-short TLD
   `example.c`,
   `https://example.c`,
+  `exa%mple.com`,
+  `exam ple.com`,
 
   // Malformed domain or structure
   `https://..`,

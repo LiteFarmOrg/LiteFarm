@@ -34,6 +34,12 @@ export const isValidHttpURLFormat = (url: string): boolean => {
     return false;
   }
 
+  try {
+    new URL(`https://${domainNameAndPort}`);
+  } catch {
+    return false;
+  }
+
   return isValidDomainNameFormat(domainName);
 };
 

@@ -1448,10 +1448,31 @@
   },
   "MARKET_DIRECTORY": {
     "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
-    "GET_LISTED": "Get your farm listed in trusted directories",
     "CONSENT": {
-      "TITLE": "Consent",
-      "MISSING_DETAILS": "You’re almost ready to publish! Just fill in the missing details in your Market directory info form above first."
+      "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
+      "TITLE": "Consent"
+    },
+    "GET_LISTED": "Get your farm listed in trusted directories",
+    "INFO_FORM": {
+      "ABOUT": "About the farm",
+      "ABOUT_PLACEHOLDER": "Provide a description for your farm",
+      "AT_USERNAME": "@username",
+      "COUNTRY_CODE": "Country code",
+      "EMAIL_ADDRESS": "Email address",
+      "EMAIL_PLACEHOLDER": "Your farm shop email address",
+      "FARM_IDENTITY": "Farm identity",
+      "FARM_LOGO": "Farm logo",
+      "FARM_NAME": "Farm name",
+      "FARM_REPRESENTATIVE": "Farm representative",
+      "FARM_STORE_CONTACT": "Farm store contact",
+      "FARM_STORE_LOCATION": "Farm store location",
+      "INVALID_ADDRESS": "Invalid address",
+      "INVALID_USERNAME_OR_URL": "Invalid format for {{social}}",
+      "ONLINE_PRESENCE": "Online presence",
+      "PHONE_NUMBER": "Phone number",
+      "PRIVATE_INFO_NOTE": "Private fields will be shared with directory partners, but won't be published",
+      "SOCIAL_INPUT_LABEL": "{{social}} username",
+      "WEBSITE": "Website"
     },
     "MARKET_DIRECTORY_INFO": "Market directory info"
   },

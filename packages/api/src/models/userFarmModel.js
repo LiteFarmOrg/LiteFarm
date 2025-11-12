@@ -65,6 +65,19 @@ class userFarm extends Model {
       }
     }
   }
+  static get modifiers() {
+    return {
+      withCountryCode(builder) {
+        builder.select(
+          builder
+            .knex()
+            .raw(
+              '(SELECT country_code FROM countries WHERE countries.id = farm.country_id LIMIT 1) as country_code',
+            ),
+        );
+      },
+    };
+  }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

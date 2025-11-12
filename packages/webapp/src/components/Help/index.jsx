@@ -12,6 +12,7 @@ import Input from '../Form/Input';
 import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
 import ImagePicker from '../ImagePicker';
+import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNumber, isLoading }) {
   const [file, setFile] = useState(null);
@@ -22,7 +23,6 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
   const SUPPORT_TYPE = 'support_type';
   const CONTACT_INFO = 'contactInfo';
 
-  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, reset, formState } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -158,7 +158,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
           }
           hookFormRegister={register(CONTACT_INFO, {
             required: true,
-            pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
+            pattern: contactMethodSelection === 'email' ? VALID_EMAIL_REGEX : /./g,
           })}
         />
         {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (

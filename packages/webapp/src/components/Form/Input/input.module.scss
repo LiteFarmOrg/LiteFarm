@@ -43,8 +43,8 @@ input[type='number'] {
   appearance: textfield;
 }
 
-.input ::placeholder {
-  color: var(--grey500);
+.input::placeholder {
+  color: var(--Colors-Neutral-Neutral-400);
 }
 
 input:focus::placeholder {

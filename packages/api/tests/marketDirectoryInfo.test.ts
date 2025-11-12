@@ -14,6 +14,7 @@
  */
 
 import chai from 'chai';
+/* @ts-expect-error system dependent mystery type error */
 import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';

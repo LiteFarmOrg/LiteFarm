@@ -82,7 +82,7 @@ export const styles: StylesConfig = {
     ...provided,
     fontSize: '16px',
     lineHeight: '24px',
-    color: 'var(--iconDefault)',
+    color: 'var(--Colors-Neutral-Neutral-400)',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',

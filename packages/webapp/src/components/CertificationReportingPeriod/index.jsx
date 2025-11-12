@@ -33,19 +33,12 @@ const PureCertificationReportingPeriod = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      // email: defaultEmail,
       ...persistedFormData,
     },
   });
   const persistedPath = ['/certification/survey'];
 
   const { historyCancel } = useHookFormPersist(getValues, persistedPath);
-
-  // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  // const emailRegister = register(EMAIL, {
-  //   required: true,
-  //   pattern: validEmailRegex,
-  // });
 
   const progress = 33;
   return (
@@ -75,14 +68,6 @@ const PureCertificationReportingPeriod = ({
           style={{ marginBottom: '40px' }}
           fromProps={{ max: addDaysToDate(new Date(), -1, { toUTC: false }) }}
         />
-
-        {/* <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
-        <Input
-          style={{ marginBottom: '40px' }}
-          label={t('CERTIFICATIONS.EMAIL')}
-          hookFormRegister={emailRegister}
-          errors={errors[EMAIL] && t('CERTIFICATIONS.EMAIL_ERROR')}
-        /> */}
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
       </Form>

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldModel.js) is part of LiteFarm.
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
 
 import Model from './baseFormatModel.js';
 
-class Countries extends Model {
+class MarketDirectoryPartnerCountry extends Model {
   static get tableName() {
-    return 'countries';
+    return 'market_directory_partner_country';
   }
 
   static get idColumn() {
@@ -27,24 +27,15 @@ class Countries extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
+      required: ['market_directory_partner_id'],
       properties: {
         id: { type: 'integer' },
-        country_name: { type: 'string' },
-        currency: { type: 'string' },
-        symbol: { type: 'string' },
-        iso: { type: 'string' },
-        unit: { type: 'string' },
-        country_code: { type: 'string' },
+        market_directory_partner_id: { type: 'integer' },
+        country_id: { type: ['integer', 'null'] }, // null = 'all countries'
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {};
-  }
 }
 
-export default Countries;
+export default MarketDirectoryPartnerCountry;

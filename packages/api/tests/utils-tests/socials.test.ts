@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error no types */
+/* @ts-expect-error system dependent mystery type error */
 import { faker } from '@faker-js/faker';
 import {
   SOCIAL_DOMAINS,
@@ -81,6 +81,10 @@ describe('Test socials', () => {
       test.each(validUrls)('%s', (url) => {
         const result = validateSocialAndExtractUsername(social1, url);
         expect(result).toBe(username);
+      });
+      test.each(validUrls.map((url) => url.toUpperCase()))('%s', (url) => {
+        const result = validateSocialAndExtractUsername(social1, url);
+        expect(result).toBe(username.toUpperCase());
       });
     });
 

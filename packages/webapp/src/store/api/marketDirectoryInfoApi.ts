@@ -13,14 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/*------------------
- Placeholder styles -- remove in LF-4990 */
-.checkboxLabel {
-  font-size: 16px;
-  font-weight: 700;
-  padding: 32px;
-  display: flex;
-  gap: 8px;
-  width: 100%;
-}
-/*------------------*/
+import { api } from './apiSlice';
+import { marketDirectoryInfoUrl } from '../../apiConfig';
+import { MarketDirectoryInfo } from './types';
+
+export const marketDirectoryInfo = api.injectEndpoints({
+  endpoints: (build) => ({
+    addMarketDirectoryInfo: build.mutation<void, MarketDirectoryInfo>({
+      query: (body) => ({
+        url: `${marketDirectoryInfoUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['MarketDirectoryInfo'],
+    }),
+  }),
+});
+
+export const { useAddMarketDirectoryInfoMutation } = marketDirectoryInfo;

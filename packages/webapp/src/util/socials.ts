@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+// File copied from backend
+
 export enum Social {
   INSTAGRAM = 'instagram',
   FACEBOOK = 'facebook',
@@ -45,7 +47,7 @@ export const validateSocialAndExtractUsername = (social: Social, usernameOrUrl: 
   const domain = SOCIAL_DOMAINS[social];
 
   // reject if it’s just the url without username
-  if (new RegExp(`^(https?://)?(www.)?${domain}/?$`, 'i').test(trimmedInput)) {
+  if (new RegExp(`^(https?://)?(www.)?${domain}/?$`).test(trimmedInput)) {
     return false;
   }
 

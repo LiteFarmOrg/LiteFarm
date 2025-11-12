@@ -14,7 +14,7 @@
  */
 
 import chai from 'chai';
-/* @ts-expect-error no types */
+/* @ts-expect-error system dependent mystery type error */
 import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
@@ -79,6 +79,28 @@ const invalidTestCases = [
   ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
 ];
 
+const expectMarketDirectoryInfo = async (
+  farmId: string,
+  expectedData: MarketDirectoryInfoReqBody,
+) => {
+  // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+  const record = await MarketDirectoryInfoModel.query().where({ farm_id: farmId }).first();
+
+  for (const property in expectedData) {
+    const key = property as keyof typeof expectedData;
+    expect(record[key]).toBe(expectedData[key]);
+  }
+};
+
+async function getRequest({ user_id, farm_id }: HeadersParams) {
+  return chai
+    .request(server)
+    .get('/market_directory_info')
+    .set('content-type', 'application/json')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
 async function postRequest(data: MarketDirectoryInfoReqBody, { user_id, farm_id }: HeadersParams) {
   return chai
     .request(server)
@@ -95,6 +117,51 @@ describe('Market Directory Info Tests', () => {
     await knex.destroy();
   });
 
+  describe('GET Market Directory Info', () => {
+    let farm_id: HeadersParams['farm_id'];
+
+    beforeAll(async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      ({ farm_id } = userFarmIds);
+
+      await mocks.market_directory_infoFactory({
+        promisedUserFarm: Promise.resolve([userFarmIds]),
+        marketDirectoryInfo,
+      });
+    });
+
+    test('Admin users should be able to get market directory info', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const [{ user_id }] = await mocks.userFarmFactory({
+          promisedFarm: Promise.resolve([{ farm_id }]),
+          roleId: role,
+        });
+
+        const res = await getRequest({ farm_id, user_id });
+        expect(res.status).toBe(200);
+        await expectMarketDirectoryInfo(farm_id, res.body);
+      }
+    });
+
+    test('Worker should not be able to get market directory info', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id }]),
+        roleId: 3,
+      });
+      const res = await postRequest(marketDirectoryInfo, { farm_id, user_id });
+      expect(res.status).toBe(403);
+    });
+
+    test('Should get null when there is no market directory info', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const res = await getRequest(userFarmIds);
+      expect(res.status).toBe(200);
+      expect(res.body).toBe(null);
+    });
+  });
+
   describe('Post Market Directory Info', () => {
     test('Admin users should be able to create a market directory info', async () => {
       const adminRoles = [1, 2, 5];
@@ -104,16 +171,7 @@ describe('Market Directory Info Tests', () => {
         const res = await postRequest(marketDirectoryInfo, userFarmIds);
 
         expect(res.status).toBe(201);
-
-        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-        const record = await MarketDirectoryInfoModel.query()
-          .where('farm_id', userFarmIds.farm_id)
-          .first();
-
-        for (const property in marketDirectoryInfo) {
-          const key = property as keyof typeof marketDirectoryInfo;
-          expect(record[key]).toBe(marketDirectoryInfo[key]);
-        }
+        await expectMarketDirectoryInfo(userFarmIds.farm_id, marketDirectoryInfo);
       }
     });
 

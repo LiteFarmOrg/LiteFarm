@@ -17,14 +17,32 @@ import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import { checkAndTransformMarketDirectoryInfo } from '../middleware/validation/checkMarketDirectoryInfo.js';
 import MarketDirectoryInfoController from '../controllers/marketDirectoryInfoController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 const router = express.Router();
+
+router.get(
+  '/',
+  checkScope(['get:market_directory_info']),
+  MarketDirectoryInfoController.getMarketDirectoryInfoByFarm(),
+);
 
 router.post(
   '/',
   checkScope(['add:market_directory_info']),
   checkAndTransformMarketDirectoryInfo(),
   MarketDirectoryInfoController.addMarketDirectoryInfo(),
+);
+
+router.post(
+  '/upload/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:market_directory_info']),
+  multerDiskUpload,
+  validateFileExtension,
+  MarketDirectoryInfoController.uploadFarmLogo(),
 );
 
 export default router;

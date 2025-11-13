@@ -17,7 +17,7 @@ import baseController from '../controllers/baseController.js';
 
 import { transaction, Model } from 'objection';
 import fieldModel from '../models/fieldModel.js';
-import { mapFieldsToStationId } from '../jobs/station_sync/mapping.js';
+import { mapFieldsToStationId } from '../util/mapFieldsToStationId.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const fieldController = {

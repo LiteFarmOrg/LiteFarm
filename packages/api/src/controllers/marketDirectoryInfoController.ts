@@ -28,6 +28,9 @@ const marketDirectoryInfoController = {
         const data = await MarketDirectoryInfoModel.query()
           .where({ farm_id: req.headers.farm_id })
           .whereNotDeleted()
+          .withGraphFetched({
+            farm_market_product_categories: true,
+          })
           .first();
 
         return res.status(200).json(data || null);
@@ -50,7 +53,7 @@ const marketDirectoryInfoController = {
       const { farm_id } = req.headers;
 
       try {
-        const result = await baseController.post(
+        const result = await baseController.insertGraphWithResponse(
           MarketDirectoryInfoModel,
           { ...req.body, farm_id },
           req,

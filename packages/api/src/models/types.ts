@@ -655,3 +655,8 @@ export type MarketProductCategory = {
   id: number;
   key: string;
 };
+
+export type FarmMarketProductCategory = {
+  market_directory_info_id: MarketDirectoryInfo['id'];
+  market_product_category_id: MarketProductCategory['id'];
+};

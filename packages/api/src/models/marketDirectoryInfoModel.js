@@ -15,6 +15,8 @@
 
 import baseModel from './baseModel.js';
 import { checkAndTrimString } from '../util/util.js';
+import Model from './baseFormatModel.js';
+import FarmMarketProductCategoryModel from './farmMarketProductCategoryModel.js';
 
 class MarketDirectoryInfo extends baseModel {
   static get tableName() {
@@ -80,6 +82,19 @@ class MarketDirectoryInfo extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      farm_market_product_categories: {
+        relation: Model.HasManyRelation,
+        modelClass: FarmMarketProductCategoryModel,
+        join: {
+          from: 'market_directory_info.id',
+          to: 'farm_market_product_category.market_directory_info_id',
+        },
+      },
     };
   }
 }

@@ -2720,6 +2720,10 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
+async function market_product_categoryFactory(key = faker.lorem.word()) {
+  return knex('market_product_category').insert({ key }).returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2949,5 +2953,6 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
+  market_product_categoryFactory,
   baseProperties,
 };

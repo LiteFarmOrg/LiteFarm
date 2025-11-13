@@ -347,7 +347,7 @@ app
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
   .use('/market_directory_info', marketDirectoryInfoRoute)
-  .use('/market_directory_categories', marketProductCategoryRoute);
+  .use('/market_product_categories', marketProductCategoryRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

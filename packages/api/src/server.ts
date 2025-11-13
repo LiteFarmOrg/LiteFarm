@@ -380,14 +380,13 @@ if (
   environment === 'production' ||
   environment === 'integration'
 ) {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
+  server.on('close', () => {
+    knex.destroy();
+  });
 }
-
-app.on('close', () => {
-  knex.destroy();
-});
 
 export default app;

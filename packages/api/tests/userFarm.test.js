@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -202,7 +202,7 @@ describe('User Farm Tests', () => {
     return { owner, manager, worker, inactiveUser, farm };
   }
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     console.time('cleanup');
     await tableCleanup(knex);
     console.timeEnd('cleanup');
@@ -210,40 +210,37 @@ describe('User Farm Tests', () => {
 
     await knex.destroy();
     console.timeEnd('destroy');
-    done();
   });
 
-  test('Get all user farms of a user', async (done) => {
+  test('Get all user farms of a user', async () => {
     const { user } = await setupUserFarm({});
     await createUserFarmForUser({}, user);
     await createUserFarmForUser({}, user);
 
-    getUserFarmsOfUserRequest({ user_id: user.user_id }, async (err, res) => {
-      expect(err).toEqual(null);
+    getUserFarmsOfUserRequest({ user_id: user.user_id }, async (_err, res) => {
+      expect(_err).toEqual(null);
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
-      done();
     });
   });
 
-  test('Update consent status for user farm', async (done) => {
+  test('Update consent status for user farm', async () => {
     const { farm } = await setupUserFarm({});
     const noConsentUser = await createUserFarmAtFarm({ role_id: 3, has_consent: false }, farm);
     let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
     expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest(
       { user_id: noConsentUser.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
         expect(targetUser.has_consent).toBe(true);
-        done();
       },
     );
   });
 
-  test('Invited user should not update userFarm', async (done) => {
+  test('Invited user should not update userFarm', async () => {
     const { farm } = await setupUserFarm({});
     const noConsentUser = await createUserFarmAtFarm(
       { role_id: 3, has_consent: false, status: 'Invited' },
@@ -253,15 +250,14 @@ describe('User Farm Tests', () => {
     expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest(
       { user_id: noConsentUser.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(403);
-        done();
       },
     );
   });
 
-  test('Inactive user should not update userFarm', async (done) => {
+  test('Inactive user should not update userFarm', async () => {
     const { farm } = await setupUserFarm({});
     const noConsentUser = await createUserFarmAtFarm(
       { role_id: 3, has_consent: false, status: 'Inactive' },
@@ -271,15 +267,14 @@ describe('User Farm Tests', () => {
     expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest(
       { user_id: noConsentUser.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(403);
-        done();
       },
     );
   });
 
-  test('Owner should not accept/reject consent on behalf of another user', async (done) => {
+  test('Owner should not accept/reject consent on behalf of another user', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const noConsentUser = await createUserFarmAtFarm(
       { role_id: 3, has_consent: false, status: 'Invited' },
@@ -289,15 +284,14 @@ describe('User Farm Tests', () => {
     expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest(
       { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: noConsentUser },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(403);
-        done();
       },
     );
   });
 
-  test('Update step_one of farm', async (done) => {
+  test('Update step_one of farm', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
     expect(targetUser.step_one).toBe(false);
@@ -306,18 +300,17 @@ describe('User Farm Tests', () => {
     updateOnboarding(
       targetUser,
       { user_id: owner.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         const targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
         expect(targetUser1.step_one).toBe(true);
         expect(targetUser1.step_one_end).toBe(targetUser.step_one_end);
-        done();
       },
     );
   });
 
-  test('Update step_two of farm', async (done) => {
+  test('Update step_two of farm', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
     expect(targetUser.step_two).toBe(false);
@@ -326,18 +319,17 @@ describe('User Farm Tests', () => {
     updateOnboarding(
       targetUser,
       { user_id: owner.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         const targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
         expect(targetUser1.step_two).toBe(true);
         expect(targetUser1.step_two_end).toBe(targetUser.step_two_end);
-        done();
       },
     );
   });
 
-  test('Update step_three of farm', async (done) => {
+  test('Update step_three of farm', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
     expect(targetUser.step_three).toBe(false);
@@ -346,18 +338,17 @@ describe('User Farm Tests', () => {
     updateOnboarding(
       targetUser,
       { user_id: owner.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         const targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
         expect(targetUser1.step_three).toBe(true);
         expect(targetUser1.step_three_end).toBe(targetUser.step_three_end);
-        done();
       },
     );
   });
 
-  test('Update step_four of farm', async (done) => {
+  test('Update step_four of farm', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
     expect(targetUser.step_four).toBe(false);
@@ -366,18 +357,17 @@ describe('User Farm Tests', () => {
     updateOnboarding(
       targetUser,
       { user_id: owner.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         const targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
         expect(targetUser1.step_four).toBe(true);
         expect(targetUser1.step_four_end).toBe(targetUser.step_four_end);
-        done();
       },
     );
   });
 
-  test('Update step_five of farm', async (done) => {
+  test('Update step_five of farm', async () => {
     const { user: owner, farm } = await setupUserFarm({});
     const targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
     expect(targetUser.step_five).toBe(false);
@@ -386,25 +376,24 @@ describe('User Farm Tests', () => {
     updateOnboarding(
       targetUser,
       { user_id: owner.user_id, farm_id: farm.farm_id },
-      async (err, res) => {
-        expect(err).toEqual(null);
+      async (_err, res) => {
+        expect(_err).toEqual(null);
         expect(res.status).toBe(200);
         const targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
         expect(targetUser1.step_five).toBe(true);
         expect(targetUser1.step_five_end).toBe(targetUser.step_five_end);
-        done();
       },
     );
   });
 
   describe('Get user farm info by farm: authorization tests', () => {
     describe('Get all user farm info', () => {
-      test('Owner should get all user farm info', async (done) => {
+      test('Owner should get all user farm info', async () => {
         const { owner, farm } = await setupFarmWithVariousUsers();
         getUserFarmsOfFarmRequest(
           { user_id: owner.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(4);
             // check if sensitive info can be accessed
@@ -418,32 +407,30 @@ describe('User Farm Tests', () => {
                 expect(userFarm.birth_year).toBeUndefined();
               }
             }
-            done();
           },
         );
       });
 
-      test('Manager should get all user farm info', async (done) => {
+      test('Manager should get all user farm info', async () => {
         const { manager, farm } = await setupFarmWithVariousUsers();
         getUserFarmsOfFarmRequest(
           { user_id: manager.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(4);
             // check if sensitive info can be accessed
             expect(res.body[0].address).toBeDefined();
-            done();
           },
         );
       });
 
-      test('Worker should get all user farm limited info', async (done) => {
+      test('Worker should get all user farm limited info', async () => {
         const { worker, farm } = await setupFarmWithVariousUsers();
         getUserFarmsOfFarmRequest(
           { user_id: worker.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(4);
             // check if sensitive info can be accessed
@@ -456,62 +443,58 @@ describe('User Farm Tests', () => {
             expect(res.body[0].email).toBeDefined();
             expect(res.body[0].role).toBeDefined();
             expect(res.body[0].status).toBeDefined();
-            done();
           },
         );
       });
 
-      test('Return 403 if unauthorized user tries to get any user farm info', async (done) => {
+      test('Return 403 if unauthorized user tries to get any user farm info', async () => {
         const { farm } = await setupFarmWithVariousUsers();
         const { user: unauthorizedUser } = await setupUserFarm({ role_id: 1 });
         getUserFarmsOfFarmRequest(
           { user_id: unauthorizedUser.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
     });
 
     describe('Get active user farm info', () => {
-      test('Owner should get active user farm info', async (done) => {
+      test('Owner should get active user farm info', async () => {
         const { owner, farm } = await setupFarmWithVariousUsers();
         getActiveUserFarmsOfFarmRequest(
           { user_id: owner.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(3);
             // check if sensitive info can be accessed
             expect(res.body[0].address).toBeDefined();
-            done();
           },
         );
       });
 
-      test('Manager should get active user farm info', async (done) => {
+      test('Manager should get active user farm info', async () => {
         const { manager, farm } = await setupFarmWithVariousUsers();
         getActiveUserFarmsOfFarmRequest(
           { user_id: manager.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(3);
             // check if sensitive info can be accessed
             expect(res.body[0].address).toBeDefined();
-            done();
           },
         );
       });
 
-      test('Worker should get active user farm limited info', async (done) => {
+      test('Worker should get active user farm limited info', async () => {
         const { worker, farm } = await setupFarmWithVariousUsers();
         getActiveUserFarmsOfFarmRequest(
           { user_id: worker.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(3);
             // check if sensitive info can be accessed
@@ -524,20 +507,18 @@ describe('User Farm Tests', () => {
             expect(res.body[0].email).toBeDefined();
             expect(res.body[0].role).toBeDefined();
             expect(res.body[0].status).toBeDefined();
-            done();
           },
         );
       });
 
-      test('Return 403 if unauthorized user tries to get active user farm info', async (done) => {
+      test('Return 403 if unauthorized user tries to get active user farm info', async () => {
         const { farm } = await setupFarmWithVariousUsers();
         const { user: unauthorizedUser } = await setupUserFarm({ role_id: 1 });
         getActiveUserFarmsOfFarmRequest(
           { user_id: unauthorizedUser.user_id, farm_id: farm.farm_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
@@ -550,15 +531,15 @@ describe('User Farm Tests', () => {
   //     userFarmToAdd = fakeUserFarm();
   //   });
 
-  //   test('Owner should successfully add user farm', async (done) => {
-  //     addUserFarmRequest(userFarmToAdd, { user_id: owner.user_id }, async (err, res) => {
+  //   test('Owner should successfully add user farm', async () => {
+  //     addUserFarmRequest(userFarmToAdd, { user_id: owner.user_id }, async (_err, res) => {
   //       expect(res.status).toBe(201);
   //       const addedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id);
   //       addedUserFarm = addedUserFarm[addedUserFarm.length - 1];
   //       expect(addedUserFarm.role_id).toBe(userFarmToAdd.role_id);
   //       expect(addedUserFarm.status).toBe(userFarmToAdd.status);
   //       expect(addedUserFarm.has_consent).toBe(userFarmToAdd.has_consent);
-  //       done();
+  //
   //     });
   //   });
   // });
@@ -566,7 +547,7 @@ describe('User Farm Tests', () => {
   describe('Update user farm: authorization tests', () => {
     describe('Update user farm role', () => {
       // TODO: eventually change how role is passed into endpoint
-      test('Owner should update user farm role', async (done) => {
+      test('Owner should update user farm role', async () => {
         const { user: owner, farm } = await setupUserFarm({});
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_role_id = 2;
@@ -575,8 +556,8 @@ describe('User Farm Tests', () => {
           target_role_id,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -584,12 +565,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.role_id).toBe(target_role_id);
-            done();
           },
         );
       });
 
-      test('Manager should update user farm role', async (done) => {
+      test('Manager should update user farm role', async () => {
         const { user: manager, farm } = await setupUserFarm({ role_id: 2 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_role_id = 2;
@@ -598,8 +578,8 @@ describe('User Farm Tests', () => {
           target_role_id,
           { user_id: manager.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -607,12 +587,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.role_id).toBe(target_role_id);
-            done();
           },
         );
       });
 
-      test('Return 403 if worker tries to update user farm role', async (done) => {
+      test('Return 403 if worker tries to update user farm role', async () => {
         const { manager, worker, farm } = await setupFarmWithVariousUsers();
         const target_role = 'Worker';
         const target_user_id = manager.user_id;
@@ -620,15 +599,14 @@ describe('User Farm Tests', () => {
           target_role,
           { user_id: worker.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Return 403 if unauthorized user tries to update user farm role', async (done) => {
+      test('Return 403 if unauthorized user tries to update user farm role', async () => {
         const { manager, farm } = await setupFarmWithVariousUsers();
         const { user: unauthorizedUser } = await setupUserFarm({ role_id: 1 });
         const target_role = 'Worker';
@@ -637,15 +615,14 @@ describe('User Farm Tests', () => {
           target_role,
           { user_id: unauthorizedUser.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Return 400 if last owner/Manager tries to set themselves as standard worker', async (done) => {
+      test('Return 400 if last owner/Manager tries to set themselves as standard worker', async () => {
         const { owner, manager, farm } = await setupFarmWithVariousUsers();
         const target_role = 'Worker';
         const target_role_id = 3;
@@ -655,8 +632,8 @@ describe('User Farm Tests', () => {
           target_role_id,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -670,17 +647,16 @@ describe('User Farm Tests', () => {
               target_role,
               { user_id: owner.user_id, farm_id: farm.farm_id },
               target_user_id,
-              async (err, res) => {
-                expect(err).toEqual(null);
+              async (_err, res) => {
+                expect(_err).toEqual(null);
                 expect(res.status).toBe(400);
-                done();
               },
             );
           },
         );
       });
 
-      test('Return 404 if owner tries to update user farm role that is not part of their farm', async (done) => {
+      test('Return 404 if owner tries to update user farm role that is not part of their farm', async () => {
         const { user: owner, farm } = await setupUserFarm({});
         const { user: unauthorizedUser } = await setupUserFarm({});
         const target_role_id = 2;
@@ -689,17 +665,16 @@ describe('User Farm Tests', () => {
           target_role_id,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(404);
-            done();
           },
         );
       });
     });
 
     describe('Update user farm status', () => {
-      test('Owner should update user farm status', async (done) => {
+      test('Owner should update user farm status', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_status = 'Inactive';
@@ -708,8 +683,8 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -717,12 +692,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.status).toBe(target_status);
-            done();
           },
         );
       });
 
-      test('Manager should update user farm status', async (done) => {
+      test('Manager should update user farm status', async () => {
         const { user: manager, farm } = await setupUserFarm({ role_id: 2 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_status = 'Inactive';
@@ -731,8 +705,8 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: manager.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -740,12 +714,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.status).toBe(target_status);
-            done();
           },
         );
       });
 
-      test('Return 403 if worker tries to update user farm status', async (done) => {
+      test('Return 403 if worker tries to update user farm status', async () => {
         const { user: manager, farm } = await setupUserFarm({ role_id: 2 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const target_status = 'Inactive';
@@ -754,15 +727,14 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: worker.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Return 403 if unauthorized user tries to update user farm status', async (done) => {
+      test('Return 403 if unauthorized user tries to update user farm status', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const { user: unauthorizedUser } = await setupUserFarm({ role_id: 1 });
         const target_status = 'Inactive';
@@ -771,15 +743,14 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: unauthorizedUser.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Allowed status change: Inactive -> Invited', async (done) => {
+      test('Allowed status change: Inactive -> Invited', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const inactiveUser = await createUserFarmAtFarm({ role_id: 3, status: 'Inactive' }, farm);
         const target_status = 'Invited';
@@ -788,8 +759,8 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -797,12 +768,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.status).toBe(target_status);
-            done();
           },
         );
       });
 
-      test('Allowed status change: Inactive -> Active', async (done) => {
+      test('Allowed status change: Inactive -> Active', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const inactiveUser = await createUserFarmAtFarm({ role_id: 3, status: 'Inactive' }, farm);
         const target_status = 'Active';
@@ -811,16 +781,15 @@ describe('User Farm Tests', () => {
           target_status,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
-            done();
           },
         );
       });
     });
 
-    test('Allowed status change: Invited -> Inactive', async (done) => {
+    test('Allowed status change: Invited -> Inactive', async () => {
       const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
       const invitedUser = await createUserFarmAtFarm({ role_id: 3, status: 'Invited' }, farm);
       const target_status = 'Inactive';
@@ -829,8 +798,8 @@ describe('User Farm Tests', () => {
         target_status,
         { user_id: owner.user_id, farm_id: farm.farm_id },
         target_user_id,
-        async (err, res) => {
-          expect(err).toEqual(null);
+        async (_err, res) => {
+          expect(_err).toEqual(null);
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel
             .query()
@@ -838,12 +807,11 @@ describe('User Farm Tests', () => {
             .andWhere('user_id', target_user_id)
             .first();
           expect(updatedUserFarm.status).toBe(target_status);
-          done();
         },
       );
     });
 
-    test('Forbidden status change: Invited -> Active', async (done) => {
+    test('Forbidden status change: Invited -> Active', async () => {
       const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
       const invitedUser = await createUserFarmAtFarm({ role_id: 3, status: 'Invited' }, farm);
       const target_status = 'Active';
@@ -852,15 +820,14 @@ describe('User Farm Tests', () => {
         target_status,
         { user_id: owner.user_id, farm_id: farm.farm_id },
         target_user_id,
-        async (err, res) => {
-          expect(err).toEqual(null);
+        async (_err, res) => {
+          expect(_err).toEqual(null);
           expect(res.status).toBe(400);
-          done();
         },
       );
     });
 
-    test('Forbidden status change: Active -> Invited', async (done) => {
+    test('Forbidden status change: Active -> Invited', async () => {
       const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
       const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
       const target_status = 'Invited';
@@ -869,15 +836,14 @@ describe('User Farm Tests', () => {
         target_status,
         { user_id: owner.user_id, farm_id: farm.farm_id },
         target_user_id,
-        async (err, res) => {
-          expect(err).toEqual(null);
+        async (_err, res) => {
+          expect(_err).toEqual(null);
           expect(res.status).toBe(400);
-          done();
         },
       );
     });
 
-    test('Allowed status change: Active -> Inactive', async (done) => {
+    test('Allowed status change: Active -> Inactive', async () => {
       const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
       const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
       const target_status = 'Inactive';
@@ -886,8 +852,8 @@ describe('User Farm Tests', () => {
         target_status,
         { user_id: owner.user_id, farm_id: farm.farm_id },
         target_user_id,
-        async (err, res) => {
-          expect(err).toEqual(null);
+        async (_err, res) => {
+          expect(_err).toEqual(null);
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel
             .query()
@@ -895,13 +861,12 @@ describe('User Farm Tests', () => {
             .andWhere('user_id', target_user_id)
             .first();
           expect(updatedUserFarm.status).toBe(target_status);
-          done();
         },
       );
     });
 
     describe('Update user farm wage', () => {
-      test('Owner should update user farm wage', async (done) => {
+      test('Owner should update user farm wage', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const wage = {
@@ -913,8 +878,8 @@ describe('User Farm Tests', () => {
           wage,
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -922,12 +887,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.wage).toEqual(wage);
-            done();
           },
         );
       });
 
-      test('Manager should update user farm wage', async (done) => {
+      test('Manager should update user farm wage', async () => {
         const { user: manager, farm } = await setupUserFarm({ role_id: 2 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const wage = {
@@ -939,8 +903,8 @@ describe('User Farm Tests', () => {
           wage,
           { user_id: manager.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(200);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -948,12 +912,11 @@ describe('User Farm Tests', () => {
               .andWhere('user_id', target_user_id)
               .first();
             expect(updatedUserFarm.wage).toEqual(wage);
-            done();
           },
         );
       });
 
-      test('Return 403 if worker tries to update user farm wage', async (done) => {
+      test('Return 403 if worker tries to update user farm wage', async () => {
         const { farm } = await setupUserFarm({ role_id: 1 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const wage = {
@@ -965,15 +928,14 @@ describe('User Farm Tests', () => {
           wage,
           { user_id: worker.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Return 403 if unauthorized user tries to update user farm wage', async (done) => {
+      test('Return 403 if unauthorized user tries to update user farm wage', async () => {
         const { farm } = await setupUserFarm({ role_id: 1 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);
         const { user: unauthorizedUser } = await setupUserFarm({ role_id: 1 });
@@ -986,27 +948,26 @@ describe('User Farm Tests', () => {
           wage,
           { user_id: unauthorizedUser.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
     });
 
     describe('Set wage_do_not_ask_again', () => {
-      const testWithRole = async (userRoleId, targetUserRoleId, done) => {
+      const testWithRole = async (userRoleId, targetUserRoleId) => {
         const { user: owner, farm } = await setupUserFarm({ role_id: userRoleId });
         const worker = await createUserFarmAtFarm({ role_id: targetUserRoleId }, farm);
         const target_user_id = worker.user_id;
         setWageDoNotAskAgainRequest(
           { user_id: owner.user_id, farm_id: farm.farm_id },
           target_user_id,
-          async (err, res) => {
+          async (_err, res) => {
             const adminRoles = [1, 2, 5];
             if (adminRoles.includes(userRoleId)) {
-              expect(err).toEqual(null);
+              expect(_err).toEqual(null);
               expect(res.status).toBe(200);
               const updatedUserFarm = await userFarmModel
                 .query()
@@ -1014,35 +975,34 @@ describe('User Farm Tests', () => {
                 .andWhere('user_id', target_user_id)
                 .first();
               expect(updatedUserFarm.wage_do_not_ask_again).toEqual(true);
-              done();
+
               return;
             }
 
             expect(res.status).toBe(403);
-            done();
           },
         );
       };
 
-      test('Owner should be able to set wage_do_not_ask_again', async (done) => {
-        testWithRole(1, 3, done);
+      test('Owner should be able to set wage_do_not_ask_again', async () => {
+        testWithRole(1, 3);
       });
 
-      test('Manager should be able to set wage_do_not_ask_again', async (done) => {
-        testWithRole(2, 3, done);
+      test('Manager should be able to set wage_do_not_ask_again', async () => {
+        testWithRole(2, 3);
       });
 
-      test('EO should be able to set wage_do_not_ask_again', async (done) => {
-        testWithRole(5, 3, done);
+      test('EO should be able to set wage_do_not_ask_again', async () => {
+        testWithRole(5, 3);
       });
 
-      test('Farm worker should not be able to set wage_do_not_ask_again', async (done) => {
-        testWithRole(3, 3, done);
+      test('Farm worker should not be able to set wage_do_not_ask_again', async () => {
+        testWithRole(3, 3);
       });
     });
 
     describe('Invite pseudo user test', () => {
-      test('Should invite a pseudo user when email does not exist in user table', async (done) => {
+      test('Should invite a pseudo user when email does not exist in user table', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const [psedoUserFarm] = await mocks.userFarmFactory(
           { promisedFarm: [farm] },
@@ -1053,8 +1013,8 @@ describe('User Farm Tests', () => {
         invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(201);
             const updatedUserFarm = await userFarmModel
               .query()
@@ -1064,12 +1024,11 @@ describe('User Farm Tests', () => {
             expect(updatedUser.status_id).toBe(2);
             expect(updatedUserFarm.wage).toEqual(wage);
             expect(updatedUserFarm.role_id).toBe(role_id);
-            done();
           },
         );
       });
 
-      test('Should give access of a pseudo farm to an account when email exists in user table', async (done) => {
+      test('Should give access of a pseudo farm to an account when email exists in user table', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const [psedoUserFarm] = await mocks.userFarmFactory(
           { promisedFarm: [farm] },
@@ -1085,8 +1044,8 @@ describe('User Farm Tests', () => {
         invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(201);
             const oldUserFarm = await userFarmModel
               .query()
@@ -1104,12 +1063,11 @@ describe('User Farm Tests', () => {
             expect(updatedUserFarm.status_id).toBe(1);
             expect(updatedUserFarm.wage).toEqual(wage);
             expect(updatedUserFarm.role_id).toBe(role_id);
-            done();
           },
         );
       });
 
-      test('Should return 400 on attempt to convert pseudo user with email already in use', async (done) => {
+      test('Should return 400 on attempt to convert pseudo user with email already in use', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const [psedoUserFarm] = await mocks.userFarmFactory(
           { promisedFarm: [farm] },
@@ -1117,7 +1075,7 @@ describe('User Farm Tests', () => {
         );
         const email = faker.internet.email().toLowerCase();
         const [existingUser] = await mocks.usersFactory({ ...mocks.fakeUser(), email });
-        const [existringUserFarm] = await mocks.userFarmFactory({
+        const [_existringUserFarm] = await mocks.userFarmFactory({
           promisedFarm: [farm],
           promisedUser: [existingUser],
         });
@@ -1125,15 +1083,14 @@ describe('User Farm Tests', () => {
         invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(400);
-            done();
           },
         );
       });
 
-      test('Should return 400 if user is not a pseudo User', async (done) => {
+      test('Should return 400 if user is not a pseudo User', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
         const [managerFarm] = await mocks.userFarmFactory(
           { promisedFarm: [farm] },
@@ -1144,8 +1101,8 @@ describe('User Farm Tests', () => {
         invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: managerFarm.user_id },
-          async (err, res) => {
-            expect(err).toEqual(null);
+          async (_err, res) => {
+            expect(_err).toEqual(null);
             expect(res.status).toBe(400);
             const userFarm = await userFarmModel
               .query()
@@ -1153,7 +1110,6 @@ describe('User Farm Tests', () => {
             delete userFarm.created_at;
             delete managerFarm.created_at;
             expect(userFarm).toEqual(managerFarm);
-            done();
           },
         );
       });

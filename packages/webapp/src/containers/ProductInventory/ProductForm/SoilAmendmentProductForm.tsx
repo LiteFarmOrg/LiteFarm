@@ -41,7 +41,6 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
   }));
 
   const soilAmendmentProducts =
-    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
     useSelector((state) => productsForTaskTypeSelector(state, taskType)) || [];
 
   const isReadOnly = mode === FormMode.READ_ONLY;

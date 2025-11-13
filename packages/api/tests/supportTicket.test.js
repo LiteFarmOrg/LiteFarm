@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -37,13 +37,13 @@ import mocks from './mock.factories.js';
 import supportTicketModel from '../src/models/supportTicketModel.js';
 
 describe('supportTicket Tests', () => {
-  let token;
+  let _token;
   let owner;
   let farm;
-  let ownerFarm;
+  let _ownerFarm;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -67,16 +67,15 @@ describe('supportTicket Tests', () => {
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    [ownerFarm] = await mocks.userFarmFactory(
+    [_ownerFarm] = await mocks.userFarmFactory(
       { promisedUser: [owner], promisedFarm: [farm] },
       fakeUserFarm(1),
     );
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Post support ticket', () => {
@@ -86,8 +85,8 @@ describe('supportTicket Tests', () => {
       fakeSupportTicket = mocks.fakeSupportTicket(farm.farm_id);
     });
 
-    test('Owner post support ticket', async (done) => {
-      postRequest(fakeSupportTicket, {}, async (err, res) => {
+    test('Owner post support ticket', (done) => {
+      postRequest(fakeSupportTicket, {}, async (_err, res) => {
         expect(res.status).toBe(201);
         const supportTickets = await supportTicketModel
           .query()

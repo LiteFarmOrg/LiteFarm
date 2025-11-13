@@ -631,3 +631,8 @@ export type File = {
 export interface DocumentWithFiles extends Document {
   files?: File[];
 }
+
+export type MarketProductCategory = {
+  id: number;
+  key: string;
+};

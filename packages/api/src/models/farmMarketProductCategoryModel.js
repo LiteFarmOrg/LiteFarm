@@ -17,7 +17,7 @@ import Model from './baseFormatModel.js';
 
 class FarmMarketProductCategory extends Model {
   static get tableName() {
-    return 'market_product_category';
+    return 'farm_market_product_category';
   }
 
   static get idColumn() {

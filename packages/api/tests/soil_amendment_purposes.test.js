@@ -24,7 +24,7 @@ import { tableCleanup } from './testEnvironment.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -33,20 +33,18 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 
 describe('Soil Amendment Purpose Test', () => {
-  let token;
+  let _token;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   async function getRequest({ user_id, farm_id }) {

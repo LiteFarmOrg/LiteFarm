@@ -11,7 +11,7 @@ jobs:
   run-linters-in-webapp:
     name: Run linters in webapp
     runs-on: ubuntu-latest
-    container: node:20.17
+    container: node:22.21
     defaults:
       run:
         working-directory: packages/webapp/
@@ -28,7 +28,8 @@ jobs:
         run: pnpm install
 
       - name: Run linters
-        run: npx eslint './public/locales/**/*.json'
+        run: |
+          pnpx eslint './public/locales/**/*.json' --no-config-lookup --ext .json --plugin eslint-plugin-json --parser @typescript-eslint/parser --rule 'json/*: error'
 
   run-linters-in-api:
     name: Run linters in api
@@ -44,7 +45,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.17
+          node-version: 22.21
 
       - name: Install dependencies for Node.js server
         run: npm install

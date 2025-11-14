@@ -23,7 +23,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -34,13 +34,13 @@ import mocks from './mock.factories.js';
 import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Revenue Type Tests', () => {
-  let token;
+  let _token;
   let farm;
-  let farm1;
+  let _farm1;
   let newOwner;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
   // FUNCTIONS
@@ -105,7 +105,7 @@ describe('Revenue Type Tests', () => {
   async function returnUserFarms(role) {
     const [mainFarm] = await mocks.farmFactory();
     const [user] = await mocks.usersFactory();
-    const [userFarm] = await mocks.userFarmFactory(
+    const [_userFarm] = await mocks.userFarmFactory(
       {
         promisedUser: [user],
         promisedFarm: [mainFarm],
@@ -140,14 +140,13 @@ describe('Revenue Type Tests', () => {
 
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
-    [farm1] = await mocks.farmFactory();
+    [_farm1] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // POST TESTS
@@ -204,7 +203,7 @@ describe('Revenue Type Tests', () => {
     });
 
     test('Unauthorized user should get 403 if they try to post revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(3);
+      const { mainFarm, _user } = await returnUserFarms(3);
       const revenue_type = getFakeRevenueType(mainFarm.farm_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
@@ -250,8 +249,8 @@ describe('Revenue Type Tests', () => {
     });
 
     test('Unauthorized user should get 403 if they try to get revenue type by farm id (or null)', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue = await returnRevenueType(mainFarm);
+      const { mainFarm, _user } = await returnUserFarms(1);
+      const _revenue = await returnRevenueType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
       const res = await getRequestAsPromise({
@@ -268,14 +267,14 @@ describe('Revenue Type Tests', () => {
   // DELETE DEFAULT TEST
   describe('Delete revenue type default tests', () => {
     test('Owner should get 403 if they try to delete default revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { _mainFarm, _user } = await returnUserFarms(1);
       const revenue = await returnDefaultRevenueType();
       const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: revenue.user_id });
       expect(res.status).toBe(403);
     });
 
     test('manager should get 403 if they try to delete default revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(2);
+      const { _mainFarm, user } = await returnUserFarms(2);
       const revenue = await returnDefaultRevenueType();
 
       const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: user.user_id });
@@ -283,7 +282,7 @@ describe('Revenue Type Tests', () => {
     });
 
     test('Worker should get 403 if they try to delete default revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(3);
+      const { _mainFarm, user } = await returnUserFarms(3);
       const revenue = await returnDefaultRevenueType();
 
       const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: user.user_id });
@@ -291,7 +290,7 @@ describe('Revenue Type Tests', () => {
     });
 
     test('unauthorized user should get 403 if they try to delete default revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { _mainFarm, _user } = await returnUserFarms(1);
       const revenue = await returnDefaultRevenueType();
       const [unAuthorizedUser] = await mocks.usersFactory();
 
@@ -354,7 +353,7 @@ describe('Revenue Type Tests', () => {
     });
 
     test('Unauthorized user should delete get 403 if they try to delete their revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { mainFarm, _user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
       const revenue = await returnRevenueType(mainFarm);
 

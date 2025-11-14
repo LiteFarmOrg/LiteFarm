@@ -114,10 +114,9 @@ describe('Custom Animal Breed Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -382,7 +381,7 @@ describe('Custom Animal Breed Tests', () => {
 
     test('Creating a custom breed using another farms custom type should be forbidden', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
-      const { mainFarm: secondFarm, user: secondUser } = await returnUserFarms(1);
+      const { mainFarm: secondFarm, user: _secondUser } = await returnUserFarms(1);
 
       // Make a custom type on Farm 2
       const second_farm_animal_type = await makeUserCreatedAnimalType(secondFarm);

@@ -2553,8 +2553,8 @@ async function animal_batchFactory(
       batch[0].sex_detail = details;
       return batch;
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((_err) => {
+      console.error(_err);
     });
 }
 

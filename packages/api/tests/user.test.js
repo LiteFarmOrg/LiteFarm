@@ -16,7 +16,6 @@
 import chai from 'chai';
 
 import chaiHttp from 'chai-http';
-import moment from 'moment';
 import bcrypt from 'bcryptjs';
 chai.use(chaiHttp);
 import server from './../src/server.js';
@@ -24,7 +23,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -37,67 +36,74 @@ import userFarmModel from '../src/models/userFarmModel.js';
 import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
 
 describe('User Tests', () => {
-  let token;
+  let _token;
   let owner;
   let farm;
   let ownerFarm;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
-  function postUserRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function postUserRequest(
+    data,
+    { user_id = owner.user_id, farm_id = farm.farm_id },
+    callback,
+  ) {
+    return chai
       .request(server)
       .post('/user')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function postPseudoUserRequest(
+  async function postPseudoUserRequest(
     data,
     { user_id = owner.user_id, farm_id = farm.farm_id },
     callback,
   ) {
-    chai
+    return chai
       .request(server)
       .post('/user/pseudo')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function getRequest(
+  async function getRequest(
     { user_id = owner.user_id, farm_id = farm.farm_id, params_user_id = undefined },
     callback,
   ) {
-    chai
+    return chai
       .request(server)
       .get(`/user/${params_user_id ? params_user_id : user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    return chai
       .request(server)
       .put(`/user/${user_id}`)
       .set('farm_id', farm_id)
       .set('user_id', user_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
   function validate(expected, res, status, received = undefined) {
@@ -147,7 +153,7 @@ describe('User Tests', () => {
 
         beforeAll(async () => {
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory(
+          const [_workerFarm] = await mocks.userFarmFactory(
             {
               promisedUser: [worker],
               promisedFarm: [farm],
@@ -165,7 +171,7 @@ describe('User Tests', () => {
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+          const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
             {
               promisedUser: [unAuthorizedUser],
               promisedFarm: [farmunAuthorizedUser],
@@ -174,40 +180,36 @@ describe('User Tests', () => {
           );
         });
 
-        test('Workers should get user by user id', async (done) => {
-          getRequest({ user_id: worker.user_id }, (err, res) => {
+        test('Workers should get user by user id', async () => {
+          await getRequest({ user_id: worker.user_id }, (_err, res) => {
             expect(res.status).toBe(200);
             validate({ ...worker, ...workerFarm }, res, 200);
-            done();
           });
         });
 
-        test('Owner should get user by user id', async (done) => {
-          getRequest({ user_id: owner.user_id }, (err, res) => {
+        test('Owner should get user by user id', async () => {
+          await getRequest({ user_id: owner.user_id }, (_err, res) => {
             validate({ ...owner, ...ownerFarm }, res, 200);
             expect(res.body.gender).toBe(owner.gender);
             expect(res.body.birth_year).toBe(owner.birth_year);
-            done();
           });
         });
 
-        test('Manager should get user by user id', async (done) => {
-          getRequest({ user_id: manager.user_id }, (err, res) => {
+        test('Manager should get user by user id', async () => {
+          await getRequest({ user_id: manager.user_id }, (_err, res) => {
             validate({ ...manager, ...managerFarm }, res, 200);
-            done();
           });
         });
 
-        test('Should get status 403 if an unauthorizedUser tries to get user by user_id', async (done) => {
-          getRequest(
+        test('Should get status 403 if an unauthorizedUser tries to get user by user_id', async () => {
+          await getRequest(
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser,
               params_user_id: owner.user_id,
             },
-            (err, res) => {
+            (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
@@ -221,12 +223,12 @@ describe('User Tests', () => {
         let unAuthorizedUser;
         let farmunAuthorizedUser;
         let owner;
-        let ownerFarm;
+        let _ownerFarm;
         let sampleData;
 
         beforeAll(async () => {
           [owner] = await mocks.usersFactory();
-          [ownerFarm] = await mocks.userFarmFactory(
+          [_ownerFarm] = await mocks.userFarmFactory(
             {
               promisedUser: [owner],
               promisedFarm: [farm],
@@ -234,7 +236,7 @@ describe('User Tests', () => {
             fakeUserFarm(1),
           );
           [worker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory(
+          const [_workerFarm] = await mocks.userFarmFactory(
             {
               promisedUser: [worker],
               promisedFarm: [farm],
@@ -242,7 +244,7 @@ describe('User Tests', () => {
             fakeUserFarm(3),
           );
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory(
+          const [_managerFarm] = await mocks.userFarmFactory(
             {
               promisedUser: [manager],
               promisedFarm: [farm],
@@ -252,7 +254,7 @@ describe('User Tests', () => {
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+          const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
             {
               promisedUser: [unAuthorizedUser],
               promisedFarm: [farmunAuthorizedUser],
@@ -261,54 +263,49 @@ describe('User Tests', () => {
           );
         });
 
-        test('should edit and the area_used field by owner', async (done) => {
+        test('should edit and the area_used field by owner', async () => {
           sampleData = fakeUser(owner.user_id);
           sampleData.email = owner.email;
-          putRequest(sampleData, { user_id: owner.user_id }, async (err, res) => {
+          await putRequest(sampleData, { user_id: owner.user_id }, async (_err, res) => {
             const resUser = await userModel.query().findById(owner.user_id);
             validate(sampleData, res, 200, resUser);
-            done();
           });
         });
 
-        test('should edit and the area_used field by manager', async (done) => {
+        test('should edit and the area_used field by manager', async () => {
           sampleData = fakeUser(manager.user_id);
           sampleData.email = owner.email;
           sampleData.email = manager.email;
-          putRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
+          await putRequest(sampleData, { user_id: manager.user_id }, async (_err, res) => {
             const resUser = await userModel.query().findById(manager.user_id);
             validate(sampleData, res, 200, resUser);
-            done();
           });
         });
 
-        test('should edit and the area_used field by worker', async (done) => {
+        test('should edit and the area_used field by worker', async () => {
           sampleData = fakeUser(worker.user_id);
           sampleData.email = worker.email;
-          putRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
+          await putRequest(sampleData, { user_id: worker.user_id }, async (_err, res) => {
             const resUser = await userModel.query().findById(worker.user_id);
             validate(sampleData, res, 200, resUser);
-            done();
           });
         });
 
-        test('should return 403 when unauthorized user tries to edit another user', async (done) => {
+        test('should return 403 when unauthorized user tries to edit another user', async () => {
           sampleData = fakeUser(manager.user_id);
-          putRequest(
+          await putRequest(
             sampleData,
             { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser },
-            (err, res) => {
+            (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
 
-        test('should return 403 when a owner tries to edit another user', async (done) => {
+        test('should return 403 when a owner tries to edit another user', async () => {
           sampleData = fakeUser(manager.user_id);
-          putRequest(sampleData, { user_id: owner.user_id }, (err, res) => {
+          await putRequest(sampleData, { user_id: owner.user_id }, (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           });
         });
       });
@@ -325,21 +322,21 @@ describe('User Tests', () => {
 
       beforeEach(async () => {
         const fakeuser = mocks.fakeUser();
-        const fakeuserfarm = mocks.fakeUserFarm();
+        const _fakeuserfarm = mocks.fakeUserFarm();
         const user_id = fakeuser.user_id;
         sampleData = {
           email: `${user_id}@pseudo.com`.toLowerCase(),
           first_name: fakeuser.first_name,
           last_name: fakeuser.last_name,
           farm_id: farm.farm_id,
-          user_id: user_id,
+          user_id,
           wage: { type: 'hourly', amount: 3 },
         };
       });
 
       beforeAll(async () => {
         [worker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory(
+        const [_workerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [worker],
             promisedFarm: [farm],
@@ -347,7 +344,7 @@ describe('User Tests', () => {
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory(
+        const [_managerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [manager],
             promisedFarm: [farm],
@@ -357,7 +354,7 @@ describe('User Tests', () => {
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+        const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
           {
             promisedUser: [unAuthorizedUser],
             promisedFarm: [farmunAuthorizedUser],
@@ -366,7 +363,7 @@ describe('User Tests', () => {
         );
       });
 
-      test('Should post then get a valid user and user spotlight', async (done) => {
+      test('Should post then get a valid user and user spotlight', async () => {
         const fakeUser = mocks.fakeUser();
         // don't need user_id or phone number when signing up user
         delete fakeUser.user_id;
@@ -374,7 +371,7 @@ describe('User Tests', () => {
 
         const password = 'test password';
         fakeUser.password = password;
-        postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
+        await postUserRequest(fakeUser, { user_id: manager.user_id }, async (_err, res) => {
           const user_id = res.body.user.user_id;
           const userSecret = await passwordModel
             .query()
@@ -389,69 +386,61 @@ describe('User Tests', () => {
           expect(isMatch).toBe(true);
           const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
           expect(showedSpotlight.user_id).toBe(user_id);
-
-          done();
         });
       });
 
-      xtest('Owner should post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, {}, async (err, res) => {
+      xtest('Owner should post a pseudo user', async () => {
+        await postPseudoUserRequest(sampleData, {}, async (_err, res) => {
           const resUser = await userModel.query().where({ email: sampleData.email }).first();
           const resUserFarm = await userFarmModel
             .query()
             .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
             .first();
           validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
-          done();
         });
       });
 
-      xtest('Manager should post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
+      xtest('Manager should post a pseudo user', async () => {
+        await postPseudoUserRequest(sampleData, { user_id: manager.user_id }, async (_err, res) => {
           const resUser = await userModel.query().where({ email: sampleData.email }).first();
           const resUserFarm = await userFarmModel
             .query()
             .where({ user_id: resUser.user_id, farm_id: farm.farm_id })
             .first();
           validate({ ...sampleData, role_id: 4 }, res, 201, { ...resUser, ...resUserFarm });
-          done();
         });
       });
 
-      test('Should return status 403 when a worker tries to post a pseudo user', async (done) => {
-        postPseudoUserRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
+      test('Should return status 403 when a worker tries to post a pseudo user', async () => {
+        await postPseudoUserRequest(sampleData, { user_id: worker.user_id }, async (_err, res) => {
           expect(res.status).toBe(403);
-          done();
         });
       });
 
-      test('Should return status 403 when a worker tries to post a pseudo user', async (done) => {
-        postPseudoUserRequest(
+      test('Should return status 403 when a worker tries to post a pseudo user', async () => {
+        await postPseudoUserRequest(
           sampleData,
           { user_id: unAuthorizedUser.user_id },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        postPseudoUserRequest(
+      test('Circumvent authorization by modify farm_id', async () => {
+        await postPseudoUserRequest(
           sampleData,
           { user_id: unAuthorizedUser.user_id, farm_id: unAuthorizedUser.farm_id },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
 
-      test('Should return 400 if user_id already exists', async (done) => {
+      test('Should return 400 if user_id already exists', async () => {
         sampleData.user_id = unAuthorizedUser.user_id;
-        postPseudoUserRequest(sampleData, {}, async (err, res) => {
+        await postPseudoUserRequest(sampleData, {}, async (_err, res) => {
           expect(res.status).toBe(400);
-          done();
         });
       });
     });

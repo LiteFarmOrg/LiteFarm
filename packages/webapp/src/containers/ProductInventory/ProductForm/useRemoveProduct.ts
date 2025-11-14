@@ -55,7 +55,6 @@ const useRemoveProduct = ({
   const productName = product?.name;
 
   const isProductInUse = useSelector((state) =>
-    /* @ts-expect-error https://github.com/reduxjs/reselect/issues/550#issuecomment-999701108 */
     selectIsProductUsedInPlannedTasks(state, productId),
   );
 

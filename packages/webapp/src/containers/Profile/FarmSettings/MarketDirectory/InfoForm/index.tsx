@@ -50,9 +50,7 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   const [formMode, setFormMode] = useState<FormMode>(initialFormMode);
 
   const userFarmDefaults = useDefaultMarketDirectoryData();
-  const defaultValues =
-    // LF-4991 marketDirectoryInfo ||
-    userFarmDefaults;
+  const defaultValues = marketDirectoryInfo || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
     mode: 'onBlur',

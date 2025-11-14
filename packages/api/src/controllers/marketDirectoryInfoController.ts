@@ -85,7 +85,7 @@ const marketDirectoryInfoController = {
       try {
         // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
         const updated = await MarketDirectoryInfoModel.query()
-          .context({ user_id: req.headers.user_id })
+          .context({ user_id: req.auth.user_id })
           .findById(req.params.id)
           .patch(data)
           .returning('*');

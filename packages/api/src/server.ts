@@ -177,6 +177,7 @@ import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
 import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
 import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
+import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -347,7 +348,8 @@ app
   .use('/weather', weatherRoute)
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
-  .use('/market_directory_info', marketDirectoryInfoRoute);
+  .use('/market_directory_info', marketDirectoryInfoRoute)
+  .use('/market_directory_partner', marketDirectoryPartnerRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

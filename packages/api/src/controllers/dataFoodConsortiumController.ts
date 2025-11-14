@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Response } from 'express';
-import { LiteFarmRequest } from '../types.js';
+import { Request, Response } from 'express';
 import { getMarketListingData } from '../services/marketData.js';
 import { formatFarmDataToDfcStandard } from '../services/dfcStandard.js';
 
@@ -24,16 +23,16 @@ interface HttpError extends Error {
 }
 
 interface DfcFarmDataRouteParams {
-  farm_id: string;
+  market_directory_info_id: string;
 }
 
 const dataFoodConsortiumController = {
   getFarmData() {
-    return async (req: LiteFarmRequest<unknown, DfcFarmDataRouteParams>, res: Response) => {
-      const { farm_id } = req.params;
+    return async (req: Request<DfcFarmDataRouteParams>, res: Response) => {
+      const { market_directory_info_id } = req.params;
 
       try {
-        const marketListingData = await getMarketListingData(farm_id!);
+        const marketListingData = await getMarketListingData(market_directory_info_id!);
 
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketListingData);
 

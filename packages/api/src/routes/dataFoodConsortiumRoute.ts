@@ -19,8 +19,8 @@ import DataFoodConsortiumController from '../controllers/dataFoodConsortiumContr
 const router = express.Router();
 
 router.get(
-  '/enterprise/:farm_id',
-  // This is an open URL that will not require authentication to call
+  '/enterprise/:market_directory_info_id',
+  // LF-4997 Add keycloak authentication middleware here
   DataFoodConsortiumController.getFarmData(),
 );
 

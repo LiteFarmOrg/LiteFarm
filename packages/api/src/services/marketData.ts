@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import FarmModel from '../models/farmModel.js';
+import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
 import UserModel from '../models/userModel.js';
 import { getAddressComponents } from '../util/googleMaps.js';
@@ -33,10 +33,17 @@ export interface MarketListingData {
   };
 }
 
-export const getMarketListingData = async (farm_id: string): Promise<MarketListingData> => {
+export const getMarketListingData = async (
+  market_directory_info_id: string,
+): Promise<MarketListingData> => {
   // TODO check for participation in this program against the FarmAddonModel
 
-  const farmRecord = await FarmModel.getFarmById(farm_id);
+  const farmRecord = await MarketDirectoryInfoModel
+    /* @ts-expect-error known issue with models */
+    .query()
+    .findById(market_directory_info_id);
+
+  const farm_id = farmRecord.farm_id;
 
   const { address, country_name, farm_name, farm_phone_number } = farmRecord;
 

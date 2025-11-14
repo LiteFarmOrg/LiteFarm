@@ -2738,6 +2738,13 @@ async function market_directory_partnerFactory(
   return knex('market_directory_partner').insert(marketDirectoryPartner).returning('*');
 }
 
+/**
+ * @param {Object} [options={}]
+ * @param {Promise<Array>} [options.promisedPartner=market_directory_partnerFactory()]
+ *   A promise resolving to an array containing the partner record.
+ * @param {Promise<Array>} options.promisedCountry
+ *   A promise resolving to an array containing the country record.
+ */
 async function market_directory_partner_countryFactory({
   promisedPartner = market_directory_partnerFactory(),
   promisedCountry,

@@ -20,11 +20,12 @@ import {
   Address,
   PhoneNumber,
 } from '@datafoodconsortium/connector';
+import { apiUrl } from '../util/environment.js';
 import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
 import type { MarketDirectoryInfo } from '../models/types.js';
 
 const createEnterpriseUrl = (market_directory_info_id: string): string => {
-  return `https://api.app.litefarm.org/dfc/enterprise/${market_directory_info_id}`;
+  return `${apiUrl()}/dfc/enterprise/${market_directory_info_id}`;
 };
 
 export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDirectoryInfo) => {
@@ -109,7 +110,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
       connector,
       semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-instagram`,
       name: 'Instagram',
-      url: `https://www.instgram.com/${instagram}`,
+      url: `https://www.instagram.com/${instagram}/`,
     });
     farm.addSocialMedia(instagramInstance);
     socialMediaInstances.push(instagramInstance);
@@ -120,7 +121,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
       connector,
       semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-facebook`,
       name: 'Facebook',
-      url: `https://www.facebook.com/${facebook}`,
+      url: `https://www.facebook.com/${facebook}/`,
     });
     farm.addSocialMedia(facebookInstance);
     socialMediaInstances.push(facebookInstance);
@@ -131,7 +132,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
       connector,
       semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-x`,
       name: 'X',
-      url: `https://x.com/${x}`,
+      url: `https://x.com/${x}/`,
     });
     farm.addSocialMedia(xInstance);
     socialMediaInstances.push(xInstance);

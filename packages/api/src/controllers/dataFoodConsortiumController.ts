@@ -14,7 +14,7 @@
  */
 
 import { Request, Response } from 'express';
-import { formatFarmDataToDfcStandard } from '../services/dfcStandard.js';
+import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 
 interface HttpError extends Error {

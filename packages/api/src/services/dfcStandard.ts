@@ -13,8 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Connector } from '@datafoodconsortium/connector';
-import { Enterprise, SocialMedia, Address } from '@datafoodconsortium/connector';
+import {
+  Connector,
+  Enterprise,
+  SocialMedia,
+  Address,
+  PhoneNumber,
+} from '@datafoodconsortium/connector';
 import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
 import type { MarketDirectoryInfo } from '../models/types.js';
 
@@ -33,6 +38,8 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     contact_first_name,
     contact_last_name,
     contact_email,
+    country_code,
+    phone_number,
     email,
     website,
     instagram,
@@ -68,6 +75,22 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     localizations: [address],
     mainContact,
   });
+
+  let phoneNumber;
+  if (phone_number) {
+    phoneNumber = new PhoneNumber({
+      connector,
+      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#phoneNumber`,
+    });
+    phoneNumber.setNumber(phone_number);
+
+    if (country_code) {
+      phoneNumber.setCountryCode(country_code);
+    }
+
+    farm.addPhoneNumber(phoneNumber);
+  }
+
   const socialMediaInstances = [];
 
   if (instagram) {
@@ -115,6 +138,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     farm,
     address,
     mainContact,
+    ...(phoneNumber ? [phoneNumber] : []),
     ...socialMediaInstances,
   ]);
 

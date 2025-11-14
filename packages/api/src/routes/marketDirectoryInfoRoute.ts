@@ -41,7 +41,6 @@ router.post(
 
 router.patch(
   '/:id',
-  // @ts-expect-error null or undefined is expected for tableName
   hasFarmAccess({ tableName: 'market_directory_info' }),
   checkScope(['edit:market_directory_info']),
   checkMarketDirectoryInfoRecord(),

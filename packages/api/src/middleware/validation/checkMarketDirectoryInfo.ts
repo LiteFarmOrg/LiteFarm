@@ -19,23 +19,11 @@ import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
+import { FarmMarketProductCategory, MarketDirectoryInfo } from '../../models/types.js';
 
-export interface MarketDirectoryInfoReqBody {
-  farm_name?: string;
-  logo?: string;
-  about?: string;
-  contact_first_name?: string;
-  contact_last_name?: string;
-  contact_email?: string;
-  email?: string;
-  country_code?: number;
-  phone_number?: string;
-  address?: string;
-  website?: string;
-  instagram?: string;
-  facebook?: string;
-  x?: string;
-}
+export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
+  farm_market_product_categories?: Partial<FarmMarketProductCategory>[];
+};
 
 export function checkAndTransformMarketDirectoryInfo() {
   return async (

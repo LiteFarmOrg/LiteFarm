@@ -32,12 +32,13 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
 
   const {
     id: market_directory_info_id,
-    farm_id,
     farm_name,
-    address: addressString,
+    about,
+    logo,
     contact_first_name,
     contact_last_name,
     contact_email,
+    address: addressString,
     country_code,
     phone_number,
     email,
@@ -72,8 +73,10 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     connector,
     semanticId: createEnterpriseUrl(market_directory_info_id),
     name: farm_name,
-    localizations: [address],
+    description: about,
+    logo,
     mainContact,
+    localizations: [address],
   });
 
   let phoneNumber;
@@ -91,12 +94,20 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     farm.addPhoneNumber(phoneNumber);
   }
 
+  if (email) {
+    farm.addEmailAddress(email);
+  }
+
+  if (website) {
+    farm.addWebsite(website);
+  }
+
   const socialMediaInstances = [];
 
   if (instagram) {
     const instagramInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-instagram`,
+      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-instagram`,
       name: 'Instagram',
       url: `https://www.instgram.com/${instagram}`,
     });
@@ -107,7 +118,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (facebook) {
     const facebookInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-facebook`,
+      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-facebook`,
       name: 'Facebook',
       url: `https://www.facebook.com/${facebook}`,
     });
@@ -118,20 +129,12 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (x) {
     const xInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-x`,
+      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-x`,
       name: 'X',
       url: `https://x.com/${x}`,
     });
     farm.addSocialMedia(xInstance);
     socialMediaInstances.push(xInstance);
-  }
-
-  if (email) {
-    farm.addEmailAddress(email);
-  }
-
-  if (website) {
-    farm.addWebsite(website);
   }
 
   const exportFormattedData = await connector.export([

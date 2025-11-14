@@ -16,12 +16,6 @@
 import { Connector } from '@datafoodconsortium/connector';
 import { Enterprise, SocialMedia, Address } from '@datafoodconsortium/connector';
 import type { MarketListingData } from './marketData.js';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const createEnterpriseUrl = (farm_id: string): string => {
   return `https://api.app.litefarm.org/dfc/enterprise/${farm_id}`;
@@ -30,22 +24,7 @@ const createEnterpriseUrl = (farm_id: string): string => {
 export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
   const connector = new Connector();
 
-  // Load the taxonomy file
-  await connector.loadProductTypes(
-    await fs.readFile(path.join(__dirname, 'productTypes.json'), 'utf-8'),
-  );
-
   const { farm_id, farm_name, country, farm_address, user } = farmListingData;
-
-  const productCarrot = connector.createSuppliedProduct({
-    semanticId: `${createEnterpriseUrl(farm_id)}#productCarrot`,
-    productType: connector.PRODUCT_TYPES.VEGETABLE.CARROT,
-  });
-
-  const productVegetable = connector.createSuppliedProduct({
-    semanticId: `${createEnterpriseUrl(farm_id)}#productVeg`,
-    productType: connector.PRODUCT_TYPES.VEGETABLE,
-  });
 
   const address = new Address({
     connector,
@@ -83,7 +62,6 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     name: farm_name,
     localizations: [address],
     mainContact,
-    suppliedProducts: [productCarrot, productVegetable],
   });
 
   // setter methods on Agent.ts
@@ -98,8 +76,6 @@ export const formatFarmDataToDfcStandard = async (farmListingData: MarketListing
     mainContact,
     instagram,
     twitter,
-    productCarrot,
-    productVegetable,
   ]);
 
   return exportFormattedData;

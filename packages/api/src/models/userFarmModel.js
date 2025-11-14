@@ -208,7 +208,7 @@ class userFarm extends Model {
    * @param {uuid} farmId - The specified user.
    * @static
    * @async
-   * @returns {Object} Object {userId} of FM/FO/EO
+   * @returns {Array} Array {userId} of FM/FO/EO
    */
   static async getFarmManagementByFarmId(farmId) {
     return userFarm

@@ -50,11 +50,16 @@ jest.mock('../src/util/url.js', () => ({
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import { MarketDirectoryInfoReqBody } from '../src/middleware/validation/checkMarketDirectoryInfo.js';
-import MarketDirectoryInfoModel from '../src/models/marketDirectoryInfoModel.js';
 import { SOCIAL_DOMAINS } from '../src/util/socials.js';
-import { HeadersParams } from './types.js';
+import { HeadersParams, WithoutFarmId, WithoutId, WithoutKeysInArray } from './types.js';
+import {
+  FarmMarketProductCategory,
+  MarketDirectoryInfo,
+  MarketDirectoryInfoWithRelations,
+  MarketProductCategory,
+} from '../src/models/types.js';
 
-const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
+const fakeMarketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   logo: faker.internet.url(),
   about: faker.lorem.sentences(),
   contact_last_name: faker.name.lastName(),
@@ -66,6 +71,28 @@ const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   facebook: faker.internet.userName(),
   x: faker.internet.userName(),
 });
+
+type CompleteMarketDirectoryInfoReq = WithoutFarmId<WithoutId<MarketDirectoryInfo>> & {
+  farm_market_product_categories?: WithoutKeysInArray<
+    FarmMarketProductCategory[],
+    'market_directory_info_id'
+  >;
+};
+
+const fakeMarketDirectoryInfoWithRelations = ({
+  info,
+  marketProductCategories = [],
+}: {
+  info: CompleteMarketDirectoryInfoReq;
+  marketProductCategories: MarketProductCategory[];
+}) => {
+  return {
+    ...info,
+    farm_market_product_categories: marketProductCategories.map((marketProductCategory) => ({
+      market_product_category_id: marketProductCategory.id,
+    })),
+  };
+};
 
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;
 
@@ -79,16 +106,27 @@ const invalidTestCases = [
   ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
 ];
 
-const expectMarketDirectoryInfo = async (
-  farmId: string,
-  expectedData: MarketDirectoryInfoReqBody,
-) => {
-  // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-  const record = await MarketDirectoryInfoModel.query().where({ farm_id: farmId }).first();
+// This helps with object comparison
+const addMarketIdToRelation = <T>(fakeData: T, id?: MarketDirectoryInfo['id']) => {
+  let fakeDataWithIds = [];
+  if (Array.isArray(fakeData)) {
+    fakeDataWithIds = fakeData.map((fakeDatum) => ({ ...fakeDatum, market_directory_info_id: id }));
+  }
+  return fakeDataWithIds;
+};
 
-  for (const property in expectedData) {
-    const key = property as keyof typeof expectedData;
-    expect(record[key]).toBe(expectedData[key]);
+const expectMarketDirectoryInfo = (
+  expectedData: MarketDirectoryInfoWithRelations,
+  fakeData: CompleteMarketDirectoryInfoReq,
+) => {
+  for (const property in fakeData) {
+    const key = property as keyof typeof fakeData;
+    if (Array.isArray(fakeData[key])) {
+      const adjustedFakeData = addMarketIdToRelation(fakeData[key], expectedData.id);
+      expect(expectedData[key]).toMatchObject(adjustedFakeData);
+    } else {
+      expect(expectedData[key]).toBe(fakeData[key]);
+    }
   }
 };
 
@@ -111,10 +149,42 @@ async function postRequest(data: MarketDirectoryInfoReqBody, { user_id, farm_id 
     .send(data);
 }
 
+async function makeMarketDirectoryInfo(
+  userFarmIds: HeadersParams,
+  marketDirectoryInfo: CompleteMarketDirectoryInfoReq,
+) {
+  const { farm_market_product_categories, ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
+  const [directoryInfo] = await mocks.market_directory_infoFactory({
+    promisedUserFarm: Promise.resolve([userFarmIds]),
+    marketDirectoryInfo: filteredMarketDirectoryInfo,
+  });
+  const farmMarketProductCategories =
+    farm_market_product_categories?.map((category) => ({
+      id: category.market_product_category_id,
+    })) || [];
+  for (const category of farmMarketProductCategories) {
+    await mocks.farm_market_product_categoryFactory({
+      promisedMarketDirectoryInfo: Promise.resolve([directoryInfo]),
+      promisedMarketProductCategory: Promise.resolve([category]),
+    });
+  }
+}
+
 describe('Market Directory Info Tests', () => {
+  let marketDirectoryInfo: CompleteMarketDirectoryInfoReq;
+  let marketProductCategory1: MarketProductCategory;
+
   afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
+  });
+
+  beforeAll(async () => {
+    [marketProductCategory1] = await mocks.market_product_categoryFactory();
+    marketDirectoryInfo = fakeMarketDirectoryInfoWithRelations({
+      info: fakeMarketDirectoryInfo,
+      marketProductCategories: [marketProductCategory1],
+    });
   });
 
   describe('GET Market Directory Info', () => {
@@ -123,11 +193,7 @@ describe('Market Directory Info Tests', () => {
     beforeAll(async () => {
       const userFarmIds = await createUserFarmIds(1);
       ({ farm_id } = userFarmIds);
-
-      await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo,
-      });
+      await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
     });
 
     test('Admin users should be able to get market directory info', async () => {
@@ -141,7 +207,7 @@ describe('Market Directory Info Tests', () => {
 
         const res = await getRequest({ farm_id, user_id });
         expect(res.status).toBe(200);
-        await expectMarketDirectoryInfo(farm_id, res.body);
+        expectMarketDirectoryInfo(res.body, marketDirectoryInfo);
       }
     });
 
@@ -171,7 +237,7 @@ describe('Market Directory Info Tests', () => {
         const res = await postRequest(marketDirectoryInfo, userFarmIds);
 
         expect(res.status).toBe(201);
-        await expectMarketDirectoryInfo(userFarmIds.farm_id, marketDirectoryInfo);
+        expectMarketDirectoryInfo(res.body, marketDirectoryInfo);
       }
     });
 

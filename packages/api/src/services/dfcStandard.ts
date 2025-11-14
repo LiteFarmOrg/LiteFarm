@@ -15,67 +15,107 @@
 
 import { Connector } from '@datafoodconsortium/connector';
 import { Enterprise, SocialMedia, Address } from '@datafoodconsortium/connector';
-import type { MarketListingData } from './marketData.js';
+import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
+import type { MarketDirectoryInfo } from '../models/types.js';
 
-const createEnterpriseUrl = (farm_id: string): string => {
-  return `https://api.app.litefarm.org/dfc/enterprise/${farm_id}`;
+const createEnterpriseUrl = (market_directory_info_id: string): string => {
+  return `https://api.app.litefarm.org/dfc/enterprise/${market_directory_info_id}`;
 };
 
-export const formatFarmDataToDfcStandard = async (farmListingData: MarketListingData) => {
+export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDirectoryInfo) => {
   const connector = new Connector();
 
-  const { farm_id, farm_name, country, farm_address, user } = farmListingData;
+  const {
+    id: market_directory_info_id,
+    farm_id,
+    farm_name,
+    address: addressString,
+    contact_first_name,
+    contact_last_name,
+    contact_email,
+    email,
+    website,
+    instagram,
+    facebook,
+    x,
+  } = marketDirectoryInfo;
+
+  const parsedAddress = await parseGoogleGeocodedAddress(addressString);
 
   const address = new Address({
     connector,
-    semanticId: `${createEnterpriseUrl(farm_id)}#address`,
-    street: farm_address.street,
-    city: farm_address.city,
-    region: farm_address.region,
-    postalCode: farm_address.postalCode,
-    country,
+    semanticId: `${createEnterpriseUrl(market_directory_info_id)}#address`,
+    street: parsedAddress.street,
+    city: parsedAddress.city,
+    region: parsedAddress.region,
+    postalCode: parsedAddress.postalCode,
+    country: parsedAddress.country,
   });
 
   const mainContact = connector.createPerson({
-    semanticId: `${createEnterpriseUrl(farm_id)}#person`,
-    firstName: user.first_name,
-    lastName: user.last_name,
+    semanticId: `${createEnterpriseUrl(market_directory_info_id)}#person-mainContact`,
+    firstName: contact_first_name,
+    lastName: contact_last_name,
   });
 
-  const instagram = new SocialMedia({
-    connector,
-    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-instagram`,
-    name: 'Instagram',
-    url: 'https://www.instagram.com/dfc_test_farm/',
-  });
-
-  const twitter = new SocialMedia({
-    connector,
-    semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-twitter`,
-    name: 'Twitter',
-    url: 'https://twitter.com/dfc_test_farm',
-  });
+  /* @ts-expect-error incorrect interface type */
+  mainContact.addEmailAddress(contact_email);
 
   const farm = new Enterprise({
     connector,
-    semanticId: createEnterpriseUrl(farm_id),
+    semanticId: createEnterpriseUrl(market_directory_info_id),
     name: farm_name,
     localizations: [address],
     mainContact,
   });
+  const socialMediaInstances = [];
 
-  // setter methods on Agent.ts
-  farm.addEmailAddress(user.email!);
-  farm.addSocialMedia(instagram);
-  farm.addSocialMedia(twitter);
-  farm.addWebsite('https://www.dfc_test_farm.com');
+  if (instagram) {
+    const instagramInstance = new SocialMedia({
+      connector,
+      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-instagram`,
+      name: 'Instagram',
+      url: `https://www.instgram.com/${instagram}`,
+    });
+    farm.addSocialMedia(instagramInstance);
+    socialMediaInstances.push(instagramInstance);
+  }
+
+  if (facebook) {
+    const facebookInstance = new SocialMedia({
+      connector,
+      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-facebook`,
+      name: 'Facebook',
+      url: `https://www.facebook.com/${facebook}`,
+    });
+    farm.addSocialMedia(facebookInstance);
+    socialMediaInstances.push(facebookInstance);
+  }
+
+  if (x) {
+    const xInstance = new SocialMedia({
+      connector,
+      semanticId: `${createEnterpriseUrl(farm_id)}#socialMedia-x`,
+      name: 'X',
+      url: `https://x.com/${x}`,
+    });
+    farm.addSocialMedia(xInstance);
+    socialMediaInstances.push(xInstance);
+  }
+
+  if (email) {
+    farm.addEmailAddress(email);
+  }
+
+  if (website) {
+    farm.addWebsite(website);
+  }
 
   const exportFormattedData = await connector.export([
     farm,
     address,
     mainContact,
-    instagram,
-    twitter,
+    ...socialMediaInstances,
   ]);
 
   return exportFormattedData;

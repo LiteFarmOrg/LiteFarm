@@ -14,8 +14,8 @@
  */
 
 import { Request, Response } from 'express';
-import { getMarketListingData } from '../services/marketData.js';
 import { formatFarmDataToDfcStandard } from '../services/dfcStandard.js';
+import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 
 interface HttpError extends Error {
   status?: number;
@@ -32,9 +32,16 @@ const dataFoodConsortiumController = {
       const { market_directory_info_id } = req.params;
 
       try {
-        const marketListingData = await getMarketListingData(market_directory_info_id!);
+        const marketDirectoryInfo = await MarketDirectoryInfo
+          /* @ts-expect-error known issue with models */
+          .query()
+          .findById(market_directory_info_id);
 
-        const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketListingData);
+        if (!marketDirectoryInfo) {
+          return res.status(404).json({ error: 'Market directory info not found' });
+        }
+
+        const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
 
         return res.status(200).send(dfcFormattedListingData);
       } catch (error: unknown) {

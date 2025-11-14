@@ -2720,6 +2720,35 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
+function fakeKey() {
+  return faker.word
+    .conjunction({ length: { min: 1, max: 3 } })
+    .split(' ')
+    .map((word) => word.toUpperCase())
+    .join('_');
+}
+
+function fakeMarketDirectoryPartner(defaultData = {}) {
+  return { key: fakeKey(), ...defaultData };
+}
+
+async function market_directory_partnerFactory(
+  marketDirectoryPartner = fakeMarketDirectoryPartner(),
+) {
+  return knex('market_directory_partner').insert(marketDirectoryPartner).returning('*');
+}
+
+async function market_directory_partner_countryFactory({
+  promisedPartner = market_directory_partnerFactory(),
+  promisedCountry,
+} = {}) {
+  const [[partner], [country]] = await Promise.all([promisedPartner, promisedCountry]);
+
+  return await knex('market_directory_partner_country')
+    .insert({ market_directory_partner_id: partner.id, country_id: country?.id ?? null })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2949,5 +2978,7 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
+  market_directory_partnerFactory,
+  market_directory_partner_countryFactory,
   baseProperties,
 };

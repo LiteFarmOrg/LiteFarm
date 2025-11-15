@@ -631,7 +631,7 @@ export type File = {
 export interface DocumentWithFiles extends Document {
   files?: File[];
 }
-export interface MarketDirectoryInfo extends BaseProperties {
+export interface MarketDirectoryInfo {
   id: string;
   farm_id: Farm['farm_id'];
   farm_name: string;

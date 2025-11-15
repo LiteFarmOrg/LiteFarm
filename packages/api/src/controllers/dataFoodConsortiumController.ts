@@ -37,10 +37,6 @@ const dataFoodConsortiumController = {
           .query()
           .findById(market_directory_info_id);
 
-        if (!marketDirectoryInfo) {
-          return res.status(404).json({ error: 'Market directory info not found' });
-        }
-
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
 
         return res.status(200).send(dfcFormattedListingData);

@@ -41,6 +41,9 @@
     "transform": {
       "^.+\\.(t|j)sx?$": "@swc/jest"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(lodash|axios|uuid|core-js|@datafoodconsortium|@virtual-assembly|@rdfjs|rdf-ext|jsonld|grapoi|stream-chunks|duplex-|readable-stream|nodeify-fetch|node-fetch|is-stream|data-uri-to-buffer|fetch-blob|formdata-polyfill|duplex-to|file-fetch|proto-fetch)/)"
+    ],
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1",
       "^axios$": "axios/dist/node/axios.cjs"

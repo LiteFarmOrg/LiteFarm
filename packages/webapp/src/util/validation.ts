@@ -37,6 +37,7 @@ export const isValidHttpURLFormat = (url: string): boolean => {
 
   try {
     new URL(`https://${domainNameAndPort}`);
+    // Note: this constructor behaves differently between Node.js and browser environments (will not throw for invalid domains in browser). Consider adding a Storybook interaction test in the future for comprehensive validation coverage across all environments.
   } catch {
     return false;
   }

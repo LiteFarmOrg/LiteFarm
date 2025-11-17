@@ -26,6 +26,7 @@ import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/mark
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
 import type { MarketDirectoryInfo } from '../../../../../store/api/types';
+import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
 
 export enum FormMode {
   ADD = 'add',
@@ -83,10 +84,10 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
 
       dispatch(enqueueSuccessSnackbar(message));
       close();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
 
-      if ((error as any)?.data === 'Invalid website') {
+      if (isFetchBaseQueryError(error) && error.data === 'Invalid website') {
         formMethods.setError(DIRECTORY_INFO_FIELDS.WEBSITE, {
           type: 'manual',
           message: t('MARKET_DIRECTORY.INFO_FORM.INVALID_WEBSITE'),

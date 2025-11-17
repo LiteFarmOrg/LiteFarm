@@ -67,7 +67,7 @@ const MarketDirectory = () => {
     {
       key: FormCards.INFO,
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
-      content: (
+      content: !isMarketDirectoryInfoLoading && (
         <MarketDirectoryInfoForm
           marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}

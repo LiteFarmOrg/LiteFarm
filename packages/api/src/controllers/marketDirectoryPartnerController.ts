@@ -18,17 +18,27 @@ import { HttpError, LiteFarmRequest } from '../types.js';
 import MarketDirectoryPartnerModel from '../models/marketDirectoryPartnerModel.js';
 import FarmModel from '../models/farmModel.js';
 
+export interface QueryParams {
+  filter?: string;
+}
+
 const marketDirectoryPartnerController = {
-  getMarketDirectoryPartnersByFarmCountry() {
-    return async (req: LiteFarmRequest, res: Response) => {
+  getMarketDirectoryPartners() {
+    return async (req: LiteFarmRequest<QueryParams>, res: Response) => {
       try {
         const { farm_id } = req.headers;
+        const { filter } = req.query;
+        let result: MarketDirectoryPartnerModel[];
 
-        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-        const farm = await FarmModel.query().select('country_id').where({ farm_id }).first();
-        const result = await MarketDirectoryPartnerModel.getMarketDirectoryPartnersByCountryId(
-          farm.country_id,
-        );
+        if (filter === 'country') {
+          // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+          const farm = await FarmModel.query().select('country_id').where({ farm_id }).first();
+          result = await MarketDirectoryPartnerModel.getMarketDirectoryPartnersByCountryId(
+            farm.country_id,
+          );
+        } else {
+          result = await MarketDirectoryPartnerModel.query();
+        }
 
         return res.status(200).json(result);
       } catch (error: unknown) {

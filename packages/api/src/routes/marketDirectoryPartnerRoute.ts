@@ -22,7 +22,7 @@ const router = express.Router();
 router.get(
   '/',
   checkScope(['get:market_directory_partner']),
-  MarketDirectoryPartnerController.getMarketDirectoryPartnersByFarmCountry(),
+  MarketDirectoryPartnerController.getMarketDirectoryPartners(),
 );
 
 export default router;

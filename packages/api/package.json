@@ -110,7 +110,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
-    "@faker-js/faker": "^6.3.1",
+    "@faker-js/faker": "^7.6.0",
     "@swc-node/register": "^1.11.1",
     "@swc/core": "^1.15.1",
     "@swc/jest": "^0.2.39",

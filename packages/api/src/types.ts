@@ -30,6 +30,9 @@ export interface LiteFarmRequest<
   headers: Request['headers'] & {
     farm_id?: string;
   };
+  auth?: {
+    user_id?: string;
+  };
 }
 
 // Can be used to cast after checkScope() succeeds

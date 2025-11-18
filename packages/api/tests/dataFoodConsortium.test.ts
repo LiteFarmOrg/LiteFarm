@@ -56,13 +56,21 @@ import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
   expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
-  mockMinimalMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
 
 describe('Data Food Consortium Tests', () => {
   const testClientId = 'test-client-id';
   const validToken = 'valid.jwt.token';
+
+  async function createMarketDirectoryInfoForTest() {
+    const userFarmIds = await createUserFarmIds(1);
+    const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
+      promisedUserFarm: Promise.resolve([userFarmIds]),
+      marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
+    });
+    return marketDirectoryInfo;
+  }
 
   async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
     return chai
@@ -98,12 +106,7 @@ describe('Data Food Consortium Tests', () => {
 
   describe('GET DFC-Formatted Market Directory Info Data', () => {
     test('Should return 200 with DFC-formatted data', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
-      });
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
       const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
 
@@ -116,11 +119,7 @@ describe('Data Food Consortium Tests', () => {
 
   describe('Keycloak authentication', () => {
     test('Should return 401 if Authorization header is missing', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-      const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo: mockMinimalMarketDirectoryInfo,
-      });
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
       const res = await chai
         .request(server)
@@ -130,6 +129,51 @@ describe('Data Food Consortium Tests', () => {
 
       expect(res.status).toBe(401);
       expect(res.text).toBe('Missing or invalid Authorization header');
+    });
+
+    test('should return 404 when client_id is not found in partner auth table', async () => {
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
+
+      // Mock a valid token decode with unrecognized client_id
+      mockedDecodeToken.mockReturnValue({
+        client_id: 'unrecognized-client-id',
+      });
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(404);
+      expect(res.text).toBe('Market directory partner not found');
+    });
+
+    test('Should return 401 when token lacks client_id', async () => {
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
+
+      // Mock a token that decodes successfully but has no client_id
+      mockedDecodeToken.mockReturnValue({
+        // No azp or client_id fields
+        sub: 'some-subject',
+        iat: Date.now(),
+      });
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(401);
+      expect(res.text).toBe('Missing client_id in token');
+    });
+
+    test('Should return 401 if token from valid client is expired', async () => {
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
+
+      // Mock successful decode but failed verification
+      mockedDecodeToken.mockReturnValue({
+        client_id: testClientId,
+      });
+      mockedVerifyToken.mockRejectedValue(new Error('Token expired'));
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(401);
+      expect(res.text).toBe('Invalid or expired token');
     });
   });
 });

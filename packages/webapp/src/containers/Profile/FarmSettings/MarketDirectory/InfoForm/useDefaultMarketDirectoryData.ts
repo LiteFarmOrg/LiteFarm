@@ -24,7 +24,7 @@ const useDefaultMarketDirectoryData = () => {
 
   return {
     [DIRECTORY_INFO_FIELDS.FARM_NAME]: userFarm.farm_name,
-    [DIRECTORY_INFO_FIELDS.LOGO]: userFarm.farm_image_url,
+    [DIRECTORY_INFO_FIELDS.LOGO]: '',
     [DIRECTORY_INFO_FIELDS.CONTACT_FIRST_NAME]: userFarm.first_name,
     [DIRECTORY_INFO_FIELDS.CONTACT_LAST_NAME]: userFarm.last_name,
     [DIRECTORY_INFO_FIELDS.CONTACT_EMAIL]: userFarm.email,

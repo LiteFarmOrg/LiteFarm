@@ -43,7 +43,7 @@ import {
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm';
 import { Social, validateSocialAndExtractUsername } from '../../../util/socials';
 import { uppercaseTheFirstLetter } from '../../../util';
-import { VALID_EMAIL_REGEX } from '../../../util/validation';
+import { isValidHttpURLFormat, VALID_EMAIL_REGEX } from '../../../util/validation';
 import AddressInput from './AddressInput';
 
 // ImagePickerWrapper/saga.js
@@ -223,6 +223,12 @@ const PureMarketDirectoryInfoForm = ({
           label={t('MARKET_DIRECTORY.INFO_FORM.WEBSITE')}
           hookFormRegister={register(DIRECTORY_INFO_FIELDS.WEBSITE, {
             maxLength: hookFormMaxCharsValidation(2000),
+            validate: (value) => {
+              if (!value) {
+                return true;
+              }
+              return isValidHttpURLFormat(value) || t('MARKET_DIRECTORY.INFO_FORM.INVALID_WEBSITE');
+            },
           })}
           errors={getInputErrors(errors, DIRECTORY_INFO_FIELDS.WEBSITE)}
           placeholder="www.url.com"

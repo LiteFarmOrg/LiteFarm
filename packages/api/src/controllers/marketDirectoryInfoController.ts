@@ -16,7 +16,10 @@
 import { NextFunction, Request, Response } from 'express';
 import baseController from './baseController.js';
 import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
-import { MarketDirectoryInfoReqBody } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import {
+  MarketDirectoryInfoReqBody,
+  MarketDirectoryInfoRouteParams,
+} from '../middleware/validation/checkMarketDirectoryInfo.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 
@@ -57,6 +60,37 @@ const marketDirectoryInfoController = {
         );
 
         return res.status(201).send(result);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({
+          error: err.message || err,
+        });
+      }
+    };
+  },
+  updateMarketDirectoryInfo() {
+    return async (
+      req: LiteFarmRequest<
+        unknown,
+        MarketDirectoryInfoRouteParams,
+        unknown,
+        MarketDirectoryInfoReqBody
+      >,
+      res: Response,
+    ) => {
+      const { farm_id, ...data } = req.body;
+
+      try {
+        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+        const updated = await MarketDirectoryInfoModel.query()
+          .context({ user_id: req.auth?.user_id })
+          .findById(req.params.id)
+          .patch(data)
+          .returning('*');
+
+        return res.status(200).send(updated);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

@@ -19,6 +19,13 @@ import { MarketDirectoryInfo } from './types';
 
 export const marketDirectoryInfo = api.injectEndpoints({
   endpoints: (build) => ({
+    getMarketDirectoryInfo: build.query<MarketDirectoryInfo, void>({
+      query: () => ({
+        url: `${marketDirectoryInfoUrl}`,
+        method: 'GET',
+      }),
+      providesTags: ['MarketDirectoryInfo'],
+    }),
     addMarketDirectoryInfo: build.mutation<void, MarketDirectoryInfo>({
       query: (body) => ({
         url: `${marketDirectoryInfoUrl}`,
@@ -30,4 +37,5 @@ export const marketDirectoryInfo = api.injectEndpoints({
   }),
 });
 
-export const { useAddMarketDirectoryInfoMutation } = marketDirectoryInfo;
+export const { useAddMarketDirectoryInfoMutation, useGetMarketDirectoryInfoQuery } =
+  marketDirectoryInfo;

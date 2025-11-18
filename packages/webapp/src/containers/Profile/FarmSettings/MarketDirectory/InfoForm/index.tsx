@@ -53,6 +53,8 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   const initialFormMode = hasExistingRecord ? FormMode.READONLY : FormMode.ADD;
   const [formMode, setFormMode] = useState<FormMode>(initialFormMode);
 
+  const isReadonly = formMode === FormMode.READONLY;
+
   const userFarmDefaults = useDefaultMarketDirectoryData();
   const defaultValues = marketDirectoryInfo || userFarmDefaults;
 
@@ -67,10 +69,6 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
 
   const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
     const { valid_place, ...dataToSubmit } = formData;
-    if (formMode === FormMode.READONLY) {
-      setFormMode(FormMode.EDIT);
-      return;
-    }
 
     const apiCall = hasExistingRecord ? updateMarketDirectoryInfo : addMarketDirectoryInfo;
 
@@ -103,16 +101,18 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   };
 
   const onCancel = () => {
-    if (formMode === FormMode.READONLY) {
-      return;
-    }
     if (formMode === FormMode.ADD) {
       close();
       return;
     }
+    // Must be in EDIT mode at this point
     formMethods.reset(defaultValues);
     setFormMode(FormMode.READONLY);
   };
+
+  const handleConfirm = isReadonly
+    ? () => setFormMode(FormMode.EDIT)
+    : formMethods.handleSubmit(onSubmit);
 
   return (
     <FormProvider {...formMethods}>
@@ -122,11 +122,11 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
         formMode={formMode}
       />
       <InFormButtons
-        confirmText={formMode === FormMode.READONLY ? t('common:EDIT') : t('common:SAVE')}
-        onCancel={formMode === FormMode.READONLY ? undefined : onCancel}
-        onConfirm={formMethods.handleSubmit(onSubmit)}
-        isDisabled={!formMethods.formState.isValid}
-        confirmButtonType="submit"
+        confirmText={isReadonly ? t('common:EDIT') : t('common:SAVE')}
+        onCancel={isReadonly ? undefined : onCancel}
+        onConfirm={handleConfirm}
+        isDisabled={!isReadonly && !formMethods.formState.isValid}
+        confirmButtonType={isReadonly ? 'button' : 'submit'}
       />
     </FormProvider>
   );

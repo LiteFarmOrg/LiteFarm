@@ -58,7 +58,7 @@ export async function getAccessToken(): Promise<string> {
         client_id: clientId,
         client_secret: clientSecret,
         grant_type: 'client_credentials',
-        scope: 'WriteEnterprise', // As specified in GitLab documentation
+        // scope: 'WriteEnterprise', // Specified in GitLab documentation but the keycloak server doesn't accept it
       }),
       {
         headers: {

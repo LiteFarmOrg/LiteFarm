@@ -61,13 +61,6 @@ export const mockCompleteMarketDirectoryInfo = {
   x: 'happyacres',
 };
 
-export const mockMinimalMarketDirectoryInfo = {
-  farm_name: 'Minimal Farm',
-  contact_first_name: 'Jane',
-  contact_email: 'jane@minimal.com',
-  address: '456 Farm Lane',
-};
-
 export const mockParsedAddress = {
   street: '123 Farm Road',
   city: 'Farmville',

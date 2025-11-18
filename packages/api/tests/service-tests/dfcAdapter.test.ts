@@ -20,7 +20,6 @@ import {
   DfcEntity,
   expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
-  mockMinimalMarketDirectoryInfo,
   mockParsedAddress,
 } from '../utils/dfcUtils.js';
 
@@ -79,6 +78,14 @@ describe('dfcAdapter', () => {
   });
 
   test('should handle missing optional fields', async () => {
+    // Only required fields supplied
+    const mockMinimalMarketDirectoryInfo = {
+      farm_name: 'Minimal Farm',
+      contact_first_name: 'Jane',
+      contact_email: 'jane@minimal.com',
+      address: '456 Farm Lane',
+    };
+
     const result = await formatFarmDataToDfcStandard({
       ...mockMinimalMarketDirectoryInfo,
       id: faker.datatype.uuid(),

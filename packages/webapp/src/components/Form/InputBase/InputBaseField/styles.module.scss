@@ -57,7 +57,8 @@
   color: var(--Colors-Neutral-Neutral-400);
 }
 
-.inputWrapper .input:focus::placeholder {
+.inputWrapper .input:focus::placeholder,
+.inputDisabled ::placeholder {
   color: transparent;
 }
 

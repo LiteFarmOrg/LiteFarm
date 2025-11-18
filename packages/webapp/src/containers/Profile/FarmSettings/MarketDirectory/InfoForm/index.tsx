@@ -20,11 +20,13 @@ import { useTranslation } from 'react-i18next';
 import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
-import { MarketDirectoryInfoFormFields } from './types';
+import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
 import useImagePickerUpload from '../../../../../components/ImagePicker/useImagePickerUpload';
 import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
+import type { MarketDirectoryInfo } from '../../../../../store/api/types';
+import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
 
 export enum FormMode {
   ADD = 'add',
@@ -32,30 +34,28 @@ export enum FormMode {
   READONLY = 'readonly',
 }
 interface MarketDirectoryInfoFormProps {
-  setIsComplete: (isComplete: boolean) => void;
+  marketDirectoryInfo?: MarketDirectoryInfo;
   close: () => void;
 }
 
-const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFormProps) => {
+const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
 
   useGoogleMapsLoader(['places']);
 
-  // LF-4991 const { data: marketDirectoryInfo } = useGetMarketDirectoryInfoQuery();
-  const hasExistingRecord = false; //!!marketDirectoryInfo
+  const hasExistingRecord = !!marketDirectoryInfo;
 
   const initialFormMode = hasExistingRecord ? FormMode.READONLY : FormMode.ADD;
   const [formMode, setFormMode] = useState<FormMode>(initialFormMode);
 
   const userFarmDefaults = useDefaultMarketDirectoryData();
-  const defaultValues =
-    // LF-4991 marketDirectoryInfo ||
-    userFarmDefaults;
+  const defaultValues = marketDirectoryInfo || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
     mode: 'onBlur',
+    reValidateMode: 'onBlur',
     defaultValues: defaultValues,
   });
 
@@ -83,10 +83,17 @@ const MarketDirectoryInfoForm = ({ setIsComplete, close }: MarketDirectoryInfoFo
         : t('message:MARKET_DIRECTORY.SUCCESS.SAVE');
 
       dispatch(enqueueSuccessSnackbar(message));
-      setIsComplete(true);
       close();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
+
+      if (isFetchBaseQueryError(error) && error.data === 'Invalid website') {
+        formMethods.setError(DIRECTORY_INFO_FIELDS.WEBSITE, {
+          type: 'manual',
+          message: t('MARKET_DIRECTORY.INFO_FORM.INVALID_WEBSITE'),
+        });
+        return;
+      }
 
       const message = hasExistingRecord
         ? // LF-5012 t('message:MARKET_DIRECTORY.ERROR.UPDATE')

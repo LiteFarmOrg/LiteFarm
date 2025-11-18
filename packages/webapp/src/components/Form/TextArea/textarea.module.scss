@@ -24,6 +24,11 @@
 
 .textArea:disabled {
   background-color: var(--inputDisabled);
+  color: var(--grey600);
+
+  &::placeholder {
+    color: transparent;
+  }
 }
 
 .container {

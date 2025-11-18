@@ -130,10 +130,12 @@
   },
   "MARKET_DIRECTORY": {
     "ERROR": {
-      "SAVE": "Failed to save Market Directory Info"
+      "SAVE": "Failed to save Market Directory Info",
+      "UPDATE": "Failed to update Market Directory Info"
     },
     "SUCCESS": {
-      "SAVE": "Successfully saved Market Directory Info"
+      "SAVE": "Successfully saved Market Directory Info",
+      "UPDATE": "Successfully updated Market Directory Info"
     }
   },
   "ORGANIC_CERTIFIER_SURVEY": {

@@ -12,10 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
 import axios from 'axios';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import jwkToPem, { JWK } from 'jwk-to-pem';
+
+/**
+ * Keycloak Authentication Service
+ *
+ * Handles communication with Keycloak (an identity/authentication provider) to:
+ * - Get access tokens for making authenticated requests
+ * - Verify that JWT tokens are legitimate and haven't been tampered with
+ */
 
 /**
  * Cache for Keycloak access tokens.
@@ -33,7 +40,10 @@ let cachedToken: {
  * @throws Error if token acquisition fails
  */
 export async function getAccessToken(): Promise<string> {
-  // Check if we have a cached token that's still valid (with 60 second buffer)
+  /**
+   * Check if we have a cached token that's still valid.
+   * Refresh 60 seconds early to avoid using an expired token mid-request.
+   */
   if (cachedToken && cachedToken.expiresAt > Date.now() + 60000) {
     return cachedToken.token;
   }
@@ -58,13 +68,13 @@ export async function getAccessToken(): Promise<string> {
         client_id: clientId,
         client_secret: clientSecret,
         grant_type: 'client_credentials',
-        // scope: 'WriteEnterprise', // Specified in GitLab documentation but the keycloak server doesn't accept it
+        // scope: 'WriteEnterprise', // Note: this scope is specified in the GitLab documentation but the keycloak servers we've been set up on don't accept it
       }),
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        timeout: 10000, // 10 second timeout
+        timeout: 10000,
       },
     );
 
@@ -93,16 +103,18 @@ export async function getAccessToken(): Promise<string> {
 
 /**
  * Cache for Keycloak realm public keys
+ *
+ * Public keys rarely change, so we cache them for 24 hours to reduce network requests.
  */
 const publicKeysCache = new Map<string, { keys: JWK[]; expiresAt: number }>();
 
 /**
- * Decode a JWT token WITHOUT verifying it.
- * Use this to get the client_id before verification.
+ * Extract information from a JWT token without checking if it's valid.
  *
- * WARNING: Do NOT trust this data until you call verifyKeycloakToken!
+ * This is safe to use for reading non-sensitive data like client_id,
+ * because we verify the token's authenticity in the next step.
+ * We need the client_id first to know which Keycloak realm to verify against.
  */
-
 export function decodeTokenWithoutVerifying(token: string): JwtPayload {
   const decoded = jwt.decode(token, { complete: true });
 
@@ -120,7 +132,6 @@ export function decodeTokenWithoutVerifying(token: string): JwtPayload {
 async function fetchPublicKeys(keycloakUrl: string, keycloakRealm: string): Promise<JWK[]> {
   const issuer = `${keycloakUrl}/realms/${keycloakRealm}`;
 
-  // Check cache (24 hour TTL)
   const cached = publicKeysCache.get(issuer);
   if (cached && cached.expiresAt > Date.now()) {
     return cached.keys;
@@ -142,13 +153,17 @@ async function fetchPublicKeys(keycloakUrl: string, keycloakRealm: string): Prom
 /**
  * Verify a Keycloak JWT token against a specific realm.
  *
- * This proves the token is legitimate and hasn't been tampered with.
+ * This proves the token is:
+ * - Legitimately issued by Keycloak (not forged)
+ * - Hasn't been tampered with since creation
+ * - Not expired
  */
 export async function verifyKeycloakToken(
   token: string,
   keycloakUrl: string,
   keycloakRealm: string,
 ) {
+  // Extract the token's header to find which key signed it
   const decoded = jwt.decode(token, { complete: true });
 
   if (!decoded || typeof decoded === 'string') {

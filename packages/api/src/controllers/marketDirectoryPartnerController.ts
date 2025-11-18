@@ -37,7 +37,7 @@ const marketDirectoryPartnerController = {
             farm.country_id,
           );
         } else {
-          result = await MarketDirectoryPartnerModel.query();
+          result = await MarketDirectoryPartnerModel.getAllWithCountries();
         }
 
         return res.status(200).json(result);

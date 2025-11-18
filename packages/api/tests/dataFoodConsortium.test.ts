@@ -23,6 +23,19 @@ import { tableCleanup } from './testEnvironment.js';
 
 jest.mock('jsdom');
 
+// Mock Keycloak service functions
+jest.mock('../src/services/keycloak.js', () => ({
+  decodeTokenWithoutVerifying: jest.fn(),
+  verifyKeycloakToken: jest.fn(),
+}));
+
+import { decodeTokenWithoutVerifying, verifyKeycloakToken } from '../src/services/keycloak.js';
+
+const mockedDecodeToken = decodeTokenWithoutVerifying as jest.MockedFunction<
+  typeof decodeTokenWithoutVerifying
+>;
+const mockedVerifyToken = verifyKeycloakToken as jest.MockedFunction<typeof verifyKeycloakToken>;
+
 // Mock Google Maps calling dependency
 jest.mock('../src/util/googleMaps.js', () => ({
   parseGoogleGeocodedAddress: jest.fn(),
@@ -47,19 +60,35 @@ import {
   mockParsedAddress,
 } from './utils/dfcUtils.js';
 
-async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
-  return chai
-    .request(server)
-    .get(`/dfc/enterprise/${marketDirectoryInfoId}`)
-    .set('content-type', 'application/json');
-  // TODO LF-4997
-  // .set('Authorization', `Bearer ${keycloakToken}`)
-}
-
 describe('Data Food Consortium Tests', () => {
-  beforeEach(() => {
+  const testClientId = 'test-client-id';
+  const validToken = 'valid.jwt.token';
+
+  async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
+    return chai
+      .request(server)
+      .get(`/dfc/enterprise/${marketDirectoryInfoId}`)
+      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${validToken}`);
+  }
+
+  beforeEach(async () => {
     jest.clearAllMocks();
     mockedParseAddress.mockResolvedValue(mockParsedAddress);
+
+    // Set up default successful mocks for Keycloak
+    mockedDecodeToken.mockReturnValue({
+      azp: testClientId,
+      client_id: testClientId,
+    });
+    mockedVerifyToken.mockResolvedValue(undefined);
+
+    await mocks.market_directory_partner_authFactory(
+      {},
+      mocks.fakeMarketDirectoryPartnerAuth({
+        client_id: testClientId,
+      }),
+    );
   });
 
   afterAll(async () => {
@@ -83,11 +112,11 @@ describe('Data Food Consortium Tests', () => {
       const parsed = JSON.parse(res.text);
       expect(parsed).toMatchObject(expectedBaseDfcStructure);
     });
+  });
 
-    // Todo LF-4997
-    test.skip('Should require keycloak authentication', async () => {
+  describe('Keycloak authentication', () => {
+    test('Should return 401 if Authorization header is missing', async () => {
       const userFarmIds = await createUserFarmIds(1);
-
       const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
         promisedUserFarm: Promise.resolve([userFarmIds]),
         marketDirectoryInfo: mockMinimalMarketDirectoryInfo,
@@ -95,10 +124,12 @@ describe('Data Food Consortium Tests', () => {
 
       const res = await chai
         .request(server)
-        // request without authorization headers
-        .get(`/dfc/enterprise/${marketDirectoryInfo.id}`);
+        .get(`/dfc/enterprise/${marketDirectoryInfo.id}`)
+        .set('content-type', 'application/json');
+      // Don't set Authorization header
 
       expect(res.status).toBe(401);
+      expect(res.text).toBe('Missing or invalid Authorization header');
     });
   });
 });

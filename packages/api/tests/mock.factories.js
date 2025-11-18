@@ -2720,6 +2720,39 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
+function fakeMarketDirectoryPartner(defaultData = {}) {
+  return {
+    key: faker.lorem.word(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_partnerFactory(partner = fakeMarketDirectoryPartner()) {
+  return knex('market_directory_partner').insert(partner).returning('*');
+}
+
+function fakeMarketDirectoryPartnerAuth(defaultData = {}) {
+  return {
+    client_id: faker.datatype.uuid(),
+    keycloak_url: 'https://keycloak.test.com',
+    keycloak_realm: 'test-realm',
+    webhook_endpoint: faker.internet.url(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_partner_authFactory(
+  { promisedPartner = market_directory_partnerFactory() } = {},
+  partnerAuth = fakeMarketDirectoryPartnerAuth(),
+) {
+  const [partner] = await Promise.all([promisedPartner]);
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_auth')
+    .insert({ market_directory_partner_id, ...partnerAuth })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2949,5 +2982,9 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
+  fakeMarketDirectoryPartner,
+  market_directory_partnerFactory,
+  fakeMarketDirectoryPartnerAuth,
+  market_directory_partner_authFactory,
   baseProperties,
 };

@@ -37,65 +37,29 @@ export default meta;
 
 type Story = StoryObj<typeof PureMarketDirectoryTile>;
 
-export const CheckedShare: Story = {
+export const HasConsent: Story = {
   args: {
-    isChecked: true,
     hasConsent: true,
     isReadOnly: false,
   },
 };
 
-export const CheckedShareReadOnly: Story = {
+export const HasConsentReadOnly: Story = {
   args: {
-    isChecked: true,
     hasConsent: true,
     isReadOnly: true,
   },
 };
 
-export const CheckedNoShare: Story = {
+export const NoConsent: Story = {
   args: {
-    isChecked: true,
     hasConsent: false,
     isReadOnly: false,
   },
 };
 
-export const CheckedNoShareReadOnly: Story = {
+export const NoConsentReadOnly: Story = {
   args: {
-    isChecked: true,
-    hasConsent: false,
-    isReadOnly: true,
-  },
-};
-
-export const UncheckedShare: Story = {
-  args: {
-    isChecked: false,
-    hasConsent: true,
-    isReadOnly: false,
-  },
-};
-
-export const UncheckedShareReadOnly: Story = {
-  args: {
-    isChecked: false,
-    hasConsent: true,
-    isReadOnly: true,
-  },
-};
-
-export const UncheckedNoShare: Story = {
-  args: {
-    isChecked: false,
-    hasConsent: false,
-    isReadOnly: false,
-  },
-};
-
-export const UncheckedNoShareReadOnly: Story = {
-  args: {
-    isChecked: false,
     hasConsent: false,
     isReadOnly: true,
   },

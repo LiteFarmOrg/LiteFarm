@@ -24,7 +24,6 @@ export interface PureMarketDirectoryTileProps {
   description: string;
   termsUrl: string;
   imgSrc: string;
-  isChecked: boolean;
   hasConsent: boolean;
   onConsentChange?: () => void;
   isReadOnly?: boolean;
@@ -36,7 +35,6 @@ export const PureMarketDirectoryTile = ({
   description,
   termsUrl,
   imgSrc,
-  isChecked,
   hasConsent,
   onConsentChange,
   classNames,
@@ -45,8 +43,8 @@ export const PureMarketDirectoryTile = ({
   const { t } = useTranslation(['trslation', 'common']);
 
   return (
-    <div className={clsx(styles.container, isChecked && styles.isChecked, classNames?.container)}>
-      {isChecked && <CheckIcon className={styles.checkIcon} />}
+    <div className={clsx(styles.container, hasConsent && styles.isChecked, classNames?.container)}>
+      {hasConsent && <CheckIcon className={styles.checkIcon} />}
       {/*  TODO: LF-5016 Adjust width */}
       <img src={imgSrc} alt={name} width="100%" height="50px" className={styles.logo} />
       <p className={styles.description}>{description}</p>

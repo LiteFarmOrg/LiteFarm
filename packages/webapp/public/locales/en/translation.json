@@ -1468,6 +1468,7 @@
       "FARM_STORE_LOCATION": "Farm store location",
       "INVALID_ADDRESS": "Invalid address",
       "INVALID_USERNAME_OR_URL": "Invalid format for {{social}}",
+      "INVALID_WEBSITE": "Invalid website",
       "ONLINE_PRESENCE": "Online presence",
       "PHONE_NUMBER": "Phone number",
       "PRIVATE_INFO_NOTE": "Private fields will be shared with directory partners, but won't be published",

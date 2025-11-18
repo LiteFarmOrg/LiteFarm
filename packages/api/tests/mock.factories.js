@@ -2749,10 +2749,12 @@ async function market_directory_partner_countryFactory({
   promisedPartner = market_directory_partnerFactory(),
   promisedCountry,
 } = {}) {
-  const [[partner], [country]] = await Promise.all([promisedPartner, promisedCountry]);
+  const [partner, country] = await Promise.all([promisedPartner, promisedCountry]);
+  const [{ id: partnerId }] = partner;
+  const countryId = country?.[0]?.id || null;
 
   return await knex('market_directory_partner_country')
-    .insert({ market_directory_partner_id: partner.id, country_id: country?.id ?? null })
+    .insert({ market_directory_partner_id: partnerId, country_id: countryId })
     .returning('*');
 }
 

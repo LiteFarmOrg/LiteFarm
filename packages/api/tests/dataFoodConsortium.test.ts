@@ -43,7 +43,6 @@ import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
   expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
-  mockMinimalMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
 
@@ -90,7 +89,7 @@ describe('Data Food Consortium Tests', () => {
 
       const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
         promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo: mockMinimalMarketDirectoryInfo,
+        marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
       });
 
       const res = await chai

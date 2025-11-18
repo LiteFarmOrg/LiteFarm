@@ -15,12 +15,13 @@
 
 import express from 'express';
 import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
+import authenticateWithKeycloak from '../middleware/authenticateWithKeycloak.js';
 
 const router = express.Router();
 
 router.get(
   '/enterprise/:market_directory_info_id',
-  // LF-4997 Add keycloak authentication middleware here
+  authenticateWithKeycloak(),
   DataFoodConsortiumController.getFarmData(),
 );
 

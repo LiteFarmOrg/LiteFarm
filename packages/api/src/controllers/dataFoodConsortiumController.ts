@@ -22,13 +22,9 @@ interface HttpError extends Error {
   code?: number;
 }
 
-interface DfcFarmDataRouteParams {
-  market_directory_info_id: string;
-}
-
 const dataFoodConsortiumController = {
   getFarmData() {
-    return async (req: Request<DfcFarmDataRouteParams>, res: Response) => {
+    return async (req: Request, res: Response) => {
       const { market_directory_info_id } = req.params;
 
       try {

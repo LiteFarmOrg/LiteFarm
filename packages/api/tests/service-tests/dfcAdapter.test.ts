@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error system dependent mystery type error */
+/* @ts-expect-error missing types */
 import { faker } from '@faker-js/faker';
 import { formatFarmDataToDfcStandard } from '../../src/services/dfcAdapter.js';
 import {
   DfcEntity,
-  expectedDfcStructure,
+  expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
   mockMinimalMarketDirectoryInfo,
   mockParsedAddress,
@@ -53,7 +53,7 @@ describe('dfcAdapter', () => {
     });
     const parsed = JSON.parse(result);
 
-    expect(parsed).toMatchObject(expectedDfcStructure);
+    expect(parsed).toMatchObject(expectedBaseDfcStructure);
   });
 
   test('should correctly map MarketDirectoryInfo fields to DFC properties', async () => {
@@ -63,12 +63,19 @@ describe('dfcAdapter', () => {
       farm_id: faker.datatype.uuid(),
     });
     const parsed = JSON.parse(result);
-    const enterprise = parsed['@graph'][0];
 
-    expect(enterprise['dfc-b:name']).toBe('Happy Acres Farm');
-    expect(enterprise['dfc-b:hasDescription']).toBe('Organic vegetables since 2020');
-    expect(enterprise['dfc-b:email']).toBe('info@happyacres.com');
-    expect(enterprise['dfc-b:websitePage']).toBe('https://happyacres.com');
+    expect(parsed).toMatchObject(expectedBaseDfcStructure);
+
+    const enterprise = parsed['@graph'].find(
+      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
+    );
+
+    expect(enterprise).toMatchObject({
+      'dfc-b:name': 'Happy Acres Farm',
+      'dfc-b:hasDescription': 'Organic vegetables since 2020',
+      'dfc-b:email': 'info@happyacres.com',
+      'dfc-b:websitePage': 'https://happyacres.com',
+    });
   });
 
   test('should handle missing optional fields', async () => {
@@ -78,18 +85,23 @@ describe('dfcAdapter', () => {
       farm_id: faker.datatype.uuid(),
     });
     const parsed = JSON.parse(result);
-    const enterprise = parsed['@graph'][0];
+
+    expect(parsed).toMatchObject(expectedBaseDfcStructure);
+
+    const enterprise = parsed['@graph'].find(
+      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
+    );
 
     // Optional fields that weren't provided should not be present
-    expect(enterprise['dfc-b:hasSocialMedia']).toBeUndefined();
-    expect(enterprise['dfc-b:hasPhoneNumber']).toBeUndefined();
-    expect(enterprise['dfc-b:email']).toBeUndefined();
-    expect(enterprise['dfc-b:websitePage']).toBeUndefined();
-
-    // Required fields should still be present
-    expect(enterprise['dfc-b:name']).toBe('Minimal Farm');
-    expect(enterprise['dfc-b:hasAddress']).toBeDefined();
-    expect(enterprise['dfc-b:hasMainContact']).toBeDefined();
+    const optionalKeys = [
+      'dfc-b:hasSocialMedia',
+      'dfc-b:hasPhoneNumber',
+      'dfc-b:email',
+      'dfc-b:websitePage',
+    ];
+    optionalKeys.forEach((key) => {
+      expect(enterprise).not.toHaveProperty(key);
+    });
   });
 
   test('should construct correct semantic IDs for all entities', async () => {
@@ -102,32 +114,31 @@ describe('dfcAdapter', () => {
 
     const result = await formatFarmDataToDfcStandard(semanticTestData);
     const parsed = JSON.parse(result);
-    const enterprise = parsed['@graph'][0];
-
+    const graph = parsed['@graph'];
     const baseUrl = `https://api.beta.litefarm.org/dfc/enterprise/${semanticId}`;
 
-    expect(enterprise['@id']).toBe(baseUrl);
+    const findEntity = (type: string) =>
+      graph.find((entity: DfcEntity) => entity['@type'] === type);
 
-    // Test reference IDs on Enterprise
-    expect(enterprise['dfc-b:hasAddress']['@id']).toBe(`${baseUrl}#address`);
-    expect(enterprise['dfc-b:hasMainContact']['@id']).toBe(`${baseUrl}#person-mainContact`);
-    expect(enterprise['dfc-b:hasPhoneNumber']['@id']).toBe(`${baseUrl}#phoneNumber`);
+    expect(findEntity('dfc-b:Enterprise')).toMatchObject({
+      '@id': baseUrl,
+      'dfc-b:hasAddress': { '@id': `${baseUrl}#address` },
+      'dfc-b:hasMainContact': { '@id': `${baseUrl}#person-mainContact` },
+      'dfc-b:hasPhoneNumber': { '@id': `${baseUrl}#phoneNumber` },
+    });
 
-    // Test actual entity IDs in @graph
-    const addressEntity = parsed['@graph'].find(
-      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Address',
-    );
-    expect(addressEntity['@id']).toBe(`${baseUrl}#address`);
+    // Test other entities in the graph
+    expect(findEntity('dfc-b:Address')).toMatchObject({
+      '@id': `${baseUrl}#address`,
+    });
 
-    const personEntity = parsed['@graph'].find(
-      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Person',
-    );
-    expect(personEntity['@id']).toBe(`${baseUrl}#person-mainContact`);
+    expect(findEntity('dfc-b:Person')).toMatchObject({
+      '@id': `${baseUrl}#person-mainContact`,
+    });
 
-    const phoneEntity = parsed['@graph'].find(
-      (entity: DfcEntity) => entity['@type'] === 'dfc-b:PhoneNumber',
-    );
-    expect(phoneEntity['@id']).toBe(`${baseUrl}#phoneNumber`);
+    expect(findEntity('dfc-b:PhoneNumber')).toMatchObject({
+      '@id': `${baseUrl}#phoneNumber`,
+    });
   });
 
   test('should construct correct social media URLs', async () => {
@@ -149,21 +160,26 @@ describe('dfcAdapter', () => {
     );
 
     // Extract the URLs from the social media entities
-    const socialUrls = socialMediaEntities.map((sm: DfcEntity) => sm['dfc-b:URL']);
+    const socialUrls = socialMediaEntities.map((social: DfcEntity) => social['dfc-b:URL']);
 
-    expect(socialUrls).toContain('https://www.instagram.com/happyacres/');
-    expect(socialUrls).toContain('https://www.facebook.com/happyacresfarm/');
-    expect(socialUrls).toContain('https://x.com/happyacres_farm/');
+    expect(socialUrls).toEqual(
+      expect.arrayContaining([
+        'https://www.instagram.com/happyacres/',
+        'https://www.facebook.com/happyacresfarm/',
+        'https://x.com/happyacres_farm/',
+      ]),
+    );
   });
 
   test('should use parsed address data correctly', async () => {
-    mockedParseAddress.mockResolvedValue({
+    const mockAddress = {
       street: 'Mocked Street',
       city: 'Mocked City',
       region: 'MC',
       postalCode: '12345',
       country: 'Mockedland',
-    });
+    };
+    mockedParseAddress.mockResolvedValue(mockAddress);
 
     const result = await formatFarmDataToDfcStandard({
       ...mockCompleteMarketDirectoryInfo,
@@ -172,15 +188,16 @@ describe('dfcAdapter', () => {
     });
     const parsed = JSON.parse(result);
 
-    // Find the Address entity in @graph
     const addressEntity = parsed['@graph'].find(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:Address',
     );
 
-    expect(addressEntity['dfc-b:hasStreet']).toBe('Mocked Street');
-    expect(addressEntity['dfc-b:hasCity']).toBe('Mocked City');
-    expect(addressEntity['dfc-b:region']).toBe('MC');
-    expect(addressEntity['dfc-b:hasPostalCode']).toBe('12345');
-    expect(addressEntity['dfc-b:hasCountry']).toBe('Mockedland');
+    expect(addressEntity).toMatchObject({
+      'dfc-b:hasStreet': mockAddress.street,
+      'dfc-b:hasCity': mockAddress.city,
+      'dfc-b:region': mockAddress.region,
+      'dfc-b:hasPostalCode': mockAddress.postalCode,
+      'dfc-b:hasCountry': mockAddress.country,
+    });
   });
 });

@@ -13,6 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+export interface DfcEntity {
+  '@type': string;
+  '@id': string;
+  [key: string]: string | number | object;
+}
+
+export const expectedBaseDfcStructure = {
+  '@context': 'https://www.datafoodconsortium.org',
+  '@graph': expect.arrayContaining([
+    expect.objectContaining({
+      '@type': 'dfc-b:Enterprise',
+      '@id': expect.stringContaining('/dfc/enterprise/'),
+      'dfc-b:name': expect.any(String),
+      'dfc-b:hasAddress': expect.objectContaining({ '@id': expect.any(String) }),
+      'dfc-b:hasMainContact': expect.objectContaining({ '@id': expect.any(String) }),
+    }),
+    expect.objectContaining({
+      '@type': 'dfc-b:Address',
+      '@id': expect.any(String),
+      'dfc-b:hasStreet': expect.any(String),
+      'dfc-b:hasCity': expect.any(String),
+    }),
+    expect.objectContaining({
+      '@type': 'dfc-b:Person',
+      '@id': expect.any(String),
+      'dfc-b:firstName': expect.any(String),
+      'dfc-b:email': expect.any(String),
+    }),
+  ]),
+};
+
 export const mockCompleteMarketDirectoryInfo = {
   farm_name: 'Happy Acres Farm',
   about: 'Organic vegetables since 2020',
@@ -43,28 +74,4 @@ export const mockParsedAddress = {
   region: 'BC',
   postalCode: 'V1V 1V1',
   country: 'Canada',
-};
-
-export interface DfcEntity {
-  '@type': string;
-  '@id': string;
-  [key: string]: string | number | boolean | object | undefined;
-}
-
-export const expectedDfcStructure = {
-  '@context': 'https://www.datafoodconsortium.org',
-  '@graph': expect.arrayContaining([
-    expect.objectContaining({
-      '@type': 'dfc-b:Enterprise',
-      '@id': expect.stringContaining('/dfc/enterprise/'),
-      'dfc-b:name': expect.any(String),
-      'dfc-b:hasDescription': expect.any(String),
-      'dfc-b:hasAddress': expect.objectContaining({
-        '@id': expect.any(String),
-      }),
-      'dfc-b:hasMainContact': expect.objectContaining({
-        '@id': expect.any(String),
-      }),
-    }),
-  ]),
 };

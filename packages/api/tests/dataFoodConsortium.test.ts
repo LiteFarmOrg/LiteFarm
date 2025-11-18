@@ -41,9 +41,10 @@ const mockedParseAddress = parseGoogleGeocodedAddress as jest.MockedFunction<
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
-  expectedDfcStructure,
+  expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
   mockMinimalMarketDirectoryInfo,
+  mockParsedAddress,
 } from './utils/dfcUtils.js';
 
 async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
@@ -58,13 +59,7 @@ async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
 describe('Data Food Consortium Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedParseAddress.mockResolvedValue({
-      street: '123 Farm Road',
-      city: 'Farmville',
-      region: 'BC',
-      postalCode: 'V1V 1V1',
-      country: 'Canada',
-    });
+    mockedParseAddress.mockResolvedValue(mockParsedAddress);
   });
 
   afterAll(async () => {
@@ -86,36 +81,7 @@ describe('Data Food Consortium Tests', () => {
       expect(res.status).toBe(200);
 
       const parsed = JSON.parse(res.text);
-      expect(parsed).toMatchObject(expectedDfcStructure);
-    });
-
-    test('Should handle minimal market directory info', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo: mockMinimalMarketDirectoryInfo,
-      });
-
-      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
-
-      expect(res.status).toBe(200);
-
-      const parsed = JSON.parse(res.text);
-      const enterprise = parsed['@graph'][0];
-
-      expect(parsed['@context']).toBe('https://www.datafoodconsortium.org');
-      expect(enterprise['@type']).toBe('dfc-b:Enterprise');
-      expect(enterprise['dfc-b:name']).toBe('Minimal Farm');
-
-      // Verify optional fields are not present for minimal data
-      expect(enterprise['dfc-b:logo']).toBeUndefined();
-      expect(enterprise['dfc-b:hasSocialMedia']).toBeUndefined();
-      expect(enterprise['dfc-b:hasPhoneNumber']).toBeUndefined();
-
-      // Verify required fields are present
-      expect(enterprise['dfc-b:hasAddress']).toBeDefined();
-      expect(enterprise['dfc-b:hasMainContact']).toBeDefined();
+      expect(parsed).toMatchObject(expectedBaseDfcStructure);
     });
 
     // Todo LF-4997

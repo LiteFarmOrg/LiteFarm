@@ -401,6 +401,7 @@ export type IrrigationPrescriptionDetails = {
 };
 
 export interface MarketDirectoryInfo {
+  id: string;
   farm_name: string;
   about?: string;
   logo?: string;

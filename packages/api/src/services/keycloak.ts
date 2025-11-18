@@ -15,7 +15,7 @@
 
 import axios from 'axios';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import jwkToPem from 'jwk-to-pem';
+import jwkToPem, { JWK } from 'jwk-to-pem';
 
 /**
  * Cache for Keycloak access tokens.
@@ -92,22 +92,9 @@ export async function getAccessToken(): Promise<string> {
 }
 
 /**
- * Minimal JWK type used by Keycloak JWKS responses.
- */
-interface Jwk {
-  kid: string;
-  kty: 'RSA';
-  e: string;
-  n: string;
-  use?: string;
-  alg?: string;
-  [key: string]: unknown;
-}
-
-/**
  * Cache for Keycloak realm public keys
  */
-const publicKeysCache = new Map<string, { keys: Jwk[]; expiresAt: number }>();
+const publicKeysCache = new Map<string, { keys: JWK[]; expiresAt: number }>();
 
 /**
  * Decode a JWT token WITHOUT verifying it.
@@ -130,7 +117,7 @@ export function decodeTokenWithoutVerifying(token: string): JwtPayload {
  * Fetch public keys from Keycloak's JWKS endpoint.
  * These keys are used to verify token signatures.
  */
-async function fetchPublicKeys(keycloakUrl: string, keycloakRealm: string): Promise<Jwk[]> {
+async function fetchPublicKeys(keycloakUrl: string, keycloakRealm: string): Promise<JWK[]> {
   const issuer = `${keycloakUrl}/realms/${keycloakRealm}`;
 
   // Check cache (24 hour TTL)
@@ -172,7 +159,7 @@ export async function verifyKeycloakToken(
   const issuer = `${keycloakUrl}/realms/${keycloakRealm}`;
 
   const keys = await fetchPublicKeys(keycloakUrl, keycloakRealm);
-  const key = keys.find((k) => k.kid === kid);
+  const key = keys.find((k) => 'kid' in k && k.kid === kid);
 
   if (!key) {
     throw new Error('Token signing key not found');

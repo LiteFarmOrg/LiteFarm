@@ -631,3 +631,21 @@ export type File = {
 export interface DocumentWithFiles extends Document {
   files?: File[];
 }
+export interface MarketDirectoryInfo {
+  id: string;
+  farm_id: Farm['farm_id'];
+  farm_name: string;
+  logo?: string;
+  about?: string;
+  contact_first_name: string;
+  contact_last_name?: string;
+  contact_email: string;
+  email?: string;
+  country_code?: number;
+  phone_number?: string;
+  address: string;
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+}

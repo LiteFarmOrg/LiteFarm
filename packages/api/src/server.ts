@@ -175,6 +175,7 @@ import farmAddonRoute from './routes/farmAddonRoute.js';
 import weatherRoute from './routes/weatherRoute.js';
 import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
+import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
 import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
 
 // register API
@@ -286,6 +287,7 @@ app
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
+  .use('/dfc', dataFoodConsortiumRoute)
   // ACL middleware
   .use(checkJwt)
 

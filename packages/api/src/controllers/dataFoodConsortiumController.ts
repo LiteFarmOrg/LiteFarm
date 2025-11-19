@@ -16,14 +16,10 @@
 import { Request, Response } from 'express';
 import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
-
-interface HttpError extends Error {
-  status?: number;
-  code?: number;
-}
+import type { HttpError } from '../types.js';
 
 const dataFoodConsortiumController = {
-  getFarmData() {
+  getDfcEnterprise() {
     return async (req: Request, res: Response) => {
       const { id } = req.params;
 

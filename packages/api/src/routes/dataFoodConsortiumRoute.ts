@@ -24,7 +24,7 @@ router.get(
   '/enterprise/:id',
   authenticateWithKeycloak(),
   checkMarketDirectoryInfoRecord(),
-  DataFoodConsortiumController.getFarmData(),
+  DataFoodConsortiumController.getDfcEnterprise(),
 );
 
 export default router;

@@ -153,9 +153,9 @@ describe('dfcAdapter', () => {
       ...mockCompleteMarketDirectoryInfo,
       id: faker.datatype.uuid(),
       farm_id: faker.datatype.uuid(),
-      instagram: 'happyacres',
-      facebook: 'happyacresfarm',
-      x: 'happyacres_farm',
+      instagram: 'test_insta',
+      facebook: 'test_facebook',
+      x: 'test_x_handle',
     };
 
     const result = await formatFarmDataToDfcStandard(socialTestData);
@@ -171,9 +171,9 @@ describe('dfcAdapter', () => {
 
     expect(socialUrls).toEqual(
       expect.arrayContaining([
-        'https://www.instagram.com/happyacres/',
-        'https://www.facebook.com/happyacresfarm/',
-        'https://x.com/happyacres_farm/',
+        'https://www.instagram.com/test_insta/',
+        'https://www.facebook.com/test_facebook/',
+        'https://x.com/test_x_handle/',
       ]),
     );
   });

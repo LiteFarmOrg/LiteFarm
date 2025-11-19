@@ -51,9 +51,11 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
 
   const parsedAddress = await parseGoogleGeocodedAddress(addressString);
 
+  const enterpriseUrl = createEnterpriseUrl(market_directory_info_id);
+
   const address = new Address({
     connector,
-    semanticId: `${createEnterpriseUrl(market_directory_info_id)}#address`,
+    semanticId: `${enterpriseUrl}#address`,
     street: parsedAddress.street,
     city: parsedAddress.city,
     region: parsedAddress.region,
@@ -62,7 +64,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   });
 
   const mainContact = connector.createPerson({
-    semanticId: `${createEnterpriseUrl(market_directory_info_id)}#person-mainContact`,
+    semanticId: `${enterpriseUrl}#person-mainContact`,
     firstName: contact_first_name,
     lastName: contact_last_name,
   });
@@ -72,7 +74,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
 
   const farm = new Enterprise({
     connector,
-    semanticId: createEnterpriseUrl(market_directory_info_id),
+    semanticId: enterpriseUrl,
     name: farm_name,
     description: about,
     logo,
@@ -84,7 +86,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (phone_number) {
     phoneNumber = new PhoneNumber({
       connector,
-      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#phoneNumber`,
+      semanticId: `${enterpriseUrl}#phoneNumber`,
     });
     phoneNumber.setNumber(phone_number);
 
@@ -108,7 +110,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (instagram) {
     const instagramInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-instagram`,
+      semanticId: `${enterpriseUrl}#socialMedia-instagram`,
       name: 'Instagram',
       url: `https://www.instagram.com/${instagram}/`,
     });
@@ -119,7 +121,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (facebook) {
     const facebookInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-facebook`,
+      semanticId: `${enterpriseUrl}#socialMedia-facebook`,
       name: 'Facebook',
       url: `https://www.facebook.com/${facebook}/`,
     });
@@ -130,7 +132,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   if (x) {
     const xInstance = new SocialMedia({
       connector,
-      semanticId: `${createEnterpriseUrl(market_directory_info_id)}#socialMedia-x`,
+      semanticId: `${enterpriseUrl}#socialMedia-x`,
       name: 'X',
       url: `https://x.com/${x}/`,
     });

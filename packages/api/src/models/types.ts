@@ -649,3 +649,11 @@ export interface MarketDirectoryInfo {
   facebook?: string;
   x?: string;
 }
+
+export interface MarketDirectoryPartnerAuth {
+  market_directory_partner_id: number;
+  client_id: string;
+  keycloak_url: string;
+  keycloak_realm: string;
+  webhook_endpoint?: string;
+}

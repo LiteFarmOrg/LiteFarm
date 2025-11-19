@@ -16,6 +16,7 @@
 import { NextFunction, Request, Response } from 'express';
 import MarketDirectoryPartnerAuth from '../models/marketDirectoryPartnerAuthModel.js';
 import { decodeTokenWithoutVerifying, verifyKeycloakToken } from '../services/keycloak.js';
+import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../models/types.js';
 
 export default () => async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -43,7 +44,9 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
     }
 
     // Step 3: Look up partner by client_id to get Keycloak realm info
-    const partnerAuth = await MarketDirectoryPartnerAuth.query().where({ client_id }).first();
+    const partnerAuth = (await MarketDirectoryPartnerAuth.query().where({ client_id }).first()) as
+      | MarketDirectoryPartnerAuthType
+      | undefined;
 
     if (!partnerAuth) {
       return res.status(404).send('Market directory partner not found');
@@ -59,13 +62,7 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
 
     // Step 5: Verify the token against the partner's Keycloak realm
     try {
-      await verifyKeycloakToken(
-        token,
-        /* @ts-expect-error todo: type the partnerAuth model */
-        partnerAuth.keycloak_url,
-        /* @ts-expect-error todo: type the partnerAuth model */
-        partnerAuth.keycloak_realm,
-      );
+      await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
     } catch (error) {
       console.error('Token verification failed:', error);
       return res.status(401).send('Invalid or expired token');

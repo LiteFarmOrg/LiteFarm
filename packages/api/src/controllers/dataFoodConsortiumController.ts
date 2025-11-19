@@ -16,11 +16,7 @@
 import { Request, Response } from 'express';
 import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
-
-interface HttpError extends Error {
-  status?: number;
-  code?: number;
-}
+import type { HttpError } from '../types.js';
 
 interface DfcFarmDataRouteParams {
   market_directory_info_id: string;

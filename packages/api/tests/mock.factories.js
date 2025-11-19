@@ -528,7 +528,7 @@ function fakeExpense(defaultData = {}) {
   return {
     expense_date: faker.date.future(),
     value: faker.datatype.number(100),
-    note: faker.helpers.randomize(),
+    note: faker.lorem.sentence(),
     ...defaultData,
   };
 }

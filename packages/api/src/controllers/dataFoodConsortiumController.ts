@@ -23,7 +23,7 @@ interface DfcFarmDataRouteParams {
 }
 
 const dataFoodConsortiumController = {
-  getFarmData() {
+  getDfcEnterprise() {
     return async (req: Request<DfcFarmDataRouteParams>, res: Response) => {
       const { market_directory_info_id } = req.params;
 

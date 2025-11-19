@@ -21,7 +21,7 @@ const router = express.Router();
 router.get(
   '/enterprise/:market_directory_info_id',
   // LF-4997 Add keycloak authentication middleware here
-  DataFoodConsortiumController.getFarmData(),
+  DataFoodConsortiumController.getDfcEnterprise(),
 );
 
 export default router;

@@ -21,15 +21,15 @@
 export const up = async function (knex) {
   await knex('permissions').insert([
     {
-      permission_id: 183,
+      permission_id: 184,
       name: 'get:market_directory_partner',
       description: 'get market_directory_partner',
     },
   ]);
   await knex('rolePermissions').insert([
-    { role_id: 1, permission_id: 183 },
-    { role_id: 2, permission_id: 183 },
-    { role_id: 5, permission_id: 183 },
+    { role_id: 1, permission_id: 184 },
+    { role_id: 2, permission_id: 184 },
+    { role_id: 5, permission_id: 184 },
   ]);
 };
 
@@ -38,7 +38,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = function (knex) {
-  const permissionId = 183;
+  const permissionId = 184;
   return Promise.all([
     knex('rolePermissions').where('permission_id', permissionId).del(),
     knex('permissions').where('permission_id', permissionId).del(),

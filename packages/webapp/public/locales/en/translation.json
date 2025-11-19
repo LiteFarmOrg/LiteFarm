@@ -1447,6 +1447,7 @@
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "By sharing your data with {{ partner }}, you agree with their <3>Terms ⬈</3>",
     "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
     "CONSENT": {
       "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",

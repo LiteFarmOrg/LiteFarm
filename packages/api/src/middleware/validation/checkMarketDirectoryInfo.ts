@@ -90,7 +90,7 @@ export function checkAndTransformMarketDirectoryInfo() {
 
 export function checkMarketDirectoryInfoRecord() {
   return async (
-    req: LiteFarmRequest<unknown, MarketDirectoryInfoRouteParams, unknown, unknown>,
+    req: LiteFarmRequest<unknown, unknown, unknown, unknown>,
     res: Response,
     next: NextFunction,
   ) => {

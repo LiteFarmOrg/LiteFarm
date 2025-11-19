@@ -115,6 +115,15 @@ describe('Data Food Consortium Tests', () => {
       const parsed = JSON.parse(res.text);
       expect(parsed).toMatchObject(expectedBaseDfcStructure);
     });
+
+    test('Should return 404 to an authenticated partner when market directory info record does not exist', async () => {
+      const nonExistentId = '00000000-0000-0000-0000-000000000000';
+
+      const res = await getDfcEnterpriseRequest(nonExistentId);
+
+      expect(res.status).toBe(404);
+      expect(res.text).toBe('Market directory info not found');
+    });
   });
 
   describe('Keycloak authentication', () => {

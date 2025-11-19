@@ -16,12 +16,14 @@
 import express from 'express';
 import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
 import authenticateWithKeycloak from '../middleware/authenticateWithKeycloak.js';
+import { checkMarketDirectoryInfoRecord } from '../middleware/validation/checkMarketDirectoryInfo.js';
 
 const router = express.Router();
 
 router.get(
-  '/enterprise/:market_directory_info_id',
+  '/enterprise/:id',
   authenticateWithKeycloak(),
+  checkMarketDirectoryInfoRecord(),
   DataFoodConsortiumController.getFarmData(),
 );
 

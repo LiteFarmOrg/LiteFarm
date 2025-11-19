@@ -25,13 +25,13 @@ interface HttpError extends Error {
 const dataFoodConsortiumController = {
   getFarmData() {
     return async (req: Request, res: Response) => {
-      const { market_directory_info_id } = req.params;
+      const { id } = req.params;
 
       try {
         const marketDirectoryInfo = await MarketDirectoryInfo
           /* @ts-expect-error known issue with models */
           .query()
-          .findById(market_directory_info_id);
+          .findById(id);
 
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
 

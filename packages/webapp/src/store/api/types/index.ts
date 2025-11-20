@@ -27,6 +27,10 @@ import type {
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
 
+interface BasicEnum {
+  id: number;
+  key: string;
+}
 export interface Animal {
   animal_use_relationships?: {
     animal_id: number;
@@ -121,42 +125,23 @@ export interface CustomAnimalType {
   count?: number;
 }
 
-export interface DefaultAnimalBreed {
-  id: number;
+export interface DefaultAnimalBreed extends BasicEnum {
   default_type_id: number;
-  key: string;
 }
 
-export interface DefaultAnimalType {
-  id: number;
-  key: string;
+export interface DefaultAnimalType extends BasicEnum {
   count?: number;
 }
 
-export interface AnimalSex {
-  id: number;
-  key: string;
-}
+export interface AnimalSex extends BasicEnum {}
 
-export interface AnimalIdentifierType {
-  id: number;
-  key: string;
-}
+export interface AnimalIdentifierType extends BasicEnum {}
 
-export interface AnimalIdentifierColor {
-  id: number;
-  key: string;
-}
+export interface AnimalIdentifierColor extends BasicEnum {}
 
-export interface AnimalMovementPurpose {
-  id: number;
-  key: string;
-}
+export interface AnimalMovementPurpose extends BasicEnum {}
 
-export interface AnimalOrigin {
-  id: number;
-  key: string;
-}
+export interface AnimalOrigin extends BasicEnum {}
 
 export interface AnimalUse {
   default_type_id: number | null;
@@ -176,20 +161,10 @@ export type AnimalRemovalReason = {
   id: number;
 };
 
-export interface SoilAmendmentMethod {
-  id: number;
-  key: string;
-}
+export interface SoilAmendmentMethod extends BasicEnum {}
 
-export interface SoilAmendmentPurpose {
-  id: number;
-  key: string;
-}
-
-export interface SoilAmendmentFertiliserType {
-  id: number;
-  key: string;
-}
+export interface SoilAmendmentPurpose extends BasicEnum {}
+export interface SoilAmendmentFertiliserType extends BasicEnum {}
 
 export interface Product {
   product_id: number | string;
@@ -417,3 +392,5 @@ export interface MarketDirectoryInfo {
   facebook?: string;
   x?: string;
 }
+
+export interface MarketProductCategory extends BasicEnum {}

@@ -15,7 +15,6 @@
 
 import Model from './baseFormatModel.js';
 import marketDirectoryPartnerCountryModel from './marketDirectoryPartnerCountryModel.js';
-import marketDirectoryPartnerAuthModel from './marketDirectoryPartnerAuthModel.js';
 
 class MarketDirectoryPartner extends Model {
   static get tableName() {
@@ -46,14 +45,6 @@ class MarketDirectoryPartner extends Model {
         join: {
           from: 'market_directory_partner.id',
           to: 'market_directory_partner_country.market_directory_partner_id',
-        },
-      },
-      auth: {
-        modelClass: marketDirectoryPartnerAuthModel,
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'market_directory_partner.id',
-          to: 'market_directory_partner_auth.market_directory_partner_id',
         },
       },
     };

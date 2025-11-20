@@ -29,6 +29,7 @@ export const LibraryTags = [
   'AnimalUses',
   'AnimalRemovalReasons',
   'DefaultAnimalBreeds',
+  'MarketProductCategories',
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
   'SoilAmendmentFertiliserTypes',

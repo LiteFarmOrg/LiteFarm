@@ -166,17 +166,9 @@ export async function verifyKeycloakToken(
   // Convert JWK to PEM format
   const publicKeyPem = jwkToPem(key);
 
-  try {
-    jwt.verify(token, publicKeyPem, {
-      algorithms: ['RS256'],
-      issuer,
-    });
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      throw new Error('Token has expired');
-    } else if (error instanceof jwt.JsonWebTokenError) {
-      throw new Error(`Token verification failed: ${error.message}`);
-    }
-    throw error;
-  }
+  // Will throw with descriptive error if verification fails
+  jwt.verify(token, publicKeyPem, {
+    algorithms: ['RS256'],
+    issuer,
+  });
 }

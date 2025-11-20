@@ -16,6 +16,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
+import jwt from 'jsonwebtoken';
 
 import server from '../src/server.js';
 import knex from '../src/util/knex.js';
@@ -23,17 +24,13 @@ import { tableCleanup } from './testEnvironment.js';
 
 jest.mock('jsdom');
 
-// Mock Keycloak service functions
+// Mock Keycloak service
 jest.mock('../src/services/keycloak.js', () => ({
-  decodeTokenWithoutVerifying: jest.fn(),
   verifyKeycloakToken: jest.fn(),
 }));
 
-import { decodeTokenWithoutVerifying, verifyKeycloakToken } from '../src/services/keycloak.js';
+import { verifyKeycloakToken } from '../src/services/keycloak.js';
 
-const mockedDecodeToken = decodeTokenWithoutVerifying as jest.MockedFunction<
-  typeof decodeTokenWithoutVerifying
->;
 const mockedVerifyToken = verifyKeycloakToken as jest.MockedFunction<typeof verifyKeycloakToken>;
 
 // Mock Google Maps calling dependency
@@ -61,7 +58,7 @@ import {
 
 describe('Data Food Consortium Tests', () => {
   const testClientId = 'test-client-id';
-  const validToken = 'valid.jwt.token';
+  const validToken = jwt.sign({ azp: testClientId, client_id: testClientId }, 'dummy-secret');
 
   async function createMarketDirectoryInfoForTest() {
     const userFarmIds = await createUserFarmIds(1);
@@ -72,12 +69,12 @@ describe('Data Food Consortium Tests', () => {
     return marketDirectoryInfo;
   }
 
-  async function getDfcEnterpriseRequest(marketDirectoryInfoId: string) {
+  async function getDfcEnterpriseRequest(marketDirectoryInfoId: string, token = validToken) {
     return chai
       .request(server)
       .get(`/dfc/enterprise/${marketDirectoryInfoId}`)
       .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${validToken}`);
+      .set('Authorization', `Bearer ${token}`);
   }
 
   beforeEach(async () => {
@@ -85,10 +82,6 @@ describe('Data Food Consortium Tests', () => {
     mockedParseAddress.mockResolvedValue(mockParsedAddress);
 
     // Set up default successful mocks for Keycloak
-    mockedDecodeToken.mockReturnValue({
-      azp: testClientId,
-      client_id: testClientId,
-    });
     mockedVerifyToken.mockResolvedValue(undefined);
 
     await mocks.market_directory_partner_authFactory(
@@ -143,12 +136,10 @@ describe('Data Food Consortium Tests', () => {
     test('should return 404 when client_id is not found in partner auth table', async () => {
       const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
-      // Mock a valid token decode with unrecognized client_id
-      mockedDecodeToken.mockReturnValue({
-        client_id: 'unrecognized-client-id',
-      });
+      // Create a JWT with unrecognized client_id
+      const unknownClientToken = jwt.sign({ client_id: 'unrecognized-client-id' }, 'dummy-secret');
 
-      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id, unknownClientToken);
 
       expect(res.status).toBe(404);
       expect(res.text).toBe('Market directory partner not found');
@@ -157,14 +148,10 @@ describe('Data Food Consortium Tests', () => {
     test('Should return 401 when token lacks client_id', async () => {
       const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
-      // Mock a token that decodes successfully but has no client_id
-      mockedDecodeToken.mockReturnValue({
-        // No azp or client_id fields
-        sub: 'some-subject',
-        iat: Date.now(),
-      });
+      // Create a token without client_id
+      const noIdToken = jwt.sign({ sub: 'some-subject', iat: Date.now() }, 'dummy-secret');
 
-      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id, noIdToken);
 
       expect(res.status).toBe(401);
       expect(res.text).toBe('Missing client_id in token');
@@ -173,10 +160,6 @@ describe('Data Food Consortium Tests', () => {
     test('Should return 401 if token from valid client is expired', async () => {
       const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
-      // Mock successful decode but failed verification
-      mockedDecodeToken.mockReturnValue({
-        client_id: testClientId,
-      });
       mockedVerifyToken.mockRejectedValue(new Error('Token expired'));
 
       const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);

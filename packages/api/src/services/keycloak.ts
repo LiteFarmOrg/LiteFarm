@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import axios from 'axios';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import jwkToPem, { JWK } from 'jwk-to-pem';
 
 /**
@@ -107,23 +107,6 @@ export async function getAccessToken(): Promise<string> {
  * Public keys rarely change, so we cache them for 24 hours to reduce network requests.
  */
 const publicKeysCache = new Map<string, { keys: JWK[]; expiresAt: number }>();
-
-/**
- * Extract information from a JWT token without checking if it's valid.
- *
- * This is safe to use for reading non-sensitive data like client_id,
- * because we verify the token's authenticity in the next step.
- * We need the client_id first to know which Keycloak realm to verify against.
- */
-export function decodeTokenWithoutVerifying(token: string): JwtPayload {
-  const decoded = jwt.decode(token, { complete: true });
-
-  if (!decoded || typeof decoded === 'string') {
-    throw new Error('Invalid token format');
-  }
-
-  return (decoded as { payload: JwtPayload }).payload;
-}
 
 /**
  * Fetch public keys from Keycloak's JWKS endpoint.

@@ -14,8 +14,9 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import MarketDirectoryPartnerAuth from '../models/marketDirectoryPartnerAuthModel.js';
-import { decodeTokenWithoutVerifying, verifyKeycloakToken } from '../services/keycloak.js';
+import { verifyKeycloakToken } from '../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../models/types.js';
 
 export default () => async (req: Request, res: Response, next: NextFunction) => {
@@ -30,14 +31,13 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Step 2: Decode (but don't verify yet) to get client_id
-    let payload;
-    try {
-      payload = decodeTokenWithoutVerifying(token);
-    } catch {
+    const decoded = jwt.decode(token);
+
+    if (!decoded || typeof decoded === 'string') {
       return res.status(401).send('Invalid token format');
     }
 
-    const client_id = payload.azp || payload.client_id;
+    const client_id = decoded.azp || decoded.client_id;
 
     if (!client_id) {
       return res.status(401).send('Missing client_id in token');

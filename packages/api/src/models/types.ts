@@ -636,19 +636,19 @@ export type MarketDirectoryInfo = {
   id: string;
   farm_id: Farm['farm_id'];
   farm_name: string;
-  logo?: string;
-  about?: string;
+  logo?: string | null;
+  about?: string | null;
   contact_first_name: string;
-  contact_last_name?: string;
+  contact_last_name?: string | null;
   contact_email: string;
-  email?: string;
-  country_code?: number;
-  phone_number?: string;
+  email?: string | null;
+  country_code?: number | null;
+  phone_number?: string | null;
   address: string;
-  website?: string;
-  instagram?: string;
-  facebook?: string;
-  x?: string;
+  website?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  x?: string | null;
 };
 
 export type MarketProductCategory = {
@@ -662,5 +662,5 @@ export type FarmMarketProductCategory = {
 };
 
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
-  farm_market_product_categories?: FarmMarketProductCategory[];
+  farm_market_product_categories?: FarmMarketProductCategory[] | null;
 }

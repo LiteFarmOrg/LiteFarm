@@ -25,6 +25,10 @@ export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
   farm_market_product_categories?: Partial<FarmMarketProductCategory>[];
 };
 
+export interface MarketDirectoryInfoRouteParams {
+  id: MarketDirectoryInfo['id'];
+}
+
 export function checkAndTransformMarketDirectoryInfo() {
   return async (
     req: LiteFarmRequest<unknown, unknown, unknown, MarketDirectoryInfoReqBody>,
@@ -65,6 +69,23 @@ export function checkAndTransformMarketDirectoryInfo() {
         return res.status(400).send(`Invalid ${social}`);
       }
       req.body[social] = socialUsername;
+    }
+
+    next();
+  };
+}
+
+export function checkMarketDirectoryInfoRecord() {
+  return async (
+    req: LiteFarmRequest<unknown, MarketDirectoryInfoRouteParams, unknown, unknown>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+    const record = await MarketDirectoryInfoModel.query().findById(req.params.id).whereNotDeleted();
+
+    if (!record) {
+      return res.status(404).send('Market directory info not found');
     }
 
     next();

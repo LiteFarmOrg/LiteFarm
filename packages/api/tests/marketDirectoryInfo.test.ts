@@ -72,6 +72,19 @@ const fakeMarketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   x: faker.internet.userName(),
 });
 
+const marketDirectoryInfoOptionalFieldsNull = {
+  logo: null,
+  about: null,
+  contact_last_name: null,
+  email: null,
+  country_code: null,
+  phone_number: null,
+  website: null,
+  instagram: null,
+  facebook: null,
+  x: null,
+};
+
 type CompleteMarketDirectoryInfoReq = WithoutFarmId<WithoutId<MarketDirectoryInfo>> & {
   farm_market_product_categories?: WithoutKeysInArray<
     FarmMarketProductCategory[],
@@ -149,6 +162,20 @@ async function postRequest(data: MarketDirectoryInfoReqBody, { user_id, farm_id 
     .send(data);
 }
 
+async function patchRequest(
+  id: string,
+  data: MarketDirectoryInfoReqBody,
+  { user_id, farm_id }: HeadersParams,
+) {
+  return await chai
+    .request(server)
+    .patch(`/market_directory_info/${id}`)
+    .set('Content-Type', 'application/json')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+}
+
 async function makeMarketDirectoryInfo(
   userFarmIds: HeadersParams,
   marketDirectoryInfo: CompleteMarketDirectoryInfoReq,
@@ -168,6 +195,7 @@ async function makeMarketDirectoryInfo(
       promisedMarketProductCategory: Promise.resolve([category]),
     });
   }
+  return directoryInfo.id;
 }
 
 describe('Market Directory Info Tests', () => {
@@ -228,7 +256,7 @@ describe('Market Directory Info Tests', () => {
     });
   });
 
-  describe('Post Market Directory Info', () => {
+  describe('POST Market Directory Info', () => {
     test('Admin users should be able to create a market directory info', async () => {
       const adminRoles = [1, 2, 5];
 
@@ -262,6 +290,97 @@ describe('Market Directory Info Tests', () => {
       test.each(invalidTestCases)('%s', async (property, data) => {
         const userFarmIds = await createUserFarmIds(1);
         const res = await postRequest({ ...marketDirectoryInfo, [property]: data }, userFarmIds);
+
+        expect(res.status).toBe(400);
+
+        if (!res.error) {
+          throw new Error('Expected an error'); // type guard
+        }
+
+        expect(res.error.text).toBe(`Invalid ${property}`);
+      });
+    });
+  });
+
+  describe('PATCH Market Directory Info', () => {
+    let userFarmIds: HeadersParams;
+    let farm_id: HeadersParams['farm_id'];
+    let marketDirectoryInfoId: string;
+
+    beforeEach(async () => {
+      userFarmIds = await createUserFarmIds(1);
+      ({ farm_id } = userFarmIds);
+      marketDirectoryInfoId = await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
+    });
+
+    test('Admin users should be able to edit a market directory info', async () => {
+      const adminRoles = [1, 2, 5];
+      const editAbout = { about: 'About is edited' };
+
+      for (const role of adminRoles) {
+        const [{ user_id }] = await mocks.userFarmFactory({
+          promisedFarm: Promise.resolve([{ farm_id }]),
+          roleId: role,
+        });
+        const res = await patchRequest(marketDirectoryInfoId, editAbout, {
+          farm_id,
+          user_id,
+        });
+
+        expect(res.status).toBe(204);
+
+        const getRes = await getRequest({ farm_id, user_id });
+        expectMarketDirectoryInfo(getRes.body, { ...marketDirectoryInfo, ...editAbout });
+      }
+    });
+
+    test('Should be able to remove optional fields', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id }]),
+        roleId: 1,
+      });
+
+      const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfoOptionalFieldsNull, {
+        user_id,
+        farm_id,
+      });
+
+      expect(res.status).toBe(204);
+      const getRes = await getRequest({ farm_id, user_id });
+      expectMarketDirectoryInfo(getRes.body, {
+        ...marketDirectoryInfo,
+        ...marketDirectoryInfoOptionalFieldsNull,
+      });
+    });
+
+    test('Worker should not be able to edit a market directory info', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id }]),
+        roleId: 3,
+      });
+      const editAbout = { about: 'About is edited' };
+      const res = await patchRequest(marketDirectoryInfoId, editAbout, {
+        farm_id,
+        user_id,
+      });
+      expect(res.status).toBe(403);
+    });
+
+    test('Should return 404 not found if market directory info is deleted', async () => {
+      await knex('market_directory_info')
+        .update({ deleted: true })
+        .where({ id: marketDirectoryInfoId });
+      const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfo, userFarmIds);
+      expect(res.status).toBe(404);
+    });
+
+    describe('Should return 400 for invalid data', () => {
+      test.each(invalidTestCases)('%s', async (property, data) => {
+        const res = await patchRequest(
+          marketDirectoryInfoId,
+          { ...marketDirectoryInfo, [property]: data },
+          userFarmIds,
+        );
 
         expect(res.status).toBe(400);
 

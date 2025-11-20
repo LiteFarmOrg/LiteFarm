@@ -16,9 +16,13 @@
 import { NextFunction, Request, Response } from 'express';
 import baseController from './baseController.js';
 import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
-import { MarketDirectoryInfoReqBody } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import {
+  MarketDirectoryInfoReqBody,
+  MarketDirectoryInfoRouteParams,
+} from '../middleware/validation/checkMarketDirectoryInfo.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
+import { Model, transaction } from 'objection';
 
 const marketDirectoryInfoController = {
   getMarketDirectoryInfoByFarm() {
@@ -60,6 +64,34 @@ const marketDirectoryInfoController = {
         );
 
         return res.status(201).send(result);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({
+          error: err.message || err,
+        });
+      }
+    };
+  },
+  updateMarketDirectoryInfo() {
+    return async (
+      req: LiteFarmRequest<
+        unknown,
+        MarketDirectoryInfoRouteParams,
+        unknown,
+        MarketDirectoryInfoReqBody
+      >,
+      res: Response,
+    ) => {
+      const { farm_id, ...data } = req.body;
+      const { id } = req.params;
+      const trx = await transaction.start(Model.knex());
+      try {
+        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+        await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, { trx });
+        await trx.commit();
+        res.status(204).send();
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

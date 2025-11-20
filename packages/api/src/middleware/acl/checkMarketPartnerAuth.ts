@@ -15,9 +15,9 @@
 
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import MarketDirectoryPartnerAuth from '../models/marketDirectoryPartnerAuthModel.js';
-import { verifyKeycloakToken } from '../services/keycloak.js';
-import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../models/types.js';
+import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthModel.js';
+import { verifyKeycloakToken } from '../../services/keycloak.js';
+import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
 
 export default () => async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -70,7 +70,7 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
 
     next();
   } catch (error) {
-    console.error('hasMarketDirectoryPartnerAccess middleware error:', error);
+    console.error('checkMarketPartnerAuth middleware error:', error);
     return res.status(500).send('Internal server error checking partner access');
   }
 };

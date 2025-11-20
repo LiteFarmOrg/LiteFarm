@@ -88,15 +88,9 @@ export async function getAccessToken(): Promise<string> {
 
     return access_token;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed to get access token:', {
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message,
-      });
-    } else {
-      console.error('Failed to get access token:', error);
-    }
+    const errorDetails =
+      axios.isAxiosError(error) && error.response?.data ? error.response.data : error;
+    console.error('Failed to get access token:', errorDetails);
     throw new Error('Failed to acquire access token', { cause: error });
   }
 }

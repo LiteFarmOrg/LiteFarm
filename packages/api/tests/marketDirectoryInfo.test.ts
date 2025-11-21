@@ -199,7 +199,6 @@ async function makeMarketDirectoryInfo(
 
 describe('Market Directory Info Tests', () => {
   let marketDirectoryInfo: CompleteMarketDirectoryInfoReq;
-  let marketProductCategory1: MarketProductCategory;
 
   afterAll(async () => {
     await tableCleanup(knex);
@@ -207,7 +206,7 @@ describe('Market Directory Info Tests', () => {
   });
 
   beforeAll(async () => {
-    [marketProductCategory1] = await mocks.market_product_categoryFactory();
+    const [marketProductCategory1] = await mocks.market_product_categoryFactory();
     marketDirectoryInfo = fakeMarketDirectoryInfoWithRelations({
       info: fakeMarketDirectoryInfo,
       marketProductCategories: [marketProductCategory1],

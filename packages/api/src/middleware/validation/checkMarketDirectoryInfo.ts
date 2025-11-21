@@ -35,6 +35,8 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
+    const { address, website, farm_market_product_categories } = req.body;
+
     if (req.method === 'POST') {
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
       const record = await MarketDirectoryInfoModel.query()
@@ -44,9 +46,19 @@ export function checkAndTransformMarketDirectoryInfo() {
       if (record) {
         return res.status(409).send('Market directory info for this farm already exists');
       }
+
+      if (!farm_market_product_categories) {
+        return res.status(400).send('Invalid farm_market_product_categories');
+      }
     }
 
-    const { address, website } = req.body;
+    if (
+      'farm_market_product_categories' in req.body &&
+      (!Array.isArray(farm_market_product_categories) ||
+        farm_market_product_categories.length === 0)
+    ) {
+      return res.status(400).send('Invalid farm_market_product_categories');
+    }
 
     for (const emailProperty of ['contact_email', 'email'] as const) {
       if (req.body[emailProperty] && !isValidEmail(req.body[emailProperty])) {

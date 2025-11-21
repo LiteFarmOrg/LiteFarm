@@ -31,7 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
-import { returnUserFarms } from './utils/testDataSetup.js';
+import { createUserFarmIds } from './utils/testDataSetup.js';
 import { HeadersParams } from './types.js';
 
 async function getRequest({ user_id, farm_id }: HeadersParams) {
@@ -61,11 +61,11 @@ describe('Market Product Category Tests', () => {
       const roles = [1, 2, 3, 5];
 
       for (const role of roles) {
-        const { mainFarm, user } = await returnUserFarms(role);
+        const { farm_id, user_id } = await createUserFarmIds(role);
 
         const res = await getRequest({
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
+          user_id,
+          farm_id,
         });
 
         expect(res.status).toBe(200);

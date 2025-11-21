@@ -19,10 +19,10 @@ import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
-import { FarmMarketProductCategory, MarketDirectoryInfo } from '../../models/types.js';
+import { MarketDirectoryInfo } from '../../models/types.js';
 
 export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
-  farm_market_product_categories?: Partial<FarmMarketProductCategory>[];
+  farm_market_product_categories?: { market_product_category_id: number }[];
 };
 
 export interface MarketDirectoryInfoRouteParams {

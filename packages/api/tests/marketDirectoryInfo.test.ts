@@ -108,7 +108,8 @@ const fakeMarketDirectoryInfoWithRelations = ({
 
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;
 
-const invalidTestCases = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const invalidTestCases: [string, any][] = [
   ['address', fakeInvalidString(faker.address.streetAddress())],
   ['website', fakeInvalidString(faker.internet.url())],
   ['contact_email', faker.lorem.word()],
@@ -116,6 +117,8 @@ const invalidTestCases = [
   ['instagram', SOCIAL_DOMAINS['instagram']], // domain without username
   ['facebook', `/${faker.internet.userName()}`], // username with invalid character
   ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
+  ['farm_market_product_categories', null],
+  ['farm_market_product_categories', []],
 ];
 
 // This helps with object comparison

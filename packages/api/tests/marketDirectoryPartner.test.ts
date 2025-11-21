@@ -46,7 +46,7 @@ async function getRequest(
 ): Promise<Omit<Response, 'body'> & { body: Partner[] }> {
   return chai
     .request(server)
-    .get(`/market_directory_partner${query}`)
+    .get(`/market_directory_partners${query}`)
     .set('content-type', 'application/json')
     .set('user_id', user_id)
     .set('farm_id', farm_id);

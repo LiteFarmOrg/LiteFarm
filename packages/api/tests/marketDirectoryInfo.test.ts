@@ -316,7 +316,7 @@ describe('Market Directory Info Tests', () => {
 
     test('Admin users should be able to edit a market directory info', async () => {
       const adminRoles = [1, 2, 5];
-      const editAbout = { about: 'About is edited' };
+      const editAbout = { about: faker.lorem.sentences() };
 
       for (const role of adminRoles) {
         const [{ user_id }] = await mocks.userFarmFactory({
@@ -359,7 +359,7 @@ describe('Market Directory Info Tests', () => {
         promisedFarm: Promise.resolve([{ farm_id }]),
         roleId: 3,
       });
-      const editAbout = { about: 'About is edited' };
+      const editAbout = { about: faker.lorem.sentences() };
       const res = await patchRequest(marketDirectoryInfoId, editAbout, {
         farm_id,
         user_id,

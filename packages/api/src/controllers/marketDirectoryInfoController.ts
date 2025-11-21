@@ -88,7 +88,7 @@ const marketDirectoryInfoController = {
       const { id } = req.params;
       const trx = await transaction.start(Model.knex());
       try {
-        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+        // @ts-expect-error: TS doesn't see through softDelete HOC; safe at runtime
         await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, { trx });
         await trx.commit();
         res.status(204).send();

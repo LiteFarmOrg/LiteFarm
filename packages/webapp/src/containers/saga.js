@@ -151,8 +151,6 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api, invalidateTags } from '../store/api/apiSlice';
-// import to inject endpoint
-import '../store/api/marketDirectoryInfoApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import {
   getSoilSampleLocationsSuccess,
@@ -609,8 +607,6 @@ export function* fetchAllSaga() {
     put(getCertificationSurveys()),
     put(getAllSupportedCertifications()),
     put(getAllSupportedCertifiers()),
-    // Note: initiate() is executed immediately so this will be fired regardless of admin status
-    put(api.endpoints.getMarketDirectoryInfo.initiate()),
   ];
   const tasks = [
     put(getRoles()),

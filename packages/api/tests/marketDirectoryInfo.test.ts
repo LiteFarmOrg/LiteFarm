@@ -122,12 +122,18 @@ const invalidTestCases: [string, any][] = [
 ];
 
 // This helps with object comparison
-const addMarketIdToRelation = <T>(fakeData: T, id?: MarketDirectoryInfo['id']) => {
-  let fakeDataWithIds = [];
-  if (Array.isArray(fakeData)) {
-    fakeDataWithIds = fakeData.map((fakeDatum) => ({ ...fakeDatum, market_directory_info_id: id }));
+const addMarketIdToRelation = (
+  relation: WithoutKeysInArray<FarmMarketProductCategory[], 'market_directory_info_id'>,
+  id: MarketDirectoryInfo['id'],
+) => {
+  let farmMarketProductCategoriesWithIds: FarmMarketProductCategory[] = [];
+  if (Array.isArray(relation)) {
+    farmMarketProductCategoriesWithIds = relation.map(({ market_product_category_id }) => ({
+      market_product_category_id,
+      market_directory_info_id: id,
+    }));
   }
-  return fakeDataWithIds;
+  return farmMarketProductCategoriesWithIds;
 };
 
 const expectMarketDirectoryInfo = (
@@ -136,7 +142,7 @@ const expectMarketDirectoryInfo = (
 ) => {
   for (const property in expectedData) {
     const key = property as keyof typeof expectedData;
-    if (Array.isArray(expectedData[key])) {
+    if (key === 'farm_market_product_categories' && Array.isArray(expectedData[key])) {
       const adjustedFakeData = addMarketIdToRelation(expectedData[key], actualData.id);
       expect(actualData[key]).toMatchObject(adjustedFakeData);
     } else {

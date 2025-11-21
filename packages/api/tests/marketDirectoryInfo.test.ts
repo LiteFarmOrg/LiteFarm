@@ -131,16 +131,16 @@ const addMarketIdToRelation = <T>(fakeData: T, id?: MarketDirectoryInfo['id']) =
 };
 
 const expectMarketDirectoryInfo = (
-  expectedData: MarketDirectoryInfoWithRelations,
-  fakeData: CompleteMarketDirectoryInfoReq,
+  actualData: MarketDirectoryInfoWithRelations,
+  expectedData: CompleteMarketDirectoryInfoReq,
 ) => {
-  for (const property in fakeData) {
-    const key = property as keyof typeof fakeData;
-    if (Array.isArray(fakeData[key])) {
-      const adjustedFakeData = addMarketIdToRelation(fakeData[key], expectedData.id);
-      expect(expectedData[key]).toMatchObject(adjustedFakeData);
+  for (const property in expectedData) {
+    const key = property as keyof typeof expectedData;
+    if (Array.isArray(expectedData[key])) {
+      const adjustedFakeData = addMarketIdToRelation(expectedData[key], actualData.id);
+      expect(actualData[key]).toMatchObject(adjustedFakeData);
     } else {
-      expect(expectedData[key]).toBe(fakeData[key]);
+      expect(actualData[key]).toBe(expectedData[key]);
     }
   }
 };

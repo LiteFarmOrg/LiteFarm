@@ -49,9 +49,7 @@ describe('Market Product Category Tests', () => {
     return productCategory;
   }
   beforeAll(async () => {
-    const [_category1, _category2, _category3] = await Promise.all(
-      [1, 2, 3].map(async () => await makeProductCategory()),
-    );
+    await Promise.all([1, 2, 3].map(async () => await makeProductCategory()));
   });
   afterAll(async () => {
     await tableCleanup(knex);

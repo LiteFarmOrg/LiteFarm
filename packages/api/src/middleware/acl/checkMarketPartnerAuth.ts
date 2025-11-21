@@ -19,7 +19,7 @@ import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthM
 import { verifyKeycloakToken } from '../../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
 
-export default () => async (req: Request, res: Response, next: NextFunction) => {
+const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Step 1: Extract token from Authorization header
     const authHeader = req.headers.authorization;
@@ -74,3 +74,5 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
     return res.status(500).send('Internal server error checking partner access');
   }
 };
+
+export default checkMarketPartnerAuth;

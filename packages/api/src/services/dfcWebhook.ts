@@ -15,50 +15,41 @@
 
 import axios from 'axios';
 import { getAccessToken } from './keycloak.js';
+import { createEnterpriseUrl } from './dfcAdapter.js';
 
 /* This module is based on the Data Server Development Guide on GitLab:
 https://git.startinblox.com/projets/projets-clients/open-food-network/data-permissioning-module/-/wikis/Data-Server-Development-Guide
+
+However we will not follow it exactly, but will use OFN-CQCM's implementation as a reference:
+https://github.com/openfoodfoundation/openfoodnetwork/blob/master/spec/fixtures/vcr_cassettes/ProxyNotifier/notifies_the_proxy.yml
+
+This means we'll use only one eventType (refresh) and one URL
 */
 
 /**
  * Event types as specified in the  Data Server Development Guide
  */
 export enum WEBHOOK_EVENT_TYPES {
-  UPDATE = 'update',
-  REVOKE = 'revoke',
   REFRESH = 'refresh',
 }
 
-/**
- * Payload for 'revoke' events - sends list of revoked resource IDs
- */
-
-interface UpdateWebhookPayload {
-  eventType: 'update';
-  data: unknown; // The DFC-serialized farm/enterprise data
+/* Scopes as specified in the Data Server Development Guide */
+export enum SCOPES {
+  READ_ENTERPRISE = 'ReadEnterprise',
 }
 
 /**
- * Payload for 'revoke' events - sends list of revoked resource IDs
+ * Refresh webhooks always provide our base enterprises URL
  */
-interface RevokeWebhookPayload {
-  eventType: 'revoke';
-  objects: Array<{
-    '@id': string;
-    '@type': string;
-  }>;
-}
+const REFRESH_ENTERPRISES_URL = createEnterpriseUrl('');
 
-/**
- * Payload for 'refresh' events - indicates scope permission change
- */
 interface RefreshWebhookPayload {
-  eventType: 'refresh';
-  enterpriseUrlid: string; // The @id of the enterprise that granted/revoked data
+  eventType: WEBHOOK_EVENT_TYPES.REFRESH;
+  enterpriseUrlid: string;
+  scope: SCOPES.READ_ENTERPRISE;
 }
 
-type WebhookPayload = UpdateWebhookPayload | RevokeWebhookPayload | RefreshWebhookPayload;
-
+type WebhookPayload = RefreshWebhookPayload; // Extendable for future event types
 /**
  * Sends a webhook notification to proxy server.
  * This is a non-blocking operation that should be called as a post-response side effect.
@@ -118,62 +109,19 @@ export async function sendWebhook(
   }
   return payload;
 }
-
 /**
- * Helper function to send an 'update' webhook when farm data is created or updated
+ * Helper function to send a 'refresh' webhook when scope permissions change. We will use this webhook in all cases when permission is granted or revoked, and when farm data is updated
  */
-export async function notifyFarmDataUpdate(
+export async function notifyProxyRefresh(
   webhookUrl: string,
-  farmData: unknown,
   dryRun = false,
-): Promise<WebhookPayload> {
-  return sendWebhook(
-    webhookUrl,
-    {
-      eventType: WEBHOOK_EVENT_TYPES.UPDATE,
-      data: farmData,
-    },
-    dryRun,
-  );
-}
-
-/**
- * Helper function to send a 'revoke' webhook when permission is revoked or data is deleted
- */
-export async function notifyFarmDataRevoke(
-  webhookUrl: string,
-  resourceId: string,
-  resourceType: string,
-  dryRun = false,
-): Promise<WebhookPayload> {
-  return sendWebhook(
-    webhookUrl,
-    {
-      eventType: WEBHOOK_EVENT_TYPES.REVOKE,
-      objects: [
-        {
-          '@id': resourceId,
-          '@type': resourceType,
-        },
-      ],
-    },
-    dryRun,
-  );
-}
-
-/**
- * Helper function to send a 'refresh' webhook when scope permissions change
- */
-export async function notifyScopeChange(
-  webhookUrl: string,
-  enterpriseId: string,
-  dryRun = false,
-): Promise<WebhookPayload> {
+): Promise<RefreshWebhookPayload> {
   return sendWebhook(
     webhookUrl,
     {
       eventType: WEBHOOK_EVENT_TYPES.REFRESH,
-      enterpriseUrlid: enterpriseId,
+      enterpriseUrlid: REFRESH_ENTERPRISES_URL,
+      scope: SCOPES.READ_ENTERPRISE,
     },
     dryRun,
   );

@@ -24,7 +24,7 @@ import { apiUrl } from '../util/environment.js';
 import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
 import type { MarketDirectoryInfo } from '../models/types.js';
 
-const createEnterpriseUrl = (market_directory_info_id: string): string => {
+export const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprise/${market_directory_info_id}`;
 };
 

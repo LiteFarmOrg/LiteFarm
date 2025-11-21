@@ -25,7 +25,7 @@ const meta: Meta<typeof PureMarketDirectoryTile> = {
   component: PureMarketDirectoryTile,
   decorators: componentDecorators,
   args: {
-    imgSrc: Logo,
+    logo: <img src={Logo} alt="logo" width="100%" height="50px" />,
     name: 'LiteFarm',
     description: 'List products directly in LiteFarm stores.',
     termsUrl: 'https://litefarm.org',

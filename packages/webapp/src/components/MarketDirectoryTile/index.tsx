@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation, Trans } from 'react-i18next';
 import { ReactComponent as CheckIcon } from '../../assets/images/check-circle2.svg';
@@ -23,7 +24,7 @@ export interface PureMarketDirectoryTileProps {
   name: string;
   description: string;
   termsUrl: string;
-  imgSrc: string;
+  logo: ReactNode;
   hasConsent: boolean;
   onConsentChange?: () => void;
   isReadOnly?: boolean;
@@ -34,7 +35,7 @@ export const PureMarketDirectoryTile = ({
   name,
   description,
   termsUrl,
-  imgSrc,
+  logo,
   hasConsent,
   onConsentChange,
   classNames,
@@ -45,8 +46,7 @@ export const PureMarketDirectoryTile = ({
   return (
     <div className={clsx(styles.container, hasConsent && styles.isChecked, classNames?.container)}>
       {hasConsent && <CheckIcon className={styles.checkIcon} />}
-      {/*  TODO: LF-5016 Adjust width */}
-      <img src={imgSrc} alt={name} width="100%" height="50px" className={styles.logo} />
+      <div className={styles.logo}>{logo}</div>
       <p className={styles.description}>{description}</p>
       <p className={styles.message}>
         <Trans i18nKey="MARKET_DIRECTORY.AGREE_WITH_TERMS">

@@ -55,10 +55,12 @@ import {
   mockCompleteMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
+import type { MarketDirectoryPartner } from '../src/models/types.js';
 
 describe('Data Food Consortium Tests', () => {
   const testClientId = 'test-client-id';
   const validToken = jwt.sign({ azp: testClientId, client_id: testClientId }, 'dummy-secret');
+  let marketDirectoryPartner: MarketDirectoryPartner;
 
   async function createMarketDirectoryInfoForTest() {
     const userFarmIds = await createUserFarmIds(1);
@@ -77,19 +79,23 @@ describe('Data Food Consortium Tests', () => {
       .set('Authorization', `Bearer ${token}`);
   }
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    mockedParseAddress.mockResolvedValue(mockParsedAddress);
-
-    // Set up default successful mocks for Keycloak
-    mockedVerifyToken.mockResolvedValue(undefined);
+  beforeAll(async () => {
+    // Create a single market directory partner to use across tests
+    [marketDirectoryPartner] = await mocks.market_directory_partnerFactory();
 
     await mocks.market_directory_partner_authFactory(
-      {},
+      { promisedPartner: Promise.resolve([marketDirectoryPartner]) },
       mocks.fakeMarketDirectoryPartnerAuth({
         client_id: testClientId,
       }),
     );
+  });
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    mockedParseAddress.mockResolvedValue(mockParsedAddress);
+
+    // Set up default successful mock for Keycloak
+    mockedVerifyToken.mockResolvedValue(undefined);
   });
 
   afterAll(async () => {

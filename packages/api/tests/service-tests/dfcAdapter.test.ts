@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error missing types */
 import { faker } from '@faker-js/faker';
 import { formatFarmDataToDfcStandard } from '../../src/services/dfcAdapter.js';
 import {

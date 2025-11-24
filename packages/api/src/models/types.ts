@@ -649,6 +649,10 @@ export interface MarketDirectoryInfo {
   facebook?: string;
   x?: string;
 }
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}
 
 export interface MarketDirectoryPartnerAuth {
   market_directory_partner_id: number;

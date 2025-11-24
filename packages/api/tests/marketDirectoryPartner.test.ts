@@ -132,8 +132,8 @@ describe('GET Market Directory Partner Tests', () => {
     );
   });
 
-  test('Admin users should be able to get market directory partners', async () => {
-    const adminRoles = [1, 2, 5];
+  test('All users should get market directory partners', async () => {
+    const adminRoles = [1, 2, 3, 5];
 
     for (const role of adminRoles) {
       const [{ user_id }] = await mocks.userFarmFactory({
@@ -144,15 +144,6 @@ describe('GET Market Directory Partner Tests', () => {
       const res = await getRequest({ farm_id: canadaFarm.farm_id, user_id });
       expectSuccessResponse(res, [partner1, partner2]);
     }
-  });
-
-  test('Worker should not be able to get market directory partners', async () => {
-    const [{ user_id }] = await mocks.userFarmFactory({
-      promisedFarm: Promise.resolve([canadaFarm]),
-      roleId: 3,
-    });
-    const res = await getRequest({ farm_id: canadaFarm.farm_id, user_id });
-    expect(res.status).toBe(403);
   });
 
   describe('Tests with global partners', () => {

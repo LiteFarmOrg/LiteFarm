@@ -41,6 +41,7 @@ export const DIRECTORY_INFO_FIELDS = {
 } as const;
 
 export type MarketDirectoryInfoFormFields = {
+  id: string; // returned by API for existing records
   [DIRECTORY_INFO_FIELDS.VALID_PLACE]: boolean;
   [DIRECTORY_INFO_FIELDS.FARM_NAME]: string;
   [DIRECTORY_INFO_FIELDS.ABOUT]?: string;

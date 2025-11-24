@@ -22,8 +22,8 @@ const router = express.Router();
 
 router.get(
   '/enterprises/:id',
-  checkMarketPartnerAuth({ singleFarm: true }),
   checkMarketDirectoryInfoRecord(),
+  checkMarketPartnerAuth({ singleFarm: true }),
   DataFoodConsortiumController.getDfcEnterprise(),
 );
 

@@ -125,7 +125,7 @@ describe('Data Food Consortium Tests', () => {
       expect(parsed).toMatchObject(expectedBaseDfcStructure);
     });
 
-    test('Should return 404 to an authenticated partner when market directory info record does not exist', async () => {
+    test('Should return 404 when market directory info record does not exist', async () => {
       const nonExistentId = '00000000-0000-0000-0000-000000000000';
 
       const res = await getDfcEnterpriseRequest(nonExistentId);

@@ -31,7 +31,7 @@ const dataFoodConsortiumController = {
 
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
 
-        return res.status(200).send(dfcFormattedListingData);
+        return res.status(200).json(dfcFormattedListingData);
       } catch (error: unknown) {
         console.error(error);
 

@@ -121,8 +121,7 @@ describe('Data Food Consortium Tests', () => {
 
       expect(res.status).toBe(200);
 
-      const parsed = JSON.parse(res.text);
-      expect(parsed).toMatchObject(expectedBaseDfcStructure);
+      expect(res.body).toMatchObject(expectedBaseDfcStructure);
     });
 
     test('Should return 404 when market directory info record does not exist', async () => {

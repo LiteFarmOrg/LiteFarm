@@ -148,5 +148,5 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     ...socialMediaInstances,
   ]);
 
-  return exportFormattedData;
+  return JSON.parse(exportFormattedData);
 };

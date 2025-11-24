@@ -25,7 +25,7 @@ import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
 import type { MarketDirectoryInfo } from '../models/types.js';
 
 const createEnterpriseUrl = (market_directory_info_id: string): string => {
-  return `${apiUrl()}/dfc/enterprise/${market_directory_info_id}`;
+  return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
 };
 
 export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDirectoryInfo) => {

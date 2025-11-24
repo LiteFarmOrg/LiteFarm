@@ -21,7 +21,7 @@ import { checkMarketDirectoryInfoRecord } from '../middleware/validation/checkMa
 const router = express.Router();
 
 router.get(
-  '/enterprise/:id',
+  '/enterprises/:id',
   checkMarketPartnerAuth(),
   checkMarketDirectoryInfoRecord(),
   DataFoodConsortiumController.getDfcEnterprise(),

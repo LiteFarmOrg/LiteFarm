@@ -292,7 +292,7 @@ app
   .get('/.well-known/dfc', (_req, res) => {
     res.json({
       'https://github.com/datafoodconsortium/taxonomies/releases/latest/download/scopes.rdf#ReadEnterprise':
-        '/dfc/enterprise/',
+        '/dfc/enterprises/',
     });
   })
   // ACL middleware

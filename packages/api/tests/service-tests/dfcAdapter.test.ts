@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error missing types */
 import { faker } from '@faker-js/faker';
 import { formatFarmDataToDfcStandard } from '../../src/services/dfcAdapter.js';
 import {
@@ -122,7 +121,7 @@ describe('dfcAdapter', () => {
     const result = await formatFarmDataToDfcStandard(semanticTestData);
     const parsed = JSON.parse(result);
     const graph = parsed['@graph'];
-    const baseUrl = `https://api.beta.litefarm.org/dfc/enterprise/${semanticId}`;
+    const baseUrl = `https://api.beta.litefarm.org/dfc/enterprises/${semanticId}`;
 
     const findEntity = (type: string) =>
       graph.find((entity: DfcEntity) => entity['@type'] === type);

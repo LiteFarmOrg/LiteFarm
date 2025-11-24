@@ -72,7 +72,7 @@ describe('Data Food Consortium Tests', () => {
   async function getDfcEnterpriseRequest(marketDirectoryInfoId: string, token = validToken) {
     return chai
       .request(server)
-      .get(`/dfc/enterprise/${marketDirectoryInfoId}`)
+      .get(`/dfc/enterprises/${marketDirectoryInfoId}`)
       .set('content-type', 'application/json')
       .set('Authorization', `Bearer ${token}`);
   }
@@ -125,7 +125,7 @@ describe('Data Food Consortium Tests', () => {
 
       const res = await chai
         .request(server)
-        .get(`/dfc/enterprise/${marketDirectoryInfo.id}`)
+        .get(`/dfc/enterprises/${marketDirectoryInfo.id}`)
         .set('content-type', 'application/json');
       // Don't set Authorization header
 

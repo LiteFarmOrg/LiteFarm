@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error system dependent mystery type error */
 import { faker } from '@faker-js/faker';
 import {
   SOCIAL_DOMAINS,

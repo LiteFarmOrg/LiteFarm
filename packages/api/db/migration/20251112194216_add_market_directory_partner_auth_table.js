@@ -25,7 +25,7 @@ export const up = async (knex) => {
       .primary()
       .references('id')
       .inTable('market_directory_partner');
-    table.string('client_id').notNullable();
+    table.string('client_id').notNullable().unique();
     table.string('keycloak_url').notNullable();
     table.string('keycloak_realm').notNullable();
     table.string('webhook_endpoint').nullable();

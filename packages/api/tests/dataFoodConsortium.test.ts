@@ -88,11 +88,8 @@ describe('Data Food Consortium Tests', () => {
       .set('Authorization', `Bearer ${token}`);
   }
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    mockedParseAddress.mockResolvedValue(mockParsedAddress);
-
-    // Create a market directory partner to associate with all farms
+  beforeAll(async () => {
+    // Create a single market directory partner to use across tests
     [marketDirectoryPartner] = await mocks.market_directory_partnerFactory();
 
     await mocks.market_directory_partner_authFactory(
@@ -101,6 +98,11 @@ describe('Data Food Consortium Tests', () => {
         client_id: testClientId,
       }),
     );
+  });
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    mockedParseAddress.mockResolvedValue(mockParsedAddress);
 
     // Set up default successful mock for Keycloak
     mockedVerifyToken.mockResolvedValue(undefined);

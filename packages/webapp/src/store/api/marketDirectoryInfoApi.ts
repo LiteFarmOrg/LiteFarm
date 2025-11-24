@@ -34,8 +34,21 @@ export const marketDirectoryInfo = api.injectEndpoints({
       }),
       invalidatesTags: ['MarketDirectoryInfo'],
     }),
+    updateMarketDirectoryInfo: build.mutation<void, Partial<MarketDirectoryInfo>>({
+      query: ({ id, ...patch }) => {
+        return {
+          url: `${marketDirectoryInfoUrl}/${id}`,
+          method: 'PATCH',
+          body: patch,
+        };
+      },
+      invalidatesTags: ['MarketDirectoryInfo'],
+    }),
   }),
 });
 
-export const { useAddMarketDirectoryInfoMutation, useGetMarketDirectoryInfoQuery } =
-  marketDirectoryInfo;
+export const {
+  useAddMarketDirectoryInfoMutation,
+  useUpdateMarketDirectoryInfoMutation,
+  useGetMarketDirectoryInfoQuery,
+} = marketDirectoryInfo;

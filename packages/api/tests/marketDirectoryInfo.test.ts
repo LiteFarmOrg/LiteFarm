@@ -52,8 +52,8 @@ import { MarketDirectoryInfoReqBody } from '../src/middleware/validation/checkMa
 import { SOCIAL_DOMAINS } from '../src/util/socials.js';
 import { HeadersParams, WithoutFarmId, WithoutId, WithoutKeysInArray } from './types.js';
 import {
-  FarmMarketProductCategory,
   MarketDirectoryInfo,
+  MarketDirectoryInfoMarketProductCategory,
   MarketDirectoryInfoWithRelations,
   MarketProductCategory,
 } from '../src/models/types.js';
@@ -85,8 +85,8 @@ const marketDirectoryInfoOptionalFieldsNull = {
 };
 
 type CompleteMarketDirectoryInfoReq = WithoutFarmId<WithoutId<MarketDirectoryInfo>> & {
-  farm_market_product_categories?: WithoutKeysInArray<
-    FarmMarketProductCategory[],
+  market_product_categories?: WithoutKeysInArray<
+    MarketDirectoryInfoMarketProductCategory[],
     'market_directory_info_id'
   >;
 };
@@ -100,7 +100,7 @@ const fakeMarketDirectoryInfoWithRelations = ({
 }) => {
   return {
     ...info,
-    farm_market_product_categories: marketProductCategories.map((marketProductCategory) => ({
+    market_product_categories: marketProductCategories.map((marketProductCategory) => ({
       market_product_category_id: marketProductCategory.id,
     })),
   };
@@ -117,23 +117,26 @@ const invalidTestCases: [string, any][] = [
   ['instagram', SOCIAL_DOMAINS['instagram']], // domain without username
   ['facebook', `/${faker.internet.userName()}`], // username with invalid character
   ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
-  ['farm_market_product_categories', null],
-  ['farm_market_product_categories', []],
+  ['market_product_categories', null],
+  ['market_product_categories', []],
 ];
 
 // This helps with object comparison
 const addMarketIdToRelation = (
-  relation: WithoutKeysInArray<FarmMarketProductCategory[], 'market_directory_info_id'>,
+  relation: WithoutKeysInArray<
+    MarketDirectoryInfoMarketProductCategory[],
+    'market_directory_info_id'
+  >,
   id: MarketDirectoryInfo['id'],
 ) => {
-  let farmMarketProductCategoriesWithIds: FarmMarketProductCategory[] = [];
+  let marketProductCategoriesWithIds: MarketDirectoryInfoMarketProductCategory[] = [];
   if (Array.isArray(relation)) {
-    farmMarketProductCategoriesWithIds = relation.map(({ market_product_category_id }) => ({
+    marketProductCategoriesWithIds = relation.map(({ market_product_category_id }) => ({
       market_product_category_id,
       market_directory_info_id: id,
     }));
   }
-  return farmMarketProductCategoriesWithIds;
+  return marketProductCategoriesWithIds;
 };
 
 const expectMarketDirectoryInfo = (
@@ -142,7 +145,7 @@ const expectMarketDirectoryInfo = (
 ) => {
   for (const property in expectedData) {
     const key = property as keyof typeof expectedData;
-    if (key === 'farm_market_product_categories' && Array.isArray(expectedData[key])) {
+    if (key === 'market_product_categories' && Array.isArray(expectedData[key])) {
       const adjustedFakeData = addMarketIdToRelation(expectedData[key], actualData.id);
       expect(actualData[key]).toMatchObject(adjustedFakeData);
     } else {
@@ -188,17 +191,17 @@ async function makeMarketDirectoryInfo(
   userFarmIds: HeadersParams,
   marketDirectoryInfo: CompleteMarketDirectoryInfoReq,
 ) {
-  const { farm_market_product_categories, ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
+  const { market_product_categories, ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
   const [directoryInfo] = await mocks.market_directory_infoFactory({
     promisedUserFarm: Promise.resolve([userFarmIds]),
     marketDirectoryInfo: filteredMarketDirectoryInfo,
   });
-  const farmMarketProductCategories =
-    farm_market_product_categories?.map((category) => ({
+  const marketProductCategories =
+    market_product_categories?.map((category) => ({
       id: category.market_product_category_id,
     })) || [];
-  for (const category of farmMarketProductCategories) {
-    await mocks.farm_market_product_categoryFactory({
+  for (const category of marketProductCategories) {
+    await mocks.market_directory_info_market_product_categoryFactory({
       promisedMarketDirectoryInfo: Promise.resolve([directoryInfo]),
       promisedMarketProductCategory: Promise.resolve([category]),
     });

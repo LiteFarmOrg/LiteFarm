@@ -40,7 +40,7 @@ export const up = async function (knex) {
   const rows = categories.map((category) => ({ key: category }));
   await knex('market_product_category').insert(rows);
 
-  await knex.schema.createTable('farm_market_product_category', (table) => {
+  await knex.schema.createTable('market_directory_info_market_product_category', (table) => {
     table
       .uuid('market_directory_info_id')
       .references('id')
@@ -51,7 +51,7 @@ export const up = async function (knex) {
       .references('id')
       .inTable('market_product_category')
       .notNullable();
-    table.unique(['market_directory_info_id', 'market_product_category_id']).primary();
+    table.primary(['market_directory_info_id', 'market_product_category_id']);
   });
 
   await knex('permissions').insert([
@@ -77,7 +77,6 @@ export const down = async function (knex) {
   const permissions = [183];
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();
-
-  await knex.schema.dropTable('farm_market_product_category');
+  await knex.schema.dropTable('market_directory_info_market_product_category');
   await knex.schema.dropTable('market_product_category');
 };

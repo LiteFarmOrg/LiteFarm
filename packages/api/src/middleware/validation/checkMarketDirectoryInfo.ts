@@ -22,7 +22,7 @@ import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
 import { MarketDirectoryInfo } from '../../models/types.js';
 
 export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
-  farm_market_product_categories?: { market_product_category_id: number }[];
+  market_product_categories?: { market_product_category_id: number }[];
 };
 
 export interface MarketDirectoryInfoRouteParams {
@@ -35,7 +35,7 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { address, website, farm_market_product_categories } = req.body;
+    const { address, website, market_product_categories } = req.body;
 
     if (req.method === 'POST') {
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
@@ -47,17 +47,16 @@ export function checkAndTransformMarketDirectoryInfo() {
         return res.status(409).send('Market directory info for this farm already exists');
       }
 
-      if (!farm_market_product_categories) {
-        return res.status(400).send('Invalid farm_market_product_categories');
+      if (!market_product_categories) {
+        return res.status(400).send('Invalid market_product_categories');
       }
     }
 
     if (
-      'farm_market_product_categories' in req.body &&
-      (!Array.isArray(farm_market_product_categories) ||
-        farm_market_product_categories.length === 0)
+      'market_product_categories' in req.body &&
+      (!Array.isArray(market_product_categories) || market_product_categories.length === 0)
     ) {
-      return res.status(400).send('Invalid farm_market_product_categories');
+      return res.status(400).send('Invalid market_product_categories');
     }
 
     for (const emailProperty of ['contact_email', 'email'] as const) {

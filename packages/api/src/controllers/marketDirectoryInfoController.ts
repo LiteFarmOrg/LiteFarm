@@ -33,7 +33,7 @@ const marketDirectoryInfoController = {
           .where({ farm_id: req.headers.farm_id })
           .whereNotDeleted()
           .withGraphFetched({
-            farm_market_product_categories: true,
+            market_product_categories: true,
           })
           .first();
 

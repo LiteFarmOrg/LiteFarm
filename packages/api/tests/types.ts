@@ -24,8 +24,8 @@ export interface HeadersParams {
  * Removes specified keys from each item in an array type.
  *
  * @example
- * WithoutKeysInArray<FarmMarketProductCategory[], 'market_directory_info_id'>
- * // → Omit<FarmMarketProductCategory, 'market_directory_info_id'>[]
+ * WithoutKeysInArray<MarketDirectoryInfoMarketProductCategory[], 'market_directory_info_id'>
+ * // → Omit<MarketDirectoryInfoMarketProductCategory, 'market_directory_info_id'>[]
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WithoutKeysInArray<T extends any[], K extends keyof T[number]> = Omit<T[number], K>[];

@@ -2724,7 +2724,7 @@ async function market_product_categoryFactory(key = faker.lorem.word()) {
   return knex('market_product_category').insert({ key }).returning('*');
 }
 
-async function farm_market_product_categoryFactory({
+async function market_directory_info_market_product_categoryFactory({
   promisedMarketDirectoryInfo = market_directory_infoFactory(),
   promisedMarketProductCategory = market_product_categoryFactory(),
 } = {}) {
@@ -2735,7 +2735,7 @@ async function farm_market_product_categoryFactory({
   const [{ id: marketDirectoryId }] = marketDirectoryInfo;
   const [{ id: marketProductCategoryId }] = marketProductCategory;
 
-  return knex('farm_market_product_category')
+  return knex('market_directory_info_market_product_category')
     .insert({
       market_directory_info_id: marketDirectoryId,
       market_product_category_id: marketProductCategoryId,
@@ -2973,6 +2973,6 @@ export default {
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
   market_product_categoryFactory,
-  farm_market_product_categoryFactory,
+  market_directory_info_market_product_categoryFactory,
   baseProperties,
 };

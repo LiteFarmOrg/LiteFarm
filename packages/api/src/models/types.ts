@@ -649,6 +649,10 @@ export interface MarketDirectoryInfo {
   facebook?: string;
   x?: string;
 }
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}
 
 export interface MarketDirectoryPartnerAuth {
   market_directory_partner_id: number;
@@ -656,4 +660,9 @@ export interface MarketDirectoryPartnerAuth {
   keycloak_url: string;
   keycloak_realm: string;
   webhook_endpoint?: string;
+}
+
+export interface FarmMarketDirectoryPartner extends BaseProperties {
+  farm_id: string;
+  market_directory_partner_id: number;
 }

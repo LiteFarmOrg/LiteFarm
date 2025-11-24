@@ -18,61 +18,84 @@ import jwt from 'jsonwebtoken';
 import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthModel.js';
 import { verifyKeycloakToken } from '../../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
+import MarketDirectoryInfo from '../../models/marketDirectoryInfoModel.js';
+import FarmMarketDirectoryPartner from '../../models/farmMarketDirectoryPartnerModel.js';
 
-const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Step 1: Extract token from Authorization header
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).send('Missing or invalid Authorization header');
-    }
-
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-
-    // Step 2: Decode (but don't verify yet) to get client_id
-    const decoded = jwt.decode(token);
-
-    if (!decoded || typeof decoded === 'string') {
-      return res.status(401).send('Invalid token format');
-    }
-
-    const client_id = decoded.azp || decoded.client_id;
-
-    if (!client_id) {
-      return res.status(401).send('Missing client_id in token');
-    }
-
-    // Step 3: Look up partner by client_id to get Keycloak realm info
-    const partnerAuth = (await MarketDirectoryPartnerAuth.query().where({ client_id }).first()) as
-      | MarketDirectoryPartnerAuthType
-      | undefined;
-
-    if (!partnerAuth) {
-      return res.status(404).send('Market directory partner not found');
-    }
-
-    // Step 4: Check if farm has opted in (placeholder for now)
-    // TODO: Add actual permission check against opt-in table
-    const farmPermission = true;
-
-    if (!farmPermission) {
-      return res.status(403).send('Farm did not authorize directory partner');
-    }
-
-    // Step 5: Verify the token against the partner's Keycloak realm
+const checkMarketPartnerAuth =
+  ({ singleFarm } = { singleFarm: false }) =>
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
-    } catch (error) {
-      console.error('Token verification failed:', error);
-      return res.status(401).send('Invalid or expired token');
-    }
+      // Step 1: Extract token from Authorization header
+      const authHeader = req.headers.authorization;
 
-    next();
-  } catch (error) {
-    console.error('checkMarketPartnerAuth middleware error:', error);
-    return res.status(500).send('Internal server error checking partner access');
-  }
-};
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).send('Missing or invalid Authorization header');
+      }
+
+      const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+
+      // Step 2: Decode (but don't verify yet) to get client_id
+      const decoded = jwt.decode(token);
+
+      if (!decoded || typeof decoded === 'string') {
+        return res.status(401).send('Invalid token format');
+      }
+
+      const client_id = decoded.azp || decoded.client_id;
+
+      if (!client_id) {
+        return res.status(401).send('Missing client_id in token');
+      }
+
+      // Step 3: Look up partner by client_id to get Keycloak realm info
+      const partnerAuth = (await MarketDirectoryPartnerAuth.query()
+        .where({ client_id })
+        .first()) as MarketDirectoryPartnerAuthType | undefined;
+
+      if (!partnerAuth) {
+        return res.status(404).send('Market directory partner not found');
+      }
+
+      let farmPermission = true; // Default to true for all farms (enterprises/) request
+
+      if (singleFarm) {
+        const { id } = req.params;
+        // Step 4: Check if the farm has authorized this partner
+
+        const { farm_id } = await MarketDirectoryInfo
+          // @ts-expect-error known issue with models
+          .query()
+          .findById(id)
+          .select('farm_id');
+
+        farmPermission = await FarmMarketDirectoryPartner
+          // @ts-expect-error known issue with models
+          .query()
+          .where({
+            farm_id,
+            market_directory_partner_id: partnerAuth.market_directory_partner_id,
+          })
+          .whereNotDeleted()
+          .first();
+      }
+
+      if (!farmPermission) {
+        return res.status(403).send('Farm did not authorize directory partner');
+      }
+
+      // Step 5: Verify the token against the partner's Keycloak realm
+      try {
+        await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        return res.status(401).send('Invalid or expired token');
+      }
+
+      next();
+    } catch (error) {
+      console.error('checkMarketPartnerAuth middleware error:', error);
+      return res.status(500).send('Internal server error checking partner access');
+    }
+  };
 
 export default checkMarketPartnerAuth;

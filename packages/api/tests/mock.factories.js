@@ -2753,6 +2753,19 @@ async function market_directory_partner_authFactory(
     .returning('*');
 }
 
+async function farm_market_directory_partnerFactory({
+  promisedFarm = farmFactory(),
+  promisedPartner = market_directory_partnerFactory(),
+} = {}) {
+  const [farm, partner] = await Promise.all([promisedFarm, promisedPartner]);
+  const [{ farm_id }] = farm;
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('farm_market_directory_partner')
+    .insert({ farm_id, market_directory_partner_id })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2986,5 +2999,6 @@ export default {
   market_directory_partnerFactory,
   fakeMarketDirectoryPartnerAuth,
   market_directory_partner_authFactory,
+  farm_market_directory_partnerFactory,
   baseProperties,
 };

@@ -29,6 +29,7 @@ export const up = async function (knex) {
   await knex('rolePermissions').insert([
     { role_id: 1, permission_id: 184 },
     { role_id: 2, permission_id: 184 },
+    { role_id: 3, permission_id: 184 },
     { role_id: 5, permission_id: 184 },
   ]);
 };

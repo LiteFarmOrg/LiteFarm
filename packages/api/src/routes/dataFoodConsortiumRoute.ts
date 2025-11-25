@@ -27,4 +27,10 @@ router.get(
   DataFoodConsortiumController.getDfcEnterprise(),
 );
 
+router.get(
+  '/enterprises/',
+  checkMarketPartnerAuth(),
+  DataFoodConsortiumController.getAllClientEnterprises(),
+);
+
 export default router;

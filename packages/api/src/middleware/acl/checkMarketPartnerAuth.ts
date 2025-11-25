@@ -55,6 +55,7 @@ const checkMarketPartnerAuth =
       if (!partnerAuth) {
         return res.status(404).send('Market directory partner not found');
       }
+      res.locals.marketDirectoryPartnerId = partnerAuth.market_directory_partner_id;
 
       let farmPermission = true; // Default to true for all farms (enterprises/) request
 

@@ -391,6 +391,10 @@ export interface MarketDirectoryInfo {
   instagram?: string;
   facebook?: string;
   x?: string;
+  farm_market_product_categories: {
+    market_directory_id: string;
+    market_product_category_id: number;
+  }[];
 }
 
 export interface MarketProductCategory extends BasicEnum {}

@@ -26,7 +26,7 @@ export const marketDirectoryInfo = api.injectEndpoints({
       }),
       providesTags: ['MarketDirectoryInfo'],
     }),
-    addMarketDirectoryInfo: build.mutation<void, MarketDirectoryInfo>({
+    addMarketDirectoryInfo: build.mutation<void, Partial<MarketDirectoryInfo>>({
       query: (body) => ({
         url: `${marketDirectoryInfoUrl}`,
         method: 'POST',

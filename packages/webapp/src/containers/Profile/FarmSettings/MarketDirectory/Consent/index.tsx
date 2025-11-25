@@ -27,6 +27,7 @@ interface MarketDirectoryConsentProps {
   disabled: boolean;
 }
 
+// TODO: Populate info for partners added to the market_directory_partner table
 const PARTNERS_INFO: {
   [key: MarketDirectoryPartner['key']]: Pick<
     PureMarketDirectoryTileProps,

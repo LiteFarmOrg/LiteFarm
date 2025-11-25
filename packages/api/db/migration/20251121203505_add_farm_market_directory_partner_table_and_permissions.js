@@ -18,8 +18,8 @@
  * @returns { Promise<void> }
  */
 export const up = async (knex) => {
-  await knex.schema.createTable('farm_market_directory_partner', (table) => {
-    table.uuid('farm_id').references('farm_id').inTable('farm');
+  await knex.schema.createTable('market_directory_partner_permissions', (table) => {
+    table.uuid('market_directory_info_id').references('id').inTable('market_directory_info');
     table
       .integer('market_directory_partner_id')
       .references('id')
@@ -40,7 +40,7 @@ export const up = async (knex) => {
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
 
-    table.primary(['farm_id', 'market_directory_partner_id']);
+    table.primary(['market_directory_info_id', 'market_directory_partner_id']);
   });
 
   await knex('permissions').insert([
@@ -85,5 +85,5 @@ export const down = async (knex) => {
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();
 
-  await knex.schema.dropTable('farm_market_directory_partner');
+  await knex.schema.dropTable('market_directory_partner_permissions');
 };

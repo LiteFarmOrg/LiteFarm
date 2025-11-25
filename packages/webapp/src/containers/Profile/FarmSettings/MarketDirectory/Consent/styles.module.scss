@@ -20,9 +20,11 @@
   display: flex;
   padding-inline: 24px;
   flex-direction: column;
-  gap: 16px;
+  gap: 32px;
 
   .consentTitle {
+    font-size: 16px;
+    line-height: 24px;
     color: var(--Colors-Neutral-Neutral-900);
   }
 
@@ -45,30 +47,39 @@
   font-weight: 700;
 }
 
-/*------------------
- Placeholder styles -- remove in LF-5016 */
-.marketTiles {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  padding: 32px;
-
-  div {
-    background-color: var(--Colors-Accent---singles-Purple-light);
-    height: 100px;
-    border-radius: 8px;
-  }
-
-  &.disabled {
-    div {
-      background-color: var(--Colors-Neutral-Neutral-100);
-    }
-  }
-
-  @include xs-breakpoint {
-    padding: 16px;
-    gap: 16px;
+.consent {
+  .consentTitle {
+    margin-bottom: 16px;
   }
 }
-/*------------------*/
+
+.marketDirectories {
+  .consentTitle {
+    margin-bottom: 4px;
+  }
+
+  .lead {
+    color: #000;
+    font-size: 16px;
+    line-height: normal;
+    margin-bottom: 16px;
+  }
+}
+
+.marketTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+
+  .logoAndCountry {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    white-space: nowrap;
+
+    span {
+      color: #89bb7e;
+      font-size: 16px;
+    }
+  }
+}

@@ -2753,6 +2753,29 @@ async function market_directory_partner_authFactory(
     .returning('*');
 }
 
+async function market_product_categoryFactory(key = faker.lorem.word()) {
+  return knex('market_product_category').insert({ key }).returning('*');
+}
+
+async function market_directory_info_market_product_categoryFactory({
+  promisedMarketDirectoryInfo = market_directory_infoFactory(),
+  promisedMarketProductCategory = market_product_categoryFactory(),
+} = {}) {
+  const [marketDirectoryInfo, marketProductCategory] = await Promise.all([
+    promisedMarketDirectoryInfo,
+    promisedMarketProductCategory,
+  ]);
+  const [{ id: marketDirectoryId }] = marketDirectoryInfo;
+  const [{ id: marketProductCategoryId }] = marketProductCategory;
+
+  return knex('market_directory_info_market_product_category')
+    .insert({
+      market_directory_info_id: marketDirectoryId,
+      market_product_category_id: marketProductCategoryId,
+    })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2982,6 +3005,8 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
+  market_product_categoryFactory,
+  market_directory_info_market_product_categoryFactory,
   fakeMarketDirectoryPartner,
   market_directory_partnerFactory,
   fakeMarketDirectoryPartnerAuth,

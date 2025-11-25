@@ -177,6 +177,7 @@ import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
 import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
 import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
+import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
 import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 
 // register API
@@ -349,6 +350,7 @@ app
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
   .use('/market_directory_info', marketDirectoryInfoRoute)
+  .use('/market_product_categories', marketProductCategoryRoute)
   .use('/market_directory_partners', marketDirectoryPartnerRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data

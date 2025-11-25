@@ -2720,6 +2720,29 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
+async function market_product_categoryFactory(key = faker.lorem.word()) {
+  return knex('market_product_category').insert({ key }).returning('*');
+}
+
+async function market_directory_info_market_product_categoryFactory({
+  promisedMarketDirectoryInfo = market_directory_infoFactory(),
+  promisedMarketProductCategory = market_product_categoryFactory(),
+} = {}) {
+  const [marketDirectoryInfo, marketProductCategory] = await Promise.all([
+    promisedMarketDirectoryInfo,
+    promisedMarketProductCategory,
+  ]);
+  const [{ id: marketDirectoryId }] = marketDirectoryInfo;
+  const [{ id: marketProductCategoryId }] = marketProductCategory;
+
+  return knex('market_directory_info_market_product_category')
+    .insert({
+      market_directory_info_id: marketDirectoryId,
+      market_product_category_id: marketProductCategoryId,
+    })
+    .returning('*');
+}
+
 function fakeKey() {
   return faker.word
     .conjunction({ length: { min: 1, max: 3 } })
@@ -2987,6 +3010,8 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
+  market_product_categoryFactory,
+  market_directory_info_market_product_categoryFactory,
   market_directory_partnerFactory,
   market_directory_partner_countryFactory,
   baseProperties,

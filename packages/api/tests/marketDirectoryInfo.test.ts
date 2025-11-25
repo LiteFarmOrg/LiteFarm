@@ -49,11 +49,16 @@ jest.mock('../src/util/url.js', () => ({
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import { MarketDirectoryInfoReqBody } from '../src/middleware/validation/checkMarketDirectoryInfo.js';
-import MarketDirectoryInfoModel from '../src/models/marketDirectoryInfoModel.js';
 import { SOCIAL_DOMAINS } from '../src/util/socials.js';
-import { HeadersParams } from './types.js';
+import { HeadersParams, WithoutFarmId, WithoutId, WithoutKeysInArray } from './types.js';
+import {
+  MarketDirectoryInfo,
+  MarketDirectoryInfoMarketProductCategory,
+  MarketDirectoryInfoWithRelations,
+  MarketProductCategory,
+} from '../src/models/types.js';
 
-const marketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
+const fakeMarketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   logo: faker.internet.url(),
   about: faker.lorem.sentences(),
   contact_last_name: faker.name.lastName(),
@@ -79,9 +84,32 @@ const marketDirectoryInfoOptionalFieldsNull = {
   x: null,
 };
 
+type CompleteMarketDirectoryInfoReq = WithoutFarmId<WithoutId<MarketDirectoryInfo>> & {
+  market_product_categories?: WithoutKeysInArray<
+    MarketDirectoryInfoMarketProductCategory[],
+    'market_directory_info_id'
+  >;
+};
+
+const fakeMarketDirectoryInfoWithRelations = ({
+  info,
+  marketProductCategories = [],
+}: {
+  info: CompleteMarketDirectoryInfoReq;
+  marketProductCategories: MarketProductCategory[];
+}) => {
+  return {
+    ...info,
+    market_product_categories: marketProductCategories.map((marketProductCategory) => ({
+      market_product_category_id: marketProductCategory.id,
+    })),
+  };
+};
+
 const fakeInvalidString = (input: string = '') => `${input}${INVALID_SUFFIX}`;
 
-const invalidTestCases = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const invalidTestCases: [string, any][] = [
   ['address', fakeInvalidString(faker.address.streetAddress())],
   ['website', fakeInvalidString(faker.internet.url())],
   ['contact_email', faker.lorem.word()],
@@ -89,18 +117,40 @@ const invalidTestCases = [
   ['instagram', SOCIAL_DOMAINS['instagram']], // domain without username
   ['facebook', `/${faker.internet.userName()}`], // username with invalid character
   ['x', `https://${SOCIAL_DOMAINS['x']}/username!}`], // url with invalid username
+  ['market_product_categories', null],
+  ['market_product_categories', []],
 ];
 
-const expectMarketDirectoryInfo = async (
-  farmId: string,
-  expectedData: MarketDirectoryInfoReqBody,
+// This helps with object comparison
+const addMarketIdToRelation = (
+  relation: WithoutKeysInArray<
+    MarketDirectoryInfoMarketProductCategory[],
+    'market_directory_info_id'
+  >,
+  id: MarketDirectoryInfo['id'],
 ) => {
-  // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-  const record = await MarketDirectoryInfoModel.query().where({ farm_id: farmId }).first();
+  let marketProductCategoriesWithIds: MarketDirectoryInfoMarketProductCategory[] = [];
+  if (Array.isArray(relation)) {
+    marketProductCategoriesWithIds = relation.map(({ market_product_category_id }) => ({
+      market_product_category_id,
+      market_directory_info_id: id,
+    }));
+  }
+  return marketProductCategoriesWithIds;
+};
 
+const expectMarketDirectoryInfo = (
+  actualData: MarketDirectoryInfoWithRelations,
+  expectedData: CompleteMarketDirectoryInfoReq,
+) => {
   for (const property in expectedData) {
     const key = property as keyof typeof expectedData;
-    expect(record[key]).toBe(expectedData[key]);
+    if (key === 'market_product_categories' && Array.isArray(expectedData[key])) {
+      const adjustedFakeData = addMarketIdToRelation(expectedData[key], actualData.id);
+      expect(actualData[key]).toMatchObject(adjustedFakeData);
+    } else {
+      expect(actualData[key]).toBe(expectedData[key]);
+    }
   }
 };
 
@@ -137,10 +187,42 @@ async function patchRequest(
     .send(data);
 }
 
+async function makeMarketDirectoryInfo(
+  userFarmIds: HeadersParams,
+  marketDirectoryInfo: CompleteMarketDirectoryInfoReq,
+) {
+  const { market_product_categories, ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
+  const [directoryInfo] = await mocks.market_directory_infoFactory({
+    promisedUserFarm: Promise.resolve([userFarmIds]),
+    marketDirectoryInfo: filteredMarketDirectoryInfo,
+  });
+  const marketProductCategories =
+    market_product_categories?.map((category) => ({
+      id: category.market_product_category_id,
+    })) || [];
+  for (const category of marketProductCategories) {
+    await mocks.market_directory_info_market_product_categoryFactory({
+      promisedMarketDirectoryInfo: Promise.resolve([directoryInfo]),
+      promisedMarketProductCategory: Promise.resolve([category]),
+    });
+  }
+  return directoryInfo.id;
+}
+
 describe('Market Directory Info Tests', () => {
+  let marketDirectoryInfo: CompleteMarketDirectoryInfoReq;
+
   afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
+  });
+
+  beforeAll(async () => {
+    const [marketProductCategory1] = await mocks.market_product_categoryFactory();
+    marketDirectoryInfo = fakeMarketDirectoryInfoWithRelations({
+      info: fakeMarketDirectoryInfo,
+      marketProductCategories: [marketProductCategory1],
+    });
   });
 
   describe('GET Market Directory Info', () => {
@@ -149,11 +231,7 @@ describe('Market Directory Info Tests', () => {
     beforeAll(async () => {
       const userFarmIds = await createUserFarmIds(1);
       ({ farm_id } = userFarmIds);
-
-      await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-        marketDirectoryInfo,
-      });
+      await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
     });
 
     test('Admin users should be able to get market directory info', async () => {
@@ -167,7 +245,7 @@ describe('Market Directory Info Tests', () => {
 
         const res = await getRequest({ farm_id, user_id });
         expect(res.status).toBe(200);
-        await expectMarketDirectoryInfo(farm_id, res.body);
+        expectMarketDirectoryInfo(res.body, marketDirectoryInfo);
       }
     });
 
@@ -197,7 +275,7 @@ describe('Market Directory Info Tests', () => {
         const res = await postRequest(marketDirectoryInfo, userFarmIds);
 
         expect(res.status).toBe(201);
-        await expectMarketDirectoryInfo(userFarmIds.farm_id, marketDirectoryInfo);
+        expectMarketDirectoryInfo(res.body, marketDirectoryInfo);
       }
     });
 
@@ -242,51 +320,47 @@ describe('Market Directory Info Tests', () => {
     beforeEach(async () => {
       userFarmIds = await createUserFarmIds(1);
       ({ farm_id } = userFarmIds);
-
-      const record = await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userFarmIds]),
-      });
-
-      marketDirectoryInfoId = record[0].id;
+      marketDirectoryInfoId = await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
     });
 
     test('Admin users should be able to edit a market directory info', async () => {
       const adminRoles = [1, 2, 5];
+      const editAbout = { about: faker.lorem.sentences() };
 
       for (const role of adminRoles) {
         const [{ user_id }] = await mocks.userFarmFactory({
           promisedFarm: Promise.resolve([{ farm_id }]),
           roleId: role,
         });
-        const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfo, {
+        const res = await patchRequest(marketDirectoryInfoId, editAbout, {
           farm_id,
           user_id,
         });
 
-        expect(res.status).toBe(200);
-        await expectMarketDirectoryInfo(farm_id, marketDirectoryInfo);
+        expect(res.status).toBe(204);
+
+        const getRes = await getRequest({ farm_id, user_id });
+        expectMarketDirectoryInfo(getRes.body, { ...marketDirectoryInfo, ...editAbout });
       }
     });
 
     test('Should be able to remove optional fields', async () => {
-      const [{ farm_id: secondFarmId }] = await mocks.userFarmFactory({
-        promisedUser: Promise.resolve([{ user_id: userFarmIds.user_id }]),
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id }]),
         roleId: 1,
       });
-      const userSecondFarmIds = { user_id: userFarmIds.user_id, farm_id: secondFarmId };
-      const [record] = await mocks.market_directory_infoFactory({
-        promisedUserFarm: Promise.resolve([userSecondFarmIds]),
-        marketDirectoryInfo,
+
+      const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfoOptionalFieldsNull, {
+        user_id,
+        farm_id,
       });
 
-      const res = await patchRequest(
-        record.id,
-        marketDirectoryInfoOptionalFieldsNull,
-        userSecondFarmIds,
-      );
-
-      expect(res.status).toBe(200);
-      await expectMarketDirectoryInfo(secondFarmId, marketDirectoryInfoOptionalFieldsNull);
+      expect(res.status).toBe(204);
+      const getRes = await getRequest({ farm_id, user_id });
+      expectMarketDirectoryInfo(getRes.body, {
+        ...marketDirectoryInfo,
+        ...marketDirectoryInfoOptionalFieldsNull,
+      });
     });
 
     test('Worker should not be able to edit a market directory info', async () => {
@@ -294,7 +368,8 @@ describe('Market Directory Info Tests', () => {
         promisedFarm: Promise.resolve([{ farm_id }]),
         roleId: 3,
       });
-      const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfo, {
+      const editAbout = { about: faker.lorem.sentences() };
+      const res = await patchRequest(marketDirectoryInfoId, editAbout, {
         farm_id,
         user_id,
       });

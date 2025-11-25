@@ -21,22 +21,58 @@ import {
   PureMarketDirectoryTileProps,
 } from '../../../../../components/MarketDirectoryTile';
 import { MarketDirectoryPartner } from '../../../../../store/api/types';
+import OFNLogo from '../../../../../assets/images/marketDirectory/logo-ofn-global.png';
+import MarketOrganicLogo from '../../../../../assets/images/marketDirectory/logo-market_organic.png';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
 }
 
+const LogoAndCountry = ({ country }: { country: string }) => {
+  return (
+    <div className={styles.logoAndCountry}>
+      <img src={OFNLogo} width="143" height="50" />
+      <span>{country}</span>
+    </div>
+  );
+};
+
 const PARTNERS_INFO: {
   [key: MarketDirectoryPartner['key']]: Pick<
     PureMarketDirectoryTileProps,
     'name' | 'description' | 'termsUrl' | 'logo'
   >;
-} = {};
+} = {
+  OFN_CANADA: {
+    name: 'OFN Canada',
+    description: 'List products directly in OFN stores.',
+    termsUrl: 'https://openfoodnetwork.ca/',
+    logo: <LogoAndCountry country="Canada" />,
+  },
+  OFN_USA: {
+    name: 'OFN USA',
+    description: 'List products directly in OFN stores.',
+    termsUrl: 'https://openfoodnetwork.net/',
+    logo: <LogoAndCountry country="USA" />,
+  },
+  MARKET_ORGANIC: {
+    name: 'OFN USA',
+    description: 'List products directly in OFN stores.',
+    termsUrl: 'https://openfoodnetwork.net/',
+    logo: <img src={MarketOrganicLogo} alt={'MARKET_ORGANIC'} width="50px" height="50px" />,
+  },
+};
 
 const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
-  const { data: marketDirectoryPartners = [] } = useGetMarketDirectoryPartnersQuery();
+  const {
+    data: marketDirectoryPartners = [
+      { key: 'OFN_CANADA' },
+      { key: 'OFN_USA' },
+      { key: 'MARKET_ORGANIC' },
+    ],
+  } = useGetMarketDirectoryPartnersQuery();
 
   return (
     <div className={styles.consentContainer}>

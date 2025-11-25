@@ -15,21 +15,21 @@
 
 import baseModel from './baseModel.js';
 
-class FarmMarketDirectoryPartner extends baseModel {
+class MarketDirectoryPartnerPermissions extends baseModel {
   static get tableName() {
-    return 'farm_market_directory_partner';
+    return 'market_directory_partner_permissions';
   }
 
   static get idColumn() {
-    return ['farm_id', 'market_directory_partner_id'];
+    return ['market_directory_info_id', 'market_directory_partner_id'];
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'market_directory_partner_id'],
+      required: ['market_directory_info_id', 'market_directory_partner_id'],
       properties: {
-        farm_id: { type: 'string' },
+        market_directory_info_id: { type: 'string' },
         market_directory_partner_id: { type: 'integer' },
         ...this.baseProperties,
       },
@@ -38,4 +38,4 @@ class FarmMarketDirectoryPartner extends baseModel {
   }
 }
 
-export default FarmMarketDirectoryPartner;
+export default MarketDirectoryPartnerPermissions;

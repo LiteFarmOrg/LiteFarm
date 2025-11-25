@@ -133,9 +133,9 @@ describe('GET Market Directory Partner Tests', () => {
   });
 
   test('All users should get market directory partners', async () => {
-    const adminRoles = [1, 2, 3, 5];
+    const roles = [1, 2, 3, 5];
 
-    for (const role of adminRoles) {
+    for (const role of roles) {
       const [{ user_id }] = await mocks.userFarmFactory({
         promisedFarm: Promise.resolve([canadaFarm]),
         roleId: role,

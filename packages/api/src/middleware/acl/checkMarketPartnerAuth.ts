@@ -52,7 +52,7 @@ const checkMarketPartnerAuth =
         .first()) as MarketDirectoryPartnerAuthType | undefined;
 
       if (!partnerAuth) {
-        return res.status(404).send('Market directory partner not found');
+        return res.status(404).send('client_id not recognized');
       }
       res.locals.marketDirectoryPartnerId = partnerAuth.market_directory_partner_id;
 

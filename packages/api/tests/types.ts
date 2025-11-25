@@ -19,3 +19,17 @@ export interface HeadersParams {
   user_id: User['user_id'];
   farm_id: Farm['farm_id'];
 }
+
+/**
+ * Removes specified keys from each item in an array type.
+ *
+ * @example
+ * WithoutKeysInArray<MarketDirectoryInfoMarketProductCategory[], 'market_directory_info_id'>
+ * // → Omit<MarketDirectoryInfoMarketProductCategory, 'market_directory_info_id'>[]
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type WithoutKeysInArray<T extends any[], K extends keyof T[number]> = Omit<T[number], K>[];
+
+// Returns types without specified property
+export type WithoutId<T> = Omit<T, 'id'>;
+export type WithoutFarmId<T> = Omit<T, 'farm_id'>;

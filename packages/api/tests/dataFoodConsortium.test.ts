@@ -159,7 +159,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getDfcEnterpriseRequest(nonExistentId);
 
       expect(res.status).toBe(404);
-      expect(res.text).toBe('Market directory info not found');
+      expect(res.text).toBe('Enterprise not found');
     });
   });
 
@@ -271,7 +271,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id, unknownClientToken);
 
       expect(res.status).toBe(404);
-      expect(res.text).toBe('Market directory partner not found');
+      expect(res.text).toBe('client_id not recognized');
     });
 
     test('Should return 401 when token lacks client_id', async () => {

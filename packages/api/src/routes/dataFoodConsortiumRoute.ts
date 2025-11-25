@@ -23,7 +23,7 @@ const router = express.Router();
 router.get(
   '/enterprise/:id',
   checkMarketPartnerAuth(),
-  checkMarketDirectoryInfoRecord(),
+  checkMarketDirectoryInfoRecord({ errorMessage: 'Enterprise not found' }),
   DataFoodConsortiumController.getDfcEnterprise(),
 );
 

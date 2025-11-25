@@ -86,7 +86,9 @@ export function checkAndTransformMarketDirectoryInfo() {
   };
 }
 
-export function checkMarketDirectoryInfoRecord() {
+export function checkMarketDirectoryInfoRecord(
+  { errorMessage } = { errorMessage: 'Market directory info not found' },
+) {
   return async (
     req: LiteFarmRequest<unknown, unknown, unknown, unknown>,
     res: Response,
@@ -96,7 +98,7 @@ export function checkMarketDirectoryInfoRecord() {
     const record = await MarketDirectoryInfoModel.query().findById(req.params.id).whereNotDeleted();
 
     if (!record) {
-      return res.status(404).send('Market directory info not found');
+      return res.status(404).send(errorMessage);
     }
 
     next();

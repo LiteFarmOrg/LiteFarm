@@ -51,6 +51,7 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
           {marketDirectoryPartners.map(({ key }) => {
             return (
               <PureMarketDirectoryTile
+                key={key}
                 {...PARTNERS_INFO[key]}
                 hasConsent={false}
                 isReadOnly={disabled}

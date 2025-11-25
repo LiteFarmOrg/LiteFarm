@@ -419,6 +419,6 @@ export interface MarketDirectoryInfo {
 }
 
 export interface MarketDirectoryPartner {
-  id: string;
+  id: number;
   key: string;
 }

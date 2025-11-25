@@ -51,6 +51,7 @@ const mockedParseAddress = parseGoogleGeocodedAddress as jest.MockedFunction<
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
+  DfcEntity,
   expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
   mockParsedAddress,
@@ -63,27 +64,55 @@ describe('Data Food Consortium Tests', () => {
 
   let marketDirectoryPartner: MarketDirectoryPartner;
 
-  async function createMarketDirectoryInfoForTest() {
+  async function createMarketDirectoryInfoForTest(partner?: MarketDirectoryPartner) {
     const userFarmIds = await createUserFarmIds(1);
     const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
       promisedUserFarm: Promise.resolve([userFarmIds]),
       marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
     });
 
+    const partnerToLink = partner || marketDirectoryPartner;
+
     // Link farm to market directory partner
     await mocks.farm_market_directory_partnerFactory({
       promisedFarm: Promise.resolve([userFarmIds]),
-      promisedPartner: Promise.resolve([marketDirectoryPartner]),
+      promisedPartner: Promise.resolve([partnerToLink]),
     });
 
     // return market_directory_info id to construct single farm request
     return marketDirectoryInfo;
   }
 
+  async function createPartnerWithAuth() {
+    const [partner] = await mocks.market_directory_partnerFactory();
+
+    const clientId = `${partner.key}-client-id`;
+
+    await mocks.market_directory_partner_authFactory(
+      { promisedPartner: Promise.resolve([partner]) },
+      mocks.fakeMarketDirectoryPartnerAuth({
+        client_id: clientId,
+      }),
+    );
+
+    // Generate and return a JWT token with this client_id
+    const token = jwt.sign({ azp: clientId, client_id: clientId }, 'dummy-secret');
+
+    return { partner, token };
+  }
+
   async function getDfcEnterpriseRequest(marketDirectoryInfoId: string, token = validToken) {
     return chai
       .request(server)
       .get(`/dfc/enterprises/${marketDirectoryInfoId}`)
+      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`);
+  }
+
+  async function getAllClientEnterprisesRequest(token = validToken) {
+    return chai
+      .request(server)
+      .get(`/dfc/enterprises/`)
       .set('content-type', 'application/json')
       .set('Authorization', `Bearer ${token}`);
   }
@@ -113,7 +142,7 @@ describe('Data Food Consortium Tests', () => {
     await knex.destroy();
   });
 
-  describe('GET DFC-Formatted Market Directory Info Data', () => {
+  describe("GET a single farm's DFC-Formatted market directory data", () => {
     test('Should return 200 with DFC-formatted data', async () => {
       const marketDirectoryInfo = await createMarketDirectoryInfoForTest();
 
@@ -131,6 +160,90 @@ describe('Data Food Consortium Tests', () => {
 
       expect(res.status).toBe(404);
       expect(res.text).toBe('Market directory info not found');
+    });
+  });
+
+  describe("GET all of a directory partner's DFC-formatted market directory data", () => {
+    test('Should return 200 with an array of DFC-formatted data', async () => {
+      // Create a new partner to ensure clean test data
+      const { partner, token } = await createPartnerWithAuth();
+
+      await Promise.all([
+        createMarketDirectoryInfoForTest(partner),
+        createMarketDirectoryInfoForTest(partner),
+        createMarketDirectoryInfoForTest(partner),
+      ]);
+
+      const res = await getAllClientEnterprisesRequest(token);
+
+      expect(res.status).toBe(200);
+
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body).toHaveLength(3);
+
+      // Verify each item matches DFC structure
+      res.body.forEach((enterprise: DfcEntity) => {
+        expect(enterprise).toMatchObject(expectedBaseDfcStructure);
+      });
+    });
+
+    test('Should return empty array when partner has no authorized farms', async () => {
+      const { token } = await createPartnerWithAuth();
+
+      await Promise.all([
+        createMarketDirectoryInfoForTest(), // link farms to default partner
+        createMarketDirectoryInfoForTest(),
+        createMarketDirectoryInfoForTest(),
+      ]);
+
+      const res = await getAllClientEnterprisesRequest(token);
+
+      expect(res.status).toBe(200);
+
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body).toHaveLength(0);
+    });
+
+    test('Should only return farms authorized for the requesting partner', async () => {
+      const { partner, token } = await createPartnerWithAuth();
+
+      await Promise.all([
+        createMarketDirectoryInfoForTest(), // link farm to default partner
+        createMarketDirectoryInfoForTest(partner),
+        createMarketDirectoryInfoForTest(partner),
+      ]);
+
+      const res = await getAllClientEnterprisesRequest(token);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveLength(2);
+    });
+
+    test('Should not return farms with sharing permissions revoked)', async () => {
+      const { partner, token } = await createPartnerWithAuth();
+
+      const [directoryInfo1] = await Promise.all([
+        createMarketDirectoryInfoForTest(partner),
+        createMarketDirectoryInfoForTest(partner),
+      ]);
+
+      const origRes = await getAllClientEnterprisesRequest(token);
+
+      expect(origRes.status).toBe(200);
+      expect(origRes.body).toHaveLength(2);
+
+      // Soft delete the farm-market directory partner record (revoke sharing)
+      await knex('farm_market_directory_partner')
+        .where({
+          farm_id: directoryInfo1.farm_id,
+          market_directory_partner_id: partner.id,
+        })
+        .update({ deleted: true });
+
+      const res = await getAllClientEnterprisesRequest(token);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveLength(1);
     });
   });
 

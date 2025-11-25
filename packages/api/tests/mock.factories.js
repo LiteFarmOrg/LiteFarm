@@ -2753,16 +2753,19 @@ async function market_directory_partner_authFactory(
     .returning('*');
 }
 
-async function farm_market_directory_partnerFactory({
-  promisedFarm = farmFactory(),
+async function market_directory_partner_permissionsFactory({
+  promisedDirectoryInfo = market_directory_infoFactory(),
   promisedPartner = market_directory_partnerFactory(),
 } = {}) {
-  const [farm, partner] = await Promise.all([promisedFarm, promisedPartner]);
-  const [{ farm_id }] = farm;
+  const [marketDirectoryInfo, partner] = await Promise.all([
+    promisedDirectoryInfo,
+    promisedPartner,
+  ]);
+  const [{ id: market_directory_info_id }] = marketDirectoryInfo;
   const [{ id: market_directory_partner_id }] = partner;
 
-  return knex('farm_market_directory_partner')
-    .insert({ farm_id, market_directory_partner_id })
+  return knex('market_directory_partner_permissions')
+    .insert({ market_directory_info_id, market_directory_partner_id })
     .returning('*');
 }
 
@@ -2999,6 +3002,6 @@ export default {
   market_directory_partnerFactory,
   fakeMarketDirectoryPartnerAuth,
   market_directory_partner_authFactory,
-  farm_market_directory_partnerFactory,
+  market_directory_partner_permissionsFactory,
   baseProperties,
 };

@@ -18,8 +18,7 @@ import jwt from 'jsonwebtoken';
 import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthModel.js';
 import { verifyKeycloakToken } from '../../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
-import MarketDirectoryInfo from '../../models/marketDirectoryInfoModel.js';
-import FarmMarketDirectoryPartner from '../../models/farmMarketDirectoryPartnerModel.js';
+import MarketDirectoryPartnerPermissions from '../../models/marketDirectoryPartnerPermissions.js';
 
 const checkMarketPartnerAuth =
   ({ singleFarm } = { singleFarm: false }) =>
@@ -62,18 +61,11 @@ const checkMarketPartnerAuth =
       if (singleFarm) {
         const { id } = req.params;
         // Step 4: Check if the farm has authorized this partner
-
-        const { farm_id } = await MarketDirectoryInfo
-          // @ts-expect-error known issue with models
-          .query()
-          .findById(id)
-          .select('farm_id');
-
-        farmPermission = await FarmMarketDirectoryPartner
+        farmPermission = await MarketDirectoryPartnerPermissions
           // @ts-expect-error known issue with models
           .query()
           .where({
-            farm_id,
+            market_directory_info_id: id,
             market_directory_partner_id: partnerAuth.market_directory_partner_id,
           })
           .whereNotDeleted()

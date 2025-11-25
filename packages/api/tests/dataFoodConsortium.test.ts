@@ -74,12 +74,12 @@ describe('Data Food Consortium Tests', () => {
     const partnerToLink = partner || marketDirectoryPartner;
 
     // Link farm to market directory partner
-    await mocks.farm_market_directory_partnerFactory({
-      promisedFarm: Promise.resolve([userFarmIds]),
+    await mocks.market_directory_partner_permissionsFactory({
+      promisedDirectoryInfo: Promise.resolve([marketDirectoryInfo]),
       promisedPartner: Promise.resolve([partnerToLink]),
     });
 
-    // return market_directory_info id to construct single farm request
+    // return market_directory_info for id used in single farm request
     return marketDirectoryInfo;
   }
 
@@ -222,7 +222,8 @@ describe('Data Food Consortium Tests', () => {
     test('Should not return farms with sharing permissions revoked)', async () => {
       const { partner, token } = await createPartnerWithAuth();
 
-      const [directoryInfo1] = await Promise.all([
+      // Return one of the market directory info records
+      const [marketDirectoryInfoOne] = await Promise.all([
         createMarketDirectoryInfoForTest(partner),
         createMarketDirectoryInfoForTest(partner),
       ]);
@@ -233,9 +234,9 @@ describe('Data Food Consortium Tests', () => {
       expect(origRes.body).toHaveLength(2);
 
       // Soft delete the farm-market directory partner record (revoke sharing)
-      await knex('farm_market_directory_partner')
+      await knex('market_directory_partner_permissions')
         .where({
-          farm_id: directoryInfo1.farm_id,
+          market_directory_info_id: marketDirectoryInfoOne.id,
           market_directory_partner_id: partner.id,
         })
         .update({ deleted: true });

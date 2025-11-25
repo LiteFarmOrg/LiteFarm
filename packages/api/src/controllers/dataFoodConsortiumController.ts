@@ -17,8 +17,8 @@ import { Request, Response } from 'express';
 import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 import type { HttpError } from '../types.js';
-import FarmMarketDirectoryPartner from '../models/farmMarketDirectoryPartnerModel.js';
-import type { FarmMarketDirectoryPartner as FarmMarketDirectoryPartnerType } from '../models/types.js';
+import MarketDirectoryPartnerPermissions from '../models/marketDirectoryPartnerPermissions.js';
+import type { MarketDirectoryPartnerPermissions as MarketDirectoryPartnerPermissionsType } from '../models/types.js';
 
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
@@ -51,19 +51,20 @@ const dataFoodConsortiumController = {
       const { marketDirectoryPartnerId } = res.locals;
 
       try {
-        const authorizedFarms: FarmMarketDirectoryPartnerType[] = await FarmMarketDirectoryPartner
-          /* @ts-expect-error known issue with models */
-          .query()
-          .where({ market_directory_partner_id: marketDirectoryPartnerId })
-          .select('farm_id')
-          .whereNotDeleted();
+        const authorizedFarms: MarketDirectoryPartnerPermissionsType[] =
+          await MarketDirectoryPartnerPermissions
+            /* @ts-expect-error known issue with models */
+            .query()
+            .where({ market_directory_partner_id: marketDirectoryPartnerId })
+            .select('market_directory_info_id')
+            .whereNotDeleted();
 
         const authorizedFarmsDirectoryInfo = await MarketDirectoryInfo
           /* @ts-expect-errors known issue with models */
           .query()
           .whereIn(
-            'farm_id',
-            authorizedFarms.map(({ farm_id }) => farm_id),
+            'id',
+            authorizedFarms.map(({ market_directory_info_id }) => market_directory_info_id),
           );
 
         const dfcFormattedListingData = [];

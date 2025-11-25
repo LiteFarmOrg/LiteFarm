@@ -662,7 +662,7 @@ export interface MarketDirectoryPartnerAuth {
   webhook_endpoint?: string;
 }
 
-export interface FarmMarketDirectoryPartner extends BaseProperties {
-  farm_id: string;
+export interface MarketDirectoryPartnerPermissions extends BaseProperties {
+  market_directory_info_id: string;
   market_directory_partner_id: number;
 }

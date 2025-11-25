@@ -49,7 +49,7 @@ const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: N
       | undefined;
 
     if (!partnerAuth) {
-      return res.status(404).send('Market directory partner not found');
+      return res.status(404).send('client_id not recognized');
     }
 
     // Step 4: Check if farm has opted in (placeholder for now)

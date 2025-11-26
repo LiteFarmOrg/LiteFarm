@@ -27,7 +27,7 @@ import type {
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
 
-interface BasicEnum {
+export interface BasicEnum {
   id: number;
   key: string;
 }
@@ -391,8 +391,8 @@ export interface MarketDirectoryInfo {
   instagram?: string;
   facebook?: string;
   x?: string;
-  farm_market_product_categories: {
-    market_directory_id: string;
+  market_product_categories: {
+    market_directory_id?: string; //response only
     market_product_category_id: number;
   }[];
 }

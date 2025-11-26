@@ -43,28 +43,6 @@ export const up = async (knex) => {
     table.primary(['market_directory_info_id', 'market_directory_partner_id']);
   });
 
-  await knex('permissions').insert([
-    {
-      permission_id: 185,
-      name: 'edit:farm_market_directory_partners',
-      description: 'edit farm market directory partners',
-    },
-    {
-      permission_id: 186,
-      name: 'get:farm_market_directory_partners',
-      description: 'get farm market directory partners',
-    },
-  ]);
-
-  await knex('rolePermissions').insert([
-    { role_id: 1, permission_id: 185 },
-    { role_id: 2, permission_id: 185 },
-    { role_id: 5, permission_id: 185 },
-    { role_id: 1, permission_id: 186 },
-    { role_id: 2, permission_id: 186 },
-    { role_id: 5, permission_id: 186 },
-  ]);
-
   // Store the consent checkbox state
   await knex.schema.alterTable('market_directory_info', (table) => {
     table.boolean('consented_to_share').notNullable().defaultTo(false);
@@ -79,11 +57,6 @@ export const down = async (knex) => {
   await knex.schema.alterTable('market_directory_info', (table) => {
     table.dropColumn('consented_to_share');
   });
-
-  const permissions = [185, 186];
-
-  await knex('rolePermissions').whereIn('permission_id', permissions).del();
-  await knex('permissions').whereIn('permission_id', permissions).del();
 
   await knex.schema.dropTable('market_directory_partner_permissions');
 };

@@ -49,6 +49,22 @@ class MarketDirectoryPartner extends Model {
       },
     };
   }
+
+  /**
+   * Returns partners available in the given country, including global partners.
+   */
+  static async getMarketDirectoryPartnersByCountryId(countryId) {
+    return MarketDirectoryPartner.query()
+      .joinRelated('countries')
+      .where('countries.country_id', countryId)
+      .orWhere('countries.country_id', null);
+  }
+  /**
+   * Returns all partners that have at least one associated record in market_directory_partner_country.
+   */
+  static async getAllWithCountries() {
+    return MarketDirectoryPartner.query().joinRelated('countries').distinctOn('id');
+  }
 }
 
 export default MarketDirectoryPartner;

@@ -2743,6 +2743,44 @@ async function market_directory_info_market_product_categoryFactory({
     .returning('*');
 }
 
+function fakeKey() {
+  return faker.word
+    .conjunction({ length: { min: 1, max: 3 } })
+    .split(' ')
+    .map((word) => word.toUpperCase())
+    .join('_');
+}
+
+function fakeMarketDirectoryPartner(defaultData = {}) {
+  return { key: fakeKey(), ...defaultData };
+}
+
+async function market_directory_partnerFactory(
+  marketDirectoryPartner = fakeMarketDirectoryPartner(),
+) {
+  return knex('market_directory_partner').insert(marketDirectoryPartner).returning('*');
+}
+
+/**
+ * @param {Object} [options={}]
+ * @param {Promise<Array>} [options.promisedPartner=market_directory_partnerFactory()]
+ *   A promise resolving to an array containing the partner record.
+ * @param {Promise<Array>} options.promisedCountry
+ *   A promise resolving to an array containing the country record.
+ */
+async function market_directory_partner_countryFactory({
+  promisedPartner = market_directory_partnerFactory(),
+  promisedCountry,
+} = {}) {
+  const [partner, country] = await Promise.all([promisedPartner, promisedCountry]);
+  const [{ id: partnerId }] = partner;
+  const countryId = country?.[0]?.id || null;
+
+  return await knex('market_directory_partner_country')
+    .insert({ market_directory_partner_id: partnerId, country_id: countryId })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -2974,5 +3012,7 @@ export default {
   market_directory_infoFactory,
   market_product_categoryFactory,
   market_directory_info_market_product_categoryFactory,
+  market_directory_partnerFactory,
+  market_directory_partner_countryFactory,
   baseProperties,
 };

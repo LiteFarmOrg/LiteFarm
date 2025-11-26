@@ -29,6 +29,12 @@ import { ReactComponent as CheckIncomplete } from '../../../../assets/images/che
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
+import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
+import { BasicEnum } from '../../../../store/api/types';
+import {
+  mapReactSelectOptionsForEnum,
+  ReactSelectOptionForEnum,
+} from '../../../../components/Form/ReactSelect/util';
 
 enum FormCards {
   INFO,
@@ -57,20 +63,37 @@ const MarketDirectory = () => {
   const { data: marketDirectoryInfo, isLoading: isMarketDirectoryInfoLoading } =
     useGetMarketDirectoryInfoQuery();
 
+  const { data: marketProductCategories, isLoading: isMarketProductCategoriesLoading } =
+    useGetMarketProductCategoriesQuery();
+
+  const isMarketDirectoryDataLoading = [
+    isMarketDirectoryInfoLoading,
+    isMarketProductCategoriesLoading,
+  ].some(Boolean);
+
   useEffect(() => {
     if (!isMarketDirectoryInfoLoading && marketDirectoryInfo) {
       updateCompletionStatus(FormCards.INFO, true);
     }
   }, [isMarketDirectoryInfoLoading, marketDirectoryInfo]);
 
+  // Build the product categories for form
+  const marketProductCategoryOptions = marketProductCategories
+    ? mapReactSelectOptionsForEnum(
+        marketProductCategories,
+        'market_directory_info:MARKET_PRODUCT_CATEGORY',
+      )
+    : [];
+
   const formCards = [
     {
       key: FormCards.INFO,
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
-      content: !isMarketDirectoryInfoLoading && (
+      content: !isMarketDirectoryDataLoading && (
         <MarketDirectoryInfoForm
           marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}
+          marketProductCategoryOptions={marketProductCategoryOptions}
         />
       ),
     },

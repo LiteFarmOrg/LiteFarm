@@ -64,7 +64,7 @@ const fakeMarketDirectoryInfo = mocks.fakeMarketDirectoryInfo({
   contact_last_name: faker.name.lastName(),
   email: faker.internet.email(),
   country_code: Math.floor(Math.random() * 999) + 1,
-  phone_number: faker.phone.phoneNumber(),
+  phone_number: faker.phone.number(),
   website: faker.internet.url(),
   instagram: faker.internet.userName(),
   facebook: faker.internet.userName(),

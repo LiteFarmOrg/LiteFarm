@@ -14,23 +14,13 @@
  */
 
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
-import {
-  mapReactSelectOptionsForEnum,
-  ReactSelectOptionForEnum,
-} from '../../../../../components/Form/ReactSelect/util';
+import { mapReactSelectOptionsForEnum } from '../../../../../components/Form/ReactSelect/util';
 import { DIRECTORY_INFO_FIELDS } from './types';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useGetMarketProductCategoriesQuery } from '../../../../../store/api/marketProductCategoryApi';
-import { useTranslation } from 'react-i18next';
 
 const useMarketDirectoryData = (marketDirectoryInfo?: MarketDirectoryInfo) => {
-  const { t } = useTranslation();
-  if (!marketDirectoryInfo) {
-    return marketDirectoryInfo;
-  }
-  const { market_product_categories } = marketDirectoryInfo;
-
-  const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
+  const { data: marketProductCategories, isLoading: isMarketProductCategoriesLoading } =
     useGetMarketProductCategoriesQuery();
 
   const marketProductCategoryOptions = marketProductCategories
@@ -40,15 +30,17 @@ const useMarketDirectoryData = (marketDirectoryInfo?: MarketDirectoryInfo) => {
       )
     : [];
 
-  const transformedMarketDirectoryProducts = market_product_categories?.map((category) => {
-    return marketProductCategoryOptions.find(
-      (option) => option.value === category.market_product_category_id,
-    );
-  });
+  const transformedMarketDirectoryProducts = marketDirectoryInfo?.market_product_categories?.map(
+    (category) => {
+      return marketProductCategoryOptions.find(
+        (option) => option.value === category.market_product_category_id,
+      );
+    },
+  );
 
   return useMemo(() => {
     if (isMarketProductCategoriesLoading || !marketDirectoryInfo) {
-      return {};
+      return null;
     }
     return {
       ...marketDirectoryInfo,

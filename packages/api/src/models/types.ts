@@ -649,6 +649,7 @@ export type MarketDirectoryInfo = {
   instagram?: string | null;
   facebook?: string | null;
   x?: string | null;
+  consented_to_share?: boolean;
 };
 
 export type MarketProductCategory = {

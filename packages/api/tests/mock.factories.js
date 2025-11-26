@@ -27,7 +27,7 @@ function fakeUser(defaultData = {}) {
     email: email.toLowerCase(),
     user_id: faker.datatype.uuid(),
     status_id: 1,
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     gender: faker.helpers.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
     do_not_email: false,
@@ -42,7 +42,7 @@ function fakeSSOUser(defaultData = {}) {
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.number({ min: 2, max: 10 }),
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
@@ -57,13 +57,13 @@ async function farmFactory(farmObject = fakeFarm()) {
 
 function fakeFarm(defaultData = {}) {
   return {
-    farm_name: faker.company.companyName(),
+    farm_name: faker.company.name(),
     address: faker.address.streetAddress(),
     grid_points: {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     },
-    farm_phone_number: faker.phone.phoneNumber(),
+    farm_phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
@@ -1985,7 +1985,7 @@ function fakeSupportTicket(farm_id, defaultData = {}) {
     message: faker.lorem.paragraphs(),
     attachments,
     email: faker.internet.email(),
-    whatsapp: faker.phone.phoneNumber(),
+    whatsapp: faker.phone.number(),
     farm_id,
     ...defaultData,
   };
@@ -2666,7 +2666,7 @@ async function animal_type_use_relationshipFactory({
 }
 
 async function addon_partnerFactory(partner) {
-  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const fakePartner = partner ? null : { name: faker.company.name() };
   const [existingPartner] = await knex('addon_partner').where({
     name: partner ? partner.name : fakePartner.name,
   });

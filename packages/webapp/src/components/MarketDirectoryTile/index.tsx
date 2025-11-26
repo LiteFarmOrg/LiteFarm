@@ -43,7 +43,7 @@ export const PureMarketDirectoryTile = ({
   classNames,
   isReadOnly = false,
 }: PureMarketDirectoryTileProps) => {
-  const { t } = useTranslation(['trslation', 'common']);
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <div className={clsx(styles.container, hasConsent && styles.isChecked, classNames?.container)}>

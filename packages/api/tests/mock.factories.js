@@ -2720,6 +2720,28 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
+function fakeMarketDirectoryPartnerAuth(defaultData = {}) {
+  return {
+    client_id: faker.datatype.uuid(),
+    keycloak_url: 'https://keycloak.test.com',
+    keycloak_realm: 'test-realm',
+    webhook_endpoint: faker.internet.url(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_partner_authFactory(
+  { promisedPartner = market_directory_partnerFactory() } = {},
+  partnerAuth = fakeMarketDirectoryPartnerAuth(),
+) {
+  const [partner] = await Promise.all([promisedPartner]);
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_auth')
+    .insert({ market_directory_partner_id, ...partnerAuth })
+    .returning('*');
+}
+
 async function market_product_categoryFactory(key = faker.lorem.word()) {
   return knex('market_product_category').insert({ key }).returning('*');
 }
@@ -3014,5 +3036,8 @@ export default {
   market_directory_info_market_product_categoryFactory,
   market_directory_partnerFactory,
   market_directory_partner_countryFactory,
+  fakeMarketDirectoryPartner,
+  fakeMarketDirectoryPartnerAuth,
+  market_directory_partner_authFactory,
   baseProperties,
 };

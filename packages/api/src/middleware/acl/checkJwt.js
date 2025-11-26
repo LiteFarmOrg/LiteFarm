@@ -31,6 +31,7 @@ const checkJwt = expressjwt({
     /\/farm\/utc_offset_by_range\//i,
     /\/api-docs\/*/,
     /\/api-spec\/*/,
+    /\/dfc\//i,
   ],
 });
 

@@ -18,20 +18,16 @@ import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 import type { HttpError } from '../types.js';
 
-interface DfcFarmDataRouteParams {
-  market_directory_info_id: string;
-}
-
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
-    return async (req: Request<DfcFarmDataRouteParams>, res: Response) => {
-      const { market_directory_info_id } = req.params;
+    return async (req: Request, res: Response) => {
+      const { id } = req.params;
 
       try {
         const marketDirectoryInfo = await MarketDirectoryInfo
           /* @ts-expect-error known issue with models */
           .query()
-          .findById(market_directory_info_id);
+          .findById(id);
 
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
 

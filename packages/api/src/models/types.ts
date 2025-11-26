@@ -664,3 +664,15 @@ export type MarketDirectoryInfoMarketProductCategory = {
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
   market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
 }
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}
+
+export interface MarketDirectoryPartnerAuth {
+  market_directory_partner_id: number;
+  client_id: string;
+  keycloak_url: string;
+  keycloak_realm: string;
+  webhook_endpoint?: string;
+}

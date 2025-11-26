@@ -15,12 +15,15 @@
 
 import express from 'express';
 import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
+import checkMarketPartnerAuth from '../middleware/acl/checkMarketPartnerAuth.js';
+import { checkMarketDirectoryInfoRecord } from '../middleware/validation/checkMarketDirectoryInfo.js';
 
 const router = express.Router();
 
 router.get(
-  '/enterprise/:market_directory_info_id',
-  // LF-4997 Add keycloak authentication middleware here
+  '/enterprise/:id',
+  checkMarketPartnerAuth(),
+  checkMarketDirectoryInfoRecord({ errorMessage: 'Enterprise not found' }),
   DataFoodConsortiumController.getDfcEnterprise(),
 );
 

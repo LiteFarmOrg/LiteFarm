@@ -1,0 +1,13 @@
+{
+  "MARKET_PRODUCT_CATEGORY": {
+    "BAKERY": "Bakery",
+    "DAIRY_PRODUCT": " Dairy",
+    "DRINK": "Drink",
+    "FROZEN": "Frozen",
+    "FRUIT": "Fruit",
+    "INEDIBLE": "Inedible",
+    "LOCAL_GROCERY_STORE": "Local Grocery Store",
+    "MEAT_PRODUCT": "Meat",
+    "VEGETABLE": "Vegetable"
+  }
+}

@@ -1478,6 +1478,9 @@
     },
     "MARKET_DIRECTORIES": "Market directories",
     "MARKET_DIRECTORY_INFO": "Market directory info",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": "List products directly in OFN stores."
+    },
     "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"
   },
   "MENU": {

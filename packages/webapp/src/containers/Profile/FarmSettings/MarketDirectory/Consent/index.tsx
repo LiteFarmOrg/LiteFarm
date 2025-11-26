@@ -15,25 +15,43 @@
 
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import i18n from '../../../../../locales/i18n';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
 import {
   PureMarketDirectoryTile,
   PureMarketDirectoryTileProps,
 } from '../../../../../components/MarketDirectoryTile';
 import { MarketDirectoryPartner } from '../../../../../store/api/types';
+import OFNLogo from '../../../../../assets/images/marketDirectory/logo-ofn-global.png';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
 }
 
-// TODO: Populate info for partners added to the market_directory_partner table
+const LogoAndCountry = ({ country }: { country: string }) => {
+  return (
+    <div className={styles.logoAndCountry}>
+      <img src={OFNLogo} width="143" height="50" />
+      <span>{country}</span>
+    </div>
+  );
+};
+
 const PARTNERS_INFO: {
   [key: MarketDirectoryPartner['key']]: Pick<
     PureMarketDirectoryTileProps,
-    'name' | 'description' | 'termsUrl' | 'logo'
+    'name' | 'description' | 'website' | 'termsUrl' | 'logo'
   >;
-} = {};
+} = {
+  OFN_CANADA: {
+    name: 'OFN Canada',
+    description: i18n.t('MARKET_DIRECTORY.PARTNERS.OFN_DESCRIPTION'),
+    website: 'https://openfoodnetwork.ca/',
+    termsUrl: 'https://openfoodnetwork.ca/', // TODO: Update
+    logo: <LogoAndCountry country="Canada" />,
+  },
+};
 
 const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();

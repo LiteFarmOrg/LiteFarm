@@ -17,6 +17,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 import jwt from 'jsonwebtoken';
+import { faker } from '@faker-js/faker';
 
 import server from '../src/server.js';
 import knex from '../src/util/knex.js';
@@ -86,7 +87,8 @@ describe('Data Food Consortium Tests', () => {
   async function createPartnerWithAuth() {
     const [partner] = await mocks.market_directory_partnerFactory();
 
-    const clientId = `${partner.key}-client-id`;
+    // Append a UUID to ensure uniqueness
+    const clientId = `${partner.key}-${faker.datatype.uuid()}`;
 
     await mocks.market_directory_partner_authFactory(
       { promisedPartner: Promise.resolve([partner]) },

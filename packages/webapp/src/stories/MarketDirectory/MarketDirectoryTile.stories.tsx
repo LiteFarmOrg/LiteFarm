@@ -28,6 +28,7 @@ const meta: Meta<typeof PureMarketDirectoryTile> = {
     logo: <img src={Logo} alt="logo" width="100%" height="50px" />,
     name: 'LiteFarm',
     description: 'List products directly in LiteFarm stores.',
+    website: 'https://litefarm.org',
     termsUrl: 'https://litefarm.org',
     onConsentChange: () => console.log('onConsentChange'),
     classNames: { container: styles.container },

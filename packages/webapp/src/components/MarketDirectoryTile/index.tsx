@@ -23,6 +23,7 @@ import styles from './styles.module.scss';
 export interface PureMarketDirectoryTileProps {
   name: string;
   description: string;
+  website: string;
   termsUrl: string;
   logo: ReactNode;
   hasConsent: boolean;
@@ -34,6 +35,7 @@ export interface PureMarketDirectoryTileProps {
 export const PureMarketDirectoryTile = ({
   name,
   description,
+  website,
   termsUrl,
   logo,
   hasConsent,
@@ -46,7 +48,9 @@ export const PureMarketDirectoryTile = ({
   return (
     <div className={clsx(styles.container, hasConsent && styles.isChecked, classNames?.container)}>
       {hasConsent && <CheckIcon className={styles.checkIcon} />}
-      <div className={styles.logo}>{logo}</div>
+      <a className={styles.logo} href={website} target="_blank" rel="noreferrer">
+        {logo}
+      </a>
       <p className={styles.description}>{description}</p>
       <p className={styles.message}>
         <Trans i18nKey="MARKET_DIRECTORY.AGREE_WITH_TERMS">

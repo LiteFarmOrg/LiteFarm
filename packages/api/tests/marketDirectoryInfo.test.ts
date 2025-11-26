@@ -254,7 +254,7 @@ describe('Market Directory Info Tests', () => {
         promisedFarm: Promise.resolve([{ farm_id }]),
         roleId: 3,
       });
-      const res = await postRequest(marketDirectoryInfo, { farm_id, user_id });
+      const res = await getRequest({ farm_id, user_id });
       expect(res.status).toBe(403);
     });
 

@@ -79,6 +79,7 @@ class MarketDirectoryInfo extends baseModel {
         instagram: { type: ['string', 'null'], maxLength: 255 },
         facebook: { type: ['string', 'null'], maxLength: 255 },
         x: { type: ['string', 'null'], maxLength: 255 },
+        consented_to_share: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,

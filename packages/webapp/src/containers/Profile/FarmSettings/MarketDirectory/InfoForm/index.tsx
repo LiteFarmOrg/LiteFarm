@@ -30,6 +30,9 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import InFormButtons from '../../../../../components/Form/InFormButtons';
 import type { MarketDirectoryInfo } from '../../../../../store/api/types';
 import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
+import { ReactSelectOptionForEnum } from '../../../../../components/Form/ReactSelect/util';
+import useMarketDirectoryData from './useMarketDirectoryData';
+import { formatMarketDirectoryData } from './util';
 
 export enum FormMode {
   ADD = 'add',
@@ -39,9 +42,14 @@ export enum FormMode {
 interface MarketDirectoryInfoFormProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
   close: () => void;
+  marketProductCategoryOptions: ReactSelectOptionForEnum[];
 }
 
-const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectoryInfoFormProps) => {
+const MarketDirectoryInfoForm = ({
+  marketDirectoryInfo,
+  close,
+  marketProductCategoryOptions,
+}: MarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
@@ -56,7 +64,8 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   const isReadonly = formMode === FormMode.READONLY;
 
   const userFarmDefaults = useDefaultMarketDirectoryData();
-  const defaultValues = marketDirectoryInfo || userFarmDefaults;
+  const marketDirectoryData = useMarketDirectoryData(marketDirectoryInfo);
+  const defaultValues = marketDirectoryData || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
     mode: 'onBlur',
@@ -69,11 +78,16 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
 
   const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
     const { valid_place, ...dataToSubmit } = formData;
+    const formattedDataToSubmit = formatMarketDirectoryData(dataToSubmit);
+    if (formMode === FormMode.READONLY) {
+      setFormMode(FormMode.EDIT);
+      return;
+    }
 
     const apiCall = hasExistingRecord ? updateMarketDirectoryInfo : addMarketDirectoryInfo;
 
     try {
-      await apiCall(dataToSubmit).unwrap();
+      await apiCall(formattedDataToSubmit).unwrap();
 
       const message = hasExistingRecord
         ? t('message:MARKET_DIRECTORY.SUCCESS.UPDATE')
@@ -120,6 +134,7 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
         close={close}
         getOnFileUpload={getOnFileUpload}
         formMode={formMode}
+        marketProductCategoryOptions={marketProductCategoryOptions}
       />
       <InFormButtons
         confirmText={isReadonly ? t('common:EDIT') : t('common:SAVE')}

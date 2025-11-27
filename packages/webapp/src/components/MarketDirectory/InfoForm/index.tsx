@@ -125,10 +125,10 @@ const PureMarketDirectoryInfoForm = ({
         <Controller
           control={control}
           name={DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES}
+          rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <ReactSelect
               label={t('MARKET_DIRECTORY.INFO_FORM.PRODUCT_CATEGORY')}
-              optional
               isMulti
               value={value}
               onChange={onChange}

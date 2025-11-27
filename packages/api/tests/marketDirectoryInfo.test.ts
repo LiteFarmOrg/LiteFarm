@@ -404,7 +404,7 @@ describe('Market Directory Info Tests', () => {
         const nonExistentPartnerId = 1001;
 
         const patchReqBody = {
-          partners: [{ market_directory_partner_id: nonExistentPartnerId }],
+          partner_permissions: [{ market_directory_partner_id: nonExistentPartnerId }],
         };
 
         const res = await patchRequest(marketDirectoryInfoId, patchReqBody, userFarmIds);
@@ -415,7 +415,7 @@ describe('Market Directory Info Tests', () => {
 
       test('Should add multiple shared partners', async () => {
         const patchReqBody = {
-          partners: [
+          partner_permissions: [
             { market_directory_partner_id: partner1.id },
             { market_directory_partner_id: partner2.id },
           ],
@@ -442,7 +442,7 @@ describe('Market Directory Info Tests', () => {
 
       test('Should remove (soft delete) a shared partner', async () => {
         const patchReqBody = {
-          partners: [
+          partner_permissions: [
             { market_directory_partner_id: partner1.id },
             { market_directory_partner_id: partner2.id },
           ],
@@ -452,7 +452,7 @@ describe('Market Directory Info Tests', () => {
 
         // PATCH again omitting partner 1
         const patchReqBodyRemove = {
-          partners: [{ market_directory_partner_id: partner2.id }],
+          partner_permissions: [{ market_directory_partner_id: partner2.id }],
         };
 
         const res = await patchRequest(marketDirectoryInfoId, patchReqBodyRemove, userFarmIds);
@@ -473,7 +473,7 @@ describe('Market Directory Info Tests', () => {
 
       test('Should restore a previously removed partner', async () => {
         const patchReqBody = {
-          partners: [
+          partner_permissions: [
             { market_directory_partner_id: partner1.id },
             { market_directory_partner_id: partner2.id },
           ],
@@ -483,7 +483,7 @@ describe('Market Directory Info Tests', () => {
 
         // PATCH again omitting both partners to remove them
         const patchReqBodyRemove = {
-          partners: [],
+          partner_permissions: [],
         };
 
         await patchRequest(marketDirectoryInfoId, patchReqBodyRemove, userFarmIds);
@@ -500,7 +500,7 @@ describe('Market Directory Info Tests', () => {
 
         // PATCH again adding back partner 1
         const patchReqBodyRestore = {
-          partners: [{ market_directory_partner_id: partner1.id }],
+          partner_permissions: [{ market_directory_partner_id: partner1.id }],
         };
 
         const res = await patchRequest(marketDirectoryInfoId, patchReqBodyRestore, userFarmIds);

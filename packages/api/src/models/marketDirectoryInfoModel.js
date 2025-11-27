@@ -57,16 +57,17 @@ class MarketDirectoryInfo extends baseModel {
   }
   static get modifiers() {
     return {
-      withCleanedRelations(builder) {
+      withProductCategories(builder) {
+        builder.withGraphFetched({
+          market_product_categories: true,
+        });
+      },
+      withPartnerPermissions(builder) {
         builder
-          .withGraphFetched({
-            market_product_categories: true,
-            partners: true,
-          })
-          .modifyGraph('partners', (builder) => {
+          .withGraphFetched({ partner_permissions: true })
+          .modifyGraph('partner_permissions', (builder) => {
             builder.whereNotDeleted().select('market_directory_partner_id');
           });
-        // Note: The same change to market_product_categories caused test failures so I have omitted it
       },
     };
   }
@@ -112,7 +113,7 @@ class MarketDirectoryInfo extends baseModel {
           to: 'market_directory_info_market_product_category.market_directory_info_id',
         },
       },
-      partners: {
+      partner_permissions: {
         relation: Model.HasManyRelation,
         modelClass: MarketDirectoryPartnerPermissions,
         join: {

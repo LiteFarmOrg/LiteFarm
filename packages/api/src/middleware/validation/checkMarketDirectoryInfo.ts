@@ -27,7 +27,7 @@ import type {
 
 export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
   market_product_categories?: { market_product_category_id: number }[];
-  partners?: { market_directory_partner_id: number }[];
+  partner_permissions?: { market_directory_partner_id: number }[];
 };
 
 export interface MarketDirectoryInfoRouteParams {
@@ -40,7 +40,7 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { address, website, market_product_categories, partners } = req.body;
+    const { address, website, market_product_categories, partner_permissions } = req.body;
 
     const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
 
@@ -66,13 +66,15 @@ export function checkAndTransformMarketDirectoryInfo() {
       return res.status(400).send('Invalid market_product_categories');
     }
 
-    // Validate partners
-    if (partners) {
-      if (!Array.isArray(partners)) {
+    // Validate partner_permissions
+    if (partner_permissions) {
+      if (!Array.isArray(partner_permissions)) {
         return res.status(400).send('Partners must be an array');
       }
 
-      const requestedIds = partners.map((partner) => partner.market_directory_partner_id);
+      const requestedIds = partner_permissions.map(
+        (partner) => partner.market_directory_partner_id,
+      );
 
       if (requestedIds.length) {
         const existingPartners = (await MarketDirectoryPartner.query().whereIn(
@@ -91,9 +93,9 @@ export function checkAndTransformMarketDirectoryInfo() {
       }
     }
 
-    // Transform partners for upsert
-    if (id && partners) {
-      req.body.partners = partners.map((partner) => ({
+    // Transform partner_permissions for upsert
+    if (id && partner_permissions) {
+      req.body.partner_permissions = partner_permissions.map((partner) => ({
         ...partner,
         market_directory_info_id: id, // needed as joint primary key
         deleted: false, // un-delete if previously deleted

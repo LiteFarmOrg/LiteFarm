@@ -32,7 +32,8 @@ const marketDirectoryInfoController = {
         const data = await MarketDirectoryInfoModel.query()
           .where({ farm_id: req.headers.farm_id })
           .whereNotDeleted()
-          .modify('withCleanedRelations')
+          .modify('withProductCategories')
+          .modify('withPartnerPermissions')
           .first();
 
         return res.status(200).json(data || null);

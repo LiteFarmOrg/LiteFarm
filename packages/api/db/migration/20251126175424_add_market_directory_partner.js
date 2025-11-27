@@ -18,12 +18,15 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
+  const canada = await knex('countries').where({ country_name: 'Canada' }).first();
+
   const [ofnCanada] = await knex('market_directory_partner')
     .insert({ key: 'OFN_CANADA' })
     .returning('*');
 
   await knex('market_directory_partner_country').insert({
     market_directory_partner_id: ofnCanada.id,
+    country_id: canada.id,
   });
 };
 

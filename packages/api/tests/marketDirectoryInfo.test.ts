@@ -55,6 +55,7 @@ import {
   MarketDirectoryInfo,
   MarketDirectoryInfoMarketProductCategory,
   MarketDirectoryInfoWithRelations,
+  MarketDirectoryPartner,
   MarketProductCategory,
 } from '../src/models/types.js';
 
@@ -382,6 +383,140 @@ describe('Market Directory Info Tests', () => {
         .where({ id: marketDirectoryInfoId });
       const res = await patchRequest(marketDirectoryInfoId, marketDirectoryInfo, userFarmIds);
       expect(res.status).toBe(404);
+    });
+
+    describe('Adding and removing shared directory partners', () => {
+      let partner1: MarketDirectoryPartner;
+      let partner2: MarketDirectoryPartner;
+      let userFarmIds: HeadersParams;
+      let marketDirectoryInfoId: string;
+
+      beforeEach(async () => {
+        [partner1] = await mocks.market_directory_partnerFactory();
+        [partner2] = await mocks.market_directory_partnerFactory();
+
+        userFarmIds = await createUserFarmIds(1);
+
+        marketDirectoryInfoId = await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
+      });
+
+      test('Should only allow adding existing partners', async () => {
+        const nonExistentPartnerId = 1001;
+
+        const patchReqBody = {
+          partners: [{ market_directory_partner_id: nonExistentPartnerId }],
+        };
+
+        const res = await patchRequest(marketDirectoryInfoId, patchReqBody, userFarmIds);
+
+        expect(res.status).toBe(400);
+        expect(res.text).toBe(`One or more partner does not exist: ${nonExistentPartnerId}`);
+      });
+
+      test('Should add multiple shared partners', async () => {
+        const patchReqBody = {
+          partners: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        };
+
+        const res = await patchRequest(marketDirectoryInfoId, patchReqBody, userFarmIds);
+
+        expect(res.status).toBe(204);
+
+        // Check database
+        const permissions = await knex('market_directory_partner_permissions').where({
+          market_directory_info_id: marketDirectoryInfoId,
+        });
+
+        expect(permissions).toHaveLength(2);
+
+        expect(permissions).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ market_directory_partner_id: partner1.id }),
+            expect.objectContaining({ market_directory_partner_id: partner2.id }),
+          ]),
+        );
+      });
+
+      test('Should remove (soft delete) a shared partner', async () => {
+        const patchReqBody = {
+          partners: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        };
+
+        await patchRequest(marketDirectoryInfoId, patchReqBody, userFarmIds);
+
+        // PATCH again omitting partner 1
+        const patchReqBodyRemove = {
+          partners: [{ market_directory_partner_id: partner2.id }],
+        };
+
+        const res = await patchRequest(marketDirectoryInfoId, patchReqBodyRemove, userFarmIds);
+
+        expect(res.status).toBe(204);
+
+        // Check database
+        const permission = await knex('market_directory_partner_permissions')
+          .where({
+            market_directory_info_id: marketDirectoryInfoId,
+            market_directory_partner_id: partner1.id,
+          })
+          .first();
+
+        expect(permission).toBeDefined();
+        expect(permission.deleted).toBe(true);
+      });
+
+      test('Should restore a previously removed partner', async () => {
+        const patchReqBody = {
+          partners: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        };
+
+        await patchRequest(marketDirectoryInfoId, patchReqBody, userFarmIds);
+
+        // PATCH again omitting both partners to remove them
+        const patchReqBodyRemove = {
+          partners: [],
+        };
+
+        await patchRequest(marketDirectoryInfoId, patchReqBodyRemove, userFarmIds);
+
+        // Cnfirm both are deleted
+        const permissions = await knex('market_directory_partner_permissions')
+          .where({ market_directory_info_id: marketDirectoryInfoId })
+          .whereIn('market_directory_partner_id', [partner1.id, partner2.id]);
+
+        expect(permissions).toHaveLength(2);
+        permissions.forEach((record) => {
+          expect(record.deleted).toBe(true);
+        });
+
+        // PATCH again adding back partner 1
+        const patchReqBodyRestore = {
+          partners: [{ market_directory_partner_id: partner1.id }],
+        };
+
+        const res = await patchRequest(marketDirectoryInfoId, patchReqBodyRestore, userFarmIds);
+        expect(res.status).toBe(204);
+
+        // Check database
+        const permission = await knex('market_directory_partner_permissions')
+          .where({
+            market_directory_info_id: marketDirectoryInfoId,
+            market_directory_partner_id: partner1.id,
+          })
+          .first();
+
+        expect(permission).toBeDefined();
+        expect(permission.deleted).toBe(false);
+      });
     });
 
     describe('Should return 400 for invalid data', () => {

@@ -96,3 +96,25 @@
     }
   }
 }
+
+.marketplaceSuggestionTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    font-size: 16px;
+    line-height: normal;
+    margin-bottom: 16px;
+    color: #000;
+  }
+
+  .suggestButton {
+    width: fit-content;
+    height: 40px;
+    display: flex;
+    gap: 8px;
+    align-self: center;
+    align-items: center;
+  }
+}

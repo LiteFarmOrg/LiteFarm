@@ -18,6 +18,8 @@ import clsx from 'clsx';
 import { useTranslation, Trans } from 'react-i18next';
 import { ReactComponent as CheckIcon } from '../../assets/images/check-circle2.svg';
 import Switch from '../Form/Switch';
+import Button from '../Form/Button';
+import { ReactComponent as MessageSquareIcon } from '../../assets/images/message-square-02.svg';
 import styles from './styles.module.scss';
 
 export interface PureMarketDirectoryTileProps {
@@ -70,6 +72,22 @@ export const PureMarketDirectoryTile = ({
         checked={hasConsent}
         disabled={isReadOnly}
       />
+    </div>
+  );
+};
+
+export const MarketplaceSuggestionTile = ({ onClick }: { onClick: () => void }) => {
+  const { t } = useTranslation(['translation', 'common']);
+
+  return (
+    <div className={clsx(styles.container, styles.marketplaceSuggestionTile)}>
+      <p>
+        <Trans i18nKey="MARKET_DIRECTORY.KNOW_A_MARKETPLACE" components={{ br: <br /> }} />
+      </p>
+      <Button sm color="secondary" onClick={onClick} className={styles.suggestButton}>
+        <MessageSquareIcon />
+        {t('common:SUGGEST')}
+      </Button>
     </div>
   );
 };

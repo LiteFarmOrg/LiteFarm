@@ -68,8 +68,7 @@ const MarketDirectoryInfoForm = ({
   const defaultValues = marketDirectoryData || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    mode: 'onChange',
     defaultValues: defaultValues,
   });
 

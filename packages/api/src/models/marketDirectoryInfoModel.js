@@ -17,6 +17,7 @@ import baseModel from './baseModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import Model from './baseFormatModel.js';
 import MarketDirectoryInfoMarketProductCategoryModel from './marketDirectoryInfoMarketProductCategoryModel.js';
+import MarketDirectoryPartnerPermissions from './marketDirectoryPartnerPermissions.js';
 
 class MarketDirectoryInfo extends baseModel {
   static get tableName() {
@@ -53,6 +54,21 @@ class MarketDirectoryInfo extends baseModel {
         this[key] = checkAndTrimString(this[key]);
       }
     }
+  }
+  static get modifiers() {
+    return {
+      withCleanedRelations(builder) {
+        builder
+          .withGraphFetched({
+            market_product_categories: true,
+            partners: true,
+          })
+          .modifyGraph('partners', (builder) => {
+            builder.whereNotDeleted().select('market_directory_partner_id');
+          });
+        // Note: The same change to market_product_categories caused test failures so I have omitted it
+      },
+    };
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -94,6 +110,14 @@ class MarketDirectoryInfo extends baseModel {
         join: {
           from: 'market_directory_info.id',
           to: 'market_directory_info_market_product_category.market_directory_info_id',
+        },
+      },
+      partners: {
+        relation: Model.HasManyRelation,
+        modelClass: MarketDirectoryPartnerPermissions,
+        join: {
+          from: 'market_directory_info.id',
+          to: 'market_directory_partner_permissions.market_directory_info_id',
         },
       },
     };

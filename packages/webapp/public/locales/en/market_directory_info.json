@@ -1,11 +1,14 @@
 {
   "MARKET_PRODUCT_CATEGORY": {
+    "ALCOHOLIC_BEVERAGE": "Alcoholic Beverages",
     "BAKERY": "Baked Goods",
     "DAIRY_PRODUCT": "Dairy Products",
-    "DRINK": "Beverages",
+    "EGG": "Eggs",
+    "FLOWER": "Flowers",
     "FROZEN": "Frozen Foods",
     "FRUIT": "Fruits",
     "MEAT_PRODUCT": "Meat Products",
+    "PLANT": "Plants",
     "VEGETABLE": "Vegetables"
   }
 }

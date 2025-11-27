@@ -649,6 +649,7 @@ export type MarketDirectoryInfo = {
   instagram?: string | null;
   facebook?: string | null;
   x?: string | null;
+  consented_to_share?: boolean;
 };
 
 export type MarketProductCategory = {
@@ -675,4 +676,9 @@ export interface MarketDirectoryPartnerAuth {
   keycloak_url: string;
   keycloak_realm: string;
   webhook_endpoint?: string;
+}
+
+export interface MarketDirectoryPartnerPermissions extends BaseProperties {
+  market_directory_info_id: string;
+  market_directory_partner_id: number;
 }

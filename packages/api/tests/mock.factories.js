@@ -2803,6 +2803,22 @@ async function market_directory_partner_countryFactory({
     .returning('*');
 }
 
+async function market_directory_partner_permissionsFactory({
+  promisedDirectoryInfo = market_directory_infoFactory(),
+  promisedPartner = market_directory_partnerFactory(),
+} = {}) {
+  const [marketDirectoryInfo, partner] = await Promise.all([
+    promisedDirectoryInfo,
+    promisedPartner,
+  ]);
+  const [{ id: market_directory_info_id }] = marketDirectoryInfo;
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_permissions')
+    .insert({ market_directory_info_id, market_directory_partner_id })
+    .returning('*');
+}
+
 // External endpoint helper mocks
 export const buildExternalIrrigationPrescription = async ({
   id,
@@ -3039,5 +3055,6 @@ export default {
   fakeMarketDirectoryPartner,
   fakeMarketDirectoryPartnerAuth,
   market_directory_partner_authFactory,
+  market_directory_partner_permissionsFactory,
   baseProperties,
 };

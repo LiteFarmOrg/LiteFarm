@@ -27,7 +27,6 @@ export const up = async function (knex) {
     .del();
   await knex('market_product_category').whereIn('key', deleteCategories).del();
 
-  // Starting point is Data Food consortium top concepts found at:
   // https://github.com/datafoodconsortium/taxonomies/blob/main/productTypes.json
   const newCategories = ['ALCOHOLIC_BEVERAGE', 'EGG', 'FLOWER', 'PLANT'];
 
@@ -49,8 +48,6 @@ export const down = async function (knex) {
     .del();
   await knex('market_product_category').whereIn('key', deleteCategories).del();
 
-  // Starting point is Data Food consortium top concepts found at:
-  // https://github.com/datafoodconsortium/taxonomies/blob/main/productTypes.json
   const newCategories = ['DRINK', 'INEDIBLE', 'LOCAL_GROCERY_STORE'];
 
   const rows = newCategories.map((category) => ({ key: category }));

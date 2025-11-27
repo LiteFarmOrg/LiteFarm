@@ -15,45 +15,18 @@
 
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import i18n from '../../../../../locales/i18n';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
 import {
-  MarketplaceSuggestionTile,
   PureMarketDirectoryTile,
-  PureMarketDirectoryTileProps,
+  MarketplaceSuggestionTile,
 } from '../../../../../components/MarketDirectoryTile';
-import { MarketDirectoryPartner } from '../../../../../store/api/types';
-import OFNLogo from '../../../../../assets/images/marketDirectory/logo-ofn-global.png';
+import { PARTNERS_INFO } from './partners';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
   setFeedbackSurveyOpen: () => void;
 }
-
-const LogoAndCountry = ({ country }: { country: string }) => {
-  return (
-    <div className={styles.logoAndCountry}>
-      <img src={OFNLogo} width="143" height="50" />
-      <span>{country}</span>
-    </div>
-  );
-};
-
-const PARTNERS_INFO: {
-  [key: MarketDirectoryPartner['key']]: Pick<
-    PureMarketDirectoryTileProps,
-    'name' | 'description' | 'website' | 'termsUrl' | 'logo'
-  >;
-} = {
-  OFN_CANADA: {
-    name: 'OFN Canada',
-    description: i18n.t('MARKET_DIRECTORY.PARTNERS.OFN_DESCRIPTION'),
-    website: 'https://openfoodnetwork.ca/',
-    termsUrl: 'https://openfoodnetwork.ca/', // TODO: Update
-    logo: <LogoAndCountry country="Canada" />,
-  },
-};
 
 const MarketDirectoryConsent = ({
   disabled,
@@ -65,11 +38,11 @@ const MarketDirectoryConsent = ({
   return (
     <div className={styles.consentContainer}>
       <div className={styles.consent}>
-        <h3 className={styles.consentTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
+        <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
         {disabled && <WarningBanner t={t} />}
       </div>
       <div className={styles.marketDirectories}>
-        <h3 className={styles.consentTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>
+        <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>
         <p className={styles.lead}>{t('MARKET_DIRECTORY.WHERE_TO_BE_FEATURED')}</p>
         <div className={clsx(styles.marketTiles)}>
           {marketDirectoryPartners.map(({ key }) => {
@@ -77,7 +50,8 @@ const MarketDirectoryConsent = ({
               <PureMarketDirectoryTile
                 key={key}
                 {...PARTNERS_INFO[key]}
-                hasConsent={false}
+                hasConsent={false} // TODO: LF-4992
+                onConsentChange={undefined} // TODO: LF-4992
                 isReadOnly={disabled}
               />
             );

@@ -22,7 +22,7 @@
   flex-direction: column;
   gap: 32px;
 
-  .consentTitle {
+  .sectionTitle {
     font-size: 16px;
     line-height: 24px;
     color: var(--Colors-Neutral-Neutral-900);
@@ -48,13 +48,13 @@
 }
 
 .consent {
-  .consentTitle {
+  .sectionTitle {
     margin-bottom: 16px;
   }
 }
 
 .marketDirectories {
-  .consentTitle {
+  .sectionTitle {
     margin-bottom: 4px;
   }
 

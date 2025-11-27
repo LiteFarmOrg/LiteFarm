@@ -18,6 +18,7 @@ import clsx from 'clsx';
 import i18n from '../../../../../locales/i18n';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
 import {
+  MarketplaceSuggestionTile,
   PureMarketDirectoryTile,
   PureMarketDirectoryTileProps,
 } from '../../../../../components/MarketDirectoryTile';
@@ -27,6 +28,7 @@ import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
+  setFeedbackSurveyOpen: () => void;
 }
 
 const LogoAndCountry = ({ country }: { country: string }) => {
@@ -53,7 +55,10 @@ const PARTNERS_INFO: {
   },
 };
 
-const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
+const MarketDirectoryConsent = ({
+  disabled,
+  setFeedbackSurveyOpen,
+}: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const { data: marketDirectoryPartners = [] } = useGetMarketDirectoryPartnersQuery();
 
@@ -77,6 +82,7 @@ const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
               />
             );
           })}
+          <MarketplaceSuggestionTile onClick={setFeedbackSurveyOpen} />
         </div>
       </div>
     </div>

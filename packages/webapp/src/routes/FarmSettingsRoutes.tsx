@@ -23,14 +23,14 @@ const MarketDirectory = React.lazy(
 );
 const FarmAddons = React.lazy(() => import('../containers/Profile/FarmSettings/Addons'));
 
-const FarmSettingsRoutes = () => (
+const FarmSettingsRoutes = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () => void }) => (
   <FarmSettingsProvider>
     <Switch>
       <Route path="/farm_settings/basic_profile" exact>
         <BasicProfile />
       </Route>
       <Route path="/farm_settings/market_directory" exact>
-        <MarketDirectory />
+        <MarketDirectory setFeedbackSurveyOpen={setFeedbackSurveyOpen} />
       </Route>
       <Route path="/farm_settings/addons" exact>
         <FarmAddons />

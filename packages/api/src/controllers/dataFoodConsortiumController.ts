@@ -18,7 +18,10 @@ import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 import type { HttpError } from '../types.js';
 import MarketDirectoryPartnerPermissions from '../models/marketDirectoryPartnerPermissions.js';
-import type { MarketDirectoryPartnerPermissions as MarketDirectoryPartnerPermissionsType } from '../models/types.js';
+import type {
+  MarketDirectoryPartnerPermissions as MarketDirectoryPartnerPermissionsType,
+  MarketDirectoryInfo as MarketDirectoryInfoType,
+} from '../models/types.js';
 
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
@@ -59,7 +62,7 @@ const dataFoodConsortiumController = {
             .select('market_directory_info_id')
             .whereNotDeleted();
 
-        const authorizedFarmsDirectoryInfo = await MarketDirectoryInfo
+        const authorizedFarmsDirectoryInfo: MarketDirectoryInfoType[] = await MarketDirectoryInfo
           /* @ts-expect-errors known issue with models */
           .query()
           .whereIn(
@@ -67,12 +70,11 @@ const dataFoodConsortiumController = {
             authorizedFarms.map(({ market_directory_info_id }) => market_directory_info_id),
           );
 
-        const dfcFormattedListingData = [];
-
-        for (const marketDirectoryInfo of authorizedFarmsDirectoryInfo) {
-          const formattedData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
-          dfcFormattedListingData.push(formattedData);
-        }
+        const dfcFormattedListingData = await Promise.all(
+          authorizedFarmsDirectoryInfo.map((marketDirectoryInfo) => {
+            return formatFarmDataToDfcStandard(marketDirectoryInfo);
+          }),
+        );
 
         return res.status(200).send(dfcFormattedListingData);
       } catch (error: unknown) {

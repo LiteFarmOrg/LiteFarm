@@ -146,6 +146,7 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_removal_reason";
     DELETE FROM "farm_addon";
     DELETE FROM "addon_partner";
+    DELETE FROM "market_directory_partner_permissions";
     DELETE FROM "market_directory_info_market_product_category";
     DELETE FROM "market_directory_info";
     DELETE FROM "market_product_category";

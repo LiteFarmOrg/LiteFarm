@@ -18,7 +18,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 32px 24px 24px 24px;
+  padding: 16px 24px;
 
   border-radius: 8px;
   border: solid 1px var(--Colors-Primary-Primary-teal-50);
@@ -46,7 +46,7 @@
   }
 
   .description {
-    min-height: 44px;
+    min-height: 40px;
     color: #000;
     line-height: normal;
     margin-bottom: 16px;

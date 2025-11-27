@@ -265,6 +265,39 @@ describe('Market Directory Info Tests', () => {
       expect(res.status).toBe(200);
       expect(res.body).toBe(null);
     });
+
+    test('Should return partner_permissions with correct shape', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfoId = await makeMarketDirectoryInfo(userFarmIds, marketDirectoryInfo);
+
+      // Add two partners
+      const [partner1] = await mocks.market_directory_partnerFactory();
+      const [partner2] = await mocks.market_directory_partnerFactory();
+
+      // Link partners to market directory info
+      await knex('market_directory_partner_permissions').insert([
+        {
+          market_directory_info_id: marketDirectoryInfoId,
+          market_directory_partner_id: partner1.id,
+        },
+        {
+          market_directory_info_id: marketDirectoryInfoId,
+          market_directory_partner_id: partner2.id,
+        },
+      ]);
+
+      const res = await getRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+
+      expect(res.body.partner_permissions).toEqual(
+        expect.arrayContaining([
+          { market_directory_partner_id: partner1.id },
+          { market_directory_partner_id: partner2.id },
+        ]),
+      );
+      expect(res.body.partner_permissions).toHaveLength(2);
+    });
   });
 
   describe('POST Market Directory Info', () => {

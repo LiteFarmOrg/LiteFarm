@@ -19,10 +19,15 @@ import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
-import { MarketDirectoryInfo } from '../../models/types.js';
+import MarketDirectoryPartner from '../../models/marketDirectoryPartnerModel.js';
+import type {
+  MarketDirectoryInfo,
+  MarketDirectoryPartner as MarketDirectoryPartnerType,
+} from '../../models/types.js';
 
 export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
   market_product_categories?: { market_product_category_id: number }[];
+  partners?: { market_directory_partner_id: number }[];
 };
 
 export interface MarketDirectoryInfoRouteParams {
@@ -35,7 +40,9 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { address, website, market_product_categories } = req.body;
+    const { address, website, market_product_categories, partners } = req.body;
+
+    const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
 
     if (req.method === 'POST') {
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
@@ -57,6 +64,40 @@ export function checkAndTransformMarketDirectoryInfo() {
       (!Array.isArray(market_product_categories) || market_product_categories.length === 0)
     ) {
       return res.status(400).send('Invalid market_product_categories');
+    }
+
+    // Validate partners
+    if (partners) {
+      if (!Array.isArray(partners)) {
+        return res.status(400).send('Partners must be an array');
+      }
+
+      const requestedIds = partners.map((partner) => partner.market_directory_partner_id);
+
+      if (requestedIds.length) {
+        const existingPartners = (await MarketDirectoryPartner.query().whereIn(
+          'id',
+          requestedIds,
+        )) as unknown as MarketDirectoryPartnerType[];
+
+        const existingIds = existingPartners.map((partner) => partner.id);
+        const missingIds = requestedIds.filter((id) => !existingIds.includes(id));
+
+        if (missingIds.length) {
+          return res
+            .status(400)
+            .send(`One or more partner does not exist: ${missingIds.join(', ')}`);
+        }
+      }
+    }
+
+    // Transform partners for upsert
+    if (id && partners) {
+      req.body.partners = partners.map((partner) => ({
+        ...partner,
+        market_directory_info_id: id, // needed as joint primary key
+        deleted: false, // un-delete if previously deleted
+      }));
     }
 
     for (const emailProperty of ['contact_email', 'email'] as const) {

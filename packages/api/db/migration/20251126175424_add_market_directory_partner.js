@@ -18,16 +18,25 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
+  let ofnCanada = await knex('market_directory_partner').where({ key: 'OFN_CANADA' }).first();
+
+  if (!ofnCanada) {
+    [ofnCanada] = await knex('market_directory_partner')
+      .insert({ key: 'OFN_CANADA' })
+      .returning('*');
+  }
+
   const canada = await knex('countries').where({ country_name: 'Canada' }).first();
+  const countryRelation = await knex('market_directory_partner_country')
+    .where({ market_directory_partner_id: ofnCanada.id, country_id: canada.id })
+    .first();
 
-  const [ofnCanada] = await knex('market_directory_partner')
-    .insert({ key: 'OFN_CANADA' })
-    .returning('*');
-
-  await knex('market_directory_partner_country').insert({
-    market_directory_partner_id: ofnCanada.id,
-    country_id: canada.id,
-  });
+  if (!countryRelation) {
+    await knex('market_directory_partner_country').insert({
+      market_directory_partner_id: ofnCanada.id,
+      country_id: canada.id,
+    });
+  }
 };
 
 /**
@@ -35,12 +44,25 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
-  const ofnCanada = await knex('market_directory_partner').where({ key: 'OFN_CANADA' }).first();
+  try {
+    // Cleanup OFN_CANADA and its country relation if not in use elsewhere.
+    // Foreign key constraint errors are expected and ignored.
+    const canada = await knex('countries').where({ country_name: 'Canada' }).first();
+    const ofnCanada = await knex('market_directory_partner').where({ key: 'OFN_CANADA' }).first();
 
-  await knex('market_directory_partner_country')
-    .where({
-      market_directory_partner_id: ofnCanada.id,
-    })
-    .del();
-  await knex('market_directory_partner').where('id', ofnCanada.id).del();
+    await knex('market_directory_partner_country')
+      .where({
+        market_directory_partner_id: ofnCanada.id,
+        country_id: canada.id,
+      })
+      .del();
+    await knex('market_directory_partner').where({ id: ofnCanada.id }).del();
+  } catch (e) {
+    // foreign_key_violation = 23503
+    if (e.code === '23503') {
+      console.log('Could not delete OFN_CANADA - in use by other records');
+      return;
+    }
+    throw e;
+  }
 };

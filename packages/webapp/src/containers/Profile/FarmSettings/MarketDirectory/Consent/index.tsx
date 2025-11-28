@@ -33,7 +33,8 @@ const MarketDirectoryConsent = ({
   setFeedbackSurveyOpen,
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
-  const { data: marketDirectoryPartners = [] } = useGetMarketDirectoryPartnersQuery();
+  const { data: marketDirectoryPartners = [] } =
+    useGetMarketDirectoryPartnersQuery('?filter=country');
 
   return (
     <div className={styles.consentContainer}>

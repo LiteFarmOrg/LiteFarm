@@ -19,9 +19,9 @@ import { MarketDirectoryPartner } from './types';
 
 export const marketDirectoryPartners = api.injectEndpoints({
   endpoints: (build) => ({
-    getMarketDirectoryPartners: build.query<MarketDirectoryPartner[], void>({
-      query: () => ({
-        url: `${marketDirectoryPartnersUrl}`,
+    getMarketDirectoryPartners: build.query<MarketDirectoryPartner[], string | void>({
+      query: (param = '') => ({
+        url: `${marketDirectoryPartnersUrl}${param}`,
         method: 'GET',
       }),
       providesTags: ['MarketDirectoryPartners'],

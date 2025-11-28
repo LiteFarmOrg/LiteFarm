@@ -21,6 +21,7 @@ const marketProductCategoryController = {
   getMarketProductCategories() {
     return async (_req: LiteFarmRequest, res: Response) => {
       try {
+        // @ts-expect-error: TS doesn't see query() through HOC; safe at runtime
         const categories = await MarketProductCategory.query();
         return res.status(200).send(categories);
       } catch (error: unknown) {

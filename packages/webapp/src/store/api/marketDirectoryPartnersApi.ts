@@ -16,6 +16,7 @@
 import { api } from './apiSlice';
 import { marketDirectoryPartnersUrl } from '../../apiConfig';
 import { MarketDirectoryPartner } from './types';
+import { PARTNERS_INFO } from '../../containers/Profile/FarmSettings/MarketDirectory/Consent/partners';
 
 export const marketDirectoryPartners = api.injectEndpoints({
   endpoints: (build) => ({
@@ -24,6 +25,9 @@ export const marketDirectoryPartners = api.injectEndpoints({
         url: `${marketDirectoryPartnersUrl}${param}`,
         method: 'GET',
       }),
+      transformResponse: (response: MarketDirectoryPartner[]) => {
+        return response.filter((partner) => partner.key in PARTNERS_INFO);
+      },
       providesTags: ['MarketDirectoryPartners'],
     }),
   }),

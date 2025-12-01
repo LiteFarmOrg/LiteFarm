@@ -27,7 +27,7 @@ function fakeUser(defaultData = {}) {
     email: email.toLowerCase(),
     user_id: faker.datatype.uuid(),
     status_id: 1,
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     gender: faker.helpers.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
     do_not_email: false,
@@ -42,7 +42,7 @@ function fakeSSOUser(defaultData = {}) {
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.number({ min: 2, max: 10 }),
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
@@ -57,13 +57,13 @@ async function farmFactory(farmObject = fakeFarm()) {
 
 function fakeFarm(defaultData = {}) {
   return {
-    farm_name: faker.company.companyName(),
+    farm_name: faker.company.name(),
     address: faker.address.streetAddress(),
     grid_points: {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     },
-    farm_phone_number: faker.phone.phoneNumber(),
+    farm_phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
@@ -528,7 +528,7 @@ function fakeExpense(defaultData = {}) {
   return {
     expense_date: faker.date.future(),
     value: faker.datatype.number(100),
-    note: faker.helpers.randomize(),
+    note: faker.lorem.sentence(),
     ...defaultData,
   };
 }
@@ -1985,7 +1985,7 @@ function fakeSupportTicket(farm_id, defaultData = {}) {
     message: faker.lorem.paragraphs(),
     attachments,
     email: faker.internet.email(),
-    whatsapp: faker.phone.phoneNumber(),
+    whatsapp: faker.phone.number(),
     farm_id,
     ...defaultData,
   };
@@ -2666,7 +2666,7 @@ async function animal_type_use_relationshipFactory({
 }
 
 async function addon_partnerFactory(partner) {
-  const fakePartner = partner ? null : { name: faker.company.companyName() };
+  const fakePartner = partner ? null : { name: faker.company.name() };
   const [existingPartner] = await knex('addon_partner').where({
     name: partner ? partner.name : fakePartner.name,
   });
@@ -2720,17 +2720,6 @@ async function market_directory_infoFactory({
     .returning('*');
 }
 
-function fakeMarketDirectoryPartner(defaultData = {}) {
-  return {
-    key: faker.lorem.word(),
-    ...defaultData,
-  };
-}
-
-async function market_directory_partnerFactory(partner = fakeMarketDirectoryPartner()) {
-  return knex('market_directory_partner').insert(partner).returning('*');
-}
-
 function fakeMarketDirectoryPartnerAuth(defaultData = {}) {
   return {
     client_id: faker.datatype.uuid(),
@@ -2750,6 +2739,83 @@ async function market_directory_partner_authFactory(
 
   return knex('market_directory_partner_auth')
     .insert({ market_directory_partner_id, ...partnerAuth })
+    .returning('*');
+}
+
+async function market_product_categoryFactory(key = faker.lorem.word()) {
+  return knex('market_product_category').insert({ key }).returning('*');
+}
+
+async function market_directory_info_market_product_categoryFactory({
+  promisedMarketDirectoryInfo = market_directory_infoFactory(),
+  promisedMarketProductCategory = market_product_categoryFactory(),
+} = {}) {
+  const [marketDirectoryInfo, marketProductCategory] = await Promise.all([
+    promisedMarketDirectoryInfo,
+    promisedMarketProductCategory,
+  ]);
+  const [{ id: marketDirectoryId }] = marketDirectoryInfo;
+  const [{ id: marketProductCategoryId }] = marketProductCategory;
+
+  return knex('market_directory_info_market_product_category')
+    .insert({
+      market_directory_info_id: marketDirectoryId,
+      market_product_category_id: marketProductCategoryId,
+    })
+    .returning('*');
+}
+
+function fakeKey() {
+  return faker.word
+    .conjunction({ length: { min: 1, max: 3 } })
+    .split(' ')
+    .map((word) => word.toUpperCase())
+    .join('_');
+}
+
+function fakeMarketDirectoryPartner(defaultData = {}) {
+  return { key: fakeKey(), ...defaultData };
+}
+
+async function market_directory_partnerFactory(
+  marketDirectoryPartner = fakeMarketDirectoryPartner(),
+) {
+  return knex('market_directory_partner').insert(marketDirectoryPartner).returning('*');
+}
+
+/**
+ * @param {Object} [options={}]
+ * @param {Promise<Array>} [options.promisedPartner=market_directory_partnerFactory()]
+ *   A promise resolving to an array containing the partner record.
+ * @param {Promise<Array>} options.promisedCountry
+ *   A promise resolving to an array containing the country record.
+ */
+async function market_directory_partner_countryFactory({
+  promisedPartner = market_directory_partnerFactory(),
+  promisedCountry,
+} = {}) {
+  const [partner, country] = await Promise.all([promisedPartner, promisedCountry]);
+  const [{ id: partnerId }] = partner;
+  const countryId = country?.[0]?.id || null;
+
+  return await knex('market_directory_partner_country')
+    .insert({ market_directory_partner_id: partnerId, country_id: countryId })
+    .returning('*');
+}
+
+async function market_directory_partner_permissionsFactory({
+  promisedDirectoryInfo = market_directory_infoFactory(),
+  promisedPartner = market_directory_partnerFactory(),
+} = {}) {
+  const [marketDirectoryInfo, partner] = await Promise.all([
+    promisedDirectoryInfo,
+    promisedPartner,
+  ]);
+  const [{ id: market_directory_info_id }] = marketDirectoryInfo;
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_permissions')
+    .insert({ market_directory_info_id, market_directory_partner_id })
     .returning('*');
 }
 
@@ -2982,9 +3048,13 @@ export default {
   buildIrrigationPrescription,
   fakeMarketDirectoryInfo,
   market_directory_infoFactory,
-  fakeMarketDirectoryPartner,
+  market_product_categoryFactory,
+  market_directory_info_market_product_categoryFactory,
   market_directory_partnerFactory,
+  market_directory_partner_countryFactory,
+  fakeMarketDirectoryPartner,
   fakeMarketDirectoryPartnerAuth,
   market_directory_partner_authFactory,
+  market_directory_partner_permissionsFactory,
   baseProperties,
 };

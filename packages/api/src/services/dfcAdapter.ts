@@ -25,7 +25,7 @@ import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
 import type { MarketDirectoryInfo } from '../models/types.js';
 
 export const createEnterpriseUrl = (market_directory_info_id: string): string => {
-  return `${apiUrl()}/dfc/enterprise/${market_directory_info_id}`;
+  return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
 };
 
 export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDirectoryInfo) => {
@@ -66,7 +66,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   const mainContact = connector.createPerson({
     semanticId: `${enterpriseUrl}#person-mainContact`,
     firstName: contact_first_name,
-    lastName: contact_last_name,
+    lastName: contact_last_name ?? undefined,
   });
 
   /* @ts-expect-error incorrect interface type */
@@ -76,8 +76,8 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     connector,
     semanticId: enterpriseUrl,
     name: farm_name,
-    description: about,
-    logo,
+    description: about ?? undefined,
+    logo: logo ?? undefined,
     mainContact,
     localizations: [address],
   });
@@ -148,5 +148,5 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     ...socialMediaInstances,
   ]);
 
-  return exportFormattedData;
+  return JSON.parse(exportFormattedData);
 };

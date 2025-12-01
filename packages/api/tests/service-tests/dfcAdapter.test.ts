@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* @ts-expect-error missing types */
 import { faker } from '@faker-js/faker';
 import { formatFarmDataToDfcStandard } from '../../src/services/dfcAdapter.js';
 import {
@@ -50,9 +49,8 @@ describe('dfcAdapter', () => {
       id: faker.datatype.uuid(),
       farm_id: faker.datatype.uuid(),
     });
-    const parsed = JSON.parse(result);
 
-    expect(parsed).toMatchObject(expectedBaseDfcStructure);
+    expect(result).toMatchObject(expectedBaseDfcStructure);
   });
 
   test('should correctly map MarketDirectoryInfo fields to DFC properties', async () => {
@@ -61,11 +59,10 @@ describe('dfcAdapter', () => {
       id: faker.datatype.uuid(),
       farm_id: faker.datatype.uuid(),
     });
-    const parsed = JSON.parse(result);
 
-    expect(parsed).toMatchObject(expectedBaseDfcStructure);
+    expect(result).toMatchObject(expectedBaseDfcStructure);
 
-    const enterprise = parsed['@graph'].find(
+    const enterprise = result['@graph'].find(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
     );
 
@@ -91,11 +88,10 @@ describe('dfcAdapter', () => {
       id: faker.datatype.uuid(),
       farm_id: faker.datatype.uuid(),
     });
-    const parsed = JSON.parse(result);
 
-    expect(parsed).toMatchObject(expectedBaseDfcStructure);
+    expect(result).toMatchObject(expectedBaseDfcStructure);
 
-    const enterprise = parsed['@graph'].find(
+    const enterprise = result['@graph'].find(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
     );
 
@@ -120,9 +116,8 @@ describe('dfcAdapter', () => {
     };
 
     const result = await formatFarmDataToDfcStandard(semanticTestData);
-    const parsed = JSON.parse(result);
-    const graph = parsed['@graph'];
-    const baseUrl = `https://api.beta.litefarm.org/dfc/enterprise/${semanticId}`;
+    const graph = result['@graph'];
+    const baseUrl = `https://api.beta.litefarm.org/dfc/enterprises/${semanticId}`;
 
     const findEntity = (type: string) =>
       graph.find((entity: DfcEntity) => entity['@type'] === type);
@@ -159,10 +154,8 @@ describe('dfcAdapter', () => {
     };
 
     const result = await formatFarmDataToDfcStandard(socialTestData);
-    const parsed = JSON.parse(result);
-
     // Filter the @graph to find all SocialMedia entities
-    const socialMediaEntities = parsed['@graph'].filter(
+    const socialMediaEntities = result['@graph'].filter(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:SocialMedia',
     );
 
@@ -193,9 +186,8 @@ describe('dfcAdapter', () => {
       id: faker.datatype.uuid(),
       farm_id: faker.datatype.uuid(),
     });
-    const parsed = JSON.parse(result);
 
-    const addressEntity = parsed['@graph'].find(
+    const addressEntity = result['@graph'].find(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:Address',
     );
 

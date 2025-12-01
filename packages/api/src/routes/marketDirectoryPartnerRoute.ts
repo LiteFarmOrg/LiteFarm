@@ -14,26 +14,15 @@
  */
 
 import express from 'express';
-import DataFoodConsortiumController from '../controllers/dataFoodConsortiumController.js';
-import checkMarketPartnerAuth, {
-  checkFarmPartnerPermission,
-} from '../middleware/acl/checkMarketPartnerAuth.js';
-import { checkMarketDirectoryInfoRecord } from '../middleware/validation/checkMarketDirectoryInfo.js';
+import checkScope from '../middleware/acl/checkScope.js';
+import MarketDirectoryPartnerController from '../controllers/marketDirectoryPartnerController.js';
 
 const router = express.Router();
 
 router.get(
-  '/enterprises/:id',
-  checkMarketDirectoryInfoRecord({ errorMessage: 'Enterprise not found' }),
-  checkMarketPartnerAuth(),
-  checkFarmPartnerPermission(),
-  DataFoodConsortiumController.getDfcEnterprise(),
-);
-
-router.get(
-  '/enterprises/',
-  checkMarketPartnerAuth(),
-  DataFoodConsortiumController.getAllClientEnterprises(),
+  '/',
+  checkScope(['get:market_directory_partner']),
+  MarketDirectoryPartnerController.getMarketDirectoryPartners(),
 );
 
 export default router;

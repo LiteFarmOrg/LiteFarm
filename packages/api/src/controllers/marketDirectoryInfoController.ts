@@ -22,6 +22,7 @@ import {
 } from '../middleware/validation/checkMarketDirectoryInfo.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
+import { Model, transaction } from 'objection';
 
 const marketDirectoryInfoController = {
   getMarketDirectoryInfoByFarm() {
@@ -31,6 +32,8 @@ const marketDirectoryInfoController = {
         const data = await MarketDirectoryInfoModel.query()
           .where({ farm_id: req.headers.farm_id })
           .whereNotDeleted()
+          .modify('withProductCategories')
+          .modify('withPartnerPermissions')
           .first();
 
         return res.status(200).json(data || null);
@@ -53,7 +56,7 @@ const marketDirectoryInfoController = {
       const { farm_id } = req.headers;
 
       try {
-        const result = await baseController.post(
+        const result = await baseController.insertGraphWithResponse(
           MarketDirectoryInfoModel,
           { ...req.body, farm_id },
           req,
@@ -81,16 +84,18 @@ const marketDirectoryInfoController = {
       res: Response,
     ) => {
       const { farm_id, ...data } = req.body;
-
+      const { id } = req.params;
+      const trx = await transaction.start(Model.knex());
       try {
-        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-        const updated = await MarketDirectoryInfoModel.query()
-          .context({ user_id: req.auth?.user_id })
-          .findById(req.params.id)
-          .patch(data)
-          .returning('*');
-
-        return res.status(200).send(updated);
+        // @ts-expect-error: TS doesn't see through softDelete HOC; safe at runtime
+        await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, {
+          trx,
+          relate: true,
+          unrelate: false,
+          noDelete: false,
+        });
+        await trx.commit();
+        res.status(204).send();
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

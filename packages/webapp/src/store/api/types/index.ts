@@ -401,6 +401,7 @@ export type IrrigationPrescriptionDetails = {
 };
 
 export interface MarketDirectoryInfo {
+  id: string;
   farm_name: string;
   about?: string;
   logo?: string;
@@ -415,4 +416,9 @@ export interface MarketDirectoryInfo {
   instagram?: string;
   facebook?: string;
   x?: string;
+}
+
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
 }

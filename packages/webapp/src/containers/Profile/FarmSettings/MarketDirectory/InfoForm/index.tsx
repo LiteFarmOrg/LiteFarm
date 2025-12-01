@@ -22,7 +22,10 @@ import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirecto
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
 import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
 import useImagePickerUpload from '../../../../../components/ImagePicker/useImagePickerUpload';
-import { useAddMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
+import {
+  useAddMarketDirectoryInfoMutation,
+  useUpdateMarketDirectoryInfoMutation,
+} from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
 import type { MarketDirectoryInfo } from '../../../../../store/api/types';
@@ -50,6 +53,8 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   const initialFormMode = hasExistingRecord ? FormMode.READONLY : FormMode.ADD;
   const [formMode, setFormMode] = useState<FormMode>(initialFormMode);
 
+  const isReadonly = formMode === FormMode.READONLY;
+
   const userFarmDefaults = useDefaultMarketDirectoryData();
   const defaultValues = marketDirectoryInfo || userFarmDefaults;
 
@@ -60,26 +65,18 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   });
 
   const [addMarketDirectoryInfo] = useAddMarketDirectoryInfoMutation();
-  // LF-5012 const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
+  const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
 
   const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
     const { valid_place, ...dataToSubmit } = formData;
-    if (formMode === FormMode.READONLY) {
-      setFormMode(FormMode.EDIT);
-      return;
-    }
 
-    const apiCall = hasExistingRecord
-      ? addMarketDirectoryInfo
-      : // LF-5012 updateMarketDirectoryInfo
-        addMarketDirectoryInfo;
+    const apiCall = hasExistingRecord ? updateMarketDirectoryInfo : addMarketDirectoryInfo;
 
     try {
       await apiCall(dataToSubmit).unwrap();
 
       const message = hasExistingRecord
-        ? // LF-5012 t('message:MARKET_DIRECTORY.SUCCESS.UPDATE')
-          'To be implemented'
+        ? t('message:MARKET_DIRECTORY.SUCCESS.UPDATE')
         : t('message:MARKET_DIRECTORY.SUCCESS.SAVE');
 
       dispatch(enqueueSuccessSnackbar(message));
@@ -96,8 +93,7 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
       }
 
       const message = hasExistingRecord
-        ? // LF-5012 t('message:MARKET_DIRECTORY.ERROR.UPDATE')
-          'To be implemented'
+        ? t('message:MARKET_DIRECTORY.ERROR.UPDATE')
         : t('message:MARKET_DIRECTORY.ERROR.SAVE');
 
       dispatch(enqueueErrorSnackbar(message));
@@ -105,16 +101,18 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
   };
 
   const onCancel = () => {
-    if (formMode === FormMode.READONLY) {
-      return;
-    }
     if (formMode === FormMode.ADD) {
       close();
       return;
     }
+    // Must be in EDIT mode at this point
     formMethods.reset(defaultValues);
     setFormMode(FormMode.READONLY);
   };
+
+  const handleConfirm = isReadonly
+    ? () => setFormMode(FormMode.EDIT)
+    : formMethods.handleSubmit(onSubmit);
 
   return (
     <FormProvider {...formMethods}>
@@ -124,11 +122,11 @@ const MarketDirectoryInfoForm = ({ marketDirectoryInfo, close }: MarketDirectory
         formMode={formMode}
       />
       <InFormButtons
-        confirmText={formMode === FormMode.READONLY ? t('common:EDIT') : t('common:SAVE')}
-        onCancel={formMode === FormMode.READONLY ? undefined : onCancel}
-        onConfirm={formMethods.handleSubmit(onSubmit)}
-        isDisabled={!formMethods.formState.isValid}
-        confirmButtonType="submit"
+        confirmText={isReadonly ? t('common:EDIT') : t('common:SAVE')}
+        onCancel={isReadonly ? undefined : onCancel}
+        onConfirm={handleConfirm}
+        isDisabled={!isReadonly && !formMethods.formState.isValid}
+        confirmButtonType={isReadonly ? 'button' : 'submit'}
       />
     </FormProvider>
   );

@@ -1447,6 +1447,7 @@
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "By sharing your data with {{ partner }}, you agree with their <3>Terms ⬈</3>",
     "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
     "CONSENT": {
       "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
@@ -1475,7 +1476,13 @@
       "SOCIAL_INPUT_LABEL": "{{social}} username",
       "WEBSITE": "Website"
     },
-    "MARKET_DIRECTORY_INFO": "Market directory info"
+    "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
+    "MARKET_DIRECTORIES": "Market directories",
+    "MARKET_DIRECTORY_INFO": "Market directory info",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": "List products directly in OFN stores."
+    },
+    "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",

@@ -18,24 +18,30 @@
  * @returns { Promise<void> }
  */
 
-export const up = async (knex) => {
-  await knex.schema.createTable('market_directory_partner_auth', (table) => {
-    table
-      .integer('market_directory_partner_id')
-      .primary()
-      .references('id')
-      .inTable('market_directory_partner');
-    table.string('client_id').notNullable().unique();
-    table.string('keycloak_url').notNullable();
-    table.string('keycloak_realm').notNullable();
-    table.string('webhook_endpoint').nullable();
-  });
+export const up = async function (knex) {
+  await knex('permissions').insert([
+    {
+      permission_id: 184,
+      name: 'get:market_directory_partner',
+      description: 'get market_directory_partner',
+    },
+  ]);
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 184 },
+    { role_id: 2, permission_id: 184 },
+    { role_id: 3, permission_id: 184 },
+    { role_id: 5, permission_id: 184 },
+  ]);
 };
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export const down = async (knex) => {
-  await knex.schema.dropTable('market_directory_partner_auth');
+export const down = function (knex) {
+  const permissionId = 184;
+  return Promise.all([
+    knex('rolePermissions').where('permission_id', permissionId).del(),
+    knex('permissions').where('permission_id', permissionId).del(),
+  ]);
 };

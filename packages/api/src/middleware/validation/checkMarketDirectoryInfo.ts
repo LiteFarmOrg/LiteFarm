@@ -19,27 +19,19 @@ import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
+import MarketDirectoryPartner from '../../models/marketDirectoryPartnerModel.js';
+import type {
+  MarketDirectoryInfo,
+  MarketDirectoryPartner as MarketDirectoryPartnerType,
+} from '../../models/types.js';
 
-export interface MarketDirectoryInfoReqBody {
-  farm_id?: string;
-  farm_name?: string;
-  logo?: string | null;
-  about?: string | null;
-  contact_first_name?: string;
-  contact_last_name?: string | null;
-  contact_email?: string;
-  email?: string | null;
-  country_code?: number | null;
-  phone_number?: string | null;
-  address?: string;
-  website?: string | null;
-  instagram?: string | null;
-  facebook?: string | null;
-  x?: string | null;
-}
+export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
+  market_product_categories?: { market_product_category_id: number }[];
+  partner_permissions?: { market_directory_partner_id: number }[];
+};
 
 export interface MarketDirectoryInfoRouteParams {
-  id: string;
+  id: MarketDirectoryInfo['id'];
 }
 
 export function checkAndTransformMarketDirectoryInfo() {
@@ -48,6 +40,10 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
+    const { address, website, market_product_categories, partner_permissions } = req.body;
+
+    const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
+
     if (req.method === 'POST') {
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
       const record = await MarketDirectoryInfoModel.query()
@@ -57,9 +53,54 @@ export function checkAndTransformMarketDirectoryInfo() {
       if (record) {
         return res.status(409).send('Market directory info for this farm already exists');
       }
+
+      if (!market_product_categories) {
+        return res.status(400).send('Invalid market_product_categories');
+      }
     }
 
-    const { address, website } = req.body;
+    if (
+      'market_product_categories' in req.body &&
+      (!Array.isArray(market_product_categories) || market_product_categories.length === 0)
+    ) {
+      return res.status(400).send('Invalid market_product_categories');
+    }
+
+    // Validate partner_permissions
+    if (partner_permissions) {
+      if (!Array.isArray(partner_permissions)) {
+        return res.status(400).send('Partners must be an array');
+      }
+
+      const requestedIds = partner_permissions.map(
+        (partner) => partner.market_directory_partner_id,
+      );
+
+      if (requestedIds.length) {
+        const existingPartners = (await MarketDirectoryPartner.query().whereIn(
+          'id',
+          requestedIds,
+        )) as unknown as MarketDirectoryPartnerType[];
+
+        const existingIds = existingPartners.map((partner) => partner.id);
+        const missingIds = requestedIds.filter((id) => !existingIds.includes(id));
+
+        if (missingIds.length) {
+          return res
+            .status(400)
+            .send(`One or more partner does not exist: ${missingIds.join(', ')}`);
+        }
+      }
+    }
+
+    // Transform partner_permissions for upsert
+    if (id && partner_permissions) {
+      req.body.partner_permissions = partner_permissions.map((partner) => ({
+        ...partner,
+        market_directory_info_id: id, // needed as joint primary key
+        deleted: false, // un-delete if previously deleted
+      }));
+    }
 
     for (const emailProperty of ['contact_email', 'email'] as const) {
       if (req.body[emailProperty] && !isValidEmail(req.body[emailProperty])) {
@@ -88,7 +129,9 @@ export function checkAndTransformMarketDirectoryInfo() {
   };
 }
 
-export function checkMarketDirectoryInfoRecord() {
+export function checkMarketDirectoryInfoRecord(
+  { errorMessage } = { errorMessage: 'Market directory info not found' },
+) {
   return async (
     req: LiteFarmRequest<unknown, unknown, unknown, unknown>,
     res: Response,
@@ -98,7 +141,7 @@ export function checkMarketDirectoryInfoRecord() {
     const record = await MarketDirectoryInfoModel.query().findById(req.params.id).whereNotDeleted();
 
     if (!record) {
-      return res.status(404).send('Market directory info not found');
+      return res.status(404).send(errorMessage);
     }
 
     next();

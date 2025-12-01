@@ -18,8 +18,9 @@ import jwt from 'jsonwebtoken';
 import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthModel.js';
 import { verifyKeycloakToken } from '../../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
+import MarketDirectoryPartnerPermissions from '../../models/marketDirectoryPartnerPermissions.js';
 
-export default () => async (req: Request, res: Response, next: NextFunction) => {
+const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Step 1: Extract token from Authorization header
     const authHeader = req.headers.authorization;
@@ -49,18 +50,10 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
       | undefined;
 
     if (!partnerAuth) {
-      return res.status(404).send('Market directory partner not found');
+      return res.status(404).send('client_id not recognized');
     }
 
-    // Step 4: Check if farm has opted in (placeholder for now)
-    // TODO: Add actual permission check against opt-in table
-    const farmPermission = true;
-
-    if (!farmPermission) {
-      return res.status(403).send('Farm did not authorize directory partner');
-    }
-
-    // Step 5: Verify the token against the partner's Keycloak realm
+    // Step 4: Verify the token against the partner's Keycloak realm
     try {
       await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
     } catch (error) {
@@ -68,9 +61,57 @@ export default () => async (req: Request, res: Response, next: NextFunction) => 
       return res.status(401).send('Invalid or expired token');
     }
 
+    // Save for permissions check and controller
+    res.locals.marketDirectoryPartnerId = partnerAuth.market_directory_partner_id;
+
     next();
   } catch (error) {
     console.error('checkMarketPartnerAuth middleware error:', error);
     return res.status(500).send('Internal server error checking partner access');
   }
 };
+
+/**
+ * Middleware to verify that a specific farm has authorized the market partner.
+ *
+ * IMPORTANT: Must run AFTER checkMarketPartnerAuth() middleware, which:
+ * - Authenticates the partner's Keycloak token
+ * - Sets res.locals.marketDirectoryPartnerId
+ *
+ */
+export const checkFarmPartnerPermission =
+  () => async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const marketDirectoryPartnerId = res.locals.marketDirectoryPartnerId;
+
+      if (!marketDirectoryPartnerId) {
+        console.error(
+          'checkFarmPartnerPermission called without marketDirectoryPartnerId in res.locals',
+        );
+        return res.status(500).send('Route configuration error');
+      }
+
+      const farmPermission = await MarketDirectoryPartnerPermissions
+        // @ts-expect-error known issue with models
+        .query()
+        .where({
+          market_directory_info_id: id,
+          market_directory_partner_id: marketDirectoryPartnerId,
+        })
+        .whereNotDeleted()
+        .first();
+
+      if (!farmPermission) {
+        return res.status(403).send('Farm did not authorize directory partner');
+      }
+
+      next();
+    } catch (error) {
+      console.error('checkFarmPartnerPermission middleware error:', error);
+      return res.status(500).send('Internal server error checking farm permission');
+    }
+  };
+
+export default checkMarketPartnerAuth;

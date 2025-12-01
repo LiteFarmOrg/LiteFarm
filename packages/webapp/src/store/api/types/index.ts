@@ -399,7 +399,4 @@ export interface MarketDirectoryInfo {
 
 export interface MarketProductCategory extends BasicEnum {}
 
-export interface MarketDirectoryPartner {
-  id: number;
-  key: string;
-}
+export interface MarketDirectoryPartner extends BasicEnum {}

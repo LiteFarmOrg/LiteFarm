@@ -417,3 +417,8 @@ export interface MarketDirectoryInfo {
   facebook?: string;
   x?: string;
 }
+
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}

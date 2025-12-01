@@ -38,11 +38,10 @@ const dataFoodConsortiumController = {
             market_product_categories: true,
           });
 
-        /* @ts-expect-error known issue with models */
-        const marketProductCategories = await MarketProductCategoryModel.query().returning('*');
+        const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(
           marketDirectoryInfo,
-          marketProductCategories,
+          marketProductCategoryMap,
         );
 
         return res.status(200).json(dfcFormattedListingData);
@@ -81,11 +80,11 @@ const dataFoodConsortiumController = {
           .withGraphFetched({
             market_product_categories: true,
           });
-        /* @ts-expect-error known issue with models */
-        const marketProductCategories = await MarketProductCategoryModel.query().returning('*');
+        const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
+
         const dfcFormattedListingData = await Promise.all(
           authorizedFarmsDirectoryInfo.map((marketDirectoryInfo) => {
-            return formatFarmDataToDfcStandard(marketDirectoryInfo, marketProductCategories);
+            return formatFarmDataToDfcStandard(marketDirectoryInfo, marketProductCategoryMap);
           }),
         );
 

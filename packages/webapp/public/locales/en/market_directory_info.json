@@ -1,13 +1,14 @@
 {
   "MARKET_PRODUCT_CATEGORY": {
-    "BAKERY": "Bakery",
-    "DAIRY_PRODUCT": " Dairy",
-    "DRINK": "Drink",
-    "FROZEN": "Frozen",
-    "FRUIT": "Fruit",
-    "INEDIBLE": "Inedible",
-    "LOCAL_GROCERY_STORE": "Local Grocery Store",
-    "MEAT_PRODUCT": "Meat",
-    "VEGETABLE": "Vegetable"
+    "ALCOHOLIC_BEVERAGE": "Alcoholic Beverages",
+    "BAKERY": "Baked Goods",
+    "DAIRY_PRODUCT": "Dairy Products",
+    "EGG": "Eggs",
+    "FLOWER": "Flowers",
+    "FROZEN": "Frozen Foods",
+    "FRUIT": "Fruits",
+    "MEAT_PRODUCT": "Meat Products",
+    "PLANT": "Plants",
+    "VEGETABLE": "Vegetables"
   }
 }

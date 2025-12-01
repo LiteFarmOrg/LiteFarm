@@ -15,16 +15,16 @@
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { TourProviderWrapper } from '../../../components/TourProviderWrapper/TourProviderWrapper';
-import { setSpotlightToShown } from '../../Map/saga';
-import { showedSpotlightSelector } from '../../showedSpotlightSlice';
+import { TourProviderWrapper } from '../../components/TourProviderWrapper/TourProviderWrapper';
+import { setSpotlightToShown } from '../Map/saga';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { Trans } from 'react-i18next';
-import Badge from '../../../components/Badge';
+import Badge from '../../components/Badge';
 import { ReactComponent as SendIcon } from '../../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
-import { BETA_BADGE_LINK } from '../../../util/constants';
+import { BETA_BADGE_LINK } from '../../util/constants';
 
-export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }) {
+export default function BetaSpotlight({ children, setFeedbackSurveyOpen }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { animals_beta } = useSelector(showedSpotlightSelector);

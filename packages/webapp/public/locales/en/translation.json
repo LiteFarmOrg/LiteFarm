@@ -1483,7 +1483,7 @@
       "EMAIL": "Email (Private, shared only with directories – not public)",
       "FARM_ADDRESS": "Farm address",
       "FARM_PROFILE": "Farm profile",
-      "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, LinkedIn, X (Public if provided)",
+      "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, X (Public if provided)",
       "PHONE": "Phone (optional, if you add it)"
     },
     "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",

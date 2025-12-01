@@ -398,3 +398,5 @@ export interface MarketDirectoryInfo {
 }
 
 export interface MarketProductCategory extends BasicEnum {}
+
+export interface MarketDirectoryPartner extends BasicEnum {}

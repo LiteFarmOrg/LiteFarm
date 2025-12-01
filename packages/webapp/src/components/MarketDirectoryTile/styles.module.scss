@@ -18,7 +18,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 32px 24px 24px 24px;
+  padding: 16px 24px;
 
   border-radius: 8px;
   border: solid 1px var(--Colors-Primary-Primary-teal-50);
@@ -42,10 +42,11 @@
 
   .logo {
     margin-bottom: 8px;
+    text-decoration: none;
   }
 
   .description {
-    min-height: 44px;
+    min-height: 40px;
     color: #000;
     line-height: normal;
     margin-bottom: 16px;
@@ -93,5 +94,27 @@
         }
       }
     }
+  }
+}
+
+.marketplaceSuggestionTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    font-size: 16px;
+    line-height: normal;
+    margin-bottom: 16px;
+    color: #000;
+  }
+
+  .suggestButton {
+    width: fit-content;
+    height: 40px;
+    display: flex;
+    gap: 8px;
+    align-self: center;
+    align-items: center;
   }
 }

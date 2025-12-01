@@ -365,7 +365,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
-                    <Route path="/farm_settings" children={<FarmSettings />} />
+                    <Route
+                      path="/farm_settings"
+                      children={<FarmSettings setFeedbackSurveyOpen={setFeedbackSurveyOpen} />}
+                    />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
@@ -772,7 +775,10 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
-                    <Route path="/farm_settings" children={<FarmSettings />} />
+                    <Route
+                      path="/farm_settings"
+                      children={<FarmSettings setFeedbackSurveyOpen={setFeedbackSurveyOpen} />}
+                    />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
                     <Route path="/tasks" exact children={<Tasks />} />

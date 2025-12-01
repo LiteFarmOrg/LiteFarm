@@ -1451,6 +1451,8 @@
     "COMPLETE_PROFILE": "Complete your profile below to get started and promote your products. You only need to go through this process once. You can update your shared data and opt out any time.",
     "CONSENT": {
       "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
+      "CONSENT_TO_SHARE_INFORMATION": "I consent to share the above information with trusted partner directories. I can revoke consent anytime.<br />Revoking consent will stop LiteFarm from syncing your data. Your information might still exist in the partner directory — you may need to request removal directly.",
+      "SEE_ALL_DATA": "See all data that will be shared",
       "TITLE": "Consent"
     },
     "GET_LISTED": "Get your farm listed in trusted directories",
@@ -1476,6 +1478,13 @@
       "PRODUCT_CATEGORY": "Product category",
       "SOCIAL_INPUT_LABEL": "{{social}} username",
       "WEBSITE": "Website"
+    },
+    "INFO_SUMMARY": {
+      "EMAIL": "Email (Private, shared only with directories – not public)",
+      "FARM_ADDRESS": "Farm address",
+      "FARM_PROFILE": "Farm profile",
+      "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, LinkedIn, X (Public if provided)",
+      "PHONE": "Phone (optional, if you add it)"
     },
     "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
     "MARKET_DIRECTORIES": "Market directories",

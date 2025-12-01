@@ -21,16 +21,20 @@ import {
   MarketplaceSuggestionTile,
 } from '../../../../../components/MarketDirectoryTile';
 import { PARTNERS_INFO } from './partners';
+import DataSummary from '../DataSummary';
+import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
   setFeedbackSurveyOpen: () => void;
+  marketDirectoryInfo?: MarketDirectoryInfo;
 }
 
 const MarketDirectoryConsent = ({
   disabled,
   setFeedbackSurveyOpen,
+  marketDirectoryInfo,
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const { data: marketDirectoryPartners = [] } =
@@ -41,6 +45,7 @@ const MarketDirectoryConsent = ({
       <div className={styles.consent}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
         {disabled && <WarningBanner t={t} />}
+        <DataSummary marketDirectoryInfo={marketDirectoryInfo} />
       </div>
       <div className={styles.marketDirectories}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>

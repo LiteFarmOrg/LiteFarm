@@ -121,6 +121,7 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
         <MarketDirectoryConsent
           disabled={!areAllFormsComplete}
           setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+          marketDirectoryInfo={marketDirectoryInfo}
         />
       </div>
     </CardLayout>

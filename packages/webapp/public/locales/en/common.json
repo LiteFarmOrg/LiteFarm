@@ -26,6 +26,7 @@
   "CLONE": "Clone",
   "CLOSE": "Close",
   "CONFIRM": "Confirm",
+  "CONFIRM_AND_PUBLISH": "Confirm and Publish",
   "CONTACT": "Contact",
   "CONTINUE": "Continue",
   "COPY_OF": "Copy of {{item}}",

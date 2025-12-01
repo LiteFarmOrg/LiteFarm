@@ -32,11 +32,11 @@
   gap: 8px;
 
   .text {
+    color: var(--grey900);
     @include xs-breakpoint {
       order: 2;
       color: inherit; // against a green background on mobile
     }
-    color: var(--grey900);
   }
 }
 

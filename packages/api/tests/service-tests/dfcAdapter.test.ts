@@ -14,11 +14,12 @@
  */
 
 import { faker } from '@faker-js/faker';
-import { formatFarmDataToDfcStandard } from '../../src/services/dfcAdapter.js';
+import { formatFarmDataToDfcStandard } from '../../src/services/datafoodconsortium/dfcAdapter.js';
 import {
   DfcEntity,
   expectedBaseDfcStructure,
   mockCompleteMarketDirectoryInfo,
+  mockMarketProductCategoryMap,
   mockParsedAddress,
 } from '../utils/dfcUtils.js';
 
@@ -33,32 +34,79 @@ jest.mock('../../src/util/environment.js', () => ({
 }));
 
 import { parseGoogleGeocodedAddress } from '../../src/util/googleMaps.js';
+import {
+  MarketDirectoryInfo,
+  MarketDirectoryInfoMarketProductCategory,
+  MarketProductCategory,
+} from '../../src/models/types.js';
+import { WithoutFarmId, WithoutId, WithoutKeysInArray } from '../types.js';
 const mockedParseAddress = parseGoogleGeocodedAddress as jest.MockedFunction<
   typeof parseGoogleGeocodedAddress
 >;
 
+type CompleteMarketDirectoryInfoReq = WithoutFarmId<WithoutId<MarketDirectoryInfo>> & {
+  market_product_categories?: WithoutKeysInArray<
+    MarketDirectoryInfoMarketProductCategory[],
+    'market_directory_info_id'
+  >;
+};
+
+const fakeMarketDirectoryInfoWithRelations = ({
+  info,
+  marketProductCategories = [],
+  fakeId,
+}: {
+  info: CompleteMarketDirectoryInfoReq;
+  marketProductCategories: MarketProductCategory[];
+  fakeId: MarketDirectoryInfoMarketProductCategory['market_directory_info_id'];
+}) => {
+  return {
+    ...info,
+    market_product_categories: marketProductCategories.map((marketProductCategory) => ({
+      market_product_category_id: marketProductCategory.id,
+      market_directory_info_id: fakeId,
+    })),
+  };
+};
+
 describe('dfcAdapter', () => {
+  const marketProductCategoryMap = mockMarketProductCategoryMap();
+  const marketProductCategory = marketProductCategoryMap.get(
+    marketProductCategoryMap.keys().toArray()[0],
+  )!;
   beforeEach(() => {
     jest.clearAllMocks();
     mockedParseAddress.mockResolvedValue(mockParsedAddress);
   });
 
   test('should format complete market directory info', async () => {
-    const result = await formatFarmDataToDfcStandard({
-      ...mockCompleteMarketDirectoryInfo,
-      id: faker.datatype.uuid(),
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
       farm_id: faker.datatype.uuid(),
-    });
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
 
     expect(result).toMatchObject(expectedBaseDfcStructure);
   });
 
   test('should correctly map MarketDirectoryInfo fields to DFC properties', async () => {
-    const result = await formatFarmDataToDfcStandard({
-      ...mockCompleteMarketDirectoryInfo,
-      id: faker.datatype.uuid(),
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
       farm_id: faker.datatype.uuid(),
-    });
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
 
     expect(result).toMatchObject(expectedBaseDfcStructure);
 
@@ -83,11 +131,17 @@ describe('dfcAdapter', () => {
       address: '456 Farm Lane',
     };
 
-    const result = await formatFarmDataToDfcStandard({
-      ...mockMinimalMarketDirectoryInfo,
-      id: faker.datatype.uuid(),
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockMinimalMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
       farm_id: faker.datatype.uuid(),
-    });
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
 
     expect(result).toMatchObject(expectedBaseDfcStructure);
 
@@ -109,13 +163,16 @@ describe('dfcAdapter', () => {
 
   test('should construct correct semantic IDs for all entities', async () => {
     const semanticId = faker.datatype.uuid();
-    const semanticTestData = {
-      ...mockCompleteMarketDirectoryInfo,
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId: semanticId,
+      }),
       id: semanticId,
       farm_id: faker.datatype.uuid(),
     };
-
-    const result = await formatFarmDataToDfcStandard(semanticTestData);
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
     const graph = result['@graph'];
     const baseUrl = `https://api.beta.litefarm.org/dfc/enterprises/${semanticId}`;
 
@@ -152,8 +209,18 @@ describe('dfcAdapter', () => {
       facebook: 'test_facebook',
       x: 'test_x_handle',
     };
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: socialTestData,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
 
-    const result = await formatFarmDataToDfcStandard(socialTestData);
     // Filter the @graph to find all SocialMedia entities
     const socialMediaEntities = result['@graph'].filter(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:SocialMedia',
@@ -181,11 +248,17 @@ describe('dfcAdapter', () => {
     };
     mockedParseAddress.mockResolvedValue(mockAddress);
 
-    const result = await formatFarmDataToDfcStandard({
-      ...mockCompleteMarketDirectoryInfo,
-      id: faker.datatype.uuid(),
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
       farm_id: faker.datatype.uuid(),
-    });
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
 
     const addressEntity = result['@graph'].find(
       (entity: DfcEntity) => entity['@type'] === 'dfc-b:Address',

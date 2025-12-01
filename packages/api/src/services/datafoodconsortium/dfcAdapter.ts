@@ -32,8 +32,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
@@ -105,7 +105,7 @@ export const formatFarmDataToDfcStandard = async (
 
   let productTypesFile;
   try {
-    productTypesFile = await fs.readFile(path.join(__dirname, 'dfcProductTypes.json'), 'utf-8');
+    productTypesFile = await fs.readFile(path.join(dirname, 'dfcProductTypes.json'), 'utf-8');
   } catch (err) {
     console.error(err);
     throw new Error('Failed to read taxonomy file');

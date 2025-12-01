@@ -40,13 +40,6 @@ export const liteFarmToDFCTaxonomy = {
 };
 
 /**
- * Type guard: checks if a string is a valid LiteFarm taxonomy key
- */
-export function isValidTaxonomyKey(key: string): key is keyof typeof liteFarmToDFCTaxonomy {
-  return key in liteFarmToDFCTaxonomy;
-}
-
-/**
  * =================================================================================
  * Deep Key & Value Utilities
  * =================================================================================

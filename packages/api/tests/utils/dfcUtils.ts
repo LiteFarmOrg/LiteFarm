@@ -24,7 +24,7 @@ export const expectedBaseDfcStructure = {
   '@graph': expect.arrayContaining([
     expect.objectContaining({
       '@type': 'dfc-b:Enterprise',
-      '@id': expect.stringContaining('/dfc/enterprise/'),
+      '@id': expect.stringContaining('/dfc/enterprises/'),
       'dfc-b:name': expect.any(String),
       'dfc-b:hasAddress': expect.objectContaining({ '@id': expect.any(String) }),
       'dfc-b:hasMainContact': expect.objectContaining({ '@id': expect.any(String) }),

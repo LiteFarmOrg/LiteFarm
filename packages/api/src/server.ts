@@ -290,6 +290,13 @@ app
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   .use('/dfc', dataFoodConsortiumRoute)
+  // Serve the .well-known/dfc file
+  .get('/.well-known/dfc', (_req, res) => {
+    res.json({
+      'https://github.com/datafoodconsortium/taxonomies/releases/latest/download/scopes.rdf#ReadEnterprise':
+        '/dfc/enterprises/',
+    });
+  })
   // ACL middleware
   .use(checkJwt)
 

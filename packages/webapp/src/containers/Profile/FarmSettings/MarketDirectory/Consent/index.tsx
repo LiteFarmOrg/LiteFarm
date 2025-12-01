@@ -15,25 +15,50 @@
 
 import { TFunction, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
+import {
+  PureMarketDirectoryTile,
+  MarketplaceSuggestionTile,
+} from '../../../../../components/MarketDirectoryTile';
+import { PARTNERS_INFO } from './partners';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
+  setFeedbackSurveyOpen: () => void;
 }
 
-const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
+const MarketDirectoryConsent = ({
+  disabled,
+  setFeedbackSurveyOpen,
+}: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
-  // LF-5016 -- RTK Query setup for Market Directories here
+  const { data: marketDirectoryPartners = [] } =
+    useGetMarketDirectoryPartnersQuery('?filter=country');
 
   return (
     <div className={styles.consentContainer}>
-      <h3 className={styles.consentTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
-      {disabled && <WarningBanner t={t} />}
-      {/* LF-5016 -- replace with actual Pure Component */}
-      <div className={clsx(styles.marketTiles, disabled && styles.disabled)}>
-        <div />
-        <div />
-        <div />
+      <div className={styles.consent}>
+        <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
+        {disabled && <WarningBanner t={t} />}
+      </div>
+      <div className={styles.marketDirectories}>
+        <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>
+        <p className={styles.lead}>{t('MARKET_DIRECTORY.WHERE_TO_BE_FEATURED')}</p>
+        <div className={clsx(styles.marketTiles)}>
+          {marketDirectoryPartners.map(({ key }) => {
+            return (
+              <PureMarketDirectoryTile
+                key={key}
+                {...PARTNERS_INFO[key]}
+                hasConsent={false} // TODO: LF-4992
+                onConsentChange={undefined} // TODO: LF-4992
+                isReadOnly={disabled}
+              />
+            );
+          })}
+          <MarketplaceSuggestionTile onClick={setFeedbackSurveyOpen} />
+        </div>
       </div>
     </div>
   );

@@ -19,10 +19,15 @@ import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
 import { SOCIALS, validateSocialAndExtractUsername } from '../../util/socials.js';
 import MarketDirectoryInfoModel from '../../models/marketDirectoryInfoModel.js';
-import { MarketDirectoryInfo } from '../../models/types.js';
+import MarketDirectoryPartner from '../../models/marketDirectoryPartnerModel.js';
+import type {
+  MarketDirectoryInfo,
+  MarketDirectoryPartner as MarketDirectoryPartnerType,
+} from '../../models/types.js';
 
 export type MarketDirectoryInfoReqBody = Partial<MarketDirectoryInfo> & {
   market_product_categories?: { market_product_category_id: number }[];
+  partner_permissions?: { market_directory_partner_id: number }[];
 };
 
 export interface MarketDirectoryInfoRouteParams {
@@ -35,7 +40,9 @@ export function checkAndTransformMarketDirectoryInfo() {
     res: Response,
     next: NextFunction,
   ) => {
-    const { address, website, market_product_categories } = req.body;
+    const { address, website, market_product_categories, partner_permissions } = req.body;
+
+    const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
 
     if (req.method === 'POST') {
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
@@ -57,6 +64,42 @@ export function checkAndTransformMarketDirectoryInfo() {
       (!Array.isArray(market_product_categories) || market_product_categories.length === 0)
     ) {
       return res.status(400).send('Invalid market_product_categories');
+    }
+
+    // Validate partner_permissions
+    if (partner_permissions) {
+      if (!Array.isArray(partner_permissions)) {
+        return res.status(400).send('Partners must be an array');
+      }
+
+      const requestedIds = partner_permissions.map(
+        (partner) => partner.market_directory_partner_id,
+      );
+
+      if (requestedIds.length) {
+        const existingPartners = (await MarketDirectoryPartner.query().whereIn(
+          'id',
+          requestedIds,
+        )) as unknown as MarketDirectoryPartnerType[];
+
+        const existingIds = existingPartners.map((partner) => partner.id);
+        const missingIds = requestedIds.filter((id) => !existingIds.includes(id));
+
+        if (missingIds.length) {
+          return res
+            .status(400)
+            .send(`One or more partner does not exist: ${missingIds.join(', ')}`);
+        }
+      }
+    }
+
+    // Transform partner_permissions for upsert
+    if (id && partner_permissions) {
+      req.body.partner_permissions = partner_permissions.map((partner) => ({
+        ...partner,
+        market_directory_info_id: id, // needed as joint primary key
+        deleted: false, // un-delete if previously deleted
+      }));
     }
 
     for (const emailProperty of ['contact_email', 'email'] as const) {
@@ -86,9 +129,11 @@ export function checkAndTransformMarketDirectoryInfo() {
   };
 }
 
-export function checkMarketDirectoryInfoRecord() {
+export function checkMarketDirectoryInfoRecord(
+  { errorMessage } = { errorMessage: 'Market directory info not found' },
+) {
   return async (
-    req: LiteFarmRequest<unknown, MarketDirectoryInfoRouteParams, unknown, unknown>,
+    req: LiteFarmRequest<unknown, unknown, unknown, unknown>,
     res: Response,
     next: NextFunction,
   ) => {
@@ -96,7 +141,7 @@ export function checkMarketDirectoryInfoRecord() {
     const record = await MarketDirectoryInfoModel.query().findById(req.params.id).whereNotDeleted();
 
     if (!record) {
-      return res.status(404).send('Market directory info not found');
+      return res.status(404).send(errorMessage);
     }
 
     next();

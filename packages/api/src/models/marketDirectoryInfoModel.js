@@ -17,6 +17,7 @@ import baseModel from './baseModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import Model from './baseFormatModel.js';
 import MarketDirectoryInfoMarketProductCategoryModel from './marketDirectoryInfoMarketProductCategoryModel.js';
+import MarketDirectoryPartnerPermissions from './marketDirectoryPartnerPermissions.js';
 
 class MarketDirectoryInfo extends baseModel {
   static get tableName() {
@@ -54,6 +55,22 @@ class MarketDirectoryInfo extends baseModel {
       }
     }
   }
+  static get modifiers() {
+    return {
+      withProductCategories(builder) {
+        builder.withGraphFetched({
+          market_product_categories: true,
+        });
+      },
+      withPartnerPermissions(builder) {
+        builder
+          .withGraphFetched({ partner_permissions: true })
+          .modifyGraph('partner_permissions', (builder) => {
+            builder.whereNotDeleted().select('market_directory_partner_id');
+          });
+      },
+    };
+  }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -79,6 +96,7 @@ class MarketDirectoryInfo extends baseModel {
         instagram: { type: ['string', 'null'], maxLength: 255 },
         facebook: { type: ['string', 'null'], maxLength: 255 },
         x: { type: ['string', 'null'], maxLength: 255 },
+        consented_to_share: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -93,6 +111,14 @@ class MarketDirectoryInfo extends baseModel {
         join: {
           from: 'market_directory_info.id',
           to: 'market_directory_info_market_product_category.market_directory_info_id',
+        },
+      },
+      partner_permissions: {
+        relation: Model.HasManyRelation,
+        modelClass: MarketDirectoryPartnerPermissions,
+        join: {
+          from: 'market_directory_info.id',
+          to: 'market_directory_partner_permissions.market_directory_info_id',
         },
       },
     };

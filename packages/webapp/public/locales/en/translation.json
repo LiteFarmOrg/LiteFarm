@@ -1477,7 +1477,13 @@
       "SOCIAL_INPUT_LABEL": "{{social}} username",
       "WEBSITE": "Website"
     },
-    "MARKET_DIRECTORY_INFO": "Market directory info"
+    "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
+    "MARKET_DIRECTORIES": "Market directories",
+    "MARKET_DIRECTORY_INFO": "Market directory info",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": "List products directly in OFN stores."
+    },
+    "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",

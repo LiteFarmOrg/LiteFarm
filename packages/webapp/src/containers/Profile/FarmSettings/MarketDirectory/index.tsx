@@ -40,7 +40,7 @@ enum FormCards {
   INFO,
 }
 
-const MarketDirectory = () => {
+const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () => void }) => {
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
@@ -130,7 +130,10 @@ const MarketDirectory = () => {
           );
         })}
 
-        <MarketDirectoryConsent disabled={!areAllFormsComplete} />
+        <MarketDirectoryConsent
+          disabled={!areAllFormsComplete}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+        />
       </div>
     </CardLayout>
   );

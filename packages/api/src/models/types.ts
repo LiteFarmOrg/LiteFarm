@@ -649,6 +649,7 @@ export type MarketDirectoryInfo = {
   instagram?: string | null;
   facebook?: string | null;
   x?: string | null;
+  consented_to_share?: boolean;
 };
 
 export type MarketProductCategory = {
@@ -663,4 +664,21 @@ export type MarketDirectoryInfoMarketProductCategory = {
 
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
   market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
+}
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}
+
+export interface MarketDirectoryPartnerAuth {
+  market_directory_partner_id: number;
+  client_id: string;
+  keycloak_url: string;
+  keycloak_realm: string;
+  webhook_endpoint?: string;
+}
+
+export interface MarketDirectoryPartnerPermissions extends BaseProperties {
+  market_directory_info_id: string;
+  market_directory_partner_id: number;
 }

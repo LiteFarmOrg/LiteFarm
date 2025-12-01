@@ -20,7 +20,7 @@ import { setSpotlightToShown } from '../Map/saga';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { Trans } from 'react-i18next';
 import Badge from '../../components/Badge';
-import { ReactComponent as SendIcon } from '../../../assets/images/send-icon.svg';
+import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
 

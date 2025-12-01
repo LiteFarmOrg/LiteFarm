@@ -47,7 +47,7 @@ import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
-import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import BetaSpotlight from '../../Spotlights/BetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
 import { onAddTask } from '../../Task/onAddTask';
@@ -202,7 +202,7 @@ const MainAnimalInventory = ({
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
   return (
-    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+    <BetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
       <FixedHeaderContainer
         header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
@@ -223,7 +223,7 @@ const MainAnimalInventory = ({
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>
       </FixedHeaderContainer>
-    </AnimalsBetaSpotlight>
+    </BetaSpotlight>
   );
 };
 

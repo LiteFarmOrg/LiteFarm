@@ -395,6 +395,8 @@ export interface MarketDirectoryInfo {
     market_directory_id?: string; //response only
     market_product_category_id: number;
   }[];
+  consented_to_share?: boolean;
+  partner_permissions?: { market_directory_partner_id: MarketDirectoryPartner['id'] }[];
 }
 
 export interface MarketProductCategory extends BasicEnum {}

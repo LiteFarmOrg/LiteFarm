@@ -14,7 +14,7 @@
  */
 
 import { Request, Response } from 'express';
-import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
+import { formatFarmDataToDfcStandard } from '../services/datafoodconsortium/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 import type { HttpError } from '../types.js';
 import MarketDirectoryPartnerPermissions from '../models/marketDirectoryPartnerPermissions.js';

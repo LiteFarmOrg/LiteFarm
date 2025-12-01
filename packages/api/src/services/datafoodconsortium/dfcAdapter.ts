@@ -21,13 +21,13 @@ import {
   PhoneNumber,
   ISKOSConcept,
 } from '@datafoodconsortium/connector';
-import { apiUrl } from '../util/environment.js';
-import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
-import type { MarketDirectoryInfoWithRelations, MarketProductCategory } from '../models/types.js';
-import {
-  liteFarmToDFCTaxonomy,
-  getNestedValue,
-} from './datafoodconsortium/litefarmToDFCTaxonomy.js';
+import { apiUrl } from '../../util/environment.js';
+import { parseGoogleGeocodedAddress } from '../../util/googleMaps.js';
+import type {
+  MarketDirectoryInfoWithRelations,
+  MarketProductCategory,
+} from '../../models/types.js';
+import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
@@ -32,6 +34,9 @@ interface MarketDirectoryConsentProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
 }
 
+const CONSENTED_TO_SHARE = 'consented_to_share';
+const PARTNER_PERMISSION_IDS = 'partnerPermissionIds';
+
 const MarketDirectoryConsent = ({
   disabled,
   setFeedbackSurveyOpen,
@@ -40,6 +45,36 @@ const MarketDirectoryConsent = ({
   const { t } = useTranslation();
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
+
+  const defaultPartnerPermissionIds = useMemo(() => {
+    return new Set(
+      marketDirectoryInfo?.partner_permissions?.map(
+        ({ market_directory_partner_id }) => market_directory_partner_id,
+      ) || [],
+    );
+  }, [marketDirectoryInfo?.partner_permissions]);
+
+  const defaultValues = {
+    [CONSENTED_TO_SHARE]: marketDirectoryInfo?.[CONSENTED_TO_SHARE],
+    [PARTNER_PERMISSION_IDS]: defaultPartnerPermissionIds,
+  };
+
+  const { setValue, watch } = useForm({ defaultValues });
+
+  const consented = watch(CONSENTED_TO_SHARE);
+  const partnerPermissionIds = watch(PARTNER_PERMISSION_IDS);
+
+  const onConsentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(CONSENTED_TO_SHARE, e.target.checked);
+    setValue(PARTNER_PERMISSION_IDS, defaultPartnerPermissionIds);
+  };
+
+  const onDirectoryConsentChange = (partnerId: number) => {
+    const newValue = new Set(partnerPermissionIds);
+    partnerPermissionIds.has(partnerId) ? newValue.delete(partnerId) : newValue.add(partnerId);
+
+    setValue(PARTNER_PERMISSION_IDS, newValue);
+  };
 
   return (
     <div className={styles.consentContainer}>
@@ -57,6 +92,8 @@ const MarketDirectoryConsent = ({
           <Checkbox
             classNames={{ container: styles.checkbox, label: styles.label }}
             label={t('MARKET_DIRECTORY.CONSENT.I_AGREE')}
+            disabled={disabled}
+            onChange={onConsentChange}
           />
         </div>
       </div>
@@ -64,14 +101,14 @@ const MarketDirectoryConsent = ({
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>
         <p className={styles.lead}>{t('MARKET_DIRECTORY.WHERE_TO_BE_FEATURED')}</p>
         <div className={clsx(styles.marketTiles)}>
-          {marketDirectoryPartners.map(({ key }) => {
+          {marketDirectoryPartners.map(({ id, key }) => {
             return (
               <PureMarketDirectoryTile
                 key={key}
                 {...PARTNERS_INFO[key]}
-                hasConsent={false} // TODO: LF-4992
-                onConsentChange={undefined} // TODO: LF-4992
-                isReadOnly={disabled}
+                hasConsent={partnerPermissionIds.has(id)}
+                onConsentChange={() => onDirectoryConsentChange(id)}
+                isReadOnly={disabled || !consented}
               />
             );
           })}

@@ -46,3 +46,21 @@
 .soilAmendmentProductForm {
   @include flex-column-gap(24px);
 }
+
+.sectionTitle {
+  color: inherit;
+  font-family: 'Open Sans';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: capitalize;
+  height: 24px;
+  margin-bottom: 8px;
+  width: 100%;
+
+  // hide on tablet + desktop
+  @include sm-breakpoint {
+    display: none;
+  }
+}

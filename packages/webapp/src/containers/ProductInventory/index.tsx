@@ -34,6 +34,7 @@ import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
 import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filterSlice';
 import { useFilteredInventory } from './useFilteredInventory';
+import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
@@ -60,6 +61,8 @@ export default function ProductInventory() {
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const zIndexBase = theme.zIndex.drawer;
+
+  const sectionHeaderTitle = useSectionHeader(history.location.pathname) || '';
 
   useEffect(() => {
     dispatch(getProducts());
@@ -204,6 +207,7 @@ export default function ProductInventory() {
         selectedIds={selectedIds}
         onRowClick={handleRowClick}
         onAddMenuItemClick={onAddMenuItemClick}
+        sectionHeaderTitle={sectionHeaderTitle}
       />
       <ProductForm
         isFormOpen={isFormOpen}

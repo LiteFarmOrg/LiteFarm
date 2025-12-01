@@ -63,12 +63,29 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
     </div>
   );
 
+  const inventoryTitle = (title = t('MENU.INVENTORY')) => (
+    <div className={styles.animalInventoryTitle}>
+      <div className={styles.text}>{title}</div>
+      <Badge
+        title={t('BADGE.BETA.TITLE')}
+        content={
+          <Trans
+            i18nKey={'BADGE.BETA.INVENTORY_CONTENT'}
+            components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
+          />
+        }
+        id="inventoryBeta"
+        classes={{ iconButton: styles.badge }}
+      />
+    </div>
+  );
+
   const generalTitle = (title: string) => <div className={styles.generalTitle}>{title}</div>;
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_INVENTORY_URL]: animalInventoryTitle(),
     [ADD_ANIMALS_URL]: animalInventoryTitle(t('ADD_ANIMAL.ADD_ANIMALS_TITLE')),
-    [PRODUCT_INVENTORY_URL]: generalTitle(t('MENU.INVENTORY')),
+    [PRODUCT_INVENTORY_URL]: inventoryTitle(),
   };
 
   // Add routes for all location types

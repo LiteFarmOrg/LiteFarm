@@ -33,6 +33,7 @@ import { TableKind } from '../Table/types';
 import { TableProduct } from '../../containers/ProductInventory';
 import { Product } from '../../store/api/types';
 import { TASK_TYPES } from '../../containers/Task/constants';
+import { Title } from '../Typography';
 
 const TABLE_MIN_ROWS = 20;
 
@@ -51,6 +52,7 @@ export type PureProductInventory = {
   selectedIds: number[];
   onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
   onAddMenuItemClick: (type: Product['type']) => void;
+  sectionHeaderTitle: string | React.ReactElement;
 };
 
 const PureProductInventory = ({
@@ -67,6 +69,7 @@ const PureProductInventory = ({
   selectedIds,
   onRowClick,
   onAddMenuItemClick,
+  sectionHeaderTitle,
 }: PureProductInventory) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -84,6 +87,7 @@ const PureProductInventory = ({
           styles.searchAndFilterCommon,
         )}
       >
+        <Title className={productInventoryStyles.sectionTitle}>{sectionHeaderTitle}</Title>
         <PureSearchBarWithBackdrop
           value={searchString}
           onChange={(e: any) => setSearchString(e.target.value)}

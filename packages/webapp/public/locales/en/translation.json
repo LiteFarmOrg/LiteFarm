@@ -1452,6 +1452,7 @@
     "CONSENT": {
       "ALMOST_READY": "You’re almost ready to get published! Just fill in the missing details in your Market directory info form above first.",
       "CONSENT_TO_SHARE_INFORMATION": "I consent to share the above information with trusted partner directories. I can revoke consent anytime.<br />Revoking consent will stop LiteFarm from syncing your data. Your information might still exist in the partner directory — you may need to request removal directly.",
+      "I_AGREE": "I agree",
       "SEE_ALL_DATA": "See all data that will be shared",
       "TITLE": "Consent"
     },

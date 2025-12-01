@@ -34,7 +34,7 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   };
   style?: object;
   hookFormRegister?: UseFormRegisterReturn;
-  onChange?: ReactEventHandler;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: ReactEventHandler;
   sm?: boolean;
   partiallyChecked?: boolean;

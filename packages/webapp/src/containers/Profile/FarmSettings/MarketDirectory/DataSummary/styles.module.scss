@@ -63,7 +63,7 @@
           display: inline-block;
           width: 20px;
           height: 20px;
-          background-color: var(--Colors-Neutral-Neutral-900);
+          background-color: pink; // TOOD: Confirm
           -webkit-mask-image: url('../../../../../assets/images/check-circle2.svg');
           -webkit-mask-repeat: no-repeat;
           -webkit-mask-size: 20px;
@@ -77,9 +77,17 @@
         gap: 4px;
         margin-bottom: 8px;
         list-style-type: none;
-        color: var(--Colors-Neutral-Neutral-900);
+        color: pink; // TOOD: Confirm
         line-height: normal;
         font-weight: 400;
+
+        &.hasData {
+          color: var(--Colors-Neutral-Neutral-900);
+
+          &::before {
+            background-color: var(--Colors-Neutral-Neutral-900);
+          }
+        }
       }
     }
   }

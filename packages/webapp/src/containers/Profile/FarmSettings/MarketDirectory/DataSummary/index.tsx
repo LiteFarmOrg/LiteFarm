@@ -19,13 +19,17 @@ import useExpandable from '../../../../../components/Expandable/useExpandableIte
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
+import { DIRECTORY_INFO_FIELDS } from '../InfoForm/types';
+import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
 const ID = 'summamry';
 
-interface DataSummaryProps {}
+interface ComponentProps {
+  marketDirectoryInfo?: MarketDirectoryInfo;
+}
 
-const DataSummary = ({}: DataSummaryProps) => {
+const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isSummaryExpanded = expandedIds.includes(ID);
@@ -38,38 +42,68 @@ const DataSummary = ({}: DataSummaryProps) => {
       </TextButton>
       <Collapse id={ID} in={isSummaryExpanded} timeout="auto" unmountOnExit>
         <div className={styles.content}>
-          <DataSummaryList />
+          <DataSummaryList marketDirectoryInfo={marketDirectoryInfo} />
         </div>
       </Collapse>
     </div>
   );
 };
 
-const DataSummaryList = () => {
+const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
   const { t } = useTranslation(['translation', 'common']);
+
+  const getClassName = (properties: (keyof MarketDirectoryInfo)[]) => {
+    for (let property of properties) {
+      if (marketDirectoryInfo?.[property]) {
+        return styles.hasData;
+      }
+    }
+    return undefined;
+  };
 
   return (
     <ul className={styles.dataSummaryList}>
       <li>
         {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_PROFILE')}
         <ul>
-          <li>{t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')}</li>
-          <li>{t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}</li>
-          <li>{t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')}</li>
-          <li>{t('MARKET_DIRECTORY.INFO_FORM.ABOUT')}</li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.FARM_NAME])}>
+            {t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')}
+          </li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.LOGO])}>
+            {t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
+          </li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.ADDRESS])}>
+            {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')}
+          </li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.ABOUT])}>
+            {t('MARKET_DIRECTORY.INFO_FORM.ABOUT')}
+          </li>
         </ul>
       </li>
       <li>
         {t('common:CONTACT')}
         <ul>
-          <li>{t('MARKET_DIRECTORY.INFO_SUMMARY.EMAIL')}</li>
-          <li>{t('MARKET_DIRECTORY.INFO_SUMMARY.PHONE')}</li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.CONTACT_EMAIL])}>
+            {t('MARKET_DIRECTORY.INFO_SUMMARY.EMAIL')}
+          </li>
+          <li className={getClassName([DIRECTORY_INFO_FIELDS.PHONE_NUMBER])}>
+            {t('MARKET_DIRECTORY.INFO_SUMMARY.PHONE')}
+          </li>
         </ul>
       </li>
       <li>
         {t('MARKET_DIRECTORY.INFO_FORM.ONLINE_PRESENCE')}
         <ul>
-          <li>{t('MARKET_DIRECTORY.INFO_SUMMARY.ONLINE_PRESENCE_ITEM')}</li>
+          <li
+            className={getClassName([
+              DIRECTORY_INFO_FIELDS.WEBSITE,
+              DIRECTORY_INFO_FIELDS.INSTAGRAM,
+              DIRECTORY_INFO_FIELDS.FACEBOOK,
+              DIRECTORY_INFO_FIELDS.X,
+            ])}
+          >
+            {t('MARKET_DIRECTORY.INFO_SUMMARY.ONLINE_PRESENCE_ITEM')}
+          </li>
         </ul>
       </li>
     </ul>

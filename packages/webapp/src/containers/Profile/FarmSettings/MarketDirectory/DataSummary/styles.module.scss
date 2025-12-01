@@ -1,0 +1,86 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.dataSummary {
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  .content {
+    padding: 8px 24px 24px 48px;
+  }
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  padding: 8px 12px 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  @include fontFamily();
+
+  svg path {
+    stroke: var(--Colors-Neutral-Neutral-600);
+  }
+}
+
+.dataSummaryList {
+  font-size: 16px;
+  list-style: none;
+
+  > li {
+    margin-bottom: 16px;
+    color: var(--Colors-Neutral-Neutral-600);
+    font-weight: 600;
+    line-height: normal;
+
+    ul {
+      margin-top: 12px;
+
+      li {
+        /* Check-circle icon — color is set via mask and background-color */
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background-color: var(--Colors-Neutral-Neutral-900);
+          -webkit-mask-image: url('../../../../../assets/images/check-circle2.svg');
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-size: 20px;
+          mask-image: url('../../../../../assets/images/check-circle2.svg');
+          mask-repeat: no-repeat;
+          mask-size: 20px;
+        }
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 8px;
+        list-style-type: none;
+        color: var(--Colors-Neutral-Neutral-900);
+        line-height: normal;
+        font-weight: 400;
+      }
+    }
+  }
+}

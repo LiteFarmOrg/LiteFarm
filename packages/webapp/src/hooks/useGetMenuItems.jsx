@@ -106,6 +106,7 @@ export const useGetMenuItems = () => {
       icon: <InventoryIcon />,
       path: PRODUCT_INVENTORY_URL,
       key: 'inventory',
+      badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
     });
     return list;
   }, [isAdmin, t]);

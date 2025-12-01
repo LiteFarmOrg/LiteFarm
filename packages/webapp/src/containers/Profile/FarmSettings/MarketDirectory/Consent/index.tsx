@@ -13,15 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { TFunction, useTranslation } from 'react-i18next';
+import { TFunction, Trans, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
 import {
   PureMarketDirectoryTile,
   MarketplaceSuggestionTile,
 } from '../../../../../components/MarketDirectoryTile';
-import { PARTNERS_INFO } from './partners';
+import Checkbox from '../../../../../components/Form/Checkbox';
 import DataSummary from '../DataSummary';
+import { PARTNERS_INFO } from './partners';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
@@ -46,6 +47,18 @@ const MarketDirectoryConsent = ({
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
         {disabled && <WarningBanner t={t} />}
         <DataSummary marketDirectoryInfo={marketDirectoryInfo} />
+        <div className={clsx(styles.consentMain, disabled && styles.disabled)}>
+          <p>
+            <Trans
+              i18nKey="MARKET_DIRECTORY.CONSENT.CONSENT_TO_SHARE_INFORMATION"
+              components={{ br: <br /> }}
+            />
+          </p>
+          <Checkbox
+            classNames={{ container: styles.checkbox, label: styles.label }}
+            label={t('MARKET_DIRECTORY.CONSENT.I_AGREE')}
+          />
+        </div>
       </div>
       <div className={styles.marketDirectories}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.MARKET_DIRECTORIES')}</h3>

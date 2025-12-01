@@ -53,6 +53,41 @@
   }
 }
 
+.consentMain {
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  background: var(--Box-bg);
+  padding: 16px 24px;
+
+  > p {
+    color: #000;
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .checkbox {
+    gap: 8px;
+    padding: 0 8px;
+
+    .label {
+      font-weight: 700;
+      line-height: normal;
+      color: var(--Colors-Neutral-Neutral-500);
+    }
+  }
+
+  &.disabled {
+    > p {
+      color: var(--Colors-Neutral-Neutral-300);
+    }
+
+    .label {
+      color: var(--Colors-Neutral-Neutral-100);
+    }
+  }
+}
+
 .marketDirectories {
   .sectionTitle {
     margin-bottom: 4px;

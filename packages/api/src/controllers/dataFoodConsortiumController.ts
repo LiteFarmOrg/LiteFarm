@@ -82,11 +82,14 @@ const dataFoodConsortiumController = {
           });
         const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
 
-        const dfcFormattedListingData = await Promise.all(
-          authorizedFarmsDirectoryInfo.map((marketDirectoryInfo) => {
-            return formatFarmDataToDfcStandard(marketDirectoryInfo, marketProductCategoryMap);
-          }),
-        );
+        const dfcFormattedListingData = [];
+        for (const marketDirectoryInfo of authorizedFarmsDirectoryInfo) {
+          const formatted = await formatFarmDataToDfcStandard(
+            marketDirectoryInfo,
+            marketProductCategoryMap,
+          );
+          dfcFormattedListingData.push(formatted);
+        }
 
         return res.status(200).send(dfcFormattedListingData);
       } catch (error: unknown) {

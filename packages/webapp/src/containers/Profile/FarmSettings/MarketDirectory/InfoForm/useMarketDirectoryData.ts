@@ -14,39 +14,45 @@
  */
 
 import { useMemo } from 'react';
-import { MarketDirectoryInfo } from '../../../../../store/api/types';
+import { MarketDirectoryInfo, MarketProductCategory } from '../../../../../store/api/types';
 import { mapReactSelectOptionsForEnum } from '../../../../../components/Form/ReactSelect/util';
 import { DIRECTORY_INFO_FIELDS } from './types';
 import { useGetMarketProductCategoriesQuery } from '../../../../../store/api/marketProductCategoryApi';
 
-const useMarketDirectoryData = (marketDirectoryInfo?: MarketDirectoryInfo) => {
-  const { data: marketProductCategories, isLoading: isMarketProductCategoriesLoading } =
-    useGetMarketProductCategoriesQuery();
-
-  const marketProductCategoryOptions = marketProductCategories
-    ? mapReactSelectOptionsForEnum(
-        marketProductCategories,
-        'market_directory_info:MARKET_PRODUCT_CATEGORY',
-      )
-    : [];
-
-  const transformedMarketDirectoryProducts = marketDirectoryInfo?.market_product_categories?.map(
-    (category) => {
-      return marketProductCategoryOptions.find(
-        (option) => option.value === category.market_product_category_id,
-      );
-    },
-  );
-
+const useMarketDirectoryData = (
+  marketDirectoryInfo?: MarketDirectoryInfo,
+  marketProductCategories?: MarketProductCategory[],
+) => {
   return useMemo(() => {
-    if (isMarketProductCategoriesLoading || !marketDirectoryInfo) {
-      return null;
+    const marketProductCategoryOptions = marketProductCategories
+      ? mapReactSelectOptionsForEnum(
+          marketProductCategories,
+          'market_directory_info:MARKET_PRODUCT_CATEGORY',
+        )
+      : [];
+
+    if (!marketDirectoryInfo) {
+      return {
+        marketDirectoryData: null,
+        marketProductCategoryOptions,
+      };
     }
+
+    const transformedMarketDirectoryProducts = marketDirectoryInfo?.market_product_categories?.map(
+      (category) => {
+        return marketProductCategoryOptions?.find(
+          (option) => option.value === category.market_product_category_id,
+        );
+      },
+    );
     return {
-      ...marketDirectoryInfo,
-      [DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES]: transformedMarketDirectoryProducts || [],
+      marketDirectoryData: {
+        ...marketDirectoryInfo,
+        [DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES]: transformedMarketDirectoryProducts || [],
+      },
+      marketProductCategoryOptions,
     };
-  }, [isMarketProductCategoriesLoading, marketDirectoryInfo, transformedMarketDirectoryProducts]);
+  }, [marketDirectoryInfo, marketProductCategories]);
 };
 
 export default useMarketDirectoryData;

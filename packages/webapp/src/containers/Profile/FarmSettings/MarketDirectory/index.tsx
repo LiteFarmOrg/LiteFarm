@@ -59,12 +59,13 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
   const { data: marketDirectoryInfo, isLoading: isMarketDirectoryInfoLoading } =
     useGetMarketDirectoryInfoQuery();
 
-  const { data: marketProductCategories, isLoading: isMarketProductCategoriesLoading } =
+  const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
     useGetMarketProductCategoriesQuery();
 
   const isMarketDirectoryDataLoading = [
     isMarketDirectoryInfoLoading,
     isMarketProductCategoriesLoading,
+    !marketProductCategories.length,
   ].some(Boolean);
 
   useEffect(() => {
@@ -72,14 +73,6 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
       updateCompletionStatus(FormCards.INFO, true);
     }
   }, [isMarketDirectoryInfoLoading, marketDirectoryInfo]);
-
-  // Build the product categories for form
-  const marketProductCategoryOptions = marketProductCategories
-    ? mapReactSelectOptionsForEnum(
-        marketProductCategories,
-        'market_directory_info:MARKET_PRODUCT_CATEGORY',
-      )
-    : [];
 
   const formCards = [
     {
@@ -89,7 +82,7 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
         <MarketDirectoryInfoForm
           marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}
-          marketProductCategoryOptions={marketProductCategoryOptions}
+          marketProductCategories={marketProductCategories}
         />
       ),
     },

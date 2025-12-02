@@ -28,7 +28,7 @@ import {
 } from '../../../../../store/api/marketDirectoryInfoApi';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import InFormButtons from '../../../../../components/Form/InFormButtons';
-import type { MarketDirectoryInfo } from '../../../../../store/api/types';
+import type { MarketDirectoryInfo, MarketProductCategory } from '../../../../../store/api/types';
 import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
 import { ReactSelectOptionForEnum } from '../../../../../components/Form/ReactSelect/util';
 import useMarketDirectoryData from './useMarketDirectoryData';
@@ -42,13 +42,13 @@ export enum FormMode {
 interface MarketDirectoryInfoFormProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
   close: () => void;
-  marketProductCategoryOptions: ReactSelectOptionForEnum[];
+  marketProductCategories: MarketProductCategory[];
 }
 
 const MarketDirectoryInfoForm = ({
   marketDirectoryInfo,
   close,
-  marketProductCategoryOptions,
+  marketProductCategories,
 }: MarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -64,7 +64,10 @@ const MarketDirectoryInfoForm = ({
   const isReadonly = formMode === FormMode.READONLY;
 
   const userFarmDefaults = useDefaultMarketDirectoryData();
-  const marketDirectoryData = useMarketDirectoryData(marketDirectoryInfo);
+  const { marketDirectoryData, marketProductCategoryOptions } = useMarketDirectoryData(
+    marketDirectoryInfo,
+    marketProductCategories,
+  );
   const defaultValues = marketDirectoryData || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({

@@ -70,7 +70,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
         title={t('BADGE.BETA.TITLE')}
         content={
           <Trans
-            i18nKey={'BADGE.BETA.INVENTORY_CONTENT'}
+            i18nKey={'BADGE.BETA.INVENTORY_BETA_CONTENT'}
             components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
           />
         }

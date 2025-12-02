@@ -18,22 +18,27 @@ import { useState } from 'react';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
+import { NavMenuControlsContext } from '../../App';
 
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   return (
     <div style={{ display: 'flex' }}>
       <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
       <div style={{ width: '100%' }}>
-        <TopMenu
-          history={{ location: { pathname: '' } }}
-          isMobile={undefined}
-          showNavActions={undefined}
-          onClickBurger={undefined}
-          showNav={true}
-          isFeedbackSurveyOpen={isOpen}
-          setFeedbackSurveyOpen={setIsOpen}
-        />
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
+        >
+          <TopMenu
+            history={{ location: { pathname: '' } }}
+            isMobile={undefined}
+            showNavActions={undefined}
+            onClickBurger={undefined}
+            showNav={true}
+          />
+        </NavMenuControlsContext.Provider>
         <FixedHeaderContainer
           kind={kind}
           header={<div style={{ backgroundColor: '#16423d', height: '70px' }}>HEADER</div>}

@@ -24,23 +24,20 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
 import { ReactElement } from 'react';
+import { useNavMenuControls } from '../../App';
 
 type BetaSpotlightProps = {
   children: ReactElement;
-  setFeedbackSurveyOpen: (bool: boolean) => void;
   spotlight: string;
 };
 
-export default function BetaSpotlight({
-  children,
-  setFeedbackSurveyOpen,
-  spotlight,
-}: BetaSpotlightProps) {
+export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const spotlights = useSelector(showedSpotlightSelector);
   const onFinish = () => dispatch(setSpotlightToShown(spotlight));
   const upperCaseSpotlightKey = spotlight.toUpperCase();
+  const { feedback: feedbackControls } = useNavMenuControls();
 
   return (
     <TourProviderWrapper
@@ -77,7 +74,7 @@ export default function BetaSpotlight({
           buttonProps: {
             color: 'secondary',
           },
-          onNext: () => setFeedbackSurveyOpen(true),
+          onNext: () => feedbackControls.setFeedbackSurveyOpen(true),
         },
       ]}
       onFinish={onFinish}

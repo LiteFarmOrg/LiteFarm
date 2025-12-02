@@ -302,7 +302,7 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
+const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -746,10 +746,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -1155,10 +1152,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -1312,10 +1306,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       children={<NotificationReadOnly />}
                     />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />

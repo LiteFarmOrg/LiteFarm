@@ -36,20 +36,14 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
+import { useNavMenuControls } from '../../../App';
 
-const TopMenu = ({
-  history,
-  isMobile,
-  showNavActions,
-  onClickBurger,
-  showNav,
-  isFeedbackSurveyOpen,
-  setFeedbackSurveyOpen,
-}) => {
+const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
   const sectionHeader = useSectionHeader(history.location.pathname);
+  const { feedback: feedbackControls } = useNavMenuControls();
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -245,8 +239,8 @@ const TopMenu = ({
         <ProfilePicture />
       </IconButton>
       <FeedbackSurvey
-        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+        isFeedbackSurveyOpen={feedbackControls.isFeedbackSurveyOpen}
+        setFeedbackSurveyOpen={feedbackControls.setFeedbackSurveyOpen}
       />
       {isMobile ? drawerMenu : floaterMenu}
     </>

@@ -85,7 +85,6 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   view?: View;
   isCompactSideMenu: boolean;
-  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   showOnlySelected?: boolean;
   showLinks?: boolean;
@@ -186,7 +185,6 @@ const TaskAnimalInventory = ({
 };
 
 const MainAnimalInventory = ({
-  setFeedbackSurveyOpen,
   history,
   onTypeClick,
   selectedTypeIds,
@@ -194,7 +192,6 @@ const MainAnimalInventory = ({
   isAdmin,
   ...commonProps
 }: {
-  setFeedbackSurveyOpen: () => void;
   history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
@@ -202,7 +199,7 @@ const MainAnimalInventory = ({
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
   return (
-    <BetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen} spotlight={'animals_beta'}>
+    <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
         header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
@@ -241,7 +238,6 @@ export default function AnimalInventory({
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
-  setFeedbackSurveyOpen,
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
@@ -494,7 +490,6 @@ export default function AnimalInventory({
 
   return (
     <MainAnimalInventory
-      setFeedbackSurveyOpen={setFeedbackSurveyOpen}
       onTypeClick={onTypeClick}
       selectedTypeIds={selectedTypeIds}
       actionMenuAndRemoveModal={actionMenuAndRemoveModal}

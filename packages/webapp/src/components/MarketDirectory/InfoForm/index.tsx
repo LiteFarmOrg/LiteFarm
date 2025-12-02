@@ -133,7 +133,7 @@ const PureMarketDirectoryInfoForm = ({
               value={value}
               onChange={onChange}
               options={marketProductCategoryOptions}
-              style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
+              style={{ paddingBottom: '16px' }} // accomodate "Clear all" button space
               isDisabled={readonly}
             />
           )}

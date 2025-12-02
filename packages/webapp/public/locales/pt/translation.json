@@ -335,7 +335,6 @@
       "WEANING_DATE": "Data de desmame"
     },
     "BATCH": "Lote",
-    "BETA_SPOTLIGHT_HEADING": "Apresentando o Novo Recurso de Animais",
     "FILTER": {
       "BATCHES": "Lotes",
       "BATCHES_OR_INDIVIDUALS": "Lotes ou Indivíduos",
@@ -356,7 +355,8 @@
   },
   "BADGE": {
     "BETA": {
-      "ANIMALS_CONTENT": "Dê uma olhada nas nossas novas funcionalidades de gestão de animais — agora na versão beta! Seu feedback é crucial à medida que melhoramos este recurso. Por favor, compartilhe quaisquer erros ou sugestões que você encontrar. Agradecemos sua ajuda para melhorar o LiteFarm! Aprenda mais sobre a versão beta <a>aqui</a>",
+      "ANIMALS_BETA_CONTENT": "Dê uma olhada nas nossas novas funcionalidades de gestão de animais — agora na versão beta! Seu feedback é crucial à medida que melhoramos este recurso. Por favor, compartilhe quaisquer erros ou sugestões que você encontrar. Agradecemos sua ajuda para melhorar o LiteFarm! Aprenda mais sobre a versão beta <a>aqui</a>",
+      "ANIMALS_BETA_HEADING": "Apresentando o Novo Recurso de Animais",
       "TITLE": "Beta"
     }
   },

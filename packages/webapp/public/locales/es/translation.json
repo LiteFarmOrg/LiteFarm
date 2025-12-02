@@ -335,7 +335,6 @@
       "WEANING_DATE": "Fecha de destete"
     },
     "BATCH": "Lote",
-    "BETA_SPOTLIGHT_HEADING": "Presentación de la nueva función Animales",
     "FILTER": {
       "BATCHES": "Lotes",
       "BATCHES_OR_INDIVIDUALS": "Lotes o individuales",
@@ -356,7 +355,8 @@
   },
   "BADGE": {
     "BETA": {
-      "ANIMALS_CONTENT": "¡Descubre un adelanto de nuestra nueva función de gestión de animales, ahora en versión beta! Su opinión es fundamental mientras perfeccionamos esta herramienta. Por favor, comparte cualquier error o sugerencia que encuentre. ¡Agradecemos su ayuda para mejorar LiteFarm! Puedes obtener más información sobre la versión beta <a>aquí</a>",
+      "ANIMALS_BETA_CONTENT": "¡Descubre un adelanto de nuestra nueva función de gestión de animales, ahora en versión beta! Su opinión es fundamental mientras perfeccionamos esta herramienta. Por favor, comparte cualquier error o sugerencia que encuentre. ¡Agradecemos su ayuda para mejorar LiteFarm! Puedes obtener más información sobre la versión beta <a>aquí</a>",
+      "ANIMALS_BETA_HEADING": "Presentación de la nueva función Animales",
       "TITLE": "Beta"
     }
   },

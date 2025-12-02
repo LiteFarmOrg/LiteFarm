@@ -83,7 +83,8 @@
       color: var(--Colors-Neutral-Neutral-300);
     }
 
-    .label {
+    .label,
+    input:checked ~ .label {
       color: var(--Colors-Neutral-Neutral-100);
     }
   }

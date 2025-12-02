@@ -31,6 +31,8 @@ import type {
 } from '../../models/types.js';
 import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
 
+let sharedProductTypesConnector: Connector;
+let liteFarmKeyToDfcType: Map<string, ISKOSConcept>;
 const __dirname = import.meta.dirname;
 
 const createEnterpriseUrl = (market_directory_info_id: string): string => {
@@ -57,6 +59,20 @@ export const formatFarmDataToDfcStandard = async (
   marketDirectoryInfo: MarketDirectoryInfoWithRelations,
   marketProductCategoryMap: Map<number, MarketProductCategory>,
 ) => {
+  if (!sharedProductTypesConnector || !liteFarmKeyToDfcType) {
+    let productTypesFile;
+    try {
+      productTypesFile = await fs.readFile(path.join(__dirname, 'dfcProductTypes.json'), 'utf-8');
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to read taxonomy file');
+    }
+
+    sharedProductTypesConnector = new Connector();
+    await sharedProductTypesConnector.loadProductTypes(productTypesFile);
+
+    liteFarmKeyToDfcType = buildProductTypeMappings(sharedProductTypesConnector);
+  }
   const connector = new Connector();
 
   const {
@@ -100,18 +116,6 @@ export const formatFarmDataToDfcStandard = async (
 
   /* @ts-expect-error incorrect interface type */
   mainContact.addEmailAddress(contact_email);
-
-  let productTypesFile;
-  try {
-    productTypesFile = await fs.readFile(path.join(__dirname, 'dfcProductTypes.json'), 'utf-8');
-  } catch (err) {
-    console.error(err);
-    throw new Error('Failed to read taxonomy file');
-  }
-
-  await connector.loadProductTypes(productTypesFile);
-
-  const liteFarmKeyToDfcType = buildProductTypeMappings(connector);
 
   const products = (market_product_categories ?? [])
     .map(({ market_product_category_id }) => {

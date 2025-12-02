@@ -29,6 +29,7 @@ import { ReactComponent as CheckIncomplete } from '../../../../assets/images/che
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
+import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
 
 enum FormCards {
   INFO,
@@ -57,6 +58,15 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
   const { data: marketDirectoryInfo, isLoading: isMarketDirectoryInfoLoading } =
     useGetMarketDirectoryInfoQuery();
 
+  const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
+    useGetMarketProductCategoriesQuery();
+
+  const isMarketDirectoryDataLoading = [
+    isMarketDirectoryInfoLoading,
+    isMarketProductCategoriesLoading,
+    !marketProductCategories.length,
+  ].some(Boolean);
+
   useEffect(() => {
     if (!isMarketDirectoryInfoLoading && marketDirectoryInfo) {
       updateCompletionStatus(FormCards.INFO, true);
@@ -67,10 +77,11 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
     {
       key: FormCards.INFO,
       title: t('MARKET_DIRECTORY.MARKET_DIRECTORY_INFO'),
-      content: !isMarketDirectoryInfoLoading && (
+      content: !isMarketDirectoryDataLoading && (
         <MarketDirectoryInfoForm
           marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}
+          marketProductCategories={marketProductCategories}
         />
       ),
     },

@@ -121,7 +121,7 @@ export const formatFarmDataToDfcStandard = async (
       const dfcProductType = liteFarmKeyToDfcType.get(category.key);
 
       return connector.createSuppliedProduct({
-        semanticId: `${enterpriseUrl}#${category.key}`,
+        semanticId: `${enterpriseUrl}#suppliedProduct-${category.key.toLowerCase()}`,
         productType: dfcProductType,
       });
     })

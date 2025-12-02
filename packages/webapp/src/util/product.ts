@@ -15,7 +15,7 @@
 
 import { Product } from '../store/api/types';
 
-// LF-4963 - confirm property that will distinguish custom from library products
+// LF-4970, LF-4963 - confirm property that will distinguish custom from library products
 export const isLibraryProduct = (product: Product) => {
   return !!product.product_translation_key;
 };

@@ -20,7 +20,8 @@ import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
-import { isLibraryProduct } from '../../../util/product';
+// LF-4970
+// import { isLibraryProduct } from '../../../util/product';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
@@ -81,9 +82,8 @@ const PureSoilAmendmentProductForm = ({
   }, [mode]);
 
   const customProductNames = useMemo(() => {
-    return products
-      .filter((product) => !product.removed && !isLibraryProduct(product))
-      .map(({ name }) => name);
+    // LF-4970 -> .filter((product) => !product.removed && !isLibraryProduct(product))
+    return products.filter((product) => !product.removed).map(({ name }) => name);
   }, [products]);
 
   return (

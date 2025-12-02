@@ -31,6 +31,7 @@ import Button from '../../../../../components/Form/Button';
 import DataSummary from '../DataSummary';
 import { PARTNERS_INFO } from './partners';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
+import { areSetsEqual } from '../../../../../util/comparisons';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
@@ -74,17 +75,15 @@ const MarketDirectoryConsent = ({
     [PARTNER_PERMISSION_IDS]: defaultPartnerPermissionIds,
   };
 
-  const {
-    register,
-    setValue,
-    watch,
-    reset,
-    handleSubmit,
-    formState: { isDirty },
-  } = useForm({ defaultValues });
+  const { register, setValue, watch, reset, handleSubmit } = useForm({ defaultValues });
 
   const consented = watch(CONSENTED_TO_SHARE);
   const partnerPermissionIds = watch(PARTNER_PERMISSION_IDS);
+
+  // react-hook-form's isDirty does not work for PARTNER_PERMISSION_IDS
+  const hasFormModified =
+    defaultValues[CONSENTED_TO_SHARE] !== consented ||
+    !areSetsEqual(defaultValues[PARTNER_PERMISSION_IDS], partnerPermissionIds);
 
   const onDirectoryConsentChange = (partnerId: number) => {
     const newValue = new Set(partnerPermissionIds);
@@ -178,7 +177,7 @@ const MarketDirectoryConsent = ({
             }
             onCancel={onCancel}
             onConfirm={handleSubmit(onSave)}
-            isDisabled={!canConsent || !isDirty}
+            isDisabled={!canConsent || !hasFormModified}
             isCancelDisabled={!canConsent}
             confirmButtonType="submit"
             confirmButtonColor="primary"

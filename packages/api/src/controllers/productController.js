@@ -123,9 +123,9 @@ const productController = {
         }
 
         // LF-4963 - confirm property that will distinguish custom from library products
-        const isLibraryProduct = product.product_translation_key;
-
-        if (!isLibraryProduct && isUnusedByTasks) {
+        // const isLibraryProduct = product.product_translation_key;
+        // if (!isLibraryProduct && isUnusedByTasks) {
+        if (isUnusedByTasks) {
           await baseController.delete(ProductModel, product_id, req, { trx });
         }
 

@@ -14,7 +14,7 @@
  */
 
 import axios from 'axios';
-import { getAccessToken } from './keycloak.js';
+import { getAccessToken } from '../keycloak.js';
 import { createEnterpriseUrl } from './dfcAdapter.js';
 
 /* This module is based on the Data Server Development Guide on GitLab:

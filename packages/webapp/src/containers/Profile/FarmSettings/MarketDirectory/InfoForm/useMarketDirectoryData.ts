@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import { mapReactSelectOptionsForEnum } from '../../../../../components/Form/ReactSelect/util';
 import { DIRECTORY_INFO_FIELDS } from './types';
-import { useMemo } from 'react';
 import { useGetMarketProductCategoriesQuery } from '../../../../../store/api/marketProductCategoryApi';
 
 const useMarketDirectoryData = (marketDirectoryInfo?: MarketDirectoryInfo) => {

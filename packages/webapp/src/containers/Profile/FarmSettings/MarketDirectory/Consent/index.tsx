@@ -33,7 +33,7 @@ import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../stor
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
-  disabled: boolean;
+  canConsent: boolean;
   setFeedbackSurveyOpen: () => void;
   marketDirectoryInfo?: MarketDirectoryInfo;
 }
@@ -42,7 +42,7 @@ const CONSENTED_TO_SHARE = 'consented_to_share';
 const PARTNER_PERMISSION_IDS = 'partnerPermissionIds';
 
 const MarketDirectoryConsent = ({
-  disabled,
+  canConsent,
   setFeedbackSurveyOpen,
   marketDirectoryInfo,
 }: MarketDirectoryConsentProps) => {
@@ -51,7 +51,11 @@ const MarketDirectoryConsent = ({
     useGetMarketDirectoryPartnersQuery('?filter=country');
   const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
 
-  const [isEditingConsent, setIsEditingConsent] = useState(disabled);
+  // When the initial canConsent is true, start in read-only mode.
+  // User clicks "Edit" to modify.
+  const [isConsentReadonly, setIsConsentReadonly] = useState(canConsent);
+
+  const isConsentFormDisabled = !canConsent || isConsentReadonly;
 
   const defaultPartnerPermissionIds = useMemo(() => {
     return new Set(
@@ -87,7 +91,7 @@ const MarketDirectoryConsent = ({
 
   const onCancel = () => {
     reset(defaultValues);
-    setIsEditingConsent(false);
+    setIsConsentReadonly(true);
   };
 
   const onConfirm = async (data: {
@@ -107,9 +111,9 @@ const MarketDirectoryConsent = ({
     <div className={styles.consentContainer}>
       <div className={styles.consent}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
-        {disabled && <WarningBanner t={t} />}
+        {!canConsent && <WarningBanner t={t} />}
         <DataSummary marketDirectoryInfo={marketDirectoryInfo} />
-        <div className={clsx(styles.consentMain, !isEditingConsent && styles.disabled)}>
+        <div className={clsx(styles.consentMain, isConsentFormDisabled && styles.disabled)}>
           <p>
             <Trans
               i18nKey="MARKET_DIRECTORY.CONSENT.CONSENT_TO_SHARE_INFORMATION"
@@ -120,7 +124,7 @@ const MarketDirectoryConsent = ({
             hookFormRegister={register(CONSENTED_TO_SHARE)}
             classNames={{ container: styles.checkbox, label: styles.label }}
             label={t('MARKET_DIRECTORY.CONSENT.I_AGREE')}
-            disabled={!isEditingConsent}
+            disabled={isConsentFormDisabled}
           />
         </div>
       </div>
@@ -135,7 +139,7 @@ const MarketDirectoryConsent = ({
                 {...PARTNERS_INFO[key]}
                 hasConsent={partnerPermissionIds.has(id)}
                 onConsentChange={() => onDirectoryConsentChange(id)}
-                isReadOnly={disabled || !consented}
+                isReadOnly={isConsentFormDisabled || !consented}
               />
             );
           })}
@@ -143,7 +147,17 @@ const MarketDirectoryConsent = ({
         </div>
       </div>
       <div className={styles.buttonWrapper}>
-        {isEditingConsent ? (
+        {isConsentReadonly ? (
+          <Button
+            type="button"
+            color="secondary"
+            className={styles.editButton}
+            onClick={() => setIsConsentReadonly(false)}
+          >
+            <BiPencil />
+            <span>{t('common:EDIT')}</span>
+          </Button>
+        ) : (
           <InFormButtons
             confirmText={
               consented && partnerPermissionIds.size
@@ -152,22 +166,12 @@ const MarketDirectoryConsent = ({
             }
             onCancel={onCancel}
             onConfirm={handleSubmit(onConfirm)}
-            isDisabled={disabled || !isDirty}
-            isCancelDisabled={disabled}
+            isDisabled={!canConsent || !isDirty}
+            isCancelDisabled={!canConsent}
             confirmButtonType="submit"
             confirmButtonColor="primary"
             className={styles.consentButtons}
           />
-        ) : (
-          <Button
-            type="button"
-            color="secondary"
-            className={styles.editButton}
-            onClick={() => setIsEditingConsent(true)}
-          >
-            <BiPencil />
-            <span>{t('common:EDIT')}</span>
-          </Button>
         )}
       </div>
     </div>

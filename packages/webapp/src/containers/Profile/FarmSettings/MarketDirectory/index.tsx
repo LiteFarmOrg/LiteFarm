@@ -126,7 +126,7 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
 
         {areAllFormsComplete !== undefined && (
           <MarketDirectoryConsent
-            disabled={!areAllFormsComplete}
+            canConsent={areAllFormsComplete}
             setFeedbackSurveyOpen={setFeedbackSurveyOpen}
             marketDirectoryInfo={marketDirectoryInfo}
           />

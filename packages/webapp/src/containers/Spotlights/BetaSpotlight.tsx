@@ -23,17 +23,29 @@ import Badge from '../../components/Badge';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
+import { ReactElement } from 'react';
 
-export default function BetaSpotlight({ children, setFeedbackSurveyOpen }) {
+type BetaSpotlightProps = {
+  children: ReactElement;
+  setFeedbackSurveyOpen: (bool: boolean) => void;
+  spotlight: string;
+};
+
+export default function BetaSpotlight({
+  children,
+  setFeedbackSurveyOpen,
+  spotlight,
+}: BetaSpotlightProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { animals_beta } = useSelector(showedSpotlightSelector);
-  const onFinish = () => dispatch(setSpotlightToShown('animals_beta'));
+  const spotlights = useSelector(showedSpotlightSelector);
+  const onFinish = () => dispatch(setSpotlightToShown(spotlight));
+  const upperCaseSpotlightKey = spotlight.toUpperCase();
 
   return (
     <TourProviderWrapper
       showCloseButton
-      open={!animals_beta}
+      open={!spotlights[spotlight]}
       steps={[
         {
           title: (
@@ -41,19 +53,20 @@ export default function BetaSpotlight({ children, setFeedbackSurveyOpen }) {
               title={t('BADGE.BETA.TITLE')}
               showIcon={false}
               position={'left'}
-              disableHover
               classes={{ iconButton: styles.disableHover }}
             />
           ),
           contents: [
-            <b key={'animals_beta_step_1_heading'}>{t('ANIMAL.BETA_SPOTLIGHT_HEADING')}</b>,
+            <b key={`${spotlight}_step_1_heading`}>
+              {t(`BADGE.BETA.${upperCaseSpotlightKey}_HEADING`)}
+            </b>,
             <Trans
-              key={'animals_beta_step_1_content'}
-              i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
+              key={`${spotlight}_step_1_content`}
+              i18nKey={`BADGE.BETA.${upperCaseSpotlightKey}_CONTENT`}
               components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
             />,
           ],
-          selector: '#animalsBeta',
+          selector: `#${spotlight}`,
           position: 'center',
           buttonText: (
             <div className={styles.buttonText}>

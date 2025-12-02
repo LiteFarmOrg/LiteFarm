@@ -147,7 +147,9 @@
 
 .consentButtons {
   button {
-    min-width: 176px;
+    @include sm-breakpoint {
+      min-width: 176px;
+    }
 
     &:nth-of-type(1) {
       &:disabled {

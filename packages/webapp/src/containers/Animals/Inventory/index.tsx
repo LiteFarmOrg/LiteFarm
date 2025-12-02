@@ -202,7 +202,7 @@ const MainAnimalInventory = ({
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
   return (
-    <BetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+    <BetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen} spotlight={'animals_beta'}>
       <FixedHeaderContainer
         header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}

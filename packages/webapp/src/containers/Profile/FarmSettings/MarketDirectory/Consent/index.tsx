@@ -13,19 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { BiPencil } from 'react-icons/bi';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
+import { useUpdateMarketDirectoryInfoMutation } from '../../../../../store/api/marketDirectoryInfoApi';
 import {
   PureMarketDirectoryTile,
   MarketplaceSuggestionTile,
 } from '../../../../../components/MarketDirectoryTile';
 import Checkbox from '../../../../../components/Form/Checkbox';
+import InFormButtons from '../../../../../components/Form/InFormButtons';
+import Button from '../../../../../components/Form/Button';
 import DataSummary from '../DataSummary';
 import { PARTNERS_INFO } from './partners';
-import { MarketDirectoryInfo } from '../../../../../store/api/types';
+import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
 interface MarketDirectoryConsentProps {
@@ -45,6 +49,9 @@ const MarketDirectoryConsent = ({
   const { t } = useTranslation();
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
+  const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
+
+  const [isEditingConsent, setIsEditingConsent] = useState(disabled);
 
   const defaultPartnerPermissionIds = useMemo(() => {
     return new Set(
@@ -59,15 +66,17 @@ const MarketDirectoryConsent = ({
     [PARTNER_PERMISSION_IDS]: defaultPartnerPermissionIds,
   };
 
-  const { setValue, watch } = useForm({ defaultValues });
+  const {
+    register,
+    setValue,
+    watch,
+    reset,
+    handleSubmit,
+    formState: { isDirty },
+  } = useForm({ defaultValues });
 
   const consented = watch(CONSENTED_TO_SHARE);
   const partnerPermissionIds = watch(PARTNER_PERMISSION_IDS);
-
-  const onConsentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(CONSENTED_TO_SHARE, e.target.checked);
-    setValue(PARTNER_PERMISSION_IDS, defaultPartnerPermissionIds);
-  };
 
   const onDirectoryConsentChange = (partnerId: number) => {
     const newValue = new Set(partnerPermissionIds);
@@ -76,13 +85,31 @@ const MarketDirectoryConsent = ({
     setValue(PARTNER_PERMISSION_IDS, newValue);
   };
 
+  const onCancel = () => {
+    reset(defaultValues);
+    setIsEditingConsent(false);
+  };
+
+  const onConfirm = async (data: {
+    [CONSENTED_TO_SHARE]: MarketDirectoryInfo['consented_to_share'];
+    [PARTNER_PERMISSION_IDS]: Set<MarketDirectoryPartner['id']>;
+  }) => {
+    // TODO: Implement snackbar and handle error
+    updateMarketDirectoryInfo({
+      [CONSENTED_TO_SHARE]: data[CONSENTED_TO_SHARE],
+      partner_permissions: [...data[PARTNER_PERMISSION_IDS]].map((id) => ({
+        market_directory_partner_id: id,
+      })),
+    });
+  };
+
   return (
     <div className={styles.consentContainer}>
       <div className={styles.consent}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
         {disabled && <WarningBanner t={t} />}
         <DataSummary marketDirectoryInfo={marketDirectoryInfo} />
-        <div className={clsx(styles.consentMain, disabled && styles.disabled)}>
+        <div className={clsx(styles.consentMain, !isEditingConsent && styles.disabled)}>
           <p>
             <Trans
               i18nKey="MARKET_DIRECTORY.CONSENT.CONSENT_TO_SHARE_INFORMATION"
@@ -90,10 +117,10 @@ const MarketDirectoryConsent = ({
             />
           </p>
           <Checkbox
+            hookFormRegister={register(CONSENTED_TO_SHARE)}
             classNames={{ container: styles.checkbox, label: styles.label }}
             label={t('MARKET_DIRECTORY.CONSENT.I_AGREE')}
-            disabled={disabled}
-            onChange={onConsentChange}
+            disabled={!isEditingConsent}
           />
         </div>
       </div>
@@ -114,6 +141,34 @@ const MarketDirectoryConsent = ({
           })}
           <MarketplaceSuggestionTile onClick={setFeedbackSurveyOpen} />
         </div>
+      </div>
+      <div className={styles.buttonWrapper}>
+        {isEditingConsent ? (
+          <InFormButtons
+            confirmText={
+              consented && partnerPermissionIds.size
+                ? t('common:CONFIRM_AND_PUBLISH')
+                : t('common:CONFIRM')
+            }
+            onCancel={onCancel}
+            onConfirm={handleSubmit(onConfirm)}
+            isDisabled={disabled || !isDirty}
+            isCancelDisabled={disabled}
+            confirmButtonType="submit"
+            confirmButtonColor="primary"
+            className={styles.consentButtons}
+          />
+        ) : (
+          <Button
+            type="button"
+            color="secondary"
+            className={styles.editButton}
+            onClick={() => setIsEditingConsent(true)}
+          >
+            <BiPencil />
+            <span>{t('common:EDIT')}</span>
+          </Button>
+        )}
       </div>
     </div>
   );

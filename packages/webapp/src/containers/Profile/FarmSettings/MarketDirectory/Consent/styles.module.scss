@@ -35,6 +35,7 @@
 
 .warningBanner {
   padding: 8px 16px;
+  margin-bottom: 16px;
   display: flex;
   justify-content: center;
 
@@ -89,6 +90,8 @@
 }
 
 .marketDirectories {
+  margin-bottom: 48px;
+
   .sectionTitle {
     margin-bottom: 4px;
   }
@@ -115,6 +118,49 @@
     span {
       color: #89bb7e;
       font-size: 16px;
+    }
+  }
+}
+
+.buttonWrapper {
+  margin-bottom: 48px;
+}
+
+.editButton {
+  width: fit-content;
+  display: flex;
+  min-height: 32px;
+  height: 32px;
+  padding: 8px 12px;
+  margin: 0 auto;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-900);
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+
+  span {
+    min-width: 116px;
+  }
+}
+
+.consentButtons {
+  button {
+    min-width: 176px;
+
+    &:nth-of-type(1) {
+      &:disabled {
+        color: var(--Colors-Neutral-Neutral-100);
+        background-color: var(--White);
+      }
+    }
+
+    &:nth-of-type(2) {
+      border: none;
+
+      &:disabled {
+        color: var(--Colors-Neutral-Neutral-300);
+      }
     }
   }
 }

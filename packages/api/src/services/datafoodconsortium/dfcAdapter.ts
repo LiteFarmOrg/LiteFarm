@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { promises as fs } from 'fs';
+import path from 'path';
 import {
   Connector,
   Enterprise,
@@ -28,8 +30,6 @@ import type {
   MarketProductCategory,
 } from '../../models/types.js';
 import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
-import { promises as fs } from 'fs';
-import path from 'path';
 
 const __dirname = import.meta.dirname;
 

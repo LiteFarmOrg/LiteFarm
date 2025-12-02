@@ -14,6 +14,7 @@
  */
 
 import { useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -29,6 +30,7 @@ import InFormButtons from '../../../../../components/Form/InFormButtons';
 import Button from '../../../../../components/Form/Button';
 import DataSummary from '../DataSummary';
 import { PARTNERS_INFO } from './partners';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
@@ -47,6 +49,8 @@ const MarketDirectoryConsent = ({
   marketDirectoryInfo,
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
   const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
@@ -94,17 +98,25 @@ const MarketDirectoryConsent = ({
     setIsConsentReadonly(true);
   };
 
-  const onConfirm = async (data: {
+  const onSave = async (data: {
     [CONSENTED_TO_SHARE]: MarketDirectoryInfo['consented_to_share'];
     [PARTNER_PERMISSION_IDS]: Set<MarketDirectoryPartner['id']>;
   }) => {
-    // TODO: Implement snackbar and handle error
-    updateMarketDirectoryInfo({
-      [CONSENTED_TO_SHARE]: data[CONSENTED_TO_SHARE],
-      partner_permissions: [...data[PARTNER_PERMISSION_IDS]].map((id) => ({
-        market_directory_partner_id: id,
-      })),
-    });
+    try {
+      await updateMarketDirectoryInfo({
+        id: marketDirectoryInfo!.id,
+        [CONSENTED_TO_SHARE]: data[CONSENTED_TO_SHARE],
+        partner_permissions: [...data[PARTNER_PERMISSION_IDS]].map((id) => ({
+          market_directory_partner_id: id,
+        })),
+      }).unwrap();
+
+      setIsConsentReadonly(true);
+      dispatch(enqueueSuccessSnackbar(t('message:MARKET_DIRECTORY_CONSENT.SUCCESS')));
+    } catch (error) {
+      console.error(error);
+      dispatch(enqueueErrorSnackbar('message:MARKET_DIRECTORY_CONSENT.ERROR'));
+    }
   };
 
   return (
@@ -165,7 +177,7 @@ const MarketDirectoryConsent = ({
                 : t('common:CONFIRM')
             }
             onCancel={onCancel}
-            onConfirm={handleSubmit(onConfirm)}
+            onConfirm={handleSubmit(onSave)}
             isDisabled={!canConsent || !isDirty}
             isCancelDisabled={!canConsent}
             confirmButtonType="submit"

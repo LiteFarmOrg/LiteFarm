@@ -138,6 +138,10 @@
       "UPDATE": "Successfully updated Market Directory Info"
     }
   },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Failed to save Market Directory Consent",
+    "SUCCESS": "Successfully saved Market Directory Consent"
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Failed to create certification.",

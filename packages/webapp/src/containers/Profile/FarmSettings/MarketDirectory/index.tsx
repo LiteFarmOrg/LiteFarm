@@ -30,7 +30,6 @@ import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
-import { mapReactSelectOptionsForEnum } from '../../../../components/Form/ReactSelect/util';
 
 enum FormCards {
   INFO,

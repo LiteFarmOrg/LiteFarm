@@ -30,7 +30,6 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import InFormButtons from '../../../../../components/Form/InFormButtons';
 import type { MarketDirectoryInfo, MarketProductCategory } from '../../../../../store/api/types';
 import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
-import { ReactSelectOptionForEnum } from '../../../../../components/Form/ReactSelect/util';
 import useMarketDirectoryData from './useMarketDirectoryData';
 import { formatMarketDirectoryData } from './util';
 

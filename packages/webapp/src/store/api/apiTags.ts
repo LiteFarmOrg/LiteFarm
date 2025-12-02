@@ -29,6 +29,7 @@ export const LibraryTags = [
   'AnimalUses',
   'AnimalRemovalReasons',
   'DefaultAnimalBreeds',
+  'MarketProductCategories',
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
   'SoilAmendmentFertiliserTypes',
@@ -65,6 +66,8 @@ export const FarmTags = [
 export const FarmLibraryTags = [
   // 'count' param returns farm specific data
   'DefaultAnimalTypes',
+  // result might depend on the farm country
+  'MarketDirectoryPartners',
 ] as const;
 
 export const API_TAGS = [...LibraryTags, ...FarmTags, ...FarmLibraryTags] as const;

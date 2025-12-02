@@ -32,9 +32,8 @@ const marketDirectoryInfoController = {
         const data = await MarketDirectoryInfoModel.query()
           .where({ farm_id: req.headers.farm_id })
           .whereNotDeleted()
-          .withGraphFetched({
-            market_product_categories: true,
-          })
+          .modify('withProductCategories')
+          .modify('withPartnerPermissions')
           .first();
 
         return res.status(200).json(data || null);
@@ -89,7 +88,12 @@ const marketDirectoryInfoController = {
       const trx = await transaction.start(Model.knex());
       try {
         // @ts-expect-error: TS doesn't see through softDelete HOC; safe at runtime
-        await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, { trx });
+        await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, {
+          trx,
+          relate: true,
+          unrelate: false,
+          noDelete: false,
+        });
         await trx.commit();
         res.status(204).send();
       } catch (error: unknown) {

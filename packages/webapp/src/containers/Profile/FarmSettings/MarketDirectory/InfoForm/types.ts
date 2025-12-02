@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ReactSelectOptionForEnum } from '../../../../../components/Form/ReactSelect/util';
+
 export const DIRECTORY_INFO_FIELDS = {
   // Only for form internal logic
   VALID_PLACE: 'valid_place',
@@ -38,6 +40,9 @@ export const DIRECTORY_INFO_FIELDS = {
   INSTAGRAM: 'instagram',
   FACEBOOK: 'facebook',
   X: 'x',
+
+  // Products
+  MARKET_PRODUCT_CATEGORIES: 'market_product_categories',
 } as const;
 
 export type MarketDirectoryInfoFormFields = {
@@ -57,4 +62,5 @@ export type MarketDirectoryInfoFormFields = {
   [DIRECTORY_INFO_FIELDS.INSTAGRAM]?: string;
   [DIRECTORY_INFO_FIELDS.FACEBOOK]?: string;
   [DIRECTORY_INFO_FIELDS.X]?: string;
+  [DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES]: ReactSelectOptionForEnum[];
 };

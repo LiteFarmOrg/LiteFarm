@@ -1,12 +1,24 @@
-import React from 'react';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
-import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
+import {
+  componentDecoratorsGreyBackground,
+  navMenuControlDecorator,
+} from '../Pages/config/Decorators';
 
 export default {
   title: 'Components/Navbar/TopMenu',
-  decorators: componentDecoratorsGreyBackground,
+  decorators: [...componentDecoratorsGreyBackground, ...navMenuControlDecorator],
   component: TopMenu,
 };
 
 export const NavbarTopMenu = ((args) => <TopMenu {...args} />).bind({});
-TopMenu.args = {};
+NavbarTopMenu.args = {
+  history: {
+    push: () => {},
+    location: { pathname: '/home' },
+    replace: () => {},
+  },
+  isMobile: false,
+  showNavActions: true,
+  onClickBurger: () => {},
+  showNav: true,
+};

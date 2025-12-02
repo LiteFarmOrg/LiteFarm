@@ -53,11 +53,11 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
         title={t('BADGE.BETA.TITLE')}
         content={
           <Trans
-            i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
+            i18nKey={'BADGE.BETA.ANIMALS_BETA_CONTENT'}
             components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
           />
         }
-        id="animalsBeta"
+        id="animals_beta"
         classes={{ iconButton: styles.badge }}
       />
     </div>
@@ -74,7 +74,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
             components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
           />
         }
-        id="inventoryBeta"
+        id="inventory_beta"
         classes={{ iconButton: styles.badge }}
       />
     </div>

@@ -22,20 +22,17 @@ import {
 } from '../../../../../components/MarketDirectoryTile';
 import { PARTNERS_INFO } from './partners';
 import styles from './styles.module.scss';
+import { useNavMenuControls } from '../../../../../App';
 
 interface MarketDirectoryConsentProps {
   disabled: boolean;
-  setFeedbackSurveyOpen: () => void;
 }
 
-const MarketDirectoryConsent = ({
-  disabled,
-  setFeedbackSurveyOpen,
-}: MarketDirectoryConsentProps) => {
+const MarketDirectoryConsent = ({ disabled }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
-
+  const { feedback: feedbackControls } = useNavMenuControls();
   return (
     <div className={styles.consentContainer}>
       <div className={styles.consent}>
@@ -57,7 +54,7 @@ const MarketDirectoryConsent = ({
               />
             );
           })}
-          <MarketplaceSuggestionTile onClick={setFeedbackSurveyOpen} />
+          <MarketplaceSuggestionTile onClick={() => feedbackControls.setFeedbackSurveyOpen(true)} />
         </div>
       </div>
     </div>

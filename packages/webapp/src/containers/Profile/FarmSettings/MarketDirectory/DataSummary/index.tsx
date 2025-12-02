@@ -19,11 +19,17 @@ import useExpandable from '../../../../../components/Expandable/useExpandableIte
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
-import { DIRECTORY_INFO_FIELDS } from '../InfoForm/types';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
-const ID = 'summamry';
+const ID = 'summary';
+
+type MarketDirectoryInfoValue = MarketDirectoryInfo[keyof MarketDirectoryInfo];
+
+const ListItem = ({ label, values }: { label: string; values: MarketDirectoryInfoValue[] }) => {
+  const hasData = values.some((value) => (Array.isArray(value) ? value.length > 0 : !!value));
+  return <li className={hasData ? styles.hasData : undefined}>{label}</li>;
+};
 
 interface ComponentProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
@@ -51,59 +57,61 @@ const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
 
 const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
   const { t } = useTranslation(['translation', 'common']);
-
-  const getClassName = (properties: (keyof MarketDirectoryInfo)[]) => {
-    for (let property of properties) {
-      if (marketDirectoryInfo?.[property]) {
-        return styles.hasData;
-      }
-    }
-    return undefined;
-  };
+  const {
+    farm_name,
+    about,
+    logo,
+    contact_first_name,
+    contact_email,
+    address,
+    phone_number,
+    email,
+    website,
+    instagram,
+    facebook,
+    x,
+    market_product_categories,
+  } = marketDirectoryInfo || {};
 
   return (
     <ul className={styles.dataSummaryList}>
       <li>
         {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_PROFILE')}
         <ul>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.FARM_NAME])}>
-            {t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')}
-          </li>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.LOGO])}>
-            {t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
-          </li>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.ADDRESS])}>
-            {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')}
-          </li>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.ABOUT])}>
-            {t('MARKET_DIRECTORY.INFO_FORM.ABOUT')}
-          </li>
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')} values={[farm_name]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')} values={[logo]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')} values={[address]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} values={[phone_number]} />
         </ul>
       </li>
       <li>
         {t('common:CONTACT')}
         <ul>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.CONTACT_EMAIL])}>
-            {t('MARKET_DIRECTORY.INFO_SUMMARY.EMAIL')}
-          </li>
-          <li className={getClassName([DIRECTORY_INFO_FIELDS.PHONE_NUMBER])}>
-            {t('MARKET_DIRECTORY.INFO_SUMMARY.PHONE')}
-          </li>
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_SUMMARY.FIRST_NAME_AND_LAST_NAME')}
+            values={[contact_first_name]}
+          />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.EMAIL')} values={[contact_email]} />
+        </ul>
+      </li>
+      <li>
+        {t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_AND_SERVICES')}
+        <ul>
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_CATEGORIES')}
+            values={[market_product_categories]}
+          />
         </ul>
       </li>
       <li>
         {t('MARKET_DIRECTORY.INFO_FORM.ONLINE_PRESENCE')}
         <ul>
-          <li
-            className={getClassName([
-              DIRECTORY_INFO_FIELDS.WEBSITE,
-              DIRECTORY_INFO_FIELDS.INSTAGRAM,
-              DIRECTORY_INFO_FIELDS.FACEBOOK,
-              DIRECTORY_INFO_FIELDS.X,
-            ])}
-          >
-            {t('MARKET_DIRECTORY.INFO_SUMMARY.ONLINE_PRESENCE_ITEM')}
-          </li>
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_SUMMARY.ONLINE_PRESENCE_ITEM')}
+            values={[website, instagram, facebook, x]}
+          />
         </ul>
       </li>
     </ul>

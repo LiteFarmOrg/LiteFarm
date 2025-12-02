@@ -1483,9 +1483,14 @@
     "INFO_SUMMARY": {
       "EMAIL": "Email (Private, shared only with directories – not public)",
       "FARM_ADDRESS": "Farm address",
+      "FARM_EMAIL": "Farm email",
       "FARM_PROFILE": "Farm profile",
+      "FARM_STORE_ADDRESS": "Farm store address",
+      "FIRST_NAME_AND_LAST_NAME": "First Name and Last Name",
       "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, X (Public if provided)",
-      "PHONE": "Phone (optional, if you add it)"
+      "PHONE": "Phone (optional, if you add it)",
+      "PRODUCTS_AND_SERVICES": "Products and services",
+      "PRODUCTS_CATEGORIES": "Products Categories (Public)"
     },
     "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
     "MARKET_DIRECTORIES": "Market directories",

@@ -13,22 +13,66 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { promises as fs } from 'fs';
+import path from 'path';
 import {
   Connector,
   Enterprise,
   SocialMedia,
   Address,
   PhoneNumber,
+  ISKOSConcept,
 } from '@datafoodconsortium/connector';
-import { apiUrl } from '../util/environment.js';
-import { parseGoogleGeocodedAddress } from '../util/googleMaps.js';
-import type { MarketDirectoryInfo } from '../models/types.js';
+import { apiUrl } from '../../util/environment.js';
+import { parseGoogleGeocodedAddress } from '../../util/googleMaps.js';
+import type {
+  MarketDirectoryInfoWithRelations,
+  MarketProductCategory,
+} from '../../models/types.js';
+import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
+
+let sharedProductTypesConnector: Connector;
+let liteFarmKeyToDfcType: Map<string, ISKOSConcept>;
+const __dirname = import.meta.dirname;
 
 const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
 };
 
-export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDirectoryInfo) => {
+// Build and populate a lookup map: LiteFarm key → actual DFC product type object
+const buildProductTypeMappings = (connector: Connector) => {
+  const liteFarmKeyToDfcType = new Map<string, ISKOSConcept>();
+
+  for (const [liteFarmKey, dfcPath] of Object.entries(liteFarmToDFCTaxonomy)) {
+    if (typeof dfcPath === 'string') {
+      const dfcType = getNestedValue(connector.PRODUCT_TYPES, dfcPath);
+      if (dfcType) {
+        liteFarmKeyToDfcType.set(liteFarmKey, dfcType);
+      }
+    }
+  }
+
+  return liteFarmKeyToDfcType;
+};
+
+export const formatFarmDataToDfcStandard = async (
+  marketDirectoryInfo: MarketDirectoryInfoWithRelations,
+  marketProductCategoryMap: Map<number, MarketProductCategory>,
+) => {
+  if (!sharedProductTypesConnector || !liteFarmKeyToDfcType) {
+    let productTypesFile;
+    try {
+      productTypesFile = await fs.readFile(path.join(__dirname, 'dfcProductTypes.json'), 'utf-8');
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to read taxonomy file');
+    }
+
+    sharedProductTypesConnector = new Connector();
+    await sharedProductTypesConnector.loadProductTypes(productTypesFile);
+
+    liteFarmKeyToDfcType = buildProductTypeMappings(sharedProductTypesConnector);
+  }
   const connector = new Connector();
 
   const {
@@ -47,6 +91,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     instagram,
     facebook,
     x,
+    market_product_categories,
   } = marketDirectoryInfo;
 
   const parsedAddress = await parseGoogleGeocodedAddress(addressString);
@@ -72,6 +117,20 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
   /* @ts-expect-error incorrect interface type */
   mainContact.addEmailAddress(contact_email);
 
+  const products = (market_product_categories ?? [])
+    .map(({ market_product_category_id }) => {
+      const category = marketProductCategoryMap.get(market_product_category_id);
+      if (!category) return null;
+
+      const dfcProductType = liteFarmKeyToDfcType.get(category.key);
+
+      return connector.createSuppliedProduct({
+        semanticId: `${enterpriseUrl}#suppliedProduct-${category.key.toLowerCase()}`,
+        productType: dfcProductType,
+      });
+    })
+    .filter((product): product is NonNullable<typeof product> => product !== null);
+
   const farm = new Enterprise({
     connector,
     semanticId: enterpriseUrl,
@@ -80,6 +139,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     logo: logo ?? undefined,
     mainContact,
     localizations: [address],
+    suppliedProducts: products,
   });
 
   let phoneNumber;
@@ -146,6 +206,7 @@ export const formatFarmDataToDfcStandard = async (marketDirectoryInfo: MarketDir
     mainContact,
     ...(phoneNumber ? [phoneNumber] : []),
     ...socialMediaInstances,
+    ...products,
   ]);
 
   return JSON.parse(exportFormattedData);

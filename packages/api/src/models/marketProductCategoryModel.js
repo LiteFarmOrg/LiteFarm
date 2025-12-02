@@ -43,13 +43,9 @@ class MarketProductCategory extends Model {
       additionalProperties: false,
     };
   }
-
   static async getLookupMap() {
-    const enums = await this.query();
-
-    const map = new Map(enums.map((cat) => [cat.id, cat]));
-
-    return map;
+    const records = await this.query();
+    return new Map(records.map((record) => [record.id, record]));
   }
 }
 

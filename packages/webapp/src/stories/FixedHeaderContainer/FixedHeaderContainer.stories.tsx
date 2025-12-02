@@ -14,31 +14,23 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
-import { NavMenuControlsContext } from '../../App';
+import { navMenuControlDecorator } from '../Pages/config/Decorators';
 
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
-  const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   return (
     <div style={{ display: 'flex' }}>
       <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
       <div style={{ width: '100%' }}>
-        <NavMenuControlsContext.Provider
-          value={{
-            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
-          }}
-        >
-          <TopMenu
-            history={{ location: { pathname: '' } }}
-            isMobile={undefined}
-            showNavActions={undefined}
-            onClickBurger={undefined}
-            showNav={true}
-          />
-        </NavMenuControlsContext.Provider>
+        <TopMenu
+          history={{ location: { pathname: '' } }}
+          isMobile={undefined}
+          showNavActions={undefined}
+          onClickBurger={undefined}
+          showNav={true}
+        />
         <FixedHeaderContainer
           kind={kind}
           header={<div style={{ backgroundColor: '#16423d', height: '70px' }}>HEADER</div>}
@@ -55,6 +47,7 @@ const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
 
 const meta: Meta<typeof FixedHeaderContainer> = {
   title: 'Components/FixedHeaderContainer',
+  decorators: navMenuControlDecorator,
   component: FixedHeaderContainer,
 };
 

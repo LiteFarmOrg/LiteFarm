@@ -76,8 +76,7 @@ const MarketDirectoryInfoForm = ({
   const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
 
   const onSubmit = async (formData: MarketDirectoryInfoFormFields) => {
-    const { valid_place, ...dataToSubmit } = formData;
-    const formattedDataToSubmit = formatMarketDirectoryData(dataToSubmit);
+    const formattedDataToSubmit = formatMarketDirectoryData(formData);
 
     const apiCall = hasExistingRecord ? updateMarketDirectoryInfo : addMarketDirectoryInfo;
 

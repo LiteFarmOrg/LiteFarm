@@ -15,11 +15,10 @@
 
 import { MarketDirectoryInfoFormFields } from './types';
 
-export const formatMarketDirectoryData = (
-  formData: Omit<MarketDirectoryInfoFormFields, 'valid_place'>,
-) => {
+export const formatMarketDirectoryData = (formData: MarketDirectoryInfoFormFields) => {
+  const { valid_place, ...dataToSubmit } = formData;
   return {
-    ...formData,
+    ...dataToSubmit,
     market_product_categories: formData.market_product_categories.map((option) => ({
       market_product_category_id: option.value,
     })),

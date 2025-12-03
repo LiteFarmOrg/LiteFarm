@@ -20,16 +20,11 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: "packages/webapp/package.json"
-      - name: Install pnpm dependencies
-        run: pnpm install
+      - name: Install npm dependencies
+        run: npm install
 
       - name: Run linters
-        run: |
-          pnpx eslint './public/locales/**/*.json' --no-config-lookup --ext .json --plugin eslint-plugin-json --parser @typescript-eslint/parser --rule 'json/*: error'
+        run: npx eslint './public/locales/**/*.json'
 
   run-linters-in-api:
     name: Run linters in api

@@ -16,11 +16,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: "packages/webapp/package.json"
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
       - name: Run unit tests
-        run: pnpm test
+        run: npm test

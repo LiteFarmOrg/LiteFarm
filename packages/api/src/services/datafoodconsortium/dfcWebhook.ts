@@ -17,29 +17,34 @@ import axios from 'axios';
 import { getAccessToken } from '../keycloak.js';
 import { createEnterpriseUrl } from './dfcAdapter.js';
 
-/* This module is based on the Data Server Development Guide on GitLab:
-https://git.startinblox.com/projets/projets-clients/open-food-network/data-permissioning-module/-/wikis/Data-Server-Development-Guide
-
-However we will not follow it exactly, but will use OFN-CQCM's implementation as a reference:
-https://github.com/openfoodfoundation/openfoodnetwork/blob/master/spec/fixtures/vcr_cassettes/ProxyNotifier/notifies_the_proxy.yml
-
-This means we'll use only one eventType (refresh) and one URL
-*/
+/**
+ * Webhook implementation for Data Food Consortium proxy notification.
+ *
+ * Based on Startinblox DFC Data Server Development Guide:
+ * https://git.startinblox.com/projets/projets-clients/open-food-network/data-permissioning-module/-/wikis/Data-Server-Development-Guide
+ *
+ * but simplified for MVP1:
+ * - Single event type (refresh)
+ * - Single scope (ReadEnterprise)
+ * - enterpriseUrlid always points to our enterprises endpoint
+ *
+ * (Simplification reference is the OFN-QCCM implementation)
+ */
 
 /**
- * Event types as specified in the  Data Server Development Guide
+ * Event types per DFC Data Server Development Guide
  */
 export enum WEBHOOK_EVENT_TYPES {
   REFRESH = 'refresh',
 }
 
-/* Scopes as specified in the Data Server Development Guide */
+/* Scopes per DFC Data Server Development Guide */
 export enum SCOPES {
   READ_ENTERPRISE = 'ReadEnterprise',
 }
 
 /**
- * Refresh webhooks always provide our base enterprises URL
+ * URL for all refresh webhook notifications
  */
 const REFRESH_ENTERPRISES_URL = createEnterpriseUrl('');
 
@@ -49,73 +54,13 @@ interface RefreshWebhookPayload {
   scope: SCOPES.READ_ENTERPRISE;
 }
 
-type WebhookPayload = RefreshWebhookPayload; // Extendable for future event types
 /**
- * Sends a webhook notification to proxy server.
- * This is a non-blocking operation that should be called as a post-response side effect.
- *
- * See: https://git.startinblox.com/projets/projets-clients/open-food-network/data-permissioning-module/-/wikis/Data-Server-Development-Guide#implementing-webhooks-for-keeping-proxy-servers-up-to-date
- *
- * @param payload - The webhook payload based on event type
- * @returns Promise that resolves when webhook is successfully sent
- * @throws Error if webhook call fails (caller should handle with try-catch)
- */
-export async function sendWebhook(
-  webhookUrl: string,
-  payload: WebhookPayload,
-  dryRun = false,
-): Promise<WebhookPayload> {
-  if (!webhookUrl) {
-    throw new Error('Webhook URL not given');
-  }
-
-  if (dryRun) {
-    return payload;
-  }
-
-  try {
-    // Step 1: Get access token from Keycloak
-    const accessToken = await getAccessToken();
-
-    // Step 2: Call the webhook with authentication
-    await axios.post(
-      webhookUrl, // e.g., 'https://ofn.example.com/djangoldp-dfc/webhook/'
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 30000, // 30 second timeout for webhook calls
-      },
-    );
-
-    console.log('Webhook sent successfully:', {
-      eventType: payload.eventType,
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Failed to send Webhook:', {
-        eventType: payload.eventType,
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message,
-      });
-    } else {
-      console.error('Failed to send Webhook:', error);
-    }
-    throw error; // Re-throw so caller can decide how to handle
-  }
-  return payload;
-}
-/**
- * Helper function to send a 'refresh' webhook when scope permissions change. We will use this webhook in all cases when permission is granted or revoked, and when farm data is updated
+ * Sends a 'refresh' notification to proxy when permissions or directory data changes
  */
 export async function notifyProxyRefresh(
   webhookUrl: string,
   dryRun = false,
-): Promise<RefreshWebhookPayload> {
+): Promise<WebhookResult> {
   return sendWebhook(
     webhookUrl,
     {
@@ -125,4 +70,79 @@ export async function notifyProxyRefresh(
     },
     dryRun,
   );
+}
+
+type WebhookPayload = RefreshWebhookPayload;
+
+/**
+ * Sends webhook notification to proxy server with authentication
+ *
+ * @throws {Error} If webhook URL is missing or request fails
+ */
+interface WebhookResult {
+  sentTo: string;
+  payload: WebhookPayload;
+  responseStatus?: number;
+  responseData?: unknown;
+  dryRun: boolean;
+}
+
+export async function sendWebhook(
+  webhookUrl: string,
+  payload: WebhookPayload,
+  dryRun: boolean,
+): Promise<WebhookResult> {
+  if (!webhookUrl) {
+    throw new Error('Webhook URL not given');
+  }
+
+  if (dryRun) {
+    return {
+      sentTo: webhookUrl,
+      payload,
+      dryRun,
+    };
+  }
+
+  let response;
+
+  try {
+    // Step 1: Get access token from Keycloak
+    const accessToken = await getAccessToken();
+
+    // Step 2: Call the webhook with authentication
+    response = await axios.post(
+      webhookUrl, // e.g., 'https://ofn.example.com/dfc/webhook/'
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000, // wait up to 10 seconds for the webhook to respond
+      },
+    );
+
+    console.log('Webhook sent successfully:', {
+      eventType: payload.eventType,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    const message = axios.isAxiosError(error) ? error.message : 'Unknown error';
+
+    console.error(`Failed to send webhook: ${message}`, {
+      webhookUrl,
+      status: axios.isAxiosError(error) ? error.response?.status : undefined,
+    });
+
+    throw new Error(`Failed to send webhook: ${message}`, { cause: error });
+  }
+
+  return {
+    sentTo: webhookUrl,
+    payload,
+    responseStatus: response?.status,
+    responseData: response?.data,
+    dryRun,
+  };
 }

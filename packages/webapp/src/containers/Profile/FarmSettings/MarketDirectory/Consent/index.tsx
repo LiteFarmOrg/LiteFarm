@@ -84,7 +84,7 @@ const MarketDirectoryConsent = ({
     defaultValues[CONSENTED_TO_SHARE] !== consented ||
     !areSetsEqual(defaultValues[PARTNER_PERMISSION_IDS], partnerPermissionIds);
 
-  const onDirectoryConsentChange = (partnerId: number) => {
+  const onPartnerPermissionChange = (partnerId: number) => {
     const newValue = new Set(partnerPermissionIds);
     partnerPermissionIds.has(partnerId) ? newValue.delete(partnerId) : newValue.add(partnerId);
 
@@ -164,7 +164,7 @@ const MarketDirectoryConsent = ({
                 key={key}
                 {...PARTNERS_INFO[key]}
                 hasConsent={partnerPermissionIds.has(id)}
-                onConsentChange={() => onDirectoryConsentChange(id)}
+                onConsentChange={() => onPartnerPermissionChange(id)}
                 isReadOnly={isConsentFormDisabled || !consented}
               />
             );

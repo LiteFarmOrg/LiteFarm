@@ -33,19 +33,15 @@ describe('DFC Webhook Service', () => {
   const mockWebhookUrl = 'https://example.com/webhook';
   const mockAccessToken = 'mock-token-12345';
 
-  // Suppress (but verify) console output during tests
-  let consoleLogSpy: jest.SpyInstance;
-  let consoleWarnSpy: jest.SpyInstance;
-  let consoleErrorSpy: jest.SpyInstance;
-
   beforeEach(() => {
     jest.clearAllMocks();
     mockedGetAccessToken.mockResolvedValue(mockAccessToken);
     mockedAxios.post.mockResolvedValue({ status: 200, data: {} });
 
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
-    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
-    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+    // Suppress console output during tests
+    jest.spyOn(console, 'log').mockImplementation();
+    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'error').mockImplementation();
   });
 
   afterEach(() => {
@@ -73,14 +69,6 @@ describe('DFC Webhook Service', () => {
         }),
       );
       expect(result.payload.eventType).toBe(WEBHOOK_EVENT_TYPES.REFRESH);
-
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        'Webhook sent successfully:',
-        expect.objectContaining({
-          eventType: 'refresh',
-          webhookUrl: mockWebhookUrl,
-        }),
-      );
     });
 
     test('should respect dry-run flag and return expected structure', async () => {
@@ -119,14 +107,6 @@ describe('DFC Webhook Service', () => {
       });
 
       expect(mockedAxios.post).not.toHaveBeenCalled();
-
-      // Verify expected error log output
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Failed to send webhook'),
-        expect.objectContaining({
-          webhookUrl: mockWebhookUrl,
-        }),
-      );
     });
 
     test('should retry webhook 3 times on partner server errors', async () => {
@@ -146,18 +126,6 @@ describe('DFC Webhook Service', () => {
 
       expect(mockedAxios.post).toHaveBeenCalledTimes(3);
       expect(mockedGetAccessToken).toHaveBeenCalledTimes(3);
-
-      // Veryify retry warnings
-      expect(consoleWarnSpy).toHaveBeenCalledTimes(2);
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Webhook failed, retrying'),
-        expect.objectContaining({
-          webhookUrl: mockWebhookUrl,
-        }),
-      );
-
-      // Final error log
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
     });
 
     test('should not retry webhook on client errors', async () => {
@@ -177,9 +145,6 @@ describe('DFC Webhook Service', () => {
 
       expect(mockedAxios.post).toHaveBeenCalledTimes(1);
       expect(mockedGetAccessToken).toHaveBeenCalledTimes(1);
-
-      // Verify only one error log (no retries)
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

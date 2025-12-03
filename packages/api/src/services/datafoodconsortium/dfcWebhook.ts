@@ -128,7 +128,8 @@ export async function sendWebhook(
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    const message = axios.isAxiosError(error) ? error.message : 'Unknown error';
+    const message =
+      axios.isAxiosError(error) || error instanceof Error ? error.message : 'Unknown error';
 
     console.error(`Failed to send webhook: ${message}`, {
       webhookUrl,

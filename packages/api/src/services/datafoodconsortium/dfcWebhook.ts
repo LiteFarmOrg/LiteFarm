@@ -91,6 +91,7 @@ export async function sendWebhook(
   webhookUrl: string,
   payload: WebhookPayload,
   dryRun: boolean,
+  retries = 2, // default of 3 total attempts
 ): Promise<WebhookResult> {
   if (!webhookUrl) {
     throw new Error('Webhook URL not given');
@@ -126,11 +127,27 @@ export async function sendWebhook(
     console.log('Webhook sent successfully:', {
       eventType: payload.eventType,
       timestamp: new Date().toISOString(),
+      webhookUrl,
     });
   } catch (error) {
     const message =
       axios.isAxiosError(error) || error instanceof Error ? error.message : 'Unknown error';
 
+    if (retries && isRetriableError(error)) {
+      console.warn(`Webhook failed, retrying... (${retries} attempts remaining)`, {
+        webhookUrl,
+        error: message,
+      });
+
+      // Wait a bit before retrying
+      const delayMs = (3 - retries) * 1000; // 0ms, 1s, 2s
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+      // Recursively retry with decremented retry count
+      return sendWebhook(webhookUrl, payload, dryRun, retries - 1);
+    }
+
+    // No retries left or non-retriable error
     console.error(`Failed to send webhook: ${message}`, {
       webhookUrl,
       status: axios.isAxiosError(error) ? error.response?.status : undefined,
@@ -146,4 +163,27 @@ export async function sendWebhook(
     responseData: response?.data,
     dryRun,
   };
+}
+
+/**
+ * Determines if an error is worth retrying
+ * Similar to isAuthError in ensemble.js, but for webhook-relevant errors
+ */
+function isRetriableError(error: unknown): boolean {
+  if (!axios.isAxiosError(error)) {
+    return false; // Only retry HTTP errors
+  }
+
+  const status = error.response?.status;
+
+  // Retry on:
+  // - 5xx server errors (proxy is temporarily down)
+  // - Network timeouts (ETIMEDOUT, ECONNABORTED)
+  // - Connection refused (ECONNREFUSED)
+  return (
+    (status !== undefined && status >= 500) ||
+    error.code === 'ETIMEDOUT' ||
+    error.code === 'ECONNABORTED' ||
+    error.code === 'ECONNREFUSED'
+  );
 }

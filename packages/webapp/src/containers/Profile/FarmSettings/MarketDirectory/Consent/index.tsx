@@ -134,6 +134,7 @@ const MarketDirectoryConsent = ({
             classNames={{ container: styles.checkbox, label: styles.label }}
             label={t('MARKET_DIRECTORY.CONSENT.I_AGREE')}
             disabled={isConsentFormDisabled}
+            onChange={() => setValue(PARTNER_PERMISSION_IDS, new Set())}
           />
         </div>
       </div>

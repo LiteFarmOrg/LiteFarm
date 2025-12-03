@@ -62,7 +62,10 @@ export const formatFarmDataToDfcStandard = async (
   if (!sharedProductTypesConnector || !liteFarmKeyToDfcType) {
     let productTypesFile;
     try {
-      productTypesFile = await fs.readFile(path.join(__dirname, 'dfcProductTypes.json'), 'utf-8');
+      productTypesFile = await fs.readFile(
+        path.join(__dirname, '../../static/dfcProductTypes.json'),
+        'utf-8',
+      );
     } catch (err) {
       console.error(err);
       throw new Error('Failed to read taxonomy file');

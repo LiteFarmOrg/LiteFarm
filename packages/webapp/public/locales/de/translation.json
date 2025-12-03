@@ -308,6 +308,7 @@
       "WEANING_DATE": "Absetzdatum"
     },
     "BATCH": "Charge",
+    "BETA_SPOTLIGHT_HEADING": "Einführung der neuen Tierfunktion",
     "FILTER": {
       "BATCHES": "Chargen",
       "BATCHES_OR_INDIVIDUALS": "Chargen oder Einzeltiere",
@@ -328,8 +329,7 @@
   },
   "BADGE": {
     "BETA": {
-      "ANIMALS_BETA_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>",
-      "ANIMALS_BETA_HEADING": "Einführung der neuen Tierfunktion",
+      "ANIMALS_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>",
       "TITLE": "Beta"
     }
   },

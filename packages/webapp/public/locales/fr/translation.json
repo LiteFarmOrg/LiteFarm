@@ -335,6 +335,7 @@
       "WEANING_DATE": "Date de sevrage"
     },
     "BATCH": "Lot",
+    "BETA_SPOTLIGHT_HEADING": "Introduction de la nouvelle fonctionnalité Animaux",
     "FILTER": {
       "BATCHES": "Lots",
       "BATCHES_OR_INDIVIDUALS": "Lots ou individus",
@@ -355,8 +356,7 @@
   },
   "BADGE": {
     "BETA": {
-      "ANIMALS_BETA_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>",
-      "ANIMALS_BETA_HEADING": "Introduction de la nouvelle fonctionnalité Animaux",
+      "ANIMALS_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>",
       "TITLE": "Béta"
     }
   },

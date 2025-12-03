@@ -140,7 +140,10 @@
   },
   "MARKET_DIRECTORY_CONSENT": {
     "ERROR": "Failed to save Market Directory Consent",
-    "SUCCESS": "Successfully saved Market Directory Consent"
+    "SUCCESS": {
+      "CONSENT": "Successfully saved Market Directory Consent",
+      "PARTNER": "Successfully saved Market Directory Consent. Your data will be updated within 24 hours."
+    }
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {

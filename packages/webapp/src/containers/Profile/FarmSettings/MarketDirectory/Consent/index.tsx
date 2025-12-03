@@ -54,7 +54,7 @@ const MarketDirectoryConsent = ({
 
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
-  const [updateMarketDirectoryInfo] = useUpdateMarketDirectoryInfoMutation();
+  const [updateMarketDirectoryInfo, { isLoading }] = useUpdateMarketDirectoryInfoMutation();
 
   // When the initial canConsent is true, start in read-only mode.
   // User clicks "Edit" to modify.
@@ -99,17 +99,31 @@ const MarketDirectoryConsent = ({
     [CONSENTED_TO_SHARE]: MarketDirectoryInfo['consented_to_share'];
     [PARTNER_PERMISSION_IDS]: Set<MarketDirectoryPartner['id']>;
   }) => {
+    const formattedData: Partial<MarketDirectoryInfo> = { id: marketDirectoryInfo!.id };
+    const hasConsentChanged = defaultValues[CONSENTED_TO_SHARE] !== data[CONSENTED_TO_SHARE];
+    const havePartnersChanged = !areSetsEqual(
+      defaultValues[PARTNER_PERMISSION_IDS],
+      data[PARTNER_PERMISSION_IDS],
+    );
+
+    if (hasConsentChanged) {
+      formattedData[CONSENTED_TO_SHARE] = data[CONSENTED_TO_SHARE];
+    }
+    if (havePartnersChanged) {
+      formattedData.partner_permissions = [...data[PARTNER_PERMISSION_IDS]].map((id) => ({
+        market_directory_partner_id: id,
+      }));
+    }
+
     try {
-      await updateMarketDirectoryInfo({
-        id: marketDirectoryInfo!.id,
-        [CONSENTED_TO_SHARE]: data[CONSENTED_TO_SHARE],
-        partner_permissions: [...data[PARTNER_PERMISSION_IDS]].map((id) => ({
-          market_directory_partner_id: id,
-        })),
-      }).unwrap();
+      await updateMarketDirectoryInfo(formattedData).unwrap();
+
+      const message = havePartnersChanged
+        ? t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.PARTNER')
+        : t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.CONSENT');
 
       setIsConsentReadonly(true);
-      dispatch(enqueueSuccessSnackbar(t('message:MARKET_DIRECTORY_CONSENT.SUCCESS')));
+      dispatch(enqueueSuccessSnackbar(message));
     } catch (error) {
       console.error(error);
       dispatch(enqueueErrorSnackbar('message:MARKET_DIRECTORY_CONSENT.ERROR'));
@@ -176,7 +190,7 @@ const MarketDirectoryConsent = ({
             }
             onCancel={onCancel}
             onConfirm={handleSubmit(onSave)}
-            isDisabled={!canConsent || !hasFormModified}
+            isDisabled={isLoading || !canConsent || !hasFormModified}
             isCancelDisabled={!canConsent}
             confirmButtonType="submit"
             confirmButtonColor="primary"

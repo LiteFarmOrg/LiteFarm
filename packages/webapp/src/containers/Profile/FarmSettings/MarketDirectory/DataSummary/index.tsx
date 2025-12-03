@@ -26,11 +26,6 @@ const ID = 'summary';
 
 type MarketDirectoryInfoValue = MarketDirectoryInfo[keyof MarketDirectoryInfo];
 
-const ListItem = ({ label, values }: { label: string; values: MarketDirectoryInfoValue[] }) => {
-  const hasData = values.some((value) => (Array.isArray(value) ? value.length > 0 : !!value));
-  return <li className={hasData ? styles.hasData : undefined}>{label}</li>;
-};
-
 interface ComponentProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
 }
@@ -116,6 +111,11 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
       </li>
     </ul>
   );
+};
+
+const ListItem = ({ label, values }: { label: string; values: MarketDirectoryInfoValue[] }) => {
+  const hasData = values.some((value) => (Array.isArray(value) ? value.length > 0 : !!value));
+  return <li className={hasData ? styles.hasData : undefined}>{label}</li>;
 };
 
 export default DataSummary;

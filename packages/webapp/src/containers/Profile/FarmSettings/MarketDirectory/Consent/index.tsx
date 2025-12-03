@@ -62,18 +62,16 @@ const MarketDirectoryConsent = ({
 
   const isConsentFormDisabled = !canConsent || isConsentReadonly;
 
-  const defaultPartnerPermissionIds = useMemo(() => {
-    return new Set(
-      marketDirectoryInfo?.partner_permissions?.map(
-        ({ market_directory_partner_id }) => market_directory_partner_id,
-      ) || [],
+  const defaultValues = useMemo(() => {
+    const partnerPermissionIds = marketDirectoryInfo?.partner_permissions?.map(
+      ({ market_directory_partner_id }) => market_directory_partner_id,
     );
-  }, [marketDirectoryInfo?.partner_permissions]);
 
-  const defaultValues = {
-    [CONSENTED_TO_SHARE]: marketDirectoryInfo?.[CONSENTED_TO_SHARE],
-    [PARTNER_PERMISSION_IDS]: defaultPartnerPermissionIds,
-  };
+    return {
+      [CONSENTED_TO_SHARE]: marketDirectoryInfo?.[CONSENTED_TO_SHARE],
+      [PARTNER_PERMISSION_IDS]: new Set(partnerPermissionIds || []),
+    };
+  }, [marketDirectoryInfo]);
 
   const { register, setValue, watch, reset, handleSubmit } = useForm({ defaultValues });
 

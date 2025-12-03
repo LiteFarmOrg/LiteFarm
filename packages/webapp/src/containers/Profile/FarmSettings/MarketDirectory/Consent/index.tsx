@@ -51,7 +51,7 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const consentHasEverSaved = useRef(canConsent);
+  const hasCompletedConsentForm = useRef(canConsent);
 
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
@@ -123,7 +123,7 @@ const MarketDirectoryConsent = ({
         ? t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.PARTNER')
         : t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.CONSENT');
 
-      consentHasEverSaved.current = true;
+      hasCompletedConsentForm.current = true;
       setIsConsentReadonly(true);
       dispatch(enqueueSuccessSnackbar(message));
     } catch (error) {
@@ -193,7 +193,7 @@ const MarketDirectoryConsent = ({
             onCancel={onCancel}
             onConfirm={handleSubmit(onSave)}
             isDisabled={isLoading || !canConsent || !hasFormModified}
-            isCancelDisabled={!consentHasEverSaved.current}
+            isCancelDisabled={!hasCompletedConsentForm.current}
             confirmButtonType="submit"
             confirmButtonColor="primary"
             className={styles.consentButtons}

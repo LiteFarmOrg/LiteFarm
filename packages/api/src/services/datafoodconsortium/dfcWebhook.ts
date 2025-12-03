@@ -138,8 +138,8 @@ export async function sendWebhook(
     const message =
       axios.isAxiosError(error) || error instanceof Error ? error.message : 'Unknown error';
 
-    if (retries && isRetriableError(error)) {
-      console.warn(`Webhook failed, retrying... (${retries} attempts remaining)`, {
+    if (retries > 0 && isServerOrNetworkError(error)) {
+      console.warn(`Webhook failed, retrying... ${retries} attempts remaining`, {
         webhookUrl,
         error: message,
       });
@@ -163,10 +163,10 @@ export async function sendWebhook(
 }
 
 /**
- * Determines if an error is worth retrying
+ * Determines if an error is a server-side or network error that should be retried
  * Similar to isAuthError in ensemble.js, but for webhook-relevant errors
  */
-function isRetriableError(error: unknown): boolean {
+function isServerOrNetworkError(error: unknown): boolean {
   if (!axios.isAxiosError(error)) {
     return false; // only retry axios errors
   }

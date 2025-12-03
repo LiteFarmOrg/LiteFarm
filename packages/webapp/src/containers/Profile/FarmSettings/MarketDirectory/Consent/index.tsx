@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
@@ -51,6 +51,7 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const consentHasEverSaved = useRef(canConsent);
 
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
@@ -122,6 +123,7 @@ const MarketDirectoryConsent = ({
         ? t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.PARTNER')
         : t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.CONSENT');
 
+      consentHasEverSaved.current = true;
       setIsConsentReadonly(true);
       dispatch(enqueueSuccessSnackbar(message));
     } catch (error) {
@@ -191,7 +193,7 @@ const MarketDirectoryConsent = ({
             onCancel={onCancel}
             onConfirm={handleSubmit(onSave)}
             isDisabled={isLoading || !canConsent || !hasFormModified}
-            isCancelDisabled={!canConsent}
+            isCancelDisabled={!consentHasEverSaved.current}
             confirmButtonType="submit"
             confirmButtonColor="primary"
             className={styles.consentButtons}

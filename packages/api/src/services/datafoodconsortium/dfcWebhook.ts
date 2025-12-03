@@ -23,7 +23,10 @@ import { createEnterpriseUrl } from './dfcAdapter.js';
  * Based on Startinblox DFC Data Server Development Guide:
  * https://git.startinblox.com/projets/projets-clients/open-food-network/data-permissioning-module/-/wikis/Data-Server-Development-Guide
  *
- * but simplified for MVP1:
+ * Terminology note: The DFC spec uses "proxy" - we use "partner" in our domain model and so will keep that here, but both refer to the same thing.
+ *
+ *
+ * Our implementation will be simplified for MVP1:
  * - Single event type (refresh)
  * - Single scope (ReadEnterprise)
  * - enterpriseUrlid always points to our enterprises endpoint
@@ -55,9 +58,10 @@ interface RefreshWebhookPayload {
 }
 
 /**
- * Sends a 'refresh' notification to proxy when permissions or directory data changes
+ * Sends a 'refresh' notification to partner
+ * Call when permissions are added or updated, and when directory data changes
  */
-export async function notifyProxyRefresh(
+export async function notifyPartnerRefresh(
   webhookUrl: string,
   dryRun = false,
 ): Promise<WebhookResult> {
@@ -75,7 +79,7 @@ export async function notifyProxyRefresh(
 type WebhookPayload = RefreshWebhookPayload;
 
 /**
- * Sends webhook notification to proxy server with authentication
+ * Sends to partner's webhook with authentication
  *
  * @throws {Error} If webhook URL is missing or request fails
  */
@@ -84,7 +88,7 @@ interface WebhookResult {
   payload: WebhookPayload;
   responseStatus?: number;
   responseData?: unknown;
-  dryRun: boolean;
+  dryRun?: boolean;
 }
 
 export async function sendWebhook(
@@ -105,30 +109,31 @@ export async function sendWebhook(
     };
   }
 
-  let response;
-
   try {
-    // Step 1: Get access token from Keycloak
+    // Get access token from Keycloak
     const accessToken = await getAccessToken();
 
-    // Step 2: Call the webhook with authentication
-    response = await axios.post(
-      webhookUrl, // e.g., 'https://ofn.example.com/dfc/webhook/'
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000, // wait up to 10 seconds for the webhook to respond
+    // Send webhook notification with token authorization
+    const response = await axios.post(webhookUrl, payload, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
-    );
+      timeout: 10000, // wait up to 10 seconds for the webhook to respond
+    });
 
     console.log('Webhook sent successfully:', {
       eventType: payload.eventType,
       timestamp: new Date().toISOString(),
       webhookUrl,
     });
+
+    return {
+      sentTo: webhookUrl,
+      payload,
+      responseStatus: response?.status,
+      responseData: response?.data,
+    };
   } catch (error) {
     const message =
       axios.isAxiosError(error) || error instanceof Error ? error.message : 'Unknown error';
@@ -139,7 +144,7 @@ export async function sendWebhook(
         error: message,
       });
 
-      // Wait a bit before retrying
+      // Wait before retrying
       const delayMs = (3 - retries) * 1000; // 0ms, 1s, 2s
       await new Promise((resolve) => setTimeout(resolve, delayMs));
 
@@ -155,14 +160,6 @@ export async function sendWebhook(
 
     throw new Error(`Failed to send webhook: ${message}`, { cause: error });
   }
-
-  return {
-    sentTo: webhookUrl,
-    payload,
-    responseStatus: response?.status,
-    responseData: response?.data,
-    dryRun,
-  };
 }
 
 /**
@@ -171,13 +168,13 @@ export async function sendWebhook(
  */
 function isRetriableError(error: unknown): boolean {
   if (!axios.isAxiosError(error)) {
-    return false; // Only retry HTTP errors
+    return false; // only retry axios errors
   }
 
   const status = error.response?.status;
 
   // Retry on:
-  // - 5xx server errors (proxy is temporarily down)
+  // - 5xx server errors (webhook is temporarily down)
   // - Network timeouts (ETIMEDOUT, ECONNABORTED)
   // - Connection refused (ECONNREFUSED)
   return (

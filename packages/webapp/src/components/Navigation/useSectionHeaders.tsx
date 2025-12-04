@@ -47,7 +47,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   const { t } = useTranslation(['translation']);
 
   const animalInventoryTitle = (title = t('SECTION_HEADER.ANIMALS_INVENTORY')) => (
-    <div className={styles.animalInventoryTitle}>
+    <div className={styles.betaSectionHeaderTitle}>
       <div className={styles.text}>{title}</div>
       <Badge
         title={t('BADGE.BETA.TITLE')}
@@ -64,7 +64,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   );
 
   const inventoryTitle = (title = t('MENU.INVENTORY')) => (
-    <div className={styles.animalInventoryTitle}>
+    <div className={styles.betaSectionHeaderTitle}>
       <div className={styles.text}>{title}</div>
       <Badge
         title={t('BADGE.BETA.TITLE')}

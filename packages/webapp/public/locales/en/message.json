@@ -135,7 +135,8 @@
     },
     "SUCCESS": {
       "SAVE": "Successfully saved Market Directory Info",
-      "UPDATE": "Successfully updated Market Directory Info"
+      "UPDATE": "Successfully updated Market Directory Info",
+      "UPDATE_LIVE_DATA": "Successfully updated Market Directory Info. Your data will be updated within 24 hours."
     }
   },
   "MARKET_DIRECTORY_CONSENT": {

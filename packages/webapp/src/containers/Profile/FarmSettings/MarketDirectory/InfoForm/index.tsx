@@ -85,9 +85,15 @@ const MarketDirectoryInfoForm = ({
     try {
       await apiCall(formattedDataToSubmit).unwrap();
 
-      const message = hasExistingRecord
-        ? t('message:MARKET_DIRECTORY.SUCCESS.UPDATE')
-        : t('message:MARKET_DIRECTORY.SUCCESS.SAVE');
+      let message = t('message:MARKET_DIRECTORY.SUCCESS.SAVE');
+
+      if (hasExistingRecord) {
+        const hasBeenPublished = (marketDirectoryInfo.partner_permissions?.length || 0) > 0;
+
+        message = hasBeenPublished
+          ? t('message:MARKET_DIRECTORY.SUCCESS.UPDATE_LIVE_DATA')
+          : t('message:MARKET_DIRECTORY.SUCCESS.UPDATE');
+      }
 
       dispatch(enqueueSuccessSnackbar(message));
       close();

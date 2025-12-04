@@ -19,57 +19,64 @@ import MarketDirectoryPartnerAuth from '../../models/marketDirectoryPartnerAuthM
 import { verifyKeycloakToken } from '../../services/keycloak.js';
 import type { MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType } from '../../models/types.js';
 import MarketDirectoryPartnerPermissions from '../../models/marketDirectoryPartnerPermissions.js';
+import { MarketDirectoryInfoRouteParams } from '../validation/checkMarketDirectoryInfo.js';
 
-const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Step 1: Extract token from Authorization header
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).send('Missing or invalid Authorization header');
-    }
-
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-
-    // Step 2: Decode (but don't verify yet) to get client_id
-    const decoded = jwt.decode(token);
-
-    if (!decoded || typeof decoded === 'string') {
-      return res.status(401).send('Invalid token format');
-    }
-
-    const client_id = decoded.azp || decoded.client_id;
-
-    if (!client_id) {
-      return res.status(401).send('Missing client_id in token');
-    }
-
-    // Step 3: Look up partner by client_id to get Keycloak realm info
-    const partnerAuth = (await MarketDirectoryPartnerAuth.query().where({ client_id }).first()) as
-      | MarketDirectoryPartnerAuthType
-      | undefined;
-
-    if (!partnerAuth) {
-      return res.status(404).send('client_id not recognized');
-    }
-
-    // Step 4: Verify the token against the partner's Keycloak realm
+const checkMarketPartnerAuth =
+  () =>
+  async (
+    req: Request<MarketDirectoryInfoRouteParams, unknown, unknown, unknown>,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
+      // Step 1: Extract token from Authorization header
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).send('Missing or invalid Authorization header');
+      }
+
+      const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+
+      // Step 2: Decode (but don't verify yet) to get client_id
+      const decoded = jwt.decode(token);
+
+      if (!decoded || typeof decoded === 'string') {
+        return res.status(401).send('Invalid token format');
+      }
+
+      const client_id = decoded.azp || decoded.client_id;
+
+      if (!client_id) {
+        return res.status(401).send('Missing client_id in token');
+      }
+
+      // Step 3: Look up partner by client_id to get Keycloak realm info
+      const partnerAuth = (await MarketDirectoryPartnerAuth.query()
+        .where({ client_id })
+        .first()) as MarketDirectoryPartnerAuthType | undefined;
+
+      if (!partnerAuth) {
+        return res.status(404).send('client_id not recognized');
+      }
+
+      // Step 4: Verify the token against the partner's Keycloak realm
+      try {
+        await verifyKeycloakToken(token, partnerAuth.keycloak_url, partnerAuth.keycloak_realm);
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        return res.status(401).send('Invalid or expired token');
+      }
+
+      // Save for permissions check and controller
+      res.locals.marketDirectoryPartnerId = partnerAuth.market_directory_partner_id;
+
+      next();
     } catch (error) {
-      console.error('Token verification failed:', error);
-      return res.status(401).send('Invalid or expired token');
+      console.error('checkMarketPartnerAuth middleware error:', error);
+      return res.status(500).send('Internal server error checking partner access');
     }
-
-    // Save for permissions check and controller
-    res.locals.marketDirectoryPartnerId = partnerAuth.market_directory_partner_id;
-
-    next();
-  } catch (error) {
-    console.error('checkMarketPartnerAuth middleware error:', error);
-    return res.status(500).send('Internal server error checking partner access');
-  }
-};
+  };
 
 /**
  * Middleware to verify that a specific farm has authorized the market partner.
@@ -80,7 +87,12 @@ const checkMarketPartnerAuth = () => async (req: Request, res: Response, next: N
  *
  */
 export const checkFarmPartnerPermission =
-  () => async (req: Request, res: Response, next: NextFunction) => {
+  () =>
+  async (
+    req: Request<MarketDirectoryInfoRouteParams, unknown, unknown, unknown>,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const { id } = req.params;
 

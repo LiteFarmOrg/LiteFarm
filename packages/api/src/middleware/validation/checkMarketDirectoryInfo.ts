@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { LiteFarmRequest } from '../../types.js';
 import { isValidAddress, isValidEmail } from '../../util/validation.js';
 import { isValidUrl } from '../../util/url.js';
@@ -37,14 +37,19 @@ export interface MarketDirectoryInfoRouteParams {
 
 export function checkAndTransformMarketDirectoryInfo() {
   return async (
-    req: LiteFarmRequest<unknown, unknown, unknown, MarketDirectoryInfoReqBody>,
+    req: LiteFarmRequest<
+      unknown,
+      MarketDirectoryInfoRouteParams,
+      unknown,
+      MarketDirectoryInfoReqBody
+    >,
     res: Response,
     next: NextFunction,
   ) => {
     try {
       const { address, website, market_product_categories, partner_permissions } = req.body;
 
-      const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
+      const { id } = req.params;
 
       if (req.method === 'POST') {
         // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
@@ -151,12 +156,14 @@ export function checkMarketDirectoryInfoRecord(
   { errorMessage } = { errorMessage: 'Market directory info not found' },
 ) {
   return async (
-    req: LiteFarmRequest<unknown, unknown, unknown, unknown>,
+    req:
+      | LiteFarmRequest<unknown, MarketDirectoryInfoRouteParams, unknown, unknown>
+      | Request<MarketDirectoryInfoRouteParams, unknown, unknown, unknown>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params as Partial<MarketDirectoryInfoRouteParams>;
+      const { id } = req.params;
 
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
       const record = await MarketDirectoryInfoModel.query().findById(id).whereNotDeleted();

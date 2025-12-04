@@ -23,10 +23,14 @@ import type {
   MarketDirectoryInfo as MarketDirectoryInfoType,
 } from '../models/types.js';
 import MarketProductCategoryModel from '../models/marketProductCategoryModel.js';
+import { MarketDirectoryInfoRouteParams } from '../middleware/validation/checkMarketDirectoryInfo.js';
 
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
-    return async (req: Request, res: Response) => {
+    return async (
+      req: Request<MarketDirectoryInfoRouteParams, unknown, unknown, unknown>,
+      res: Response,
+    ) => {
       const { id } = req.params;
 
       try {
@@ -58,7 +62,10 @@ const dataFoodConsortiumController = {
   },
 
   getAllClientEnterprises() {
-    return async (_req: Request, res: Response) => {
+    return async (
+      _req: Request<MarketDirectoryInfoRouteParams, unknown, unknown, unknown>,
+      res: Response,
+    ) => {
       const { marketDirectoryPartnerId } = res.locals;
 
       try {

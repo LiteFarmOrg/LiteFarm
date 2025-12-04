@@ -16,6 +16,7 @@
 import axios, { AxiosError } from 'axios';
 import credentials from '../credentials.js';
 import endpoints from '../endPoints.js';
+import { LiteFarmCustomError } from '../util/customErrors.js';
 
 const { GOOGLE_API_KEY } = credentials;
 const { googleWebRiskAPI } = endpoints;
@@ -43,9 +44,7 @@ export const isUriSafeByWebRisk = async (uri: string) => {
     return Object.keys(data).length === 0;
   } catch (error) {
     const axiosError = error as AxiosError;
-    throw Object.assign(new Error('Web risk API call failed'), {
-      status: axiosError.response?.status,
-      details: axiosError.response?.data ?? axiosError.message,
-    });
+    console.error(axiosError);
+    throw new LiteFarmCustomError('Web risk API call failed', 500);
   }
 };

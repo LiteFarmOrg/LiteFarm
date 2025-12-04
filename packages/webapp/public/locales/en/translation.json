@@ -1481,22 +1481,21 @@
       "WEBSITE": "Website"
     },
     "INFO_SUMMARY": {
-      "EMAIL": "Email (Private, shared only with directories – not public)",
+      "CONTACT": "Contact (shared but not published)",
       "FARM_ADDRESS": "Farm address",
       "FARM_EMAIL": "Farm email",
       "FARM_PROFILE": "Farm profile",
       "FARM_STORE_ADDRESS": "Farm store address",
       "FIRST_NAME_AND_LAST_NAME": "First Name and Last Name",
-      "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, X (Public if provided)",
-      "PHONE": "Phone (optional, if you add it)",
+      "ONLINE_PRESENCE_ITEM": "Website, Instagram, Facebook, X",
       "PRODUCTS_AND_SERVICES": "Products and services",
-      "PRODUCTS_CATEGORIES": "Products Categories (Public)"
+      "PRODUCTS_CATEGORIES": "Products Categories"
     },
     "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
     "MARKET_DIRECTORIES": "Market directories",
     "MARKET_DIRECTORY_INFO": "Market directory info",
     "PARTNERS": {
-      "OFN_DESCRIPTION": "Get published on OFN directory"
+      "OFN_DESCRIPTION": "Get published on this OFN directory"
     },
     "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"
   },

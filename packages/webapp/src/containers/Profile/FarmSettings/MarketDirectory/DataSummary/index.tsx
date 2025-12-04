@@ -82,13 +82,13 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
         </ul>
       </li>
       <li>
-        {t('common:CONTACT')}
+        {t('MARKET_DIRECTORY.INFO_SUMMARY.CONTACT')}
         <ul>
           <ListItem
             label={t('MARKET_DIRECTORY.INFO_SUMMARY.FIRST_NAME_AND_LAST_NAME')}
             values={[contact_first_name]}
           />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.EMAIL')} values={[contact_email]} />
+          <ListItem label={t('common:EMAIL')} values={[contact_email]} />
         </ul>
       </li>
       <li>

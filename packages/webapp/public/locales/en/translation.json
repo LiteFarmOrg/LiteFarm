@@ -339,6 +339,7 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
@@ -361,6 +362,7 @@
     "BETA": {
       "ANIMALS_BETA_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving LiteFarm! You can learn more about beta <a>here</a>",
       "ANIMALS_BETA_HEADING": "Introducing the new Animals feature",
+      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving LiteFarm! You can learn more about beta <a>here</a>",
       "INVENTORY_BETA_CONTENT": "We’re launching the new Inventory section in beta. For now, you can track your soil amendment products. Simple and useful. But this is only the first step. Our goal is to give you one place to manage the things your farm depends on, from tools and machinery to cleaning supplies, pest control, animal feed, harvest crops and your own custom items. As always, your feedback helps us shape what comes next, so if something feels off or you have ideas, send them our way. You can learn more about beta <a>here</a>",
       "INVENTORY_BETA_HEADING": "Introducing the Inventory section",
       "TITLE": "Beta"

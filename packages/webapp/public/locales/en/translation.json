@@ -1494,6 +1494,7 @@
     "KNOW_A_MARKETPLACE": "Know a marketplace we should support?<br />Share it with us.",
     "MARKET_DIRECTORIES": "Market directories",
     "MARKET_DIRECTORY_INFO": "Market directory info",
+    "NO_PARTNER": "We have no partner in your location for now.",
     "PARTNERS": {
       "OFN_DESCRIPTION": "Get published on this OFN directory"
     },

@@ -169,7 +169,10 @@ const MarketDirectoryConsent = ({
               />
             );
           })}
-          <MarketplaceSuggestionTile onClick={setFeedbackSurveyOpen} />
+          <MarketplaceSuggestionTile
+            onClick={setFeedbackSurveyOpen}
+            noPartner={marketDirectoryPartners.length === 0}
+          />
         </div>
       </div>
       <div className={styles.buttonWrapper}>

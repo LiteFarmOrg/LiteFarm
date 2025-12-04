@@ -35,7 +35,7 @@ let sharedProductTypesConnector: Connector;
 let liteFarmKeyToDfcType: Map<string, ISKOSConcept>;
 const __dirname = import.meta.dirname;
 
-const createEnterpriseUrl = (market_directory_info_id: string): string => {
+export const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
 };
 

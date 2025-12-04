@@ -14,7 +14,13 @@
  */
 
 import { useSelector } from 'react-redux';
-import { FieldErrors, useController, useFormContext, UseFormRegister } from 'react-hook-form';
+import {
+  Controller,
+  FieldErrors,
+  useController,
+  useFormContext,
+  UseFormRegister,
+} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { getCountryCallingCode, getExampleNumber } from 'libphonenumber-js/min';
 import examples from 'libphonenumber-js/mobile/examples';
@@ -25,6 +31,7 @@ import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../../Form/Input';
 import TextArea from '../../Form/TextArea';
 import NumberInput from '../../Form/NumberInput';
+import ReactSelect from '../../Form/ReactSelect';
 import {
   hookFormMaxCharsValidation,
   hookFormMaxValidation,
@@ -45,6 +52,7 @@ import { Social, validateSocialAndExtractUsername } from '../../../util/socials'
 import { uppercaseTheFirstLetter } from '../../../util';
 import { isValidHttpURLFormat, VALID_EMAIL_REGEX } from '../../../util/validation';
 import AddressInput from './AddressInput';
+import { ReactSelectOptionForEnum } from '../../Form/ReactSelect/util';
 
 // ImagePickerWrapper/saga.js
 const marketDirectoryUrl = 'marketDirectoryInfo';
@@ -53,11 +61,13 @@ interface PureMarketDirectoryInfoFormProps {
   close: () => void;
   getOnFileUpload: GetOnFileUpload;
   formMode: FormMode;
+  marketProductCategoryOptions: ReactSelectOptionForEnum[];
 }
 
 const PureMarketDirectoryInfoForm = ({
   getOnFileUpload,
   formMode,
+  marketProductCategoryOptions,
 }: PureMarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
 
@@ -112,7 +122,22 @@ const PureMarketDirectoryInfoForm = ({
           disabled={readonly}
           placeholder={t('MARKET_DIRECTORY.INFO_FORM.ABOUT_PLACEHOLDER')}
         />
-
+        <Controller
+          control={control}
+          name={DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <ReactSelect
+              label={t('MARKET_DIRECTORY.INFO_FORM.PRODUCT_CATEGORY')}
+              isMulti
+              value={value}
+              onChange={onChange}
+              options={marketProductCategoryOptions}
+              style={{ paddingBottom: '16px' }} // accomodate "Clear all" button space
+              isDisabled={readonly}
+            />
+          )}
+        />
         <ImagePicker
           label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
           onFileUpload={onFileUpload}

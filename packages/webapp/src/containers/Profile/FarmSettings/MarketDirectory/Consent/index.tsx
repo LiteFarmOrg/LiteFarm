@@ -51,15 +51,13 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const hasCompletedConsentForm = useRef(canConsent);
+  const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 
   const { data: marketDirectoryPartners = [] } =
     useGetMarketDirectoryPartnersQuery('?filter=country');
   const [updateMarketDirectoryInfo, { isLoading }] = useUpdateMarketDirectoryInfoMutation();
 
-  // When the initial canConsent is true, start in read-only mode.
-  // User clicks "Edit" to modify.
-  const [isConsentReadonly, setIsConsentReadonly] = useState(canConsent);
+  const [isConsentReadonly, setIsConsentReadonly] = useState(savedConsent === true);
 
   const isConsentFormDisabled = !canConsent || isConsentReadonly;
 
@@ -123,8 +121,7 @@ const MarketDirectoryConsent = ({
         ? t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.PARTNER')
         : t('message:MARKET_DIRECTORY_CONSENT.SUCCESS.CONSENT');
 
-      hasCompletedConsentForm.current = true;
-      setIsConsentReadonly(true);
+      setIsConsentReadonly(data[CONSENTED_TO_SHARE] === true);
       dispatch(enqueueSuccessSnackbar(message));
     } catch (error) {
       console.error(error);
@@ -196,7 +193,7 @@ const MarketDirectoryConsent = ({
             onCancel={onCancel}
             onConfirm={handleSubmit(onSave)}
             isDisabled={isLoading || !canConsent || !hasFormModified}
-            isCancelDisabled={!hasCompletedConsentForm.current}
+            isCancelDisabled={savedConsent === false}
             confirmButtonType="submit"
             confirmButtonColor="primary"
             className={styles.consentButtons}

@@ -682,3 +682,19 @@ export interface MarketDirectoryPartnerPermissions extends BaseProperties {
   market_directory_info_id: string;
   market_directory_partner_id: number;
 }
+
+enum OrganicStatus {
+  NON_ORGANIC = 'Non-Organic',
+  TRANSITIONAL = 'Transitional',
+  ORGANIC = 'Organic',
+}
+
+export type PastureDetails = {
+  location_id: Location['location_id'];
+  organic_status: OrganicStatus;
+  transition_date?: string | null;
+};
+
+export interface Pasture extends Location {
+  pasture: PastureDetails;
+}

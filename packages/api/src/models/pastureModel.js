@@ -45,12 +45,16 @@ class Pasture extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
+      required: ['location_id', 'organic_status'],
       properties: {
         location_id: { type: 'string' },
-        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
-        transition_date: {
+        organic_status: {
           type: 'string',
+          enum: ['Non-Organic', 'Transitional', 'Organic'],
+          default: 'Non-Organic',
+        },
+        transition_date: {
+          type: ['string', 'null'],
           format: 'date',
         },
       },

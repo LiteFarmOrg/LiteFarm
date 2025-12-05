@@ -15,12 +15,13 @@
 
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
 import { Info } from '../../Typography';
 import styles from './styles.module.scss';
 
 export interface InFormButtonsProps {
   isDisabled?: boolean;
+  isCancelDisabled?: boolean;
   statusText?: string;
   confirmText: string;
   informationalText?: string;
@@ -28,10 +29,12 @@ export interface InFormButtonsProps {
   onConfirm?: () => void;
   confirmButtonType?: 'button' | 'submit';
   className?: string;
+  confirmButtonColor?: ButtonProps['color'];
 }
 
 const InFormButtons = ({
   isDisabled,
+  isCancelDisabled,
   statusText,
   confirmText,
   informationalText,
@@ -39,6 +42,7 @@ const InFormButtons = ({
   onConfirm,
   confirmButtonType = 'button',
   className,
+  confirmButtonColor,
 }: InFormButtonsProps) => {
   const { t } = useTranslation();
 
@@ -47,13 +51,19 @@ const InFormButtons = ({
       <div className={styles.buttons}>
         {statusText && <span className={styles.statusText}>{statusText}</span>}
         {onCancel && (
-          <Button type="button" color="secondary-cta" className={styles.button} onClick={onCancel}>
+          <Button
+            type="button"
+            color="secondary-cta"
+            className={styles.button}
+            onClick={onCancel}
+            disabled={isCancelDisabled}
+          >
             {t('common:CANCEL')}
           </Button>
         )}
         <Button
           type={confirmButtonType}
-          color="secondary"
+          color={confirmButtonColor || 'secondary'}
           className={clsx(styles.button, styles.confirmButton)}
           onClick={onConfirm}
           disabled={isDisabled}

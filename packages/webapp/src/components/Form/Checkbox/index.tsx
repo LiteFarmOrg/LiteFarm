@@ -34,13 +34,14 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   };
   style?: object;
   hookFormRegister?: UseFormRegisterReturn;
-  onChange?: ReactEventHandler;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: ReactEventHandler;
   sm?: boolean;
   partiallyChecked?: boolean;
   shouldBoldSelected?: boolean;
   tooltipContent?: string;
   errors?: string;
+  classNames?: { container?: string; label?: string };
 }
 
 const Checkbox = ({
@@ -57,6 +58,7 @@ const Checkbox = ({
   tooltipContent = undefined,
   partiallyChecked = false,
   shouldBoldSelected = true,
+  classNames,
   ...props
 }: PropsWithChildren<CheckboxProps>) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -66,6 +68,7 @@ const Checkbox = ({
         styles.container,
         disabled && styles.disabled,
         shouldBoldSelected && styles.shouldBoldSelected,
+        classNames?.container,
       )}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
@@ -91,7 +94,7 @@ const Checkbox = ({
       )}
       <UncheckedEnabled className={styles.unchecked} />
       <Main
-        className={clsx(styles.label, sm && styles.smallLabel)}
+        className={clsx(styles.label, sm && styles.smallLabel, classNames?.label)}
         style={classes.label}
         tooltipContent={tooltipContent}
         data-cy="checkbox-component"

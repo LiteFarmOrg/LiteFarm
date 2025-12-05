@@ -14,7 +14,7 @@
  */
 
 import { Request, Response } from 'express';
-import { formatFarmDataToDfcStandard } from '../services/dfcAdapter.js';
+import { formatFarmDataToDfcStandard } from '../services/datafoodconsortium/dfcAdapter.js';
 import MarketDirectoryInfo from '../models/marketDirectoryInfoModel.js';
 import type { HttpError } from '../types.js';
 import MarketDirectoryPartnerPermissions from '../models/marketDirectoryPartnerPermissions.js';
@@ -22,6 +22,7 @@ import type {
   MarketDirectoryPartnerPermissions as MarketDirectoryPartnerPermissionsType,
   MarketDirectoryInfo as MarketDirectoryInfoType,
 } from '../models/types.js';
+import MarketProductCategoryModel from '../models/marketProductCategoryModel.js';
 
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
@@ -32,9 +33,16 @@ const dataFoodConsortiumController = {
         const marketDirectoryInfo = await MarketDirectoryInfo
           /* @ts-expect-error known issue with models */
           .query()
-          .findById(id);
+          .findById(id)
+          .withGraphFetched({
+            market_product_categories: true,
+          });
 
-        const dfcFormattedListingData = await formatFarmDataToDfcStandard(marketDirectoryInfo);
+        const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
+        const dfcFormattedListingData = await formatFarmDataToDfcStandard(
+          marketDirectoryInfo,
+          marketProductCategoryMap,
+        );
 
         return res.status(200).json(dfcFormattedListingData);
       } catch (error: unknown) {
@@ -68,13 +76,20 @@ const dataFoodConsortiumController = {
           .whereIn(
             'id',
             authorizedFarms.map(({ market_directory_info_id }) => market_directory_info_id),
-          );
+          )
+          .withGraphFetched({
+            market_product_categories: true,
+          });
+        const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
 
-        const dfcFormattedListingData = await Promise.all(
-          authorizedFarmsDirectoryInfo.map((marketDirectoryInfo) => {
-            return formatFarmDataToDfcStandard(marketDirectoryInfo);
-          }),
-        );
+        const dfcFormattedListingData = [];
+        for (const marketDirectoryInfo of authorizedFarmsDirectoryInfo) {
+          const formatted = await formatFarmDataToDfcStandard(
+            marketDirectoryInfo,
+            marketProductCategoryMap,
+          );
+          dfcFormattedListingData.push(formatted);
+        }
 
         return res.status(200).send(dfcFormattedListingData);
       } catch (error: unknown) {

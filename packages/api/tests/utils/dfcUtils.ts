@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { MarketProductCategory } from '../../src/models/types.js';
+
 export interface DfcEntity {
   '@type': string;
   '@id': string;
@@ -67,4 +69,10 @@ export const mockParsedAddress = {
   region: 'BC',
   postalCode: 'V1V 1V1',
   country: 'Canada',
+};
+
+export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategory> => {
+  const enums = [{ id: 1, key: 'BAKERY' }];
+  const map = new Map(enums.map((e) => [e.id, e]));
+  return map;
 };

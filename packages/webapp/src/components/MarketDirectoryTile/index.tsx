@@ -76,11 +76,22 @@ export const PureMarketDirectoryTile = ({
   );
 };
 
-export const MarketplaceSuggestionTile = ({ onClick }: { onClick: () => void }) => {
+export const MarketplaceSuggestionTile = ({
+  onClick,
+  noPartner,
+}: {
+  onClick: () => void;
+  noPartner: boolean;
+}) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
     <div className={clsx(styles.container, styles.marketplaceSuggestionTile)}>
+      {noPartner && (
+        <p>
+          <b>{t('MARKET_DIRECTORY.NO_PARTNER')}</b>
+        </p>
+      )}
       <p>
         <Trans i18nKey="MARKET_DIRECTORY.KNOW_A_MARKETPLACE" components={{ br: <br /> }} />
       </p>

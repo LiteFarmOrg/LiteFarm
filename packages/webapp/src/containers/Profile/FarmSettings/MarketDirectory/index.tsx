@@ -31,9 +31,12 @@ import MarketDirectoryConsent from './Consent';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
 
+// When adding/removing forms, update farmCardsLength below to match the number of enum values
 enum FormCards {
   INFO,
 }
+
+const farmCardsLength = 1;
 
 const MarketDirectory = () => {
   const history = useHistory();
@@ -42,9 +45,7 @@ const MarketDirectory = () => {
 
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
 
-  const [completionStatus, setCompletionStatus] = useState<Record<FormCards, boolean>>({
-    [FormCards.INFO]: false,
-  });
+  const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({});
 
   const updateCompletionStatus = (formKey: FormCards, isComplete: boolean) => {
     setCompletionStatus((prev) => ({
@@ -53,7 +54,12 @@ const MarketDirectory = () => {
     }));
   };
 
-  const areAllFormsComplete = Object.values(completionStatus).every(Boolean);
+  // Keep undefined until all forms have reported their status to prevent
+  // false->true transition issues in MarketDirectoryConsent
+  const areAllFormsComplete =
+    Object.keys(completionStatus).length === farmCardsLength
+      ? Object.values(completionStatus).every(Boolean)
+      : undefined;
 
   const { data: marketDirectoryInfo, isLoading: isMarketDirectoryInfoLoading } =
     useGetMarketDirectoryInfoQuery();
@@ -68,8 +74,8 @@ const MarketDirectory = () => {
   ].some(Boolean);
 
   useEffect(() => {
-    if (!isMarketDirectoryInfoLoading && marketDirectoryInfo) {
-      updateCompletionStatus(FormCards.INFO, true);
+    if (!isMarketDirectoryInfoLoading) {
+      updateCompletionStatus(FormCards.INFO, !!marketDirectoryInfo);
     }
   }, [isMarketDirectoryInfoLoading, marketDirectoryInfo]);
 
@@ -107,7 +113,7 @@ const MarketDirectory = () => {
                   <ExpandableHeader
                     title={title}
                     isExpanded={isExpanded}
-                    isComplete={completionStatus[key]}
+                    isComplete={completionStatus[key] || false}
                   />
                 }
                 expandedContent={content}
@@ -118,7 +124,12 @@ const MarketDirectory = () => {
           );
         })}
 
-        <MarketDirectoryConsent disabled={!areAllFormsComplete} />
+        {areAllFormsComplete !== undefined && (
+          <MarketDirectoryConsent
+            canConsent={areAllFormsComplete}
+            marketDirectoryInfo={marketDirectoryInfo}
+          />
+        )}
       </div>
     </CardLayout>
   );

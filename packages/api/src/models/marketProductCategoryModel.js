@@ -15,6 +15,11 @@
 
 import Model from './baseFormatModel.js';
 
+/** @typedef {import('objection').ModelObject<MarketProductCategoryModel>} MarketProductCategory */
+
+/**
+ * @extends {import('./baseFormatModel.js').default}
+ */
 class MarketProductCategory extends Model {
   static get tableName() {
     return 'market_product_category';
@@ -37,6 +42,10 @@ class MarketProductCategory extends Model {
       },
       additionalProperties: false,
     };
+  }
+  static async getLookupMap() {
+    const records = await this.query();
+    return new Map(records.map((record) => [record.id, record]));
   }
 }
 

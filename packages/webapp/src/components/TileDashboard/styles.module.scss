@@ -25,9 +25,10 @@
   background: var(--Colors-Primary-Primary-teal-900, #16423d);
 }
 
+// Same as ProductInventory sectionTitle
 .title {
   color: var(--Colors-Primary-Primary-teal-50, #ebf5f4);
-  font-family: 'Open Sans';
+  @include fontFamily();
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

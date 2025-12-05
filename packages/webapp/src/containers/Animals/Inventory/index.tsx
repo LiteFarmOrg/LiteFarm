@@ -21,7 +21,7 @@ import PureAnimalInventory, {
 } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { Paper, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';

@@ -47,9 +47,10 @@
   @include flex-column-gap(24px);
 }
 
+// Same as TileDashboard title
 .sectionTitle {
   color: inherit;
-  font-family: 'Open Sans';
+  @include fontFamily();
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

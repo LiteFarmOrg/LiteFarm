@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { createContext, Suspense, useContext, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
@@ -24,29 +24,7 @@ import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDe
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
-
-/**
- * @typedef {Object} NavMenuControlsContextValue
- * @property {Object} feedback
- * @property {boolean} feedback.isFeedbackSurveyOpen        - Whether the feedback survey modal is open
- * @property {React.Dispatch<React.SetStateAction<boolean>>} feedback.setFeedbackSurveyOpen - Setter for the feedback survey modal
- */
-
-/**
- * Context for controlling navigation menu related UI states (e.g. feedback survey modal)
- *
- * @type {React.Context<NavMenuControlsContextValue | null>}
- */
-export const NavMenuControlsContext = createContext(null);
-
-export const useNavMenuControls = () => {
-  const NavMenuControls = useContext(NavMenuControlsContext);
-  if (!NavMenuControls) {
-    throw new Error('NavMenuControlsContext must be used within a provider');
-  } else {
-    return NavMenuControls;
-  }
-};
+import { NavMenuControlsContext } from './containers/contexts/appContext';
 
 function App() {
   const location = useLocation();

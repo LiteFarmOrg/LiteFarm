@@ -34,7 +34,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import { areSetsEqual } from '../../../../../util/comparisons';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
-import { useNavMenuControls } from '../../../../../App';
+import { useNavMenuControls } from '../../../../contexts/appContext';
 
 interface MarketDirectoryConsentProps {
   canConsent: boolean;

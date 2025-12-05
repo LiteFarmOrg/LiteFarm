@@ -24,7 +24,7 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
 import { ReactElement } from 'react';
-import { useNavMenuControls } from '../../App';
+import { useNavMenuControls } from '../contexts/appContext';
 
 type BetaSpotlightProps = {
   children: ReactElement;

@@ -26,15 +26,9 @@ const FarmAddons = React.lazy(() => import('../containers/Profile/FarmSettings/A
 const FarmSettingsRoutes = () => (
   <FarmSettingsProvider>
     <Switch>
-      <Route path="/farm_settings/basic_profile" exact>
-        <BasicProfile />
-      </Route>
-      <Route path="/farm_settings/market_directory" exact>
-        <MarketDirectory />
-      </Route>
-      <Route path="/farm_settings/addons" exact>
-        <FarmAddons />
-      </Route>
+      <Route path="/farm_settings/basic_profile" exact children={<BasicProfile />} />
+      <Route path="/farm_settings/market_directory" exact children={<MarketDirectory />} />
+      <Route path="/farm_settings/addons" exact children={<FarmAddons />} />
       {/* Load on basic_profile */}
       <Route path="/farm_settings" exact>
         <Redirect to="/farm_settings/basic_profile" />

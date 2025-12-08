@@ -37,12 +37,12 @@ import { createEnterpriseUrl } from './dfcAdapter.js';
 /**
  * Event types per DFC Data Server Development Guide
  */
-export enum WEBHOOK_EVENT_TYPES {
+export enum WebhookEventType {
   REFRESH = 'refresh',
 }
 
 /* Scopes per DFC Data Server Development Guide */
-export enum SCOPES {
+export enum Scope {
   READ_ENTERPRISE = 'ReadEnterprise',
 }
 
@@ -52,9 +52,9 @@ export enum SCOPES {
 const REFRESH_ENTERPRISES_URL = createEnterpriseUrl('');
 
 interface RefreshWebhookPayload {
-  eventType: WEBHOOK_EVENT_TYPES.REFRESH;
+  eventType: WebhookEventType.REFRESH;
   enterpriseUrlid: string;
-  scope: SCOPES.READ_ENTERPRISE;
+  scope: Scope.READ_ENTERPRISE;
 }
 
 /**
@@ -68,9 +68,9 @@ export async function notifyPartnerRefresh(
   return sendWebhook(
     webhookUrl,
     {
-      eventType: WEBHOOK_EVENT_TYPES.REFRESH,
+      eventType: WebhookEventType.REFRESH,
       enterpriseUrlid: REFRESH_ENTERPRISES_URL,
-      scope: SCOPES.READ_ENTERPRISE,
+      scope: Scope.READ_ENTERPRISE,
     },
     dryRun,
   );

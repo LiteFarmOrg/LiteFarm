@@ -16,8 +16,8 @@
 import axios from 'axios';
 import {
   notifyPartnerRefresh,
-  WEBHOOK_EVENT_TYPES,
-  SCOPES,
+  WebhookEventType,
+  Scope,
 } from '../../src/services/datafoodconsortium/dfcWebhook.js';
 import { getAccessToken } from '../../src/services/keycloak.js';
 
@@ -56,8 +56,8 @@ describe('DFC Webhook Service', () => {
       expect(mockedAxios.post).toHaveBeenCalledWith(
         mockWebhookUrl,
         expect.objectContaining({
-          eventType: WEBHOOK_EVENT_TYPES.REFRESH,
-          scope: SCOPES.READ_ENTERPRISE,
+          eventType: WebhookEventType.REFRESH,
+          scope: Scope.READ_ENTERPRISE,
           enterpriseUrlid: expect.stringContaining('/enterprises'),
         }),
         expect.objectContaining({
@@ -68,7 +68,7 @@ describe('DFC Webhook Service', () => {
           timeout: 10000,
         }),
       );
-      expect(result.payload.eventType).toBe(WEBHOOK_EVENT_TYPES.REFRESH);
+      expect(result.payload.eventType).toBe(WebhookEventType.REFRESH);
     });
 
     test('should respect dry-run flag and return expected structure', async () => {
@@ -80,8 +80,8 @@ describe('DFC Webhook Service', () => {
       expect(result).toMatchObject({
         sentTo: mockWebhookUrl,
         payload: {
-          eventType: WEBHOOK_EVENT_TYPES.REFRESH,
-          scope: SCOPES.READ_ENTERPRISE,
+          eventType: WebhookEventType.REFRESH,
+          scope: Scope.READ_ENTERPRISE,
           enterpriseUrlid: expect.stringContaining('/enterprises'),
         },
         dryRun: true,

@@ -21,7 +21,7 @@ import PureAnimalInventory, {
 } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { Paper, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
@@ -47,7 +47,7 @@ import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
-import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import BetaSpotlight from '../../Spotlights/BetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
 import { onAddTask } from '../../Task/onAddTask';
@@ -85,7 +85,6 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   view?: View;
   isCompactSideMenu: boolean;
-  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   showOnlySelected?: boolean;
   showLinks?: boolean;
@@ -186,7 +185,6 @@ const TaskAnimalInventory = ({
 };
 
 const MainAnimalInventory = ({
-  setFeedbackSurveyOpen,
   history,
   onTypeClick,
   selectedTypeIds,
@@ -194,7 +192,6 @@ const MainAnimalInventory = ({
   isAdmin,
   ...commonProps
 }: {
-  setFeedbackSurveyOpen: () => void;
   history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
@@ -202,7 +199,7 @@ const MainAnimalInventory = ({
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
   return (
-    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+    <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
         header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
@@ -223,7 +220,7 @@ const MainAnimalInventory = ({
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>
       </FixedHeaderContainer>
-    </AnimalsBetaSpotlight>
+    </BetaSpotlight>
   );
 };
 
@@ -241,7 +238,6 @@ export default function AnimalInventory({
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
-  setFeedbackSurveyOpen,
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
@@ -494,7 +490,6 @@ export default function AnimalInventory({
 
   return (
     <MainAnimalInventory
-      setFeedbackSurveyOpen={setFeedbackSurveyOpen}
       onTypeClick={onTypeClick}
       selectedTypeIds={selectedTypeIds}
       actionMenuAndRemoveModal={actionMenuAndRemoveModal}

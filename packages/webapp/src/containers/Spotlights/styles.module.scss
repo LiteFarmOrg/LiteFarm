@@ -1,0 +1,30 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.buttonText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  // If core button styles change this will match icon
+  line-height: 16px;
+  > svg {
+    // Match line height of button
+    max-height: 16px;
+  }
+}
+
+.disableHover {
+  pointer-events: none;
+}

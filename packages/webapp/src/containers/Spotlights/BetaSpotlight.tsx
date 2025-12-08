@@ -15,25 +15,34 @@
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { TourProviderWrapper } from '../../../components/TourProviderWrapper/TourProviderWrapper';
-import { setSpotlightToShown } from '../../Map/saga';
-import { showedSpotlightSelector } from '../../showedSpotlightSlice';
+import { TourProviderWrapper } from '../../components/TourProviderWrapper/TourProviderWrapper';
+import { setSpotlightToShown } from '../Map/saga';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { Trans } from 'react-i18next';
-import Badge from '../../../components/Badge';
-import { ReactComponent as SendIcon } from '../../../assets/images/send-icon.svg';
+import Badge from '../../components/Badge';
+import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
-import { BETA_BADGE_LINK } from '../../../util/constants';
+import { BETA_BADGE_LINK } from '../../util/constants';
+import { ReactElement } from 'react';
+import { useNavMenuControls } from '../contexts/appContext';
 
-export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }) {
+type BetaSpotlightProps = {
+  children: ReactElement;
+  spotlight: string;
+};
+
+export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { animals_beta } = useSelector(showedSpotlightSelector);
-  const onFinish = () => dispatch(setSpotlightToShown('animals_beta'));
+  const spotlights = useSelector(showedSpotlightSelector);
+  const onFinish = () => dispatch(setSpotlightToShown(spotlight));
+  const upperCaseSpotlightKey = spotlight.toUpperCase();
+  const { feedback: feedbackControls } = useNavMenuControls();
 
   return (
     <TourProviderWrapper
       showCloseButton
-      open={!animals_beta}
+      open={!spotlights[spotlight]}
       steps={[
         {
           title: (
@@ -41,19 +50,20 @@ export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }
               title={t('BADGE.BETA.TITLE')}
               showIcon={false}
               position={'left'}
-              disableHover
               classes={{ iconButton: styles.disableHover }}
             />
           ),
           contents: [
-            <b key={'animals_beta_step_1_heading'}>{t('ANIMAL.BETA_SPOTLIGHT_HEADING')}</b>,
+            <b key={`${spotlight}_step_1_heading`}>
+              {t(`BADGE.BETA.${upperCaseSpotlightKey}_HEADING`)}
+            </b>,
             <Trans
-              key={'animals_beta_step_1_content'}
-              i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
+              key={`${spotlight}_step_1_content`}
+              i18nKey={`BADGE.BETA.${upperCaseSpotlightKey}_CONTENT`}
               components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
             />,
           ],
-          selector: '#animalsBeta',
+          selector: `#${spotlight}`,
           position: 'center',
           buttonText: (
             <div className={styles.buttonText}>
@@ -64,7 +74,7 @@ export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }
           buttonProps: {
             color: 'secondary',
           },
-          onNext: () => setFeedbackSurveyOpen(true),
+          onNext: () => feedbackControls.setFeedbackSurveyOpen(true),
         },
       ]}
       onFinish={onFinish}

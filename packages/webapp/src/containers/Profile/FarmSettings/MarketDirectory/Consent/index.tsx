@@ -34,10 +34,10 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import { areSetsEqual } from '../../../../../util/comparisons';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
+import { useNavMenuControls } from '../../../../contexts/appContext';
 
 interface MarketDirectoryConsentProps {
   canConsent: boolean;
-  setFeedbackSurveyOpen: () => void;
   marketDirectoryInfo?: MarketDirectoryInfo;
 }
 
@@ -46,11 +46,12 @@ const PARTNER_PERMISSION_IDS = 'partnerPermissionIds';
 
 const MarketDirectoryConsent = ({
   canConsent,
-  setFeedbackSurveyOpen,
   marketDirectoryInfo,
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { feedback: feedbackFormControls } = useNavMenuControls();
+
   const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 
   const { data: marketDirectoryPartners = [] } =
@@ -167,7 +168,7 @@ const MarketDirectoryConsent = ({
             );
           })}
           <MarketplaceSuggestionTile
-            onClick={setFeedbackSurveyOpen}
+            onClick={() => feedbackFormControls.setFeedbackSurveyOpen(true)}
             noPartner={marketDirectoryPartners.length === 0}
           />
         </div>

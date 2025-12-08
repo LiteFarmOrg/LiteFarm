@@ -24,6 +24,7 @@ import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDe
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
+import { NavMenuControlsContext } from './containers/contexts/appContext';
 
 function App() {
   const location = useLocation();
@@ -35,37 +36,37 @@ function App() {
   return (
     <div className={clsx(styles.container)}>
       <Suspense fallback={null}>
-        <Navigation
-          isCompactSideMenu={isCompactSideMenu}
-          setIsCompactSideMenu={setIsCompactSideMenu}
-          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
         >
-          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-            <OfflineDetector />
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              classes={{
-                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
-                containerRoot: clsx(
-                  styles.containerRoot,
-                  isCompactSideMenu && styles.compactContainerRoot,
-                ),
-              }}
-              // https://notistack.com/features/customization#custom-component
-              Components={{ common: NotistackSnackbar }}
-            >
-              <Routes
-                isCompactSideMenu={isCompactSideMenu}
-                isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-                setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-              />
-            </SnackbarProvider>
-          </div>
-        </Navigation>
+          <Navigation
+            isCompactSideMenu={isCompactSideMenu}
+            setIsCompactSideMenu={setIsCompactSideMenu}
+          >
+            <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+              <OfflineDetector />
+              <SnackbarProvider
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                classes={{
+                  root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                  containerRoot: clsx(
+                    styles.containerRoot,
+                    isCompactSideMenu && styles.compactContainerRoot,
+                  ),
+                }}
+                // https://notistack.com/features/customization#custom-component
+                Components={{ common: NotistackSnackbar }}
+              >
+                <Routes isCompactSideMenu={isCompactSideMenu} />
+              </SnackbarProvider>
+            </div>
+          </Navigation>
+        </NavMenuControlsContext.Provider>
       </Suspense>
     </div>
   );

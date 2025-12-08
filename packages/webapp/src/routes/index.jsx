@@ -302,7 +302,7 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
+const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -365,10 +365,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
-                    <Route
-                      path="/farm_settings"
-                      children={<FarmSettings setFeedbackSurveyOpen={setFeedbackSurveyOpen} />}
-                    />
+                    <Route path="/farm_settings" children={<FarmSettings />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
@@ -746,10 +743,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -775,10 +769,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
-                    <Route
-                      path="/farm_settings"
-                      children={<FarmSettings setFeedbackSurveyOpen={setFeedbackSurveyOpen} />}
-                    />
+                    <Route path="/farm_settings" children={<FarmSettings />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
                     <Route path="/tasks" exact children={<Tasks />} />
@@ -1155,10 +1146,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -1312,10 +1300,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       children={<NotificationReadOnly />}
                     />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />

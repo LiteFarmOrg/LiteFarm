@@ -38,7 +38,7 @@ enum FormCards {
 
 const farmCardsLength = 1;
 
-const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () => void }) => {
+const MarketDirectory = () => {
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
@@ -127,7 +127,6 @@ const MarketDirectory = ({ setFeedbackSurveyOpen }: { setFeedbackSurveyOpen: () 
         {areAllFormsComplete !== undefined && (
           <MarketDirectoryConsent
             canConsent={areAllFormsComplete}
-            setFeedbackSurveyOpen={setFeedbackSurveyOpen}
             marketDirectoryInfo={marketDirectoryInfo}
           />
         )}

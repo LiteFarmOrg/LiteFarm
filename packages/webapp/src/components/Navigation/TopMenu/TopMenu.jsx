@@ -37,15 +37,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
-const TopMenu = ({
-  history,
-  isMobile,
-  showNavActions,
-  onClickBurger,
-  showNav,
-  isFeedbackSurveyOpen,
-  setFeedbackSurveyOpen,
-}) => {
+const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -244,10 +236,7 @@ const TopMenu = ({
       >
         <ProfilePicture />
       </IconButton>
-      <FeedbackSurvey
-        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-      />
+      <FeedbackSurvey />
       {isMobile ? drawerMenu : floaterMenu}
     </>
   );

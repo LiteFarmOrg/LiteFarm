@@ -34,6 +34,8 @@ import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
 import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filterSlice';
 import { useFilteredInventory } from './useFilteredInventory';
+import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
+import BetaSpotlight from '../Spotlights/BetaSpotlight';
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
@@ -60,6 +62,8 @@ export default function ProductInventory() {
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const zIndexBase = theme.zIndex.drawer;
+
+  const sectionHeaderTitle = useSectionHeader(history.location.pathname) || '';
 
   useEffect(() => {
     dispatch(getProducts());
@@ -182,37 +186,43 @@ export default function ProductInventory() {
   };
 
   return (
-    <FixedHeaderContainer
-      header={null}
-      classes={{ paper: animalInventoryStyles.paper, divWrapper: animalInventoryStyles.divWrapper }}
-      kind={ContainerKind.PAPER}
-    >
-      <PureProductInventory
-        filteredInventory={searchAndFilteredInventory}
-        searchProps={searchProps}
-        zIndexBase={zIndexBase}
-        isDesktop={isDesktop}
-        totalInventoryCount={totalInventoryCount}
-        isFilterActive={isFilterActive}
-        clearFilters={clearFilters}
-        history={history}
-        showActionFloaterButton={
-          /* placeholder. Eventually button should be hid when form is open */
-          true
-        }
-        productColumns={productColumns}
-        selectedIds={selectedIds}
-        onRowClick={handleRowClick}
-        onAddMenuItemClick={onAddMenuItemClick}
-      />
-      <ProductForm
-        isFormOpen={isFormOpen}
-        productFormType={productFormType}
-        mode={formMode}
-        productId={selectedIds?.[0] || undefined}
-        onActionButtonClick={onFormActionButtonClick}
-        onCancel={onCancel}
-      />
-    </FixedHeaderContainer>
+    <BetaSpotlight spotlight={'inventory_beta'}>
+      <FixedHeaderContainer
+        header={null}
+        classes={{
+          paper: animalInventoryStyles.paper,
+          divWrapper: animalInventoryStyles.divWrapper,
+        }}
+        kind={ContainerKind.PAPER}
+      >
+        <PureProductInventory
+          filteredInventory={searchAndFilteredInventory}
+          searchProps={searchProps}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          totalInventoryCount={totalInventoryCount}
+          isFilterActive={isFilterActive}
+          clearFilters={clearFilters}
+          history={history}
+          showActionFloaterButton={
+            /* placeholder. Eventually button should be hid when form is open */
+            true
+          }
+          productColumns={productColumns}
+          selectedIds={selectedIds}
+          onRowClick={handleRowClick}
+          onAddMenuItemClick={onAddMenuItemClick}
+          sectionHeaderTitle={sectionHeaderTitle}
+        />
+        <ProductForm
+          isFormOpen={isFormOpen}
+          productFormType={productFormType}
+          mode={formMode}
+          productId={selectedIds?.[0] || undefined}
+          onActionButtonClick={onFormActionButtonClick}
+          onCancel={onCancel}
+        />
+      </FixedHeaderContainer>
+    </BetaSpotlight>
   );
 }

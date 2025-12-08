@@ -1,6 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
+import { NavMenuControlsContext } from '../../../App';
 import Navigation from '../../../containers/Navigation';
 
 const setIdToken = () => {
@@ -11,6 +12,7 @@ const setIdToken = () => {
 
 export default [
   (story) => {
+    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
     setIdToken();
     return (
       <div
@@ -21,7 +23,13 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <Navigation />
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
+        >
+          <Navigation />
+        </NavMenuControlsContext.Provider>
         <div
           className="app"
           style={{
@@ -41,6 +49,7 @@ export default [
 
 export const authenticatedDecorators = [
   (story) => {
+    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
     setIdToken();
     return (
       <div
@@ -51,7 +60,13 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <Navigation />
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
+        >
+          <Navigation />
+        </NavMenuControlsContext.Provider>
         <div
           className="app"
           style={{
@@ -111,6 +126,21 @@ export const v2TableDecorator = [
           <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
         </div>
       </Router>
+    );
+  },
+];
+
+export const navMenuControlDecorator = [
+  (story) => {
+    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+    return (
+      <NavMenuControlsContext.Provider
+        value={{
+          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+        }}
+      >
+        {story()}
+      </NavMenuControlsContext.Provider>
     );
   },
 ];

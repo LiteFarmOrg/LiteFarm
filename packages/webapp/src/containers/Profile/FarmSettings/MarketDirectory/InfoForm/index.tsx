@@ -70,7 +70,7 @@ const MarketDirectoryInfoForm = ({
   const defaultValues = marketDirectoryData || userFarmDefaults;
 
   const formMethods = useForm<MarketDirectoryInfoFormFields>({
-    mode: 'onChange',
+    mode: 'onTouched',
     defaultValues: defaultValues,
   });
 

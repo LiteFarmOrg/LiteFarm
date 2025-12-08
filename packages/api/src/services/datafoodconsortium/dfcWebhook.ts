@@ -102,11 +102,13 @@ export async function sendWebhook(
   }
 
   if (dryRun) {
-    return {
+    const details = {
       sentTo: webhookUrl,
       payload,
       dryRun,
     };
+    console.log(details);
+    return details;
   }
 
   try {

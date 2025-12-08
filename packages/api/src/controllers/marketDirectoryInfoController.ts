@@ -112,7 +112,6 @@ const marketDirectoryInfoController = {
         await trx.commit();
         res.status(204).send();
 
-        // Post-response: notify partners about changes and pass previous state so service can determine who was added/removed
         notifyMarketDirectoryPartners(id, previousPartnerIds);
       } catch (error: unknown) {
         console.error(error);

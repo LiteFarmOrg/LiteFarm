@@ -24,9 +24,13 @@ import type {
 /**
  * Non-blocking post-response side effects; do not send HTTP responses here
  *
- * Notifies all partners who need to know about changes to market directory info:
- * - Partners who currently have access
- * - Partners who just lost access
+ * Notifies partners who need to know about changes:
+ * - When partners change: only added or removed partners
+ * - When directory info changes: all current partners
+ *
+ * Note: The frontend enforces that partner updates and directory info updates
+ * are sent as separate PATCH requests, so both cannot change simultaneously.
+ * If called with both changed, partner changes take precedence for notification logic.
  *
  * @param marketDirectoryInfoId - ID of the market directory info that was updated
  * @param previousPartnerIds - Array of partner IDs that had access before the update
@@ -46,7 +50,6 @@ export async function notifyMarketDirectoryPartners(
 
     const currentPartnerIds = currentPartners.map((partner) => partner.market_directory_partner_id);
 
-    // Calculate if any partners have changed
     const addedPartners = currentPartnerIds.filter((id) => !previousPartnerIds.includes(id));
     const removedPartners = previousPartnerIds.filter((id) => !currentPartnerIds.includes(id));
     const partnersChanged = addedPartners.length > 0 || removedPartners.length > 0;

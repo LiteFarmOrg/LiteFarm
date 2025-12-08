@@ -32,6 +32,16 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 
+// Mock partner webhook-calling service
+jest.mock('../src/services/datafoodconsortium/dfcWebhook.js', () => ({
+  notifyPartnerRefresh: jest.fn().mockResolvedValue(undefined),
+}));
+
+import { notifyPartnerRefresh } from '../src/services/datafoodconsortium/dfcWebhook.js';
+const mockedNotifyPartnerRefresh = notifyPartnerRefresh as jest.MockedFunction<
+  typeof notifyPartnerRefresh
+>;
+
 const INVALID_SUFFIX = '_INVALID';
 
 jest.mock('../src/util/googleMaps.js', () => ({
@@ -543,6 +553,114 @@ describe('Market Directory Info Tests', () => {
 
         expect(permission).toBeDefined();
         expect(permission.deleted).toBe(false);
+      });
+    });
+
+    describe('Sending webhook notifications to partners', () => {
+      let partner1: MarketDirectoryPartner & { webhookUrl: string };
+      let partner2: MarketDirectoryPartner & { webhookUrl: string };
+      let partner3: MarketDirectoryPartner & { webhookUrl: string };
+
+      async function createPartnerWithWebhook() {
+        const [partner] = await mocks.market_directory_partnerFactory();
+        const webhookUrl = `https://partner-${partner.id}.example.com/webhook`;
+
+        await mocks.market_directory_partner_authFactory(
+          { promisedPartner: Promise.resolve([partner]) },
+          mocks.fakeMarketDirectoryPartnerAuth({
+            webhook_endpoint: webhookUrl,
+          }),
+        );
+
+        return { ...partner, webhookUrl };
+      }
+
+      const patchDirectoryInfo = (data: MarketDirectoryInfoReqBody) =>
+        patchRequest(marketDirectoryInfoId, data, userFarmIds);
+
+      beforeEach(async () => {
+        jest.clearAllMocks();
+
+        partner1 = await createPartnerWithWebhook();
+        partner2 = await createPartnerWithWebhook();
+        partner3 = await createPartnerWithWebhook();
+      });
+
+      test('should notify new partners when permissions are added', async () => {
+        const patchReqBody = {
+          partner_permissions: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        };
+        const res = await patchDirectoryInfo(patchReqBody);
+        expect(res.status).toBe(204);
+
+        // Wait for async webhook calls
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledTimes(2);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner1.webhookUrl);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner2.webhookUrl);
+      });
+
+      test('Should notify only changed partners when permissions are added or removed', async () => {
+        // Add partner 1 and partner 2
+        await patchDirectoryInfo({
+          partner_permissions: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        jest.clearAllMocks();
+
+        // Remove partner1, keep partner2, add partner3
+        const res = await patchDirectoryInfo({
+          partner_permissions: [
+            { market_directory_partner_id: partner2.id },
+            { market_directory_partner_id: partner3.id },
+          ],
+        });
+
+        expect(res.status).toBe(204);
+
+        // Wait for async webhook calls
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Should notify partner1 (removed) and partner3 (added), but NOT partner2
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledTimes(2);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner1.webhookUrl);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner3.webhookUrl);
+        expect(mockedNotifyPartnerRefresh).not.toHaveBeenCalledWith(partner2.webhookUrl);
+      });
+
+      test('Should notify all current partners when directory info changes with no partner changes', async () => {
+        // Add partner1 and partner2
+        await patchDirectoryInfo({
+          partner_permissions: [
+            { market_directory_partner_id: partner1.id },
+            { market_directory_partner_id: partner2.id },
+          ],
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        jest.clearAllMocks();
+
+        // Update directory info without changing partners
+        const res = await patchDirectoryInfo({
+          farm_name: 'Updated Farm Name',
+        });
+
+        expect(res.status).toBe(204);
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Should notify both partner1 and partner2
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledTimes(2);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner1.webhookUrl);
+        expect(mockedNotifyPartnerRefresh).toHaveBeenCalledWith(partner2.webhookUrl);
       });
     });
 

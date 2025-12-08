@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
-import { NavMenuControlsContext } from '../../../App';
 import Navigation from '../../../containers/Navigation';
+import { NavMenuControlsContext } from '../../../contexts/appContext';
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {

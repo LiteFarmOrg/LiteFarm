@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { logout } from '../../../util/jwt';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
 import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
@@ -16,7 +15,6 @@ import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,
   Toolbar,
-  Menu,
   MenuList,
   MenuItem,
   Popper,
@@ -37,10 +35,11 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
+const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
+
 const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
-  const selectedLanguage = getLanguageFromLocalStorage();
   const sectionHeader = useSectionHeader(history.location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
@@ -74,16 +73,8 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
 
   const openTutorialsClick = () => {
     closeMenu();
-    const playlistIDs = {
-      es: 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
-      pt: 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
-      en: 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY',
-    };
 
-    const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
-    const url = 'https://www.youtube.com/playlist?list=' + playList;
-
-    const win = window.open(url, '_blank');
+    const win = window.open(TUTORIALS_LINK, '_blank');
     win.focus();
   };
 

@@ -19,7 +19,7 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
-import { useNavMenuControls } from '../contexts/appContext';
+import { useNavMenuControls } from '../../contexts/appContext';
 
 export default function FeedbackSurvey() {
   const { t } = useTranslation();

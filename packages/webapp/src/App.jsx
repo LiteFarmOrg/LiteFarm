@@ -24,7 +24,7 @@ import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDe
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
-import { NavMenuControlsContext } from './containers/contexts/appContext';
+import { NavMenuControlsContext } from './contexts/appContext';
 
 function App() {
   const location = useLocation();

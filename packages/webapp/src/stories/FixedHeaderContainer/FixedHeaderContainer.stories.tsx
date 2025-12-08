@@ -17,7 +17,6 @@ import { Meta, StoryObj } from '@storybook/react';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
-import { navMenuControlDecorator } from '../Pages/config/Decorators';
 
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
   return (
@@ -47,7 +46,6 @@ const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
 
 const meta: Meta<typeof FixedHeaderContainer> = {
   title: 'Components/FixedHeaderContainer',
-  decorators: navMenuControlDecorator,
   component: FixedHeaderContainer,
 };
 

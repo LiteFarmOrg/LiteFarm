@@ -96,13 +96,16 @@ const PureSoilAmendmentProductForm = ({
           maxLength: hookFormMaxCharsValidation(255),
           setValueAs: (value) => value.trim(),
           validate: (value) => {
-            // Allow duplicate check to pass if keeping the original name during edit
-            if (
-              !(mode === FormMode.EDIT && value === product?.name) &&
-              customProductNames.includes(value)
-            ) {
+            // Allow duplicate check to pass if keeping the original name in EDIT or READ_ONLY mode.
+            // This validation is not re-run when switching from READ_ONLY to EDIT,
+            // so it needs to evaluate correctly in READ_ONLY mode as well.
+            const isOriginalName =
+              mode && [FormMode.EDIT, FormMode.READ_ONLY].includes(mode) && value === product?.name;
+
+            if (!isOriginalName && customProductNames.includes(value)) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }
+            return true;
           },
         })}
         disabled={props.isReadOnly}

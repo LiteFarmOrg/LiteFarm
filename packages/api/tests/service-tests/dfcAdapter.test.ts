@@ -245,6 +245,7 @@ describe('dfcAdapter', () => {
       region: 'MC',
       postalCode: '12345',
       country: 'Mockedland',
+      countryCode: 'ML', // Actual county code for Mali (MLI)
     };
     mockedParseAddress.mockResolvedValue(mockAddress);
 
@@ -269,7 +270,40 @@ describe('dfcAdapter', () => {
       'dfc-b:hasCity': mockAddress.city,
       'dfc-b:region': mockAddress.region,
       'dfc-b:hasPostalCode': mockAddress.postalCode,
-      'dfc-b:hasCountry': mockAddress.country,
+      'dfc-b:hasCountry': 'http://publications.europa.eu/resource/authority/country/MLI',
+    });
+  });
+
+  test('should fallback to country name when ISO conversion fails', async () => {
+    const mockAddress = {
+      street: 'Test Street',
+      city: 'Test City',
+      region: 'TC',
+      postalCode: '00000',
+      country: 'Unknown Country',
+      countryCode: 'XX', // Invalid code that won't convert
+    };
+    mockedParseAddress.mockResolvedValue(mockAddress);
+
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
+
+    const addressEntity = result['@graph'].find(
+      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Address',
+    );
+
+    // Should fall back to country name when ISO code is invalid
+    expect(addressEntity).toMatchObject({
+      'dfc-b:hasCountry': 'Unknown Country',
     });
   });
 });

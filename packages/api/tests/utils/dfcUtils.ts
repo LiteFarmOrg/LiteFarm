@@ -69,6 +69,7 @@ export const mockParsedAddress = {
   region: 'BC',
   postalCode: 'V1V 1V1',
   country: 'Canada',
+  countryCode: 'CA',
 };
 
 export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategory> => {

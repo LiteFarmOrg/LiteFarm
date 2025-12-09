@@ -23,6 +23,9 @@ import {
 import { HttpError, LiteFarmRequest } from '../types.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 import { Model, transaction } from 'objection';
+import MarketDirectoryPartnerPermissionsModel from '../models/marketDirectoryPartnerPermissions.js';
+import { MarketDirectoryPartnerPermissions } from '../models/types.js';
+import { notifyMarketDirectoryPartners } from '../services/notifyMarketDirectoryPartners.js';
 
 const marketDirectoryInfoController = {
   getMarketDirectoryInfoByFarm() {
@@ -87,6 +90,18 @@ const marketDirectoryInfoController = {
       const { id } = req.params;
       const trx = await transaction.start(Model.knex());
       try {
+        // Capture previous partner state before update
+        const previousPartners: MarketDirectoryPartnerPermissions[] =
+          await MarketDirectoryPartnerPermissionsModel
+            // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+            .query(trx)
+            .where({ market_directory_info_id: id })
+            .whereNotDeleted();
+
+        const previousPartnerIds = previousPartners.map(
+          (partner) => partner.market_directory_partner_id,
+        );
+
         // @ts-expect-error: TS doesn't see through softDelete HOC; safe at runtime
         await baseController.upsertGraph(MarketDirectoryInfoModel, { ...data, id }, req, {
           trx,
@@ -96,6 +111,8 @@ const marketDirectoryInfoController = {
         });
         await trx.commit();
         res.status(204).send();
+
+        notifyMarketDirectoryPartners(id, previousPartnerIds);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

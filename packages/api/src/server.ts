@@ -252,6 +252,7 @@ const rejectBodyInGetAndDelete: RequestHandler = (req, res, next) => {
 };
 
 const getAllowedOrigin = () => {
+  if(process.env.HOME_PUBLIC_URL) return process.env.HOME_PUBLIC_URL;
   switch (environment) {
     case 'development':
       return '*';

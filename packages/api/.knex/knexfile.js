@@ -67,7 +67,14 @@ export default {
   production: {
     client: 'postgresql',
     debug: true,
-    connection: process.env.DATABASE_URL,
+    connection: process.env.DATABASE_URL || {
+      host: process.env.DATABASE_HOST,
+      database: process.env.DATABASE,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      port: process.env.DATABASE_PORT || 5432,
+      ssl: { rejectUnauthorized: false },
+    },
     migrations,
     seeds,
     ssl: {

@@ -25,6 +25,7 @@ import {
 } from '@datafoodconsortium/connector';
 import { apiUrl } from '../../util/environment.js';
 import { parseGoogleGeocodedAddress } from '../../util/googleMaps.js';
+import { convertCountryIso2ToIso3 } from '../../util/isoUtils.js';
 import type {
   MarketDirectoryInfoWithRelations,
   MarketProductCategory,
@@ -101,6 +102,11 @@ export const formatFarmDataToDfcStandard = async (
 
   const enterpriseUrl = createEnterpriseUrl(market_directory_info_id);
 
+  const countryIso3 = convertCountryIso2ToIso3(parsedAddress.countryCode);
+  const dfcCountryUri = countryIso3
+    ? `http://publications.europa.eu/resource/authority/country/${countryIso3}`
+    : parsedAddress.country; // fallback to country name if ISO conversion fails
+
   const address = new Address({
     connector,
     semanticId: `${enterpriseUrl}#address`,
@@ -108,7 +114,7 @@ export const formatFarmDataToDfcStandard = async (
     city: parsedAddress.city,
     region: parsedAddress.region,
     postalCode: parsedAddress.postalCode,
-    country: parsedAddress.country,
+    country: dfcCountryUri,
   });
 
   const mainContact = connector.createPerson({

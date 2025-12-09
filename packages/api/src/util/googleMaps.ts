@@ -22,6 +22,7 @@ export interface ParsedAddress {
   city?: string;
   region?: string;
   country?: string;
+  countryCode?: string;
 }
 
 /**
@@ -53,6 +54,11 @@ export const parseGoogleGeocodedAddress = async (address: string): Promise<Parse
   const getValue = (type: AddressType) =>
     components.find((component) => component.types.includes(type))?.long_name;
 
+  // Google's short_name for countries is 2-character ISO
+  const countryCode = components.find((component) =>
+    component.types.includes(AddressType.country),
+  )?.short_name;
+
   const streetNumber = getValue(AddressType.street_number);
   const route = getValue(AddressType.route);
   const street = streetNumber && route ? `${streetNumber} ${route}` : streetNumber || route;
@@ -63,5 +69,6 @@ export const parseGoogleGeocodedAddress = async (address: string): Promise<Parse
     city: getValue(AddressType.locality),
     region: getValue(AddressType.administrative_area_level_1),
     country: getValue(AddressType.country),
+    countryCode,
   };
 };

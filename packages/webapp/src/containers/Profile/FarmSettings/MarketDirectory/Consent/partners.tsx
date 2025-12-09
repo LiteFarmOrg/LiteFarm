@@ -38,7 +38,7 @@ export const PARTNERS_INFO: {
     name: 'OFN Canada',
     description: i18n.t('MARKET_DIRECTORY.PARTNERS.OFN_DESCRIPTION'),
     website: 'https://openfoodnetwork.ca/',
-    termsUrl: 'https://openfoodnetwork.ca/', // TODO: Update
+    termsUrl: 'https://drive.google.com/file/d/1_CDmmM2Aq-hxyJG2c-1iPyfB0gynXBBK/view?usp=sharing',
     logo: <LogoAndCountry country="Canada" />,
   },
 };

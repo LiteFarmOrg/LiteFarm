@@ -10,27 +10,33 @@ import {
 import { userFarmSelector } from '../userFarmSlice';
 import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
 
-export default function HelpRequest({ closeDrawer }) {
+export default function HelpRequest({ setIsSurveyOpen }) {
   const dispatch = useDispatch();
+
+  const closeDrawer = () => setIsSurveyOpen(false);
+  const openDrawer = () => setIsSurveyOpen(true);
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
 
   const handleSubmit = (file, data, resetForm) => {
     dispatch(startSendHelp());
+    closeDrawer();
     dispatch(
       supportFileUpload({
         file,
         form: data,
         onSuccess: () => {
           resetForm();
-          closeDrawer?.();
+        },
+        onFailure: () => {
+          openDrawer();
         },
       }),
     );
   };
   const onCancel = () => {
-    closeDrawer?.();
+    closeDrawer();
   };
 
   const { email, phone_number } = useSelector(userFarmSelector);

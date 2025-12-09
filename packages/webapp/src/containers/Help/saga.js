@@ -25,7 +25,7 @@ const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);
 
-export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
+export function* supportFileUploadSaga({ payload: { file, form, onSuccess, onFailure } }) {
   try {
     const formData = new FormData();
     formData.append('_file_', file);
@@ -40,10 +40,12 @@ export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
       yield put(postHelpRequestSuccess());
       onSuccess();
     } else {
+      onFailure();
       yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     }
     yield put(finishSendHelp());
   } catch (e) {
+    onFailure();
     yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     yield put(finishSendHelp());
     console.log(e);

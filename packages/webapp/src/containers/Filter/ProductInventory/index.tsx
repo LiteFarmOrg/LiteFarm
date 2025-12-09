@@ -18,7 +18,7 @@ import FilterGroup from '../../../components/Filter/FilterGroup';
 import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
-import { ProductCategory, InventoryFilterKeys } from './types';
+import { InventoryFilterKeys } from './types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface ProductInventoryFilterContentProps {
@@ -37,27 +37,28 @@ const ProductInventoryFilterContent = ({
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
 
   const filters: ComponentFilter[] = [
-    {
-      subject: t('filter:INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
-      type: FilterType.SEARCHABLE_MULTI_SELECT,
-      filterKey: InventoryFilterKeys.CUSTOM_OR_LIBRARY,
-      options: [
-        {
-          value: ProductCategory.CUSTOM,
-          default:
-            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.CUSTOM]
-              ?.active ?? false,
-          label: t('filter:INVENTORY.CUSTOM'),
-        },
-        {
-          value: ProductCategory.LIBRARY,
-          default:
-            inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.LIBRARY]
-              ?.active ?? false,
-          label: t('filter:INVENTORY.LITEFARM_LIBRARY'),
-        },
-      ],
-    },
+    // LF-4970
+    // {
+    //   subject: t('filter:INVENTORY.CUSTOM_OR_LITEFARM_LIBRARY'),
+    //   type: FilterType.SEARCHABLE_MULTI_SELECT,
+    //   filterKey: InventoryFilterKeys.CUSTOM_OR_LIBRARY,
+    //   options: [
+    //     {
+    //       value: ProductCategory.CUSTOM,
+    //       default:
+    //         inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.CUSTOM]
+    //           ?.active ?? false,
+    //       label: t('filter:INVENTORY.CUSTOM'),
+    //     },
+    //     {
+    //       value: ProductCategory.LIBRARY,
+    //       default:
+    //         inventoryFilter[InventoryFilterKeys.CUSTOM_OR_LIBRARY][ProductCategory.LIBRARY]
+    //           ?.active ?? false,
+    //       label: t('filter:INVENTORY.LITEFARM_LIBRARY'),
+    //     },
+    //   ],
+    // },
     {
       subject: t('filter:INVENTORY.FERTILISER_TYPE'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,

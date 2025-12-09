@@ -2,7 +2,6 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
-import { isLibraryProduct } from '../util/product';
 
 export const getProduct = (obj) => {
   return pick(obj, [

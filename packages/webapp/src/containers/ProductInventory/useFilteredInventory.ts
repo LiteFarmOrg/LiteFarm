@@ -28,7 +28,8 @@ export const useFilteredInventory = (inventory: TableProduct[]) => {
 
   const filterMatches = useMemo(() => {
     return inventory.filter((product) => {
-      const key = product.isLibraryProduct ? ProductCategory.LIBRARY : ProductCategory.CUSTOM;
+      // LF-4970 - const key = product.isLibraryProduct ? ProductCategory.LIBRARY : ProductCategory.CUSTOM;
+      const key = ProductCategory.CUSTOM;
       const customOrLibraryMatches =
         isInactive(customOrLibraryFilter) || customOrLibraryFilter[key]?.active;
 

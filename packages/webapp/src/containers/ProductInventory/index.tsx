@@ -39,7 +39,7 @@ import BetaSpotlight from '../Spotlights/BetaSpotlight';
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
-  isLibraryProduct: boolean;
+  // LF-4970 - isLibraryProduct: boolean;
 };
 
 const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
@@ -77,8 +77,8 @@ export default function ProductInventory() {
     .map((product) => ({
       ...product,
       id: product.product_id,
-      /* Placeholder until library products are defined */
-      isLibraryProduct: product.product_id % 2 === 0,
+      /* LF-4970 - Placeholder until library products are defined */
+      // isLibraryProduct: product.product_id % 2 === 0,
     }));
 
   const filteredInventory = useFilteredInventory(inventory);
@@ -136,7 +136,7 @@ export default function ProductInventory() {
             // Custom JSX used over <IconCell /> to reduce style override complexity
             <div className={styles.nameContainer}>
               <div className={styles.nameAndIcon}>
-                {d.isLibraryProduct && <BookIcon />}
+                {/* LF-4970 {d.isLibraryProduct && <BookIcon />} */}
                 <span className={styles.name}>{d.name}</span>
               </div>
               <span className={styles.supplierMobile}>{d.supplier}</span>

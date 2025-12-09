@@ -97,7 +97,7 @@
     "lodash.groupby": "^4.6.0",
     "multer": "^2.0.2",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.9",
+    "nodemailer": "^7.0.11",
     "objection": "^3.0.1",
     "objection-soft-delete": "^1.0.7",
     "pg": "^8.5.1",

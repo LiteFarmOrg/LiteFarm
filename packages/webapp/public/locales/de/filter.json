@@ -1,41 +1,50 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Standort",
-    "STATUS": "Status",
-    "SUPPLIERS": "Zulieferer",
-    "ACTIVE": "Aktiv",
     "ABANDONED": "Eingestellt",
+    "ACTIVE": "Aktiv",
     "COMPLETE": "Abgeschlossen",
+    "LOCATION": "Standort",
+    "NEEDS_PLAN": "Bedarfsplan",
     "PLANNED": "Geplant",
-    "NEEDS_PLAN": "Bedarfsplan"
+    "STATUS": "Status",
+    "SUPPLIERS": "Zulieferer"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Reinigungsprodukte",
     "CROP_COMPLIANCE": "Pflanzenanbaukonformität",
     "FERTILIZING_PRODUCT": "Düngeprodukt",
+    "INVOICES": "Rechnungen",
     "OTHER": "Andere",
     "PEST_CONTROL_PRODUCT": "Produkt zur Schädlingsbekämpfung",
+    "RECEIPTS": "Quittungen",
     "SOIL_AMENDMENT": "Bodenverbesserung",
     "SOIL_SAMPLE_RESULTS": "Ergebnisse der Bodenproben",
-    "WATER_SAMPLE_RESULTS": "Ergebnisse von Wasserproben",
     "UNCATEGORIZED": "Nicht kategorisiert",
-    "RECEIPTS": "Quittungen",
-    "INVOICES": "Rechnungen"
-  },
-  "TASKS": {
-    "LOCATION": "Standort",
-    "STATUS": "Status",
-    "SUPPLIERS": "Zulieferer",
-    "ACTIVE": "Aktiv",
-    "ABANDONED": "Eingestellt",
-    "COMPLETED": "Abgeschlossen",
-    "LATE": "Später",
-    "PLANNED": "Geplant",
-    "FOR_REVIEW": "Zur Überprüfung"
+    "WATER_SAMPLE_RESULTS": "Ergebnisse von Wasserproben"
   },
   "FILTER": {
-    "VALID_ON": "Gültig ab",
     "FROM_DATE": "Von",
-    "TO_DATE": "Bis"
+    "TO_DATE": "Bis",
+    "VALID_ON": "Gültig ab"
+  },
+  "INVENTORY": {
+    "CUSTOM": "",
+    "CUSTOM_OR_LITEFARM_LIBRARY": "",
+    "DRY": "",
+    "FERTILISER_TYPE": "",
+    "LIQUID": "",
+    "LITEFARM_LIBRARY": "",
+    "TITLE": ""
+  },
+  "TASKS": {
+    "ABANDONED": "Eingestellt",
+    "ACTIVE": "Aktiv",
+    "COMPLETED": "Abgeschlossen",
+    "FOR_REVIEW": "Zur Überprüfung",
+    "LATE": "Später",
+    "LOCATION": "Standort",
+    "PLANNED": "Geplant",
+    "STATUS": "Status",
+    "SUPPLIERS": "Zulieferer"
   }
 }

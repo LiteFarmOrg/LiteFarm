@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado.",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado."
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
@@ -129,6 +128,24 @@
     "SUCCESS_PATCH": " atualizado/a com sucesso",
     "SUCCESS_POST": " salvo/a com sucesso"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Falha ao criar a certificação",
@@ -146,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Falha ao criar o produto",
+      "REMOVE": "",
       "UPDATE": "Falha ao atualizar o produto"
     },
     "SUCCESS": {
       "CREATE": "Produto criado com sucesso",
+      "REMOVE": "",
       "UPDATE": "Produto atualizado com sucesso"
     }
   },

@@ -78,6 +78,7 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "Adicionar outro produto",
+    "ADD_NEW_PRODUCT": "",
     "ADDITIONAL_NUTRIENTS": "Nutrientes adicionais",
     "AMMONIUM": "Amônio (NH₄)",
     "BORON": "Boro (B)",
@@ -148,6 +149,7 @@
       "TYPE_OF_FIELD_WORK": "Tipo de trabalho de campo"
     },
     "GO_TO_CATALOGUE": "Vá ao catálogo de cultivos",
+    "GO_TO_INVENTORY": "",
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
@@ -208,10 +210,12 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Você precisará de uma localização ou área onde os animais podem ser movidos. Vá ao mapa para criar uma localização do animal.",
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
+    "NEED_SOIL_AMENDMENT_PRODUCTS": "",
     "NEED_SOIL_SAMPLE_LOCATION": "Você precisará de um local específico designado para fazer a amostragem do solo. Vá para o mapa para criar um local de amostragem do solo.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Você precisará de gerenciamento para criar pelo menos um local de amostra do solo antes de criar uma tarefa de amostra do solo.",
     "NO_ANIMAL_LOCATION": "Nenhum local elegível para animais",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
+    "NO_SOIL_AMENDMENT_PRODUCTS": "",
     "NO_SOIL_SAMPLE_LOCATION": "Nenhum local de amostra de solo elegível",
     "NOTES_LABEL": "Algo específico para adicionar relacionado a esta tarefa?",
     "NOTES_PLACEHOLDER": "Adicione quaisquer instruções ou especificações para o responsável",
@@ -356,7 +360,11 @@
   },
   "BADGE": {
     "BETA": {
+      "ANIMALS_BETA_CONTENT": "Dê uma olhada nas nossas novas funcionalidades de gestão de animais — agora na versão beta! Seu feedback é crucial à medida que melhoramos este recurso. Por favor, compartilhe quaisquer erros ou sugestões que você encontrar. Agradecemos sua ajuda para melhorar o LiteFarm! Aprenda mais sobre a versão beta <a>aqui</a>",
+      "ANIMALS_BETA_HEADING": "Apresentando o Novo Recurso de Animais",
       "ANIMALS_CONTENT": "Dê uma olhada nas nossas novas funcionalidades de gestão de animais — agora na versão beta! Seu feedback é crucial à medida que melhoramos este recurso. Por favor, compartilhe quaisquer erros ou sugestões que você encontrar. Agradecemos sua ajuda para melhorar o LiteFarm! Aprenda mais sobre a versão beta <a>aqui</a>",
+      "INVENTORY_BETA_CONTENT": "",
+      "INVENTORY_BETA_HEADING": "",
       "TITLE": "Beta"
     }
   },
@@ -981,6 +989,13 @@
       "WIDTH": "Largura do curso d'água"
     }
   },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "",
+      "BASIC_PROFILE": "",
+      "MARKET_DIRECTORY": ""
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "Fornecedor",
@@ -1139,6 +1154,19 @@
     "BODY": "O mapa da fazenda tem novos recursos. Ele agora se encontra no menu Minha Fazenda.",
     "TITLE": "Atualizamos mapas de fazenda!"
   },
+  "INVENTORY": {
+    "PRODUCT_NAME": "",
+    "PRODUCT_TYPE": "",
+    "REMOVE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "SOIL_AMENDMENT": "",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "",
+      "TITLE": ""
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
     "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
@@ -1187,9 +1215,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Profundidade do aplicativo",
     "APPROVE_AND_CREATE_TASK": "Ao aprovar, você criará uma tarefa de irrigação",
+    "AVAILABLE_SOIL_MOISTURE": "",
     "DATA_FROM": "Dados de",
     "ESTIMATED_WATER_CONSUMPTION": "Consumo estimado de água",
     "ET_RATE": "Taxa ET",
+    "FULL_IRRIGATION_REPORT": "",
     "IRRIGATION_PRESCRIPTION_FILES": "Arquivos de prescrição de irrigação",
     "IRRIGATION_PRESCRIPTIONS": "Prescrições de irrigação",
     "IRRIGATION_ZONE": "Zona de irrigação",
@@ -1420,6 +1450,60 @@
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?"
   },
+  "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "",
+    "COMPLETE_PROFILE": "",
+    "CONSENT": {
+      "ALMOST_READY": "",
+      "CONSENT_TO_SHARE_INFORMATION": "",
+      "I_AGREE": "",
+      "SEE_ALL_DATA": "",
+      "TITLE": ""
+    },
+    "GET_LISTED": "",
+    "INFO_FORM": {
+      "ABOUT": "",
+      "ABOUT_PLACEHOLDER": "",
+      "AT_USERNAME": "",
+      "COUNTRY_CODE": "",
+      "EMAIL_ADDRESS": "",
+      "EMAIL_PLACEHOLDER": "",
+      "FARM_IDENTITY": "",
+      "FARM_LOGO": "",
+      "FARM_NAME": "",
+      "FARM_REPRESENTATIVE": "",
+      "FARM_STORE_CONTACT": "",
+      "FARM_STORE_LOCATION": "",
+      "INVALID_ADDRESS": "",
+      "INVALID_USERNAME_OR_URL": "",
+      "INVALID_WEBSITE": "",
+      "ONLINE_PRESENCE": "",
+      "PHONE_NUMBER": "",
+      "PRIVATE_INFO_NOTE": "",
+      "PRODUCT_CATEGORY": "",
+      "SOCIAL_INPUT_LABEL": "",
+      "WEBSITE": ""
+    },
+    "INFO_SUMMARY": {
+      "CONTACT": "",
+      "FARM_ADDRESS": "",
+      "FARM_EMAIL": "",
+      "FARM_PROFILE": "",
+      "FARM_STORE_ADDRESS": "",
+      "FIRST_NAME_AND_LAST_NAME": "",
+      "ONLINE_PRESENCE_ITEM": "",
+      "PRODUCTS_AND_SERVICES": "",
+      "PRODUCTS_CATEGORIES": ""
+    },
+    "KNOW_A_MARKETPLACE": "",
+    "MARKET_DIRECTORIES": "",
+    "MARKET_DIRECTORY_INFO": "",
+    "NO_PARTNER": "",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": ""
+    },
+    "WHERE_TO_BE_FEATURED": ""
+  },
   "MENU": {
     "ACTUAL_REVENUES": "Receitas atuais",
     "ANIMALS": "Animais",
@@ -1433,6 +1517,7 @@
     "FARM_SETTINGS": "Configurações",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
+    "INVENTORY": "",
     "LABOUR_EXPENSES": "Despesas com mão de obra",
     "MAP": "Mapa",
     "OTHER_EXPENSES": "Outras despesas",
@@ -1497,6 +1582,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}.",
       "TITLE": "Tarefa reatribuída"
+    },
+    "TASK_RECOMPLETED_BY_OTHER_USER": {
+      "BODY": "",
+      "TITLE": ""
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} marcou uma tarefa {{taskType}} como não atribuída.",
@@ -1704,6 +1793,11 @@
       "REVENUE_TYPE": "Tipo de receita"
     }
   },
+  "REVISION_PROMPT": {
+    "FIX_IT_NOW": "",
+    "NOTICED_SOMETHING_OFF": "",
+    "UPDATE_THIS_TASK": ""
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente do sítio/fazenda",
@@ -1871,6 +1965,9 @@
     "WELCOME_BACK": "Te damos as boas-vindas de volta",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
+  },
+  "SIMPLE_BADGE": {
+    "PRIVATE": ""
   },
   "SLIDE_MENU": {
     "CROPS": "Cultivos",

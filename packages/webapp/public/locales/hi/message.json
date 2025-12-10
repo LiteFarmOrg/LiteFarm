@@ -81,6 +81,13 @@
       "UPDATE": "खेत की जानकारी सफलतापूर्वक अपडेट की गई!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": ""
+    },
+    "SUCCESS_DISCONNECT_ADDON": ""
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "आपके फीडबैक को सबमिट करते समय कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
@@ -89,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "उपयोगकर्ता जानकारी में लॉगिन करने में विफल",
-      "AMOUNT_TOTAL": "कुल आवंटित की जाने वाली राशि के बराबर नहीं है",
-      "GET_TYPES": "फसल उपयोग प्रकार प्राप्त करने में विफल"
+      "AMOUNT_TOTAL": "कुल आवंटित की जाने वाली राशि के बराबर नहीं है"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "कस्टम फसल उपयोग प्रकार सफलतापूर्वक जोड़ा गया"
@@ -122,6 +128,24 @@
     "SUCCESS_PATCH": "सफलतापूर्वक अपडेट किया गया",
     "SUCCESS_POST": "सफलतापूर्वक सहेजा गया"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "प्रमाणन बनाने में विफल।",
@@ -139,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "उत्पाद बनाने में विफल",
+      "REMOVE": "",
       "UPDATE": "उत्पाद अपडेट करने में विफल"
     },
     "SUCCESS": {
       "CREATE": "उत्पाद सफलतापूर्वक बनाया गया",
+      "REMOVE": "",
       "UPDATE": "उत्पाद सफलतापूर्वक अपडेट किया गया"
     }
   },

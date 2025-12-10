@@ -78,6 +78,7 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "Ajouter un autre produit",
+    "ADD_NEW_PRODUCT": "Ajouter un nouveau produit",
     "ADDITIONAL_NUTRIENTS": "Nutriments supplémentaires",
     "AMMONIUM": "Ammonium (NH₄)",
     "BORON": "Bore (B)",
@@ -148,6 +149,7 @@
       "TYPE_OF_FIELD_WORK": "Type de travail de terrain"
     },
     "GO_TO_CATALOGUE": "Aller au catalogue de cultures",
+    "GO_TO_INVENTORY": "Aller à l'inventaire",
     "HARVEST_EVERYTHING": "Récolter tout ce qui est prêt",
     "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
     "HOURLY_WAGE": {
@@ -208,10 +210,12 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Vous aurez besoin d'un emplacement ou d'une zone où les animaux peuvent être déplacés. Allez sur la carte pour créer un emplacement animal.",
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
+    "NEED_SOIL_AMENDMENT_PRODUCTS": "Vous n'avez pas encore de produit d'amendement de sol. Rendez-vous dans l'inventaire pour en ajouter un avant de créer votre tâche de modification du sol.",
     "NEED_SOIL_SAMPLE_LOCATION": "Vous devez désigner un emplacement spécifique pour l’échantillonnage du sol. Allez sur la carte pour créer un emplacement d’échantillonnage du sol.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Le manager doit créer au moins un emplacement d’échantillon de sol avant que vous puissiez créer une tâche d’échantillonnage de sol.",
     "NO_ANIMAL_LOCATION": "Aucun emplacement animal éligible",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
+    "NO_SOIL_AMENDMENT_PRODUCTS": "Ajouter d'abord un produit d'amendement de sol",
     "NO_SOIL_SAMPLE_LOCATION": "Pas d'emplacement d’échantillonnage du sol admissible",
     "NOTES_LABEL": "Quelque chose de spécifique à ajouter à cette tâche?",
     "NOTES_PLACEHOLDER": "Ajouter des instructions ou des précisions pour le responsable",
@@ -356,7 +360,11 @@
   },
   "BADGE": {
     "BETA": {
+      "ANIMALS_BETA_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>",
+      "ANIMALS_BETA_HEADING": "Introduction de la nouvelle fonctionnalité Animaux",
       "ANIMALS_CONTENT": "Jetez un coup d'œil à notre nouvelle fonctionnalité de gestion des animaux, maintenant en bêta! Vos commentaires sont cruciaux au fur et à mesure que nous affinons cette fonctionnalité. Veuillez partager des bugs ou des suggestions que vous rencontrez. Nous apprécions votre aide pour améliorer liteFarm ! Vous pouvez en apprendre plus sur la bêta <a>ici</a>",
+      "INVENTORY_BETA_CONTENT": "Nous lançons la nouvelle section Inventaire en version bêta. Pour l’instant, vous pouvez y suivre vos produits d’amendement du sol. Simple et utile. Mais ce n’est qu’un début. Notre objectif est de vous offrir un endroit centralisé pour gérer tout ce dont votre ferme a besoin : outils et machines, produits de nettoyage, lutte antiparasitaire, nourriture pour animaux, récoltes, et même vos articles personnalisés. Comme toujours, vos retours nous aident à façonner la suite, alors si quelque chose vous semble étrange ou si vous avez des idées, n’hésitez pas à nous les partager. Vous pouvez en savoir plus sur la bêta <a>ici</a>",
+      "INVENTORY_BETA_HEADING": "Introduction de la section Inventaire",
       "TITLE": "Béta"
     }
   },
@@ -981,6 +989,13 @@
       "WIDTH": "Largeur du cours d'eau"
     }
   },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "Addons",
+      "BASIC_PROFILE": "Profil de base",
+      "MARKET_DIRECTORY": "Annuaire des marchés"
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "Fournisseur",
@@ -1139,6 +1154,19 @@
     "BODY": "La carte de l'exploitation intègre de nouvelles fonctionnalités. Elle se trouve maintenant dans le menu Mon exploitation.",
     "TITLE": "La carte de l'exploitation a été mise à jour !"
   },
+  "INVENTORY": {
+    "PRODUCT_NAME": "Nom du produit",
+    "PRODUCT_TYPE": "Type de produit",
+    "REMOVE_CONFIRMATION": {
+      "BODY": "Êtes-vous sûr de vouloir supprimer le produit <strong>{{name}}</strong> de l'inventaire ?",
+      "TITLE": "Supprimer le produit de l'inventaire ?"
+    },
+    "SOIL_AMENDMENT": "Amendement du sol",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "Ce produit est toujours utilisé dans une tâche planifiée. Au moins une tâche d’amendement du sol est planifiée avec «{{name}}».",
+      "TITLE": "Impossible de supprimer"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Année de naissance",
     "BIRTH_YEAR_ERROR": "L'année de naissance doit être comprise entre 1900 et",
@@ -1187,9 +1215,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Profondeur d’application",
     "APPROVE_AND_CREATE_TASK": "En approuvant, vous créerez une tâche d’irrigation",
+    "AVAILABLE_SOIL_MOISTURE": "Hydratation du sol disponible",
     "DATA_FROM": "Données provenant de",
     "ESTIMATED_WATER_CONSUMPTION": "Consommation d’eau estimée",
     "ET_RATE": "Taux d’ET",
+    "FULL_IRRIGATION_REPORT": "Retrouvez ici le rapport complet sur l'irrigation",
     "IRRIGATION_PRESCRIPTION_FILES": "Fichiers d’irrigation",
     "IRRIGATION_PRESCRIPTIONS": "Ordonnances d’irrigation",
     "IRRIGATION_ZONE": "Zone d'Irrigation",
@@ -1420,6 +1450,60 @@
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter ?",
     "WILD_CROP": "Récoltez-vous une culture sauvage ?"
   },
+  "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "En partageant vos données avec {{ partner }}, vous acceptez leurs <3>Conditions d'utilisation </3>",
+    "COMPLETE_PROFILE": "Complétez votre profil ci-dessous pour commencer et promouvoir vos produits. Vous n'avez besoin de remplir ce formulaire qu'une seule fois. Vous pouvez mettre à jour vos données partagées et vous retirer à tout moment.",
+    "CONSENT": {
+      "ALMOST_READY": "Vous êtes presque prêt à être publié! Il vous suffit de remplir les détails manquants dans votre formulaire ci-dessus d'abord.",
+      "CONSENT_TO_SHARE_INFORMATION": "Je consens à partager les informations ci-dessus avec des partenaires de confiance. Je peux révoquer le consentement à tout moment.<br />Révoquer le consentement empêchera LiteFarm de synchroniser vos données. Vos informations peuvent toujours exister dans le répertoire des partenaires — vous devrez peut-être demander la suppression directement.",
+      "I_AGREE": "J'accepte",
+      "SEE_ALL_DATA": "Voir toutes les données qui seront partagées",
+      "TITLE": "Autorisation"
+    },
+    "GET_LISTED": "Listez votre ferme dans des annuaires de confiance",
+    "INFO_FORM": {
+      "ABOUT": "À propos de la ferme",
+      "ABOUT_PLACEHOLDER": "Donnez une description pour votre ferme",
+      "AT_USERNAME": "@username",
+      "COUNTRY_CODE": "Code pays",
+      "EMAIL_ADDRESS": "Adresse e-mail",
+      "EMAIL_PLACEHOLDER": "Adresse e-mail de votre ferme",
+      "FARM_IDENTITY": "Identité de la ferme",
+      "FARM_LOGO": "Logo de la ferme",
+      "FARM_NAME": "Nom de l'exploitation",
+      "FARM_REPRESENTATIVE": "Représentant de la ferme",
+      "FARM_STORE_CONTACT": "Contact du magasin de ferme",
+      "FARM_STORE_LOCATION": "Localisation de la ferme",
+      "INVALID_ADDRESS": "Adresse invalide",
+      "INVALID_USERNAME_OR_URL": "Format invalide pour {{social}}",
+      "INVALID_WEBSITE": "Adresse web non valide",
+      "ONLINE_PRESENCE": "Présence en ligne",
+      "PHONE_NUMBER": "Numéro de téléphone",
+      "PRIVATE_INFO_NOTE": "Les champs privés seront partagés avec les partenaires d'annuaires, mais ne seront pas publiés",
+      "PRODUCT_CATEGORY": "Catégorie de produit",
+      "SOCIAL_INPUT_LABEL": "Identifiant {{social}}",
+      "WEBSITE": "Site Web"
+    },
+    "INFO_SUMMARY": {
+      "CONTACT": "Contact (partagé mais non publié)",
+      "FARM_ADDRESS": "Adresse de la ferme",
+      "FARM_EMAIL": "E-mail de la ferme",
+      "FARM_PROFILE": "Profil de la ferme",
+      "FARM_STORE_ADDRESS": "Adresse du magasin de la ferme",
+      "FIRST_NAME_AND_LAST_NAME": "Prénom et nom",
+      "ONLINE_PRESENCE_ITEM": "Site web, Instagram, Facebook, X",
+      "PRODUCTS_AND_SERVICES": "Produits et services",
+      "PRODUCTS_CATEGORIES": "Catégorie de produit"
+    },
+    "KNOW_A_MARKETPLACE": "Connaissez un marché que nous devrions soutenir ?<br />Partagez-le avec nous.",
+    "MARKET_DIRECTORIES": "Annuaire des marchés",
+    "MARKET_DIRECTORY_INFO": "Informations sur l'annuaire du marché",
+    "NO_PARTNER": "Nous n'avons pas de partenaire dans votre région pour le moment.",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": "Créez un compte gratuit et soyez publié sur cet annuaire OFN"
+    },
+    "WHERE_TO_BE_FEATURED": "Où souhaitez-vous être publié?"
+  },
   "MENU": {
     "ACTUAL_REVENUES": "Chiffres d'affaires réels",
     "ANIMALS": "Animaux",
@@ -1433,6 +1517,7 @@
     "FARM_SETTINGS": "Configuration",
     "FINANCES": "Finances",
     "INSIGHTS": "Infos clés",
+    "INVENTORY": "Inventaire",
     "LABOUR_EXPENSES": "Dépenses de main-d'œuvre",
     "MAP": "Carte",
     "OTHER_EXPENSES": "Autres dépenses",
@@ -1497,6 +1582,10 @@
     "TASK_REASSIGNED": {
       "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
       "TITLE": "Tâche réattribuée"
+    },
+    "TASK_RECOMPLETED_BY_OTHER_USER": {
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme accomplie par {{assigner}}.",
+      "TITLE": "Tâche recomplétée"
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
@@ -1704,6 +1793,11 @@
       "REVENUE_TYPE": "Type de recette"
     }
   },
+  "REVISION_PROMPT": {
+    "FIX_IT_NOW": "Corriger maintenant",
+    "NOTICED_SOMETHING_OFF": "Vous avez remarqué quelque chose d'incorrect?",
+    "UPDATE_THIS_TASK": "Vous pouvez revisiter et mettre à jour les informations que vous avez enregistré pour cette tâche."
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Agent de vulgarisation",
     "FARM_MANAGER": "Gestionnaire de l'exploitation",
@@ -1871,6 +1965,9 @@
     "WELCOME_BACK": "Content de vous revoir !",
     "WRONG_BROWSER": "LiteFarm n'est pas optimisé pour ce navigateur de Web.",
     "WRONG_BROWSER_BOTTOM": "Veuillez reconnecter avec Chrome."
+  },
+  "SIMPLE_BADGE": {
+    "PRIVATE": "Privé"
   },
   "SLIDE_MENU": {
     "CROPS": "Cultures",

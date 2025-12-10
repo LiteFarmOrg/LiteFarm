@@ -78,16 +78,23 @@ import { API_TAGS, ApiTag } from './apiTags';
  */
 export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
 
+const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: url,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState, endpoint }) => {
       const state = getState() as RootState;
 
-      headers.set('Content-Type', 'application/json');
       headers.set('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
       headers.set('user_id', state.entitiesReducer.userFarmReducer.user_id || '');
       headers.set('farm_id', state.entitiesReducer.userFarmReducer.farm_id || '');
+
+      // Only set the content-type to json if appropriate.
+      if (!NON_JSON_ENDPOINT_KEYS.has(endpoint) && !headers.has('Content-Type')) {
+        headers.set('content-type', 'application/json');
+      }
+
       return headers;
     },
     responseHandler: 'content-type',

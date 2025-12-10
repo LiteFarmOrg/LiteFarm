@@ -402,3 +402,14 @@ export interface MarketDirectoryInfo {
 export interface MarketProductCategory extends BasicEnum {}
 
 export interface MarketDirectoryPartner extends BasicEnum {}
+
+export interface SupportTicketData {
+  file: File;
+  data: {
+    support_type: 'Request information' | 'Report a bug' | 'Request a feature' | 'Other';
+    contact_method: 'email' | 'whatsapp';
+    message: string;
+    email: string;
+    attachments: {};
+  };
+}

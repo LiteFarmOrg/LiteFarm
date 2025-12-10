@@ -96,6 +96,7 @@ export const irrigationPrescriptionUrl = `${URI}/irrigation_prescriptions`;
 export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
 export const marketProductCategoryUrl = `${URI}/market_product_categories`;
 export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
+export const supportTicketUrl = `${URI}/support_ticket`;
 
 export const url = URI;
 

@@ -1,50 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
-    "ACTIVE": "സജീവമാണ്",
-    "COMPLETE": "പൂർത്തിയായി",
     "LOCATION": "സ്ഥലം",
-    "NEEDS_PLAN": "ആസൂത്രണം ആവശ്യമാണ്",
-    "PLANNED": "പദ്ധതീകരിച്ച",
     "STATUS": "സാഹചര്യം",
-    "SUPPLIERS": "വിതരണക്കാരൻ"
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+    "COMPLETE": "പൂർത്തിയായി",
+    "PLANNED": "പദ്ധതീകരിച്ച",
+    "NEEDS_PLAN": "ആസൂത്രണം ആവശ്യമാണ്"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "ക്ലീനിംഗ് ഉൽപ്പന്നം",
     "CROP_COMPLIANCE": "വിള പാലിക്കൽ",
     "FERTILIZING_PRODUCT": "വളം ഉൽപ്പന്നങ്ങൾ",
-    "INVOICES": "ഇൻവോയ്സുകൾ",
     "OTHER": "മറ്റുള്ളവ",
     "PEST_CONTROL_PRODUCT": "കീട നിയന്ത്രണ ഉൽപ്പന്നങ്ങൾ",
-    "RECEIPTS": "രസീതുകൾ",
     "SOIL_AMENDMENT": "മണ്ണ് ഭേദഗതികൾ",
     "SOIL_SAMPLE_RESULTS": "മണ്ണ് സാമ്പിൾ ഫലങ്ങൾ",
+    "WATER_SAMPLE_RESULTS": "വെള്ളം സാമ്പിൾ ഫലങ്ങൾ",
     "UNCATEGORIZED": "തരംതിരിക്കാത്തത്",
-    "WATER_SAMPLE_RESULTS": "വെള്ളം സാമ്പിൾ ഫലങ്ങൾ"
-  },
-  "FILTER": {
-    "FROM_DATE": "നിന്ന്",
-    "TO_DATE": "വരെ",
-    "VALID_ON": "സാധുതയുള്ള"
-  },
-  "INVENTORY": {
-    "CUSTOM": "",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "",
-    "DRY": "",
-    "FERTILISER_TYPE": "",
-    "LIQUID": "",
-    "LITEFARM_LIBRARY": "",
-    "TITLE": ""
+    "RECEIPTS": "രസീതുകൾ",
+    "INVOICES": "ഇൻവോയ്സുകൾ"
   },
   "TASKS": {
-    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
-    "ACTIVE": "സജീവമാണ്",
-    "COMPLETED": "പൂർത്തിയാക്കി",
-    "FOR_REVIEW": "അവലോകനത്തിനായി",
-    "LATE": "വൈകി",
     "LOCATION": "സ്ഥാനം",
-    "PLANNED": "പദ്ധതീകരിച്ച",
     "STATUS": "സാഹചര്യം",
-    "SUPPLIERS": "വിതരണക്കാരൻ"
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+    "COMPLETED": "പൂർത്തിയാക്കി",
+    "LATE": "വൈകി",
+    "PLANNED": "പദ്ധതീകരിച്ച",
+    "FOR_REVIEW": "അവലോകനത്തിനായി"
+  },
+  "FILTER": {
+    "VALID_ON": "സാധുതയുള്ള",
+    "FROM_DATE": "നിന്ന്",
+    "TO_DATE": "വരെ"
   }
 }

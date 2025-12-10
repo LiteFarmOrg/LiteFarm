@@ -1,50 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "ABANDONED": "Abandonado",
-    "ACTIVE": "Ativo",
-    "COMPLETE": "Finalizado",
     "LOCATION": "Localização",
-    "NEEDS_PLAN": "Precisa de um plano",
-    "PLANNED": "Planejado",
     "STATUS": "Status",
-    "SUPPLIERS": "Fornecedores"
+    "SUPPLIERS": "Fornecedores",
+    "ACTIVE": "Ativo",
+    "ABANDONED": "Abandonado",
+    "COMPLETE": "Finalizado",
+    "PLANNED": "Planejado",
+    "NEEDS_PLAN": "Precisa de um plano"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Produto de limpeza",
     "CROP_COMPLIANCE": "Conformidade da safra",
     "FERTILIZING_PRODUCT": "Fertilizante",
-    "INVOICES": "Faturas",
     "OTHER": "Outro",
     "PEST_CONTROL_PRODUCT": "Produto de controle de praga",
-    "RECEIPTS": "Recibos",
     "SOIL_AMENDMENT": "Correção de solo",
     "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
+    "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
     "UNCATEGORIZED": "Não categorizado",
-    "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
-  },
-  "FILTER": {
-    "FROM_DATE": "De",
-    "TO_DATE": "Até",
-    "VALID_ON": "Válido em"
-  },
-  "INVENTORY": {
-    "CUSTOM": "",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "",
-    "DRY": "",
-    "FERTILISER_TYPE": "",
-    "LIQUID": "",
-    "LITEFARM_LIBRARY": "",
-    "TITLE": ""
+    "RECEIPTS": "Recibos",
+    "INVOICES": "Faturas"
   },
   "TASKS": {
-    "ABANDONED": "Abandonada",
-    "ACTIVE": "Ativa",
-    "COMPLETED": "Completa",
-    "FOR_REVIEW": "Para revisão",
-    "LATE": "Atrasada",
     "LOCATION": "Localização",
-    "PLANNED": "Planejada",
     "STATUS": "Situação",
-    "SUPPLIERS": "Fornecedores"
+    "SUPPLIERS": "Fornecedores",
+    "ACTIVE": "Ativa",
+    "ABANDONED": "Abandonada",
+    "COMPLETED": "Completa",
+    "LATE": "Atrasada",
+    "PLANNED": "Planejada",
+    "FOR_REVIEW": "Para revisão"
+  },
+  "FILTER": {
+    "VALID_ON": "Válido em",
+    "FROM_DATE": "De",
+    "TO_DATE": "Até"
   }
 }

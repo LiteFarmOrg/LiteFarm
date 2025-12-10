@@ -96,7 +96,8 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "ਕਸਟਮ ਵਾਢੀ ਵਰਤੋਂ ਕਿਸਮ ਨੂੰ ਸ਼ਾਮਲ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ",
-      "AMOUNT_TOTAL": "ਕੁੱਲ ਵੰਡ ਲਈ ਰਕਮ ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੈ"
+      "AMOUNT_TOTAL": "ਕੁੱਲ ਵੰਡ ਲਈ ਰਕਮ ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੈ",
+      "GET_TYPES": "ਵਾਢੀ ਵਰਤੋਂ ਦੀਆਂ ਕਿਸਮਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਅਸਫਲ"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "ਕਸਟਮ ਵਾਢੀ ਵਰਤੋਂ ਕਿਸਮ ਨੂੰ ਸਫਲਤਾਪੂਰਵਕ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ"
@@ -128,24 +129,6 @@
     "SUCCESS_PATCH": "ਸਫਲਤਾਪੂਰਵਕ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ",
     "SUCCESS_POST": "ਸਫਲਤਾਪੂਰਵਕ ਸੇਵ ਕੀਤਾ ਗਿਆ"
   },
-  "MARKET_DIRECTORY": {
-    "ERROR": {
-      "SAVE": "",
-      "UPDATE": ""
-    },
-    "SUCCESS": {
-      "SAVE": "",
-      "UPDATE": "",
-      "UPDATE_LIVE_DATA": ""
-    }
-  },
-  "MARKET_DIRECTORY_CONSENT": {
-    "ERROR": "",
-    "SUCCESS": {
-      "CONSENT": "",
-      "PARTNER": ""
-    }
-  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "ਪ੍ਰਮਾਣੀਕਰਨ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ।",
@@ -163,12 +146,10 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "ਉਤਪਾਦ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ",
-      "REMOVE": "",
       "UPDATE": "ਉਤਪਾਦ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"
     },
     "SUCCESS": {
       "CREATE": "ਉਤਪਾਦ ਸਫਲਤਾਪੂਰਵਕ ਬਣਾਇਆ ਗਿਆ",
-      "REMOVE": "",
       "UPDATE": "ਉਤਪਾਦ ਨੂੰ ਸਫਲਤਾਪੂਰਵਕ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ"
     }
   },

@@ -21,20 +21,17 @@ export default function HelpRequest({ closeDrawer }) {
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
 
   const handleSubmit = async (file, data, resetForm) => {
-    try {
-      const result = await addSupportTicket({ file, data });
+    const result = await addSupportTicket({ file, data });
 
-      if (result.error) {
-        throw new Error(result.error.error);
-      }
-
-      dispatch(postHelpRequestSuccess());
-      resetForm();
-      closeDrawer?.();
-    } catch (error) {
-      console.error(error);
+    if (result.error) {
+      console.error(result.error);
       dispatch(enqueueErrorSnackbar(t('message:HELP_REQUEST.ERROR.SEND')));
+      return;
     }
+
+    dispatch(postHelpRequestSuccess());
+    resetForm();
+    closeDrawer?.();
   };
   const onCancel = () => {
     closeDrawer?.();

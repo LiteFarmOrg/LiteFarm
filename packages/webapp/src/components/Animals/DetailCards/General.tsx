@@ -162,7 +162,7 @@ const GeneralDetails = ({
         <>
           <LockedInput
             label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
-            placeholder={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
+            value={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
           />
         </>
       )}

@@ -40,7 +40,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { label: 'Locked', placeholder: 'Test' },
+  args: { label: 'Locked', value: 'Test' },
   render: (args) => {
     return <LockedInputRHF {...args} />;
   },

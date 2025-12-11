@@ -124,12 +124,13 @@ export const WithStepperProgressBar = ({
     const unblock = history.block((location, action) => {
       const unblockAndTransition = () => {
         unblock();
-        if (action === 'POP') {
-          // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-          history.back();
+        if (action === 'REPLACE') {
+          history.replace(location);
         } else {
-          const historyAction = action === 'PUSH' ? history.push : history.replace;
-          historyAction(location);
+          // action === 'PUSH' or 'POP'
+          // ⚠️ Do not use history.goBack() here for POP actions - it doesn't work
+          // after unblock() in history v4. Using push() as a workaround.
+          history.push(location);
         }
       };
       setTransition({ unblock: unblockAndTransition });

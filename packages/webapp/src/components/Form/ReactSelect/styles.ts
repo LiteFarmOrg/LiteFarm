@@ -25,7 +25,7 @@ export const styles: StylesConfig = {
     },
     fontSize: '16px',
     lineHeight: '24px',
-    color: state.isDisabled ? 'var(--grey400)' : 'var(--fontColor)',
+    color: 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
@@ -88,11 +88,11 @@ export const styles: StylesConfig = {
     fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
   }),
 
-  singleValue: (provided) => ({
+  singleValue: (provided, state) => ({
     ...provided,
     fontSize: '16px',
     lineHeight: '24px',
-    color: 'var(--fontColor)',
+    color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',

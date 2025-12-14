@@ -75,23 +75,21 @@ const PureFarmAddons = ({
                 <Main className={styles.orgIdLabel}>{t('ADDON.ORGANISATION_ID')}</Main>
                 <Semibold className={styles.orgId}>{organizationIds.esci}</Semibold>
               </div>
-              <Link className={styles.disconnect} to="/farm">
-                <Button
-                  sm
-                  color="secondary-2"
-                  className={styles.disconnectButton}
-                  onClick={() => {
-                    setDisconnectModalContents({
-                      title: t('ADDON.ESCI.MODAL_TITLE'),
-                      infoText: t('ADDON.ESCI.MODAL_INFO'),
-                      onConfirm: onDisconnect.esci,
-                    });
-                  }}
-                >
-                  <BrokenLinkIcon />
-                  <span>{t('ADDON.ESCI.DISCONNECT_ESCI')}</span>
-                </Button>
-              </Link>
+              <Button
+                sm
+                color="secondary-2"
+                className={styles.disconnectButton}
+                onClick={() => {
+                  setDisconnectModalContents({
+                    title: t('ADDON.ESCI.MODAL_TITLE'),
+                    infoText: t('ADDON.ESCI.MODAL_INFO'),
+                    onConfirm: onDisconnect.esci,
+                  });
+                }}
+              >
+                <BrokenLinkIcon />
+                <span>{t('ADDON.ESCI.DISCONNECT_ESCI')}</span>
+              </Button>
             </div>
           </div>
         </div>

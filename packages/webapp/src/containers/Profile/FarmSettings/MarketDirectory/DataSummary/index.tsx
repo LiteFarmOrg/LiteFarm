@@ -75,11 +75,20 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
         {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_PROFILE')}
         <ul>
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')} values={[farm_name]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')} values={[logo]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')} values={[address]} />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} values={[phone_number]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
+        </ul>
+      </li>
+      <li>
+        {t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_AND_SERVICES')}
+        <ul>
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_CATEGORIES')}
+            values={[market_product_categories]}
+          />
         </ul>
       </li>
       <li>
@@ -95,15 +104,6 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
         </ul>
       </li>
 
-      <li>
-        {t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_AND_SERVICES')}
-        <ul>
-          <ListItem
-            label={t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_CATEGORIES')}
-            values={[market_product_categories]}
-          />
-        </ul>
-      </li>
       <li>
         {t('MARKET_DIRECTORY.INFO_FORM.ONLINE_PRESENCE')}
         <ul>

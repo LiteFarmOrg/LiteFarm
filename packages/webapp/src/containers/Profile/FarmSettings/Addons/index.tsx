@@ -47,17 +47,26 @@ const FarmAddons = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
 
-  const handleDisconnect = async (addonId: number) => {
+  const handleDisconnect = async (addonId: number, partnerName: string) => {
     try {
       await deleteFarmAddon(addonId).unwrap();
       dispatch(enqueueSuccessSnackbar(t('FARM_ADDON.SUCCESS_DISCONNECT_ADDON')));
+
+      const remainingConnections = Object.entries(hasActiveConnection).some(
+        ([partner, isActive]) => partner !== partnerName && isActive,
+      );
+
+      // If no active addons, the Addon tab will not render; redirect off it
+      if (!remainingConnections) {
+        history.push('/farm_settings');
+      }
     } catch (error) {
       dispatch(enqueueErrorSnackbar(t('FARM_ADDON.FAILED_DISCONNECT_ADDON')));
     }
   };
 
   const onDisconnect = {
-    esci: () => handleDisconnect(esciData?.id),
+    esci: () => handleDisconnect(esciData?.id, 'esci'),
   };
 
   return (

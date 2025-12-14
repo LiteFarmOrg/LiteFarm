@@ -38,7 +38,7 @@
 
   &.disabled {
     input {
-      color: var(--Colors-Neutral-Neutral-300);
+      color: var(--grey600);
       @include truncateText();
     }
   }

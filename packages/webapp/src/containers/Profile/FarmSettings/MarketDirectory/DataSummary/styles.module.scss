@@ -62,6 +62,12 @@
     font-weight: 600;
     line-height: normal;
 
+    .inlineGroup {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
     ul {
       margin-top: 12px;
 

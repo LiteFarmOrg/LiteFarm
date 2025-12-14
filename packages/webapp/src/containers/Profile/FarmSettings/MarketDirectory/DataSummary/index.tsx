@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
+import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
@@ -82,7 +83,9 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
         </ul>
       </li>
       <li>
-        {t('MARKET_DIRECTORY.INFO_SUMMARY.CONTACT')}
+        <div className={styles.inlineGroup}>
+          {t('MARKET_DIRECTORY.INFO_SUMMARY.CONTACT')} <PrivateBadge />
+        </div>
         <ul>
           <ListItem
             label={t('MARKET_DIRECTORY.INFO_SUMMARY.FIRST_NAME_AND_LAST_NAME')}
@@ -91,6 +94,7 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
           <ListItem label={t('common:EMAIL')} values={[contact_email]} />
         </ul>
       </li>
+
       <li>
         {t('MARKET_DIRECTORY.INFO_SUMMARY.PRODUCTS_AND_SERVICES')}
         <ul>

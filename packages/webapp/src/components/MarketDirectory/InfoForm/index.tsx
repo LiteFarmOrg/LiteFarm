@@ -122,22 +122,6 @@ const PureMarketDirectoryInfoForm = ({
           disabled={readonly}
           placeholder={t('MARKET_DIRECTORY.INFO_FORM.ABOUT_PLACEHOLDER')}
         />
-        <Controller
-          control={control}
-          name={DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ReactSelect
-              label={t('MARKET_DIRECTORY.INFO_FORM.PRODUCT_CATEGORY')}
-              isMulti
-              value={value}
-              onChange={onChange}
-              options={marketProductCategoryOptions}
-              style={{ paddingBottom: '16px' }} // accomodate "Clear all" button space
-              isDisabled={readonly}
-            />
-          )}
-        />
         <ImagePicker
           label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
           onFileUpload={onFileUpload}
@@ -146,6 +130,23 @@ const PureMarketDirectoryInfoForm = ({
           isDisabled={readonly}
         />
       </section>
+
+      <Controller
+        control={control}
+        name={DIRECTORY_INFO_FIELDS.MARKET_PRODUCT_CATEGORIES}
+        rules={{ required: true }}
+        render={({ field: { onChange, value } }) => (
+          <ReactSelect
+            label={t('MARKET_DIRECTORY.INFO_FORM.PRODUCT_CATEGORY')}
+            isMulti
+            value={value}
+            onChange={onChange}
+            options={marketProductCategoryOptions}
+            style={{ paddingBottom: '16px' }} // accomodate "Clear all" button space
+            isDisabled={readonly}
+          />
+        )}
+      />
 
       <section className={styles.section}>
         <Semibold>{t('MARKET_DIRECTORY.INFO_FORM.FARM_REPRESENTATIVE')}</Semibold>

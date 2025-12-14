@@ -16,7 +16,7 @@
 import i18n from '../../../../../locales/i18n';
 import { PureMarketDirectoryTileProps } from '../../../../../components/MarketDirectoryTile';
 import { MarketDirectoryPartner } from '../../../../../store/api/types';
-import OFNLogo from '../../../../../assets/images/marketDirectory/logo-ofn-global.png';
+import OFNLogo from '../../../../../assets/images/marketDirectory/logo-ofn-global.svg';
 import styles from './styles.module.scss';
 
 const LogoAndCountry = ({ country }: { country: string }) => {

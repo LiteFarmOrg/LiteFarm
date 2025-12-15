@@ -37,6 +37,7 @@ export type NumberInputWithSelectProps = {
   unitFieldName?: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
+  onClear?: () => void;
   reactSelectWidth?: number;
 };
 
@@ -55,6 +56,7 @@ const NumberInputWithSelect = ({
   className,
   onChange,
   onBlur,
+  onClear,
   value,
   unit,
   unitFieldName = '',
@@ -127,7 +129,10 @@ const NumberInputWithSelect = ({
           onBlur?.();
           inputProps.onBlur?.(e);
         }}
-        onResetIconClick={clear}
+        onResetIconClick={() => {
+          clear();
+          onClear?.();
+        }}
         resetIconPosition="left"
         rightSection={
           unitOptions.length ? (

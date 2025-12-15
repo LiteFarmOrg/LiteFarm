@@ -169,6 +169,7 @@ const ProductDetails = ({
               values={field.value || {}}
               onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
               onBlur={trigger}
+              onClear={trigger}
               unitFieldName={ELEMENTAL_UNIT}
               reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />

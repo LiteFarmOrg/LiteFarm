@@ -78,7 +78,6 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "മറ്റൊരു ഉൽപ്പന്നം ചേർക്കുക",
-    "ADD_NEW_PRODUCT": "",
     "ADDITIONAL_NUTRIENTS": "അധിക പോഷകങ്ങൾ",
     "AMMONIUM": "അമോണിയം (NH₄)",
     "BORON": "ബോറോൺ (ബി)",
@@ -149,7 +148,6 @@
       "TYPE_OF_FIELD_WORK": "ഫീൽഡ് ജോലി തരം"
     },
     "GO_TO_CATALOGUE": "വിളകളുടെ പട്ടികയിലേക്ക് പോകുക",
-    "GO_TO_INVENTORY": "",
     "HARVEST_EVERYTHING": "തയ്യാറായിരിക്കുന്നതെല്ലാം വിളവെടുക്കുക",
     "HARVESTING_INFO": "ഓരോ പദ്ധതി ഒരു വ്യക്തിഗത വിളവെടുപ്പ് ചുമതല സൃഷ്ടിക്കും",
     "HOURLY_WAGE": {
@@ -210,12 +208,10 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "മൃഗങ്ങളെ നീക്കാൻ കഴിയുന്ന ഒരു സ്ഥലം നിങ്ങൾക്ക് ആവശ്യമാണ്. അനുയോജ്യമായ ഒരു സ്ഥലമോ പ്രദേശമോ സൃഷ്ടിക്കാൻ മാപ്പിലേക്ക് പോകുക.",
     "NEED_MANAGEMENT_PLAN": "ഒരു വിളവെടുപ്പ് ചുമതലയോ പറിച്ചുനടൽ ചുമതലയോ ഷെഡ്യൂൾ ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് സജീവമോ ആസൂത്രിതമോ ആയ ഒരു വിള പ്ലാൻ ആവശ്യമാണ്. ഇപ്പോൾ ഒരു പ്ലാൻ സൃഷ്‌ടിക്കാൻ ക്രോപ്പ് കാറ്റലോഗിലേക്ക് പോകുക. ദയവായി ചേർക്കുക.",
-    "NEED_SOIL_AMENDMENT_PRODUCTS": "",
     "NEED_SOIL_SAMPLE_LOCATION": "മണ്ണിന്റെ സാമ്പിൾ എടുക്കാൻ നിങ്ങൾക്ക് ഒരു പ്രത്യേക സ്ഥലം ആവശ്യമാണ്. മണ്ണിന്റെ സാമ്പിൾ എടുക്കുന്നതിനുള്ള സ്ഥലം സൃഷ്ടിക്കാൻ മാപ്പിലേക്ക് പോകുക.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "ഒരു മണ്ണ് സാമ്പിൾ ടാസ്‌ക് സൃഷ്‌ടിക്കുന്നതിന് മുമ്പ് കുറഞ്ഞത് ഒരു മണ്ണ് സാമ്പിൾ ലൊക്കേഷനെങ്കിലും സൃഷ്‌ടിക്കാൻ നിങ്ങൾക്ക് മാനേജ്‌മെൻ്റ് ആവശ്യമാണ്.",
     "NO_ANIMAL_LOCATION": "മൃഗങ്ങളെ സൂക്ഷിക്കാൻ യോഗ്യമായ സ്ഥലങ്ങളില്ല",
     "NO_MANAGEMENT_PLAN": "യോഗ്യതയുള്ള ക്രോപ്പ് പ്ലാനുകളൊന്നുമില്ല",
-    "NO_SOIL_AMENDMENT_PRODUCTS": "",
     "NO_SOIL_SAMPLE_LOCATION": "മണ്ണ് സാമ്പിൾ എടുക്കാൻ യോഗ്യമായ സ്ഥലങ്ങളില്ല",
     "NOTES_LABEL": "ഈ ചുമതലയുമായി ബന്ധപ്പെട്ട് എന്തെങ്കിലും പ്രത്യേകമായി ചേർക്കേണ്ടതുണ്ടോ?",
     "NOTES_PLACEHOLDER": "നിയോഗിക്കപ്പെട്ടവർക്കായി എന്തെങ്കിലും നിർദ്ദേശങ്ങളോ പ്രത്യേകതകളോ ചേർക്കുക",
@@ -360,11 +356,7 @@
   },
   "BADGE": {
     "BETA": {
-      "ANIMALS_BETA_CONTENT": "ഞങ്ങളുടെ പുതിയ മൃഗ പരിപാലന ഫീച്ചറിന്റെ ഒരു ആദ്യദൃഷ്ടി നോട്ടം ലഭിക്കൂ—ഇപ്പോൾ ബീറ്റയിൽ ലഭ്യമാണ്! ഞങ്ങൾ ഈ ഫീച്ചർ പരിഷ്കരിക്കുമ്പോൾ നിങ്ങളുടെ ഫീഡ്ബാക്ക് നിർണായകമാണ്. നിങ്ങൾ നേരിടുന്ന ഏതെങ്കിലും ബഗുകളോ നിർദ്ദേശങ്ങളോ ദയവായി പങ്കിടുക. LiteFarm മെച്ചപ്പെടുത്തുന്നതിനുള്ള നിങ്ങളുടെ സഹായത്തെ ഞങ്ങൾ അഭിനന്ദിക്കുന്നു! നിങ്ങൾക്ക് ബീറ്റയെക്കുറിച്ച് <a>ഇവിടെ</a> കൂടുതലറിയാനാകും",
-      "ANIMALS_BETA_HEADING": "പുതിയ മൃഗങ്ങളുടെ സവിശേഷത അവതരിപ്പിക്കുന്നു",
       "ANIMALS_CONTENT": "ഞങ്ങളുടെ പുതിയ മൃഗ പരിപാലന ഫീച്ചറിന്റെ ഒരു ആദ്യദൃഷ്ടി നോട്ടം ലഭിക്കൂ—ഇപ്പോൾ ബീറ്റയിൽ ലഭ്യമാണ്! ഞങ്ങൾ ഈ ഫീച്ചർ പരിഷ്കരിക്കുമ്പോൾ നിങ്ങളുടെ ഫീഡ്ബാക്ക് നിർണായകമാണ്. നിങ്ങൾ നേരിടുന്ന ഏതെങ്കിലും ബഗുകളോ നിർദ്ദേശങ്ങളോ ദയവായി പങ്കിടുക. LiteFarm മെച്ചപ്പെടുത്തുന്നതിനുള്ള നിങ്ങളുടെ സഹായത്തെ ഞങ്ങൾ അഭിനന്ദിക്കുന്നു! നിങ്ങൾക്ക് ബീറ്റയെക്കുറിച്ച് <a>ഇവിടെ</a> കൂടുതലറിയാനാകും",
-      "INVENTORY_BETA_CONTENT": "",
-      "INVENTORY_BETA_HEADING": "",
       "TITLE": "ബീറ്റ"
     }
   },
@@ -989,13 +981,6 @@
       "WIDTH": "ജലപാതയുടെ വീതി"
     }
   },
-  "FARM_SETTINGS": {
-    "TABS": {
-      "ADDONS": "",
-      "BASIC_PROFILE": "",
-      "MARKET_DIRECTORY": ""
-    }
-  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "വിതരണക്കാരൻ",
@@ -1154,19 +1139,6 @@
     "BODY": "ഫാം മാപ്പിന് പുതിയ സവിശേഷതകളുണ്ട്. ഇത് ഇപ്പോൾ മൈ ഫാം മെനുവിന് കീഴിൽ കാണപ്പെടുന്നു.",
     "TITLE": "ഞങ്ങൾ ഫാം മാപ്പുകൾ അപ്ഡേറ്റ് ചെയ്തിട്ടുണ്ട്!"
   },
-  "INVENTORY": {
-    "PRODUCT_NAME": "",
-    "PRODUCT_TYPE": "",
-    "REMOVE_CONFIRMATION": {
-      "BODY": "",
-      "TITLE": ""
-    },
-    "SOIL_AMENDMENT": "",
-    "UNABLE_TO_REMOVE": {
-      "BODY": "",
-      "TITLE": ""
-    }
-  },
   "INVITATION": {
     "BIRTH_YEAR": "ജനിച്ച വർഷം",
     "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും _ ഇടയിലായിരിക്കണം",
@@ -1215,11 +1187,9 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "പ്രയോഗത്തിന്റെ ആഴം",
     "APPROVE_AND_CREATE_TASK": "അംഗീകാരം നൽകുന്നതിലൂടെ നിങ്ങൾ ഒരു ജലസേചന ചുമതല സൃഷ്ടിക്കും",
-    "AVAILABLE_SOIL_MOISTURE": "",
     "DATA_FROM": "നിന്നുള്ള ഡാറ്റ",
     "ESTIMATED_WATER_CONSUMPTION": "കണക്കാക്കിയ ജല ഉപഭോഗം",
     "ET_RATE": "ET നിരക്ക്",
-    "FULL_IRRIGATION_REPORT": "",
     "IRRIGATION_PRESCRIPTION_FILES": "ജലസേചന കുറിപ്പടി ഫയലുകൾ",
     "IRRIGATION_PRESCRIPTIONS": "ജലസേചന നിർദ്ദേശങ്ങൾ",
     "IRRIGATION_ZONE": "ജലസേചന മേഖല",
@@ -1450,59 +1420,6 @@
     "WHERE_TRANSPLANT_LOCATION": "എവിടേക്ക് പറിച്ചു നടും?",
     "WILD_CROP": "നിങ്ങൾ ഒരു കാട്ടുവിള വിളവെടുക്കുകയാണോ?"
   },
-  "MARKET_DIRECTORY": {
-    "AGREE_WITH_TERMS": "",
-    "COMPLETE_PROFILE": "",
-    "CONSENT": {
-      "ALMOST_READY": "",
-      "CONSENT_TO_SHARE_INFORMATION": "",
-      "I_AGREE": "",
-      "SEE_ALL_DATA": "",
-      "TITLE": ""
-    },
-    "GET_LISTED": "",
-    "INFO_FORM": {
-      "ABOUT": "",
-      "ABOUT_PLACEHOLDER": "",
-      "AT_USERNAME": "",
-      "COUNTRY_CODE": "",
-      "EMAIL_ADDRESS": "",
-      "EMAIL_PLACEHOLDER": "",
-      "FARM_IDENTITY": "",
-      "FARM_LOGO": "",
-      "FARM_NAME": "",
-      "FARM_REPRESENTATIVE": "",
-      "FARM_STORE_CONTACT": "",
-      "FARM_STORE_LOCATION": "",
-      "INVALID_ADDRESS": "",
-      "INVALID_USERNAME_OR_URL": "",
-      "INVALID_WEBSITE": "",
-      "ONLINE_PRESENCE": "",
-      "PHONE_NUMBER": "",
-      "PRIVATE_INFO_NOTE": "",
-      "PRODUCT_CATEGORY": "",
-      "SOCIAL_INPUT_LABEL": "",
-      "WEBSITE": ""
-    },
-    "INFO_SUMMARY": {
-      "FARM_ADDRESS": "",
-      "FARM_EMAIL": "",
-      "FARM_PROFILE": "",
-      "FARM_STORE_ADDRESS": "",
-      "FIRST_NAME_AND_LAST_NAME": "",
-      "ONLINE_PRESENCE_ITEM": "",
-      "PRODUCTS_AND_SERVICES": "",
-      "PRODUCTS_CATEGORIES": ""
-    },
-    "KNOW_A_MARKETPLACE": "",
-    "MARKET_DIRECTORIES": "",
-    "MARKET_DIRECTORY_INFO": "",
-    "NO_PARTNER": "",
-    "PARTNERS": {
-      "OFN_DESCRIPTION": ""
-    },
-    "WHERE_TO_BE_FEATURED": ""
-  },
   "MENU": {
     "ACTUAL_REVENUES": "യഥാർത്ഥ വരുമാനം",
     "ANIMALS": "മൃഗങ്ങൾ",
@@ -1516,7 +1433,6 @@
     "FARM_SETTINGS": "ഫാം ക്രമീകരണങ്ങൾ",
     "FINANCES": "സാമ്പത്തികം",
     "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",
-    "INVENTORY": "",
     "LABOUR_EXPENSES": "തൊഴിൽ ചെലവുകൾ",
     "MAP": "ഭൂപടം",
     "OTHER_EXPENSES": "മറ്റ് ചെലവുകൾ",
@@ -1556,8 +1472,8 @@
       "TITLE": "ഇന്നത്തെ ചുമതലകൾ"
     },
     "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിലവിലെ കാലാവസ്ഥ, മണ്ണ്, വിള ഡാറ്റ എന്നിവ അടിസ്ഥാനമാക്കി ഒരു പുതിയ ജലസേചന നിർദ്ദേശം സൃഷ്ടിച്ചിരിക്കുന്നു.",
+      "TITLE": "പുതിയ ജലസേചന കുറിപ്പടി തയ്യാറാണ്"
     },
     "NONE_TO_DISPLAY": "പ്രദർശിപ്പിക്കാൻ അറിയിപ്പുകളൊന്നുമില്ല.",
     "PAGE_TITLE": "അറിയിപ്പുകൾ",
@@ -1581,10 +1497,6 @@
     "TASK_REASSIGNED": {
       "BODY": "നിങ്ങൾക്ക് മുമ്പ് അസൈൻ ചെയ്‌ത ഒരു {{taskType}} ടാസ്‌ക് {{assigner}} മറ്റാരെയെങ്കിലും ഏൽപ്പിച്ചു.",
       "TITLE": "ചുമതല വീണ്ടും ഏൽപ്പിച്ചു"
-    },
-    "TASK_RECOMPLETED_BY_OTHER_USER": {
-      "BODY": "",
-      "TITLE": ""
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} ഒരു {{taskType}} ടാസ്‌ക് അസൈൻ ചെയ്യാത്തതായി അടയാളപ്പെടുത്തി.",
@@ -1792,11 +1704,6 @@
       "REVENUE_TYPE": "വരുമാന തരം"
     }
   },
-  "REVISION_PROMPT": {
-    "FIX_IT_NOW": "",
-    "NOTICED_SOMETHING_OFF": "",
-    "UPDATE_THIS_TASK": ""
-  },
   "ROLE_SELECTION": {
     "FARM_EO": "എക്സ്റ്റൻഷൻ ഓഫീസർ",
     "FARM_MANAGER": "ഫാം മാനേജർ",
@@ -1964,9 +1871,6 @@
     "WELCOME_BACK": "തിരികെ സ്വാഗതം",
     "WRONG_BROWSER": "ഈ ബ്രൗസറിനായി ലൈറ്റ് ഫാം ഒപ്റ്റിമൈസ് ചെയ്തിട്ടില്ല.",
     "WRONG_BROWSER_BOTTOM": "Chrome ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക."
-  },
-  "SIMPLE_BADGE": {
-    "PRIVATE": ""
   },
   "SLIDE_MENU": {
     "CROPS": "വിളകൾ",

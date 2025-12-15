@@ -140,11 +140,13 @@ const NumberInputWithSelect = ({
             <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
               <ReactSelect
                 options={unitOptions}
-                onChange={(option) => onChange(unitFieldName, option?.value || null)}
+                onChange={(option) => {
+                  onChange(unitFieldName, option?.value || null);
+                  trigger?.();
+                }}
                 value={unitOptions.find(({ value }) => value === unit)}
                 styles={{ ...(reactSelectStyles as any) }}
                 isDisabled={disabled}
-                onBlur={onBlur}
                 formatOptionLabel={formatOptionLabel}
               />
             </div>

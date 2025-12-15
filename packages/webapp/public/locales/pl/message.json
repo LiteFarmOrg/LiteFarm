@@ -1,0 +1,264 @@
+{
+  "ANIMALS": {
+    "FAILED_CREATE_ANIMALS": "Nie udało się utworzyć zwierząt",
+    "FAILED_CREATE_BATCHES": "Nie udało się utworzyć partii",
+    "FAILED_REMOVE_ANIMALS": "Nie udało się usunąć zaznaczonych zwierząt",
+    "FAILED_REMOVE_BATCHES": "Nie udało się usunąć wybranych partii",
+    "FAILED_UPDATE_ANIMAL": "Nie udało się zaktualizować zwierzęcia",
+    "FAILED_UPDATE_BATCH": "Nie udało się zaktualizować partii",
+    "SUCCESS_CREATE_ANIMALS": "Pomyślnie utworzono zwierzęta",
+    "SUCCESS_CREATE_BATCHES": "Pomyślnie utworzono partie",
+    "SUCCESS_REMOVE_ANIMALS": "Pomyślnie usunięto wybrane zwierzęta",
+    "SUCCESS_REMOVE_BATCHES": "Pomyślnie usunięto wybrane partie",
+    "SUCCESS_UPDATE_ANIMAL": "Pomyślnie zaktualizowane zwierzę",
+    "SUCCESS_UPDATE_BATCH": "Pomyślnie zaktualizowano partię"
+  },
+  "ASSIGN_TASK": {
+    "ERROR": "Nie udało się przypisać zadań",
+    "SUCCESS": "Pomyślnie przypisano zadania"
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "Nie udało się utworzyć dokumentu",
+      "FAILED_ARCHIVE": "Nie udało się zarchiwizować dokumentu",
+      "FAILED_UNARCHIVE": "Nie udało się od archiwizować dokumentu",
+      "FAILED_UPLOAD": "Nie udało się przesłać załączników",
+      "UPDATE": "Nie udało się zaktualizować dokumentu"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Pomyślnie zarchiwizowano dokument",
+      "CREATE": "Pomyślnie utworzono dokument",
+      "UNARCHIVE": "Pomyślnie przywrócono dokument z archiwum",
+      "UPDATE": "Pomyślnie zaktualizowano dokument"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Błąd: nie udało się dodać odmiany do bazy danych",
+      "ADD_ALREADY_EXISTS": "Błąd: Odmiana już istnieje",
+      "DELETE": "Nie udało się usunąć odmiany uprawy",
+      "UPDATE": "Nie udało się zaktualizować odmiany uprawy"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie zapisano odmianę!",
+      "DELETE": "Usunięto odmianę uprawy",
+      "UPDATE": "Pomyślnie zaktualizowano odmianę uprawy"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Nie udało się dodać nowych wydatków",
+      "DELETE": "Nie udało się usunąć wydatków",
+      "EXPENSE_DELETED": "Ten wydatek już nie istnieje",
+      "EXPENSE_TYPE_DELETED": "Ten typ wydatków został usunięty",
+      "UPDATE": "Nie udało się zaktualizować wydatków!"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie dodano nowe wydatki!",
+      "DELETE": "Pomyślnie usunięto wydatki!",
+      "UPDATE": "Pomyślnie zaktualizowano wydatki!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Nie udało się utworzyć niestandardowego wydatku",
+      "DELETE": "Nie udało się usunąć niestandardowego wydatku",
+      "UPDATE": "Nie udało się zaktualizować niestandardowego wydatku"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie utworzono niestandardowy wydatek",
+      "DELETE": "Pomyślnie wycofano niestandardowy wydatek",
+      "UPDATE": "Pomyślnie zaktualizowano niestandardowy wydatek"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Nie udało się dodać gospodarstwa, prosimy o kontakt z Lite farm w celu uzyskania pomocy",
+      "FETCH": "Nie udało się pobrać gospodarstwa z bazy danych",
+      "UPDATE": "Nie udało się zaktualizować informacji o gospodarstwie"
+    },
+    "SUCCESS": {
+      "UPDATE": "Pomyślnie zaktualizowano informacje o gospodarstwie!"
+    }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Nie udało się odłączyć dodatku",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Błąd pobierania planów nawadniania"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Pomyślnie odłączono dodatek"
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Coś poszło nie tak podczas wysyłania Twojej opinii. Spróbuj ponownie."
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Nie udało się dodać własnego typu użycia zbioru",
+      "AMOUNT_TOTAL": "Suma nie jest równa kwocie, którą należy przydzielić"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Pomyślnie dodano niestandardowy typ użycia zbioru"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Logowanie użytkownika nie powiodło się"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "Nie udało się porzucić planu upraw!",
+      "COMPLETE": "Nie udało się zakończyć planu upraw!",
+      "DELETE": "Nie udało się usunąć planu upraw!",
+      "POST": "Nie udało się dodać planu upraw!"
+    },
+    "SUCCESS": {
+      "ABANDON": "Pomyślnie porzucono plan upraw!",
+      "COMPLETE": "Pomyślnie zakończono plan upraw!",
+      "DELETE": "Pomyślnie usunięto plan upraw!",
+      "POST": "Pomyślnie dodano plan upraw!"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "Nie udało się zaktualizować",
+    "FAIL_POST": "Nie udało się dodać nowego",
+    "SUCCESS_DELETE": "Pomyślnie wycofano",
+    "SUCCESS_PATCH": "Pomyślnie zaktualizowano",
+    "SUCCESS_POST": "Pomyślnie zapisano"
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "Nie udało się utworzyć certyfikatu.",
+      "UPDATE": "Nie udało się zaktualizować certyfikatu!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Nie udało się zaktualizować planu upraw"
+    },
+    "SUCCESS": {
+      "EDIT": "Pomyślnie zaktualizowano plan upraw"
+    }
+  },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "Nie udało się utworzyć produktu",
+      "REMOVE": "Nie udało się usunąć produktu",
+      "UPDATE": "Nie udało się zaktualizować produktu"
+    },
+    "SUCCESS": {
+      "CREATE": "Pomyślnie utworzono produkt",
+      "REMOVE": "Produkt usunięty pomyślnie",
+      "UPDATE": "Pomyślnie zaktualizowano produkt"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Nie udało się powtórzyć {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "Pomyślnie powtórzono {{planName}}"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Nie udało się zaktualizować przychodu",
+      "REVENUE_TYPE_DELETED": "Ten rodzaj przychodów został usunięty"
+    },
+    "SUCCESS": {
+      "EDIT": "Przychód pomyślnie zaktualizowany"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Nie udało się dodać typu przychodu",
+      "DELETE": "Nie udało się wycofać typu przychodu",
+      "UPDATE": "Nie udało się zaktualizować typu przychodu"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie dodano typ przychodu",
+      "DELETE": "Pomyślnie wycofano typ przychodu",
+      "UPDATE": "Pomyślnie zaktualizowano typ przychodu"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "Nie udało się dodać sprzedaży",
+      "DELETE": "Nie udało się usunąć nowej sprzedaży",
+      "SALE_DELETED": "Taka sprzedaż już nie istnieje",
+      "UPDATE": "Nie udało się zaktualizować sprzedaży"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie dodano sprzedaż",
+      "DELETE": "Pomyślnie usunięto sprzedaż",
+      "UPDATE": "Pomyślnie zaktualizowano sprzedaż"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Nie udało się porzucić zadania",
+      "SUCCESS": "Pomyślnie porzucono zadanie"
+    },
+    "COMPLETE": {
+      "FAILED": "Nie udało się ukończyć zadania",
+      "SUCCESS": "Pomyślnie ukończono zadanie"
+    },
+    "CREATE": {
+      "FAILED": "Nie udało się utworzyć zadania",
+      "SUCCESS": "Pomyślnie utworzono zadanie"
+    },
+    "UPDATE": {
+      "FAILED": "Nie udało się zaktualizować zadania"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Nie udało się utworzyć niestandardowego zadania",
+      "SUCCESS": "Pomyślnie utworzono niestandardowe zadanie"
+    },
+    "DELETE": {
+      "FAILED": "Nie udało się usunąć niestandardowego zadania",
+      "SUCCESS": "Pomyślnie usunięto niestandardowe zadanie"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Nie udało się dodać użytkownika",
+      "AGREEMENT": "Nie udało się zaktualizować umowy użytkownika",
+      "EXISTS": "Użytkownik już istnieje w sieci LiteFarm",
+      "INVITE": "Błąd podczas tworzenia konta użytkownika, prosimy o kontakt z LiteFarm w celu uzyskania pomocy.",
+      "MAX_RESET_EMAILS": "Link do resetowania hasła został wysłany na Twój e-mail, sprawdź skrzynkę odbiorczą i folder ze spamem.",
+      "RESET_PASSWORD": "Błąd podczas wysyłania e-maila do resetowania hasła, prosimy o kontakt z LiteFarm w celu uzyskania pomocy.",
+      "RESTORE": "Wystąpił błąd podczas przywracania dostępu",
+      "REVOKE": "Wystąpił błąd podczas cofania dostępu",
+      "SIGNUP_UNKNOWN": "Nieznany problem! Spróbuj ponownie później.",
+      "UPDATE": "Nie udało się zaktualizować informacji o użytkowniku"
+    },
+    "SUCCESS": {
+      "ADD": "Pomyślnie dodano użytkownika do gospodarstwa!",
+      "RESTORE": "Dostęp użytkownika przywrócony",
+      "REVOKE": "Dostęp użytkownika cofnięty!",
+      "UPDATE": "Pomyślnie zaktualizowano informacje o użytkowniku!"
+    }
+  }
+}

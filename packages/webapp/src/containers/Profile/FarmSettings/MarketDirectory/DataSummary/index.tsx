@@ -93,7 +93,7 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
       </li>
       <li>
         <div className={styles.inlineGroup}>
-          {t('MARKET_DIRECTORY.INFO_SUMMARY.CONTACT')} <PrivateBadge />
+          {t('MARKET_DIRECTORY.INFO_FORM.FARM_REPRESENTATIVE')} <PrivateBadge />
         </div>
         <ul>
           <ListItem

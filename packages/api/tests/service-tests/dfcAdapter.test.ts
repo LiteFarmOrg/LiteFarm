@@ -233,7 +233,8 @@ describe('dfcAdapter', () => {
       expect.arrayContaining([
         'https://www.instagram.com/test_insta/',
         'https://www.facebook.com/test_facebook/',
-        'https://x.com/test_x_handle/',
+        // TODO: Restore to x.com when OFN updates their API
+        'https://twitter.com/test_x_handle/',
       ]),
     );
   });

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
+import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
@@ -74,21 +75,11 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
         {t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_PROFILE')}
         <ul>
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')} values={[farm_name]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')} values={[logo]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')} values={[address]} />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} values={[phone_number]} />
-        </ul>
-      </li>
-      <li>
-        {t('MARKET_DIRECTORY.INFO_SUMMARY.CONTACT')}
-        <ul>
-          <ListItem
-            label={t('MARKET_DIRECTORY.INFO_SUMMARY.FIRST_NAME_AND_LAST_NAME')}
-            values={[contact_first_name]}
-          />
-          <ListItem label={t('common:EMAIL')} values={[contact_email]} />
+          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
         </ul>
       </li>
       <li>
@@ -100,6 +91,19 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
           />
         </ul>
       </li>
+      <li>
+        <div className={styles.inlineGroup}>
+          {t('MARKET_DIRECTORY.INFO_FORM.FARM_REPRESENTATIVE')} <PrivateBadge />
+        </div>
+        <ul>
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_SUMMARY.FIRST_NAME_AND_LAST_NAME')}
+            values={[contact_first_name]}
+          />
+          <ListItem label={t('common:EMAIL')} values={[contact_email]} />
+        </ul>
+      </li>
+
       <li>
         {t('MARKET_DIRECTORY.INFO_FORM.ONLINE_PRESENCE')}
         <ul>

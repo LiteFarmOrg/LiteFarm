@@ -168,8 +168,8 @@ const ProductDetails = ({
               shouldShowErrorMessage={shouldShowErrorMessage}
               values={field.value || {}}
               onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
-              onBlur={trigger}
-              onClear={trigger}
+              onBlur={field.onBlur}
+              trigger={trigger}
               unitFieldName={ELEMENTAL_UNIT}
               reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />

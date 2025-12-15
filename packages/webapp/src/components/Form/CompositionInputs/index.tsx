@@ -42,7 +42,6 @@ const CompositionInputs = ({
   disabled = false,
   onChange,
   onBlur,
-  onClear,
   values,
   unit,
   unitFieldName = '',
@@ -64,7 +63,6 @@ const CompositionInputs = ({
                 disabled={disabled}
                 onChange={onChange}
                 onBlur={onBlur}
-                onClear={onClear}
                 unit={unit || values?.[unitFieldName]}
                 unitFieldName={unitFieldName}
                 value={values?.[name]}

@@ -134,7 +134,7 @@ Produktmanager: litefarm.team@ubc.ca
 
 In Bezug auf diese Studie wenden Sie sich bitte an den leitenden Forscher:
 
-Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)  
+Leitende Forscherin: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Sollten Sie während der Teilnahme an dieser Studie irgendwelche Bedenken oder Beschwerden über Ihre Rechte als Forschungsteilnehmer und/oder Ihre Erfahrungen während der Teilnahme in dieser Studie haben**
 

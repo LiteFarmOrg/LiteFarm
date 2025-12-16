@@ -128,24 +128,6 @@
     "SUCCESS_PATCH": "വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
     "SUCCESS_POST": "വിജയകരമായി സംരക്ഷിച്ചു"
   },
-  "MARKET_DIRECTORY": {
-    "ERROR": {
-      "SAVE": "",
-      "UPDATE": ""
-    },
-    "SUCCESS": {
-      "SAVE": "",
-      "UPDATE": "",
-      "UPDATE_LIVE_DATA": ""
-    }
-  },
-  "MARKET_DIRECTORY_CONSENT": {
-    "ERROR": "",
-    "SUCCESS": {
-      "CONSENT": "",
-      "PARTNER": ""
-    }
-  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "സർട്ടിഫിക്കേഷൻ സൃഷ്ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു.",
@@ -163,12 +145,10 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "ഉൽപ്പന്നം സൃഷ്ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു",
-      "REMOVE": "",
       "UPDATE": "ഉൽപ്പന്നം അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു"
     },
     "SUCCESS": {
       "CREATE": "ഉൽപ്പന്നം വിജയകരമായി സൃഷ്ടിച്ചു",
-      "REMOVE": "",
       "UPDATE": "ഉൽപ്പന്നം വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു"
     }
   },

@@ -27,15 +27,6 @@
     "TO_DATE": "വരെ",
     "VALID_ON": "സാധുതയുള്ള"
   },
-  "INVENTORY": {
-    "CUSTOM": "",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "",
-    "DRY": "",
-    "FERTILISER_TYPE": "",
-    "LIQUID": "",
-    "LITEFARM_LIBRARY": "",
-    "TITLE": ""
-  },
   "TASKS": {
     "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
     "ACTIVE": "സജീവമാണ്",

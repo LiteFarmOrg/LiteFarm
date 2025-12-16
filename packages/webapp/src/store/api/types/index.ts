@@ -413,3 +413,193 @@ export interface SupportTicketData {
     attachments: {};
   };
 }
+
+export enum LocationType {
+  GATE = 'gate',
+  WATER_VALVE = 'water_valve',
+  SOIL_SAMPLE_LOCATION = 'soil_sample_location',
+  FARM_SITE_BOUNDARY = 'farm_site_boundary',
+  FIELD = 'field',
+  GARDEN = 'garden',
+  BUFFER_ZONE = 'buffer_zone',
+  WATERCOURSE = 'watercourse',
+  FENCE = 'fence',
+  CEREMONIAL_AREA = 'ceremonial_area',
+  RESIDENCE = 'residence',
+  SURFACE_WATER = 'surface_water',
+  NATURAL_AREA = 'natural_area',
+  GREENHOUSE = 'greenhouse',
+  BARN = 'barn',
+  PIN = 'pin',
+}
+export interface Location {
+  location_id: string;
+  farm_id: string;
+  name: string;
+  notes?: string;
+  figure: {
+    type: LocationType;
+    location_id: Location['location_id'];
+    figure_id: 'string';
+  };
+  location_defaults: {
+    location_id: Location['location_id'];
+    irrigation_type_id: number;
+    estimated_flow_rate: number;
+    estimated_flow_rate_unit: string;
+    application_depth: number;
+    application_depth_unit: string;
+  } | null;
+}
+
+// This data is unused but present on some records
+export interface StationId {
+  station_id: number | null;
+}
+export interface OrganicStatusProperties {
+  location_id: Location['location_id'];
+  organic_status: OrganicStatus;
+  transition_date: string | null;
+}
+
+export interface Barn extends Location {
+  barn: {
+    location_id: Location['location_id'];
+    wash_and_pack: boolean | null;
+    cold_storage: boolean | null;
+    used_for_animals: boolean | null;
+  };
+}
+
+export interface BufferZone extends Location {
+  buffer_zone: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface CeremonialArea extends Location {
+  ceremonial_area: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface FarmSiteBoundary extends Location {
+  farm_site_boundary: {
+    location_id: Location['location_id'];
+  };
+}
+export interface Fence extends Location {
+  fence: {
+    location_id: Location['location_id'];
+    pressure_treated: boolean | null;
+  };
+}
+export interface Field extends Location {
+  field: OrganicStatusProperties & StationId;
+}
+
+export interface Garden extends Location {
+  garden: OrganicStatusProperties & StationId;
+}
+
+export interface Gate extends Location {
+  gate: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface Greenhouse extends Location {
+  greenhouse: OrganicStatusProperties & {
+    supplemental_lighting: boolean | null;
+    co2_enrichment: boolean | null;
+    greenhouse_heated: boolean | null;
+  };
+}
+
+export interface NaturalArea extends Location {
+  natural_area: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface Pin extends Location {
+  pin: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface Residence extends Location {
+  residence: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface SoilSampleLocation extends Location {
+  soil_sample_location: {
+    location_id: Location['location_id'];
+  };
+}
+
+export interface SurfaceWater extends Location {
+  surface_water: {
+    location_id: Location['location_id'];
+    used_for_irrigation: boolean | null;
+  };
+}
+
+enum BufferWidthUnit {
+  CM = 'cm',
+  M = 'm',
+  KM = 'km',
+  IN = 'in',
+  FT = 'ft',
+  MI = 'mi',
+}
+export interface Watercourse extends Location {
+  watercourse: {
+    location_id: Location['location_id'];
+    used_for_irrigation: boolean | null;
+    buffer_width: number;
+    buffer_width_unit: BufferWidthUnit;
+  };
+}
+
+enum WaterSource {
+  MUNICIPAL_WATER = 'Municipal water',
+  SURFACE_WATER = 'Surface water',
+  GROUNDWATER = 'Groundwater',
+  RAIN_WATER = 'Rain water',
+}
+
+enum FlowRateUnit {
+  L_PER_MIN = 'l/min',
+  L_PER_H = 'l/h',
+  GAL_PER_MIN = 'gal/min',
+  GAL_PER_H = 'gal/h',
+}
+export interface WaterValve extends Location {
+  water_valve: {
+    location_id: Location['location_id'];
+    source: WaterSource;
+    flow_rate: number | null;
+    flow_rate_unit: FlowRateUnit;
+  };
+}
+
+export type InternalMapLocation =
+  | Barn
+  | BufferZone
+  | CeremonialArea
+  | FarmSiteBoundary
+  | Fence
+  | Field
+  | Garden
+  | Gate
+  | Greenhouse
+  | NaturalArea
+  | Pin
+  | Residence
+  | SoilSampleLocation
+  | SurfaceWater
+  | Watercourse
+  | WaterValve;

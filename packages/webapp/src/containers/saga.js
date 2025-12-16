@@ -160,10 +160,6 @@ import {
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
 
-const logUserInfoUrl = () => `${url}/userLog`;
-const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
-const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
-
 axiosWithoutInterceptors.interceptors.response.use(
   function (response) {
     return response;
@@ -350,11 +346,12 @@ export function* onLoadingLocationStartSaga() {
 export const getLocations = createAction('getLocationsSaga');
 
 export function* getLocationsSaga() {
+  const { getLocationsByFarmIdUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     yield put(onLoadingLocationStart());
-    const result = yield call(axios.get, getLocationsUrl(farm_id), header);
+    const result = yield call(axios.get, getLocationsByFarmIdUrl(farm_id), header);
     yield put(getLocationsSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch fields from database');
@@ -569,6 +566,7 @@ export function* getManagementPlansAndTasksSaga() {
 }
 
 export function* logUserInfoSaga() {
+  const { logUserInfoUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   if (!user_id) return;
   const header = getHeader(user_id, farm_id);
@@ -583,10 +581,10 @@ export function* logUserInfoSaga() {
     };
     if (!lastActiveDatetime || currentDateAsNumber - lastActiveDatetime > hour) {
       yield put(logUserInfoSuccess(farm_id));
-      yield call(axios.post, logUserInfoUrl(), data, header);
+      yield call(axios.post, logUserInfoUrl, data, header);
     } else if (prev_farm_id !== farm_id) {
       yield put(logUserInfoSuccess(farm_id));
-      yield call(axios.post, logUserInfoUrl(), data, header);
+      yield call(axios.post, logUserInfoUrl, data, header);
     }
   } catch (e) {
     console.log('failed to log user info');

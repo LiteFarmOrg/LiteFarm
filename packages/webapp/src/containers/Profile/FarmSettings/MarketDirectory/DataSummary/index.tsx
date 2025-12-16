@@ -77,7 +77,10 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_NAME')} values={[farm_name]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.ABOUT')} values={[about]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')} values={[logo]} />
-          <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_ADDRESS')} values={[address]} />
+          <ListItem
+            label={t('MARKET_DIRECTORY.INFO_FORM.FARM_STORE_LOCATION')}
+            values={[address]}
+          />
           <ListItem label={t('MARKET_DIRECTORY.INFO_FORM.PHONE_NUMBER')} values={[phone_number]} />
           <ListItem label={t('MARKET_DIRECTORY.INFO_SUMMARY.FARM_EMAIL')} values={[email]} />
         </ul>

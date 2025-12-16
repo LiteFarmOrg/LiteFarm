@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin.scss';
+@use '../../../assets/mixin' as *;
 
 .contentWrapper {
   padding-bottom: 88px; // button height 72px + button top 16px

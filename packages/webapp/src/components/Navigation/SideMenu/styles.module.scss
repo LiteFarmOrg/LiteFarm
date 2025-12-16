@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .primary {
   --pristine-background: var(--White);
@@ -260,7 +260,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-right: 1px solid #D1E9D9;
+  border-right: 1px solid #d1e9d9;
   padding: 0;
   height: 100%;
   flex: 0 0 var(--global-side-menu-width);
@@ -306,10 +306,11 @@
     overflow: visible;
   }
 
-  &.compactSideMenuContent, &.expandedSideMenuContent {
+  &.compactSideMenuContent,
+  &.expandedSideMenuContent {
     .animatedContent {
       transition: opacity 0.5s;
-    
+
       &.hiddenContent {
         opacity: 0;
         flex: 0;
@@ -318,15 +319,15 @@
         margin: 0;
       }
     }
-    
+
     .animatedLogo {
       overflow: hidden;
       height: 64px;
       transition: height 0.5s;
-    
+
       &.compactLogo {
         height: 36px;
-    
+
         svg {
           transform: translateX(-24px);
         }
@@ -340,10 +341,10 @@
 
   .listItem {
     padding: 16px;
-    border-top: 1px solid #E9EBF8;
+    border-top: 1px solid #e9ebf8;
     display: flex;
     justify-content: flex-start;
-  
+
     &.logoListItem {
       justify-content: center;
     }
@@ -351,14 +352,14 @@
     .listItemText {
       margin: 0;
       margin-left: 8px;
-    
+
       span {
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
-    
+
     .icon {
       min-width: 0px;
     }
@@ -367,11 +368,11 @@
       width: 24px;
       height: 24px;
       transition: transform 0.5s;
-    
+
       &.collapseIcon {
         transform: rotate(-180deg);
       }
-    
+
       &.compactExpandIcon {
         transform: rotate(-90deg);
       }
@@ -380,7 +381,7 @@
     @include sm-breakpoint {
       background-color: var(--pristine-background);
       .listItemText {
-        color: var(--pristine-text)
+        color: var(--pristine-text);
       }
       .icon {
         @include svgColorFill(var(--pristine-text));
@@ -418,9 +419,8 @@
           }
         }
       }
-
     }
-  
+
     @include xs-breakpoint {
       background-color: var(--mobile-pristine-background);
       .listItemText {
@@ -431,27 +431,27 @@
         min-width: 0px;
         @include svgColorFill(var(--mobile-pristine-text));
       }
-  
+
       .expandCollapseIcon {
         path {
           fill: var(--mobile-pristine-text);
         }
       }
-  
+
       &:hover {
         // Ignore mobile hover styles
         background-color: var(--mobile-pristine-background);
-  
+
         .listItemText {
-         // Ignore mobile hover styles
+          // Ignore mobile hover styles
           color: var(--mobile-pristine-text);
         }
-  
+
         .icon {
           // Ignore mobile hover styles
           @include svgColorFill(--mobile-pristine-text);
         }
-  
+
         .expandCollapseIcon {
           // Ignore mobile hover styles
           path {
@@ -460,21 +460,21 @@
         }
       }
       border: none;
-  
+
       &.logoListItem {
         display: none;
       }
-  
+
       &.adminActionListItem {
         border-top: 1px solid var(--teal700);
       }
-  
+
       &.active {
         background-color: var(--mobile-active-background);
         &.subItem {
           background-color: var(--secondaryGreen50);
         }
-  
+
         .listItemText {
           color: var(--mobile-active-text);
         }
@@ -490,7 +490,7 @@
         }
       }
     }
-  
+
     &:hover span {
       overflow: visible;
     }
@@ -499,7 +499,7 @@
   .subList {
     padding: 8px 0;
     background-color: var(--pristine-background);
-    
+
     .subItem {
       border: none;
       padding: 8px 16px;
@@ -524,22 +524,20 @@
             }
           }
         }
-  
+
         &:hover {
           background-color: var(--hover-background);
-    
+
           .subItemText {
             color: var(--hover-text);
           }
         }
-  
-        
       }
 
       @include xs-breakpoint {
         .subItemText {
           color: var(--pristine-text);
-        
+
           span {
             font-weight: 600;
           }
@@ -548,7 +546,7 @@
         &.active:not(:hover) {
           background-color: var(--active-background);
           border-left: 2px solid var(--Colors-Primary-Primary-teal-400);
-  
+
           .subItemText {
             span {
               text-shadow: var(--secondaryGreen200) 0px 1px;
@@ -556,13 +554,13 @@
             }
           }
         }
-  
+
         &:hover {
           // Ignore mobile hover styles
           background-color: var(--pristine-background);
-    
+
           .subItemText {
-           // Ignore mobile hover styles
+            // Ignore mobile hover styles
             color: var(--pristine-text);
           }
         }
@@ -572,7 +570,7 @@
 }
 
 .menuToggle {
-  border: 1px solid #D1E9D9;
+  border: 1px solid #d1e9d9;
   padding: 4px;
   position: fixed;
   top: calc(var(--global-navbar-height) / 2 - 12px);
@@ -589,7 +587,7 @@
 
   &:hover {
     background-color: var(--green500);
-    
+
     svg {
       path {
         stroke: var(--green800);

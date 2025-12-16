@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .rating {
   display: flex;

@@ -128,6 +128,24 @@
     "SUCCESS_PATCH": "ਸਫਲਤਾਪੂਰਵਕ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ",
     "SUCCESS_POST": "ਸਫਲਤਾਪੂਰਵਕ ਸੇਵ ਕੀਤਾ ਗਿਆ"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "ਪ੍ਰਮਾਣੀਕਰਨ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ।",
@@ -145,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "ਉਤਪਾਦ ਬਣਾਉਣ ਵਿੱਚ ਅਸਫਲ",
+      "REMOVE": "",
       "UPDATE": "ਉਤਪਾਦ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"
     },
     "SUCCESS": {
       "CREATE": "ਉਤਪਾਦ ਸਫਲਤਾਪੂਰਵਕ ਬਣਾਇਆ ਗਿਆ",
+      "REMOVE": "",
       "UPDATE": "ਉਤਪਾਦ ਨੂੰ ਸਫਲਤਾਪੂਰਵਕ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ"
     }
   },

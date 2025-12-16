@@ -78,6 +78,7 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "ਕੋਈ ਹੋਰ ਉਤਪਾਦ ਸ਼ਾਮਲ ਕਰੋ",
+    "ADD_NEW_PRODUCT": "",
     "ADDITIONAL_NUTRIENTS": "ਵਾਧੂ ਪੌਸ਼ਟਿਕ ਤੱਤ",
     "AMMONIUM": "ਅਮੋਨੀਅਮ (NH₄)",
     "BORON": "ਬੋਰੋਨ (B)",
@@ -148,6 +149,7 @@
       "TYPE_OF_FIELD_WORK": "ਫੀਲਡ ਵਰਕ ਦੀ ਕਿਸਮ"
     },
     "GO_TO_CATALOGUE": "ਕਰੋਪ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ",
+    "GO_TO_INVENTORY": "",
     "HARVEST_EVERYTHING": "ਹਰ ਚੀਜ਼ ਦੀ ਵਾਢੀ ਕਰੋ ਜੋ ਤਿਆਰ ਹੈ",
     "HARVESTING_INFO": "ਹਰੇਕ ਯੋਜਨਾ ਇੱਕ ਵਿਅਕਤੀਗਤ ਵਾਢੀ ਦਾ ਕੰਮ ਤਿਆਰ ਕਰੇਗੀ",
     "HOURLY_WAGE": {
@@ -208,10 +210,12 @@
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "ਤੁਹਾਨੂੰ ਜਾਨਵਰਾਂ ਨੂੰ ਲਿਜਾਣ ਲਈ ਇੱਕ ਸਥਾਨ ਜਾਂ ਖੇਤਰ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਨਕਸ਼ੇ 'ਤੇ ਜਾ ਕੇ ਜਾਨਵਰ ਸਥਾਨ ਬਣਾਓ।",
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
+    "NEED_SOIL_AMENDMENT_PRODUCTS": "",
     "NEED_SOIL_SAMPLE_LOCATION": "ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲੈਣ ਲਈ ਤੁਹਾਨੂੰ ਇੱਕ ਖਾਸ ਸਥਾਨ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਨਕਸ਼ੇ ਤੇ ਜਾ ਕੇ ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲਈ ਸਥਾਨ ਬਣਾਓ।",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "ਕੋਈ ਸੌਇਲ ਸੈਂਪਲ ਕੰਮ ਬਣਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਸੌਇਲ ਸੈਂਪਲ ਟਿਕਾਣਾ ਬਣਾਉਣ ਲਈ ਪ੍ਰਬੰਧਨ ਦੀ ਲੋੜ ਪਵੇਗੀ।",
     "NO_ANIMAL_LOCATION": "ਜਾਨਵਰਾਂ ਲਈ ਕੌਈ ਯੋਗ ਸਥਾਨ ਨਹੀਂ ਹੈ",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
+    "NO_SOIL_AMENDMENT_PRODUCTS": "",
     "NO_SOIL_SAMPLE_LOCATION": "ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲਈ ਕੋਈ ਯੋਗ ਸਥਾਨ ਨਹੀਂ ਹਨ",
     "NOTES_LABEL": "ਇਸ ਕੰਮ ਨਾਲ ਸੰਬੰਧਤ ਕੁਝ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
     "NOTES_PLACEHOLDER": "ਜਿੰਮੇਵਾਰ ਲਈ ਕੋਈ ਹਦਾਇਤਾਂ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਸ਼ਾਮਲ ਕਰੋ",
@@ -359,6 +363,8 @@
       "ANIMALS_BETA_CONTENT": "ਸਾਡੇ ਨਵੇਂ ਜਾਨਵਰ ਪ੍ਰਬੰਧਨ ਫੀਚਰ ਦੀ ਇੱਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ—ਹੁਣ ਬੀਟਾ ਵਿੱਚ। ਜਿਵੇਂ ਜਿਵੇਂ ਅਸੀਂ ਇਸ ਫੀਚਰ ਨੂੰ ਸੁਧਾਰਦੇ ਹਾਂ, ਤੁਹਾਡਾ ਫੀਡਬੈਕ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੀ ਬੱਗ ਜਾਂ ਸੁਝਾਅ ਸਾਂਝੇ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲਦਾ ਹੈ। ਲਾਈਟਫਾਰਮ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਅਸੀਂ ਤੁਹਾਡਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ। ਤੁਸੀਂ ਬੀਟਾ ਬਾਰੇ ਹੋਰ ਜਾਣ ਸਕਦੇ ਹੋ <a>ਇੱਥੇ</a>",
       "ANIMALS_BETA_HEADING": "ਨਵੇਂ ਜਾਨਵਰਾਂ ਦੇ ਫੀਚਰ ਦਾ ਪਰਚੇ ਕਰਵਾਇਆ ਜਾ ਰਿਹਾ ਹੈ",
       "ANIMALS_CONTENT": "ਸਾਡੇ ਨਵੇਂ ਜਾਨਵਰ ਪ੍ਰਬੰਧਨ ਫੀਚਰ ਦੀ ਇੱਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ—ਹੁਣ ਬੀਟਾ ਵਿੱਚ। ਜਿਵੇਂ ਜਿਵੇਂ ਅਸੀਂ ਇਸ ਫੀਚਰ ਨੂੰ ਸੁਧਾਰਦੇ ਹਾਂ, ਤੁਹਾਡਾ ਫੀਡਬੈਕ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੀ ਬੱਗ ਜਾਂ ਸੁਝਾਅ ਸਾਂਝੇ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲਦਾ ਹੈ। ਲਾਈਟਫਾਰਮ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਅਸੀਂ ਤੁਹਾਡਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ। ਤੁਸੀਂ ਬੀਟਾ ਬਾਰੇ ਹੋਰ ਜਾਣ ਸਕਦੇ ਹੋ <a>ਇੱਥੇ</a>",
+      "INVENTORY_BETA_CONTENT": "",
+      "INVENTORY_BETA_HEADING": "",
       "TITLE": "ਬੀਟਾ"
     }
   },
@@ -983,6 +989,13 @@
       "WIDTH": "ਵਾਟਰਕੋਰਸ ਦੀ ਚੌੜਾਈ"
     }
   },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "",
+      "BASIC_PROFILE": "",
+      "MARKET_DIRECTORY": ""
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "ਸਪਲਾਇਰ",
@@ -1141,6 +1154,19 @@
     "BODY": "ਖੇਤ ਦੇ ਨਕਸ਼ੇ ਵਿੱਚ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਹਨ। ਇਹ ਹੁਣ ਮਾਈ ਫਾਰਮ ਮੀਨੂ ਦੇ ਹੇਠਾਂ ਪਾਇਆ ਗਿਆ ਹੈ।",
     "TITLE": "ਅਸੀਂ ਫਾਰਮ ਦੇ ਨਕਸ਼ੇ ਅੱਪਡੇਟ ਕੀਤੇ ਹਨ!"
   },
+  "INVENTORY": {
+    "PRODUCT_NAME": "",
+    "PRODUCT_TYPE": "",
+    "REMOVE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "SOIL_AMENDMENT": "",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "",
+      "TITLE": ""
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "ਜਨਮ ਸਾਲ",
     "BIRTH_YEAR_ERROR": "ਜਨਮ ਸਾਲ 1900 ਅਤੇ ਵਿਚਕਾਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
@@ -1189,9 +1215,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "ਲਾਗੂ ਕਰਨ ਦੀ ਗਹਿਰਾਈ",
     "APPROVE_AND_CREATE_TASK": "ਮੰਜ਼ੂਰੀ ਦੇਣ ਨਾਲ ਤੁਸੀਂ ਇੱਕ ਸਿੰਚਾਈ ਕਾਰਜ ਬਣਾਵੋਗੇ",
+    "AVAILABLE_SOIL_MOISTURE": "",
     "DATA_FROM": "ਡੇਟਾ ਸਰੋਤ",
     "ESTIMATED_WATER_CONSUMPTION": "ਅਨੁਮਾਨਤ ਪਾਣੀ ਦਾ ਉਪਯੋਗ",
     "ET_RATE": "ET ਦਰ",
+    "FULL_IRRIGATION_REPORT": "",
     "IRRIGATION_PRESCRIPTION_FILES": "ਸਿੰਚਾਈ ਨੁਸਖੇ ਦੀਆਂ ਫਾਈਲਾਂ",
     "IRRIGATION_PRESCRIPTIONS": "ਸਿੰਚਾਈ ਨੁਸਖੇ",
     "IRRIGATION_ZONE": "ਸਿੰਚਾਈ ਖੇਤਰ",
@@ -1421,6 +1449,59 @@
     "WHERE_START_LOCATION": "ਤੁਹਾਡਾ ਸ਼ੁਰੂਆਤੀ ਸਥਾਨ ਕਿੱਥੇ ਹੈ?",
     "WHERE_TRANSPLANT_LOCATION": "ਤੁਸੀਂ ਕਿੱਥੇ ਟ੍ਰਾਂਸਪਲਾਂਟ ਕਰੋਗੇ?",
     "WILD_CROP": "ਕੀ ਤੁਸੀਂ ਇੱਕ ਜੰਗਲੀ ਫਸਲ ਦੀ ਵਾਢੀ ਕਰ ਰਹੇ ਹੋ?"
+  },
+  "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "",
+    "COMPLETE_PROFILE": "",
+    "CONSENT": {
+      "ALMOST_READY": "",
+      "CONSENT_TO_SHARE_INFORMATION": "",
+      "I_AGREE": "",
+      "SEE_ALL_DATA": "",
+      "TITLE": ""
+    },
+    "GET_LISTED": "",
+    "INFO_FORM": {
+      "ABOUT": "",
+      "ABOUT_PLACEHOLDER": "",
+      "AT_USERNAME": "",
+      "COUNTRY_CODE": "",
+      "EMAIL_ADDRESS": "",
+      "EMAIL_PLACEHOLDER": "",
+      "FARM_IDENTITY": "",
+      "FARM_LOGO": "",
+      "FARM_NAME": "",
+      "FARM_REPRESENTATIVE": "",
+      "FARM_STORE_CONTACT": "",
+      "FARM_STORE_LOCATION": "",
+      "INVALID_ADDRESS": "",
+      "INVALID_USERNAME_OR_URL": "",
+      "INVALID_WEBSITE": "",
+      "ONLINE_PRESENCE": "",
+      "PHONE_NUMBER": "",
+      "PRIVATE_INFO_NOTE": "",
+      "PRODUCT_CATEGORY": "",
+      "SOCIAL_INPUT_LABEL": "",
+      "WEBSITE": ""
+    },
+    "INFO_SUMMARY": {
+      "FARM_ADDRESS": "",
+      "FARM_EMAIL": "",
+      "FARM_PROFILE": "",
+      "FARM_STORE_ADDRESS": "",
+      "FIRST_NAME_AND_LAST_NAME": "",
+      "ONLINE_PRESENCE_ITEM": "",
+      "PRODUCTS_AND_SERVICES": "",
+      "PRODUCTS_CATEGORIES": ""
+    },
+    "KNOW_A_MARKETPLACE": "",
+    "MARKET_DIRECTORIES": "",
+    "MARKET_DIRECTORY_INFO": "",
+    "NO_PARTNER": "",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": ""
+    },
+    "WHERE_TO_BE_FEATURED": ""
   },
   "MENU": {
     "ACTUAL_REVENUES": "ਅਸਲ ਆਮਦਨ",
@@ -1883,6 +1964,9 @@
     "WELCOME_BACK": "ਵਾਪਸ ਸਵਾਗਤ",
     "WRONG_BROWSER": "ਲਾਈਟਫਾਰਮ ਇਸ ਬ੍ਰਾਊਜ਼ਰ ਲਈ ਅਨੁਕੂਲਿਤ ਨਹੀਂ ਹੈ।",
     "WRONG_BROWSER_BOTTOM": "ਕਿਰਪਾ ਕਰਕੇ ਕ੍ਰੋਮ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਲੌਗਇਨ ਕਰੋ।"
+  },
+  "SIMPLE_BADGE": {
+    "PRIVATE": ""
   },
   "SLIDE_MENU": {
     "CROPS": "ਫਸਲਾਂ",

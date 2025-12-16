@@ -499,6 +499,7 @@ export default function PureTaskReadOnly({
           system,
           products,
           task,
+          isCompleted,
         })}
       {showTaskNotes && (
         <InputAutoSize

@@ -81,13 +81,6 @@
       "UPDATE": "Betriebsdaten erfolgreich aktualisiert!"
     }
   },
-  "FARM_ADDON": {
-    "FAILED_DISCONNECT_ADDON": "",
-    "IRRIGATION_PRESCRIPTION": {
-      "FAILED_TO_GET": ""
-    },
-    "SUCCESS_DISCONNECT_ADDON": ""
-  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Beim Senden Ihres Feedbacks hat etwas nicht geklappt. Bitte versuchen Sie es erneut."
@@ -128,24 +121,6 @@
     "SUCCESS_PATCH": "Erfolgreich aktualisiert",
     "SUCCESS_POST": "Erfolgreich gespeichert"
   },
-  "MARKET_DIRECTORY": {
-    "ERROR": {
-      "SAVE": "",
-      "UPDATE": ""
-    },
-    "SUCCESS": {
-      "SAVE": "",
-      "UPDATE": "",
-      "UPDATE_LIVE_DATA": ""
-    }
-  },
-  "MARKET_DIRECTORY_CONSENT": {
-    "ERROR": "",
-    "SUCCESS": {
-      "CONSENT": "",
-      "PARTNER": ""
-    }
-  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Zertifizierung konnte nicht erstellt werden.",
@@ -163,12 +138,10 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Dokument konnte nicht erstellt werden",
-      "REMOVE": "",
       "UPDATE": "Dokument konnte nicht aktualisiert werden"
     },
     "SUCCESS": {
       "CREATE": "Dokument erfolgreich erstellt",
-      "REMOVE": "",
       "UPDATE": "Produkt erfolgreich aktualisiert"
     }
   },

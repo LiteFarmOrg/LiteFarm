@@ -196,6 +196,12 @@ importers:
       rrule:
         specifier: 2.7.2
         version: 2.7.2
+      survey-core:
+        specifier: ^2.5.1
+        version: 2.5.1
+      survey-react-ui:
+        specifier: ^2.5.1
+        version: 2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.1)
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -6701,6 +6707,16 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  survey-core@2.5.1:
+    resolution: {integrity: sha512-BiGkP/pK+MiTAhd86h6XtgAmgC4jTdUE7zLHp8dkrGFBSHQOhPkQs8ciif9YMI31MilqVPS43trwLdxMytwwjw==}
+
+  survey-react-ui@2.5.1:
+    resolution: {integrity: sha512-0jsy7arRXA2UiLzEHfFHUIeWBzcfXDisFyLBj8Ed4jeofHtc8XkYNXYsKcky2HSIjp9mocRnnJr3KzzeqeFJtQ==}
+    peerDependencies:
+      react: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      react-dom: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      survey-core: 2.5.1
 
   svg-parser@2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
@@ -15322,6 +15338,14 @@ snapshots:
   supports-color@9.4.0: {}
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  survey-core@2.5.1: {}
+
+  survey-react-ui@2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      survey-core: 2.5.1
 
   svg-parser@2.0.4: {}
 

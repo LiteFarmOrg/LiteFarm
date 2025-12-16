@@ -93,6 +93,8 @@
     "redux-saga": "^1.2.1",
     "reselect": "^4.1.7",
     "rrule": "2.7.2",
+    "survey-core": "^2.5.1",
+    "survey-react-ui": "^2.5.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

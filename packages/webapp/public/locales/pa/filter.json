@@ -27,15 +27,6 @@
     "TO_DATE": "ਨੂੰ",
     "VALID_ON": "'ਤੇ ਵੈਧ ਹੈ"
   },
-  "INVENTORY": {
-    "CUSTOM": "",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "",
-    "DRY": "",
-    "FERTILISER_TYPE": "",
-    "LIQUID": "",
-    "LITEFARM_LIBRARY": "",
-    "TITLE": ""
-  },
   "TASKS": {
     "ABANDONED": "ਛੱਡ ਦਿਓ",
     "ACTIVE": "ਕਿਰਿਆਸ਼ੀਲ",

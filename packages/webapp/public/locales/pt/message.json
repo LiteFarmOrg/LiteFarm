@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado.",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado."
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
@@ -129,6 +128,24 @@
     "SUCCESS_PATCH": " atualizado/a com sucesso",
     "SUCCESS_POST": " salvo/a com sucesso"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Falha ao salvar informação do Diretório do Mercado",
+      "UPDATE": "Falha ao atualizar as Informações do Diretório do Mercado"
+    },
+    "SUCCESS": {
+      "SAVE": "Informações do Diretório do Mercado salvas com sucesso",
+      "UPDATE": "Informações do Diretório do Mercado atualizadas com sucesso",
+      "UPDATE_LIVE_DATA": "Informações do Diretório do Mercado atualizadas com sucesso. Seus dados serão atualizados dentro de 24 horas."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Falha ao salvar informação do Diretório do Mercado",
+    "SUCCESS": {
+      "CONSENT": "Informações do Diretório do Mercado salvas com sucesso",
+      "PARTNER": "Informações do Diretório do Mercado atualizadas com sucesso. Seus dados serão atualizados dentro de 24 horas."
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Falha ao criar a certificação",
@@ -146,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Falha ao criar o produto",
+      "REMOVE": "Falha ao remover produto",
       "UPDATE": "Falha ao atualizar o produto"
     },
     "SUCCESS": {
       "CREATE": "Produto criado com sucesso",
+      "REMOVE": "Produto removido com sucesso",
       "UPDATE": "Produto atualizado com sucesso"
     }
   },

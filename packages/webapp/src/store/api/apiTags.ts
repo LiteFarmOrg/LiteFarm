@@ -49,6 +49,7 @@ export const FarmTags = [
   'FarmAddon',
   'IrrigationPrescriptions',
   'IrrigationPrescriptionDetails',
+  'Locations',
   'SoilAmendmentProduct',
   'Sensors',
   'SensorReadings',

@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Impossible d'ajouter un usage personnalisé",
-      "AMOUNT_TOTAL": "Le total n'est pas égal au montant à allouer",
-      "GET_TYPES": "Impossible de récupérer les usages de récolte"
+      "AMOUNT_TOTAL": "Le total n'est pas égal au montant à allouer"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Usage personnalisé ajouté"
@@ -129,6 +128,24 @@
     "SUCCESS_PATCH": "Mise à jour réussie",
     "SUCCESS_POST": "Enregistré avec succès"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Impossible d'enregistrer les informations pour l'annuaire de marché",
+      "UPDATE": "Impossible d'amender les informations pour l'annuaire de marché"
+    },
+    "SUCCESS": {
+      "SAVE": "Informations pour répertoire de marché enregistrés avec succès",
+      "UPDATE": "Informations du répertoire de marché mises à jour avec succès",
+      "UPDATE_LIVE_DATA": "Répertoire de marché mis à jour avec succès. Vos données seront mises à jour dans les 24 heures."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Impossible d'enregistrer le consentement à l'annuaire de marché",
+    "SUCCESS": {
+      "CONSENT": "Consentement pour l'annuaire de marché enregistré avec succès",
+      "PARTNER": "Consentement de répertoire de marché enregistré avec succès. Vos données seront mises à jour dans les 24 heures."
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Impossible de créer la certification",
@@ -146,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Erreur à la création du produit",
+      "REMOVE": "Erreur de suppression du produit",
       "UPDATE": "Erreur à la mise à jour produit"
     },
     "SUCCESS": {
       "CREATE": "Produit créé avec succès",
+      "REMOVE": "Produit supprimé avec succès",
       "UPDATE": "Produit mis à jour avec succès"
     }
   },

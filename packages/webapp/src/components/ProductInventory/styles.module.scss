@@ -1,0 +1,67 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.tableWrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.row.row {
+  &:hover {
+    background-color: var(--Colors-Backgrounds-table-row-hover);
+  }
+
+  /* remove the default border on selected rows */
+  &[aria-checked='true'],
+  &[aria-checked='true']:hover {
+    & > td {
+      border-color: transparent;
+
+      &:first-child {
+        border-color: transparent;
+        border-left: none;
+      }
+      &:last-child {
+        border-color: transparent;
+        border-right: none;
+      }
+    }
+  }
+}
+
+.soilAmendmentProductForm {
+  @include flex-column-gap(24px);
+}
+
+// Same as TileDashboard title
+.sectionTitle {
+  color: inherit;
+  @include fontFamily();
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: capitalize;
+  height: 24px;
+  margin-bottom: 8px;
+  width: 100%;
+
+  // hide on tablet + desktop
+  @include sm-breakpoint {
+    display: none;
+  }
+}

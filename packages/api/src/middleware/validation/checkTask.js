@@ -124,12 +124,6 @@ export function checkCompleteTask(taskType) {
       // https://expressjs.com/en/api.html#res.locals
       res.locals.isRecompleting = !!checkTaskStatus.complete_date;
 
-      if (checkTaskStatus.complete_date && taskType === 'animal_movement_task') {
-        return res
-          .status(400)
-          .send('Re-completion of animal movement tasks is not yet supported (see LF-4815)');
-      }
-
       if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
         await checkAnimalCompleteTask(req, taskType, task_id);
@@ -203,7 +197,7 @@ export function checkCreateTask(taskType) {
 
       const checkProducts =
         checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
-      checkProducts()(req, res, next);
+      checkProducts({ newTask: true })(req, res, next);
     } catch (error) {
       console.error(error);
 

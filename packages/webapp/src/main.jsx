@@ -49,7 +49,6 @@ import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
 import releaseBadgeSaga from './containers/ReleaseBadgeHandler/saga';
-import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
@@ -87,7 +86,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.8.1',
+    release: '3.9.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -126,7 +125,6 @@ sagaMiddleware.run(releaseBadgeSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
 sagaMiddleware.run(loginSaga);
-sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
 sagaMiddleware.run(alertSaga);

@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -41,14 +42,17 @@ import {
   deleteTask,
 } from '../saga';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
-function TaskReadOnly({ history, match, location }) {
-  const task_id = match.params.task_id;
+function TaskReadOnly() {
+  const location = useLocation();
+  const history = useHistory();
+  const { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
   const selectedTaskType = task?.taskType;
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const isIrrigationTaskWithExternalPrescription =
     isTaskType(selectedTaskType, 'IRRIGATION_TASK') &&
     task?.irrigation_task?.irrigation_prescription_external_id != null;
@@ -74,6 +78,7 @@ function TaskReadOnly({ history, match, location }) {
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
+  const language = getLanguageFromLocalStorage();
 
   const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
   const [isHarvest, setIsHarvest] = useState(undefined);
@@ -99,7 +104,8 @@ function TaskReadOnly({ history, match, location }) {
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (isTaskTypeCustom && !hasAnimals) {
-      dispatch(setFormData({ task_id, taskType: task.taskType }));
+      const duration = task.duration || undefined; // ensure duration is undefined instead of null
+      dispatch(setFormData({ ...task, duration }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {
       history.push(`/tasks/${task_id}/before_complete`, location?.state);
@@ -168,6 +174,7 @@ function TaskReadOnly({ history, match, location }) {
           onUpdateUserFarmWage={onUpdateUserFarmWage}
           onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           wage_at_moment={wageAtMoment}
+          language={language}
         />
       )}
     </>

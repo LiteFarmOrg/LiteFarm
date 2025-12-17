@@ -1,6 +1,7 @@
 import PureTaskDetails from '../../../components/Task/PureTaskDetails';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productsForTaskTypeSelector } from '../../productSlice';
@@ -13,7 +14,9 @@ import {
   useWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 
-function TaskDetails({ history, match, location }) {
+function TaskDetails() {
+  const location = useLocation();
+  const history = useHistory();
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 
@@ -25,7 +28,7 @@ function TaskDetails({ history, match, location }) {
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );

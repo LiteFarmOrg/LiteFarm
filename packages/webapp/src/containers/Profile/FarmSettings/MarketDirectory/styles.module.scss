@@ -1,0 +1,64 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '@assets/mixin.scss';
+
+.container {
+  display: flex;
+  padding: 32px 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+
+  @include xs-breakpoint {
+    padding: 32px 0;
+  }
+}
+
+.callout {
+  padding: 24px 16px;
+  border-radius: 8px;
+
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  background: var(--Box-bg);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  color: var(--Colors-Primary-Primary-teal-900);
+  font-size: 16px;
+  font-weight: 400;
+
+  .calloutTitle {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.formCard {
+  width: 100%;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
+
+  &.expanded {
+    border: 1px solid var(--Form-focus);
+  }
+}
+
+.expandableHeader {
+  padding-left: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}

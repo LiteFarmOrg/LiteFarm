@@ -27,6 +27,10 @@ import type {
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
 
+export interface BasicEnum {
+  id: number;
+  key: string;
+}
 export interface Animal {
   animal_use_relationships?: {
     animal_id: number;
@@ -121,42 +125,23 @@ export interface CustomAnimalType {
   count?: number;
 }
 
-export interface DefaultAnimalBreed {
-  id: number;
+export interface DefaultAnimalBreed extends BasicEnum {
   default_type_id: number;
-  key: string;
 }
 
-export interface DefaultAnimalType {
-  id: number;
-  key: string;
+export interface DefaultAnimalType extends BasicEnum {
   count?: number;
 }
 
-export interface AnimalSex {
-  id: number;
-  key: string;
-}
+export interface AnimalSex extends BasicEnum {}
 
-export interface AnimalIdentifierType {
-  id: number;
-  key: string;
-}
+export interface AnimalIdentifierType extends BasicEnum {}
 
-export interface AnimalIdentifierColor {
-  id: number;
-  key: string;
-}
+export interface AnimalIdentifierColor extends BasicEnum {}
 
-export interface AnimalMovementPurpose {
-  id: number;
-  key: string;
-}
+export interface AnimalMovementPurpose extends BasicEnum {}
 
-export interface AnimalOrigin {
-  id: number;
-  key: string;
-}
+export interface AnimalOrigin extends BasicEnum {}
 
 export interface AnimalUse {
   default_type_id: number | null;
@@ -176,32 +161,23 @@ export type AnimalRemovalReason = {
   id: number;
 };
 
-export interface SoilAmendmentMethod {
-  id: number;
-  key: string;
-}
+export interface SoilAmendmentMethod extends BasicEnum {}
 
-export interface SoilAmendmentPurpose {
-  id: number;
-  key: string;
-}
+export interface SoilAmendmentPurpose extends BasicEnum {}
+export interface SoilAmendmentFertiliserType extends BasicEnum {}
 
-export interface SoilAmendmentFertiliserType {
-  id: number;
-  key: string;
-}
-
-interface Product {
+export interface Product {
   product_id: number | string;
   name: string;
   product_translation_key?: string;
   supplier?: string;
-  type?:
+  type:
     | typeof TASK_TYPES.SOIL_AMENDMENT
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;
   farm_id?: string;
   on_permitted_substances_list?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  removed: boolean;
 }
 
 export enum ElementalUnit {
@@ -328,6 +304,16 @@ export interface SensorReadings {
   unit: SensorReadingTypeUnits;
   readings: SensorDatapoint[];
 }
+
+export interface WeatherData {
+  humidity: number;
+  icon: string;
+  date: number;
+  temp: number;
+  wind: number;
+  city: string;
+  measurement: string;
+}
 export interface IrrigationPrescription {
   id: number;
   location_id: string;
@@ -388,3 +374,42 @@ export type IrrigationPrescriptionDetails = {
         uriData?: never;
       };
 };
+
+export interface MarketDirectoryInfo {
+  id: string;
+  farm_name: string;
+  about?: string;
+  logo?: string;
+  contact_first_name: string;
+  contact_last_name?: string;
+  contact_email: string;
+  address: string;
+  country_code?: number;
+  phone_number?: string;
+  email?: string;
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+  market_product_categories: {
+    market_directory_id?: string; //response only
+    market_product_category_id: number;
+  }[];
+  consented_to_share?: boolean;
+  partner_permissions?: { market_directory_partner_id: MarketDirectoryPartner['id'] }[];
+}
+
+export interface MarketProductCategory extends BasicEnum {}
+
+export interface MarketDirectoryPartner extends BasicEnum {}
+
+export interface SupportTicketData {
+  file: File;
+  data: {
+    support_type: 'Request information' | 'Report a bug' | 'Request a feature' | 'Other';
+    contact_method: 'email' | 'whatsapp';
+    message: string;
+    email: string;
+    attachments: {};
+  };
+}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2024-25 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,63 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import Drawer from '../../../components/Drawer';
-import FilterButton from '../../../components/Filter/FilterButton';
-import Button from '../../../components/Form/Button';
-import AnimalsFilterContent from '../../Filter/Animals/';
-import { ReduxFilterEntity } from '../../Filter/types';
-import { AnimalsFilterKeys } from '../../Filter/Animals/types';
 import { setAnimalsFilter, animalsFilterSelector, initialAnimalsFilter } from '../../filterSlice';
+import FilterDrawerContainer from '../../Filter/FilterDrawerContainer';
+import AnimalsFilterContent from '../../Filter/Animals/';
+import type { AnimalsFilterKeys } from '../../Filter/Animals/types';
 
 const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
   const { t } = useTranslation();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-  const [tempAnimalsFilter, setTempAnimalsFilter] =
-    useState<ReduxFilterEntity<AnimalsFilterKeys>>(initialAnimalsFilter);
-
-  const animalsFilter = useSelector(animalsFilterSelector);
-  const dispatch = useDispatch();
-
-  const handleApply = () => {
-    dispatch(setAnimalsFilter(tempAnimalsFilter));
-    setIsFilterOpen(false);
-    setIsDirty(false);
-  };
-
-  useEffect(() => {
-    setTempAnimalsFilter(animalsFilter);
-  }, [animalsFilter]);
 
   return (
-    <div className={styles.filterButton}>
-      <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
-      <Drawer
-        isOpen={isFilterOpen}
-        title={t('ANIMAL.FILTER.TITLE')}
-        onClose={() => setIsFilterOpen(false)}
-        buttonGroup={
-          <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>
-            {t('common:APPLY')}
-          </Button>
-        }
-        classes={{
-          drawerBackdrop: styles.drawerBackdrop,
-        }}
-      >
-        <AnimalsFilterContent
-          animalsFilter={animalsFilter}
-          onChange={(filterKey, filterState) => {
-            !isDirty && setIsDirty(true);
-            setTempAnimalsFilter({ ...tempAnimalsFilter, [filterKey as string]: filterState });
-          }}
-        />
-      </Drawer>
-    </div>
+    <FilterDrawerContainer<AnimalsFilterKeys>
+      isFilterActive={isFilterActive}
+      filterSelector={animalsFilterSelector}
+      setFilterAction={setAnimalsFilter}
+      initialFilter={initialAnimalsFilter}
+      drawerTitle={t('ANIMAL.FILTER.TITLE')}
+    >
+      {({ filter, onChange }) => (
+        <AnimalsFilterContent animalsFilter={filter} onChange={onChange} />
+      )}
+    </FilterDrawerContainer>
   );
 };
 

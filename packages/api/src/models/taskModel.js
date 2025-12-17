@@ -101,6 +101,33 @@ class TaskModel extends BaseModel {
     };
   }
 
+  static get modifiers() {
+    return {
+      usingProduct(builder, product_id) {
+        const taskModelRelationsToProducts = [
+          'pest_control_task',
+          'cleaning_task',
+          'soil_amendment_task_products',
+        ];
+
+        builder.where((subBuilder) => {
+          taskModelRelationsToProducts.forEach((relation) => {
+            subBuilder.orWhereExists(
+              builder.modelClass().relatedQuery(relation).where('product_id', product_id),
+            );
+          });
+        });
+      },
+      onFarmByLocationTasks(builder, farm_id) {
+        builder
+          .joinRelated('locations')
+          .where('locations.farm_id', farm_id)
+          .distinct('task.task_id')
+          .select('task.*');
+      },
+    };
+  }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
@@ -544,6 +571,20 @@ class TaskModel extends BaseModel {
       .select('task_id')
       .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
       .whereIn('task_id', taskIds);
+  }
+
+  /**
+   * Gets all location_ids for a task, or an empty array if none found
+   *
+   * @param {number|string} taskId - The id of the task
+   * @returns {Promise<string[]>} - Returns an array of location ids associated with the task
+   */
+  static async getTaskLocationIds(taskId) {
+    const { locations } = await TaskModel.query()
+      .findById(taskId)
+      .withGraphFetched('locations(selectLocationId, filterDeleted)');
+
+    return locations?.map((location) => location.location_id) || [];
   }
 
   /**

@@ -129,13 +129,26 @@
   padding: 0 24px;
 }
 
-.close {
-  width: 36px;
-  height: 36px;
-
+.closeButton {
   svg {
     width: 28px;
     height: 28px;
     color: var(--grey600);
+  }
+
+  &.iconButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  &.textButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    span {
+      color: var(--Colors-Accent---singles-Blue-dark);
+      font-size: 16px;
+    }
   }
 }

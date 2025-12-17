@@ -22,25 +22,25 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
   }),
 );
 import mocks from './mock.factories.js';
-import locationModel from '../src/models/locationModel';
 
 describe('Location organic history tests', () => {
-  function postRequest(data, farm_id, user_id, callback) {
-    chai
+  async function postRequest(data, farm_id, user_id, callback) {
+    return chai
       .request(server)
       .post(`/location/organic_history`)
       .set('Content-Type', 'application/json')
       .set('farm_id', farm_id)
       .set('user_id', user_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
   function fakeUserFarm(role = 1) {
@@ -64,43 +64,40 @@ describe('Location organic history tests', () => {
     [location] = await mocks.locationFactory({ promisedFarm: [farm] });
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('POST to create a new organic history entry', () => {
     ['field', 'garden', 'greenhouse'].map((type) => {
-      test(`works for ${type}`, async (done) => {
-        const something = await mocks[`${type}Factory`]({
+      test(`works for ${type}`, async () => {
+        const _something = await mocks[`${type}Factory`]({
           promisedLocation: [location],
         });
         const organicHistoryReqBody = mocks.fakeOrganicHistory({
           location_id: location.location_id,
         });
-        postRequest(organicHistoryReqBody, farm.farm_id, owner.user_id, async (err, res) => {
+        await postRequest(organicHistoryReqBody, farm.farm_id, owner.user_id, async (_err, res) => {
           expect(res.status).toBe(201);
           const organicHistory = await knex('organic_history')
             .where({ location_id: location.location_id })
             .first();
           expect(organicHistory.organic_status).toBe(organicHistoryReqBody.organic_status);
-          done();
         });
       });
     });
 
     ['buffer_zone', 'gate', 'barn'].map((type) => {
-      test(`works for ${type}`, async (done) => {
-        const something = await mocks[`${type}Factory`]({
+      test(`works for ${type}`, async () => {
+        const _something = await mocks[`${type}Factory`]({
           promisedLocation: [location],
         });
         const organicHistoryReqBody = mocks.fakeOrganicHistory({
           location_id: location.location_id,
         });
-        postRequest(organicHistoryReqBody, farm.farm_id, owner.user_id, async (err, res) => {
+        await postRequest(organicHistoryReqBody, farm.farm_id, owner.user_id, async (_err, res) => {
           expect(res.status).toBe(400);
-          done();
         });
       });
     });

@@ -69,6 +69,7 @@ async function tableCleanup(knex) {
     DELETE FROM "soil_amendment_product";
     DELETE FROM "soil_amendment_fertiliser_type";
     DELETE FROM "soil_sample_task";
+    DELETE FROM "product_farm";
     DELETE FROM "product";
     DELETE FROM "management_tasks";
     DELETE FROM "plant_task";
@@ -145,6 +146,13 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_removal_reason";
     DELETE FROM "farm_addon";
     DELETE FROM "addon_partner";
+    DELETE FROM "market_directory_partner_permissions";
+    DELETE FROM "market_directory_info_market_product_category";
+    DELETE FROM "market_directory_info";
+    DELETE FROM "market_product_category";
+    DELETE FROM "market_directory_partner_country";
+    DELETE FROM "market_directory_partner_auth";
+    DELETE FROM "market_directory_partner";
     DELETE FROM "location";
     DELETE FROM "userFarm";
     DELETE FROM "farm";

@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types"
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"
@@ -129,6 +128,24 @@
     "SUCCESS_PATCH": "Successfully updated",
     "SUCCESS_POST": "Successfully saved"
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Failed to save Market Directory Info",
+      "UPDATE": "Failed to update Market Directory Info"
+    },
+    "SUCCESS": {
+      "SAVE": "Successfully saved Market Directory Info",
+      "UPDATE": "Successfully updated Market Directory Info",
+      "UPDATE_LIVE_DATA": "Successfully updated Market Directory Info. Your data will be updated within 24 hours."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Failed to save Market Directory Consent",
+    "SUCCESS": {
+      "CONSENT": "Successfully saved Market Directory Consent",
+      "PARTNER": "Successfully saved Market Directory Consent. Your data will be updated within 24 hours."
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "Failed to create certification.",
@@ -146,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Failed to create product",
+      "REMOVE": "Failed to remove product",
       "UPDATE": "Failed to update product"
     },
     "SUCCESS": {
       "CREATE": "Successfully created product",
+      "REMOVE": "Successfully removed product",
       "UPDATE": "Successfully updated product"
     }
   },

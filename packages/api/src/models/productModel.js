@@ -15,6 +15,7 @@
 
 import { Model } from 'objection';
 import baseModel from './baseModel.js';
+import ProductFarmModel from './productFarmModel.js';
 import soilAmendmentProductModel from './soilAmendmentProductModel.js';
 
 class ProductModel extends baseModel {
@@ -31,29 +32,45 @@ class ProductModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'farm_id', 'type'],
+      required: ['name', 'type'],
       properties: {
         product_id: { type: 'integer' },
         name: { type: 'string' },
         product_translation_key: { type: ['string', 'null'] },
-        supplier: { type: ['string', 'null'], maxLength: 255 },
-        on_permitted_substances_list: {
-          type: ['string', 'null'],
-          enum: ['YES', 'NO', 'NOT_SURE', null],
-        },
         type: {
           type: 'string',
           enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
         },
-        farm_id: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
 
+  static get modifiers() {
+    return {
+      flattenProductFarm(builder) {
+        builder.select(
+          'product.*',
+          'product_farm.supplier',
+          'product_farm.on_permitted_substances_list',
+          'product_farm.farm_id',
+          'product_farm.removed',
+        );
+      },
+    };
+  }
+
   static get relationMappings() {
     return {
+      product_farm: {
+        relation: Model.HasManyRelation,
+        modelClass: ProductFarmModel,
+        join: {
+          from: 'product.product_id',
+          to: 'product_farm.product_id',
+        },
+      },
       soil_amendment_product: {
         relation: Model.HasOneRelation,
         modelClass: soilAmendmentProductModel,

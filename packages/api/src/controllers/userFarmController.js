@@ -88,7 +88,8 @@ const userFarmController = {
             .where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
+            .modify('withCountryCode');
         }
         res.status(200).send(rows);
       } catch (error) {

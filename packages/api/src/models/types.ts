@@ -631,3 +631,54 @@ export type File = {
 export interface DocumentWithFiles extends Document {
   files?: File[];
 }
+
+export type MarketDirectoryInfo = {
+  id: string;
+  farm_id: Farm['farm_id'];
+  farm_name: string;
+  logo?: string | null;
+  about?: string | null;
+  contact_first_name: string;
+  contact_last_name?: string | null;
+  contact_email: string;
+  email?: string | null;
+  country_code?: number | null;
+  phone_number?: string | null;
+  address: string;
+  website?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  x?: string | null;
+  consented_to_share?: boolean;
+};
+
+export type MarketProductCategory = {
+  id: number;
+  key: string;
+};
+
+export type MarketDirectoryInfoMarketProductCategory = {
+  market_directory_info_id: MarketDirectoryInfo['id'];
+  market_product_category_id: MarketProductCategory['id'];
+};
+
+export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
+  market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
+}
+export interface MarketDirectoryPartner {
+  id: number;
+  key: string;
+}
+
+export interface MarketDirectoryPartnerAuth {
+  market_directory_partner_id: number;
+  client_id: string;
+  keycloak_url: string;
+  keycloak_realm: string;
+  webhook_endpoint?: string;
+}
+
+export interface MarketDirectoryPartnerPermissions extends BaseProperties {
+  market_directory_info_id: string;
+  market_directory_partner_id: number;
+}

@@ -50,6 +50,13 @@ export const fakeCompletionData = {
   completion_notes: faker.lorem.sentence(),
 };
 
+export const generateFakeCompletionData = () => ({
+  complete_date: faker.date.recent().toISOString().split('T')[0],
+  duration: Math.floor(Math.random() * 12 * 60) + 15,
+  happiness: Math.floor(Math.random() * 5) + 1,
+  completion_notes: faker.lorem.sentence(),
+});
+
 export const CROP_FAILURE = 'CROP_FAILURE';
 export const sampleNote = 'This is a sample note';
 export const abandonTaskBody = {
@@ -257,6 +264,46 @@ export const irrigationTaskGenerator = async ({ farm, user, field, irrigation })
   return { task, irrigationTask };
 };
 
+export const taskUsingProductGenerator = async ({ farm, user, field, taskType, product }) => {
+  const productTaskTypeNames = {
+    pest_control_task: 'Pest Control',
+    soil_amendment_task: 'Soil Amendment',
+    cleaning_task: 'Cleaning',
+  };
+
+  const [taskTypeRecord] = await mocks.task_typeFactory(
+    { promisedFarm: Promise.resolve([farm]) },
+    {
+      farm_id: null,
+      task_name: productTaskTypeNames[taskType],
+      task_translation_key: taskType.toUpperCase(),
+    },
+  );
+
+  // Insert the main task record + location_tasks record
+  const taskRecord = await taskWithLocationFactory({
+    userId: user.user_id,
+    locationId: field.location_id,
+    taskTypeId: taskTypeRecord.task_type_id,
+    farmId: farm.farm_id,
+  });
+
+  // Insert type specific record (soil_amendment_task, pest_control_task)
+  await mocks[`${taskType}Factory`]({
+    promisedTask: Promise.resolve([taskRecord]),
+    promisedProduct: Promise.resolve([product]),
+  });
+
+  if (taskType === 'soil_amendment_task') {
+    // Insert join table record
+    await knex('soil_amendment_task_products')
+      .insert({ task_id: taskRecord.task_id, product_id: product.product_id })
+      .returning('*');
+  }
+
+  return { task: taskRecord };
+};
+
 export const generateUserFarms = async (number) => {
   const userFarms = [];
   const [user] = await mocks.usersFactory();
@@ -315,4 +362,34 @@ export const taskWithLocationFactory = async ({ userId, locationId, taskTypeId, 
   });
 
   return task;
+};
+
+export const generateHarvestUseTypes = async (farmId, count = 3) => {
+  const promisedHarvestUseTypes = await Promise.all(
+    [...Array(count)].map(async () =>
+      mocks.harvest_use_typeFactory({
+        promisedFarm: { farm_id: farmId },
+      }),
+    ),
+  );
+
+  return promisedHarvestUseTypes.map(([useType]) => ({
+    harvest_use_type_id: useType.harvest_use_type_id,
+  }));
+};
+
+export const generateFakeHarvestTaskCompletionData = (taskId, harvestUseTypes) => {
+  const harvestUses = [];
+  let actualQuantity = 0;
+
+  harvestUseTypes.forEach(({ harvest_use_type_id }) => {
+    const harvestUse = mocks.fakeHarvestUse({
+      task_id: taskId,
+      harvest_use_type_id,
+    });
+    harvestUses.push(harvestUse);
+    actualQuantity += harvestUse.quantity;
+  });
+
+  return { harvestUses, actualQuantity };
 };

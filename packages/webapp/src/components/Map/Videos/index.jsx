@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
 import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
@@ -7,7 +8,9 @@ import TitleLayout from '../../Layout/TitleLayout';
 import { useTranslation } from 'react-i18next';
 const VIDEO_START_TIME = '#t=0.001';
 
-function PureVideoView({ history }) {
+// TODO: Move to containers folder
+function PureVideoView() {
+  const history = useHistory();
   const { t } = useTranslation();
   const areaVideoRef = useRef(null);
   const lineVideoRef = useRef(null);

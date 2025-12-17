@@ -55,6 +55,15 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
   }
 }
 
+/**
+ * Action creator – mark one or many spotlights as shown
+ * Accepts a single string OR an array of strings
+ *
+ * @type {import('redux-toolkit').ActionCreatorWithPayload<
+ *   string | string[],
+ *   'setSpotlightToShownSaga'
+ * >}
+ */
 export const setSpotlightToShown = createAction(`setSpotlightToShownSaga`);
 
 export function* setSpotlightToShownSaga({ payload: spotlights }) {

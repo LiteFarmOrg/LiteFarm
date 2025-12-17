@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
+import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
@@ -62,8 +64,10 @@ import {
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
 
-export default function Map({ history, isCompactSideMenu }) {
+export default function Map({ isCompactSideMenu }) {
+  const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
+  useGoogleMapsLoader(['drawing', 'geometry']);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
@@ -465,11 +469,6 @@ export default function Map({ history, isCompactSideMenu }) {
             <GoogleMap
               data-cy="google-map"
               style={{ flexGrow: 1 }}
-              bootstrapURLKeys={{
-                key: GMAPS_API_KEY,
-                libraries: ['drawing', 'geometry', 'places'],
-                language: localStorage.getItem('litefarm_lang'),
-              }}
               center={grid_points}
               defaultZoom={DEFAULT_ZOOM}
               yesIWantToUseGoogleMapApiInternals

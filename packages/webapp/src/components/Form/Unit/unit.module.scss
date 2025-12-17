@@ -41,8 +41,8 @@
   margin: 0;
 }
 
-.input ::placeholder {
-  color: var(--grey500);
+.input::placeholder {
+  color: var(--Colors-Neutral-Neutral-400);
 }
 
 .input:disabled {
@@ -89,12 +89,6 @@
 
 .input:focus:enabled {
   outline: none;
-}
-
-.labelContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
 }
 
 .hiddenInput {

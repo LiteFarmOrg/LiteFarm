@@ -13,19 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextButton from '../../components/Form/Button/TextButton';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
+import { useNavMenuControls } from '../../contexts/appContext';
 
-export default function FeedbackSurvey({
-  isFeedbackSurveyOpen: isSurveyOpen,
-  setFeedbackSurveyOpen: setIsSurveyOpen,
-}) {
+export default function FeedbackSurvey() {
   const { t } = useTranslation();
+  const {
+    feedback: { isFeedbackSurveyOpen: isSurveyOpen, setFeedbackSurveyOpen: setIsSurveyOpen },
+  } = useNavMenuControls();
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
 
   const title = (

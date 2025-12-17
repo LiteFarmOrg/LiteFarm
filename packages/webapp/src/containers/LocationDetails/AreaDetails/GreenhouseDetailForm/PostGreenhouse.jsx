@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import PureGreenhouse from '../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 import { postGreenhouseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,9 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PostGreenhouseDetailForm({ history, match }) {
+function PostGreenhouseDetailForm() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);

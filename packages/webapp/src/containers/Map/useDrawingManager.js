@@ -123,7 +123,9 @@ export default function useDrawingManager() {
       });
       bounds = getBounds(maps, [overlayData.point]);
     }
-    map.fitBounds(bounds);
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
 
     return () => {
       if (!onSteppedBack) return;

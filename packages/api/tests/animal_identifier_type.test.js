@@ -47,22 +47,20 @@ async function returnUserFarms(role) {
 
 describe('Animal identifier type tests', () => {
   describe('GET /animal_identifier_types', () => {
-    let farm;
-    let newOwner;
+    let _farm;
+    let _newOwner;
 
     beforeEach(async () => {
-      [farm] = await mocks.farmFactory();
-      [newOwner] = await mocks.usersFactory();
+      [_farm] = await mocks.farmFactory();
+      [_newOwner] = await mocks.usersFactory();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await tableCleanup(knex);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await knex.destroy();
-      done();
     });
 
     test('should return all animal identifiers for all users', async () => {

@@ -37,23 +37,21 @@
     max-width: 100%;
   }
 
-  @include sm-breakpoint {
-    .containerRoot {
-      left: calc((100vw - var(--global-side-menu-width)) / 2 + var(--global-side-menu-width));
-    }
-    .containerRootWithCompactMenu {
+  .containerRoot {
+    align-items: center;
+    left: calc((100vw - var(--global-side-menu-width)) / 2 + var(--global-side-menu-width));
+
+    &.compactContainerRoot {
       left: calc((100vw - var(--global-compact-side-menu-width)) / 2 + var(--global-compact-side-menu-width));
-    }
+    } 
   }
 
   .root {
     max-width: calc(1024px - 48px);
+    width: calc((100vw - var(--global-side-menu-width)) - 48px);
 
-    &.isCompact {
+    &.compactRoot {
       width: calc((100vw - var(--global-compact-side-menu-width)) - 48px);
-    }
-    &.isExpanded {
-      width: calc((100vw - var(--global-side-menu-width)) - 48px);
     }
   }
 }

@@ -11,6 +11,7 @@ const addManyNotifications = (state, { payload: notifications }) => {
 
 const notificationAdapter = createEntityAdapter({
   selectId: (notification) => notification.notification_id,
+  sortComparer: (a, b) => new Date(b.created_at) - new Date(a.created_at),
 });
 
 const notificationSlice = createSlice({
@@ -67,6 +68,25 @@ export const notificationsSelector = createSelector(
         ...notification.variables,
       };
     });
+  },
+);
+
+export const latestNotificationsByEntitySelector = createSelector(
+  notificationSelectors.selectAll,
+  (notifications) => {
+    const latest = [];
+    const entityIdSet = new Set();
+
+    for (let notification of notifications) {
+      const entityId = notification.ref?.entity?.id;
+      if (entityId != null) {
+        if (entityIdSet.has(entityId)) continue;
+        entityIdSet.add(Number(entityId));
+      }
+      latest.push(notification);
+    }
+
+    return latest;
   },
 );
 

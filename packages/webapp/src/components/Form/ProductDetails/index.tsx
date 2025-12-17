@@ -1,0 +1,293 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { Controller, useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { Collapse } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
+import InputBaseLabel from '../InputBase/InputBaseLabel';
+import Input, { getInputErrors } from '../Input';
+import { hookFormMaxCharsValidation } from '../hookformValidationUtils';
+import TextButton from '../Button/TextButton';
+import RadioGroup from '../RadioGroup';
+import CompositionInputs from '../CompositionInputs';
+import ReactSelect from '../ReactSelect';
+import {
+  type SoilAmendmentProductFormCommonFields,
+  PRODUCT_FIELD_NAMES,
+  Nutrients,
+} from '../../Task/AddSoilAmendmentProducts/types';
+import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
+import useInputsInfo from './useInputsInfo';
+import { CANADA } from '../../Task/AddProduct/constants';
+import { roundToTwoDecimal } from '../../../util';
+import { subtractFrom100 } from './utils';
+import useExpandable from '../../Expandable/useExpandableItem';
+import styles from './styles.module.scss';
+
+const {
+  FERTILISER_TYPE_ID,
+  MOISTURE_CONTENT,
+  DRY_MATTER_CONTENT,
+  SUPPLIER,
+  PERMITTED,
+  COMPOSITION,
+  ELEMENTAL_UNIT,
+  AMMONIUM,
+  NITRATE,
+  MOLECULAR_COMPOUNDS_UNIT,
+} = PRODUCT_FIELD_NAMES;
+
+const elementalUnitOptions = [
+  { label: '%', value: ElementalUnit.PERCENT },
+  { label: ElementalUnit.RATIO, value: ElementalUnit.RATIO },
+  { label: ElementalUnit.PPM, value: ElementalUnit.PPM },
+  { label: ElementalUnit['MG/KG'], value: ElementalUnit['MG/KG'] },
+];
+
+const molecularCompoundsUnitOptions = [
+  { label: MolecularCompoundsUnit.PPM, value: MolecularCompoundsUnit.PPM },
+  { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
+];
+
+export type ProductDetailsProps = {
+  productId?: number | string;
+  isReadOnly: boolean;
+  farm: { farm_id: string; interested: boolean; country_id: number };
+  fertiliserTypeOptions: { label: string; value: number }[];
+};
+
+const MG_KG_REACT_SELECT_WIDTH = 76;
+
+const ProductDetails = ({
+  productId,
+  isReadOnly,
+  farm: { country_id, interested },
+  fertiliserTypeOptions,
+}: ProductDetailsProps) => {
+  const { t } = useTranslation();
+
+  const inCanada = country_id === CANADA;
+
+  const additionalNutrientsId = `additional-nutrients-${productId}`;
+
+  const {
+    control,
+    watch,
+    setValue,
+    register,
+    trigger,
+    formState: { errors },
+  } = useFormContext<SoilAmendmentProductFormCommonFields>();
+
+  const [
+    moistureContent,
+    dryMatterContent,
+    ammonium,
+    nitrate,
+    fertiliserType,
+    molecularCompoundsUnit,
+  ] = watch([
+    MOISTURE_CONTENT,
+    DRY_MATTER_CONTENT,
+    AMMONIUM,
+    NITRATE,
+    FERTILISER_TYPE_ID,
+    MOLECULAR_COMPOUNDS_UNIT,
+  ]);
+
+  const {
+    expandedIds: expandedAdditionalNutrientsIds,
+    toggleExpanded: toggleAdditionalNutrientsExpanded,
+  } = useExpandable();
+
+  const inputsInfo = useInputsInfo();
+
+  const isAdditionalNutrientsExpanded =
+    expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
+
+  const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
+    const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
+    const inputtedFieldValue =
+      typeof value === 'number' ? Math.min(100, roundToTwoDecimal(value)) : undefined;
+    const theOtherFieldValue =
+      typeof inputtedFieldValue === 'number' ? subtractFrom100(inputtedFieldValue) : undefined;
+
+    setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
+    setValue(theOtherField, theOtherFieldValue);
+  };
+
+  const renderCompositionInputsWithController = ({
+    mainLabel = '',
+    inputsInfo,
+    shouldShowErrorMessage = false,
+  }: {
+    mainLabel?: string;
+    inputsInfo: { name: string; label: string }[];
+    shouldShowErrorMessage: boolean;
+  }) => {
+    return (
+      <Controller
+        name={COMPOSITION}
+        control={control}
+        rules={{
+          validate: (
+            value: SoilAmendmentProductFormCommonFields['composition'],
+          ): boolean | string => {
+            if (!value || value[ELEMENTAL_UNIT] !== ElementalUnit.PERCENT) {
+              return true;
+            }
+            const total = Object.keys(Nutrients).reduce((acc: number, key) => {
+              const valueKey = Nutrients[key as keyof typeof Nutrients];
+              return acc + (value[valueKey] || 0);
+            }, 0);
+            return total <= 100 || t('ADD_PRODUCT.COMPOSITION_ERROR');
+          },
+        }}
+        render={({ field, fieldState }) => {
+          return (
+            <CompositionInputs
+              mainLabel={mainLabel}
+              unitOptions={elementalUnitOptions}
+              inputsInfo={inputsInfo}
+              disabled={isReadOnly}
+              error={fieldState.error?.message}
+              shouldShowErrorMessage={shouldShowErrorMessage}
+              values={field.value || {}}
+              onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
+              onBlur={field.onBlur}
+              trigger={trigger}
+              unitFieldName={ELEMENTAL_UNIT}
+              reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
+            />
+          );
+        }}
+      />
+    );
+  };
+
+  const handleMolecularCompoundsChange = (name: string, value: string | number | null): void => {
+    let newValue: MolecularCompoundsUnit | number | undefined;
+    if (value === MolecularCompoundsUnit.PPM || value === MolecularCompoundsUnit['MG/KG']) {
+      newValue = value as MolecularCompoundsUnit;
+    } else {
+      newValue = value ? +value : undefined;
+    }
+
+    setValue(name as typeof AMMONIUM | typeof NITRATE | typeof MOLECULAR_COMPOUNDS_UNIT, newValue);
+  };
+
+  return (
+    <div className={clsx(styles.productDetails)}>
+      <Input
+        name={SUPPLIER}
+        label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
+        hookFormRegister={register(SUPPLIER, {
+          required: interested,
+          maxLength: hookFormMaxCharsValidation(255),
+          setValueAs: (value) => value.trim(),
+        })}
+        disabled={isReadOnly}
+        hasLeaf={true}
+        errors={getInputErrors(errors, SUPPLIER)}
+        optional={!interested}
+      />
+      {interested && inCanada && (
+        <div className={styles.permitedSubstance}>
+          <InputBaseLabel hasLeaf label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')} />
+          {/* @ts-expect-error */}
+          <RadioGroup
+            hookFormControl={control}
+            name={PERMITTED}
+            required={true}
+            disabled={isReadOnly}
+            showNotSure
+          />
+        </div>
+      )}
+
+      <ReactSelect
+        value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
+        isDisabled={isReadOnly}
+        label={t('ADD_PRODUCT.FERTILISER_TYPE')}
+        options={fertiliserTypeOptions}
+        onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
+        optional
+      />
+
+      <CompositionInputs
+        disabled={isReadOnly}
+        onChange={(fieldName: string, value: string | number | null): void => {
+          handleMoistureDryMatterContentChange(
+            fieldName,
+            value === null || value === undefined ? undefined : +value,
+          );
+        }}
+        inputsInfo={inputsInfo.moistureDrymatterContents}
+        values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
+        unit="%"
+      />
+
+      {renderCompositionInputsWithController({
+        mainLabel: t('ADD_PRODUCT.COMPOSITION'),
+        inputsInfo: inputsInfo.npk,
+        shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
+      })}
+
+      <div className={clsx(styles.additionalNutrients)}>
+        <TextButton
+          onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
+          className={clsx(styles.additionalNutrientsTitle)}
+        >
+          <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
+          <KeyboardArrowDownIcon
+            className={clsx(styles.expandIcon, isAdditionalNutrientsExpanded && styles.expanded)}
+          />
+        </TextButton>
+
+        <Collapse
+          id={additionalNutrientsId}
+          in={isAdditionalNutrientsExpanded}
+          timeout="auto"
+          unmountOnExit
+        >
+          <div className={styles.additionalNutrientsBody}>
+            {renderCompositionInputsWithController({
+              inputsInfo: inputsInfo.additionalNutrients,
+              shouldShowErrorMessage: true,
+            })}
+
+            <CompositionInputs
+              disabled={isReadOnly}
+              onChange={handleMolecularCompoundsChange}
+              inputsInfo={inputsInfo.ammoniumNitrate}
+              values={{
+                [AMMONIUM]: ammonium,
+                [NITRATE]: nitrate,
+                [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
+              }}
+              unitOptions={molecularCompoundsUnitOptions}
+              unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
+              reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
+            />
+          </div>
+        </Collapse>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetails;

@@ -14,56 +14,59 @@
  */
 
 import { Suspense, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 
 import Navigation from './containers/Navigation';
-import history from './history';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
+import { NavMenuControlsContext } from './contexts/appContext';
 
 function App() {
+  const location = useLocation();
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
-  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
+  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
 
   return (
     <div className={clsx(styles.container)}>
       <Suspense fallback={null}>
-        <Navigation
-          history={history}
-          isCompactSideMenu={isCompactSideMenu}
-          setIsCompactSideMenu={setIsCompactSideMenu}
-          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
         >
-          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-            <OfflineDetector />
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              classes={{
-                root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
-                containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
-              }}
-              // https://notistack.com/features/customization#custom-component
-              Components={{ common: NotistackSnackbar }}
-            >
-              <Routes
-                isCompactSideMenu={isCompactSideMenu}
-                isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-                setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-              />
-            </SnackbarProvider>
-          </div>
-        </Navigation>
+          <Navigation
+            isCompactSideMenu={isCompactSideMenu}
+            setIsCompactSideMenu={setIsCompactSideMenu}
+          >
+            <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+              <OfflineDetector />
+              <SnackbarProvider
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                classes={{
+                  root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                  containerRoot: clsx(
+                    styles.containerRoot,
+                    isCompactSideMenu && styles.compactContainerRoot,
+                  ),
+                }}
+                // https://notistack.com/features/customization#custom-component
+                Components={{ common: NotistackSnackbar }}
+              >
+                <Routes isCompactSideMenu={isCompactSideMenu} />
+              </SnackbarProvider>
+            </div>
+          </Navigation>
+        </NavMenuControlsContext.Provider>
       </Suspense>
     </div>
   );

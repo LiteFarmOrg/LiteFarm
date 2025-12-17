@@ -17,6 +17,7 @@ import knex from '../../src/util/knex.js';
 import mocks from '../mock.factories.js';
 import LocationModel from '../../src/models/locationModel.js';
 import { Farm, Location, User } from '../../src/models/types.js';
+import { HeadersParams } from '../types.js';
 
 /**
  * Generates a fake user farm object with the specified role.
@@ -40,6 +41,15 @@ export async function returnUserFarms(role: number): Promise<{ mainFarm: Farm; u
     fakeUserFarm(role),
   );
   return { mainFarm, user };
+}
+
+/**
+ * Creates a farm and a user, associates them using the given role,
+ * and returns only their IDs for use in requests or headers.
+ */
+export async function createUserFarmIds(role: number): Promise<HeadersParams> {
+  const { mainFarm, user } = await returnUserFarms(role);
+  return { farm_id: mainFarm.farm_id, user_id: user.user_id };
 }
 
 /**

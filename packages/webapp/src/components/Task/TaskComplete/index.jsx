@@ -18,6 +18,43 @@ import { isNotInFuture } from '../../Form/Input/utils';
 import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
 import { ORIGINAL_DUE_DATE, TODAY_DUE_DATE, ANOTHER_DUE_DATE } from '../AbandonTask/constants';
 import { TASK_TYPE_PRODUCT_MAP } from '../../../containers/Task/constants';
+import { isSameDay } from '../../../util/date-migrate-TS';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
+
+export const DURATION = 'duration';
+export const COMPLETION_NOTES = 'completion_notes';
+export const HAPPINESS = 'happiness';
+export const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
+export const DATE_CHOICE = 'date_choice';
+export const ANOTHER_DATE = 'date_another';
+
+const formatDefaultValues = (persistedFormData, dueDateDisabled) => {
+  if (persistedFormData[DATE_CHOICE]) {
+    return persistedFormData;
+  }
+
+  const completeDate = persistedFormData?.complete_date;
+  let dateChoice;
+  let anotherDate = '';
+
+  if (!completeDate) {
+    dateChoice = dueDateDisabled ? TODAY_DUE_DATE : ORIGINAL_DUE_DATE;
+  } else if (isSameDay(new Date(completeDate), new Date())) {
+    dateChoice = TODAY_DUE_DATE;
+  } else if (completeDate === persistedFormData.due_date) {
+    dateChoice = ORIGINAL_DUE_DATE;
+  } else {
+    dateChoice = ANOTHER_DUE_DATE;
+    anotherDate = getLocalDateInYYYYDDMM(new Date(completeDate));
+  }
+
+  return {
+    ...persistedFormData,
+    [DATE_CHOICE]: dateChoice,
+    [ANOTHER_DATE]: anotherDate,
+    [PREFER_NOT_TO_SAY]: completeDate && !persistedFormData?.happiness,
+  };
+};
 
 export default function PureTaskComplete({
   onSave,
@@ -25,13 +62,6 @@ export default function PureTaskComplete({
   persistedFormData,
   useHookFormPersist,
 }) {
-  const DURATION = 'duration';
-  const COMPLETION_NOTES = 'completion_notes';
-  const HAPPINESS = 'happiness';
-  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
-  const DATE_CHOICE = 'date_choice';
-  const ANOTHER_DATE = 'date_another';
-
   const { t } = useTranslation();
 
   // Prepare dates
@@ -50,11 +80,7 @@ export default function PureTaskComplete({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: {
-      [DATE_CHOICE]: dueDateDisabled ? TODAY_DUE_DATE : ORIGINAL_DUE_DATE,
-      [ANOTHER_DATE]: '',
-      ...persistedFormData,
-    },
+    defaultValues: formatDefaultValues(persistedFormData, dueDateDisabled),
   });
 
   const date_choice = watch(DATE_CHOICE); // Radiobox Group choice
@@ -71,7 +97,7 @@ export default function PureTaskComplete({
 
   const disabled = !isValid || (!happiness && !prefer_not_to_say);
 
-  const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
+  const isIrrigationTask = useIsTaskType('IRRIGATION_TASK');
 
   let task_type_name = persistedFormData?.taskType?.task_translation_key.toLowerCase();
 
@@ -125,8 +151,20 @@ export default function PureTaskComplete({
         actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
       };
     }
-    if (isIrrigationLocation && persistedFormData?.locations?.length) {
+    if (isIrrigationTask && persistedFormData?.locations?.length) {
       data.location_id = persistedFormData?.locations[0].location_id;
+    }
+
+    if (persistedFormData?.need_changes && isIrrigationTask) {
+      const irrigationType = formData.irrigation_task.irrigation_type;
+      data.taskData.irrigation_task.irrigation_type_name =
+        irrigationType.value === 'OTHER'
+          ? data.taskData.irrigation_task.irrigation_task_type_other
+          : irrigationType.value;
+
+      if (irrigationType.value !== 'OTHER') {
+        data.taskData.irrigation_task.irrigation_type_id = irrigationType.irrigation_type_id;
+      }
     }
 
     // Won't send task type details if need_changes is false

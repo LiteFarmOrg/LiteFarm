@@ -23,6 +23,7 @@ import { ReactComponent as DocumentsIcon } from '../assets/images/nav/documents.
 import { ReactComponent as FarmSettingsIcon } from '../assets/images/nav/farmSettings.svg';
 import { ReactComponent as PeopleIcon } from '../assets/images/nav/people.svg';
 import { ReactComponent as CertificationsIcon } from '../assets/images/nav/certifications.svg';
+import { ReactComponent as InventoryIcon } from '../assets/images/nav/package.svg';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -35,6 +36,7 @@ import {
   FINANCES_URL,
   LABOUR_URL,
   OTHER_EXPENSE_URL,
+  PRODUCT_INVENTORY_URL,
 } from '../util/siteMapConstants';
 import Badge from '../components/Badge';
 
@@ -99,6 +101,13 @@ export const useGetMenuItems = () => {
         key: 'documents',
       });
     }
+    list.push({
+      label: t('MENU.INVENTORY'),
+      icon: <InventoryIcon />,
+      path: PRODUCT_INVENTORY_URL,
+      key: 'inventory',
+      badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
+    });
     return list;
   }, [isAdmin, t]);
 
@@ -109,7 +118,7 @@ export const useGetMenuItems = () => {
             {
               label: t('MENU.FARM_SETTINGS'),
               icon: <FarmSettingsIcon />,
-              path: '/farm',
+              path: '/farm_settings/',
               key: 'farm',
             },
             { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },

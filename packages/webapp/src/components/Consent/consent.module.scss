@@ -19,3 +19,12 @@
 .consentTextContainer li {
   margin-left: 20px;
 }
+
+.fadeEffect {
+  width: 100%;
+  height: 38px;
+  // rgb(250, 252, 251) = --Colors-Backgrounds-Background-color: #fafcfb;
+  background: linear-gradient(180deg, rgba(250, 252, 251, 0.2) 0%, rgba(250, 252, 251, 1) 55.21%);
+  margin-top: -28px;
+  z-index: 2000;
+}

@@ -1,0 +1,123 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/mixin';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+
+  border-radius: 8px;
+  border: solid 1px var(--Colors-Primary-Primary-teal-50);
+
+  &.isChecked {
+    background: var(--Colors-Primary-Primary-teal-50);
+  }
+
+  .checkIcon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 3px;
+
+    align-self: flex-end;
+    margin: 0 -8px -24px 0;
+
+    path {
+      stroke: var(--Colors-Primary-Primary-teal-600);
+    }
+  }
+
+  .logo {
+    margin-bottom: 8px;
+    text-decoration: none;
+  }
+
+  .description {
+    min-height: 40px;
+    color: #000;
+    line-height: normal;
+    margin-bottom: 16px;
+  }
+
+  .message {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 12px;
+    line-height: normal;
+    margin-bottom: 8px;
+  }
+
+  .termsLink {
+    color: var(--Brand-Blues-Primary-blue-6);
+    font-weight: 700;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .switchContainer {
+    justify-content: center;
+
+    input {
+      &:checked + .track.readOnly {
+        background-color: var(--Colors-Primary-Primary-teal-100); // track
+
+        &:before {
+          background-color: var(--Colors-Primary-Primary-teal-400); // thumb
+        }
+
+        span {
+          color: var(--White); // text
+        }
+      }
+
+      + .track.readOnly {
+        background-color: var(--Colors-Neutral-Neutral-50); // track
+
+        &:before {
+          background-color: var(--Colors-Neutral-Neutral-100); // thumb
+        }
+
+        span {
+          color: var(--Colors-Neutral-Neutral-200); // text
+        }
+      }
+    }
+  }
+}
+
+.marketplaceSuggestionTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    font-size: 16px;
+    line-height: normal;
+    color: #000;
+
+    &:last-of-type {
+      margin-bottom: 20px;
+    }
+  }
+
+  .suggestButton {
+    width: fit-content;
+    height: 40px;
+    display: flex;
+    gap: 8px;
+    align-self: center;
+    align-items: center;
+  }
+}

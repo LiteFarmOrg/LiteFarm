@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureSoilSampleLocation from '../../../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 import { deleteSoilSampleLocationLocation, editSoilSampleLocationLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -24,7 +25,10 @@ import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 
-function EditSoilSampleLocationDetailForm({ history, match }) {
+function EditSoilSampleLocationDetailForm() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -41,12 +45,12 @@ function EditSoilSampleLocationDetailForm({ history, match }) {
   const soilSampleLocation = useSelector(soilSampleLocationSelector(match.params.location_id));
 
   useEffect(() => {
-    if (history?.location?.state?.error?.retire) {
+    if (location?.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
-  const { isViewLocationPage, isEditLocationPage } = useLocationPageType(match);
+  const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);

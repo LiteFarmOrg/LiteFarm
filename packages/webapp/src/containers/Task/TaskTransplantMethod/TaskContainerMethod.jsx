@@ -1,3 +1,4 @@
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PurePlantInContainer from '../../../components/Crop/PlantInContainer';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
@@ -6,7 +7,10 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
-export default function TaskPlantInContainer({ history, match, location }) {
+export default function TaskPlantInContainer() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(

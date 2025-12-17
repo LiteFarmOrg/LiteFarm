@@ -522,12 +522,6 @@ export interface NaturalArea extends Location {
   };
 }
 
-export interface Pin extends Location {
-  pin: {
-    location_id: Location['location_id'];
-  };
-}
-
 export interface Residence extends Location {
   residence: {
     location_id: Location['location_id'];
@@ -597,7 +591,6 @@ export type InternalMapLocation =
   | Gate
   | Greenhouse
   | NaturalArea
-  | Pin
   | Residence
   | SoilSampleLocation
   | SurfaceWater
@@ -615,7 +608,6 @@ export enum InternalMapLocationType {
   GATE = 'gate',
   GREENHOUSE = 'greenhouse',
   NATURAL_AREA = 'natural_area',
-  PIN = 'pin',
   RESIDENCE = 'residence',
   SOIL_SAMPLE_LOCATION = 'soil_sample_location',
   SURFACE_WATER = 'surface_water',

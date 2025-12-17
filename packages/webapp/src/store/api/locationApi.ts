@@ -37,6 +37,7 @@ export const locations = api.injectEndpoints({
         url: `${locationURL}/${location_id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Locations'],
     }),
     addLocationByType: build.mutation<
       void,

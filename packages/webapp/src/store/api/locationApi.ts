@@ -50,6 +50,21 @@ export const locations = api.injectEndpoints({
       }),
       invalidatesTags: ['Locations'],
     }),
+    updateLocationByType: build.mutation<
+      void,
+      {
+        data: InternalMapLocation;
+        type: InternalMapLocationType;
+        location_id: Location['location_id'];
+      }
+    >({
+      query: ({ data, type, location_id }) => ({
+        url: `${locationURL}/${type}/${location_id}`,
+        method: 'PUT',
+        data,
+      }),
+      invalidatesTags: ['Locations'],
+    }),
   }),
 });
 
@@ -58,4 +73,5 @@ export const {
   useCheckDeleteLocationMutation,
   useDeleteLocationMutation,
   useAddLocationByTypeMutation,
+  useUpdateLocationByTypeMutation,
 } = locations;

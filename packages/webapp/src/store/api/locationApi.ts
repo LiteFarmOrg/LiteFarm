@@ -15,7 +15,7 @@
 
 import { api } from './apiSlice';
 import { checkDeleteLocationUrl, getLocationsByFarmIdUrl, locationURL } from '../../apiConfig';
-import { InternalMapLocation, Location } from './types';
+import { InternalMapLocation, InternalMapLocationType, Location } from './types';
 
 export const locations = api.injectEndpoints({
   endpoints: (build) => ({
@@ -38,8 +38,23 @@ export const locations = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    addLocationByType: build.mutation<
+      void,
+      { data: InternalMapLocation; type: InternalMapLocationType }
+    >({
+      query: ({ data, type }) => ({
+        url: `${locationURL}/${type}`,
+        method: 'POST',
+        data,
+      }),
+      invalidatesTags: ['Locations'],
+    }),
   }),
 });
 
-export const { useGetLocationsQuery, useCheckDeleteLocationMutation, useDeleteLocationMutation } =
-  locations;
+export const {
+  useGetLocationsQuery,
+  useCheckDeleteLocationMutation,
+  useDeleteLocationMutation,
+  useAddLocationByTypeMutation,
+} = locations;

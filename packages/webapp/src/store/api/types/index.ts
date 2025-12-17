@@ -603,3 +603,22 @@ export type InternalMapLocation =
   | SurfaceWater
   | Watercourse
   | WaterValve;
+
+export enum InternalMapLocationType {
+  BARN = 'barn',
+  BUFFER_ZONE = 'buffer_zone',
+  CEREMONIAL_AREA = 'ceremonial_area',
+  FARM_SITE_BOUNDARY = 'farm_site_boundary',
+  FENCE = 'fence',
+  FIELD = 'field',
+  GARDEN = 'garden',
+  GATE = 'gate',
+  GREENHOUSE = 'greenhouse',
+  NATURAL_AREA = 'natural_area',
+  PIN = 'pin',
+  RESIDENCE = 'residence',
+  SOIL_SAMPLE_LOCATION = 'soil_sample_location',
+  SURFACE_WATER = 'surface_water',
+  WATERCOURSE = 'watercourse',
+  WATER_VALVE = 'water_valve',
+}

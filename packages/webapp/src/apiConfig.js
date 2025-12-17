@@ -40,8 +40,7 @@ export const inviteUserUrl = `${URI}/user/invite`;
 //export const fieldURL = `${URI}/field`;
 export const locationURL = `${URI}/location`;
 export const getLocationsByFarmIdUrl = (farm_id) => `${locationURL}/farm/${farm_id}`;
-export const getCheckDeleteLocationsUrl = (location_id) =>
-  `${locationURL}/check_delete/${location_id}`;
+export const checkDeleteLocationUrl = `${locationURL}/check_delete`;
 export const cropURL = `${URI}/crop`;
 export const cropVarietyURL = `${URI}/crop_variety`;
 export const logURL = `${URI}/log`;

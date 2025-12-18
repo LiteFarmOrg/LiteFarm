@@ -1,4 +1,5 @@
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
@@ -14,6 +15,7 @@ import { AddLink } from '../../components/Typography';
 function AddCropVarietyForm() {
   const history = useHistory();
   const match = useRouteMatch();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
   const crop_id = match.params.crop_id;
@@ -64,7 +66,7 @@ function AddCropVarietyForm() {
             <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.back()}
+        handleGoBack={() => navigate(-1)}
         farmCropVarieties={farmCropVarieties}
       />
     </HookFormPersistProvider>

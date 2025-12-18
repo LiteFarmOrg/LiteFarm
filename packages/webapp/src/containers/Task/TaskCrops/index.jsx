@@ -1,4 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
@@ -63,9 +64,10 @@ function TaskCrops({
   location,
   progress,
 }) {
+  const navigate = useNavigate();
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
   const onContinue = () => {
     history.push(onContinuePath, location?.state);

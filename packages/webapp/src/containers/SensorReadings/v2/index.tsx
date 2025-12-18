@@ -15,6 +15,7 @@
 
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import CardLayout from '../../../components/Layout/CardLayout';
@@ -98,6 +99,7 @@ const PAGE_TITLE_KEY = {
 
 const SensorReadings = ({ type }: SensorReadingsProps) => {
   const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
 
@@ -133,8 +135,7 @@ const SensorReadings = ({ type }: SensorReadingsProps) => {
           system: sensorArray?.system,
           fallback: t(PAGE_TITLE_KEY[type]),
         })}
-        // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-        onGoBack={history.back}
+        onGoBack={() => navigate(-1)}
         classNames={{ wrapper: styles.title }}
       />
       {!!sensors?.length && (

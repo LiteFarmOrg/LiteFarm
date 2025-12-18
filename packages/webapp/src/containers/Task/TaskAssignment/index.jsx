@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import Checkbox from '../../../components/Form/Checkbox';
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
@@ -24,6 +25,7 @@ import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 export default function TaskAssignment() {
   const location = useLocation();
   const history = useHistory();
+  const navigate = useNavigate();
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const { t } = useTranslation();
@@ -94,7 +96,7 @@ export default function TaskAssignment() {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onError = () => {

@@ -1,4 +1,5 @@
 import { useLocation, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureTaskDate from '../../../components/Task/TaskDate';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useIsTaskType } from '../useIsTaskType';
@@ -9,8 +10,9 @@ import { getProgress } from '../util';
 function TaskDate() {
   const location = useLocation();
   const history = useHistory();
+  const navigate = useNavigate();
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const isMovementTask = useIsTaskType('MOVEMENT_TASK');

@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -16,6 +16,7 @@ export function PureTaskPlantingMethod({
   location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -37,7 +38,7 @@ export function PureTaskPlantingMethod({
   const onError = () => {};
 
   const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`, location.state);
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
   const { historyCancel } = useHookFormPersist(getValues);
 
   const disabled = !isValid;

@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureEditCustomTask from '../../../components/Task/PureEditCustomTask';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +9,7 @@ import { taskTypeSelector } from '../../taskTypeSlice';
 
 function EditCustomTask() {
   const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const onGoBackPath = '/add_task/manage_custom_tasks';
   const onEditPath = '/add_task/edit_custom_task_update';
@@ -15,7 +17,7 @@ function EditCustomTask() {
   const { persistedData } = useHookFormPersist();
   const selectedTaskType = useSelector(taskTypeSelector(persistedData.task_type_id));
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const handleEdit = () => {

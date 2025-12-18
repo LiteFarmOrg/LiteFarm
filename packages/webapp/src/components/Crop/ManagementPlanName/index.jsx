@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -23,6 +24,7 @@ export default function PureManagementPlanName({
   managementPlanCount,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const variety_id = match?.params?.variety_id;
 
   const NAME = 'name';
@@ -59,7 +61,7 @@ export default function PureManagementPlanName({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 

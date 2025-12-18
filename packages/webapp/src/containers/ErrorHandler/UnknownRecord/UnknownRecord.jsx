@@ -14,6 +14,7 @@
  */
 
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UnknownRecord() {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const classes = useStyles();
   const goBack = () => {
@@ -39,7 +41,7 @@ export default function UnknownRecord() {
       history.push('/home');
       return;
     } else {
-      history.back();
+      navigate(-1);
     }
   };
 

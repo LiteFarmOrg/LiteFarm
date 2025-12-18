@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureSurfaceWater from '../../../../components/LocationDetailLayout/AreaDetails/SurfaceWater';
 import { deleteSurfaceWaterLocation, editSurfaceWaterLocation } from './saga';
-import { checkLocationDependencies } from '../../saga';
+import { useCheckDeleteLocationMutation } from '../../../../store/api/locationApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import { surfaceWaterSelector } from '../../../surfaceWaterSlice';
@@ -46,7 +46,8 @@ function EditSurfaceWaterDetailForm() {
   const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
-  const handleRetire = () => {
+  const [checkDeleteLocation] = useCheckDeleteLocationMutation();
+  const handleRetire = async () => {
     // approach 1: redux store check for dependencies
     // if (activeCrops.length === 0 && plannedCrops.length === 0) {
     //   setShowConfirmRetireModal(true);
@@ -55,13 +56,12 @@ function EditSurfaceWaterDetailForm() {
     // }
 
     // approach 2: call backend for dependency check
-    dispatch(
-      checkLocationDependencies({
-        location_id,
-        setShowConfirmRetireModal,
-        setShowCannotRetireModal,
-      }),
-    );
+    try {
+      await checkDeleteLocation({ location_id }).unwrap();
+      setShowConfirmRetireModal(true);
+    } catch (_err) {
+      setShowCannotRetireModal(true);
+    }
   };
 
   const confirmRetire = () => {

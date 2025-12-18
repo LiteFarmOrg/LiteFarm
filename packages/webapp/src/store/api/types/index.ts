@@ -414,23 +414,22 @@ export interface SupportTicketData {
   };
 }
 
-export enum LocationType {
-  GATE = 'gate',
-  WATER_VALVE = 'water_valve',
-  SOIL_SAMPLE_LOCATION = 'soil_sample_location',
+export enum InternalMapLocationType {
+  BARN = 'barn',
+  BUFFER_ZONE = 'buffer_zone',
+  CEREMONIAL_AREA = 'ceremonial_area',
   FARM_SITE_BOUNDARY = 'farm_site_boundary',
+  FENCE = 'fence',
   FIELD = 'field',
   GARDEN = 'garden',
-  BUFFER_ZONE = 'buffer_zone',
-  WATERCOURSE = 'watercourse',
-  FENCE = 'fence',
-  CEREMONIAL_AREA = 'ceremonial_area',
-  RESIDENCE = 'residence',
-  SURFACE_WATER = 'surface_water',
-  NATURAL_AREA = 'natural_area',
+  GATE = 'gate',
   GREENHOUSE = 'greenhouse',
-  BARN = 'barn',
-  PIN = 'pin',
+  NATURAL_AREA = 'natural_area',
+  RESIDENCE = 'residence',
+  SOIL_SAMPLE_LOCATION = 'soil_sample_location',
+  SURFACE_WATER = 'surface_water',
+  WATERCOURSE = 'watercourse',
+  WATER_VALVE = 'water_valve',
 }
 export interface Location {
   location_id: string;
@@ -438,7 +437,7 @@ export interface Location {
   name: string;
   notes?: string;
   figure: {
-    type: LocationType;
+    type: InternalMapLocationType;
     location_id: Location['location_id'];
     figure_id: 'string';
   };
@@ -596,21 +595,3 @@ export type InternalMapLocation =
   | SurfaceWater
   | Watercourse
   | WaterValve;
-
-export enum InternalMapLocationType {
-  BARN = 'barn',
-  BUFFER_ZONE = 'buffer_zone',
-  CEREMONIAL_AREA = 'ceremonial_area',
-  FARM_SITE_BOUNDARY = 'farm_site_boundary',
-  FENCE = 'fence',
-  FIELD = 'field',
-  GARDEN = 'garden',
-  GATE = 'gate',
-  GREENHOUSE = 'greenhouse',
-  NATURAL_AREA = 'natural_area',
-  RESIDENCE = 'residence',
-  SOIL_SAMPLE_LOCATION = 'soil_sample_location',
-  SURFACE_WATER = 'surface_water',
-  WATERCOURSE = 'watercourse',
-  WATER_VALVE = 'water_valve',
-}

@@ -431,16 +431,82 @@ export enum InternalMapLocationType {
   WATERCOURSE = 'watercourse',
   WATER_VALVE = 'water_valve',
 }
+
+export enum FigureType {
+  AREA = 'area',
+  LINE = 'line',
+  POINT = 'point',
+}
+
+export interface Figure {
+  figure_id: 'string';
+  location_id: Location['location_id'];
+  type: InternalMapLocationType;
+}
+
+export interface GridPoint {
+  lat: number;
+  lng: number;
+}
+
+export enum TotalAreaUnit {
+  M2 = 'm2',
+  HA = 'ha',
+  FT2 = 'ft2',
+  AC = 'ac',
+}
+
+export enum PerimiterUnit {
+  M = 'm',
+  KM = 'km',
+  FT = 'ft',
+  MI = 'mi',
+}
+
+export enum LengthWidthUnit {
+  CM = 'cm',
+  M = 'm',
+  KM = 'km',
+  IN = 'in',
+  FT = 'ft',
+  MI = 'mi',
+}
+interface AreaFigure extends Figure {
+  [FigureType.AREA]: {
+    figure_id: Figure['figure_id'];
+    grid_points: [GridPoint, GridPoint, GridPoint, ...GridPoint[]]; // minimum 3
+    total_area: number;
+    total_area_unit: TotalAreaUnit;
+    perimeter: number;
+    perimeter_unit: PerimiterUnit;
+  };
+}
+
+interface LineFigure extends Figure {
+  [FigureType.LINE]: {
+    figure_id: Figure['figure_id'];
+    line_points: [GridPoint, GridPoint, ...GridPoint[]]; // minimum 2
+    length: number;
+    length_unit: LengthWidthUnit;
+    width: number;
+    width_unit: LengthWidthUnit;
+    total_area: number;
+    total_area_unit: TotalAreaUnit;
+  };
+}
+
+interface PointFigure extends Figure {
+  [FigureType.POINT]: {
+    figure_id: Figure['figure_id'];
+    point: GridPoint;
+  };
+}
 export interface Location {
   location_id: string;
   farm_id: string;
   name: string;
   notes?: string;
-  figure: {
-    type: InternalMapLocationType;
-    location_id: Location['location_id'];
-    figure_id: 'string';
-  };
+  figure: AreaFigure | LineFigure | PointFigure;
   location_defaults: {
     location_id: Location['location_id'];
     irrigation_type_id: number;

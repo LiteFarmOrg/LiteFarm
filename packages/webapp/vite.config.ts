@@ -8,6 +8,15 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // see https://sass-lang.com/d/legacy-js-api
+        // api: 'modern-compiler' requires Vite 5.4+
+        silenceDeprecations: ['legacy-js-api'],
+      },
+    },
+  },
   plugins: [
     { enforce: 'pre', ...mdx({ providerImportSource: '@mdx-js/react' }) },
     react({
@@ -37,6 +46,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    allowedHosts: true,
   },
   resolve: {
     alias: {

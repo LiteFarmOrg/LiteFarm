@@ -1,5 +1,5 @@
 import PageTitle from '../PageTitle/v2';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   setPosition,
   setPositionSelector,
@@ -21,6 +21,7 @@ export default function LocationPageHeader({
   formMethods,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentZoomLevel = useSelector(setZoomLevelSelector);
   const position = useSelector(setPositionSelector);
@@ -33,7 +34,7 @@ export default function LocationPageHeader({
     }
     isViewLocationPage &&
       history.replace('/map', { cameraInfo: { zoom: currentZoomLevel, location: position } });
-    isEditLocationPage && history.back();
+    isEditLocationPage && navigate(-1);
   };
   return (
     <PageTitle

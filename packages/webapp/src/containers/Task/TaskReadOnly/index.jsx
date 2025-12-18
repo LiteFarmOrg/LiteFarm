@@ -15,6 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -47,6 +48,7 @@ import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalS
 function TaskReadOnly() {
   const location = useLocation();
   const history = useHistory();
+  const navigate = useNavigate();
   const { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
@@ -97,7 +99,7 @@ function TaskReadOnly() {
   }, [task, history]);
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onComplete = () => {

@@ -14,6 +14,7 @@
  */
 
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureRepeatCropPlanConfirmation from '../../../components/RepeatCropPlan/Confirmation';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -24,6 +25,7 @@ import { postRepeatCropPlan } from '../saga';
 function RepeatCropPlanConfirmation() {
   const history = useHistory();
   const match = useRouteMatch();
+  const navigate = useNavigate();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const { management_plan_id, variety_id } = match.params;
@@ -44,7 +46,7 @@ function RepeatCropPlanConfirmation() {
   return (
     <HookFormPersistProvider>
       <PureRepeatCropPlanConfirmation
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         onSubmit={onSubmit}
         persistedFormData={persistedFormData}
         tasks={tasks}

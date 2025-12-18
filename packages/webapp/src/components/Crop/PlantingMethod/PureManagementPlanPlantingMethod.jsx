@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -22,6 +23,7 @@ export default function PureManagementPlanPlantingMethod({
   system,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const variety_id = match?.params?.variety_id;
 
   const { showBroadcast, showIsPlantingMethodKnown } = useMemo(() => {
@@ -79,7 +81,7 @@ export default function PureManagementPlanPlantingMethod({
         is_planting_method_known,
       ).submitPath,
     );
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 

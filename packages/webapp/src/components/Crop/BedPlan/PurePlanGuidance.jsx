@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Form from '../../Form';
@@ -19,10 +20,10 @@ function PurePlanGuidance({
   history,
   submitPath,
   location,
-  onGoBack = () => history.back(),
   onSubmit = () => history.push(submitPath, location?.state),
 }) {
   const { t } = useTranslation(['translation']);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -48,7 +49,7 @@ function PurePlanGuidance({
       onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
-        onGoBack={onGoBack}
+        onGoBack={() => navigate(-1)}
         onCancel={historyCancel}
         value={isFinalPage ? 81.25 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/si
 
 export default function RevenueTypes({ useHookFormPersist }) {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'revenue']);
   const revenueTypes = useSortedRevenueTypes();
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -69,7 +71,7 @@ export default function RevenueTypes({ useHookFormPersist }) {
         title={t('SALE.ADD_SALE.ADD_REVENUE')}
         leadText={t('SALE.ADD_SALE.WHICH_TYPE_TO_RECORD')}
         types={revenueTypes}
-        onGoBack={history.back}
+        onGoBack={() => navigate(-1)}
         progressValue={33}
         onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_REVENUES_URL)}
         getFormatListItemDataFunc={getFormatListItemDataFunc}

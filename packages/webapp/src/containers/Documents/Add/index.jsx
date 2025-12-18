@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { postDocument } from '../saga';
@@ -8,6 +9,7 @@ import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpl
 
 function AddDocument() {
   const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
@@ -15,7 +17,7 @@ function AddDocument() {
   };
 
   const onBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const { isUploading, ...filePickerFunctions } = useFilePickerUpload();

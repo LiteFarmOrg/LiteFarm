@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -19,6 +20,7 @@ import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 const ExpenseDetail = () => {
   const history = useHistory();
   const match = useRouteMatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -76,7 +78,7 @@ const ExpenseDetail = () => {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

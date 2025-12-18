@@ -14,6 +14,7 @@
  */
 
 import { useLocation, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventory';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTheme } from '@mui/styles';
@@ -23,12 +24,13 @@ import { getProgress } from '../util';
 
 function TaskAnimalInventory() {
   const location = useLocation();
+  const navigate = useNavigate();
   const history = useHistory();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onContinue = () => {

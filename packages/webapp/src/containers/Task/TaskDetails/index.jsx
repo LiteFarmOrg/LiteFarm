@@ -2,6 +2,7 @@ import PureTaskDetails from '../../../components/Task/PureTaskDetails';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productsForTaskTypeSelector } from '../../productSlice';
@@ -17,6 +18,7 @@ import {
 function TaskDetails() {
   const location = useLocation();
   const history = useHistory();
+  const navigate = useNavigate();
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 
@@ -42,7 +44,7 @@ function TaskDetails() {
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = () => {

@@ -14,6 +14,7 @@
  */
 
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm, ValidationMode } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
@@ -54,6 +55,8 @@ export const ContextForm = ({
   const [formResultData, setFormResultData] = useState();
   const [showCancelFlow, setShowCancelFlow] = useState(false);
 
+  const navigate = useNavigate();
+
   const form = useForm({
     mode: formMode,
     defaultValues: defaultFormValues,
@@ -89,7 +92,7 @@ export const ContextForm = ({
       }
       return;
     }
-    history.back();
+    navigate(-1);
   };
 
   const { FormContent } = steps[activeStepIndex];

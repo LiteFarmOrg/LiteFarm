@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
@@ -27,6 +28,7 @@ export default function PureEditUser({
   isCurrentUser,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const ROLE = 'role_id';
   const WAGE = 'wage.amount';
   const EMAIL = 'email';
@@ -150,7 +152,7 @@ export default function PureEditUser({
     >
       <PageTitle
         style={{ marginBottom: '32px' }}
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         title={t('PROFILE.ACCOUNT.EDIT_USER')}
       />
       <Input

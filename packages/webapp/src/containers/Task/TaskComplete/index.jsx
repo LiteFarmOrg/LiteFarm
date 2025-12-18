@@ -1,4 +1,5 @@
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureTaskComplete from '../../../components/Task/TaskComplete';
 import { useDispatch } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -7,6 +8,7 @@ import { completeTask } from '../saga';
 function TaskComplete() {
   const history = useHistory();
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { task_id } = useParams();
   const persistedPaths = [`/tasks/${task_id}/before_complete`, `/tasks/${task_id}/harvest_uses`];
@@ -18,7 +20,7 @@ function TaskComplete() {
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

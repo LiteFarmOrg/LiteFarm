@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -21,7 +22,6 @@ export default function PurePlantInContainer({
   submitPath,
   location,
   onSubmit = () => history.push(submitPath, location?.state),
-  onGoBack = () => history.back(),
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
@@ -30,6 +30,7 @@ export default function PurePlantInContainer({
   }, []);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -61,7 +62,7 @@ export default function PurePlantInContainer({
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <MultiStepPageTitle
-        onGoBack={onGoBack}
+        onGoBack={() => navigate(-1)}
         onCancel={historyCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}

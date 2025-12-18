@@ -1,4 +1,5 @@
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import produce from 'immer';
@@ -9,7 +10,7 @@ import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import { patchEstimatedCropRevenue } from '../saga';
 
 function UpdateEstimatedCropRevenue() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { management_plan_id } = useParams();
   const { t } = useTranslation();
 
@@ -33,7 +34,7 @@ function UpdateEstimatedCropRevenue() {
     <PureUpdateEstimatedCropRevenue
       system={system}
       managementPlan={managementPlan}
-      onGoBack={() => history.back()}
+      onGoBack={() => navigate(-1)}
       onSubmit={onSubmit}
     />
   );

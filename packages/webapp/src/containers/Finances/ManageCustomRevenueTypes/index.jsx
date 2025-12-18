@@ -14,6 +14,7 @@
  */
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
@@ -39,6 +40,7 @@ const getPaths = (typeId) => ({
 
 export default function ManageRevenueTypes() {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const customTypes = useSortedCustomRevenueTypes();
@@ -80,7 +82,7 @@ export default function ManageRevenueTypes() {
   return (
     <PureManageCustomTypes
       title={t('SALE.ADD_SALE.MANAGE_CUSTOM_REVENUE_TYPE')}
-      handleGoBack={history.back}
+      handleGoBack={() => navigate(-1)}
       addLinkText={t('SALE.ADD_SALE.ADD_CUSTOM_REVENUE_TYPE')}
       onAddType={onAddType}
       listItemData={customTypes}

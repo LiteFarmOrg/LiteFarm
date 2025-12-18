@@ -480,9 +480,12 @@ interface AreaFigure extends Figure {
     perimeter: number;
     perimeter_unit: PerimiterUnit;
   };
+  [FigureType.LINE]: never;
+  [FigureType.POINT]: never;
 }
 
 interface LineFigure extends Figure {
+  [FigureType.AREA]: never;
   [FigureType.LINE]: {
     figure_id: Figure['figure_id'];
     line_points: [GridPoint, GridPoint, ...GridPoint[]]; // minimum 2
@@ -493,9 +496,12 @@ interface LineFigure extends Figure {
     total_area: number;
     total_area_unit: TotalAreaUnit;
   };
+  [FigureType.POINT]: never;
 }
 
 interface PointFigure extends Figure {
+  [FigureType.AREA]: never;
+  [FigureType.LINE]: never;
   [FigureType.POINT]: {
     figure_id: Figure['figure_id'];
     point: GridPoint;

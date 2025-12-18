@@ -18,7 +18,7 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Router } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import history from './history';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
@@ -153,11 +153,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GoogleOAuthProvider clientId={clientId}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                  <Router history={history}>
-                    <>
-                      <App />
-                    </>
-                  </Router>
+                  {/* https://reactrouter.com/api/declarative-routers/HistoryRouter */}
+                  <HistoryRouter history={history}>
+                    <App />
+                  </HistoryRouter>
                 </ErrorBoundary>
               </LocalizationProvider>
             </GoogleOAuthProvider>

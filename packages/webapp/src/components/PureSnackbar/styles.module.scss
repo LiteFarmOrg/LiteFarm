@@ -1,4 +1,4 @@
-@import '../../assets/mixin';
+@use '../../assets/mixin' as *;
 
 .contentContainer {
   display: flex;
@@ -30,9 +30,8 @@
 }
 
 .progressBarContainer {
-  height: 2px
+  height: 2px;
 }
-
 
 .container {
   border: 1px solid var(--grey400);
@@ -55,6 +54,3 @@
   color: var(--red700);
   transform: translateY(4px);
 }
-
-
-

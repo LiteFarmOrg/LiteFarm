@@ -1,4 +1,4 @@
-@import '../../assets/mixin';
+@use '../../assets/mixin' as *;
 .container {
   box-sizing: border-box;
   border-radius: 4px;
@@ -57,7 +57,6 @@
 }
 
 .none {
-
 }
 
 // task styles
@@ -91,11 +90,11 @@
 
 // notification styles
 .notificationUnread {
-  background-color:  var(--white);
+  background-color: var(--white);
 }
 
 .notificationRead {
-  background-color:  var(--grey200);
+  background-color: var(--grey200);
 }
 
 // SummaryCard
@@ -121,13 +120,15 @@ h4.lgSummaryData {
 }
 
 .negative {
-  h4, p {
+  h4,
+  p {
     color: var(--red700);
   }
 }
 
 .positive {
-  h4, p {
+  h4,
+  p {
     color: var(--green800);
   }
 }

@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .container {
   height: 65px;
@@ -17,4 +17,3 @@
   justify-content: center;
   align-items: center;
 }
-

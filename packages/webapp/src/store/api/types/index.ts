@@ -462,7 +462,7 @@ export interface OrganicStatusProperties {
 }
 
 export interface Barn extends Location {
-  barn: {
+  [InternalMapLocationType.BARN]: {
     location_id: Location['location_id'];
     wash_and_pack: boolean | null;
     cold_storage: boolean | null;
@@ -471,44 +471,44 @@ export interface Barn extends Location {
 }
 
 export interface BufferZone extends Location {
-  buffer_zone: {
+  [InternalMapLocationType.BUFFER_ZONE]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface CeremonialArea extends Location {
-  ceremonial_area: {
+  [InternalMapLocationType.CEREMONIAL_AREA]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface FarmSiteBoundary extends Location {
-  farm_site_boundary: {
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: {
     location_id: Location['location_id'];
   };
 }
 export interface Fence extends Location {
-  fence: {
+  [InternalMapLocationType.FENCE]: {
     location_id: Location['location_id'];
     pressure_treated: boolean | null;
   };
 }
 export interface Field extends Location {
-  field: OrganicStatusProperties & StationId;
+  [InternalMapLocationType.FIELD]: OrganicStatusProperties & StationId;
 }
 
 export interface Garden extends Location {
-  garden: OrganicStatusProperties & StationId;
+  [InternalMapLocationType.GARDEN]: OrganicStatusProperties & StationId;
 }
 
 export interface Gate extends Location {
-  gate: {
+  [InternalMapLocationType.GATE]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface Greenhouse extends Location {
-  greenhouse: OrganicStatusProperties & {
+  [InternalMapLocationType.GATE]: OrganicStatusProperties & {
     supplemental_lighting: boolean | null;
     co2_enrichment: boolean | null;
     greenhouse_heated: boolean | null;
@@ -516,25 +516,25 @@ export interface Greenhouse extends Location {
 }
 
 export interface NaturalArea extends Location {
-  natural_area: {
+  [InternalMapLocationType.NATURAL_AREA]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface Residence extends Location {
-  residence: {
+  [InternalMapLocationType.RESIDENCE]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface SoilSampleLocation extends Location {
-  soil_sample_location: {
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: {
     location_id: Location['location_id'];
   };
 }
 
 export interface SurfaceWater extends Location {
-  surface_water: {
+  [InternalMapLocationType.SURFACE_WATER]: {
     location_id: Location['location_id'];
     used_for_irrigation: boolean | null;
   };
@@ -549,7 +549,7 @@ enum BufferWidthUnit {
   MI = 'mi',
 }
 export interface Watercourse extends Location {
-  watercourse: {
+  [InternalMapLocationType.WATERCOURSE]: {
     location_id: Location['location_id'];
     used_for_irrigation: boolean | null;
     buffer_width: number;
@@ -571,7 +571,7 @@ enum FlowRateUnit {
   GAL_PER_H = 'gal/h',
 }
 export interface WaterValve extends Location {
-  water_valve: {
+  [InternalMapLocationType.WATER_VALVE]: {
     location_id: Location['location_id'];
     source: WaterSource;
     flow_rate: number | null;

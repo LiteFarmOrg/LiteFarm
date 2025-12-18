@@ -19,15 +19,21 @@ import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
 
+const getFigureType = (figure: InternalMapLocation['figure']) => {
+  if (figure[FigureType.AREA]) {
+    return FigureType.AREA;
+  } else if (figure[FigureType.LINE]) {
+    return FigureType.LINE;
+  } else if (figure[FigureType.POINT]) {
+    return FigureType.POINT;
+  } else {
+    return null;
+  }
+};
+
 const clean = (location: InternalMapLocation) => {
   const locationType = location.figure.type;
-  const figureType = location.figure[FigureType.AREA]
-    ? FigureType.AREA
-    : location.figure[FigureType.LINE]
-    ? FigureType.LINE
-    : location.figure[FigureType.POINT]
-    ? FigureType.POINT
-    : null;
+  const figureType = getFigureType(location.figure);
 
   // Removes the not applicable location type properties but keeps the rest
   const cleanedLocation = locationType
@@ -53,7 +59,28 @@ const clean = (location: InternalMapLocation) => {
   return cleanedLocation;
 };
 
-const useLocations = ({ farm_id }: { farm_id: string }) => {
+enum GroupByOptions {
+  TYPE = 'type',
+  FIGURE = 'figure',
+}
+
+type UseLocationPropsWithFilterBy = {
+  farm_id: string;
+  filterBy?: InternalMapLocationType | FigureType;
+  groupBy?: never;
+};
+
+type UseLocationPropsWithGroupBy = {
+  farm_id: string;
+  filterBy?: never;
+  groupBy?: GroupByOptions;
+};
+
+const useLocations = ({
+  farm_id,
+  filterBy,
+  groupBy,
+}: UseLocationPropsWithFilterBy | UseLocationPropsWithGroupBy) => {
   const { data: locations = [], isLoading } = useGetLocationsQuery({ farm_id });
 
   if (isLoading) {
@@ -62,8 +89,31 @@ const useLocations = ({ farm_id }: { farm_id: string }) => {
 
   const cleanedLocations = locations.map(clean);
 
-  // how do I sort locations?
-  // drawingType, loctionTypes
+  if (filterBy && allLocationTypes.includes(filterBy)) {
+    const filteredLocations = cleanedLocations.filter(
+      (location) => location.figure.type === filterBy,
+    );
+    return { locations: filteredLocations, isLoading };
+  }
+
+  if (filterBy && allFigureTypes.includes(filterBy)) {
+    const filteredLocations = cleanedLocations.filter((location) => !!location.figure[filterBy]);
+    return { locations: filteredLocations, isLoading };
+  }
+
+  if (groupBy === GroupByOptions.TYPE) {
+    const groupedLocations = Object.groupBy(cleanedLocations, ({ figure }) => figure.type);
+    return { locations: groupedLocations, isLoading };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE) {
+    const groupedLocations = Object.groupBy(
+      cleanedLocations,
+      ({ figure }) => getFigureType(figure) ?? 'never',
+    );
+    return { locations: groupedLocations, isLoading };
+  }
+
   return { locations: cleanedLocations, isLoading };
 };
 

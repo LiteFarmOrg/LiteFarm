@@ -56,7 +56,7 @@ function ChooseFarm() {
   // TODO: move redirect to login with google saga
   const { loaded } = useSelector(userFarmStatusSelector);
   useEffect(() => {
-    loaded && farms.length === 0 && history.push('/welcome');
+    loaded && farms.length === 0 && navigate('/welcome');
   }, [farms, loaded]);
 
   const onGoBack = () => {
@@ -81,7 +81,7 @@ function ChooseFarm() {
 
   const onCreateFarm = () => {
     dispatch(deselectFarmSuccess());
-    history.push('/add_farm');
+    navigate('/add_farm');
   };
 
   const onFilterChange = (e) => {

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { History } from 'history';
 import Table from '../../../components/Table';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
@@ -90,6 +91,7 @@ const PureAnimalInventory = ({
   extraRowSpacing,
   hideNoResultsBlock,
 }: PureAnimalInventoryProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
@@ -166,7 +168,7 @@ const PureAnimalInventory = ({
           <FloatingActionButton
             // @ts-expect-error
             type={'add'}
-            onClick={() => history.push(ADD_ANIMALS_URL)}
+            onClick={() => navigate(ADD_ANIMALS_URL)}
             aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
           />
         </div>

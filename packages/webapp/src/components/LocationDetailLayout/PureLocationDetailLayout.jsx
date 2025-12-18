@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
@@ -31,6 +32,7 @@ export function PureLocationDetailLayout({
   detailsChildren,
   showPerimeter,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',
@@ -38,7 +40,7 @@ export function PureLocationDetailLayout({
     defaultValues: persistedFormData,
   });
   const historyCancel = () => {
-    history.push('/map', { hideLocationPin: true });
+    navigate('/map', { hideLocationPin: true });
   };
 
   const onError = (data) => {};
@@ -107,7 +109,7 @@ export function PureLocationDetailLayout({
               isCreateLocationPage={isCreateLocationPage}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}
-              onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+              onEdit={() => navigate(`/${locationType}/${match.params.location_id}/edit`)}
               onRetire={handleRetire}
               isAdmin={isAdmin}
             />

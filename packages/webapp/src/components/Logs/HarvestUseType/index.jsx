@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TitleLayout from '../../Layout/TitleLayout';
 import { AddLink, Main } from '../../Typography';
 import Button from '../../Form/Button';
@@ -28,6 +29,7 @@ export default function PureHarvestUseType({
   isEdit,
   selectedLog,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const [selectedUseTypes, setSelectedUseTypes] = useState([]);
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function PureHarvestUseType({
   }, [isEdit]);
   return (
     <TitleLayout
-      onGoBack={() => history.push('/harvest_log')}
+      onGoBack={() => navigate('/harvest_log')}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
@@ -85,10 +87,7 @@ export default function PureHarvestUseType({
         selectedUseTypes={selectedUseTypes}
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
-        <AddLink
-          onClick={() => history.push('./add_harvest_use_type')}
-          style={{ paddingTop: '16px' }}
-        >
+        <AddLink onClick={() => navigate('./add_harvest_use_type')} style={{ paddingTop: '16px' }}>
           {t('LOG_HARVEST.ADD_CUSTOM_HARVEST_USE')}
         </AddLink>
       )}
@@ -120,6 +119,7 @@ function UseTypeMatrix({ useTypes, onClick, selectedUseTypes }) {
           : svgDict.Other;
         return (
           <div
+            key={type.harvest_use_type_name}
             className={clsx(
               styles.matrixItem,
               selectedUseTypes.includes(type.harvest_use_type_id) && styles.selectedMatrixItem,

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/Detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { useLocation, useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
   currentAndPlannedManagementPlansByCropVarietySelector,
@@ -17,6 +17,7 @@ import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
 
 function CropDetail() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
@@ -36,7 +37,7 @@ function CropDetail() {
   const hasNoManagementPlans = currentMPs.length < 1 && plannedMPs.length < 1;
 
   const goBack = () => {
-    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
+    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
   };
 
   const warningModal = () => {
@@ -53,7 +54,7 @@ function CropDetail() {
 
   const handleEdit = () => {
     if (hasNoManagementPlans) {
-      history.push(`/crop/${variety_id}/edit_crop_variety`);
+      navigate(`/crop/${variety_id}/edit_crop_variety`);
     } else {
       setShowEditModal(true);
     }
@@ -84,7 +85,7 @@ function CropDetail() {
       {showEditModal && (
         <EditCropVarietyModal
           dismissModal={() => setShowEditModal(false)}
-          handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
+          handleEdit={() => navigate(`/crop/${variety_id}/edit_crop_variety`)}
         />
       )}
     </CropVarietySpotlight>

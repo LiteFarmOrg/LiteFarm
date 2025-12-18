@@ -235,7 +235,7 @@ export default function PurePlantingDate({
     () => getPlantingDatePaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
+  const onSubmit = () => navigate(submitPath);
   const onGoBack = () => navigate(-1);
 
   const onError = () => {};

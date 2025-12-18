@@ -15,6 +15,7 @@
 
 import { History } from 'history';
 import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { TFunction, useTranslation } from 'react-i18next';
 import { VscLocation } from 'react-icons/vsc';
@@ -87,6 +88,7 @@ type EsciSensorListProps = {
 };
 
 const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -111,7 +113,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSens
         ? `/sensor_array/${selectedLocation.id}`
         : `/sensor/${cleanSensorId(selectedLocation.id)}`;
 
-    history.push(readingsUrl);
+    navigate(readingsUrl);
   };
 
   const handleClose = () => {

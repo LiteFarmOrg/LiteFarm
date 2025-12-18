@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { PureCertifierSelectionScreen } from '../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifiersByCertificationSelector } from '../certifierSlice';
@@ -8,6 +8,7 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { useCertificationName } from '../useCertificationName';
 
 export default function CertifierSelectionMenu() {
+  const navigate = useNavigate();
   const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const summaryPath = '/certification/summary';
@@ -23,14 +24,14 @@ export default function CertifierSelectionMenu() {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    history.push(summaryPath);
+    navigate(summaryPath);
   };
 
   const onBack = () => {
-    history.push(certificationSelectionPath);
+    navigate(certificationSelectionPath);
   };
   const onRequestCertifier = () => {
-    history.push(requestCertifierPath);
+    navigate(requestCertifierPath);
   };
   const onSelectCertifier = (certifier_id) => {
     dispatch(setCertifierId(certifier_id));

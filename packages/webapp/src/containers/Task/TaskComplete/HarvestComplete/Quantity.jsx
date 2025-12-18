@@ -31,7 +31,7 @@ function HarvestCompleteQuantity() {
   }, []);
 
   const onContinue = (data) => {
-    history.push(`/tasks/${task_id}/harvest_uses`, location?.state);
+    navigate(`/tasks/${task_id}/harvest_uses`, location?.state);
   };
 
   const onGoBack = () => {

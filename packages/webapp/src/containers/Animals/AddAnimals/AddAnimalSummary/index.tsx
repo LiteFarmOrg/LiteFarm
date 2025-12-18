@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AddAnimalsSummaryCard } from '../../../../components/Animals/AddAnimalsSummaryCard';
 import { ANIMALS_INVENTORY_URL } from '../../../../util/siteMapConstants';
 import {
@@ -32,7 +32,7 @@ type AddAnimalSummaryProps = {
 };
 
 const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data: config, isLoading } = useQueries([
     { label: 'defaultTypes', hook: useGetDefaultAnimalTypesQuery },
     { label: 'customTypes', hook: useGetCustomAnimalTypesQuery },
@@ -45,7 +45,7 @@ const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
     <AddAnimalsSummaryCard
       animalsInfo={isLoading ? [] : formatDBAnimalsToSummary(formResultData.animals, config)}
       batchInfo={isLoading ? [] : formatDBBatchesToSummary(formResultData.batches, config)}
-      onContinue={() => history.push(ANIMALS_INVENTORY_URL)}
+      onContinue={() => navigate(ANIMALS_INVENTORY_URL)}
     />
   );
 };

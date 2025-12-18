@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword } from './saga';
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 function PasswordResetAccount() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function PasswordResetAccount() {
 
   useEffect(() => {
     if (!reset_token) {
-      history.push('/');
+      navigate('/');
     } else {
       setEmail(getEmailFromToken(reset_token));
     }
@@ -47,14 +48,14 @@ function PasswordResetAccount() {
     let timeout;
     if (hasTimeoutStarted) {
       timeout = setTimeout(() => {
-        history.push('/farm_selection');
+        navigate('/farm_selection');
       }, 10000);
     }
     return () => clearTimeout(timeout);
   }, [hasTimeoutStarted]);
 
   const modalOnClick = () => {
-    history.push('/farm_selection');
+    navigate('/farm_selection');
     setShowModal(false);
   };
 

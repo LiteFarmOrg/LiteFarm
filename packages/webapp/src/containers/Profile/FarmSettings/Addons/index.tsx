@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -25,6 +25,7 @@ import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const FarmAddons = () => {
+  const navigate = useNavigate();
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
 
@@ -58,7 +59,7 @@ const FarmAddons = () => {
 
       // If no active addons, the Addon tab will not render; redirect off it
       if (!remainingConnections) {
-        history.push('/farm_settings');
+        navigate('/farm_settings');
       }
     } catch (error) {
       dispatch(enqueueErrorSnackbar(t('FARM_ADDON.FAILED_DISCONNECT_ADDON')));

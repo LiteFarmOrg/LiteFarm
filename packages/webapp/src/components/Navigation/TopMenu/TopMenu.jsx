@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../util/jwt';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
@@ -38,6 +39,7 @@ import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
 const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const sectionHeader = useSectionHeader(history.location.pathname);
@@ -52,7 +54,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
 
   const handleClick = (link) => {
     closeMenu();
-    history.push(link);
+    navigate(link);
   };
 
   const notificationIconClick = () => {
@@ -251,7 +253,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
           className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
         >
           {!showNavActions ? <Logo /> : showMainNavigation}
-          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+          {showNavActions && isMobile && <Logo withoutWords onClick={() => navigate('/')} />}
         </Toolbar>
       </AppBar>
     )

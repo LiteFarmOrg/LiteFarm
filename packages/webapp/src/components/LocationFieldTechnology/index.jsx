@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
@@ -35,6 +36,7 @@ export default function PureLocationFieldTechnology({
   fieldTechnology,
   routerTabs,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const hasAddonSensors = !!(
     fieldTechnology.addonSensors?.length || fieldTechnology.addonSensorArrays?.length
@@ -45,7 +47,7 @@ export default function PureLocationFieldTechnology({
       ft.isAddonSensor && [locationEnum.sensor, locationEnum.sensor_array].includes(ft.type)
         ? `/${ft.type}/${ft.location_id}`
         : `/${ft.type}/${ft.location_id}/details`;
-    history.push(path);
+    navigate(path);
   };
 
   const ListItem = ({ label, sensorContent, onClickLocation, ...rest }) => (
@@ -103,7 +105,7 @@ export default function PureLocationFieldTechnology({
 
   return (
     <CardLayout>
-      <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
+      <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PureSelectionHandler({ locations, history }) {
+  const navigate = useNavigate();
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -121,9 +123,9 @@ export default function PureSelectionHandler({ locations, history }) {
 
   const handleMouseUp = (location) => {
     if ([SensorType.SENSOR_ARRAY, SensorType.SENSOR].includes(location.type)) {
-      history.push(`/${location.type}/${location.id}`);
+      navigate(`/${location.type}/${location.id}`);
     } else {
-      history.push(`/${location.type}/${location.id}/details`);
+      navigate(`/${location.type}/${location.id}/details`);
     }
   };
 

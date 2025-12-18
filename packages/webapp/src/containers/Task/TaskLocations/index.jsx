@@ -83,7 +83,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', location?.state);
   };
 
   return (
@@ -102,7 +102,7 @@ function TaskTransplantLocations({ history, location }) {
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/planting_method', location.state);
+    navigate('/add_task/planting_method', location.state);
   };
 
   return (
@@ -122,7 +122,7 @@ function TaskIrrigationLocations({ history, location }) {
   const cropLocations = useSelector(cropLocationsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const onContinue = () => {
-    history.push('/add_task/task_crops', location.state);
+    navigate('/add_task/task_crops', location.state);
   };
 
   return (
@@ -143,7 +143,7 @@ function TaskSoilAmendmentLocations({ history, location }) {
   const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/task_crops', location.state);
+    navigate('/add_task/task_crops', location.state);
   };
 
   return (
@@ -162,7 +162,7 @@ function TaskAnimalLocations({ history, location }) {
   const { t } = useTranslation();
   const animalLocations = useSelector(animalLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/task_details', location.state);
+    navigate('/add_task/task_details', location.state);
   };
 
   return (
@@ -182,7 +182,7 @@ function TaskSoilSampleLocations({ history, location }) {
   const { t } = useTranslation();
   const soilSampleLocations = useSelector(soilSampleLocationsSelector);
   const onContinue = () => {
-    history.push('/add_task/task_details', location.state);
+    navigate('/add_task/task_details', location.state);
   };
 
   return (
@@ -214,11 +214,11 @@ function TaskCustomLocations({ history, location }) {
     if (!hasManagementPlans) {
       dispatch(setManagementPlansData([]));
       if (animalsExistOnFarm) {
-        return history.push('/add_task/task_animal_selection', location?.state);
+        return navigate('/add_task/task_animal_selection', location?.state);
       }
-      return history.push('/add_task/task_details', location?.state);
+      return navigate('/add_task/task_details', location?.state);
     }
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', location?.state);
   };
 
   const progress = getProgress('CUSTOM_TASK', 'task_locations');
@@ -258,9 +258,9 @@ function TaskAllLocations({ history, location }) {
       !hasManagementPlans
     ) {
       dispatch(setManagementPlansData([]));
-      return history.push('/add_task/task_details', location?.state);
+      return navigate('/add_task/task_details', location?.state);
     }
-    history.push('/add_task/task_crops', location?.state);
+    navigate('/add_task/task_crops', location?.state);
   };
 
   return (

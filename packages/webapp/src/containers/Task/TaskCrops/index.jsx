@@ -70,7 +70,7 @@ function TaskCrops({
     navigate(-1);
   };
   const onContinue = () => {
-    history.push(onContinuePath, location?.state);
+    navigate(onContinuePath, location?.state);
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '../Modals';
 import styles from './styles.module.scss';
@@ -26,13 +26,14 @@ import history from '../../history';
 import { setMapAddDrawerShow } from '../../containers/Map/mapAddDrawerSlice';
 
 export default function LocationCreationModal({ title, body, dismissModal, isAdmin }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { farm_id } = useSelector(userFarmSelector);
 
   const onCreateLocation = () => {
     dispatch(setMapAddDrawerShow(farm_id));
-    history.push('/map');
+    navigate('/map');
   };
 
   return (

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -198,6 +198,8 @@ const MainAnimalInventory = ({
   actionMenuAndRemoveModal: ReactNode;
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
+  const navigate = useNavigate();
+
   return (
     <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
@@ -209,7 +211,7 @@ const MainAnimalInventory = ({
           history={history}
           {...commonProps}
           onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
-            history.push(row.path);
+            navigate(row.path);
           }}
           tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
           showSearchBarAndFilter={true}

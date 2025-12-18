@@ -1,6 +1,6 @@
 import { isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
  * Do not modify, copy or reuse
  */
 const useSelectionHandler = () => {
+  const navigate = useNavigate();
   const history = useHistory();
   const initOverlappedLocations = {
     area: [],
@@ -41,17 +42,13 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        history.push(
-          `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
-        );
+        navigate(`/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`);
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&
         overlappedLocations.point.length === 0
       ) {
-        history.push(
-          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`,
-        );
+        navigate(`/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`);
       } else {
         if (overlappedLocations.point.length === 1) {
           if (
@@ -70,11 +67,9 @@ const useSelectionHandler = () => {
               overlappedLocations.point[0].type,
             )
           ) {
-            history.push(
-              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}`,
-            );
+            navigate(`/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}`);
           } else {
-            history.push(
+            navigate(
               `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
             );
           }

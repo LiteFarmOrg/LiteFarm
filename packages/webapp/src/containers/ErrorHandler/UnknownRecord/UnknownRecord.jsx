@@ -38,7 +38,7 @@ export default function UnknownRecord() {
   const classes = useStyles();
   const goBack = () => {
     if (history.action === 'POP') {
-      history.push('/home');
+      navigate('/home');
       return;
     } else {
       navigate(-1);

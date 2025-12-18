@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect, Component, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -40,6 +40,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 
 const Insights = () => {
+  const navigate = useNavigate();
   const history = useHistory();
   const farm = useSelector(userFarmSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
@@ -85,7 +86,7 @@ const Insights = () => {
   }, []);
 
   const handleClick = (route) => {
-    history.push(`/Insights/${route}`);
+    navigate(`/Insights/${route}`);
   };
 
   const renderItem = (item, index, currentData) => (

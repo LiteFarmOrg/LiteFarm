@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -9,6 +9,7 @@ import {
 import { completeManagementPlan } from './saga';
 
 export default function CompleteManagementPlan() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const { management_plan_id, variety_id: crop_variety_id } = useParams();
@@ -25,7 +26,7 @@ export default function CompleteManagementPlan() {
   const dispatch = useDispatch();
 
   const onGoBack = () => {
-    history.push(
+    navigate(
       `/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`,
       location?.state,
     );

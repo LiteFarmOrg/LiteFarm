@@ -2,6 +2,7 @@ import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -23,6 +24,7 @@ export default function PureCropManagement({
   isAdmin,
   location,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
   const [plansForModal, setPlansForModal] = useState([]);
@@ -121,7 +123,7 @@ export default function PureCropManagement({
             return (
               <ManagementPlanCard
                 onClick={() =>
-                  history.push(
+                  navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
                     location.state,
                   )

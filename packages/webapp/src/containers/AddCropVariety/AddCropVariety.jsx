@@ -28,7 +28,7 @@ function AddCropVarietyForm() {
     console.log(error);
   };
   const onContinue = (data) => {
-    history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
+    navigate(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
 
   const farmCropVarieties = useSelector(cropVarietiesSelector);

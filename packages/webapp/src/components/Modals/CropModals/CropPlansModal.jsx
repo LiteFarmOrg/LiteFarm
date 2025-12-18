@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Main } from '../../Typography';
@@ -32,6 +33,7 @@ export default function CropPlansModal({
   managementPlanCardContents,
   dismissModal,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const infoRef = useRef(null);
 
@@ -71,7 +73,7 @@ export default function CropPlansModal({
                 key={index}
                 {...managementPlan}
                 onClick={() =>
-                  history.push(
+                  navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
                     history.location.state,
                   )

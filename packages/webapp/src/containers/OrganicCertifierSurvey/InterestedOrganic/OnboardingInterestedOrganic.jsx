@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
@@ -15,13 +15,14 @@ import {
 import { setInterested } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function OnboardingInterestedOrganic() {
+  const navigate = useNavigate();
   const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
 
   const consentPath = '/consent';
   const onGoBack = () => {
-    history.push(consentPath);
+    navigate(consentPath);
   };
   const certificationSelectionPath = '/certification/selection';
   const outroPath = '/outro';
@@ -34,9 +35,9 @@ export default function OnboardingInterestedOrganic() {
   const onSubmit = (data) => {
     if (data.interested) {
       dispatch(setInterested(data.interested));
-      history.push(certificationSelectionPath);
+      navigate(certificationSelectionPath);
     } else {
-      const callback = () => history.push(outroPath);
+      const callback = () => navigate(outroPath);
       if (survey.survey_id) {
         dispatch(
           putOrganicCertifierSurvey({

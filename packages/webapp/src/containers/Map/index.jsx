@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -66,6 +66,7 @@ import {
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function Map({ isCompactSideMenu }) {
+  const navigate = useNavigate();
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const {
@@ -376,7 +377,7 @@ export default function Map({ isCompactSideMenu }) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
-      history.push(ADD_SENSORS_URL);
+      navigate(ADD_SENSORS_URL);
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
@@ -422,7 +423,7 @@ export default function Map({ isCompactSideMenu }) {
         dispatch(upsertFormData(locationData));
         dispatch(setIsRedrawing(false));
       }
-      history.push(`/create_location/${drawingState.type}`);
+      navigate(`/create_location/${drawingState.type}`);
     }
   };
 
@@ -434,7 +435,7 @@ export default function Map({ isCompactSideMenu }) {
     } else {
       dispatch(upsertFormData({ ...lineData }));
     }
-    history.push(`/create_location/${drawingState.type}`);
+    navigate(`/create_location/${drawingState.type}`);
   };
 
   const isLineWithWidth = (type = drawingState.type) => {

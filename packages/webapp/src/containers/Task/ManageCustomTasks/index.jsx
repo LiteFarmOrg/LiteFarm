@@ -15,10 +15,10 @@ function ManageCustomTasks() {
   };
 
   const onEditCustomTask = () => {
-    history.push(onEditCustomTaskPath);
+    navigate(onEditCustomTaskPath);
   };
   const onAddCustomTask = () => {
-    history.push(onAddCustomTaskPath);
+    navigate(onAddCustomTaskPath);
   };
 
   const onError = () => {

@@ -7,7 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
@@ -16,6 +16,7 @@ import { checkManagementPlanDependencies } from '../saga';
 import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
 
 export default function ManagementTasks() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
@@ -41,20 +42,14 @@ export default function ManagementTasks() {
   }, []);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management`, location?.state);
+    navigate(`/crop/${variety_id}/management`, location?.state);
   };
 
   const onCompleted = () => {
-    history.push(
-      `/crop/${variety_id}/${management_plan_id}/complete_management_plan`,
-      location?.state,
-    );
+    navigate(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`, location?.state);
   };
   const onAbandon = () =>
-    history.push(
-      `/crop/${variety_id}/${management_plan_id}/abandon_management_plan`,
-      location?.state,
-    );
+    navigate(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`, location?.state);
 
   const showSpotlight = history.location.state?.fromCreation;
 
@@ -100,7 +95,7 @@ export default function ManagementTasks() {
           <TaskCard
             key={task.task_id}
             onClick={() =>
-              history.push(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
+              navigate(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
             }
             style={{ marginBottom: '14px' }}
             {...task}

@@ -223,7 +223,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
               tabs={routerTabs}
               variant={TabVariants.UNDERLINE}
               isSelected={(tab) => tab.path === match.url}
-              onClick={(tab) => history.push(tab.path)}
+              onClick={(tab) => navigate(tab.path)}
             /> */}
           </>
         }

@@ -1,6 +1,7 @@
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Table from '../../Table';
@@ -8,6 +9,7 @@ import { TableKind } from '../../Table/types';
 import ProfileLayout from '../ProfileLayout';
 
 export default function PurePeople({ users, history, isAdmin }) {
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'role']);
   const [searchString, setSearchString] = useState('');
   const onChange = (e) => {
@@ -98,7 +100,7 @@ export default function PurePeople({ users, history, isAdmin }) {
     return {
       onClick: (e) => {
         if (isClickable) {
-          history.push(`/user/${rowInfo.original.user_id}`);
+          navigate(`/user/${rowInfo.original.user_id}`);
         }
       },
       style: isClickable ? clickableStyle : normalTextStyle,
@@ -106,7 +108,7 @@ export default function PurePeople({ users, history, isAdmin }) {
   };
   return (
     <ProfileLayout
-      onSubmit={() => history.push('/invite_user')}
+      onSubmit={() => navigate('/invite_user')}
       history={history}
       buttonGroup={
         isAdmin && (

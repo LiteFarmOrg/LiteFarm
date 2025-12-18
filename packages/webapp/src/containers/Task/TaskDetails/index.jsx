@@ -48,7 +48,7 @@ function TaskDetails() {
   };
 
   const onSubmit = () => {
-    history.push('/add_task/task_assignment', location?.state);
+    navigate('/add_task/task_assignment', location?.state);
   };
 
   const onError = () => {};

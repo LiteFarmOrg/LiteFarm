@@ -21,7 +21,7 @@ function EditCustomTask() {
   };
 
   const handleEdit = () => {
-    history.push(onEditPath);
+    navigate(onEditPath);
   };
   const handleRetire = () => {
     dispatch(deleteTaskType(persistedData.task_type_id));

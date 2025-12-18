@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
 
 function Callback() {
+  const navigate = useNavigate();
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,7 +22,7 @@ function Callback() {
         }),
       );
     } else {
-      history.push('/');
+      navigate('/');
     }
   }, []);
 

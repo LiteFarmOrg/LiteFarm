@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import defaultStyles from '../styles.module.scss';
@@ -34,7 +34,7 @@ import { SUNDAY } from '../../../util/dateRange';
 import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -225,7 +225,7 @@ const OtherExpense = () => {
                   onClick: (e, handleOriginal) => {
                     if (rowInfo && rowInfo.original) {
                       const expense_id = rowInfo.original.expense_item_id;
-                      history.push(createExpenseDetailsUrl(expense_id));
+                      navigate(createExpenseDetailsUrl(expense_id));
                     }
                     if (handleOriginal) {
                       handleOriginal();

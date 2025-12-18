@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -34,6 +34,7 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
+  const navigate = useNavigate();
   const history = useHistory();
   const location = useLocation();
   const {
@@ -122,7 +123,7 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push(
+    navigate(
       {
         pathname: '/',
       },
@@ -130,7 +131,7 @@ function CustomSignUp() {
     );
   };
   const createUserAccountOnGoBack = () => {
-    history.push(
+    navigate(
       {
         pathname: '/',
       },

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
@@ -10,6 +10,7 @@ import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapConstants';
 
 const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
+  const navigate = useNavigate();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -42,7 +43,7 @@ const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
           amount: plan.estimated_revenue || 0,
           isPlan: true,
           onClickForward: () =>
-            history.push(createManagementPlanEstimatedRevenueURL(plan.management_plan_id)),
+            navigate(createManagementPlanEstimatedRevenueURL(plan.management_plan_id)),
         };
       })}
       isDropDown

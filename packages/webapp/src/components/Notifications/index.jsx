@@ -14,7 +14,7 @@
  */
 
 import Layout from '../Layout';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 import { colors } from '../../assets/theme';
@@ -26,6 +26,7 @@ import useTranslationUtil from '../../util/useTranslationUtil';
 import NotificationTimeline from './NotificationTimeline';
 
 function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { getNotificationTitle, getNotificationBody } = useTranslationUtil();
 
@@ -47,7 +48,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       route = '/';
     }
 
-    history.push(route, notification.context);
+    navigate(route, notification.context);
   };
 
   return (

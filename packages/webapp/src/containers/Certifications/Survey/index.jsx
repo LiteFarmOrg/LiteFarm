@@ -32,7 +32,7 @@ function CertificationSurveyPage() {
       <PureCertificationSurveyPage
         onExport={onExport}
         handleGoBack={() => navigate(-1)}
-        handleCancel={() => history.push('/certification')}
+        handleCancel={() => navigate('/certification')}
         certifierSurvey={certifierSurvey}
         interested={interested}
         certifier={certifier}

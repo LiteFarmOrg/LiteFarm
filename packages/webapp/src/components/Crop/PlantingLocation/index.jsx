@@ -109,7 +109,7 @@ export default function PurePlantingLocation({
   };
 
   const proceedToNextStep = () =>
-    history.push(
+    navigate(
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
 

@@ -11,7 +11,7 @@ import {
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useNavigate } from 'react-router-dom';
 import { FiEye } from 'react-icons/fi';
 
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -29,8 +29,10 @@ import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalS
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, ...props }, ref) => {
+  const navigate = useNavigate();
+
   return (
-    <ListItemButton onClick={onClick ?? (() => history.push(path))} ref={ref} {...props}>
+    <ListItemButton onClick={onClick ?? (() => navigate(path))} ref={ref} {...props}>
       {/* Visibility controlled via props.classes passed to ListItemButton */}
       <span className={styles.eyeIconWrapper}>
         <FiEye aria-hidden="true" />
@@ -68,6 +70,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 };
 
 const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
+  const navigate = useNavigate();
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -77,7 +80,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const offline = useIsOffline();
 
   const handleClick = (link) => {
-    history.push(link);
+    navigate(link);
     closeDrawer?.();
   };
 

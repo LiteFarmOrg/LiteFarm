@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -42,6 +42,7 @@ const seedingTypeIsSeedMap = {
 };
 
 function CropManagement() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
@@ -51,7 +52,7 @@ function CropManagement() {
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
   const goBack = () => {
-    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
+    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
     const estimated_seeds_unit = { value: 'kg', label: 'kg' };
@@ -106,7 +107,7 @@ function CropManagement() {
         addManagementPlanNamePath(variety_id),
       ]),
     );
-    history.push(plantedAlreadyPath(variety_id));
+    navigate(plantedAlreadyPath(variety_id));
   };
 
   useEffect(() => {

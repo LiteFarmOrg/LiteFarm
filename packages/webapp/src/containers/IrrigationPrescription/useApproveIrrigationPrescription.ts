@@ -14,7 +14,7 @@
  */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { irrigationTypeByKeyAndFarmIdSelector } from '../irrigationTaskTypesSlice';
 import { taskTypeByKeySelector } from '../taskTypeSlice';
@@ -31,8 +31,8 @@ import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 export default function useApproveIrrigationPrescription(
   prescriptionDetails?: IrrigationPrescriptionDetails,
 ) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function useApproveIrrigationPrescription(
     };
 
     dispatch(setFormData(taskData));
-    history.push(ADD_TASK_DETAILS);
+    navigate(ADD_TASK_DETAILS);
   };
 
   return hasTask ? undefined : onApproveIrrigationPrescription;

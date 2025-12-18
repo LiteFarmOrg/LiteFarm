@@ -28,7 +28,7 @@ class ExpenseCategories extends Component {
   nextPage(event) {
     event.preventDefault();
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-    this.props.history.push(ADD_EXPENSE_URL);
+    this.props.navigate(ADD_EXPENSE_URL);
   }
 
   addRemoveType(id) {
@@ -65,7 +65,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={history.back} // TODO: TEST
           progressValue={33}
-          onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
+          onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatListItemData={(data) => {
             const {

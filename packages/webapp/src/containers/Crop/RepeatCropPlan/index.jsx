@@ -60,7 +60,7 @@ function RepeatCropPlan() {
   const firstTaskDate = getDateInputFormat(sortedTasks[0].complete_date || sortedTasks[0].due_date);
 
   const onContinue = () => {
-    history.push(
+    navigate(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
       { origStartDate: firstTaskDate },
     );

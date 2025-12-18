@@ -8,9 +8,10 @@ import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import produce from 'immer';
 import { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
 
 export default function ManagementDetails() {
+  const navigate = useNavigate();
   const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function ManagementDetails() {
   }, [plan, history]);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);
+    navigate(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);
   };
 
   const showSpotlight = history.location.state?.fromCreation;

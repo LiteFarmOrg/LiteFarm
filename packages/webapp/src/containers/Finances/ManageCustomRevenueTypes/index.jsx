@@ -49,7 +49,7 @@ export default function ManageRevenueTypes() {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
-    history.push(readOnly);
+    navigate(readOnly);
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function ManageRevenueTypes() {
       if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
         dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
         unlisten();
-        history.push(REVENUE_TYPES_URL);
+        navigate(REVENUE_TYPES_URL);
       } else if (
         // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
@@ -76,7 +76,7 @@ export default function ManageRevenueTypes() {
 
   const onAddType = () => {
     setPersistedPaths(addCustomTypePath);
-    history.push(addCustomTypePath);
+    navigate(addCustomTypePath);
   };
 
   return (

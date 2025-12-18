@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
 // TODO: Most likely to be scoped after movement tasks. It is not part of this user story.
 const AnimalTasks = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const match = useRouteMatch();
   const { t } = useTranslation();
 
@@ -45,7 +45,7 @@ const AnimalTasks = () => {
         tabs={routerTabs}
         variant={TabVariants.UNDERLINE}
         isSelected={(tab) => tab.path === match.url}
-        onClick={(tab) => history.push(tab.path)}
+        onClick={(tab) => navigate(tab.path)}
       />
       <div>AnimalTasks</div>
     </div>

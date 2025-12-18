@@ -63,7 +63,7 @@ function RevenueDetail() {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
-    history.push(createEditRevenueDetailsUrl(sale_id));
+    navigate(createEditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {

@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -42,6 +42,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 
 const Insights = () => {
+  const navigate = useNavigate();
   const history = useHistory();
   const farm = useSelector(userFarmSelector);
   const tapeStatus = useSelector(tapeSurveyStatusSelector);
@@ -94,7 +95,7 @@ const Insights = () => {
   }, []);
 
   const handleClick = (route) => {
-    history.push(`/Insights/${route}`);
+    navigate(`/Insights/${route}`);
   };
 
   const renderItem = (item, index, currentData) => (
@@ -127,8 +128,8 @@ const Insights = () => {
     insightData['TAPE'] = tapeStatus.isCompleted
       ? t('INSIGHTS.TAPE.COMPLETED')
       : tapeStatus.hasData
-        ? t('INSIGHTS.TAPE.IN_PROGRESS')
-        : t('INSIGHTS.TAPE.NOT_FILLED');
+      ? t('INSIGHTS.TAPE.IN_PROGRESS')
+      : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'

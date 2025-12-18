@@ -70,7 +70,7 @@ const ExpenseDetail = () => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    history.push(createEditExpenseDetailsUrl(expense_id));
+    navigate(createEditExpenseDetailsUrl(expense_id));
   };
 
   const onRetire = () => {

@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Info, Main } from '../../Typography';
@@ -30,6 +31,7 @@ export default function PurePlantingDate({
   language,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const SEED_DATE = 'crop_management_plan.seed_date';
   const PLANT_DATE = 'crop_management_plan.plant_date';
@@ -64,14 +66,14 @@ export default function PurePlantingDate({
       seedIsMain
         ? SEED_DATE
         : plantingIsMain
-          ? PLANT_DATE
-          : transplantIsMain
-            ? TRANSPLANT_DATE
-            : harvestIsMain
-              ? HARVEST_DATE
-              : terminationIsMain
-                ? TERMINATION_DATE
-                : SEED_DATE,
+        ? PLANT_DATE
+        : transplantIsMain
+        ? TRANSPLANT_DATE
+        : harvestIsMain
+        ? HARVEST_DATE
+        : terminationIsMain
+        ? TERMINATION_DATE
+        : SEED_DATE,
     [],
   );
 
@@ -87,8 +89,8 @@ export default function PurePlantingDate({
     const dateLabel = seedIsMain
       ? t('MANAGEMENT_PLAN.SEEDING_DATE')
       : plantingIsMain
-        ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
-        : t('common:DATE');
+      ? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL')
+      : t('common:DATE');
 
     const subtitleMap = {
       [SEED_DATE]: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
@@ -234,7 +236,7 @@ export default function PurePlantingDate({
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const onError = () => {};
 

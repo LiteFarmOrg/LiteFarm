@@ -1,4 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -285,13 +286,14 @@ function TaskLocations({
   optionalLocation,
   progress,
 }) {
+  const navigate = useNavigate();
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
   const managementPlan = location?.state?.management_plan_id
     ? useSelector(managementPlanSelector(location.state.management_plan_id))
     : null;
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

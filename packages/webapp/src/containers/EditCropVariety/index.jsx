@@ -1,4 +1,5 @@
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureEditCropVariety from '../../components/EditCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 // import { postCropAndVarietal, postVarietal } from './saga';
@@ -12,7 +13,7 @@ import { cropVarietySelector } from '../cropVarietySlice';
 import { patchVarietal } from '../AddCropVariety/saga';
 
 function EditCropVarietyForm() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
   const { variety_id } = useParams();
@@ -44,7 +45,7 @@ function EditCropVarietyForm() {
           <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
         </ImagePickerWrapper>
       }
-      handleGoBack={() => history.back()}
+      handleGoBack={() => navigate(-1)}
       cropVariety={cropVariety}
     />
   );

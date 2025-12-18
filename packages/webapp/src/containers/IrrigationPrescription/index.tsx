@@ -15,6 +15,7 @@
 
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
@@ -45,6 +46,7 @@ const dateTimeLabelStyles = {
 
 const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionProps) => {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const system = useSelector(measurementSelector);
@@ -64,7 +66,7 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
     }
   }, [isLoading, irrigationPrescription]);
 
-  const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
+  const onApprove = useApproveIrrigationPrescription(irrigationPrescription);
 
   const fieldLocation: Location | undefined = useSelector(
     locationByIdSelector(irrigationPrescription?.location_id ?? ''),
@@ -94,8 +96,7 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
             label: t('IRRIGATION_PRESCRIPTION.TITLE'),
             system: irrigationPrescription.system_name,
           })}
-          // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-          onGoBack={history.back}
+          onGoBack={() => navigate(-1)}
           classNames={{ wrapper: styles.title }}
         ></PageTitle>
         <div className={styles.recommendedSchedule}>
@@ -126,8 +127,7 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
             isFinalStep={true}
             isDisabled={false}
             informationalText={t('IRRIGATION_PRESCRIPTION.APPROVE_AND_CREATE_TASK')}
-            // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-            onCancel={history.back}
+            onCancel={() => navigate(-1)}
             onContinue={onApprove}
             cancelButtonContent={
               <>

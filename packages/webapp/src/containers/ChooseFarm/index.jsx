@@ -15,6 +15,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   deselectFarmSuccess,
   loginSelector,
@@ -32,6 +33,7 @@ import { selectFarmAndFetchAll } from '../saga';
 
 function ChooseFarm() {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -58,7 +60,7 @@ function ChooseFarm() {
   }, [farms, loaded]);
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onProceed = () => {

@@ -63,7 +63,7 @@ class ExpenseCategories extends Component {
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           types={filteredExpenseTypes}
           onContinue={this.nextPage}
-          onGoBack={history.back}
+          onGoBack={history.back} // TODO: TEST
           progressValue={33}
           onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}

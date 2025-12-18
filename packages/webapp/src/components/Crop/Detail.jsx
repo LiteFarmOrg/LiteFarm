@@ -1,6 +1,6 @@
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -24,6 +24,7 @@ function PureCropDetail({
   location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -55,7 +56,7 @@ function PureCropDetail({
         )
       }
     >
-      <CropHeader onBackClick={() => history.back()} variety={variety} />
+      <CropHeader onBackClick={() => navigate(-1)} variety={variety} />
       {!isEditing && (
         <>
           <RouterTab

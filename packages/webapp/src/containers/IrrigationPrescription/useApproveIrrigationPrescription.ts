@@ -14,7 +14,7 @@
  */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { History } from 'history';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { irrigationTypeByKeyAndFarmIdSelector } from '../irrigationTaskTypesSlice';
 import { taskTypeByKeySelector } from '../taskTypeSlice';
@@ -29,10 +29,10 @@ import { convert } from '../../util/convert-units/convert';
 import type { IrrigationPrescriptionDetails } from '../../store/api/types';
 
 export default function useApproveIrrigationPrescription(
-  history: History,
   prescriptionDetails?: IrrigationPrescriptionDetails,
 ) {
   const { t } = useTranslation();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
@@ -18,6 +18,7 @@ export default function PureTransplant({
   history,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const progress = 25;
   const TRANSPLANT = 'crop_management_plan.needs_transplant';
@@ -42,7 +43,7 @@ export default function PureTransplant({
   const onSubmit = () => {
     history?.push(submitPath);
   };
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 

@@ -15,6 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
@@ -63,6 +64,7 @@ interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
 
 function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
   const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   // Header logic + display
@@ -191,8 +193,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
     const result = await onConfirmRemoveAnimals(formData);
 
     if (!result.error) {
-      // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-      history.back();
+      navigate(-1);
     }
   };
 
@@ -208,8 +209,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
-                // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-                onBack={history.back}
+                onBack={() => navigate(-1)}
                 /* @ts-expect-error */
                 animalOrBatch={defaultFormValues}
                 locationText={locationText}

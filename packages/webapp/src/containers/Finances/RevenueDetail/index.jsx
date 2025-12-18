@@ -15,6 +15,7 @@
 
 import React, { useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
@@ -33,6 +34,7 @@ import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 function RevenueDetail() {
   const history = useHistory();
   const match = useRouteMatch();
+  const navigate = useNavigate();
   const isEditing = match.path.endsWith('/edit');
   const { sale_id } = match.params;
 
@@ -69,7 +71,7 @@ function RevenueDetail() {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onTypeChange = (typeId, setValue) => {

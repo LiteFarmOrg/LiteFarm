@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -23,6 +24,7 @@ export default function PurePlantedAlready({
   location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -102,7 +104,7 @@ export default function PurePlantedAlready({
 
     history.push(submitPath, location?.state);
   };
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const already_in_ground = watch(ALREADY_IN_GROUND);
   const is_seed = watch(IS_SEED);

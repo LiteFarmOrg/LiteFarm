@@ -14,6 +14,7 @@
  */
 
 import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ import { createEditCustomExpenseURL } from '../../../util/siteMapConstants';
 
 function ReadOnlyCustomExpense() {
   const history = useHistory();
+  const navigate = useNavigate();
   const { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ function ReadOnlyCustomExpense() {
     : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const handleEdit = () => {

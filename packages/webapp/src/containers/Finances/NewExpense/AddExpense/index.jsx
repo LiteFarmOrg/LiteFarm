@@ -86,7 +86,7 @@ class AddExpense extends Component {
       <HookFormPersistProvider>
         <PureAddExpense
           types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={this.props.history.back}
+          onGoBack={this.props.history.back} // TODO: test
           onSubmit={this.handleSubmit}
         />
       </HookFormPersistProvider>

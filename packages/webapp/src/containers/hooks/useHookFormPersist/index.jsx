@@ -11,6 +11,7 @@ import {
 } from './hookFormPersistSlice';
 import { useCallback, useEffect, useLayoutEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Persists form values when navigating between routes.
@@ -30,6 +31,7 @@ export default function useHookFormPersist(
   formFieldsToKeep = [],
 ) {
   const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const historyStack = useSelector(hookFormPersistHistoryStackSelector);
@@ -88,7 +90,7 @@ export default function useHookFormPersist(
               history.push(pathname, state);
             }
           });
-          history.back();
+          navigate(-1);
         }
       }
     };

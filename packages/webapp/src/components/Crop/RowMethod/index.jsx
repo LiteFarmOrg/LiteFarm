@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import Button from '../../Form/Button';
@@ -17,11 +17,11 @@ export default function PureRowMethod({
   history,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  onGoBack = () => history.back(),
   isHistoricalPage,
   location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -50,7 +50,7 @@ export default function PureRowMethod({
       onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
-        onGoBack={onGoBack}
+        onGoBack={() => navigate(-1)}
         onCancel={historyCancel}
         value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}

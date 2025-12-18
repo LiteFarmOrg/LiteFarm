@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureSoilSampleLocation from '../../../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 import { deleteSoilSampleLocationLocation, editSoilSampleLocationLocation } from './saga';
-import { checkLocationDependencies } from '../../saga';
+import { useCheckDeleteLocationMutation } from '../../../../store/api/locationApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import { soilSampleLocationSelector } from '../../../soilSampleLocationSlice';
@@ -55,14 +55,14 @@ function EditSoilSampleLocationDetailForm() {
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
   const { location_id } = match.params;
-  const handleRetire = () => {
-    dispatch(
-      checkLocationDependencies({
-        location_id,
-        setShowConfirmRetireModal,
-        setShowCannotRetireModal,
-      }),
-    );
+  const [checkDeleteLocation] = useCheckDeleteLocationMutation();
+  const handleRetire = async () => {
+    try {
+      await checkDeleteLocation({ location_id }).unwrap();
+      setShowConfirmRetireModal(true);
+    } catch (_err) {
+      setShowCannotRetireModal(true);
+    }
   };
 
   const confirmRetire = () => {

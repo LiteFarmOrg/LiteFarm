@@ -11,7 +11,7 @@ import {
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useNavigate } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
@@ -22,10 +22,11 @@ import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
+  const navigate = useNavigate();
   const isActive = matchPath(history.location.pathname, path);
   return (
     <ListItemButton
-      onClick={onClick ?? (() => history.push(path))}
+      onClick={onClick ?? (() => navigate(path))}
       className={clsx(styles.listItem, isActive && styles.active, className)}
       ref={ref}
     >
@@ -62,6 +63,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 };
 
 const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
+  const navigate = useNavigate();
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -69,7 +71,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const { mainActions, adminActions } = useGetMenuItems();
 
   const handleClick = (link) => {
-    history.push(link);
+    navigate(link);
     closeDrawer?.();
   };
 

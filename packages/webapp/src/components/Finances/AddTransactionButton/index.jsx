@@ -14,12 +14,12 @@
  */
 
 import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
-import history from '../../../history';
 import DropdownButton from '../../Form/DropDownButton';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
@@ -31,17 +31,18 @@ import {
 } from '../../../util/siteMapConstants';
 
 const Menu = forwardRef((props, ref) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleAddRevenueClick = () => {
     dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
-    history.push(REVENUE_TYPES_URL);
+    navigate(REVENUE_TYPES_URL);
   };
 
   const handleAddExpenseClick = () => {
     dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
-    history.push(EXPENSE_CATEGORIES_URL);
+    navigate(EXPENSE_CATEGORIES_URL);
   };
 
   return (

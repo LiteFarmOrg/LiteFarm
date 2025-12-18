@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -23,6 +23,7 @@ export default function PureManagementDetail({
   match,
   system,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const title = plan?.name;
@@ -85,7 +86,7 @@ export default function PureManagementDetail({
             <Button
               fullLength
               onClick={() =>
-                history.push(
+                navigate(
                   `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/edit`,
                 )
               }

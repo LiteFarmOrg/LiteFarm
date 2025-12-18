@@ -46,7 +46,7 @@ function ReadOnlyCustomRevenue() {
   };
 
   const handleEdit = () => {
-    history.push(createEditCustomRevenueUrl(revenue_type_id));
+    navigate(createEditCustomRevenueUrl(revenue_type_id));
   };
 
   const onRetire = () => {

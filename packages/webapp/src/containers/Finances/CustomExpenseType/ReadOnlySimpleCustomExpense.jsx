@@ -45,7 +45,7 @@ function ReadOnlyCustomExpense() {
   };
 
   const handleEdit = () => {
-    history.push(createEditCustomExpenseURL(expense_type_id));
+    navigate(createEditCustomExpenseURL(expense_type_id));
   };
 
   const onRetire = () => {

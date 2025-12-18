@@ -17,7 +17,7 @@ function AddNewCrop() {
   return (
     <HookFormPersistProvider>
       <PureAddNewCrop
-        handleContinue={() => history.push(`/crop/new/add_crop_variety`)}
+        handleContinue={() => navigate(`/crop/new/add_crop_variety`)}
         handleGoBack={() => navigate(-1)}
         imageUploader={
           <ImagePickerWrapper>

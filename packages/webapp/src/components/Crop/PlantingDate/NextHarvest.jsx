@@ -59,7 +59,7 @@ export default function PureNextHarvest({
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
+  const onSubmit = () => navigate(submitPath);
   const onGoBack = () => navigate(-1);
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;

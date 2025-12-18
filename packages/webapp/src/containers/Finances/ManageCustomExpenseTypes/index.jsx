@@ -49,7 +49,7 @@ export default function ManageExpenseTypes() {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
-    history.push(readOnly);
+    navigate(readOnly);
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function ManageExpenseTypes() {
       if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
         dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
         unlisten();
-        history.push(EXPENSE_CATEGORIES_URL);
+        navigate(EXPENSE_CATEGORIES_URL);
       } else if (
         // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_expenses" happens when the user lands on this page.
@@ -76,7 +76,7 @@ export default function ManageExpenseTypes() {
 
   const onAddType = () => {
     setPersistedPaths(addCustomTypePath);
-    history.push(addCustomTypePath);
+    navigate(addCustomTypePath);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import PureInviteSignup from '../../components/InviteSignup';
 import { decodeToken } from 'react-jwt';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import Button from '../../components/Form/Button';
 import { isChrome } from '../../util';
 
 function InviteSignUp() {
+  const navigate = useNavigate();
   const history = useHistory();
   const invite_token = history.location.state;
   const GOOGLE = 1;
@@ -21,7 +22,7 @@ function InviteSignUp() {
   const [showError, setShowError] = useState();
   useEffect(() => {
     if (!invite_token) {
-      history.push('/');
+      navigate('/');
     } else {
       const { email, gender, birth_year } = getTokenContent(invite_token);
       setEmail(email);
@@ -41,7 +42,7 @@ function InviteSignUp() {
 
   const onSuccessGoogle = (data, token) => {
     if (data.email === email) {
-      history.push('/accept_invitation/create_account', {
+      navigate('/accept_invitation/create_account', {
         email,
         google_id_token: token.access_token,
         invite_token,
@@ -59,7 +60,7 @@ function InviteSignUp() {
       login();
     } else {
       const { email, first_name, last_name } = getTokenContent(invite_token);
-      history.push('/accept_invitation/create_account', {
+      navigate('/accept_invitation/create_account', {
         invite_token,
         email,
         name: `${first_name} ${last_name}`,

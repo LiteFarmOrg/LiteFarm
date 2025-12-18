@@ -151,7 +151,7 @@ export default function TaskManagement() {
 
   const dismissModal = () => {
     setShowCannotCreateModal(false);
-    history.push('/tasks');
+    navigate('/tasks');
   };
 
   // Only creating user or assigned user can complete task -- see TaskReadOnly

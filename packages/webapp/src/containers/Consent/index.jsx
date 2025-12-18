@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
@@ -42,7 +42,7 @@ function ConsentForm({
   goBackTo = '/role_selection',
   goForwardTo = '/certification/interested_in_organic',
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);
@@ -66,7 +66,7 @@ function ConsentForm({
     },
   });
   const goBack = () => {
-    history.push(goBackTo);
+    navigate(goBackTo);
   };
 
   const updateConsent = (data) => {
@@ -93,5 +93,4 @@ export default ConsentForm;
 ConsentForm.prototype = {
   goBackTo: PropTypes.string,
   goForwardTo: PropTypes.string,
-  history: PropTypes.object,
 };

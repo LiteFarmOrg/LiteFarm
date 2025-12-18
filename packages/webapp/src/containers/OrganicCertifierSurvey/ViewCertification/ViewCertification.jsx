@@ -6,7 +6,7 @@ import PureViewNotInterestedInCertification from '../../../components/OrganicCer
 
 import { certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useNavigate } from 'react-router-dom';
 import {
   getAllSupportedCertifications,
   getAllSupportedCertifiers,
@@ -17,6 +17,7 @@ import { resetAndUnLockFormData } from '../../hooks/useHookFormPersist/hookFormP
 import { useCertificationName } from '../useCertificationName';
 
 export default function ViewCertification() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation();
@@ -32,11 +33,11 @@ export default function ViewCertification() {
   const certifier = useSelector(certifierSelector);
   const isNotSupported = survey?.requested_certification || survey?.requested_certifier;
   const onExport = () => {
-    history.push('/certification/report_period');
+    navigate('/certification/report_period');
   };
   const onAddCertification = () => {
     dispatch(resetAndUnLockFormData());
-    history.push('/certification/interested_in_organic');
+    navigate('/certification/interested_in_organic');
   };
   const onChangePreference = onAddCertification;
   const showSuccessSnackBar = location?.state?.success;

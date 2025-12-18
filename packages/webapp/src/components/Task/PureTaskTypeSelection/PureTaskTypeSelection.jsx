@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -60,7 +61,6 @@ const icons = {
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
-  history,
   location,
   persistedFormData,
   useHookFormPersist,
@@ -76,6 +76,7 @@ export const PureTaskTypeSelection = ({
   hasSoilSampleLocations,
   hasSoilAmendmentProducts,
 }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
     defaultValues: persistedFormData,
@@ -97,9 +98,9 @@ export const PureTaskTypeSelection = ({
 
   const [errorModal, setErrorModal] = useState('');
 
-  const goToCatalogue = () => history.push('/crop_catalogue');
-  const goToMap = () => history.push('/map');
-  const goToInventory = () => history.push(PRODUCT_INVENTORY_URL);
+  const goToCatalogue = () => navigate('/crop_catalogue');
+  const goToMap = () => navigate('/map');
+  const goToInventory = () => navigate(PRODUCT_INVENTORY_URL);
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setErrorModal('PLANT_TASK');

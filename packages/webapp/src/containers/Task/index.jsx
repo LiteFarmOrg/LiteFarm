@@ -19,7 +19,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { isAdminSelector, userFarmsByFarmSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -52,6 +52,7 @@ import styles from './styles.module.scss';
 import LocationCreationModal from '../../components/LocationCreationModal';
 
 export default function TaskPage() {
+  const navigate = useNavigate();
   const history = useHistory();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
@@ -218,7 +219,7 @@ export default function TaskPage() {
           taskCardContents.map((task) => (
             <TaskCard
               key={task.task_id}
-              onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+              onClick={() => navigate(`/tasks/${task.task_id}/read_only`)}
               style={{ marginBottom: '14px' }}
               {...task}
             />

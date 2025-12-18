@@ -102,7 +102,7 @@ export default function PurePlantedAlready({
       setValue(FOR_COVER, false);
     }
 
-    history.push(submitPath, location?.state);
+    navigate(submitPath, location?.state);
   };
   const onGoBack = () => navigate(-1);
 

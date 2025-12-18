@@ -10,7 +10,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
 import { getCropVarieties } from '../saga';
 import {
   cropCatalogueFilterDateSelector,
@@ -28,6 +28,7 @@ import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox'
 import Drawer from '../../components/Drawer';
 
 export default function CropVarieties() {
+  const navigate = useNavigate();
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
@@ -80,10 +81,10 @@ export default function CropVarieties() {
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
-  const onGoBack = () => history.push('/crop_catalogue');
+  const onGoBack = () => navigate('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
-    history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
+    navigate(`/crop/${varietyId}/management`, { returnPath: location.pathname });
   };
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();

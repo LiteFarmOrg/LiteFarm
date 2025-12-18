@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -30,13 +31,14 @@ export default function PureManagementTasks({
   location,
   eligibleForDeletion,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const title = plan?.name;
   const hasTasks = !!children?.length;
 
   const onRepeatPlan = (crop_id, plan_id) => {
-    history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
+    navigate(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
   };
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);

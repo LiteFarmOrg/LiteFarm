@@ -72,7 +72,7 @@ export default function PureManagementPlanPlantingMethod({
   const onError = () => {};
 
   const onSubmit = () =>
-    history.push(
+    navigate(
       getPlantingMethodPaths(
         variety_id,
         persistedFormData,

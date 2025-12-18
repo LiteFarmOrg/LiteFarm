@@ -76,7 +76,7 @@ function TaskDate() {
       }
     }
 
-    history.push(getNextStepPath(), location?.state);
+    navigate(getNextStepPath(), location?.state);
   };
 
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_date') : undefined;

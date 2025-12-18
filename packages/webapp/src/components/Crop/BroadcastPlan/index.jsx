@@ -41,7 +41,7 @@ function PureBroadcastPlan({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const { submitPath } = useMemo(() => getBroadcastMethodPaths(variety_id, isFinalPage), []);
-  const onSubmit = () => history.push(submitPath, location?.state);
+  const onSubmit = () => navigate(submitPath, location?.state);
   const onGoBack = () => () => navigate(-1);
 
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;

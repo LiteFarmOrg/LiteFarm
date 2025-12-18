@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
 import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
@@ -10,6 +10,7 @@ const VIDEO_START_TIME = '#t=0.001';
 
 // TODO: Move to containers folder
 function PureVideoView() {
+  const navigate = useNavigate();
   const history = useHistory();
   const { t } = useTranslation();
   const areaVideoRef = useRef(null);
@@ -23,7 +24,7 @@ function PureVideoView() {
   }, []);
 
   return (
-    <TitleLayout title={t('FARM_MAP.TUTORIALS')} onGoBack={() => history.push('/map')}>
+    <TitleLayout title={t('FARM_MAP.TUTORIALS')} onGoBack={() => navigate('/map')}>
       <div className={styles.videoFlex}>
         <div style={{ flex: '1' }}>
           <video

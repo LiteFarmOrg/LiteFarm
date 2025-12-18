@@ -37,7 +37,7 @@ export default function RevenueTypes({ useHookFormPersist }) {
   const getOnTileClickFunc = (setValue) => {
     return (typeId) => {
       setValue('revenue_type_id', typeId);
-      history.push(ADD_REVENUE_URL);
+      navigate(ADD_REVENUE_URL);
     };
   };
 
@@ -73,7 +73,7 @@ export default function RevenueTypes({ useHookFormPersist }) {
         types={revenueTypes}
         onGoBack={() => navigate(-1)}
         progressValue={33}
-        onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_REVENUES_URL)}
+        onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_REVENUES_URL)}
         getFormatListItemDataFunc={getFormatListItemDataFunc}
         listItemType={listItemTypes.ICON_DESCRIPTION}
         useHookFormPersist={useHookFormPersist}

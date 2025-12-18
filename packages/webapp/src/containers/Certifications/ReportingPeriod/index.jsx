@@ -16,11 +16,11 @@ function CertificationReportingPeriod() {
     console.log(error);
   };
   const onContinue = (data) => {
-    history.push('/certification/survey');
+    navigate('/certification/survey');
   };
 
   useEffect(() => {
-    if (!interested) history.push('/certification');
+    if (!interested) navigate('/certification');
   }, []); //TODO: create check in routes file?
 
   return (

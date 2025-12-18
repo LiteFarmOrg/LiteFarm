@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import CardLayout from '../Layout/CardLayout';
@@ -26,6 +26,7 @@ export default function PureCropList({
   routerTabs,
 }) {
   const isSearchable = true;
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const {
@@ -37,7 +38,7 @@ export default function PureCropList({
 
   return (
     <CardLayout>
-      <PageTitle title={title} onGoBack={() => history.push('/map')} />
+      <PageTitle title={title} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
         history={history}
@@ -84,7 +85,7 @@ export default function PureCropList({
                   status={'active'}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
                       returnPath: location?.pathname,
                     })
                   }
@@ -108,7 +109,7 @@ export default function PureCropList({
                   status={'planned'}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
                       returnPath: location?.pathname,
                     })
                   }
@@ -131,7 +132,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
-                    history.push(`/crop/${fc.crop_variety_id}/management`, {
+                    navigate(`/crop/${fc.crop_variety_id}/management`, {
                       returnPath: location?.pathname,
                     })
                   }

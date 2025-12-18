@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
@@ -9,6 +9,7 @@ import useLocationCrops from './useLocationCrops';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 
 function LocationManagementPlan() {
+  const navigate = useNavigate();
   const history = useHistory();
   const match = useRouteMatch();
   const [filter, setFilter] = useState();
@@ -24,7 +25,7 @@ function LocationManagementPlan() {
   };
 
   const onAddCrop = () => {
-    history.push(`/crop_catalogue`);
+    navigate(`/crop_catalogue`);
   };
   const { name } = useSelector(cropLocationByIdSelector(location_id));
 

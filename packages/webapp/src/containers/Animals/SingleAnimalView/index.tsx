@@ -114,9 +114,9 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
 
   useEffect(() => {
     if (!isFetchingAnimalsOrBatches && !selectedAnimal && !selectedBatch) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [selectedAnimal, selectedBatch, history]);
+  }, [selectedAnimal, selectedBatch]);
 
   // Form submission
   const [updateAnimals] = useUpdateAnimalsMutation();

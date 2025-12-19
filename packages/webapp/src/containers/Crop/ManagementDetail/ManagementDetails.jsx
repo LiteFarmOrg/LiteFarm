@@ -22,9 +22,11 @@ export default function ManagementDetails() {
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace(`/crop/${variety_id}/management_plan/${management_plan_id}/tasks`);
+      navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/tasks`, {
+        replace: true,
+      });
     }
-  }, [plan, history]);
+  }, [plan]);
 
   const isAdmin = useSelector(isAdminSelector);
 

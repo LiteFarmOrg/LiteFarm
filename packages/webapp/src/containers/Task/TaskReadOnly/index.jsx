@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
@@ -47,7 +47,6 @@ import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalS
 
 function TaskReadOnly() {
   const location = useLocation();
-  const history = useHistory();
   const navigate = useNavigate();
   const { task_id } = useParams();
   const dispatch = useDispatch();
@@ -89,14 +88,14 @@ function TaskReadOnly() {
 
   useEffect(() => {
     if (task === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     } else {
       setIsTaskTypeCustom(!!task.taskType.farm_id);
       setIsHarvest(isTaskType(task.taskType, 'HARVEST_TASK'));
       setWageAtMoment(task.wage_at_moment);
       setHasAnimals(task.animals?.length || task.animal_batches?.length);
     }
-  }, [task, history]);
+  }, [task]);
 
   const onGoBack = () => {
     navigate(-1);

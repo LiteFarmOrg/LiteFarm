@@ -31,9 +31,9 @@ export default function ManagementTasks() {
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [plan, history]);
+  }, [plan]);
 
   const isAdmin = useSelector(isAdminSelector);
 

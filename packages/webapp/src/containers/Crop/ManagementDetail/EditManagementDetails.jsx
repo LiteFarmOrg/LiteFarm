@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory, useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
+import { useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
 import produce from 'immer';
 import PureEditManagementPlanDetail from '../../../components/Crop/ManagementDetail/EditManagementPlanDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -12,7 +12,6 @@ import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 
 export default function ManagementDetails() {
   const navigate = useNavigate();
-  const history = useHistory();
   const match = useRouteMatch();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -24,9 +23,9 @@ export default function ManagementDetails() {
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace(`/crop/${variety_id}/management`);
+      navigate(`/crop/${variety_id}/management`, { replace: true });
     }
-  }, [plan, history]);
+  }, [plan]);
 
   const onBack = () => {
     navigate(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);

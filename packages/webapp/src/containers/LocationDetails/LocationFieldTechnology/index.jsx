@@ -13,23 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
+import { useHistory, useNavigate, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationFieldTechnology from '../../../components/LocationFieldTechnology';
 import useFieldTechnology from './useFieldTechnology';
 import useLocationRouterTabs from '../useLocationRouterTabs';
-import { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 
 function LocationFieldTechnology() {
   const history = useHistory();
+  const navigate = useNavigate();
   const match = useRouteMatch();
   const { location_id } = match.params;
   const location = useSelector(locationByIdSelector(location_id));
 
   useEffect(() => {
     if (location === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [location]);
 

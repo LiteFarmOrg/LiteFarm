@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 /*
  *  Copyright 2021-2024 LiteFarm.org
  *  This file is part of LiteFarm.
@@ -13,8 +12,8 @@ import { useLocation } from 'react-router-dom';
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { History } from 'history';
 import TabComponent, { BaseTab, TabProps, Variant } from './Tab';
 
 type Tab = BaseTab & {
@@ -22,12 +21,14 @@ type Tab = BaseTab & {
   state?: string;
 };
 
-type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & { history: History };
+type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'>;
 
-export default function RouterTab({ history, ...props }: RouterTabProps) {
+export default function RouterTab(props: RouterTabProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const isSelected = (tab: Tab) => location.pathname?.includes(tab.path);
-  const onClick = (tab: Tab) => !isSelected(tab) && history.replace(tab.path, tab.state);
+  const onClick = (tab: Tab) =>
+    !isSelected(tab) && navigate(tab.path, { replace: true, state: tab.state });
 
   return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;
 }
@@ -39,7 +40,6 @@ RouterTab.prototype = {
     state: PropTypes.string,
     format: PropTypes.func,
   }),
-  history: PropTypes.object,
   classes: PropTypes.object,
   variant: PropTypes.oneOf(Object.values(Variant)),
 };

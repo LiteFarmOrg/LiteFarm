@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useRouteMatch, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -18,7 +17,6 @@ import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
 const ExpenseDetail = () => {
-  const history = useHistory();
   const match = useRouteMatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -35,9 +33,9 @@ const ExpenseDetail = () => {
 
   useEffect(() => {
     if (!expense) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [expense, history]);
+  }, [expense]);
 
   const currentExpenseType = useSelector(expenseTypeByIdSelector(expense.expense_type_id));
 

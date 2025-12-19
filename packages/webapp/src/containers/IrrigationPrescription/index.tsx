@@ -14,7 +14,7 @@
  */
 
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +45,6 @@ const dateTimeLabelStyles = {
 };
 
 const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionProps) => {
-  const history = useHistory();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -62,7 +61,7 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
 
   useEffect(() => {
     if (!isLoading && !irrigationPrescription) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [isLoading, irrigationPrescription]);
 

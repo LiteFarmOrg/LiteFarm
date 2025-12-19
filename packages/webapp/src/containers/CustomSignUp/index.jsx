@@ -99,11 +99,9 @@ function CustomSignUp() {
 
   useEffect(() => {
     if (!componentToShow) {
-      history.replace(
-        {
-          pathname: '/',
-        },
-        { user: { email }, component: CUSTOM_SIGN_UP },
+      navigate(
+        { pathname: '/' }, // TOOD: verify if pathname should be '/'
+        { replace: true, state: { user: { email }, component: CUSTOM_SIGN_UP } },
       );
     }
   }, [componentToShow, email]);

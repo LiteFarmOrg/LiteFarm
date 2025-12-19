@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useNavigate, useRouteMatch } from 'react-router-dom';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
@@ -10,6 +10,7 @@ import { onAddTask } from '../../Task/onAddTask';
 
 export default function LocationTasks() {
   const history = useHistory();
+  const navigate = useNavigate();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -19,7 +20,7 @@ export default function LocationTasks() {
 
   useEffect(() => {
     if (location === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [location]);
 

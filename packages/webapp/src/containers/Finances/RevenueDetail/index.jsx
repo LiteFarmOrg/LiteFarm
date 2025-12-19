@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
@@ -32,7 +32,6 @@ import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/co
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail() {
-  const history = useHistory();
   const match = useRouteMatch();
   const navigate = useNavigate();
   const isEditing = match.path.endsWith('/edit');
@@ -48,9 +47,9 @@ function RevenueDetail() {
 
   useEffect(() => {
     if (!sale) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [sale, history]);
+  }, [sale]);
 
   // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.retired ? revenueType : []);

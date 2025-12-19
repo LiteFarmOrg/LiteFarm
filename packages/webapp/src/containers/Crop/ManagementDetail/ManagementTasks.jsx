@@ -7,7 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
@@ -18,7 +18,6 @@ import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToD
 export default function ManagementTasks() {
   const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
@@ -77,7 +76,7 @@ export default function ManagementTasks() {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(dispatch, history, {
+        onAddTask={onAddTask(dispatch, navigate, {
           pathname: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
           management_plan_id: management_plan_id,
         })}

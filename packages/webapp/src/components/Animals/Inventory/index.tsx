@@ -54,7 +54,6 @@ export type PureAnimalInventoryProps = {
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
-  history: History;
   tableMaxHeight?: number;
   tableSpacerRowHeight: number;
   showInventorySelection?: boolean;
@@ -81,7 +80,6 @@ const PureAnimalInventory = ({
   isFilterActive,
   clearFilters,
   isLoading,
-  history,
   tableMaxHeight,
   tableSpacerRowHeight,
   showInventorySelection = true,

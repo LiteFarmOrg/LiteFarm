@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -79,7 +79,6 @@ type CommonPureAnimalInventoryProps = Pick<
   | 'isFilterActive'
   | 'clearFilters'
   | 'isLoading'
-  | 'history'
 >;
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
@@ -186,14 +185,12 @@ const TaskAnimalInventory = ({
 };
 
 const MainAnimalInventory = ({
-  history,
   onTypeClick,
   selectedTypeIds,
   actionMenuAndRemoveModal,
   isAdmin,
   ...commonProps
 }: {
-  history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
   actionMenuAndRemoveModal: ReactNode;
@@ -210,7 +207,6 @@ const MainAnimalInventory = ({
         kind={ContainerKind.PAPER}
       >
         <BaseAnimalInventory
-          history={history}
           {...commonProps}
           onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
             navigate(row.path);
@@ -250,7 +246,7 @@ export default function AnimalInventory({
   hideNoResultsBlock,
   showRemoved = false,
 }: AnimalInventoryProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   useEffect(() => {
@@ -417,7 +413,7 @@ export default function AnimalInventory({
     {
       label: t(`common:CREATE_A_TASK`),
       iconName: 'TASK_CREATION',
-      onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+      onClick: () => onAddTask(dispatch, navigate, { animal_ids: selectedInventoryIds })(),
       visible: true,
     },
     {
@@ -477,7 +473,6 @@ export default function AnimalInventory({
     isFilterActive: isFilterActive,
     clearFilters: clearFilters,
     isLoading: isLoading,
-    history: history,
     hideNoResultsBlock,
   };
 

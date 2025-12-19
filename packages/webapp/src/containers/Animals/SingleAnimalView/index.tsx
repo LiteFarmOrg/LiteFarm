@@ -14,7 +14,6 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,7 +62,6 @@ interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
 }
 
 function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
-  const history = useHistory();
   const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'common', 'message']);
 
@@ -234,7 +232,6 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
             hasSummaryWithinForm={false}
             isCompactSideMenu={isCompactSideMenu}
             variant={Variant.STEPPER_PROGRESS_BAR}
-            history={history}
             getSteps={getFormSteps}
             defaultFormValues={defaultFormValues}
             isEditing={isEditing}

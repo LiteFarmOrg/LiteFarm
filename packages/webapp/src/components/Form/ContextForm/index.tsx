@@ -30,7 +30,6 @@ const COMPONENTS = {
 };
 
 interface ContextFormProps {
-  history: any; // mocking in Storybook prevents more specific type
   getSteps: (data?: any) => any;
   defaultFormValues: any;
   variant?: Variant;
@@ -41,7 +40,6 @@ interface ContextFormProps {
 }
 
 export const ContextForm = ({
-  history,
   getSteps,
   defaultFormValues,
   variant = Variant.PAGE_TITLE,
@@ -101,7 +99,6 @@ export const ContextForm = ({
 
   return (
     <Component
-      history={history}
       steps={steps}
       activeStepIndex={activeStepIndex}
       onGoBack={onGoBack}
@@ -120,7 +117,6 @@ export const ContextForm = ({
           onGoForward={onGoForward}
           form={form}
           formResultData={formResultData}
-          history={history}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
         />

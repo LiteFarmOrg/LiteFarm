@@ -62,6 +62,7 @@ const clean = (location: InternalMapLocation) => {
 enum GroupByOptions {
   TYPE = 'type',
   FIGURE = 'figure',
+  FIGURE_AND_TYPE = 'figure_and_type',
 }
 
 type UseLocationPropsWithFilterBy = {
@@ -111,6 +112,24 @@ const useLocations = ({
       cleanedLocations,
       ({ figure }) => getFigureType(figure) ?? 'never',
     );
+    return { locations: groupedLocations, isLoading };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
+    // First: group by figure type (area, line, point)
+    const groupedByFigure = Object.groupBy(
+      cleanedLocations,
+      ({ figure }) => getFigureType(figure) ?? 'never', // TODO: Better solution this will never happen
+    );
+
+    // Second: for each figure group, group by location type
+    const groupedLocations = Object.fromEntries(
+      Object.entries(groupedByFigure).map(([geometryType, locations]) => {
+        const groupedByLocationType = Object.groupBy(locations, ({ figure }) => figure.type);
+        return [geometryType, groupedByLocationType];
+      }),
+    );
+
     return { locations: groupedLocations, isLoading };
   }
 

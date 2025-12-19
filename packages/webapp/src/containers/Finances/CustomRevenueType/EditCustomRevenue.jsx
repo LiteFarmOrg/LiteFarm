@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,6 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import CustomRevenueRadios from './CustomRevenueRadios';
 
 function EditCustomRevenue() {
-  const history = useHistory();
   const navigate = useNavigate();
   const { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
@@ -26,7 +26,6 @@ import Drawer from '../../components/Drawer';
 
 export default function Documents() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();

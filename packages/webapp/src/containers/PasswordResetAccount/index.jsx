@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword } from './saga';
@@ -11,7 +11,6 @@ import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStor
 function PasswordResetAccount() {
   const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
   const reset_token = location.state;
   const [email, setEmail] = useState('');

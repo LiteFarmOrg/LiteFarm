@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureTaskComplete from '../../../components/Task/TaskComplete';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,6 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { completeTask } from '../saga';
 
 function TaskComplete() {
-  const history = useHistory();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();

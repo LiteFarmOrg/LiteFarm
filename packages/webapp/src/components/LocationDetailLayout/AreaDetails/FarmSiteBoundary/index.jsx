@@ -12,7 +12,6 @@ export default function PureFarmSiteBoundaryWrapper(props) {
 }
 
 export function PureFarmSiteBoundary({
-  history,
   match,
   submitForm,
   system,
@@ -37,7 +36,6 @@ export function PureFarmSiteBoundary({
   };
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'farm_site_boundary'}

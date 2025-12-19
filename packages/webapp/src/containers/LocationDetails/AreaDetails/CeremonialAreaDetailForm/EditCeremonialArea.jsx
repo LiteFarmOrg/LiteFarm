@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureCeremonial from '../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { deleteCeremonialLocation, editCeremonialLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,6 @@ import {
 
 function EditCeremonialDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -72,7 +71,6 @@ function EditCeremonialDetailForm() {
   return (
     <>
       <PureCeremonial
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

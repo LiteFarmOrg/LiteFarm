@@ -17,7 +17,6 @@ export default function PureSurfaceWaterWrapper(props) {
 }
 
 export function PureSurfaceWater({
-  history,
   match,
   submitForm,
   system,
@@ -44,7 +43,6 @@ export function PureSurfaceWater({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'surface_water'}

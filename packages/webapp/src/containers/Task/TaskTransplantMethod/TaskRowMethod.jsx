@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureRowMethod from '../../../components/Crop/RowMethod';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskRowMethod() {
-  const history = useHistory();
   const location = useLocation();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -23,7 +22,6 @@ export default function TaskRowMethod() {
         system={system}
         crop_variety={crop_variety}
         isFinalPage={true}
-        history={history}
         submitPath={'/add_task/row_guidance'}
         prefix={'transplant_task.planting_management_plan'}
         location={location}

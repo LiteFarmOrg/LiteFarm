@@ -1,11 +1,10 @@
 import PureManagementPlanPlantingMethod from '../../../../components/Crop/PlantingMethod/PureManagementPlanPlantingMethod';
 import { useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { measurementSelector } from '../../../userFarmSlice';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 
 export default function PlantingMethod() {
-  const history = useHistory();
   const match = useRouteMatch();
   const system = useSelector(measurementSelector);
   const isFinalPlantingMethod =
@@ -14,7 +13,6 @@ export default function PlantingMethod() {
     <HookFormPersistProvider>
       <PureManagementPlanPlantingMethod
         match={match}
-        history={history}
         system={system}
         isFinalPlantingMethod={isFinalPlantingMethod}
       />

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
 import { useSelector } from 'react-redux';
@@ -8,7 +7,6 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
 function CertificationReportingPeriod() {
-  const history = useHistory();
   const navigate = useNavigate();
   const { email } = useSelector(userFarmSelector);
   const { interested } = useSelector(certifierSurveySelector);

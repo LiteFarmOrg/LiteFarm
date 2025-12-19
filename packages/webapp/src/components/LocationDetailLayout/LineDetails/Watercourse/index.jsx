@@ -24,7 +24,6 @@ export default function PureWatercourseWrapper(props) {
 }
 
 export function PureWatercourse({
-  history,
   match,
   submitForm,
   system,
@@ -54,7 +53,6 @@ export function PureWatercourse({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'watercourse'}

@@ -11,7 +11,6 @@ import { PureBedForm } from './PureBedForm';
 import PropTypes from 'prop-types';
 
 function PureBedPlan({
-  history,
   system,
   crop_variety,
   useHookFormPersist,

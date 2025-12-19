@@ -8,7 +8,7 @@ import Table from '../../Table';
 import { TableKind } from '../../Table/types';
 import ProfileLayout from '../ProfileLayout';
 
-export default function PurePeople({ users, history, isAdmin }) {
+export default function PurePeople({ users, isAdmin }) {
   const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'role']);
   const [searchString, setSearchString] = useState('');
@@ -109,7 +109,6 @@ export default function PurePeople({ users, history, isAdmin }) {
   return (
     <ProfileLayout
       onSubmit={() => navigate('/invite_user')}
-      history={history}
       buttonGroup={
         isAdmin && (
           <Button data-cy="people-inviteUser" fullLength type={'submit'}>
@@ -141,5 +140,4 @@ export default function PurePeople({ users, history, isAdmin }) {
 }
 PurePeople.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object,
 };

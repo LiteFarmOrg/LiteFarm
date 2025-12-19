@@ -14,15 +14,7 @@ import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 
-export default function PureManagementDetail({
-  onBack,
-  variety,
-  plan,
-  isAdmin,
-  history,
-  match,
-  system,
-}) {
+export default function PureManagementDetail({ onBack, variety, plan, isAdmin, match, system }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -107,7 +99,6 @@ export default function PureManagementDetail({
 
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
@@ -222,7 +213,6 @@ PureManagementDetail.prototype = {
   variety: PropTypes.object,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
-  history: PropTypes.object,
   match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

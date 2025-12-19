@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
@@ -18,7 +18,6 @@ import { TASK_TYPES } from '../constants';
 
 function TaskTypeSelection() {
   const location = useLocation();
-  const history = useHistory();
   const navigate = useNavigate();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
@@ -62,7 +61,6 @@ function TaskTypeSelection() {
     <>
       <HookFormPersistProvider>
         <PureTaskTypeSelection
-          history={history}
           location={location}
           onCustomTask={onCustomTask}
           handleGoBack={handleGoBack}

@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmEntitiesSelector, userFarmSelector } from '../userFarmSlice';
 import { deactivateUser, invitePseudoUser, reactivateUser, updateUserFarm } from './People/saga';
 import { useMemo } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function EditUser() {
-  const history = useHistory();
   const { farm_id, user_id: currentUserId } = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -56,7 +55,6 @@ export default function EditUser() {
       isAdmin={isAdmin}
       onUpdate={onUpdate}
       onRevoke={onRevoke}
-      history={history}
       onInvite={onInvite}
       userFarmEmails={userFarmEmails}
       isCurrentUser={isCurrentUser}

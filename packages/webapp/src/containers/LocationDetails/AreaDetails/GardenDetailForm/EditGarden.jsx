@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureGarden from '../../../../components/LocationDetailLayout/AreaDetails/Garden';
 import { deleteGardenLocation, editGardenLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,6 @@ import {
 
 function EditGardenDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -66,7 +65,6 @@ function EditGardenDetailForm() {
   return (
     <>
       <PureGarden
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

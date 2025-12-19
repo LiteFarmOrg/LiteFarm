@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureAddNewCrop from '../../components/AddNewCrop';
 import ImagePickerWrapper from '../ImagePickerWrapper';
@@ -7,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function AddNewCrop() {
-  const history = useHistory();
   const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const onError = (error) => {

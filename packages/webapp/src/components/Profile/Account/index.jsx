@@ -18,7 +18,7 @@ const useLanguageOptions = (language_preference) => {
   return { languageOptions, languagePreferenceOptionRef };
 };
 
-export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
+export default function PureAccount({ userFarm, onSubmit, isAdmin }) {
   const { genderOptions, getGenderOptionLabel, getGenderOption } = useGenderOptions();
 
   const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
@@ -50,7 +50,6 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
   return (
     <ProfileLayout
       onSubmit={handleSubmit(onSubmit)}
-      history={history}
       buttonGroup={
         <Button data-cy="account-submit" fullLength type={'submit'} disabled={disabled}>
           {t('common:SAVE')}

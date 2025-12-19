@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureRequestCertifier } from '../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifiersSelector } from '../certifierSlice';
@@ -10,7 +10,6 @@ import { useCertificationName } from '../useCertificationName';
 
 export default function RequestCertifier() {
   const navigate = useNavigate();
-  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
 
   const dispatch = useDispatch();

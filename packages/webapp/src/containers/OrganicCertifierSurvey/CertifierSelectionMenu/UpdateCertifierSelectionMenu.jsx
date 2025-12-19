@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureCertifierSelectionScreen } from '../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifiersByCertificationSelector } from '../certifierSlice';
@@ -9,7 +9,6 @@ import { useCertificationName } from '../useCertificationName';
 
 export default function CertifierSelectionMenu() {
   const navigate = useNavigate();
-  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const summaryPath = '/certification/summary';
   const certificationSelectionPath = '/certification/selection';

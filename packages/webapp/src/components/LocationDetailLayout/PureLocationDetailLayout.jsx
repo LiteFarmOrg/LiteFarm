@@ -16,7 +16,6 @@ import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
 
 export function PureLocationDetailLayout({
-  history,
   match,
   system,
   locationType,
@@ -62,7 +61,6 @@ export function PureLocationDetailLayout({
       return (
         <AreaDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
@@ -76,7 +74,6 @@ export function PureLocationDetailLayout({
       return (
         <LineDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -88,7 +85,6 @@ export function PureLocationDetailLayout({
       return (
         <PointDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -122,7 +118,6 @@ export function PureLocationDetailLayout({
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            history={history}
             match={match}
             onCancel={historyCancel}
             formMethods={formMethods}
@@ -130,7 +125,6 @@ export function PureLocationDetailLayout({
           {isViewLocationPage && (
             <RouterTab
               classes={{ container: { margin: '6px 0 26px 0' } }}
-              history={history}
               match={match}
               tabs={routerTabs}
               variant={Variant.UNDERLINE}

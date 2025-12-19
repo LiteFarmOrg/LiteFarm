@@ -14,7 +14,6 @@ import styles from './styles.module.scss';
 
 export default function PureLocationTasks({
   location,
-  history,
   match,
   tasks,
   count,
@@ -64,7 +63,6 @@ export default function PureLocationTasks({
         <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
         <RouterTab
           classes={{ container: { margin: '30px 0 26px 0' } }}
-          history={history}
           match={match}
           tabs={routerTabs}
           variant={Variant.UNDERLINE}

@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureEditCustomTask from '../../../components/Task/PureEditCustomTask';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -8,7 +7,6 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { taskTypeSelector } from '../../taskTypeSlice';
 
 function EditCustomTask() {
-  const history = useHistory();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onGoBackPath = '/add_task/manage_custom_tasks';

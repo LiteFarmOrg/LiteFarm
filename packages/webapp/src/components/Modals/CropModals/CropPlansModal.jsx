@@ -99,7 +99,6 @@ CropPlansModal.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ).isRequired,
-  history: PropTypes.object.isRequired,
   variety: PropTypes.object.isRequired,
   dismissModal: PropTypes.func.isRequired,
 };

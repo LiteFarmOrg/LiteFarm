@@ -23,7 +23,6 @@ export default function PureFieldWrapper(props) {
 }
 
 export function PureField({
-  history,
   match,
   submitForm,
   system,
@@ -59,7 +58,6 @@ export function PureField({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'field'}

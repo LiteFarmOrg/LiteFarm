@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -11,7 +11,6 @@ import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
 
 function HarvestUses() {
-  const history = useHistory();
   const location = useLocation();
   const navigate = useNavigate();
   const system = useSelector(measurementSelector);

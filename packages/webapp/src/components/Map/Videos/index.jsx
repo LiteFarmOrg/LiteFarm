@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
 import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
@@ -11,7 +11,6 @@ const VIDEO_START_TIME = '#t=0.001';
 // TODO: Move to containers folder
 function PureVideoView() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const areaVideoRef = useRef(null);
   const lineVideoRef = useRef(null);

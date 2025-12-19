@@ -4,13 +4,12 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 import { useMemo } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import { getRowMethodPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function RowMethod() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const system = useSelector(measurementSelector);
   const variety_id = match.params.variety_id;
@@ -31,7 +30,6 @@ export default function RowMethod() {
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         isHistoricalPage={isHistoricalPage}
-        history={history}
         submitPath={submitPath}
         location={location}
       />

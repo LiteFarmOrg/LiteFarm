@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import useFinancesDateRange from '../../../components/Finances/DateRangeSelector/useFinancesDateRange';
@@ -30,7 +30,6 @@ import {
 
 export default function ActualRevenue() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBack = () => navigate(FINANCES_HOME_URL);

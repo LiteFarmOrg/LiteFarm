@@ -11,7 +11,6 @@ import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod
 export function PureTaskPlantingMethod({
   useHookFormPersist,
   persistedFormData,
-  history,
   entryPath,
   location,
 }) {

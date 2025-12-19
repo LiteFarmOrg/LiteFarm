@@ -4,7 +4,7 @@ import Button from '../../Form/Button';
 import { useNavigate } from 'react-router-dom';
 import PageTitle from '../../PageTitle/v2';
 
-const PureEditCustomTaskUpdate = ({ handleGoBack, history }) => {
+const PureEditCustomTaskUpdate = ({ handleGoBack }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   return (

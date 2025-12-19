@@ -19,7 +19,6 @@ export default function PureNextHarvest({
   persistedFormData,
   useHookFormPersist,
   crop_variety,
-  history,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();

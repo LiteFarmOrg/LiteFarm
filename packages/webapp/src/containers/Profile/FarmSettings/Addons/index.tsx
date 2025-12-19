@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -26,7 +26,6 @@ import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const FarmAddons = () => {
   const navigate = useNavigate();
-  const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
 
   const { data: esciDataArray = [] } = useGetFarmAddonQuery(
@@ -72,7 +71,7 @@ const FarmAddons = () => {
 
   return (
     <CardLayout>
-      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} />
       <PureFarmAddons
         hasActiveConnection={hasActiveConnection}
         organizationIds={organizationIds}

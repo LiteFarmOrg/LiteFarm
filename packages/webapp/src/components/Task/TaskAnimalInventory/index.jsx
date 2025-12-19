@@ -31,7 +31,6 @@ export default function PureTaskAnimalInventory({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
-  history,
   isDesktop,
   isRequired = true,
   progress = 43,
@@ -102,7 +101,6 @@ export default function PureTaskAnimalInventory({
         <AnimalInventory
           onSelect={onSelect}
           view={View.TASK}
-          history={history}
           preSelectedIds={preSelectedIds}
           showLinks={false}
         />

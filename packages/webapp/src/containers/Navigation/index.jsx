@@ -14,7 +14,7 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
@@ -25,7 +25,6 @@ import { matchPath } from 'react-router-dom';
 
 const Navigation = ({ children, ...props }) => {
   const location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
@@ -48,7 +47,6 @@ const Navigation = ({ children, ...props }) => {
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}
         resetSpotlight={resetSpotlight}
-        history={history}
         showNavActions={showNavActions}
         showNav={showNav}
         {...props}

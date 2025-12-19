@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -67,7 +67,6 @@ import {
 export default function Map({ isCompactSideMenu }) {
   const location = useLocation(); // TODO: test if this is equivalent to history.location
   const navigate = useNavigate();
-  const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   useGoogleMapsLoader(['drawing', 'geometry']);
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -520,7 +519,7 @@ export default function Map({ isCompactSideMenu }) {
             </div>
           )}
         </div>
-        <LocationSelectionModal history={history} />
+        <LocationSelectionModal />
 
         {!drawingState.type && (
           <PureMapFooter

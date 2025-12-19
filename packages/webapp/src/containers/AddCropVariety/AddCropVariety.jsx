@@ -1,4 +1,4 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { AddLink } from '../../components/Typography';
 
 function AddCropVarietyForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const navigate = useNavigate();
   const { t } = useTranslation(['translation']);

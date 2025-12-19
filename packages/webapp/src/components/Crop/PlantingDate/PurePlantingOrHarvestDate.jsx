@@ -8,7 +8,6 @@ export default function PurePlantingOrHarvestDate({
   persistedFormData,
   useHookFormPersist,
   crop_variety,
-  history,
   language,
 }) {
   const props = {
@@ -16,7 +15,6 @@ export default function PurePlantingOrHarvestDate({
     persistedFormData,
     useHookFormPersist,
     crop_variety,
-    history,
     language,
   };
   const { already_in_ground, is_wild, needs_transplant } = persistedFormData.crop_management_plan;
@@ -47,5 +45,4 @@ PurePlantingOrHarvestDate.prototype = {
   }),
   useHookFormPersist: PropTypes.func,
   crop_variety: PropTypes.object,
-  history: PropTypes.object,
 };

@@ -16,7 +16,6 @@ export default function PureBufferZoneWrapper(props) {
 }
 
 export function PureBufferZone({
-  history,
   match,
   submitForm,
   system,
@@ -42,7 +41,6 @@ export function PureBufferZone({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'buffer_zone'}

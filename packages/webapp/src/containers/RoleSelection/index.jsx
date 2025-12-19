@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureRoleSelection from '../../components/RoleSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import { patchRole } from '../AddFarm/saga';
@@ -8,7 +8,6 @@ import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();

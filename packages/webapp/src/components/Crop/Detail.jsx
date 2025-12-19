@@ -12,7 +12,6 @@ import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
 
 function PureCropDetail({
-  history,
   match,
   variety,
   isEditing,
@@ -61,7 +60,6 @@ function PureCropDetail({
         <>
           <RouterTab
             classes={{ container: { margin: '24px 0 26px 0' } }}
-            history={history}
             match={match}
             tabs={[
               {

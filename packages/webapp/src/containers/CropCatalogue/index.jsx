@@ -11,7 +11,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCropsAndManagementPlans } from '../saga';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
@@ -36,7 +36,6 @@ import Drawer from '../../components/Drawer';
 
 export default function CropCatalogue() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();

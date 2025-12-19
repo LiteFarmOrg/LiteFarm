@@ -19,7 +19,6 @@ import useLanguageOptions from '../../../hooks/useLanguageOptions';
 export default function PureEditUser({
   userFarm,
   onUpdate,
-  history,
   isAdmin,
   onActivate,
   onRevoke,

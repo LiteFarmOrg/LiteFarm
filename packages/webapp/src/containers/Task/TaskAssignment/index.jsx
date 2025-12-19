@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import Checkbox from '../../../components/Form/Checkbox';
@@ -26,7 +26,6 @@ import { useIsTaskType } from '../useIsTaskType';
 
 export default function TaskManagement() {
   const location = useLocation();
-  const history = useHistory();
   const navigate = useNavigate();
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);

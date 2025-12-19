@@ -1,6 +1,6 @@
 import { isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
  */
 const useSelectionHandler = () => {
   const navigate = useNavigate();
-  const history = useHistory();
   const initOverlappedLocations = {
     area: [],
     line: [],

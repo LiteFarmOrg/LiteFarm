@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useState, useEffect, useMemo, ChangeEvent } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -57,7 +57,6 @@ export enum FormMode {
 
 export default function ProductInventory() {
   const location = useLocation();
-  const history = useHistory();
   const { t } = useTranslation();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
@@ -204,7 +203,6 @@ export default function ProductInventory() {
           totalInventoryCount={totalInventoryCount}
           isFilterActive={isFilterActive}
           clearFilters={clearFilters}
-          history={history}
           showActionFloaterButton={
             /* placeholder. Eventually button should be hid when form is open */
             true

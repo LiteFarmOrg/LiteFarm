@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureFence from '../../../../components/LocationDetailLayout/LineDetails/Fence';
 import { deleteFenceLocation, editFenceLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,7 +15,6 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditFenceDetailForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -66,7 +65,6 @@ function EditFenceDetailForm() {
   return (
     <>
       <PureFence
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

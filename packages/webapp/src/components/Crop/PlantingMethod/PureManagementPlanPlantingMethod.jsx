@@ -18,7 +18,6 @@ export default function PureManagementPlanPlantingMethod({
   useHookFormPersist,
   persistedFormData,
   match,
-  history,
   isFinalPlantingMethod,
   system,
 }) {
@@ -142,7 +141,6 @@ export default function PureManagementPlanPlantingMethod({
 }
 
 PureManagementPlanPlantingMethod.prototype = {
-  history: PropTypes.object,
   match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,

@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PureSelectionHandler({ locations, history }) {
+export default function PureSelectionHandler({ locations }) {
   const navigate = useNavigate();
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
@@ -177,5 +177,4 @@ export default function PureSelectionHandler({ locations, history }) {
 
 PureSelectionHandler.prototype = {
   locations: PropTypes.array,
-  history: PropTypes.func,
 };

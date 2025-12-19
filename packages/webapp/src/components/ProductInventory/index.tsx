@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { forwardRef, ChangeEvent, useMemo } from 'react';
-import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from '../Animals/Inventory/styles.module.scss';
@@ -46,7 +45,6 @@ export type PureProductInventory = {
   totalInventoryCount: number;
   isFilterActive: boolean;
   clearFilters: () => void;
-  history: History;
   showActionFloaterButton: boolean;
   productColumns?: any;
   selectedIds: number[];

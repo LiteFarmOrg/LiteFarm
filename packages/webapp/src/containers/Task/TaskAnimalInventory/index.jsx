@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventory';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -25,7 +25,6 @@ import { getProgress } from '../util';
 function TaskAnimalInventory() {
   const location = useLocation();
   const navigate = useNavigate();
-  const history = useHistory();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 
@@ -47,7 +46,6 @@ function TaskAnimalInventory() {
       <PureTaskAnimalInventory
         onGoBack={onGoBack}
         onContinue={onContinue}
-        history={history}
         isDesktop={isDesktop}
         isRequired={!isCustomTask}
         progress={progress}

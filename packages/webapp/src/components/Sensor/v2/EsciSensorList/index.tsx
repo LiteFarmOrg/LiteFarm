@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { History } from 'history';
 import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -84,10 +83,9 @@ type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
   userFarm: UserFarm;
-  history: History;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });

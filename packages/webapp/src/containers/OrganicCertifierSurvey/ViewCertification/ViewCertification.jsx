@@ -6,7 +6,7 @@ import PureViewNotInterestedInCertification from '../../../components/OrganicCer
 
 import { certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { useLocation, useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   getAllSupportedCertifications,
   getAllSupportedCertifiers,
@@ -19,7 +19,6 @@ import { useCertificationName } from '../useCertificationName';
 export default function ViewCertification() {
   const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {

@@ -14,7 +14,6 @@ export default function PureRowMethod({
   useHookFormPersist,
   persistedFormData,
   isFinalPage,
-  history,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   isHistoricalPage,
@@ -84,6 +83,5 @@ PureRowMethod.prototype = {
   crop_variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
-  history: PropTypes.object,
   submitPath: PropTypes.string,
 };

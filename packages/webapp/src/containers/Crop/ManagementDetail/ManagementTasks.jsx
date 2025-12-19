@@ -51,7 +51,7 @@ export default function ManagementTasks() {
   const onAbandon = () =>
     navigate(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`, location?.state);
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));

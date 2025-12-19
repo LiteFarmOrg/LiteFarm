@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureExpiredTokenScreen from '../../components/ExpiredTokenScreen';
@@ -9,10 +9,10 @@ import { useDispatch } from 'react-redux';
 
 export default function ExpiredTokenScreen() {
   const navigate = useNavigate();
-  const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { translation_key, email } = history.location.state;
+  const { translation_key, email } = location.state;
   const isInvalidPasswordResetToken = translation_key === 'RESET_PASSWORD';
   useLayoutEffect(() => {
     if (!isInvalidPasswordResetToken) {

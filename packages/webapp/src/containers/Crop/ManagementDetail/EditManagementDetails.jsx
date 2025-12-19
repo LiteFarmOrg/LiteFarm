@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useHistory, useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
+import produce from 'immer';
 import PureEditManagementPlanDetail from '../../../components/Crop/ManagementDetail/EditManagementPlanDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
@@ -6,14 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
-import produce from 'immer';
-import { useEffect } from 'react';
-import { useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
 
 export default function ManagementDetails() {
   const navigate = useNavigate();
   const history = useHistory();
   const match = useRouteMatch();
+  const location = useLocation();
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
@@ -31,7 +32,7 @@ export default function ManagementDetails() {
     navigate(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);
   };
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const system = useSelector(measurementSelector);
   const onSubmit = (data) => {

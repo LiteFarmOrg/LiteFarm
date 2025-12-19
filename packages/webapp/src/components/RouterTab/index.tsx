@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 /*
  *  Copyright 2021-2024 LiteFarm.org
  *  This file is part of LiteFarm.
@@ -24,7 +25,8 @@ type Tab = BaseTab & {
 type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & { history: History };
 
 export default function RouterTab({ history, ...props }: RouterTabProps) {
-  const isSelected = (tab: Tab) => history.location.pathname?.includes(tab.path);
+  const location = useLocation();
+  const isSelected = (tab: Tab) => location.pathname?.includes(tab.path);
   const onClick = (tab: Tab) => !isSelected(tab) && history.replace(tab.path, tab.state);
 
   return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;

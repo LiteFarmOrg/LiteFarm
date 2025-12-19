@@ -1,4 +1,4 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import PureBarn from '../../../../components/LocationDetailLayout/AreaDetails/Barn';
 import { postBarnLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostBarnDetailForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
@@ -19,7 +18,6 @@ function PostBarnDetailForm() {
 
   return (
     <PureBarn
-      history={history}
       match={match}
       submitForm={submitForm}
       system={system}

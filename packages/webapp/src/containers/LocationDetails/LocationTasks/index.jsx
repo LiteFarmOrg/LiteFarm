@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory, useNavigate, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useRouteMatch } from 'react-router-dom';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
@@ -9,7 +9,6 @@ import useLocationRouterTabs from '../useLocationRouterTabs';
 import { onAddTask } from '../../Task/onAddTask';
 
 export default function LocationTasks() {
-  const history = useHistory();
   const navigate = useNavigate();
   const match = useRouteMatch();
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ export default function LocationTasks() {
           tasks={tasks}
           count={count}
           routerTabs={routerTabs}
-          handleAddTask={onAddTask(dispatch, history, { location })}
+          handleAddTask={onAddTask(dispatch, navigate, { location })}
         />
       )}
     </>

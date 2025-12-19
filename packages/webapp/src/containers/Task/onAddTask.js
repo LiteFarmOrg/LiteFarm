@@ -3,11 +3,11 @@ import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSl
 /**
  *
  * @param dispatch
- * @param history
+ * @param navigate
  * @param state
  * @return {(function(): void)|*}
  */
-export const onAddTask = (dispatch, history, state) => () => {
+export const onAddTask = (dispatch, navigate, state) => () => {
   //TODO: remove all persistedPath in add task flow
   dispatch(
     setPersistedPaths([
@@ -30,5 +30,5 @@ export const onAddTask = (dispatch, history, state) => () => {
       '/add_task/task_animal_selection',
     ]),
   );
-  history.push('/add_task/task_type_selection', state);
+  navigate('/add_task/task_type_selection', state);
 };

@@ -19,7 +19,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useHistory, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isAdminSelector, userFarmsByFarmSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -53,7 +53,6 @@ import LocationCreationModal from '../../components/LocationCreationModal';
 
 export default function TaskPage() {
   const navigate = useNavigate();
-  const history = useHistory();
   const location = useLocation();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
@@ -86,7 +85,7 @@ export default function TaskPage() {
 
   const handleAddTask = () => {
     if (locations.length) {
-      onAddTask(dispatch, history, {})();
+      onAddTask(dispatch, navigate, {})();
     } else {
       setCreateLocation(true);
     }

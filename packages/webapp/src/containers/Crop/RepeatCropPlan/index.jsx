@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,7 +31,6 @@ import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
 
 function RepeatCropPlan() {
-  const history = useHistory();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { management_plan_id, variety_id } = useParams();

@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
@@ -8,7 +7,6 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 function AddDocument() {
-  const history = useHistory();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

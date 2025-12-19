@@ -17,7 +17,6 @@ export default function PureBarnWrapper(props) {
 }
 
 export function PureBarn({
-  history,
   match,
   submitForm,
   system,
@@ -48,7 +47,6 @@ export function PureBarn({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'barn'}

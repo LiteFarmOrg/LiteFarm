@@ -14,8 +14,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   deselectFarmSuccess,
   loginSelector,
@@ -32,8 +31,8 @@ import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 import { selectFarmAndFetchAll } from '../saga';
 
 function ChooseFarm() {
-  const history = useHistory();
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -89,7 +88,7 @@ function ChooseFarm() {
   };
 
   useEffect(() => {
-    const { farm_id } = history.location.state || {};
+    const { farm_id } = location.state || {};
     if (farm_id) {
       setFarmId(farm_id);
     }

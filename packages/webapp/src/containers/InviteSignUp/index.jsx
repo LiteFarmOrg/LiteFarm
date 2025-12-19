@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PureInviteSignup from '../../components/InviteSignup';
 import { decodeToken } from 'react-jwt';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +11,8 @@ import { isChrome } from '../../util';
 
 function InviteSignUp() {
   const navigate = useNavigate();
-  const history = useHistory();
-  const invite_token = history.location.state;
+  const location = useLocation();
+  const invite_token = location.state;
   const GOOGLE = 1;
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation(['translation', 'common']);

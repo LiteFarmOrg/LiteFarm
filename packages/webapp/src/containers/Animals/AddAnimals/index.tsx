@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
@@ -44,6 +44,7 @@ interface AddAnimalsProps {
 }
 
 function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
+  const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation(['translation', 'common', 'message']);
   const dispatch = useDispatch();
@@ -125,7 +126,7 @@ function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
-  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+  const animalInventoryTitle = useSectionHeader(location.pathname) || '';
 
   return (
     <ContextForm

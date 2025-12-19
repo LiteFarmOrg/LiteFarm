@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PureJoinFarmSuccessScreen from '../../components/JoinFarmSuccessScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseFarmFlowSelector, endInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -6,11 +6,11 @@ import { deselectFarmSuccess, loginSelector } from '../userFarmSlice';
 
 export default function JoinFarmSuccessScreen() {
   const navigate = useNavigate();
-  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const { showSpotLight, skipChooseFarm } = useSelector(chooseFarmFlowSelector);
-  const { farm_name } = history.location.state || {};
+  const { farm_name } = location.state || {};
   const onClick = () => {
     if (skipChooseFarm) {
       dispatch(endInvitationFlow(farm_id));

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { logout } from '../../../util/jwt';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
@@ -38,11 +38,12 @@ import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
-const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
-  const sectionHeader = useSectionHeader(history.location.pathname);
+  const sectionHeader = useSectionHeader(location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -59,10 +60,10 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
 
   const notificationIconClick = () => {
     const url = '/notifications';
-    if (history.location.pathname === url) {
+    if (location.pathname === url) {
       // TODO click should update contents; is there better way than full page refresh?
       closeMenu();
-      history.go();
+      navigate(); // TODO: test
     } else {
       handleClick(url);
     }

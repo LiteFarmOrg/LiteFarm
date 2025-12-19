@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Main } from '../../Typography';
@@ -27,13 +27,9 @@ const MODAL_MARGIN = 32;
 const MODAL_PADDING = 24;
 const TITLE_HEIGHT = 42;
 
-export default function CropPlansModal({
-  history,
-  variety,
-  managementPlanCardContents,
-  dismissModal,
-}) {
+export default function CropPlansModal({ variety, managementPlanCardContents, dismissModal }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const infoRef = useRef(null);
 
@@ -75,7 +71,7 @@ export default function CropPlansModal({
                 onClick={() =>
                   navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    history.location.state,
+                    location.state,
                   )
                 }
               />

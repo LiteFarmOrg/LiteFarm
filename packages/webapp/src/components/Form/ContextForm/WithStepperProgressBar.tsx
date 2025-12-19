@@ -21,7 +21,7 @@ import {
   UseFormReset,
   UseFormGetValues,
 } from 'react-hook-form';
-import { History } from 'history';
+import history from '../../../history';
 import StepperProgressBar, { StepperProgressBarProps } from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
@@ -32,7 +32,6 @@ import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
-  history: History;
   steps: {
     formContent: ReactNode;
     title: string;
@@ -76,7 +75,6 @@ interface WithStepperProgressBarProps {
  */
 export const WithStepperProgressBar = ({
   children,
-  history,
   steps,
   activeStepIndex,
   isCompactSideMenu,

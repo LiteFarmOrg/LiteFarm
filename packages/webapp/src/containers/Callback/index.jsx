@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
 
 function Callback() {
   const navigate = useNavigate();
-  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
-    const params = new URLSearchParams(history.location.search.substring(1));
+    // TODO: test if URLSearchParams works the same way as before
+    const params = new URLSearchParams(location.search.substring(1));
     const isResetLink = params.has('reset_token');
     const isInviteLink = params.has('invite_token');
     if (isResetLink) {

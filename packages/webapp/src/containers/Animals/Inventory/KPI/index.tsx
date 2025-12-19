@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation, TFunction, Trans } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -58,7 +58,7 @@ interface KPIProps {
 }
 
 function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
-  const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
@@ -81,7 +81,7 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
     return types;
   }, [data, isLoading, onTypeClick]);
 
-  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+  const animalInventoryTitle = useSectionHeader(location.pathname) || '';
 
   return (
     <PureTileDashboard

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useHistory, useNavigate, useLocation } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -65,6 +65,7 @@ import {
 } from '../../util/google-maps/cleanupListeners';
 
 export default function Map({ isCompactSideMenu }) {
+  const location = useLocation(); // TODO: test if this is equivalent to history.location
   const navigate = useNavigate();
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -89,7 +90,7 @@ export default function Map({ isCompactSideMenu }) {
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
-    history?.location?.state?.hideLocationPin ?? false,
+    location?.state?.hideLocationPin ?? false,
   );
 
   const initialLineData = {
@@ -105,12 +106,12 @@ export default function Map({ isCompactSideMenu }) {
   useEffect(() => {
     return () => {
       persistedPathsSet.size &&
-        !persistedPathsSet.has(history.location.pathname) &&
+        !persistedPathsSet.has(location.pathname) &&
         dispatch(resetAndUnLockFormData());
     };
   }, [persistedPathsSet]);
   useEffect(() => {
-    if (!history.location.state?.isStepBack) {
+    if (!location.state?.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
     return () => {
@@ -314,12 +315,12 @@ export default function Map({ isCompactSideMenu }) {
     let mapBounds = new maps.LatLngBounds();
     const bounds = drawAssets(map, maps, mapBounds);
 
-    if (history.location.state?.isStepBack) {
+    if (location.state?.isStepBack) {
       reconstructOverlay();
     }
 
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
+    if (location.state?.cameraInfo) {
+      const { zoom, location } = location.state.cameraInfo;
       if (zoom && location) {
         map.setZoom(zoom);
         map.setCenter(location);

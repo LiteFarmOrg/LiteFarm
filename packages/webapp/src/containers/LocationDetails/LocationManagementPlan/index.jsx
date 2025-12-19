@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useRouteMatch, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
@@ -10,7 +10,6 @@ import useLocationRouterTabs from '../useLocationRouterTabs';
 
 function LocationManagementPlan() {
   const navigate = useNavigate();
-  const history = useHistory();
   const match = useRouteMatch();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
@@ -38,7 +37,6 @@ function LocationManagementPlan() {
         pastCrops={filteredManagementPlans(filter, pastCrops, t)}
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
-        history={history}
         match={match}
         title={name}
         location={location}

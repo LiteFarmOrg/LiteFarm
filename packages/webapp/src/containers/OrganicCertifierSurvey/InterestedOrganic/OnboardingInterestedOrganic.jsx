@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
@@ -16,7 +16,6 @@ import { setInterested } from '../../hooks/useHookFormPersist/hookFormPersistSli
 
 export default function OnboardingInterestedOrganic() {
   const navigate = useNavigate();
-  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
 

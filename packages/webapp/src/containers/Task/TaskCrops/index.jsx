@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -14,18 +14,15 @@ import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
 export default function ManagementPlanSelector() {
-  const history = useHistory();
   const location = useLocation();
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
-  if (isTransplantTask)
-    return <TransplantManagementPlansSelector history={history} location={location} />;
-  if (isCustomTask)
-    return <CustomTaskManagementPlansSelector history={history} location={location} />;
-  return <TaskCrops history={history} location={location} />;
+  if (isTransplantTask) return <TransplantManagementPlansSelector location={location} />;
+  if (isCustomTask) return <CustomTaskManagementPlansSelector location={location} />;
+  return <TaskCrops location={location} />;
 }
 
-function TransplantManagementPlansSelector({ history, location }) {
+function TransplantManagementPlansSelector({ location }) {
   const locations = useSelector(cropLocationsSelector);
   const onContinuePath = '/add_task/task_locations';
   const goBackPath = '/add_task/task_date';
@@ -34,30 +31,21 @@ function TransplantManagementPlansSelector({ history, location }) {
       locations={locations}
       onContinuePath={onContinuePath}
       goBackPath={goBackPath}
-      history={history}
       isMulti={false}
       location={location}
     />
   );
 }
 
-function CustomTaskManagementPlansSelector({ history, location }) {
+function CustomTaskManagementPlansSelector({ location }) {
   const { animalsExistOnFarm } = useAnimalsExist();
   const onContinuePath = animalsExistOnFarm ? '/add_task/task_animal_selection' : undefined;
   const progress = getProgress('CUSTOM_TASK', 'task_crops');
 
-  return (
-    <TaskCrops
-      onContinuePath={onContinuePath}
-      history={history}
-      location={location}
-      progress={progress}
-    />
-  );
+  return <TaskCrops onContinuePath={onContinuePath} location={location} progress={progress} />;
 }
 
 function TaskCrops({
-  history,
   goBackPath = '/add_task/task_locations',
   onContinuePath = '/add_task/task_details',
   locations,
@@ -99,7 +87,6 @@ function TaskCrops({
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
         defaultManagementPlanId={location?.state?.management_plan_id ?? null}
         progress={progress}
-        history={history}
         location={location}
       />
     </HookFormPersistProvider>

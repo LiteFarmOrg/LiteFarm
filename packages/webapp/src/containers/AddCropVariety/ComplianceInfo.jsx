@@ -1,4 +1,4 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { cropSelector } from '../cropSlice';
 
 function ComplianceInfoForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +43,6 @@ function ComplianceInfoForm() {
   return (
     <HookFormPersistProvider>
       <ComplianceInfo
-        history={history}
         onSubmit={onSubmit}
         onError={onError}
         onGoBack={onGoBack}

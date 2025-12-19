@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,6 @@ import { pick } from '../../util/pick';
 
 const AddFarm = () => {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);

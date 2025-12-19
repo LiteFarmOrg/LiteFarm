@@ -20,7 +20,6 @@ export default function PureGardenWrapper(props) {
 }
 
 export function PureGarden({
-  history,
   match,
   submitForm,
   system,
@@ -55,7 +54,6 @@ export function PureGarden({
 
   return (
     <PureLocationDetailLayout
-      history={history}
       match={match}
       system={system}
       locationType={'garden'}

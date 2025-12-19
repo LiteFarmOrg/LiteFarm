@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureSoilSampleLocation from '../../../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 import { deleteSoilSampleLocationLocation, editSoilSampleLocationLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -27,7 +27,6 @@ import RetireConfirmationModal from '../../../../components/Modals/RetireConfirm
 
 function EditSoilSampleLocationDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -73,7 +72,6 @@ function EditSoilSampleLocationDetailForm() {
   return (
     <>
       <PureSoilSampleLocation
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

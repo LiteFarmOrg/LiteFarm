@@ -18,7 +18,6 @@ export default function PureManagementPlanName({
   onSubmit,
   onError,
   match,
-  history,
   persistedFormData,
   useHookFormPersist,
   managementPlanCount,

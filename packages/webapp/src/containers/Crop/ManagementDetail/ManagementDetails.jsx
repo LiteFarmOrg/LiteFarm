@@ -5,13 +5,12 @@ import { isAdminSelector, measurementSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { useEffect } from 'react';
-import { useHistory, useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
+import { useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getManagementPlansAndTasks } from '../../saga';
 
 export default function ManagementDetails() {
   const navigate = useNavigate();
-  const history = useHistory();
   const location = useLocation();
   const match = useRouteMatch();
   const variety_id = match.params.variety_id;
@@ -50,7 +49,6 @@ export default function ManagementDetails() {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
-        history={history}
         match={match}
         system={system}
       />

@@ -21,7 +21,7 @@ export default function PurePlantInContainer({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   location,
-  onSubmit = () => navigate(submitPath, location?.state),
+  onSubmit = () => history.push(submitPath, location?.state),
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
@@ -95,7 +95,6 @@ export default function PurePlantInContainer({
 }
 
 PurePlantInContainer.prototype = {
-  history: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,

@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCertificationName } from '../useCertificationName';
@@ -11,7 +11,6 @@ import { putOrganicCertifierSurvey } from '../saga';
 
 export default function UpdateSetCertificationSummary() {
   const navigate = useNavigate();
-  const history = useHistory();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const requestCertifierPath = '/certification/certifier/request';
   const selectCertifierPath = '/certification/certifier/selection';

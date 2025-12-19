@@ -35,7 +35,6 @@ import { createESciReportLink } from '../../util/smartIrrigation';
 
 type LocationIrrigationProps = {
   location: Location;
-  history: History;
   irrigationPrescriptions: IrrigationPrescription[];
   routerTabs: LocationTab[];
   isCompact: boolean;
@@ -43,7 +42,6 @@ type LocationIrrigationProps = {
 
 export default function PureLocationIrrigation({
   location,
-  history,
   irrigationPrescriptions,
   routerTabs,
   isCompact,
@@ -121,7 +119,6 @@ export default function PureLocationIrrigation({
       <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />

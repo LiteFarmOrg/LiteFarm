@@ -6,16 +6,17 @@ import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 
 export default function LineDetails({
   name,
-  history,
   children,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
 }) {
   const { t } = useTranslation();
+  const location = useLocation();
   const {
     register,
     setValue,
@@ -35,10 +36,10 @@ export default function LineDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
-      setErrorMessage(history?.location?.state?.error);
+    if (location?.state?.error && !location?.state?.error?.retire) {
+      setErrorMessage(location?.state?.error);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,6 @@ import { updateDocument } from '../saga';
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
 export default function EditDocument() {
-  const history = useHistory();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { document_id } = useParams();

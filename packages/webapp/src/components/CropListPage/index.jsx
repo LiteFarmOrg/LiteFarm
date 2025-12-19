@@ -42,7 +42,6 @@ export default function PureCropList({
       <PageTitle title={title} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
         match={match}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
@@ -81,7 +80,6 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {activeCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   status={'active'}

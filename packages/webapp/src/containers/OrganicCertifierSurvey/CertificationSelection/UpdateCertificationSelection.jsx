@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import { useSelector } from 'react-redux';
 import { certificationsSelector } from '../certificationSlice';
@@ -8,7 +8,6 @@ import { useGetCertifiers } from '../useCertifiers';
 
 export default function CertificationSelection() {
   const navigate = useNavigate();
-  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
 
   const certifications = useSelector(certificationsSelector);

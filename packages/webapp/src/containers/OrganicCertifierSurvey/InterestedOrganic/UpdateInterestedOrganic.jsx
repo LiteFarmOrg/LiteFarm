@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
@@ -8,7 +8,6 @@ import { putOrganicCertifierSurvey } from '../saga';
 
 export default function UpdateInterestedOrganic() {
   const navigate = useNavigate();
-  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
 

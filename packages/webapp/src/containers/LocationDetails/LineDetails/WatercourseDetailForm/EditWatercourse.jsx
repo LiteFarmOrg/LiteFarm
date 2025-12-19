@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureWatercourse from '../../../../components/LocationDetailLayout/LineDetails/Watercourse';
 import { deleteWatercourseLocation, editWatercourseLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,7 +15,6 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditWatercourseDetailForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -72,7 +71,6 @@ function EditWatercourseDetailForm() {
   return (
     <>
       <PureWatercourse
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

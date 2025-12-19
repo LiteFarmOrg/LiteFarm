@@ -16,7 +16,6 @@ function PureBroadcastPlan({
   useHookFormPersist,
   system,
   variety_id,
-  history,
   locationSize,
   yieldPerArea,
   isFinalPage,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input from '../../Form/Input';
@@ -12,7 +13,6 @@ import InputAutoSize from '../../Form/InputAutoSize';
 export default function AreaDetails({
   name,
   showPerimeter,
-  history,
   children,
   system,
   isCreateLocationPage,
@@ -22,6 +22,7 @@ export default function AreaDetails({
   perimeter,
 }) {
   const { t } = useTranslation();
+  const location = useLocation();
   const {
     register,
     getValues,
@@ -43,10 +44,10 @@ export default function AreaDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
-      setErrorMessage(history?.location?.state?.error);
+    if (location?.state?.error && !location?.state?.error?.retire) {
+      setErrorMessage(location?.state?.error);
     }
-  }, [history?.location?.state?.error]);
+  }, [location?.state?.error]);
 
   return (
     <>

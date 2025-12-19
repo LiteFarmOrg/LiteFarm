@@ -1,4 +1,4 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
 import { managementPlansByCropVarietyIdSelector } from '../../../managementPlanSlice';
@@ -8,7 +8,6 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
 
 export default function ManagementPlanName() {
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const onSubmit = (data) => {
@@ -34,7 +33,6 @@ export default function ManagementPlanName() {
         onSubmit={onSubmit}
         onError={onError}
         match={match}
-        history={history}
         managementPlanCount={managementPlans.length + 1}
       />
     </HookFormPersistProvider>

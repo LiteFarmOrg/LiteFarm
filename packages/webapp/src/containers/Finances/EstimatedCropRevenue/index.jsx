@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
@@ -11,7 +11,6 @@ import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapCo
 
 const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, ...props }) => {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
 
   const cropVariety = useSelector(cropVarietySelector(cropVarietyId));

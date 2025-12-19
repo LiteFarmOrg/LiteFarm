@@ -1,4 +1,4 @@
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureTaskDate from '../../../components/Task/TaskDate';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -9,7 +9,6 @@ import { getProgress } from '../util';
 
 function TaskDate() {
   const location = useLocation();
-  const history = useHistory();
   const navigate = useNavigate();
   const onGoBack = () => {
     navigate(-1);

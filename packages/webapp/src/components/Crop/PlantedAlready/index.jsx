@@ -16,7 +16,6 @@ import { getDateDifference, getDateInputFormat } from '../../../util/moment';
 import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantedAlready({
-  history,
   useHookFormPersist,
   persistedFormData,
   system,

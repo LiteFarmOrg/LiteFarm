@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureResidence from '../../../../components/LocationDetailLayout/AreaDetails/Residence';
 import { deleteResidenceLocation, editResidenceLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,6 @@ import {
 
 function EditResidenceDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -66,7 +65,6 @@ function EditResidenceDetailForm() {
   return (
     <>
       <PureResidence
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

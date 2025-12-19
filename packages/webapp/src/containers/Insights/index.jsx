@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -43,7 +43,6 @@ import { Semibold, Text, Title } from '../../components/Typography';
 
 const Insights = () => {
   const navigate = useNavigate();
-  const history = useHistory();
   const farm = useSelector(userFarmSelector);
   const tapeStatus = useSelector(tapeSurveyStatusSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);

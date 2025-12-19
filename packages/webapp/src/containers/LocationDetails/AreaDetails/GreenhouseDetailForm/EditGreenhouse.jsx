@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureGreenhouse from '../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 import { deleteGreenhouseLocation, editGreenhouseLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,6 @@ import {
 
 function EditGreenhouseDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -72,7 +71,6 @@ function EditGreenhouseDetailForm() {
   return (
     <>
       <PureGreenhouse
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

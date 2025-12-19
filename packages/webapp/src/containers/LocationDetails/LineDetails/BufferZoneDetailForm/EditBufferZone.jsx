@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureBufferZone from '../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { deleteBufferZoneLocation, editBufferZoneLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,7 +15,6 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditBufferZoneDetailForm() {
-  const history = useHistory();
   const match = useRouteMatch();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -72,7 +71,6 @@ function EditBufferZoneDetailForm() {
   return (
     <>
       <PureBufferZone
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

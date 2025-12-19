@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/Detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
-import { useLocation, useHistory, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
   currentAndPlannedManagementPlansByCropVarietySelector,
@@ -19,7 +19,6 @@ import { isAdminSelector } from '../../userFarmSlice';
 function CropDetail() {
   const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const { variety_id } = match.params;
   const dispatch = useDispatch();
@@ -65,7 +64,6 @@ function CropDetail() {
   return (
     <CropVarietySpotlight>
       <PureCropDetail
-        history={history}
         match={match}
         variety={selectedVariety}
         isInterestedInOrganic={interested}

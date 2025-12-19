@@ -26,7 +26,6 @@ const PureTaskCrops = ({
   isRequired,
   defaultManagementPlanId,
   progress = 57,
-  history,
   location,
 }) => {
   const { t } = useTranslation();
@@ -112,8 +111,8 @@ const PureTaskCrops = ({
           .map((management_plan) => management_plan.management_plan_id)
           .filter((management_plan_id) => managementPlanIds.includes(management_plan_id))
       : getValues(MANAGEMENT_PLANS)?.length
-        ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
-        : [],
+      ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
+      : [],
   );
 
   const onSelectManagementPlan = (management_plan_id) => {

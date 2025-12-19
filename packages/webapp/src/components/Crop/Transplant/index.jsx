@@ -15,7 +15,6 @@ export default function PureTransplant({
   useHookFormPersist,
   persistedFormData,
   match,
-  history,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ export default function PureTransplant({
   const variety_id = match?.params?.variety_id;
   const { submitPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
-    history?.push(submitPath);
+    navigate(submitPath);
   };
   const onGoBack = () => navigate(-1);
 

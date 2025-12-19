@@ -30,7 +30,6 @@ export default function LocationTasks() {
     <>
       {location && !location?.deleted && (
         <PureLocationTasks
-          history={history}
           match={match}
           location={location}
           isAdmin={isAdmin}

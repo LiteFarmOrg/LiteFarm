@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureGate from '../../../../components/LocationDetailLayout/PointDetails/Gate';
 import { deleteGateLocation, editGateLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,6 @@ import {
 
 function EditGateDetailForm() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -66,7 +65,6 @@ function EditGateDetailForm() {
   return (
     <>
       <PureGate
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

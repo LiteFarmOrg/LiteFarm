@@ -14,7 +14,7 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useHistory, matchPath } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import PureNavigation from '../../components/Navigation';
@@ -32,7 +32,6 @@ const Navigation = ({ children, ...props }) => {
   const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
   const isReadyForOffline = !!cacheValidation?.isComplete;
   const location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
@@ -58,7 +57,6 @@ const Navigation = ({ children, ...props }) => {
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}
         resetSpotlight={resetSpotlight}
-        history={history}
         showNavActions={showNavActions}
         showNav={showNav}
         {...props}

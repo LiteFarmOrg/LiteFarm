@@ -26,7 +26,6 @@ export default function PurePlantingDate({
   useHookFormPersist,
   persistedFormData,
   crop_variety,
-  history,
   system,
   language,
 }) {
@@ -416,7 +415,6 @@ export default function PurePlantingDate({
 }
 
 PurePlantingDate.prototype = {
-  history: PropTypes.object,
   crop_variety: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.shape({

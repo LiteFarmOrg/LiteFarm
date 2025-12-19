@@ -20,7 +20,7 @@ function PurePlanGuidance({
   history,
   submitPath,
   location,
-  onSubmit = () => navigate(submitPath, location?.state),
+  onSubmit = () => history.push(submitPath, location?.state),
 }) {
   const { t } = useTranslation(['translation']);
   const navigate = useNavigate();

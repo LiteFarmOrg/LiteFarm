@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureHarvestCompleteQuantity from '../../../../components/Task/TaskComplete/HarvestComplete/Quantity';
@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function HarvestCompleteQuantity() {
-  const history = useHistory();
   const location = useLocation();
   const navigate = useNavigate();
   const system = useSelector(measurementSelector);

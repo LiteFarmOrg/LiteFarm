@@ -16,7 +16,6 @@ import CropPlansModal from '../Modals/CropModals/CropPlansModal';
 import navStyles from '@navStyles';
 
 export default function PureCropManagement({
-  history,
   match,
   onBack,
   variety,
@@ -71,7 +70,6 @@ export default function PureCropManagement({
       <CropHeader variety={variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         match={match}
         tabs={[
           {
@@ -144,7 +142,6 @@ export default function PureCropManagement({
       )}
       {!!plansForModal.length && (
         <CropPlansModal
-          history={history}
           variety={variety}
           managementPlanCardContents={plansForModal}
           dismissModal={dismissCropPlansModal}
@@ -170,7 +167,6 @@ PureCropManagement.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ),
-  history: PropTypes.object,
   match: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,

@@ -31,7 +31,6 @@ import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
 export default function PureLocationFieldTechnology({
   location,
-  history,
   match,
   fieldTechnology,
   routerTabs,
@@ -108,7 +107,6 @@ export default function PureLocationFieldTechnology({
       <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
         match={match}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}

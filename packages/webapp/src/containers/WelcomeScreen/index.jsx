@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureWelcomeScreen from '../../components/WelcomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
@@ -8,7 +8,6 @@ import { userLogReducerSelector } from '../userLogSlice';
 
 export default function WelcomeScreen() {
   const navigate = useNavigate();
-  const history = useHistory();
   const dispatch = useDispatch();
   const hasUserFarm = useSelector(userFarmLengthSelector);
   const { loaded, loading } = useSelector(userFarmStatusSelector);

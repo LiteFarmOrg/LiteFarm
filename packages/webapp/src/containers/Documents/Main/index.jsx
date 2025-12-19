@@ -14,7 +14,7 @@
  */
 
 import React, { useState } from 'react';
-import { useHistory, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import MainDocumentView from '../../../components/Documents/Main';
@@ -24,7 +24,6 @@ import { archiveDocument } from '../saga';
 
 export default function MainDocument() {
   const navigate = useNavigate();
-  const history = useHistory();
   const { document_id } = useParams();
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
@@ -7,7 +7,6 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 function Outro() {
   const navigate = useNavigate();
-  const history = useHistory();
   const dispatch = useDispatch();
   const survey = useSelector(certifierSurveySelector);
   const { navigation } = useSelector(showedSpotlightSelector);

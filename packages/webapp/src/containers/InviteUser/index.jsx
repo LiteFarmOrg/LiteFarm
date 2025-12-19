@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 function InviteUser() {
   const navigate = useNavigate();
-  const history = useHistory();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const roles = useSelector(rolesSelector);

@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureBroadcastPlan from '../../../../components/Crop/BroadcastPlan';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -9,7 +9,6 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 
 function BroadcastPlan() {
   const location = useLocation();
-  const history = useHistory();
   const match = useRouteMatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const variety_id = match.params.variety_id;
@@ -30,7 +29,6 @@ function BroadcastPlan() {
       <PureBroadcastPlan
         system={system}
         variety_id={variety_id}
-        history={history}
         isFinalPage={isFinalPage}
         locationSize={planLocation.total_area}
         yieldPerArea={yieldPerArea}

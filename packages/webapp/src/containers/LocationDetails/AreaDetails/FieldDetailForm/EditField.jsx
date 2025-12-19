@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
 import { deleteFieldLocation, editFieldLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,7 +15,6 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditFieldDetailForm() {
-  const history = useHistory();
   const location = useLocation();
   const match = useRouteMatch();
   const dispatch = useDispatch();
@@ -65,7 +64,6 @@ function EditFieldDetailForm() {
   return (
     <>
       <PureField
-        history={history}
         match={match}
         submitForm={submitForm}
         system={system}

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useState } from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { FieldValues } from 'react-hook-form';
@@ -33,7 +33,6 @@ interface AddSensorProps {
 
 const AddSensor = ({ isCompactSideMenu }: AddSensorProps) => {
   const navigate = useNavigate();
-  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -81,7 +80,6 @@ const AddSensor = ({ isCompactSideMenu }: AddSensorProps) => {
     <div className={styles.formWrapper}>
       <ContextForm
         stepperProgressBarTitle={t('SENSOR.DETAIL.ADD_SENSORS')}
-        history={history}
         getSteps={getFormSteps}
         defaultFormValues={defaultFormValues}
         variant={Variant.STEPPER_PROGRESS_BAR}

@@ -8,6 +8,7 @@ import {
   GardenDetails,
   GreenhouseDetails,
   LineFigureDetails,
+  Location,
   PointFigureDetails,
   SurfaceWaterDetails,
   WatercourseDetails,

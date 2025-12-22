@@ -15,7 +15,7 @@
 
 import { api } from './apiSlice';
 import { checkDeleteLocationUrl, getLocationsByFarmIdUrl, locationURL } from '../../apiConfig';
-import { InternalMapLocation, InternalMapLocationType, Location } from './types';
+import { InternalMapLocation, InternalMapLocationType, WithLocationId } from './types';
 
 export const locations = api.injectEndpoints({
   endpoints: (build) => ({
@@ -26,13 +26,13 @@ export const locations = api.injectEndpoints({
       }),
       providesTags: ['Locations'],
     }),
-    checkDeleteLocation: build.mutation<void, { location_id: Location['location_id'] }>({
+    checkDeleteLocation: build.mutation<void, WithLocationId>({
       query: ({ location_id }) => ({
         url: `${checkDeleteLocationUrl}/${location_id}`,
         method: 'GET', // Mutations are not the normal pattern for GET, but the result should never be cached
       }),
     }),
-    deleteLocation: build.mutation<void, { location_id: Location['location_id'] }>({
+    deleteLocation: build.mutation<void, WithLocationId>({
       query: ({ location_id }) => ({
         url: `${locationURL}/${location_id}`,
         method: 'DELETE',
@@ -52,11 +52,10 @@ export const locations = api.injectEndpoints({
     }),
     updateLocationByType: build.mutation<
       void,
-      {
+      WithLocationId<{
         data: InternalMapLocation;
         type: InternalMapLocationType;
-        location_id: Location['location_id'];
-      }
+      }>
     >({
       query: ({ data, type, location_id }) => ({
         url: `${locationURL}/${type}/${location_id}`,

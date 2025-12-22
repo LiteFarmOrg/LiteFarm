@@ -18,13 +18,6 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import {
-  areaSelector,
-  lineSelector,
-  pointSelector,
-  externalPointSelector,
-  sortedAreaSelector,
-} from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -44,6 +37,8 @@ import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
 import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
+import useLocations from '../../hooks/location/useLocations';
+import useExternalLocations from '../../hooks/location/useExternalLocations';
 
 /**
  *
@@ -114,11 +109,14 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [isClickable]);
 
-  const areaAssets = useSelector(areaSelector);
-  const lineAssets = useSelector(lineSelector);
-  const internalPoints = useSelector(pointSelector);
-  const externalPoints = useSelector(externalPointSelector);
-  const pointAssets = { ...internalPoints, ...externalPoints };
+  const { farm_id } = useSelector(userFarmSelector);
+  const { locations: internalLocations } = useLocations({ farm_id, groupBy: 'figure_and_type' });
+  const { locations: externalLocations } = useExternalLocations();
+
+  const areaAssets = { ...internalLocations.area, ...externalLocations.area };
+  const lineAssets = { ...internalLocations.line, ...externalLocations.line };
+  const pointAssets = { ...internalLocations.point, ...externalLocations.point };
+
   const { grid_points } = useSelector(userFarmSelector);
 
   useEffect(() => {

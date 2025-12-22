@@ -14,6 +14,7 @@
  */
 
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import { FigureType } from '../../store/api/types';
 
 const useExternalLocations = () => {
   const { data: sensorData = { sensors: [], sensor_arrays: [] }, isLoading: isLoadingSensors } =
@@ -29,20 +30,24 @@ const useExternalLocations = () => {
     ...sensor,
     isAddonSensor: 'true',
     type: 'sensor',
+    figure_type: FigureType.POINT,
   }));
 
   const sensorArrays = sensorData.sensor_arrays.map((sensorArray) => ({
     ...sensorArray,
     isAddonSensor: 'true',
     type: 'sensor_array',
+    figure_type: FigureType.POINT,
   }));
 
   const standaloneSensors = allSensors?.filter((sensor) => sensor.sensor_array_id === null);
 
   return {
     locations: {
-      sensor: [...standaloneSensors],
-      sensor_array: [...sensorArrays],
+      point: {
+        sensor: [...standaloneSensors],
+        sensor_array: [...sensorArrays],
+      },
     },
     isLoading,
   };

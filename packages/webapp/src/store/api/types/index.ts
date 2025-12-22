@@ -532,6 +532,7 @@ export interface Location {
   name: string;
   notes?: string;
   location_defaults: WithLocationId<IrrigationLocationDefaults> | null;
+  deleted: boolean;
 }
 export interface LocationWithFigure<FigureType extends AreaFigure | LineFigure | PointFigure>
   extends WithLocationId<Location> {

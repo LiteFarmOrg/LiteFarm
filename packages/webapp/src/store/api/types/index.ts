@@ -484,7 +484,7 @@ export interface Area {
 }
 
 export type AreaFigureDetails = WithFigureId<Area>;
-export interface AreaFigure extends Figure {
+export interface AreaFigure extends WithFigureId<Figure> {
   [FigureType.AREA]: AreaFigureDetails;
   [FigureType.LINE]: never;
   [FigureType.POINT]: never;
@@ -500,7 +500,7 @@ export interface Line {
   total_area_unit: TotalAreaUnit;
 }
 export type LineFigureDetails = WithFigureId<Line>;
-export interface LineFigure extends Figure {
+export interface LineFigure extends WithFigureId<Figure> {
   [FigureType.AREA]: never;
   [FigureType.LINE]: LineFigureDetails;
   [FigureType.POINT]: never;
@@ -510,7 +510,7 @@ export interface Point {
   point: GridPoint;
 }
 export type PointFigureDetails = WithFigureId<Point>;
-export interface PointFigure extends Figure {
+export interface PointFigure extends WithFigureId<Figure> {
   [FigureType.AREA]: never;
   [FigureType.LINE]: never;
   [FigureType.POINT]: PointFigureDetails;

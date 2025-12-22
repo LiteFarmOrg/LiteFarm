@@ -438,11 +438,14 @@ export enum FigureType {
   POINT = 'point',
 }
 
-export interface Figure {
-  figure_id: 'string';
-  location_id: Location['location_id'];
+export type WithFigureId<T extends object = {}> = T & {
+  figure_id: string;
+};
+export interface BaseFigure {
   type: InternalMapLocationType;
 }
+
+export type Figure = WithLocationId<BaseFigure>;
 
 export interface GridPoint {
   lat: number;
@@ -471,145 +474,330 @@ export enum LengthWidthUnit {
   FT = 'ft',
   MI = 'mi',
 }
-interface AreaFigure extends Figure {
-  [FigureType.AREA]: {
-    figure_id: Figure['figure_id'];
-    grid_points: [GridPoint, GridPoint, GridPoint, ...GridPoint[]]; // minimum 3
-    total_area: number;
-    total_area_unit: TotalAreaUnit;
-    perimeter: number;
-    perimeter_unit: PerimiterUnit;
-  };
+
+export interface Area {
+  grid_points: [GridPoint, GridPoint, GridPoint, ...GridPoint[]]; // minimum 3
+  total_area: number;
+  total_area_unit: TotalAreaUnit;
+  perimeter: number;
+  perimeter_unit: PerimiterUnit;
+}
+
+export type AreaFigureDetails = WithFigureId<Area>;
+export interface AreaFigure extends Figure {
+  [FigureType.AREA]: AreaFigureDetails;
   [FigureType.LINE]: never;
   [FigureType.POINT]: never;
 }
 
-interface LineFigure extends Figure {
+export interface Line {
+  line_points: [GridPoint, GridPoint, ...GridPoint[]]; // minimum 2
+  length: number;
+  length_unit: LengthWidthUnit;
+  width: number;
+  width_unit: LengthWidthUnit;
+  total_area: number;
+  total_area_unit: TotalAreaUnit;
+}
+export type LineFigureDetails = WithFigureId<Line>;
+export interface LineFigure extends Figure {
   [FigureType.AREA]: never;
-  [FigureType.LINE]: {
-    figure_id: Figure['figure_id'];
-    line_points: [GridPoint, GridPoint, ...GridPoint[]]; // minimum 2
-    length: number;
-    length_unit: LengthWidthUnit;
-    width: number;
-    width_unit: LengthWidthUnit;
-    total_area: number;
-    total_area_unit: TotalAreaUnit;
-  };
+  [FigureType.LINE]: LineFigureDetails;
   [FigureType.POINT]: never;
 }
 
-interface PointFigure extends Figure {
+export interface Point {
+  point: GridPoint;
+}
+export type PointFigureDetails = WithFigureId<Point>;
+export interface PointFigure extends Figure {
   [FigureType.AREA]: never;
   [FigureType.LINE]: never;
-  [FigureType.POINT]: {
-    figure_id: Figure['figure_id'];
-    point: GridPoint;
-  };
+  [FigureType.POINT]: PointFigureDetails;
+}
+
+export type WithLocationId<T extends object = {}> = T & {
+  location_id: string;
+};
+
+export interface IrrigationLocationDefaults {
+  irrigation_type_id: number;
+  estimated_flow_rate: number;
+  estimated_flow_rate_unit: string;
+  application_depth: number;
+  application_depth_unit: string;
 }
 export interface Location {
-  location_id: string;
   farm_id: string;
   name: string;
   notes?: string;
-  figure: AreaFigure | LineFigure | PointFigure;
-  location_defaults: {
-    location_id: Location['location_id'];
-    irrigation_type_id: number;
-    estimated_flow_rate: number;
-    estimated_flow_rate_unit: string;
-    application_depth: number;
-    application_depth_unit: string;
-  } | null;
+  location_defaults: WithLocationId<IrrigationLocationDefaults> | null;
+}
+export interface LocationWithFigure<FigureType extends AreaFigure | LineFigure | PointFigure>
+  extends WithLocationId<Location> {
+  figure: FigureType;
 }
 
 // This data is unused but present on some records
 export interface StationId {
   station_id: number | null;
 }
+
 export interface OrganicStatusProperties {
-  location_id: Location['location_id'];
   organic_status: OrganicStatus;
   transition_date: string | null;
 }
 
-export interface Barn extends Location {
-  [InternalMapLocationType.BARN]: {
-    location_id: Location['location_id'];
-    wash_and_pack: boolean | null;
-    cold_storage: boolean | null;
-    used_for_animals: boolean | null;
-  };
+export interface BarnDetails {
+  wash_and_pack: boolean | null;
+  cold_storage: boolean | null;
+  used_for_animals: boolean | null;
+}
+export interface Barn extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.BARN]: WithLocationId<BarnDetails>;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-export interface BufferZone extends Location {
-  [InternalMapLocationType.BUFFER_ZONE]: {
-    location_id: Location['location_id'];
-  };
+export interface BufferZone extends LocationWithFigure<LineFigure> {
+  [InternalMapLocationType.BUFFER_ZONE]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-export interface CeremonialArea extends Location {
-  [InternalMapLocationType.CEREMONIAL_AREA]: {
-    location_id: Location['location_id'];
-  };
+export interface CeremonialArea extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.CEREMONIAL_AREA]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-export interface FarmSiteBoundary extends Location {
-  [InternalMapLocationType.FARM_SITE_BOUNDARY]: {
-    location_id: Location['location_id'];
-  };
+export interface FarmSiteBoundary extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
-export interface Fence extends Location {
-  [InternalMapLocationType.FENCE]: {
-    location_id: Location['location_id'];
-    pressure_treated: boolean | null;
-  };
+export interface FenceDetails {
+  pressure_treated: boolean | null;
 }
-export interface Field extends Location {
-  [InternalMapLocationType.FIELD]: OrganicStatusProperties & StationId;
-}
-
-export interface Garden extends Location {
-  [InternalMapLocationType.GARDEN]: OrganicStatusProperties & StationId;
-}
-
-export interface Gate extends Location {
-  [InternalMapLocationType.GATE]: {
-    location_id: Location['location_id'];
-  };
-}
-
-export interface Greenhouse extends Location {
-  [InternalMapLocationType.GATE]: OrganicStatusProperties & {
-    supplemental_lighting: boolean | null;
-    co2_enrichment: boolean | null;
-    greenhouse_heated: boolean | null;
-  };
-}
-
-export interface NaturalArea extends Location {
-  [InternalMapLocationType.NATURAL_AREA]: {
-    location_id: Location['location_id'];
-  };
-}
-
-export interface Residence extends Location {
-  [InternalMapLocationType.RESIDENCE]: {
-    location_id: Location['location_id'];
-  };
+export interface Fence extends LocationWithFigure<LineFigure> {
+  [InternalMapLocationType.FENCE]: WithLocationId<FenceDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-export interface SoilSampleLocation extends Location {
-  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: {
-    location_id: Location['location_id'];
-  };
+export interface FieldDetails extends OrganicStatusProperties, StationId {}
+export interface Field extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.FIELD]: WithLocationId<FieldDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-export interface SurfaceWater extends Location {
-  [InternalMapLocationType.SURFACE_WATER]: {
-    location_id: Location['location_id'];
-    used_for_irrigation: boolean | null;
-  };
+export interface GardenDetails extends OrganicStatusProperties, StationId {}
+export interface Garden extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.GARDEN]: WithLocationId<GardenDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface Gate extends LocationWithFigure<PointFigure> {
+  [InternalMapLocationType.GATE]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface GreenhouseDetails extends OrganicStatusProperties {
+  supplemental_lighting: boolean | null;
+  co2_enrichment: boolean | null;
+  greenhouse_heated: boolean | null;
+}
+export interface Greenhouse extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.GREENHOUSE]: WithLocationId<GreenhouseDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface NaturalArea extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.NATURAL_AREA]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface Residence extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.RESIDENCE]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface SoilSampleLocation extends LocationWithFigure<PointFigure> {
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: WithLocationId;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
+}
+
+export interface SurfaceWaterDetails {
+  used_for_irrigation: boolean | null;
+}
+
+export interface SurfaceWater extends LocationWithFigure<AreaFigure> {
+  [InternalMapLocationType.SURFACE_WATER]: WithLocationId<SurfaceWaterDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
 enum BufferWidthUnit {
@@ -620,13 +808,28 @@ enum BufferWidthUnit {
   FT = 'ft',
   MI = 'mi',
 }
-export interface Watercourse extends Location {
-  [InternalMapLocationType.WATERCOURSE]: {
-    location_id: Location['location_id'];
-    used_for_irrigation: boolean | null;
-    buffer_width: number;
-    buffer_width_unit: BufferWidthUnit;
-  };
+
+export interface WatercourseDetails {
+  used_for_irrigation: boolean | null;
+  buffer_width: number;
+  buffer_width_unit: BufferWidthUnit;
+}
+export interface Watercourse extends LocationWithFigure<LineFigure> {
+  [InternalMapLocationType.WATERCOURSE]: WithLocationId<WatercourseDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATER_VALVE]: null;
 }
 
 enum WaterSource {
@@ -642,13 +845,27 @@ enum FlowRateUnit {
   GAL_PER_MIN = 'gal/min',
   GAL_PER_H = 'gal/h',
 }
-export interface WaterValve extends Location {
-  [InternalMapLocationType.WATER_VALVE]: {
-    location_id: Location['location_id'];
-    source: WaterSource;
-    flow_rate: number | null;
-    flow_rate_unit: FlowRateUnit;
-  };
+export interface WaterValveDetails {
+  source: WaterSource;
+  flow_rate: number | null;
+  flow_rate_unit: FlowRateUnit;
+}
+export interface WaterValve extends LocationWithFigure<PointFigure> {
+  [InternalMapLocationType.WATER_VALVE]: WithLocationId<WaterValveDetails>;
+  [InternalMapLocationType.BARN]: null;
+  [InternalMapLocationType.BUFFER_ZONE]: null;
+  [InternalMapLocationType.CEREMONIAL_AREA]: null;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: null;
+  [InternalMapLocationType.FENCE]: null;
+  [InternalMapLocationType.FIELD]: null;
+  [InternalMapLocationType.GARDEN]: null;
+  [InternalMapLocationType.GATE]: null;
+  [InternalMapLocationType.GREENHOUSE]: null;
+  [InternalMapLocationType.NATURAL_AREA]: null;
+  [InternalMapLocationType.RESIDENCE]: null;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: null;
+  [InternalMapLocationType.SURFACE_WATER]: null;
+  [InternalMapLocationType.WATERCOURSE]: null;
 }
 
 export type InternalMapLocation =

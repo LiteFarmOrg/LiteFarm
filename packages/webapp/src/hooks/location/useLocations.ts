@@ -15,6 +15,7 @@
 
 import { useGetLocationsQuery } from '../../store/api/locationApi';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
+import { FlattenedInternalMapLocation } from './types';
 
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
@@ -31,7 +32,7 @@ const getFigureType = (figure: InternalMapLocation['figure']) => {
   }
 };
 
-const clean = (location: InternalMapLocation) => {
+const clean = (location: InternalMapLocation): any => {
   const locationType = location.figure.type;
   const figureType = getFigureType(location.figure);
 
@@ -57,6 +58,57 @@ const clean = (location: InternalMapLocation) => {
   cleanedLocation.figure = cleanedFigure;
 
   return cleanedLocation;
+};
+
+const flatten = (location: any): FlattenedInternalMapLocation => {
+  const clone: InternalMapLocation = { ...location };
+  let flattened = {} as any;
+  const locationType = clone.figure.type;
+  const figureType = getFigureType(clone.figure);
+
+  // Copy over core values
+  for (const [key, value] of Object.entries(clone)) {
+    if (key !== locationType && key !== 'figure') {
+      flattened[key] = value;
+    }
+  }
+
+  // Flatten location type payload (e.g. barn, field)
+  if (locationType && clone[locationType]) {
+    const payload = clone[locationType];
+
+    // Keep properties, skipping location_id
+    for (const [key, value] of Object.entries(payload)) {
+      if (key !== 'location_id') {
+        flattened[key] = value;
+      }
+    }
+  }
+
+  // Flatten figure into top level
+  if (clone.figure) {
+    const figure = clone.figure;
+    for (const [key, value] of Object.entries(figure)) {
+      if (key !== figureType && key !== 'location_id') {
+        flattened[key] = value;
+      }
+    }
+    // Flatten figure if present
+    if (figureType && figure[figureType]) {
+      const figureData = figure[figureType];
+
+      // keep data for usefullness
+      flattened['figure_type'] = figureType;
+
+      for (const [key, value] of Object.entries(figureData)) {
+        if (key !== 'figure_id') {
+          flattened[key] = value;
+        }
+      }
+    }
+  }
+
+  return flattened;
 };
 
 enum GroupByOptions {
@@ -89,51 +141,46 @@ const useLocations = ({
   }
 
   const cleanedLocations = locations.map(clean);
+  const flattenedLocations = cleanedLocations.map(flatten);
 
   if (filterBy && allLocationTypes.includes(filterBy)) {
-    const filteredLocations = cleanedLocations.filter(
-      (location) => location.figure.type === filterBy,
-    );
+    const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
     return { locations: filteredLocations, isLoading };
   }
 
   if (filterBy && allFigureTypes.includes(filterBy)) {
-    const filteredLocations = cleanedLocations.filter((location) => !!location.figure[filterBy]);
+    const filteredLocations = flattenedLocations.filter(
+      ({ figure_type }) => figure_type === filterBy,
+    );
     return { locations: filteredLocations, isLoading };
   }
 
   if (groupBy === GroupByOptions.TYPE) {
-    const groupedLocations = Object.groupBy(cleanedLocations, ({ figure }) => figure.type);
+    const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
     return { locations: groupedLocations, isLoading };
   }
 
   if (groupBy === GroupByOptions.FIGURE) {
-    const groupedLocations = Object.groupBy(
-      cleanedLocations,
-      ({ figure }) => getFigureType(figure) ?? 'never',
-    );
+    const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
     return { locations: groupedLocations, isLoading };
   }
 
   if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
     // First: group by figure type (area, line, point)
-    const groupedByFigure = Object.groupBy(
-      cleanedLocations,
-      ({ figure }) => getFigureType(figure) ?? 'never', // TODO: Better solution this will never happen
-    );
+    const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
 
     // Second: for each figure group, group by location type
     const groupedLocations = Object.fromEntries(
-      Object.entries(groupedByFigure).map(([geometryType, locations]) => {
-        const groupedByLocationType = Object.groupBy(locations, ({ figure }) => figure.type);
-        return [geometryType, groupedByLocationType];
+      Object.entries(groupedByFigure).map(([figureType, locations]) => {
+        const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
+        return [figureType, groupedByLocationType];
       }),
     );
 
     return { locations: groupedLocations, isLoading };
   }
 
-  return { locations: cleanedLocations, isLoading };
+  return { locations: flattenedLocations, isLoading };
 };
 
 export default useLocations;

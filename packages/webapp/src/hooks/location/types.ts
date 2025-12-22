@@ -12,6 +12,7 @@ import {
   SurfaceWaterDetails,
   WatercourseDetails,
   WaterValveDetails,
+  WithFigureId,
   WithLocationId,
 } from '../../store/api/types';
 
@@ -22,7 +23,7 @@ type FigurePayloadMap = {
 };
 
 type FlattenedFigureWithType<T extends FigureType> = { figure_type: T } & FigurePayloadMap[T] &
-  Omit<Figure, 'location_id'>;
+  Omit<WithFigureId<Figure>, 'location_id'>;
 
 export type FlattenedBarn = WithLocationId<Location> &
   FlattenedFigureWithType<FigureType.AREA> &

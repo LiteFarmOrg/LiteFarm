@@ -110,8 +110,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
   }, [isClickable]);
 
   const { farm_id } = useSelector(userFarmSelector);
-  const { locations: internalLocations } = useLocations({ farm_id, groupBy: 'figure_and_type' });
-  const { locations: externalLocations } = useExternalLocations();
+  const { locations: internalLocations, isLoading: isLoadingInternalLocations } = useLocations({
+    farm_id,
+    groupBy: 'figure_and_type',
+  });
+  const { locations: externalLocations, isLoading: isLoadingExternalLocations } =
+    useExternalLocations();
+  const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
 
   const areaAssets = { ...internalLocations.area, ...externalLocations.area };
   const lineAssets = { ...internalLocations.line, ...externalLocations.line };
@@ -580,6 +585,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     drawLine,
     assetGeometriesRef,
     markerClusterRef,
+    isLocationsLoading,
   };
 };
 

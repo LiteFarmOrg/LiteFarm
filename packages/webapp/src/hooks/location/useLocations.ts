@@ -134,52 +134,58 @@ const useLocations = ({
   filterBy,
   groupBy,
 }: UseLocationPropsWithFilterBy | UseLocationPropsWithGroupBy) => {
-  const { data: locations = [], isLoading } = useGetLocationsQuery({ farm_id });
+  const { data: locations, isLoading } = useGetLocationsQuery({ farm_id });
 
   if (isLoading) {
-    return { locations: [], isLoading };
+    return { locations, isLoading };
   }
 
-  const cleanedLocations = locations.map(clean);
-  const flattenedLocations = cleanedLocations.map(flatten);
-  const activeLocations = flattenedLocations.filter(({ deleted }) => deleted === false);
+  if (locations && locations.length) {
+    const cleanedLocations = locations.map(clean);
+    const flattenedLocations = cleanedLocations.map(flatten);
+    const activeLocations = flattenedLocations.filter(({ deleted }) => deleted === false);
 
-  if (filterBy && allLocationTypes.includes(filterBy)) {
-    const filteredLocations = activeLocations.filter(({ type }) => type === filterBy);
-    return { locations: filteredLocations, isLoading };
+    if (filterBy && allLocationTypes.includes(filterBy)) {
+      const filteredLocations = activeLocations.filter(({ type }) => type === filterBy);
+      return { locations: filteredLocations, isLoading };
+    }
+
+    if (filterBy && allFigureTypes.includes(filterBy)) {
+      const filteredLocations = activeLocations.filter(
+        ({ figure_type }) => figure_type === filterBy,
+      );
+      return { locations: filteredLocations, isLoading };
+    }
+
+    if (groupBy === GroupByOptions.TYPE) {
+      const groupedLocations = Object.groupBy(activeLocations, ({ type }) => type);
+      return { locations: groupedLocations, isLoading };
+    }
+
+    if (groupBy === GroupByOptions.FIGURE) {
+      const groupedLocations = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
+      return { locations: groupedLocations, isLoading };
+    }
+
+    if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
+      // First: group by figure type (area, line, point)
+      const groupedByFigure = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
+
+      // Second: for each figure group, group by location type
+      const groupedLocations = Object.fromEntries(
+        Object.entries(groupedByFigure).map(([figureType, locations]) => {
+          const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
+          return [figureType, groupedByLocationType];
+        }),
+      );
+
+      return { locations: groupedLocations, isLoading };
+    }
+
+    return { locations: activeLocations, isLoading };
   }
 
-  if (filterBy && allFigureTypes.includes(filterBy)) {
-    const filteredLocations = activeLocations.filter(({ figure_type }) => figure_type === filterBy);
-    return { locations: filteredLocations, isLoading };
-  }
-
-  if (groupBy === GroupByOptions.TYPE) {
-    const groupedLocations = Object.groupBy(activeLocations, ({ type }) => type);
-    return { locations: groupedLocations, isLoading };
-  }
-
-  if (groupBy === GroupByOptions.FIGURE) {
-    const groupedLocations = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
-    return { locations: groupedLocations, isLoading };
-  }
-
-  if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
-    // First: group by figure type (area, line, point)
-    const groupedByFigure = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
-
-    // Second: for each figure group, group by location type
-    const groupedLocations = Object.fromEntries(
-      Object.entries(groupedByFigure).map(([figureType, locations]) => {
-        const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
-        return [figureType, groupedByLocationType];
-      }),
-    );
-
-    return { locations: groupedLocations, isLoading };
-  }
-
-  return { locations: activeLocations, isLoading };
+  return { locations, isLoading };
 };
 
 export default useLocations;

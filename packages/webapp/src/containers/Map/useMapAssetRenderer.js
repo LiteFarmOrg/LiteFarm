@@ -118,9 +118,9 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     useExternalLocations();
   const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
 
-  const areaAssets = { ...internalLocations.area, ...externalLocations.area };
-  const lineAssets = { ...internalLocations.line, ...externalLocations.line };
-  const pointAssets = { ...internalLocations.point, ...externalLocations.point };
+  const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };
+  const lineAssets = { ...internalLocations?.line, ...externalLocations?.line };
+  const pointAssets = { ...internalLocations?.point, ...externalLocations?.point };
 
   const { grid_points } = useSelector(userFarmSelector);
 

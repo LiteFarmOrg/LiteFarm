@@ -15,40 +15,52 @@
 
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { FigureType } from '../../store/api/types';
+import { ExternalLocations, ExternalMapLocationType, ExternalPoints } from './types';
 
 const useExternalLocations = () => {
-  const { data: sensorData = { sensors: [], sensor_arrays: [] }, isLoading: isLoadingSensors } =
-    useGetSensorsQuery();
+  const { data: sensorData, isLoading: isLoadingSensors } = useGetSensorsQuery();
 
   const isLoading = isLoadingSensors;
 
   if (isLoading) {
-    return { locations: [], isLoading };
+    return { locations: undefined, isLoading };
   }
 
-  const allSensors = sensorData.sensors.map((sensor) => ({
+  const allSensors = sensorData?.sensors.map((sensor) => ({
     ...sensor,
-    isAddonSensor: 'true',
-    type: 'sensor',
+    isAddonSensor: true,
+    type: ExternalMapLocationType.SENSOR,
     figure_type: FigureType.POINT,
   }));
 
-  const sensorArrays = sensorData.sensor_arrays.map((sensorArray) => ({
+  const sensorArrays = sensorData?.sensor_arrays.map((sensorArray) => ({
     ...sensorArray,
-    isAddonSensor: 'true',
-    type: 'sensor_array',
+    isAddonSensor: true,
+    type: ExternalMapLocationType.SENSOR_ARRAY,
     figure_type: FigureType.POINT,
   }));
 
   const standaloneSensors = allSensors?.filter((sensor) => sensor.sensor_array_id === null);
 
+  let points: ExternalPoints = {};
+  if (standaloneSensors?.length) {
+    points.sensor = [...standaloneSensors];
+  }
+  if (sensorArrays?.length) {
+    points.sensor_array = [...sensorArrays];
+  }
+
+  let locations: ExternalLocations = {};
+  if (
+    [ExternalMapLocationType.SENSOR, ExternalMapLocationType.SENSOR_ARRAY].some(
+      (type) => type in points,
+    )
+  ) {
+    locations.point = { ...points };
+  }
+
   return {
-    locations: {
-      point: {
-        sensor: [...standaloneSensors],
-        sensor_array: [...sensorArrays],
-      },
-    },
+    locations,
     isLoading,
   };
 };

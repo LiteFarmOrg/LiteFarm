@@ -773,6 +773,7 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "ASSETS_LOADING": "Assets are loading...",
     "BARN": {
       "ANIMALS": "Is this area used for housing animals?",
       "COLD_STORAGE": "Does this barn have cold storage?",

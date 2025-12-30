@@ -1,7 +1,7 @@
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { colors } from '../../assets/theme';
 
-export function Loading({ children = <LoadingAnimation />, style, ...props }) {
+export function Loading({ children = <LoadingAnimation />, style = {}, ...props }) {
   return (
     <div
       style={{

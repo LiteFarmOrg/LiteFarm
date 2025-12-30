@@ -10,6 +10,8 @@ import {
   LineFigureDetails,
   Location,
   PointFigureDetails,
+  Sensor,
+  SensorArray,
   SurfaceWaterDetails,
   WatercourseDetails,
   WaterValveDetails,
@@ -17,6 +19,7 @@ import {
   WithLocationId,
 } from '../../store/api/types';
 
+// Internal Locations
 type FigurePayloadMap = {
   [FigureType.AREA]: AreaFigureDetails;
   [FigureType.LINE]: LineFigureDetails;
@@ -80,3 +83,31 @@ export type FlattenedInternalMapLocation =
   | FlattenedSurfaceWater
   | FlattenedWatercourse
   | FlattenedWaterValve;
+
+// External Locations
+export enum ExternalMapLocationType {
+  SENSOR = 'sensor',
+  SENSOR_ARRAY = 'sensor_array',
+}
+
+export type ExternalLocationWithType<T> = T & {
+  type: ExternalMapLocationType;
+  figure_type: FigureType;
+};
+
+export interface ExternalSensorWithType extends ExternalLocationWithType<Sensor> {
+  isAddonSensor: boolean;
+}
+
+export interface ExternalSensorArrayWithType extends ExternalLocationWithType<SensorArray> {
+  isAddonSensor: boolean;
+}
+
+export type ExternalPoints = {
+  sensor?: ExternalSensorWithType[];
+  sensor_array?: ExternalSensorArrayWithType[];
+};
+
+export type ExternalLocations = {
+  point?: ExternalPoints;
+};

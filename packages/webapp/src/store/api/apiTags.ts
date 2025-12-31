@@ -71,6 +71,7 @@ export const FarmLibraryTags = [
   'MarketDirectoryPartners',
 ] as const;
 
-export const API_TAGS = [...LibraryTags, ...FarmTags, ...FarmLibraryTags] as const;
+export const LIBRARY_API_TAGS = [...LibraryTags] as const;
+export const API_TAGS = [...FarmTags, ...FarmLibraryTags] as const;
 
 export type ApiTag = (typeof API_TAGS)[number];

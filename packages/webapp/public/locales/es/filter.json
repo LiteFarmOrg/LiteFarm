@@ -1,41 +1,50 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Ubicación",
-    "STATUS": "Estatus",
-    "SUPPLIERS": "Proveedor",
-    "ACTIVE": "Activo",
     "ABANDONED": "Abandanado",
+    "ACTIVE": "Activo",
     "COMPLETE": "Terminado",
+    "LOCATION": "Ubicación",
+    "NEEDS_PLAN": "Necesita un plan",
     "PLANNED": "Planificado",
-    "NEEDS_PLAN": "Necesita un plan"
+    "STATUS": "Estatus",
+    "SUPPLIERS": "Proveedor"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Producto de limpieza",
     "CROP_COMPLIANCE": "Cumplimiento de cultivos",
     "FERTILIZING_PRODUCT": "Producto fertilizante",
+    "INVOICES": "Facturas",
     "OTHER": "Otro",
     "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
+    "RECEIPTS": "Recibos",
     "SOIL_AMENDMENT": "Aditivo de suelo",
     "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-    "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
     "UNCATEGORIZED": "Sin categorizar",
-    "RECEIPTS": "Recibos",
-    "INVOICES": "Facturas"
-  },
-  "TASKS": {
-    "LOCATION": "Ubicación",
-    "STATUS": "Estatus",
-    "SUPPLIERS": "Proveedores",
-    "ACTIVE": "Activo",
-    "ABANDONED": "Abandonada",
-    "COMPLETED": "Completada",
-    "LATE": "Tarde",
-    "PLANNED": "Planificada",
-    "FOR_REVIEW": "Para la revisión"
+    "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua"
   },
   "FILTER": {
-    "VALID_ON": "Válido en",
     "FROM_DATE": "Desde",
-    "TO_DATE": "Hasta"
+    "TO_DATE": "Hasta",
+    "VALID_ON": "Válido en"
+  },
+  "INVENTORY": {
+    "CUSTOM": "Personalizado",
+    "CUSTOM_OR_LITEFARM_LIBRARY": "Personalizado o Biblioteca de LiteFarm",
+    "DRY": "Seco",
+    "FERTILISER_TYPE": "Tipo de fertilizante",
+    "LIQUID": "Líquido",
+    "LITEFARM_LIBRARY": "Biblioteca de LiteFarm",
+    "TITLE": "Filtrar productos de enmienda del suelo"
+  },
+  "TASKS": {
+    "ABANDONED": "Abandonada",
+    "ACTIVE": "Activo",
+    "COMPLETED": "Completada",
+    "FOR_REVIEW": "Para la revisión",
+    "LATE": "Tarde",
+    "LOCATION": "Ubicación",
+    "PLANNED": "Planificada",
+    "STATUS": "Estatus",
+    "SUPPLIERS": "Proveedores"
   }
 }

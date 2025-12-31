@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
+import { libraryApi } from './libraryApiSlice';
 import { marketProductCategoryUrl } from '../../apiConfig';
 import { MarketProductCategory } from './types';
 
-export const MarketProductCategories = api.injectEndpoints({
+export const MarketProductCategories = libraryApi.injectEndpoints({
   endpoints: (build) => ({
     getMarketProductCategories: build.query<MarketProductCategory[], void>({
       query: () => ({

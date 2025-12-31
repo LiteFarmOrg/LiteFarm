@@ -14,7 +14,7 @@
  */
 import { shallowEqual, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
+import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/libraryApiSlice';
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';

@@ -19,10 +19,12 @@ import {
   useGetAnimalBatchesQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
-  useGetAnimalSexesQuery,
 } from '../../../store/api/apiSlice';
+import {
+  useGetDefaultAnimalBreedsQuery,
+  useGetAnimalSexesQuery,
+} from '../../../store/api/libraryApiSlice';
 import useQueries from '../../../hooks/api/useQueries';
 import {
   Animal,

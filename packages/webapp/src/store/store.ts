@@ -2,6 +2,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { AnyAction, Middleware, configureStore } from '@reduxjs/toolkit';
 import { sagaMiddleware } from './sagaMiddleware';
 import { api } from './api/apiSlice';
+import { libraryApi } from './api/libraryApiSlice';
 import rootReducer from './reducer';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
@@ -26,6 +27,7 @@ export const store = configureStore({
       serializableCheck: false,
     })
       .concat(api.middleware)
+      .concat(libraryApi.middleware)
       .concat(sagaMiddleware),
   ],
   devTools: import.meta.env.VITE_ENV !== 'production',

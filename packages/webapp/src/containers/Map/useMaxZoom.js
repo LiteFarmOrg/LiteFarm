@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapCacheSelector, setMapCache, setRetrievedPoints } from './mapCacheSlice';
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
-import { pointSelector, externalPointSelector } from '../locationSlice';
 import { DEFAULT_MAX_ZOOM } from './constants';
+import useLocations from '../../hooks/location/useLocations';
+import useExternalLocations from '../../hooks/location/useExternalLocations';
 
 export function useMaxZoom() {
   const { maxZoom, retrievedPoints } = useSelector(mapCacheSelector);
@@ -12,21 +13,18 @@ export function useMaxZoom() {
   const setMaxZoom = (maxZoom) => {
     dispatch(setMapCache({ maxZoom, farm_id }));
   };
-  const internalPoints = useSelector(pointSelector);
-  const externalPoints = useSelector(externalPointSelector);
-  const points = { ...internalPoints, ...externalPoints };
+  const { locations: internalPoints } = useLocations({
+    farm_id,
+    filterBy: 'point',
+  });
+  const { locations: externalPoints } = useExternalLocations({ filterBy: 'point' });
+  const points = [...internalPoints, ...externalPoints];
 
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {
       const mapService = new maps.MaxZoomService();
       const pointsToQuery = [];
-      const pointsCollections = [
-        { point: grid_points },
-        ...points.gate,
-        ...points.water_valve,
-        ...points.soil_sample_location,
-        ...points.sensor,
-      ];
+      const pointsCollections = [{ point: grid_points }, ...points];
       pointsCollections.forEach(({ point }) => {
         if (
           ![...pointsToQuery, ...retrievedPoints].some(

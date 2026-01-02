@@ -115,7 +115,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     groupBy: 'figure_and_type',
   });
   const { locations: externalLocations, isLoading: isLoadingExternalLocations } =
-    useExternalLocations();
+    useExternalLocations({ groupBy: 'figure_and_type' });
   const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
 
   const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };

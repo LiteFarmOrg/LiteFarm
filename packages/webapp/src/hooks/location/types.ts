@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import {
   AreaFigureDetails,
   BarnDetails,
@@ -7,6 +22,7 @@ import {
   FigureType,
   GardenDetails,
   GreenhouseDetails,
+  InternalMapLocationType,
   LineFigureDetails,
   Location,
   PointFigureDetails,
@@ -103,11 +119,19 @@ export interface ExternalSensorArrayWithType extends ExternalLocationWithType<Se
   isAddonSensor: boolean;
 }
 
-export type ExternalPoints = {
-  sensor?: ExternalSensorWithType[];
-  sensor_array?: ExternalSensorArrayWithType[];
+// Shared
+export enum GroupByOptions {
+  TYPE = 'type',
+  FIGURE = 'figure',
+  FIGURE_AND_TYPE = 'figure_and_type',
+}
+
+export type UseLocationPropsWithFilterBy<AvailableLocationTypes, HookProps = {}> = HookProps & {
+  filterBy?: AvailableLocationTypes | FigureType;
+  groupBy?: never;
 };
 
-export type ExternalLocations = {
-  point?: ExternalPoints;
+export type UseLocationPropsWithGroupBy<T = {}> = T & {
+  filterBy?: never;
+  groupBy?: GroupByOptions;
 };

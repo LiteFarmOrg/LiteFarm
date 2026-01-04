@@ -15,7 +15,12 @@
 
 import { useGetLocationsQuery } from '../../store/api/locationApi';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
-import { FlattenedInternalMapLocation } from './types';
+import {
+  FlattenedInternalMapLocation,
+  GroupByOptions,
+  UseLocationPropsWithFilterBy,
+  UseLocationPropsWithGroupBy,
+} from './types';
 
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
@@ -111,29 +116,22 @@ const flatten = (location: any): FlattenedInternalMapLocation => {
   return flattened;
 };
 
-enum GroupByOptions {
-  TYPE = 'type',
-  FIGURE = 'figure',
-  FIGURE_AND_TYPE = 'figure_and_type',
-}
-
-type UseLocationPropsWithFilterBy = {
+type InternalLocationProps = {
   farm_id: string;
-  filterBy?: InternalMapLocationType | FigureType;
-  groupBy?: never;
 };
 
-type UseLocationPropsWithGroupBy = {
-  farm_id: string;
-  filterBy?: never;
-  groupBy?: GroupByOptions;
-};
+type UseInternalLocationPropsWithFilterBy = UseLocationPropsWithFilterBy<
+  InternalMapLocationType,
+  InternalLocationProps
+>;
+
+type UseInternalLocationPropsWithGroupBy = UseLocationPropsWithGroupBy<InternalLocationProps>;
 
 const useLocations = ({
   farm_id,
   filterBy,
   groupBy,
-}: UseLocationPropsWithFilterBy | UseLocationPropsWithGroupBy) => {
+}: UseInternalLocationPropsWithFilterBy | UseInternalLocationPropsWithGroupBy) => {
   const { data: locations, isLoading } = useGetLocationsQuery({ farm_id });
 
   if (isLoading) {

@@ -15,26 +15,18 @@
 
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { FigureType } from '../../store/api/types';
-import { ExternalLocations, ExternalMapLocationType, ExternalPoints } from './types';
+import {
+  ExternalMapLocationType,
+  GroupByOptions,
+  UseLocationPropsWithFilterBy,
+  UseLocationPropsWithGroupBy,
+} from './types';
 
 const allLocationTypes = Object.values(ExternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
 
-enum GroupByOptions {
-  TYPE = 'type',
-  FIGURE = 'figure',
-  FIGURE_AND_TYPE = 'figure_and_type',
-}
-
-type UseExternalLocationPropsWithFilterBy = {
-  filterBy?: ExternalMapLocationType | FigureType;
-  groupBy?: never;
-};
-
-type UseExternalLocationPropsWithGroupBy = {
-  filterBy?: never;
-  groupBy?: GroupByOptions;
-};
+type UseExternalLocationPropsWithFilterBy = UseLocationPropsWithFilterBy<ExternalMapLocationType>;
+type UseExternalLocationPropsWithGroupBy = UseLocationPropsWithGroupBy;
 
 const useExternalLocations = ({
   filterBy,

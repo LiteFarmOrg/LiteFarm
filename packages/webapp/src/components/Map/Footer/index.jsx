@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
-import { locationEnum } from '../../../containers/Map/constants';
+import { MAP_LOCATION_TYPE_BY_FIGURE } from '../../../containers/Map/constants';
 import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
 import FloatingContainer from '../../FloatingContainer';
 import MapNavigationButtons from './MapNavigationButtons';
@@ -22,26 +22,7 @@ export default function PureMapFooter({
   filterSettings,
   onFilterMenuClick,
   onAddMenuClick,
-  availableFilterSettings = {
-    area: [
-      locationEnum.barn,
-      locationEnum.ceremonial_area,
-      locationEnum.farm_site_boundary,
-      locationEnum.field,
-      locationEnum.garden,
-      locationEnum.greenhouse,
-      locationEnum.surface_water,
-      locationEnum.natural_area,
-      locationEnum.residence,
-    ],
-    line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
-    point: [
-      locationEnum.gate,
-      locationEnum.water_valve,
-      locationEnum.soil_sample_location,
-      locationEnum.sensor,
-    ],
-  },
+  availableFilterSettings = MAP_LOCATION_TYPE_BY_FIGURE,
   isMapFilterSettingActive = false,
   isCompactSideMenu,
 }) {

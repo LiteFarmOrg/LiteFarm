@@ -1,3 +1,6 @@
+import { ExternalMapLocationType } from '../../hooks/location/types';
+import { FigureType, InternalMapLocationType } from '../../store/api/types';
+
 export const DEFAULT_CENTER = {
   lat: 49.24966,
   lng: -123.237421,
@@ -164,4 +167,30 @@ const adjustAngle = (currentAngle) => {
     return angle;
   }
   return currentAngle;
+};
+
+// Shared location types
+export const MAP_LOCATION_TYPE_BY_FIGURE = {
+  [FigureType.AREA]: [
+    InternalMapLocationType.BARN,
+    InternalMapLocationType.CEREMONIAL_AREA,
+    InternalMapLocationType.FIELD,
+    InternalMapLocationType.GARDEN,
+    InternalMapLocationType.GREENHOUSE,
+    InternalMapLocationType.NATURAL_AREA,
+    InternalMapLocationType.RESIDENCE,
+    InternalMapLocationType.SURFACE_WATER,
+  ],
+  [FigureType.LINE]: [
+    InternalMapLocationType.BUFFER_ZONE,
+    InternalMapLocationType.FENCE,
+    InternalMapLocationType.WATERCOURSE,
+  ],
+  [FigureType.POINT]: [
+    InternalMapLocationType.GATE,
+    InternalMapLocationType.WATER_VALVE,
+    InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+    ExternalMapLocationType.SENSOR,
+    ExternalMapLocationType.SENSOR_ARRAY,
+  ],
 };

@@ -18,7 +18,7 @@ export function useMaxZoom() {
     filterBy: 'point',
   });
   const { locations: externalPoints } = useExternalLocations({ filterBy: 'point' });
-  const points = [...internalPoints, ...externalPoints];
+  const points = [...(internalPoints ?? []), ...(externalPoints ?? [])];
 
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {

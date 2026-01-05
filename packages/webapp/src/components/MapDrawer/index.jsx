@@ -20,6 +20,7 @@ import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.s
 import { ReactComponent as SoilSampleLocation } from '../../assets/images/farmMapFilter/SoilSampleLocation.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
+import { ReactComponent as SensorArray } from '../../assets/images/farmMapFilter/SensorArray.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { locationEnum } from '../../containers/Map/constants';
@@ -141,6 +142,11 @@ export default function MapDrawer({
           name: t('FARM_MAP.MAP_FILTER.SENSOR'),
           icon: () => <Sensor style={{ transform: 'translate(-5px, 5px)' }} />,
           key: locationEnum.sensor,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SENSOR_ARRAY'),
+          icon: () => <SensorArray />,
+          key: locationEnum.sensor_array,
         },
         {
           name: t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),

@@ -892,6 +892,7 @@
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SENSOR": "Sensor",
+      "SENSOR_ARRAY": "Sensor array",
       "SHOW_ALL": "Show all",
       "SOIL_SAMPLE_LOCATION": "Soil sample location",
       "SURFACE_WATER": "Surface water",

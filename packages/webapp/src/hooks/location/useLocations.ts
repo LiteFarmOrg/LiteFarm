@@ -18,8 +18,12 @@ import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../
 import {
   FlattenedInternalMapLocation,
   GroupByOptions,
-  UseLocationPropsWithFilterBy,
-  UseLocationPropsWithGroupBy,
+  LocationsGroupedByFigure,
+  LocationsGroupedByFigureAndType,
+  LocationsGroupedByType,
+  UseLocationsPropsWithFilterBy,
+  UseLocationsPropsWithGroupBy,
+  UseLocationsReturn,
 } from './types';
 
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
@@ -120,18 +124,42 @@ type InternalLocationProps = {
   farm_id: string;
 };
 
-type UseInternalLocationPropsWithFilterBy = UseLocationPropsWithFilterBy<
+type UseInternalLocationPropsWithFilterBy = UseLocationsPropsWithFilterBy<
   InternalMapLocationType,
   InternalLocationProps
 >;
 
-type UseInternalLocationPropsWithGroupBy = UseLocationPropsWithGroupBy<InternalLocationProps>;
+type UseInternalLocationPropsWithGroupBy = UseLocationsPropsWithGroupBy<InternalLocationProps>;
+type UseInternalLocationProps =
+  | UseInternalLocationPropsWithFilterBy
+  | UseInternalLocationPropsWithGroupBy;
 
-const useLocations = ({
-  farm_id,
-  filterBy,
-  groupBy,
-}: UseInternalLocationPropsWithFilterBy | UseInternalLocationPropsWithGroupBy) => {
+// Function overloads to correctly infer types based on props
+function useLocations(
+  props: UseInternalLocationPropsWithFilterBy & { filterBy: InternalMapLocationType | FigureType },
+): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined>;
+
+function useLocations(
+  props: UseInternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },
+): UseLocationsReturn<
+  LocationsGroupedByType<InternalMapLocationType, FlattenedInternalMapLocation> | undefined
+>;
+
+function useLocations(
+  props: UseInternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE },
+): UseLocationsReturn<LocationsGroupedByFigure<FlattenedInternalMapLocation> | undefined>;
+
+function useLocations(
+  props: UseInternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE_AND_TYPE },
+): UseLocationsReturn<
+  LocationsGroupedByFigureAndType<InternalMapLocationType, FlattenedInternalMapLocation> | undefined
+>;
+
+function useLocations(
+  props: InternalLocationProps,
+): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined>;
+
+function useLocations({ farm_id, filterBy, groupBy }: UseInternalLocationProps): any {
   const { data: locations, isLoading } = useGetLocationsQuery({ farm_id });
 
   if (isLoading) {
@@ -184,6 +212,6 @@ const useLocations = ({
   }
 
   return { locations, isLoading };
-};
+}
 
 export default useLocations;

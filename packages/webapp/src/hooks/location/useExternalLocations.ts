@@ -16,22 +16,52 @@
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { FigureType } from '../../store/api/types';
 import {
+  ExternalMapLocation,
   ExternalMapLocationType,
   GroupByOptions,
-  UseLocationPropsWithFilterBy,
-  UseLocationPropsWithGroupBy,
+  LocationsGroupedByFigure,
+  LocationsGroupedByFigureAndType,
+  LocationsGroupedByType,
+  UseLocationsPropsWithFilterBy,
+  UseLocationsPropsWithGroupBy,
+  UseLocationsReturn,
 } from './types';
 
 const allLocationTypes = Object.values(ExternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
 
-type UseExternalLocationPropsWithFilterBy = UseLocationPropsWithFilterBy<ExternalMapLocationType>;
-type UseExternalLocationPropsWithGroupBy = UseLocationPropsWithGroupBy;
+type UseExternalLocationPropsWithFilterBy = UseLocationsPropsWithFilterBy<ExternalMapLocationType>;
+type UseExternalLocationPropsWithGroupBy = UseLocationsPropsWithGroupBy;
+type UseExternalLocationProps =
+  | UseExternalLocationPropsWithFilterBy
+  | UseExternalLocationPropsWithGroupBy;
 
-const useExternalLocations = ({
-  filterBy,
-  groupBy,
-}: UseExternalLocationPropsWithFilterBy | UseExternalLocationPropsWithGroupBy) => {
+// Function overloads to correctly infer types based on props
+function useExternalLocations(
+  props: UseExternalLocationPropsWithFilterBy & { filterBy: ExternalMapLocationType | FigureType },
+): UseLocationsReturn<ExternalMapLocation[] | undefined>;
+
+function useExternalLocations(
+  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },
+): UseLocationsReturn<
+  LocationsGroupedByType<ExternalMapLocationType, ExternalMapLocation> | undefined
+>;
+
+function useExternalLocations(
+  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE },
+): UseLocationsReturn<LocationsGroupedByFigure<ExternalMapLocation> | undefined>;
+
+function useExternalLocations(
+  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE_AND_TYPE },
+): UseLocationsReturn<
+  LocationsGroupedByFigureAndType<ExternalMapLocationType, ExternalMapLocation> | undefined
+>;
+
+function useExternalLocations(
+  props?: UseExternalLocationProps,
+): UseLocationsReturn<ExternalMapLocation[] | undefined>;
+
+function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = {}): any {
   const { data: sensorData, isLoading: isLoadingSensors } = useGetSensorsQuery();
 
   const isLoading = isLoadingSensors;
@@ -101,6 +131,6 @@ const useExternalLocations = ({
     locations,
     isLoading,
   };
-};
+}
 
 export default useExternalLocations;

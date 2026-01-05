@@ -119,6 +119,8 @@ export interface ExternalSensorArrayWithType extends ExternalLocationWithType<Se
   isAddonSensor: boolean;
 }
 
+export type ExternalMapLocation = ExternalSensorWithType | ExternalSensorArrayWithType;
+
 // Shared
 export enum GroupByOptions {
   TYPE = 'type',
@@ -126,12 +128,38 @@ export enum GroupByOptions {
   FIGURE_AND_TYPE = 'figure_and_type',
 }
 
-export type UseLocationPropsWithFilterBy<AvailableLocationTypes, HookProps = {}> = HookProps & {
+type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
+
+export type UseLocationsPropsWithFilterBy<
+  AvailableLocationTypes extends MapLocationType,
+  HookProps = {},
+> = HookProps & {
   filterBy?: AvailableLocationTypes | FigureType;
   groupBy?: never;
 };
 
-export type UseLocationPropsWithGroupBy<T = {}> = T & {
+export type UseLocationsPropsWithGroupBy<HookProps = {}> = HookProps & {
   filterBy?: never;
   groupBy?: GroupByOptions;
+};
+
+export type UseLocationsReturn<T> = {
+  locations: T;
+  isLoading: boolean;
+};
+
+type MapLocation = FlattenedInternalMapLocation | ExternalMapLocation;
+
+export type LocationsGroupedByType<K extends MapLocationType, V extends MapLocation> = {
+  [LocationType in K]: V[];
+};
+
+export type LocationsGroupedByFigure<V extends MapLocation> = {
+  [Figure in FigureType]: V[];
+};
+
+export type LocationsGroupedByFigureAndType<K extends MapLocationType, V extends MapLocation> = {
+  [Figure in FigureType]: {
+    [LocationType in K]: V[];
+  };
 };

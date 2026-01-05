@@ -167,35 +167,35 @@ function useLocations({ farm_id, filterBy, groupBy }: UseInternalLocationProps):
   }
 
   if (locations && locations.length) {
-    const cleanedLocations = locations.map(clean);
+    const activeLocations = locations.filter(({ deleted }) => deleted === false);
+    const cleanedLocations = activeLocations.map(clean);
     const flattenedLocations = cleanedLocations.map(flatten);
-    const activeLocations = flattenedLocations.filter(({ deleted }) => deleted === false);
 
     if (filterBy && allLocationTypes.includes(filterBy)) {
-      const filteredLocations = activeLocations.filter(({ type }) => type === filterBy);
+      const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
       return { locations: filteredLocations, isLoading };
     }
 
     if (filterBy && allFigureTypes.includes(filterBy)) {
-      const filteredLocations = activeLocations.filter(
+      const filteredLocations = flattenedLocations.filter(
         ({ figure_type }) => figure_type === filterBy,
       );
       return { locations: filteredLocations, isLoading };
     }
 
     if (groupBy === GroupByOptions.TYPE) {
-      const groupedLocations = Object.groupBy(activeLocations, ({ type }) => type);
+      const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
       return { locations: groupedLocations, isLoading };
     }
 
     if (groupBy === GroupByOptions.FIGURE) {
-      const groupedLocations = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
+      const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
       return { locations: groupedLocations, isLoading };
     }
 
     if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
       // First: group by figure type (area, line, point)
-      const groupedByFigure = Object.groupBy(activeLocations, ({ figure_type }) => figure_type);
+      const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
 
       // Second: for each figure group, group by location type
       const groupedLocations = Object.fromEntries(
@@ -208,7 +208,7 @@ function useLocations({ farm_id, filterBy, groupBy }: UseInternalLocationProps):
       return { locations: groupedLocations, isLoading };
     }
 
-    return { locations: activeLocations, isLoading };
+    return { locations: flattenedLocations, isLoading };
   }
 
   return { locations, isLoading };

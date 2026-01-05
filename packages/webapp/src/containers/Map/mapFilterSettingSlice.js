@@ -74,17 +74,7 @@ export const mapFilterSettingSelector = createSelector(
     return mapFilterSettingEntities[farm_id] || initialState;
   },
 );
-export const availableFilterSettingsSelector = createSelector(
-  [areaSelector, lineSelector, pointSelector, externalPointSelector],
-  (area, line, internalPoint, externalPoint) => {
-    const point = { ...internalPoint, ...externalPoint };
-    return {
-      area: Object.keys(area).filter((key) => area[key].length),
-      line: Object.keys(line).filter((key) => line[key].length),
-      point: Object.keys(point).filter((key) => point[key].length),
-    };
-  },
-);
+
 export const isMapFilterSettingActiveSelector = createSelector(
   [mapFilterSettingSelector],
   (mapFilterSettingEntities) =>

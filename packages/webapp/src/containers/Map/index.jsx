@@ -34,7 +34,6 @@ import useDrawingManager from './useDrawingManager';
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
 import {
-  availableFilterSettingsSelector,
   mapFilterSettingSelector,
   setMapFilterHideAll,
   setMapFilterSetting,
@@ -64,6 +63,7 @@ import {
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
 import LoadingMapModal from '../../components/Modals/LoadingMapModal';
+import useAvailableFilterSettings from './useAvailableFilterSettings';
 
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
@@ -362,7 +362,7 @@ export default function Map({ isCompactSideMenu }) {
     }
   };
 
-  const availableFilterSettings = useSelector(availableFilterSettingsSelector);
+  const availableFilterSettings = useAvailableFilterSettings({ farm_id });
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);

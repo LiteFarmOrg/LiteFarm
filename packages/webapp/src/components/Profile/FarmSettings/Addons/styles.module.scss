@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .container {
   margin-top: 16px;

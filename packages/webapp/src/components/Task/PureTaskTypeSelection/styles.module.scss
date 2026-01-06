@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .typeContainer {
   display: flex;
@@ -33,7 +33,7 @@
 
   svg {
     width: 48px;
-      height: 48px;
+    height: 48px;
     margin-bottom: 4px;
   }
 
@@ -41,10 +41,10 @@
   line-height: 20px;
   color: var(--fontColor);
   @include fontFamily();
-
 }
 
-.typeContainer:hover, .typeContainer:active {
+.typeContainer:hover,
+.typeContainer:active {
   border-color: var(--teal700);
   background-color: var(--green100);
   color: var(--teal900);

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- @import '../../../../assets/mixin.scss';
+@use '../../../../assets/mixin' as *;
 
 // TransactionList
 .transactionList {
@@ -40,9 +40,9 @@
   background-color: var(--bgInputListTile);
 
   &.expanded {
-    background-color: #F6FBFA;
+    background-color: #f6fbfa;
     border: solid 1px var(--grey400);
-    box-shadow: 0px 0px 4px 0px #66738A1A;
+    box-shadow: 0px 0px 4px 0px #66738a1a;
     border-radius: 1px;
   }
 
@@ -64,9 +64,9 @@
 
 // TransactionItem
 .mainContent {
- display: flex;
- justify-content: space-between;
- align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mainContentLeft {
@@ -89,7 +89,9 @@
   line-height: 16px;
 }
 
-.mainContentTitle, .mainContentInfo, .amount {
+.mainContentTitle,
+.mainContentInfo,
+.amount {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -99,5 +101,5 @@
   background: var(--teal100);
   width: 32px;
   height: 32px;
-  @include svgColorFill(#95ADA9);
+  @include svgColorFill(#95ada9);
 }

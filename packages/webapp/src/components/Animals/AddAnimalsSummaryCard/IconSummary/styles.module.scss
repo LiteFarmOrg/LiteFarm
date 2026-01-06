@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../../assets/mixin';
+@use '../../../../assets/mixin' as *;
 
 .iconContainer {
   width: 40px; // width of the larger (batch) icon

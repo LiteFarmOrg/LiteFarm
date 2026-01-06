@@ -1,7 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
-import { areaSelector, lineSelector, pointSelector, externalPointSelector } from '../locationSlice';
 
 const initialState = {
   field: true,

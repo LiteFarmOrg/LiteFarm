@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
@@ -76,9 +76,11 @@ export default function Map({ isCompactSideMenu }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
-  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
-  const [gMapBounds, setGMapBounds] = useState(null);
+  // Unused: Kept in for map debugging
+  const [_gMap, setGMap] = useState(null);
+  const [_gMapBounds, setGMapBounds] = useState(null);
+
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
@@ -210,7 +212,7 @@ export default function Map({ isCompactSideMenu }) {
     };
   }, [gMaps]);
 
-  const { getMaxZoom, maxZoom } = useMaxZoom();
+  const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
@@ -311,7 +313,9 @@ export default function Map({ isCompactSideMenu }) {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    const bounds = drawAssets(map, maps, mapBounds);
+
+    // Unused const: Assets need to be drawn but this const is essentially unused
+    const _bounds = drawAssets(map, maps, mapBounds);
 
     if (history.location.state?.isStepBack) {
       reconstructOverlay();
@@ -324,9 +328,11 @@ export default function Map({ isCompactSideMenu }) {
         map.setCenter(location);
       }
     }
-    setGMap(map);
     setGMaps(maps);
-    setGMapBounds(bounds);
+
+    // Unused: Kept in for map debugging
+    setGMap(map);
+    setGMapBounds(_bounds);
   };
 
   const handleClickAdd = () => {
@@ -390,13 +396,6 @@ export default function Map({ isCompactSideMenu }) {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
   };
-
-  useEffect(() => {
-    if (maxZoom && gMap && gMaps && gMapBounds) {
-      const newBounds = drawAssets(gMap, gMaps, gMapBounds);
-      setGMapBounds(newBounds);
-    }
-  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {

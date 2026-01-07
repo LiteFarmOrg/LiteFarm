@@ -1,0 +1,2075 @@
+{
+  "title": "TAPE Questionnaire",
+  "description": "TAPE is a comprehensive tool that aims to measure the multidimensional performance of agroecological systems.",
+  "pages": [
+    {
+      "name": "intro",
+      "title": "Intro and Consent",
+      "elements": [
+        {
+          "type": "html",
+          "name": "terms",
+          "html": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>TAPE Tool – Terms of Use (HTML)</title>\n</head>\n<body>\n  <p>\n    The TAPE (Tool for Agroecology Performance Evaluation) tool (hereinafter referred to as the\n    “TAPE tool”) is developed and owned by the Food and Agriculture Organization of the United Nations (FAO).\n  </p>\n\n  <h4>Purpose</h4>\n  <p>\n    The TAPE tool was developed to assist countries and regions in engaging more effectively in the transition\n    processes towards sustainable agriculture and food systems. The data collected through TAPE helps to evaluate\n    the contribution of agroecology to this transformation. TAPE helps build knowledge and empower producers,\n    supports agroecological transition, and informs policy makers and development institutions by creating\n    references on the multidimensional performance of agroecology and its potential contribution to the\n    Sustainable Development Goals.\n  </p>\n\n  <h4>Agreement</h4>\n  <p>\n    By using the TAPE tool, you acknowledge and agree that these Terms of Use and the FAO Data Protection and\n    Privacy Notice (as may be amended by FAO from time to time and without notice) shall apply. If you do not\n    agree to these Terms of Use and the FAO Data Protection and Privacy Notice, do not access or otherwise use\n    the TAPE tool.\n  </p>\n\n  <h4>Access</h4>\n  <p>\n    FAO reserves the right at any time to modify or close, temporarily or permanently, the TAPE tool, including\n    any means of accessing or utilizing it, at its sole discretion, with or without prior notice to users.\n  </p>\n  <p>\n    FAO may, at its sole discretion, under any circumstances, for any or no reason whatsoever and with or\n    without prior notice to users, terminate access to the TAPE tool.\n  </p>\n  <p>\n    Access to and use of the TAPE tool requires registration or the creation of a user profile.\n  </p>\n\n  <h4>Scope of Data</h4>\n  <p>All data shared by you through the TAPE tool shall meet the following criteria:</p>\n  <ol type=\"a\">\n    <li>You have the full legal right to share the data with FAO for the purposes described herein.</li>\n    <li>\n      The transfer of the data to FAO and use of the data as provided herein does not and will not violate any\n      intellectual property rights or any other rights of any third party.\n    </li>\n    <li>\n      The data submitted have been collected in accordance with applicable national laws, rules, and procedures,\n      including, but not limited to, data protection laws.\n    </li>\n  </ol>\n\n  <h4>Data Sharing</h4>\n  <ul>\n    <li>\n      Users are responsible for indicating any restrictions or limitations on the data (or portions thereof)\n      from being shared or used for FAO purposes. This information should be provided when submitting data\n      through the TAPE tool. Users shall ensure that such information is kept accurate and up to date.\n    </li>\n    <li>Only FAO and authorized FAO partners have access to the data, in accordance with agreed confidentiality levels.</li>\n  </ul>\n\n  <h4>Data Accuracy</h4>\n  <p>\n    Users must verify and ensure that all data submitted through the TAPE tool are accurate, complete, and\n    up to date prior to submission. FAO shall not be considered responsible for any errors or omissions in the\n    data made available through the TAPE tool.\n  </p>\n\n  <h4>Licenses</h4>\n  <p>\n    FAO is entitled to use the data in any format and in any manner consistent with its mandate and the agreed\n    levels of confidentiality, without having to request additional permission. This includes the right to use\n    non-sensitive data, incorporate such data into works produced by FAO, and authorize their use by third\n    parties working with or on behalf of FAO.\n  </p>\n\n  <h4>Data Storage</h4>\n  <p>\n    Data collected through the TAPE tool are stored in the LiteFarm database. Data collection and submission\n    are conducted through the LiteFarm application using SurveyJS. The LiteFarm platform implements appropriate\n    technical and organizational measures to ensure secure storage, access control, and integrity of the data.\n  </p>\n\n  <h4>Confidentiality</h4>\n  <ul>\n    <li>\n      All data submitted through the TAPE tool via the LiteFarm application and SurveyJS are transmitted and\n      stored using secure protocols and infrastructure designed to protect against unauthorized access.\n    </li>\n    <li>\n      Access to the data stored in the LiteFarm database is restricted to authorized FAO personnel and\n      designated collaborators, in accordance with FAO data governance and confidentiality policies.\n    </li>\n    <li>\n      Data monitoring may be conducted to ensure completeness and correctness of submissions. Personal\n      information (such as names, phone numbers, and email addresses) is removed once data validation is\n      completed or no later than one year after the end of the relevant project, unless otherwise required\n      by applicable policies or laws.\n    </li>\n  </ul>\n\n  <h4>Disclaimer</h4>\n  <p>\n    FAO shall process all data in accordance with its rules, policies, and practices. FAO reserves the right\n    to edit, modify, or delete any data contained in the TAPE tool at its own discretion. The information and\n    analysis provided through the TAPE tool are offered “as is.” No guarantee is given that the information\n    provided is correct, complete, or up to date. FAO does not represent or endorse the accuracy or reliability\n    of any data provided through the TAPE tool. Material posted by users represents their own views and does\n    not reflect FAO’s views or receive FAO’s endorsement.\n  </p>\n  <p>\n    Information provided by users is processed and stored by FAO in accordance with FAO’s rules, policies, and\n    procedures. By submitting information through the TAPE tool, users acknowledge and agree to FAO’s\n    processing and use of that information for the purposes described herein.\n  </p>\n  <p>\n    The designations employed and the presentation of material through the TAPE tool do not imply the\n    expression of any opinion whatsoever on the part of FAO concerning the legal or development status of any\n    country, territory, city, or area or of its authorities, or concerning the delimitation of its frontiers\n    or boundaries.\n  </p>\n  <p>\n    FAO shall not be liable for any loss or damage arising from, or directly or indirectly connected to, the\n    use of, reference to, or reliance on any content provided through the TAPE tool, including any liability\n    arising from intentional or negligent misuse, errors, disclosure, undue transfer, loss, or destruction\n    of data.\n  </p>\n\n  <h4>Privileges and Immunities</h4>\n  <p>\n    Nothing contained in or related to these Terms of Use or to the TAPE tool shall be deemed a waiver, express\n    or implied, of the privileges and immunities of FAO. This tool, its operation, and its management are not\n    subject to any national or regional system of law.\n  </p>\n</body>"
+        },
+        {
+          "type": "radiogroup",
+          "name": "consent_terms",
+          "title": "I acknowledge that I have read and fully understand the Terms of Use.",
+          "isRequired": true,
+          "choices": ["No", "Yes"]
+        },
+        {
+          "type": "radiogroup",
+          "name": "consent_survey",
+          "title": "Do you consent to taking part in this survey?",
+          "isRequired": true,
+          "choices": ["No", "Yes"]
+        }
+      ]
+    },
+    {
+      "name": "context",
+      "title": "Description of systems and context",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "region",
+          "title": "Select your region:",
+          "choices": [
+            "Sub-Saharan Africa",
+            "Near East & North Africa",
+            "Asia & Pacific",
+            "Europe",
+            "Latin America & Caribbean",
+            "North America"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "country",
+          "title": "Select your country:"
+        },
+        {
+          "type": "text",
+          "name": "location_province",
+          "title": "Location (Region, Province):"
+        },
+        {
+          "type": "text",
+          "name": "location_municipality",
+          "title": "Location (municipality, District):"
+        },
+        {
+          "type": "panel",
+          "name": "panel1",
+          "title": "GPS Coordinates",
+          "elements": [
+            {
+              "type": "text",
+              "name": "gps_lat",
+              "title": "latitude (x.y °)"
+            },
+            {
+              "type": "text",
+              "name": "gps_lon",
+              "title": "longitude (x.y °)"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "area_unit",
+          "title": "Please select the unit of measurement you want to use for measuring the land size or area.",
+          "choices": ["hectares", "acres", "square meters", "others"]
+        },
+        {
+          "type": "matrixdropdown",
+          "name": "land_use",
+          "title": "Please provide the area of the holding by land use. Reference year: Last calendar year",
+          "columns": [
+            {
+              "name": "area",
+              "title": "Area",
+              "cellType": "text",
+              "inputType": "number"
+            }
+          ],
+          "rows": [
+            "1) Land under temporary crops",
+            "2) Land under temporary meadows and pastures",
+            "3) Land under temporary fallow",
+            "4) Land under permanent crops",
+            "5) Land under permanent meadows and pastures",
+            "6) Land under farm buildings and farmyards",
+            "7) Forest and other wooded land",
+            "8) Area used for aquaculture",
+            "9) Other area not elsewhere classified"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "area_owned",
+          "title": "Total area of agricultural land that is OWNED (and operated)",
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "area_rented",
+          "title": "Total area of agricultural land that is RENTED IN",
+          "inputType": "number"
+        },
+        {
+          "type": "text",
+          "name": "area_other",
+          "title": "Others: Total area of agricultural land that is occupied or borrowed for free",
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "organic_cert",
+          "title": "Are you engaged in certified organic production on your farm?",
+          "choices": ["No", "Yes"]
+        },
+        {
+          "type": "radiogroup",
+          "name": "holding_type",
+          "title": "What type of holding is this?",
+          "choices": ["Non-household", "Household"]
+        }
+      ]
+    },
+    {
+      "name": "demographics",
+      "title": "Demographics",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "respondent_sex",
+          "title": "Sex of the respondent",
+          "choices": ["Male", "Female", "2 respondents (1 male and 1 female)"]
+        },
+        {
+          "type": "radiogroup",
+          "name": "head_sex",
+          "title": "Sex of the head of the household",
+          "choices": ["Male", "Female"]
+        },
+        {
+          "type": "text",
+          "name": "head_age",
+          "title": "Age of the head of the household",
+          "inputType": "number"
+        },
+        {
+          "type": "multipletext",
+          "name": "household_members",
+          "title": "0.5. How many people live in the household?",
+          "items": [
+            {
+              "name": "adult_men",
+              "title": "Adult men (25+)"
+            },
+            {
+              "name": "adult_women",
+              "title": "Adult women (25+)"
+            },
+            {
+              "name": "young_men",
+              "title": "Young men (15-24)"
+            },
+            {
+              "name": "young_women",
+              "title": "Young women (15-24)"
+            },
+            {
+              "name": "children",
+              "title": "Children (<15)"
+            }
+          ]
+        },
+        {
+          "type": "multipletext",
+          "name": "ag_workers",
+          "title": "0.6. How many of these work in the agricultural production of the system assessed?",
+          "items": [
+            {
+              "name": "adult_men_work",
+              "title": "Adult men (25+)"
+            },
+            {
+              "name": "adult_women_work",
+              "title": "Adult women (25+)"
+            },
+            {
+              "name": "young_men_work",
+              "title": "Young men (15-24)"
+            },
+            {
+              "name": "young_women_work",
+              "title": "Young women (15-24)"
+            },
+            {
+              "name": "children_work",
+              "title": "Children (<15)"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "hired_labor",
+          "title": "Did you hire any external worker (during the last calendar year)?",
+          "choices": ["No", "Yes"]
+        }
+      ]
+    },
+    {
+      "name": "env_econ",
+      "title": "Environmental and Economic Characteristics",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "irrigation",
+          "title": "Did this agricultural holding use water to irrigate crops?",
+          "choices": [
+            "Yes",
+            "No, I don't need irrigation",
+            "No, I can't afford irrigation",
+            "No, there is no water available"
+          ]
+        },
+        {
+          "type": "text",
+          "name": "irrigated_pct",
+          "visibleIf": "{irrigation} = 'Yes'",
+          "title": "How much percentage of the agricultural area is irrigated?",
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "raise_animals",
+          "title": "Do you raise animals?",
+          "choices": ["No", "Yes"]
+        },
+        {
+          "type": "checkbox",
+          "name": "other_activities",
+          "title": "Please select other farm activity(ies) that you are engaged in:",
+          "choices": ["Beekeeping", "Aquaculture", "Fisheries", "None"],
+          "showOtherItem": true
+        },
+        {
+          "type": "text",
+          "name": "market_dist",
+          "title": "What is the distance (in kilometers) from the household to the closest market where agricultural products are typically bought or sold?",
+          "inputType": "number"
+        },
+        {
+          "type": "radiogroup",
+          "name": "main_focus",
+          "title": "From an economic perspective, what is the holding's main agricultural focus?",
+          "choices": [
+            "Mainly crop production (represents more than 2/3 of the total value of production)",
+            "Mainly livestock production (represents more than 2/3 of the total value of production)",
+            "Mix of crop, livestock and other production activities"
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "motivation",
+          "title": "Are you motivated to continue farming and adopt agroecological practices if you receive the necessary support?",
+          "choices": [
+            "I am not motivated to continue food production and adopt agroecological practices.",
+            "I am partially motivated to continue food production and adopt agroecological practices.",
+            "I am motivated to continue food production and adopt agroecological practices."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diversity",
+      "title": "1. DIVERSITY",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "diversity__q_1_1",
+          "title": "1.1 Plant Diversity (including forage and trees)",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "diversity__q_1_1_1",
+              "title": "1.1.1 Number of plant species",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_1_1",
+                  "title": " Do you produce a diversity of plant species? (permanent grass excluded) ",
+                  "description": "Includes all crops and plant including fodder, intercropping, cover cropping. If there is a kitchen or home garden and that the area is significant enough (about a quarter of the total farm size or more) include the diversities of the plants of this garden in the total number. \nFor the other questions the scope of the survey remains on the practices applied in the majority of the surface.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I focus on the production of a small number crops, forage and tree species."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I produce a moderate number of crops, forage and trees species."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I produce a large diversity of crops, forage and trees."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "diversity__q_1_1_2",
+              "title": "1.1.2 Plant genetic diversity (Number of varieties of main cultivated plant) ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_1_2",
+                  "title": "Do you have several varieties for the main cultivated crops, forage or trees?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Only one variety of the main crops, forage or tree is cultivated"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I cultivate a moderate number of varieties of the main crops, forage or trees."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I cultivate a large diversity of varieties of the main crops, forage or trees."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "diversity__q_1_2",
+          "title": "1.2 Temporal and spatial diversity",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "page_1__q_4",
+              "title": "1.2.1 Temporal diversity: rotation (Reference year: Last 3 calendar years) ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_2_1",
+                  "title": "Do you apply crop rotation on your plots (including forage crops), and do you use cover crops or fallow periods?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I grow the same crops repeatedly without a regular crop rotation system or rotate occasionally."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I rotate regularly with 3 crops in the rotation and non-regular integration of cover crop or fallow periods."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I systematically rotate different crops in my fields over 5 years and integrate cover crops or fallow periods."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "page_1__q_7",
+              "title": "1.2.2 Spatial diversity: Intercropping",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_2_2",
+                  "title": "Do you grow multiple crops, forage or trees together in the same field (intercropping)?",
+                  "description": "Maize and beans grown together—maize provides shade and support, while beans fi x nitrogen in the soil\nBanana and coﬀee agroforestry—banana trees provide shade for coﬀee plants, reducing heat stress.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I grow single crop, forage or tree in separate fields without mixing species."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I intercrop occasionally, but not as a systematic practice on my farm."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I regularly intercrop diﬀerent plant species."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_1__q_8",
+          "title": "1.3 Animal Diversity (including fishes and insects)",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "page_1__q_9",
+              "title": "1.3.1 Number of animal species",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_3_1",
+                  "title": "Do you raise a diversity of animals ? can include fish and insects",
+                  "description": "Notes on answer options:\n0: No animals raised\n1: One species is very dominant even if a second species exists\n2: Two species raised are well-represented or balanced in number\n3: Three species raised\n4: More than 3 species raised",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not raise any animals."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I raise mainly one animal species"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I raise several species of animals that are well represented in terms of numbers."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question5",
+              "title": "1.3.2 Animal genetic diversity (Genetic variation among farm animals)",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "diversity_1_3_2",
+                  "title": "Do you have different breeds for your main species?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: All animals are of the same breed Or I have no animal"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: There is some variation in animal breeds among my herds."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: There are diverse breeds among my herds"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "synergy",
+      "title": "2. SYNERGY",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_2__q_0",
+          "title": "2.1 Plant-livestock-aquaculture integration",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question7",
+              "title": "2.1.1 Production of feed consumed by animals (including fishes)",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_1_1",
+                  "title": "Do you produce most of the feed and fodder consumed by your animals?",
+                  "description": "Includes benefited from an exchange with neighbourghing farms or that is naturally available in the environment. Include pasture, crop residues, agroforestry feed sources",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I rely primarily on purchased feed and fodder, with little or no on-farm production of forage, fodder, or crop residues."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some feed or fodder is produced on my farm, but a significant portion (e.g., concentrates, grains, or processed feed) is purchased externally."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I produce most or all of the feed and fodder needed, using pasture, fodder crops, agroforestry systems, or crop residues, significantly reducing dependence on external sources."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question8",
+              "title": "2.1.2 Animal in the agroecosystem",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_1_2",
+                  "title": " To what extent are animals integrated into ecosystem services while benefiting from appropriate living conditions that allow natural behaviours? (includes bees and fishes)",
+                  "description": "Manure for soil health, integrated grazing for vegetation management, biodiversity enhancement, fire risk reduction, pest and weed regulation, bees for pollination, aquaculture for irrigation and fertilisation, cultural or educational value",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Animals are mainly for food, with little or no ecosystem services, and live in overcrowded or stressful conditions restricting natural behaviours."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Animals provide manure for soil improvement and have moderate living conditions, but integration and welfare remain limited."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The system shows clear synergies between animal presence and other farm components, strengthening overall agroecosystem resilience. Animals are fully integrated into multiple ecosystem services (grazing, pest regulation, biodiversity, fertilisation, social roles) and live in free-range or spacious conditions allowing natural behaviours and protection."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_2__q_3",
+          "title": "2.2 Integration with trees",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question9",
+              "title": "2.2.1 Integration of trees into the production system ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_2_1",
+                  "title": "Do you grow trees together with plants and livestock in your production system? (agroforestry,agropastoralism, or agrosilvopastoralism)",
+                  "description": "Agroforestry includes growing crops under tree cover, windbreaks, or alley cropping. Agropastoralism includes using trees for fodder or shade in livestock systems. agro-silvopastoralism combines trees, crops, and livestock in the same system.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Trees are absent or rare; they are not integrated into the production system, or they are removed."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Trees are present, but they are not systematically integrated into the production system or only play a minor role"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I intentionally planted or kept trees in different parts of the farm, in order to enhance interactions with plants and animals (fodder, shade, soil fertility etc)."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question10",
+              "title": "2.2.2 Number of trees and species richness",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_2_2",
+                  "title": "Are there trees present in your agroecosystem (both naturally occurring and planted), and is there a minimum diversity of species?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Almost no trees present in the fields, borders, pastures or farm area"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some trees are present (natural or planted), but they are few, scattered, or mainly from one or two species."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Trees are clearly present across the farm area (natural regeneration and/or planted) with several different species contributing to the agroecosystem."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_2__q_6",
+          "title": "2.3 Connectivity in the agroecosystem",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question11",
+              "title": "2.3.1 Mosaic of plots",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_3_1",
+                  "title": "Does your production system have multiple plots of different shapes and sizes?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: My system consists mainly of large, uniform fields with little to no variation in crop type, size, or shape."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: My system has some diversity in field size and crop type but remains somewhat uniform."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: My system has multiple plots of different sizes, with various crops and natural elements (trees, hedges, wetlands) supporting biodiversity."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question12",
+              "title": "2.3.2 Proportion of natural and semi-natural elements",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "synergy_2_3_2",
+                  "title": "Does a large proportion of your production system include natural or semi-natural elements ",
+                  "description": "This includes planting melliferous plants (such as Native vegetation, wetlands, forest patches, hedgerows, grass strips, melliferous plants, or perennials).",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Less than 5% of the system consists of natural or semi-natural elements, with most of the land dedicated to cultivation or grazing."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Between 5% and 10% of the system includes natural or semi-natural elements, but they are limited in coverage or fragmented."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: More than 10% of the system consists of natural or semi-natural elements that provide habitat for biodiversity and ecosystem services."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "recycling",
+      "title": "3. RECYCLING",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_3__q_0",
+          "title": "3.1 Use of seeds and breeds",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question13",
+              "title": "3.1.1 Local or on-farm produced seeds and breeds ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_1_1",
+                  "title": "Are the majority of seeds, seedlings or breeds used self-produced or shared locally? ",
+                  "description": "This question applies both to seeds/seedlings and livestock breeds. Farmers who save, exchange, or breed their own seeds and animals should be considered autonomous. The use of hybrid or patented seeds, commercial seedlings, and industrially bred animals suggests a dependency on external sources.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: The majority of seeds, seedlings, and animal breeds come from external suppliers, with little or no reliance on on-farm reproduction or local exchanges."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some seeds, seedlings, or breeds are produced on-farm or shared locally, but the farm still relies partly on commercial or external sources."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The majority of seeds, seedlings, and animal breeds come from on-farm production or exchanges with local farmers, with minimal reliance on external suppliers."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question14",
+              "title": "3.1.2 Locally adapted, resilient crop varieties, animal breeds, and tree",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_1_2",
+                  "title": " Do you prioritize plant varieties and livestock breeds that are naturally adapted to local conditions (e.g., drought tolerance, disease resistance, low fertilizer need, heat resistance, hardy livestock breeds)?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I prioritize high yielding crops and highly productive animal breeds."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some adapted varieties and breeds are used, but not consistently across all crops and livestock."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I mainly rely on locally adapted, low-input crop varieties and resilient livestock breeds."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_3__q_3",
+          "title": "3.2 Biomass and waste management",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question15",
+              "title": "3.2.1 Biomass management",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_2_1",
+                  "title": " Do you reuse all your organic residues (e.g., plant residues, manure, compost) in your activities? ",
+                  "description": "Organic residues include plant leftovers, crop residues, manure, compost, and agro-processing by-products. This question evaluates whether these materials are effectively recycled into soil fertility management, animal feed, energy production, or other farm activities.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I discard organic residues, burn them, or let them accumulate without being repurposed"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some organic residues are reused (e.g., for compost or mulch), but a significant portion is still discarded or underutilized"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I fully integrate organic residues into soil enrichment, livestock feeding, composting, biogas production, or other beneficial uses"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question16",
+              "title": "3.2.2 Waste management ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_2_2",
+                  "title": "Do you minimize and re-use non-organic and non-bio-degradable waste production (metal, plastic, glass, paper, packaging, and hazardous waste such as chemical containers, batteries, oils, etc)? ",
+                  "description": "Non-organic waste includes metal, glass, paper, packaging, and hazardous waste (chemical containers, batteries, oils, etc.). Plastic is addressed in the other question. This question evaluates efforts to reduce waste generation and implement recycling or repurposing strategies.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: My production system generates large amounts of waste with no effort to reduce, recycle, or repurpose it. Waste is discarded or burned without proper management."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: My production system limits waste in some areas, recycles certain materials, or repurposes some waste, but still disposes of significant amounts."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: My production system generates a small amount of waste OR generates waste but actively reduces waste production, recycles non-organic materials, and ensures proper disposal of hazardous waste."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_3__q_6",
+          "title": "3.3 Water and energy sources",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question17",
+              "title": "3.3.1 Sources of water ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_3_1",
+                  "title": "Is the water you use for your production system activities coming mainly from renewable, recycled or naturally replenished sources? (rainwater harvesting, small ponds, shallow ground water with regular replenishment, perennial rivers or lake with natural recharge and managed extraction)",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Water is mostly extracted from deep groundwater, fossil aquifers, or other sources that are not naturally replenished."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I use both renewable and non-renewable sources, or small quantities from rainwater/ surface water but not the main source."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I use little or no water , mainly coming from recycled or reused farm water or renewable sources."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question18",
+              "title": "3.3.2 Source of energy",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "recycling_3_3_2",
+                  "title": " Is the energy used on your production system coming mainly from renewable (solar, wind, small-scale hydro, biogas, sustainably produced biomass) or low-impact sources?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Diesel, gasoline, coal-based electricity, or other fossil sources with no renewable component."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Combination of fossil energy with partial renewable inputs (e.g. some solar panels, shared renewable supply, occasional biomass use)."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Little or no fossil energy use or energy mainly coming from renewable sources"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "efficiency",
+      "title": "4. EFFICIENCY",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_4__q_0",
+          "title": "4.1 Management of soil fertility",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question19",
+              "title": "4.1.1 On-farm nutrient cycling",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_1_1",
+                  "title": "Do you manage soil fertility by minimizing external inputs and efficiently using locally available resources (such as on-farm manure, compost, crop residues, green manures, mulches or other agroecological practices)?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Fertility depends mostly on external inputs (fertilizers, purchased manure/compost) with little or no use of on-farm organic resources; limited recycling."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some on-farm residues or manures are used, but external inputs are still important, or recycling is irregular or limited."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Fertility is managed mainly through efficient recycling of on-farm biomass (manure, compost, residues, cover crops, mulches), with minimal dependence on external inputs."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question20",
+              "title": "4.1.2 Nitrogen-fixing plants",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_1_2",
+                  "title": " Do you cultivate or have any nitrogen-fixing plants (including trees and fodder)? ",
+                  "description": "Examples of nitrogen-fixing plants and integration methods: (1) Legume crops  Beans, peas, cowpeas, soybeans, chickpeas. (2) Forage legumes  Alfalfa, clover, vetch for soil improvement. (3) Green manure & cover crops  Lupins, fava beans, sunn hemp, pigeon peas. (4) Agroforestry species  acacia tree. (5) Intercropping & crop rotation  Growing maize with beans, rotating cereals with legumes.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I don't cultivate any plants that fix nitrogen and there aren't naturally occurring nitrogen-fixing plants or trees on my farm."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I cultivate some legumes or trees (i.e. beans, ground nuts etc) and have some naturally occurring nitrogen-fixing plants or trees."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I cultivate a diversity of nitrogen-fixing plants on my farm (legumes and trees) and manage those naturally occurring nitrogen-fixing plants or trees."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_4__q_7",
+          "title": "4.2 Management of pests and diseases",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question21",
+              "title": "4.2.1 Preventive measures for pest pressure",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_2_1",
+                  "title": "Do you manage pests by prioritizing preventive, low-input and locally adapted practices (such as crop rotation, habitat management, resistant varieties, or biological controls), reducing the need for external pesticides?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: My production system relies primarily on external chemical or purchased inputs; limited or no preventive or low-input practices. My curative approach is not based on observation but on a calendar approach."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some preventive practices are in place, but pest management still includes regular reactive treatments (e.g., pesticides when pest levels are high)."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Pest pressure is managed mainly through efficient, preventive, nature-based practices requiring few external inputs (rotations, habitat management, biological control, resistant varieties, early monitoring, etc.) When curative action is needed, the farmer relies primarily on farm-made botanical preparations or other locally produced natural solutions rather than external chemical pesticides"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question22",
+              "title": "4.2.2 Preventive measures for animal health",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_2_2",
+                  "title": "Do you manage animal health by prioritizing preventive, low-input practices (such as good nutrition, clean water, hygiene and housing management, vaccination, parasite monitoring, adequate space, pasture rotation and the use of resistant or locally adapted breeds) minimizing use of veterinary drugs? ",
+                  "description": "Includes antibiotics, antiparasitics, and growth promoters.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I regularly use veterinary drugs without alternative measures."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I occasionally use veterinary drugs with some preventive health measures."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Animal health is maintained with minimal use of external veterinary drugs, relying primarily on efficient, preventive and low-input practices. When treatment is needed, the farmer prioritizes farm-made or locally produced natural remedies (e.g., botanical preparations for internal or external parasites) instead of external pharmaceuticals."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_4__q_15",
+          "title": "4.3 Water and energy use",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question23",
+              "title": "4.3.1 Water use and saving ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_3_1",
+                  "title": "Do you actively manage and reduce water use in your farm activities (irrigation or other uses) through efficient techniques, careful monitoring, or water-saving practices? (drip irrigation, mulching, rainwater harvesting, soil moisture monitoring)",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: No monitoring, no water-saving techniques, frequent over-irrigation, or inefficient systems."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some water-saving practices are in place, but they are not systematically applied across the farm OR I do not irrigate; it would be needed but I don't have access to it."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Multiple efficient water-saving techniques are systematically applied (e.g., crop and varieties selections drip irrigation, mulching, rainwater harvesting, reuse of water when possible, soil moisture monitoring) OR I do not irrigate purposefully / my system does not need irrigation."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question24",
+              "title": "4.3.2 Energy use and saving",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "efficiency_4_3_2",
+                  "title": "Do you actively manage and reduce energy use on your farm, using more efficient equipment or practices to minimize consumption? (low mechanized systems, animal powered farming, low energy processing methods, well maintained machineries, optimized field operations...)",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: My production system relies on fuel-intensive machines (e.g., diesel generators, tractors, electric-powered irrigation) without any energy-saving strategies or renewable sources. Energy bills are an high expense on my systems"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: My production system has some energy-saving practices (but still relies significantly on fuel or electricity) OR I need access to energy to develop my production system but this access is limited."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: My production system actively reduces energy use through energy saving practices and use of renewable energy OR my production system is based on naturally low energy inputs (e.g., minimal machinery, reliance on manual or animal labour)."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resilience",
+      "title": "5. RESILIENCE",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_5__q_0",
+          "title": "5.1 Social resilience",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question25",
+              "title": "5.1.1 Community cooperation (formal or informal) ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_1_1",
+                  "title": "Can you rely on any kind of community mechanisms (formal or informal) to sustain your activity against risks and crisis (e.g. solidarity support, seed banks, mutual aid funds, risk sharing or disaster insurance system)? ",
+                  "description": "Such as solidarity networks, community seeds banks, mutual aid, informal insurance systems",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: There is no community support system in my area, or I don't belong to it."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some informal mechanisms exist but do not function consistently."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: There is a community support mechanism (such as a seed bank or informal insurance systems) in my area, and I am involved in it."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question26",
+              "title": "5.1.2 Adaptive capacity to risks including climate change",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_1_2",
+                  "title": "Do you and your community actively engage in learning, planning or preparing for future risks (such as climate change, new pests or market shifts), through awareness, exchanges or collective organisation?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Neither I nor my community engage in discussions, learning or planning related to future risks such as climate change, new pests or market uncertainty. I do not conduct trials, adjustments or experimentation on my farm to adapt, and responses to risks are mostly reactive rather than anticipatory."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I sometimes discuss risks or share information (e.g. rainfall expectations, pest alerts, planting dates) with other farmers, but this is informal and irregular. I make some small adjustments or trials on my farm to cope with changes, but this is not part of a consistent or coordinated process within the community."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I regularly observe, experiment or adjust practices on my farm to anticipate climate-related or other risks (e.g. testing planting dates, varieties, water-saving practices, pest monitoring). My community also engages in regular exchanges, shared learning or simple planning to anticipate risks. We discuss seasonal trends, compare adaptation options, coordinate planting periods, or organise collective monitoring."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_5__q_3",
+          "title": "5.2 Economic resilience",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question27",
+              "title": "5.2.1 Diversity of livelihood activities ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_2_1",
+                  "title": "Do you have several livelihood activities? (multiple crops or products, different marketing channels, possible processing or complementary farm-based activities) that allow you to maintain income and food security even if one production or market fails? ",
+                  "description": "Examples of livelihood diversification: (1) On-farm processing of agricultural products, (2) Selling of holding's products at the market/shop (incl. preparation, packaging and transport of processed products), (3) Production of forestry products, (4) Production, processing and preserving of fish, crustaceans and molluscs, (5) Production of renewable energy, (6) Contractual work for other holdings using the production means of this holding, (7) Accommodation, restaurant, catering and other leisure/educational activities, (8) Making handicrafts, (9) Training of animals, (10) Management and/or administration for the agricultural holding",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: The household depends mainly on a single crop, product or buyer, with no substantial diversification, processing or alternative activities, leaving them highly vulnerable if this activity or market fails"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: The household has some degree of diversification, but production, marketing or income sources remain partially dependent on a limited number of products or buyers, meaning that a shock would still significantly affect their livelihood"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The household has a well-diversified set of livelihood activities (multiple crops or products, different marketing channels, possible processing or complementary farm-based activities), which ensures income and food security even if one production or buyer fails"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question28",
+              "title": "5.2.2 Farm input autonomy ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_2_2",
+                  "title": "Do you rely mainly on your own farm resources for key inputs (such as feed, organic matter/fertilizers, seeds, energy, water, or basic repair services), rather than depending on external suppliers whose costs may affect your financial security?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Most key inputs (feed, fertilizers/organic matter, seeds, pesticides, fuel/energy, water, repairs) are purchased externally; low autonomy."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: The household produces some inputs (e.g., part of the feed, manure, or seeds) but still depends on buying others that can represent a moderate expense or vulnerability. The system shows some autonomy, but external inputs still influence financial stability."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The household produces or manages most of its key inputs on-farm (e.g., seeds, manure/compost, feed, basic energy, water, simple repairs), keeping purchase needs low. External inputs do not represent a significant financial burden, and the farm remains largely independent."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_5__q_6",
+          "title": "5.3 Soil conservation practices",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question29",
+              "title": "5.3.1 Permanent soil cover",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_3_1",
+                  "title": "Do you keep soil covered year-round using mulch, crop residues, cover crops, or continuous cropping?",
+                  "description": " If your field always has a growing crop, even without mulch or cover crops, you should answer \"Yes\". If the soil is covered most of the time but not in all fields of your plot, reply with \"More or less\". For pastoralism, adaptative rotational grazing that avoid to let the soil bare can be one of these practices.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: The soil is left bare for long periods, increasing the risk of erosion and degradation."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: The soil is covered most of the time, but there are occasional periods when it remains bare."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The soil is always covered, either by living plants or mulch, ensuring continuous protection."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question30",
+              "title": "5.3.2 Limiting deep ploughing and soil disturbance",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "resilience_5_3_2",
+                  "title": " Do you limit deep ploughing (more than 20 cm) to preserve soil structure and health? ",
+                  "description": "If no ploughing, select \"Yes\". If you use hand tools or animal traction, ploughing is typically shallow (less than 20 cm), which is preferable. If you use mechanized ploughing, consider whether it goes beyond 20 cm. If you practice deep ploughing occasionally but not in all fields of your plot, select \"More or less\".",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Deep ploughing (more than 20 cm) is regularly practiced, leading to significant soil disturbance."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Deep ploughing (more than 20 cm) is done occasionally but not systematically, and efforts are made to reduce its frequency or mitigate its impact."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The soil is not ploughed and in any case never deeper than 20 cm, and alternative methods (minimum tillage, agroecological practices) are used to maintain soil fertility."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "culture_and_food",
+      "title": "6. Culture and food traditions",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_6__q_0",
+          "title": "6.1 Dietary diversity and food self-sufficiency",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question31",
+              "title": "6.1.1 Food diversity",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "culture_6_1_1",
+                  "title": " Do you and your community value and promote eating a diversity of food such as cereals, legumes, fruits, vegetables, dairy, meat, fish, and nuts?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: We don't value and promote this diversity; we only focus on staple crops."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: We mostly promote staple crops, but we are aware of the value of diversifying food."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Diversity of food (staple crops and legumes, meat, fruits, vegetables, fish, nuts) is considered essential for a healthy diet, and promoted."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question32",
+              "title": "6.1.2 Own produced ingredients",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "culture_6_1_2",
+                  "title": "Is your household consumption mostly coming from your production? ",
+                  "description": "Farm-produced food includes vegetables, grains, dairy, and meat raised on-site. This includes home garden production, exchanges with neighbouring farms, hunting/collecting from natural systems. Consider staple foods (cereals, legumes, tubers) and fresh foods (vegetables, fruits, dairy, meat). If you mainly buy staples but produce fresh food, you should choose \"More or less.\"",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Most food consumed is bought and not farm-produced."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some food comes from my farm, but reliance on external food sources is high."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: The majority of household food consumption comes from on-farm production."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_6__q_3",
+          "title": "6.2 Local and traditional food heritage",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question33",
+              "title": "6.2.1 Use and preservation of traditional crops and local food practices",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "culture_6_2_1",
+                  "title": "Do you produce and consume traditional food or maintain local food preparation practices? ",
+                  "description": "Traditional food included traditional seeds and breeds.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Traditional products, food and food practices are rarely or never used, and my household relies almost entirely on modern commercial varieties and processed foods"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some traditional food is grown or consumed, but most food production and diet rely on modern or commercial crops"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Traditional food is actively cultivated, consumed, and integrated into production and household diet. Local food preparation techniques are maintained."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question34",
+              "title": "6.2.2 Local cultural heritage",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "culture_6_2_2",
+                  "title": "Do you actively protect and revive local cultural heritage and traditions?",
+                  "description": "Examples include honouring cultural celebrations and rituals  Observing agricultural festivals, spiritual ceremonies. Using and preserving local languages Maintaining storytelling, proverbs, or knowledge sharing in local dialects. Passing down traditional knowledge  Teaching younger generations about indigenous wisdom, culinary arts, or holistic farming beliefs. Weaving cultural elements into farm life  Music, art, handicrafts, or architecture reflecting local heritage.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I primarily follow modern practices with little connection to cultural heritage, and traditional foods, knowledge or customs are rarely practiced."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some cultural traditions are kept alive, but they are not central to our activity or are practiced occasionally (e.g., traditional food is consumed only on special occasions, rituals are not passed down systematically)."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I integrate cultural heritage into daily lifehonouring traditional knowledge, preparing and consuming local foods, practicing ancestral rituals, and passing down cultural traditions or participating on traditional or geographical food quality schemes. These elements are consciously maintained and celebrated"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cocreation_and_knowledge",
+      "title": "7. CO-CREATION AND SHARING OF KNOWLEDGE",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_7__q_0",
+          "title": "7.1 Peer learning and sharing of knowledge",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question35",
+              "title": "7.1.1 local and intergenerational knowledge",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "knowledge_7_1_1",
+                  "title": "Do you use and share local, context-specific knowledge (e.g., traditional, indigenous including knowledge from elders) in your practices?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I mostly follow external recommendations and conventional practices, with little or no use of traditional/local knowledge. Knowledge transmission between generations is limited."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some local knowledge is used, but I mainly depend on modern, external techniques"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I actively integrate traditional, indigenous, or farmer-developed knowledge into decision-making, Farming knowledge is both learned from elders and actively shared with younger food producers, ensuring continuity of traditional practices"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question36",
+              "title": "7.1.2 Knowledge-sharing processes ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "knowledge_7_1_2",
+                  "title": "Do you actively share knowledge with other food producers (campesino a campesino, farmers' fields schools, community groups or mutual visits...) and seek out new farming knowledge, drawing on a diverse range of sources such as community networks, local wisdom, or digital and extension services? both women and men ",
+                  "description": "Local workshop and traditional gatherings centered on the community are examples of knowledge exchange.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not share much farming knowledge with peers and rely mostly on personal experience or a single source of knowledge, with little effort to explore new information."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I regularly exchange knowledge with other farmers and seek new information but not in a systematic way. I rely primarily on a limited number of sources, such as only extension services or only traditional methods"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I actively exchange knowledge with farmers and the community and participate in structured knowledge- sharing platform related to agroecology). I also actively seek out multiple sources of knowledge to improve practices regularly using a mix of radio, newspapers, digital tools, advisory services, and farmer networks to stay informed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_7__q_3",
+          "title": "7.2 Co-creation of knowledge and context specific innovations",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question37",
+              "title": "7.2.1 Agroecological practices adoption",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "knowledge_7_2_1",
+                  "title": "Do you regularly test new practices in your production system or collectively in your community?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I don't test new practices on my production system or collectively in my community."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I sometimes test new practices on part of my production system or collectively in my community"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I regularly test new practices on my production system or my community and it inspires me to apply it on the rest of my production system and have many interactions within my community through informal discussions, training, or farmer groups."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question38",
+              "title": "7.2.2 Co-creation processes",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "knowledge_7_2_2",
+                  "title": "Are you involved in co-creation processes or action-research programs (with researchers and extension services) bringing producers, researchers and extension agents together to test and improve practices in real farm conditions? both men and women",
+                  "description": " Includes farmer field schools, participatory varietal selection, on-farm trials designed jointly with researchers, farmer-to-farmer learning visits, living labs, Farmers research networks, community experimentation groups and citizen science activities",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not participate in research, innovation platforms, or farmer-scientist collaborations and rely primarily on personal experience or traditional knowledge."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some engagement occurs with researchers or innovation networks, but my collaboration is irregular or limited to occasional activities (e.g., attending a few workshops, providing feedback but not co- developing solutions)."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I actively collaborate with researchers, extension services, NGOs, or private actors through platforms like Living Labs, Farmer Research Networks, or innovation hubs, contributing to testing, adapting, and co-developing agroecological solutions."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "human_and_social",
+      "title": "8. HUMAN AND SOCIAL VALUES",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_8__q_0",
+          "title": "8.1 Women empowerment",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question39",
+              "title": "8.1.1 Women's role in decision-making",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_1_1",
+                  "title": " Do women participate equally in key decisions regarding management of the production system? (cropping calendars, crop and livestock selection, input use, labour organisation, financial planning, credit and budgeting, marketing strategies, processing and value addition)",
+                  "description": "Consider key decisions related to farm investments, crop planning, marketing, and income use. If women are only involved in minor decisions but not financial or strategic ones, answer \"More or less.\"",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Women have little or no role in decision-making; most decisions are taken by men without consulting them."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Women are consulted or involved in some decisions but do not have equal say in all aspects of production system management."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Women participate fully in decision-making, either independently or jointly with men, in key areas"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question40",
+              "title": "8.1.2 Women's role in decision-making",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_1_2",
+                  "title": "Do women actively participate in farmer groups, cooperatives, training or knowledge-sharing networks, and do they have equal opportunities to hold leadership roles?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Women have little or no participation in farmer groups, cooperatives or knowledge networks, and they do not have access to leadership roles or meaningful influence in collective spaces"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Women participate in some groups or training activities, but their involvement is limited, occasional, or they have few opportunities to influence decisions or hold leadership positions"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Women actively participate in farmer groups, cooperatives, training spaces or knowledge-sharing networks, and they have equal opportunities to take on leadership roles or speak in public."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_8__q_3",
+          "title": "8.2 Labour conditions",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question41",
+              "title": "8.2.1 Working conditions",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_2_1",
+                  "title": "Do you ensure fair, safe and dignified working conditions for family labor, hired workers and yourself? (respectful task organization, safe tools and working environments, manageable workloads, adequate rest, fair remuneration, access to protective equipment, compliance with labor standards, and transparent agreements) ",
+                  "description": "The question refers to the terms of safety, fatigue, and occupational risks",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Working conditions difficult affecting health and well-being. Excessive working hours, high physical strain, lack of protection or inadequate labor management."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Working conditions not easy but generally acceptable not affecting health and well-being. safety, workload or organization still need improvement"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I am fully satisfied with my working conditions and they are preserving my health."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "panel2",
+              "title": "8.2.2 Innovation and equipment for work improvement\n",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_2_2",
+                  "title": "Do you invest in tools, adapted machinery or social innovations (collective farming, time sharing groups, shared machinery) that improve working conditions and improve autonomy?\n",
+                  "description": "The question refers to the terms of safety, fatigue, and occupational risks\n",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: My system still relies mainly on physically demanding or unsafe labour practices, with little adoption of social innovations, adapted tools or mechanization"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - Some agroecological innovations or mechanization exist, but they are limited or create a dependency (financial, technical), not widely adopted, or still leave significant labour challenges."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Social innovations and/tools or adapted mechanization significantly reduce physical workload, increase efficiency, and improve safety, while remaining accessible and sustainable."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_8__q_6",
+          "title": "8.3 Motivation and youth installation",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question43",
+              "title": "8.3.1 Youth installation",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_3_1",
+                  "title": "Are you actively engaged in facilitating the transmission of your farm to younger generations? (sharing knowledge, mentoring, providing temporary access to land, tools, or infrastructure, or facilitating connections with local institutions and landowners)",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not take specific actions to help younger people or new intrants in farming access land or other resources necessary to start farming."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I occasionally support young people (information, short trainings, access to small plots, advice), but I do not have a structured programme or long-term actions in place."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I take concrete actions to help younger people or new intrants start farming )."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question44",
+              "title": "8.3.2 Motivation in sustainable food production activity",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "human_8_3_2",
+                  "title": "Are you motivated to continue your food production activity based on socially and environmentally responsible practices?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not wish to start or want to stop adopting socially and environmentally responsible practices."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I am motivated to start or continue adopting socially and environmentally responsible practices, IF I receive necessary support (e.g. in training ; labor conditions ; access to resources and market...)"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I am fully motivated to start or continue adopting socially and environmentally responsible practices, EVEN if the conditions for achieving this transition are difficult."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "circular_economu",
+      "title": "9. CIRCULAR ECONOMY AND SOLIDARITY",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_9__q_0",
+          "title": "9.1 Local and solidarity-based markets",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question45",
+              "title": "9.1.1 Local food system ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "circular_9_1_1",
+                  "title": "Do you sell the majority within your local area (approximately within 100 km) or to a nearby town or capital city that you regularly supply in short supply chain regardless of the type of buyer (consumers, cooperatives, local traders)? ",
+                  "description": "\"Local\" means direct to consumers, local markets, cooperatives, or restaurants within the district / county (e.g. 50 km).",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Most of my products are are sold outside the local area often to regional or national buyers, exporters, or large-scale intermediaries"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some products are sold locally (less than one third), but an important part also goes to buyers located farther away (national or global)"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Most of my products are sold within my local area or to nearby towns/cities in short supply chain whether directly to consumers, to local cooperatives, or to local traders"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question46",
+              "title": "9.1.2 Producer-consumer partnerships and trust-based certification ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "circular_9_1_2",
+                  "title": "Do you sell any of your products directly to consumers or through a consumer cooperative, trust- based system of fair remuneration group? (participatory guarantee systems, community supported agriculture, fair trade ...) ",
+                  "description": "Examples: PGS (Participatory Guarantee System), CSA (Community-Supported Agriculture), fair trade labels, consumer groups.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I do not sell directly to consumer, and I am not part of a consumer cooperative, trust-based system or fair remuneration group and sell everything through middlemen."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: I sell some products (less than one third) directly to consumers or through a consumer cooperative, trust-based system or fair remuneration group or directly to consumers."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Most of my production is sold with direct contact with consumers or through a consumer cooperative, trust- based system, fair remuneration group or with direct contact with consumers."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "page_9__q_3",
+          "title": "9.2 Local sourcing and circularity",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question47",
+              "title": "9.2.1 Origin of inputs and services ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "circular_9_2_1",
+                  "title": "Do your inputs and services, including for products processing, come in majority from the local territory?",
+                  "description": " Inputs include seeds, animal feed, fertilizers, hired labour, machinery services including for locally sourced if within 100 km",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: A very small part comes from the local territory. My products are processed outside the territory/country."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Half of it comes from the local territory. Part of my products are processed in the territory/region."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Most of my input and services come from the local territory. My products are all processed locally (on-farm, within the community, in the region)."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question48",
+              "title": "9.2.2 Resource sharing practices",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "circular_9_2_2",
+                  "title": "Do you share materials, equipment, or labour through collective action? ",
+                  "description": "Examples: shared machinery, collective grain storage, labour exchanges, seed exchange networks, community grazing areas.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: No material shared or participation to collective action."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Occasionally share material or involved in collective action."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Regularly share material and involved in collective action."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "responsible_governance",
+      "title": "10. RESPONSIBLE GOVERNANCE",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "page_10__q_0",
+          "title": "10.1 Producers' empowerment",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question49",
+              "title": "10.1.1 Farm management and market access ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "governance_10_1_1",
+                  "title": "Do you have the freedom to make independent decisions regarding farm management such as crop selection, choice of input, farming practices, finance and market access without external constraints? ",
+                  "description": "Examples of autonomy constraints: Land tenure  Do you own or control your land, or is it leased with restrictions? Choice of inputs Are you free to choose seeds, fertilizers, and pest management methods, or are they dictated by contracts? Market dependency  Can you decide where and how to sell your produce, or do contracts/buyers impose conditions? Financial independence  Are decisions influenced by loans, debt, or conditions set by funding sources?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Little to no autonomy and heavily reliant on external authorities, such as investors, contractors, or government policies, for decision-making."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some level of decision-making autonomy but constraints or external pressures exist that limit the ability to make fully independent decisions."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: Full autonomy in decision-making and independently manages all aspects of farm operations or food production, from crop selection to resource allocation and farming practices."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question50",
+              "title": "10.1.2 Engagement in grassroots organizations ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "governance_10_1_2",
+                  "title": "Are you an active member of a grassroots organization supporting farmers rights, access to sustainable markets and practices (e.g., cooperatives, farmer-led advocacy groups, agroecology movements)?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I am not involved in grassroots organizations and do not benefit from collective action or farmer-led agroecological advocacy. OR there are not grassroot organizations supporting these aspects but if there were I would not be involved"
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some interaction with grassroots organizations occurs, but participation is occasional or limited to receiving information/services rather than active engagement OR there are no existing grassroot organization to support these aspects but I would be involved if if were the case"
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I actively participate in grassroots organizations that promote agroecology, mutual aid, advocacy for farmer rights, and access to agroecological markets and policies both for men and women."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "question51",
+          "title": "10.2 Producers' access to and control over resources",
+          "elements": [
+            {
+              "type": "panel",
+              "name": "question52",
+              "title": "10.2. 1 Access and control over land and water ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "governance_10_2_1",
+                  "title": "Do you have access to land and water and is your access to it and the natural resources it contains secure? ",
+                  "description": "Secure ownership  Private land title, long-term customary land rights. Partially secure  Short-term lease, unclear legal status, reliance on borrowed land. Insecure access  Land grabbing, risk of eviction, restricted land-use rights, or displacement threats.",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: Land access is limited or highly insecure, with no ownership rights, land conflicts, or vulnerability to expropriation. Water access is highly insecure, unreliable, or unavailable, leading to difficulties in sustaining crops and livestock."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some access to land exists, but ownership or tenure is insecure (e.g., short-term lease, informal agreements, legal uncertainty, land conflicts, or restrictions on use or management of certain natural resources). Some access to water exists, but it is seasonally limited, infrastructure is inadequate, or regulations restrict usage (e.g., rationing, competition with other users)."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: My production system has secure land access, either through ownership, long-term tenure, or stable community rights, without risk of eviction or major restrictions on use of land or its natural resources, both for men and women. My production system has consistent and reliable water access (rainfed system with predictable rainfall, well-managed irrigation, access to natural sources) without major restrictions"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "panel",
+              "name": "question53",
+              "title": "10.2.2 Control over genetic resources (seeds & livestock & breeds) ",
+              "elements": [
+                {
+                  "type": "radiogroup",
+                  "name": "governance_10_2_2",
+                  "title": "Do you have access to and control over diverse genetic resources (seeds and livestock breeds), including on their selection, conservation, and use? ",
+                  "description": "Seeds  Can you save, select, and exchange seeds, or do you rely on commercial hybrid/GM seeds? Livestock  Do you breed and select locally adapted animals, or depend on external suppliers? Conservation  Do you participate in seed banks, farmer-led breeding programs, or traditional genetic conservation? Constraints  Are there laws restricting seed saving, breeding, or access to diverse genetic material?",
+                  "isRequired": true,
+                  "choices": [
+                    {
+                      "value": "0",
+                      "text": "0 - NO: I depend heavily on external genetic resources, such as hybrid/commercial seeds or livestock breeds, with no ability to save, breed, or adapt genetic material."
+                    },
+                    "1",
+                    {
+                      "value": "2",
+                      "text": "2 - MORE OR LESS: Some autonomy exists, but access to diverse genetic resources is limited by market availability, regulations, or external breeding programs."
+                    },
+                    "3",
+                    {
+                      "value": "4",
+                      "text": "4 - YES: I have full autonomy in selecting, saving, exchanging, and conserving both seeds and livestock breeds, relying on locally adapted varieties and indigenous breeds for resilience and sustainability, both for men and women."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "showQuestionNumbers": "on",
+  "showProgressBar": true,
+  "progressBarShowPageTitles": false,
+  "progressBarType": "pages",
+  "widthMode": "responsive"
+}

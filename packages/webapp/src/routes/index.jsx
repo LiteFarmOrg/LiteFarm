@@ -41,6 +41,7 @@ import {
 const Home = React.lazy(() => import('../containers/Home'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
 const FarmSettings = React.lazy(() => import('./FarmSettingsRoutes'));
+const SurveyRoutes = React.lazy(() => import('./SurveyRoutes'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
@@ -366,6 +367,7 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
                     <Route path="/farm_settings" children={<FarmSettings />} />
+                    <Route path="/survey/*" children={<SurveyRoutes />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
@@ -770,6 +772,7 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/people" exact children={<People />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/farm_settings" children={<FarmSettings />} />
+                    <Route path="/survey/*" children={<SurveyRoutes />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
                     <Route path="/tasks" exact children={<Tasks />} />

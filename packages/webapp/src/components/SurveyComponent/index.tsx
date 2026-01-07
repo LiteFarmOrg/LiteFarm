@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
@@ -30,18 +30,14 @@ export default function SurveyComponent({
   onComplete,
   initialData,
 }: SurveyComponentProps) {
-  const survey = useMemo(() => {
-    const model = new Model(surveyJson);
+  const survey = new Model(surveyJson);
 
-    model.applyTheme(DefaultLight);
+  survey.applyTheme(DefaultLight);
 
-    // Set initial data if provided
-    if (initialData) {
-      model.data = initialData;
-    }
-
-    return model;
-  }, [surveyJson, initialData]);
+  // Set initial data if provided
+  if (initialData) {
+    survey.data = initialData;
+  }
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(

@@ -398,7 +398,7 @@
                   "type": "radiogroup",
                   "name": "diversity_1_2_2",
                   "title": "Do you grow multiple crops, forage or trees together in the same field (intercropping)?",
-                  "description": "Maize and beans grown together—maize provides shade and support, while beans fi x nitrogen in the soil\nBanana and coﬀee agroforestry—banana trees provide shade for coﬀee plants, reducing heat stress.",
+                  "description": "Maize and beans grown together—maize provides shade and support, while beans fix nitrogen in the soil\nBanana and coffee agroforestry—banana trees provide shade for coffee plants, reducing heat stress.",
                   "isRequired": true,
                   "choices": [
                     {
@@ -413,7 +413,7 @@
                     "3",
                     {
                       "value": "4",
-                      "text": "4 - YES: I regularly intercrop diﬀerent plant species."
+                      "text": "4 - YES: I regularly intercrop different plant species."
                     }
                   ]
                 }
@@ -434,7 +434,7 @@
                 {
                   "type": "radiogroup",
                   "name": "diversity_1_3_1",
-                  "title": "Do you raise a diversity of animals ? can include fish and insects",
+                  "title": "Do you raise a diversity of animals? Can include fish and insects",
                   "description": "Notes on answer options:\n0: No animals raised\n1: One species is very dominant even if a second species exists\n2: Two species raised are well-represented or balanced in number\n3: Three species raised\n4: More than 3 species raised",
                   "isRequired": true,
                   "choices": [
@@ -507,7 +507,7 @@
                   "type": "radiogroup",
                   "name": "synergy_2_1_1",
                   "title": "Do you produce most of the feed and fodder consumed by your animals?",
-                  "description": "Includes benefited from an exchange with neighbourghing farms or that is naturally available in the environment. Include pasture, crop residues, agroforestry feed sources",
+                  "description": "Includes benefited from an exchange with neighbouring farms or that is naturally available in the environment. Include pasture, crop residues, agroforestry feed sources",
                   "isRequired": true,
                   "choices": [
                     {
@@ -536,7 +536,7 @@
                 {
                   "type": "radiogroup",
                   "name": "synergy_2_1_2",
-                  "title": " To what extent are animals integrated into ecosystem services while benefiting from appropriate living conditions that allow natural behaviours? (includes bees and fishes)",
+                  "title": "To what extent are animals integrated into ecosystem services while benefiting from appropriate living conditions that allow natural behaviours? (includes bees and fishes)",
                   "description": "Manure for soil health, integrated grazing for vegetation management, biodiversity enhancement, fire risk reduction, pest and weed regulation, bees for pollination, aquaculture for irrigation and fertilisation, cultural or educational value",
                   "isRequired": true,
                   "choices": [
@@ -573,7 +573,7 @@
                 {
                   "type": "radiogroup",
                   "name": "synergy_2_2_1",
-                  "title": "Do you grow trees together with plants and livestock in your production system? (agroforestry,agropastoralism, or agrosilvopastoralism)",
+                  "title": "Do you grow trees together with plants and livestock in your production system? (agroforestry, agropastoralism, or agrosilvopastoralism)",
                   "description": "Agroforestry includes growing crops under tree cover, windbreaks, or alley cropping. Agropastoralism includes using trees for fodder or shade in livestock systems. agro-silvopastoralism combines trees, crops, and livestock in the same system.",
                   "isRequired": true,
                   "choices": [
@@ -741,7 +741,7 @@
                 {
                   "type": "radiogroup",
                   "name": "recycling_3_1_2",
-                  "title": " Do you prioritize plant varieties and livestock breeds that are naturally adapted to local conditions (e.g., drought tolerance, disease resistance, low fertilizer need, heat resistance, hardy livestock breeds)?",
+                  "title": "Do you prioritize plant varieties and livestock breeds that are naturally adapted to local conditions (e.g., drought tolerance, disease resistance, low fertilizer need, heat resistance, hardy livestock breeds)?",
                   "isRequired": true,
                   "choices": [
                     {
@@ -777,7 +777,7 @@
                 {
                   "type": "radiogroup",
                   "name": "recycling_3_2_1",
-                  "title": " Do you reuse all your organic residues (e.g., plant residues, manure, compost) in your activities? ",
+                  "title": "Do you reuse all your organic residues (e.g., plant residues, manure, compost) in your activities? ",
                   "description": "Organic residues include plant leftovers, crop residues, manure, compost, and agro-processing by-products. This question evaluates whether these materials are effectively recycled into soil fertility management, animal feed, energy production, or other farm activities.",
                   "isRequired": true,
                   "choices": [
@@ -873,7 +873,7 @@
                 {
                   "type": "radiogroup",
                   "name": "recycling_3_3_2",
-                  "title": " Is the energy used on your production system coming mainly from renewable (solar, wind, small-scale hydro, biogas, sustainably produced biomass) or low-impact sources?",
+                  "title": "Is the energy used on your production system coming mainly from renewable (solar, wind, small-scale hydro, biogas, sustainably produced biomass) or low-impact sources?",
                   "isRequired": true,
                   "choices": [
                     {
@@ -944,7 +944,7 @@
                 {
                   "type": "radiogroup",
                   "name": "efficiency_4_1_2",
-                  "title": " Do you cultivate or have any nitrogen-fixing plants (including trees and fodder)? ",
+                  "title": "Do you cultivate or have any nitrogen-fixing plants (including trees and fodder)? ",
                   "description": "Examples of nitrogen-fixing plants and integration methods: (1) Legume crops  Beans, peas, cowpeas, soybeans, chickpeas. (2) Forage legumes  Alfalfa, clover, vetch for soil improvement. (3) Green manure & cover crops  Lupins, fava beans, sunn hemp, pigeon peas. (4) Agroforestry species  acacia tree. (5) Intercropping & crop rotation  Growing maize with beans, rotating cereals with legumes.",
                   "isRequired": true,
                   "choices": [
@@ -1280,7 +1280,7 @@
                 {
                   "type": "radiogroup",
                   "name": "resilience_5_3_2",
-                  "title": " Do you limit deep ploughing (more than 20 cm) to preserve soil structure and health? ",
+                  "title": "Do you limit deep ploughing (more than 20 cm) to preserve soil structure and health? ",
                   "description": "If no ploughing, select \"Yes\". If you use hand tools or animal traction, ploughing is typically shallow (less than 20 cm), which is preferable. If you use mechanized ploughing, consider whether it goes beyond 20 cm. If you practice deep ploughing occasionally but not in all fields of your plot, select \"More or less\".",
                   "isRequired": true,
                   "choices": [
@@ -1323,7 +1323,7 @@
                 {
                   "type": "radiogroup",
                   "name": "culture_6_1_1",
-                  "title": " Do you and your community value and promote eating a diversity of food such as cereals, legumes, fruits, vegetables, dairy, meat, fish, and nuts?",
+                  "title": "Do you and your community value and promote eating a diversity of food such as cereals, legumes, fruits, vegetables, dairy, meat, fish, and nuts?",
                   "isRequired": true,
                   "choices": [
                     {
@@ -1420,7 +1420,7 @@
                   "type": "radiogroup",
                   "name": "culture_6_2_2",
                   "title": "Do you actively protect and revive local cultural heritage and traditions?",
-                  "description": "Examples include honouring cultural celebrations and rituals  Observing agricultural festivals, spiritual ceremonies. Using and preserving local languages Maintaining storytelling, proverbs, or knowledge sharing in local dialects. Passing down traditional knowledge  Teaching younger generations about indigenous wisdom, culinary arts, or holistic farming beliefs. Weaving cultural elements into farm life  Music, art, handicrafts, or architecture reflecting local heritage.",
+                  "description": "Examples include honouring cultural celebrations and rituals — Observing agricultural festivals, spiritual ceremonies. Using and preserving local languages — Maintaining storytelling, proverbs, or knowledge sharing in local dialects. Passing down traditional knowledge — Teaching younger generations about indigenous wisdom, culinary arts, or holistic farming beliefs. Weaving cultural elements into farm life — Music, art, handicrafts, or architecture reflecting local heritage.",
                   "isRequired": true,
                   "choices": [
                     {
@@ -1435,7 +1435,7 @@
                     "3",
                     {
                       "value": "4",
-                      "text": "4 - YES: I integrate cultural heritage into daily lifehonouring traditional knowledge, preparing and consuming local foods, practicing ancestral rituals, and passing down cultural traditions or participating on traditional or geographical food quality schemes. These elements are consciously maintained and celebrated"
+                      "text": "4 - YES: I integrate cultural heritage into daily life—honouring traditional  traditional knowledge, preparing and consuming local foods, practicing ancestral rituals, and passing down cultural traditions or participating on traditional or geographical food quality schemes. These elements are consciously maintained and celebrated"
                     }
                   ]
                 }
@@ -1600,7 +1600,7 @@
                 {
                   "type": "radiogroup",
                   "name": "human_8_1_1",
-                  "title": " Do women participate equally in key decisions regarding management of the production system? (cropping calendars, crop and livestock selection, input use, labour organisation, financial planning, credit and budgeting, marketing strategies, processing and value addition)",
+                  "title": "Do women participate equally in key decisions regarding management of the production system? (cropping calendars, crop and livestock selection, input use, labour organisation, financial planning, credit and budgeting, marketing strategies, processing and value addition)",
                   "description": "Consider key decisions related to farm investments, crop planning, marketing, and income use. If women are only involved in minor decisions but not financial or strategic ones, answer \"More or less.\"",
                   "isRequired": true,
                   "choices": [
@@ -1691,13 +1691,13 @@
             {
               "type": "panel",
               "name": "panel2",
-              "title": "8.2.2 Innovation and equipment for work improvement\n",
+              "title": "8.2.2 Innovation and equipment for work improvement",
               "elements": [
                 {
                   "type": "radiogroup",
                   "name": "human_8_2_2",
-                  "title": "Do you invest in tools, adapted machinery or social innovations (collective farming, time sharing groups, shared machinery) that improve working conditions and improve autonomy?\n",
-                  "description": "The question refers to the terms of safety, fatigue, and occupational risks\n",
+                  "title": "Do you invest in tools, adapted machinery or social innovations (collective farming, time sharing groups, shared machinery) that improve working conditions and improve autonomy?",
+                  "description": "The question refers to the terms of safety, fatigue, and occupational risks",
                   "isRequired": true,
                   "choices": [
                     {
@@ -1748,7 +1748,7 @@
                     "3",
                     {
                       "value": "4",
-                      "text": "4 - YES: I take concrete actions to help younger people or new intrants start farming )."
+                      "text": "4 - YES: I take concrete actions to help younger people or new intrants start farming."
                     }
                   ]
                 }
@@ -1788,7 +1788,7 @@
       ]
     },
     {
-      "name": "circular_economu",
+      "name": "circular_economy",
       "title": "9. CIRCULAR ECONOMY AND SOLIDARITY",
       "elements": [
         {
@@ -1810,7 +1810,7 @@
                   "choices": [
                     {
                       "value": "0",
-                      "text": "0 - NO: Most of my products are are sold outside the local area often to regional or national buyers, exporters, or large-scale intermediaries"
+                      "text": "0 - NO: Most of my products are sold outside the local area often to regional or national buyers, exporters, or large-scale intermediaries"
                     },
                     "1",
                     {

@@ -30,7 +30,7 @@ function TAPESurvey() {
   };
 
   const handleComplete = (surveyData: any) => {
-    history.push('/survey/tape/results', { surveyData });
+    history.push('/insights/tape/results', { surveyData });
   };
 
   return (

@@ -85,12 +85,9 @@ const LocationPicker = ({
     }
   }, [isPinMode, isGoogleMapInitiated]);
 
+  // Cleanup listeners on map instance objects
   useEffect(() => {
-    if (maxZoom && gMap && gMaps && gMapBounds) {
-      drawAllLocations(gMap, gMaps, gMapBounds);
-    }
-
-    // Cleanup event listeners
+    if (!gMaps) return;
     return () => {
       if (gMaps && geometriesRef.current) {
         cleanupGeometryListeners(geometriesRef.current, gMaps);
@@ -99,7 +96,7 @@ const LocationPicker = ({
         cleanupInstanceListeners(markerClusterRef.current, gMaps);
       }
     };
-  }, [maxZoom, gMap, gMaps, gMapBounds]);
+  }, [gMaps]);
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {

@@ -28,9 +28,57 @@ import {
 import styles from './styles.module.scss';
 import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
+import TapeQuestions from './tapeQuestions.json';
+import { roundToOne } from '../../../util/rounding';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
+const MAX_SCORE = 100;
+
+const getChartTitleFromSurveyTitle = (surveyTitle: unknown) => {
+  if (!surveyTitle || typeof surveyTitle !== 'string') return '';
+
+  // Remove the section number from the title
+  const titleWithoutSectionNumber = surveyTitle.split(/\s+/).slice(1).join(' ');
+
+  if (titleWithoutSectionNumber === '') return '';
+
+  return (
+    titleWithoutSectionNumber.charAt(0).toUpperCase() +
+    titleWithoutSectionNumber.slice(1).toLowerCase()
+  );
+};
+
+const getAnswerKeys = (element: any): string[] => {
+  if (Array.isArray(element.elements)) {
+    return element.elements.flatMap(getAnswerKeys);
+  }
+  return element.name ? [element.name] : [];
+};
+
+const CHOSEN_SECTION_NAMES = [
+  'diversity',
+  'synergy',
+  'recycling',
+  'efficiency',
+  'resilience',
+  'culture_and_food',
+  'cocreation_and_knowledge',
+  'human_and_social',
+  'responsible_governance',
+];
+
+const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) => {
+  if (CHOSEN_SECTION_NAMES.includes(cv.name)) {
+    acc.push({
+      dimension: getChartTitleFromSurveyTitle(cv.title),
+      answerKeys: getAnswerKeys(cv),
+      maxScore: MAX_SCORE,
+    });
+    return acc;
+  }
+  return acc;
+}, []);
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -52,7 +100,7 @@ function TAPEResults() {
     datasets: [
       {
         label: 'Your Farm',
-        data: tapeData.map((d) => d.score),
+        data: tapeData.map((d) => roundToOne(d.score)),
         backgroundColor: CHART_FILL_COLOR,
         borderColor: CHART_COLOR,
         borderWidth: 2,
@@ -71,7 +119,7 @@ function TAPEResults() {
           display: true,
         },
         suggestedMin: 0,
-        suggestedMax: 100,
+        suggestedMax: MAX_SCORE,
         ticks: {
           stepSize: 20,
         },
@@ -83,7 +131,7 @@ function TAPEResults() {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => `${context.label}: ${context.parsed.r}/100`,
+          label: (context: any) => ` ${context.label}: ${context.parsed.r} %`,
         },
       },
     },
@@ -103,23 +151,27 @@ function TAPEResults() {
     </>
   );
 }
+interface ChartSection {
+  dimension: string;
+  answerKeys: string[];
+  maxScore: number;
+}
 
 const analyzeTAPEData = (data: any): TAPEDimension[] => {
   if (!data) return [];
 
-  // TODO: Replace with actual TAPE scoring logic summed over sections; sections below are accurate. Comments indicate the naming structure in the actual survey data
-  return [
-    { dimension: 'Diversity', score: 75, maxScore: 100 }, // diversity_1
-    { dimension: 'Synergy', score: 82, maxScore: 100 }, // synergy_2
-    { dimension: 'Recycling', score: 68, maxScore: 100 }, // recycling_3
-    { dimension: 'Efficiency', score: 90, maxScore: 100 }, // efficiency_4
-    { dimension: 'Resilience', score: 90, maxScore: 100 }, // resilience_5
-    { dimension: 'Culture and food traditions', score: 85, maxScore: 100 }, // culture_6
-    { dimension: 'Co-creation and sharing of knowledge', score: 78, maxScore: 100 }, // knowledge_7
-    { dimension: 'Human and social values', score: 72, maxScore: 100 }, // human_8
-    { dimension: 'Circular economy and solidarity', score: 88, maxScore: 100 }, // circular_9
-    { dimension: 'Responsible governance', score: 95, maxScore: 100 }, // governance_10
-  ];
+  return CHART_SECTION_DATA.map(({ dimension, answerKeys, maxScore }) => {
+    return {
+      dimension,
+      score:
+        25 *
+        (answerKeys.reduce<number>((acc, cv) => {
+          return data[cv] ? acc + Number(data[cv]) : acc;
+        }, 0) /
+          answerKeys.length), // simple average
+      maxScore,
+    };
+  });
 };
 
 export default TAPEResults;

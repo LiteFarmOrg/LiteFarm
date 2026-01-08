@@ -1,5 +1,5 @@
 import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
-import { useEffect } from 'react';
+import { cleanupInstanceListeners } from '../../../util/google-maps/cleanupListeners';
 
 export const markerSVG = (stroke, fill) =>
   window.btoa(
@@ -16,6 +16,11 @@ const CreateMarkerCluster = (
   selectedLocationsRef = null,
   maxZoom,
 ) => {
+  // If clusterer is being replaced, remove the old one from the map and cleanup listeners
+  if (clustererRef?.current) {
+    clustererRef?.current.clearMarkers();
+    cleanupInstanceListeners(clustererRef?.current, maps);
+  }
   // return clusterer and marker
   clustererRef.current = new MarkerClusterer({
     map,

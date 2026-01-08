@@ -107,7 +107,7 @@ const Insights = () => {
           alt={item.label}
         />
         <div className={`itemText item-${index} ${styles.itemText}`}>
-          <Semibold>{item.label}</Semibold>
+          <Semibold className={styles.itemTitle}>{item.label}</Semibold>
           {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
             <Text>{currentData}</Text>
           ) : (

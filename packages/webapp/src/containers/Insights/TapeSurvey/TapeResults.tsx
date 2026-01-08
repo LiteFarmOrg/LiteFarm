@@ -55,6 +55,30 @@ const getAnswerKeys = (element: any): string[] => {
   return element.name ? [element.name] : [];
 };
 
+const CHOSEN_SECTION_NAMES = [
+  'diversity',
+  'synergy',
+  'recycling',
+  'efficiency',
+  'resilience',
+  'culture_and_food',
+  'cocreation_and_knowledge',
+  'human_and_social',
+  'responsible_governance',
+];
+
+const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) => {
+  if (CHOSEN_SECTION_NAMES.includes(cv.name)) {
+    acc.push({
+      dimension: getChartTitleFromSurveyTitle(cv.title),
+      answerKeys: getAnswerKeys(cv),
+      maxScore: MAX_SCORE,
+    });
+    return acc;
+  }
+  return acc;
+}, []);
+
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 interface TAPEDimension {
@@ -135,30 +159,7 @@ interface ChartSection {
 const analyzeTAPEData = (data: any): TAPEDimension[] => {
   if (!data) return [];
 
-  const sectionNames = [
-    'diversity',
-    'synergy',
-    'recycling',
-    'efficiency',
-    'resilience',
-    'culture_and_food',
-    'cocreation_and_knowledge',
-    'human_and_social',
-    'responsible_governance',
-  ];
-  const titleAndAnswerKeys = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) => {
-    if (sectionNames.includes(cv.name)) {
-      acc.push({
-        dimension: getChartTitleFromSurveyTitle(cv.title),
-        answerKeys: getAnswerKeys(cv),
-        maxScore: MAX_SCORE,
-      });
-      return acc;
-    }
-    return acc;
-  }, []);
-
-  return titleAndAnswerKeys.map(({ dimension, answerKeys, maxScore }) => {
+  return CHART_SECTION_DATA.map(({ dimension, answerKeys, maxScore }) => {
     return {
       dimension,
       score:

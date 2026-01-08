@@ -55,10 +55,6 @@ import {
   soilSampleLocationStatusSelector,
 } from './soilSampleLocationSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
-import {
-  standaloneSensorsSelector,
-  sensorArraysSelector,
-} from '../store/api/selectors/sensorSelectors';
 
 export const sortedAreaSelector = createSelector(
   [
@@ -206,15 +202,6 @@ export const lineStatusSelector = createSelector(
       loaded: bufferZoneStatus.loaded && watercourseStatus.loaded && fenceStatus.loaded,
       error: bufferZoneStatus.error || watercourseStatus.error || fenceStatus.error,
     };
-  },
-);
-
-export const externalPointSelector = createSelector(
-  [sensorArraysSelector, standaloneSensorsSelector],
-  (sensorArrays, standaloneSensors) => {
-    const result = {};
-    result[locationEnum.sensor] = [...sensorArrays, ...standaloneSensors];
-    return result;
   },
 );
 

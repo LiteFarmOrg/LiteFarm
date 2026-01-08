@@ -213,8 +213,8 @@ export default function Map({ isCompactSideMenu }) {
   }, [gMaps]);
 
   const { getMaxZoom } = useMaxZoom();
-  const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps, map);
+  const handleGoogleMapApi = async ({ map, maps }) => {
+    await getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -471,7 +471,7 @@ export default function Map({ isCompactSideMenu }) {
               center={grid_points}
               defaultZoom={DEFAULT_ZOOM}
               yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+              onGoogleApiLoaded={handleGoogleMapApi}
               options={getMapOptions}
             />
           </div>

@@ -29,10 +29,11 @@ import styles from './styles.module.scss';
 import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import TapeQuestions from './tapeQuestions.json';
+import { roundToOne } from '../../../util/rounding';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
-const MAX_SCORE = 4;
+const MAX_SCORE = 100;
 
 const getChartTitleFromSurveyTitle = (surveyTitle: unknown) => {
   if (!surveyTitle || typeof surveyTitle !== 'string') return '';
@@ -99,7 +100,7 @@ function TAPEResults() {
     datasets: [
       {
         label: 'Your Farm',
-        data: tapeData.map((d) => d.score),
+        data: tapeData.map((d) => roundToOne(d.score)),
         backgroundColor: CHART_FILL_COLOR,
         borderColor: CHART_COLOR,
         borderWidth: 2,
@@ -120,7 +121,7 @@ function TAPEResults() {
         suggestedMin: 0,
         suggestedMax: MAX_SCORE,
         ticks: {
-          stepSize: 1,
+          stepSize: 20,
         },
       },
     },
@@ -130,7 +131,7 @@ function TAPEResults() {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => `${context.label}: ${context.parsed.r}/100`,
+          label: (context: any) => ` ${context.label}: ${context.parsed.r} %`,
         },
       },
     },
@@ -163,9 +164,11 @@ const analyzeTAPEData = (data: any): TAPEDimension[] => {
     return {
       dimension,
       score:
-        answerKeys.reduce<number>((acc, cv) => {
+        25 *
+        (answerKeys.reduce<number>((acc, cv) => {
           return data[cv] ? acc + Number(data[cv]) : acc;
-        }, 0) / answerKeys.length, // simple average
+        }, 0) /
+          answerKeys.length), // simple average
       maxScore,
     };
   });

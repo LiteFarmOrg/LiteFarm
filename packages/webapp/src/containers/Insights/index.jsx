@@ -13,12 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, Component, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 // images
+import tape_survey from '../../assets/images/insights/tape_survey.svg';
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
 import biodiversity from '../../assets/images/insights/biodiversity.svg';
@@ -52,6 +53,12 @@ const Insights = () => {
   const { t } = useTranslation();
 
   const items = [
+    {
+      label: t('INSIGHTS.TAPE.TITLE'),
+      image: tape_survey,
+      route: 'tape',
+      data_point: 'TAPE',
+    },
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -115,6 +122,7 @@ const Insights = () => {
 
   const insightData = useMemo(() => {
     const insightData = {};
+    insightData['TAPE'] = t('INSIGHTS.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'

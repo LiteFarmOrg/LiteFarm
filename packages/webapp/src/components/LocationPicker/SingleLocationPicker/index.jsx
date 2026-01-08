@@ -55,9 +55,10 @@ const LocationPicker = ({
     maps: { isLoaded },
   } = useAppUIContext();
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
-  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
-  const [gMapBounds, setGMapBounds] = useState(null);
+  // Unused: Kept in for map debugging
+  const [_gMap, setGMap] = useState(null);
+  const [_gMapBounds, setGMapBounds] = useState(null);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
   const mapRef = useRef();
@@ -291,9 +292,9 @@ const LocationPicker = ({
     };
   };
 
-  const handleGoogleMapApi = (map, maps) => {
+  const handleGoogleMapApi = async ({ map, maps }) => {
     mapRef.current = map;
-    getMaxZoom?.(maps, map);
+    await getMaxZoom(maps, map);
     const mapBounds = new maps.LatLngBounds();
     mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({
@@ -344,9 +345,12 @@ const LocationPicker = ({
     drawWildCropPins(map, maps, mapBounds);
     drawAllLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
-    setGMap(map);
     setGMaps(maps);
+
+    // Unused: Kept in for map debugging
+    setGMap(map);
     setGMapBounds(mapBounds);
+
     setGoogleMapInitiated(true);
   };
 
@@ -362,7 +366,7 @@ const LocationPicker = ({
           defaultCenter={farmCenterCoordinate}
           defaultZoom={DEFAULT_ZOOM}
           yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+          onGoogleApiLoaded={handleGoogleMapApi}
           options={getMapOptions}
         />
         {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (

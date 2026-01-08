@@ -46,7 +46,7 @@ export function useMaxZoom() {
           });
         });
       });
-      Promise.all(promises)
+      await Promise.all(promises)
         .then(function (results) {
           const cachedAndActivePoints = retrievedPoints.filter((element) =>
             pointsCollections.some(

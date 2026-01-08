@@ -14,11 +14,13 @@
  */
 
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import SurveyComponent from '../../../components/SurveyComponent';
 import surveyJson from './tapeQuestions.json';
-import CardLayout from '../../../components/Layout/CardLayout';
+import PageTitle from '../../../components/PageTitle';
 
 function TAPESurvey() {
+  const { t } = useTranslation();
   const history = useHistory();
 
   // TODO: Prepare prepopulated data
@@ -34,13 +36,14 @@ function TAPESurvey() {
   };
 
   return (
-    <CardLayout>
+    <>
+      <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
       <SurveyComponent
         surveyJson={surveyJson}
         onComplete={handleComplete}
         initialData={prepopulatedData}
       />
-    </CardLayout>
+    </>
   );
 }
 

@@ -1149,6 +1149,8 @@
       "TITLE": "Soil OM"
     },
     "TAPE": {
+      "NO_RESULTS": "No survey data available",
+      "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)"
     },
     "TITLE": "Insights",

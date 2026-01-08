@@ -1129,6 +1129,7 @@
       "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
+    "NOT_FILLED": "Not filled",
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS_one": "Network price is based on {{count}} farm in your local area",
@@ -1146,6 +1147,11 @@
       "HEADER": "Soil Organic Matter",
       "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
+    },
+    "TAPE": {
+      "NO_RESULTS": "No survey data available",
+      "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
+      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"

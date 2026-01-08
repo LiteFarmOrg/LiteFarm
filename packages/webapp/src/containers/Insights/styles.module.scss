@@ -47,7 +47,8 @@
 .itemButton {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 16px;
 }
 
 .itemDescription {
@@ -56,32 +57,30 @@
 }
 
 .itemIcon {
-  float: left;
-  margin-right: 2em;
+  flex-shrink: 0;
 }
 
 .itemText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+
+  .itemTitle {
+    text-wrap: wrap;
+  }
 }
 
 .itemArrow {
-  float: right;
+  flex-shrink: 0;
+  margin-left: auto;
   color: var(--buttonPrimary);
 }
 
 .defaultLine {
   background: none;
   margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #eee;
-}
-
-.defaultLineWithNoMarginTop {
-  background: none;
-  margin-top: 0px;
   margin-bottom: 20px;
   border: 0;
   border-top: 1px solid #eee;

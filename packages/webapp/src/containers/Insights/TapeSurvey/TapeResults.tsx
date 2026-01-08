@@ -14,6 +14,7 @@
  */
 
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -25,8 +26,8 @@ import {
   Legend,
 } from 'chart.js';
 import styles from './styles.module.scss';
-import CardLayout from '../../../components/Layout/CardLayout';
-import { Main, Title } from '../../../components/Typography';
+import { Main, Semibold } from '../../../components/Typography';
+import PageTitle from '../../../components/PageTitle';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -40,6 +41,7 @@ interface TAPEDimension {
 }
 
 function TAPEResults() {
+  const { t } = useTranslation();
   const location = useLocation<{ surveyData: any }>();
   const surveyData = location.state?.surveyData;
 
@@ -88,16 +90,17 @@ function TAPEResults() {
   };
 
   return (
-    <CardLayout>
-      <Title className={styles.titleText}>Your TAPE Results</Title>
+    <>
+      <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
+      <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
       {tapeData && tapeData.length > 0 ? (
         <div className={styles.chartContainer}>
           <Radar data={chartData} options={options} />
         </div>
       ) : (
-        <Main className={styles.titleText}>No survey data available</Main>
+        <Main className={styles.titleText}>{t('INSIGHTS.TAPE.NO_RESULTS')}</Main>
       )}
-    </CardLayout>
+    </>
   );
 }
 

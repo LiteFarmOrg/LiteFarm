@@ -157,8 +157,7 @@ const Insights = () => {
           />
         </div>
       </div>
-      <hr style={{ marginBottom: '0px' }} />
-      <hr className={styles.defaultLineWithNoMarginTop} />
+      <hr className={styles.defaultLine} />
       {renderedItems}
     </div>
   );

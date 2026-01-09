@@ -13,8 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {
+  saveSurveyProgress,
+  completeSurvey,
+  tapeSurveyDataSelector,
+  tapeSurveyCurrentPageNoSelector,
+} from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import surveyJson from './tapeQuestions.json';
 import PageTitle from '../../../components/PageTitle';
@@ -22,13 +29,23 @@ import PageTitle from '../../../components/PageTitle';
 function TAPESurvey() {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  // TODO: Prepare prepopulated data
+  // TODO LF-5109: Prepare prepopulated data
   const prepopulatedData = {
     // Country
     // Lat / Lng
     // Do you raise animals
     // Number of unique species in crop management plans
+  };
+
+  const savedData = useSelector(tapeSurveyDataSelector);
+  const savedPageNo = useSelector(tapeSurveyCurrentPageNoSelector);
+
+  const initialData = { ...prepopulatedData, ...savedData };
+
+  const handleDataChange = (currentPageNo: number, surveyData: Record<string, any>) => {
+    dispatch(saveSurveyProgress({ currentPageNo, surveyData }));
   };
 
   const handleComplete = (surveyData: any) => {
@@ -41,7 +58,9 @@ function TAPESurvey() {
       <SurveyComponent
         surveyJson={surveyJson}
         onComplete={handleComplete}
-        initialData={prepopulatedData}
+        onValueChanged={handleDataChange}
+        initialData={initialData}
+        initialPageNo={savedPageNo}
       />
     </>
   );

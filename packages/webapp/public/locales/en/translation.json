@@ -1129,7 +1129,6 @@
       "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
-    "NOT_FILLED": "Not filled",
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS_one": "Network price is based on {{count}} farm in your local area",
@@ -1149,9 +1148,12 @@
       "TITLE": "Soil OM"
     },
     "TAPE": {
-      "NO_RESULTS": "No survey data available",
+      "COMPLETED": "Completed - See your results",
+      "IN_PROGRESS": "In progress",
+      "NOT_FILLED": "Not filled",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
-      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)"
+      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
+      "UPDATE_ANSWERS": "Update your answers"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"

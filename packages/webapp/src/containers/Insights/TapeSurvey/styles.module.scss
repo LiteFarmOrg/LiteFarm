@@ -21,3 +21,12 @@
   height: 500px;
   width: 100%;
 }
+
+.buttonContainer {
+  padding-inline: 32px;
+
+  .editIcon {
+    margin-left: 4px;
+    width: 16px;
+  }
+}

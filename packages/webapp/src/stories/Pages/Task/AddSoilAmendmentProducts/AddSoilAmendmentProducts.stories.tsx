@@ -21,6 +21,12 @@ import AddSoilAmendmentProducts, {
 } from '../../../../components/Task/AddSoilAmendmentProducts';
 import { soilAmendmentProductDetailsDefaultValues as defaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { products } from './products';
+import {
+  FigureType,
+  InternalMapLocationType,
+  PerimiterUnit,
+  TotalAreaUnit,
+} from '../../../../store/api/types';
 
 const purposes = [
   { id: 1, key: 'STRUCTURE' },
@@ -64,9 +70,32 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     defaultValues: [defaultValues],
     locations: [
       {
-        type: 'garden',
+        location_id: '6caeac92-73b6-11ed-ac0f-7bd8b506ce4c',
+        farm_id: '8350e6e6-7216-11ed-b431-2792462c3cd9',
+        name: 'Garden 1',
+        type: InternalMapLocationType.GARDEN,
+        figure_type: FigureType.AREA,
         total_area: 15000,
-        total_area_unit: 'm2',
+        total_area_unit: TotalAreaUnit.M2,
+        grid_points: [
+          {
+            lat: 49.26734670912297,
+            lng: -123.16660760290222,
+          },
+          {
+            lat: 49.266772632696394,
+            lng: -123.16702066309051,
+          },
+          {
+            lat: 49.26677613318264,
+            lng: -123.16604433900909,
+          },
+        ],
+        perimeter: 217,
+        perimeter_unit: PerimiterUnit.M,
+        figure_id: '6caeac93-73b6-11ed-ac0f-7bd8b506ce4c',
+        location_defaults: null,
+        deleted: false,
       },
     ],
   },

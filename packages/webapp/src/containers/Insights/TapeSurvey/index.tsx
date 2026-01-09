@@ -16,12 +16,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  saveSurveyProgress,
-  completeSurvey,
-  tapeSurveyDataSelector,
-  tapeSurveyCurrentPageNoSelector,
-} from './tapeSurveySlice';
+import { saveSurveyProgress, completeSurvey, tapeSurveySelector } from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import surveyJson from './tapeQuestions.json';
 import PageTitle from '../../../components/PageTitle';
@@ -39,8 +34,7 @@ function TAPESurvey() {
     // Number of unique species in crop management plans
   };
 
-  const savedData = useSelector(tapeSurveyDataSelector);
-  const savedPageNo = useSelector(tapeSurveyCurrentPageNoSelector);
+  const { surveyData: savedData, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
 
   const initialData = { ...prepopulatedData, ...savedData };
 

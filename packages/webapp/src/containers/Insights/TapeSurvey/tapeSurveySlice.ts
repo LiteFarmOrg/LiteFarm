@@ -40,6 +40,7 @@ const tapeSurveySlice = createSlice({
       state.surveyData = { ...state.surveyData, ...action.payload.surveyData };
     },
     completeSurvey: (state, action: PayloadAction<Record<string, any>>) => {
+      debugger;
       state.surveyData = action.payload;
       state.isCompleted = true;
     },
@@ -55,28 +56,10 @@ export const { saveSurveyProgress, completeSurvey, reopenSurvey, clearSurvey } =
 export default tapeSurveySlice.reducer;
 
 // Selectors
-export const tapeSurveyReducerSelector = (state: any) =>
-  state.entitiesReducer[tapeSurveySlice.name];
+export const tapeSurveySelector = (state: any) =>
+  state.entitiesReducer[tapeSurveySlice.name] || initialState;
 
-export const tapeSurveyDataSelector = createSelector(
-  [tapeSurveyReducerSelector],
-  (tapeSurvey) => tapeSurvey?.surveyData || {},
-);
-
-export const tapeSurveyCurrentPageNoSelector = createSelector(
-  [tapeSurveyReducerSelector],
-  (tapeSurvey) => tapeSurvey?.currentPageNo || 0,
-);
-
-export const tapeSurveyIsCompletedSelector = createSelector(
-  [tapeSurveyReducerSelector],
-  (tapeSurvey) => tapeSurvey?.isCompleted || false,
-);
-
-export const tapeSurveyStatusSelector = createSelector(
-  [tapeSurveyReducerSelector],
-  (tapeSurvey) => ({
-    isCompleted: tapeSurvey?.isCompleted || false,
-    hasData: Object.keys(tapeSurvey?.surveyData || {}).length > 0,
-  }),
-);
+export const tapeSurveyStatusSelector = createSelector([tapeSurveySelector], (tapeSurvey) => ({
+  isCompleted: tapeSurvey.isCompleted,
+  hasData: Object.keys(tapeSurvey.surveyData).length > 0,
+}));

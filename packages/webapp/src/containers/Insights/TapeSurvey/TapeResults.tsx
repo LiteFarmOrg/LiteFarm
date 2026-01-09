@@ -26,7 +26,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { tapeSurveyDataSelector, reopenSurvey } from './tapeSurveySlice';
+import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
@@ -97,7 +97,7 @@ function TAPEResults() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const surveyData = useSelector(tapeSurveyDataSelector);
+  const { surveyData } = useSelector(tapeSurveySelector);
 
   const tapeData = analyzeTAPEData(surveyData);
 

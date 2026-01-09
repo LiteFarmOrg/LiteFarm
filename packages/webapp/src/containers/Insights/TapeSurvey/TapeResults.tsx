@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Radar } from 'react-chartjs-2';
 import {
@@ -25,6 +25,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { tapeSurveyDataSelector } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
@@ -90,8 +91,7 @@ interface TAPEDimension {
 
 function TAPEResults() {
   const { t } = useTranslation();
-  const location = useLocation<{ surveyData: any }>();
-  const surveyData = location.state?.surveyData;
+  const surveyData = useSelector(tapeSurveyDataSelector);
 
   const tapeData = analyzeTAPEData(surveyData);
 

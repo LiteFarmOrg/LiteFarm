@@ -49,7 +49,8 @@ function TAPESurvey() {
   };
 
   const handleComplete = (surveyData: any) => {
-    history.push('/insights/tape/results', { surveyData });
+    dispatch(completeSurvey(surveyData));
+    history.push('/insights/tape/results');
   };
 
   return (

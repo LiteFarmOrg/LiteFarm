@@ -16,24 +16,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-export interface TAPEDimension {
-  dimension: string;
-  score: number;
-  maxScore: number;
-}
-
 interface TapeSurveyState {
   currentPageNo: number;
   surveyData: Record<string, any>;
   isCompleted: boolean;
-  results: TAPEDimension[] | null;
 }
 
 const initialState: TapeSurveyState = {
   currentPageNo: 0,
   surveyData: {},
   isCompleted: false,
-  results: null,
 };
 
 const tapeSurveySlice = createSlice({
@@ -47,12 +39,8 @@ const tapeSurveySlice = createSlice({
       state.currentPageNo = action.payload.currentPageNo;
       state.surveyData = { ...state.surveyData, ...action.payload.surveyData };
     },
-    completeSurvey: (
-      state,
-      action: PayloadAction<{ surveyData: Record<string, any>; results: TAPEDimension[] }>,
-    ) => {
-      state.surveyData = action.payload.surveyData;
-      state.results = action.payload.results;
+    completeSurvey: (state, action: PayloadAction<Record<string, any>>) => {
+      state.surveyData = action.payload;
       state.isCompleted = true;
     },
     clearSurvey: () => initialState,
@@ -79,11 +67,6 @@ export const tapeSurveyCurrentPageNoSelector = createSelector(
 export const tapeSurveyIsCompletedSelector = createSelector(
   [tapeSurveyReducerSelector],
   (tapeSurvey) => tapeSurvey?.isCompleted || false,
-);
-
-export const tapeSurveyResultsSelector = createSelector(
-  [tapeSurveyReducerSelector],
-  (tapeSurvey) => tapeSurvey?.results || null,
 );
 
 export const tapeSurveyStatusSelector = createSelector(

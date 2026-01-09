@@ -15,6 +15,7 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -31,6 +32,8 @@ import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import TapeQuestions from './tapeQuestions.json';
 import { roundToOne } from '../../../util/rounding';
+import Button from '../../../components/Form/Button';
+import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -91,6 +94,8 @@ interface TAPEDimension {
 
 function TAPEResults() {
   const { t } = useTranslation();
+  const history = useHistory();
+
   const surveyData = useSelector(tapeSurveyDataSelector);
 
   const tapeData = analyzeTAPEData(surveyData);
@@ -137,9 +142,19 @@ function TAPEResults() {
     },
   };
 
+  const returnToSurvey = () => {
+    history.push('/insights/tape');
+  };
+
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
+      <div className={styles.buttonContainer}>
+        <Button sm color="secondary-2" onClick={returnToSurvey}>
+          {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
+          <EditIcon className={styles.editIcon} />
+        </Button>
+      </div>
       <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
       {tapeData && tapeData.length > 0 ? (
         <div className={styles.chartContainer}>

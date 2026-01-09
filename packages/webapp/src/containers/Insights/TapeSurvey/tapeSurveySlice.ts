@@ -43,7 +43,6 @@ const tapeSurveySlice = createSlice({
       state,
       action: PayloadAction<{ currentPageNo: number; surveyData: Record<string, any> }>,
     ) => {
-      debugger;
       state.currentPageNo = action.payload.currentPageNo;
       state.surveyData = action.payload.surveyData;
       state.isCompleted = true;

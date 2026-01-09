@@ -109,9 +109,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [isClickable]);
 
-  const { farm_id } = useSelector(userFarmSelector);
   const { locations: internalLocations, isLoading: isLoadingInternalLocations } = useLocations({
-    farm_id,
     groupBy: 'figure_and_type',
   });
   const { locations: externalLocations, isLoading: isLoadingExternalLocations } =

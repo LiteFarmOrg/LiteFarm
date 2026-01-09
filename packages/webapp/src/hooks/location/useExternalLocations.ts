@@ -30,29 +30,29 @@ import {
 const allLocationTypes = Object.values(ExternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
 
-type UseExternalLocationPropsWithFilterBy = UseLocationsPropsWithFilterBy<ExternalMapLocationType>;
-type UseExternalLocationPropsWithGroupBy = UseLocationsPropsWithGroupBy;
+type UseExternalLocationsPropsWithFilterBy = UseLocationsPropsWithFilterBy<ExternalMapLocationType>;
+
 type UseExternalLocationProps =
-  | UseExternalLocationPropsWithFilterBy
-  | UseExternalLocationPropsWithGroupBy;
+  | UseExternalLocationsPropsWithFilterBy
+  | UseLocationsPropsWithGroupBy;
 
 // Function overloads to correctly infer types based on props
 function useExternalLocations(
-  props: UseExternalLocationPropsWithFilterBy & { filterBy: ExternalMapLocationType | FigureType },
+  props: UseExternalLocationsPropsWithFilterBy & { filterBy: ExternalMapLocationType | FigureType },
 ): UseLocationsReturn<ExternalMapLocation[] | undefined>;
 
 function useExternalLocations(
-  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },
+  props: UseLocationsPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },
 ): UseLocationsReturn<
   LocationsGroupedByType<ExternalMapLocationType, ExternalMapLocation> | undefined
 >;
 
 function useExternalLocations(
-  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE },
+  props: UseLocationsPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE },
 ): UseLocationsReturn<LocationsGroupedByFigure<ExternalMapLocation> | undefined>;
 
 function useExternalLocations(
-  props: UseExternalLocationPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE_AND_TYPE },
+  props: UseLocationsPropsWithGroupBy & { groupBy: GroupByOptions.FIGURE_AND_TYPE },
 ): UseLocationsReturn<
   LocationsGroupedByFigureAndType<ExternalMapLocationType, ExternalMapLocation> | undefined
 >;

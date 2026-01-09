@@ -131,7 +131,7 @@ function TAPEResults() {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => ` ${context.label}: ${context.parsed.r} %`,
+          label: (context: any) => ` ${context.label}: ${context.parsed.r}%`,
         },
       },
     },

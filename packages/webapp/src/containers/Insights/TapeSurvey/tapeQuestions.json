@@ -47,7 +47,7 @@
         {
           "type": "text",
           "name": "country",
-          "title": "Select your country:"
+          "title": "Country:"
         },
         {
           "type": "text",

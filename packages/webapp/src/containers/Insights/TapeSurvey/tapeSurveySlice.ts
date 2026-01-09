@@ -61,7 +61,8 @@ export default tapeSurveySlice.reducer;
 
 // Selectors
 export const tapeSurveySelector = (state: any) =>
-  state.entitiesReducer[tapeSurveySlice.name] || initialState;
+  // TODO: re-evaluate placement of tapeSurveySlice in farmStateReducer when adding backend
+  state.farmStateReducer[tapeSurveySlice.name] || initialState;
 
 export const tapeSurveyStatusSelector = createSelector([tapeSurveySelector], (tapeSurvey) => ({
   isCompleted: tapeSurvey.isCompleted,

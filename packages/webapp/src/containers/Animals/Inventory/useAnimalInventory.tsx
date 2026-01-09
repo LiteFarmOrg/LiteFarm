@@ -38,10 +38,8 @@ import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
-import { useSelector } from 'react-redux';
-import { locationsSelector } from '../../locationSlice';
-import { Location } from '../../../types';
 import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
+import useLocations from '../../../hooks/location/useLocations';
 
 export type AnimalInventoryItem = {
   id: string;
@@ -278,7 +276,7 @@ export const buildInventory = ({
 };
 
 const useAnimalInventory = (showRemoved = false) => {
-  const { data, isLoading } = useQueries([
+  const { data, isLoading: isLoadingAnimalsData } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
     { label: 'customAnimalBreeds', hook: useGetCustomAnimalBreedsQuery },
@@ -297,11 +295,13 @@ const useAnimalInventory = (showRemoved = false) => {
     defaultAnimalTypes,
   } = data;
 
-  const locations: Location[] = useSelector(locationsSelector);
+  const { locations, isLoading: isLoadingLocations } = useLocations();
   const locationsMap = locations?.reduce(
     (map, { location_id, name }) => ({ ...map, [location_id]: name }),
     {},
   );
+
+  const isLoading = isLoadingAnimalsData || isLoadingLocations;
 
   const inventory = useMemo(() => {
     if (isLoading) {

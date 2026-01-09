@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
@@ -23,21 +23,37 @@ interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object
   onComplete: (surveyData: any) => void;
   initialData?: Record<string, any>;
+  initialPageNo?: number;
+  onCurrentPageChanged?: (currentPageNo: number, surveyData: Record<string, any>) => void;
+  onValueChanged?: (currentPageNo: number, surveyData: Record<string, any>) => void;
 }
 
 export default function SurveyComponent({
   surveyJson,
   onComplete,
   initialData,
+  initialPageNo = 0,
+  onCurrentPageChanged,
+  onValueChanged,
 }: SurveyComponentProps) {
-  const survey = new Model(surveyJson);
+  // Memoize to create the survey model only once, even as saved data changes and component re-renders
+  const survey = useMemo(() => {
+    const model = new Model(surveyJson);
 
-  survey.applyTheme(DefaultLight);
+    model.applyTheme(DefaultLight);
 
-  // Set initial data if provided
-  if (initialData) {
-    survey.data = initialData;
-  }
+    // Set initial data if provided
+    if (initialData) {
+      model.data = initialData;
+    }
+
+    // Set initial page if provided
+    if (initialPageNo > 0) {
+      model.currentPageNo = initialPageNo;
+    }
+
+    return model;
+  }, [surveyJson]);
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(
@@ -48,7 +64,33 @@ export default function SurveyComponent({
     [onComplete],
   );
 
+  const handleCurrentPageChanged = useCallback(
+    (surveyModel: Model) => {
+      const currentPageNo = surveyModel.currentPageNo;
+      const surveyData = surveyModel.data;
+      onCurrentPageChanged?.(currentPageNo, surveyData);
+    },
+    [onCurrentPageChanged],
+  );
+
+  const handleValueChanged = useCallback(
+    (surveyModel: Model) => {
+      const currentPageNo = surveyModel.currentPageNo;
+      const surveyData = surveyModel.data;
+      onValueChanged?.(currentPageNo, surveyData);
+    },
+    [onValueChanged],
+  );
+
   survey.onComplete.add(handleComplete);
+
+  if (onCurrentPageChanged) {
+    survey.onCurrentPageChanged.add(handleCurrentPageChanged);
+  }
+
+  if (onValueChanged) {
+    survey.onValueChanged.add(handleValueChanged);
+  }
 
   return <Survey model={survey} />;
 }

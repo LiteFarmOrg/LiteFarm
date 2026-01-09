@@ -49,6 +49,7 @@ const tapeSurveySlice = createSlice({
     },
     reopenSurvey: (state) => {
       state.isCompleted = false;
+      state.currentPageNo = 0;
     },
     clearSurvey: () => initialState,
   },

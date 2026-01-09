@@ -208,11 +208,11 @@ const entitiesReducer = combineReducers({
   irrigationTaskReducer,
   irrigationTaskTypesReducer,
   revenueTypeReducer,
-  tapeSurveyReducer,
 });
 
 const farmStateReducer = combineReducers({
   notificationReducer,
+  tapeSurveyReducer,
 });
 
 const persistedStateReducer = combineReducers({

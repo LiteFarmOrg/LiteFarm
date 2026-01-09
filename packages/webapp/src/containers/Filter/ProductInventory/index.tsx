@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import FilterGroup from '../../../components/Filter/FilterGroup';
 import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
-import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
+import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/libraryApiSlice';
 import { InventoryFilterKeys } from './types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
 

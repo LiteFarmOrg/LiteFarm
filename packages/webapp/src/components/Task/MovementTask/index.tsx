@@ -21,7 +21,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import styles from './styles.module.scss';
-import { useGetAnimalMovementPurposesQuery } from '../../../store/api/apiSlice';
+import { useGetAnimalMovementPurposesQuery } from '../../../store/api/libraryApiSlice';
 import { AnimalMovementPurpose } from '../../../store/api/types';
 
 type PureMovementTaskProps = UseFormReturn & {

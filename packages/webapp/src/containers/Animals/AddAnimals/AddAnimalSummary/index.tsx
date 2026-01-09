@@ -17,12 +17,14 @@ import { useHistory } from 'react-router-dom';
 import { AddAnimalsSummaryCard } from '../../../../components/Animals/AddAnimalsSummaryCard';
 import { ANIMALS_INVENTORY_URL } from '../../../../util/siteMapConstants';
 import {
-  useGetAnimalSexesQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../../store/api/apiSlice';
+import {
+  useGetAnimalSexesQuery,
+  useGetDefaultAnimalBreedsQuery,
+} from '../../../../store/api/libraryApiSlice';
 import useQueries from '../../../../hooks/api/useQueries';
 import { formatDBAnimalsToSummary, formatDBBatchesToSummary } from '../../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../../store/api/types';

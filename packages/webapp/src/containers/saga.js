@@ -150,8 +150,7 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
-import { api, invalidateTags } from '../store/api/apiSlice';
-import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
+import { api, resetApiState } from '../store/api/apiSlice';
 import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
@@ -631,7 +630,7 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
-  yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
+  yield put(resetApiState());
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

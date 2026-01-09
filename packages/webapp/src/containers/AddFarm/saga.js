@@ -29,8 +29,7 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { invalidateTags } from '../../store/api/apiSlice';
-import { FarmLibraryTags, FarmTags } from '../../store/api/apiTags';
+import { resetApiState } from '../../store/api/apiSlice';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
@@ -62,7 +61,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
 
     // Clear old farm RTK Query data
-    yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
+    yield put(resetApiState());
 
     const user = getUserResult?.data;
     yield put(

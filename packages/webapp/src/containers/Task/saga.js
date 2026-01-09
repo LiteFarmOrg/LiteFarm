@@ -107,7 +107,7 @@ import {
   getMovementTaskBody,
   getSoilSampleTaskBody,
 } from './sagaUtils';
-import { api } from '../../store/api/apiSlice';
+import { invalidateTags } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -665,7 +665,7 @@ export function* createTaskSaga({ payload }) {
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       if (task_translation_key === 'IRRIGATION_TASK') {
-        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+        yield put(invalidateTags(['IrrigationPrescriptions']));
       }
       if (alreadyCompleted) {
         if (['CLEANING_TASK', 'PEST_CONTROL_TASK'].includes(task_translation_key)) {
@@ -868,7 +868,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
       });
 
       if (task_translation_key === 'MOVEMENT_TASK') {
-        yield put(api.util.invalidateTags(['Animals', 'AnimalBatches']));
+        yield put(invalidateTags(['Animals', 'AnimalBatches']));
       }
     }
   } catch (e) {
@@ -1017,7 +1017,7 @@ export function* deleteTaskSaga({ payload: data }) {
       }
       yield put(deleteTaskSuccess(result.data));
       if (task_type.task_translation_key === 'IRRIGATION_TASK') {
-        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+        yield put(invalidateTags(['IrrigationPrescriptions']));
       }
       yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
     }

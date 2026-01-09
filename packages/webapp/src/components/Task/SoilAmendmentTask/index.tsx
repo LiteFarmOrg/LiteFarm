@@ -20,7 +20,7 @@ import {
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
-} from '../../../store/api/apiSlice';
+} from '../../../store/api/libraryApiSlice';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';

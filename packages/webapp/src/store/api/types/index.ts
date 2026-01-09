@@ -244,10 +244,7 @@ export interface Sensor {
   name: SensorTypes;
   label: string; // descriptive name provided by Ensemble
   external_id: string; // esid
-  point: {
-    lat: number;
-    lng: number;
-  };
+  point: GridPoint;
   depth: number;
   depth_unit: 'cm';
   last_seen: string;
@@ -260,10 +257,7 @@ export interface SensorArray {
   label: string; // descriptive name provided by Ensemble
   system: string; // descriptive name for the irrigation system
   sensors: Sensor['external_id'][];
-  point: {
-    lat: number;
-    lng: number;
-  };
+  point: GridPoint;
   location_id: string; // backwards compatibility only
 }
 
@@ -337,7 +331,7 @@ export type IrrigationPrescriptionDetails = {
   system_id: string;
 
   pivot: {
-    center: { lat: number; lng: number };
+    center: GridPoint;
     radius: number; // in meters
     arc?: {
       start_angle: number; // in mathematical degrees (0 = east, 90 = north, etc.)

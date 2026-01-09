@@ -17,33 +17,25 @@ import { booleanPointInPolygon } from '@turf/boolean-point-in-polygon';
 import { point, polygon } from '@turf/helpers';
 import { centroid } from '@turf/centroid';
 import { sector } from '@turf/sector';
+import { FlattenedInternalArea } from '../hooks/location/types';
+import { Point as ApiPoint, GridPoint } from '../store/api/types';
 
-export interface Point {
-  lat: number;
-  lng: number;
-}
+export type Point = GridPoint;
 
-export interface PointLocation {
-  point: Point;
-}
-
-export interface AreaLocation {
-  grid_points: Point[];
-  [key: string]: any;
-}
+export type PointLocation = ApiPoint;
 
 // turf expects [lng, lat] for all points and polygon coordinates
 type TurfPoint = [lng: number, lat: number];
 
 export const getAreaLocationsContainingPoint = (
-  areaLocations: AreaLocation[],
+  areaLocations: FlattenedInternalArea[],
   pt: Point,
-): AreaLocation[] => {
+): FlattenedInternalArea[] => {
   if (!areaLocations.length) {
     return [];
   }
 
-  const filteredAreas: AreaLocation[] = [];
+  const filteredAreas: FlattenedInternalArea[] = [];
 
   const locationPoint = safeCreatePoint([pt.lng, pt.lat]);
 

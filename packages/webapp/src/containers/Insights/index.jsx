@@ -34,6 +34,7 @@ import {
   pricesSelector,
   soilOMSelector,
 } from './selectors';
+import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
@@ -43,6 +44,7 @@ import { Semibold, Text, Title } from '../../components/Typography';
 const Insights = () => {
   const history = useHistory();
   const farm = useSelector(userFarmSelector);
+  const tapeStatus = useSelector(tapeSurveyStatusSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
@@ -56,7 +58,7 @@ const Insights = () => {
     {
       label: t('INSIGHTS.TAPE.TITLE'),
       image: tape_survey,
-      route: 'tape',
+      route: tapeStatus.isCompleted ? 'tape/results' : 'tape',
       data_point: 'TAPE',
     },
     {
@@ -122,7 +124,11 @@ const Insights = () => {
 
   const insightData = useMemo(() => {
     const insightData = {};
-    insightData['TAPE'] = t('INSIGHTS.NOT_FILLED');
+    insightData['TAPE'] = tapeStatus.isCompleted
+      ? t('INSIGHTS.TAPE.COMPLETED')
+      : tapeStatus.hasData
+        ? t('INSIGHTS.TAPE.IN_PROGRESS')
+        : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -132,7 +138,7 @@ const Insights = () => {
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');
     return insightData;
-  }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
+  }, [tapeStatus, soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
   const renderedItems = useMemo(() => {
     return (

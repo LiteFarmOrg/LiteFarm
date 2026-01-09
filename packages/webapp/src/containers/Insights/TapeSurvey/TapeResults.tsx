@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
@@ -26,7 +26,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { tapeSurveyDataSelector } from './tapeSurveySlice';
+import { tapeSurveyDataSelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Main, Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
@@ -95,6 +95,7 @@ interface TAPEDimension {
 function TAPEResults() {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const surveyData = useSelector(tapeSurveyDataSelector);
 
@@ -143,6 +144,7 @@ function TAPEResults() {
   };
 
   const returnToSurvey = () => {
+    dispatch(reopenSurvey());
     history.push('/insights/tape');
   };
 

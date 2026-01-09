@@ -43,11 +43,15 @@ const tapeSurveySlice = createSlice({
       state.surveyData = action.payload;
       state.isCompleted = true;
     },
+    reopenSurvey: (state) => {
+      state.isCompleted = false;
+    },
     clearSurvey: () => initialState,
   },
 });
 
-export const { saveSurveyProgress, completeSurvey, clearSurvey } = tapeSurveySlice.actions;
+export const { saveSurveyProgress, completeSurvey, reopenSurvey, clearSurvey } =
+  tapeSurveySlice.actions;
 export default tapeSurveySlice.reducer;
 
 // Selectors

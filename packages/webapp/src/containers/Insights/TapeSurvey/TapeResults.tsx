@@ -158,12 +158,10 @@ function TAPEResults() {
         </Button>
       </div>
       <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
-      {tapeData && tapeData.length > 0 ? (
+      {tapeData && tapeData.length > 0 && (
         <div className={styles.chartContainer}>
           <Radar data={chartData} options={options} />
         </div>
-      ) : (
-        <Main className={styles.titleText}>{t('INSIGHTS.TAPE.NO_RESULTS')}</Main>
       )}
     </>
   );

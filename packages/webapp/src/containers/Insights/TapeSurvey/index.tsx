@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -38,14 +39,14 @@ function TAPESurvey() {
 
   const initialData = { ...prepopulatedData, ...savedData };
 
-  const handleDataChange = (currentPageNo: number, surveyData: Record<string, any>) => {
+  const handleDataChange = useCallback((currentPageNo: number, surveyData: Record<string, any>) => {
     dispatch(saveSurveyProgress({ currentPageNo, surveyData }));
-  };
+  }, []);
 
-  const handleComplete = (currentPageNo: number, surveyData: any) => {
+  const handleComplete = useCallback((currentPageNo: number, surveyData: any) => {
     dispatch(completeSurvey({ currentPageNo, surveyData }));
     history.push('/insights/tape/results');
-  };
+  }, []);
 
   return (
     <>

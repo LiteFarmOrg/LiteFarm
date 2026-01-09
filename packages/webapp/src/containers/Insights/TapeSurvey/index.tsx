@@ -42,8 +42,8 @@ function TAPESurvey() {
     dispatch(saveSurveyProgress({ currentPageNo, surveyData }));
   };
 
-  const handleComplete = (surveyData: any) => {
-    dispatch(completeSurvey(surveyData));
+  const handleComplete = (currentPageNo: number, surveyData: any) => {
+    dispatch(completeSurvey({ currentPageNo, surveyData }));
     history.push('/insights/tape/results');
   };
 

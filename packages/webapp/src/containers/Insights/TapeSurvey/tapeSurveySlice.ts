@@ -39,9 +39,13 @@ const tapeSurveySlice = createSlice({
       state.currentPageNo = action.payload.currentPageNo;
       state.surveyData = { ...state.surveyData, ...action.payload.surveyData };
     },
-    completeSurvey: (state, action: PayloadAction<Record<string, any>>) => {
+    completeSurvey: (
+      state,
+      action: PayloadAction<{ currentPageNo: number; surveyData: Record<string, any> }>,
+    ) => {
       debugger;
-      state.surveyData = action.payload;
+      state.currentPageNo = action.payload.currentPageNo;
+      state.surveyData = action.payload.surveyData;
       state.isCompleted = true;
     },
     reopenSurvey: (state) => {

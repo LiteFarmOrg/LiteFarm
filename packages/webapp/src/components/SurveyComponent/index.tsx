@@ -21,12 +21,17 @@ import 'survey-core/survey-core.css';
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object
-  onComplete: (surveyData: any) => void;
+  onComplete: (currentPageNo: number, surveyData: any) => void;
   initialData?: Record<string, any>;
   initialPageNo?: number;
   onCurrentPageChanged?: (currentPageNo: number, surveyData: Record<string, any>) => void;
   onValueChanged?: (currentPageNo: number, surveyData: Record<string, any>) => void;
 }
+
+const extractSurveyState = (model: Model) => ({
+  currentPageNo: model.currentPageNo,
+  surveyData: model.data,
+});
 
 export default function SurveyComponent({
   surveyJson,
@@ -58,16 +63,15 @@ export default function SurveyComponent({
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(
     (surveyModel: Model) => {
-      const surveyData = surveyModel.data;
-      onComplete(surveyData);
+      const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
+      onComplete(currentPageNo, surveyData);
     },
     [onComplete],
   );
 
   const handleCurrentPageChanged = useCallback(
     (surveyModel: Model) => {
-      const currentPageNo = surveyModel.currentPageNo;
-      const surveyData = surveyModel.data;
+      const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
       onCurrentPageChanged?.(currentPageNo, surveyData);
     },
     [onCurrentPageChanged],
@@ -75,8 +79,7 @@ export default function SurveyComponent({
 
   const handleValueChanged = useCallback(
     (surveyModel: Model) => {
-      const currentPageNo = surveyModel.currentPageNo;
-      const surveyData = surveyModel.data;
+      const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
       onValueChanged?.(currentPageNo, surveyData);
     },
     [onValueChanged],

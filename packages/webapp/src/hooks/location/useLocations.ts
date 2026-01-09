@@ -133,7 +133,6 @@ function useLocations<T extends InternalMapLocationType>(
   props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
 ): UseLocationsReturn<FlattenedMapLocationByType[T][] | undefined>;
 
-// 2. Filter by specific figure type → narrow to union of that geometry
 function useLocations<T extends FigureType>(
   props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
 ): UseLocationsReturn<FigureTypeToFlattened[T][] | undefined>;
@@ -154,7 +153,11 @@ function useLocations(
   LocationsGroupedByFigureAndType<InternalMapLocationType, FlattenedInternalMapLocation> | undefined
 >;
 
-function useLocations({ filterBy, groupBy }: UseInternalLocationProps): any {
+function useLocations(
+  props?: undefined,
+): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined>;
+
+function useLocations({ filterBy, groupBy }: UseInternalLocationProps = {}): any {
   const { data: locations, isLoading } = useGetLocationsQuery();
 
   if (isLoading) {

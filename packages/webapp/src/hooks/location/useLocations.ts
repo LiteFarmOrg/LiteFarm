@@ -16,7 +16,9 @@
 import { useGetLocationsQuery } from '../../store/api/locationApi';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import {
+  FigureTypeToFlattened,
   FlattenedInternalMapLocation,
+  FlattenedMapLocationByType,
   GroupByOptions,
   LocationsGroupedByFigure,
   LocationsGroupedByFigureAndType,
@@ -127,9 +129,14 @@ type UseInternalLocationProps =
   | UseLocationsPropsWithGroupBy;
 
 // Function overloads to correctly infer types based on props
-function useLocations(
-  props: UseInternalLocationsPropsWithFilterBy & { filterBy: InternalMapLocationType | FigureType },
-): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined>;
+function useLocations<T extends InternalMapLocationType>(
+  props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<FlattenedMapLocationByType[T][] | undefined>;
+
+// 2. Filter by specific figure type → narrow to union of that geometry
+function useLocations<T extends FigureType>(
+  props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<FigureTypeToFlattened[T][] | undefined>;
 
 function useLocations(
   props: UseLocationsPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },

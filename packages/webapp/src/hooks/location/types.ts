@@ -83,23 +83,52 @@ export type FlattenedWaterValve = WithLocationId<Location> &
   FlattenedFigureWithType<FigureType.POINT> &
   WaterValveDetails;
 
-export type FlattenedInternalMapLocation =
+export type FlattenedInternalArea =
   | FlattenedBarn
-  | FlattenedBufferZone
   | FlattenedCeremonialArea
   | FlattenedFarmSiteBoundary
-  | FlattenedFence
   | FlattenedField
   | FlattenedGarden
-  | FlattenedGate
   | FlattenedGreenhouse
   | FlattenedNaturalArea
   | FlattenedResidence
+  | FlattenedSurfaceWater;
+
+export type FlattenedInternalLine = FlattenedBufferZone | FlattenedFence | FlattenedWatercourse;
+
+export type FlattenedInternalPoint =
+  | FlattenedGate
   | FlattenedSoilSampleLocation
-  | FlattenedSurfaceWater
-  | FlattenedWatercourse
   | FlattenedWaterValve;
 
+export type FlattenedInternalMapLocation =
+  | FlattenedInternalArea
+  | FlattenedInternalLine
+  | FlattenedInternalPoint;
+
+export type FigureTypeToFlattened = {
+  [FigureType.AREA]: FlattenedInternalArea;
+  [FigureType.LINE]: FlattenedInternalLine;
+  [FigureType.POINT]: FlattenedInternalPoint;
+};
+
+export type FlattenedMapLocationByType = {
+  [InternalMapLocationType.BARN]: FlattenedBarn;
+  [InternalMapLocationType.CEREMONIAL_AREA]: FlattenedCeremonialArea;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: FlattenedFarmSiteBoundary;
+  [InternalMapLocationType.FIELD]: FlattenedField;
+  [InternalMapLocationType.GARDEN]: FlattenedGarden;
+  [InternalMapLocationType.GREENHOUSE]: FlattenedGreenhouse;
+  [InternalMapLocationType.NATURAL_AREA]: FlattenedNaturalArea;
+  [InternalMapLocationType.RESIDENCE]: FlattenedResidence;
+  [InternalMapLocationType.SURFACE_WATER]: FlattenedSurfaceWater;
+  [InternalMapLocationType.BUFFER_ZONE]: FlattenedBufferZone;
+  [InternalMapLocationType.FENCE]: FlattenedFence;
+  [InternalMapLocationType.WATERCOURSE]: FlattenedWatercourse;
+  [InternalMapLocationType.GATE]: FlattenedGate;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: FlattenedSoilSampleLocation;
+  [InternalMapLocationType.WATER_VALVE]: FlattenedWaterValve;
+};
 // External Locations
 export enum ExternalMapLocationType {
   SENSOR = 'sensor',

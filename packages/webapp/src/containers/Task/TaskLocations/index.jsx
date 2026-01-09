@@ -12,7 +12,6 @@ import {
   animalLocationsSelector,
   cropLocationEntitiesSelector,
   cropLocationsSelector,
-  locationsSelector,
 } from '../../locationSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
@@ -26,6 +25,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
+import useLocations from '../../../hooks/location/useLocations';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -197,7 +197,7 @@ function TaskSoilSampleLocations({ history, location }) {
 
 function TaskCustomLocations({ history, location }) {
   const dispatch = useDispatch();
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
@@ -237,7 +237,7 @@ function TaskCustomLocations({ history, location }) {
 
 function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();

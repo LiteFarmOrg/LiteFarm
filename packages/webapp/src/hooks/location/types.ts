@@ -130,15 +130,12 @@ export enum GroupByOptions {
 
 type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
 
-export type UseLocationsPropsWithFilterBy<
-  AvailableLocationTypes extends MapLocationType,
-  HookProps = {},
-> = HookProps & {
+export type UseLocationsPropsWithFilterBy<AvailableLocationTypes extends MapLocationType> = {
   filterBy?: AvailableLocationTypes | FigureType;
   groupBy?: never;
 };
 
-export type UseLocationsPropsWithGroupBy<HookProps = {}> = HookProps & {
+export type UseLocationsPropsWithGroupBy = {
   filterBy?: never;
   groupBy?: GroupByOptions;
 };

@@ -16,14 +16,23 @@
 import { api } from './apiSlice';
 import { checkDeleteLocationUrl, getLocationsByFarmIdUrl, locationURL } from '../../apiConfig';
 import { InternalMapLocation, InternalMapLocationType, WithLocationId } from './types';
+import { RootState } from '../store';
 
 export const locations = api.injectEndpoints({
   endpoints: (build) => ({
-    getLocations: build.query<InternalMapLocation[], { farm_id: string }>({
-      query: ({ farm_id }) => ({
-        url: `${getLocationsByFarmIdUrl(farm_id)}`,
-        method: 'GET',
-      }),
+    getLocations: build.query<InternalMapLocation[], void>({
+      queryFn: async (_arg, { getState }, _extraOptions, baseQuery) => {
+        const state = getState() as RootState;
+        const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+        const result = await baseQuery({
+          url: `${getLocationsByFarmIdUrl(farm_id)}`,
+          method: 'GET',
+        });
+        if (result.error) {
+          return { error: result.error };
+        }
+        return { data: result.data as InternalMapLocation[] };
+      },
       providesTags: ['Locations'],
     }),
     checkDeleteLocation: build.mutation<void, WithLocationId>({

@@ -21,14 +21,9 @@ import { FigureType } from '../../store/api/types';
 
 const DEFAULT_FILTER_SETTINGS = MAP_LOCATION_TYPE_BY_FIGURE;
 
-type UseAvailableFilterSettingsProps = {
-  farm_id: string;
-};
-
 // From map filter setting slice -- map utils insteasd of hooks?
-const useAvailableFilterSettings = ({ farm_id }: UseAvailableFilterSettingsProps) => {
+const useAvailableFilterSettings = () => {
   const { locations: internalLocations, isLoading: isLoadingInternalLocations } = useLocations({
-    farm_id,
     groupBy: GroupByOptions.FIGURE_AND_TYPE,
   });
   const { locations: externalLocations, isLoading: isLoadingExternalLocations } =

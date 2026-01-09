@@ -17,6 +17,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
 import { saveSurveyProgress, completeSurvey, tapeSurveySelector } from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import surveyJson from './tapeQuestions.json';
@@ -27,13 +28,7 @@ function TAPESurvey() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  // TODO LF-5109: Prepare prepopulated data
-  const prepopulatedData = {
-    // Country
-    // Lat / Lng
-    // Do you raise animals
-    // Number of unique species in crop management plans
-  };
+  const { prepopulatedData, isLoading } = useTapeSurveyPrepopulatedData();
 
   const { surveyData: savedData, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
 
@@ -51,13 +46,15 @@ function TAPESurvey() {
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-      <SurveyComponent
-        surveyJson={surveyJson}
-        onComplete={handleComplete}
-        onValueChanged={handleDataChange}
-        initialData={initialData}
-        initialPageNo={savedPageNo}
-      />
+      {!isLoading && ( // wait for prepopulated data to load
+        <SurveyComponent
+          surveyJson={surveyJson}
+          onComplete={handleComplete}
+          onValueChanged={handleDataChange}
+          initialData={initialData}
+          initialPageNo={savedPageNo}
+        />
+      )}
     </>
   );
 }

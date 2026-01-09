@@ -14,7 +14,6 @@ export function useMaxZoom() {
     dispatch(setMapCache({ maxZoom, farm_id }));
   };
   const { locations: internalPoints } = useLocations({
-    farm_id,
     filterBy: 'point',
   });
   const { locations: externalPoints } = useExternalLocations({ filterBy: 'point' });

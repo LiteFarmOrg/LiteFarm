@@ -373,7 +373,7 @@ export default function Map({ isCompactSideMenu }) {
     }
   };
 
-  const availableFilterSettings = useAvailableFilterSettings({ farm_id });
+  const availableFilterSettings = useAvailableFilterSettings();
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);

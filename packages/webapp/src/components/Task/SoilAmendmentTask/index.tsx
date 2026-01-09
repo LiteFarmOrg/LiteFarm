@@ -14,7 +14,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
 import {
   useGetSoilAmendmentMethodsQuery,
@@ -28,10 +27,11 @@ import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
 import { MolecularCompound, Nutrients, TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
-import type { SoilAmendmentProduct } from '../../../store/api/types';
+import type { SoilAmendmentProduct, WithLocationId } from '../../../store/api/types';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
-import { locationsSelector } from '../../../containers/locationSlice';
+import useLocationsById from '../../../hooks/location/useLocationsById';
+import { FlattenedInternalArea } from '../../../hooks/location/types';
 
 // Return products in inventory plus removed ones already used in the task.
 const getAvailableProducts = (
@@ -46,10 +46,10 @@ type PureSoilAmendmentTaskProps = UseFormReturn &
   Pick<ProductCardProps, 'farm' | 'system' | 'products'> & {
     disabled: boolean;
     task?: {
-      locations: { location_id: number }[];
+      locations: FlattenedInternalArea[];
       soil_amendment_task_products: SoilAmendmentProduct[];
     };
-    locations: { location_id: number }[];
+    locations: WithLocationId[];
   };
 
 export const hasNoValue = (
@@ -79,9 +79,7 @@ const PureSoilAmendmentTask = ({
 
   const { task, locations: propLocations } = props;
   const taskLocationIds = (task?.locations || propLocations)?.map(({ location_id }) => location_id);
-  const locations = useSelector(locationsSelector).filter(({ location_id }) =>
-    taskLocationIds?.includes(location_id),
-  );
+  const { locations = [] } = useLocationsById<FlattenedInternalArea>(taskLocationIds);
 
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
   const { data: purposes = [] } = useGetSoilAmendmentPurposesQuery();

@@ -475,7 +475,7 @@ export default function Map({ isCompactSideMenu }) {
                   center={grid_points}
                   defaultZoom={DEFAULT_ZOOM}
                   yesIWantToUseGoogleMapApiInternals
-                  onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+                  onGoogleApiLoaded={handleGoogleMapApi}
                   options={getMapOptions}
                 />
               </div>

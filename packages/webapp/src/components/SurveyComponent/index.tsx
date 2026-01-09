@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
@@ -85,15 +85,29 @@ export default function SurveyComponent({
     [onValueChanged],
   );
 
-  survey.onComplete.add(handleComplete);
+  useEffect(() => {
+    survey.onComplete.add(handleComplete);
 
-  if (onCurrentPageChanged) {
-    survey.onCurrentPageChanged.add(handleCurrentPageChanged);
-  }
+    if (onCurrentPageChanged) {
+      survey.onCurrentPageChanged.add(handleCurrentPageChanged);
+    }
 
-  if (onValueChanged) {
-    survey.onValueChanged.add(handleValueChanged);
-  }
+    if (onValueChanged) {
+      survey.onValueChanged.add(handleValueChanged);
+    }
+
+    return () => {
+      survey.onComplete.remove(handleComplete);
+
+      if (onCurrentPageChanged) {
+        survey.onCurrentPageChanged.remove(handleCurrentPageChanged);
+      }
+
+      if (onValueChanged) {
+        survey.onValueChanged.remove(handleValueChanged);
+      }
+    };
+  }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
 
   return <Survey model={survey} />;
 }

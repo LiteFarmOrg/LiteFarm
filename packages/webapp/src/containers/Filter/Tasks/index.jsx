@@ -38,17 +38,16 @@ import {
 } from '../constants';
 
 import { tasksSelector } from '../../taskSlice';
-import { locationsSelector } from '../../locationSlice';
 import { getSupportedTaskTypesSet } from '../../../components/Task/getSupportedTaskTypesSet';
-import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 import { FilterType } from '../../../components/Filter/types';
+import useLocations from '../../../hooks/location/useLocations';
 
 const TasksFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter', 'task']);
   const tasksFilter = useSelector(tasksFilterSelector);
   const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
   const activeUsers = useSelector(userFarmsByFarmSelector).filter(
     (user) => user.status !== 'Inactive',
   );

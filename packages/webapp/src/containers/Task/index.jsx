@@ -45,11 +45,11 @@ import TaskCount from '../../components/Task/TaskCount';
 import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
-import { locationsSelector } from '../locationSlice';
 import Drawer from '../../components/Drawer';
 import FloatingActionButton from '../../components/Button/FloatingActionButton';
 import styles from './styles.module.scss';
 import LocationCreationModal from '../../components/LocationCreationModal';
+import useLocations from '../../hooks/location/useLocations';
 
 export default function TaskPage() {
   const history = useHistory();
@@ -63,7 +63,7 @@ export default function TaskPage() {
   );
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
 
   const tasksFilter = useSelector(tasksFilterSelector);
   const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('tasks'));

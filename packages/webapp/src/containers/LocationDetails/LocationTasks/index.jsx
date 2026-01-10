@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { locationByIdSelector } from '../../locationSlice';
 import PureLocationTasks from '../../../components/LocationTasks';
 import useLocationTasks from './useLocationTasks';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 import { onAddTask } from '../../Task/onAddTask';
+import useLocationsById from '../../../hooks/location/useLocationsById';
 
 export default function LocationTasks() {
   const history = useHistory();
@@ -14,7 +14,7 @@ export default function LocationTasks() {
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
-  const location = useSelector(locationByIdSelector(location_id));
+  const { locations: location } = useLocationsById(location_id);
   const routerTabs = useLocationRouterTabs(location);
 
   useEffect(() => {

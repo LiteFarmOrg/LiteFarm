@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
-import { locationByIdSelector } from '../../locationSlice';
 import PureLocationIrrigation from '../../../components/LocationIrrigation';
 import useIrrigationPrescriptions from './useIrrigationPrescriptions';
 import useLocationRouterTabs from '../useLocationRouterTabs';
@@ -22,6 +20,7 @@ import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
+import useLocationsById from '../../../hooks/location/useLocationsById';
 
 function LocationIrrigation() {
   const history = useHistory();
@@ -29,7 +28,7 @@ function LocationIrrigation() {
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
 
   const { location_id } = useParams<{ location_id: string }>();
-  const location = useSelector(locationByIdSelector(location_id));
+  const { locations: location } = useLocationsById(location_id);
 
   useEffect(() => {
     if (location === undefined) {

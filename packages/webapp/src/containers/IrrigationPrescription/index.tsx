@@ -20,7 +20,6 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import styles from './styles.module.scss';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../store/api/apiSlice';
-import { locationByIdSelector } from '../locationSlice';
 import { measurementSelector } from '../userFarmSlice';
 import { DateInput } from '../../components/Inputs/DateTime';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription';
@@ -31,8 +30,9 @@ import IrrigationPrescriptionKPI from '../../components/IrrigationPrescriptionKP
 import CardLayout from '../../components/Layout/CardLayout';
 import PageTitle from '../../components/PageTitle/v2';
 import Spinner from '../../components/Spinner';
-import type { Location } from '../../types';
 import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
+import useLocationsById from '../../hooks/location/useLocationsById';
+import { FlattenedField } from '../../hooks/location/types';
 
 interface IrrigationPrescriptionProps {
   isCompactSideMenu: boolean;
@@ -65,9 +65,8 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
   }, [isLoading, irrigationPrescription]);
 
   const onApprove = useApproveIrrigationPrescription(history, irrigationPrescription);
-
-  const fieldLocation: Location | undefined = useSelector(
-    locationByIdSelector(irrigationPrescription?.location_id ?? ''),
+  const { locations: fieldLocation } = useLocationsById<FlattenedField>(
+    irrigationPrescription?.location_id,
   );
 
   if (isLoading) {

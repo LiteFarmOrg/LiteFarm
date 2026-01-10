@@ -9,10 +9,9 @@ import LineDetails from './LineDetails/LineDetails';
 import PointDetails from './PointDetails/PointDetails';
 import RouterTab from '../RouterTab';
 import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
-import { useSelector } from 'react-redux';
-import { locationByIdSelector } from '../../containers/locationSlice';
 import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
+import useLocationsById from '../../hooks/location/useLocationsById';
 
 export function PureLocationDetailLayout({
   history,
@@ -51,8 +50,9 @@ export function PureLocationDetailLayout({
 
   // TODO: Move this up to container when just 1 container exists for locations
   const { location_id } = match.params;
-  const location =
-    isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
+  const { locations: locationById } = useLocationsById(location_id);
+  const location = isViewLocationPage && location_id && locationById;
+
   const routerTabs = location && useLocationRouterTabs(location);
 
   const details = useMemo(() => {

@@ -316,22 +316,6 @@ export const animalLocationsSelector = createSelector(
   },
 );
 
-export const locationsSelector = createSelector(
-  [areaSelector, lineSelector, pointSelector],
-  (areas, lines, points) => {
-    const locationAssetMaps = { ...areas, ...lines, ...points };
-    return Object.keys(locationAssetMaps).reduce(
-      (allLocations, locationType) => allLocations.concat(locationAssetMaps[locationType]),
-      [],
-    );
-  },
-);
-
-export const locationByIdSelector = (location_id) =>
-  createSelector(locationsSelector, (entities) =>
-    entities.find((entity) => entity.location_id === location_id),
-  );
-
 export const locationEntitiesSelector = createSelector(
   [
     barnEntitiesSelector,

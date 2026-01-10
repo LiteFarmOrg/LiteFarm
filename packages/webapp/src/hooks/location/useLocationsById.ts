@@ -18,24 +18,32 @@ import useLocations from './useLocations';
 
 // Function overrides for correct return type inference
 function useLocationsById<T extends FlattenedInternalMapLocation>(
-  locationIds: T['location_id'][],
+  locationIds?: T['location_id'],
+): UseLocationsReturn<T | undefined>;
+
+function useLocationsById<T extends FlattenedInternalMapLocation>(
+  locationIds?: T['location_id'][],
 ): UseLocationsReturn<T[] | undefined>;
 
-// Implementation stays the same
 function useLocationsById(
-  locationIds: FlattenedInternalMapLocation['location_id'][],
-): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined> {
+  locationIds?:
+    | FlattenedInternalMapLocation['location_id'][]
+    | FlattenedInternalMapLocation['location_id'],
+): UseLocationsReturn<FlattenedInternalMapLocation[] | FlattenedInternalMapLocation | undefined> {
   const { locations, isLoading } = useLocations();
 
-  if (isLoading || !locations) {
+  if (isLoading || !locations || !locationIds) {
     return { locations, isLoading };
   }
 
   const filteredLocations = locations.filter(({ location_id }) =>
-    locationIds.includes(location_id),
+    Array.isArray(locationIds) ? locationIds.includes(location_id) : location_id === locationIds,
   );
 
-  return { locations: filteredLocations, isLoading };
+  return {
+    locations: Array.isArray(locationIds) ? filteredLocations : filteredLocations?.[0],
+    isLoading,
+  };
 }
 
 export default useLocationsById;

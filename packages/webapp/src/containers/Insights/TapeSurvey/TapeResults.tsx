@@ -127,6 +127,11 @@ function TAPEResults() {
         ticks: {
           stepSize: 20,
         },
+        pointLabels: {
+          font: {
+            size: 14,
+          },
+        },
       },
     },
     plugins: {

@@ -41,20 +41,24 @@ export default function SurveyComponent({
   onCurrentPageChanged,
   onValueChanged,
 }: SurveyComponentProps) {
+  console.time('survey');
   // Memoize to create the survey model only once, even as saved data changes and component re-renders
   const survey = useMemo(() => {
     const model = new Model(surveyJson);
+    console.log('survey model created');
 
     model.applyTheme(DefaultLight);
 
     // Set initial data if provided
     if (initialData) {
       model.data = initialData;
+      console.log('initial data changed');
     }
 
     // Set initial page if provided
     if (initialPageNo > 0) {
       model.currentPageNo = initialPageNo;
+      console.log('page nomber updated');
     }
 
     return model;
@@ -95,6 +99,7 @@ export default function SurveyComponent({
     if (onValueChanged) {
       survey.onValueChanged.add(handleValueChanged);
     }
+    console.log('listeners added');
 
     return () => {
       survey.onComplete.remove(handleComplete);
@@ -106,8 +111,10 @@ export default function SurveyComponent({
       if (onValueChanged) {
         survey.onValueChanged.remove(handleValueChanged);
       }
+      console.log('listeners destroyed');
     };
   }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
+  console.timeEnd('survey');
 
   return <Survey model={survey} />;
 }

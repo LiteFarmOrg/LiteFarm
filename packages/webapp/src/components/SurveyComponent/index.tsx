@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
-import { Model } from 'survey-core';
+import { useCallback, useEffect, useRef } from 'react';
+import { Model, SurveyModel } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
@@ -42,27 +42,26 @@ export default function SurveyComponent({
   onValueChanged,
 }: SurveyComponentProps) {
   console.time('survey');
-  // Memoize to create the survey model only once, even as saved data changes and component re-renders
-  const survey = useMemo(() => {
-    const model = new Model(surveyJson);
-    console.log('survey model created');
 
-    model.applyTheme(DefaultLight);
+  // Use Ref to create the survey model only once, even as saved data changes and component re-renders
+  const surveyRef = useRef<SurveyModel | null>(null);
+  if (surveyRef.current === null) {
+    surveyRef.current = new Model(surveyJson);
+    surveyRef.current.applyTheme(DefaultLight);
 
     // Set initial data if provided
     if (initialData) {
-      model.data = initialData;
+      surveyRef.current.data = initialData;
       console.log('initial data changed');
     }
-
-    // Set initial page if provided
     if (initialPageNo > 0) {
-      model.currentPageNo = initialPageNo;
-      console.log('page nomber updated');
+      surveyRef.current.currentPageNo = initialPageNo;
+      console.log('page nomber changed');
     }
+    console.log('new survey created!');
+  }
 
-    return model;
-  }, [surveyJson]);
+  const survey = surveyRef.current;
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(
@@ -99,7 +98,7 @@ export default function SurveyComponent({
     if (onValueChanged) {
       survey.onValueChanged.add(handleValueChanged);
     }
-    console.log('listeners added');
+    console.log('added listeners');
 
     return () => {
       survey.onComplete.remove(handleComplete);
@@ -111,7 +110,7 @@ export default function SurveyComponent({
       if (onValueChanged) {
         survey.onValueChanged.remove(handleValueChanged);
       }
-      console.log('listeners destroyed');
+      console.log('destroyed listeners');
     };
   }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
   console.timeEnd('survey');

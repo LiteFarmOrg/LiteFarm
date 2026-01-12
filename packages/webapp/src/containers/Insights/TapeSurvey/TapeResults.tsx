@@ -24,11 +24,10 @@ import {
   LineElement,
   Filler,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
-import { Main, Semibold } from '../../../components/Typography';
+import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import TapeQuestions from './tapeQuestions.json';
 import { roundToOne } from '../../../util/rounding';
@@ -84,7 +83,7 @@ const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) 
   return acc;
 }, []);
 
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
 interface TAPEDimension {
   dimension: string;
@@ -105,7 +104,6 @@ function TAPEResults() {
     labels: tapeData.map((d) => d.dimension),
     datasets: [
       {
-        label: 'Your Farm',
         data: tapeData.map((d) => roundToOne(d.score)),
         backgroundColor: CHART_FILL_COLOR,
         borderColor: CHART_COLOR,
@@ -132,9 +130,6 @@ function TAPEResults() {
       },
     },
     plugins: {
-      legend: {
-        position: 'top' as const,
-      },
       tooltip: {
         callbacks: {
           label: (context: any) => ` ${context.label}: ${context.parsed.r}%`,

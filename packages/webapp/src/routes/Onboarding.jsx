@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Switch } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -27,33 +27,29 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(
-  () =>
-    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-    ),
+const CertificationSelection = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+  ),
 );
 
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-    ),
+const CertifierSelectionMenu = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+  ),
 );
 
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-    ),
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+  ),
 );
 
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 function OnboardingFlow(props) {
@@ -180,35 +176,35 @@ const RequireCondition = ({
   }
 
   if (step_one && step_four && !step_five) {
-    return <Redirect to="/outro" />;
+    return <Navigate to="/outro" />;
   }
 
   if (step_one && step_three && !step_four) {
-    return <Redirect to="/certification/interested_in_organic" />;
+    return <Navigate to="/certification/interested_in_organic" />;
   }
 
   if (step_two && !step_three) {
-    return <Redirect to="/consent" />;
+    return <Navigate to="/consent" />;
   }
 
   if (step_one && !step_two) {
-    return <Redirect to="/role_selection" />;
+    return <Navigate to="/role_selection" />;
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
-    return <Redirect to="/welcome" />;
+    return <Navigate to="/welcome" />;
   }
 
   if (!farm_id && hasUserFarms) {
-    return <Redirect to="/farm_selection" />;
+    return <Navigate to="/farm_selection" />;
   }
 
   if (step_four && !has_consent) {
-    return <Redirect to="/consent" />;
+    return <Navigate to="/consent" />;
   }
 
   if (!step_one) {
-    return <Redirect to="/add_farm" />;
+    return <Navigate to="/add_farm" />;
   }
 
   return null;

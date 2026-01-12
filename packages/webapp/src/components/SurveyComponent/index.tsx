@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
-import { Model } from 'survey-core';
+import { useCallback, useEffect, useRef } from 'react';
+import { Model, SurveyModel } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
@@ -41,24 +41,23 @@ export default function SurveyComponent({
   onCurrentPageChanged,
   onValueChanged,
 }: SurveyComponentProps) {
-  // Memoize to create the survey model only once, even as saved data changes and component re-renders
-  const survey = useMemo(() => {
-    const model = new Model(surveyJson);
-
-    model.applyTheme(DefaultLight);
+  // Use Ref to create the survey model only once, even as saved data changes and component re-renders
+  const surveyRef = useRef<SurveyModel | null>(null);
+  if (surveyRef.current === null) {
+    surveyRef.current = new Model(surveyJson);
+    surveyRef.current.applyTheme(DefaultLight);
 
     // Set initial data if provided
     if (initialData) {
-      model.data = initialData;
+      surveyRef.current.data = initialData;
     }
-
-    // Set initial page if provided
+    // Set inital page if provided
     if (initialPageNo > 0) {
-      model.currentPageNo = initialPageNo;
+      surveyRef.current.currentPageNo = initialPageNo;
     }
+  }
 
-    return model;
-  }, [surveyJson]);
+  const survey = surveyRef.current;
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(

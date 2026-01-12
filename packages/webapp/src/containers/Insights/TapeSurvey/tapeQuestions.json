@@ -17,13 +17,6 @@
           "title": "I acknowledge that I have read and fully understand the Terms of Use.",
           "isRequired": true,
           "choices": ["No", "Yes"]
-        },
-        {
-          "type": "radiogroup",
-          "name": "consent_survey",
-          "title": "Do you consent to taking part in this survey?",
-          "isRequired": true,
-          "choices": ["No", "Yes"]
         }
       ]
     },
@@ -2065,6 +2058,12 @@
           ]
         }
       ]
+    }
+  ],
+  "triggers": [
+    {
+      "type": "complete",
+      "expression": "{consent_terms} = 'No'"
     }
   ],
   "showQuestionNumbers": "on",

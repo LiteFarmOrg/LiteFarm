@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router-dom';
 import PureWaterValve from '../../../../components/LocationDetailLayout/PointDetails/WaterValve';
 import { postWaterValveLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +6,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostWaterValveDetailForm() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +16,6 @@ function PostWaterValveDetailForm() {
 
   return (
     <PureWaterValve
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

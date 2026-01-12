@@ -14,7 +14,6 @@ import { truncateText } from '../../util';
 import Spinner from '../Spinner';
 
 export default function PureAddCropVariety({
-  match,
   onSubmit,
   onError,
   useHookFormPersist,
@@ -277,8 +276,6 @@ export default function PureAddCropVariety({
 }
 
 PureAddCropVariety.prototype = {
-  history: PropTypes.object,
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

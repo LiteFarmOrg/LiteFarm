@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
@@ -14,7 +14,6 @@ export default function PureTransplant({
   can_be_cover_crop,
   useHookFormPersist,
   persistedFormData,
-  match,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ export default function PureTransplant({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const variety_id = match?.params?.variety_id;
+  const { variety_id } = useParams();
   const { submitPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
     navigate(submitPath);
@@ -118,5 +117,4 @@ PureTransplant.prototype = {
   onCancel: PropTypes.func,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  match: PropTypes.object,
 };

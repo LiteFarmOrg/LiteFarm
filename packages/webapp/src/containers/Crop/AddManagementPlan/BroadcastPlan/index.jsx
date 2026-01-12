@@ -1,4 +1,4 @@
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useMatch, useParams } from 'react-router-dom';
 import PureBroadcastPlan from '../../../../components/Crop/BroadcastPlan';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -9,13 +9,12 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 
 function BroadcastPlan() {
   const location = useLocation();
-  const match = useRouteMatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const variety_id = match.params.variety_id;
+  const { variety_id } = useParams();
   const cropVariety = useSelector(cropVarietySelector(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
-  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/broadcast_method';
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/broadcast_method');
   const planLocation = useSelector(
     cropLocationByIdSelector(
       persistedFormData.crop_management_plan.planting_management_plans[

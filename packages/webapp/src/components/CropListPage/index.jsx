@@ -18,8 +18,6 @@ export default function PureCropList({
   activeCrops,
   pastCrops,
   plannedCrops,
-  history,
-  match,
   isAdmin,
   title,
   location,
@@ -41,7 +39,6 @@ export default function PureCropList({
       <PageTitle title={title} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        match={match}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />
@@ -101,7 +98,6 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   status={'planned'}
@@ -125,7 +121,6 @@ export default function PureCropList({
             <PureCropTileContainer gap={gap} padding={padding}>
               {pastCrops.map((fc) => (
                 <PureManagementPlanTile
-                  history={history}
                   key={fc.management_plan_id}
                   managementPlan={fc}
                   style={{ width: `${cardWidth}px` }}

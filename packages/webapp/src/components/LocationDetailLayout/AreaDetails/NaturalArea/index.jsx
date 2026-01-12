@@ -13,7 +13,6 @@ export default function PureNaturalAreaWrapper(props) {
 }
 
 export function PureNaturalArea({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -39,7 +38,6 @@ export function PureNaturalArea({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'natural_area'}
       locationCategory={'area'}

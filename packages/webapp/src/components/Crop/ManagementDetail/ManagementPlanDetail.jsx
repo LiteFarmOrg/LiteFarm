@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -14,10 +14,10 @@ import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 
-export default function PureManagementDetail({ onBack, variety, plan, isAdmin, match, system }) {
+export default function PureManagementDetail({ onBack, variety, plan, isAdmin, system }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const { variety_id, management_plan_id } = useParams();
   const title = plan?.name;
   const isValidDate =
     getDateInputFormat(plan?.abandon_date) !== 'Invalid date' ||
@@ -78,9 +78,7 @@ export default function PureManagementDetail({ onBack, variety, plan, isAdmin, m
             <Button
               fullLength
               onClick={() =>
-                navigate(
-                  `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/edit`,
-                )
+                navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/edit`)
               }
             >
               {t('common:EDIT')}
@@ -102,11 +100,11 @@ export default function PureManagementDetail({ onBack, variety, plan, isAdmin, m
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
           },
         ]}
       />
@@ -213,6 +211,5 @@ PureManagementDetail.prototype = {
   variety: PropTypes.object,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
-  match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

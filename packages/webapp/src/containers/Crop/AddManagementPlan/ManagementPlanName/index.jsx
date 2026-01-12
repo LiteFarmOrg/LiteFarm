@@ -1,4 +1,4 @@
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
 import { managementPlansByCropVarietyIdSelector } from '../../../managementPlanSlice';
@@ -8,14 +8,14 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';
 
 export default function ManagementPlanName() {
-  const match = useRouteMatch();
+  const { variety_id } = useParams();
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     const { management_plan, farm } = formatManagementPlanFormData(data);
     dispatch(
       postManagementPlan({
         ...management_plan,
-        crop_variety_id: match.params.variety_id,
+        crop_variety_id: variety_id,
         assignee_user_id: data.assignee.value,
         repeat_crop_plan: data.repeat_crop_plan || false,
       }),
@@ -23,16 +23,13 @@ export default function ManagementPlanName() {
     farm && dispatch(patchFarmDefaultInitialLocation(farm));
   };
   const onError = () => {};
-  const managementPlans = useSelector(
-    managementPlansByCropVarietyIdSelector(match?.params?.variety_id),
-  );
+  const managementPlans = useSelector(managementPlansByCropVarietyIdSelector(variety_id));
 
   return (
     <HookFormPersistProvider>
       <PureManagementPlanName
         onSubmit={onSubmit}
         onError={onError}
-        match={match}
         managementPlanCount={managementPlans.length + 1}
       />
     </HookFormPersistProvider>

@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router-dom';
 import PureFence from '../../../../components/LocationDetailLayout/LineDetails/Fence';
 import { postFenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +6,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostFenceDetailForm() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +16,6 @@ function PostFenceDetailForm() {
 
   return (
     <PureFence
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

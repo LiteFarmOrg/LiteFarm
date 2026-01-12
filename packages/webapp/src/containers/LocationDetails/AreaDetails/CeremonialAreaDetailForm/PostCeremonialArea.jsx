@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router-dom';
 import PureCeremonial from '../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { postCeremonialLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +6,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostCeremonialDetailForm() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +16,6 @@ function PostCeremonialDetailForm() {
 
   return (
     <PureCeremonial
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

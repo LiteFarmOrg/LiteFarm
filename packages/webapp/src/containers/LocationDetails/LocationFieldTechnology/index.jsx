@@ -14,7 +14,7 @@
  */
 
 import { useEffect } from 'react';
-import { useNavigate, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { locationByIdSelector } from '../../locationSlice';
 import PureLocationFieldTechnology from '../../../components/LocationFieldTechnology';
@@ -23,8 +23,7 @@ import useLocationRouterTabs from '../useLocationRouterTabs';
 
 function LocationFieldTechnology() {
   const navigate = useNavigate();
-  const match = useRouteMatch();
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const location = useSelector(locationByIdSelector(location_id));
 
   useEffect(() => {
@@ -40,7 +39,6 @@ function LocationFieldTechnology() {
     location && (
       <PureLocationFieldTechnology
         fieldTechnology={fieldTechnology}
-        match={match}
         location={location}
         routerTabs={routerTabs}
       />

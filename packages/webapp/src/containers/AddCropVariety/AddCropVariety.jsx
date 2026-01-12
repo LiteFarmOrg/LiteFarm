@@ -1,4 +1,4 @@
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -13,11 +13,10 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { AddLink } from '../../components/Typography';
 
 function AddCropVarietyForm() {
-  const match = useRouteMatch();
   const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
-  const crop_id = match.params.crop_id;
+  const { crop_id } = useParams();
   const existingCropInfo = useSelector(cropSelector(crop_id));
   const { interested } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -55,7 +54,6 @@ function AddCropVarietyForm() {
   return (
     <HookFormPersistProvider>
       <PureAddCropVariety
-        match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}
         isSeekingCert={interested}

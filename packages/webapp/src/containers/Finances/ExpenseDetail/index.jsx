@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRouteMatch, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useMatch } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -17,16 +17,15 @@ import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
 const ExpenseDetail = () => {
-  const match = useRouteMatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useHookFormPersist(); // To clear form history after editing
 
-  const isEditing = match.path.endsWith('/edit');
+  const isEditing = useMatch('/edit', { end: true });
 
-  const { expense_id } = match.params;
+  const { expense_id } = useParams();
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));

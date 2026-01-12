@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureGreenhouse from '../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 import { deleteGreenhouseLocation, editGreenhouseLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,7 @@ import {
 
 function EditGreenhouseDetailForm() {
   const location = useLocation();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -25,12 +25,12 @@ function EditGreenhouseDetailForm() {
       dispatch(
         editGreenhouseLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: greenhouse.figure_id,
         }),
       );
   };
-  const greenhouse = useSelector(greenhouseSelector(match.params.location_id));
+  const greenhouse = useSelector(greenhouseSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error?.retire) {
@@ -42,7 +42,6 @@ function EditGreenhouseDetailForm() {
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -71,7 +70,6 @@ function EditGreenhouseDetailForm() {
   return (
     <>
       <PureGreenhouse
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={greenhouse}

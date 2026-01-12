@@ -1,6 +1,6 @@
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -12,7 +12,6 @@ import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
 
 function PureCropDetail({
-  match,
   variety,
   isEditing,
   onBack,
@@ -38,6 +37,7 @@ function PureCropDetail({
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const HS_CODE_ID = 'hs_code_id';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
+  const { variety_id } = useParams();
 
   return (
     <Layout
@@ -60,16 +60,15 @@ function PureCropDetail({
         <>
           <RouterTab
             classes={{ container: { margin: '24px 0 26px 0' } }}
-            match={match}
             tabs={[
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-                path: `/crop/${match.params.variety_id}/management`,
+                path: `/crop/${variety_id}/management`,
                 state: location?.state,
               },
               {
                 label: t('CROP_DETAIL.DETAIL_TAB'),
-                path: `/crop/${match.params.variety_id}/detail`,
+                path: `/crop/${variety_id}/detail`,
                 state: location?.state,
               },
             ]}

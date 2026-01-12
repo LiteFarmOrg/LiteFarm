@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureBufferZone from '../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { deleteBufferZoneLocation, editBufferZoneLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,7 +15,7 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditBufferZoneDetailForm() {
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -25,12 +25,12 @@ function EditBufferZoneDetailForm() {
       dispatch(
         editBufferZoneLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: bufferZone.figure_id,
         }),
       );
   };
-  const bufferZone = useSelector(bufferZoneSelector(match.params.location_id));
+  const bufferZone = useSelector(bufferZoneSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error?.retire) {
@@ -42,7 +42,6 @@ function EditBufferZoneDetailForm() {
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -71,7 +70,6 @@ function EditBufferZoneDetailForm() {
   return (
     <>
       <PureBufferZone
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={bufferZone}

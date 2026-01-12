@@ -1,6 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -17,13 +17,12 @@ import { PurePlantingMethod } from './PurePlantingMethod';
 export default function PureManagementPlanPlantingMethod({
   useHookFormPersist,
   persistedFormData,
-  match,
   isFinalPlantingMethod,
   system,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const variety_id = match?.params?.variety_id;
+  const { variety_id } = useParams();
 
   const { showBroadcast, showIsPlantingMethodKnown } = useMemo(() => {
     const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } =
@@ -141,7 +140,6 @@ export default function PureManagementPlanPlantingMethod({
 }
 
 PureManagementPlanPlantingMethod.prototype = {
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

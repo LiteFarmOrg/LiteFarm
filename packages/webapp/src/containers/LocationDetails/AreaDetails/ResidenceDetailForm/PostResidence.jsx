@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router-dom';
 import PureResidence from '../../../../components/LocationDetailLayout/AreaDetails/Residence';
 import { postResidenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +6,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostResidenceDetailForm() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -18,7 +16,6 @@ function PostResidenceDetailForm() {
 
   return (
     <PureResidence
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

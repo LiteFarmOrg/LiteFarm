@@ -14,7 +14,7 @@ export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
   system,
-  history,
+  history, // TODO: handle navigation with useNavigate
   crop_variety,
   isFinalPage,
   isHistorical,

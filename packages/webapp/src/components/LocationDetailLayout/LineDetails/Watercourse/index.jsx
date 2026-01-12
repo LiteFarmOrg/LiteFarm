@@ -24,7 +24,6 @@ export default function PureWatercourseWrapper(props) {
 }
 
 export function PureWatercourse({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -53,7 +52,6 @@ export function PureWatercourse({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'watercourse'}
       locationCategory={'line'}

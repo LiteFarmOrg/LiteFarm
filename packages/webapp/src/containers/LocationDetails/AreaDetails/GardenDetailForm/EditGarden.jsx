@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureGarden from '../../../../components/LocationDetailLayout/AreaDetails/Garden';
 import { deleteGardenLocation, editGardenLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,15 +16,15 @@ import {
 
 function EditGardenDetailForm() {
   const location = useLocation();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editGardenLocation({ ...data, ...match.params, figure_id: garden.figure_id }));
+      dispatch(editGardenLocation({ ...data, location_id, figure_id: garden.figure_id }));
   };
-  const garden = useSelector(gardenSelector(match.params.location_id));
+  const garden = useSelector(gardenSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error?.retire) {
@@ -36,7 +36,6 @@ function EditGardenDetailForm() {
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -65,7 +64,6 @@ function EditGardenDetailForm() {
   return (
     <>
       <PureGarden
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={garden}

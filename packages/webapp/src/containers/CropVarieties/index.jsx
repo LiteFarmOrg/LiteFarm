@@ -10,7 +10,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getCropVarieties } from '../saga';
 import {
   cropCatalogueFilterDateSelector,
@@ -30,11 +30,12 @@ import Drawer from '../../components/Drawer';
 export default function CropVarieties() {
   const navigate = useNavigate();
   const location = useLocation();
-  const match = useRouteMatch();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const crop_id = Number(match.params.crop_id);
+  let { crop_id } = useParams();
+  crop_id = Number(crop_id);
+
   const crop = useSelector(cropSelector(crop_id));
 
   const [filterString, setFilterString] = useState('');

@@ -21,7 +21,6 @@ export default function PureGreenhouseWrapper(props) {
 }
 
 export function PureGreenhouse({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -61,7 +60,6 @@ export function PureGreenhouse({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'greenhouse'}
       locationCategory={'area'}

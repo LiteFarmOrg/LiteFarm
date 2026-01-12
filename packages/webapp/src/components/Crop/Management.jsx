@@ -2,7 +2,7 @@ import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
 import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -15,7 +15,6 @@ import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
 
 export default function PureCropManagement({
-  match,
   onBack,
   variety,
   onAddManagementPlan,
@@ -25,6 +24,7 @@ export default function PureCropManagement({
 }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { variety_id } = useParams();
   const [searchString, setSearchString] = useState('');
   const [plansForModal, setPlansForModal] = useState([]);
   const searchStringOnChange = (e) => setSearchString(e.target.value);
@@ -69,16 +69,15 @@ export default function PureCropManagement({
       <CropHeader variety={variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        match={match}
         tabs={[
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-            path: `/crop/${match.params.variety_id}/management`,
+            path: `/crop/${variety_id}/management`,
             state: location?.state,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
-            path: `/crop/${match.params.variety_id}/detail`,
+            path: `/crop/${variety_id}/detail`,
             state: location?.state,
           },
         ]}
@@ -162,7 +161,6 @@ PureCropManagement.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ),
-  match: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,
   onAddManagementPlan: PropTypes.func,

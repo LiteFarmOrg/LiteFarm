@@ -17,7 +17,6 @@ export default function ComplianceInfo({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
-  match,
   crop,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
@@ -206,5 +205,4 @@ ComplianceInfo.prototype = {
   onCancel: PropTypes.func,
   persistedFormData: PropTypes.func,
   useHookFormPersist: PropTypes.func,
-  match: PropTypes.object,
 };

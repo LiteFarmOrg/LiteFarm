@@ -17,14 +17,12 @@ import { cloneObject } from '../../../util';
 export default function PureManagementPlanName({
   onSubmit,
   onError,
-  match,
   persistedFormData,
   useHookFormPersist,
   managementPlanCount,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const variety_id = match?.params?.variety_id;
 
   const NAME = 'name';
   const NOTES = 'notes';
@@ -121,8 +119,6 @@ export default function PureManagementPlanName({
 }
 
 PureManagementPlanName.prototype = {
-  history: PropTypes.object,
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

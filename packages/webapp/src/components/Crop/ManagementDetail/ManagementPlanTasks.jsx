@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -26,13 +26,13 @@ export default function PureManagementTasks({
   isAdmin,
   hasPendingTasks,
   history,
-  match,
   children,
   location,
   eligibleForDeletion,
 }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { variety_id, management_plan_id } = useParams();
 
   const title = plan?.name;
   const hasTasks = !!children?.length;
@@ -77,6 +77,7 @@ export default function PureManagementTasks({
         )
       }
     >
+      {/* TODO: CHECK history.go(-1) */}
       <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
 
       <div className={styles.titlewrapper}>
@@ -109,16 +110,15 @@ export default function PureManagementTasks({
 
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
             state: location?.state,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
             state: location?.state,
           },
         ]}

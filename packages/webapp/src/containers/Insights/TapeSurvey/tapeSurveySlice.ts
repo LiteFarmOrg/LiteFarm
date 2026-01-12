@@ -61,7 +61,8 @@ export default tapeSurveySlice.reducer;
 
 // Selectors
 export const tapeSurveySelector = (state: any) =>
-  // TODO: re-evaluate placement of tapeSurveySlice in farmStateReducer when adding backend
+  // LF-5116 Remove from Redux configuration when commenting out for next release
+  // Also re-evaluate placement in farmStateReducer when adding backend
   state.farmStateReducer[tapeSurveySlice.name] || initialState;
 
 export const tapeSurveyStatusSelector = createSelector([tapeSurveySelector], (tapeSurvey) => ({

@@ -26,7 +26,7 @@ interface TapeSurveyPrepopulatedData {
   country?: string;
   gps_lat?: number;
   gps_lon?: number;
-  // TODO LF-5109: Add other prepopulated fields:
+  // Other pre-populated fields as needed:
   // - Do you raise animals
   // - Number of unique species in crop management plans
 }

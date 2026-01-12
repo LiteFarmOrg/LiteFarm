@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Navigate } from 'react-router-dom';
 import { FarmSettingsProvider } from '../containers/Profile/FarmSettings/FarmSettingsContext';
 
 const BasicProfile = React.lazy(() => import('../containers/Profile/FarmSettings/BasicProfile'));
@@ -31,10 +31,10 @@ const FarmSettingsRoutes = () => (
       <Route path="/farm_settings/addons" exact children={<FarmAddons />} />
       {/* Load on basic_profile */}
       <Route path="/farm_settings" exact>
-        <Redirect to="/farm_settings/basic_profile" />
+        <Navigate to="/farm_settings/basic_profile" />
       </Route>
       {/* Redirect on non-matches */}
-      <Route render={() => <Redirect to={'/'} />} />
+      <Route render={() => <Navigate to={'/'} />} />
     </Switch>
   </FarmSettingsProvider>
 );

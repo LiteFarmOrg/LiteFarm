@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import {
   ACTUAL_REVENUE_URL,
   ADD_CUSTOM_EXPENSE_URL,
@@ -82,8 +82,9 @@ const EditCustomRevenue = React.lazy(() =>
   import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
 
+// TODO: update to relative paths
 const FinancesRoutes = () => (
-  <Switch>
+  <Routes>
     <Route path={FINANCES_HOME_URL} exact children={<Finances />} />
     <Route path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
     <Route
@@ -131,7 +132,7 @@ const FinancesRoutes = () => (
       children={<EditCustomRevenue />}
     />
     <Route render={() => <Navigate to={'/'} />} />
-  </Switch>
+  </Routes>
 );
 
 export default FinancesRoutes;

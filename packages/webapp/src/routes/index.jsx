@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react';
-import { Navigate, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 
 // Components that have already been set up with code splitting
@@ -296,7 +296,7 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu }) => {
+const RoutesComponent = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -322,7 +322,7 @@ const Routes = ({ isCompactSideMenu }) => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Switch>
+      <Routes>
         <Route
           path="*"
           render={() => {
@@ -331,30 +331,30 @@ const Routes = ({ isCompactSideMenu }) => {
               // TODO check every step
               if (isInvitationFlow) {
                 return (
-                  <Switch>
+                  <Routes>
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/consent" exact>
                       <ConsentForm goForwardTo={'/outro'} goBackTo={null} />
                     </Route>
                     <Route path="/outro" exact children={<JoinFarmSuccessScreen />} />
                     <Route render={() => !has_consent && <Navigate to="/consent" />} />
-                  </Switch>
+                  </Routes>
                 );
               } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
                 return <OnboardingFlow {...userFarm} />;
               } else if (!has_consent) {
                 return (
-                  <Switch>
+                  <Routes>
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/consent" exact>
                       <ConsentForm goForwardTo={'/'} goBackTo={null} />
                     </Route>
                     <Route render={() => <Navigate to="/consent" />} />
-                  </Switch>
+                  </Routes>
                 );
               } else if (role_id === 1) {
                 return (
-                  <Switch>
+                  <Routes>
                     <Route path="/" exact children={<Home />} />
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
@@ -753,11 +753,11 @@ const Routes = ({ isCompactSideMenu }) => {
                       //TODO change to 404
                       render={() => <Navigate to={'/'} />}
                     />
-                  </Switch>
+                  </Routes>
                 );
               } else if (role_id === 2 || role_id === 5) {
                 return (
-                  <Switch>
+                  <Routes>
                     <Route path="/" exact children={<Home />} />
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
@@ -1153,11 +1153,11 @@ const Routes = ({ isCompactSideMenu }) => {
                     </Route>
                     <Route path="/unknown_record" exact children={<UnknownRecord />} />
                     <Route render={() => <Navigate to={'/'} />} />
-                  </Switch>
+                  </Routes>
                 );
               } else {
                 return (
-                  <Switch>
+                  <Routes>
                     <Route path="/" exact children={<Home />} />
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
@@ -1307,12 +1307,12 @@ const Routes = ({ isCompactSideMenu }) => {
                     </Route>
                     <Route path="/unknown_record" exact children={<UnknownRecord />} />
                     <Route render={() => <Navigate to={'/'} />} />
-                  </Switch>
+                  </Routes>
                 );
               }
             } else if (!isAuthenticated()) {
               return (
-                <Switch>
+                <Routes>
                   <Route path={'/render_survey'} exact children={<RenderSurvey />} />
                   <Route path="/callback" children={<Callback />} />
                   <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
@@ -1327,14 +1327,14 @@ const Routes = ({ isCompactSideMenu }) => {
                     //TODO change to 404
                     render={() => <Navigate to={'/'} />}
                   />
-                </Switch>
+                </Routes>
               );
             }
           }}
         />
-      </Switch>
+      </Routes>
     </Suspense>
   );
 };
 
-export default Routes;
+export default RoutesComponent;

@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Navigate, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -65,7 +65,7 @@ function OnboardingFlow(props) {
   const requireConditionProps = { ...props, hasUserFarms };
 
   return (
-    <Switch>
+    <Routes>
       <Route path="/farm_selection" exact children={<ChooseFarm />} />
       <Route path="/welcome" exact children={<WelcomeScreen />} />
       <Route path="/add_farm" exact children={<AddFarm />} />
@@ -154,7 +154,7 @@ function OnboardingFlow(props) {
       />
       {/* Fallback route - handles redirects when no other routes match */}
       <Route render={() => <RequireCondition {...requireConditionProps} />} />
-    </Switch>
+    </Routes>
   );
 }
 

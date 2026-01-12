@@ -178,12 +178,14 @@ function TAPEResults() {
         <div className={styles.sectionContainer}>
           <Semibold className={styles.titleText}>Step 2 - Core Criteria of Performance</Semibold>
           <div className={styles.stepTwoButtonContainer}>
-            {/* Placeholders for Step 2 content. Ultimately these will link to distinct surveys for each section */}
-            {STEP_TWO_SURVEY_NAMES.map((name) => (
-              <Button key={name} sm color="secondary">
-                {name}
-              </Button>
-            ))}
+            {
+              /* Placeholders for Step 2 content. Ultimately these will link to distinct surveys for each section */
+              STEP_TWO_SURVEY_NAMES.map((name) => (
+                <Button key={name} sm color="secondary">
+                  {name}
+                </Button>
+              ))
+            }
           </div>
         </div>
       </div>

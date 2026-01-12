@@ -12,14 +12,7 @@ import { Variant } from '../RouterTab/Tab';
 import FloatingActionButton from '../Button/FloatingActionButton';
 import styles from './styles.module.scss';
 
-export default function PureLocationTasks({
-  location,
-  match,
-  tasks,
-  count,
-  routerTabs,
-  handleAddTask,
-}) {
+export default function PureLocationTasks({ location, tasks, count, routerTabs, handleAddTask }) {
   const language = getLanguageFromLocalStorage();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -63,7 +56,6 @@ export default function PureLocationTasks({
         <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
         <RouterTab
           classes={{ container: { margin: '30px 0 26px 0' } }}
-          match={match}
           tabs={routerTabs}
           variant={Variant.UNDERLINE}
         />

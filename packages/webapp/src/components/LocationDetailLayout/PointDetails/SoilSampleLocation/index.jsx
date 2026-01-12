@@ -29,7 +29,6 @@ export default function PureSoilSampleLocationWrapper(props) {
 }
 
 export function PureSoilSampleLocation({
-  match,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
@@ -49,7 +48,6 @@ export function PureSoilSampleLocation({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       locationType={'soil_sample_location'}
       locationCategory={'point'}
       isCreateLocationPage={isCreateLocationPage}

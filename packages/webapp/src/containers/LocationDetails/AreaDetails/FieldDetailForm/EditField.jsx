@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
 import { deleteFieldLocation, editFieldLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,15 +16,15 @@ import {
 
 function EditFieldDetailForm() {
   const location = useLocation();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editFieldLocation({ ...data, ...match.params, figure_id: field.figure_id }));
+      dispatch(editFieldLocation({ ...data, location_id, figure_id: field.figure_id }));
   };
-  const field = useSelector(fieldSelector(match.params.location_id));
+  const field = useSelector(fieldSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error) {
@@ -35,7 +35,6 @@ function EditFieldDetailForm() {
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -64,7 +63,6 @@ function EditFieldDetailForm() {
   return (
     <>
       <PureField
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={field}

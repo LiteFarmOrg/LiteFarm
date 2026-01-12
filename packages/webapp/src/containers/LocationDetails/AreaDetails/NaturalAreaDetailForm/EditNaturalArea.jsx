@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureNaturalArea from '../../../../components/LocationDetailLayout/AreaDetails/NaturalArea';
 import { deleteNaturalAreaLocation, editNaturalAreaLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,7 +16,7 @@ import {
 
 function EditNaturalAreaDetailForm() {
   const location = useLocation();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -25,12 +25,12 @@ function EditNaturalAreaDetailForm() {
       dispatch(
         editNaturalAreaLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: naturalArea.figure_id,
         }),
       );
   };
-  const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
+  const naturalArea = useSelector(naturalAreaSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error?.retire) {
@@ -42,7 +42,6 @@ function EditNaturalAreaDetailForm() {
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -71,7 +70,6 @@ function EditNaturalAreaDetailForm() {
   return (
     <>
       <PureNaturalArea
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={naturalArea}

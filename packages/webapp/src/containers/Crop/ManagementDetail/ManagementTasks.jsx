@@ -7,7 +7,7 @@ import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
@@ -18,12 +18,10 @@ import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToD
 export default function ManagementTasks() {
   const navigate = useNavigate();
   const location = useLocation();
-  const match = useRouteMatch();
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  const { variety_id, management_plan_id } = useParams();
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   const [showCannotDeleteModal, setShowCannotDeleteModal] = useState(false);
@@ -86,7 +84,6 @@ export default function ManagementTasks() {
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
-        match={match}
         location={location}
         eligibleForDeletion={eligibleForDeletion}
       >

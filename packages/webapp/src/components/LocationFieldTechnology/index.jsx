@@ -29,12 +29,7 @@ import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
 import { createSmartIrrigationDisplayName } from '../../util/smartIrrigation';
 
-export default function PureLocationFieldTechnology({
-  location,
-  match,
-  fieldTechnology,
-  routerTabs,
-}) {
+export default function PureLocationFieldTechnology({ location, fieldTechnology, routerTabs }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const hasAddonSensors = !!(
@@ -107,7 +102,6 @@ export default function PureLocationFieldTechnology({
       <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        match={match}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />

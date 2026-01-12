@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureGate from '../../../../components/LocationDetailLayout/PointDetails/Gate';
 import { deleteGateLocation, editGateLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,15 +16,15 @@ import {
 
 function EditGateDetailForm() {
   const location = useLocation();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editGateLocation({ ...data, ...match.params, figure_id: gate.figure_id }));
+      dispatch(editGateLocation({ ...data, location_id, figure_id: gate.figure_id }));
   };
-  const gate = useSelector(gateSelector(match.params.location_id));
+  const gate = useSelector(gateSelector(location_id));
 
   useEffect(() => {
     if (location?.state?.error?.retire) {
@@ -36,7 +36,6 @@ function EditGateDetailForm() {
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -65,7 +64,6 @@ function EditGateDetailForm() {
   return (
     <>
       <PureGate
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={gate}

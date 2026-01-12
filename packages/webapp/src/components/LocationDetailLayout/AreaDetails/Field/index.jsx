@@ -23,7 +23,6 @@ export default function PureFieldWrapper(props) {
 }
 
 export function PureField({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -58,7 +57,6 @@ export function PureField({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'field'}
       locationCategory={'area'}

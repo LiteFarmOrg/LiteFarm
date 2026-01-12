@@ -20,7 +20,6 @@ export default function PureGardenWrapper(props) {
 }
 
 export function PureGarden({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -54,7 +53,6 @@ export function PureGarden({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'garden'}
       locationCategory={'area'}

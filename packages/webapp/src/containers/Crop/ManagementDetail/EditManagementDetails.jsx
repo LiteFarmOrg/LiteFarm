@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRouteMatch, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import produce from 'immer';
 import PureEditManagementPlanDetail from '../../../components/Crop/ManagementDetail/EditManagementPlanDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -12,13 +12,12 @@ import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 
 export default function ManagementDetails() {
   const navigate = useNavigate();
-  const match = useRouteMatch();
   const location = useLocation();
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  const { variety_id, management_plan_id } = useParams();
+
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   useEffect(() => {
@@ -28,7 +27,7 @@ export default function ManagementDetails() {
   }, [plan]);
 
   const onBack = () => {
-    navigate(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);
+    navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/details`);
   };
 
   const showSpotlight = location.state?.fromCreation;

@@ -1,4 +1,4 @@
-import { useLocation, useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/Management';
 import { cropVarietySelector } from '../../cropVarietySlice';
@@ -44,9 +44,8 @@ const seedingTypeIsSeedMap = {
 function CropManagement() {
   const navigate = useNavigate();
   const location = useLocation();
-  const match = useRouteMatch();
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  const { variety_id } = useParams();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
@@ -122,7 +121,6 @@ function CropManagement() {
     <CropVarietySpotlight>
       <PureCropManagement
         variety={selectedVariety}
-        match={match}
         onBack={goBack}
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}

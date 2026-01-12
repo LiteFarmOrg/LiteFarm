@@ -16,7 +16,6 @@ export default function PureBufferZoneWrapper(props) {
 }
 
 export function PureBufferZone({
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -41,7 +40,6 @@ export function PureBufferZone({
 
   return (
     <PureLocationDetailLayout
-      match={match}
       system={system}
       locationType={'buffer_zone'}
       locationCategory={'line'}

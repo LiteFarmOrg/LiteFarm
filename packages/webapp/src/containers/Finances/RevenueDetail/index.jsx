@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
@@ -32,10 +32,9 @@ import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/co
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail() {
-  const match = useRouteMatch();
   const navigate = useNavigate();
-  const isEditing = match.path.endsWith('/edit');
-  const { sale_id } = match.params;
+  const isEditing = useMatch('/edit', { end: true }) !== null;
+  const { sale_id } = useParams();
 
   // To clear form history after editing
   useHookFormPersist();

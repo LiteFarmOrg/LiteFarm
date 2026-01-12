@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -11,10 +11,10 @@ import TransplantSpotlight from './TransplantSpotlight';
 import { cropVarietySelector } from '../../../cropVarietySlice.js';
 
 export default function PlantingLocation() {
-  const match = useRouteMatch();
-  const isFinalLocationPage =
-    match?.path === '/crop/:variety_id/add_management_plan/choose_final_planting_location';
-  const variety_id = match.params.variety_id;
+  const isFinalLocationPage = useMatch(
+    '/crop/:variety_id/add_management_plan/choose_final_planting_location',
+  );
+  const { variety_id } = useParams();
   const crop = useSelector(cropVarietySelector(variety_id));
   const cropLocations = useSelector(cropLocationsSelector);
   const { default_initial_location_id } = useSelector(userFarmSelector);

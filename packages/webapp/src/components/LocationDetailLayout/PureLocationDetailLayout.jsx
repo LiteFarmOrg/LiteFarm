@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
@@ -16,7 +16,6 @@ import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
 
 export function PureLocationDetailLayout({
-  match,
   system,
   locationType,
   locationCategory,
@@ -51,7 +50,7 @@ export function PureLocationDetailLayout({
     (isViewLocationPage && persistedFormData.name);
 
   // TODO: Move this up to container when just 1 container exists for locations
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const location =
     isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
   const routerTabs = location && useLocationRouterTabs(location);
@@ -105,7 +104,7 @@ export function PureLocationDetailLayout({
               isCreateLocationPage={isCreateLocationPage}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}
-              onEdit={() => navigate(`/${locationType}/${match.params.location_id}/edit`)}
+              onEdit={() => navigate(`/${locationType}/${location_id}/edit`)}
               onRetire={handleRetire}
               isAdmin={isAdmin}
             />
@@ -118,14 +117,12 @@ export function PureLocationDetailLayout({
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            match={match}
             onCancel={historyCancel}
             formMethods={formMethods}
           />
           {isViewLocationPage && (
             <RouterTab
               classes={{ container: { margin: '6px 0 26px 0' } }}
-              match={match}
               tabs={routerTabs}
               variant={Variant.UNDERLINE}
             />

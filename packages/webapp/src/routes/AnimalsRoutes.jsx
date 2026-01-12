@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   ANIMALS_INVENTORY_URL,
   ADD_ANIMALS_URL,
@@ -29,8 +29,9 @@ const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAn
 //   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
 // );
 
+// TODO: update to relative paths
 const AnimalsRoutes = ({ isCompactSideMenu }) => (
-  <Switch>
+  <Routes>
     <Route path={ANIMALS_INVENTORY_URL} exact>
       <Inventory isCompactSideMenu={isCompactSideMenu} />
     </Route>
@@ -44,7 +45,7 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
     {/* <Route path={createSingleAnimalTasksURL(':id')} exact>
       <SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} />
     </Route> */}
-  </Switch>
+  </Routes>
 );
 
 export default AnimalsRoutes;

@@ -15,6 +15,10 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import styles from './styles.module.scss';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
@@ -22,8 +26,12 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { matchPath } from 'react-router-dom';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 const Navigation = ({ children, ...props }) => {
+  const offline = useIsOffline();
+  const { t } = useTranslation();
+  const [showIndicator, setShowIndicator] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -42,21 +50,38 @@ const Navigation = ({ children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
+  useEffect(() => {
+    if (offline) {
+      // Small delay to trigger animation
+      const timer = setTimeout(() => setShowIndicator(true), 10);
+      return () => clearTimeout(timer);
+    } else {
+      setShowIndicator(false);
+    }
+  }, [offline]);
+
   return (
-    <>
-      <PureNavigation
-        showNavigationSpotlight={!navigation}
-        showNotificationSpotlight={navigation && !notification}
-        resetSpotlight={resetSpotlight}
-        history={history}
-        showNavActions={showNavActions}
-        showNav={showNav}
-        {...props}
-      >
-        {children}
-      </PureNavigation>
-      {isFarmSelected && <ReleaseBadgeHandler {...props} />}
-    </>
+    <div className={styles.navigationWrapper}>
+      {offline && (
+        <div className={clsx(styles.offlineIndicator, showIndicator && styles.visible)}>
+          {t('NAVIGATION.OFFLINE_TEXT_FULL')}
+        </div>
+      )}
+      <div className={styles.navigationContent}>
+        <PureNavigation
+          showNavigationSpotlight={!navigation}
+          showNotificationSpotlight={navigation && !notification}
+          resetSpotlight={resetSpotlight}
+          history={history}
+          showNavActions={showNavActions}
+          showNav={showNav}
+          {...props}
+        >
+          {children}
+        </PureNavigation>
+        {isFarmSelected && <ReleaseBadgeHandler {...props} />}
+      </div>
+    </div>
   );
 };
 

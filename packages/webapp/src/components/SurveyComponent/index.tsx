@@ -13,11 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
+
+const createSurveyAndInitialData = (
+  surveyJson: any,
+  initialData?: Record<string, any>,
+  initialPageNo?: number,
+) => {
+  const survey = new Model(surveyJson);
+  survey.applyTheme(DefaultLight);
+
+  // Set initial data if provided
+  if (initialData) {
+    survey.data = initialData;
+  }
+  // Set initial page if provided
+  if (initialPageNo && initialPageNo > 0) {
+    survey.currentPageNo = initialPageNo;
+  }
+
+  return survey;
+};
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object
@@ -41,23 +61,21 @@ export default function SurveyComponent({
   onCurrentPageChanged,
   onValueChanged,
 }: SurveyComponentProps) {
-  // Memoize to create the survey model only once, even as saved data changes and component re-renders
-  const survey = useMemo(() => {
-    const model = new Model(surveyJson);
+  const prevJsonRef = useRef<any | null>(null);
 
-    model.applyTheme(DefaultLight);
-
-    // Set initial data if provided
-    if (initialData) {
-      model.data = initialData;
-    }
-
-    // Set initial page if provided
-    if (initialPageNo > 0) {
-      model.currentPageNo = initialPageNo;
-    }
-
+  // Lazy initialize survey (run once per component lifecycle)
+  const [survey, setSurvey] = useState(() => {
+    const model = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
+    prevJsonRef.current = surveyJson;
     return model;
+  });
+
+  // Remake survey if surveyJson changes
+  useEffect(() => {
+    if (prevJsonRef.current === surveyJson) return;
+    const newSurvey = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
+    setSurvey(newSurvey);
+    prevJsonRef.current = surveyJson;
   }, [surveyJson]);
 
   // https://surveyjs.io/form-library/documentation/get-started-react

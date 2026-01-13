@@ -13,32 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Model, SurveyModel } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
 
-function createAndInitializeSurveyModel(
-  json: any,
+const createSurveyAndInitialData = (
+  surveyJson: any,
   initialData?: Record<string, any>,
-  initialPageNo: number = 0,
-): SurveyModel {
-  const model = new Model(json);
-  model.applyTheme(DefaultLight);
+  initialPageNo?: number,
+) => {
+  const survey = new Model(surveyJson);
+  survey.applyTheme(DefaultLight);
 
-  // Apply initial data if provided
+  // Set initial data if provided
   if (initialData) {
-    model.data = initialData;
+    survey.data = initialData;
   }
-
-  // Apply initial page if valid
-  if (initialPageNo > 0) {
-    model.currentPageNo = initialPageNo;
+  // Set initial page if provided
+  if (initialPageNo && initialPageNo > 0) {
+    survey.currentPageNo = initialPageNo;
   }
+  console.log('rerun');
 
-  return model;
-}
+  return survey;
+};
 
 interface SurveyComponentProps {
   surveyJson: Readonly<any>; // Survey JSON schema object
@@ -64,38 +64,9 @@ export default function SurveyComponent({
 }: SurveyComponentProps) {
   console.time('survey');
   // Use Ref to create the survey model only once, even as saved data changes and component re-renders
-  const surveyRef = useRef<SurveyModel | null>(null);
-  const prevSurveyJsonRef = useRef<any | null>(null);
-
-  // Create on first render to guarantee survey != null
-  if (surveyRef.current === null) {
-    surveyRef.current = createAndInitializeSurveyModel(surveyJson, initialData, initialPageNo);
-    prevSurveyJsonRef.current = surveyJson;
-  }
-
-  const survey = surveyRef.current;
-
-  // Handles changes after mount
-  useEffect(() => {
-    console.log('remake model');
-    // Skip if this is the initial render (already handled synchronously)
-    if (prevSurveyJsonRef.current === surveyJson) {
-      return;
-    }
-
-    // Cleanup old listeners
-    if (surveyRef.current) {
-      surveyRef.current.onComplete.clear();
-      surveyRef.current.onCurrentPageChanged.clear();
-      surveyRef.current.onValueChanged.clear();
-    }
-
-    // Recreate
-    surveyRef.current = createAndInitializeSurveyModel(surveyJson, initialData, initialPageNo);
-    prevSurveyJsonRef.current = surveyJson;
-
-    // Optional: re-apply initialData / initialPageNo here if needed
-  }, [surveyJson]);
+  const [survey, _setSurvey] = useState(() =>
+    createSurveyAndInitialData(surveyJson, initialData, initialPageNo),
+  );
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(

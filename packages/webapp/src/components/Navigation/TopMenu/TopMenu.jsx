@@ -34,10 +34,12 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
 const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+  const offline = useIsOffline();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const sectionHeader = useSectionHeader(history.location.pathname);
@@ -237,11 +239,18 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       return (
         <IconButton onClick={onClick} className={styles.logo}>
           <IconLogo alt="LiteFarm Logo" />
+          {offline && <div className={styles.offlineIndicatorDot} />}
         </IconButton>
       );
     }
 
-    return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
+    return (
+      // This one only for choose farm view
+      <div className={styles.logoWithWordsContainer}>
+        <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />
+        {offline && <div className={styles.offlineIndicatorDot} />}
+      </div>
+    );
   };
 
   return (

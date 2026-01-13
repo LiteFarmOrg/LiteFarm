@@ -19,7 +19,9 @@ import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
+import topMenuStyles from '../TopMenu/styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
   const isActive = matchPath(history.location.pathname, path);
@@ -68,6 +70,8 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const expandableItemsRef = useRef({});
   const { mainActions, adminActions } = useGetMenuItems();
 
+  const offline = useIsOffline();
+
   const handleClick = (link) => {
     history.push(link);
     closeDrawer?.();
@@ -98,6 +102,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
         >
           <div className={clsx(styles.animatedLogo, isCompact && styles.compactLogo)}>
             <Logo alt={'logo'} />
+            {offline && <div className={topMenuStyles.offlineIndicatorDot} />}
           </div>
         </ListItemButton>
         {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {

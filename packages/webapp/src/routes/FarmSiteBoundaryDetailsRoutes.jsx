@@ -1,5 +1,4 @@
-/* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import EditFarmSiteBoundaryDetailForm from '../containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/EditFarmSiteBoundary';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
@@ -10,30 +9,12 @@ import LocationIrrigation from '../containers/LocationDetails/LocationIrrigation
 export default function FarmSiteBoundaryDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
   return (
-    <>
-      <Route
-        path="/farm_site_boundary/:location_id/details"
-        exact
-        children={<EditFarmSiteBoundaryDetailForm />}
-      />
-      {isAdmin && (
-        <Route
-          path="/farm_site_boundary/:location_id/edit"
-          exact
-          children={<EditFarmSiteBoundaryDetailForm />}
-        />
-      )}
-      <Route path="/farm_site_boundary/:location_id/tasks" exact children={<LocationTasks />} />
-      <Route
-        path="/farm_site_boundary/:location_id/field_technology"
-        exact
-        children={<LocationFieldTechnology />}
-      />
-      <Route
-        path="/farm_site_boundary/:location_id/irrigation"
-        exact
-        children={<LocationIrrigation />}
-      />
-    </>
+    <Routes>
+      <Route path="details" element={<EditFarmSiteBoundaryDetailForm />} />
+      {isAdmin && <Route path="edit" element={<EditFarmSiteBoundaryDetailForm />} />}
+      <Route path="tasks" element={<LocationTasks />} />
+      <Route path="field_technology" element={<LocationFieldTechnology />} />
+      <Route path="irrigation" element={<LocationIrrigation />} />
+    </Routes>
   );
 }

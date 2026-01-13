@@ -13,25 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRouteMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import styles from './styles.module.scss';
 
 // TODO: Most likely to be scoped after movement tasks. It is not part of this user story.
+// Tab behavior untested after React Router v6 migration. Will need testing when re-enabled.
 const AnimalTasks = () => {
   const navigate = useNavigate();
-  const match = useRouteMatch();
+  const { pathname } = useLocation();
   const { t } = useTranslation();
 
   const routerTabs = [
     {
       label: t('ANIMAL.TABS.BASIC_INFO'),
-      path: match.url.replace('/tasks', ''),
+      path: pathname.replace('/tasks', ''),
     },
     {
       label: t('ANIMAL.TABS.TASKS'),
-      path: match.url,
+      path: pathname,
     },
   ];
 
@@ -44,7 +45,7 @@ const AnimalTasks = () => {
       <Tab
         tabs={routerTabs}
         variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
+        isSelected={(tab) => tab.path === pathname}
         onClick={(tab) => navigate(tab.path)}
       />
       <div>AnimalTasks</div>

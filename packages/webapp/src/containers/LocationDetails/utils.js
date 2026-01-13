@@ -1,20 +1,25 @@
 import { useMemo } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { barnEnum, fenceEnum, fieldEnum, greenhouseEnum, surfaceWaterEnum } from '../constants';
 import moment from 'moment';
 
-const isCreateLocationPage = (match) => match.path.includes('/create_location/');
-const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
-const isEditLocationPage = (match) => /\w*\/:location_id\/edit/.test(match.path);
+const isCreateLocationPage = (pathname) => pathname.includes('/create_location/');
+
+// React Router v6: Check route pattern using pathname instead of match.path
+const isLocationPage = (pathname, locationId, suffix) =>
+  new RegExp(`\\w*/${locationId}/${suffix}`).test(pathname);
+
 export const useLocationPageType = () => {
-  const match = useRouteMatch();
+  const { pathname } = useLocation();
+  const { location_id } = useParams();
+
   return useMemo(
     () => ({
-      isCreateLocationPage: isCreateLocationPage(match),
-      isViewLocationPage: isViewLocationPage(match) || false,
-      isEditLocationPage: isEditLocationPage(match) || false,
+      isCreateLocationPage: isCreateLocationPage(pathname),
+      isViewLocationPage: isLocationPage(pathname, location_id, 'details'),
+      isEditLocationPage: isLocationPage(pathname, location_id, 'edit'),
     }),
-    [match],
+    [pathname, location_id],
   );
 };
 

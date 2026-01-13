@@ -65,21 +65,19 @@ export default function SurveyComponent({
   console.time('survey');
 
   const prevJsonRef = useRef<Readonly<any> | null>(null);
-  if (prevJsonRef.current === null) {
-    prevJsonRef.current = surveyJson;
-  }
 
-  const [survey, setSurvey] = useState(() =>
-    createSurveyAndInitialData(surveyJson, initialData, initialPageNo),
-  );
+  const [survey, setSurvey] = useState(() => {
+    const model = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
+    prevJsonRef.current = surveyJson;
+    return model;
+  });
 
   useEffect(() => {
     console.log(prevJsonRef.current);
-    if (prevJsonRef.current !== surveyJson) {
-      const newSurvey = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
-      setSurvey(newSurvey);
-      prevJsonRef.current = surveyJson;
-    }
+    if (prevJsonRef.current === surveyJson) return;
+    const newSurvey = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
+    setSurvey(newSurvey);
+    prevJsonRef.current = surveyJson;
   }, [surveyJson]);
 
   // https://surveyjs.io/form-library/documentation/get-started-react

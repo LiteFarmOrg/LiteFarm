@@ -50,7 +50,7 @@ function TAPESurvey() {
   const [loadedSurvey, setLoadedSurvey] = useState(surveyJson);
   const handleChangeSurvey = () => {
     if (loadedSurvey.pages.length === lengthofpages) {
-      console.log('hi');
+      console.log('survey changed');
       setLoadedSurvey(copy);
     } else {
       setLoadedSurvey(surveyJson);

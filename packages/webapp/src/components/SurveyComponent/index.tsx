@@ -63,10 +63,24 @@ export default function SurveyComponent({
   onValueChanged,
 }: SurveyComponentProps) {
   console.time('survey');
-  // Use Ref to create the survey model only once, even as saved data changes and component re-renders
-  const [survey, _setSurvey] = useState(() =>
+
+  const prevJsonRef = useRef<Readonly<any> | null>(null);
+  if (prevJsonRef.current === null) {
+    prevJsonRef.current = surveyJson;
+  }
+
+  const [survey, setSurvey] = useState(() =>
     createSurveyAndInitialData(surveyJson, initialData, initialPageNo),
   );
+
+  useEffect(() => {
+    console.log(prevJsonRef.current);
+    if (prevJsonRef.current !== surveyJson) {
+      const newSurvey = createSurveyAndInitialData(surveyJson, initialData, initialPageNo);
+      setSurvey(newSurvey);
+      prevJsonRef.current = surveyJson;
+    }
+  }, [surveyJson]);
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(

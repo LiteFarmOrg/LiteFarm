@@ -19,8 +19,29 @@ import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
 
+function createAndInitializeSurveyModel(
+  json: any,
+  initialData?: Record<string, any>,
+  initialPageNo: number = 0,
+): SurveyModel {
+  const model = new Model(json);
+  model.applyTheme(DefaultLight);
+
+  // Apply initial data if provided
+  if (initialData) {
+    model.data = initialData;
+  }
+
+  // Apply initial page if valid
+  if (initialPageNo > 0) {
+    model.currentPageNo = initialPageNo;
+  }
+
+  return model;
+}
+
 interface SurveyComponentProps {
-  surveyJson: any; // Survey JSON schema object
+  surveyJson: Readonly<any>; // Survey JSON schema object
   onComplete: (currentPageNo: number, surveyData: any) => void;
   initialData?: Record<string, any>;
   initialPageNo?: number;
@@ -42,26 +63,39 @@ export default function SurveyComponent({
   onValueChanged,
 }: SurveyComponentProps) {
   console.time('survey');
-
   // Use Ref to create the survey model only once, even as saved data changes and component re-renders
   const surveyRef = useRef<SurveyModel | null>(null);
-  if (surveyRef.current === null) {
-    surveyRef.current = new Model(surveyJson);
-    surveyRef.current.applyTheme(DefaultLight);
+  const prevSurveyJsonRef = useRef<any | null>(null);
 
-    // Set initial data if provided
-    if (initialData) {
-      surveyRef.current.data = initialData;
-      console.log('initial data changed');
-    }
-    if (initialPageNo > 0) {
-      surveyRef.current.currentPageNo = initialPageNo;
-      console.log('page nomber changed');
-    }
-    console.log('new survey created!');
+  // Create on first render to guarantee survey != null
+  if (surveyRef.current === null) {
+    surveyRef.current = createAndInitializeSurveyModel(surveyJson, initialData, initialPageNo);
+    prevSurveyJsonRef.current = surveyJson;
   }
 
   const survey = surveyRef.current;
+
+  // Handles changes after mount
+  useEffect(() => {
+    console.log('remake model');
+    // Skip if this is the initial render (already handled synchronously)
+    if (prevSurveyJsonRef.current === surveyJson) {
+      return;
+    }
+
+    // Cleanup old listeners
+    if (surveyRef.current) {
+      surveyRef.current.onComplete.clear();
+      surveyRef.current.onCurrentPageChanged.clear();
+      surveyRef.current.onValueChanged.clear();
+    }
+
+    // Recreate
+    surveyRef.current = createAndInitializeSurveyModel(surveyJson, initialData, initialPageNo);
+    prevSurveyJsonRef.current = surveyJson;
+
+    // Optional: re-apply initialData / initialPageNo here if needed
+  }, [surveyJson]);
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(
@@ -114,6 +148,5 @@ export default function SurveyComponent({
     };
   }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
   console.timeEnd('survey');
-
   return <Survey model={survey} />;
 }

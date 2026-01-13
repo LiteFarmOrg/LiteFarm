@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ import { saveSurveyProgress, completeSurvey, tapeSurveySelector } from './tapeSu
 import SurveyComponent from '../../../components/SurveyComponent';
 import surveyJson from './tapeQuestions.json';
 import PageTitle from '../../../components/PageTitle';
+import { Button } from '@mui/material';
 
 function TAPESurvey() {
   const { t } = useTranslation();
@@ -42,13 +43,27 @@ function TAPESurvey() {
     dispatch(completeSurvey({ currentPageNo, surveyData }));
     history.push('/insights/tape/results');
   }, []);
+  const acopy = structuredClone(surveyJson);
+  acopy.pages.shift();
+  const [copy, setCopy] = useState(acopy);
+  const lengthofpages = surveyJson.pages.length;
+  const [loadedSurvey, setLoadedSurvey] = useState(surveyJson);
+  const handleChangeSurvey = () => {
+    if (loadedSurvey.pages.length === lengthofpages) {
+      console.log('hi');
+      setLoadedSurvey(copy);
+    } else {
+      setLoadedSurvey(surveyJson);
+    }
+  };
 
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
+      <Button onClick={handleChangeSurvey} />
       {!isLoading && ( // wait for prepopulated data to load
         <SurveyComponent
-          surveyJson={surveyJson}
+          surveyJson={loadedSurvey}
           onComplete={handleComplete}
           onValueChanged={handleDataChange}
           initialData={initialData}

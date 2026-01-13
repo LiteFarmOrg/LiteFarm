@@ -65,7 +65,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={history.back} // TODO: TEST
           progressValue={33}
-          onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_EXPENSES_URL)}
+          onGoToManageCustomType={() => this.props.navigate(MANAGE_CUSTOM_EXPENSES_URL)} // TODO: Fix navigation
           isTypeSelected={!!this.state.selectedTypes.length}
           formatListItemData={(data) => {
             const {

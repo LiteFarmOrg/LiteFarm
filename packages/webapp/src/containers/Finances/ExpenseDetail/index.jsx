@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams, useMatch } from 'react-router-dom';
+import { useNavigate, useParams, useMatch, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -23,7 +23,9 @@ const ExpenseDetail = () => {
 
   useHookFormPersist(); // To clear form history after editing
 
-  const isEditing = useMatch('/edit', { end: true });
+  // TODO: Pass isEditing as a param instead of parsing URL
+  const { pathname } = useLocation();
+  const isEditing = pathname.endsWith('/edit');
 
   const { expense_id } = useParams();
 
@@ -67,7 +69,7 @@ const ExpenseDetail = () => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    navigate(createEditExpenseDetailsUrl(expense_id));
+    navigate(createEditExpenseDetailsUrl(expense_id)); // TODO: Fix navigation
   };
 
   const onRetire = () => {

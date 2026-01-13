@@ -71,7 +71,7 @@ export default function RevenueTypes({ useHookFormPersist }) {
         types={revenueTypes}
         onGoBack={() => navigate(-1)}
         progressValue={33}
-        onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_REVENUES_URL)}
+        onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_REVENUES_URL)} // TODO: Fix navigation
         getFormatListItemDataFunc={getFormatListItemDataFunc}
         listItemType={listItemTypes.ICON_DESCRIPTION}
         useHookFormPersist={useHookFormPersist}

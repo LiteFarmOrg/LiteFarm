@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useMatch, useParams } from 'react-router-dom';
+import { useLocation, useMatch, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
@@ -33,7 +33,9 @@ import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail() {
   const navigate = useNavigate();
-  const isEditing = useMatch('/edit', { end: true }) !== null;
+  // TODO: Pass isEditing as a param instead of parsing URL
+  const { pathname } = useLocation();
+  const isEditing = pathname.endsWith('/edit');
   const { sale_id } = useParams();
 
   // To clear form history after editing
@@ -61,7 +63,7 @@ function RevenueDetail() {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
-    navigate(createEditRevenueDetailsUrl(sale_id));
+    navigate(createEditRevenueDetailsUrl(sale_id)); // TODO: Fix navigation
   };
 
   const onRetire = () => {

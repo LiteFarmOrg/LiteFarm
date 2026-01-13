@@ -66,14 +66,12 @@ function OnboardingFlow(props) {
 
   return (
     <Routes>
-      <Route path="/farm_selection" exact children={<ChooseFarm />} />
-      <Route path="/welcome" exact children={<WelcomeScreen />} />
-      <Route path="/add_farm" exact children={<AddFarm />} />
-
+      <Route path="/farm_selection" element={<ChooseFarm />} />
+      <Route path="/welcome" element={<WelcomeScreen />} />
+      <Route path="/add_farm" element={<AddFarm />} />
       <Route
         path="/role_selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_one} {...requireConditionProps}>
             <RoleSelection />
           </RequireCondition>
@@ -81,8 +79,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/consent"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
             <ConsentForm />
           </RequireCondition>
@@ -90,18 +87,15 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/consent"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
             <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
           </RequireCondition>
         }
       />
-
       <Route
         path="/certification/interested_in_organic"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_three} {...requireConditionProps}>
             <InterestedOrganic />
           </RequireCondition>
@@ -109,8 +103,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <CertificationSelection />
           </RequireCondition>
@@ -118,8 +111,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/certifier/selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <CertifierSelectionMenu />
           </RequireCondition>
@@ -127,8 +119,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/certifier/request"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <RequestCertifier />
           </RequireCondition>
@@ -136,8 +127,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/summary"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <SetCertificationSummary />
           </RequireCondition>
@@ -145,8 +135,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/outro"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four} {...requireConditionProps}>
             <Outro />
           </RequireCondition>

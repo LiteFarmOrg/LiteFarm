@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* eslint-disable react/no-children-prop */
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import {
@@ -85,52 +84,40 @@ const EditCustomRevenue = React.lazy(() =>
 // TODO: update to relative paths
 const FinancesRoutes = () => (
   <Routes>
-    <Route path={FINANCES_HOME_URL} exact children={<Finances />} />
-    <Route path={ACTUAL_REVENUE_URL} exact children={<ActualRevenue />} />
+    <Route path={FINANCES_HOME_URL} element={<Finances />} />
+    <Route path={ACTUAL_REVENUE_URL} element={<ActualRevenue />} />
     <Route
       path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
-      exact
-      children={<UpdateEstimatedCropRevenue />}
+      element={<UpdateEstimatedCropRevenue />}
     />
-    <Route path={REVENUE_TYPES_URL} exact children={<RevenueTypes />} />
-    <Route path={ADD_REVENUE_URL} exact children={<AddSale />} />
-    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact children={<ManageRevenueTypes />} />
-    <Route path={createRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
-    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact children={<RevenueDetail />} />
-    <Route path={ESTIMATED_REVENUE_URL} exact children={<EstimatedRevenue />} />
-    <Route path={LABOUR_URL} exact children={<Labour />} />
-    <Route path={OTHER_EXPENSE_URL} exact children={<OtherExpense />} />
-    <Route path={createExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
-    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact children={<ExpenseDetail />} />
+    <Route path={REVENUE_TYPES_URL} element={<RevenueTypes />} />
+    <Route path={ADD_REVENUE_URL} element={<AddSale />} />
+    <Route path={MANAGE_CUSTOM_REVENUES_URL} element={<ManageRevenueTypes />} />
+    <Route path={createRevenueDetailsUrl(':sale_id')} element={<RevenueDetail />} />
+    <Route path={createEditRevenueDetailsUrl(':sale_id')} element={<RevenueDetail />} />
+    <Route path={ESTIMATED_REVENUE_URL} element={<EstimatedRevenue />} />
+    <Route path={LABOUR_URL} element={<Labour />} />
+    <Route path={OTHER_EXPENSE_URL} element={<OtherExpense />} />
+    <Route path={createExpenseDetailsUrl(':expense_id')} element={<ExpenseDetail />} />
+    <Route path={createEditExpenseDetailsUrl(':expense_id')} element={<ExpenseDetail />} />
     <Route
       path={EXPENSE_CATEGORIES_URL}
-      exact
       render={() => <WithNavigation component={ExpenseCategories} />}
     />
-    <Route path={ADD_EXPENSE_URL} exact render={() => <WithNavigation component={AddExpense} />} />
-    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact children={<ManageExpenseTypes />} />
-    <Route path={ADD_CUSTOM_EXPENSE_URL} exact children={<AddCustomExpense />} />
+    <Route path={ADD_EXPENSE_URL} render={() => <WithNavigation component={AddExpense} />} />
+    <Route path={MANAGE_CUSTOM_EXPENSES_URL} element={<ManageExpenseTypes />} />
+    <Route path={ADD_CUSTOM_EXPENSE_URL} element={<AddCustomExpense />} />
     <Route
       path={createReadonlyCustomExpenseURL(':expense_type_id')}
-      exact
-      children={<ReadOnlyCustomExpense />}
+      element={<ReadOnlyCustomExpense />}
     />
-    <Route
-      path={createEditCustomExpenseURL(':expense_type_id')}
-      exact
-      children={<EditCustomExpense />}
-    />
-    <Route path={ADD_CUSTOM_REVENUE_URL} exact children={<AddCustomRevenue />} />
+    <Route path={createEditCustomExpenseURL(':expense_type_id')} element={<EditCustomExpense />} />
+    <Route path={ADD_CUSTOM_REVENUE_URL} element={<AddCustomRevenue />} />
     <Route
       path={createReadonlyCustomRevenueUrl(':revenue_type_id')}
-      exact
-      children={<ReadOnlyCustomRevenue />}
+      element={<ReadOnlyCustomRevenue />}
     />
-    <Route
-      path={createEditCustomRevenueUrl(':revenue_type_id')}
-      exact
-      children={<EditCustomRevenue />}
-    />
+    <Route path={createEditCustomRevenueUrl(':revenue_type_id')} element={<EditCustomRevenue />} />
     <Route render={() => <Navigate to={'/'} />} />
   </Routes>
 );

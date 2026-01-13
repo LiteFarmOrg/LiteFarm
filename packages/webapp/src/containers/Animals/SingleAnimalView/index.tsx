@@ -46,18 +46,14 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
-import { CustomRouteComponentProps, Location } from '../../../types';
+import { Location } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
 
 export const STEPS = {
   DETAILS: 'details',
 } as const;
 
-interface RouteParams {
-  id: string;
-}
-
-interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
+interface AddAnimalsProps {
   isCompactSideMenu: boolean;
 }
 

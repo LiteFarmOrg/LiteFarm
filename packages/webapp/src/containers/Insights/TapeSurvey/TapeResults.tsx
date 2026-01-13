@@ -24,11 +24,10 @@ import {
   LineElement,
   Filler,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
-import { Main, Semibold } from '../../../components/Typography';
+import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import TapeQuestions from './tapeQuestions.json';
 import { roundToOne } from '../../../util/rounding';
@@ -38,6 +37,15 @@ import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
 const MAX_SCORE = 100;
+
+const STEP_TWO_SURVEY_NAMES = [
+  'Qualitative economic indicator',
+  'Land tenure',
+  'Food and nutrition',
+  'Dietary diversity',
+  'Youth employment and aspiration',
+  'Soil health',
+];
 
 const getChartTitleFromSurveyTitle = (surveyTitle: unknown) => {
   if (!surveyTitle || typeof surveyTitle !== 'string') return '';
@@ -84,7 +92,7 @@ const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) 
   return acc;
 }, []);
 
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
 interface TAPEDimension {
   dimension: string;
@@ -105,7 +113,6 @@ function TAPEResults() {
     labels: tapeData.map((d) => d.dimension),
     datasets: [
       {
-        label: 'Your Farm',
         data: tapeData.map((d) => roundToOne(d.score)),
         backgroundColor: CHART_FILL_COLOR,
         borderColor: CHART_COLOR,
@@ -129,12 +136,14 @@ function TAPEResults() {
         ticks: {
           stepSize: 20,
         },
+        pointLabels: {
+          font: {
+            size: 14,
+          },
+        },
       },
     },
     plugins: {
-      legend: {
-        position: 'top' as const,
-      },
       tooltip: {
         callbacks: {
           label: (context: any) => ` ${context.label}: ${context.parsed.r}%`,
@@ -151,18 +160,35 @@ function TAPEResults() {
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-      <div className={styles.buttonContainer}>
-        <Button sm color="secondary-2" onClick={returnToSurvey}>
-          {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
-          <EditIcon className={styles.editIcon} />
-        </Button>
-      </div>
-      <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
-      {tapeData && tapeData.length > 0 && (
-        <div className={styles.chartContainer}>
-          <Radar data={chartData} options={options} />
+      <div className={styles.resultsContainer}>
+        <div className={styles.sectionContainer}>
+          <div className={styles.buttonContainer}>
+            <Button sm color="secondary-2" onClick={returnToSurvey}>
+              {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
+              <EditIcon className={styles.editIcon} />
+            </Button>
+          </div>
+          <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
+          {tapeData && tapeData.length > 0 && (
+            <div className={styles.chartContainer}>
+              <Radar data={chartData} options={options} />
+            </div>
+          )}
         </div>
-      )}
+        <div className={styles.sectionContainer}>
+          <Semibold className={styles.titleText}>Step 2 - Core Criteria of Performance</Semibold>
+          <div className={styles.stepTwoButtonContainer}>
+            {
+              /* Placeholders for Step 2 content. Ultimately these will link to distinct surveys for each section */
+              STEP_TWO_SURVEY_NAMES.map((name) => (
+                <Button key={name} sm color="secondary">
+                  {name}
+                </Button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
     </>
   );
 }

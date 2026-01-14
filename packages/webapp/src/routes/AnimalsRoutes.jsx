@@ -15,12 +15,6 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import {
-  ANIMALS_INVENTORY_URL,
-  ADD_ANIMALS_URL,
-  createSingleAnimalViewURL,
-  // createSingleAnimalTasksURL,
-} from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
@@ -28,20 +22,16 @@ const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAn
 //   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
 // );
 
-// TODO: update to relative paths
 const AnimalsRoutes = ({ isCompactSideMenu }) => (
   <Routes>
+    <Route path="inventory" element={<Inventory isCompactSideMenu={isCompactSideMenu} />} />
     <Route
-      path={ANIMALS_INVENTORY_URL}
-      element={<Inventory isCompactSideMenu={isCompactSideMenu} />}
+      path="inventory/add_animals"
+      element={<AddAnimals isCompactSideMenu={isCompactSideMenu} />}
     />
-    <Route path={ADD_ANIMALS_URL} element={<AddAnimals isCompactSideMenu={isCompactSideMenu} />} />
-    <Route
-      path={createSingleAnimalViewURL(':id')}
-      element={<SingleAnimalView isCompactSideMenu={isCompactSideMenu} />}
-    />
+    <Route path=":id" element={<SingleAnimalView isCompactSideMenu={isCompactSideMenu} />} />
     {/* Temporarily removed for Animals v1 release */}
-    {/* <Route path={createSingleAnimalTasksURL(':id')} element={<SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} />} /> */}
+    {/* <Route path=":id/tasks" element={<SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} />} /> */}
   </Routes>
 );
 

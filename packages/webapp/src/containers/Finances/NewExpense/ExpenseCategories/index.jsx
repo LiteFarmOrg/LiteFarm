@@ -45,7 +45,7 @@ class ExpenseCategories extends Component {
   }
 
   render() {
-    const { expenseTypes, history } = this.props;
+    const { expenseTypes, navigate } = this.props;
 
     const miscellaneous_type_id = expenseTypes.find(
       (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
@@ -63,9 +63,9 @@ class ExpenseCategories extends Component {
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           types={filteredExpenseTypes}
           onContinue={this.nextPage}
-          onGoBack={history.back} // TODO: TEST
+          onGoBack={() => navigate(-1)}
           progressValue={33}
-          onGoToManageCustomType={() => this.props.navigate(MANAGE_CUSTOM_EXPENSES_URL)} // TODO: Fix navigation
+          onGoToManageCustomType={() => navigate(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatListItemData={(data) => {
             const {

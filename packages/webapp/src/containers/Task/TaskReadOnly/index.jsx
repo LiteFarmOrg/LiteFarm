@@ -125,7 +125,7 @@ function TaskReadOnly() {
     const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
     const path = `/crop/${crop_variety_id}/management_plan/${planting_management_plan.management_plan_id}/tasks`;
 
-    navigate(path, location?.state);
+    navigate(path, { state: location?.state });
   };
 
   const { maxZoomRef, getMaxZoom } = useMaxZoom();

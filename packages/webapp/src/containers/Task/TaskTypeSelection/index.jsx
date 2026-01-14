@@ -35,10 +35,10 @@ function TaskTypeSelection() {
   }, []);
 
   const onCustomTask = () => {
-    navigate(customTaskPath, location?.state);
+    navigate(customTaskPath, { state: location?.state });
   };
 
-  const onContinue = () => navigate(continuePath, location?.state);
+  const onContinue = () => navigate(continuePath, { state: location?.state });
 
   const handleGoBack = () => {
     navigate(-1);

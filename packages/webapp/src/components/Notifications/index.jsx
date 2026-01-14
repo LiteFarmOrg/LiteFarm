@@ -48,7 +48,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       route = '/';
     }
 
-    navigate(route, notification.context);
+    navigate(route, { state: notification.context });
   };
 
   return (

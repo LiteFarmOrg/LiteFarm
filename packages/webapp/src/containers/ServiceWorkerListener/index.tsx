@@ -16,6 +16,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { serviceWorkerMessageReceived } from './serviceWorkerSlice';
+import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getTasks } from '../Task/saga';
 
 /**
  * Global listener for messages sent from the Service Worker (sw.js).
@@ -28,8 +30,43 @@ export function ServiceWorkerListener() {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       // Ensure we only dispatch valid messages.
       // event.data is the payload sent from sw.js (e.g. { type: 'SYNC_ITEM_SUCCESS', payload: ... })
-      if (event.data && event.data.type) {
-        dispatch(serviceWorkerMessageReceived(event.data));
+      if (!event.data || !event.data.type) return;
+
+      const { type, payload } = event.data;
+      dispatch(serviceWorkerMessageReceived(event.data));
+
+      const { area, error, response } = payload || {};
+
+      if (type === 'SYNC_ITEM_SUCCESS') {
+        switch (area) {
+          case 'tasks.create':
+            // Note: Responses can succeed in the queue sense, but still return an error from the API
+            if (response?.error) {
+              dispatch(
+                enqueueErrorSnackbar(
+                  `Failed to sync new task: ${response.error.message ?? 'Unknown error'}`,
+                ),
+              );
+              break;
+            }
+            dispatch(enqueueSuccessSnackbar('New task synced'));
+            dispatch(getTasks());
+            break;
+
+          default:
+            // Generic “success” for unknown areas
+            dispatch(enqueueSuccessSnackbar(`Sync succeeded for “${area}”`));
+        }
+      } else if (type === 'SYNC_ITEM_FAILURE') {
+        switch (area) {
+          case 'tasks.create':
+            dispatch(enqueueErrorSnackbar('Failed to sync new task'));
+            break;
+
+          default:
+            // Generic “failure” for unknown areas
+            dispatch(enqueueErrorSnackbar(`Sync failed for “${area}”${error ? `: ${error}` : ''}`));
+        }
       }
     };
 

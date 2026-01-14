@@ -322,18 +322,21 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
   const Element = () => {
     if (isAuthenticated()) {
       role_id = Number(role_id);
-      // TODO check every step
       if (isInvitationFlow) {
         return (
           <Routes>
-            <Route path="/farm_selection" element={<ChooseFarm />} />
+            <Route
+              path="/farm_selection"
+              element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" />}
+            />
             <Route
               path="/consent"
               element={<ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
             />
-            <Route path="/outro" element={<JoinFarmSuccessScreen />} />
-            {/* TODO: TEST and fix */}
-            <Route element={() => !has_consent && <Navigate to="/consent" />} />
+            <Route
+              path="/outro"
+              element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" />}
+            />
           </Routes>
         );
       } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
@@ -343,7 +346,6 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
           <Routes>
             <Route path="/farm_selection" element={<ChooseFarm />} />
             <Route path="/consent" element={<ConsentForm goForwardTo={'/'} goBackTo={null} />} />
-            {/* TODO: TEST */}
             <Route path="*" element={<Navigate to="/consent" />} />
           </Routes>
         );

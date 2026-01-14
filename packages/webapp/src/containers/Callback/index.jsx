@@ -9,7 +9,6 @@ function Callback() {
   const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
-    // TODO: test if URLSearchParams works the same way as before
     const params = new URLSearchParams(location.search.substring(1));
     const isResetLink = params.has('reset_token');
     const isInviteLink = params.has('invite_token');

@@ -106,7 +106,7 @@
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "sinon": "^9.1.0",
+    "sinon": "^21.0.1",
     "ua-parser-js": "^0.7.28",
     "uuid": "^8.3.0",
     "winston": "^3.8.2",

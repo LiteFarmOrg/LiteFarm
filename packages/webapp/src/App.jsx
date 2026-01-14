@@ -25,6 +25,7 @@ import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { NavMenuControlsContext } from './contexts/appContext';
+import { ServiceWorkerListener } from './containers/ServiceWorkerListener';
 
 function App() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
           >
             <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
               <OfflineDetector />
+              <ServiceWorkerListener />
               <SnackbarProvider
                 anchorOrigin={{
                   vertical: 'bottom',

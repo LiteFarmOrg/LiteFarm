@@ -86,6 +86,7 @@ import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskS
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
 import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+import serviceWorkerReducer from '../containers/ServiceWorkerListener/serviceWorkerSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -231,6 +232,7 @@ const tempStateReducer = combineReducers({
   snackbarReducer,
   customSignUpReducer,
   offlineDetectorReducer,
+  serviceWorkerReducer,
 });
 
 // combine all reducers here and pass it to application

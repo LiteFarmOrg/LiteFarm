@@ -693,8 +693,13 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    if (e.response.data === 'location deleted') {
+    if (e.response?.data === 'location deleted') {
       setShowCannotCreateModal(true);
+    } else if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      // We can show a message that the task is saved and will sync when online
+      yield put(enqueueSuccessSnackbar('Offline. Will sync task when back online'));
+      history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
     }

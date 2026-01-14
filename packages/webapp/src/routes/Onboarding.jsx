@@ -142,7 +142,7 @@ function OnboardingFlow(props) {
         }
       />
       {/* Fallback route - handles redirects when no other routes match */}
-      <Route render={() => <RequireCondition {...requireConditionProps} />} />
+      <Route path="*" element={<RequireCondition {...requireConditionProps} />} />
     </Routes>
   );
 }

@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
     loaded && hasUserFarm && navigate('/farm_selection');
   }, [loaded, hasUserFarm]);
   const onClick = () => {
-    navigate('./add_farm');
+    navigate('/add_farm');
   };
   return <PureWelcomeScreen onClick={onClick} />;
 }

@@ -14,14 +14,13 @@ export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
   system,
-  history, // TODO: handle navigation with useNavigate
   crop_variety,
   isFinalPage,
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   location,
-  onSubmit = () => history.push(submitPath, location?.state),
+  onSubmit,
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
@@ -48,7 +47,10 @@ export default function PurePlantInContainer({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onError = () => {};
+  const onFormSubmit = handleSubmit(
+    onSubmit || (() => navigate(submitPath, { state: location?.state })),
+    () => {},
+  );
 
   const disabled = !isValid;
 
@@ -59,7 +61,7 @@ export default function PurePlantInContainer({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={onFormSubmit}
     >
       <MultiStepPageTitle
         onGoBack={() => navigate(-1)}

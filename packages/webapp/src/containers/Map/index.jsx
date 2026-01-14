@@ -65,7 +65,7 @@ import {
 } from '../../util/google-maps/cleanupListeners';
 
 export default function Map({ isCompactSideMenu }) {
-  const location = useLocation(); // TODO: test if this is equivalent to history.location
+  const location = useLocation();
   const navigate = useNavigate();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   useGoogleMapsLoader(['drawing', 'geometry']);

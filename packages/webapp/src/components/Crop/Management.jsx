@@ -122,7 +122,7 @@ export default function PureCropManagement({
                 onClick={() =>
                   navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    { state: location.state },
                   )
                 }
                 {...managementPlan}

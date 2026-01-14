@@ -83,7 +83,6 @@ export default function ManagementTasks() {
         variety={variety}
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
-        history={history}
         location={location}
         eligibleForDeletion={eligibleForDeletion}
       >

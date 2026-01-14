@@ -20,7 +20,7 @@ function EditBarnDetailForm() {
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
-  // TODO: test if saga works correctly
+
   const submitForm = (data) => {
     isEditLocationPage &&
       dispatch(editBarnLocation({ ...data, location_id, figure_id: barn.figure_id }));

@@ -27,7 +27,6 @@ export default function PureManagementTasks({
   plan,
   isAdmin,
   hasPendingTasks,
-  history,
   children,
   location,
   eligibleForDeletion,
@@ -84,8 +83,7 @@ export default function PureManagementTasks({
         )
       }
     >
-      {/* TODO: CHECK history.go(-1) */}
-      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
+      <CropHeader onBackClick={() => navigate(-1)} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>

@@ -78,7 +78,7 @@ export default function useHookFormPersist(
           const unlisten = history.listen(() => {
             if (history.action === 'POP') {
               unlisten();
-              navigate(pathname, state);
+              navigate(pathname, { state });
             }
           });
           navigate(-(historyStack.length || 1) - 1);
@@ -86,7 +86,7 @@ export default function useHookFormPersist(
           const unlisten = history.listen(() => {
             if (history.action === 'POP') {
               unlisten();
-              navigate(pathname, state);
+              navigate(pathname, { state });
             }
           });
           navigate(-1);

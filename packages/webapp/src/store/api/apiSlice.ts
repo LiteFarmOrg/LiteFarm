@@ -105,9 +105,9 @@ export const api = createApi({
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
-    getAnimals: build.query<Animal[], void>({
-      query: () => `${animalsUrl}`,
-      providesTags: ['Animals'],
+    getAnimals: build.query<Animal[], { farm_id: string }>({
+      query: (_args) => `${animalsUrl}`,
+      providesTags: (_result, _error, { farm_id }) => [{ type: 'Animals', id: farm_id }],
     }),
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,

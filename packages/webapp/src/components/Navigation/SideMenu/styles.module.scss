@@ -277,7 +277,7 @@
     width: var(--global-side-menu-width);
     height: calc(100vh - var(--offline-indicator-offset));
     position: sticky;
-    top: 0;
+    top: var(--offline-indicator-offset);
     overflow: auto;
     background-color: var(--bgInputListTile);
     z-index: 1299;

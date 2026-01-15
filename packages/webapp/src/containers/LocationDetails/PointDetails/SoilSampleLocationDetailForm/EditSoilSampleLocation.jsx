@@ -44,10 +44,10 @@ function EditSoilSampleLocationDetailForm() {
   const soilSampleLocation = useSelector(soilSampleLocationSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 

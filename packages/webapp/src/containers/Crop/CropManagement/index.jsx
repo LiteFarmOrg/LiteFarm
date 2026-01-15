@@ -50,7 +50,7 @@ function CropManagement() {
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
   const goBack = () => {
-    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
+    navigate(location.state?.returnPath ?? `/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
     const estimated_seeds_unit = { value: 'kg', label: 'kg' };
@@ -125,7 +125,6 @@ function CropManagement() {
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}
         isAdmin={isAdmin}
-        location={location}
       />
       <RepeatedCropPlanSpotlight
         repeatingPlanCreated={hasRepeatingPlans}

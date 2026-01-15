@@ -36,10 +36,10 @@ export default function PointDetails({
   }, []);
 
   useEffect(() => {
-    if (location?.state?.error) {
-      setErrorMessage(location?.state?.error);
+    if (location.state?.error) {
+      setErrorMessage(location.state?.error);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   return (
     <>

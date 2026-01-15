@@ -44,10 +44,10 @@ export default function AreaDetails({
   }, []);
 
   useEffect(() => {
-    if (location?.state?.error && !location?.state?.error?.retire) {
-      setErrorMessage(location?.state?.error);
+    if (location.state?.error && !location.state?.error?.retire) {
+      setErrorMessage(location.state?.error);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   return (
     <>

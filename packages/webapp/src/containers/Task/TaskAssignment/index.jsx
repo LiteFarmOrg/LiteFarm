@@ -80,7 +80,7 @@ export default function TaskAssignment() {
         override_hourly_wage: shouldSetTaskWage,
         wage_at_moment: shouldSetTaskWage ? +hourly_wage.toFixed(2) : null,
       },
-      returnPath: location.state ? location.state.pathname : null,
+      returnPath: location.state ? location.state?.pathname : null,
     };
     // delete data(HOURLY_WAGE_ACTION, SELECT_ALL etc) that should not be included in API request
     delete postData[ALREADY_COMPLETED];

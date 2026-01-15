@@ -27,10 +27,10 @@ function EditFieldDetailForm() {
   const field = useSelector(fieldSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error) {
+    if (location.state?.error) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);

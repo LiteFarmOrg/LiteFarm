@@ -19,8 +19,6 @@ import { useGetAnimalsQuery as useGetAnimalsRaw } from './apiSlice';
 import { loginSelector } from '../../containers/userFarmSlice';
 import { Animal } from './types';
 
-type RawHook = (arg: any, options?: any) => any;
-
 type RawQueryResult<T> = {
   data?: T;
   currentData?: T;
@@ -34,8 +32,9 @@ type RawQueryResult<T> = {
   startedTimeStamp?: number;
   fulfilledTimeStamp?: number;
 };
+
 type ExtraArgs<Arg> = Arg extends undefined ? undefined : Omit<Arg, 'farm_id'>;
-// Normal options (without selectFromResult)
+
 type BaseUseQueryOptions = {
   pollingInterval?: number;
   skipPollingIfUnfocused?: boolean;
@@ -49,43 +48,72 @@ type UseQueryOptionsWithSelect<Result, Selected> = BaseUseQueryOptions & {
   selectFromResult: (result: Result) => Selected;
 };
 
-function createWrapper<Data, Args>(rawHook: RawHook) {
-  function inCreateWrapper<Selected = RawQueryResult<Data>>(
-    extraArgs?: ExtraArgs<Args>,
-    options?: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
+/**
+ * Helper function that contains the shared logic for injecting farm_id
+ * into RTK Query hooks that expect an object argument.
+ *
+ * This is **not** meant to be used directly — it's an internal implementation detail.
+ *
+ * @internal
+ */
+function queryWithFarmId(
+  rawHook: (arg: any, options?: any) => any,
+  extraArgs?: any,
+  options?: any,
+): any {
+  const { farm_id } = useSelector(loginSelector);
+  if (!farm_id) {
+    return rawHook(skipToken);
+  }
+
+  const fullArg = { farm_id, ...extraArgs };
+  return rawHook(fullArg, options);
+}
+
+/**
+ * Creates a farm-aware version of an RTK Query `useQuery` hook.
+ *
+ * Automatically injects `{ farm_id }` into the query argument object.
+ * Supports both plain usage and usage with `selectFromResult`.
+ *
+ * @template Data - The type of data returned by the query (e.g. `Animal[]`, `Crop[]`, ...)
+ * @template Args - The shape of the raw query argument
+ *
+ * @example
+ * ```ts
+ * // Plain usage — returns full query result
+ * const { data, isLoading } = useGetAnimalsQuery();
+ *
+ * // With selectFromResult — returns only the selected slice with type inference
+ * const { selectedAnimal } = useGetAnimalsQuery(undefined, {
+ *   selectFromResult: ({ data }) => ({
+ *     selectedAnimal: data?.find(a => a.id === someId),
+ *   })
+ * });
+ * ```
+ */
+function getUseQueryWithFarmId<Data, Args extends { farm_id: string }>(
+  rawHook: (arg: Args, options?: any) => RawQueryResult<Data>,
+) {
+  // Overload 1: when selectFromResult is present
+  function useQueryWithFarmId<Selected>(
+    extraArgs: ExtraArgs<Args> | undefined,
+    options: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
   ): Selected;
 
-  // Overload for the plain / no-selectFromResult case
-  function inCreateWrapper(
+  // Overload 2: plain call (no selectFromResult or no options)
+  function useQueryWithFarmId(
     extraArgs?: ExtraArgs<Args>,
     options?: BaseUseQueryOptions,
   ): RawQueryResult<Data>;
 
-  // Implementation signature (TS needs this to unify both overloads)
-  function inCreateWrapper(extraArgs?: ExtraArgs<Args>, options?: any): any {
-    function useHookWithFarmId<Selected>(
-      extraArgs: ExtraArgs<any> | undefined,
-      options: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
-    ): Selected;
-
-    function useHookWithFarmId(
-      extraArgs?: ExtraArgs<any>,
-      options?: BaseUseQueryOptions,
-    ): RawQueryResult<Data>;
-
-    function useHookWithFarmId(extraArgs?: any, options?: any): any {
-      const { farm_id } = useSelector(loginSelector);
-      if (!farm_id) {
-        rawHook(skipToken);
-      }
-
-      const fullArg = { farm_id, ...extraArgs };
-
-      return rawHook(fullArg, options);
-    }
-    return () => useHookWithFarmId(extraArgs, options);
+  function useQueryWithFarmId(extraArgs?: ExtraArgs<Args>, options?: any): any {
+    return queryWithFarmId(rawHook, extraArgs, options);
   }
-  return inCreateWrapper;
+
+  return useQueryWithFarmId;
 }
 
-export const useGetAnimalsQuery = createWrapper<Animal[], { farm_id: string }>(useGetAnimalsRaw);
+export const useGetAnimalsQuery = getUseQueryWithFarmId<Animal[], { farm_id: string }>(
+  useGetAnimalsRaw,
+);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Form from '../../Form';
@@ -17,13 +17,12 @@ function PurePlanGuidance({
   isBed,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  history,
   submitPath,
-  location,
-  onSubmit = () => history.push(submitPath, location?.state),
+  onSubmit,
 }) {
   const { t } = useTranslation(['translation']);
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -39,6 +38,8 @@ function PurePlanGuidance({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
+  const onFormSubmit = handleSubmit(onSubmit || navigate(submitPath, { state: location.state }));
+
   return (
     <Form
       buttonGroup={
@@ -46,7 +47,7 @@ function PurePlanGuidance({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onFormSubmit}
     >
       <MultiStepPageTitle
         onGoBack={() => navigate(-1)}

@@ -61,10 +61,12 @@ import type {
   SensorReadings,
   IrrigationPrescription,
   IrrigationPrescriptionDetails,
+  WithFarmId,
 } from './types';
 
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
+import { getFarmTagFn } from './util';
 
 /**
  * Invalidates one or more RTK Query cache tags.
@@ -105,9 +107,9 @@ export const api = createApi({
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
-    getAnimals: build.query<Animal[], { farm_id: string }>({
+    getAnimals: build.query<Animal[], WithFarmId>({
       query: (_args) => `${animalsUrl}`,
-      providesTags: (_result, _error, { farm_id }) => [{ type: 'Animals', id: farm_id }],
+      providesTags: getFarmTagFn<Animal[], WithFarmId>('Animals'),
     }),
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,

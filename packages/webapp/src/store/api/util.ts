@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryStatus, skipToken } from '@reduxjs/toolkit/query/react';
+import { FetchBaseQueryError, QueryStatus, skipToken } from '@reduxjs/toolkit/query/react';
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
 import { WithFarmId } from './types';
+import { FarmTag } from './apiTags';
 
 type RawQueryResult<T> = {
   data?: T;
@@ -111,4 +112,10 @@ export function getUseQueryWithFarmId<Data, Args extends WithFarmId>(
   }
 
   return useQueryWithFarmId;
+}
+
+export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag) {
+  return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
+    return [{ type: tag, id: args.farm_id }];
+  };
 }

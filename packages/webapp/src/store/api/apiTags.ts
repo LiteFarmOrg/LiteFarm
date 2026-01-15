@@ -73,3 +73,4 @@ export const FarmLibraryTags = [
 export const API_TAGS = [...LibraryTags, ...FarmTags, ...FarmLibraryTags] as const;
 
 export type ApiTag = (typeof API_TAGS)[number];
+export type FarmTag = (typeof FarmTags)[number];

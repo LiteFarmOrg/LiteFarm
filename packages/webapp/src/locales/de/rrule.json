@@ -30,7 +30,15 @@
     "years": "Jahre",
     "year": "Jahre"
   },
-  "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+  "dayNames": [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag"
+  ],
   "monthNames": [
     "Januar",
     "Februar",

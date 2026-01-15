@@ -27,14 +27,16 @@ import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContain
 import { addNullstoMissingFields } from './utils';
 import { useInitialAnimalData } from './useInitialAnimalData';
 import {
-  useGetAnimalOriginsQuery,
   useUpdateAnimalsMutation,
   useUpdateAnimalBatchesMutation,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
+import {
+  useGetAnimalOriginsQuery,
+  useGetDefaultAnimalBreedsQuery,
+} from '../../../store/api/libraryApiSlice';
 import { locationsSelector } from '../../locationSlice';
 import {
   formatAnimalDetailsToDBStructure,

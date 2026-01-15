@@ -13,27 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '../store';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   animalsUrl,
   animalBatchesUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
-  defaultAnimalBreedsUrl,
   defaultAnimalTypesUrl,
-  animalSexesUrl,
-  animalIdentifierTypesUrl,
-  animalIdentifierColorsUrl,
-  animalOriginsUrl,
-  animalUsesUrl,
-  animalRemovalReasonsUrl,
-  soilAmendmentMethodsUrl,
-  soilAmendmentPurposesUrl,
-  soilAmendmentFertiliserTypesUrl,
   productUrl,
-  url,
-  animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
   irrigationPrescriptionUrl,
@@ -43,19 +30,8 @@ import type {
   AnimalBatch,
   CustomAnimalBreed,
   CustomAnimalType,
-  DefaultAnimalBreed,
   DefaultAnimalType,
-  AnimalSex,
-  AnimalRemovalReason,
-  SoilAmendmentMethod,
-  SoilAmendmentPurpose,
-  SoilAmendmentFertiliserType,
   SoilAmendmentProduct,
-  AnimalIdentifierType,
-  AnimalIdentifierColor,
-  AnimalOrigin,
-  AnimalUse,
-  AnimalMovementPurpose,
   SensorData,
   FarmAddon,
   SensorReadings,
@@ -65,6 +41,7 @@ import type {
 
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
+import { BASE_QUERY } from './constants';
 
 /**
  * Invalidates one or more RTK Query cache tags.
@@ -77,28 +54,10 @@ import { API_TAGS, ApiTag } from './apiTags';
  * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
  */
 export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
-
-const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
+export const resetApiState = () => api.util.resetApiState();
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: url,
-    prepareHeaders: (headers, { getState, endpoint }) => {
-      const state = getState() as RootState;
-
-      headers.set('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
-      headers.set('user_id', state.entitiesReducer.userFarmReducer.user_id || '');
-      headers.set('farm_id', state.entitiesReducer.userFarmReducer.farm_id || '');
-
-      // Only set the content-type to json if appropriate.
-      if (!NON_JSON_ENDPOINT_KEYS.has(endpoint) && !headers.has('Content-Type')) {
-        headers.set('content-type', 'application/json');
-      }
-
-      return headers;
-    },
-    responseHandler: 'content-type',
-  }),
+  baseQuery: BASE_QUERY,
   tagTypes: API_TAGS,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -122,38 +81,6 @@ export const api = createApi({
     getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
       query: () => `${customAnimalBreedsUrl}`,
       providesTags: ['CustomAnimalBreeds'],
-    }),
-    getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
-      query: () => `${defaultAnimalBreedsUrl}`,
-      providesTags: ['DefaultAnimalBreeds'],
-    }),
-    getAnimalSexes: build.query<AnimalSex[], void>({
-      query: () => `${animalSexesUrl}`,
-      providesTags: ['AnimalSexes'],
-    }),
-    getAnimalIdentifierTypes: build.query<AnimalIdentifierType[], void>({
-      query: () => `${animalIdentifierTypesUrl}`,
-      providesTags: ['AnimalIdentifierTypes'],
-    }),
-    getAnimalIdentifierColors: build.query<AnimalIdentifierColor[], void>({
-      query: () => `${animalIdentifierColorsUrl}`,
-      providesTags: ['AnimalIdentifierColors'],
-    }),
-    getAnimalMovementPurposes: build.query<AnimalMovementPurpose[], void>({
-      query: () => `${animalMovementPurposesUrl}`,
-      providesTags: ['AnimalMovementPurposes'],
-    }),
-    getAnimalOrigins: build.query<AnimalOrigin[], void>({
-      query: () => `${animalOriginsUrl}`,
-      providesTags: ['AnimalOrigins'],
-    }),
-    getAnimalUses: build.query<AnimalUse[], void>({
-      query: () => `${animalUsesUrl}`,
-      providesTags: ['AnimalUses'],
-    }),
-    getAnimalRemovalReasons: build.query<AnimalRemovalReason[], void>({
-      query: () => `${animalRemovalReasonsUrl}`,
-      providesTags: ['AnimalRemovalReasons'],
     }),
     removeAnimals: build.mutation<Animal[], Partial<Animal>[]>({
       query: (patch) => ({
@@ -220,18 +147,6 @@ export const api = createApi({
         'CustomAnimalTypes',
         'CustomAnimalBreeds',
       ],
-    }),
-    getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
-      query: () => `${soilAmendmentMethodsUrl}`,
-      providesTags: ['SoilAmendmentMethods'],
-    }),
-    getSoilAmendmentPurposes: build.query<SoilAmendmentPurpose[], void>({
-      query: () => `${soilAmendmentPurposesUrl}`,
-      providesTags: ['SoilAmendmentPurposes'],
-    }),
-    getSoilAmendmentFertiliserTypes: build.query<SoilAmendmentFertiliserType[], void>({
-      query: () => `${soilAmendmentFertiliserTypesUrl}`,
-      providesTags: ['SoilAmendmentFertiliserTypes'],
     }),
     addSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>({
       query: (body) => ({
@@ -332,15 +247,7 @@ export const {
   useGetAnimalBatchesQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
-  useGetAnimalSexesQuery,
-  useGetAnimalIdentifierTypesQuery,
-  useGetAnimalIdentifierColorsQuery,
-  useGetAnimalMovementPurposesQuery,
-  useGetAnimalOriginsQuery,
-  useGetAnimalUsesQuery,
-  useGetAnimalRemovalReasonsQuery,
   useRemoveAnimalsMutation,
   useRemoveAnimalBatchesMutation,
   useDeleteAnimalsMutation,
@@ -349,9 +256,6 @@ export const {
   useAddAnimalBatchesMutation,
   useUpdateAnimalsMutation,
   useUpdateAnimalBatchesMutation,
-  useGetSoilAmendmentMethodsQuery,
-  useGetSoilAmendmentPurposesQuery,
-  useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
   useDeleteSoilAmendmentProductMutation,

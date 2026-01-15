@@ -23,10 +23,12 @@ import { FilterType, type ComponentFilter } from '../../../components/Filter/typ
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetCustomAnimalBreedsQuery,
-  useGetAnimalSexesQuery,
 } from '../../../store/api/apiSlice';
+import {
+  useGetDefaultAnimalBreedsQuery,
+  useGetAnimalSexesQuery,
+} from '../../../store/api/libraryApiSlice';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { useVisibleBreeds } from './useVisibleBreeds';
 import { locationsSelector } from '../../locationSlice';

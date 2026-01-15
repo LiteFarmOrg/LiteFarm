@@ -22,11 +22,8 @@ import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
-import {
-  useAddAnimalBatchesMutation,
-  useAddAnimalsMutation,
-  useGetAnimalOriginsQuery,
-} from '../../../store/api/apiSlice';
+import { useAddAnimalBatchesMutation, useAddAnimalsMutation } from '../../../store/api/apiSlice';
+import { useGetAnimalOriginsQuery } from '../../../store/api/libraryApiSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';

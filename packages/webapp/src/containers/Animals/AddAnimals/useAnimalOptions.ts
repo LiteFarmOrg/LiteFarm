@@ -16,14 +16,16 @@
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
   useGetCustomAnimalBreedsQuery,
+} from '../../../store/api/apiSlice';
+import {
+  useGetDefaultAnimalBreedsQuery,
   useGetAnimalSexesQuery,
   useGetAnimalIdentifierTypesQuery,
   useGetAnimalIdentifierColorsQuery,
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
-} from '../../../store/api/apiSlice';
+} from '../../../store/api/libraryApiSlice';
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { ANIMAL_ID_PREFIX } from '../types';

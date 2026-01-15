@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -26,10 +26,10 @@ export default function PureManagementTasks({
   isAdmin,
   hasPendingTasks,
   children,
-  location,
   eligibleForDeletion,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const { variety_id, management_plan_id } = useParams();
 
@@ -112,12 +112,12 @@ export default function PureManagementTasks({
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
             path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
-            state: location?.state,
+            state: location.state,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
             path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
-            state: location?.state,
+            state: location.state,
           },
         ]}
       />

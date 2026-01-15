@@ -26,7 +26,6 @@ const PureTaskCrops = ({
   isRequired,
   defaultManagementPlanId,
   progress = 57,
-  location,
 }) => {
   const { t } = useTranslation();
 

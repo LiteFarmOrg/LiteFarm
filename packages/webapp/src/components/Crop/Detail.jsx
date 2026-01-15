@@ -1,6 +1,6 @@
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -19,10 +19,10 @@ function PureCropDetail({
   onRetire,
   onEdit,
   isAdmin,
-  location,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     handleSubmit,
     register,
@@ -64,12 +64,12 @@ function PureCropDetail({
               {
                 label: t('CROP_DETAIL.MANAGEMENT_TAB'),
                 path: `/crop/${variety_id}/management`,
-                state: location?.state,
+                state: location.state,
               },
               {
                 label: t('CROP_DETAIL.DETAIL_TAB'),
                 path: `/crop/${variety_id}/detail`,
-                state: location?.state,
+                state: location.state,
               },
             ]}
           />

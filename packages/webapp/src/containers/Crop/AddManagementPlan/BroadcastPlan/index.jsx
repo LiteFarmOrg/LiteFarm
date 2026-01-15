@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import PureBroadcastPlan from '../../../../components/Crop/BroadcastPlan';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -8,7 +8,6 @@ import { cropVarietySelector } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function BroadcastPlan() {
-  const location = useLocation();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { variety_id } = useParams();
   const cropVariety = useSelector(cropVarietySelector(variety_id));
@@ -31,7 +30,6 @@ function BroadcastPlan() {
         isFinalPage={isFinalPage}
         locationSize={planLocation.total_area}
         yieldPerArea={yieldPerArea}
-        location={location}
       />
     </HookFormPersistProvider>
   );

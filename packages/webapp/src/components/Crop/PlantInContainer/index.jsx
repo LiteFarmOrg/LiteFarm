@@ -1,6 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -19,7 +19,6 @@ export default function PurePlantInContainer({
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  location,
   onSubmit,
 }) {
   const progress = useMemo(() => {
@@ -30,6 +29,7 @@ export default function PurePlantInContainer({
 
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -48,7 +48,7 @@ export default function PurePlantInContainer({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const onFormSubmit = handleSubmit(
-    onSubmit || (() => navigate(submitPath, { state: location?.state })),
+    onSubmit || (() => navigate(submitPath, { state: location.state })),
     () => {},
   );
 

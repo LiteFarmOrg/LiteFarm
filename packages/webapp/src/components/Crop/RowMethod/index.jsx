@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import Button from '../../Form/Button';
@@ -17,10 +17,10 @@ export default function PureRowMethod({
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
   isHistoricalPage,
-  location,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -37,7 +37,7 @@ export default function PureRowMethod({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => navigate(submitPath, { state: location?.state });
+  const onSubmit = () => navigate(submitPath, { state: location.state });
 
   return (
     <Form

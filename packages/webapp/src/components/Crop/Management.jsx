@@ -2,7 +2,7 @@ import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -20,9 +20,9 @@ export default function PureCropManagement({
   onAddManagementPlan,
   managementPlanCardContents,
   isAdmin,
-  location,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const { variety_id } = useParams();
   const [searchString, setSearchString] = useState('');
@@ -73,12 +73,12 @@ export default function PureCropManagement({
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
             path: `/crop/${variety_id}/management`,
-            state: location?.state,
+            state: location.state,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
             path: `/crop/${variety_id}/detail`,
-            state: location?.state,
+            state: location.state,
           },
         ]}
       />

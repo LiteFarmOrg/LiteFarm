@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Form from '../../Form';
@@ -18,10 +18,10 @@ function PureBedPlan({
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  location,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -37,7 +37,7 @@ function PureBedPlan({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => navigate(submitPath, { state: location?.state });
+  const onSubmit = () => navigate(submitPath, { state: location.state });
 
   return (
     <Form

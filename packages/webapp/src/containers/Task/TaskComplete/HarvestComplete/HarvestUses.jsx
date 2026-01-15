@@ -25,7 +25,7 @@ function HarvestUses() {
   const [showAddHarvestTypeModal, setShowAddHarvestTypeModal] = useState(false);
 
   const onContinue = (data) => {
-    navigate(`/tasks/${task_id}/complete`, location?.state);
+    navigate(`/tasks/${task_id}/complete`, { state: location.state });
   };
 
   const onGoBack = () => {

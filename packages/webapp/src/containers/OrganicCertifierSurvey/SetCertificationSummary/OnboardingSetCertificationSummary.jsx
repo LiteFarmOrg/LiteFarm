@@ -19,7 +19,7 @@ export default function OnboardingSetCertificationSummary() {
   const outroPath = '/outro';
   const dispatch = useDispatch();
   const onSubmit = () => {
-    const callback = () => navigate('/outro', { success: true });
+    const callback = () => navigate('/outro', { state: { success: true } });
     if (survey.survey_id) {
       dispatch(
         putOrganicCertifierSurvey({

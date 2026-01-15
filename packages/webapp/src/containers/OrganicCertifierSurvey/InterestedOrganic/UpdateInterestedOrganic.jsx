@@ -22,7 +22,7 @@ export default function UpdateInterestedOrganic() {
       navigate(certificationSelectionPath);
     } else {
       const reqBody = getOrganicSurveyReqBody({ interested: false, survey_id: survey.survey_id });
-      const callback = () => navigate('/certification', { success: true });
+      const callback = () => navigate('/certification', { state: { success: true } });
       dispatch(putOrganicCertifierSurvey({ survey: reqBody, callback }));
     }
   };

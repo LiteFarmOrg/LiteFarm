@@ -17,7 +17,7 @@ export default function UpdateSetCertificationSummary() {
   const dispatch = useDispatch();
   const onSubmit = () => {
     const data = getOrganicSurveyReqBody(persistedFormData);
-    const callback = () => navigate('/certification', { success: true });
+    const callback = () => navigate('/certification', { state: { success: true } });
     dispatch(putOrganicCertifierSurvey({ survey: data, callback }));
   };
   const { certifierName, isRequestedCertifier } = useCertifierName();

@@ -37,10 +37,10 @@ function TaskTypeSelection() {
   }, []);
 
   const onCustomTask = () => {
-    navigate(customTaskPath, { state: location?.state });
+    navigate(customTaskPath, { state: location.state });
   };
 
-  const onContinue = () => navigate(continuePath, { state: location?.state });
+  const onContinue = () => navigate(continuePath, { state: location.state });
 
   const handleGoBack = () => {
     navigate(-1);
@@ -64,7 +64,6 @@ function TaskTypeSelection() {
     <>
       <HookFormPersistProvider>
         <PureTaskTypeSelection
-          location={location}
           onCustomTask={onCustomTask}
           handleGoBack={handleGoBack}
           persistedPaths={persistedPaths}

@@ -38,7 +38,7 @@ export function PureLocationDetailLayout({
     defaultValues: persistedFormData,
   });
   const historyCancel = () => {
-    navigate('/map', { hideLocationPin: true });
+    navigate('/map', { state: { hideLocationPin: true } });
   };
 
   const onError = (data) => {};

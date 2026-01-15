@@ -39,14 +39,18 @@ export default function ManagementTasks() {
   }, []);
 
   const onBack = () => {
-    navigate(`/crop/${variety_id}/management`, location?.state);
+    navigate(`/crop/${variety_id}/management`, { state: location.state });
   };
 
   const onCompleted = () => {
-    navigate(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`, location?.state);
+    navigate(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`, {
+      state: location.state,
+    });
   };
   const onAbandon = () =>
-    navigate(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`, location?.state);
+    navigate(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`, {
+      state: location.state,
+    });
 
   const showSpotlight = location.state?.fromCreation;
 
@@ -83,7 +87,6 @@ export default function ManagementTasks() {
         variety={variety}
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
-        location={location}
         eligibleForDeletion={eligibleForDeletion}
       >
         {taskCardContents.map((task) => (

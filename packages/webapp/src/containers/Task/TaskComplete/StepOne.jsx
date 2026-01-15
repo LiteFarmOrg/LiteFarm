@@ -27,7 +27,7 @@ function TaskCompleteStepOne() {
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {
-    navigate(persistedPaths[0], location?.state);
+    navigate(persistedPaths[0], { state: location.state });
   };
 
   const onGoBack = () => {

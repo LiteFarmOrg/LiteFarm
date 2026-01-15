@@ -17,8 +17,8 @@ function TaskDate() {
   const isMovementTask = useIsTaskType('MOVEMENT_TASK');
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
 
-  const tasks = location.state.management_plan_id
-    ? useSelector(tasksByManagementPlanIdSelector(location.state.management_plan_id))
+  const tasks = location.state?.management_plan_id
+    ? useSelector(tasksByManagementPlanIdSelector(location.state?.management_plan_id))
     : [];
 
   const getNextStepPath = () => {
@@ -75,7 +75,7 @@ function TaskDate() {
       }
     }
 
-    navigate(getNextStepPath(), location?.state);
+    navigate(getNextStepPath(), { state: location.state });
   };
 
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_date') : undefined;

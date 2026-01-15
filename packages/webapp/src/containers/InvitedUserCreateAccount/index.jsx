@@ -4,7 +4,7 @@ import InvitedUserCreateAccountWithLiteFarm from './InvitedUserCreateAccountWith
 
 export default function InvitedUserCreateAccount() {
   const location = useLocation();
-  return location?.state?.google_id_token ? (
+  return location.state?.google_id_token ? (
     <InvitedUserCreateAccountWithSSO />
   ) : (
     <InvitedUserCreateAccountWithLiteFarm />

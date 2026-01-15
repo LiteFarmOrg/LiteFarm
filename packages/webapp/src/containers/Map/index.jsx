@@ -89,7 +89,7 @@ export default function Map({ isCompactSideMenu }) {
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
-    location?.state?.hideLocationPin ?? false,
+    location.state?.hideLocationPin ?? false,
   );
 
   const initialLineData = {

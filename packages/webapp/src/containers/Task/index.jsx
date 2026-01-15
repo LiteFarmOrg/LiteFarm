@@ -116,7 +116,7 @@ export default function TaskPage() {
     dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());
 
-    const context = location?.state;
+    const context = location.state;
 
     let notificationDate;
     if (context?.notification_date) {

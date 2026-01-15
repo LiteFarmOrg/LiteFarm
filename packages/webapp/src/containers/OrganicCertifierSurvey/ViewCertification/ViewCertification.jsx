@@ -39,7 +39,7 @@ export default function ViewCertification() {
     navigate('/certification/interested_in_organic');
   };
   const onChangePreference = onAddCertification;
-  const showSuccessSnackBar = location?.state?.success;
+  const showSuccessSnackBar = location.state?.success;
 
   return (
     <>

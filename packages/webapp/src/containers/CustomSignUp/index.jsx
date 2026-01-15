@@ -46,7 +46,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = location?.state || {};
+  const { user, component: componentToShow } = location.state || {};
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: VALID_EMAIL_REGEX });
   const dispatch = useDispatch();

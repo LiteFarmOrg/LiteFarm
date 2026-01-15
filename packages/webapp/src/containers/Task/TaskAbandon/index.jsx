@@ -68,7 +68,7 @@ function TaskAbandon() {
       abandonTask({
         task_id,
         patchData,
-        returnPath: location.state ? location.state.pathname : null,
+        returnPath: location.state ? location.state?.pathname : null,
       }),
     );
   };

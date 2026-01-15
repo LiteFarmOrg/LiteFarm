@@ -12,7 +12,7 @@ function TaskComplete() {
   const { task_id } = useParams();
   const persistedPaths = [`/tasks/${task_id}/before_complete`, `/tasks/${task_id}/harvest_uses`];
 
-  const returnPath = location?.state?.pathname ?? null;
+  const returnPath = location.state?.pathname ?? null;
 
   const onSave = (data) => {
     dispatch(completeTask({ task_id, data, returnPath }));

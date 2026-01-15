@@ -48,7 +48,7 @@ function RepeatCropPlanConfirmation() {
         onSubmit={onSubmit}
         persistedFormData={persistedFormData}
         tasks={tasks}
-        origStartDate={location.state.origStartDate}
+        origStartDate={location.state?.origStartDate}
       />
     </HookFormPersistProvider>
   );

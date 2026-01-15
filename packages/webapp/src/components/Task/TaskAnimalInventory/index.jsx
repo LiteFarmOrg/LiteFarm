@@ -37,7 +37,7 @@ export default function PureTaskAnimalInventory({
 }) {
   const { t } = useTranslation();
   const location = useLocation();
-  const preSelectedIds = persistedFormData.animalIds || location?.state?.animal_ids;
+  const preSelectedIds = persistedFormData.animalIds || location.state?.animal_ids;
 
   const { register, handleSubmit, getValues, watch, setValue } = useForm({
     mode: 'onChange',

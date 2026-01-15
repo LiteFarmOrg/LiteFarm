@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -20,10 +20,10 @@ export default function PurePlantedAlready({
   persistedFormData,
   system,
   cropVariety,
-  location,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -101,7 +101,7 @@ export default function PurePlantedAlready({
       setValue(FOR_COVER, false);
     }
 
-    navigate(submitPath, { state: location?.state });
+    navigate(submitPath, { state: location.state });
   };
   const onGoBack = () => navigate(-1);
 

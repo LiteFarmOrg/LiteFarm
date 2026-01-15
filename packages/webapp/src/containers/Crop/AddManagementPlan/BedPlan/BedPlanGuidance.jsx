@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useMemo } from 'react';
-import { useLocation, useMatch, useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
 export default function BedPlan() {
-  const location = useLocation();
   const { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_guidance');
@@ -20,7 +19,6 @@ export default function BedPlan() {
         variety_id={variety_id}
         isFinalPage={isFinalPage}
         submitPath={submitPath}
-        location={location}
       />
     </HookFormPersistProvider>
   );

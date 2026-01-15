@@ -10,6 +10,7 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
+import { ReactComponent as IconLogoOffline } from '../../../assets/images/navbar/nav-logo-offline.svg';
 import { ReactComponent as WordsLogo } from '../../../assets/images/middle_logo.svg';
 import { BiMenu } from 'react-icons/bi';
 import {
@@ -238,18 +239,14 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     if (withoutWords) {
       return (
         <IconButton onClick={onClick} className={styles.logo}>
-          <IconLogo alt="LiteFarm Logo" />
-          {offline && <div className={styles.offlineIndicatorDot} />}
+          {offline ? <IconLogoOffline alt="LiteFarm Logo" /> : <IconLogo alt="LiteFarm Logo" />}
         </IconButton>
       );
     }
 
     return (
-      // This one only for choose farm view
-      <div className={styles.logoWithWordsContainer}>
-        <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />
-        {offline && <div className={styles.offlineIndicatorDot} />}
-      </div>
+      // only for when showNavActions is false (i.e. on choose farm view); does not need offline version
+      <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />
     );
   };
 

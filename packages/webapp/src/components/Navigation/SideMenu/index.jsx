@@ -15,11 +15,11 @@ import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
+import { ReactComponent as LogoOffline } from '../../../assets/images/middle_logo-offline.svg';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
-import topMenuStyles from '../TopMenu/styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
@@ -100,9 +100,14 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           onClick={() => handleClick('/')}
           className={clsx(styles.listItem, styles.logoListItem)}
         >
-          <div className={clsx(styles.animatedLogo, isCompact && styles.compactLogo)}>
-            <Logo alt={'logo'} />
-            {offline && <div className={topMenuStyles.offlineIndicatorDot} />}
+          <div
+            className={clsx(
+              styles.animatedLogo,
+              isCompact && styles.compactLogo,
+              offline && styles.offline,
+            )}
+          >
+            {offline ? <LogoOffline alt="LiteFarm logo" /> : <Logo alt={'LiteFarm logo'} />}
           </div>
         </ListItemButton>
         {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {

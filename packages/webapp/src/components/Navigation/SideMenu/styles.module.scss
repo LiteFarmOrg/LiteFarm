@@ -332,6 +332,14 @@
           transform: translateX(-24px);
         }
       }
+
+      &.compactLogo.offline {
+        height: 40px;
+
+        svg {
+          transform: translateX(-28px);
+        }
+      }
     }
   }
 }

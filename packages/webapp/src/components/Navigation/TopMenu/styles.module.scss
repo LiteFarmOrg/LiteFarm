@@ -104,19 +104,3 @@
 .sectionHeader {
   margin-left: 16px;
 }
-
-/* temporary / test */
-.offlineIndicatorDot {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  width: 12px;
-  height: 12px;
-  background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.logoWithWordsContainer {
-  position: relative;
-}

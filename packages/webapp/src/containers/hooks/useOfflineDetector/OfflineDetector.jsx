@@ -10,6 +10,13 @@ export function OfflineDetector() {
   const goOnline = () => dispatch(updateOfflineStatus(false));
   const goOffline = () => dispatch(updateOfflineStatus(true));
   useEffect(() => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine
+    if (window.navigator.onLine) {
+      goOnline();
+    } else {
+      goOffline();
+    }
+
     window.addEventListener('online', goOnline);
     window.addEventListener('offline', goOffline);
     return () => {

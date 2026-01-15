@@ -30,5 +30,5 @@ export const onAddTask = (dispatch, navigate, state) => () => {
       '/add_task/task_animal_selection',
     ]),
   );
-  navigate('/add_task/task_type_selection', state);
+  navigate('/add_task/task_type_selection', { state });
 };

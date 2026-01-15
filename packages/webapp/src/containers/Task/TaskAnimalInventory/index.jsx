@@ -34,8 +34,8 @@ function TaskAnimalInventory() {
 
   const onContinue = () => {
     isCustomTask
-      ? navigate('/add_task/task_details', location?.state)
-      : navigate('/add_task/task_locations', location?.state);
+      ? navigate('/add_task/task_details', { state: location.state })
+      : navigate('/add_task/task_locations', { state: location.state });
   };
 
   const theme = useTheme();

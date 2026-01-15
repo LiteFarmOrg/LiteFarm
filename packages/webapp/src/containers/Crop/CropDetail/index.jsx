@@ -35,7 +35,9 @@ function CropDetail() {
   const hasNoManagementPlans = currentMPs.length < 1 && plannedMPs.length < 1;
 
   const goBack = () => {
-    navigate(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
+    navigate(location.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, {
+      state: location.state,
+    });
   };
 
   const warningModal = () => {
@@ -69,7 +71,6 @@ function CropDetail() {
         onRetire={() => warningModal()}
         onEdit={handleEdit}
         isAdmin={isAdmin}
-        location={location}
       />
       {showWarningBox && (
         <RetireCropWarning

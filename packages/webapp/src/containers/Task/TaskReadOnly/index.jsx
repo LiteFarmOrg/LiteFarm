@@ -103,13 +103,13 @@ function TaskReadOnly() {
 
   const onComplete = () => {
     if (isHarvest) {
-      navigate(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
+      navigate(`/tasks/${task_id}/complete_harvest_quantity`, { state: location.state });
     } else if (isTaskTypeCustom && !hasAnimals) {
       const duration = task.duration || undefined; // ensure duration is undefined instead of null
       dispatch(setFormData({ ...task, duration }));
-      navigate(`/tasks/${task_id}/complete`, location?.state);
+      navigate(`/tasks/${task_id}/complete`, { state: location.state });
     } else {
-      navigate(`/tasks/${task_id}/before_complete`, location?.state);
+      navigate(`/tasks/${task_id}/before_complete`, { state: location.state });
     }
   };
 
@@ -118,14 +118,14 @@ function TaskReadOnly() {
   };
 
   const onAbandon = () => {
-    navigate(`/tasks/${task_id}/abandon`, location?.state);
+    navigate(`/tasks/${task_id}/abandon`, { state: location.state });
   };
 
   const onGoToCropPlan = () => {
     const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
     const path = `/crop/${crop_variety_id}/management_plan/${planting_management_plan.management_plan_id}/tasks`;
 
-    navigate(path, { state: location?.state });
+    navigate(path, { state: location.state });
   };
 
   const { maxZoomRef, getMaxZoom } = useMaxZoom();

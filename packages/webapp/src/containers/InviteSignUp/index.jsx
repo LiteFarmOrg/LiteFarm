@@ -43,12 +43,14 @@ function InviteSignUp() {
   const onSuccessGoogle = (data, token) => {
     if (data.email === email) {
       navigate('/accept_invitation/create_account', {
-        email,
-        google_id_token: token.access_token,
-        invite_token,
-        name: data.name,
-        gender,
-        birth_year,
+        state: {
+          email,
+          google_id_token: token.access_token,
+          invite_token,
+          name: data.name,
+          gender,
+          birth_year,
+        },
       });
     } else {
       setShowError(true);
@@ -61,11 +63,13 @@ function InviteSignUp() {
     } else {
       const { email, first_name, last_name } = getTokenContent(invite_token);
       navigate('/accept_invitation/create_account', {
-        invite_token,
-        email,
-        name: `${first_name} ${last_name}`,
-        gender,
-        birth_year,
+        state: {
+          invite_token,
+          email,
+          name: `${first_name} ${last_name}`,
+          gender,
+          birth_year,
+        },
       });
     }
   };

@@ -25,10 +25,9 @@ export default function CompleteManagementPlan() {
   const dispatch = useDispatch();
 
   const onGoBack = () => {
-    navigate(
-      `/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`,
-      location?.state,
-    );
+    navigate(`/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`, {
+      state: location.state,
+    });
   };
   const onSubmit = (data, displayCannotCompleteModal) => {
     dispatch(

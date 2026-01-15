@@ -18,7 +18,7 @@ export default function JoinFarmSuccessScreen() {
     } else {
       dispatch(endInvitationFlow(farm_id));
       dispatch(deselectFarmSuccess());
-      navigate('/farm_selection', { farm_id });
+      navigate('/farm_selection', { state: { farm_id } });
     }
   };
   return (

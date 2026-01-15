@@ -31,7 +31,7 @@ export default function AbandonManagementPlan() {
     : '';
 
   const onGoBack = () => {
-    navigate(`/crop/${crop_variety_id}/management`, location?.state);
+    navigate(`/crop/${crop_variety_id}/management`, { state: location.state });
   };
   const onSubmit = (data, displayCannotAbandonModal) => {
     const reqBody = {

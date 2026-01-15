@@ -22,7 +22,6 @@ import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { BackgroundSyncPlugin } from 'workbox-background-sync';
 import { clientsClaim } from 'workbox-core';
-import { WorkboxError } from 'workbox-core/_private/WorkboxError.js';
 
 // 1. Immediately take control of the page
 self.skipWaiting();
@@ -53,7 +52,13 @@ const createOnSyncHandler = (area) => {
         const response = await fetch(entry.request.clone());
 
         // Send the parsed JSON response in payload for further handling
-        const responseJson = await response.clone().json();
+        let responseJson = null;
+        try {
+          responseJson = await response.clone().json();
+        } catch {
+          // Ignore JSON parsing errors (e.g. from 204 No Content or HTML 500s) to avoid unnecessary retries
+        }
+
         // notify clients of success for this URL
         const successClients = await self.clients.matchAll();
         successClients.forEach((client) =>
@@ -62,6 +67,7 @@ const createOnSyncHandler = (area) => {
             payload: {
               area,
               url: entry.request.url,
+              status: response.status,
               response: responseJson,
             },
           }),
@@ -84,7 +90,7 @@ const createOnSyncHandler = (area) => {
         );
 
         // re-throw exactly like Workbox does so it re-registers the sync
-        throw new WorkboxError('queue-replay-failed', { name: queue.name });
+        throw new Error(`Queue replay failed for ${queue.name}`);
       }
     }
 

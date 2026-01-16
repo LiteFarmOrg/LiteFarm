@@ -50,7 +50,7 @@ function TaskReadOnly() {
     task?.irrigation_task?.irrigation_prescription_external_id != null;
 
   const { data: externalIrrigationPrescription } = useGetIrrigationPrescriptionDetailsQuery(
-    task?.irrigation_task?.irrigation_prescription_external_id,
+    { id: task?.irrigation_task?.irrigation_prescription_external_id },
     {
       skip: !isIrrigationTaskWithExternalPrescription,
       refetchOnMountOrArgChange: true,

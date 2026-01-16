@@ -14,7 +14,7 @@
  */
 
 const useQueries = (queries) => {
-  const result = queries.map((query) => query.hook(query.params));
+  const result = queries.map((query) => query.hook({ params: query.params }));
 
   const data = queries.reduce(
     (dataObj, query, index) => ({

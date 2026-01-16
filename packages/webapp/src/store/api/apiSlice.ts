@@ -66,7 +66,7 @@ import type {
 
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
-import { getFarmTagFn } from './util';
+import { getFarmTagFn, getLazyUseQueryWithFarmId, getUseQueryWithFarmId } from './util';
 
 /**
  * Invalidates one or more RTK Query cache tags.
@@ -111,21 +111,21 @@ export const api = createApi({
       query: (_args) => `${animalsUrl}`,
       providesTags: getFarmTagFn<Animal[], WithFarmId>('Animals'),
     }),
-    getAnimalBatches: build.query<AnimalBatch[], void>({
-      query: () => `${animalBatchesUrl}`,
-      providesTags: ['AnimalBatches'],
+    getAnimalBatches: build.query<AnimalBatch[], WithFarmId>({
+      query: (_args) => `${animalBatchesUrl}`,
+      providesTags: getFarmTagFn<AnimalBatch[], WithFarmId>('AnimalBatches'),
     }),
-    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
-      query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], { param?: string } | void>({
+      query: ({ param = '' } = {}) => `${defaultAnimalTypesUrl}${param}`,
       providesTags: ['DefaultAnimalTypes'],
     }),
-    getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
-      query: (param = '') => `${customAnimalTypesUrl}${param}`,
-      providesTags: ['CustomAnimalTypes'],
+    getCustomAnimalTypes: build.query<CustomAnimalType[], WithFarmId<{ param?: string | void }>>({
+      query: ({ param = '' }) => `${customAnimalTypesUrl}${param}`,
+      providesTags: getFarmTagFn<CustomAnimalType[], WithFarmId>('CustomAnimalTypes'),
     }),
-    getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
-      query: () => `${customAnimalBreedsUrl}`,
-      providesTags: ['CustomAnimalBreeds'],
+    getCustomAnimalBreeds: build.query<CustomAnimalBreed[], WithFarmId>({
+      query: (_args) => `${customAnimalBreedsUrl}`,
+      providesTags: getFarmTagFn<CustomAnimalBreed[], WithFarmId>('CustomAnimalBreeds'),
     }),
     getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
       query: () => `${defaultAnimalBreedsUrl}`,
@@ -359,19 +359,19 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
-    getSensors: build.query<SensorData, void>({
-      query: () => `${sensorUrl}`,
+    getSensors: build.query<SensorData, WithFarmId>({
+      query: (_args) => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
-      providesTags: ['Sensors'],
+      providesTags: getFarmTagFn<SensorData, WithFarmId>('Sensors'),
     }),
     getSensorReadings: build.query<
       SensorReadings[],
-      {
+      WithFarmId<{
         esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
         startTime?: string; // ISO 8601
         endTime?: string; // ISO 8601
         truncPeriod?: 'minute' | 'hour' | 'day';
-      }
+      }>
     >({
       query: ({ esids, startTime, endTime, truncPeriod }) => {
         const params = new URLSearchParams({ esids });
@@ -380,7 +380,15 @@ export const api = createApi({
         if (truncPeriod) params.append('truncPeriod', truncPeriod);
         return `${sensorUrl}/readings?${params.toString()}`;
       },
-      providesTags: ['SensorReadings'],
+      providesTags: getFarmTagFn<
+        SensorReadings[],
+        WithFarmId<{
+          esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+          startTime?: string; // ISO 8601
+          endTime?: string; // ISO 8601
+          truncPeriod?: 'minute' | 'hour' | 'day';
+        }>
+      >('SensorReadings'),
     }),
     addFarmAddon: build.mutation<void, FarmAddon>({
       query: (body) => ({
@@ -390,9 +398,9 @@ export const api = createApi({
       }),
       invalidatesTags: ['FarmAddon'],
     }),
-    getFarmAddon: build.query<FarmAddon[], string | void>({
-      query: (param = '') => `${farmAddonUrl}${param}`,
-      providesTags: ['FarmAddon'],
+    getFarmAddon: build.query<FarmAddon[], WithFarmId<{ param: string | void }>>({
+      query: ({ param = '' }) => `${farmAddonUrl}${param}`,
+      providesTags: getFarmTagFn<FarmAddon[], WithFarmId<{ param: string | void }>>('FarmAddon'),
     }),
     deleteFarmAddon: build.mutation<void, number>({
       query: (id) => ({
@@ -402,8 +410,8 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
-    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
-      query: () => {
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], WithFarmId>({
+      query: (_args) => {
         const today = new Date();
         const startDate = today.toISOString().split('T')[0];
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
@@ -422,20 +430,21 @@ export const api = createApi({
           console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
         }
       },
-      providesTags: ['IrrigationPrescriptions'],
+      providesTags: getFarmTagFn<IrrigationPrescription[], WithFarmId>('IrrigationPrescriptions'),
     }),
-    getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
-      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
-      providesTags: ['IrrigationPrescriptionDetails'],
+    getIrrigationPrescriptionDetails: build.query<
+      IrrigationPrescriptionDetails,
+      WithFarmId<{ id: number }>
+    >({
+      query: ({ id }) => `${irrigationPrescriptionUrl}/${id}`,
+      providesTags: getFarmTagFn<IrrigationPrescriptionDetails, WithFarmId<{ id: number }>>(
+        'IrrigationPrescriptionDetails',
+      ),
     }),
   }),
 });
 
 export const {
-  useGetAnimalsQuery,
-  useGetAnimalBatchesQuery,
-  useGetCustomAnimalBreedsQuery,
-  useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
   useGetAnimalSexesQuery,
@@ -459,13 +468,58 @@ export const {
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
   useDeleteSoilAmendmentProductMutation,
-  useGetSensorsQuery,
-  useGetSensorReadingsQuery,
-  useLazyGetSensorsQuery,
-  useLazyGetSensorReadingsQuery,
   useAddFarmAddonMutation,
-  useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
-  useGetIrrigationPrescriptionsQuery,
-  useGetIrrigationPrescriptionDetailsQuery,
 } = api;
+
+// Farm tag endpoints
+export const useGetAnimalsQuery = getUseQueryWithFarmId<Animal[], WithFarmId>(
+  api.useGetAnimalsQuery,
+);
+export const useGetAnimalBatchesQuery = getUseQueryWithFarmId<AnimalBatch[], WithFarmId>(
+  api.useGetAnimalBatchesQuery,
+);
+export const useGetCustomAnimalTypesQuery = getUseQueryWithFarmId<
+  CustomAnimalType[],
+  WithFarmId<{ param?: string | void }>
+>(api.useGetCustomAnimalTypesQuery);
+export const useGetCustomAnimalBreedsQuery = getUseQueryWithFarmId<CustomAnimalBreed[], WithFarmId>(
+  api.useGetCustomAnimalBreedsQuery,
+);
+export const useGetFarmAddonQuery = getUseQueryWithFarmId<
+  FarmAddon[],
+  WithFarmId<{ param: string | void }>
+>(api.useGetFarmAddonQuery);
+export const useGetIrrigationPrescriptionsQuery = getUseQueryWithFarmId<
+  IrrigationPrescription[],
+  WithFarmId
+>(api.useGetIrrigationPrescriptionsQuery);
+export const useGetIrrigationPrescriptionDetailsQuery = getUseQueryWithFarmId<
+  IrrigationPrescriptionDetails,
+  WithFarmId<{ id: number }>
+>(api.useGetIrrigationPrescriptionDetailsQuery);
+export const useGetSensorsQuery = getUseQueryWithFarmId<SensorData, WithFarmId>(
+  api.useGetSensorsQuery,
+);
+export const useGetSensorReadingsQuery = getUseQueryWithFarmId<
+  SensorReadings[],
+  WithFarmId<{
+    esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+    startTime?: string; // ISO 8601
+    endTime?: string; // ISO 8601
+    truncPeriod?: 'minute' | 'hour' | 'day';
+  }>
+>(api.useGetSensorReadingsQuery);
+
+export const useLazyGetSensorsQuery = getLazyUseQueryWithFarmId<SensorData, WithFarmId>(
+  api.useLazyGetSensorsQuery,
+);
+export const useLazyGetSensorReadingsQuery = getLazyUseQueryWithFarmId<
+  SensorReadings[],
+  WithFarmId<{
+    esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+    startTime?: string; // ISO 8601
+    endTime?: string; // ISO 8601
+    truncPeriod?: 'minute' | 'hour' | 'day';
+  }>
+>(api.useLazyGetSensorReadingsQuery);

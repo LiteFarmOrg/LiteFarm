@@ -35,4 +35,22 @@
       }
     }
   }
+
+  .badge {
+    padding: 0 4px;
+    height: auto;
+    background: var(--Colors-Primary-Primary-teal-50);
+    color: var(--Colors-Primary-Primary-teal-500);
+    font-size: 12px;
+
+    svg {
+      height: 20px;
+      margin-left: 0;
+    }
+
+    &.active {
+      color: var(--Colors-Secondary-Secondary-green-50);
+      background: var(--Colors-Secondary-Secondary-green-600);
+    }
+  }
 }

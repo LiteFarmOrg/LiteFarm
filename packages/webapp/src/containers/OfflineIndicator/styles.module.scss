@@ -23,13 +23,14 @@
 }
 
 .offlineIndicator {
-  display: flex;
   width: 100%;
   height: 24px;
-  padding: 8px;
+
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
+
   background-color: var(--Colors-Primary-Primary-teal-100);
   color: var(--Colors-Primary-Primary-teal-700);
 
@@ -43,16 +44,18 @@
     }
   }
 
+  /* Note: These style overrides are necessary because the <Badge /> component's default styles match the larger, yellow Beta badge */
   .badge {
     padding: 0 4px;
     height: auto;
+
     background: var(--Colors-Primary-Primary-teal-50);
     color: var(--Colors-Primary-Primary-teal-500);
     font-size: 12px;
 
     svg {
       height: 20px;
-      margin-left: 0;
+      width: auto;
     }
 
     &.active {

@@ -13,23 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@use '../../assets/mixin' as *;
-
-.navigationWrapper {
+.offlineIndicator {
   display: flex;
-  flex-direction: row;
   width: 100%;
-  height: 100%;
-  flex: 1;
-  min-height: 0;
-  --offline-indicator-offset: 0px;
-
-  &.offlineMode {
-    --offline-indicator-offset: 32px;
-    --global-navbar-height: calc(64px + 32px);
-
-    @include xs-breakpoint {
-      --global-navbar-height: calc(55px + 32px);
-    }
-  }
+  height: 32px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--Colors-Primary-Primary-teal-100);
+  color: var(--Colors-Primary-Primary-teal-700);
 }

@@ -14,10 +14,8 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLocation, useHistory, matchPath } from 'react-router-dom';
 import clsx from 'clsx';
-import { Snackbar, Slide } from '@mui/material';
 import styles from './styles.module.scss';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
@@ -25,16 +23,11 @@ import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
-import { matchPath } from 'react-router-dom';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
-
-function TransitionDown(props) {
-  return <Slide {...props} direction="down" />;
-}
+import OfflineIndicator from '../OfflineIndicator';
 
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
-  const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -55,19 +48,7 @@ const Navigation = ({ children, ...props }) => {
 
   return (
     <div className={clsx(styles.navigationWrapper, offline && styles.offlineMode)}>
-      <Snackbar
-        open={offline}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        TransitionComponent={TransitionDown}
-        sx={{
-          top: '0 !important',
-          left: '0 !important',
-          right: '0 !important',
-          transform: 'none !important',
-        }}
-      >
-        <div className={styles.offlineIndicator}>{t('NAVIGATION.OFFLINE_TEXT_FULL')}</div>
-      </Snackbar>
+      <OfflineIndicator />
       <PureNavigation
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}

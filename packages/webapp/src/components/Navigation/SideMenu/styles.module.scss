@@ -582,7 +582,7 @@
   border: 1px solid #d1e9d9;
   padding: 4px;
   position: fixed;
-  top: calc(var(--global-navbar-height) / 2 - 12px);
+  top: calc(var(--global-navbar-height) - 44px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
   z-index: 1300;

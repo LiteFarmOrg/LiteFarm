@@ -15,10 +15,8 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
+import { Snackbar, Slide } from '@mui/material';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
@@ -28,10 +26,13 @@ import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { matchPath } from 'react-router-dom';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
+function TransitionDown(props) {
+  return <Slide {...props} direction="down" />;
+}
+
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
   const { t } = useTranslation();
-  const [showIndicator, setShowIndicator] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -50,38 +51,49 @@ const Navigation = ({ children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
-  useEffect(() => {
-    if (offline) {
-      // Small delay to trigger animation
-      const timer = setTimeout(() => setShowIndicator(true), 10);
-      return () => clearTimeout(timer);
-    } else {
-      setShowIndicator(false);
-    }
-  }, [offline]);
-
   return (
-    <div className={styles.navigationWrapper}>
-      {offline && (
-        <div className={clsx(styles.offlineIndicator, showIndicator && styles.visible)}>
+    <>
+      <Snackbar
+        open={offline}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        TransitionComponent={TransitionDown}
+        sx={{
+          top: '0 !important',
+          left: '0 !important',
+          right: '0 !important',
+          transform: 'none !important',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            height: '32px',
+            padding: '8px',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: 'var(--Colors-Primary-Primary-teal-100)',
+            color: 'var(--Colors-Primary-Primary-teal-700)',
+            boxSizing: 'border-box',
+          }}
+        >
           {t('NAVIGATION.OFFLINE_TEXT_FULL')}
         </div>
-      )}
-      <div className={styles.navigationContent}>
-        <PureNavigation
-          showNavigationSpotlight={!navigation}
-          showNotificationSpotlight={navigation && !notification}
-          resetSpotlight={resetSpotlight}
-          history={history}
-          showNavActions={showNavActions}
-          showNav={showNav}
-          {...props}
-        >
-          {children}
-        </PureNavigation>
-        {isFarmSelected && <ReleaseBadgeHandler {...props} />}
-      </div>
-    </div>
+      </Snackbar>
+      <PureNavigation
+        showNavigationSpotlight={!navigation}
+        showNotificationSpotlight={navigation && !notification}
+        resetSpotlight={resetSpotlight}
+        history={history}
+        showNavActions={showNavActions}
+        showNav={showNav}
+        {...props}
+      >
+        {children}
+      </PureNavigation>
+      {isFarmSelected && <ReleaseBadgeHandler {...props} />}
+    </>
   );
 };
 

@@ -275,9 +275,9 @@
 
   @include sm-breakpoint {
     width: var(--global-side-menu-width);
-    height: calc(100vh - var(--offline-indicator-offset));
+    height: 100vh;
     position: sticky;
-    top: var(--offline-indicator-offset);
+    top: 0;
     overflow: auto;
     background-color: var(--bgInputListTile);
     z-index: 1299;
@@ -581,7 +581,7 @@
   border: 1px solid #d1e9d9;
   padding: 4px;
   position: fixed;
-  top: calc(var(--offline-indicator-offset, 0px) + var(--global-navbar-height) / 2 - 12px);
+  top: calc(var(--global-navbar-height) / 2 - 12px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
   z-index: 1300;

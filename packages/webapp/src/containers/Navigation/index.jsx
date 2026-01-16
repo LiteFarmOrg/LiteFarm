@@ -66,22 +66,7 @@ const Navigation = ({ children, ...props }) => {
           transform: 'none !important',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-            height: '32px',
-            padding: '8px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '8px',
-            backgroundColor: 'var(--Colors-Primary-Primary-teal-100)',
-            color: 'var(--Colors-Primary-Primary-teal-700)',
-            boxSizing: 'border-box',
-          }}
-        >
-          {t('NAVIGATION.OFFLINE_TEXT_FULL')}
-        </div>
+        <div className={styles.offlineIndicator}>{t('NAVIGATION.OFFLINE_TEXT_FULL')}</div>
       </Snackbar>
       <PureNavigation
         showNavigationSpotlight={!navigation}

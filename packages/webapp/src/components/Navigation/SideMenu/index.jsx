@@ -100,13 +100,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           onClick={() => handleClick('/')}
           className={clsx(styles.listItem, styles.logoListItem)}
         >
-          <div
-            className={clsx(
-              styles.animatedLogo,
-              isCompact && styles.compactLogo,
-              offline && styles.offline,
-            )}
-          >
+          <div className={clsx(styles.animatedLogo, isCompact && styles.compactLogo)}>
             {offline ? <LogoOffline alt="LiteFarm logo" /> : <Logo alt={'LiteFarm logo'} />}
           </div>
         </ListItemButton>

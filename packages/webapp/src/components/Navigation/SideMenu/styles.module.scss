@@ -327,14 +327,6 @@
       transition: height 0.5s;
 
       &.compactLogo {
-        height: 36px;
-
-        svg {
-          transform: translateX(-24px);
-        }
-      }
-
-      &.compactLogo.offline {
         height: 40px;
 
         svg {

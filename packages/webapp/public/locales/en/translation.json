@@ -1538,7 +1538,6 @@
     "PEOPLE": "People"
   },
   "NAVIGATION": {
-    "OFFLINE_TEXT_FULL": "You're offline Some actions are unavailable. Any changes you make will sync when you're back online.",
     "SPOTLIGHT": {
       "COORDINATE_ACTIVITIES": "Coordinate farm activities",
       "EDIT_FARM_SETTING": "Edit your farm settings",
@@ -1607,6 +1606,10 @@
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "You're offline. Some actions are unavailable.",
+    "CHANGES_WILL_SYNC": "Any changes you make will sync when you're back online."
   },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",

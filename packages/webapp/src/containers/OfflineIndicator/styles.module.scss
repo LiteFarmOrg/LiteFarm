@@ -13,14 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .offlineIndicator {
   display: flex;
   width: 100%;
-  height: 32px;
+  height: 24px;
   padding: 8px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   background-color: var(--Colors-Primary-Primary-teal-100);
   color: var(--Colors-Primary-Primary-teal-700);
+
+  .message {
+    @include truncateText();
+
+    @include md-breakpoint {
+      .additionalText {
+        display: none;
+      }
+    }
+  }
 }

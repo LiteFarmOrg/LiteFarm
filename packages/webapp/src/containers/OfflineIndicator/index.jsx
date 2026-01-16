@@ -38,7 +38,12 @@ const OfflineIndicator = () => {
         transform: 'none !important',
       }}
     >
-      <div className={styles.offlineIndicator}>{t('NAVIGATION.OFFLINE_TEXT_FULL')}</div>
+      <div className={styles.offlineIndicator}>
+        <span className={styles.message}>
+          <span>{t('OFFLINE.ARE_OFFLINE')}</span>
+          <span className={styles.additionalText}> {t('OFFLINE.CHANGES_WILL_SYNC')}</span>
+        </span>
+      </div>
     </Snackbar>
   );
 };

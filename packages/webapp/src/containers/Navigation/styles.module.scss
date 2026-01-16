@@ -25,11 +25,11 @@
   --offline-indicator-offset: 0px;
 
   &.offlineMode {
-    --offline-indicator-offset: 32px;
-    --global-navbar-height: calc(64px + 32px);
+    --offline-indicator-offset: 24px;
+    --global-navbar-height: calc(64px + 24px);
 
     @include xs-breakpoint {
-      --global-navbar-height: calc(55px + 32px);
+      --global-navbar-height: calc(55px + 24px);
     }
   }
 }

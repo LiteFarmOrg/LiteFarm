@@ -281,6 +281,7 @@
     overflow: auto;
     background-color: var(--bgInputListTile);
     z-index: 1299;
+    padding-top: var(--offline-indicator-offset, 0px);
   }
 
   &.compactSideMenuContent {

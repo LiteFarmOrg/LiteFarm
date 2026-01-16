@@ -16,7 +16,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { Snackbar, Slide } from '@mui/material';
+import styles from './styles.module.scss';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
@@ -52,7 +54,7 @@ const Navigation = ({ children, ...props }) => {
   };
 
   return (
-    <>
+    <div className={clsx(styles.navigationWrapper, offline && styles.offlineMode)}>
       <Snackbar
         open={offline}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -93,7 +95,7 @@ const Navigation = ({ children, ...props }) => {
         {children}
       </PureNavigation>
       {isFarmSelected && <ReleaseBadgeHandler {...props} />}
-    </>
+    </div>
   );
 };
 

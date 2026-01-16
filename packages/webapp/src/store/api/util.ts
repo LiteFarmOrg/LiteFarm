@@ -13,11 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FetchBaseQueryError, QueryStatus, skipToken } from '@reduxjs/toolkit/query/react';
+import {
+  FetchBaseQueryError,
+  QueryStatus,
+  SkipToken,
+  skipToken,
+} from '@reduxjs/toolkit/query/react';
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
 import { WithFarmId } from './types';
 import { FarmTag } from './apiTags';
+import { LazyQueryTrigger, UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
 type RawQueryResult<T> = {
   data?: T;
@@ -48,6 +54,10 @@ type UseQueryOptionsWithSelect<Result, Selected> = BaseUseQueryOptions & {
   selectFromResult: (result: Result) => Selected;
 };
 
+type UseLazyQueryOptions = Omit<BaseUseQueryOptions, 'skip'>;
+type UseLazyQueryOptionsWithSelect<Result, Selected> = UseLazyQueryOptions & {
+  selectFromResult: (result: Result) => Selected;
+};
 /**
  * Helper function that contains the shared logic for injecting farm_id
  * into RTK Query hooks that expect an object argument.
@@ -112,6 +122,47 @@ export function getUseQueryWithFarmId<Data, Args extends WithFarmId>(
   }
 
   return useQueryWithFarmId;
+}
+
+export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
+  rawLazyHook: (
+    options?: any,
+  ) => [(arg: Args, preferCacheValue?: boolean) => Promise<any>, RawQueryResult<Data>, any],
+) {
+  // Overload 1: when selectFromResult is present
+  function useLazyQueryWithFarmId<Selected>(
+    options: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
+  ): [(arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>, Selected, Args];
+
+  // Overload 2: plain call (no selectFromResult or no options)
+  function useLazyQueryWithFarmId(
+    options?: BaseUseQueryOptions,
+  ): [
+    (arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>,
+    RawQueryResult<Data>,
+    Args,
+  ];
+
+  function useLazyQueryWithFarmId(options?: any): any {
+    const { farm_id } = useSelector(loginSelector);
+    const [trigger, result, lastPromiseInfo] = rawLazyHook(options);
+    if (!farm_id) {
+      return [
+        (extraArgs?: any, preferCacheValue?: boolean) =>
+          trigger(skipToken as unknown as Args, preferCacheValue),
+        result,
+        lastPromiseInfo,
+      ];
+    }
+    return [
+      (extraArgs?: any, preferCacheValue?: boolean) =>
+        trigger({ ...extraArgs, farm_id }, preferCacheValue),
+      result,
+      lastPromiseInfo,
+    ];
+  }
+
+  return useLazyQueryWithFarmId;
 }
 
 export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag) {

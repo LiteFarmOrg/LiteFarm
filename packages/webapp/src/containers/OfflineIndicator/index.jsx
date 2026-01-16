@@ -32,12 +32,7 @@ const OfflineIndicator = () => {
       open={offline}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       TransitionComponent={TransitionDown}
-      sx={{
-        top: '0 !important',
-        left: '0 !important',
-        right: '0 !important',
-        transform: 'none !important',
-      }}
+      classes={{ root: styles.snackbarRoot }}
     >
       <div className={styles.offlineIndicator}>
         <span className={styles.message}>

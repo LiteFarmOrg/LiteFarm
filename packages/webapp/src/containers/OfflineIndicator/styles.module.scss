@@ -15,6 +15,13 @@
 
 @use '@assets/mixin' as *;
 
+.snackbarRoot {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+}
+
 .offlineIndicator {
   display: flex;
   width: 100%;

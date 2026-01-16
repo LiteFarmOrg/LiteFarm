@@ -354,6 +354,10 @@
     display: flex;
     justify-content: flex-start;
 
+    &:first-child {
+      border-top: none;
+    }
+
     &.logoListItem {
       justify-content: center;
     }

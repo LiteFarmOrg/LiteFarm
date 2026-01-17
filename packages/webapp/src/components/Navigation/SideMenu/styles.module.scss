@@ -347,7 +347,7 @@
     justify-content: flex-start;
 
     &:first-child {
-      border-top: none;
+      border-color: var(--White);
     }
 
     &.logoListItem {
@@ -398,6 +398,11 @@
       }
       &:hover {
         background-color: var(--hover-background);
+
+        &:first-child {
+          border-color: #e9ebf8;
+        }
+
         .listItemText {
           color: var(--hover-text);
         }

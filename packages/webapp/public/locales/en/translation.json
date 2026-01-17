@@ -1607,6 +1607,14 @@
       "TITLE": "Unassigned tasks"
     }
   },
+  "OFFLINE": {
+    "ARE_OFFLINE": "You're offline. Some actions are unavailable.",
+    "BADGE": {
+      "TITLE": "Offline",
+      "TOOLTIP_CONTENT": "We can't reach the network right now.<br><br>You can continue in offline mode. Some sections will be view-only, but Tasks is fully available."
+    },
+    "CHANGES_WILL_SYNC": "Any changes you make will sync when you're back online."
+  },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
     "IMPORTANT_THINGS": "And finally, let us show you a couple of important things!"

@@ -19,6 +19,78 @@ import { useTranslation } from 'react-i18next';
 import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasks } from '../Task/saga';
 
+type SyncArea =
+  | 'tasks.create'
+  | 'tasks.assign'
+  | 'tasks.complete'
+  | 'tasks.abandon'
+  | 'tasks.updateDate'
+  | 'tasks.update'; // Generic fallback
+
+type SyncConfig = {
+  operation: string;
+  errors: Record<number, string>;
+  refresh: () => any;
+};
+
+const SYNC_HANDLERS: Record<SyncArea, SyncConfig> = {
+  'tasks.create': {
+    operation: 'TASK.CREATE',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+  'tasks.assign': {
+    operation: 'TASK.ASSIGN',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+  'tasks.complete': {
+    operation: 'TASK.COMPLETE',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+  'tasks.abandon': {
+    operation: 'TASK.ABANDON',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+  'tasks.updateDate': {
+    operation: 'TASK.UPDATE_DATE',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+  'tasks.update': {
+    operation: 'TASK.UPDATE',
+    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    refresh: getTasks,
+  },
+};
+
+/**
+ * Resolve the specific kind of task patch operation from the URL
+ */
+function resolveAreaFromUrl(area: string, url: string): SyncArea {
+  if (area !== 'tasks.update') {
+    return area as SyncArea;
+  }
+
+  if (url.includes('/task/assign')) {
+    return 'tasks.assign';
+  }
+  if (url.includes('/task/complete/')) {
+    return 'tasks.complete';
+  }
+  if (url.includes('/task/abandon/')) {
+    return 'tasks.abandon';
+  }
+  if (url.includes('/task/patch_due_date/')) {
+    return 'tasks.updateDate';
+  }
+
+  // Default: generic update for unrecognized PATCH endpoints
+  return 'tasks.update';
+}
+
 /**
  * Global listener for messages sent from the Service Worker (sw.js).
  * Handles background sync events, cache updates, etc.
@@ -35,36 +107,30 @@ export function ServiceWorkerListener() {
 
       const { type, payload } = event.data;
 
-      const { area, response } = payload || {};
+      const { area: rawArea, status, ok, url } = payload || {};
 
       if (type === 'SYNC_ITEM_SUCCESS') {
-        switch (area) {
-          case 'tasks.create':
-            if (response?.error) {
-              // Ideally we'll need to add translations for each error case
-              dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC_FAILED')));
-            } else {
-              dispatch(enqueueSuccessSnackbar(t('message:TASK.CREATE.SYNC_SUCCESS')));
-            }
+        const area = resolveAreaFromUrl(rawArea, url);
 
-            // Regardless of success or failure, refresh to get the actual state from the server
-            dispatch(getTasks());
+        const handler = SYNC_HANDLERS[area as SyncArea];
+        if (!handler) return;
 
-            break;
-          case 'tasks.update':
-            // parse url to get the exact kind of update (date, assignee); for now generic
-            if (response?.error) {
-              dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC_FAILED')));
-            } else {
-              dispatch(enqueueSuccessSnackbar(t('message:TASK.UPDATE.SYNC_SUCCESS')));
-            }
+        const { operation, errors, refresh } = handler;
+        const isSuccess = ok !== false && status >= 200 && status < 400;
 
-            dispatch(getTasks());
-            break;
+        if (isSuccess) {
+          dispatch(enqueueSuccessSnackbar(t(`message:${operation}.SYNC_SUCCESS`)));
+        } else {
+          // Look up specific error message or use default
+          const errorType = errors[status] || 'SYNC_FAILED';
+          dispatch(enqueueErrorSnackbar(t(`message:${operation}.${errorType}`)));
         }
+
+        // Refresh data regardless of success/failure
+        dispatch(refresh());
       } else if (type === 'SYNC_ITEM_FAILURE') {
         // I don't think we need to show snackbars here; the item remains in the queue for retrying later. I also don't think we get here in practice.
-        switch (area) {
+        switch (rawArea) {
           case 'tasks.create':
             dispatch(enqueueErrorSnackbar('Unreachable branch: Failed to sync new task'));
             break;

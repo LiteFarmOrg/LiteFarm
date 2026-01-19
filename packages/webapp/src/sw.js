@@ -56,7 +56,12 @@ const createOnSyncHandler = (area) => {
         try {
           responseJson = await response.clone().json();
         } catch {
-          // Ignore JSON parsing errors (e.g. from 204 No Content or HTML 500s) to avoid unnecessary retries
+          // Fallback to text if JSON parsing fails
+          try {
+            responseJson = await response.clone().text();
+          } catch {
+            // ignore
+          }
         }
 
         // notify clients of success for this URL
@@ -68,6 +73,7 @@ const createOnSyncHandler = (area) => {
               area,
               url: entry.request.url,
               status: response.status,
+              ok: response.ok,
               response: responseJson,
             },
           }),

@@ -15,7 +15,6 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { serviceWorkerMessageReceived } from './serviceWorkerSlice';
 import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasks } from '../Task/saga';
 
@@ -33,7 +32,6 @@ export function ServiceWorkerListener() {
       if (!event.data || !event.data.type) return;
 
       const { type, payload } = event.data;
-      dispatch(serviceWorkerMessageReceived(event.data));
 
       const { area, error, response } = payload || {};
 

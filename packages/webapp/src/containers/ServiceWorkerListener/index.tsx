@@ -15,6 +15,7 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasks } from '../Task/saga';
 
@@ -24,6 +25,7 @@ import { getTasks } from '../Task/saga';
  */
 export function ServiceWorkerListener() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
@@ -33,37 +35,43 @@ export function ServiceWorkerListener() {
 
       const { type, payload } = event.data;
 
-      const { area, error, response } = payload || {};
+      const { area, response } = payload || {};
 
       if (type === 'SYNC_ITEM_SUCCESS') {
         switch (area) {
           case 'tasks.create':
-            // Note: Responses can succeed in the queue sense, but still return an error from the API
             if (response?.error) {
-              dispatch(
-                enqueueErrorSnackbar(
-                  `Failed to sync new task: ${response.error.message ?? 'Unknown error'}`,
-                ),
-              );
-              break;
+              // Ideally we'll need to add translations for each error case
+              dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC_FAILED')));
+            } else {
+              dispatch(enqueueSuccessSnackbar(t('message:TASK.CREATE.SYNC_SUCCESS')));
             }
-            dispatch(enqueueSuccessSnackbar('New task synced'));
+
+            // Regardless of success or failure, refresh to get the actual state from the server
+            dispatch(getTasks());
+
+            break;
+          case 'tasks.update':
+            // parse url to get the exact kind of update (date, assignee); for now generic
+            if (response?.error) {
+              dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC_FAILED')));
+            } else {
+              dispatch(enqueueSuccessSnackbar(t('message:TASK.UPDATE.SYNC_SUCCESS')));
+            }
+
             dispatch(getTasks());
             break;
-
-          default:
-            // Generic “success” for unknown areas
-            dispatch(enqueueSuccessSnackbar(`Sync succeeded for “${area}”`));
         }
       } else if (type === 'SYNC_ITEM_FAILURE') {
+        // I don't think we need to show snackbars here; the item remains in the queue for retrying later. I also don't think we get here in practice.
         switch (area) {
           case 'tasks.create':
-            dispatch(enqueueErrorSnackbar('Failed to sync new task'));
+            dispatch(enqueueErrorSnackbar('Unreachable branch: Failed to sync new task'));
             break;
 
-          default:
-            // Generic “failure” for unknown areas
-            dispatch(enqueueErrorSnackbar(`Sync failed for “${area}”${error ? `: ${error}` : ''}`));
+          case 'tasks.update':
+            dispatch(enqueueErrorSnackbar('Unreachable branch: Failed to sync task update'));
+            break;
         }
       }
     };

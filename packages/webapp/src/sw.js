@@ -116,14 +116,13 @@ const BG_SYNC_ROUTES = [
     area: 'tasks.create',
     method: 'POST',
   },
-  // Example future entries:
-  // {
-  //   queueName: 'patch-task-queue',
-  //   matcher: ({ url, request }) =>
-  //     url.pathname.includes('/task/') && request.method === 'PATCH',
-  //   area: 'tasks.update',
-  //   method: 'PATCH',
-  // },
+  {
+    queueName: 'patch-task-queue',
+    // This matcher as written will include task/patch_due_date, task/assign, task/abandon, etc.
+    matcher: ({ url, request }) => url.pathname.includes('/task/') && request.method === 'PATCH',
+    area: 'tasks.update',
+    method: 'PATCH',
+  },
   // {
   //   queueName: 'delete-task-queue',
   //   matcher: ({ url, request }) =>

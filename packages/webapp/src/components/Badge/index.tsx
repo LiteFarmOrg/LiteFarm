@@ -28,7 +28,8 @@ export interface BadgeProps {
   position?: 'left' | 'right';
   id?: string;
   classes?: {
-    iconButton: string;
+    iconButton?: string;
+    focus?: string;
   };
 }
 
@@ -100,6 +101,7 @@ const Badge: React.FC<BadgeProps> = ({
           className={clsx(
             styles.badge,
             focus && styles.focus,
+            focus && classes?.focus,
             !isMenuItem && position && styles[position + 'Position'],
             isMenuItem && styles.menuItem,
             classes?.iconButton,

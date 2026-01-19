@@ -225,10 +225,13 @@
     },
     "CREATE": {
       "FAILED": "Failed to create task",
+      "OFFLINE": "Task created locally. Will save when you're back online",
       "SUCCESS": "Successfully created task"
     },
     "UPDATE": {
-      "FAILED": "Failed to update task"
+      "FAILED": "Failed to update task",
+      "OFFLINE": "Task will update when you're back online.",
+      "SUCCESS": "Successfully updated task"
     }
   },
   "TASK_TYPE": {

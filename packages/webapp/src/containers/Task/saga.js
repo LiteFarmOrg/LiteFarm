@@ -5,7 +5,11 @@ import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSa
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import {
+  enqueueErrorSnackbar,
+  enqueuePersistentSuccessSnackbar,
+  enqueueSuccessSnackbar,
+} from '../Snackbar/snackbarSlice';
 import {
   addManyTasksFromGetReq,
   addAllTasksFromGetReq,
@@ -161,7 +165,15 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.OFFLINE')));
+
+      // Optimistic update for task update (easy in this case)
+      yield put(putTaskSuccess({ assignee_user_id, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    }
   }
 }
 
@@ -208,10 +220,18 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     );
 
     yield put(putTaskSuccess({ due_date, task_id }));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.OFFLINE')));
+
+      // Optimistic update for task update (easy in this case)
+      // yield put(putTaskSuccess({ due_date, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 
@@ -697,8 +717,7 @@ export function* createTaskSaga({ payload }) {
       setShowCannotCreateModal(true);
     } else if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      // We can show a message that the task is saved and will sync when online
-      yield put(enqueueSuccessSnackbar('Offline. Will sync task when back online'));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.OFFLINE')));
       history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));

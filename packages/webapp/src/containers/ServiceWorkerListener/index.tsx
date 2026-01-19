@@ -24,8 +24,7 @@ type SyncArea =
   | 'tasks.assign'
   | 'tasks.complete'
   | 'tasks.abandon'
-  | 'tasks.updateDate'
-  | 'tasks.update'; // Generic fallback
+  | 'tasks.update'; // Generic fallback; use for dates as well
 
 type SyncConfig = {
   operation: string;
@@ -35,33 +34,41 @@ type SyncConfig = {
 
 const SYNC_HANDLERS: Record<SyncArea, SyncConfig> = {
   'tasks.create': {
-    operation: 'TASK.CREATE',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    operation: 'TASK.CREATE.SYNC',
+    errors: {
+      409: 'LOCATION_DELETED',
+    },
     refresh: getTasks,
   },
   'tasks.assign': {
-    operation: 'TASK.ASSIGN',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    operation: 'TASK.ASSIGN.SYNC',
+    errors: {
+      404: 'NOT_FOUND',
+    },
     refresh: getTasks,
   },
   'tasks.complete': {
-    operation: 'TASK.COMPLETE',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    operation: 'TASK.COMPLETE.SYNC',
+    errors: {
+      403: 'UNAUTHORIZED',
+      404: 'NOT_FOUND',
+      409: 'LOCATION_DELETED',
+    },
     refresh: getTasks,
   },
   'tasks.abandon': {
-    operation: 'TASK.ABANDON',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
-    refresh: getTasks,
-  },
-  'tasks.updateDate': {
-    operation: 'TASK.UPDATE_DATE',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    operation: 'TASK.ABANDON.SYNC',
+    errors: {
+      404: 'NOT_FOUND',
+    },
     refresh: getTasks,
   },
   'tasks.update': {
-    operation: 'TASK.UPDATE',
-    errors: { 403: 'UNAUTHORIZED', 404: 'NOT_FOUND' },
+    operation: 'TASK.UPDATE.SYNC',
+    errors: {
+      403: 'UNAUTHORIZED',
+      404: 'NOT_FOUND',
+    },
     refresh: getTasks,
   },
 };
@@ -83,11 +90,8 @@ function resolveAreaFromUrl(area: string, url: string): SyncArea {
   if (url.includes('/task/abandon/')) {
     return 'tasks.abandon';
   }
-  if (url.includes('/task/patch_due_date/')) {
-    return 'tasks.updateDate';
-  }
 
-  // Default: generic update for unrecognized PATCH endpoints
+  // Default: generic update for PATCH endpoints
   return 'tasks.update';
 }
 
@@ -119,10 +123,10 @@ export function ServiceWorkerListener() {
         const isSuccess = ok !== false && status >= 200 && status < 400;
 
         if (isSuccess) {
-          dispatch(enqueueSuccessSnackbar(t(`message:${operation}.SYNC_SUCCESS`)));
+          dispatch(enqueueSuccessSnackbar(t(`message:${operation}.SUCCESS`)));
         } else {
           // Look up specific error message or use default
-          const errorType = errors[status] || 'SYNC_FAILED';
+          const errorType = errors[status] || 'FAILED';
           dispatch(enqueueErrorSnackbar(t(`message:${operation}.${errorType}`)));
         }
 

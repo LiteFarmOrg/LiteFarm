@@ -281,6 +281,7 @@
     overflow: auto;
     background-color: var(--bgInputListTile);
     z-index: 1299;
+    padding-top: var(--offline-indicator-offset);
   }
 
   &.compactSideMenuContent {
@@ -326,10 +327,10 @@
       transition: height 0.5s;
 
       &.compactLogo {
-        height: 36px;
+        height: 40px;
 
         svg {
-          transform: translateX(-24px);
+          transform: translateX(-28px);
         }
       }
     }
@@ -344,6 +345,10 @@
     border-top: 1px solid #e9ebf8;
     display: flex;
     justify-content: flex-start;
+
+    &:first-child {
+      border-color: var(--White);
+    }
 
     &.logoListItem {
       justify-content: center;
@@ -393,6 +398,11 @@
       }
       &:hover {
         background-color: var(--hover-background);
+
+        &:first-child {
+          border-color: #e9ebf8;
+        }
+
         .listItemText {
           color: var(--hover-text);
         }
@@ -573,7 +583,7 @@
   border: 1px solid #d1e9d9;
   padding: 4px;
   position: fixed;
-  top: calc(var(--global-navbar-height) / 2 - 12px);
+  top: calc(var(--global-navbar-height) - 44px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
   z-index: 1300;

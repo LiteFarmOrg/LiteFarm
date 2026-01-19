@@ -4,7 +4,7 @@ const initialState = {
   isOffline: false,
 };
 
-const hookFormPersistSlice = createSlice({
+const offlineDetectorSlice = createSlice({
   name: 'offlineDetectorReducer',
   initialState,
   reducers: {
@@ -13,5 +13,5 @@ const hookFormPersistSlice = createSlice({
     },
   },
 });
-export const { updateOfflineStatus } = hookFormPersistSlice.actions;
-export default hookFormPersistSlice.reducer;
+export const { updateOfflineStatus } = offlineDetectorSlice.actions;
+export default offlineDetectorSlice.reducer;

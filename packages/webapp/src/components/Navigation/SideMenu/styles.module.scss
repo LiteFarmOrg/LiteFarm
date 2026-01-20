@@ -346,6 +346,10 @@
     display: flex;
     justify-content: flex-start;
 
+    .eyeIconWrapper {
+      display: none;
+    }
+
     &:first-child {
       border-color: var(--White);
     }
@@ -469,7 +473,7 @@
           }
         }
       }
-      border: none;
+      border-top: 1px solid var(--teal700);
 
       &.logoListItem {
         display: none;
@@ -503,6 +507,61 @@
 
     &:hover span {
       overflow: visible;
+    }
+
+    &.offlineDisabled.offlineDisabled {
+      cursor: default;
+      pointer-events: none;
+      background: var(--Colors-Neutral-Neutral-50);
+
+      span {
+        color: var(--Colors-Neutral-Neutral-200);
+      }
+
+      > div > svg path {
+        stroke: var(--Colors-Neutral-Neutral-200);
+      }
+    }
+
+    &.offlineViewOnly {
+      .eyeIconWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 6px;
+        left: 5px;
+        width: 13px;
+        color: var(--Colors-Primary-Primary-teal-300);
+      }
+
+      &.subItem {
+        .eyeIconWrapper {
+          top: 4px;
+          left: 3px;
+
+          @include xs-breakpoint {
+            top: 14px;
+            right: 22px;
+            left: auto;
+          }
+        }
+      }
+
+      @include xs-breakpoint {
+        padding-right: 44px;
+
+        .eyeIconWrapper {
+          width: 20px;
+          height: 20px;
+          top: 18px;
+          right: 22px;
+          left: auto;
+          border-radius: 4px;
+          color: var(--Colors-Primary-Primary-teal-700);
+          background-color: var(--Colors-Primary-Primary-teal-300);
+        }
+      }
     }
   }
 

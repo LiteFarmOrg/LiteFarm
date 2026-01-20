@@ -59,6 +59,27 @@ const MENU_KEYS = {
   CERTIFICATION: 'certification',
 };
 
+export const offlineViewOnlyPageKeys = new Set([
+  MENU_KEYS.MAP,
+  MENU_KEYS.CROPS,
+  MENU_KEYS.ANIMALS,
+  MENU_KEYS.FINANCES,
+  MENU_KEYS.TRANSACTIONS,
+  MENU_KEYS.INVENTORY,
+]);
+
+export const offlineDisabledPageKeys = new Set([
+  MENU_KEYS.OTHER_EXPENSE,
+  MENU_KEYS.LABOUR,
+  MENU_KEYS.ACTUAL_REVENUE,
+  MENU_KEYS.ESTIMATED_REVENUE,
+  MENU_KEYS.INSIGHTS,
+  MENU_KEYS.DOCUMENTS,
+  MENU_KEYS.FARM,
+  MENU_KEYS.PEOPLE,
+  MENU_KEYS.CERTIFICATION,
+]);
+
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);

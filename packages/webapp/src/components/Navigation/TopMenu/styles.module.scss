@@ -104,3 +104,22 @@
 .sectionHeader {
   margin-left: 16px;
 }
+
+/* Disabled menu item style */
+.menuItemRoot.menuItemDisabled {
+  opacity: 1;
+  border-color: var(--White);
+  background: var(--Colors-Neutral-Neutral-50);
+
+  .listItemIconRoot svg path {
+    stroke: var(--Colors-Neutral-Neutral-200);
+  }
+
+  .itemTextRoot {
+    color: var(--Colors-Neutral-Neutral-200);
+  }
+
+  .itemTextRoot + svg path {
+    fill: var(--Colors-Neutral-Neutral-200);
+  }
+}

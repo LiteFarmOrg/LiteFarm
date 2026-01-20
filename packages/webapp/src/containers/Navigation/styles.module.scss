@@ -28,5 +28,9 @@
     @include xs-breakpoint {
       --global-navbar-height: calc(55px + 24px);
     }
+
+    .hideWhenOffline {
+      display: none;
+    }
   }
 }

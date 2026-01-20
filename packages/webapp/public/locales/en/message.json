@@ -217,10 +217,12 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",
+      "OFFLINE": "Task abandoned locally. Will save when you're back online",
       "SUCCESS": "Successfully abandoned task"
     },
     "COMPLETE": {
       "FAILED": "Failed to complete task",
+      "OFFLINE": "Task completed locally. Will save when you're back online",
       "SUCCESS": "Successfully completed task"
     },
     "CREATE": {
@@ -230,7 +232,7 @@
     },
     "UPDATE": {
       "FAILED": "Failed to update task",
-      "OFFLINE": "Task will update when you're back online.",
+      "OFFLINE": "Task updated locally. Will save when you're back online.",
       "SUCCESS": "Successfully updated task"
     }
   },

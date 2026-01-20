@@ -18,17 +18,19 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasks } from '../Task/saga';
+import { invalidateTags } from '../../store/api/apiSlice';
 
 type SyncArea =
   | 'tasks.create'
   | 'tasks.assign'
   | 'tasks.complete'
   | 'tasks.abandon'
-  | 'tasks.update'; // Generic fallback; use for dates as well
+  | 'tasks.update'; // Generic fallback; use for patching date as well
 
 type SyncConfig = {
   operation: string;
   errors: Record<number, string>;
+  onSuccess?: (response: any) => any;
   refresh: () => any;
 };
 
@@ -37,6 +39,11 @@ const SYNC_HANDLERS: Record<SyncArea, SyncConfig> = {
     operation: 'TASK.CREATE.SYNC',
     errors: {
       409: 'LOCATION_DELETED',
+    },
+    onSuccess: (response) => {
+      if (response?.task_translation_key === 'IRRIGATION_TASK') {
+        return invalidateTags(['IrrigationPrescriptions']);
+      }
     },
     refresh: getTasks,
   },
@@ -53,6 +60,11 @@ const SYNC_HANDLERS: Record<SyncArea, SyncConfig> = {
       403: 'UNAUTHORIZED',
       404: 'NOT_FOUND',
       409: 'LOCATION_DELETED',
+    },
+    onSuccess: (response) => {
+      if (response?.task_translation_key === 'MOVEMENT_TASK') {
+        return invalidateTags(['Animals', 'AnimalBatches']);
+      }
     },
     refresh: getTasks,
   },
@@ -119,11 +131,17 @@ export function ServiceWorkerListener() {
         const handler = SYNC_HANDLERS[area as SyncArea];
         if (!handler) return;
 
-        const { operation, errors, refresh } = handler;
+        const { operation, errors, refresh, onSuccess } = handler;
         const isSuccess = ok !== false && status >= 200 && status < 400;
 
         if (isSuccess) {
           dispatch(enqueueSuccessSnackbar(t(`message:${operation}.SUCCESS`)));
+
+          // Call optional onSuccess handler for additional side effects
+          const onSuccessAction = onSuccess?.(payload.response);
+          if (onSuccessAction) {
+            dispatch(onSuccessAction);
+          }
         } else {
           // Look up specific error message or use default
           const errorType = errors[status] || 'FAILED';

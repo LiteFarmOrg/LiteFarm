@@ -36,6 +36,14 @@
     width: 32px;
     transition: width 100ms ease-out, background-color 100ms ease-out;
   }
+
+  &.offline {
+    cursor: default;
+    pointer-events: none;
+
+    background: var(--Colors-Neutral-Neutral-50);
+    @include svgColorFill(var(--Colors-Neutral-Neutral-200));
+  }
 }
 
 .surveyButtonTitleIcon {

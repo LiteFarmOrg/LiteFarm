@@ -228,7 +228,7 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
       yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.OFFLINE')));
 
       // Optimistic update for task update (easy in this case)
-      // yield put(putTaskSuccess({ due_date, task_id }));
+      yield put(putTaskSuccess({ due_date, task_id }));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
     }
@@ -897,7 +897,17 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.OFFLINE')));
+
+      // Optimistic update for task update (truly not sure if this will work)
+      yield put(putTaskSuccess({ ...taskData, task_id, to_sync: true }));
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    }
   }
 }
 
@@ -917,7 +927,17 @@ export function* abandonTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.OFFLINE')));
+
+      // Optimistic update for task update
+      yield put(putTaskSuccess({ ...patchData, task_id, to_sync: true }));
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    }
   }
 }
 

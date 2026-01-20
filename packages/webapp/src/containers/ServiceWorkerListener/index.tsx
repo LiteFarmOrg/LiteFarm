@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
@@ -28,61 +28,10 @@ type SyncArea =
   | 'tasks.update'; // Generic fallback; use for patching date as well
 
 type SyncConfig = {
-  operation: string;
+  successMessage: string;
   errors: Record<number, string>;
   onSuccess?: (response: any) => any;
   refresh: () => any;
-};
-
-const SYNC_HANDLERS: Record<SyncArea, SyncConfig> = {
-  'tasks.create': {
-    operation: 'TASK.CREATE.SYNC',
-    errors: {
-      409: 'LOCATION_DELETED',
-    },
-    onSuccess: (response) => {
-      if (response?.task_translation_key === 'IRRIGATION_TASK') {
-        return invalidateTags(['IrrigationPrescriptions']);
-      }
-    },
-    refresh: getTasks,
-  },
-  'tasks.assign': {
-    operation: 'TASK.ASSIGN.SYNC',
-    errors: {
-      404: 'NOT_FOUND',
-    },
-    refresh: getTasks,
-  },
-  'tasks.complete': {
-    operation: 'TASK.COMPLETE.SYNC',
-    errors: {
-      403: 'UNAUTHORIZED',
-      404: 'NOT_FOUND',
-      409: 'LOCATION_DELETED',
-    },
-    onSuccess: (response) => {
-      if (response?.task_translation_key === 'MOVEMENT_TASK') {
-        return invalidateTags(['Animals', 'AnimalBatches']);
-      }
-    },
-    refresh: getTasks,
-  },
-  'tasks.abandon': {
-    operation: 'TASK.ABANDON.SYNC',
-    errors: {
-      404: 'NOT_FOUND',
-    },
-    refresh: getTasks,
-  },
-  'tasks.update': {
-    operation: 'TASK.UPDATE.SYNC',
-    errors: {
-      403: 'UNAUTHORIZED',
-      404: 'NOT_FOUND',
-    },
-    refresh: getTasks,
-  },
 };
 
 /**
@@ -115,6 +64,60 @@ export function ServiceWorkerListener() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const SYNC_CONFIG = useMemo(
+    (): Record<SyncArea, SyncConfig> => ({
+      'tasks.create': {
+        successMessage: t('message:TASK.CREATE.SYNC.SUCCESS'),
+        errors: {
+          409: t('message:TASK.CREATE.SYNC.LOCATION_DELETED'),
+        },
+        onSuccess: (response) => {
+          if (response?.task_translation_key === 'IRRIGATION_TASK') {
+            return invalidateTags(['IrrigationPrescriptions']);
+          }
+        },
+        refresh: getTasks,
+      },
+      'tasks.assign': {
+        successMessage: t('message:TASK.ASSIGN.SYNC.SUCCESS'),
+        errors: {
+          404: t('message:TASK.ASSIGN.SYNC.NOT_FOUND'),
+        },
+        refresh: getTasks,
+      },
+      'tasks.complete': {
+        successMessage: t('message:TASK.COMPLETE.SYNC.SUCCESS'),
+        errors: {
+          403: t('message:TASK.COMPLETE.SYNC.UNAUTHORIZED'),
+          404: t('message:TASK.COMPLETE.SYNC.NOT_FOUND'),
+          409: t('message:TASK.COMPLETE.SYNC.LOCATION_DELETED'),
+        },
+        onSuccess: (response) => {
+          if (response?.task_translation_key === 'MOVEMENT_TASK') {
+            return invalidateTags(['Animals', 'AnimalBatches']);
+          }
+        },
+        refresh: getTasks,
+      },
+      'tasks.abandon': {
+        successMessage: t('message:TASK.ABANDON.SYNC.SUCCESS'),
+        errors: {
+          404: t('message:TASK.ABANDON.SYNC.NOT_FOUND'),
+        },
+        refresh: getTasks,
+      },
+      'tasks.update': {
+        successMessage: t('message:TASK.UPDATE.SYNC.SUCCESS'),
+        errors: {
+          403: t('message:TASK.UPDATE.SYNC.UNAUTHORIZED'),
+          404: t('message:TASK.UPDATE.SYNC.NOT_FOUND'),
+        },
+        refresh: getTasks,
+      },
+    }),
+    [t],
+  );
+
   useEffect(() => {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       // Ensure we only dispatch valid messages.
@@ -128,14 +131,14 @@ export function ServiceWorkerListener() {
       if (type === 'SYNC_ITEM_SUCCESS') {
         const area = resolveAreaFromUrl(rawArea, url);
 
-        const handler = SYNC_HANDLERS[area as SyncArea];
+        const handler = SYNC_CONFIG[area as SyncArea];
         if (!handler) return;
 
-        const { operation, errors, refresh, onSuccess } = handler;
+        const { successMessage, errors, refresh, onSuccess } = handler;
         const isSuccess = ok !== false && status >= 200 && status < 400;
 
         if (isSuccess) {
-          dispatch(enqueueSuccessSnackbar(t(`message:${operation}.SUCCESS`)));
+          dispatch(enqueueSuccessSnackbar(successMessage));
 
           // Call optional onSuccess handler for additional side effects
           const onSuccessAction = onSuccess?.(payload.response);
@@ -143,9 +146,13 @@ export function ServiceWorkerListener() {
             dispatch(onSuccessAction);
           }
         } else {
-          // Look up specific error message or use default
-          const errorType = errors[status] || 'FAILED';
-          dispatch(enqueueErrorSnackbar(t(`message:${operation}.${errorType}`)));
+          // Look up specific error message or use generic fallback
+          const errorMessage = errors[status];
+          if (errorMessage) {
+            dispatch(enqueueErrorSnackbar(errorMessage));
+          } else {
+            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.FAILED')));
+          }
         }
 
         // Refresh data regardless of success/failure
@@ -160,15 +167,11 @@ export function ServiceWorkerListener() {
         I couldn't find it in the Chrome docs, but in my local testing it was exactly 5 minutes */
         switch (rawArea) {
           case 'tasks.create':
-            dispatch(
-              enqueueErrorSnackbar('Failed to save task; will retry automatically in 5 minutes'),
-            );
+            dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
             break;
 
           case 'tasks.update':
-            dispatch(
-              enqueueErrorSnackbar('Failed to update task; will retry automatically in 5 minutes'),
-            );
+            dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
             break;
         }
       }
@@ -186,7 +189,7 @@ export function ServiceWorkerListener() {
         swContainer.removeEventListener('message', handleServiceWorkerMessage);
       }
     };
-  }, [dispatch]);
+  }, [dispatch, t, SYNC_CONFIG]);
 
   // This component renders nothing; it is purely for side effects.
   return null;

@@ -151,14 +151,24 @@ export function ServiceWorkerListener() {
         // Refresh data regardless of success/failure
         dispatch(refresh());
       } else if (type === 'SYNC_ITEM_FAILURE') {
-        // I don't think we need to show snackbars here; the item remains in the queue for retrying later. I also don't think we get here in practice.
+        /* This indicates a failure to reach the server at all (e.g. our API going down). It should be rare.
+
+        In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
+        
+        "Browsers that support the BackgroundSync API will automatically replay failed requests on your behalf at an interval managed by the browser, likely using exponential backoff between replay attempts."
+
+        I couldn't find it in the Chrome docs, but in my local testing it was exactly 5 minutes */
         switch (rawArea) {
           case 'tasks.create':
-            dispatch(enqueueErrorSnackbar('Unreachable branch: Failed to sync new task'));
+            dispatch(
+              enqueueErrorSnackbar('Failed to save task; will retry automatically in 5 minutes'),
+            );
             break;
 
           case 'tasks.update':
-            dispatch(enqueueErrorSnackbar('Unreachable branch: Failed to sync task update'));
+            dispatch(
+              enqueueErrorSnackbar('Failed to update task; will retry automatically in 5 minutes'),
+            );
             break;
         }
       }

@@ -509,25 +509,27 @@
       overflow: visible;
     }
 
-    &.offlineDisabled.offlineDisabled {
-      cursor: default;
-      pointer-events: none;
+    &.offlineDisabled,
+    &.offlineDisabled.subItem {
+      opacity: 1;
       background-color: var(--Colors-Neutral-Neutral-50);
 
-      span {
+      .listItemText,
+      .subItemText {
         color: var(--Colors-Neutral-Neutral-200);
       }
 
-      > div > svg path {
+      .icon > svg path {
         stroke: var(--Colors-Neutral-Neutral-200);
       }
 
       @include xs-breakpoint {
-        span {
+        .listItemText,
+        .subItemText {
           color: #9eb5bb;
         }
 
-        > div > svg path {
+        .icon > svg path {
           stroke: #9eb5bb;
         }
 

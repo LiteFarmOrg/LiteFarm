@@ -512,7 +512,7 @@
     &.offlineDisabled.offlineDisabled {
       cursor: default;
       pointer-events: none;
-      background: var(--Colors-Neutral-Neutral-50);
+      background-color: var(--Colors-Neutral-Neutral-50);
 
       span {
         color: var(--Colors-Neutral-Neutral-200);
@@ -520,6 +520,18 @@
 
       > div > svg path {
         stroke: var(--Colors-Neutral-Neutral-200);
+      }
+
+      @include xs-breakpoint {
+        span {
+          color: #9eb5bb;
+        }
+
+        > div > svg path {
+          stroke: #9eb5bb;
+        }
+
+        background-color: #c8d7d7;
       }
     }
 

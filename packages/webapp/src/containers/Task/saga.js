@@ -167,7 +167,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.OFFLINE')));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
 
       // Optimistic update for task update (easy in this case)
       yield put(putTaskSuccess({ assignee_user_id, task_id }));
@@ -225,7 +225,7 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.OFFLINE')));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
 
       // Optimistic update for task update (easy in this case)
       yield put(putTaskSuccess({ due_date, task_id }));
@@ -717,7 +717,10 @@ export function* createTaskSaga({ payload }) {
       setShowCannotCreateModal(true);
     } else if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.OFFLINE')));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
+
+      // No optimstic update for task creation as the task_id is unknown
+
       history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
@@ -899,7 +902,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.OFFLINE')));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
 
       // Optimistic update for task update (truly not sure if this will work)
       yield put(putTaskSuccess({ ...taskData, task_id, to_sync: true }));
@@ -929,7 +932,7 @@ export function* abandonTaskSaga({ payload: data }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.OFFLINE')));
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
 
       // Optimistic update for task update
       yield put(putTaskSuccess({ ...patchData, task_id, to_sync: true }));

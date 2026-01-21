@@ -217,23 +217,48 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",
-      "OFFLINE": "Task abandoned locally. Will save when you're back online",
-      "SUCCESS": "Successfully abandoned task"
+      "SUCCESS": "Successfully abandoned task",
+      "SYNC": {
+        "ONLINE": "Task abandoned locally. Will save when you're back online",
+        "SUCCESS": "Task abandonment saved successfully"
+      }
     },
     "COMPLETE": {
       "FAILED": "Failed to complete task",
-      "OFFLINE": "Task completed locally. Will save when you're back online",
-      "SUCCESS": "Successfully completed task"
+      "SUCCESS": "Successfully completed task",
+      "SYNC": {
+        "ONLINE": "Task completed locally. Will save when you're back online",
+        "SUCCESS": "Task completion has been saved successfully"
+      }
     },
     "CREATE": {
       "FAILED": "Failed to create task",
-      "OFFLINE": "Task created locally. Will save when you're back online",
-      "SUCCESS": "Successfully created task"
+      "SUCCESS": "Successfully created task",
+      "SYNC": {
+        "ONLINE": "Task created locally. Will save when you're back online",
+        "SUCCESS": "Created task has been saved successfully"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "ONLINE": "Task deleted locally. Will save when you're back online",
+        "SUCCESS": "Task deletion has been saved successfully"
+      }
+    },
+    "SYNC": {
+      "FAILED": "Task changes failed to save",
+      "LOCATION_DELETED": "Task failed to save: location has been retired",
+      "NETWORK_ERROR": "There was an issue contacting the server. Will try again shortly",
+      "NOT_FOUND": "Task failed to save: task has been deleted",
+      "UNAUTHORIZED": "Task failed to save: you don't have permissions"
     },
     "UPDATE": {
       "FAILED": "Failed to update task",
-      "OFFLINE": "Task updated locally. Will save when you're back online.",
-      "SUCCESS": "Successfully updated task"
+      "SUCCESS": "Successfully updated task",
+      "SYNC": {
+        "ONLINE": "Task updated locally. Will save when you're back online",
+        "SUCCESS": "Task update has been saved successfully"
+      }
     }
   },
   "TASK_TYPE": {

@@ -22,10 +22,9 @@ import { invalidateTags } from '../../store/api/apiSlice';
 
 type SyncArea =
   | 'tasks.create'
-  | 'tasks.assign'
   | 'tasks.complete'
   | 'tasks.abandon'
-  | 'tasks.update' // Generic fallback; use for patching date as well
+  | 'tasks.update' // Generic fallback; use for patching date and assignee as well
   | 'tasks.delete';
 
 type SyncConfig = {
@@ -43,9 +42,6 @@ function resolveAreaFromUrl(area: string, url: string): SyncArea {
     return area as SyncArea;
   }
 
-  if (url.includes('/task/assign')) {
-    return 'tasks.assign';
-  }
   if (url.includes('/task/complete/')) {
     return 'tasks.complete';
   }
@@ -70,7 +66,7 @@ export function ServiceWorkerListener() {
       'tasks.create': {
         successMessage: t('message:TASK.CREATE.SYNC.SUCCESS'),
         errors: {
-          409: t('message:TASK.CREATE.SYNC.LOCATION_DELETED'),
+          409: t('message:TASK.SYNC.LOCATION_DELETED'),
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
@@ -79,19 +75,12 @@ export function ServiceWorkerListener() {
         },
         refresh: getTasks,
       },
-      'tasks.assign': {
-        successMessage: t('message:TASK.ASSIGN.SYNC.SUCCESS'),
-        errors: {
-          404: t('message:TASK.SYNC.NOT_FOUND'),
-        },
-        refresh: getTasks,
-      },
       'tasks.complete': {
         successMessage: t('message:TASK.COMPLETE.SYNC.SUCCESS'),
         errors: {
-          403: t('message:TASK.COMPLETE.SYNC.UNAUTHORIZED'),
-          404: t('message:TASK.COMPLETE.SYNC.NOT_FOUND'),
-          409: t('message:TASK.COMPLETE.SYNC.LOCATION_DELETED'),
+          403: t('message:TASK.SYNC.UNAUTHORIZED'),
+          404: t('message:TASK.SYNC.NOT_FOUND'),
+          409: t('message:TASK.SYNC.LOCATION_DELETED'),
         },
         onSuccess: (response) => {
           // note: taskType not returned in this API response
@@ -104,22 +93,22 @@ export function ServiceWorkerListener() {
       'tasks.abandon': {
         successMessage: t('message:TASK.ABANDON.SYNC.SUCCESS'),
         errors: {
-          404: t('message:TASK.ABANDON.SYNC.NOT_FOUND'),
+          404: t('message:TASK.SYNC.NOT_FOUND'),
         },
         refresh: getTasks,
       },
       'tasks.update': {
         successMessage: t('message:TASK.UPDATE.SYNC.SUCCESS'),
         errors: {
-          403: t('message:TASK.UPDATE.SYNC.UNAUTHORIZED'),
-          404: t('message:TASK.UPDATE.SYNC.NOT_FOUND'),
+          403: t('message:TASK.SYNC.UNAUTHORIZED'),
+          404: t('message:TASK.SYNC.NOT_FOUND'),
         },
         refresh: getTasks,
       },
       'tasks.delete': {
         successMessage: t('message:TASK.DELETE.SYNC.SUCCESS'),
         errors: {
-          404: t('message:TASK.DELETE.SYNC.NOT_FOUND'),
+          404: t('message:TASK.SYNC.NOT_FOUND'),
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
@@ -179,20 +168,8 @@ export function ServiceWorkerListener() {
         "Browsers that support the BackgroundSync API will automatically replay failed requests on your behalf at an interval managed by the browser, likely using exponential backoff between replay attempts."
 
         I couldn't find it in the Chrome docs, but in my local testing it was exactly 5 minutes */
-        switch (rawArea) {
-          case 'tasks.create':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
-            break;
-          case 'tasks.update':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
-            break;
-          case 'tasks.delete':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
-            break;
-          default:
-            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
-            break;
-        }
+
+        dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
       }
     };
 

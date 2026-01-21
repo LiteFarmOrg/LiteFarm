@@ -52,19 +52,18 @@ const createOnSyncHandler = (area) => {
         const response = await fetch(entry.request.clone());
 
         // Send the parsed JSON response in payload for further handling
-        let responseJson = null;
+        let responseContent = null;
         try {
-          responseJson = await response.clone().json();
+          responseContent = await response.clone().json();
         } catch {
           // Fallback to text if JSON parsing fails
           try {
-            responseJson = await response.clone().text();
+            responseContent = await response.clone().text();
           } catch {
             // ignore
           }
         }
 
-        // notify clients of success for this URL
         const successClients = await self.clients.matchAll();
         successClients.forEach((client) =>
           client.postMessage({
@@ -74,7 +73,7 @@ const createOnSyncHandler = (area) => {
               url: entry.request.url,
               status: response.status,
               ok: response.ok,
-              response: responseJson,
+              response: responseContent,
             },
           }),
         );
@@ -82,7 +81,6 @@ const createOnSyncHandler = (area) => {
         // put it back at front so Workbox will retry later
         await queue.unshiftRequest(entry);
 
-        // notify clients of failure for this URL
         const failureClients = await self.clients.matchAll();
         failureClients.forEach((client) =>
           client.postMessage({
@@ -95,7 +93,7 @@ const createOnSyncHandler = (area) => {
           }),
         );
 
-        // re-throw exactly like Workbox does so it re-registers the sync
+        // re-throwing like Workbox does so it re-registers the sync
         throw new Error(`Queue replay failed for ${queue.name}`);
       }
     }
@@ -113,7 +111,6 @@ const createOnSyncHandler = (area) => {
 
 // ——————————————————————————————
 // Configuration for all background-sync routes.
-// To add PATCH /task/ or DELETE /task/ later, just add a new entry here.
 // ——————————————————————————————
 const BG_SYNC_ROUTES = [
   {

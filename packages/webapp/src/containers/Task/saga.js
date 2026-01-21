@@ -169,7 +169,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
       // Workbox will handle network errors and retry when online
       yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
 
-      // Optimistic update for task update (easy in this case)
+      // Optimistic update for task update
       yield put(putTaskSuccess({ assignee_user_id, task_id }));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
@@ -227,7 +227,7 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
       // Workbox will handle network errors and retry when online
       yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
 
-      // Optimistic update for task update (easy in this case)
+      // Optimistic update for task update
       yield put(putTaskSuccess({ due_date, task_id }));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
@@ -904,8 +904,14 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
       // Workbox will handle network errors and retry when online
       yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
 
-      // Optimistic update for task update (truly not sure if this will work)
-      yield put(putTaskSuccess({ ...taskData, task_id, to_sync: true }));
+      // Optimistic update for task completion
+      yield put(
+        putTaskSuccess({
+          ...taskData, // note: will not create the proper object for details view
+          task_id,
+          to_sync: true, // For LF-5120 visual indicator on to-be-synced tasks
+        }),
+      );
 
       history.push(returnPath ?? '/tasks');
     } else {
@@ -934,8 +940,14 @@ export function* abandonTaskSaga({ payload: data }) {
       // Workbox will handle network errors and retry when online
       yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
 
-      // Optimistic update for task update
-      yield put(putTaskSuccess({ ...patchData, task_id, to_sync: true }));
+      // Optimistic update for task abandonment
+      yield put(
+        putTaskSuccess({
+          ...patchData, // will create the proper object for details view
+          task_id,
+          to_sync: true, // For LF-5120 - visual indicator on to-be-synced tasks
+        }),
+      );
 
       history.push(returnPath ?? '/tasks');
     } else {
@@ -1077,7 +1089,7 @@ export function* deleteTaskSaga({ payload: data }) {
       // Optimistic update for task deletion
 
       // Remove from transplant task store
-      // (Safe to call for non-transplant tasks; will be a no-op)
+      // (Safe to call for non-transplant tasks; nothing will happen)
       yield put(deleteTransplantTaskSuccess({ task_id }));
 
       // Remove from general task store

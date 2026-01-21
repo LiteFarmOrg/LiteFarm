@@ -35,7 +35,7 @@ type SyncConfig = {
 };
 
 /**
- * Resolve the specific kind of task patch operation from the URL
+ * Resolve specific kinds of task patch operations from the URL
  */
 function resolveAreaFromUrl(area: string, url: string): SyncArea {
   if (area !== 'tasks.update') {
@@ -49,13 +49,11 @@ function resolveAreaFromUrl(area: string, url: string): SyncArea {
     return 'tasks.abandon';
   }
 
-  // Default: generic update for PATCH endpoints
   return 'tasks.update';
 }
 
 /**
  * Global listener for messages sent from the Service Worker (sw.js).
- * Handles background sync events, cache updates, etc.
  */
 export function ServiceWorkerListener() {
   const dispatch = useDispatch();
@@ -83,7 +81,7 @@ export function ServiceWorkerListener() {
           409: t('message:TASK.SYNC.LOCATION_DELETED'),
         },
         onSuccess: (response) => {
-          // note: taskType not returned in this API response
+          // taskType not returned in the completion API response
           if (response?.animal_movement_task) {
             return invalidateTags(['Animals', 'AnimalBatches']);
           }
@@ -123,8 +121,6 @@ export function ServiceWorkerListener() {
 
   useEffect(() => {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      // Ensure we only dispatch valid messages.
-      // event.data is the payload sent from sw.js (e.g. { type: 'SYNC_ITEM_SUCCESS', payload: ... })
       if (!event.data || !event.data.type) return;
 
       const { type, payload } = event.data;
@@ -143,13 +139,11 @@ export function ServiceWorkerListener() {
         if (isSuccess) {
           dispatch(enqueueSuccessSnackbar(successMessage));
 
-          // Call optional onSuccess handler for additional side effects
           const onSuccessAction = onSuccess?.(payload.response);
           if (onSuccessAction) {
             dispatch(onSuccessAction);
           }
         } else {
-          // Look up specific error message or use generic fallback
           const errorMessage = errors[status];
           if (errorMessage) {
             dispatch(enqueueErrorSnackbar(errorMessage));
@@ -163,11 +157,7 @@ export function ServiceWorkerListener() {
       } else if (type === 'SYNC_ITEM_FAILURE') {
         /* This indicates a failure to reach the server at all (e.g. our API going down). It should be rare.
 
-        In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
-        
-        "Browsers that support the BackgroundSync API will automatically replay failed requests on your behalf at an interval managed by the browser, likely using exponential backoff between replay attempts."
-
-        I couldn't find it in the Chrome docs, but in my local testing it was exactly 5 minutes */
+        In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
 
         dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
       }
@@ -187,6 +177,5 @@ export function ServiceWorkerListener() {
     };
   }, [dispatch, t, SYNC_CONFIG]);
 
-  // This component renders nothing; it is purely for side effects.
   return null;
 }

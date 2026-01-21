@@ -322,3 +322,13 @@
   }
   @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
 }
+
+/* Offline styles */
+.cardContentOfflineButton {
+  pointer-events: none;
+  background-color: transparent;
+
+  svg {
+    display: none;
+  }
+}

@@ -45,6 +45,7 @@ import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 const moment = extendMoment(Moment);
 
@@ -62,6 +63,7 @@ const Finances = () => {
   const dateFilter = { startDate, endDate };
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
+  const isOffline = useIsOffline();
   const overlayRef = useRef(null);
   const isFetchingData = useSelector(isFetchingDataSelector);
   const [isLoading, setIsLoading] = useState(true);
@@ -152,6 +154,7 @@ const Finances = () => {
           estimatedRevenue={estimatedRevenue}
           currencySymbol={currencySymbol}
           history={history}
+          isOffline={isOffline}
         />
         <AddTransactionButton />
       </div>

@@ -73,7 +73,7 @@ export function ServiceWorkerListener() {
           409: t('message:TASK.CREATE.SYNC.LOCATION_DELETED'),
         },
         onSuccess: (response) => {
-          if (response?.task_translation_key === 'IRRIGATION_TASK') {
+          if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
             return invalidateTags(['IrrigationPrescriptions']);
           }
         },
@@ -82,7 +82,7 @@ export function ServiceWorkerListener() {
       'tasks.assign': {
         successMessage: t('message:TASK.ASSIGN.SYNC.SUCCESS'),
         errors: {
-          404: t('message:TASK.ASSIGN.SYNC.NOT_FOUND'),
+          404: t('message:TASK.SYNC.NOT_FOUND'),
         },
         refresh: getTasks,
       },
@@ -94,7 +94,8 @@ export function ServiceWorkerListener() {
           409: t('message:TASK.COMPLETE.SYNC.LOCATION_DELETED'),
         },
         onSuccess: (response) => {
-          if (response?.task_translation_key === 'MOVEMENT_TASK') {
+          // note: taskType not returned in this API response
+          if (response?.animal_movement_task) {
             return invalidateTags(['Animals', 'AnimalBatches']);
           }
         },

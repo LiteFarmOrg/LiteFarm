@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -13,6 +14,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import navStyles from '@navStyles';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -136,7 +138,7 @@ export default function PureManagementTasks({
       <div className={styles.deleteSection} onClick={() => setShowCopyRepeatMenu(false)}>
         {isAdmin && isActiveOrPlanned && !isDeleting && (
           <IconLink
-            className={styles.deleteText}
+            className={clsx(styles.deleteText, navStyles.hideWhenOffline)}
             style={{ color: 'var(--grey600)' }}
             icon={
               <TrashIcon

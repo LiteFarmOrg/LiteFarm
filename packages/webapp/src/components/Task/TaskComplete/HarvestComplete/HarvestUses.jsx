@@ -25,6 +25,7 @@ import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { colors } from '../../../../assets/theme';
 import PageBreak from '../../../PageBreak';
+import navStyles from '@navStyles';
 
 const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
 const HARVEST_USE_QUANTITY = 'quantity';
@@ -154,6 +155,7 @@ export default function PureHarvestUses({
         onClick={() => {
           onAddHarvestType();
         }}
+        className={navStyles.hideWhenOffline}
       >
         {t('TASK.ADD_CUSTOM_HARVEST_USE')}
       </AddLink>

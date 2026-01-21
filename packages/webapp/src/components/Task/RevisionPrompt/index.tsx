@@ -14,8 +14,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
+import navStyles from '@navStyles';
 
 interface RevisionPromptProps {
   text: string;
@@ -26,7 +28,7 @@ const RevisionPrompt = ({ text, onClick }: RevisionPromptProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
-    <div className={styles.revisionPrompt}>
+    <div className={clsx(styles.revisionPrompt, navStyles.hideWhenOffline)}>
       <div>
         <h3>{t('REVISION_PROMPT.NOTICED_SOMETHING_OFF')}</h3>
         <p>{text}</p>

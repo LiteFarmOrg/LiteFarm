@@ -129,13 +129,12 @@ const BG_SYNC_ROUTES = [
     area: 'tasks.update',
     method: 'PATCH',
   },
-  // {
-  //   queueName: 'delete-task-queue',
-  //   matcher: ({ url, request }) =>
-  //     url.pathname.includes('/task/') && request.method === 'DELETE',
-  //   area: 'tasks.delete',
-  //   method: 'DELETE',
-  // },
+  {
+    queueName: 'delete-task-queue',
+    matcher: ({ url, request }) => url.pathname.includes('/task/') && request.method === 'DELETE',
+    area: 'tasks.delete',
+    method: 'DELETE',
+  },
 ];
 
 // ——————————————————————————————

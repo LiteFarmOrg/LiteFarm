@@ -1067,7 +1067,23 @@ export function* deleteTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      // Workbox will handle network errors and retry when online
+      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+
+      // Optimistic update for task deletion
+
+      // Remove from transplant task store
+      // (Safe to call for non-transplant tasks; will be a no-op)
+      yield put(deleteTransplantTaskSuccess({ task_id }));
+
+      // Remove from general task store
+      yield put(deleteTaskSuccess({ task_id }));
+
+      history.back();
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    }
   }
 }
 

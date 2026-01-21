@@ -25,7 +25,8 @@ type SyncArea =
   | 'tasks.assign'
   | 'tasks.complete'
   | 'tasks.abandon'
-  | 'tasks.update'; // Generic fallback; use for patching date as well
+  | 'tasks.update' // Generic fallback; use for patching date as well
+  | 'tasks.delete';
 
 type SyncConfig = {
   successMessage: string;
@@ -114,6 +115,18 @@ export function ServiceWorkerListener() {
         },
         refresh: getTasks,
       },
+      'tasks.delete': {
+        successMessage: t('message:TASK.DELETE.SYNC.SUCCESS'),
+        errors: {
+          404: t('message:TASK.DELETE.SYNC.NOT_FOUND'),
+        },
+        onSuccess: (response) => {
+          if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
+            return invalidateTags(['IrrigationPrescriptions']);
+          }
+        },
+        refresh: getTasks,
+      },
     }),
     [t],
   );
@@ -169,9 +182,14 @@ export function ServiceWorkerListener() {
           case 'tasks.create':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
             break;
-
           case 'tasks.update':
             dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
+            break;
+          case 'tasks.delete':
+            dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
+            break;
+          default:
+            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
             break;
         }
       }

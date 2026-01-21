@@ -57,7 +57,7 @@ const Menu = forwardRef((props, ref) => {
 });
 Menu.displayName = 'Menu';
 
-export default function AddTransactionButton() {
+export default function AddTransactionButton({ disabled }) {
   const { t } = useTranslation();
   const theme = useTheme();
   const isAboveBreakPoint = useMediaQuery(theme.breakpoints.up('md'));
@@ -65,11 +65,11 @@ export default function AddTransactionButton() {
   return (
     <>
       {isAboveBreakPoint === true ? (
-        <DropdownButton type={'v2'} noIcon={true} Menu={Menu}>
+        <DropdownButton type={'v2'} noIcon={true} Menu={Menu} disabled={disabled}>
           {t('FINANCES.ADD_TRANSACTION')}
         </DropdownButton>
       ) : (
-        <FloatingButtonMenu type={'add'} Menu={Menu} />
+        <FloatingButtonMenu type={'add'} Menu={Menu} disabled={disabled} />
       )}
     </>
   );

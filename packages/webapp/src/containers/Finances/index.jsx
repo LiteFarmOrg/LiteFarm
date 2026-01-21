@@ -156,7 +156,7 @@ const Finances = () => {
           history={history}
           isOffline={isOffline}
         />
-        <AddTransactionButton />
+        <AddTransactionButton disabled={isOffline} />
       </div>
       {hasSearchResults ? (
         <PureTransactionList data={filteredTransactions} mobileView={true} />

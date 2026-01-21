@@ -66,11 +66,16 @@ export default function PureManagementTasks({
         isAdmin &&
         isActiveOrPlanned && (
           <>
-            <Button color={'secondary'} fullLength onClick={onAbandon}>
+            <Button
+              color={'secondary'}
+              fullLength
+              onClick={onAbandon}
+              className={navStyles.hideWhenOffline}
+            >
               {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
             </Button>
 
-            <Button fullLength onClick={onMarkComplete}>
+            <Button fullLength onClick={onMarkComplete} className={navStyles.hideWhenOffline}>
               {t('common:MARK_COMPLETED')}
             </Button>
           </>

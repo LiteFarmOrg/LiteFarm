@@ -91,6 +91,7 @@ import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fen
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
+import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
@@ -615,6 +616,8 @@ export function* fetchAllSaga() {
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
+
+  yield put(fetchAllFinanceData());
 
   const {
     data: { farm_token },

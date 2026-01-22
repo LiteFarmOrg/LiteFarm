@@ -47,16 +47,12 @@ const MapNavigationButtons = ({
   const { t } = useTranslation();
 
   return (
-    <div className={clsx(styles.container, isOffline && styles.offline)}>
+    <div className={styles.container}>
       {isAdmin && (
         <Button
           color="accent"
           data-cy="map-addFeature"
-          className={clsx(
-            styles.button,
-            showAddDrawer && styles.selected,
-            styles.disableWhenOffline,
-          )}
+          className={clsx(styles.button, showAddDrawer && styles.selected)}
           id="mapFirstStep"
           onClick={onClickAdd}
           sm
@@ -83,7 +79,7 @@ const MapNavigationButtons = ({
       </Button>
       <Button
         color="accent"
-        className={clsx(styles.button, showModal && styles.selected, styles.disableWhenOffline)}
+        className={clsx(styles.button, showModal && styles.selected)}
         id="mapThirdStep"
         onClick={onClickExport}
         sm

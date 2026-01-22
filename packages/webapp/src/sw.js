@@ -28,6 +28,7 @@ self.skipWaiting();
 clientsClaim();
 
 // 2. Precache all the assets injected by VitePWA
+// https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
 precacheAndRoute(self.__WB_MANIFEST);
 
 // 3. Clean up old caches
@@ -36,22 +37,22 @@ cleanupOutdatedCaches();
 // 4. A sensible default for SPA navigation
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
 
-// ——————————————————————————————
-// Helper: produces an onSync callback that:
-//  • replays each queued request exactly as Workbox does
-//  *** see https://github.com/GoogleChrome/workbox/blob/v7/packages/workbox-background-sync/src/Queue.ts
-//  • sends per-item success/failure messages, plus a “queue empty” at the end
-//  • tags each message with the given `area` so you can distinguish endpoints
-// ——————————————————————————————
+/* ——————————————————————————————
+Higher-order function for onSync callbacks that:
+• replay each queued request as Workbox does
+• sends per-item success/failure messages
+• passes the given area string to the message for context
+
+Here is the workbox class for Queue:
+// https://github.com/GoogleChrome/workbox/blob/main/packages/workbox-background-sync/src/Queue.ts
+ —————————————————————————————— */
 const createOnSyncHandler = (area) => {
   return async ({ queue }) => {
     let entry;
     while ((entry = await queue.shiftRequest())) {
       try {
-        // replay the request just like workbox-default
         const response = await fetch(entry.request.clone());
 
-        // Send the parsed JSON response in payload for further handling
         let responseContent = null;
         try {
           responseContent = await response.clone().json();
@@ -64,6 +65,7 @@ const createOnSyncHandler = (area) => {
           }
         }
 
+        // Not workbox-specific, but common to the service worker API: https://developer.mozilla.org/en-US/docs/Web/API/Clients/
         const successClients = await self.clients.matchAll();
         successClients.forEach((client) =>
           client.postMessage({
@@ -72,13 +74,11 @@ const createOnSyncHandler = (area) => {
               area,
               url: entry.request.url,
               status: response.status,
-              ok: response.ok,
               response: responseContent,
             },
           }),
         );
       } catch (error) {
-        // put it back at front so Workbox will retry later
         await queue.unshiftRequest(entry);
 
         const failureClients = await self.clients.matchAll();
@@ -93,19 +93,9 @@ const createOnSyncHandler = (area) => {
           }),
         );
 
-        // re-throwing like Workbox does so it re-registers the sync
         throw new Error(`Queue replay failed for ${queue.name}`);
       }
     }
-
-    // queue is now empty
-    const doneClients = await self.clients.matchAll();
-    doneClients.forEach((client) =>
-      client.postMessage({
-        type: 'SYNC_QUEUE_EMPTY',
-        payload: { area },
-      }),
-    );
   };
 };
 

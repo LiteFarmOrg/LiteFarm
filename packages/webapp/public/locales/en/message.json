@@ -248,9 +248,9 @@
     "SYNC": {
       "FAILED": "Task changes failed to save",
       "LOCATION_DELETED": "Task failed to save: location has been retired",
-      "NETWORK_ERROR": "There was an issue contacting the server. Will try again shortly",
-      "NOT_FOUND": "Task failed to save: task has been deleted",
-      "UNAUTHORIZED": "Task failed to save: you don't have permissions"
+      "NETWORK_ERROR": "Unable to reach server. Will retry automatically",
+      "NOT_FOUND": "Task failed to save: task no longer exists",
+      "UNAUTHORIZED": "Task failed to save: insufficient permissions"
     },
     "UPDATE": {
       "FAILED": "Failed to update task",

@@ -59,7 +59,7 @@ export function ServiceWorkerListener() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const SYNC_CONFIG = useMemo(
+  const syncConfig = useMemo(
     (): Record<SyncArea, SyncConfig> => ({
       'tasks.create': {
         successMessage: t('message:TASK.CREATE.SYNC.SUCCESS'),
@@ -125,16 +125,16 @@ export function ServiceWorkerListener() {
 
       const { type, payload } = event.data;
 
-      const { area: rawArea, status, ok, url } = payload || {};
+      const { area: rawArea, status, url } = payload || {};
 
       if (type === 'SYNC_ITEM_SUCCESS') {
         const area = resolveAreaFromUrl(rawArea, url);
 
-        const handler = SYNC_CONFIG[area as SyncArea];
+        const handler = syncConfig[area as SyncArea];
         if (!handler) return;
 
         const { successMessage, errors, refresh, onSuccess } = handler;
-        const isSuccess = ok !== false && status >= 200 && status < 400;
+        const isSuccess = status >= 200 && status < 400;
 
         if (isSuccess) {
           dispatch(enqueueSuccessSnackbar(successMessage));
@@ -155,10 +155,7 @@ export function ServiceWorkerListener() {
         // Refresh data regardless of success/failure
         dispatch(refresh());
       } else if (type === 'SYNC_ITEM_FAILURE') {
-        /* This indicates a failure to reach the server at all (e.g. our API going down). It should be rare.
-
-        In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
-
+        /* This indicates a failure to reach the server at all (e.g. our API going down). It should be rare. In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
         dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
       }
     };
@@ -175,7 +172,7 @@ export function ServiceWorkerListener() {
         swContainer.removeEventListener('message', handleServiceWorkerMessage);
       }
     };
-  }, [dispatch, t, SYNC_CONFIG]);
+  }, [dispatch, t, syncConfig]);
 
   return null;
 }

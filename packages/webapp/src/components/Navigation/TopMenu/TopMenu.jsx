@@ -36,7 +36,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
-import OfflineLogoutWarningModal from './OfflineLogoutWarningModal';
+import OfflineLogOutWarningModal from './OfflineLogOutWarningModal';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
@@ -282,7 +282,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
           </Toolbar>
         </AppBar>
         {showOfflineLogoutWarning && (
-          <OfflineLogoutWarningModal
+          <OfflineLogOutWarningModal
             dismissModal={() => setShowOfflineLogoutWarning(false)}
             onLogOut={() => {
               setShowOfflineLogoutWarning(false);

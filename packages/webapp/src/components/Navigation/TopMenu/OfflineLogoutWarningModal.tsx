@@ -17,12 +17,12 @@ import { useTranslation } from 'react-i18next';
 import ModalComponent from '../../Modals/ModalComponent/v3';
 import Button from '../../Form/Button';
 
-interface OfflineLogoutWarningModalProps {
+interface OfflineLogOutWarningModalProps {
   dismissModal: () => void;
   onLogOut: () => void;
 }
 
-const OfflineLogoutWarningModal = ({ dismissModal, onLogOut }: OfflineLogoutWarningModalProps) => {
+const OfflineLogOutWarningModal = ({ dismissModal, onLogOut }: OfflineLogOutWarningModalProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
@@ -45,4 +45,4 @@ const OfflineLogoutWarningModal = ({ dismissModal, onLogOut }: OfflineLogoutWarn
   );
 };
 
-export default OfflineLogoutWarningModal;
+export default OfflineLogOutWarningModal;

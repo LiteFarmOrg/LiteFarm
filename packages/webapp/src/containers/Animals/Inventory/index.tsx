@@ -218,8 +218,9 @@ const MainAnimalInventory = ({
           showSearchBarAndFilter={true}
           alternatingRowColor={true}
           showTableHeader={commonProps.isDesktop}
-          showActionFloaterButton={isAdmin && !isOffline}
+          showActionFloaterButton={isAdmin}
           showInventorySelection={!isOffline}
+          disableActionFloaterButton={isOffline}
         >
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>

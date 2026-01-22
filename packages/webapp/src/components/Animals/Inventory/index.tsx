@@ -63,6 +63,7 @@ export type PureAnimalInventoryProps = {
   showActionFloaterButton: boolean;
   extraRowSpacing?: boolean;
   hideNoResultsBlock?: boolean;
+  disableActionFloaterButton?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -89,6 +90,7 @@ const PureAnimalInventory = ({
   showActionFloaterButton,
   extraRowSpacing,
   hideNoResultsBlock,
+  disableActionFloaterButton,
 }: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
 
@@ -168,6 +170,7 @@ const PureAnimalInventory = ({
             type={'add'}
             onClick={() => history.push(ADD_ANIMALS_URL)}
             aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
+            disabled={disableActionFloaterButton}
           />
         </div>
       )}

@@ -105,20 +105,20 @@ const createOnSyncHandler = (area) => {
 const BG_SYNC_ROUTES = [
   {
     queueName: 'create-task-queue',
-    matcher: ({ url, request }) => url.pathname.includes('/task/') && request.method === 'POST',
+    matcher: ({ url }) => url.pathname.includes('/task/'),
     area: 'tasks.create',
     method: 'POST',
   },
   {
     queueName: 'patch-task-queue',
     // This matcher as written will include task/patch_due_date, task/assign, task/abandon, etc.
-    matcher: ({ url, request }) => url.pathname.includes('/task/') && request.method === 'PATCH',
+    matcher: ({ url }) => url.pathname.includes('/task/'),
     area: 'tasks.update',
     method: 'PATCH',
   },
   {
     queueName: 'delete-task-queue',
-    matcher: ({ url, request }) => url.pathname.includes('/task/') && request.method === 'DELETE',
+    matcher: ({ url }) => url.pathname.includes('/task/'),
     area: 'tasks.delete',
     method: 'DELETE',
   },

@@ -64,6 +64,12 @@
     border-radius: 0px 0px 16px 16px;
     box-shadow: 0px -2px 4px 0px rgba(102, 115, 138, 0.1);
   }
+
+  &.offline {
+    .disableWhenOffline {
+      @include svgColorFill(currentColor);
+    }
+  }
 }
 
 .buttonText {

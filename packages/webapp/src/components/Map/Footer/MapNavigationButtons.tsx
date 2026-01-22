@@ -27,6 +27,7 @@ export interface MapNavigationButtonsProps {
   showMapFilter?: boolean;
   showModal?: boolean;
   isMapFilterSettingActive?: boolean;
+  isOffline?: boolean;
   onClickAdd: () => void;
   handleClickFilter: () => void;
   onClickExport?: () => void;
@@ -41,19 +42,25 @@ const MapNavigationButtons = ({
   handleClickFilter,
   onClickExport,
   isMapFilterSettingActive,
+  isOffline,
 }: MapNavigationButtonsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, isOffline && styles.offline)}>
       {isAdmin && (
         <Button
           color="accent"
           data-cy="map-addFeature"
-          className={clsx(styles.button, showAddDrawer && styles.selected)}
+          className={clsx(
+            styles.button,
+            showAddDrawer && styles.selected,
+            styles.disableWhenOffline,
+          )}
           id="mapFirstStep"
           onClick={onClickAdd}
           sm
+          disabled={isOffline}
         >
           <span className={styles.buttonText}>
             <AddLogo className={styles.svg} />
@@ -76,10 +83,11 @@ const MapNavigationButtons = ({
       </Button>
       <Button
         color="accent"
-        className={clsx(styles.button, showModal && styles.selected)}
+        className={clsx(styles.button, showModal && styles.selected, styles.disableWhenOffline)}
         id="mapThirdStep"
         onClick={onClickExport}
         sm
+        disabled={isOffline}
       >
         <span className={styles.buttonText}>
           <ExportLogo className={styles.svg} />

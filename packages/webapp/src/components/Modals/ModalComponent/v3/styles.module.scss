@@ -34,9 +34,8 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 24px;
-  margin-top: -8px;
 
   .title {
     display: inline-flex;

@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import { ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
 
 const isYesOptionSelected = (option) => {
-  return [hourlyWageActions.SET_HOURLY_WAGE, hourlyWageActions.FOR_THIS_TASK].includes(option);
+  return option === hourlyWageActions.FOR_THIS_TASK;
 };
 
 /**
@@ -59,7 +59,8 @@ const isYesOptionSelected = (option) => {
  * @param {AssigneeOption} props.defaultAssignee - whether the task is assigned or not
  * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
  *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
- * @param {number} [props.wage_at_moment] - wage for the task
+ * @param {number} [props.wage_at_moment] - wage for the task (may be user's farm wage or task override)
+ * @param {boolean} [props.override_hourly_wage] - flag indicating if wage_at_moment is a task-specific override
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
  * @param {string} props.mode - validation strategy before submitting behaviour
  * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
@@ -71,6 +72,7 @@ const useTaskAssignForm = ({
   users,
   additionalFields = {},
   wage_at_moment,
+  override_hourly_wage,
   defaultAssignee,
   disableUnAssignedOption,
   mode = 'onTouched',
@@ -83,6 +85,9 @@ const useTaskAssignForm = ({
     value: user.user_id,
   };
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
+
+  // Determine if task has a task-specific wage override
+  const hasTaskWageOverride = override_hourly_wage === true;
 
   const {
     control,
@@ -99,8 +104,8 @@ const useTaskAssignForm = ({
     shouldUnregister,
     defaultValues: {
       [ASSIGNEE]: defaultAssignee,
-      [HOURLY_WAGE_ACTION]: '',
-      [HOURLY_WAGE]: null,
+      [HOURLY_WAGE_ACTION]: hasTaskWageOverride ? hourlyWageActions.FOR_THIS_TASK : '',
+      [HOURLY_WAGE]: hasTaskWageOverride ? wage_at_moment : null,
       ...additionalFields,
     },
   });
@@ -134,23 +139,10 @@ const useTaskAssignForm = ({
     if (!assigned) {
       return {};
     }
-    return users.find(({ user_id }) => user_id === selectedWorker.value);
+    return users.find(({ user_id }) => user_id === selectedWorker.value) || {};
   }, [users, selectedWorker]);
 
-  const showHourlyWageInputs = useMemo(() => {
-    let shouldShow = false;
-
-    if (user.is_admin && selectedWorker && assigned) {
-      const {
-        wage: { amount },
-        wage_do_not_ask_again,
-      } = userData;
-
-      const hasWage = !!(amount || wage_at_moment);
-      shouldShow = !hasWage && !wage_do_not_ask_again;
-    }
-    return shouldShow;
-  }, [user.is_admin, selectedWorker, wage_at_moment, assigned]);
+  const showHourlyWageInputs = user.is_admin && selectedWorker && assigned;
 
   const shouldSetWage = useMemo(() => {
     let shouldSet = false;

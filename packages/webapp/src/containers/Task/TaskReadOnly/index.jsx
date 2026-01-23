@@ -75,6 +75,7 @@ function TaskReadOnly() {
   const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
   const [isHarvest, setIsHarvest] = useState(undefined);
   const [wageAtMoment, setWageAtMoment] = useState(undefined);
+  const [overrideHourlyWage, setOverrideHourlyWage] = useState(undefined);
   const [hasAnimals, setHasAnimals] = useState(false);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ function TaskReadOnly() {
       setIsTaskTypeCustom(!!task.taskType.farm_id);
       setIsHarvest(isTaskType(task.taskType, 'HARVEST_TASK'));
       setWageAtMoment(task.wage_at_moment);
+      setOverrideHourlyWage(task.override_hourly_wage);
       setHasAnimals(task.animals?.length || task.animal_batches?.length);
     }
   }, [task, history]);
@@ -160,6 +162,7 @@ function TaskReadOnly() {
           onChangeTaskDate={onChangeTaskDate}
           onChangeTaskWage={onChangeTaskWage}
           wage_at_moment={wageAtMoment}
+          override_hourly_wage={overrideHourlyWage}
           language={language}
         />
       )}

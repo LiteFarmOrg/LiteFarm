@@ -89,6 +89,7 @@ export default function PureTaskReadOnly({
   onChangeTaskDate,
   onChangeTaskWage,
   wage_at_moment,
+  override_hourly_wage,
   language,
 }) {
   const { t } = useTranslation();
@@ -583,6 +584,7 @@ export default function PureTaskReadOnly({
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
           wage_at_moment={wage_at_moment}
+          override_hourly_wage={override_hourly_wage}
         />
       )}
       {showDueDateModal && (

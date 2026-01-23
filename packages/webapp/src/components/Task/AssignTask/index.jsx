@@ -21,11 +21,11 @@ import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import { roundToTwo } from '../../../util/rounding';
 
 const AssignTask = ({
   intro,
   optional,
-  contentForWorkerWithWage,
   additionalContent,
   assigneeOptions,
   register,
@@ -62,36 +62,40 @@ const AssignTask = ({
             />
           )}
         />
-        {showHourlyWageInputs && (
-          <Label className={styles.warning}>
-            {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
-          </Label>
-        )}
-        {!showHourlyWageInputs && typeof userFarmWage === 'number' && currency && (
-          <Label className={styles.info}>
-            {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
-              name: selectedWorker.label.trim(),
-              wage: `${currencySymbol}${parseFloat(userFarmWage).toFixed(2)}`,
-            })}
-          </Label>
+        {selectedWorker && selectedWorker.value !== null && currency && (
+          <>
+            {typeof userFarmWage === 'number' && userFarmWage > 0 ? (
+              <Label className={styles.info}>
+                {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
+                  name: selectedWorker.label.trim(),
+                  wage: `${currencySymbol}${roundToTwo(userFarmWage)}`,
+                })}
+              </Label>
+            ) : (
+              <Label className={styles.warning}>
+                {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+              </Label>
+            )}
+          </>
         )}
       </div>
     );
   }, [
     assigneeOptions,
     optional,
-    showHourlyWageInputs,
-    selectedWorker.label,
+    selectedWorker,
     control,
     userFarmWage,
     currency,
+    currencySymbol,
+    t,
   ]);
 
   return (
     <>
       {intro}
       {AssigneeSelect}
-      {showHourlyWageInputs ? (
+      {showHourlyWageInputs && (
         <HourlyWageInputs
           control={control}
           register={register}
@@ -99,8 +103,6 @@ const AssignTask = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
         />
-      ) : (
-        contentForWorkerWithWage
       )}
       {additionalContent}
     </>

@@ -38,6 +38,7 @@ export const getTask = (obj) => {
     'coordinates',
     'duration',
     'wage_at_moment',
+    'override_hourly_wage',
     'happiness',
     'complete_date',
     'late_time',

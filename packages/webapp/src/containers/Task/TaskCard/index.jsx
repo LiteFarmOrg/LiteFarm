@@ -6,14 +6,7 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
-import {
-  assignTask,
-  assignTasksOnDate,
-  changeTaskDate,
-  changeTaskWage,
-  updateUserFarmWage,
-  setUserFarmWageDoNotAskAgain,
-} from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate, changeTaskWage } from '../saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const TaskCard = ({
@@ -30,6 +23,7 @@ const TaskCard = ({
   happiness,
   classes = { card: {} },
   wage_at_moment,
+  override_hourly_wage,
   revision_date,
   revised_by_user_id,
   ...props
@@ -42,10 +36,6 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
-  const onSetUserFarmWageDoNotAskAgain = (user) => {
-    dispatch(setUserFarmWageDoNotAskAgain(user));
-  };
   const onChangeTaskWage = (wage) => {
     dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
@@ -105,13 +95,12 @@ const TaskCard = ({
           isAssigned={!!assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
-          onUpdateUserFarmWage={onUpdateUserFarmWage}
           onChangeTaskWage={onChangeTaskWage}
-          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
           wage_at_moment={wage_at_moment}
+          override_hourly_wage={override_hourly_wage}
         />
       )}
       {showDateAssignModal && (

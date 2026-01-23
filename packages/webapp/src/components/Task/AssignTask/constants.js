@@ -12,8 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-export const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
-export const WAGE_OVERRIDE = 'wage_at_moment';
 export const ASSIGNEE = 'assignee';
 export const HOURLY_WAGE = 'hourly_wage';
 export const HOURLY_WAGE_ACTION = 'hourly_wage_action';

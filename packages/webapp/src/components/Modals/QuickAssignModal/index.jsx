@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
@@ -22,6 +22,7 @@ export default function TaskQuickAssignModal({
   users,
   user,
   wage_at_moment,
+  override_hourly_wage,
 }) {
   const { t } = useTranslation();
 
@@ -53,6 +54,7 @@ export default function TaskQuickAssignModal({
     users,
     additionalFields: { [ASSIGN_ALL]: false },
     wage_at_moment,
+    override_hourly_wage,
     defaultAssignee,
     disableUnAssignedOption: !isAssigned,
   });

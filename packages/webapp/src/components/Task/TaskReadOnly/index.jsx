@@ -87,9 +87,7 @@ export default function PureTaskReadOnly({
   onAssignTasksOnDate,
   onAssignTask,
   onChangeTaskDate,
-  onUpdateUserFarmWage,
   onChangeTaskWage,
-  onSetUserFarmWageDoNotAskAgain,
   wage_at_moment,
   language,
 }) {
@@ -580,9 +578,7 @@ export default function PureTaskReadOnly({
           isAssigned={!!task?.assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
-          onUpdateUserFarmWage={onUpdateUserFarmWage}
           onChangeTaskWage={onChangeTaskWage}
-          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}

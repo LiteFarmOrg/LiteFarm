@@ -28,6 +28,7 @@ const PureTaskAssignment = ({
   currency,
   showHourlyWageInputs,
   shouldSetWage,
+  userFarmWage,
   handleSubmit,
   getValues,
   additionalContent,
@@ -44,9 +45,7 @@ const PureTaskAssignment = ({
     }
     return (
       <>
-        <Main className={styles.mainText} style={{ paddingTop: '35px' }}>
-          {t('ADD_TASK.DO_YOU_NEED_TO_OVERRIDE')}
-        </Main>
+        <Main className={styles.mainText}>{t('ADD_TASK.DO_YOU_NEED_TO_OVERRIDE')}</Main>
 
         <RadioGroup
           hookFormControl={control}
@@ -125,6 +124,7 @@ const PureTaskAssignment = ({
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
           additionalContent={additionalContent}
+          userFarmWage={userFarmWage}
         />
       </Form>
     </>

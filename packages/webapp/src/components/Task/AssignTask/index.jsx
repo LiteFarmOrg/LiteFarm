@@ -20,6 +20,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 const AssignTask = ({
   intro,
@@ -35,8 +36,11 @@ const AssignTask = ({
   shouldSetWage,
   currency,
   toolTipContent,
+  userFarmWage,
 }) => {
   const { t } = useTranslation(['translation']);
+
+  const currencySymbol = useCurrencySymbol();
 
   const AssigneeSelect = useMemo(() => {
     return (
@@ -63,9 +67,25 @@ const AssignTask = ({
             {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
           </Label>
         )}
+        {!showHourlyWageInputs && typeof userFarmWage === 'number' && currency && (
+          <Label className={styles.info}>
+            {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
+              name: selectedWorker.label.trim(),
+              wage: `${currencySymbol}${parseFloat(userFarmWage).toFixed(2)}`,
+            })}
+          </Label>
+        )}
       </div>
     );
-  }, [assigneeOptions, optional, showHourlyWageInputs, selectedWorker.label, control]);
+  }, [
+    assigneeOptions,
+    optional,
+    showHourlyWageInputs,
+    selectedWorker.label,
+    control,
+    userFarmWage,
+    currency,
+  ]);
 
   return (
     <>

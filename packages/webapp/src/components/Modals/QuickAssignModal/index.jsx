@@ -18,9 +18,7 @@ export default function TaskQuickAssignModal({
   isAssigned,
   onAssignTasksOnDate,
   onAssignTask,
-  onUpdateUserFarmWage,
   onChangeTaskWage,
-  onSetUserFarmWageDoNotAskAgain,
   users,
   user,
   wage_at_moment,
@@ -49,6 +47,7 @@ export default function TaskQuickAssignModal({
     currency,
     showHourlyWageInputs,
     shouldSetWage,
+    userFarmWage,
   } = useTaskAssignForm({
     user,
     users,
@@ -93,16 +92,9 @@ export default function TaskQuickAssignModal({
           assignee_user_id: assigneeUserId,
         });
 
-    if (shouldSetWage) {
+    if (selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK) {
       const wage = +hourlyWage.toFixed(2);
-
-      if (selectedHourlyWageAction === hourlyWageActions.SET_HOURLY_WAGE) {
-        onUpdateUserFarmWage({ user_id: assigneeUserId, wage: { type: 'hourly', amount: wage } });
-      } else if (selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK) {
-        onChangeTaskWage(wage);
-      }
-    } else if (selectedHourlyWageAction === hourlyWageActions.DO_NOT_ASK_AGAIN) {
-      onSetUserFarmWageDoNotAskAgain({ user_id: assigneeUserId });
+      onChangeTaskWage(wage);
     }
 
     dismissModal();
@@ -159,6 +151,7 @@ export default function TaskQuickAssignModal({
         showHourlyWageInputs={showHourlyWageInputs}
         shouldSetWage={shouldSetWage}
         currency={currency}
+        userFarmWage={userFarmWage}
       />
     </ModalComponent>
   );

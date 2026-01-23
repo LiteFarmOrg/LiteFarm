@@ -32,15 +32,7 @@ import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
 import { useMaxZoom } from '../../Map/useMaxZoom';
-import {
-  assignTask,
-  assignTasksOnDate,
-  changeTaskDate,
-  changeTaskWage,
-  updateUserFarmWage,
-  setUserFarmWageDoNotAskAgain,
-  deleteTask,
-} from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate, changeTaskWage, deleteTask } from '../saga';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
@@ -133,10 +125,6 @@ function TaskReadOnly() {
     dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
-  const onSetUserFarmWageDoNotAskAgain = (user) => {
-    dispatch(setUserFarmWageDoNotAskAgain(user));
-  };
   const onChangeTaskWage = (wage) => {
     dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
   };
@@ -171,8 +159,6 @@ function TaskReadOnly() {
           onAssignTask={onAssignTask}
           onChangeTaskDate={onChangeTaskDate}
           onChangeTaskWage={onChangeTaskWage}
-          onUpdateUserFarmWage={onUpdateUserFarmWage}
-          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           wage_at_moment={wageAtMoment}
           language={language}
         />

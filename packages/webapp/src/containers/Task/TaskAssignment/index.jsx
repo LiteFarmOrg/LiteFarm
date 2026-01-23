@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask, updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../saga';
+import { createTask } from '../saga';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '../../../util';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
@@ -125,18 +125,6 @@ export default function TaskManagement() {
     dispatch(
       createTask({ ...postData, setShowCannotCreateModal, alreadyCompleted: already_completed }),
     );
-
-    // for user who does not have a wage set, take the hourly wage action
-    if (showHourlyWageInputs) {
-      if (hourly_wage_action === hourlyWageActions.SET_HOURLY_WAGE) {
-        const wage = +hourly_wage.toFixed(2);
-        dispatch(
-          updateUserFarmWage({ user_id: assignee.value, wage: { type: 'hourly', amount: wage } }),
-        );
-      } else if (hourly_wage_action === hourlyWageActions.DO_NOT_ASK_AGAIN) {
-        dispatch(setUserFarmWageDoNotAskAgain({ user_id: assignee.value }));
-      }
-    }
   };
 
   const handleGoBack = () => {

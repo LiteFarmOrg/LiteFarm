@@ -230,6 +230,9 @@ export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
   }
 }
 
+/**
+ * @deprecated Updating the userFarm wage should only happen from people (updateUserFarmSaga) and not task assignment flows
+ */
 export const updateUserFarmWage = createAction('updateUserFarmWageSaga');
 
 export function* updateUserFarmWageSaga({ payload: user }) {
@@ -247,6 +250,9 @@ export function* updateUserFarmWageSaga({ payload: user }) {
   }
 }
 
+/**
+ * @deprecated No longer used in task assignment flows and should be removed in future
+ */
 export const setUserFarmWageDoNotAskAgain = createAction('setUserFarmWageDoNotAskAgainSaga');
 
 export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {

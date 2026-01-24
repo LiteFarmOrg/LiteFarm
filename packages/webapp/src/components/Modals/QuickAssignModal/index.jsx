@@ -94,9 +94,15 @@ export default function TaskQuickAssignModal({
           assignee_user_id: assigneeUserId,
         });
 
-    if (selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK) {
-      const wage = +hourlyWage.toFixed(2);
-      onChangeTaskWage(wage);
+    if (
+      selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK ||
+      selectedHourlyWageAction === hourlyWageActions.NO
+    ) {
+      const isOverride = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
+      onChangeTaskWage({
+        wage_at_moment: isOverride ? +hourlyWage.toFixed(2) : null,
+        override_hourly_wage: isOverride,
+      });
     }
 
     dismissModal();

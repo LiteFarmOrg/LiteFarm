@@ -36,8 +36,8 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onChangeTaskWage = (wage) => {
-    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
+  const onChangeTaskWage = ({ wage_at_moment, override_hourly_wage }) => {
+    dispatch(changeTaskWage({ task_id, wage_at_moment, override_hourly_wage }));
   };
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);

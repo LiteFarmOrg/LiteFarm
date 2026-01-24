@@ -217,13 +217,23 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
 
 export const changeTaskWage = createAction('changeTaskWageSaga');
 
-export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
+export function* changeTaskWageSaga({
+  payload: { task_id, wage_at_moment, override_hourly_wage },
+}) {
   const { taskUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);
-    yield put(putTaskSuccess({ wage_at_moment, task_id }));
+    // Backend will look up assignee's farm wage when override_hourly_wage is false
+    const patchData = override_hourly_wage
+      ? { wage_at_moment, override_hourly_wage: true }
+      : { override_hourly_wage: false };
+
+    const result = yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
+
+    if (result.data) {
+      yield put(putTaskSuccess({ ...result.data, task_id }));
+    }
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));

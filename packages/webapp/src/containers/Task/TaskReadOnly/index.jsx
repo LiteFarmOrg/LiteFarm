@@ -127,8 +127,8 @@ function TaskReadOnly() {
     dispatch(changeTaskDate({ task_id, due_date: date + 'T00:00:00.000' }));
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onChangeTaskWage = (wage) => {
-    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
+  const onChangeTaskWage = ({ wage_at_moment, override_hourly_wage }) => {
+    dispatch(changeTaskWage({ task_id, wage_at_moment, override_hourly_wage }));
   };
 
   const onDelete = () => {

@@ -440,13 +440,33 @@ const taskController = {
   async patchWage(req, res) {
     try {
       const { task_id } = req.params;
-      const { wage_at_moment } = req.body;
+      const { farm_id } = req.headers;
+      const { override_hourly_wage } = req.body;
+      let { wage_at_moment } = req.body;
+
+      // When unsetting override, look up assignee's current farm wage
+      if (override_hourly_wage === false) {
+        const { assignee_user_id } = await TaskModel.query()
+          .select('assignee_user_id')
+          .findById(task_id)
+          .first();
+
+        if (assignee_user_id) {
+          const userFarm = await UserFarmModel.query()
+            .where({ user_id: assignee_user_id, farm_id })
+            .first();
+          wage_at_moment = userFarm?.wage?.amount || null;
+        } else {
+          wage_at_moment = null;
+        }
+      }
 
       const result = await TaskModel.query()
         .context(req.auth)
         .findById(task_id)
-        .patch({ wage_at_moment, override_hourly_wage: true });
-      return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+        .patch({ wage_at_moment, override_hourly_wage })
+        .returning('*');
+      return result ? res.status(200).send(result) : res.status(404).send('Task not found');
     } catch (error) {
       console.log(error);
       return res.status(400).json({ error });
@@ -1114,8 +1134,9 @@ const taskController = {
   async getIrrigationTaskTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const irrigationTaskTypes =
-        await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(farm_id);
+      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
+        farm_id,
+      );
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);

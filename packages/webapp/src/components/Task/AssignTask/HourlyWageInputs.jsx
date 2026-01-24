@@ -26,12 +26,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }
   const currencySymbol = currency && grabCurrencySymbol(currency);
 
   const radioOptions = [
-    // {
-    //   label: t('ADD_TASK.HOURLY_WAGE.SET_HOURLY_WAGE'),
-    //   value: hourlyWageActions.SET_HOURLY_WAGE,
-    // },
     {
-      // label: t('ADD_TASK.HOURLY_WAGE.FOR_THIS_TASK'),
       label: t('common:YES'),
       value: hourlyWageActions.FOR_THIS_TASK,
     },
@@ -39,17 +34,12 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }
       label: t('common:NO'),
       value: hourlyWageActions.NO,
     },
-    // {
-    //   label: t('ADD_TASK.HOURLY_WAGE.DONT_ASK'),
-    //   value: hourlyWageActions.DO_NOT_ASK_AGAIN,
-    // },
   ];
 
   return (
     <div className={styles.hourlyWageInputs}>
       <Main style={{ marginBottom: '10px' }}>
-        {/* {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}*/}
-        Set an hourly wage just for this task?
+        {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}
       </Main>
       <RadioGroup
         hookFormControl={control}
@@ -57,6 +47,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }
         radios={radioOptions}
         data-cy="hourlyWageInputs-action"
         style={{ marginBottom: '20px' }}
+        row
       />
       {shouldSetWage && (
         <Input

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
@@ -153,6 +153,13 @@ const useTaskAssignForm = ({
 
     return shouldSet;
   }, [selectedHourlyWageAction]);
+
+  // Prepopulate the hourly wage with the user's farm wage when no task override exists
+  useEffect(() => {
+    if (!override_hourly_wage && assigned) {
+      setValue(HOURLY_WAGE, userData.wage?.amount || null);
+    }
+  }, [assigned, userData.wage?.amount, override_hourly_wage, setValue]);
 
   return {
     control,

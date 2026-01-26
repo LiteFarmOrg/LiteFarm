@@ -90,7 +90,7 @@ export default function PureManagementTasks({
         </Label>
         {isAdmin && hasTasks && (
           <BsThreeDotsVertical
-            className={styles.menuIcon}
+            className={clsx(styles.menuIcon, navStyles.hideWhenOffline)}
             onClick={() => {
               setShowCopyRepeatMenu((prev) => !prev);
             }}

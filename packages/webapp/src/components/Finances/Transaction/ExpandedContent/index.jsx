@@ -12,7 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
@@ -27,6 +28,7 @@ import CropSaleTable from './CropSaleTable';
 import GeneralTransactionTable from './GeneralTransactionTable';
 import LabourTable from './LabourTable';
 import styles from './styles.module.scss';
+import navStyles from '@navStyles';
 
 const components = {
   EXPENSE: (props) => <GeneralTransactionTable {...props} />,
@@ -58,7 +60,10 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
 
   return (
     <div className={styles.expandedContent}>
-      <TextButton className={styles.toDetail} onClick={() => history.push(getDetailPageLink(data))}>
+      <TextButton
+        className={clsx(styles.toDetail, navStyles.hideWhenOffline)}
+        onClick={() => history.push(getDetailPageLink(data))}
+      >
         {toDetailText}
         <BsChevronRight />
       </TextButton>

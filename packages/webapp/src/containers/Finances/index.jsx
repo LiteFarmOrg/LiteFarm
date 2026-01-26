@@ -130,7 +130,7 @@ const Finances = () => {
     <div className={styles.financesContainer}>
       <div className={styles.titleContainer}>
         <Title>{t('SALE.FINANCES.TITLE')}</Title>
-        <Report />
+        {!isOffline && <Report />}
       </div>
       <div className={styles.filterBar} ref={overlayRef}>
         <FinancesDateRangeSelector className={styles.dateRangeSelector} />

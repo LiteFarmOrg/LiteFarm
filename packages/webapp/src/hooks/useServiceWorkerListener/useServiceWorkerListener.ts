@@ -16,8 +16,11 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { enqueueSuccessSnackbar, enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasks } from '../Task/saga';
+import {
+  enqueueSuccessSnackbar,
+  enqueueErrorSnackbar,
+} from '../../containers/Snackbar/snackbarSlice';
+import { getTasks } from '../../containers/Task/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 
 type SyncArea =
@@ -55,7 +58,7 @@ function resolveAreaFromUrl(area: string, url: string): SyncArea {
 /**
  * Global listener for messages sent from the Service Worker (sw.js).
  */
-export function ServiceWorkerListener() {
+export function useServiceWorkerListener() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -173,6 +176,4 @@ export function ServiceWorkerListener() {
       }
     };
   }, [dispatch, t, syncConfig]);
-
-  return null;
 }

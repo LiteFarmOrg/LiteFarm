@@ -20,12 +20,12 @@ import { SnackbarProvider } from 'notistack';
 
 import Navigation from './containers/Navigation';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
-import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { NavMenuControlsContext } from './contexts/appContext';
-import { ServiceWorkerListener } from './containers/ServiceWorkerListener';
+import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useIsOfflineDetector';
+import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 
 function App() {
   const location = useLocation();
@@ -33,6 +33,9 @@ function App() {
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
+
+  useOfflineDetector();
+  useServiceWorkerListener();
 
   return (
     <div className={clsx(styles.container)}>
@@ -47,8 +50,6 @@ function App() {
             setIsCompactSideMenu={setIsCompactSideMenu}
           >
             <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-              <OfflineDetector />
-              <ServiceWorkerListener />
               <SnackbarProvider
                 anchorOrigin={{
                   vertical: 'bottom',

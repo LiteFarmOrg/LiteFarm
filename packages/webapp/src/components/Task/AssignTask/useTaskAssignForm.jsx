@@ -48,7 +48,6 @@ const isYesOptionSelected = (option) => {
  * @property {AssigneeOption} selectedWorker - selected assignee option
  * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or ''
  * @property {number} [hourlyWage] - wage inputted by user
- * @property {string} currency - currency for the farm
  * @property {number} userFarmWage - user's current wage for the farm
  * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
  * @property {boolean} shouldSetWage - whether user needs to set wage or not
@@ -173,7 +172,6 @@ const useTaskAssignForm = ({
     selectedWorker,
     selectedHourlyWageAction,
     hourlyWage,
-    currency: userData.units?.currency,
     userFarmWage: userData.wage?.amount,
     showHourlyWageInputs,
     shouldSetWage,

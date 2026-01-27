@@ -16,14 +16,14 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import RadioGroup from '../../Form/RadioGroup';
 import Input, { numberOnKeyDown } from '../../Form/Input';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }) => {
+const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
   const { t } = useTranslation(['translation']);
 
-  const currencySymbol = currency && grabCurrencySymbol(currency);
+  const currencySymbol = useCurrencySymbol();
 
   const radioOptions = [
     {

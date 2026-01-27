@@ -45,7 +45,6 @@ export default function TaskQuickAssignModal({
     selectedWorker,
     selectedHourlyWageAction,
     hourlyWage,
-    currency,
     showHourlyWageInputs,
     shouldSetWage,
     userFarmWage,
@@ -158,7 +157,6 @@ export default function TaskQuickAssignModal({
         errors={errors}
         showHourlyWageInputs={showHourlyWageInputs}
         shouldSetWage={shouldSetWage}
-        currency={currency}
         userFarmWage={userFarmWage}
       />
     </ModalComponent>

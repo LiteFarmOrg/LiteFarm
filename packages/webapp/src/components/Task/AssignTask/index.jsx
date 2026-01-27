@@ -34,7 +34,6 @@ const AssignTask = ({
   errors,
   showHourlyWageInputs,
   shouldSetWage,
-  currency,
   toolTipContent,
   userFarmWage,
 }) => {
@@ -62,7 +61,7 @@ const AssignTask = ({
             />
           )}
         />
-        {selectedWorker && selectedWorker.value !== null && currency && (
+        {selectedWorker && selectedWorker.value !== null && currencySymbol && (
           <>
             {typeof userFarmWage === 'number' && userFarmWage > 0 ? (
               <Label className={styles.info}>
@@ -80,16 +79,7 @@ const AssignTask = ({
         )}
       </div>
     );
-  }, [
-    assigneeOptions,
-    optional,
-    selectedWorker,
-    control,
-    userFarmWage,
-    currency,
-    currencySymbol,
-    t,
-  ]);
+  }, [assigneeOptions, optional, selectedWorker, control, userFarmWage, currencySymbol]);
 
   return (
     <>
@@ -101,7 +91,6 @@ const AssignTask = ({
           register={register}
           errors={errors}
           shouldSetWage={shouldSetWage}
-          currency={currency}
         />
       )}
       {additionalContent}

@@ -17,7 +17,6 @@ const PureTaskAssignment = ({
   disabled,
   assigneeOptions,
   selectedWorker,
-  currency,
   showHourlyWageInputs,
   shouldSetWage,
   userFarmWage,
@@ -65,7 +64,6 @@ const PureTaskAssignment = ({
           errors={errors}
           showHourlyWageInputs={showHourlyWageInputs}
           shouldSetWage={shouldSetWage}
-          currency={currency}
           additionalContent={additionalContent}
           userFarmWage={userFarmWage}
         />

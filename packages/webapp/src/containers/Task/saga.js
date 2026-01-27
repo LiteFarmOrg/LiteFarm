@@ -108,6 +108,7 @@ import {
   getSoilSampleTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
+import { over } from 'lodash-es';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -224,16 +225,12 @@ export function* changeTaskWageSaga({
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    // Backend will look up assignee's farm wage when override_hourly_wage is false
-    const patchData = override_hourly_wage
-      ? { wage_at_moment, override_hourly_wage: true }
-      : { override_hourly_wage: false };
-
-    const result = yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
-
-    if (result.data) {
-      yield put(putTaskSuccess({ ...result.data, task_id }));
-    }
+    const patchData = {
+      wage_at_moment: override_hourly_wage ? wage_at_moment : null,
+      override_hourly_wage,
+    };
+    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
+    yield put(putTaskSuccess({ ...patchData, task_id }));
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));

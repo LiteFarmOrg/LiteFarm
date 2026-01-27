@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
@@ -39,38 +39,36 @@ function App() {
 
   return (
     <div className={clsx(styles.container)}>
-      <Suspense fallback={null}>
-        <NavMenuControlsContext.Provider
-          value={{
-            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
-          }}
+      <NavMenuControlsContext.Provider
+        value={{
+          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+        }}
+      >
+        <Navigation
+          isCompactSideMenu={isCompactSideMenu}
+          setIsCompactSideMenu={setIsCompactSideMenu}
         >
-          <Navigation
-            isCompactSideMenu={isCompactSideMenu}
-            setIsCompactSideMenu={setIsCompactSideMenu}
-          >
-            <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-              <SnackbarProvider
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                classes={{
-                  root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
-                  containerRoot: clsx(
-                    styles.containerRoot,
-                    isCompactSideMenu && styles.compactContainerRoot,
-                  ),
-                }}
-                // https://notistack.com/features/customization#custom-component
-                Components={{ common: NotistackSnackbar }}
-              >
-                <Routes isCompactSideMenu={isCompactSideMenu} />
-              </SnackbarProvider>
-            </div>
-          </Navigation>
-        </NavMenuControlsContext.Provider>
-      </Suspense>
+          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              classes={{
+                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                containerRoot: clsx(
+                  styles.containerRoot,
+                  isCompactSideMenu && styles.compactContainerRoot,
+                ),
+              }}
+              // https://notistack.com/features/customization#custom-component
+              Components={{ common: NotistackSnackbar }}
+            >
+              <Routes isCompactSideMenu={isCompactSideMenu} />
+            </SnackbarProvider>
+          </div>
+        </Navigation>
+      </NavMenuControlsContext.Provider>
     </div>
   );
 }

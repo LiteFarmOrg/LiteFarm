@@ -167,7 +167,9 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      if (!navigator.onLine) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
 
       // Optimistic update for task update
       yield put(putTaskSuccess({ assignee_user_id, task_id }));
@@ -225,7 +227,9 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      if (!navigator.onLine) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
 
       // Optimistic update for task update
       yield put(putTaskSuccess({ due_date, task_id }));
@@ -902,7 +906,9 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
+      if (!navigator.onLine) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
+      }
 
       // Optimistic update for task completion
       yield put(
@@ -938,7 +944,9 @@ export function* abandonTaskSaga({ payload: data }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
+      if (!navigator.onLine) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
+      }
 
       // Optimistic update for task abandonment
       yield put(
@@ -1084,7 +1092,9 @@ export function* deleteTaskSaga({ payload: data }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+      if (!navigator.onLine) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+      }
 
       // Optimistic update for task deletion
 

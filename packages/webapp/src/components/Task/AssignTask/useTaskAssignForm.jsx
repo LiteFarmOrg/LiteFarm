@@ -58,8 +58,8 @@ const isYesOptionSelected = (option) => {
  * @param {AssigneeOption} props.defaultAssignee - whether the task is assigned or not
  * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
  *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
- * @param {number} [props.wage_at_moment] - wage for the task (may be user's farm wage or task override)
- * @param {boolean} [props.override_hourly_wage] - flag indicating if wage_at_moment is a task-specific override
+ * @param {number} [props.wage_at_moment] - wage for the task if it has a task-specific override
+ * @param {boolean} [props.override_hourly_wage] - flag indicating if the task has a task-specific wage override
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
  * @param {string} props.mode - validation strategy before submitting behaviour
  * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
@@ -138,7 +138,7 @@ const useTaskAssignForm = ({
     if (!assigned) {
       return {};
     }
-    return users.find(({ user_id }) => user_id === selectedWorker.value) || {};
+    return users.find(({ user_id }) => user_id === selectedWorker.value);
   }, [users, selectedWorker]);
 
   const showHourlyWageInputs = user.is_admin && selectedWorker && assigned;

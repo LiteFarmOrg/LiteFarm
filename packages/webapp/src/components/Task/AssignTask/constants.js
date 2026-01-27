@@ -19,16 +19,8 @@ export const ASSIGN_ALL = 'assign_all';
 export const ALREADY_COMPLETED = 'already_completed';
 
 export const hourlyWageActions = {
-  /**
-   * @deprecated no longer used in UI
-   */
-  SET_HOURLY_WAGE: 'set_hourly_wage',
   FOR_THIS_TASK: 'for_this_task',
   NO: 'no',
-  /**
-   * @deprecated no longer used in UI
-   */
-  DO_NOT_ASK_AGAIN: 'do_not_ask_again',
 };
 
 export const assignTaskFields = [ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, ASSIGN_ALL];

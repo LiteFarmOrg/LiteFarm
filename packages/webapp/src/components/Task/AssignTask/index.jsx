@@ -61,9 +61,9 @@ const AssignTask = ({
             />
           )}
         />
-        {selectedWorker && selectedWorker.value !== null && currencySymbol && (
+        {selectedWorker?.value !== null && (
           <>
-            {typeof userFarmWage === 'number' && userFarmWage > 0 ? (
+            {userFarmWage > 0 ? (
               <Label className={styles.info}>
                 {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
                   name: selectedWorker.label.trim(),

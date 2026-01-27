@@ -31,7 +31,6 @@ const fieldWorkSlice = createSlice({
     },
     fieldWorkFailure: (state, action) => {
       state.loading = true;
-      state.fieldWorkTypes = [];
     },
   },
 });

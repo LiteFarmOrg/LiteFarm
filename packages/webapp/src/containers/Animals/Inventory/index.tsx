@@ -33,6 +33,7 @@ import FixedHeaderContainer, {
 } from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
@@ -198,6 +199,8 @@ const MainAnimalInventory = ({
   actionMenuAndRemoveModal: ReactNode;
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
+  const isOffline = useIsOffline();
+
   return (
     <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
@@ -216,6 +219,8 @@ const MainAnimalInventory = ({
           alternatingRowColor={true}
           showTableHeader={commonProps.isDesktop}
           showActionFloaterButton={isAdmin}
+          showInventorySelection={!isOffline}
+          disableActionFloaterButton={isOffline}
         >
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>

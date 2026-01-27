@@ -35,6 +35,7 @@ import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 import { NoSoilSampleLocationsModal } from '../../Modals/NoSoilSampleLocationsModal';
 import { NoSoilAmendmentProductsModal } from '../../Modals/NoSoilAmendmentProductsModal';
 import { PRODUCT_INVENTORY_URL } from '../../../util/siteMapConstants';
+import navStyles from '@navStyles';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -210,7 +211,7 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <div className={styles.cantFindCustomTypeWrapper}>
+          <div className={clsx(styles.cantFindCustomTypeWrapper, navStyles.hideWhenOffline)}>
             <CantFindCustomType
               customTypeMessages={{
                 info: t('ADD_TASK.CANT_FIND_INFO_TASK'),

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -13,6 +14,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import navStyles from '@navStyles';
 
 export default function PureManagementTasks({
   onCompleted,
@@ -64,11 +66,16 @@ export default function PureManagementTasks({
         isAdmin &&
         isActiveOrPlanned && (
           <>
-            <Button color={'secondary'} fullLength onClick={onAbandon}>
+            <Button
+              color={'secondary'}
+              fullLength
+              onClick={onAbandon}
+              className={navStyles.hideWhenOffline}
+            >
               {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
             </Button>
 
-            <Button fullLength onClick={onMarkComplete}>
+            <Button fullLength onClick={onMarkComplete} className={navStyles.hideWhenOffline}>
               {t('common:MARK_COMPLETED')}
             </Button>
           </>
@@ -83,7 +90,7 @@ export default function PureManagementTasks({
         </Label>
         {isAdmin && hasTasks && (
           <BsThreeDotsVertical
-            className={styles.menuIcon}
+            className={clsx(styles.menuIcon, navStyles.hideWhenOffline)}
             onClick={() => {
               setShowCopyRepeatMenu((prev) => !prev);
             }}
@@ -136,7 +143,7 @@ export default function PureManagementTasks({
       <div className={styles.deleteSection} onClick={() => setShowCopyRepeatMenu(false)}>
         {isAdmin && isActiveOrPlanned && !isDeleting && (
           <IconLink
-            className={styles.deleteText}
+            className={clsx(styles.deleteText, navStyles.hideWhenOffline)}
             style={{ color: 'var(--grey600)' }}
             icon={
               <TrashIcon

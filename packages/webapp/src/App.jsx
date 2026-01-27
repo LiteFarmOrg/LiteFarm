@@ -24,7 +24,7 @@ import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { NavMenuControlsContext } from './contexts/appContext';
-import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useIsOfflineDetector';
+import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 
 function App() {

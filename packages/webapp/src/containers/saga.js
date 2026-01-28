@@ -157,6 +157,8 @@ import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
 } from './soilSampleLocationSlice';
+import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
+import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -613,11 +615,32 @@ export function* fetchAllSaga() {
     put(getRoles()),
     put(getManagementPlansAndTasks()),
     call(getAllUserFarmsByFarmIDSaga),
+    put(getFieldWorkTypes()),
+    put(getIrrigationTaskTypes()),
+    put(api.endpoints.getSoilAmendmentMethods.initiate()),
+    put(api.endpoints.getSoilAmendmentPurposes.initiate()),
+    put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
 
   yield put(fetchAllFinanceData());
+
+  // Animals
+  yield all([
+    put(api.endpoints.getAnimals.initiate()),
+    put(api.endpoints.getAnimalBatches.initiate()),
+    put(api.endpoints.getDefaultAnimalTypes.initiate()),
+    put(api.endpoints.getDefaultAnimalBreeds.initiate()),
+    put(api.endpoints.getCustomAnimalTypes.initiate()),
+    put(api.endpoints.getCustomAnimalBreeds.initiate()),
+    put(api.endpoints.getAnimalSexes.initiate()),
+    put(api.endpoints.getAnimalIdentifierTypes.initiate()),
+    put(api.endpoints.getAnimalIdentifierColors.initiate()),
+    put(api.endpoints.getAnimalMovementPurposes.initiate()),
+    put(api.endpoints.getAnimalOrigins.initiate()),
+    put(api.endpoints.getAnimalUses.initiate()),
+  ]);
 
   const {
     data: { farm_token },

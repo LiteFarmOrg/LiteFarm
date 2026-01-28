@@ -13,18 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 
 import Navigation from './containers/Navigation';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
-import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { NavMenuControlsContext } from './contexts/appContext';
+import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
+import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 
 function App() {
   const location = useLocation();
@@ -33,41 +34,41 @@ function App() {
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
 
+  useOfflineDetector();
+  useServiceWorkerListener();
+
   return (
     <div className={clsx(styles.container)}>
-      <Suspense fallback={null}>
-        <NavMenuControlsContext.Provider
-          value={{
-            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
-          }}
+      <NavMenuControlsContext.Provider
+        value={{
+          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+        }}
+      >
+        <Navigation
+          isCompactSideMenu={isCompactSideMenu}
+          setIsCompactSideMenu={setIsCompactSideMenu}
         >
-          <Navigation
-            isCompactSideMenu={isCompactSideMenu}
-            setIsCompactSideMenu={setIsCompactSideMenu}
-          >
-            <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-              <OfflineDetector />
-              <SnackbarProvider
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                classes={{
-                  root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
-                  containerRoot: clsx(
-                    styles.containerRoot,
-                    isCompactSideMenu && styles.compactContainerRoot,
-                  ),
-                }}
-                // https://notistack.com/features/customization#custom-component
-                Components={{ common: NotistackSnackbar }}
-              >
-                <Routes isCompactSideMenu={isCompactSideMenu} />
-              </SnackbarProvider>
-            </div>
-          </Navigation>
-        </NavMenuControlsContext.Provider>
-      </Suspense>
+          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              classes={{
+                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                containerRoot: clsx(
+                  styles.containerRoot,
+                  isCompactSideMenu && styles.compactContainerRoot,
+                ),
+              }}
+              // https://notistack.com/features/customization#custom-component
+              Components={{ common: NotistackSnackbar }}
+            >
+              <Routes isCompactSideMenu={isCompactSideMenu} />
+            </SnackbarProvider>
+          </div>
+        </Navigation>
+      </NavMenuControlsContext.Provider>
     </div>
   );
 }

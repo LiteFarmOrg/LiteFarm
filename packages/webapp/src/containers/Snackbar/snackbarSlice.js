@@ -14,6 +14,13 @@ const snackbarSlice = createSlice({
         { message, key, options: { variant: 'common' } },
       ];
     },
+    enqueuePersistentSuccessSnackbar: (state, { payload: message }) => {
+      const key = `success-${new Date().getTime()}`;
+      state.notifications = [
+        ...state.notifications,
+        { message, key, options: { variant: 'common', persist: true } },
+      ];
+    },
     enqueueErrorSnackbar: (state, { payload: message }) => {
       const key = `error-${new Date().getTime()}`;
       state.notifications = [
@@ -32,8 +39,13 @@ const snackbarSlice = createSlice({
     },
   },
 });
-export const { enqueueSuccessSnackbar, enqueueErrorSnackbar, closeSnackbar, removeSnackbar } =
-  snackbarSlice.actions;
+export const {
+  enqueueSuccessSnackbar,
+  enqueuePersistentSuccessSnackbar,
+  enqueueErrorSnackbar,
+  closeSnackbar,
+  removeSnackbar,
+} = snackbarSlice.actions;
 export default snackbarSlice.reducer;
 
 export const snackbarSelector = (state) => state.tempStateReducer[snackbarSlice.name].notifications;

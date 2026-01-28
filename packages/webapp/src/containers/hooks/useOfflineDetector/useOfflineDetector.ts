@@ -5,7 +5,7 @@ import { updateOfflineStatus } from './offlineDetectorSlice';
 /**
  * {@link enqueueErrorSnackbar} If offline, all error snackbar will be disabled
  */
-export function OfflineDetector() {
+export function useOfflineDetector() {
   const dispatch = useDispatch();
   const goOnline = () => dispatch(updateOfflineStatus(false));
   const goOffline = () => dispatch(updateOfflineStatus(true));

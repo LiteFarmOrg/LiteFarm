@@ -41,6 +41,9 @@ const AssignTask = ({
 
   const currencySymbol = useCurrencySymbol();
 
+  const isAssigned = selectedWorker?.value !== null;
+  const hasUserFarmWage = userFarmWage > 0; // wage is 0, not null, when not set
+
   const AssigneeSelect = useMemo(() => {
     return (
       <div className={styles.mb24}>
@@ -61,9 +64,9 @@ const AssignTask = ({
             />
           )}
         />
-        {selectedWorker?.value !== null && (
+        {isAssigned && showHourlyWageInputs && (
           <>
-            {userFarmWage > 0 ? (
+            {hasUserFarmWage ? (
               <Label className={styles.info}>
                 {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
                   name: selectedWorker.label.trim(),
@@ -79,7 +82,15 @@ const AssignTask = ({
         )}
       </div>
     );
-  }, [assigneeOptions, optional, selectedWorker, control, userFarmWage, currencySymbol]);
+  }, [
+    assigneeOptions,
+    optional,
+    selectedWorker,
+    control,
+    userFarmWage,
+    currencySymbol,
+    showHourlyWageInputs,
+  ]);
 
   return (
     <>

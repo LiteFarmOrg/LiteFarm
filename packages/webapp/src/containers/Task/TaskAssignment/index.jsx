@@ -20,7 +20,7 @@ import {
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
 
-export default function TaskManagement() {
+export default function TaskAssignment() {
   const location = useLocation();
   const history = useHistory();
   const userFarms = useSelector(userFarmEntitiesSelector);

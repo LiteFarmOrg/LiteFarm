@@ -85,7 +85,7 @@ const useTaskAssignForm = ({
   };
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
 
-  // Determine if task has a task-specific wage override
+  // Determine if a wage override has already been set for the task
   const hasTaskWageOverride = override_hourly_wage === true;
 
   const {
@@ -156,7 +156,10 @@ const useTaskAssignForm = ({
   // Prepopulate the hourly wage with the user's farm wage when no task override exists
   useEffect(() => {
     if (!override_hourly_wage && assigned) {
-      setValue(HOURLY_WAGE, userData.wage?.amount || null);
+      const userFarmWage = userData.wage?.amount;
+      setValue(HOURLY_WAGE, userFarmWage || null, {
+        shouldValidate: userFarmWage > 0,
+      });
     }
   }, [assigned, userData.wage?.amount, override_hourly_wage, setValue]);
 

@@ -108,7 +108,6 @@ import {
   getSoilSampleTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
-import { over } from 'lodash-es';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -225,10 +224,7 @@ export function* changeTaskWageSaga({
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const patchData = {
-      wage_at_moment: override_hourly_wage ? wage_at_moment : null,
-      override_hourly_wage,
-    };
+    const patchData = { wage_at_moment, override_hourly_wage };
     yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
     yield put(putTaskSuccess({ ...patchData, task_id }));
   } catch (e) {

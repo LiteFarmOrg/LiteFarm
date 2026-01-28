@@ -26,6 +26,7 @@ import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { NavMenuControlsContext } from './contexts/appContext';
 import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
+import { useGoogleMapsLoader } from './hooks/useGoogleMapsLoader';
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
 
   useOfflineDetector();
   useServiceWorkerListener();
+  useGoogleMapsLoader();
 
   return (
     <div className={clsx(styles.container)}>

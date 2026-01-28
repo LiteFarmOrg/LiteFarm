@@ -620,6 +620,7 @@ export function* fetchAllSaga() {
     put(api.endpoints.getSoilAmendmentMethods.initiate()),
     put(api.endpoints.getSoilAmendmentPurposes.initiate()),
     put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
+    put(api.endpoints.getAnimalMovementPurposes.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);

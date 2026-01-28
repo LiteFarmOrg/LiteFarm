@@ -35,6 +35,7 @@ import {
   chooseAnimalTypeLabel,
 } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import styles from './styles.module.scss';
+import navStyles from '@navStyles';
 
 type MenuItemProps = { iconName: IconName; text: string };
 
@@ -112,7 +113,9 @@ const ContainerWithButtons = ({
           <MeatballsMenu
             disabled={!!isEditing}
             options={options}
-            classes={{ button: isEditing ? styles.editingStatusButton : '' }}
+            classes={{
+              button: clsx(isEditing ? styles.editingStatusButton : '', navStyles.hideWhenOffline),
+            }}
           />
         )}
       </div>

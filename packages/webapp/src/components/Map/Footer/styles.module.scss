@@ -38,6 +38,10 @@
     }
   }
 
+  .button:disabled {
+    @include svgColorFill(currentColor);
+  }
+
   button:first-of-type {
     border-radius: 8px 0 0 8px;
 

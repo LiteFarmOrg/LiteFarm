@@ -63,6 +63,7 @@ import {
   cleanupGeometryListeners,
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
@@ -90,6 +91,8 @@ export default function Map({ isCompactSideMenu }) {
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
     history?.location?.state?.hideLocationPin ?? false,
   );
+
+  const isOffline = useIsOffline();
 
   const initialLineData = {
     [locationEnum.watercourse]: {
@@ -541,6 +544,7 @@ export default function Map({ isCompactSideMenu }) {
             availableFilterSettings={availableFilterSettings}
             isMapFilterSettingActive={isMapFilterSettingActive}
             isCompactSideMenu={isCompactSideMenu}
+            isOffline={isOffline}
           />
         )}
         {showExportModal && (

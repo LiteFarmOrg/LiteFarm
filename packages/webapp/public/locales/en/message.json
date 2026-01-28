@@ -235,12 +235,14 @@
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task",
       "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task creation automatically",
         "ONLINE": "Task created locally. Will save when you're back online",
         "SUCCESS": "Created task has been saved successfully"
       }
     },
     "DELETE": {
       "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task deletion automatically",
         "ONLINE": "Task deleted locally. Will save when you're back online",
         "SUCCESS": "Task deletion has been saved successfully"
       }
@@ -248,7 +250,7 @@
     "SYNC": {
       "FAILED": "Task changes failed to save",
       "LOCATION_DELETED": "Task failed to save: location has been retired",
-      "NETWORK_ERROR": "Unable to reach server. Will retry automatically",
+      "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry automatically",
       "NOT_FOUND": "Task failed to save: task no longer exists",
       "UNAUTHORIZED": "Task failed to save: insufficient permissions"
     },
@@ -256,6 +258,7 @@
       "FAILED": "Failed to update task",
       "SUCCESS": "Successfully updated task",
       "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task update automatically",
         "ONLINE": "Task updated locally. Will save when you're back online",
         "SUCCESS": "Task update has been saved successfully"
       }

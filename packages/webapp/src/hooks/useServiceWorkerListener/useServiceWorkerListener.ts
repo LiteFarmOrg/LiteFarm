@@ -165,7 +165,21 @@ export function useServiceWorkerListener() {
         // https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
 
         // We will also manually replay when the app comes back online (see below)
-        dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
+        switch (rawArea) {
+          case 'tasks.create':
+            dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
+            break;
+          case 'tasks.delete':
+            dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
+            break;
+          case 'tasks.complete':
+          case 'tasks.abandon':
+          case 'tasks.update':
+            dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
+            break;
+          default:
+            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
+        }
       }
     };
 

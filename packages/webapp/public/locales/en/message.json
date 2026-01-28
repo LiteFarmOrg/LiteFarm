@@ -219,16 +219,16 @@
       "FAILED": "Failed to abandon task",
       "SUCCESS": "Successfully abandoned task",
       "SYNC": {
-        "ONLINE": "Task abandoned locally. Will save when you're back online",
-        "SUCCESS": "Task abandonment saved successfully"
+        "ONLINE": "Task abandoned. Will save when you're back online",
+        "SUCCESS": "Task abandoned offline has been saved successfully"
       }
     },
     "COMPLETE": {
       "FAILED": "Failed to complete task",
       "SUCCESS": "Successfully completed task",
       "SYNC": {
-        "ONLINE": "Task completed locally. Will save when you're back online",
-        "SUCCESS": "Task completion has been saved successfully"
+        "ONLINE": "Task completed. Will save when you're back online",
+        "SUCCESS": "Task completed offline has been saved successfully"
       }
     },
     "CREATE": {
@@ -236,15 +236,15 @@
       "SUCCESS": "Successfully created task",
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task creation automatically",
-        "ONLINE": "Task created locally. Will save when you're back online",
-        "SUCCESS": "Created task has been saved successfully"
+        "ONLINE": "Task created. Will appear when you're back online",
+        "SUCCESS": "Task created offline has been saved successfully"
       }
     },
     "DELETE": {
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task deletion automatically",
-        "ONLINE": "Task deleted locally. Will save when you're back online",
-        "SUCCESS": "Task deletion has been saved successfully"
+        "ONLINE": "Task deleted. Will save when you're back online",
+        "SUCCESS": "Task deleted offline has been saved successfully"
       }
     },
     "SYNC": {
@@ -259,8 +259,8 @@
       "SUCCESS": "Successfully updated task",
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task update automatically",
-        "ONLINE": "Task updated locally. Will save when you're back online",
-        "SUCCESS": "Task update has been saved successfully"
+        "ONLINE": "Task updated. Will save when you're back online",
+        "SUCCESS": "Task updated offline has been saved successfully"
       }
     }
   },

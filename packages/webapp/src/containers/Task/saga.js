@@ -10,6 +10,7 @@ import {
   enqueuePersistentSuccessSnackbar,
   enqueueSuccessSnackbar,
 } from '../Snackbar/snackbarSlice';
+import { isOfflineSelector } from '../hooks/useOfflineDetector/offlineDetectorSlice';
 import {
   addManyTasksFromGetReq,
   addAllTasksFromGetReq,
@@ -167,7 +168,9 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      if (!navigator.onLine) {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
@@ -227,7 +230,9 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      if (!navigator.onLine) {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
@@ -721,7 +726,11 @@ export function* createTaskSaga({ payload }) {
       setShowCannotCreateModal(true);
     } else if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
+      }
 
       // No optimstic update for task creation as the task_id is unknown
 
@@ -906,7 +915,9 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      if (!navigator.onLine) {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
       }
 
@@ -944,7 +955,9 @@ export function* abandonTaskSaga({ payload: data }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      if (!navigator.onLine) {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
       }
 
@@ -1092,7 +1105,9 @@ export function* deleteTaskSaga({ payload: data }) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
       // Workbox will handle network errors and retry when online
-      if (!navigator.onLine) {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
       }
 

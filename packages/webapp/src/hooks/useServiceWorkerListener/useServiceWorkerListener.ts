@@ -202,11 +202,6 @@ export function useServiceWorkerListener() {
       replayQueue();
     }
 
-    if (swContainer) {
-      swContainer.addEventListener('message', handleServiceWorkerMessage);
-      window.addEventListener('online', replayQueue);
-    }
-
     return () => {
       if (swContainer) {
         swContainer.removeEventListener('message', handleServiceWorkerMessage);

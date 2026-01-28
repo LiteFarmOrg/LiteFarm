@@ -158,13 +158,12 @@ export function useServiceWorkerListener() {
         // Refresh data regardless of success/failure
         dispatch(refresh());
       } else if (type === 'SYNC_ITEM_FAILURE') {
-        // This indicates a failure to reach the server at all (e.g. our API going down)
-        // It should be rare.
-
-        // The background-sync-api will retry automatically after some time that the browser defines, with exponential backoff:
-        // https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
-
-        // We will also manually replay when the app comes back online (see below)
+        /*
+         * This indicates a failure to reach the server (e.g. API down). It should be rare.
+         * The background-sync-api retries automatically with exponential backoff (approx. 5 min on Chrome).
+         * See: https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
+         */
+        // We will also manually replay when the app comes back online.
         switch (rawArea) {
           case 'tasks.create':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
@@ -183,7 +182,6 @@ export function useServiceWorkerListener() {
       }
     };
 
-    // It's possible for navigator.serviceWorker to be undefined in some environments (e.g. non-secure contexts or older browsers). However, support is widespread in modern browsers.
     const swContainer = navigator.serviceWorker;
 
     const replayQueue = async () => {
@@ -200,8 +198,7 @@ export function useServiceWorkerListener() {
       swContainer.addEventListener('message', handleServiceWorkerMessage);
       window.addEventListener('online', replayQueue);
 
-      // Also replay queue on app startup
-      // Especially important for browsers without Background Sync API support (Firefox, Safari, iOS) where the onSync event never fires and the tab may not be active when the user goes back online
+      // Also replay queue on startup
       replayQueue();
     }
 

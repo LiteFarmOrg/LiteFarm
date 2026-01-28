@@ -167,7 +167,6 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
   } catch (e) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
@@ -229,7 +228,6 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
   } catch (e) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
@@ -725,14 +723,13 @@ export function* createTaskSaga({ payload }) {
     if (e.response?.data === 'location deleted') {
       setShowCannotCreateModal(true);
     } else if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
       }
 
-      // No optimstic update for task creation as the task_id is unknown
+      // No optimstic update for task creation
 
       history.push(returnPath ?? '/tasks');
     } else {
@@ -914,7 +911,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   } catch (e) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
@@ -954,7 +950,6 @@ export function* abandonTaskSaga({ payload: data }) {
   } catch (e) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
@@ -1104,7 +1099,6 @@ export function* deleteTaskSaga({ payload: data }) {
   } catch (e) {
     console.log(e);
     if (e.code === 'ERR_NETWORK') {
-      // Workbox will handle network errors and retry when online
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {

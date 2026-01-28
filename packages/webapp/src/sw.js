@@ -23,29 +23,22 @@ import { NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim } from 'workbox-core';
 
-// 1. Immediately take control of the page
 self.skipWaiting();
 clientsClaim();
 
-// 2. Precache all the assets injected by VitePWA
+// Precache all the assets injected by VitePWA
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
 precacheAndRoute(self.__WB_MANIFEST);
 
-// 3. Clean up old caches
 cleanupOutdatedCaches();
 
-// 4. A sensible default for SPA navigation
+// SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
 
-/* ——————————————————————————————
-Higher-order function for onSync callbacks that:
-• replay each queued request as Workbox does
-• sends per-item success/failure messages
-• passes the given area string to the message for context
-
-Here is the workbox class for Queue:
-// https://github.com/GoogleChrome/workbox/blob/main/packages/workbox-background-sync/src/Queue.ts
- —————————————————————————————— */
+/*
+ * Higher-order function for onSync callbacks.
+ * Replays requests and sends per-item success/failure messages to clients.
+ */
 const createOnSyncHandler = (area) => {
   return async ({ queue }) => {
     let entry;
@@ -99,9 +92,6 @@ const createOnSyncHandler = (area) => {
   };
 };
 
-// ——————————————————————————————
-// Configuration for all background-sync routes.
-// ——————————————————————————————
 const BG_SYNC_ROUTES = [
   {
     queueName: 'create-task-queue',
@@ -124,24 +114,18 @@ const BG_SYNC_ROUTES = [
   },
 ];
 
-// ——————————————————————————————
-// Register each route with its own Queue instance + onSync handler
-// ——————————————————————————————
 // Store queue references globally to allow manual replay
 const queues = {};
 
 BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
-  // 1. Create the Queue instance directly so we own the reference
   const queue = new Queue(queueName, {
     maxRetentionTime: 24 * 60, // 24 hours
     onSync: createOnSyncHandler(area),
   });
 
-  // 2. Store it for manual access later
   queues[queueName] = { queue, area };
 
-  // 3. Create a minimal plugin that pushes to OUR queue on failure
-  // This mimics what BackgroundSyncPlugin does internally
+  // Push to our queue on failure
   const bgSyncPlugin = {
     fetchDidFail: async ({ request }) => {
       await queue.pushRequest({

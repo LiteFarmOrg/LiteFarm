@@ -20,7 +20,7 @@ import {
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
-import { BackgroundSyncPlugin } from 'workbox-background-sync';
+import { Queue } from 'workbox-background-sync';
 import { clientsClaim } from 'workbox-core';
 
 // 1. Immediately take control of the page
@@ -125,13 +125,47 @@ const BG_SYNC_ROUTES = [
 ];
 
 // ——————————————————————————————
-// Register each route with its own queueName + onSync handler
+// Register each route with its own Queue instance + onSync handler
 // ——————————————————————————————
+// Store queue references globally to allow manual replay
+const queues = {};
+
 BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
-  const plugin = new BackgroundSyncPlugin(queueName, {
+  // 1. Create the Queue instance directly so we own the reference
+  const queue = new Queue(queueName, {
     maxRetentionTime: 24 * 60, // 24 hours
     onSync: createOnSyncHandler(area),
   });
 
-  registerRoute(matcher, new NetworkOnly({ plugins: [plugin] }), method);
+  // 2. Store it for manual access later
+  queues[queueName] = { queue, area };
+
+  // 3. Create a minimal plugin that pushes to OUR queue on failure
+  // This mimics what BackgroundSyncPlugin does internally
+  const bgSyncPlugin = {
+    fetchDidFail: async ({ request }) => {
+      await queue.pushRequest({
+        request,
+        metadata: {
+          timestamp: Date.now(),
+        },
+      });
+    },
+  };
+
+  registerRoute(matcher, new NetworkOnly({ plugins: [bgSyncPlugin] }), method);
+});
+
+// ——————————————————————————————
+self.addEventListener('message', (event) => {
+  if (event.data === 'replay_queue') {
+    Object.values(queues).forEach(async ({ queue, area }) => {
+      const handler = createOnSyncHandler(area);
+      try {
+        await handler({ queue });
+      } catch (err) {
+        // Ignore errors during manual replay; they are logged by the handler anyway
+      }
+    });
+  }
 });

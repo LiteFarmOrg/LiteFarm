@@ -158,21 +158,48 @@ export function useServiceWorkerListener() {
         // Refresh data regardless of success/failure
         dispatch(refresh());
       } else if (type === 'SYNC_ITEM_FAILURE') {
-        /* This indicates a failure to reach the server at all (e.g. our API going down). It should be rare. In the case of a sync failure, the service worker retries automatically after some time that the browser defines, see https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
+        // This indicates a failure to reach the server at all (e.g. our API going down)
+        // It should be rare.
+
+        // The background-sync-api will retry automatically after some time that the browser defines, with exponential backoff:
+        // https://developer.chrome.com/docs/workbox/modules/workbox-background-sync. In my testing on Chrome, it was exactly 5 minutes */
+
+        // We will also manually replay when the app comes back online (see below)
         dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
       }
     };
 
+    // It's possible for navigator.serviceWorker to be undefined in some environments (e.g. non-secure contexts or older browsers). However, support is widespread in modern browsers.
     const swContainer = navigator.serviceWorker;
+
+    const replayQueue = async () => {
+      if (swContainer) {
+        const registration = await swContainer.ready;
+        if (registration.active) {
+          registration.active.postMessage('replay_queue');
+        }
+      }
+    };
 
     // It's possible for navigator.serviceWorker to be undefined in some environments (e.g. non-secure contexts or older browsers)
     if (swContainer) {
       swContainer.addEventListener('message', handleServiceWorkerMessage);
+      window.addEventListener('online', replayQueue);
+
+      // Also replay queue on app startup
+      // Especially important for browsers without Background Sync API support (Firefox, Safari, iOS) where the onSync event never fires and the tab may not be active when the user goes back online
+      replayQueue();
+    }
+
+    if (swContainer) {
+      swContainer.addEventListener('message', handleServiceWorkerMessage);
+      window.addEventListener('online', replayQueue);
     }
 
     return () => {
       if (swContainer) {
         swContainer.removeEventListener('message', handleServiceWorkerMessage);
+        window.removeEventListener('online', replayQueue);
       }
     };
   }, [dispatch, t, syncConfig]);

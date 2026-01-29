@@ -38,3 +38,5 @@ storybook-static/*
 
 packages/.DS_Store
 packages/webapp/.pnpm-debug.log
+
+/dist

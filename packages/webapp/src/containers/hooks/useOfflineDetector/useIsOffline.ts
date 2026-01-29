@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
+import { isOfflineSelector } from './offlineDetectorSlice';
 
 export function useIsOffline() {
-  return useSelector(
-    (state: any) => state?.tempStateReducer?.offlineDetectorReducer.isOffline as boolean,
-  );
+  return useSelector(isOfflineSelector);
 }

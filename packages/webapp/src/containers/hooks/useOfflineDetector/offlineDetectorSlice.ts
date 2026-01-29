@@ -15,3 +15,6 @@ const offlineDetectorSlice = createSlice({
 });
 export const { updateOfflineStatus } = offlineDetectorSlice.actions;
 export default offlineDetectorSlice.reducer;
+
+export const isOfflineSelector = (state: any): boolean =>
+  state?.tempStateReducer?.offlineDetectorReducer?.isOffline;

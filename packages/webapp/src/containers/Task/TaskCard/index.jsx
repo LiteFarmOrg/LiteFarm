@@ -6,7 +6,7 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
-import { assignTask, assignTasksOnDate, changeTaskDate, changeTaskWage } from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const TaskCard = ({
@@ -22,8 +22,6 @@ const TaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
-  wage_at_moment,
-  override_hourly_wage,
   revision_date,
   revised_by_user_id,
   ...props
@@ -36,9 +34,6 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onChangeTaskWage = ({ wage_at_moment, override_hourly_wage }) => {
-    dispatch(changeTaskWage({ task_id, wage_at_moment, override_hourly_wage }));
-  };
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];

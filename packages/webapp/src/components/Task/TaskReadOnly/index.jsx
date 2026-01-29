@@ -175,10 +175,9 @@ export default function PureTaskReadOnly({
   const { country_id } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
 
-  const assigneeUser = users.find((u) => u.user_id === task.assignee_user_id);
   const currencySymbol = useCurrencySymbol();
 
-  const hasWageOverride = override_hourly_wage && wage_at_moment;
+  const hasWageOverride = !!override_hourly_wage;
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
@@ -618,19 +617,19 @@ export default function PureTaskReadOnly({
           dismissModal={() => setShowTaskAssignModal(false)}
         />
       )}
-      {showDueDateModal && (
-        <UpdateTaskDateModal
-          due_date={date}
-          onChangeTaskDate={onChangeTaskDate}
-          dismissModal={() => setShowDueDateModal(false)}
-        />
-      )}
       {showTaskWageModal && (
         <EditTaskWageModal
           wage_at_moment={wage_at_moment}
           override_hourly_wage={override_hourly_wage}
           onSave={onChangeTaskWage}
           dismissModal={() => setShowTaskWageModal(false)}
+        />
+      )}
+      {showDueDateModal && (
+        <UpdateTaskDateModal
+          due_date={date}
+          onChangeTaskDate={onChangeTaskDate}
+          dismissModal={() => setShowDueDateModal(false)}
         />
       )}
     </Layout>

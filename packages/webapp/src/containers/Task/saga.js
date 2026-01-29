@@ -261,26 +261,6 @@ export function* changeTaskWageSaga({
 }
 
 /**
- * @deprecated Updating the userFarm wage should only happen from people (updateUserFarmSaga) and not task assignment flows
- */
-export const updateUserFarmWage = createAction('updateUserFarmWageSaga');
-
-export function* updateUserFarmWageSaga({ payload: user }) {
-  const { userFarmUrl } = apiConfig;
-  const { user_id, farm_id } = yield select(loginSelector);
-  const target_user_id = user.user_id;
-  const patchWageUrl = `${userFarmUrl}/wage/farm/${farm_id}/user/${target_user_id}`;
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield call(axios.patch, patchWageUrl, user, header);
-    yield put(putUserSuccess({ ...user, farm_id }));
-  } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
-    console.error(e);
-  }
-}
-
-/**
  * @deprecated No longer used in task assignment flows and should be removed in future
  */
 export const setUserFarmWageDoNotAskAgain = createAction('setUserFarmWageDoNotAskAgainSaga');
@@ -1135,7 +1115,6 @@ export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(changeTaskWage.type, changeTaskWageSaga);
-  yield takeLeading(updateUserFarmWage.type, updateUserFarmWageSaga);
   yield takeLeading(setUserFarmWageDoNotAskAgain.type, setUserFarmWageDoNotAskAgainSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);

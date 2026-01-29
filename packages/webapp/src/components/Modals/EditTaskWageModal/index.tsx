@@ -49,8 +49,7 @@ export default function EditTaskWageModal({
 }: EditTaskWageModalProps) {
   const { t } = useTranslation();
 
-  // Determine if a wage override has already been set for the task
-  const hasTaskWageOverride = override_hourly_wage === true;
+  const hasTaskWageOverride = !!override_hourly_wage;
 
   const {
     register,

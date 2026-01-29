@@ -46,7 +46,7 @@ const isYesOptionSelected = (option) => {
  * @property {boolean} disabled - true if form is not ready to be submitted
  * @property {AssigneeOption[]} assigneeOptions - assignee options used in ReactSelect component
  * @property {AssigneeOption} selectedWorker - selected assignee option
- * @property {string} [selectedHourlyWageAction] - 'set_hourly_wage', 'for_this_task', 'no', 'do_not_ask_again' or ''
+ * @property {string} [selectedHourlyWageAction] - 'for_this_task', 'no', or ''
  * @property {number} [hourlyWage] - wage inputted by user
  * @property {number} userFarmWage - user's current wage for the farm
  * @property {boolean} showHourlyWageInputs - whether to show HourlyWageInputs component or not
@@ -85,8 +85,7 @@ const useTaskAssignForm = ({
   };
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
 
-  // Determine if a wage override has already been set for the task
-  const hasTaskWageOverride = override_hourly_wage === true;
+  const hasTaskWageOverride = !!override_hourly_wage;
 
   const {
     control,

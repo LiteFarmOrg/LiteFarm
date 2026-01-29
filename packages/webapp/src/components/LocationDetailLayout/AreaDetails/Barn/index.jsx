@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { barnEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-
+import locationDetailStyles from '../../styles.module.scss';
 import RadioGroup from '../../../Form/RadioGroup';
 import { PersistedFormWrapper } from '../../PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
@@ -74,22 +74,11 @@ export function BarnDetailChildren({ isViewLocationPage }) {
   return (
     <>
       <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label
-            style={{
-              paddingRight: '10px',
-              fontSize: '16px',
-              lineHeight: '20px',
-              display: 'inline-block',
-            }}
-          >
-            {t('FARM_MAP.BARN.WASH_PACK')}
-          </Label>
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
+        <div className={locationDetailStyles.radioLabel}>
+          <Label>{t('FARM_MAP.BARN.WASH_PACK')}</Label>
+          <Label sm>{t('common:OPTIONAL')}</Label>
         </div>
-        <div>
+        <div style={{ marginBottom: '16px' }}>
           <RadioGroup
             row
             disabled={isViewLocationPage}
@@ -99,20 +88,9 @@ export function BarnDetailChildren({ isViewLocationPage }) {
         </div>
       </div>
       <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label
-            style={{
-              paddingRight: '10px',
-              fontSize: '16px',
-              lineHeight: '20px',
-              display: 'inline-block',
-            }}
-          >
-            {t('FARM_MAP.BARN.COLD_STORAGE')}
-          </Label>
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
+        <div className={locationDetailStyles.radioLabel}>
+          <Label>{t('FARM_MAP.BARN.COLD_STORAGE')}</Label>
+          <Label sm>{t('common:OPTIONAL')}</Label>
         </div>
         <div style={{ marginBottom: '16px' }}>
           <RadioGroup
@@ -124,20 +102,9 @@ export function BarnDetailChildren({ isViewLocationPage }) {
         </div>
       </div>
       <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label
-            style={{
-              paddingRight: '10px',
-              fontSize: '16px',
-              lineHeight: '20px',
-              display: 'inline-block',
-            }}
-          >
-            {t('FARM_MAP.BARN.ANIMALS')}
-          </Label>
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
+        <div className={locationDetailStyles.radioLabel}>
+          <Label>{t('FARM_MAP.BARN.ANIMALS')}</Label>
+          <Label sm>{t('common:OPTIONAL')}</Label>
         </div>
         <div style={{ marginBottom: '16px' }}>
           <RadioGroup

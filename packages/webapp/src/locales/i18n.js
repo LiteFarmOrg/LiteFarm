@@ -26,7 +26,7 @@ i18n
     react: {
       useSuspense: true,
     },
-    ns: ['crop', 'expense', 'task'],
+    ns: ['crop', 'expense', 'task', 'market_directory_info'],
     backend: {
       queryStringParams: { v: APP_VERSION },
       backends: [

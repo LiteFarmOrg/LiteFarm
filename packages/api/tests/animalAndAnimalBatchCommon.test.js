@@ -14,11 +14,8 @@
  */
 
 import chai from 'chai';
-
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-
-import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
@@ -36,15 +33,11 @@ import {
   abandonTaskRequest,
   completeTaskRequest,
   postTaskRequest,
-  toLocal8601Extended,
-  yesterdayInYYYYMMDD,
 } from './utils/taskUtils.js';
 import {
   animalDeleteRequest,
-  animalPatchRequest,
   animalRemoveRequest,
   batchDeleteRequest,
-  batchPatchRequest,
   batchRemoveRequest,
 } from './utils/animalUtils.js';
 
@@ -71,18 +64,17 @@ describe('Animal and Animal Batch Tests', () => {
   let user_id;
   let farm_id;
   let removalReasonId;
-  let broughtInOrigin;
+  let _broughtInOrigin;
 
   beforeAll(async () => {
     [{ user_id, farm_id }] = await mocks.userFarmFactory({ roleId: 1 });
     [{ id: removalReasonId }] = await mocks.animal_removal_reasonFactory();
-    [broughtInOrigin] = await mocks.animal_originFactory('BROUGHT_IN');
+    [_broughtInOrigin] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Animals and Animal Batches with Tasks Tests', () => {
@@ -168,10 +160,10 @@ describe('Animal and Animal Batch Tests', () => {
     ) => {
       const [idName, relationshipTable] = getIdAndRelationshipTableNames(animalOrBatch);
 
-      for (let expectedData of expectedTaskData) {
+      for (const expectedData of expectedTaskData) {
         const { taskId, remainingAnimalOrBatchIds, abandonDate, abandonmentReason } = expectedData;
         // Check if relationships were removed
-        for (let animalOrBatchId of removedAnimalOrBatchIds) {
+        for (const animalOrBatchId of removedAnimalOrBatchIds) {
           const relationships = await knex(relationshipTable)
             .where(idName, animalOrBatchId)
             .where('task_id', taskId);
@@ -348,7 +340,7 @@ describe('Animal and Animal Batch Tests', () => {
         await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, idsToRemove, testCases);
 
         // Make sure unrelated relationships were not removed
-        for (let { animalOrBatch, id, taskId } of relationshipsWithExistingEntities) {
+        for (const { animalOrBatch, id, taskId } of relationshipsWithExistingEntities) {
           const [idName, table] = getIdAndRelationshipTableNames(animalOrBatch);
           const relationships = await knex(table).where(idName, id).where('task_id', taskId);
           expect(relationships.length).toBe(1);

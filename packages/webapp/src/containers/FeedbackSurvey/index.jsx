@@ -13,20 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import TextButton from '../../components/Form/Button/TextButton';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
+import { useNavMenuControls } from '../../contexts/appContext';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
-export default function FeedbackSurvey({
-  isFeedbackSurveyOpen: isSurveyOpen,
-  setFeedbackSurveyOpen: setIsSurveyOpen,
-}) {
+export default function FeedbackSurvey() {
   const { t } = useTranslation();
+  const {
+    feedback: { isFeedbackSurveyOpen: isSurveyOpen, setFeedbackSurveyOpen: setIsSurveyOpen },
+  } = useNavMenuControls();
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
+  const isOffline = useIsOffline();
 
   const title = (
     <div className={styles.surveyTitleWrapper}>
@@ -43,7 +46,10 @@ export default function FeedbackSurvey({
 
   return (
     <div>
-      <TextButton className={styles.surveyButton} onClick={toggleSurveyOpen}>
+      <TextButton
+        className={clsx(styles.surveyButton, isOffline && styles.offline)}
+        onClick={toggleSurveyOpen}
+      >
         <SendIcon />
       </TextButton>
       <Drawer

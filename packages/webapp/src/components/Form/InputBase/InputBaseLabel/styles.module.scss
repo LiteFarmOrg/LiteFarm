@@ -16,12 +16,18 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  min-height: 20px;
-  position: relative;
-}
+  align-items: baseline;
+  margin-bottom: 4px;
 
-.sm {
-  margin-left: 8px;
+  h5,
+  span {
+    margin-bottom: 0;
+  }
+
+  &.leftJustified {
+    justify-content: flex-start;
+    gap: 8px;
+  }
 }
 
 .leaf {
@@ -29,19 +35,18 @@
   margin-left: 4px;
 }
 
-.tooltipIconContainer {
-  width: 100%;
+.rightContent {
   display: flex;
-  justify-content: flex-end;
+  gap: 4px;
+  align-items: center;
+  cursor: default;
+
+  .tooltipIcon {
+    transform: translateY(3px);
+    cursor: pointer;
+  }
 }
 
 .icon {
-  position: absolute;
-  right: 0;
-  top: -8px;
   color: var(--iconDefault);
-}
-
-.icon > * {
-  cursor: pointer;
 }

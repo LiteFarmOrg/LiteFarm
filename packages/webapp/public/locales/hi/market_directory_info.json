@@ -1,0 +1,14 @@
+{
+  "MARKET_PRODUCT_CATEGORY": {
+    "ALCOHOLIC_BEVERAGE": "मादक पेय पदार्थ",
+    "BAKERY": "बेक किए गए खाद्य पदार्थ",
+    "DAIRY_PRODUCT": "दुग्ध उत्पाद",
+    "EGG": "अंडे",
+    "FLOWER": "फूल",
+    "FROZEN": "जमे हुए खाद्य पदार्थ",
+    "FRUIT": "फल",
+    "MEAT_PRODUCT": "मांस उत्पाद",
+    "PLANT": "गमले वाले पौधे और पौध",
+    "VEGETABLE": "सब्ज़ियाँ"
+  }
+}

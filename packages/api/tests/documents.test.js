@@ -55,40 +55,36 @@ describe('Document tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('GET Authorization tests', () => {
-    test('Owner should GET documents if they exist', async (done) => {
+    test('Owner should GET documents if they exist', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
       getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
-        done();
       });
     });
 
-    test('Manager should GET documents if they exist', async (done) => {
+    test('Manager should GET documents if they exist', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
       getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
-        done();
       });
     });
 
-    test('EO should GET documents if they exist', async (done) => {
+    test('EO should GET documents if they exist', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
       getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
-        done();
       });
     });
   });
@@ -103,7 +99,7 @@ describe('Document tests', () => {
     }
 
     describe('Post document test', () => {
-      test('Should return 400 when files === []', async (done) => {
+      test('Should return 400 when files === []', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         postDocumentRequest(
           `/document/farm/${farm_id}`,
@@ -114,11 +110,10 @@ describe('Document tests', () => {
           },
           (_err, res) => {
             expect(res.status).toBe(400);
-            done();
           },
         );
       });
-      test('Should return 400 when files is not an array', async (done) => {
+      test('Should return 400 when files is not an array', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         postDocumentRequest(
           `/document/farm/${farm_id}`,
@@ -129,11 +124,10 @@ describe('Document tests', () => {
           },
           (_, res) => {
             expect(res.status).toBe(400);
-            done();
           },
         );
       });
-      test('Should post document with multiple files', async (done) => {
+      test('Should post document with multiple files', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         postDocumentRequest(
           `/document/farm/${farm_id}`,
@@ -146,12 +140,11 @@ describe('Document tests', () => {
             expect(res.status).toBe(201);
             const files = await knex('file').where({ document_id: res.body.document_id });
             expect(files.length).toBe(4);
-            done();
           },
         );
       });
       describe('Post document authorization test', function () {
-        test('Worker should not POST documents', async (done) => {
+        test('Worker should not POST documents', async () => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
           postDocumentRequest(
@@ -163,11 +156,10 @@ describe('Document tests', () => {
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
-        test('Owner should POST a document', async (done) => {
+        test('Owner should POST a document', async () => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
           postDocumentRequest(
@@ -181,11 +173,10 @@ describe('Document tests', () => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
-              done();
             },
           );
         });
-        test('Manager should POST a document', async (done) => {
+        test('Manager should POST a document', async () => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
           postDocumentRequest(
@@ -199,11 +190,10 @@ describe('Document tests', () => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
-              done();
             },
           );
         });
-        test('EO should POST a document', async (done) => {
+        test('EO should POST a document', async () => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
           postDocumentRequest(
@@ -217,11 +207,10 @@ describe('Document tests', () => {
               expect(res.status).toBe(201);
               const files = await knex('file').where({ document_id: res.body.document_id });
               expect(files.length).toBe(1);
-              done();
             },
           );
         });
-        test('Owner should not POST a document to another farm', async (done) => {
+        test('Owner should not POST a document to another farm', async () => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
           const [{ user_id: _user_id2, farm_id: farm_id2 }] = await mocks.userFarmFactory(
             {},
@@ -237,7 +226,6 @@ describe('Document tests', () => {
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
@@ -259,7 +247,7 @@ describe('Document tests', () => {
 
       const fakeDate = new Date(0).toISOString().split('T')[0];
 
-      test('Owner should be able to edit a document, add files', async (done) => {
+      test('Owner should be able to edit a document, add files', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         const document = await documentWithFilesFactory(farm_id, 1);
         const newDocument = getFakeDocument(farm_id, 2);
@@ -274,11 +262,10 @@ describe('Document tests', () => {
           expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(2);
-          done();
         });
       });
 
-      test('Owner should be able to edit a document, delete files', async (done) => {
+      test('Owner should be able to edit a document, delete files', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         const document = await documentWithFilesFactory(farm_id, 3);
         const newDocument = getFakeDocument(farm_id, 1);
@@ -293,11 +280,10 @@ describe('Document tests', () => {
           expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
-          done();
         });
       });
 
-      test('Manager shoud be able to edit a document', async (done) => {
+      test('Manager shoud be able to edit a document', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
         const document = await documentWithFilesFactory(farm_id, 3);
         const newDocument = getFakeDocument(farm_id, 1);
@@ -312,11 +298,10 @@ describe('Document tests', () => {
           expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
-          done();
         });
       });
 
-      test('EO shoud be able to edit a document', async (done) => {
+      test('EO shoud be able to edit a document', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
         const document = await documentWithFilesFactory(farm_id, 3);
         const newDocument = getFakeDocument(farm_id, 1);
@@ -331,25 +316,23 @@ describe('Document tests', () => {
           expect(document[0].valid_until.toISOString().split('T')[0]).toEqual(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
-          done();
         });
       });
 
-      test('Worker should not be a able to update document', async (done) => {
+      test('Worker should not be a able to update document', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
         const document = await documentWithFilesFactory(farm_id);
         const newDocument = getFakeDocument(farm_id, 1);
         const data = { document_id: document.document_id, ...newDocument };
         putDocumentRequest(data, { user_id, farm_id }, async (_err, res) => {
           expect(res.status).toBe(403);
-          done();
         });
       });
     });
   });
 
   describe('Archive document tests', () => {
-    test('User should be able to archive documents', async (done) => {
+    test('User should be able to archive documents', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
       patchDocumentArchiveRequest(
@@ -360,12 +343,11 @@ describe('Document tests', () => {
           expect(res.status).toBe(200);
           const document = await knex('document').where({ document_id });
           expect(document[0].archived).toBe(true);
-          done();
         },
       );
     });
 
-    test('User should be able to unarchive documents', async (done) => {
+    test('User should be able to unarchive documents', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const [{ document_id }] = await mocks.documentFactory(
         { promisedFarm: [{ farm_id }] },
@@ -379,13 +361,12 @@ describe('Document tests', () => {
           expect(res.status).toBe(200);
           const document = await knex('document').where({ document_id });
           expect(document[0].archived).toBe(false);
-          done();
         },
       );
     });
 
     describe('Archive document authorization tests', () => {
-      test('Owner should be able to archive documents', async (done) => {
+      test('Owner should be able to archive documents', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
         const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
         patchDocumentArchiveRequest(
@@ -394,11 +375,10 @@ describe('Document tests', () => {
           { user_id, farm_id },
           (_err, res) => {
             expect(res.status).toBe(200);
-            done();
           },
         );
       });
-      test('Manager should be able to archive documents', async (done) => {
+      test('Manager should be able to archive documents', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
         const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
         patchDocumentArchiveRequest(
@@ -407,11 +387,10 @@ describe('Document tests', () => {
           { user_id, farm_id },
           (_err, res) => {
             expect(res.status).toBe(200);
-            done();
           },
         );
       });
-      test('EO should be able to archive documents', async (done) => {
+      test('EO should be able to archive documents', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
         const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
         patchDocumentArchiveRequest(
@@ -420,11 +399,10 @@ describe('Document tests', () => {
           { user_id, farm_id },
           (_err, res) => {
             expect(res.status).toBe(200);
-            done();
           },
         );
       });
-      test('Worker should NOT be able to archive documents', async (done) => {
+      test('Worker should NOT be able to archive documents', async () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
         const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
         patchDocumentArchiveRequest(
@@ -433,7 +411,6 @@ describe('Document tests', () => {
           { user_id, farm_id },
           (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });

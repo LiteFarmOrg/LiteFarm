@@ -188,7 +188,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             )}
 
             {!isCreatedInError(selectedOption) && (
-              /* @ts-expect-error */
               <Input
                 type={'date'}
                 label={t('common:DATE')}
@@ -208,7 +207,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                 </div>
               ) : (
                 <>
-                  {/*@ts-expect-error*/}
                   <Input
                     hookFormRegister={register(EXPLANATION)}
                     label={t('REMOVE_ANIMALS.EXPLANATION')}

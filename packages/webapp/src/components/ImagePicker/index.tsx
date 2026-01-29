@@ -47,12 +47,28 @@ type CommonProps = {
   shouldReset?: boolean;
 };
 
+/**
+ * CustomFileUpload pattern: For immediate upload of images
+ *
+ * This pattern is used with the useImagePickerUpload hook to:
+ * 1. Upload the image immediately when selected
+ * 2. Store the resulting URL in your form (not the File)
+ */
 type CustomFileUpload = CommonProps & {
   onSelectImage?: never;
   onFileUpload: OnFileUpload;
   shouldReset?: never;
 };
 
+/* DirectImageUpload pattern: For storing File objects in form state
+ *
+ * This pattern is used when you want to:
+ * 1. Get the raw File object when user selects an image
+ * 2. Store that File object directly in your form
+ * 3. Upload the file when form is submitted
+ *
+ * The parent component receives the File via onSelectImage callback and is responsible for storing it.
+ */
 type DirectImageUpload = CommonProps & {
   onSelectImage: (file: File) => void;
   onFileUpload?: never;

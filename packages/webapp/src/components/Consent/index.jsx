@@ -30,16 +30,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent,
       <div data-cy="consentPage-content" className={clsx(styles.consentTextContainer)}>
         {consent}
       </div>
-      <div
-        style={{
-          width: '100%',
-          height: '38px',
-          background:
-            'linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255,255 , 255, 1) 55.21%)',
-          marginTop: '-28px',
-          zIndex: '2000',
-        }}
-      />
+      <div className={styles.fadeEffect} />
       <div>
         <Checkbox data-cy="consent-agree" style={{ marginBottom: 0 }} {...checkboxArgs} />
       </div>

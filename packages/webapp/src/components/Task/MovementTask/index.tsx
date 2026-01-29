@@ -87,7 +87,6 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
       />
       {selectedPurposes?.some((purpose) => purpose.key === 'OTHER') && (
         <>
-          {/* @ts-expect-error */}
           <Input
             label={t('ADD_TASK.MOVEMENT_VIEW.OTHER_PURPOSE_EXPLANATION_LABEL')}
             name={OTHER_PURPOSE_EXPLANATION}

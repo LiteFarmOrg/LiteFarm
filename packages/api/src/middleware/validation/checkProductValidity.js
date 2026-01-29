@@ -92,6 +92,7 @@ export function checkProductValidity() {
         const currentRecord = await ProductModel.query(trx).findById(product_id);
         // Prevent changing type for now, prevents orphan task type products
         if (type && type != currentRecord.type) {
+          await trx.rollback();
           return res.status(400).send('cannot change product type');
         }
 
@@ -101,11 +102,13 @@ export function checkProductValidity() {
 
       // Prevents error on name uniqeness check
       if (isCreatingNew && !name) {
+        await trx.rollback();
         return res.status(400).send('new product must have name');
       }
 
       // Prevents error on name uniqeness check
       if (isCreatingNew && !type) {
+        await trx.rollback();
         return res.status(400).send('new product must have type');
       }
 
@@ -118,10 +121,12 @@ export function checkProductValidity() {
         taskProductRelationMap[type] &&
         !req.body[taskProductRelationMap[type]]
       ) {
+        await trx.rollback();
         return res.status(400).send('must have product details');
       }
 
       if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
+        await trx.rollback();
         return res.status(400).send('must not have other product type details');
       }
 
@@ -143,6 +148,7 @@ export function checkProductValidity() {
       await trx.commit();
       next();
     } catch (error) {
+      await trx.rollback();
       handleObjectionError(error, res, trx);
     }
   };

@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -34,7 +34,7 @@ import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
 import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
-  let token;
+  let _token;
   let owner;
   let farm;
   let ownerFarm;
@@ -42,58 +42,69 @@ describe('Sale Tests', () => {
   let cropVariety;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
   beforeAll(async () => {
     await mocks.populateDefaultRevenueTypes();
   });
 
-  function postSaleRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function postSaleRequest(
+    data,
+    { user_id = owner.user_id, farm_id = farm.farm_id },
+    callback,
+  ) {
+    return chai
       .request(server)
       .post(`/sale`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function getRequest(
+  async function getRequest(
     { user_id = owner.user_id, farm_id = farm.farm_id, farm_id_in_params = farm.farm_id },
     callback,
   ) {
-    chai
+    return chai
       .request(server)
       .get(`/sale/${farm_id_in_params}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, sale_id }, callback) {
-    chai
+  async function deleteRequest(
+    { user_id = owner.user_id, farm_id = farm.farm_id, sale_id },
+    callback,
+  ) {
+    return chai
       .request(server)
       .delete(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
-  function patchRequest(
+  async function patchRequest(
     data,
     sale_id,
     { user_id = owner.user_id, farm_id = farm.farm_id },
     callback,
   ) {
-    chai
+    return chai
       .request(server)
       .patch(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback);
+      .then((res) => callback(null, res))
+      .catch((_err) => callback(_err));
   }
 
   function fakeUserFarm(role = 1) {
@@ -114,10 +125,9 @@ describe('Sale Tests', () => {
     [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Get && delete sale', () => {
@@ -126,7 +136,7 @@ describe('Sale Tests', () => {
     let cropVariety1;
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
-      let [cropSale] = await mocks.crop_variety_saleFactory({
+      let [_cropSale] = await mocks.crop_variety_saleFactory({
         promisedCropVariety: [cropVariety],
         promisedSale: [sale],
       });
@@ -135,18 +145,17 @@ describe('Sale Tests', () => {
         promisedFarm: [farm],
         promisedCrop: [crop1],
       });
-      [cropSale] = await mocks.crop_variety_saleFactory({
+      [_cropSale] = await mocks.crop_variety_saleFactory({
         promisedCropVariety: [cropVariety1],
         promisedSale: [sale],
       });
     });
 
-    test('Should filter out deleted sale', async (done) => {
+    test('Should filter out deleted sale', async () => {
       await saleModel.query().context(owner).findById(sale.sale_id).delete();
-      getRequest({ user_id: owner.user_id }, (err, res) => {
+      await getRequest({ user_id: owner.user_id }, (_err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
-        done();
       });
     });
 
@@ -158,7 +167,7 @@ describe('Sale Tests', () => {
 
       beforeEach(async () => {
         [newWorker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory(
+        const [_workerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [newWorker],
             promisedFarm: [farm],
@@ -166,7 +175,7 @@ describe('Sale Tests', () => {
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory(
+        const [_managerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [manager],
             promisedFarm: [farm],
@@ -176,7 +185,7 @@ describe('Sale Tests', () => {
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+        const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
           {
             promisedUser: [unAuthorizedUser],
             promisedFarm: [farmunAuthorizedUser],
@@ -185,59 +194,54 @@ describe('Sale Tests', () => {
         );
       });
 
-      test('Owner should get sale by farm id', async (done) => {
-        getRequest({ user_id: owner.user_id }, (err, res) => {
+      test('Owner should get sale by farm id', async () => {
+        await getRequest({ user_id: owner.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
           expect(res.body[0].crop_variety_sale.length).toBe(2);
           expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(
             cropVariety1.crop_variety_id,
           );
-          done();
         });
       });
 
-      test('Manager should get sale by farm id', async (done) => {
-        getRequest({ user_id: manager.user_id }, (err, res) => {
+      test('Manager should get sale by farm id', async () => {
+        await getRequest({ user_id: manager.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
           expect(res.body[0].crop_variety_sale.length).toBe(2);
           expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(
             cropVariety1.crop_variety_id,
           );
-          done();
         });
       });
 
-      test('Worker should get sale by farm id', async (done) => {
-        getRequest({ user_id: newWorker.user_id }, (err, res) => {
+      test('Worker should get sale by farm id', async () => {
+        await getRequest({ user_id: newWorker.user_id }, (_err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
           expect(res.body[0].crop_variety_sale.length).toBe(2);
           expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(
             cropVariety1.crop_variety_id,
           );
-          done();
         });
       });
 
-      test('Should get status 403 if an unauthorizedUser tries to get sale by farm id', async (done) => {
-        getRequest({ user_id: unAuthorizedUser.user_id }, (err, res) => {
+      test('Should get status 403 if an unauthorizedUser tries to get sale by farm id', async () => {
+        await getRequest({ user_id: unAuthorizedUser.user_id }, (_err, res) => {
           expect(res.status).toBe(403);
-          done();
         });
       });
 
-      test('Circumvent authorization by modifying farm_id', async (done) => {
-        getRequest(
+      test('Circumvent authorization by modifying farm_id', async () => {
+        await getRequest(
           {
             user_id: unAuthorizedUser.user_id,
             farm_id: farmunAuthorizedUser.farm_id,
             farm_id_in_params: farm.farm_id,
           },
-          (err, res) => {
+          (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
@@ -248,7 +252,7 @@ describe('Sale Tests', () => {
         let newWorker;
         let workerFarm;
         let manager;
-        let managerFarm;
+        let _managerFarm;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
@@ -262,7 +266,7 @@ describe('Sale Tests', () => {
             fakeUserFarm(3),
           );
           [manager] = await mocks.usersFactory();
-          [managerFarm] = await mocks.userFarmFactory(
+          [_managerFarm] = await mocks.userFarmFactory(
             {
               promisedUser: [manager],
               promisedFarm: [farm],
@@ -272,7 +276,7 @@ describe('Sale Tests', () => {
 
           [unAuthorizedUser] = await mocks.usersFactory();
           [farmunAuthorizedUser] = await mocks.farmFactory();
-          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+          const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
             {
               promisedUser: [unAuthorizedUser],
               promisedFarm: [farmunAuthorizedUser],
@@ -281,8 +285,8 @@ describe('Sale Tests', () => {
           );
         });
 
-        test('Owner should delete a sale', async (done) => {
-          deleteRequest({ sale_id: sale.sale_id }, async (err, res) => {
+        test('Owner should delete a sale', async () => {
+          await deleteRequest({ sale_id: sale.sale_id }, async (_err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel
               .query()
@@ -292,32 +296,33 @@ describe('Sale Tests', () => {
             expect(saleRes[0].deleted).toBe(true);
             // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
             // expect(saleRes.length).toBe(0);
-            done();
           });
         });
 
-        test('Manager should delete a sale', async (done) => {
-          deleteRequest({ user_id: manager.user_id, sale_id: sale.sale_id }, async (err, res) => {
-            expect(res.status).toBe(200);
-            const saleRes = await saleModel
-              .query()
-              .context({ showHidden: true })
-              .where('sale_id', sale.sale_id);
-            expect(saleRes.length).toBe(1);
-            expect(saleRes[0].deleted).toBe(true);
-            done();
-          });
+        test('Manager should delete a sale', async () => {
+          await deleteRequest(
+            { user_id: manager.user_id, sale_id: sale.sale_id },
+            async (_err, res) => {
+              expect(res.status).toBe(200);
+              const saleRes = await saleModel
+                .query()
+                .context({ showHidden: true })
+                .where('sale_id', sale.sale_id);
+              expect(saleRes.length).toBe(1);
+              expect(saleRes[0].deleted).toBe(true);
+            },
+          );
         });
 
-        test('Worker should delete their own sale', async (done) => {
-          let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-          let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({
+        test('Worker should delete their own sale', async () => {
+          const [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+          const [_workersCropVarietySale] = await mocks.crop_variety_saleFactory({
             promisedVarietyCrop: [cropVariety],
             promisedSale: [workersSale],
           });
-          deleteRequest(
+          await deleteRequest(
             { user_id: newWorker.user_id, sale_id: workersSale.sale_id },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(200);
               const saleRes = await saleModel
                 .query()
@@ -327,41 +332,40 @@ describe('Sale Tests', () => {
               expect(saleRes[0].deleted).toBe(true);
               // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
               // expect(saleRes.length).toBe(0);
-              done();
             },
           );
         });
 
-        test('should return 403 if an unauthorized user tries to delete a sale', async (done) => {
-          deleteRequest(
+        test('should return 403 if an unauthorized user tries to delete a sale', async () => {
+          await deleteRequest(
             {
               user_id: unAuthorizedUser.user_id,
               sale_id: sale.sale_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
 
-        test('should return 403 if a worker tries to delete a sale', async (done) => {
-          deleteRequest({ user_id: newWorker.user_id, sale_id: sale.sale_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+        test('should return 403 if a worker tries to delete a sale', async () => {
+          await deleteRequest(
+            { user_id: newWorker.user_id, sale_id: sale.sale_id },
+            async (_err, res) => {
+              expect(res.status).toBe(403);
+            },
+          );
         });
 
-        test('Circumvent authorization by modifying farm_id', async (done) => {
-          deleteRequest(
+        test('Circumvent authorization by modifying farm_id', async () => {
+          await deleteRequest(
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser.farm_id,
               sale_id: sale.sale_id,
             },
-            async (err, res) => {
+            async (_err, res) => {
               expect(res.status).toBe(403);
-              done();
             },
           );
         });
@@ -374,13 +378,13 @@ describe('Sale Tests', () => {
     let crop2;
     let cropVariety2;
     let someoneElsecrop;
-    let someoneElseVariety;
+    let _someoneElseVariety;
     let cropSaleRevenueType;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
       [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop2] });
       [someoneElsecrop] = await mocks.cropFactory();
-      [someoneElseVariety] = await mocks.crop_varietyFactory({ promisedCrop: [someoneElsecrop] });
+      [_someoneElseVariety] = await mocks.crop_varietyFactory({ promisedCrop: [someoneElsecrop] });
 
       cropSaleRevenueType = await revenueTypeModel
         .query()
@@ -404,57 +408,52 @@ describe('Sale Tests', () => {
       };
     });
 
-    test('Should return 400 if crop_variety_sale is undefined', async (done) => {
+    test('Should return 400 if crop_variety_sale is undefined', async () => {
       sampleReqBody.crop_variety_sale = undefined;
-      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('Should return 400 if crop_variety_sale is empty[]', async (done) => {
+    test('Should return 400 if crop_variety_sale is empty[]', async () => {
       sampleReqBody.crop_variety_sale = [];
-      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('Should return 400 if crop_variety_sale is empty[{}]', async (done) => {
+    test('Should return 400 if crop_variety_sale is empty[{}]', async () => {
       sampleReqBody.crop_variety_sale = [{}];
-      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('Should return 400 if crop_variety_id is invalid', async (done) => {
+    test('Should return 400 if crop_variety_id is invalid', async () => {
       sampleReqBody.crop_variety_sale[0].crop_variety_id = 9999999;
-      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
     // TODO: Edge case.
-    // test('Should return 403 if crop_id references a crop that the user does not have access to', async (done) => {
+    // test('Should return 403 if crop_id references a crop that the user does not have access to', async () => {
     //   sampleReqBody.cropSale[0].crop_id = someoneElsecrop.crop_id;
-    //   postSaleRequest(sampleReqBody, {}, async (err, res) => {
+    //   await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
     //     expect(res.status).toBe(403);
-    //     done();
+    //
     //   })
     // });
 
-    test('Should return 400 if body.crop_variety_sale[i].crop exist', async (done) => {
+    test('Should return 400 if body.crop_variety_sale[i].crop exist', async () => {
       delete sampleReqBody.crop_variety_sale[0].crop_variety_id;
       sampleReqBody.crop_variety_sale[0].crop_variety = {
         ...mocks.fakeCropVariety(),
         farm_id: farm.farm_id,
       };
       // Should not allow upsertGraph to post new farm/crop/managementPlan through post sale request
-      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
@@ -466,7 +465,7 @@ describe('Sale Tests', () => {
 
       beforeEach(async () => {
         [worker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory(
+        const [_workerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [worker],
             promisedFarm: [farm],
@@ -474,7 +473,7 @@ describe('Sale Tests', () => {
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory(
+        const [_managerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [manager],
             promisedFarm: [farm],
@@ -484,7 +483,7 @@ describe('Sale Tests', () => {
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
+        const [_ownerFarmunAuthorizedUser] = await mocks.userFarmFactory(
           {
             promisedUser: [unAuthorizedUser],
             promisedFarm: [farmunAuthorizedUser],
@@ -493,8 +492,8 @@ describe('Sale Tests', () => {
         );
       });
 
-      test('Owner should post and get a valid crop', async (done) => {
-        postSaleRequest(sampleReqBody, {}, async (err, res) => {
+      test('Owner should post and get a valid crop', async () => {
+        await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
           expect(res.status).toBe(201);
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
@@ -507,12 +506,11 @@ describe('Sale Tests', () => {
           expect(cropVarietySales[1].crop_variety_id).toBe(
             sampleReqBody.crop_variety_sale[1].crop_variety_id,
           );
-          done();
         });
       });
 
-      test('Manager should post and get a valid crop', async (done) => {
-        postSaleRequest(sampleReqBody, { user_id: manager.user_id }, async (err, res) => {
+      test('Manager should post and get a valid crop', async () => {
+        await postSaleRequest(sampleReqBody, { user_id: manager.user_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
@@ -525,12 +523,11 @@ describe('Sale Tests', () => {
           expect(cropVarietySales[1].crop_variety_id).toBe(
             sampleReqBody.crop_variety_sale[1].crop_variety_id,
           );
-          done();
         });
       });
 
-      test('Worker should post and get a valid crop', async (done) => {
-        postSaleRequest(sampleReqBody, { user_id: worker.user_id }, async (err, res) => {
+      test('Worker should post and get a valid crop', async () => {
+        await postSaleRequest(sampleReqBody, { user_id: worker.user_id }, async (_err, res) => {
           expect(res.status).toBe(201);
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
@@ -543,11 +540,10 @@ describe('Sale Tests', () => {
           expect(cropVarietySales[1].crop_variety_id).toBe(
             sampleReqBody.crop_variety_sale[1].crop_variety_id,
           );
-          done();
         });
       });
 
-      const testGeneralSale = async (done, userId) => {
+      const testGeneralSale = async (userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
           properties: { agriculture_associated: null, crop_generated: false },
@@ -557,7 +553,7 @@ describe('Sale Tests', () => {
         sampleReqBody.note = 'notes';
         sampleReqBody.revenue_type_id = revenue_type_id;
 
-        postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
+        await postSaleRequest(sampleReqBody, { user_id: userId }, async (_err, res) => {
           expect(res.status).toBe(201);
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
@@ -565,40 +561,43 @@ describe('Sale Tests', () => {
           expect(sales[0].value).toBe(sampleReqBody.value);
           expect(sales[0].note).toBe(sampleReqBody.note);
           expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
-          done();
         });
       };
 
-      test(`Owner should post and get a general sale`, async (done) => {
-        testGeneralSale(done, owner.userId);
+      test(`Owner should post and get a general sale`, async () => {
+        await testGeneralSale(owner.userId);
       });
 
-      test(`Manager should post and get a general sale`, async (done) => {
-        testGeneralSale(done, manager.userId);
+      test(`Manager should post and get a general sale`, async () => {
+        await testGeneralSale(manager.userId);
       });
 
-      test(`Worker should post and get a general sale`, async (done) => {
-        testGeneralSale(done, worker.userId);
+      test(`Worker should post and get a general sale`, async () => {
+        await testGeneralSale(worker.userId);
       });
 
-      test('should return 403 status if sale is posted by unauthorized user', async (done) => {
-        postSaleRequest(sampleReqBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe('User does not have the following permission(s): add:sales');
-          done();
-        });
+      test('should return 403 status if sale is posted by unauthorized user', async () => {
+        await postSaleRequest(
+          sampleReqBody,
+          { user_id: unAuthorizedUser.user_id },
+          async (_err, res) => {
+            expect(res.status).toBe(403);
+            expect(res.error.text).toBe(
+              'User does not have the following permission(s): add:sales',
+            );
+          },
+        );
       });
 
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        postSaleRequest(
+      test('Circumvent authorization by modify farm_id', async () => {
+        await postSaleRequest(
           sampleReqBody,
           {
             user_id: unAuthorizedUser.user_id,
             farm_id: farmunAuthorizedUser.farm_id,
           },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });
@@ -610,7 +609,7 @@ describe('Sale Tests', () => {
     let sale;
     let cropVariety2;
     let cropVarietySale1;
-    let cropVarietySale2;
+    let _cropVarietySale2;
     let newCrop;
     let newCropVariety;
     let cropSaleRevenueType;
@@ -629,7 +628,7 @@ describe('Sale Tests', () => {
         promisedCropVariety: [cropVariety],
         promisedSale: [sale],
       });
-      [cropVarietySale2] = await mocks.crop_variety_saleFactory({
+      [_cropVarietySale2] = await mocks.crop_variety_saleFactory({
         promisedCropVariety: [cropVariety2],
         promisedSale: [sale],
       });
@@ -663,7 +662,7 @@ describe('Sale Tests', () => {
       };
     });
 
-    test('Should return 400 if more than one crop_variety_sale with duplicate sale_id and crop_variety_id pair (pkey violation)', async (done) => {
+    test('Should return 400 if more than one crop_variety_sale with duplicate sale_id and crop_variety_id pair (pkey violation)', async () => {
       patchData.crop_variety_sale = [
         {
           crop_variety_id: cropVariety2.crop_variety_id,
@@ -678,17 +677,15 @@ describe('Sale Tests', () => {
           sale_value: cropVarietySale1.sale_value + 5,
         },
       ];
-      patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+      await patchRequest(patchData, sale.sale_id, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
-    test('Should return 400 if there are no crop variety sales in patch data', async (done) => {
+    test('Should return 400 if there are no crop variety sales in patch data', async () => {
       patchData.crop_variety_sale = [];
-      patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+      await patchRequest(patchData, sale.sale_id, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-        done();
       });
     });
 
@@ -696,10 +693,10 @@ describe('Sale Tests', () => {
       let worker;
       let workerFarm;
       let manager;
-      let managerFarm;
+      let _managerFarm;
       let unauthorizedUser;
       let otherFarm;
-      let unauthorizedUserFarm;
+      let _unauthorizedUserFarm;
 
       beforeEach(async () => {
         [worker] = await mocks.usersFactory();
@@ -711,7 +708,7 @@ describe('Sale Tests', () => {
           fakeUserFarm(3),
         );
         [manager] = await mocks.usersFactory();
-        [managerFarm] = await mocks.userFarmFactory(
+        [_managerFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [manager],
             promisedFarm: [farm],
@@ -721,7 +718,7 @@ describe('Sale Tests', () => {
 
         [unauthorizedUser] = await mocks.usersFactory();
         [otherFarm] = await mocks.farmFactory();
-        [unauthorizedUserFarm] = await mocks.userFarmFactory(
+        [_unauthorizedUserFarm] = await mocks.userFarmFactory(
           {
             promisedUser: [unauthorizedUser],
             promisedFarm: [otherFarm],
@@ -730,8 +727,8 @@ describe('Sale Tests', () => {
         );
       });
 
-      test('Owner should patch a sale', async (done) => {
-        patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+      test('Owner should patch a sale', async () => {
+        await patchRequest(patchData, sale.sale_id, {}, async (_err, res) => {
           expect(res.status).toBe(200);
           const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
           expect(saleRes.customer_name).toBe(patchData.customer_name);
@@ -746,45 +743,48 @@ describe('Sale Tests', () => {
               patchData.crop_variety_sale[i].sale_value,
             );
           }
-          done();
         });
       });
 
-      test('Manager should patch a sale', async (done) => {
-        patchRequest(patchData, sale.sale_id, { user_id: manager.user_id }, async (err, res) => {
-          expect(res.status).toBe(200);
-          const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
-          expect(saleRes.customer_name).toBe(patchData.customer_name);
+      test('Manager should patch a sale', async () => {
+        await patchRequest(
+          patchData,
+          sale.sale_id,
+          { user_id: manager.user_id },
+          async (_err, res) => {
+            expect(res.status).toBe(200);
+            const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+            expect(saleRes.customer_name).toBe(patchData.customer_name);
 
-          const cropVarietySaleRes = await cropVarietySaleModel
-            .query()
-            .where('sale_id', sale.sale_id);
-          expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
-          for (var i = 0; i < cropVarietySaleRes.length; i++) {
-            expect(cropVarietySaleRes[i].quantity).toBe(patchData.crop_variety_sale[i].quantity);
-            expect(cropVarietySaleRes[i].sale_value).toBe(
-              patchData.crop_variety_sale[i].sale_value,
-            );
-          }
-          done();
-        });
+            const cropVarietySaleRes = await cropVarietySaleModel
+              .query()
+              .where('sale_id', sale.sale_id);
+            expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
+            for (var i = 0; i < cropVarietySaleRes.length; i++) {
+              expect(cropVarietySaleRes[i].quantity).toBe(patchData.crop_variety_sale[i].quantity);
+              expect(cropVarietySaleRes[i].sale_value).toBe(
+                patchData.crop_variety_sale[i].sale_value,
+              );
+            }
+          },
+        );
       });
 
-      test('Worker should patch a sale that they created', async (done) => {
-        let [workersSale] = await mocks.saleFactory(
+      test('Worker should patch a sale that they created', async () => {
+        const [workersSale] = await mocks.saleFactory(
           { promisedUserFarm: [workerFarm] },
           mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
         );
-        let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({
+        const [_workersCropVarietySale] = await mocks.crop_variety_saleFactory({
           promisedCropVariety: [cropVariety],
           promisedSale: [workersSale],
         });
 
-        patchRequest(
+        await patchRequest(
           patchData,
           workersSale.sale_id,
           { user_id: worker.user_id },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
             expect(saleRes.customer_name).toBe(patchData.customer_name);
@@ -799,26 +799,28 @@ describe('Sale Tests', () => {
                 patchData.crop_variety_sale[i].sale_value,
               );
             }
-            done();
           },
         );
       });
 
-      test("Should return 403 if worker tries to patch another member's sale", async (done) => {
-        patchRequest(patchData, sale.sale_id, { user_id: worker.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
+      test("Should return 403 if worker tries to patch another member's sale", async () => {
+        await patchRequest(
+          patchData,
+          sale.sale_id,
+          { user_id: worker.user_id },
+          async (_err, res) => {
+            expect(res.status).toBe(403);
+          },
+        );
       });
 
-      test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
-        patchRequest(
+      test('Should return 403 if unauthorized user tries to patch sale', async () => {
+        await patchRequest(
           patchData,
           sale.sale_id,
           { user_id: unauthorizedUser.user_id },
-          async (err, res) => {
+          async (_err, res) => {
             expect(res.status).toBe(403);
-            done();
           },
         );
       });

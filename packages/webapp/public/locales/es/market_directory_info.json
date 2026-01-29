@@ -1,0 +1,14 @@
+{
+  "MARKET_PRODUCT_CATEGORY": {
+    "ALCOHOLIC_BEVERAGE": "Bebidas Alcohólicas",
+    "BAKERY": "Productos de Reposteria",
+    "DAIRY_PRODUCT": "Productos lácteos",
+    "EGG": "Huevos",
+    "FLOWER": "Flores",
+    "FROZEN": "Alimentos congelados",
+    "FRUIT": "Frutas",
+    "MEAT_PRODUCT": "Productos de Carne",
+    "PLANT": "Plantas en macetas y plántulas",
+    "VEGETABLE": "Vegetales"
+  }
+}

@@ -162,13 +162,12 @@ const GeneralDetails = ({
         <>
           <LockedInput
             label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
-            placeholder={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
+            value={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
           />
         </>
       )}
       {animalOrBatch === AnimalOrBatchKeys.BATCH && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
@@ -225,7 +224,6 @@ const GeneralDetails = ({
       />
       {isOtherUseSelected && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}

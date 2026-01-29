@@ -30,6 +30,9 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
     }),
   ],
   build: {
@@ -43,6 +46,7 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../shared'),
       '@components': path.resolve(__dirname, './src/components'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      '@navStyles': path.resolve(__dirname, './src/containers/Navigation/styles.module.scss'),
     },
   },
 });

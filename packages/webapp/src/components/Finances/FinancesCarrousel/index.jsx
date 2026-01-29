@@ -51,6 +51,7 @@ const FinancesCarrousel = ({
   estimatedRevenue,
   currencySymbol,
   history,
+  isOffline,
 }) => {
   const { t } = useTranslation();
 
@@ -87,7 +88,8 @@ const FinancesCarrousel = ({
       activeContent: (
         <div className={clsx([styles.cardContent, styles.profitLossCardContent])}>
           <div className={styles.revenueExpensesContainer}>
-            <TextButton
+            <TextButtonWrapper
+              isOffline={isOffline}
               className={clsx([styles.revenueContainer, styles.clickableContainer])}
               onClick={() => history.push(ACTUAL_REVENUE_URL)}
             >
@@ -100,7 +102,7 @@ const FinancesCarrousel = ({
                 </span>
               </span>
               <BsChevronRight width={16} height={16} />
-            </TextButton>
+            </TextButtonWrapper>
             <div className={styles.expenseContainer}>
               <Text className={styles.expenseTitle}>{t('SALE.FINANCES.TOTAL_EXPENSES')}</Text>
               <p className={clsx([styles.stat, styles.expenseStat])}>
@@ -167,7 +169,8 @@ const FinancesCarrousel = ({
             </div>
           </div>
           <div className={styles.expensesStatsContainer}>
-            <TextButton
+            <TextButtonWrapper
+              isOffline={isOffline}
               className={clsx([styles.labourExpensesContainer, styles.clickableContainer])}
               onClick={() => history.push(LABOUR_URL)}
             >
@@ -182,8 +185,9 @@ const FinancesCarrousel = ({
                 </span>
               </span>
               <BsChevronRight width={16} height={16} />
-            </TextButton>
-            <TextButton
+            </TextButtonWrapper>
+            <TextButtonWrapper
+              isOffline={isOffline}
               className={clsx([styles.otherExpensesContainer, styles.clickableContainer])}
               onClick={() => history.push(OTHER_EXPENSE_URL)}
             >
@@ -196,7 +200,7 @@ const FinancesCarrousel = ({
                 </span>
               </span>
               <BsChevronRight width={16} height={16} />
-            </TextButton>
+            </TextButtonWrapper>
           </div>
         </div>
       ),
@@ -225,7 +229,8 @@ const FinancesCarrousel = ({
             aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
             className={styles.harvestRevenueActive}
           />
-          <TextButton
+          <TextButtonWrapper
+            isOffline={isOffline}
             className={clsx([styles.estimatedRevenueContainer, styles.clickableContainer])}
             onClick={() => history.push(ESTIMATED_REVENUE_URL)}
           >
@@ -240,7 +245,7 @@ const FinancesCarrousel = ({
               </span>
             </span>
             <BsChevronRight width={16} height={16} />
-          </TextButton>
+          </TextButtonWrapper>
         </div>
       ),
       note: t('SALE.FINANCES.CARROUSEL_TEXT.ESTIMATED_REVENUE'),
@@ -262,3 +267,15 @@ FinancesCarrousel.propTypes = {
 };
 
 export default FinancesCarrousel;
+
+const TextButtonWrapper = ({ children, onClick, className, isOffline }) => {
+  if (isOffline) {
+    return <div className={clsx(className, styles.cardContentOfflineButton)}>{children}</div>;
+  }
+
+  return (
+    <TextButton onClick={onClick} className={className}>
+      {children}
+    </TextButton>
+  );
+};

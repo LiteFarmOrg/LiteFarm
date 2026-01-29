@@ -182,8 +182,29 @@ export default {
     return await model.$fetchGraph(subModel.tableName);
   },
 
-  // insert object and insert, update, or delete related objects
-  // see http://vincit.github.io/objection.js/#graph-upserts
+  /**
+   * Upserts a graph of related records (insert or update + relations) while automatically injecting
+   * the authenticated user’s ID into the Objection query context (used for audit columns created_by/updated_by).
+   *
+   * This is LiteFarm’s canonical safe wrapper around Objection’s `upsertGraph`:
+   *   • Strips any properties not defined on the model or its relations (prevents silent data loss)
+   *   • Guarantees `context.user_id` is set from the request (audit trail)
+   *   • Forces `{ insertMissing: true }` so missing related rows are created
+   *   • Supports an optional Knex transaction (`trx`) when you need atomicity
+   *
+   * @template {import('objection').Model} T
+   *
+   * @param {new () => T} model                         - Objection Model class (e.g. AnimalModel, TaskModel, etc.)
+   * @param {Object|Array<Object>} data                 - Graph payload – a single instance or an array of instances
+   * @param {Object} req                                - Express request (provides req.auth?.user_id)
+   * @param {Object} [options]                          - Optional options
+   * @param {import('knex').Transaction} [options.trx]       - Optional Knex transaction
+   * @param {Object} [options.context={}]               - Additional values to merge into the query context
+   *
+   * @returns {Promise<T|T[]>} The upserted model instance(s) returned by Objection
+   *
+   * @see http://vincit.github.io/objection.js/#graph-upserts
+   */
   async upsertGraph(model, data, req, { trx, context = {} } = {}) {
     return await model
       .query(trx)

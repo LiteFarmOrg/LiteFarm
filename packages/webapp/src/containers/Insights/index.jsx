@@ -13,12 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, Component, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 // images
+import tape_survey from '../../assets/images/insights/tape_survey.svg';
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
 import biodiversity from '../../assets/images/insights/biodiversity.svg';
@@ -33,6 +34,7 @@ import {
   pricesSelector,
   soilOMSelector,
 } from './selectors';
+import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
@@ -42,6 +44,7 @@ import { Semibold, Text, Title } from '../../components/Typography';
 const Insights = () => {
   const history = useHistory();
   const farm = useSelector(userFarmSelector);
+  const tapeStatus = useSelector(tapeSurveyStatusSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
@@ -52,6 +55,12 @@ const Insights = () => {
   const { t } = useTranslation();
 
   const items = [
+    {
+      label: t('INSIGHTS.TAPE.TITLE'),
+      image: tape_survey,
+      route: tapeStatus.isCompleted ? 'tape/results' : 'tape',
+      data_point: 'TAPE',
+    },
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -100,7 +109,7 @@ const Insights = () => {
           alt={item.label}
         />
         <div className={`itemText item-${index} ${styles.itemText}`}>
-          <Semibold>{item.label}</Semibold>
+          <Semibold className={styles.itemTitle}>{item.label}</Semibold>
           {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
             <Text>{currentData}</Text>
           ) : (
@@ -115,6 +124,11 @@ const Insights = () => {
 
   const insightData = useMemo(() => {
     const insightData = {};
+    insightData['TAPE'] = tapeStatus.isCompleted
+      ? t('INSIGHTS.TAPE.COMPLETED')
+      : tapeStatus.hasData
+      ? t('INSIGHTS.TAPE.IN_PROGRESS')
+      : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -124,7 +138,7 @@ const Insights = () => {
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');
     return insightData;
-  }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
+  }, [tapeStatus, soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
   const renderedItems = useMemo(() => {
     return (
@@ -149,8 +163,7 @@ const Insights = () => {
           />
         </div>
       </div>
-      <hr style={{ marginBottom: '0px' }} />
-      <hr className={styles.defaultLineWithNoMarginTop} />
+      <hr className={styles.defaultLine} />
       {renderedItems}
     </div>
   );

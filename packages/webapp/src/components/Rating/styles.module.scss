@@ -17,10 +17,13 @@ button {
 
 .labelContainer {
   display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
   gap: 8px;
+  margin-bottom: 4px;
 }
 
 .gap8px {
   display: flex;
-  gap: 8px
+  gap: 8px;
 }

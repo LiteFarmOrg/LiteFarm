@@ -93,8 +93,8 @@ export default function useNumberInput({
     const stepDecimalPlaces = countDecimalPlaces(step);
     const options: Intl.NumberFormatOptions = {
       useGrouping,
-      minimumFractionDigits: !allowDecimal ? undefined : (decimalDigits ?? stepDecimalPlaces),
-      maximumFractionDigits: !allowDecimal ? 0 : (decimalDigits ?? (stepDecimalPlaces || 20)),
+      minimumFractionDigits: !allowDecimal ? undefined : decimalDigits ?? stepDecimalPlaces,
+      maximumFractionDigits: !allowDecimal ? 0 : decimalDigits ?? (stepDecimalPlaces || 20),
     };
 
     return createNumberFormatter(locale, options);

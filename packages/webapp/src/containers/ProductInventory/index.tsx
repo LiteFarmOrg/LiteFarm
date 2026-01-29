@@ -24,18 +24,22 @@ import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg'
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';
-import { productsSelector } from '../productSlice';
-import { Product } from '../../store/api/types';
+import { productInventorySelector } from '../productSlice';
+import { Product, SoilAmendmentProduct } from '../../store/api/types';
 import { TASK_TYPES } from '../Task/constants';
 import { SearchProps } from '../../components/Animals/Inventory';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import Cell from '../../components/Table/Cell';
 import { CellKind } from '../../components/Table/types';
 import ProductForm from './ProductForm';
+import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filterSlice';
+import { useFilteredInventory } from './useFilteredInventory';
+import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
+import BetaSpotlight from '../Spotlights/BetaSpotlight';
 
-export type TableProduct = Product & {
+export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
-  isLibraryProduct: boolean;
+  // LF-4970 - isLibraryProduct: boolean;
 };
 
 const PRODUCT_TYPE_LABELS: Partial<Record<Product['type'], string>> = {
@@ -59,11 +63,13 @@ export default function ProductInventory() {
 
   const zIndexBase = theme.zIndex.drawer;
 
+  const sectionHeaderTitle = useSectionHeader(history.location.pathname) || '';
+
   useEffect(() => {
     dispatch(getProducts());
   }, []);
 
-  const productInventory = useSelector(productsSelector);
+  const productInventory = useSelector(productInventorySelector);
 
   const inventory = productInventory
     .filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT)
@@ -71,12 +77,14 @@ export default function ProductInventory() {
     .map((product) => ({
       ...product,
       id: product.product_id,
-      /* Placeholder until library products are defined */
-      isLibraryProduct: product.product_id % 2 === 0,
+      /* LF-4970 - Placeholder until library products are defined */
+      // isLibraryProduct: product.product_id % 2 === 0,
     }));
 
-  // Complete placeholder for actual filter state
-  const [filtersActive, setFiltersActive] = useState(true);
+  const filteredInventory = useFilteredInventory(inventory);
+  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('inventory'));
+  const clearFilters = () => dispatch(resetInventoryFilter());
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<FormMode | null>(null);
   const [productFormType, setProductFormType] = useState<Product['type'] | null>(null);
@@ -90,7 +98,7 @@ export default function ProductInventory() {
   };
 
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
-    inventory,
+    filteredInventory,
     makeProductsSearchableString,
   ) as [TableProduct[], SearchProps['searchString'], SearchProps['setSearchString']];
 
@@ -128,7 +136,7 @@ export default function ProductInventory() {
             // Custom JSX used over <IconCell /> to reduce style override complexity
             <div className={styles.nameContainer}>
               <div className={styles.nameAndIcon}>
-                {d.isLibraryProduct && <BookIcon />}
+                {/* LF-4970 {d.isLibraryProduct && <BookIcon />} */}
                 <span className={styles.name}>{d.name}</span>
               </div>
               <span className={styles.supplierMobile}>{d.supplier}</span>
@@ -178,37 +186,43 @@ export default function ProductInventory() {
   };
 
   return (
-    <FixedHeaderContainer
-      header={null}
-      classes={{ paper: animalInventoryStyles.paper, divWrapper: animalInventoryStyles.divWrapper }}
-      kind={ContainerKind.PAPER}
-    >
-      <PureProductInventory
-        filteredInventory={searchAndFilteredInventory}
-        searchProps={searchProps}
-        zIndexBase={zIndexBase}
-        isDesktop={isDesktop}
-        totalInventoryCount={totalInventoryCount}
-        isFilterActive={filtersActive}
-        clearFilters={() => setFiltersActive(false)}
-        history={history}
-        showActionFloaterButton={
-          /* placeholder. Eventually button should be hid when form is open */
-          true
-        }
-        productColumns={productColumns}
-        selectedIds={selectedIds}
-        onRowClick={handleRowClick}
-        onAddMenuItemClick={onAddMenuItemClick}
-      />
-      <ProductForm
-        isFormOpen={isFormOpen}
-        productFormType={productFormType}
-        mode={formMode}
-        productId={selectedIds?.[0] || undefined}
-        onActionButtonClick={onFormActionButtonClick}
-        onCancel={onCancel}
-      />
-    </FixedHeaderContainer>
+    <BetaSpotlight spotlight={'inventory_beta'}>
+      <FixedHeaderContainer
+        header={null}
+        classes={{
+          paper: animalInventoryStyles.paper,
+          divWrapper: animalInventoryStyles.divWrapper,
+        }}
+        kind={ContainerKind.PAPER}
+      >
+        <PureProductInventory
+          filteredInventory={searchAndFilteredInventory}
+          searchProps={searchProps}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          totalInventoryCount={totalInventoryCount}
+          isFilterActive={isFilterActive}
+          clearFilters={clearFilters}
+          history={history}
+          showActionFloaterButton={
+            /* placeholder. Eventually button should be hid when form is open */
+            true
+          }
+          productColumns={productColumns}
+          selectedIds={selectedIds}
+          onRowClick={handleRowClick}
+          onAddMenuItemClick={onAddMenuItemClick}
+          sectionHeaderTitle={sectionHeaderTitle}
+        />
+        <ProductForm
+          isFormOpen={isFormOpen}
+          productFormType={productFormType}
+          mode={formMode}
+          productId={selectedIds?.[0] || undefined}
+          onActionButtonClick={onFormActionButtonClick}
+          onCancel={onCancel}
+        />
+      </FixedHeaderContainer>
+    </BetaSpotlight>
   );
 }

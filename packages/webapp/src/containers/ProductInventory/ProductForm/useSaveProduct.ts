@@ -78,7 +78,8 @@ const useSaveProduct = ({ formMode, productFormType }: UseSaveProductProps) => {
 
   const onSave = async (
     data: SoilAmendmentProductFormAllFields,
-    callback: (product_id: ProductId) => void = () => {},
+    onSuccess: (product_id: ProductId) => void = () => {},
+    onError?: () => void,
   ) => {
     if (!formMode || !productFormType) {
       return;
@@ -105,6 +106,7 @@ const useSaveProduct = ({ formMode, productFormType }: UseSaveProductProps) => {
       console.error(e);
       const message = isNew ? t('message:PRODUCT.ERROR.CREATE') : t('message:PRODUCT.ERROR.UPDATE');
       dispatch(enqueueErrorSnackbar(message));
+      onError?.();
       return;
     }
 
@@ -115,7 +117,7 @@ const useSaveProduct = ({ formMode, productFormType }: UseSaveProductProps) => {
       dispatch(enqueueSuccessSnackbar(message));
 
       // Set product_id for the newly created product. Should be called after getProducts()
-      callback(result.product_id);
+      onSuccess(result.product_id);
     };
 
     dispatch(getProducts({ callback: onProductsFetched }));

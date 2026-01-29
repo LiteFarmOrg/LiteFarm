@@ -52,7 +52,6 @@ export default {
 
   integration: {
     client: 'postgresql',
-    debug: true,
     connection: {
       host: process.env.DEV_DATABASE_HOST,
       database: process.env.DEV_DATABASE,
@@ -66,7 +65,6 @@ export default {
 
   production: {
     client: 'postgresql',
-    debug: true,
     connection: process.env.DATABASE_URL,
     migrations,
     seeds,

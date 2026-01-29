@@ -24,9 +24,7 @@ import NoSearchResults from '../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../components/Button/ClearFiltersButton';
-// Placeholder
-import AnimalsFilter from '../../containers/Animals/AnimalsFilter';
-// ------
+import ProductInventoryFilter from '../../containers/ProductInventory/ProductFilter';
 import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import type { SearchProps } from '../Animals/Inventory';
@@ -35,6 +33,10 @@ import { TableKind } from '../Table/types';
 import { TableProduct } from '../../containers/ProductInventory';
 import { Product } from '../../store/api/types';
 import { TASK_TYPES } from '../../containers/Task/constants';
+import { Title } from '../Typography';
+import navStyles from '@navStyles';
+
+const TABLE_MIN_ROWS = 20;
 
 export type PureProductInventory = {
   filteredInventory: TableProduct[];
@@ -51,6 +53,7 @@ export type PureProductInventory = {
   selectedIds: number[];
   onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: TableProduct) => void;
   onAddMenuItemClick: (type: Product['type']) => void;
+  sectionHeaderTitle: string | React.ReactElement;
 };
 
 const PureProductInventory = ({
@@ -67,6 +70,7 @@ const PureProductInventory = ({
   selectedIds,
   onRowClick,
   onAddMenuItemClick,
+  sectionHeaderTitle,
 }: PureProductInventory) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -84,6 +88,7 @@ const PureProductInventory = ({
           styles.searchAndFilterCommon,
         )}
       >
+        <Title className={productInventoryStyles.sectionTitle}>{sectionHeaderTitle}</Title>
         <PureSearchBarWithBackdrop
           value={searchString}
           onChange={(e: any) => setSearchString(e.target.value)}
@@ -92,8 +97,7 @@ const PureProductInventory = ({
           isDesktop={isDesktop}
           className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
-        {/* placeholder filter! */}
-        <AnimalsFilter isFilterActive={isFilterActive} />
+        <ProductInventoryFilter isFilterActive={isFilterActive} />
         <div
           className={clsx(
             isDesktop ? styles.searchResultsDesktop : styles.searchResults,
@@ -110,7 +114,13 @@ const PureProductInventory = ({
             onClick={clearFilters}
           />
         </div>
-        {showActionFloaterButton && <FloatingButtonMenu type={'add'} Menu={AddProductMenuItems} />}
+        {showActionFloaterButton && (
+          <FloatingButtonMenu
+            classes={{ button: navStyles.hideWhenOffline }}
+            type={'add'}
+            Menu={AddProductMenuItems}
+          />
+        )}
       </div>
       <div
         className={clsx(isDesktop ? '' : styles.tableWrapper, productInventoryStyles.tableWrapper)}
@@ -121,7 +131,7 @@ const PureProductInventory = ({
             columns={productColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
-            minRows={totalInventoryCount}
+            minRows={TABLE_MIN_ROWS}
             dense={true}
             showHeader={isDesktop}
             selectedIds={selectedIds}

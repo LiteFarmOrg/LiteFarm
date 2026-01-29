@@ -13,13 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from '../../Form/ProductDetails';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { getSoilAmendmentFormValues } from '../../Form/ProductDetails/utils';
+// LF-4970
+// import { isLibraryProduct } from '../../../util/product';
 import { productDefaultValuesByType } from '../../../containers/ProductInventory/ProductForm/constants';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { PRODUCT_FIELD_NAMES } from '../../Task/AddSoilAmendmentProducts/types';
@@ -46,6 +48,7 @@ const PureSoilAmendmentProductForm = ({
     reset,
     setValue,
     setFocus,
+    trigger,
     formState: { errors },
   } = useFormContext();
 
@@ -70,6 +73,7 @@ const PureSoilAmendmentProductForm = ({
     if (mode === FormMode.DUPLICATE) {
       setValue(PRODUCT_ID, '');
       setValue(NAME, t('common:COPY_OF', { item: product?.[NAME] }));
+      trigger();
 
       setTimeout(() => {
         setFocus(NAME);
@@ -77,11 +81,13 @@ const PureSoilAmendmentProductForm = ({
     }
   }, [mode]);
 
-  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
+  const customProductNames = useMemo(() => {
+    // LF-4970 -> .filter((product) => !product.removed && !isLibraryProduct(product))
+    return products.filter((product) => !product.removed).map(({ name }) => name);
+  }, [products]);
 
   return (
     <div className={styles.soilAmendmentProductForm}>
-      {/* @ts-expect-error */}
       <Input
         name={NAME}
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
@@ -90,13 +96,16 @@ const PureSoilAmendmentProductForm = ({
           maxLength: hookFormMaxCharsValidation(255),
           setValueAs: (value) => value.trim(),
           validate: (value) => {
-            // Allow duplicate check to pass if keeping the original name during edit
-            if (
-              !(mode === FormMode.EDIT && value === product?.name) &&
-              productNames.includes(value)
-            ) {
+            // Allow duplicate check to pass if keeping the original name in EDIT or READ_ONLY mode.
+            // This validation is not re-run when switching from READ_ONLY to EDIT,
+            // so it needs to evaluate correctly in READ_ONLY mode as well.
+            const isOriginalName =
+              mode && [FormMode.EDIT, FormMode.READ_ONLY].includes(mode) && value === product?.name;
+
+            if (!isOriginalName && customProductNames.includes(value)) {
               return t('ADD_TASK.DUPLICATE_NAME');
             }
+            return true;
           },
         })}
         disabled={props.isReadOnly}

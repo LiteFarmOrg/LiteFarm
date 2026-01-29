@@ -84,14 +84,12 @@ describe('Animal Use Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   describe('Get animal use tests', () => {
@@ -110,9 +108,9 @@ describe('Animal Use Tests', () => {
         { defaultType: null, uses: [use1, use2, use3, use4, use5, use6, use7, use8] }, // for custom types
       ];
 
-      for (let { defaultType, uses } of testCase) {
+      for (const { defaultType, uses } of testCase) {
         if (defaultType) {
-          for (let use of uses) {
+          for (const use of uses) {
             await makeAnimalTypeUseRelationship(defaultType, use);
           }
         }

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
+@use '../../../assets/mixin' as *;
 
 .mainContent {
   margin: 0 auto;
@@ -78,38 +78,6 @@
   svg {
     color: var(--Colors-Accent---singles-Blue-full);
   }
-}
-
-.buttonText {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  // If core button styles change this will match icon
-  line-height: 16px;
-  > svg {
-    // Match line height of button
-    max-height: 16px;
-  }
-}
-
-.disableHover {
-  pointer-events: none;
-}
-
-.buttonText {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  // If core button styles change this will match icon
-  line-height: 16px;
-  > svg {
-    // Match line height of button
-    max-height: 16px;
-  }
-}
-
-.disableHover {
-  pointer-events: none;
 }
 
 .location {

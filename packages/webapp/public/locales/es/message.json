@@ -96,8 +96,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
-      "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total",
-      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha"
+      "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"
@@ -129,6 +128,24 @@
     "SUCCESS_PATCH": " actualizo/a con éxito.",
     "SUCCESS_POST": " creo/a con éxito."
   },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Fallo al guardar la informacion del directorio del mercado",
+      "UPDATE": "Fallo al actualizar la informacion del directorio del mercado"
+    },
+    "SUCCESS": {
+      "SAVE": "Información del directorio del mercado guardada correctamente",
+      "UPDATE": "Información del directorio del mercado actualizada correctamente",
+      "UPDATE_LIVE_DATA": "Se ha actualizado correctamente el Directorio de Mercado Info. Tus datos se actualizarán en menos de 24 horas."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Fallo al guardar la informacion del directorio del mercado",
+    "SUCCESS": {
+      "CONSENT": "Información del directorio del mercado guardada correctamente",
+      "PARTNER": "Se ha actualizado correctamente el Directorio de Mercado Info. Tus datos se actualizarán en menos de 24 horas."
+    }
+  },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
       "CREATE": "No se pudo crear la certificación.",
@@ -146,10 +163,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Error al crear el producto",
+      "REMOVE": "Fallo al remover el producto",
       "UPDATE": "Error al actualizar el producto"
     },
     "SUCCESS": {
       "CREATE": "Producto creado con éxito",
+      "REMOVE": "Producto removido exitosamente",
       "UPDATE": "Producto actualizado con éxito"
     }
   },

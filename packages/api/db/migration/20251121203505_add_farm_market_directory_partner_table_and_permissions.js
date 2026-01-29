@@ -1,0 +1,62 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async (knex) => {
+  await knex.schema.createTable('market_directory_partner_permissions', (table) => {
+    table.uuid('market_directory_info_id').references('id').inTable('market_directory_info');
+    table
+      .integer('market_directory_partner_id')
+      .references('id')
+      .inTable('market_directory_partner');
+    table.boolean('deleted').notNullable().defaultTo(false);
+    table
+      .string('created_by_user_id')
+      .references('user_id')
+      .inTable('users')
+      .notNullable()
+      .defaultTo(1);
+    table
+      .string('updated_by_user_id')
+      .references('user_id')
+      .inTable('users')
+      .notNullable()
+      .defaultTo(1);
+    table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+    table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+
+    table.primary(['market_directory_info_id', 'market_directory_partner_id']);
+  });
+
+  // Store the consent checkbox state
+  await knex.schema.alterTable('market_directory_info', (table) => {
+    table.boolean('consented_to_share').notNullable().defaultTo(false);
+  });
+};
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async (knex) => {
+  await knex.schema.alterTable('market_directory_info', (table) => {
+    table.dropColumn('consented_to_share');
+  });
+
+  await knex.schema.dropTable('market_directory_partner_permissions');
+};

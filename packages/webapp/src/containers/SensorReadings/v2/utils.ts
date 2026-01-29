@@ -132,7 +132,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : (data[dataKey] ?? null);
+          : data[dataKey] ?? null;
 
       return { ...acc, [dataKey]: value };
     },

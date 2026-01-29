@@ -14,25 +14,14 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import LockedInputRHF from '../../../components/Form/LockedInput';
+import LockedInput from '../../../components/Form/LockedInput';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { FormProvider, useForm } from 'react-hook-form';
 
-const meta: Meta<typeof LockedInputRHF> = {
+const meta: Meta<typeof LockedInput> = {
   title: 'Components/LockedInput',
-  component: LockedInputRHF,
+  component: LockedInput,
   args: {},
-  decorators: [
-    ...componentDecorators,
-    (Story) => {
-      const methods = useForm({});
-      return (
-        <FormProvider {...methods}>
-          <Story />
-        </FormProvider>
-      );
-    },
-  ],
+  decorators: componentDecorators,
 };
 
 export default meta;
@@ -40,8 +29,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { label: 'Locked', placeholder: 'Test' },
+  args: { label: 'Locked', value: 'Test' },
   render: (args) => {
-    return <LockedInputRHF {...args} />;
+    return <LockedInput {...args} />;
   },
 };

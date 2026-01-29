@@ -5,7 +5,7 @@ import {
   TourProvider,
   ProviderProps,
 } from '@reactour/tour';
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
@@ -25,9 +25,9 @@ type Position = VerticalAlign | HorizontalAlign | 'custom' | 'center';
 type Style = { [prop: string]: string };
 
 type getStylesProps = {
-  arrowOffset: number;
-  popoverStyles: Style;
-  maskStyles: Style;
+  arrowOffset?: number;
+  popoverStyles?: Style;
+  maskStyles?: Style;
   showMaskArea?: boolean;
 };
 
@@ -80,10 +80,10 @@ const getStyles = ({
       [`--rtp-arrow-${isVertical ? opositeSide[horizontalAlign] : verticalAlign}`]:
         height - 10 + arrowOffset + 'px',
       [`--rtp-arrow-${opositeSide[position]}`]: -height + 'px',
-      [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: popoverStyles.noArrow
+      [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: popoverStyles?.noArrow
         ? ''
         : `${width / 2}px solid transparent`,
-      [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: popoverStyles.noArrow
+      [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: popoverStyles?.noArrow
         ? ''
         : `${width / 2}px solid transparent`,
       [`--rtp-arrow-border-${position}`]: `${height}px solid ${colors.grey100}`,
@@ -103,7 +103,7 @@ type TourContentBodyStep = {
   onNext?(): void;
 };
 
-type Step = Omit<StepType, 'content'> & TourContentBodyStep & getStylesProps;
+type Step = Omit<StepType, 'content'> & TourContentBodyStep & Partial<getStylesProps>;
 
 type TourProviderWrapperProps = ReactourChildrenWrapperProps &
   Omit<ProviderProps, 'children' | 'steps'> & {

@@ -33,61 +33,66 @@ const entitiesGetters = {
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
-export default ({ params = null, body = null, mixed = null, tableName = null }) => async (
-  req,
-  res,
-  next,
-) => {
-  let entity_key;
-  let id;
-  if (params) {
-    entity_key = params;
-    id = req.params[entity_key];
-  } else if (mixed) {
-    entity_key = mixed;
-    id = req;
-  } else if (tableName) {
-    entity_key = tableName;
-    id = req.params['id'];
-  } else {
-    entity_key = body;
-    if (Array.isArray(req.body)) {
-      //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
-      id = req.body[0][entity_key];
+/**
+ * @param {{
+ *   params?: string | null,
+ *   body?: string | null,
+ *   mixed?: string | null,
+ *   tableName?: string | null
+ * }} options
+ */
+export default ({ params = null, body = null, mixed = null, tableName = null }) =>
+  async (req, res, next) => {
+    let entity_key;
+    let id;
+    if (params) {
+      entity_key = params;
+      id = req.params[entity_key];
+    } else if (mixed) {
+      entity_key = mixed;
+      id = req;
+    } else if (tableName) {
+      entity_key = tableName;
+      id = req.params['id'];
     } else {
-      id = req.body[entity_key];
+      entity_key = body;
+      if (Array.isArray(req.body)) {
+        //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
+        id = req.body[0][entity_key];
+      } else {
+        id = req.body[entity_key];
+      }
     }
-  }
-  if (!entity_key) {
-    return next();
-  }
-
-  try {
-    const { farm_id } = req.headers;
-
-    if (farm_id === undefined) {
-      return noFarmIdErrorResponse(res);
-    }
-
-    // A generic entity getter for tables that use plain 'id' for index name
-    const farmIdObjectFromEntity = tableName
-      ? await knex(tableName).where({ id }).first()
-      : await entitiesGetters[entity_key](id, next, farm_id);
-    // Is getting a seeded table and accessing community data. Go through.
-    if (
-      seededEntities.includes(entity_key) &&
-      req.method === 'GET' &&
-      farmIdObjectFromEntity.farm_id === null
-    ) {
-      return next();
-    } else if (farmIdObjectFromEntity?.next) {
+    if (!entity_key) {
       return next();
     }
-    return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
-  } catch (_e) {
-    notAuthorizedResponse(res);
-  }
-};
+
+    try {
+      const { farm_id } = req.headers;
+
+      if (farm_id === undefined) {
+        return noFarmIdErrorResponse(res);
+      }
+
+      // A generic entity getter for tables that use plain 'id' for index name
+      const farmIdObjectFromEntity = tableName
+        ? await knex(tableName).where({ id }).first()
+        : await entitiesGetters[entity_key](id, next, farm_id);
+      // Is getting a seeded table and accessing community data. Go through.
+      if (
+        seededEntities.includes(entity_key) &&
+        req.method === 'GET' &&
+        farmIdObjectFromEntity.farm_id === null
+      ) {
+        return next();
+      } else if (farmIdObjectFromEntity?.next) {
+        return next();
+      }
+      return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
+    } catch (_e) {
+      notAuthorizedResponse(res);
+    }
+  };
 
 async function fromTaskId(task_id) {
   const taskType = await knex('task')

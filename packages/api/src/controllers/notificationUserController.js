@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { validate } from 'uuid';
 import NotificationUser from '../models/notificationUserModel.js';
 
 /**
@@ -179,6 +180,9 @@ export default {
    * @async
    */
   async clearAlerts(req, res) {
+    if (req.body?.notification_ids?.some((id) => !validate(id))) {
+      return res.status(400).json({ error: 'All notification IDs must be valid UUIDs' });
+    }
     try {
       await NotificationUser.clearAlerts(
         req.auth.user_id,

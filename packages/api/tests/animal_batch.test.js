@@ -15,11 +15,8 @@
 
 import chai from 'chai';
 import { faker } from '@faker-js/faker';
-
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-
-import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
@@ -55,7 +52,7 @@ describe('Animal Batch Tests', () => {
   let defaultTypeId;
   let animalRemovalReasonId;
   let animalUse1;
-  let animalOrigin1;
+  let _animalOrigin1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -68,7 +65,7 @@ describe('Animal Batch Tests', () => {
     animalRemovalReasonId = animalRemovalReason.id;
 
     [animalUse1] = await mocks.animal_useFactory('OTHER');
-    [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
+    [_animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
@@ -129,10 +126,9 @@ describe('Animal Batch Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -223,9 +219,10 @@ describe('Animal Batch Tests', () => {
       const animalSex2 = await makeAnimalSex();
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const [animalType] = await mocks.custom_animal_typeFactory({
+        const [_animalType] = await mocks.custom_animal_typeFactory({
           promisedFarm: [mainFarm],
         });
+
         const [animalBreed] = await mocks.custom_animal_breedFactory({
           promisedFarm: [mainFarm],
         });
@@ -858,19 +855,19 @@ describe('Animal Batch Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
 
         // Add batches to db
-        const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
-          mainFarm,
-          user,
-        );
+        const {
+          res: addRes,
+          returnedFirstBatch,
+          returnedSecondBatch,
+        } = await addAnimalBatches(mainFarm, user);
         expect(addRes.status).toBe(201);
 
         // Edit batches in db
-        const { res: editRes, expectedFirstBatch, expectedSecondBatch } = await editAnimalBatches(
-          mainFarm,
-          user,
-          returnedFirstBatch,
-          returnedSecondBatch,
-        );
+        const {
+          res: editRes,
+          expectedFirstBatch,
+          expectedSecondBatch,
+        } = await editAnimalBatches(mainFarm, user, returnedFirstBatch, returnedSecondBatch);
         expect(editRes.status).toBe(204);
 
         // Get updated batches
@@ -914,10 +911,11 @@ describe('Animal Batch Tests', () => {
       );
 
       // Add animals to db with admin
-      const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
-        mainFarm,
-        admin,
-      );
+      const {
+        res: addRes,
+        returnedFirstBatch,
+        returnedSecondBatch,
+      } = await addAnimalBatches(mainFarm, admin);
       expect(addRes.status).toBe(201);
 
       // Edit animals in db with non-admin
@@ -1400,7 +1398,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Check create batch sex detail',
-          getPostBody: (customs) => [
+          getPostBody: (_customs) => [
             {
               default_type_id: defaultTypeId,
               count: 3,
@@ -1465,7 +1463,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Custom type does not belong to farm',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (batch, _existingBatches, customs) => [
             {
               id: batch.id,
               custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
@@ -1493,7 +1491,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- default type is changed',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               default_type_id: animalBreed2.default_type_id,
@@ -1512,7 +1510,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- default breed is changed',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               default_breed_id: animalBreed2.id,
@@ -1557,7 +1555,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- both are changed but mismatch',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               default_type_id: animalBreed.default_type_id,
@@ -1617,7 +1615,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Custom breed does not belong to farm',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (batch, _existingBatches, customs) => [
             {
               id: batch.id,
               custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
@@ -1630,7 +1628,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- default type is changed',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (_batch, existingBatches, _customs) => [
             {
               id: existingBatches[0].id,
               default_type_id: animalBreed.default_type_id,
@@ -1649,7 +1647,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- custom type is changed',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (_batch, existingBatches, customs) => [
             {
               id: existingBatches[0].id,
               custom_type_id: customs.customAnimalBreed2.custom_type_id,
@@ -1668,7 +1666,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- breed and type are changed',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (_batch, existingBatches, customs) => [
             {
               id: existingBatches[0].id,
               default_type_id: customs.customAnimalBreed.default_type_id,
@@ -1689,7 +1687,7 @@ describe('Animal Batch Tests', () => {
 
         {
           testName: 'Check edit batch sex detail -- change count',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               count: 3,
@@ -1718,7 +1716,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Check edit batch sex detail -- change sex_detail',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               sex_detail: [
@@ -1756,7 +1754,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Check edit batch sex detail -- duplicate sex ids not allowed',
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               sex_detail: [
@@ -1815,7 +1813,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               sex_detail: [
@@ -1875,7 +1873,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               sex_detail: [
@@ -1906,7 +1904,7 @@ describe('Animal Batch Tests', () => {
             return {
               model: AnimalBatchSexDetailModel,
               where: { animal_batch_id: existingBatches[0].id },
-              getMatchingBody: (existingBatches, records) => {
+              getMatchingBody: (_existingBatches, records) => {
                 return [
                   {
                     ...records[0],
@@ -1920,7 +1918,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               sex_detail: [],
@@ -1980,12 +1978,12 @@ describe('Animal Batch Tests', () => {
             return {
               model: AnimalBatchUseRelationshipModel,
               where: { animal_batch_id: existingBatches[0].id },
-              getMatchingBody: (existingBatches, records) => {
+              getMatchingBody: (_existingBatches, _records) => {
                 return [];
               },
             };
           },
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               animal_batch_use_relationships: [],
@@ -2012,7 +2010,7 @@ describe('Animal Batch Tests', () => {
             return {
               model: AnimalBatchUseRelationshipModel,
               where: { animal_batch_id: existingBatches[0].id },
-              getMatchingBody: (existingBatches, records) => {
+              getMatchingBody: (_existingBatches, records) => {
                 return [
                   {
                     ...records[0],
@@ -2023,7 +2021,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches) => [
+          getPatchBody: (_batch, existingBatches) => [
             {
               id: existingBatches[0].id,
               animal_batch_use_relationships: [
@@ -2064,7 +2062,7 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Cannot create a new type associated with an existing breed',
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (batch, _existingBatches, customs) => [
             {
               id: batch.id,
               custom_breed_id: customs.customAnimalBreed.id,
@@ -2082,7 +2080,7 @@ describe('Animal Batch Tests', () => {
             return {
               model: AnimalBatchModel,
               where: { id: existingBatches[0].id },
-              getMatchingBody: (existingBatches, records, customs) => {
+              getMatchingBody: (_existingBatches, records, customs) => {
                 return [
                   {
                     ...records[0],
@@ -2093,7 +2091,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (_batch, existingBatches, customs) => [
             {
               id: existingBatches[0].id,
               custom_type_id: customs.customAnimalType.id,
@@ -2110,11 +2108,11 @@ describe('Animal Batch Tests', () => {
         {
           testName:
             'Successfully edit Custom type matches new breed name -- previous breed not exist',
-          getRawRecordMismatch: (existingBatches, patchedBatches) => {
+          getRawRecordMismatch: (_existingBatches, patchedBatches) => {
             return {
               model: CustomAnimalBreedModel,
               where: { id: patchedBatches.custom_breed_id },
-              getMatchingBody: (existingBatches, records, customs) => {
+              getMatchingBody: (_existingBatches, records, customs) => {
                 return [
                   {
                     ...records[0],
@@ -2125,7 +2123,7 @@ describe('Animal Batch Tests', () => {
               },
             };
           },
-          getPatchBody: (batch, existingBatches, customs) => [
+          getPatchBody: (_batch, existingBatches, customs) => [
             {
               id: existingBatches[0].id,
               custom_type_id: customs.customAnimalType.id,

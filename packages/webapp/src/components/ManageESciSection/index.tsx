@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Trans, TFunction } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { Link } from 'react-router-dom';
 import Icon from '../Icons';
 import styles from './styles.module.scss';
@@ -31,7 +32,7 @@ export default function ManageESciSection({ t }: { t: TFunction }) {
       <div className={styles.manageLink}>
         <Link to={{ pathname: '/farm_settings/addons', hash: '#esci-addon' }}>
           <Icon iconName="EXTERNAL_LINK" className={styles.externalLinkIcon} />
-          <span>{t('SENSOR.ESCI.MANAGE_LINK')}</span>
+          <span>{String(t('SENSOR.ESCI.MANAGE_LINK'))}</span>
         </Link>
       </div>
     </div>

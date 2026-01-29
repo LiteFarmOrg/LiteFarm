@@ -14,7 +14,7 @@
  */
 
 import { ReactNode } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -36,6 +36,8 @@ import {
 } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import styles from './styles.module.scss';
 import navStyles from '@navStyles';
+
+type TFunction = ReturnType<typeof useTranslation>['t'];
 
 type MenuItemProps = { iconName: IconName; text: string };
 
@@ -76,7 +78,7 @@ const Age = ({ birthDate, t }: { birthDate?: Animal['birth_date']; t: TFunction 
 const Location = ({ location, t }: { location?: string; t: TFunction }) => (
   <div className={clsx(styles.bold, styles.location)}>
     <Icon iconName="LOCATION" className={styles.locationIcon} />
-    <span className={styles.locationText}>{location || t('common:UNKNOWN')}</span>
+    <span className={styles.locationText}>{location || String(t('common:UNKNOWN'))}</span>
   </div>
 );
 
@@ -108,7 +110,7 @@ const ContainerWithButtons = ({
       </TextButton>
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
-        {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
+        {!isCompactView && isEditing ? <div>{String(t('common:EDITING'))}</div> : null}
         {showMenu && (
           <MeatballsMenu
             disabled={!!isEditing}

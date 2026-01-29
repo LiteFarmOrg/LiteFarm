@@ -16,7 +16,8 @@
 import { History } from 'history';
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { VscLocation } from 'react-icons/vsc';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -60,7 +61,7 @@ const DetectedFields = ({ fields = [], t }: { fields: Location['name'][]; t: TFu
 
   return (
     <div>
-      <Main className={styles.fieldListLead}>{t('SENSOR.DETAIL.DETECTED_FIELD')}</Main>
+      <Main className={styles.fieldListLead}>{String(t('SENSOR.DETAIL.DETECTED_FIELD'))}</Main>
       <ul className={styles.fieldList}>
         {fields.map((field) => {
           return <li key={field}>{field}</li>;

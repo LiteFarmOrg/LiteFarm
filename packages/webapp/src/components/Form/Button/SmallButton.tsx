@@ -14,7 +14,8 @@
  */
 import { ReactNode } from 'react';
 import clsx from 'clsx';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { ReactComponent as XIcon } from '../../../assets/images/x-icon.svg';
 import styles from './button.module.scss';
 

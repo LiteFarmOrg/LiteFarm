@@ -15,7 +15,8 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import CardLayout from '../../../../components/Layout/CardLayout';
@@ -140,8 +141,8 @@ export default MarketDirectory;
 const DirectoryCallout = ({ t }: { t: TFunction }) => {
   return (
     <div className={styles.callout}>
-      <h4 className={styles.calloutTitle}>{t('MARKET_DIRECTORY.GET_LISTED')}</h4>
-      <p>{t('MARKET_DIRECTORY.COMPLETE_PROFILE')}</p>
+      <h4 className={styles.calloutTitle}>{String(t('MARKET_DIRECTORY.GET_LISTED'))}</h4>
+      <p>{String(t('MARKET_DIRECTORY.COMPLETE_PROFILE'))}</p>
     </div>
   );
 };

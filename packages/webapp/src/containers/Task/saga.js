@@ -250,13 +250,24 @@ export function* changeTaskWageSaga({
   const { taskUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const patchData = { wage_at_moment, override_hourly_wage };
   try {
-    const patchData = { wage_at_moment, override_hourly_wage };
     yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
     yield put(putTaskSuccess({ ...patchData, task_id }));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task wage update
+      yield put(putTaskSuccess({ ...patchData, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 

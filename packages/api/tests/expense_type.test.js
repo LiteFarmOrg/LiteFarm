@@ -23,7 +23,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -34,13 +34,13 @@ import mocks from './mock.factories.js';
 import farmExpenseTypeModel from '../src/models/expenseTypeModel.js';
 
 describe('Expense Type Tests', () => {
-  let token;
+  let _token;
   let farm;
   let farm1;
   let newOwner;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
   // FUNCTIONS
@@ -116,7 +116,7 @@ describe('Expense Type Tests', () => {
   async function returnUserFarms(role) {
     const [mainFarm] = await mocks.farmFactory();
     const [user] = await mocks.usersFactory();
-    const [userFarm] = await mocks.userFarmFactory(
+    const [_userFarm] = await mocks.userFarmFactory(
       {
         promisedUser: [user],
         promisedFarm: [mainFarm],
@@ -149,10 +149,9 @@ describe('Expense Type Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // POST TESTS
@@ -209,7 +208,7 @@ describe('Expense Type Tests', () => {
     });
 
     test('Unauthorized user should get 403 if they try to post expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(3);
+      const { mainFarm, _user } = await returnUserFarms(3);
       const expense_type = getFakeExpenseType(mainFarm.farm_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
@@ -255,8 +254,8 @@ describe('Expense Type Tests', () => {
     });
 
     test('Unauthorized user should get 403 if they try to get expense type by farm id (or null)', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const expense = await returnExpenseType(mainFarm);
+      const { mainFarm, _user } = await returnUserFarms(1);
+      const _expense = await returnExpenseType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
       const res = await getRequestAsPromise({
@@ -312,14 +311,14 @@ describe('Expense Type Tests', () => {
   // DELETE DEFAULT TEST
   describe('Delete expense type default tests', () => {
     test('Owner should get 403 if they try to delete default expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { _mainFarm, _user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
       const res = await deleteRequestAsPromise(expense.expense_type, { user_id: expense.user_id });
       expect(res.status).toBe(403);
     });
 
     test('manager should get 403 if they try to delete default expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(2);
+      const { _mainFarm, user } = await returnUserFarms(2);
       const expense = await returnDefaultExpenseType();
 
       const res = await deleteRequestAsPromise(expense.expense_type, { user_id: user.user_id });
@@ -327,7 +326,7 @@ describe('Expense Type Tests', () => {
     });
 
     test('Worker should get 403 if they try to delete default expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(3);
+      const { _mainFarm, user } = await returnUserFarms(3);
       const expense = await returnDefaultExpenseType();
 
       const res = await deleteRequestAsPromise(expense.expense_type, { user_id: user.user_id });
@@ -335,7 +334,7 @@ describe('Expense Type Tests', () => {
     });
 
     test('unauthorized user should get 403 if they try to delete default expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { _mainFarm, _user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
       const [unAuthorizedUser] = await mocks.usersFactory();
 
@@ -398,7 +397,7 @@ describe('Expense Type Tests', () => {
     });
 
     test('Unauthorized user should delete get 403 if they try to delete their expense type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
+      const { mainFarm, _user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
       const expense = await returnExpenseType(mainFarm);
 

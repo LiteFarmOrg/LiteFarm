@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,8 @@ const TaskCard = ({
   happiness,
   classes = { card: {} },
   wage_at_moment,
+  revision_date,
+  revised_by_user_id,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -63,6 +65,7 @@ const TaskCard = ({
   } else {
     taskUnassigned = true;
   }
+  const reviser = users.find((user) => user.user_id === revised_by_user_id);
 
   return (
     <>
@@ -92,6 +95,8 @@ const TaskCard = ({
         isAdmin={isAdmin}
         isAssignee={isAssignee}
         language={language}
+        revision_date={revision_date}
+        reviser={reviser}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

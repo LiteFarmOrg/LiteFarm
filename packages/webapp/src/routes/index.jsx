@@ -40,7 +40,7 @@ import {
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
-const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
+const FarmSettings = React.lazy(() => import('./FarmSettingsRoutes'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
@@ -60,6 +60,8 @@ const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('../containers/Insights/Prices'));
+const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'));
+const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 const MapVideo = React.lazy(() => import('../components/Map/Videos'));
@@ -302,7 +304,7 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
+const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -365,7 +367,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/home" exact children={<Home />} />
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
-                    <Route path="/farm" exact children={<Farm />} />
+                    <Route path="/farm_settings" children={<FarmSettings />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
@@ -647,6 +649,8 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} />
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
@@ -743,10 +747,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -772,7 +773,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/profile" exact children={<Account />} />
                     <Route path="/people" exact children={<People />} />
                     <Route path="/user/:user_id" exact children={<EditUser />} />
-                    <Route path="/farm" exact children={<Farm />} />
+                    <Route path="/farm_settings" children={<FarmSettings />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
                     <Route path="/tasks" exact children={<Tasks />} />
@@ -1040,6 +1041,8 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} />
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
@@ -1149,10 +1152,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     />
                     <Route path="/finances/*" exact children={<Finances />} />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />
@@ -1235,6 +1235,8 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
                     <Route
@@ -1306,10 +1308,7 @@ const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen
                       children={<NotificationReadOnly />}
                     />
                     <Route path="/animals/*" exact>
-                      <Animals
-                        isCompactSideMenu={isCompactSideMenu}
-                        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-                      />
+                      <Animals isCompactSideMenu={isCompactSideMenu} />
                     </Route>
                     <Route path={PRODUCT_INVENTORY_URL} exact>
                       <ProductInventory isCompactSideMenu={isCompactSideMenu} />

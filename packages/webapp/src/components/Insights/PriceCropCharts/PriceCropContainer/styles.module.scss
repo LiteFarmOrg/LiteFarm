@@ -1,11 +1,11 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .svg {
   max-width: 100%;
   @include fontFamily();
   -webkit-tap-highlight-color: transparent;
   overflow: visible;
-  color: var(--grey900)
+  color: var(--grey900);
 }
 
 .xAxis {

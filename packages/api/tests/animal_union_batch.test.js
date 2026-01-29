@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -66,14 +66,12 @@ const patchBatches = async (user_id, farm_id, data) => {
 };
 
 describe('Animal Union Batch Tests', () => {
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // MODEL TESTS

@@ -903,7 +903,9 @@ const taskController = {
             [assignee_user_id],
             user_id,
             task_id,
-            TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
+            isRecompleting
+              ? TaskNotificationTypes.TASK_RECOMPLETED_BY_OTHER_USER
+              : TaskNotificationTypes.TASK_COMPLETED_BY_OTHER_USER,
             taskType.task_translation_key,
             farm_id,
           );
@@ -1295,6 +1297,7 @@ export const TaskNotificationTypes = {
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
   TASK_COMPLETED_BY_OTHER_USER: 'TASK_COMPLETED_BY_OTHER_USER',
+  TASK_RECOMPLETED_BY_OTHER_USER: 'TASK_RECOMPLETED_BY_OTHER_USER',
   TASK_UNASSIGNED: 'TASK_UNASSIGNED',
   TASK_DELETED: 'TASK_DELETED',
 };
@@ -1304,6 +1307,7 @@ const TaskNotificationUserTypes = {
   TASK_ABANDONED: 'abandoner',
   TASK_REASSIGNED: 'assigner',
   TASK_COMPLETED_BY_OTHER_USER: 'assigner',
+  TASK_RECOMPLETED_BY_OTHER_USER: 'assigner',
   TASK_UNASSIGNED: 'editor',
   TASK_DELETED: 'abandoner',
 };

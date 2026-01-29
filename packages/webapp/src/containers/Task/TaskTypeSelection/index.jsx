@@ -12,6 +12,8 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { animalLocationsSelector } from '../../locationSlice';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
+import { hasAvailableProductsSelector } from '../../productSlice';
+import { TASK_TYPES } from '../constants';
 
 function TaskTypeSelection() {
   const location = useLocation();
@@ -50,6 +52,9 @@ function TaskTypeSelection() {
 
   const hasAnimalMovementLocations = useSelector(animalLocationsSelector)?.length > 0;
   const hasSoilSampleLocations = useSelector(soilSampleLocationsSelector)?.length > 0;
+  const hasSoilAmendmentProducts = useSelector((state) =>
+    hasAvailableProductsSelector(state, TASK_TYPES.SOIL_AMENDMENT),
+  );
 
   return (
     <>
@@ -71,6 +76,7 @@ function TaskTypeSelection() {
           hasAnimalMovementLocations={hasAnimalMovementLocations}
           hasAnimals={animalsExistOnFarm}
           hasSoilSampleLocations={hasSoilSampleLocations}
+          hasSoilAmendmentProducts={hasSoilAmendmentProducts}
         />
       </HookFormPersistProvider>
     </>

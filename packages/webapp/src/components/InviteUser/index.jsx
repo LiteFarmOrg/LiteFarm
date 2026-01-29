@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
+import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, roleOptions = [] }) {
   const {
@@ -102,7 +103,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,
           pattern: {
-            value: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+            value: VALID_EMAIL_REGEX,
             message: t('INVITE_USER.INVALID_EMAIL_ERROR'),
           },
           validate: {

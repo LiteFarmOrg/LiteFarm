@@ -89,8 +89,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Fehler beim Hinzufügen des benutzerdefinierten Erntetyps",
-      "AMOUNT_TOTAL": "Gesamtsumme entspricht nicht dem zuzuweisenden Betrag",
-      "GET_TYPES": "Fehler beim Abrufen der Erntenutzungsarten"
+      "AMOUNT_TOTAL": "Gesamtsumme entspricht nicht dem zuzuweisenden Betrag"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Benutzerdefinierte Erntenutzungsart erfolgreich hinzugefügt"

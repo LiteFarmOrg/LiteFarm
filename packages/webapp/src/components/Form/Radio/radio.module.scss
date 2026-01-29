@@ -1,4 +1,4 @@
-@import '../../../assets/mixin';
+@use '../../../assets/mixin' as *;
 
 .container {
   display: flex;

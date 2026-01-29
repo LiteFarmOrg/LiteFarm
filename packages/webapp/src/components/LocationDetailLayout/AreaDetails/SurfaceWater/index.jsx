@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
+import locationDetailStyles from '../../styles.module.scss';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import RadioGroup from '../../../Form/RadioGroup';
@@ -68,13 +69,9 @@ export function SurfaceWaterDetailsChildren({ isViewLocationPage }) {
   const { control } = useFormContext();
   return (
     <div>
-      <div style={{ marginBottom: '20px' }}>
-        <Label style={{ paddingRight: '10px', display: 'inline-block' }}>
-          {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
-        </Label>
-        <Label style={{ display: 'inline-block' }} sm>
-          {t('common:OPTIONAL')}
-        </Label>
+      <div className={locationDetailStyles.radioLabel}>
+        <Label>{t('FARM_MAP.BARN.ANIMALS')}</Label>
+        <Label sm>{t('common:OPTIONAL')}</Label>
       </div>
       <div style={{ marginBottom: '16px' }}>
         <RadioGroup

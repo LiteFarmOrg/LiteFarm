@@ -27,7 +27,7 @@ import { Location } from './QuantityApplicationRate';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct' | 'productsVersion'
+  'isReadOnly' | 'farm' | 'system'
 > & {
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
@@ -70,7 +70,6 @@ const AddSoilAmendmentProducts = ({
   const { t } = useTranslation();
   const {
     control,
-    setValue,
     watch,
     formState: { isValid },
   } = useFormContext();
@@ -79,7 +78,7 @@ const AddSoilAmendmentProducts = ({
     control,
   });
 
-  const { expandedIds, toggleExpanded, expand, unExpand, resetExpanded } = useExpandable({
+  const { expandedIds, toggleExpanded, expand, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
 
@@ -141,12 +140,7 @@ const AddSoilAmendmentProducts = ({
               productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
-              unExpand={() => unExpand(field.id)}
-              expand={() => expand(field.id)}
               productId={productId}
-              setProductId={(id: ProductId) => {
-                setValue(`${namePrefix}.product_id`, id, { shouldValidate: true });
-              }}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
               fertiliserTypeOptions={fertiliserTypeOptions}

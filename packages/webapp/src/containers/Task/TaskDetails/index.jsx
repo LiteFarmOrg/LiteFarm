@@ -28,7 +28,7 @@ function TaskDetails() {
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );

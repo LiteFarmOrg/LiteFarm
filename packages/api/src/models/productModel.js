@@ -55,6 +55,7 @@ class ProductModel extends baseModel {
           'product_farm.supplier',
           'product_farm.on_permitted_substances_list',
           'product_farm.farm_id',
+          'product_farm.removed',
         );
       },
     };

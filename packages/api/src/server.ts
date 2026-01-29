@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.8.1',
+    release: '3.9.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -172,8 +172,13 @@ import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
+import weatherRoute from './routes/weatherRoute.js';
 import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
 import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
+import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
+import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
+import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
+import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -284,6 +289,14 @@ app
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
+  .use('/dfc', dataFoodConsortiumRoute)
+  // Serve the .well-known/dfc file
+  .get('/.well-known/dfc', (_req, res) => {
+    res.json({
+      'https://github.com/datafoodconsortium/taxonomies/releases/latest/download/scopes.rdf#ReadEnterprise':
+        '/dfc/enterprises/',
+    });
+  })
   // ACL middleware
   .use(checkJwt)
 
@@ -340,8 +353,12 @@ app
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
   .use('/farm_addon', farmAddonRoute)
+  .use('/weather', weatherRoute)
   .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
-  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute);
+  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
+  .use('/market_directory_info', marketDirectoryInfoRoute)
+  .use('/market_product_categories', marketProductCategoryRoute)
+  .use('/market_directory_partners', marketDirectoryPartnerRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
@@ -376,14 +393,13 @@ if (
   environment === 'production' ||
   environment === 'integration'
 ) {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
+  server.on('close', () => {
+    knex.destroy();
+  });
 }
-
-app.on('close', () => {
-  knex.destroy();
-});
 
 export default app;

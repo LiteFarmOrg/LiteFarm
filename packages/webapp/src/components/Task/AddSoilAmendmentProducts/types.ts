@@ -87,7 +87,7 @@ export const PRODUCT_FIELD_NAMES = {
 
 export type ProductId = number | string | undefined;
 
-export type ProductFormFields = {
+export type SoilAmendmentProductFormCommonFields = {
   [PRODUCT_FIELD_NAMES.SUPPLIER]?: string;
   [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
   [PRODUCT_FIELD_NAMES.PURPOSES]?: number[];

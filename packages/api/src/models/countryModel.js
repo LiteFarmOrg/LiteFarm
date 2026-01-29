@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 
-class Certification extends Model {
+class Countries extends Model {
   static get tableName() {
     return 'countries';
   }
@@ -35,6 +35,7 @@ class Certification extends Model {
         symbol: { type: 'string' },
         iso: { type: 'string' },
         unit: { type: 'string' },
+        country_code: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -46,4 +47,4 @@ class Certification extends Model {
   }
 }
 
-export default Certification;
+export default Countries;

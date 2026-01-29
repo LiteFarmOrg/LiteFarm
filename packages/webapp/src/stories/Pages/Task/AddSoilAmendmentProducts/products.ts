@@ -30,6 +30,7 @@ export const products = [
       k: 3,
       elemental_unit: ElementalUnit.PERCENT,
     },
+    removed: false,
   },
   {
     product_id: 2,
@@ -45,6 +46,7 @@ export const products = [
       k: 3.3,
       elemental_unit: ElementalUnit.RATIO,
     },
+    removed: false,
   },
   {
     product_id: 3,
@@ -60,6 +62,7 @@ export const products = [
       k: undefined,
       elemental_unit: undefined,
     },
+    removed: false,
   },
   {
     product_id: 4,
@@ -75,6 +78,7 @@ export const products = [
       k: 1,
       elemental_unit: ElementalUnit.PERCENT,
     },
+    removed: false,
   },
   {
     product_id: 5,
@@ -90,6 +94,7 @@ export const products = [
       k: 1,
       elemental_unit: ElementalUnit.PERCENT,
     },
+    removed: false,
   },
   {
     product_id: 6,
@@ -105,5 +110,6 @@ export const products = [
       k: undefined,
       elemental_unit: ElementalUnit.RATIO,
     },
+    removed: false,
   },
 ];

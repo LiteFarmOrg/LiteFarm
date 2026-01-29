@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { getAddressComponents } from './googleMaps.js';
+
 /**
  * AI-assisted documentation
  *
@@ -50,4 +52,14 @@ export function isSimpleDateFormat(value: unknown): boolean {
   const simpleDateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
   return typeof value === 'string' && simpleDateRegex.test(value);
+}
+
+const VALID_EMAIL_REGEX = /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i;
+
+export const isValidEmail = (email: string): boolean => {
+  return VALID_EMAIL_REGEX.test(email);
+};
+
+export async function isValidAddress(address: string) {
+  return !!(await getAddressComponents(address));
 }

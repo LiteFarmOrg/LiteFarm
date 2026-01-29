@@ -48,7 +48,6 @@ const UniqueDetails = ({
 
   return (
     <div className={styles.sectionWrapper}>
-      {/* @ts-expect-error */}
       <Input
         type="text"
         label={t('common:NAME')}
@@ -61,7 +60,6 @@ const UniqueDetails = ({
         errors={getInputErrors(errors, `${namePrefix}${DetailsFields.NAME}`)}
         disabled={mode === 'readonly'}
       />
-      {/* @ts-expect-error */}
       <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
@@ -106,7 +104,6 @@ const UniqueDetails = ({
       />
       {shouldShowTagTypeInput && (
         <>
-          {/* @ts-expect-error */}
           <Input
             type="text"
             hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_TYPE_INFO}`, {

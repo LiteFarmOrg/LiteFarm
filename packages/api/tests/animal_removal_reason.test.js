@@ -74,14 +74,12 @@ describe('Animal Removal Reason Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // GET TESTS

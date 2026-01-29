@@ -150,7 +150,8 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
-import { api, FarmLibraryTags, FarmTags } from '../store/api/apiSlice';
+import { api, invalidateTags } from '../store/api/apiSlice';
+import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
@@ -288,7 +289,10 @@ export function* getFarmInfoSaga() {
   }
 }
 
-export const putFarm = createAction(`putFarmSaga`);
+/**
+ * @type {import('@reduxjs/toolkit').ActionCreatorWithPayload<any, 'putFarmSaga'>}
+ */
+export const putFarm = createAction('putFarmSaga');
 
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
@@ -627,8 +631,7 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
-
-  yield put(api.util.invalidateTags([...FarmTags, ...FarmLibraryTags]));
+  yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

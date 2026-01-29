@@ -21,6 +21,7 @@ import {
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
+import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -46,13 +47,12 @@ function CustomSignUp() {
     mode: 'onTouched',
   });
   const { user, component: componentToShow } = location?.state || {};
-  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
   const EMAIL = 'email';
-  const emailRegister = register(EMAIL, { pattern: validEmailRegex });
+  const emailRegister = register(EMAIL, { pattern: VALID_EMAIL_REGEX });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);
-  const disabled = !email || !validEmailRegex.test(email);
+  const disabled = !email || !VALID_EMAIL_REGEX.test(email);
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;

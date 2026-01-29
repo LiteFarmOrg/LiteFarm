@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,7 @@ import {
   userFarmsByUserSelector,
   userFarmSelector,
 } from '../userFarmSlice';
-
+import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg';
@@ -49,6 +48,7 @@ const AddFarm = () => {
 
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
+  const { isLoaded } = useGoogleMapsLoader(['places']);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {
@@ -95,7 +95,10 @@ const AddFarm = () => {
   };
 
   const placesAutocompleteRef = useRef();
-  const handleScriptLoad = () => {
+  useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
     const options = {
       types: ['address'],
       language: getLanguageFromLocalStorage(),
@@ -114,8 +117,13 @@ const AddFarm = () => {
 
     // Fire Event when a suggested name is selected
     placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
+
+    if (gridPoints && !getValues(COUNTRY)) {
+      setCountryFromLatLng(gridPoints);
+    }
+
     setScriptLoaded(true);
-  };
+  }, [isLoaded]);
 
   const geocoderRef = useRef();
   const geocoderTimeout = useThrottle();
@@ -145,12 +153,6 @@ const AddFarm = () => {
       isGettingLocation ? 0 : 500,
     );
   };
-
-  useEffect(() => {
-    if (scriptLoaded && gridPoints && !getValues(COUNTRY)) {
-      setCountryFromLatLng(gridPoints);
-    }
-  }, [scriptLoaded]);
 
   const parseLatLng = (latLngString) => {
     const coordRegex = /^(-?\d+(?:\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
@@ -236,12 +238,6 @@ const AddFarm = () => {
   };
   return (
     <>
-      <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${
-          import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-        }&libraries=places,drawing,geometry&language=en-US`}
-        onLoad={handleScriptLoad}
-      />
       <PureAddFarm
         onGoBack={isFirstFarm ? null : onGoBack}
         onSubmit={handleSubmit(onSubmit)}

@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "engines": {
-    "node": "20.17"
+    "node": "22.21"
   },
   "scripts": {
     "precommit": "lint-staged",

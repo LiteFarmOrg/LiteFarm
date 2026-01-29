@@ -19,7 +19,7 @@ import { componentDecorators } from '../../config/Decorators';
 import AddSoilAmendmentProducts, {
   type AddSoilAmendmentProductsProps,
 } from '../../../../components/Task/AddSoilAmendmentProducts';
-import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import { soilAmendmentProductDetailsDefaultValues as defaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { products } from './products';
 
 const purposes = [
@@ -57,7 +57,6 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
   component: ComponentWithFormMethods,
   decorators: [...componentDecorators],
   args: {
-    onSaveProduct: async (data) => console.log(data),
     system: 'metric',
     products,
     purposes,

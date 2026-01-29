@@ -173,7 +173,6 @@ export default function AddAnimalsFormCard({
         }}
       />
       {!shouldCreateIndividualProfiles && (
-        // @ts-expect-error
         <Input
           label={t('ADD_ANIMAL.BATCH_NAME')}
           optional

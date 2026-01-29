@@ -10,6 +10,7 @@ import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
 import Input, { integerOnKeyDown } from '../Form/Input';
+import navStyles from '@navStyles';
 
 function PureCropDetail({
   history,
@@ -48,7 +49,7 @@ function PureCropDetail({
             {/*<Button color={'secondary'} fullLength onClick={onRetire}>*/}
             {/*  {t('common:RETIRE')}*/}
             {/*</Button>*/}
-            <Button onClick={onEdit} fullLength>
+            <Button onClick={onEdit} fullLength className={navStyles.hideWhenOffline}>
               {t('common:EDIT')}
             </Button>
           </>

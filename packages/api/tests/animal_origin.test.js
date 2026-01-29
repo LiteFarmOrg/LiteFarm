@@ -66,7 +66,7 @@ describe('Animal Origin Tests', () => {
     return { mainFarm, user };
   }
 
-  async function makeAnimalOrigin(properties) {
+  async function makeAnimalOrigin(_properties) {
     const [animalOrigin] = await mocks.animal_originFactory();
     return animalOrigin;
   }
@@ -76,14 +76,12 @@ describe('Animal Origin Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // GET TESTS

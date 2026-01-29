@@ -16,12 +16,10 @@
 import knex from '../../util/knex.js';
 
 async function authFarmId(req, res, next) {
-  const farm_id = req.params.farm_id;
+  const farm_id = req.params.farm_id || req.headers['farm_id'];
   if (farm_id) {
-    // console.log(farm_id);
     // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'
     const user_id = req.auth.user_id;
-    // console.log("check farm_id", user_id, farm_id);
     const farms = await knex.raw(
       `SELECT uf.farm_id
       FROM "userFarm" uf
@@ -41,11 +39,10 @@ async function authFarmId(req, res, next) {
         res.status(401).send('user not authorized to access farm with specified farm_id');
       }
     } else {
-      // console.log('failed in authFarmId: ', user_id, farm_id);
       res.status(401).send('user not authorized to access farm with specified farm_id');
     }
   } else {
-    next();
+    res.status(400).send('Missing required parameter: farm_id');
   }
 }
 

@@ -67,4 +67,13 @@
       }
     }
   }
+
+  &.disabled {
+    background: var(--Colors-Neutral-Neutral-100);
+
+    &::before,
+    &::after {
+      background-color: var(--Colors-Neutral-Neutral-200);
+    }
+  }
 }

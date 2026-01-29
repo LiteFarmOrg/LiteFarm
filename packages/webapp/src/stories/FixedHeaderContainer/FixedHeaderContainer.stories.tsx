@@ -14,13 +14,11 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
 
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div style={{ display: 'flex' }}>
       <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
@@ -31,8 +29,6 @@ const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
           showNavActions={undefined}
           onClickBurger={undefined}
           showNav={true}
-          isFeedbackSurveyOpen={isOpen}
-          setFeedbackSurveyOpen={setIsOpen}
         />
         <FixedHeaderContainer
           kind={kind}

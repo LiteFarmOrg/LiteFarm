@@ -18,7 +18,6 @@ const fieldWorkSlice = createSlice({
     fieldWorkLoading: (state, action) => {
       Object.assign(state, {
         loading: true,
-        fieldWorkTypes: [],
       });
     },
     fieldWorkSuccess: (state, { payload }) => {

@@ -154,8 +154,12 @@
     "HOURLY_WAGE": {
       "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
       "ASSIGNEE_CURRENT_WAGE": "{{name}}'s hourly wage is {{wage}}/hr",
-      "WANT_TO_SET_HOURLY_WAGE": "Set an hourly wage just for this task?"
+      "WANT_TO_SET_HOURLY_WAGE": "Set an hourly wage just for this task?",
+      "NO_TASK_WAGE": "There is no wage set for this task",
+      "TASK_WAGE_SET": "The hourly wage for this task is set to <strong>{{wage}} per hour</strong>"
     },
+    "TASK_SPECIFIC_HOURLY_WAGE": "Task-specific hourly wage",
+    "EDIT_TASK_WAGE": "Edit task wage",
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "IRRIGATION_VIEW": {

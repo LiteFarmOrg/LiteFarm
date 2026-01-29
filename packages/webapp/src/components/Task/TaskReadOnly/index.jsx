@@ -22,6 +22,7 @@ import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { Label, Main, Semibold, IconLink } from '../../Typography';
+import { Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -47,11 +48,14 @@ import { BiPencil } from 'react-icons/bi';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
+import EditTaskWageModal from '../../Modals/EditTaskWageModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import { roundToTwo } from '../../../util/rounding';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
 import {
   formatTaskAnimalsAsInventoryIds,
@@ -165,10 +169,16 @@ export default function PureTaskReadOnly({
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
+  const [showTaskWageModal, setShowTaskWageModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { country_id } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+
+  const assigneeUser = users.find((u) => u.user_id === task.assignee_user_id);
+  const currencySymbol = useCurrencySymbol();
+
+  const hasWageOverride = override_hourly_wage && wage_at_moment;
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
@@ -252,6 +262,30 @@ export default function PureTaskReadOnly({
           />
         )}
       </div>
+
+      {isAdmin && (
+        <div className={styles.editableContainer}>
+          <div>
+            <Label>{t('ADD_TASK.TASK_SPECIFIC_HOURLY_WAGE')}</Label>
+            {hasWageOverride ? (
+              <Label className={styles.taskWageInfo}>
+                <Trans
+                  i18nKey="ADD_TASK.HOURLY_WAGE.TASK_WAGE_SET"
+                  values={{ wage: `${currencySymbol}${roundToTwo(wage_at_moment)}` }}
+                  components={{ strong: <strong /> }}
+                />
+              </Label>
+            ) : (
+              <Label className={styles.taskWageWarning}>
+                {t('ADD_TASK.HOURLY_WAGE.NO_TASK_WAGE')}
+              </Label>
+            )}
+          </div>
+          {isCurrent && (
+            <BiPencil className={styles.pencil} onClick={() => setShowTaskWageModal(true)} />
+          )}
+        </div>
+      )}
 
       <div className={styles.editableContainer}>
         <Input type={'date'} value={date} label={dateLabel} disabled />
@@ -579,12 +613,9 @@ export default function PureTaskReadOnly({
           isAssigned={!!task?.assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
-          onChangeTaskWage={onChangeTaskWage}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
-          wage_at_moment={wage_at_moment}
-          override_hourly_wage={override_hourly_wage}
         />
       )}
       {showDueDateModal && (
@@ -592,6 +623,14 @@ export default function PureTaskReadOnly({
           due_date={date}
           onChangeTaskDate={onChangeTaskDate}
           dismissModal={() => setShowDueDateModal(false)}
+        />
+      )}
+      {showTaskWageModal && (
+        <EditTaskWageModal
+          wage_at_moment={wage_at_moment}
+          override_hourly_wage={override_hourly_wage}
+          onSave={onChangeTaskWage}
+          dismissModal={() => setShowTaskWageModal(false)}
         />
       )}
     </Layout>

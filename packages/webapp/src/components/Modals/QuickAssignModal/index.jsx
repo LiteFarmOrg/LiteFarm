@@ -9,7 +9,7 @@ import { tasksSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
-import { hourlyWageActions, ASSIGN_ALL } from '../../Task/AssignTask/constants';
+import { ASSIGN_ALL } from '../../Task/AssignTask/constants';
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -18,11 +18,8 @@ export default function TaskQuickAssignModal({
   isAssigned,
   onAssignTasksOnDate,
   onAssignTask,
-  onChangeTaskWage,
   users,
   user,
-  wage_at_moment,
-  override_hourly_wage,
 }) {
   const { t } = useTranslation();
 
@@ -35,28 +32,14 @@ export default function TaskQuickAssignModal({
         };
   }, [isAssigned, user]);
 
-  const {
-    control,
-    register,
-    watch,
-    errors,
-    disabled,
-    assigneeOptions,
-    selectedWorker,
-    selectedHourlyWageAction,
-    hourlyWage,
-    showHourlyWageInputs,
-    shouldSetWage,
-    userFarmWage,
-  } = useTaskAssignForm({
-    user,
-    users,
-    additionalFields: { [ASSIGN_ALL]: false },
-    wage_at_moment,
-    override_hourly_wage,
-    defaultAssignee,
-    disableUnAssignedOption: !isAssigned,
-  });
+  const { control, register, watch, errors, disabled, assigneeOptions, selectedWorker } =
+    useTaskAssignForm({
+      user,
+      users,
+      additionalFields: { [ASSIGN_ALL]: false },
+      defaultAssignee,
+      disableUnAssignedOption: !isAssigned,
+    });
 
   const assignAll = watch(ASSIGN_ALL);
 
@@ -92,17 +75,6 @@ export default function TaskQuickAssignModal({
           task_id: task_id,
           assignee_user_id: assigneeUserId,
         });
-
-    if (
-      selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK ||
-      selectedHourlyWageAction === hourlyWageActions.NO
-    ) {
-      const isOverride = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
-      onChangeTaskWage({
-        wage_at_moment: isOverride ? +hourlyWage.toFixed(2) : null,
-        override_hourly_wage: isOverride,
-      });
-    }
 
     dismissModal();
   };
@@ -155,9 +127,6 @@ export default function TaskQuickAssignModal({
         additionalContent={assignAllCheckbox}
         register={register}
         errors={errors}
-        showHourlyWageInputs={showHourlyWageInputs}
-        shouldSetWage={shouldSetWage}
-        userFarmWage={userFarmWage}
       />
     </ModalComponent>
   );

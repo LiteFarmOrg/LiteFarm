@@ -36,7 +36,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
-import OfflineLogOutWarningModal from './OfflineLogOutWarningModal';
+import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 

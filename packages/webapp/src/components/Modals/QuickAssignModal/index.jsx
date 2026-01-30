@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import AssignTask from '../../Task/AssignTask';
 import useTaskAssignForm from '../../Task/AssignTask/useTaskAssignForm';
 import { ASSIGN_ALL } from '../../Task/AssignTask/constants';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 export default function TaskQuickAssignModal({
   dismissModal,
@@ -22,6 +23,7 @@ export default function TaskQuickAssignModal({
   user,
 }) {
   const { t } = useTranslation();
+  const isOffline = useIsOffline();
 
   const defaultAssignee = useMemo(() => {
     return isAssigned
@@ -124,7 +126,7 @@ export default function TaskQuickAssignModal({
         control={control}
         selectedWorker={selectedWorker}
         optional={true}
-        additionalContent={assignAllCheckbox}
+        additionalContent={isOffline ? null : assignAllCheckbox}
         register={register}
         errors={errors}
       />

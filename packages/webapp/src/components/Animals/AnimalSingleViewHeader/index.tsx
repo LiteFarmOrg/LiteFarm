@@ -15,6 +15,7 @@
 
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -36,8 +37,6 @@ import {
 } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import styles from './styles.module.scss';
 import navStyles from '@navStyles';
-
-type TFunction = ReturnType<typeof useTranslation>['t'];
 
 type MenuItemProps = { iconName: IconName; text: string };
 
@@ -71,7 +70,7 @@ const Age = ({ birthDate, t }: { birthDate?: Animal['birth_date']; t: TFunction 
   <div className={styles.bold}>
     {birthDate
       ? getAge(new Date(birthDate))
-      : t('common:PROPERTY_UNKNOWN', { property: t('common:AGE') })}
+      : String(t('common:PROPERTY_UNKNOWN', { property: t('common:AGE') }))}
   </div>
 );
 

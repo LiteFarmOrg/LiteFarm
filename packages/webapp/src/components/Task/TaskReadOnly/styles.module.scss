@@ -133,13 +133,13 @@
   }
 }
 
-.taskWageInfo {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+.taskWageSet {
+  color: var(--Colors-Neutral-Neutral-900);
   padding-top: 12px;
 }
 
-.taskWageWarning {
-  color: var(--Colors-Accent-Accent-yellow-900, #6b4d00);
+.taskWageNotSet {
+  color: var(--Colors-Accent-Accent-yellow-900);
   font-style: italic;
   padding-top: 12px;
 }

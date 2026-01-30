@@ -24,19 +24,19 @@ import {
   hourlyWageActions,
 } from '../../Task/AssignTask/constants';
 
-interface TaskWageFormData {
+interface EditTaskWageFormFields {
   [HOURLY_WAGE_ACTION]: string;
   [HOURLY_WAGE]: number | null;
 }
 
-interface TaskWageUpdate {
+interface TaskWagePatch {
   wage_at_moment: number | null;
   override_hourly_wage: boolean;
 }
 
 interface EditTaskWageModalProps {
   dismissModal: () => void;
-  onSave: (update: TaskWageUpdate) => void;
+  onSave: (data: TaskWagePatch) => void;
   wage_at_moment: number | null;
   override_hourly_wage: boolean;
 }
@@ -49,7 +49,7 @@ export default function EditTaskWageModal({
 }: EditTaskWageModalProps) {
   const { t } = useTranslation();
 
-  const hasTaskWageOverride = !!override_hourly_wage;
+  const hasTaskWageOverride = override_hourly_wage;
 
   const {
     register,
@@ -57,7 +57,7 @@ export default function EditTaskWageModal({
     watch,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TaskWageFormData>({
+  } = useForm<EditTaskWageFormFields>({
     mode: 'onChange',
     defaultValues: {
       [HOURLY_WAGE_ACTION]: hasTaskWageOverride ? hourlyWageActions.FOR_THIS_TASK : '',
@@ -68,7 +68,7 @@ export default function EditTaskWageModal({
   const selectedHourlyWageAction = watch(HOURLY_WAGE_ACTION);
   const shouldSetWage = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
 
-  const onSubmit = (data: TaskWageFormData) => {
+  const onSubmit = (data: EditTaskWageFormFields) => {
     if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.FOR_THIS_TASK) {
       onSave({
         wage_at_moment: +Number(data[HOURLY_WAGE]).toFixed(2),

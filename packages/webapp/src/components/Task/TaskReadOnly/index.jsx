@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { Label, Main, Semibold, IconLink } from '../../Typography';
+import { Label, Main, Semibold, IconLink, Text } from '../../Typography';
 import { Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
@@ -267,17 +267,17 @@ export default function PureTaskReadOnly({
           <div>
             <Label>{t('ADD_TASK.TASK_SPECIFIC_HOURLY_WAGE')}</Label>
             {hasWageOverride ? (
-              <Label className={styles.taskWageInfo}>
+              <Text className={styles.taskWageSet}>
                 <Trans
                   i18nKey="ADD_TASK.HOURLY_WAGE.TASK_WAGE_SET"
                   values={{ wage: `${currencySymbol}${roundToTwo(wage_at_moment)}` }}
                   components={{ strong: <strong /> }}
                 />
-              </Label>
+              </Text>
             ) : (
-              <Label className={styles.taskWageWarning}>
+              <Text className={styles.taskWageNotSet}>
                 {t('ADD_TASK.HOURLY_WAGE.NO_TASK_WAGE')}
-              </Label>
+              </Text>
             )}
           </div>
           {isCurrent && (

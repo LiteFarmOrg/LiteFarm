@@ -58,8 +58,6 @@ const isYesOptionSelected = (option) => {
  * @param {AssigneeOption} props.defaultAssignee - whether the task is assigned or not
  * @param {Object.<string, any>} [props.additionalFields={}] - any inputs with default values needed in the form
  *     in addition to assignee, hourly wage action and hourly wage. ex. { [ASSIGN_ALL]: false }
- * @param {number} [props.wage_at_moment] - wage for the task if it has a task-specific override
- * @param {boolean} [props.override_hourly_wage] - flag indicating if the task has a task-specific wage override
  * @param {boolean} [props.disableUnAssignedOption] - whether to disable the unassigned option
  * @param {string} props.mode - validation strategy before submitting behaviour
  * @param {boolean} props.shouldUnregister - enable and disable input unregister after unmount
@@ -70,8 +68,6 @@ const useTaskAssignForm = ({
   user,
   users,
   additionalFields = {},
-  wage_at_moment,
-  override_hourly_wage,
   defaultAssignee,
   disableUnAssignedOption,
   mode = 'onTouched',
@@ -84,8 +80,6 @@ const useTaskAssignForm = ({
     value: user.user_id,
   };
   const unAssignedOption = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
-
-  const hasTaskWageOverride = !!override_hourly_wage;
 
   const {
     control,
@@ -102,8 +96,8 @@ const useTaskAssignForm = ({
     shouldUnregister,
     defaultValues: {
       [ASSIGNEE]: defaultAssignee,
-      [HOURLY_WAGE_ACTION]: hasTaskWageOverride ? hourlyWageActions.FOR_THIS_TASK : '',
-      [HOURLY_WAGE]: hasTaskWageOverride ? wage_at_moment : null,
+      [HOURLY_WAGE_ACTION]: '',
+      [HOURLY_WAGE]: null,
       ...additionalFields,
     },
   });
@@ -152,15 +146,15 @@ const useTaskAssignForm = ({
     return shouldSet;
   }, [selectedHourlyWageAction]);
 
-  // Prepopulate the hourly wage with the user's farm wage when no task override exists
+  // Prepopulate the hourly wage with the user's farm wage
   useEffect(() => {
-    if (!override_hourly_wage && assigned) {
+    if (assigned) {
       const userFarmWage = userData.wage?.amount;
       setValue(HOURLY_WAGE, userFarmWage || null, {
         shouldValidate: userFarmWage > 0,
       });
     }
-  }, [assigned, userData.wage?.amount, override_hourly_wage, setValue]);
+  }, [assigned, userData.wage?.amount, setValue]);
 
   return {
     control,

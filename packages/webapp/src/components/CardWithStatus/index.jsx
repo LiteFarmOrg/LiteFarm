@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import Card from '../Card';
 import { StatusLabel } from './StatusLabel';
-import clsx from 'clsx';
 
 import Rating from '../Rating';
 

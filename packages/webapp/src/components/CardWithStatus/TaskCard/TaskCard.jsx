@@ -78,7 +78,7 @@ export const PureTaskCard = ({
   return (
     <CardWithStatus
       data-cy="taskCard"
-      color={to_sync ? 'completed' : selected ? activeCardColorMap[status] : statusColorMap[status]}
+      color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
       label={t(`TASK.STATUS.${taskStatusTranslateKey[status]}`)}
@@ -165,7 +165,7 @@ export const PureTaskCard = ({
           <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
         </div>
       )}
-      {to_sync && <div className={styles.willSaveText}>{t('TASK.WILL_SAVE_ONLINE')}</div>}
+      {to_sync && <span className={styles.willSaveText}>{t('TASK.WILL_SAVE_ONLINE')}</span>}
     </CardWithStatus>
   );
 };

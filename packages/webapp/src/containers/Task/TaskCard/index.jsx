@@ -32,6 +32,7 @@ const TaskCard = ({
   wage_at_moment,
   revision_date,
   revised_by_user_id,
+  to_sync = false,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -97,6 +98,7 @@ const TaskCard = ({
         language={language}
         revision_date={revision_date}
         reviser={reviser}
+        to_sync={to_sync}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal

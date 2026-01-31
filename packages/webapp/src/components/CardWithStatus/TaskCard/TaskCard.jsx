@@ -55,6 +55,7 @@ export const PureTaskCard = ({
   language,
   revision_date,
   reviser,
+  to_sync = false,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -77,10 +78,11 @@ export const PureTaskCard = ({
   return (
     <CardWithStatus
       data-cy="taskCard"
-      color={selected ? activeCardColorMap[status] : statusColorMap[status]}
+      color={to_sync ? 'completed' : selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
       label={t(`TASK.STATUS.${taskStatusTranslateKey[status]}`)}
+      className={clsx(to_sync && styles.cardAwaitingSync)}
       classes={{
         ...classes,
         card: {
@@ -92,8 +94,9 @@ export const PureTaskCard = ({
           ...classes.card,
         },
       }}
-      onClick={onClick}
+      onClick={to_sync ? undefined : onClick}
       score={happiness}
+      to_sync={to_sync}
     >
       <TaskIcon className={styles.taskIcon} />
       <div className={styles.info}>
@@ -162,6 +165,7 @@ export const PureTaskCard = ({
           <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
         </div>
       )}
+      {to_sync && <div className={styles.willSaveText}>{t('TASK.WILL_SAVE_ONLINE')}</div>}
     </CardWithStatus>
   );
 };
@@ -181,4 +185,5 @@ PureTaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   language: PropTypes.oneOf(languageCodes),
+  to_sync: PropTypes.bool,
 };

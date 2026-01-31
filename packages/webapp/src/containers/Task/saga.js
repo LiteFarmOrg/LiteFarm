@@ -729,7 +729,7 @@ export function* createTaskSaga({ payload }) {
         yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
       }
 
-      // No optimstic update for task creation
+      // No optimistic update for task creation
 
       history.push(returnPath ?? '/tasks');
     } else {
@@ -922,7 +922,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
         putTaskSuccess({
           ...taskData, // note: will not create the proper object for details view
           task_id,
-          to_sync: true, // For LF-5120 visual indicator on to-be-synced tasks
+          to_sync: true, // For visual indicator on to-be-synced tasks
         }),
       );
 
@@ -961,7 +961,7 @@ export function* abandonTaskSaga({ payload: data }) {
         putTaskSuccess({
           ...patchData, // will create the proper object for details view
           task_id,
-          to_sync: true, // For LF-5120 - visual indicator on to-be-synced tasks
+          to_sync: true, // For visual indicator on to-be-synced tasks
         }),
       );
 

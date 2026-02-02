@@ -270,6 +270,19 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     );
   };
 
+  const onLogOutOffline = async () => {
+    setShowOfflineLogoutWarning(false);
+
+    if (navigator.serviceWorker) {
+      const registration = await navigator.serviceWorker.ready;
+      if (registration.active) {
+        registration.active.postMessage('clear_queue');
+      }
+    }
+
+    onLogOut();
+  };
+
   return (
     showNav && (
       <>
@@ -284,10 +297,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
         {showOfflineLogoutWarning && (
           <OfflineLogOutWarningModal
             dismissModal={() => setShowOfflineLogoutWarning(false)}
-            onLogOut={() => {
-              setShowOfflineLogoutWarning(false);
-              onLogOut();
-            }}
+            onLogOut={onLogOutOffline}
           />
         )}
       </>

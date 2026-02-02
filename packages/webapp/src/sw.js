@@ -141,7 +141,7 @@ BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
 });
 
 // ——————————————————————————————
-self.addEventListener('message', (event) => {
+self.addEventListener('message', async (event) => {
   if (event.data === 'replay_queue') {
     Object.values(queues).forEach(async ({ queue, area }) => {
       const handler = createOnSyncHandler(area);
@@ -151,5 +151,13 @@ self.addEventListener('message', (event) => {
         // Ignore errors during manual replay; they are logged by the handler anyway
       }
     });
+  }
+
+  if (event.data === 'clear_queue') {
+    for (const { queue } of Object.values(queues)) {
+      while (await queue.shiftRequest()) {
+        // Keep removing until shiftRequest returns undefined
+      }
+    }
   }
 });

@@ -1615,7 +1615,7 @@
     },
     "CHANGES_WILL_SYNC": "Any changes you make will sync when you're back online.",
     "LOG_OUT_MODAL": {
-      "INFO": "You won’t be able to log back in while offline",
+      "INFO": "You won't be able to log back in while offline and will lose any pending changes",
       "TITLE": "Are you sure you want to logout?"
     }
   },

@@ -20,11 +20,12 @@ import ReactSelect from '../../Form/ReactSelect';
 import HourlyWageInputs from './HourlyWageInputs';
 import { ASSIGNEE } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import { roundToTwo } from '../../../util/rounding';
 
 const AssignTask = ({
   intro,
   optional,
-  contentForWorkerWithWage,
   additionalContent,
   assigneeOptions,
   register,
@@ -33,10 +34,15 @@ const AssignTask = ({
   errors,
   showHourlyWageInputs,
   shouldSetWage,
-  currency,
   toolTipContent,
+  userFarmWage,
 }) => {
   const { t } = useTranslation(['translation']);
+
+  const currencySymbol = useCurrencySymbol();
+
+  const isAssigned = selectedWorker?.value !== null;
+  const hasUserFarmWage = userFarmWage > 0; // wage is 0, not null, when not set
 
   const AssigneeSelect = useMemo(() => {
     return (
@@ -58,29 +64,45 @@ const AssignTask = ({
             />
           )}
         />
-        {showHourlyWageInputs && (
-          <Label className={styles.warning}>
-            {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
-          </Label>
+        {isAssigned && showHourlyWageInputs && (
+          <>
+            {hasUserFarmWage ? (
+              <Label className={styles.info}>
+                {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_CURRENT_WAGE', {
+                  name: selectedWorker.label.trim(),
+                  wage: `${currencySymbol}${roundToTwo(userFarmWage)}`,
+                })}
+              </Label>
+            ) : (
+              <Label className={styles.warning}>
+                {t('ADD_TASK.HOURLY_WAGE.ASSIGNEE_WAGE_WARNING', { name: selectedWorker.label })}
+              </Label>
+            )}
+          </>
         )}
       </div>
     );
-  }, [assigneeOptions, optional, showHourlyWageInputs, selectedWorker.label, control]);
+  }, [
+    assigneeOptions,
+    optional,
+    selectedWorker,
+    control,
+    userFarmWage,
+    currencySymbol,
+    showHourlyWageInputs,
+  ]);
 
   return (
     <>
       {intro}
       {AssigneeSelect}
-      {showHourlyWageInputs ? (
+      {showHourlyWageInputs && (
         <HourlyWageInputs
           control={control}
           register={register}
           errors={errors}
           shouldSetWage={shouldSetWage}
-          currency={currency}
         />
-      ) : (
-        contentForWorkerWithWage
       )}
       {additionalContent}
     </>

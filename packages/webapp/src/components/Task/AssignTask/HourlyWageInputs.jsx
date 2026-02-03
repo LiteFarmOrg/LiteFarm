@@ -16,38 +16,30 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import RadioGroup from '../../Form/RadioGroup';
 import Input, { numberOnKeyDown } from '../../Form/Input';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }) => {
+const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
   const { t } = useTranslation(['translation']);
 
-  const currencySymbol = currency && grabCurrencySymbol(currency);
+  const currencySymbol = useCurrencySymbol();
 
   const radioOptions = [
     {
-      label: t('ADD_TASK.HOURLY_WAGE.SET_HOURLY_WAGE'),
-      value: hourlyWageActions.SET_HOURLY_WAGE,
-    },
-    {
-      label: t('ADD_TASK.HOURLY_WAGE.FOR_THIS_TASK'),
+      label: t('common:YES'),
       value: hourlyWageActions.FOR_THIS_TASK,
     },
     {
       label: t('common:NO'),
       value: hourlyWageActions.NO,
     },
-    {
-      label: t('ADD_TASK.HOURLY_WAGE.DONT_ASK'),
-      value: hourlyWageActions.DO_NOT_ASK_AGAIN,
-    },
   ];
 
   return (
     <div className={styles.hourlyWageInputs}>
       <Main style={{ marginBottom: '10px' }}>
-        {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}
+        {t('ADD_TASK.TASK_WAGE.WANT_TO_SET_HOURLY_WAGE')}
       </Main>
       <RadioGroup
         hookFormControl={control}
@@ -55,6 +47,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage, currency }
         radios={radioOptions}
         data-cy="hourlyWageInputs-action"
         style={{ marginBottom: '20px' }}
+        row
       />
       {shouldSetWage && (
         <Input

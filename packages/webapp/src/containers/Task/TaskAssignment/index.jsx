@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import Checkbox from '../../../components/Form/Checkbox';
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask, updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../saga';
+import { createTask } from '../saga';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '../../../util';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
 import {
   hourlyWageActions,
-  WAGE_OVERRIDE,
-  OVERRIDE_HOURLY_WAGE,
   assignTaskFields,
   ASSIGNEE,
   ALREADY_COMPLETED,
@@ -23,7 +20,7 @@ import {
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
 
-export default function TaskManagement() {
+export default function TaskAssignment() {
   const location = useLocation();
   const history = useHistory();
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -62,56 +59,23 @@ export default function TaskManagement() {
     users: userData,
     defaultAssignee,
     additionalFields: {
-      [OVERRIDE_HOURLY_WAGE]: persistedFormData[OVERRIDE_HOURLY_WAGE] || false,
-      [WAGE_OVERRIDE]: persistedFormData[WAGE_OVERRIDE] || null,
       ...cloneObject(persistedFormData),
     },
   });
 
-  const {
-    watch,
-    selectedWorker,
-    showHourlyWageInputs,
-    setValue,
-    clearErrors,
-    currency,
-    userFarmWage,
-    register,
-    unregister,
-  } = taskAssignForm;
-
-  const currencySymbol = grabCurrencySymbol(currency);
-  const override = watch(OVERRIDE_HOURLY_WAGE);
-
-  useEffect(() => {
-    // when assignee is changed, show user farm wage as default for "wage override" input
-    if (selectedWorker.label !== t('TASK.UNASSIGNED') && userFarmWage) {
-      setValue(WAGE_OVERRIDE, userFarmWage);
-      clearErrors(WAGE_OVERRIDE);
-    }
-  }, [selectedWorker, userFarmWage]);
+  const { watch, register, unregister } = taskAssignForm;
 
   const onSubmit = (data) => {
-    const {
-      hourly_wage_action,
-      assignee,
-      hourly_wage,
-      override_hourly_wage,
-      wage_at_moment,
-      already_completed,
-    } = data;
-    const override =
-      (!showHourlyWageInputs && override_hourly_wage) || // user has a wage but wants to override
-      (showHourlyWageInputs && hourly_wage_action === hourlyWageActions.FOR_THIS_TASK); // no user wage and set wage for this task
+    const { hourly_wage_action, assignee, hourly_wage, already_completed } = data;
+
+    const shouldSetTaskWage = hourly_wage_action === hourlyWageActions.FOR_THIS_TASK;
 
     const postData = {
       ...persistedFormData,
       ...{
         assignee_user_id: assignee,
-        override_hourly_wage: override,
-        wage_at_moment: override
-          ? +(showHourlyWageInputs ? +hourly_wage.toFixed(2) : wage_at_moment)
-          : null,
+        override_hourly_wage: shouldSetTaskWage,
+        wage_at_moment: shouldSetTaskWage ? +hourly_wage.toFixed(2) : null,
       },
       returnPath: location.state ? location.state.pathname : null,
     };
@@ -125,18 +89,6 @@ export default function TaskManagement() {
     dispatch(
       createTask({ ...postData, setShowCannotCreateModal, alreadyCompleted: already_completed }),
     );
-
-    // for user who does not have a wage set, take the hourly wage action
-    if (showHourlyWageInputs) {
-      if (hourly_wage_action === hourlyWageActions.SET_HOURLY_WAGE) {
-        const wage = +hourly_wage.toFixed(2);
-        dispatch(
-          updateUserFarmWage({ user_id: assignee.value, wage: { type: 'hourly', amount: wage } }),
-        );
-      } else if (hourly_wage_action === hourlyWageActions.DO_NOT_ASK_AGAIN) {
-        dispatch(setUserFarmWageDoNotAskAgain({ user_id: assignee.value }));
-      }
-    }
   };
 
   const handleGoBack = () => {
@@ -185,9 +137,6 @@ export default function TaskManagement() {
           onSubmit={onSubmit}
           handleGoBack={handleGoBack}
           onError={onError}
-          isFarmWorker={isFarmWorker}
-          currencySymbol={currencySymbol}
-          override={override}
           {...taskAssignForm}
           additionalContent={taskCompleted}
           progress={progress}

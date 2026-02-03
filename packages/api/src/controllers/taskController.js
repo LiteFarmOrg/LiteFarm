@@ -440,12 +440,11 @@ const taskController = {
   async patchWage(req, res) {
     try {
       const { task_id } = req.params;
-      const { wage_at_moment } = req.body;
-
+      const { wage_at_moment, override_hourly_wage } = req.body;
       const result = await TaskModel.query()
         .context(req.auth)
         .findById(task_id)
-        .patch({ wage_at_moment, override_hourly_wage: true });
+        .patch({ wage_at_moment, override_hourly_wage });
       return result ? res.sendStatus(200) : res.status(404).send('Task not found');
     } catch (error) {
       console.log(error);
@@ -1114,8 +1113,9 @@ const taskController = {
   async getIrrigationTaskTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const irrigationTaskTypes =
-        await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(farm_id);
+      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
+        farm_id,
+      );
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);

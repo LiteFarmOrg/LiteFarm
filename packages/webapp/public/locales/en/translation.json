@@ -133,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "DUPLICATE_NAME": "A product with this name already exists. Please choose another.",
     "EDIT_CUSTOM_TASK": "Edit custom task",
+    "EDIT_TASK_WAGE": "Edit task wage",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
@@ -153,6 +154,7 @@
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "{{name}}'s hourly wage is {{wage}}/hr",
       "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
       "DONT_ASK": "No, do not ask again for this employee",
       "FOR_THIS_TASK": "Yes, just for this task",
@@ -287,6 +289,12 @@
     },
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+    "TASK_SPECIFIC_HOURLY_WAGE": "Task-specific hourly wage",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "There is no wage set for this task",
+      "TASK_WAGE_SET": "The hourly wage for this task is set to <strong>{{wage}} per hour</strong>",
+      "WANT_TO_SET_HOURLY_WAGE": "Set an hourly wage just for this task?"
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",
     "THIS_TASK_IS_COMPLETED": "This task has already been completed",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Clicking 'Save' will immediately save this task. You'll then be prompted to complete it.",
@@ -2179,7 +2187,7 @@
     "ERROR": "Wage must be a valid, non-negative decimal number",
     "HOURLY_WAGE": "Hourly Wage",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
-    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+    "HOURLY_WAGE_TOOLTIP": "This task-specific wage will override the assignee's default wage. Default worker wages can be managed in the People tab."
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

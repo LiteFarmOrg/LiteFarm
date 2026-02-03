@@ -132,3 +132,14 @@
     text-align: left;
   }
 }
+
+.taskWageSet {
+  color: var(--Colors-Neutral-Neutral-900);
+  padding-top: 12px;
+}
+
+.taskWageNotSet {
+  color: var(--Colors-Accent-Accent-yellow-900);
+  font-style: italic;
+  padding-top: 12px;
+}

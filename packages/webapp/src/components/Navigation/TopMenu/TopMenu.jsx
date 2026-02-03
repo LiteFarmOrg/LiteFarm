@@ -221,7 +221,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
         disabled={offline}
       >
         <NotificationIcon />
-        <Alert />
+        {!offline && <Alert />}
       </IconButton>
       <IconButton
         data-cy="home-profileButton"

@@ -23,6 +23,7 @@ import {
   HOURLY_WAGE_ACTION,
   hourlyWageActions,
 } from '../../Task/AssignTask/constants';
+import { roundToTwo } from '../../../util/rounding';
 
 interface EditTaskWageFormFields {
   [HOURLY_WAGE_ACTION]: string;
@@ -71,7 +72,7 @@ export default function EditTaskWageModal({
   const onSubmit = (data: EditTaskWageFormFields) => {
     if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.FOR_THIS_TASK) {
       onSave({
-        wage_at_moment: +Number(data[HOURLY_WAGE]).toFixed(2),
+        wage_at_moment: roundToTwo(data[HOURLY_WAGE]),
         override_hourly_wage: true,
       });
     } else if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.NO) {

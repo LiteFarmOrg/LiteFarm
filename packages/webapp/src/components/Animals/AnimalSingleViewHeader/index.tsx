@@ -70,14 +70,14 @@ const Age = ({ birthDate, t }: { birthDate?: Animal['birth_date']; t: TFunction 
   <div className={styles.bold}>
     {birthDate
       ? getAge(new Date(birthDate))
-      : String(t('common:PROPERTY_UNKNOWN', { property: t('common:AGE') }))}
+      : t('common:PROPERTY_UNKNOWN', { property: t('common:AGE') })}
   </div>
 );
 
 const Location = ({ location, t }: { location?: string; t: TFunction }) => (
   <div className={clsx(styles.bold, styles.location)}>
     <Icon iconName="LOCATION" className={styles.locationIcon} />
-    <span className={styles.locationText}>{location || String(t('common:UNKNOWN'))}</span>
+    <span className={styles.locationText}>{location || t('common:UNKNOWN')}</span>
   </div>
 );
 
@@ -109,7 +109,7 @@ const ContainerWithButtons = ({
       </TextButton>
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
-        {!isCompactView && isEditing ? <div>{String(t('common:EDITING'))}</div> : null}
+        {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
         {showMenu && (
           <MeatballsMenu
             disabled={!!isEditing}

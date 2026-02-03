@@ -32,7 +32,18 @@
 }
 
 .notificationButton {
-  transform: translateY(1px);
+  transform: translate(4px, 1px);
+  padding: 4px;
+  border-radius: 4px;
+
+  &:disabled {
+    border-radius: 4px;
+    background: var(--Colors-Neutral-Neutral-50);
+
+    svg path {
+      stroke: var(--Colors-Neutral-Neutral-200);
+    }
+  }
 }
 
 .menuList {

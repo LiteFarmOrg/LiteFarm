@@ -269,15 +269,13 @@ export default function PureTaskReadOnly({
             {hasWageOverride ? (
               <Text className={styles.taskWageSet}>
                 <Trans
-                  i18nKey="ADD_TASK.HOURLY_WAGE.TASK_WAGE_SET"
+                  i18nKey="ADD_TASK.TASK_WAGE.TASK_WAGE_SET"
                   values={{ wage: `${currencySymbol}${roundToTwo(wage_at_moment)}` }}
                   components={{ strong: <strong /> }}
                 />
               </Text>
             ) : (
-              <Text className={styles.taskWageNotSet}>
-                {t('ADD_TASK.HOURLY_WAGE.NO_TASK_WAGE')}
-              </Text>
+              <Text className={styles.taskWageNotSet}>{t('ADD_TASK.TASK_WAGE.NO_TASK_WAGE')}</Text>
             )}
           </div>
           {isCurrent && (

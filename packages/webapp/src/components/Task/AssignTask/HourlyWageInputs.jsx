@@ -39,7 +39,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
   return (
     <div className={styles.hourlyWageInputs}>
       <Main style={{ marginBottom: '10px' }}>
-        {t('ADD_TASK.HOURLY_WAGE.WANT_TO_SET_HOURLY_WAGE')}
+        {t('ADD_TASK.TASK_WAGE.WANT_TO_SET_HOURLY_WAGE')}
       </Main>
       <RadioGroup
         hookFormControl={control}

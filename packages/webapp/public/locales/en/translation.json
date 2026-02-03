@@ -2151,7 +2151,8 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned",
-    "UPLOAD_LAB_DOCUMENT": "Upload lab document"
+    "UPLOAD_LAB_DOCUMENT": "Upload lab document",
+    "WILL_SAVE_ONLINE": "Will save when online"
   },
   "UNIT": {
     "TIME": {

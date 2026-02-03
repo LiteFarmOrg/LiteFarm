@@ -122,3 +122,26 @@ WithRevisionDate.args = {
     last_name: 'Last',
   },
 };
+
+export const ToSyncCompleted = Template.bind({});
+ToSyncCompleted.args = {
+  ...templateData,
+  status: 'completed',
+  to_sync: true,
+};
+
+export const ToSyncAbandoned = Template.bind({});
+ToSyncAbandoned.args = {
+  ...templateData,
+  status: 'abandoned',
+  abandonDate: '2023-04-12T00:00:00.000',
+  to_sync: true,
+};
+
+export const ToSyncCompletedWithRating = Template.bind({});
+ToSyncCompletedWithRating.args = {
+  ...templateData,
+  status: 'completed',
+  happiness: 4,
+  to_sync: true,
+};

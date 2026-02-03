@@ -81,7 +81,7 @@ import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlic
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
-import fieldWorkReducer from '../containers/fieldWorkSlice';
+import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
@@ -204,7 +204,7 @@ const entitiesReducer = combineReducers({
   harvestUseTypeReducer,
   productReducer,
   mapAddDrawerReducer,
-  fieldWorkReducer,
+  fieldWorkTypeReducer,
   irrigationTaskReducer,
   irrigationTaskTypesReducer,
   revenueTypeReducer,

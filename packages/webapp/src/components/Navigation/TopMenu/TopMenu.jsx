@@ -230,9 +230,10 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
         className={styles.iconButton}
         classes={{ root: styles.notificationButton }}
         size="large"
+        disabled={offline}
       >
         <NotificationIcon />
-        <Alert />
+        {!offline && <Alert />}
       </IconButton>
       <IconButton
         data-cy="home-profileButton"

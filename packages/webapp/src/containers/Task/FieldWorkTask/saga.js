@@ -18,10 +18,10 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { axios } from '../../../containers/saga';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import {
-  fieldWorkLoading,
-  fieldWorkSuccess,
-  fieldWorkFailure,
-} from '../../../containers/fieldWorkSlice';
+  fieldWorkTypeLoading,
+  fieldWorkTypeSuccess,
+  fieldWorkTypeFailure,
+} from '../../fieldWorkTypeSlice';
 import { taskUrl } from '../../../apiConfig';
 import { getHeader } from '../../../containers/saga';
 
@@ -32,22 +32,26 @@ export const getFieldWorkTypes = createAction(`getFieldWorkTypesSaga`);
 export function* getFieldWorkTypesSaga() {
   const { farm_id, user_id } = yield select(userFarmSelector);
   try {
-    yield put(fieldWorkLoading());
+    yield put(fieldWorkTypeLoading());
     const header = getHeader(user_id, farm_id);
     let result = yield call(axios.get, getFieldWorkTypesURL(farm_id), header);
     // Sort the list of field work types here alphabetically
-    result.data.sort(function(a, b) {
-      // Compare list items with values in lower case 
-      const a_value = a.field_work_name.toLowerCase()
-      const b_value = b.field_work_name.toLowerCase()
-      if (a_value < b_value) { return -1 }
-      if (a_value > b_value) { return 1 }
-      return 0
-    })
+    result.data.sort(function (a, b) {
+      // Compare list items with values in lower case
+      const a_value = a.field_work_name.toLowerCase();
+      const b_value = b.field_work_name.toLowerCase();
+      if (a_value < b_value) {
+        return -1;
+      }
+      if (a_value > b_value) {
+        return 1;
+      }
+      return 0;
+    });
 
-    yield put(fieldWorkSuccess({ fieldWorkTypes: result.data }));
+    yield put(fieldWorkTypeSuccess({ fieldWorkTypes: result.data }));
   } catch (error) {
-    yield put(fieldWorkFailure());
+    yield put(fieldWorkTypeFailure());
     console.log(error);
   }
 }

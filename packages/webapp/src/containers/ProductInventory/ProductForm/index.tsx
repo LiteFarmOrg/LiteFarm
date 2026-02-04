@@ -14,7 +14,8 @@
  */
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../../userFarmSlice';

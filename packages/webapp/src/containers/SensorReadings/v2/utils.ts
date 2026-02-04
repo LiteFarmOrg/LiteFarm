@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { type ChartTruncPeriod } from '../../../components/Charts/LineChart';
 import { getUnixTime } from '../../../components/Charts/utils';
 import { getDateDifference } from '../../../util/moment';
@@ -132,7 +132,7 @@ export const formatDataPoint = (
       const value =
         valueConverter && isValidNumber(data[dataKey])
           ? valueConverter(data[dataKey])
-          : data[dataKey] ?? null;
+          : (data[dataKey] ?? null);
 
       return { ...acc, [dataKey]: value };
     },

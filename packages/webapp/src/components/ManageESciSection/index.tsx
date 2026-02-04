@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Trans, TFunction } from 'react-i18next';
+import { Trans } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { Link } from 'react-router-dom';
 import Icon from '../Icons';
 import styles from './styles.module.scss';

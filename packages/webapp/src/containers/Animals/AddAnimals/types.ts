@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { UseFormReturn } from 'react-hook-form';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { STEPS } from '../AddAnimals';
 import type { Option as AnimalSelectOption } from '../../../components/Animals/AddAnimalsFormCard/AnimalSelect';
 import type { Details as SexDetailsType } from '../../../components/Form/SexDetails/SexDetailsPopover';

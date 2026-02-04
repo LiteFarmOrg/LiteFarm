@@ -16,7 +16,8 @@
 import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { TFunction, Trans, useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { BiPencil } from 'react-icons/bi';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';

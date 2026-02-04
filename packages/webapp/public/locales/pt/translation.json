@@ -154,7 +154,6 @@
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
-      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
       "FOR_THIS_TASK": "Sim, somente para esta tarefa",
@@ -289,12 +288,6 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "TASK_SPECIFIC_HOURLY_WAGE": "",
-    "TASK_WAGE": {
-      "NO_TASK_WAGE": "",
-      "TASK_WAGE_SET": "",
-      "WANT_TO_SET_HOURLY_WAGE": ""
-    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Ao clicar em \"Salvar\", esta tarefa será salva imediatamente. Em seguida, será solicitado que você a conclua.",
@@ -1615,18 +1608,6 @@
       "TITLE": "Tarefas não atribuídas"
     }
   },
-  "OFFLINE": {
-    "ARE_OFFLINE": "",
-    "BADGE": {
-      "TITLE": "",
-      "TOOLTIP_CONTENT": ""
-    },
-    "CHANGES_WILL_SYNC": "",
-    "LOG_OUT_MODAL": {
-      "INFO": "",
-      "TITLE": ""
-    }
-  },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",
     "IMPORTANT_THINGS": "E, por fim, vamos mostrar algumas coisas importantes!"
@@ -2163,8 +2144,7 @@
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
-    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório",
-    "WILL_SAVE_ONLINE": ""
+    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório"
   },
   "UNIT": {
     "TIME": {

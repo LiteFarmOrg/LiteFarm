@@ -18,7 +18,6 @@ const fieldWorkSlice = createSlice({
     fieldWorkLoading: (state, action) => {
       Object.assign(state, {
         loading: true,
-        fieldWorkTypes: [],
       });
     },
     fieldWorkSuccess: (state, { payload }) => {
@@ -31,7 +30,6 @@ const fieldWorkSlice = createSlice({
     },
     fieldWorkFailure: (state, action) => {
       state.loading = true;
-      state.fieldWorkTypes = [];
     },
   },
 });

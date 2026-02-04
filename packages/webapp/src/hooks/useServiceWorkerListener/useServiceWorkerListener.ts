@@ -21,6 +21,7 @@ import {
   enqueueErrorSnackbar,
 } from '../../containers/Snackbar/snackbarSlice';
 import { getTasks } from '../../containers/Task/saga';
+import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 
 type SyncArea =
@@ -74,7 +75,10 @@ export function useServiceWorkerListener() {
             return invalidateTags(['IrrigationPrescriptions']);
           }
         },
-        refresh: getTasks,
+        refresh: () => {
+          dispatch(getManagementPlans());
+          dispatch(getTasks());
+        },
       },
       'tasks.complete': {
         successMessage: t('message:TASK.COMPLETE.SYNC.SUCCESS'),
@@ -89,14 +93,14 @@ export function useServiceWorkerListener() {
             return invalidateTags(['Animals', 'AnimalBatches']);
           }
         },
-        refresh: getTasks,
+        refresh: () => dispatch(getTasks()),
       },
       'tasks.abandon': {
         successMessage: t('message:TASK.ABANDON.SYNC.SUCCESS'),
         errors: {
           404: t('message:TASK.SYNC.NOT_FOUND'),
         },
-        refresh: getTasks,
+        refresh: () => dispatch(getTasks()),
       },
       'tasks.update': {
         successMessage: t('message:TASK.UPDATE.SYNC.SUCCESS'),
@@ -104,7 +108,7 @@ export function useServiceWorkerListener() {
           403: t('message:TASK.SYNC.UNAUTHORIZED'),
           404: t('message:TASK.SYNC.NOT_FOUND'),
         },
-        refresh: getTasks,
+        refresh: () => dispatch(getTasks()),
       },
       'tasks.delete': {
         successMessage: t('message:TASK.DELETE.SYNC.SUCCESS'),
@@ -116,10 +120,10 @@ export function useServiceWorkerListener() {
             return invalidateTags(['IrrigationPrescriptions']);
           }
         },
-        refresh: getTasks,
+        refresh: () => dispatch(getTasks()),
       },
     }),
-    [t],
+    [t, dispatch],
   );
 
   useEffect(() => {
@@ -156,7 +160,7 @@ export function useServiceWorkerListener() {
         }
 
         // Refresh data regardless of success/failure
-        dispatch(refresh());
+        refresh();
       } else if (type === 'SYNC_ITEM_FAILURE') {
         /*
          * This indicates a failure to reach the server (e.g. API down). It should be rare.

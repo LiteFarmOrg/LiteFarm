@@ -100,6 +100,8 @@ export const api = createApi({
     responseHandler: 'content-type',
   }),
   tagTypes: API_TAGS,
+  keepUnusedDataFor: 60 * 60 * 24 * 7, // 7 days
+  refetchOnMountOrArgChange: 60,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>

@@ -20,6 +20,15 @@
   color: var(--brown700);
 }
 
+.info {
+  color: var(--Colors-Neutral-Neutral-700);
+}
+
+.warning,
+.info {
+  padding-top: 8px;
+}
+
 .hourlyWageInputs {
   span:has(> svg) {
     display: flex;

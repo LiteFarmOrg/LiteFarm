@@ -12,8 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-export const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
-export const WAGE_OVERRIDE = 'wage_at_moment';
 export const ASSIGNEE = 'assignee';
 export const HOURLY_WAGE = 'hourly_wage';
 export const HOURLY_WAGE_ACTION = 'hourly_wage_action';
@@ -21,10 +19,8 @@ export const ASSIGN_ALL = 'assign_all';
 export const ALREADY_COMPLETED = 'already_completed';
 
 export const hourlyWageActions = {
-  SET_HOURLY_WAGE: 'set_hourly_wage',
   FOR_THIS_TASK: 'for_this_task',
   NO: 'no',
-  DO_NOT_ASK_AGAIN: 'do_not_ask_again',
 };
 
 export const assignTaskFields = [ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, ASSIGN_ALL];

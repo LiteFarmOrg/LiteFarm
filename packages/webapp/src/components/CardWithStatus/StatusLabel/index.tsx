@@ -59,6 +59,18 @@ const useStyles = makeStyles({
     height: '16px',
     fontSize: '11px',
   },
+  toSyncCompleted: {
+    margin: '8px',
+    border: '1px dashed var(--Colors-Primary-Primary-teal-500)',
+    background: 'var(--Colors-Primary-Primary-teal-100)',
+    color: 'var(--Colors-Primary-Primary-teal-500)',
+  },
+  toSyncAbandoned: {
+    margin: '8px',
+    border: '1px dashed var(--Colors-Neutral-Neutral-400)',
+    background: 'var(--Colors-Neutral-Neutral-100)',
+    color: 'var(--Colors-Neutral-Neutral-700)',
+  },
 });
 
 export enum TaskStatus {
@@ -74,6 +86,7 @@ type StatusLabelProps = {
   color: TaskStatus;
   label: string;
   sm?: boolean;
+  to_sync?: boolean;
   children?: React.ReactNode;
   props?: HTMLAttributes<HTMLDivElement>;
 };
@@ -82,14 +95,26 @@ export const StatusLabel = ({
   color = TaskStatus.ACTIVE,
   label,
   sm,
+  to_sync = false,
   children,
   ...props
 }: StatusLabelProps): React.ReactNode => {
   const classes = useStyles();
+
+  const getStatusClass = () => {
+    if (to_sync && color === TaskStatus.COMPLETED) {
+      return classes.toSyncCompleted;
+    }
+    if (to_sync && color === TaskStatus.ABANDONED) {
+      return classes.toSyncAbandoned;
+    }
+    return classes[color];
+  };
+
   return (
     <div
       data-cy="status-label"
-      className={clsx(classes.container, classes[color], sm && classes.sm)}
+      className={clsx(classes.container, getStatusClass(), sm && classes.sm)}
       {...props}
     >
       {label}

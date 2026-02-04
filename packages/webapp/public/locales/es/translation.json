@@ -1148,14 +1148,6 @@
       "INFO": "La materia orgánica en el suelo es necesaria para mantener un ambiente saludable para su cultivo. Generamos estos datos con los registros de suelo más recientes. Si no posee registros, predecimos la materia orgánica con las ubicación global.",
       "TITLE": "MO del Suelo"
     },
-    "TAPE": {
-      "COMPLETED": "",
-      "IN_PROGRESS": "",
-      "NOT_FILLED": "",
-      "RESULTS_TITLE": "",
-      "TITLE": "",
-      "UPDATE_ANSWERS": ""
-    },
     "TITLE": "Reportes",
     "UNAVAILABLE": "No Disponible"
   },
@@ -2171,7 +2163,7 @@
     "ERROR": "Salario debe ser válido, no números decimales negativos",
     "HOURLY_WAGE": "Salario por hora",
     "HOURLY_WAGE_RANGE_ERROR": "El salario por hora debe ser un número positivo inferior a 999,999,999",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "HOURLY_WAGE_TOOLTIP": "Los salarios por hora se pueden establecer mediante la selección de un individuo en la pestaña Personas bajo 'mi granja'."
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

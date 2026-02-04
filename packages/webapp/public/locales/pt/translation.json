@@ -1148,14 +1148,6 @@
       "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
       "TITLE": "Matéria Orgânica do Solo"
     },
-    "TAPE": {
-      "COMPLETED": "",
-      "IN_PROGRESS": "",
-      "NOT_FILLED": "",
-      "RESULTS_TITLE": "",
-      "TITLE": "",
-      "UPDATE_ANSWERS": ""
-    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },
@@ -2171,7 +2163,7 @@
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

@@ -133,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
     "DUPLICATE_NAME": "Um produto com este nome já existe. Por favor escolha outro.",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
+    "EDIT_TASK_WAGE": "",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",
       "TYPE": {
@@ -153,6 +154,7 @@
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
       "FOR_THIS_TASK": "Sim, somente para esta tarefa",
@@ -287,6 +289,12 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
+    "TASK_SPECIFIC_HOURLY_WAGE": "",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "",
+      "TASK_WAGE_SET": "",
+      "WANT_TO_SET_HOURLY_WAGE": ""
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Ao clicar em \"Salvar\", esta tarefa será salva imediatamente. Em seguida, será solicitado que você a conclua.",
@@ -1147,6 +1155,14 @@
       "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
       "TITLE": "Matéria Orgânica do Solo"
     },
+    "TAPE": {
+      "COMPLETED": "",
+      "IN_PROGRESS": "",
+      "NOT_FILLED": "",
+      "RESULTS_TITLE": "",
+      "TITLE": "",
+      "UPDATE_ANSWERS": ""
+    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },
@@ -1485,7 +1501,6 @@
       "WEBSITE": "Site"
     },
     "INFO_SUMMARY": {
-      "FARM_ADDRESS": "Endereço da Fazenda",
       "FARM_EMAIL": "E-mail da Fazenda",
       "FARM_PROFILE": "Perfil da Fazenda",
       "FARM_STORE_ADDRESS": "Endereço da loja da Fazenda",
@@ -1598,6 +1613,18 @@
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"
+    }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "",
+    "BADGE": {
+      "TITLE": "",
+      "TOOLTIP_CONTENT": ""
+    },
+    "CHANGES_WILL_SYNC": "",
+    "LOG_OUT_MODAL": {
+      "INFO": "",
+      "TITLE": ""
     }
   },
   "OUTRO": {
@@ -2136,7 +2163,8 @@
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
-    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório"
+    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório",
+    "WILL_SAVE_ONLINE": ""
   },
   "UNIT": {
     "TIME": {
@@ -2163,7 +2191,7 @@
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
-    "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
+    "HOURLY_WAGE_TOOLTIP": ""
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

@@ -217,18 +217,51 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Impossible d'abandonner une tâche",
-      "SUCCESS": "Tâche abandonnée"
+      "SUCCESS": "Tâche abandonnée",
+      "SYNC": {
+        "ONLINE": "Tâche abandonnée. Sera sauvegardée quand vous serez de retour en ligne",
+        "SUCCESS": "Tâche abandonnée hors ligne a été sauvegardée avec succés"
+      }
     },
     "COMPLETE": {
       "FAILED": "Impossible de compléter une tâche",
-      "SUCCESS": "Tâche complétée "
+      "SUCCESS": "Tâche complétée ",
+      "SYNC": {
+        "ONLINE": "Tâche terminée. Sera sauvegardée quand vous serez de retour en ligne",
+        "SUCCESS": "La tâche terminée hors ligne a été enregistrée avec succès"
+      }
     },
     "CREATE": {
       "FAILED": "Impossible de créer une tâche",
-      "SUCCESS": "Tâche créée"
+      "SUCCESS": "Tâche créée",
+      "SYNC": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons réessayer la création de votre tâche automatiquement",
+        "ONLINE": "Tâche créée. Elle apparaîtra lorsque vous serez de retour en ligne",
+        "SUCCESS": "La tâche créée hors ligne a été enregistrée avec succès"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons réessayer de supprimer votre tâche automatiquement",
+        "ONLINE": "Tâche supprimée. Sera sauvegardée quand vous serez de retour en ligne",
+        "SUCCESS": "Tâche supprimée hors ligne a été enregistrée avec succés"
+      }
+    },
+    "SYNC": {
+      "FAILED": "Échec de l'enregistrement des modifications de la tâche",
+      "LOCATION_DELETED": "Impossible d'enregistrer la tâche: l'emplacement a été retiré",
+      "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons réessayer automatiquement",
+      "NOT_FOUND": "Impossible d'enregistrer la tâche: la tâche n'existe plus",
+      "UNAUTHORIZED": "Échec de l'enregistrement de la tâche: permissions insuffisantes"
     },
     "UPDATE": {
-      "FAILED": "Échec de la mise à jour de la tâche"
+      "FAILED": "Échec de la mise à jour de la tâche",
+      "SUCCESS": "Tâche mise à jour avec succés",
+      "SYNC": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons réessayer la mise à jour de votre tâche automatiquement",
+        "ONLINE": "Tâche mise à jour. Sera sauvegardée quand vous serez de retour en ligne",
+        "SUCCESS": "La tâche mise à jour hors ligne a été enregistrée avec succès"
+      }
     }
   },
   "TASK_TYPE": {

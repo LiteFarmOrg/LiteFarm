@@ -22,7 +22,7 @@ import {
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
 import { WithFarmId } from './types';
-import { FarmTag } from './apiTags';
+import { FarmLibraryTag, FarmTag } from './apiTags';
 import { LazyQueryTrigger, UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
 type RawQueryResult<T> = {
@@ -165,7 +165,7 @@ export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
   return useLazyQueryWithFarmId;
 }
 
-export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag) {
+export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag | FarmLibraryTag) {
   return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
     return [{ type: tag, id: args.farm_id }];
   };

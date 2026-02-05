@@ -217,18 +217,51 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",
-      "SUCCESS": "Tarea abandonada con éxito"
+      "SUCCESS": "Tarea abandonada con éxito",
+      "SYNC": {
+        "ONLINE": "Tarea abandonada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea abandonada sin conexión se ha guardado correctamente"
+      }
     },
     "COMPLETE": {
       "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea completada con éxito"
+      "SUCCESS": "Tarea completada con éxito",
+      "SYNC": {
+        "ONLINE": "Tarea completada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea completada sin conexión se ha guardado correctamente"
+      }
     },
     "CREATE": {
       "FAILED": "No se pudo crear la tarea",
-      "SUCCESS": "Tarea creada con éxito"
+      "SUCCESS": "Tarea creada con éxito",
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentar su creación de tareas automáticamente",
+        "ONLINE": "Tarea creada. Aparecerá cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea creada sin conexión se ha guardado correctamente"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Reintentaremos su eliminación de tareas automáticamente",
+        "ONLINE": "Tarea eliminada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea eliminada sin conexión se ha guardado correctamente"
+      }
+    },
+    "SYNC": {
+      "FAILED": "No se pudieron guardar los cambios de la tarea",
+      "LOCATION_DELETED": "No se pudo guardar la tarea: la ubicación ha sido retirada",
+      "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentarlo automáticamente",
+      "NOT_FOUND": "No se pudo guardar la tarea: la tarea ya no existe",
+      "UNAUTHORIZED": "No se pudo guardar la tarea: permisos insuficientes"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea"
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea actualizada correctamente",
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentar su actualización de tarea automáticamente",
+        "ONLINE": "Tarea actualizada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea creada sin conexión se ha guardado correctamente"
+      }
     }
   },
   "TASK_TYPE": {

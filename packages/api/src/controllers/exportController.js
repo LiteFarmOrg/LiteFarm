@@ -38,7 +38,6 @@ const exportController = {
         };
         const template_path = emails.MAP_EXPORT_EMAIL;
         sendEmail(template_path, replacements, user.email, {
-          sender: 'system@litefarm.org',
           attachments: [req.file],
         });
         res.sendStatus(200);

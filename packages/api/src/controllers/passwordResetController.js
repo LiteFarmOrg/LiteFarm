@@ -71,9 +71,7 @@ const passwordResetController = {
           first_name: userData.first_name,
           locale: userData.language_preference,
         };
-        const sender = 'system@litefarm.org';
         sendEmail(template_path, replacements, email, {
-          sender,
           buttonLink: `/callback/?reset_token=${token}`,
         });
 
@@ -113,9 +111,7 @@ const passwordResetController = {
           first_name,
           locale: language_preference,
         };
-        const sender = 'system@litefarm.org';
         sendEmail(template_path, replacements, email, {
-          sender,
           buttonLink: `/?email=${encodeURIComponent(email)}`,
         });
         await UserModel.query().findById(user_id).patch({ status_id: 1 });

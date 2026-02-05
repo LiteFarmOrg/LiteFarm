@@ -42,12 +42,10 @@ const supportTicketController = {
       const email = data.contact_method === 'email' && data.email;
       if (email && email !== user.email) {
         await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
-          sender: 'system@litefarm.org',
           attachments: [req.file],
         });
       } else {
         await sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
-          sender: 'system@litefarm.org',
           attachments: [req.file],
         });
       }

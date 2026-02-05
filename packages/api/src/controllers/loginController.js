@@ -287,9 +287,7 @@ async function sendPasswordReset(data) {
     first_name: data.first_name,
     locale: data.language_preference,
   };
-  const sender = 'system@litefarm.org';
   sendEmail(template_path, replacements, data.email, {
-    sender,
     buttonLink: `/callback/?reset_token=${token}`,
   });
 }

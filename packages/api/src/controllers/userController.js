@@ -77,9 +77,8 @@ const userController = {
           first_name: userResult.first_name,
           locale: language_preference,
         };
-        const sender = 'system@litefarm.org';
         if (userResult.email && template_path) {
-          await sendEmail(template_path, replacements, userResult.email, { sender });
+          await sendEmail(template_path, replacements, userResult.email, {  });
         }
       } catch (e) {
         console.log('Failed to send email: ', e);
@@ -353,7 +352,6 @@ const userController = {
         locale: rows[0].language_preference,
         farm_name: rows[0].farm_name,
       };
-      const sender = 'help@litefarm.org';
       const isUserFarmPatched = await UserFarmModel.query(trx).where('user_id', user_id).patch({
         status: 'Inactive',
       });
@@ -363,7 +361,7 @@ const userController = {
         //send email informing user their access revoked (unless user is no account worker - no email)
         try {
           if (rows[0].email) {
-            await sendEmail(template_path, replacements, rows[0].email, { sender });
+            await sendEmail(template_path, replacements, rows[0].email, {  });
           }
         } catch (e) {
           console.log(e);

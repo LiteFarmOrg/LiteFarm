@@ -210,7 +210,6 @@ const userFarmController = {
         if (isWelcomeEmailSent) return;
         try {
           let template_path;
-          const sender = 'system@litefarm.org';
           const replacements = {
             first_name: userFarm.first_name,
             farm: userFarm.farm_name,
@@ -223,7 +222,7 @@ const userFarmController = {
             template_path = emails.CONFIRMATION;
             replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
           }
-          return sendEmail(template_path, replacements, userFarm.email, { sender });
+          return sendEmail(template_path, replacements, userFarm.email, { });
         } catch (e) {
           console.log(e);
         }
@@ -359,7 +358,6 @@ const userFarmController = {
           locale: targetUser.language_preference,
           farm_name: targetUser.farm_name,
         };
-        const sender = 'system@litefarm.org';
 
         // check if status transition is allowed
         const currentStatus = targetUser.status;
@@ -391,7 +389,7 @@ const userFarmController = {
           res.sendStatus(200);
           try {
             if (targetUser.email && template_path) {
-              sendEmail(template_path, replacements, targetUser.email, { sender });
+              sendEmail(template_path, replacements, targetUser.email, {  });
             }
           } catch (e) {
             console.log('Failed to send email: ', e);

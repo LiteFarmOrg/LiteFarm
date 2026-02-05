@@ -115,9 +115,9 @@ export const api = createApi({
       query: (_args) => `${animalBatchesUrl}`,
       providesTags: getFarmTagFn<AnimalBatch[], WithFarmId>('AnimalBatches'),
     }),
-    getDefaultAnimalTypes: build.query<DefaultAnimalType[], { param?: string } | void>({
-      query: ({ param = '' } = {}) => `${defaultAnimalTypesUrl}${param}`,
-      providesTags: ['DefaultAnimalTypes'],
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], WithFarmId<{ param?: string | void }>>({
+      query: ({ param = '' }) => `${defaultAnimalTypesUrl}${param}`,
+      providesTags: getFarmTagFn<DefaultAnimalType[], WithFarmId>('DefaultAnimalTypes'),
     }),
     getCustomAnimalTypes: build.query<CustomAnimalType[], WithFarmId<{ param?: string | void }>>({
       query: ({ param = '' }) => `${customAnimalTypesUrl}${param}`,
@@ -446,7 +446,6 @@ export const api = createApi({
 
 export const {
   useGetDefaultAnimalBreedsQuery,
-  useGetDefaultAnimalTypesQuery,
   useGetAnimalSexesQuery,
   useGetAnimalIdentifierTypesQuery,
   useGetAnimalIdentifierColorsQuery,
@@ -479,6 +478,11 @@ export const useGetAnimalsQuery = getUseQueryWithFarmId<Animal[], WithFarmId>(
 export const useGetAnimalBatchesQuery = getUseQueryWithFarmId<AnimalBatch[], WithFarmId>(
   api.useGetAnimalBatchesQuery,
 );
+export const useGetDefaultAnimalTypesQuery = getUseQueryWithFarmId<
+  DefaultAnimalType[],
+  WithFarmId<{ param?: string | void }>
+>(api.useGetDefaultAnimalTypesQuery);
+
 export const useGetCustomAnimalTypesQuery = getUseQueryWithFarmId<
   CustomAnimalType[],
   WithFarmId<{ param?: string | void }>

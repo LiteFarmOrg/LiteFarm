@@ -68,8 +68,7 @@ import type {
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
 import {
-  getFarmTagFn,
-  getInvalidateFarmTagsFn,
+  getFarmTagsFn,
   getLazyUseQueryWithFarmId,
   getMutationWithFarmId,
   getUseQueryWithFarmId,
@@ -116,23 +115,23 @@ export const api = createApi({
     // <ResultType, QueryArg>
     getAnimals: build.query<Animal[], WithFarmId>({
       query: (_args) => `${animalsUrl}`,
-      providesTags: getFarmTagFn<Animal[], WithFarmId>('Animals'),
+      providesTags: getFarmTagsFn<Animal[], WithFarmId>(['Animals']),
     }),
     getAnimalBatches: build.query<AnimalBatch[], WithFarmId>({
       query: (_args) => `${animalBatchesUrl}`,
-      providesTags: getFarmTagFn<AnimalBatch[], WithFarmId>('AnimalBatches'),
+      providesTags: getFarmTagsFn<AnimalBatch[], WithFarmId>(['AnimalBatches']),
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], WithFarmId<{ param?: string | void }>>({
       query: ({ param = '' }) => `${defaultAnimalTypesUrl}${param}`,
-      providesTags: getFarmTagFn<DefaultAnimalType[], WithFarmId>('DefaultAnimalTypes'),
+      providesTags: getFarmTagsFn<DefaultAnimalType[], WithFarmId>(['DefaultAnimalTypes']),
     }),
     getCustomAnimalTypes: build.query<CustomAnimalType[], WithFarmId<{ param?: string | void }>>({
       query: ({ param = '' }) => `${customAnimalTypesUrl}${param}`,
-      providesTags: getFarmTagFn<CustomAnimalType[], WithFarmId>('CustomAnimalTypes'),
+      providesTags: getFarmTagsFn<CustomAnimalType[], WithFarmId>(['CustomAnimalTypes']),
     }),
     getCustomAnimalBreeds: build.query<CustomAnimalBreed[], WithFarmId>({
       query: (_args) => `${customAnimalBreedsUrl}`,
-      providesTags: getFarmTagFn<CustomAnimalBreed[], WithFarmId>('CustomAnimalBreeds'),
+      providesTags: getFarmTagsFn<CustomAnimalBreed[], WithFarmId>(['CustomAnimalBreeds']),
     }),
     getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
       query: () => `${defaultAnimalBreedsUrl}`,
@@ -265,7 +264,7 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: getInvalidateFarmTagsFn<Animal[], WithFarmIdPayload<Partial<Animal>[]>>([
+      invalidatesTags: getFarmTagsFn<Animal[], WithFarmIdPayload<Partial<Animal>[]>>([
         'Animals',
         'DefaultAnimalTypes',
         'CustomAnimalTypes',
@@ -374,7 +373,7 @@ export const api = createApi({
     getSensors: build.query<SensorData, WithFarmId>({
       query: (_args) => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
-      providesTags: getFarmTagFn<SensorData, WithFarmId>('Sensors'),
+      providesTags: getFarmTagsFn<SensorData, WithFarmId>(['Sensors']),
     }),
     getSensorReadings: build.query<
       SensorReadings[],
@@ -392,7 +391,7 @@ export const api = createApi({
         if (truncPeriod) params.append('truncPeriod', truncPeriod);
         return `${sensorUrl}/readings?${params.toString()}`;
       },
-      providesTags: getFarmTagFn<
+      providesTags: getFarmTagsFn<
         SensorReadings[],
         WithFarmId<{
           esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
@@ -400,7 +399,7 @@ export const api = createApi({
           endTime?: string; // ISO 8601
           truncPeriod?: 'minute' | 'hour' | 'day';
         }>
-      >('SensorReadings'),
+      >(['SensorReadings']),
     }),
     addFarmAddon: build.mutation<void, FarmAddon>({
       query: (body) => ({
@@ -412,7 +411,7 @@ export const api = createApi({
     }),
     getFarmAddon: build.query<FarmAddon[], WithFarmId<{ param: string | void }>>({
       query: ({ param = '' }) => `${farmAddonUrl}${param}`,
-      providesTags: getFarmTagFn<FarmAddon[], WithFarmId<{ param: string | void }>>('FarmAddon'),
+      providesTags: getFarmTagsFn<FarmAddon[], WithFarmId<{ param: string | void }>>(['FarmAddon']),
     }),
     deleteFarmAddon: build.mutation<void, number>({
       query: (id) => ({
@@ -442,16 +441,18 @@ export const api = createApi({
           console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
         }
       },
-      providesTags: getFarmTagFn<IrrigationPrescription[], WithFarmId>('IrrigationPrescriptions'),
+      providesTags: getFarmTagsFn<IrrigationPrescription[], WithFarmId>([
+        'IrrigationPrescriptions',
+      ]),
     }),
     getIrrigationPrescriptionDetails: build.query<
       IrrigationPrescriptionDetails,
       WithFarmId<{ id: number }>
     >({
       query: ({ id }) => `${irrigationPrescriptionUrl}/${id}`,
-      providesTags: getFarmTagFn<IrrigationPrescriptionDetails, WithFarmId<{ id: number }>>(
+      providesTags: getFarmTagsFn<IrrigationPrescriptionDetails, WithFarmId<{ id: number }>>([
         'IrrigationPrescriptionDetails',
-      ),
+      ]),
     }),
   }),
 });

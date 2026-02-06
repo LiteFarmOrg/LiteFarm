@@ -16,7 +16,7 @@
 import { api } from './apiSlice';
 import { marketDirectoryInfoUrl } from '../../apiConfig';
 import { MarketDirectoryInfo, WithFarmId } from './types';
-import { getFarmTagFn, getUseQueryWithFarmId } from './util';
+import { getFarmTagsFn, getUseQueryWithFarmId } from './util';
 
 export const marketDirectoryInfo = api.injectEndpoints({
   endpoints: (build) => ({
@@ -25,7 +25,7 @@ export const marketDirectoryInfo = api.injectEndpoints({
         url: `${marketDirectoryInfoUrl}`,
         method: 'GET',
       }),
-      providesTags: getFarmTagFn<MarketDirectoryInfo, WithFarmId>('MarketDirectoryInfo'),
+      providesTags: getFarmTagsFn<MarketDirectoryInfo, WithFarmId>(['MarketDirectoryInfo']),
     }),
     addMarketDirectoryInfo: build.mutation<void, Omit<MarketDirectoryInfo, 'id'>>({
       query: (body) => ({

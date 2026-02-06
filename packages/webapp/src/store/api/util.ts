@@ -225,15 +225,7 @@ export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>
   return useMutationWithFarmId;
 }
 
-export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag | FarmLibraryTag) {
-  return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
-    return [{ type: tag, id: args.farm_id }];
-  };
-}
-
-export function getInvalidateFarmTagsFn<Data, Args extends WithFarmId>(
-  tags: (FarmTag | FarmLibraryTag)[],
-) {
+export function getFarmTagsFn<Data, Args extends WithFarmId>(tags: (FarmTag | FarmLibraryTag)[]) {
   return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
     return tags.map((tag) => ({ type: tag, id: args.farm_id }));
   };

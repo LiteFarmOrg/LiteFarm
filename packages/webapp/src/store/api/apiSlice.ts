@@ -168,7 +168,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate());
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
         } catch (err) {
           // handled in component
         }
@@ -186,7 +188,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate());
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
         } catch (err) {
           // handled in component
         }
@@ -204,7 +208,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate());
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
         } catch (err) {
           // handled in component
         }
@@ -222,7 +228,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate());
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
         } catch (err) {
           // handled in component
         }
@@ -240,7 +248,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate());
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
         } catch (err) {
           // handled in component
@@ -259,7 +269,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate());
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
         } catch (err) {
           // handled in component
@@ -279,7 +291,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate());
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
         } catch (err) {
           // handled in component
@@ -294,7 +308,9 @@ export const api = createApi({
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate());
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
           await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
         } catch (err) {
           // handled in component

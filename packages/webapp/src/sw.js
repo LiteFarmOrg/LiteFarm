@@ -142,15 +142,18 @@ BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
 
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
-  if (event.data === 'replay_queue') {
-    Object.values(queues).forEach(async ({ queue, area }) => {
-      const handler = createOnSyncHandler(area);
-      try {
-        await handler({ queue });
-      } catch (err) {
-        // Ignore errors during manual replay; they are logged by the handler anyway
-      }
-    });
+  // Manually replay queues if background sync is not supported
+  if (!('sync' in self.registration)) {
+    if (event.data === 'replay_queue') {
+      Object.values(queues).forEach(async ({ queue, area }) => {
+        const handler = createOnSyncHandler(area);
+        try {
+          await handler({ queue });
+        } catch (err) {
+          // Ignore errors during manual replay; they are logged by the handler anyway
+        }
+      });
+    }
   }
 
   if (event.data === 'clear_queue') {

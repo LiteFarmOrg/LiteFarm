@@ -33,6 +33,7 @@ export interface BasicEnum {
 }
 
 export type WithFarmId<T = {}> = T & { farm_id: string };
+export type WithFarmIdPayload<T> = { farm_id: string; payload: T };
 export interface Animal {
   animal_use_relationships?: {
     animal_id: number;

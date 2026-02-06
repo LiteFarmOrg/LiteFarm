@@ -62,11 +62,18 @@ import type {
   IrrigationPrescription,
   IrrigationPrescriptionDetails,
   WithFarmId,
+  WithFarmIdPayload,
 } from './types';
 
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
-import { getFarmTagFn, getLazyUseQueryWithFarmId, getUseQueryWithFarmId } from './util';
+import {
+  getFarmTagFn,
+  getInvalidateFarmTagsFn,
+  getLazyUseQueryWithFarmId,
+  getMutationWithFarmId,
+  getUseQueryWithFarmId,
+} from './util';
 
 /**
  * Invalidates one or more RTK Query cache tags.
@@ -239,11 +246,11 @@ export const api = createApi({
       },
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
-    addAnimals: build.mutation<Animal[], Partial<Animal>[]>({
-      query: (body) => ({
+    addAnimals: build.mutation<Animal[], WithFarmIdPayload<Partial<Animal>[]>>({
+      query: ({ farm_id: _farm_id, ...animals }) => ({
         url: `${animalsUrl}`,
         method: 'POST',
-        body,
+        body: animals,
       }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
@@ -258,7 +265,12 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: getInvalidateFarmTagsFn<Animal[], WithFarmIdPayload<Partial<Animal>[]>>([
+        'Animals',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ]),
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -457,7 +469,6 @@ export const {
   useRemoveAnimalBatchesMutation,
   useDeleteAnimalsMutation,
   useDeleteAnimalBatchesMutation,
-  useAddAnimalsMutation,
   useAddAnimalBatchesMutation,
   useUpdateAnimalsMutation,
   useUpdateAnimalBatchesMutation,
@@ -518,6 +529,7 @@ export const useGetSensorReadingsQuery = getUseQueryWithFarmId<
 export const useLazyGetSensorsQuery = getLazyUseQueryWithFarmId<SensorData, WithFarmId>(
   api.useLazyGetSensorsQuery,
 );
+
 export const useLazyGetSensorReadingsQuery = getLazyUseQueryWithFarmId<
   SensorReadings[],
   WithFarmId<{
@@ -527,3 +539,8 @@ export const useLazyGetSensorReadingsQuery = getLazyUseQueryWithFarmId<
     truncPeriod?: 'minute' | 'hour' | 'day';
   }>
 >(api.useLazyGetSensorReadingsQuery);
+
+export const useAddAnimalsMutation = getMutationWithFarmId<
+  Animal[],
+  WithFarmIdPayload<Partial<Animal>[]>
+>(api.useAddAnimalsMutation);

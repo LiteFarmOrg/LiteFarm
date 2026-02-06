@@ -21,7 +21,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
-import { WithFarmId } from './types';
+import { WithFarmId, WithFarmIdPayload } from './types';
 import { FarmLibraryTag, FarmTag } from './apiTags';
 import { LazyQueryTrigger, UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
@@ -37,6 +37,20 @@ type RawQueryResult<T> = {
   status: QueryStatus;
   startedTimeStamp?: number;
   fulfilledTimeStamp?: number;
+};
+
+type RawMutationResult<T> = {
+  originalArgs?: unknown;
+  data?: T;
+  error?: unknown;
+  endpointName?: string;
+  fulfilledTimeStamp?: number;
+  isUninitialized: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  startedTimeStamp?: number;
+  reset: () => void;
 };
 
 type ExtraArgs<Arg> = Arg extends undefined ? undefined : Omit<Arg, 'farm_id'>;
@@ -58,6 +72,15 @@ type UseLazyQueryOptions = Omit<BaseUseQueryOptions, 'skip'>;
 type UseLazyQueryOptionsWithSelect<Result, Selected> = UseLazyQueryOptions & {
   selectFromResult: (result: Result) => Selected;
 };
+
+type BaseUseMutationOptions = {
+  fixedCacheKey?: string;
+};
+
+type UseMutationOptionsWithSelect<Result, Selected> = BaseUseMutationOptions & {
+  selectFromResult: (result: Result) => Selected;
+};
+
 /**
  * Helper function that contains the shared logic for injecting farm_id
  * into RTK Query hooks that expect an object argument.
@@ -165,8 +188,53 @@ export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
   return useLazyQueryWithFarmId;
 }
 
+// Helper to assert the shape we know exists at runtime
+type AssertedMutationPromise<T> = Promise<T> & {
+  unwrap: () => Promise<T>;
+  abort?: () => void;
+  reset?: () => void;
+};
+
+export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>(
+  rawMutationHook: (
+    options?: any,
+  ) => readonly [(arg: Args) => Promise<any>, RawMutationResult<Data>],
+) {
+  // Overload 1: when selectFromResult is present
+  function useMutationWithFarmId<Selected>(
+    options: UseMutationOptionsWithSelect<RawMutationResult<Data>, Selected>,
+  ): [(arg?: Args['payload']) => AssertedMutationPromise<Data>, Selected];
+
+  // Overload 2: plain call (no selectFromResult or no options)
+  function useMutationWithFarmId(
+    options?: BaseUseQueryOptions,
+  ): [(arg?: Args['payload']) => AssertedMutationPromise<Data>, RawMutationResult<Data>];
+
+  function useMutationWithFarmId(options?: any): any {
+    const { farm_id } = useSelector(loginSelector);
+    const [trigger, result] = rawMutationHook(options);
+    if (!farm_id) {
+      return [(extraArgs?: any) => trigger(skipToken as unknown as Args), result];
+    }
+    return [
+      (extraArgs?: any) => trigger({ ...extraArgs, farm_id }) as AssertedMutationPromise<Data>,
+      result,
+    ];
+  }
+
+  return useMutationWithFarmId;
+}
+
 export function getFarmTagFn<Data, Args extends WithFarmId>(tag: FarmTag | FarmLibraryTag) {
   return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
     return [{ type: tag, id: args.farm_id }];
+  };
+}
+
+export function getInvalidateFarmTagsFn<Data, Args extends WithFarmId>(
+  tags: (FarmTag | FarmLibraryTag)[],
+) {
+  return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
+    return tags.map((tag) => ({ type: tag, id: args.farm_id }));
   };
 }

@@ -188,11 +188,82 @@ export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
   return useLazyQueryWithFarmId;
 }
 
-// Helper to assert the shape we know exists at runtime
-type AssertedMutationPromise<T> = Promise<T> & {
-  unwrap: () => Promise<T>;
-  abort?: () => void;
-  reset?: () => void;
+// Helper to assert the shape we know exists at runtime taken from rtk types
+// Rtk 2.0 should help reduce this bloat with better exported types
+type AssertedMutationPromise<T> = Promise<
+  | {
+      data: T;
+    }
+  | {
+      error: unknown;
+    }
+> & {
+  /**
+   * A unique string generated for the request sequence
+   */
+  requestId: string;
+  /**
+   * A method to cancel the mutation promise. Note that this is not intended to prevent the mutation
+   * that was fired off from reaching the server, but only to assist in handling the response.
+   *
+   * Calling `abort()` prior to the promise resolving will force it to reach the error state with
+   * the serialized error:
+   * `{ name: 'AbortError', message: 'Aborted' }`
+   *
+   * @example
+   * ```ts
+   * const [updateUser] = useUpdateUserMutation();
+   *
+   * useEffect(() => {
+   *   const promise = updateUser(id);
+   *   promise
+   *     .unwrap()
+   *     .catch((err) => {
+   *       if (err.name === 'AbortError') return;
+   *       // else handle the unexpected error
+   *     })
+   *
+   *   return () => {
+   *     promise.abort();
+   *   }
+   * }, [id, updateUser])
+   * ```
+   */
+  abort(): void;
+  /**
+   * Unwraps a mutation call to provide the raw response/error.
+   *
+   * @remarks
+   * If you need to access the error or success payload immediately after a mutation, you can chain .unwrap().
+   *
+   * @example
+   * ```ts
+   * // codeblock-meta title="Using .unwrap"
+   * addPost({ id: 1, name: 'Example' })
+   *   .unwrap()
+   *   .then((payload) => console.log('fulfilled', payload))
+   *   .catch((error) => console.error('rejected', error));
+   * ```
+   *
+   * @example
+   * ```ts
+   * // codeblock-meta title="Using .unwrap with async await"
+   * try {
+   *   const payload = await addPost({ id: 1, name: 'Example' }).unwrap();
+   *   console.log('fulfilled', payload)
+   * } catch (error) {
+   *   console.error('rejected', error);
+   * }
+   * ```
+   */
+  unwrap(): Promise<T>;
+  /**
+   * A method to manually unsubscribe from the mutation call, meaning it will be removed from cache after the usual caching grace period.
+   The value returned by the hook will reset to `isUninitialized` afterwards.
+   */
+  reset(): void;
+  /** @deprecated has been renamed to `reset` */
+  unsubscribe(): void;
 };
 
 export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>(

@@ -165,8 +165,8 @@ export const api = createApi({
       query: () => `${animalRemovalReasonsUrl}`,
       providesTags: ['AnimalRemovalReasons'],
     }),
-    removeAnimals: build.mutation<Animal[], Partial<Animal>[]>({
-      query: (patch) => ({
+    removeAnimals: build.mutation<Animal[], WithFarmIdPayload<Partial<Animal>[]>>({
+      query: ({ farm_id: _farm_id, payload: patch }) => ({
         url: `${animalsUrl}/remove`,
         method: 'PATCH',
         body: patch,
@@ -183,10 +183,14 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+      invalidatesTags: getFarmTagsFn<Animal[], WithFarmIdPayload<Partial<Animal>[]>>([
+        'Animals',
+        'CustomAnimalTypes',
+        'DefaultAnimalTypes',
+      ]),
     }),
-    removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
-      query: (patch) => ({
+    removeAnimalBatches: build.mutation<AnimalBatch[], WithFarmIdPayload<Partial<AnimalBatch>[]>>({
+      query: ({ farm_id: _farm_id, payload: patch }) => ({
         url: `${animalBatchesUrl}/remove`,
         method: 'PATCH',
         body: patch,
@@ -203,10 +207,14 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+      invalidatesTags: getFarmTagsFn<AnimalBatch[], WithFarmIdPayload<Partial<AnimalBatch>[]>>([
+        'AnimalBatches',
+        'CustomAnimalTypes',
+        'DefaultAnimalTypes',
+      ]),
     }),
-    deleteAnimals: build.mutation<Animal[], number[]>({
-      query: (del) => ({
+    deleteAnimals: build.mutation<Animal[], WithFarmIdPayload<number[]>>({
+      query: ({ farm_id: _farm_id, payload: del }) => ({
         url: `${animalsUrl}`,
         method: 'DELETE',
         params: del,
@@ -223,10 +231,14 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+      invalidatesTags: getFarmTagsFn<Animal[], WithFarmIdPayload<number[]>>([
+        'Animals',
+        'CustomAnimalTypes',
+        'DefaultAnimalTypes',
+      ]),
     }),
-    deleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
-      query: (del) => ({
+    deleteAnimalBatches: build.mutation<AnimalBatch[], WithFarmIdPayload<number[]>>({
+      query: ({ farm_id: _farm_id, payload: del }) => ({
         url: `${animalBatchesUrl}`,
         method: 'DELETE',
         params: del,
@@ -243,13 +255,17 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+      invalidatesTags: getFarmTagsFn<AnimalBatch[], WithFarmIdPayload<number[]>>([
+        'AnimalBatches',
+        'CustomAnimalTypes',
+        'DefaultAnimalTypes',
+      ]),
     }),
     addAnimals: build.mutation<Animal[], WithFarmIdPayload<Partial<Animal>[]>>({
-      query: ({ farm_id: _farm_id, ...animals }) => ({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
         url: `${animalsUrl}`,
         method: 'POST',
-        body: animals,
+        body,
       }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
@@ -271,8 +287,8 @@ export const api = createApi({
         'CustomAnimalBreeds',
       ]),
     }),
-    addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
-      query: (body) => ({
+    addAnimalBatches: build.mutation<AnimalBatch[], WithFarmIdPayload<Partial<AnimalBatch>[]>>({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
         url: `${animalBatchesUrl}`,
         method: 'POST',
         body,
@@ -290,15 +306,19 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: [
+      invalidatesTags: getFarmTagsFn<AnimalBatch[], WithFarmIdPayload<Partial<AnimalBatch>[]>>([
         'AnimalBatches',
         'DefaultAnimalTypes',
         'CustomAnimalTypes',
         'CustomAnimalBreeds',
-      ],
+      ]),
     }),
-    updateAnimals: build.mutation<void, Partial<Animal>[]>({
-      query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
+    updateAnimals: build.mutation<void, WithFarmIdPayload<Partial<Animal>[]>>({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
+        url: `${animalsUrl}`,
+        method: 'PATCH',
+        body,
+      }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -312,10 +332,19 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: getFarmTagsFn<void, WithFarmIdPayload<Partial<Animal>[]>>([
+        'Animals',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ]),
     }),
-    updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
-      query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
+    updateAnimalBatches: build.mutation<void, WithFarmIdPayload<Partial<AnimalBatch>[]>>({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
+        url: `${animalBatchesUrl}`,
+        method: 'PATCH',
+        body,
+      }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -329,12 +358,12 @@ export const api = createApi({
           // handled in component
         }
       },
-      invalidatesTags: [
+      invalidatesTags: getFarmTagsFn<void, WithFarmIdPayload<Partial<AnimalBatch>[]>>([
         'AnimalBatches',
         'DefaultAnimalTypes',
         'CustomAnimalTypes',
         'CustomAnimalBreeds',
-      ],
+      ]),
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
@@ -348,24 +377,31 @@ export const api = createApi({
       query: () => `${soilAmendmentFertiliserTypesUrl}`,
       providesTags: ['SoilAmendmentFertiliserTypes'],
     }),
-    addSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>({
-      query: (body) => ({
+    addSoilAmendmentProduct: build.mutation<
+      SoilAmendmentProduct,
+      WithFarmIdPayload<Partial<SoilAmendmentProduct>>
+    >({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
         url: `${productUrl}`,
         method: 'POST',
         body,
       }),
     }),
-    updateSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>(
-      {
-        query: ({ product_id, ...patch }) => ({
-          url: `${productUrl}/${product_id}`,
-          method: 'PATCH',
-          body: patch,
-        }),
-      },
-    ),
-    deleteSoilAmendmentProduct: build.mutation<void, SoilAmendmentProduct['product_id']>({
-      query: (productId) => ({
+    updateSoilAmendmentProduct: build.mutation<
+      SoilAmendmentProduct,
+      WithFarmIdPayload<Partial<SoilAmendmentProduct>>
+    >({
+      query: ({ farm_id: _farm_id, payload: { product_id, ...patch } }) => ({
+        url: `${productUrl}/${product_id}`,
+        method: 'PATCH',
+        body: patch,
+      }),
+    }),
+    deleteSoilAmendmentProduct: build.mutation<
+      void,
+      WithFarmIdPayload<SoilAmendmentProduct['product_id']>
+    >({
+      query: ({ farm_id: _farm_id, payload: productId }) => ({
         url: `${productUrl}/${productId}`,
         method: 'DELETE',
       }),
@@ -401,25 +437,31 @@ export const api = createApi({
         }>
       >(['SensorReadings']),
     }),
-    addFarmAddon: build.mutation<void, FarmAddon>({
-      query: (body) => ({
+    addFarmAddon: build.mutation<void, WithFarmIdPayload<FarmAddon>>({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
         url: `${farmAddonUrl}`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['FarmAddon'],
+      invalidatesTags: getFarmTagsFn<void, WithFarmIdPayload<FarmAddon>>(['FarmAddon']),
     }),
     getFarmAddon: build.query<FarmAddon[], WithFarmId<{ param: string | void }>>({
       query: ({ param = '' }) => `${farmAddonUrl}${param}`,
       providesTags: getFarmTagsFn<FarmAddon[], WithFarmId<{ param: string | void }>>(['FarmAddon']),
     }),
-    deleteFarmAddon: build.mutation<void, number>({
-      query: (id) => ({
+    deleteFarmAddon: build.mutation<void, WithFarmIdPayload<number>>({
+      query: ({ farm_id: _farm_id, payload: id }) => ({
         url: `${farmAddonUrl}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_result, error) =>
-        error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
+      invalidatesTags: (_result, error, args) =>
+        error
+          ? []
+          : getFarmTagsFn<void, WithFarmIdPayload<number>>([
+              'FarmAddon',
+              'Sensors',
+              'SensorReadings',
+            ])(_result, error, args),
     }),
     getIrrigationPrescriptions: build.query<IrrigationPrescription[], WithFarmId>({
       query: (_args) => {
@@ -466,21 +508,9 @@ export const {
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
   useGetAnimalRemovalReasonsQuery,
-  useRemoveAnimalsMutation,
-  useRemoveAnimalBatchesMutation,
-  useDeleteAnimalsMutation,
-  useDeleteAnimalBatchesMutation,
-  useAddAnimalBatchesMutation,
-  useUpdateAnimalsMutation,
-  useUpdateAnimalBatchesMutation,
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
-  useAddSoilAmendmentProductMutation,
-  useUpdateSoilAmendmentProductMutation,
-  useDeleteSoilAmendmentProductMutation,
-  useAddFarmAddonMutation,
-  useDeleteFarmAddonMutation,
 } = api;
 
 // Farm tag endpoints
@@ -541,7 +571,66 @@ export const useLazyGetSensorReadingsQuery = getLazyUseQueryWithFarmId<
   }>
 >(api.useLazyGetSensorReadingsQuery);
 
+// Mutations wrapped with getMutationWithFarmId
+export const useRemoveAnimalsMutation = getMutationWithFarmId<
+  Animal[],
+  WithFarmIdPayload<Partial<Animal>[]>
+>(api.useRemoveAnimalsMutation);
+
+export const useRemoveAnimalBatchesMutation = getMutationWithFarmId<
+  AnimalBatch[],
+  WithFarmIdPayload<Partial<AnimalBatch>[]>
+>(api.useRemoveAnimalBatchesMutation);
+
+export const useDeleteAnimalsMutation = getMutationWithFarmId<
+  Animal[],
+  WithFarmIdPayload<number[]>
+>(api.useDeleteAnimalsMutation);
+
+export const useDeleteAnimalBatchesMutation = getMutationWithFarmId<
+  AnimalBatch[],
+  WithFarmIdPayload<number[]>
+>(api.useDeleteAnimalBatchesMutation);
+
 export const useAddAnimalsMutation = getMutationWithFarmId<
   Animal[],
   WithFarmIdPayload<Partial<Animal>[]>
 >(api.useAddAnimalsMutation);
+
+export const useAddAnimalBatchesMutation = getMutationWithFarmId<
+  AnimalBatch[],
+  WithFarmIdPayload<Partial<AnimalBatch>[]>
+>(api.useAddAnimalBatchesMutation);
+
+export const useUpdateAnimalsMutation = getMutationWithFarmId<
+  void,
+  WithFarmIdPayload<Partial<Animal>[]>
+>(api.useUpdateAnimalsMutation);
+
+export const useUpdateAnimalBatchesMutation = getMutationWithFarmId<
+  void,
+  WithFarmIdPayload<Partial<AnimalBatch>[]>
+>(api.useUpdateAnimalBatchesMutation);
+
+export const useAddSoilAmendmentProductMutation = getMutationWithFarmId<
+  SoilAmendmentProduct,
+  WithFarmIdPayload<Partial<SoilAmendmentProduct>>
+>(api.useAddSoilAmendmentProductMutation);
+
+export const useUpdateSoilAmendmentProductMutation = getMutationWithFarmId<
+  SoilAmendmentProduct,
+  WithFarmIdPayload<Partial<SoilAmendmentProduct>>
+>(api.useUpdateSoilAmendmentProductMutation);
+
+export const useDeleteSoilAmendmentProductMutation = getMutationWithFarmId<
+  void,
+  WithFarmIdPayload<SoilAmendmentProduct['product_id']>
+>(api.useDeleteSoilAmendmentProductMutation);
+
+export const useAddFarmAddonMutation = getMutationWithFarmId<void, WithFarmIdPayload<FarmAddon>>(
+  api.useAddFarmAddonMutation,
+);
+
+export const useDeleteFarmAddonMutation = getMutationWithFarmId<void, WithFarmIdPayload<number>>(
+  api.useDeleteFarmAddonMutation,
+);

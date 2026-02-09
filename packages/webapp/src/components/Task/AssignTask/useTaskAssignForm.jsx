@@ -134,7 +134,7 @@ const useTaskAssignForm = ({
     return users.find(({ user_id }) => user_id === selectedWorker.value);
   }, [users, selectedWorker]);
 
-  const showHourlyWageInputs = user.is_admin && selectedWorker && assigned;
+  const showHourlyWageInputs = user.is_admin && selectedWorker;
 
   const shouldSetWage = useMemo(() => {
     let shouldSet = false;

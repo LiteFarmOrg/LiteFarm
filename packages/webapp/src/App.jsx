@@ -27,6 +27,7 @@ import { NavMenuControlsContext } from './contexts/appContext';
 import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 import { useGoogleMapsLoader } from './hooks/useGoogleMapsLoader';
+import GoogleMapsPreWarmer from './components/GoogleMapsPreWarmer';
 
 function App() {
   const location = useLocation();
@@ -37,10 +38,13 @@ function App() {
 
   useOfflineDetector();
   useServiceWorkerListener();
-  useGoogleMapsLoader();
+  const { isLoaded } = useGoogleMapsLoader();
 
   return (
     <div className={clsx(styles.container)}>
+      {/* Hidden component to pre-warm Google Maps cache by triggering lazy-loaded modules */}
+      <GoogleMapsPreWarmer isLoaded={isLoaded} />
+
       <NavMenuControlsContext.Provider
         value={{
           feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },

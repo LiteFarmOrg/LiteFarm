@@ -39,11 +39,15 @@ type SyncConfig = {
 };
 
 /**
- * Resolve specific kinds of task patch operations from the URL
+ * Resolve specific kinds of task operations from the URL and HTTP method.
  */
-function resolveAreaFromUrl(area: string, url: string): SyncArea {
-  if (area !== 'tasks.update') {
-    return area as SyncArea;
+function resolveAreaFromUrl(method: string, url: string): SyncArea {
+  if (method === 'POST') {
+    return 'tasks.create';
+  }
+
+  if (method === 'DELETE') {
+    return 'tasks.delete';
   }
 
   if (url.includes('/task/complete/')) {
@@ -132,10 +136,10 @@ export function useServiceWorkerListener() {
 
       const { type, payload } = event.data;
 
-      const { area: rawArea, status, url } = payload || {};
+      const { method, status, url } = payload || {};
 
       if (type === 'SYNC_ITEM_SUCCESS') {
-        const area = resolveAreaFromUrl(rawArea, url);
+        const area = resolveAreaFromUrl(method, url);
 
         const handler = syncConfig[area as SyncArea];
         if (!handler) return;
@@ -168,16 +172,14 @@ export function useServiceWorkerListener() {
          * See: https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
          */
         // We will also manually replay when the app comes back online.
-        switch (rawArea) {
-          case 'tasks.create':
+        switch (method) {
+          case 'POST':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
             break;
-          case 'tasks.delete':
+          case 'DELETE':
             dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
             break;
-          case 'tasks.complete':
-          case 'tasks.abandon':
-          case 'tasks.update':
+          case 'PATCH':
             dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
             break;
           default:

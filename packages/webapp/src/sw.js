@@ -39,7 +39,7 @@ registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
  * Higher-order function for onSync callbacks.
  * Replays requests and sends per-item success/failure messages to clients.
  */
-const createOnSyncHandler = (area) => {
+const createOnSyncHandler = () => {
   return async ({ queue }) => {
     let entry;
     while ((entry = await queue.shiftRequest())) {
@@ -64,8 +64,8 @@ const createOnSyncHandler = (area) => {
           client.postMessage({
             type: 'SYNC_ITEM_SUCCESS',
             payload: {
-              area,
               url: entry.request.url,
+              method: entry.request.method,
               status: response.status,
               response: responseContent,
             },
@@ -79,8 +79,8 @@ const createOnSyncHandler = (area) => {
           client.postMessage({
             type: 'SYNC_ITEM_FAILURE',
             payload: {
-              area,
               url: entry.request.url,
+              method: entry.request.method,
               error: error.message,
             },
           }),
@@ -94,41 +94,37 @@ const createOnSyncHandler = (area) => {
 
 const BG_SYNC_ROUTES = [
   {
-    queueName: 'create-task-queue',
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.create',
     method: 'POST',
   },
   {
-    queueName: 'patch-task-queue',
     // This matcher as written will include task/patch_due_date, task/assign, task/abandon, etc.
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.update',
     method: 'PATCH',
   },
   {
-    queueName: 'delete-task-queue',
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.delete',
     method: 'DELETE',
   },
 ];
 
+const BG_SYNC_QUEUE_NAME = 'background-sync';
+
+const backgroundSyncQueue = new Queue(BG_SYNC_QUEUE_NAME, {
+  maxRetentionTime: 24 * 60, // 24 hours
+  onSync: createOnSyncHandler(),
+});
+
 // Store queue references globally to allow manual replay
-const queues = {};
+const queues = {
+  [BG_SYNC_QUEUE_NAME]: { queue: backgroundSyncQueue },
+};
 
-BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
-  const queue = new Queue(queueName, {
-    maxRetentionTime: 24 * 60, // 24 hours
-    onSync: createOnSyncHandler(area),
-  });
-
-  queues[queueName] = { queue, area };
-
+BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
   // Push to our queue on failure
   const bgSyncPlugin = {
     fetchDidFail: async ({ request }) => {
-      await queue.pushRequest({
+      await backgroundSyncQueue.pushRequest({
         request,
         metadata: {
           timestamp: Date.now(),
@@ -145,8 +141,8 @@ self.addEventListener('message', async (event) => {
   // Manually replay queues if background sync is not supported
   if (!('sync' in self.registration)) {
     if (event.data === 'replay_queue') {
-      Object.values(queues).forEach(async ({ queue, area }) => {
-        const handler = createOnSyncHandler(area);
+      Object.values(queues).forEach(async ({ queue }) => {
+        const handler = createOnSyncHandler();
         try {
           await handler({ queue });
         } catch (err) {

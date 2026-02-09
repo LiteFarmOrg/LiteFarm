@@ -76,6 +76,7 @@ export const PureTaskTypeSelection = ({
   hasAnimals,
   hasSoilSampleLocations,
   hasSoilAmendmentProducts,
+  isOffline,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -128,6 +129,10 @@ export const PureTaskTypeSelection = ({
   const shouldDisplayTaskType = (taskType) => {
     const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
     const { farm_id, task_translation_key } = taskType;
+
+    if (isOffline && isTaskType(taskType, 'PLANT_TASK')) {
+      return false;
+    }
 
     if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {
       // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now

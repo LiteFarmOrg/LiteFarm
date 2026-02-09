@@ -14,6 +14,7 @@ import { animalLocationsSelector } from '../../locationSlice';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import { hasAvailableProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../constants';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 function TaskTypeSelection() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function TaskTypeSelection() {
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
   const { animalsExistOnFarm } = useAnimalsExist();
+  const isOffline = useIsOffline();
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -77,6 +79,7 @@ function TaskTypeSelection() {
           hasAnimals={animalsExistOnFarm}
           hasSoilSampleLocations={hasSoilSampleLocations}
           hasSoilAmendmentProducts={hasSoilAmendmentProducts}
+          isOffline={isOffline}
         />
       </HookFormPersistProvider>
     </>

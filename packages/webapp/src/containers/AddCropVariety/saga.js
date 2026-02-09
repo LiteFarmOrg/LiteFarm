@@ -31,7 +31,7 @@ export function* postVarietalSaga({ payload: varietal }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     //TODO remove toastr messages
-    if (e.response.data.violationError) {
+    if (e.response?.data?.violationError) {
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
       console.log('failed to add varietal to database already exists');
     } else {

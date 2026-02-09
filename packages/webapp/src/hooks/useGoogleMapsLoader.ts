@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2025-26 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -19,6 +19,9 @@ import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+// All maps libraries used throughout the app to ensure they are pre-loaded for offline use.
+export const ALL_LIBRARIES = ['maps', 'places', 'drawing', 'geometry', 'geocoding', 'marker'];
+
 let optionsInitialized = false;
 if (!optionsInitialized) {
   setOptions({
@@ -28,7 +31,7 @@ if (!optionsInitialized) {
   optionsInitialized = true;
 }
 
-export const useGoogleMapsLoader = (libraries = ['places', 'drawing', 'geometry']) => {
+export const useGoogleMapsLoader = (libraries = ALL_LIBRARIES) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {

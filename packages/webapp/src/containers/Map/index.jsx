@@ -68,7 +68,7 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  useGoogleMapsLoader(['drawing', 'geometry']);
+  useGoogleMapsLoader(['maps', 'drawing', 'geometry']);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);

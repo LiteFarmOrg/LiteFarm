@@ -48,7 +48,7 @@ const AddFarm = () => {
 
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
-  const { isLoaded } = useGoogleMapsLoader(['places']);
+  const { isLoaded } = useGoogleMapsLoader(['maps', 'places']);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {

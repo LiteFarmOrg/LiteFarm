@@ -19,6 +19,7 @@ import {
 } from '../../../components/Task/AssignTask/constants';
 import { getProgress } from '../util';
 import { useIsTaskType } from '../useIsTaskType';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 export default function TaskAssignment() {
   const location = useLocation();
@@ -36,6 +37,7 @@ export default function TaskAssignment() {
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_assignment') : undefined;
   const [showCannotCreateModal, setShowCannotCreateModal] = useState(false);
+  const isOffline = useIsOffline();
 
   const defaultAssignee = useMemo(() => {
     let { assignee } = persistedFormData;
@@ -118,7 +120,7 @@ export default function TaskAssignment() {
     unregister(ALREADY_COMPLETED);
   }
 
-  const taskCompleted = canCompleteTask && (
+  const taskCompleted = canCompleteTask && !isOffline && (
     <>
       <Checkbox
         data-cy="task-alreadyComplete"

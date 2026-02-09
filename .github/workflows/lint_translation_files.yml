@@ -29,7 +29,7 @@ jobs:
 
       - name: Run linters
         run: |
-          pnpx eslint './public/locales/**/*.json' --no-config-lookup --ext .json --plugin eslint-plugin-json --rule 'json/*: error'
+          pnpx eslint@^9 './public/locales/**/*.json' --no-config-lookup --ext .json --plugin eslint-plugin-json --parser @typescript-eslint/parser --rule 'json/*: error'
 
   run-linters-in-api:
     name: Run linters in api
@@ -51,4 +51,4 @@ jobs:
         run: npm install
 
       - name: Run linters
-        run: npx eslint './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'
+        run: npx eslint@^9 './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'

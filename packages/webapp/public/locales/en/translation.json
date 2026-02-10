@@ -1147,6 +1147,14 @@
       "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
     },
+    "TAPE": {
+      "COMPLETED": "Completed - See your results",
+      "IN_PROGRESS": "In progress",
+      "NOT_FILLED": "Not filled",
+      "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
+      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
+      "UPDATE_ANSWERS": "Update your answers"
+    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },
@@ -1485,7 +1493,6 @@
       "WEBSITE": "Website"
     },
     "INFO_SUMMARY": {
-      "FARM_ADDRESS": "Farm address",
       "FARM_EMAIL": "Farm email",
       "FARM_PROFILE": "Farm profile",
       "FARM_STORE_ADDRESS": "Farm store address",
@@ -1599,6 +1606,14 @@
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "You're offline. Some actions are unavailable.",
+    "BADGE": {
+      "TITLE": "Offline",
+      "TOOLTIP_CONTENT": "We can't reach the network right now.<br><br>You can continue in offline mode. Some sections will be view-only, but Tasks is fully available."
+    },
+    "CHANGES_WILL_SYNC": "Any changes you make will sync when you're back online."
   },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
@@ -2136,7 +2151,8 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned",
-    "UPLOAD_LAB_DOCUMENT": "Upload lab document"
+    "UPLOAD_LAB_DOCUMENT": "Upload lab document",
+    "WILL_SAVE_ONLINE": "Will save when online"
   },
   "UNIT": {
     "TIME": {

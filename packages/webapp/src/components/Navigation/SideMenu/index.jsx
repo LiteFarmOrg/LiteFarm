@@ -12,23 +12,29 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { matchPath } from 'react-router-dom';
+import { FiEye } from 'react-icons/fi';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
-import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
+import { ReactComponent as LogoOffline } from '../../../assets/images/middle_logo-offline.svg';
+import {
+  useGetMenuItems,
+  offlineDisabledPageKeys,
+  offlineViewOnlyPageKeys,
+} from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
-const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
-  const isActive = matchPath(history.location.pathname, path);
+const MenuItem = forwardRef(({ history, onClick, path, children, ...props }, ref) => {
   return (
-    <ListItemButton
-      onClick={onClick ?? (() => history.push(path))}
-      className={clsx(styles.listItem, isActive && styles.active, className)}
-      ref={ref}
-    >
+    <ListItemButton onClick={onClick ?? (() => history.push(path))} ref={ref} {...props}>
+      {/* Visibility controlled via props.classes passed to ListItemButton */}
+      <span className={styles.eyeIconWrapper}>
+        <FiEye aria-hidden="true" />
+      </span>
       {children}
     </ListItemButton>
   );
@@ -68,6 +74,8 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const expandableItemsRef = useRef({});
   const { mainActions, adminActions } = useGetMenuItems();
 
+  const offline = useIsOffline();
+
   const handleClick = (link) => {
     history.push(link);
     closeDrawer?.();
@@ -81,6 +89,28 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   useEffect(() => {
     resetExpanded();
   }, [isCompact]);
+
+  const getMenuItemProps = (key, label, path, className) => {
+    const isViewOnly = offline && offlineViewOnlyPageKeys.has(key);
+    const isDisabled = offline && offlineDisabledPageKeys.has(key);
+    const isActive = matchPath(history.location.pathname, path);
+
+    return {
+      history,
+      path,
+      'aria-label': label + (isViewOnly ? ' - view only page' : ''),
+      disabled: isDisabled,
+      classes: {
+        root: clsx(
+          className,
+          styles.listItem,
+          isActive && styles.active,
+          isViewOnly && styles.offlineViewOnly,
+        ),
+        disabled: styles.offlineDisabled,
+      },
+    };
+  };
 
   return (
     <div
@@ -97,7 +127,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           className={clsx(styles.listItem, styles.logoListItem)}
         >
           <div className={clsx(styles.animatedLogo, isCompact && styles.compactLogo)}>
-            <Logo alt={'logo'} />
+            {offline ? <LogoOffline alt="LiteFarm logo" /> : <Logo alt={'LiteFarm logo'} />}
           </div>
         </ListItemButton>
         {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {
@@ -105,10 +135,9 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
             return (
               <React.Fragment key={key}>
                 <MenuItem
-                  history={history}
                   onClick={() => toggleExpanded(key)}
-                  path={path}
                   ref={(el) => (expandableItemsRef.current[key] = el)}
+                  {...getMenuItemProps(key, label, path)}
                 >
                   <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
                   <ListItemText
@@ -141,13 +170,11 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                   {subMenu.map(({ label: subMenuLabel, path: subMenuPath, key: subMenuKey }) => {
                     return (
                       <MenuItem
-                        history={history}
                         key={subMenuKey}
-                        path={subMenuPath}
-                        className={styles.subItem}
                         onClick={() =>
                           isCompact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
                         }
+                        {...getMenuItemProps(subMenuKey, subMenuLabel, subMenuPath, styles.subItem)}
                       >
                         <ListItemText primary={subMenuLabel} className={styles.subItemText} />
                       </MenuItem>
@@ -159,7 +186,11 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
           }
 
           return (
-            <MenuItem history={history} key={key} path={path} onClick={() => onMenuItemClick(path)}>
+            <MenuItem
+              key={key}
+              onClick={() => onMenuItemClick(path)}
+              {...getMenuItemProps(key, label, path)}
+            >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
               <ListItemText
                 primary={label}
@@ -178,11 +209,9 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
         {adminActions.map(({ icon, label, path, key }) => {
           return (
             <MenuItem
-              history={history}
               key={key}
-              path={path}
-              className={styles.adminActionListItem}
               onClick={() => onMenuItemClick(path)}
+              {...getMenuItemProps(key, label, path, styles.adminActionListItem)}
             >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
               <ListItemText

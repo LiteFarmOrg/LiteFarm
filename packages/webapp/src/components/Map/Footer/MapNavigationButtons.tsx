@@ -27,6 +27,7 @@ export interface MapNavigationButtonsProps {
   showMapFilter?: boolean;
   showModal?: boolean;
   isMapFilterSettingActive?: boolean;
+  isOffline?: boolean;
   onClickAdd: () => void;
   handleClickFilter: () => void;
   onClickExport?: () => void;
@@ -41,6 +42,7 @@ const MapNavigationButtons = ({
   handleClickFilter,
   onClickExport,
   isMapFilterSettingActive,
+  isOffline,
 }: MapNavigationButtonsProps) => {
   const { t } = useTranslation();
 
@@ -54,6 +56,7 @@ const MapNavigationButtons = ({
           id="mapFirstStep"
           onClick={onClickAdd}
           sm
+          disabled={isOffline}
         >
           <span className={styles.buttonText}>
             <AddLogo className={styles.svg} />
@@ -80,6 +83,7 @@ const MapNavigationButtons = ({
         id="mapThirdStep"
         onClick={onClickExport}
         sm
+        disabled={isOffline}
       >
         <span className={styles.buttonText}>
           <ExportLogo className={styles.svg} />

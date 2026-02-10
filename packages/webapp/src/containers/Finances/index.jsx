@@ -45,6 +45,7 @@ import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 const moment = extendMoment(Moment);
 
@@ -62,6 +63,7 @@ const Finances = () => {
   const dateFilter = { startDate, endDate };
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
+  const isOffline = useIsOffline();
   const overlayRef = useRef(null);
   const isFetchingData = useSelector(isFetchingDataSelector);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,7 +130,7 @@ const Finances = () => {
     <div className={styles.financesContainer}>
       <div className={styles.titleContainer}>
         <Title>{t('SALE.FINANCES.TITLE')}</Title>
-        <Report />
+        {!isOffline && <Report />}
       </div>
       <div className={styles.filterBar} ref={overlayRef}>
         <FinancesDateRangeSelector className={styles.dateRangeSelector} />
@@ -152,8 +154,9 @@ const Finances = () => {
           estimatedRevenue={estimatedRevenue}
           currencySymbol={currencySymbol}
           history={history}
+          isOffline={isOffline}
         />
-        <AddTransactionButton />
+        <AddTransactionButton disabled={isOffline} />
       </div>
       {hasSearchResults ? (
         <PureTransactionList data={filteredTransactions} mobileView={true} />

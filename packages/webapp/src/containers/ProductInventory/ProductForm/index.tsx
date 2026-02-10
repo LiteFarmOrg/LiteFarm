@@ -33,6 +33,7 @@ import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
 import { Product } from '../../../store/api/types';
 import styles from './styles.module.scss';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 export interface FormContentProps {
   mode: FormMode | null;
@@ -106,6 +107,7 @@ export default function ProductForm({
   const { t } = useTranslation();
   const formMethods = useForm<ProductFormFields>({ mode: 'onBlur' });
   const isAdmin = useSelector(isAdminSelector);
+  const isOffline = useIsOffline();
 
   const saveProduct = useSaveProduct({ formMode: mode, productFormType });
 
@@ -139,7 +141,7 @@ export default function ProductForm({
       <Drawer
         isOpen={isFormOpen && !!productFormType && !!mode && modalType === ModalType.NONE}
         onClose={onCancel}
-        title={renderDrawerTitle(mode, onActionButtonClick, t, isAdmin)}
+        title={!isOffline && renderDrawerTitle(mode, onActionButtonClick, t, isAdmin)}
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
         fullHeight={true}

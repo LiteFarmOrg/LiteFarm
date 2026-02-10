@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .container {
   display: flex;
@@ -29,13 +29,19 @@
     color: var(--White);
   }
 
-  .button:hover, .button:active, .selected {
+  .button:hover,
+  .button:active,
+  .selected {
     @include svgColorFill(var(--White));
     .circle {
       background-color: var(--White);
     }
   }
-  
+
+  .button:disabled {
+    @include svgColorFill(currentColor);
+  }
+
   button:first-of-type {
     border-radius: 8px 0 0 8px;
 
@@ -43,7 +49,7 @@
       border-radius: 0;
     }
   }
-  
+
   button:last-of-type {
     border-radius: 0 8px 8px 0;
 

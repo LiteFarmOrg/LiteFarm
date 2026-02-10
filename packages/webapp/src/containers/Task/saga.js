@@ -5,7 +5,12 @@ import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSa
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import {
+  enqueueErrorSnackbar,
+  enqueuePersistentSuccessSnackbar,
+  enqueueSuccessSnackbar,
+} from '../Snackbar/snackbarSlice';
+import { isOfflineSelector } from '../hooks/useOfflineDetector/offlineDetectorSlice';
 import {
   addManyTasksFromGetReq,
   addAllTasksFromGetReq,
@@ -161,7 +166,18 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task update
+      yield put(putTaskSuccess({ assignee_user_id, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    }
   }
 }
 
@@ -208,10 +224,21 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     );
 
     yield put(putTaskSuccess({ due_date, task_id }));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task update
+      yield put(putTaskSuccess({ due_date, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 
@@ -693,8 +720,18 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    if (e.response.data === 'location deleted') {
+    if (e.response?.data === 'location deleted') {
       setShowCannotCreateModal(true);
+    } else if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
+      }
+
+      // No optimistic update for task creation
+
+      history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
     }
@@ -873,7 +910,30 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task completion
+      const optimisticTaskData = taskData.task // i.e. harvest tasks
+        ? { ...taskData, ...taskData.task }
+        : taskData;
+
+      yield put(
+        putTaskSuccess({
+          ...optimisticTaskData, // note: will not create the proper object for details view
+          task_id,
+          to_sync: true, // For visual indicator on to-be-synced tasks
+        }),
+      );
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    }
   }
 }
 
@@ -893,7 +953,26 @@ export function* abandonTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task abandonment
+      yield put(
+        putTaskSuccess({
+          ...patchData, // will create the proper object for details view
+          task_id,
+          to_sync: true, // For visual indicator on to-be-synced tasks
+        }),
+      );
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    }
   }
 }
 
@@ -1023,7 +1102,26 @@ export function* deleteTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task deletion
+
+      // Remove from transplant task store
+      // (Safe to call for non-transplant tasks; nothing will happen)
+      yield put(deleteTransplantTaskSuccess({ task_id }));
+
+      // Remove from general task store
+      yield put(deleteTaskSuccess({ task_id }));
+
+      history.back();
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    }
   }
 }
 

@@ -89,6 +89,7 @@ const ProductDetails = ({
     watch,
     setValue,
     register,
+    trigger,
     formState: { errors },
   } = useFormContext<SoilAmendmentProductFormCommonFields>();
 
@@ -167,9 +168,8 @@ const ProductDetails = ({
               shouldShowErrorMessage={shouldShowErrorMessage}
               values={field.value || {}}
               onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
-              // onBlur needs to be passed manually
-              // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
               onBlur={field.onBlur}
+              trigger={trigger}
               unitFieldName={ELEMENTAL_UNIT}
               reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />

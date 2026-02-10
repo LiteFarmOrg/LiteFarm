@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .defaultFormDropDown {
   width: 100%;
@@ -30,7 +30,7 @@
     line-height: 1.1;
   }
 }
-  
+
 .banner {
   display: flex;
   hr {
@@ -117,7 +117,7 @@
 .saleItemInputGroup {
   min-width: 200px;
   flex-grow: 1;
-  margin-left: 24px
+  margin-left: 24px;
 }
 
 .saleItemInputGroup > * {

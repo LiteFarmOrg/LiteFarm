@@ -151,7 +151,7 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
-    if (e.response.status === 404) {
+    if (e.response?.status === 404) {
       yield put(setExpense([]));
     }
     console.log('failed to fetch expenses from database');

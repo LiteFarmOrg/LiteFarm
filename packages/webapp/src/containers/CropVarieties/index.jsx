@@ -26,6 +26,7 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
+import navStyles from '@navStyles';
 
 export default function CropVarieties() {
   const location = useLocation();
@@ -207,7 +208,9 @@ export default function CropVarieties() {
         )}
       </div>
       {isAdmin && !isFilterCurrentlyActive && (
-        <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
+        <AddLink onClick={goToVarietyCreation} className={navStyles.hideWhenOffline}>
+          {t('CROP_VARIETIES.ADD_VARIETY')}
+        </AddLink>
       )}
     </Layout>
   );

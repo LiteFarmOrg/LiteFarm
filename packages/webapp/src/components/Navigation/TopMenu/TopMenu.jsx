@@ -10,6 +10,7 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
+import { ReactComponent as IconLogoOffline } from '../../../assets/images/navbar/nav-logo-offline.svg';
 import { ReactComponent as WordsLogo } from '../../../assets/images/middle_logo.svg';
 import { BiMenu } from 'react-icons/bi';
 import {
@@ -34,10 +35,12 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
 const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+  const offline = useIsOffline();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const sectionHeader = useSectionHeader(history.location.pathname);
@@ -85,6 +88,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       icon: <MyInfoIcon />,
       label: t('PROFILE_FLOATER.INFO'),
       externalLink: false,
+      disabled: offline,
     },
     {
       id: 'farm-selection',
@@ -92,6 +96,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       icon: <SwitchFarmIcon />,
       label: t('PROFILE_FLOATER.SWITCH'),
       externalLink: false,
+      disabled: offline,
     },
     {
       id: 'tutorials',
@@ -99,6 +104,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       icon: <VideoIcon />,
       label: t('PROFILE_FLOATER.TUTORIALS'),
       externalLink: true,
+      disabled: offline,
     },
     {
       id: 'logout',
@@ -110,9 +116,14 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
   ];
 
   const menuItems = options.map((option) => {
-    const { id, onClick, icon, label, externalLink } = option;
+    const { id, onClick, icon, label, externalLink, disabled } = option;
     return (
-      <MenuItem key={id} onClick={onClick} classes={{ root: styles.menuItemRoot }}>
+      <MenuItem
+        key={id}
+        onClick={onClick}
+        classes={{ root: styles.menuItemRoot, disabled: styles.menuItemDisabled }}
+        disabled={disabled}
+      >
         <ListItemIcon classes={{ root: styles.listItemIconRoot }}>{icon}</ListItemIcon>
         <ListItemText classes={{ root: styles.itemTextRoot }}>{label}</ListItemText>
         {externalLink && <LaunchIcon />}
@@ -236,12 +247,15 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     if (withoutWords) {
       return (
         <IconButton onClick={onClick} className={styles.logo}>
-          <IconLogo alt="LiteFarm Logo" />
+          {offline ? <IconLogoOffline alt="LiteFarm Logo" /> : <IconLogo alt="LiteFarm Logo" />}
         </IconButton>
       );
     }
 
-    return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
+    return (
+      // only for when showNavActions is false (i.e. on choose farm view); does not need offline version
+      <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />
+    );
   };
 
   return (

@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .card {
   display: flex;
@@ -44,7 +44,7 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
-  color: var(--fontColor)
+  color: var(--fontColor);
 }
 
 .iconTextContainer {
@@ -110,4 +110,22 @@
   @include md-breakpoint {
     visibility: hidden;
   }
+}
+
+.cardAwaitingSync {
+  border: 1px solid var(--Colors-Secondary-Secondary-green-100);
+  background: var(--Box-bg);
+  box-shadow: 0 1px 0 0 var(--Colors-Neutral-Neutral-50);
+
+  cursor: default;
+}
+
+.willSaveText {
+  position: absolute;
+  top: 32px;
+  right: 8px;
+
+  color: var(--Colors-Accent---singles-Brown-full);
+  font-size: 10px;
+  font-style: italic;
 }

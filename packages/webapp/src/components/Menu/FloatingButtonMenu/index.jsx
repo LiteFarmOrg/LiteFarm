@@ -39,6 +39,7 @@ export default function FloatingButtonMenu({
   transformOrigin,
   Menu,
   classes = {},
+  disabled,
 }) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -80,6 +81,7 @@ export default function FloatingButtonMenu({
         aria-haspopup="true"
         onClick={handleToggle}
         type={type}
+        disabled={disabled}
       />
       <Popper
         open={open}
@@ -118,4 +120,5 @@ FloatingButtonMenu.propTypes = {
   menuPlacement: PropTypes.oneOf(['top-end', 'bottom-start']),
   transformOrigin: PropTypes.oneOf(['bottom right', 'left top', 'left bottom']),
   Menu: PropTypes.elementType,
+  disabled: PropTypes.bool,
 };

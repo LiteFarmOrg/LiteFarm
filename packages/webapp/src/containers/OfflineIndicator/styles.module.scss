@@ -1,0 +1,66 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.snackbarRoot {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+}
+
+.offlineIndicator {
+  width: 100%;
+  height: 24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  background-color: var(--Colors-Primary-Primary-teal-100);
+  color: var(--Colors-Primary-Primary-teal-700);
+
+  .message {
+    @include truncateText();
+
+    @include md-breakpoint {
+      .additionalText {
+        display: none;
+      }
+    }
+  }
+
+  /* Note: These style overrides are necessary because the <Badge /> component's default styles match the larger, yellow Beta badge */
+  .badge {
+    padding: 0 4px;
+    height: auto;
+
+    background: var(--Colors-Primary-Primary-teal-50);
+    color: var(--Colors-Primary-Primary-teal-500);
+    font-size: 12px;
+
+    svg {
+      height: 20px;
+      width: auto;
+    }
+
+    &.active {
+      color: var(--Colors-Secondary-Secondary-green-50);
+      background: var(--Colors-Secondary-Secondary-green-600);
+    }
+  }
+}

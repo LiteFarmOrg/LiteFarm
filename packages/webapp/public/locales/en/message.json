@@ -217,18 +217,51 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",
-      "SUCCESS": "Successfully abandoned task"
+      "SUCCESS": "Successfully abandoned task",
+      "SYNC": {
+        "ONLINE": "Task abandoned. Will save when you're back online",
+        "SUCCESS": "Task abandoned offline has been saved successfully"
+      }
     },
     "COMPLETE": {
       "FAILED": "Failed to complete task",
-      "SUCCESS": "Successfully completed task"
+      "SUCCESS": "Successfully completed task",
+      "SYNC": {
+        "ONLINE": "Task completed. Will save when you're back online",
+        "SUCCESS": "Task completed offline has been saved successfully"
+      }
     },
     "CREATE": {
       "FAILED": "Failed to create task",
-      "SUCCESS": "Successfully created task"
+      "SUCCESS": "Successfully created task",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task creation automatically",
+        "ONLINE": "Task created. Will appear when you're back online",
+        "SUCCESS": "Task created offline has been saved successfully"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task deletion automatically",
+        "ONLINE": "Task deleted. Will save when you're back online",
+        "SUCCESS": "Task deleted offline has been saved successfully"
+      }
+    },
+    "SYNC": {
+      "FAILED": "Task changes failed to save",
+      "LOCATION_DELETED": "Task failed to save: location has been retired",
+      "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry automatically",
+      "NOT_FOUND": "Task failed to save: task no longer exists",
+      "UNAUTHORIZED": "Task failed to save: insufficient permissions"
     },
     "UPDATE": {
-      "FAILED": "Failed to update task"
+      "FAILED": "Failed to update task",
+      "SUCCESS": "Successfully updated task",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task update automatically",
+        "ONLINE": "Task updated. Will save when you're back online",
+        "SUCCESS": "Task updated offline has been saved successfully"
+      }
     }
   },
   "TASK_TYPE": {

@@ -55,6 +55,7 @@ export const getTask = (obj) => {
     'documents',
     'revision_date',
     'revised_by_user_id',
+    'to_sync', // frontend-supplied temp field that will be purged when tasks are re-fetched from backend
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;

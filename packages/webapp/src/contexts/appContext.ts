@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { createContext, Dispatch, RefObject, SetStateAction, useContext } from 'react';
+import GoogleMap from 'google-map-react';
+
+type GoogleMapType = typeof GoogleMap;
 
 export type NavMenuControls = {
   feedback: {
@@ -30,5 +33,20 @@ export const useNavMenuControls = () => {
     throw new Error('NavMenuControlsContext must be used within a provider');
   } else {
     return NavMenuControls;
+  }
+};
+
+export type GoogleMapInstance = {
+  instance: RefObject<GoogleMapType>;
+};
+
+export const GoogleMapInstanceContext = createContext<GoogleMapInstance | null>(null);
+
+export const useGoogleMapInstance = () => {
+  const GoogleMapInstance = useContext(GoogleMapInstanceContext);
+  if (!GoogleMapInstance) {
+    throw new Error('GoogleMapInstanceContext must be used within a provider');
+  } else {
+    return GoogleMapInstance;
   }
 };

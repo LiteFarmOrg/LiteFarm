@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
@@ -41,6 +40,12 @@ interface EditTaskWageModalProps {
   onSave: (data: TaskWagePatch) => void;
   wage_at_moment: number | null;
   override_hourly_wage: boolean;
+}
+
+interface WageActionChangeEvent {
+  target: {
+    value: typeof hourlyWageActions.FOR_THIS_TASK | typeof hourlyWageActions.NO;
+  };
 }
 
 export default function EditTaskWageModal({
@@ -73,11 +78,11 @@ export default function EditTaskWageModal({
   const selectedHourlyWageAction = watch(HOURLY_WAGE_ACTION);
   const shouldSetWage = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
 
-  useEffect(() => {
-    if (selectedHourlyWageAction === hourlyWageActions.NO) {
+  const handleWageChange = ({ target }: WageActionChangeEvent) => {
+    if (target?.value === hourlyWageActions.NO) {
       resetField(HOURLY_WAGE);
     }
-  }, [selectedHourlyWageAction]);
+  };
 
   const onSubmit = (data: EditTaskWageFormFields) => {
     if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.FOR_THIS_TASK) {
@@ -119,6 +124,7 @@ export default function EditTaskWageModal({
         control={control}
         errors={errors}
         shouldSetWage={shouldSetWage}
+        onHourlyWageActionChange={handleWageChange}
       />
     </ModalComponent>
   );

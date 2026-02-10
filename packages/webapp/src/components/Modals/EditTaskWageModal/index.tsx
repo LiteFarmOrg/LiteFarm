@@ -57,11 +57,13 @@ export default function EditTaskWageModal({
     control,
     watch,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm<EditTaskWageFormFields>({
     mode: 'onChange',
     defaultValues: {
-      [HOURLY_WAGE_ACTION]: hasTaskWageOverride ? hourlyWageActions.FOR_THIS_TASK : '',
+      [HOURLY_WAGE_ACTION]: hasTaskWageOverride
+        ? hourlyWageActions.FOR_THIS_TASK
+        : hourlyWageActions.NO,
       [HOURLY_WAGE]: hasTaskWageOverride ? wage_at_moment : null,
     },
   });
@@ -93,7 +95,12 @@ export default function EditTaskWageModal({
           <Button onClick={dismissModal} color="secondary" sm>
             {t('common:CANCEL')}
           </Button>
-          <Button onClick={handleSubmit(onSubmit)} disabled={!isValid} color="primary" sm>
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            disabled={!isValid || !isDirty}
+            color="primary"
+            sm
+          >
             {t('common:SAVE')}
           </Button>
         </>

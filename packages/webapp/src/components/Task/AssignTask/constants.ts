@@ -18,9 +18,9 @@ export const HOURLY_WAGE_ACTION = 'hourly_wage_action';
 export const ASSIGN_ALL = 'assign_all';
 export const ALREADY_COMPLETED = 'already_completed';
 
-export const hourlyWageActions = {
-  FOR_THIS_TASK: 'for_this_task',
-  NO: 'no',
-};
+export enum HourlyWageAction {
+  FOR_THIS_TASK = 'for_this_task',
+  NO = 'no',
+}
 
 export const assignTaskFields = [ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, ASSIGN_ALL];

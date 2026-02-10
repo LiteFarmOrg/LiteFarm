@@ -18,15 +18,11 @@ import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import Button from '../../Form/Button';
 import HourlyWageInputs from '../../Task/AssignTask/HourlyWageInputs';
-import {
-  HOURLY_WAGE,
-  HOURLY_WAGE_ACTION,
-  hourlyWageActions,
-} from '../../Task/AssignTask/constants';
+import { HOURLY_WAGE, HOURLY_WAGE_ACTION, HourlyWageAction } from '../../Task/AssignTask/constants';
 import { roundToTwo } from '../../../util/rounding';
 
 interface EditTaskWageFormFields {
-  [HOURLY_WAGE_ACTION]: string;
+  [HOURLY_WAGE_ACTION]: HourlyWageAction;
   [HOURLY_WAGE]: number | null;
 }
 
@@ -44,7 +40,7 @@ interface EditTaskWageModalProps {
 
 interface WageActionChangeEvent {
   target: {
-    value: typeof hourlyWageActions.FOR_THIS_TASK | typeof hourlyWageActions.NO;
+    value: HourlyWageAction;
   };
 }
 
@@ -69,28 +65,28 @@ export default function EditTaskWageModal({
     mode: 'onChange',
     defaultValues: {
       [HOURLY_WAGE_ACTION]: hasTaskWageOverride
-        ? hourlyWageActions.FOR_THIS_TASK
-        : hourlyWageActions.NO,
+        ? HourlyWageAction.FOR_THIS_TASK
+        : HourlyWageAction.NO,
       [HOURLY_WAGE]: hasTaskWageOverride ? wage_at_moment : null,
     },
   });
 
   const selectedHourlyWageAction = watch(HOURLY_WAGE_ACTION);
-  const shouldSetWage = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
+  const shouldSetWage = selectedHourlyWageAction === HourlyWageAction.FOR_THIS_TASK;
 
   const handleWageChange = ({ target }: WageActionChangeEvent) => {
-    if (target?.value === hourlyWageActions.NO) {
+    if (target?.value === HourlyWageAction.NO) {
       resetField(HOURLY_WAGE);
     }
   };
 
   const onSubmit = (data: EditTaskWageFormFields) => {
-    if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.FOR_THIS_TASK) {
+    if (data[HOURLY_WAGE_ACTION] === HourlyWageAction.FOR_THIS_TASK) {
       onSave({
         wage_at_moment: roundToTwo(data[HOURLY_WAGE]),
         override_hourly_wage: true,
       });
-    } else if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.NO) {
+    } else if (data[HOURLY_WAGE_ACTION] === HourlyWageAction.NO) {
       onSave({
         wage_at_moment: null,
         override_hourly_wage: false,

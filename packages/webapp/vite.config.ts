@@ -29,6 +29,7 @@ export default defineConfig({
       cypress: true,
     }),
     VitePWA({
+      includeAssets: ['crop-images/default.jpg'],
       registerType: 'autoUpdate',
       strategies: 'injectManifest',
       srcDir: 'src',

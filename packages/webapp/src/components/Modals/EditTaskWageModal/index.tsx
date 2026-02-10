@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
@@ -57,6 +58,7 @@ export default function EditTaskWageModal({
     control,
     watch,
     handleSubmit,
+    resetField,
     formState: { errors, isValid, isDirty },
   } = useForm<EditTaskWageFormFields>({
     mode: 'onChange',
@@ -70,6 +72,12 @@ export default function EditTaskWageModal({
 
   const selectedHourlyWageAction = watch(HOURLY_WAGE_ACTION);
   const shouldSetWage = selectedHourlyWageAction === hourlyWageActions.FOR_THIS_TASK;
+
+  useEffect(() => {
+    if (selectedHourlyWageAction === hourlyWageActions.NO) {
+      resetField(HOURLY_WAGE);
+    }
+  }, [selectedHourlyWageAction]);
 
   const onSubmit = (data: EditTaskWageFormFields) => {
     if (data[HOURLY_WAGE_ACTION] === hourlyWageActions.FOR_THIS_TASK) {

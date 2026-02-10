@@ -45,7 +45,7 @@ export function* completeManagementPlanSaga({ payload }) {
     history.push(`/crop/${managementPlan.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.COMPLETE')));
   } catch (e) {
-    if (e.response.data === CANNOT_COMPLETE_ABANDONED_PLAN) {
+    if (e.response?.data === CANNOT_COMPLETE_ABANDONED_PLAN) {
       displayCannotCompleteModal();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.COMPLETE')));
@@ -71,7 +71,7 @@ export function* abandonManagementPlanSaga({ payload }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.ABANDON')));
     yield put(getTasks());
   } catch (e) {
-    if (e.response.data === CANNOT_ABANDON_COMPLETED_PLAN) {
+    if (e.response?.data === CANNOT_ABANDON_COMPLETED_PLAN) {
       displayCannotAbandonModal();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.ABANDON')));

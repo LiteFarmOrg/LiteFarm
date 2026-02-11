@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { cloneObject } from '../../../util';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
 import {
-  hourlyWageActions,
+  HourlyWageAction,
   assignTaskFields,
   ASSIGNEE,
   ALREADY_COMPLETED,
@@ -70,7 +70,7 @@ export default function TaskAssignment() {
   const onSubmit = (data) => {
     const { hourly_wage_action, assignee, hourly_wage, already_completed } = data;
 
-    const shouldSetTaskWage = hourly_wage_action === hourlyWageActions.FOR_THIS_TASK;
+    const shouldSetTaskWage = hourly_wage_action === HourlyWageAction.FOR_THIS_TASK;
 
     const postData = {
       ...persistedFormData,

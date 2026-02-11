@@ -15,7 +15,9 @@
 
 import { Snackbar, Slide } from '@mui/material';
 import { useTranslation, Trans } from 'react-i18next';
+import clsx from 'clsx';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { useOfflineReadiness } from '../../hooks/useOfflineReadiness/useOfflineReadiness';
 import styles from './styles.module.scss';
 import Badge from '../../components/Badge';
 
@@ -25,25 +27,60 @@ function TransitionDown(props) {
 
 const OfflineIndicator = () => {
   const offline = useIsOffline();
+  const { isReadyForOffline, wentOfflineDuringSetup, isServiceWorkerSupported } =
+    useOfflineReadiness();
   const { t } = useTranslation();
+
+  const handleReload = () => {
+    window.location.reload();
+  };
+
+  // Show reload button if user went offline during setup and has now reconnected
+  // Only relevant if we are in a supported environment (PWA mode).
+  const showReloadToResume =
+    isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline;
+
+  // Show warning if offline and not ready (only if supported/PWA)
+  const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
+
+  const isOpen = offline || showReloadToResume;
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <Snackbar
-      open={offline}
+      open={isOpen}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       TransitionComponent={TransitionDown}
       classes={{ root: styles.snackbarRoot }}
     >
-      <div className={styles.offlineIndicator}>
-        <span className={styles.message}>
-          <span>{t('OFFLINE.ARE_OFFLINE')}</span>
-          <span className={styles.additionalText}> {t('OFFLINE.CHANGES_WILL_SYNC')}</span>
-        </span>
-        <Badge
-          title={t('OFFLINE.BADGE.TITLE')}
-          content={<Trans i18nKey="OFFLINE.BADGE.TOOLTIP_CONTENT" components={{ br: <br /> }} />}
-          classes={{ iconButton: styles.badge, focus: styles.active }}
-        />
+      <div className={clsx(styles.offlineIndicator, showWarning && styles.notReady)}>
+        {showWarning && <span className={styles.message}>{t('OFFLINE.NOT_READY_WARNING')}</span>}
+        {offline && (isReadyForOffline || !isServiceWorkerSupported) && (
+          <>
+            <span className={styles.message}>
+              <span>{t('OFFLINE.ARE_OFFLINE')}</span>
+              <span className={styles.additionalText}> {t('OFFLINE.CHANGES_WILL_SYNC')}</span>
+            </span>
+            <Badge
+              title={t('OFFLINE.BADGE.TITLE')}
+              content={
+                <Trans i18nKey="OFFLINE.BADGE.TOOLTIP_CONTENT" components={{ br: <br /> }} />
+              }
+              classes={{ iconButton: styles.badge, focus: styles.active }}
+            />
+          </>
+        )}
+        {showReloadToResume && (
+          <>
+            <span className={styles.message}>{t('OFFLINE.RELOAD_TO_RESUME_MESSAGE')}</span>
+            <button type="button" className={styles.reloadButton} onClick={handleReload}>
+              {t('OFFLINE.RELOAD_NOW')}
+            </button>
+          </>
+        )}
       </div>
     </Snackbar>
   );

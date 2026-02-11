@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
 import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,11 +63,12 @@ import {
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { useGoogleMapInstance } from '../../contexts/appContext';
 
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  useGoogleMapsLoader(['drawing', 'geometry']);
+  const { instance: GoogleMap, isLoaded } = useGoogleMapInstance();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
@@ -469,15 +469,17 @@ export default function Map({ isCompactSideMenu }) {
       <div data-cy="map-selection" className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
-            <GoogleMap
-              data-cy="google-map"
-              style={{ flexGrow: 1 }}
-              center={grid_points}
-              defaultZoom={DEFAULT_ZOOM}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-              options={getMapOptions}
-            />
+            {isLoaded && (
+              <GoogleMap
+                data-cy="google-map"
+                style={{ flexGrow: 1 }}
+                center={grid_points}
+                defaultZoom={DEFAULT_ZOOM}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+                options={getMapOptions}
+              />
+            )}
           </div>
           {drawingState.type && (
             <div

@@ -16,7 +16,6 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
 import {
   SelectedAddressInfo,
   useGooglePlacesAutocomplete,
@@ -29,6 +28,7 @@ import {
   MarketDirectoryInfoFormFields,
 } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/types';
 import { FormMode } from '../../../containers/Profile/FarmSettings/MarketDirectory/InfoForm/index';
+import { useGoogleMapInstance } from '../../../contexts/appContext';
 
 // Store address validity in a form field, mirroring grid_points in AddFarm
 const VALID_PLACE = DIRECTORY_INFO_FIELDS.VALID_PLACE;
@@ -49,7 +49,7 @@ const AddressInput = ({ formMode }: AddressInputProps) => {
     formState: { errors },
   } = useFormContext<MarketDirectoryInfoFormFields>();
 
-  const { isLoaded } = useGoogleMapsLoader(['places']);
+  const { isLoaded } = useGoogleMapInstance();
 
   // Geocode initial lat/lng address if needed
   const handleGeocode = () => {

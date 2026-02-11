@@ -17,7 +17,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
 import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
@@ -32,6 +31,7 @@ import type { MarketDirectoryInfo, MarketProductCategory } from '../../../../../
 import { isFetchBaseQueryError } from '../../../../../store/api/typeGuards';
 import useMarketDirectoryData from './useMarketDirectoryData';
 import { formatMarketDirectoryData } from './util';
+import { useGoogleMapInstance } from '../../../../../contexts/appContext';
 
 export enum FormMode {
   ADD = 'add',
@@ -53,7 +53,7 @@ const MarketDirectoryInfoForm = ({
   const dispatch = useDispatch();
   const { getOnFileUpload } = useImagePickerUpload();
 
-  useGoogleMapsLoader(['places']);
+  const { isLoaded } = useGoogleMapInstance();
 
   const hasExistingRecord = !!marketDirectoryInfo;
 
@@ -131,21 +131,23 @@ const MarketDirectoryInfoForm = ({
     : formMethods.handleSubmit(onSubmit);
 
   return (
-    <FormProvider {...formMethods}>
-      <PureMarketDirectoryInfoForm
-        close={close}
-        getOnFileUpload={getOnFileUpload}
-        formMode={formMode}
-        marketProductCategoryOptions={marketProductCategoryOptions}
-      />
-      <InFormButtons
-        confirmText={isReadonly ? t('common:EDIT') : t('common:SAVE')}
-        onCancel={isReadonly ? undefined : onCancel}
-        onConfirm={handleConfirm}
-        isDisabled={!isReadonly && !formMethods.formState.isValid}
-        confirmButtonType={isReadonly ? 'button' : 'submit'}
-      />
-    </FormProvider>
+    isLoaded && (
+      <FormProvider {...formMethods}>
+        <PureMarketDirectoryInfoForm
+          close={close}
+          getOnFileUpload={getOnFileUpload}
+          formMode={formMode}
+          marketProductCategoryOptions={marketProductCategoryOptions}
+        />
+        <InFormButtons
+          confirmText={isReadonly ? t('common:EDIT') : t('common:SAVE')}
+          onCancel={isReadonly ? undefined : onCancel}
+          onConfirm={handleConfirm}
+          isDisabled={!isReadonly && !formMethods.formState.isValid}
+          confirmButtonType={isReadonly ? 'button' : 'submit'}
+        />
+      </FormProvider>
+    )
   );
 };
 

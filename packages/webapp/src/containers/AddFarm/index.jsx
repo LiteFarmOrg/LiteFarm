@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,7 +8,6 @@ import {
   userFarmsByUserSelector,
   userFarmSelector,
 } from '../userFarmSlice';
-import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg';
@@ -19,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
+import { useGoogleMapInstance } from '../../contexts/appContext';
 
 const AddFarm = () => {
   const history = useHistory();
@@ -48,7 +47,7 @@ const AddFarm = () => {
 
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
-  const { isLoaded } = useGoogleMapsLoader(['places']);
+  const { instance: GoogleMap, isLoaded } = useGoogleMapInstance();
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {
@@ -274,6 +273,7 @@ const AddFarm = () => {
             gridPoints={gridPoints || {}}
             isGettingLocation={isGettingLocation}
             errors={addressErrors}
+            GoogleMap={GoogleMap}
           />
         }
       />
@@ -281,7 +281,7 @@ const AddFarm = () => {
   );
 };
 
-function Map({ scriptLoaded, gridPoints, errors, isGettingLocation }) {
+function Map({ scriptLoaded, gridPoints, errors, isGettingLocation, GoogleMap }) {
   return (
     <div
       style={{

@@ -15,10 +15,10 @@
 
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
 import { parseGoogleGeocodedAddress } from '../../../util/google-maps/parseAddressComponents';
 import { userFarmSelector } from '../../userFarmSlice';
 import { UserFarm } from '../../../types';
+import { useGoogleMapInstance } from '../../../contexts/appContext';
 
 interface TapeSurveyPrepopulatedData {
   location_province?: string;
@@ -32,7 +32,7 @@ interface TapeSurveyPrepopulatedData {
 }
 
 export const useTapeSurveyPrepopulatedData = () => {
-  const { isLoaded } = useGoogleMapsLoader(['geocoding']);
+  const { isLoaded } = useGoogleMapInstance();
 
   // @ts-expect-error -- userFarmSelector issue
   const userFarm: UserFarm = useSelector(userFarmSelector);

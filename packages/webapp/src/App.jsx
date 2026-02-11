@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
@@ -23,10 +23,11 @@ import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import styles from './styles.module.scss';
 import Routes from './routes';
 import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
-import { NavMenuControlsContext } from './contexts/appContext';
+import { GoogleMapInstanceContext, NavMenuControlsContext } from './contexts/appContext';
 import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 import { useGoogleMapsLoader } from './hooks/useGoogleMapsLoader';
+import GoogleMap from 'google-map-react';
 
 function App() {
   const location = useLocation();
@@ -34,43 +35,51 @@ function App() {
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
+  const { current: GoogleMapInstance } = useRef(GoogleMap);
 
   useOfflineDetector();
   useServiceWorkerListener();
-  useGoogleMapsLoader();
+  const { isLoaded } = useGoogleMapsLoader();
 
   return (
     <div className={clsx(styles.container)}>
-      <NavMenuControlsContext.Provider
+      <GoogleMapInstanceContext.Provider
         value={{
-          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          instance: GoogleMapInstance,
+          isLoaded,
         }}
       >
-        <Navigation
-          isCompactSideMenu={isCompactSideMenu}
-          setIsCompactSideMenu={setIsCompactSideMenu}
+        <NavMenuControlsContext.Provider
+          value={{
+            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          }}
         >
-          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              classes={{
-                root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
-                containerRoot: clsx(
-                  styles.containerRoot,
-                  isCompactSideMenu && styles.compactContainerRoot,
-                ),
-              }}
-              // https://notistack.com/features/customization#custom-component
-              Components={{ common: NotistackSnackbar }}
-            >
-              <Routes isCompactSideMenu={isCompactSideMenu} />
-            </SnackbarProvider>
-          </div>
-        </Navigation>
-      </NavMenuControlsContext.Provider>
+          <Navigation
+            isCompactSideMenu={isCompactSideMenu}
+            setIsCompactSideMenu={setIsCompactSideMenu}
+          >
+            <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+              <SnackbarProvider
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                classes={{
+                  root: clsx(styles.root, isCompactSideMenu && styles.compactRoot),
+                  containerRoot: clsx(
+                    styles.containerRoot,
+                    isCompactSideMenu && styles.compactContainerRoot,
+                  ),
+                }}
+                // https://notistack.com/features/customization#custom-component
+                Components={{ common: NotistackSnackbar }}
+              >
+                <Routes isCompactSideMenu={isCompactSideMenu} />
+              </SnackbarProvider>
+            </div>
+          </Navigation>
+        </NavMenuControlsContext.Provider>
+      </GoogleMapInstanceContext.Provider>
     </div>
   );
 }

@@ -31,6 +31,7 @@ export default defineConfig({
     VitePWA({
       includeAssets: ['crop-images/default.jpg'],
       registerType: 'autoUpdate',
+      injectRegister: false,
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.js',

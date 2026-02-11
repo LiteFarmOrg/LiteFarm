@@ -137,10 +137,9 @@ export function useServiceWorkerListener() {
       const { type, payload } = event.data;
 
       const { method, status, url } = payload || {};
+      const area = resolveAreaFromUrl(method, url);
 
       if (type === 'SYNC_ITEM_SUCCESS') {
-        const area = resolveAreaFromUrl(method, url);
-
         const handler = syncConfig[area as SyncArea];
         if (!handler) return;
 
@@ -172,14 +171,16 @@ export function useServiceWorkerListener() {
          * See: https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
          */
         // We will also manually replay when the app comes back online.
-        switch (method) {
-          case 'POST':
+        switch (area) {
+          case 'tasks.create':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
             break;
-          case 'DELETE':
+          case 'tasks.delete':
             dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
             break;
-          case 'PATCH':
+          case 'tasks.complete':
+          case 'tasks.abandon':
+          case 'tasks.update':
             dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
             break;
           default:

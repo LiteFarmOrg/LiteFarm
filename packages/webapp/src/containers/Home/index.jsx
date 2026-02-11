@@ -17,6 +17,10 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import { useGoogleMapInstance } from '../../contexts/appContext';
+import { DEFAULT_ZOOM } from '../Map/constants';
+import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
+import Map from '../Map';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -48,6 +52,20 @@ export default function Home() {
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
+      {
+        <div
+          style={{
+            position: 'absolute',
+            width: '200px',
+            height: '200px',
+            top: '0px',
+            left: '0px',
+            pointerEvents: 'none',
+          }}
+        >
+          <Map isCompactSideMenu={false} />
+        </div>
+      }
     </PureHome>
   );
 }

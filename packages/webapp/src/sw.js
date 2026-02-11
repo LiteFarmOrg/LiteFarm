@@ -140,14 +140,14 @@ BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
   if (event.data === 'replay_queue') {
-    Object.values(queues).forEach(async ({ queue }) => {
+    for (let { queue } of Object.values(queues)) {
       const handler = createOnSyncHandler();
       try {
         await handler({ queue });
       } catch (err) {
         // Ignore errors during manual replay; they are logged by the handler anyway
       }
-    });
+    }
   }
 
   if (event.data === 'clear_queue') {

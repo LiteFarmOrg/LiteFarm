@@ -38,6 +38,7 @@ export const useNavMenuControls = () => {
 
 export type GoogleMapInstance = {
   instance: RefObject<GoogleMapType>;
+  isLoaded: Boolean;
 };
 
 export const GoogleMapInstanceContext = createContext<GoogleMapInstance | null>(null);

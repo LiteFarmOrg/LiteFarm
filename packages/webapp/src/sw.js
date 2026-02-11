@@ -112,7 +112,8 @@ const BG_SYNC_QUEUE_NAME = 'background-sync';
 
 const backgroundSyncQueue = new Queue(BG_SYNC_QUEUE_NAME, {
   maxRetentionTime: 24 * 60, // 24 hours
-  onSync: createOnSyncHandler(),
+  // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
+  onSync: () => ({}),
 });
 
 // Store queue references globally to allow manual replay
@@ -138,18 +139,15 @@ BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
 
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
-  // Manually replay queues if background sync is not supported
-  if (!('sync' in self.registration)) {
-    if (event.data === 'replay_queue') {
-      Object.values(queues).forEach(async ({ queue }) => {
-        const handler = createOnSyncHandler();
-        try {
-          await handler({ queue });
-        } catch (err) {
-          // Ignore errors during manual replay; they are logged by the handler anyway
-        }
-      });
-    }
+  if (event.data === 'replay_queue') {
+    Object.values(queues).forEach(async ({ queue }) => {
+      const handler = createOnSyncHandler();
+      try {
+        await handler({ queue });
+      } catch (err) {
+        // Ignore errors during manual replay; they are logged by the handler anyway
+      }
+    });
   }
 
   if (event.data === 'clear_queue') {

@@ -167,10 +167,8 @@ export function useServiceWorkerListener() {
       } else if (type === 'SYNC_ITEM_FAILURE') {
         /*
          * This indicates a failure to reach the server (e.g. API down). It should be rare.
-         * The background-sync-api retries automatically with exponential backoff (approx. 5 min on Chrome).
-         * See: https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
+         * We will manually replay when the app is re-rendered.
          */
-        // We will also manually replay when the app comes back online.
         switch (area) {
           case 'tasks.create':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));

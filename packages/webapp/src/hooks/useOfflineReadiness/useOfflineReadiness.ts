@@ -147,7 +147,7 @@ export function useOfflineReadiness() {
   // Re-validate cache when going offline.
   // This detects cases where the cache was manually deleted or corrupted while the app was running.
   useEffect(() => {
-    if (offline && isControlled) {
+    if (offline) {
       checkCacheStatus().then((validation) => {
         dispatch(setCacheValidation(validation));
         if (!validation.isComplete) {
@@ -158,7 +158,7 @@ export function useOfflineReadiness() {
         }
       });
     }
-  }, [offline, isControlled]);
+  }, [offline]);
 
   return {
     isReadyForOffline,

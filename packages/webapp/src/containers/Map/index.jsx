@@ -151,7 +151,7 @@ export default function Map({ isCompactSideMenu }) {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
 
-  const showAddDrawer = mapAddDrawer.addDrawer;
+  const showAddDrawer = mapAddDrawer.addDrawer && !isOffline;
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);

@@ -82,6 +82,7 @@ export function useOfflineReadiness() {
 
   useEffect(() => {
     const handleOfflineReady = async () => {
+      console.log('Received offline ready event, validating cache...');
       // Validate cache contents when we receive the offline ready event
       const validation = await checkCacheStatus();
       dispatch(setCacheValidation(validation));
@@ -94,6 +95,7 @@ export function useOfflineReadiness() {
     };
 
     const handleControllerChange = () => {
+      console.log('Service worker controller changed, re-checking control status...');
       const controlled = !!navigator.serviceWorker?.controller;
       dispatch(setControlled(controlled));
     };
@@ -155,6 +157,9 @@ export function useOfflineReadiness() {
           dispatch(setOfflineReady(false));
           // Since we are offline and not ready, this counts as "offline during setup"
           dispatch(setWentOfflineDuringSetup(true));
+        } else {
+          dispatch(setOfflineReady(true));
+          dispatch(setWentOfflineDuringSetup(false));
         }
       });
     }

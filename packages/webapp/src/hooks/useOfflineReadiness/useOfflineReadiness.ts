@@ -73,6 +73,18 @@ export function useOfflineReadiness() {
     isServiceWorkerSupported,
   });
 
+  // Helper to validate and update state
+  const validateAndUpdateState = async () => {
+    const validation = await checkCacheStatus();
+    dispatch(setCacheValidation(validation));
+
+    if (validation.isComplete) {
+      dispatch(setOfflineReady(true));
+      dispatch(setWentOfflineDuringSetup(false));
+    }
+    return validation;
+  };
+
   // Reset "wentOfflineDuringSetup" flag on mount.
   // This ensures that if the user reloads the page (to "try again"),
   // they don't see the stale error message from the previous session.
@@ -83,15 +95,15 @@ export function useOfflineReadiness() {
   useEffect(() => {
     const handleOfflineReady = async () => {
       console.log('Received offline ready event, validating cache...');
-      // Validate cache contents when we receive the offline ready event
-      const validation = await checkCacheStatus();
-      dispatch(setCacheValidation(validation));
 
-      if (validation.isComplete) {
-        dispatch(setOfflineReady(true));
-        // Clear the flag since we're now ready
-        dispatch(setWentOfflineDuringSetup(false));
+      // Retry logic: wait for controller to be available
+      let attempts = 0;
+      while (!navigator.serviceWorker?.controller && attempts < 10) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        attempts++;
       }
+
+      await validateAndUpdateState();
     };
 
     const handleControllerChange = () => {
@@ -100,32 +112,28 @@ export function useOfflineReadiness() {
       dispatch(setControlled(controlled));
     };
 
+    const checkInitialState = async () => {
+      if (!navigator.serviceWorker) return;
+
+      try {
+        await navigator.serviceWorker.ready;
+        dispatch(setControlled(!!navigator.serviceWorker.controller));
+
+        // Validate cache on mount if we have a controller
+        if (navigator.serviceWorker.controller) {
+          await validateAndUpdateState();
+        }
+      } catch (e) {
+        // Service worker not available or failed
+      }
+    };
+
     // Listen for the custom offline ready event from registerSW
     window.addEventListener(OFFLINE_READY_EVENT, handleOfflineReady);
 
     if (navigator.serviceWorker) {
       navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
-
-      // Check initial state
-      navigator.serviceWorker.ready
-        .then(async () => {
-          dispatch(setControlled(!!navigator.serviceWorker.controller));
-
-          // Validate cache on mount if we have a controller
-          if (navigator.serviceWorker.controller) {
-            const validation = await checkCacheStatus();
-            dispatch(setCacheValidation(validation));
-
-            if (validation.isComplete) {
-              dispatch(setOfflineReady(true));
-              // Clear the flag since we're now ready
-              dispatch(setWentOfflineDuringSetup(false));
-            }
-          }
-        })
-        .catch(() => {
-          // Service worker not available or failed
-        });
+      checkInitialState();
     }
 
     return () => {
@@ -150,18 +158,17 @@ export function useOfflineReadiness() {
   // This detects cases where the cache was manually deleted or corrupted while the app was running.
   useEffect(() => {
     if (offline) {
-      checkCacheStatus().then((validation) => {
-        dispatch(setCacheValidation(validation));
+      console.log('Went offline, validating cache status...');
+      const validate = async () => {
+        const validation = await validateAndUpdateState();
         if (!validation.isComplete) {
           // If cache is missing/incomplete, mark strictly as not ready
           dispatch(setOfflineReady(false));
           // Since we are offline and not ready, this counts as "offline during setup"
           dispatch(setWentOfflineDuringSetup(true));
-        } else {
-          dispatch(setOfflineReady(true));
-          dispatch(setWentOfflineDuringSetup(false));
         }
-      });
+      };
+      validate();
     }
   }, [offline]);
 

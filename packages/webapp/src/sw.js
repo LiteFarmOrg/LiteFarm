@@ -121,19 +121,19 @@ const queues = {
   [RETRY_QUEUE_NAME]: { queue: retryQueue },
 };
 
-// Push to our queue on failure
-const queueOnFailurePlugin = {
-  fetchDidFail: async ({ request }) => {
-    await retryQueue.pushRequest({
-      request,
-      metadata: {
-        timestamp: Date.now(),
-      },
-    });
-  },
-};
-
 RETRY_ROUTES.forEach(({ matcher, method }) => {
+  // Push to our queue on failure
+  const queueOnFailurePlugin = {
+    fetchDidFail: async ({ request }) => {
+      await retryQueue.pushRequest({
+        request,
+        metadata: {
+          timestamp: Date.now(),
+        },
+      });
+    },
+  };
+
   registerRoute(matcher, new NetworkOnly({ plugins: [queueOnFailurePlugin] }), method);
 });
 

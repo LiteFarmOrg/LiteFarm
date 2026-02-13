@@ -226,6 +226,9 @@ importers:
       workbox-strategies:
         specifier: ^7.4.0
         version: 7.4.0
+      workbox-window:
+        specifier: ^7.4.0
+        version: 7.4.0
     devDependencies:
       '@babel/core':
         specifier: ^7.20.5
@@ -376,7 +379,7 @@ importers:
         version: 4.1.0(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))
       vite-plugin-pwa:
         specifier: ^0.14.3
-        version: 0.14.7(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))(workbox-build@6.6.0(@types/babel__core@7.20.5))(workbox-window@6.6.0)
+        version: 0.14.7(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))(workbox-build@6.6.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
       vite-plugin-svgr:
         specifier: ^2.4.0
         version: 2.4.0(rollup@3.29.5)(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))
@@ -7452,6 +7455,9 @@ packages:
 
   workbox-window@6.6.0:
     resolution: {integrity: sha512-L4N9+vka17d16geaJXXRjENLFldvkWy7JyGxElRD0JvBxvFEd8LOhr+uXCcar/NzAmIBRv9EZ+M+Qr4mOoBITw==}
+
+  workbox-window@7.4.0:
+    resolution: {integrity: sha512-/bIYdBLAVsNR3v7gYGaV4pQW3M3kEPx5E8vDxGvxo6khTrGtSSCS7QiFKv9ogzBgZiy0OXLP9zO28U/1nF1mfw==}
 
   wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
@@ -15938,7 +15944,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-pwa@0.14.7(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))(workbox-build@6.6.0(@types/babel__core@7.20.5))(workbox-window@6.6.0):
+  vite-plugin-pwa@0.14.7(vite@4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1))(workbox-build@6.6.0(@types/babel__core@7.20.5))(workbox-window@7.4.0):
     dependencies:
       '@rollup/plugin-replace': 5.0.7(rollup@3.29.5)
       debug: 4.4.3(supports-color@9.4.0)
@@ -15947,7 +15953,7 @@ snapshots:
       rollup: 3.29.5
       vite: 4.5.14(@types/node@24.10.1)(sass@1.94.0)(terser@5.44.1)
       workbox-build: 6.6.0(@types/babel__core@7.20.5)
-      workbox-window: 6.6.0
+      workbox-window: 7.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -16318,6 +16324,11 @@ snapshots:
     dependencies:
       '@types/trusted-types': 2.0.7
       workbox-core: 6.6.0
+
+  workbox-window@7.4.0:
+    dependencies:
+      '@types/trusted-types': 2.0.7
+      workbox-core: 7.4.0
 
   wrap-ansi@6.2.0:
     dependencies:

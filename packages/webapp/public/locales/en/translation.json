@@ -1627,8 +1627,10 @@
       "TITLE": "Are you sure you want to logout?"
     },
     "NOT_READY_WARNING": "LiteFarm is not finished downloading for offline use. Please reconnect",
+    "OFFLINE_STORAGE_UNAVAILABLE": "Offline storage is not available",
     "RELOAD_NOW": "Reload now",
-    "RELOAD_TO_RESUME_MESSAGE": "Reload to resume downloading LiteFarm for offline use"
+    "RELOAD_TO_RESUME_MESSAGE": "Reload to resume downloading LiteFarm for offline use",
+    "RESET_APPLICATION": "Reset Application"
   },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",

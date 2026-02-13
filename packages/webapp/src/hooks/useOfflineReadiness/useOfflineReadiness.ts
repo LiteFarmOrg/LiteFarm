@@ -21,6 +21,7 @@ import {
   setWentOfflineDuringSetup,
   setCacheValidation,
   setControlled,
+  setRecoveryMode,
   offlineReadinessSelector,
   type CacheValidation,
 } from './offlineReadinessSlice';
@@ -58,7 +59,7 @@ async function checkCacheStatus(): Promise<CacheValidation> {
 export function useOfflineReadiness() {
   const dispatch = useDispatch();
   const offline = useIsOffline();
-  const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, isControlled } =
+  const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, isControlled, recoveryMode } =
     useSelector(offlineReadinessSelector);
 
   // TODO: fix this check; doesn't actually exclude localhost:3000 as intended
@@ -71,6 +72,7 @@ export function useOfflineReadiness() {
     cacheValidation,
     isControlled,
     isServiceWorkerSupported,
+    recoveryMode,
   });
 
   // Helper to validate and update state
@@ -81,6 +83,18 @@ export function useOfflineReadiness() {
     if (validation.isComplete) {
       dispatch(setOfflineReady(true));
       dispatch(setWentOfflineDuringSetup(false));
+      dispatch(setRecoveryMode(false));
+    } else {
+      // Detect unrecoverable state: cache is completely empty despite having an active SW
+      // This indicates the cache was dropped and won't regenerate without intervention
+      if (validation.error === 'Cache is empty' && !offline && isControlled) {
+        dispatch(setRecoveryMode(true));
+      }
+      // Mark as interrupted setup if we are offline OR have a critical error (e.g. no controller)
+      // If we are online and just incomplete (normal downloading), don't flag as interrupted
+      else if (offline || validation.error) {
+        dispatch(setWentOfflineDuringSetup(true));
+      }
     }
     return validation;
   };
@@ -176,6 +190,7 @@ export function useOfflineReadiness() {
     isReadyForOffline,
     wentOfflineDuringSetup,
     cacheValidation,
+    recoveryMode,
     isControlled,
     isServiceWorkerSupported,
   };

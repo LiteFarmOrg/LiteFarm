@@ -27,6 +27,7 @@ interface OfflineReadinessState {
   wentOfflineDuringSetup: boolean;
   cacheValidation: CacheValidation | null;
   isControlled: boolean;
+  recoveryMode: boolean; // True when cache is in unrecoverable state (completely dropped despite active SW)
 }
 
 const initialState: OfflineReadinessState = {
@@ -34,6 +35,7 @@ const initialState: OfflineReadinessState = {
   wentOfflineDuringSetup: false,
   cacheValidation: null,
   isControlled: typeof navigator !== 'undefined' ? !!navigator.serviceWorker?.controller : false,
+  recoveryMode: false,
 };
 
 const offlineReadinessSlice = createSlice({
@@ -56,11 +58,19 @@ const offlineReadinessSlice = createSlice({
     setControlled: (state, action: PayloadAction<boolean>) => {
       state.isControlled = action.payload;
     },
+    setRecoveryMode: (state, action: PayloadAction<boolean>) => {
+      state.recoveryMode = action.payload;
+    },
   },
 });
 
-export const { setOfflineReady, setWentOfflineDuringSetup, setCacheValidation, setControlled } =
-  offlineReadinessSlice.actions;
+export const {
+  setOfflineReady,
+  setWentOfflineDuringSetup,
+  setCacheValidation,
+  setControlled,
+  setRecoveryMode,
+} = offlineReadinessSlice.actions;
 
 export default offlineReadinessSlice.reducer;
 

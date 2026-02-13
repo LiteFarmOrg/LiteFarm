@@ -27,6 +27,21 @@ import {
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
 
+export interface UseOfflineReadinessResult {
+  isReadyForOffline: boolean;
+  wentOfflineDuringSetup: boolean;
+  cacheValidation: CacheValidation | null;
+  recoveryMode: boolean;
+  isControlled: boolean;
+  isServiceWorkerSupported: boolean;
+  showReloadToResume: boolean;
+  showWarning: boolean;
+  showReset: boolean;
+  isIndicatorOpen: boolean;
+  reloadApp: () => void;
+  resetApplication: () => Promise<void>;
+}
+
 /**
  * Checks the cache status via the Service Worker.
  * @returns Promise<CacheValidation> - The cache validation result.
@@ -53,10 +68,8 @@ async function checkCacheStatus(): Promise<CacheValidation> {
  * 1. A Service Worker has completed its installation and precaching
  * 2. The SW has taken control of the page
  * 3. All expected assets are present in the cache (validated)
- *
- * @returns {object} Offline readiness state and supporting status flags.
  */
-export function useOfflineReadiness() {
+export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
   const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, isControlled, recoveryMode } =
@@ -186,6 +199,32 @@ export function useOfflineReadiness() {
     }
   }, [offline]);
 
+  const showReloadToResume =
+    isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline;
+  const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
+  const showReset = showReloadToResume && recoveryMode;
+  const isIndicatorOpen = offline || showReloadToResume;
+
+  const reloadApp = () => {
+    window.location.reload();
+  };
+
+  const resetApplication = async () => {
+    if (navigator.serviceWorker) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const registration of registrations) {
+        await registration.unregister();
+      }
+    }
+    if (window.caches) {
+      const keys = await window.caches.keys();
+      for (const key of keys) {
+        await window.caches.delete(key);
+      }
+    }
+    window.location.reload();
+  };
+
   return {
     isReadyForOffline,
     wentOfflineDuringSetup,
@@ -193,5 +232,11 @@ export function useOfflineReadiness() {
     recoveryMode,
     isControlled,
     isServiceWorkerSupported,
+    showReloadToResume,
+    showWarning,
+    showReset,
+    isIndicatorOpen,
+    reloadApp,
+    resetApplication,
   };
 }

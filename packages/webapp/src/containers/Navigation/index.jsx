@@ -29,7 +29,16 @@ import OfflineIndicator from '../OfflineIndicator';
 
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
-  const { isReadyForOffline, wentOfflineDuringSetup } = useOfflineReadiness();
+  const {
+    isReadyForOffline,
+    isServiceWorkerSupported,
+    showWarning,
+    showReloadToResume,
+    showReset,
+    isIndicatorOpen,
+    reloadApp,
+    resetApplication,
+  } = useOfflineReadiness();
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -49,12 +58,21 @@ const Navigation = ({ children, ...props }) => {
   };
 
   // Show offline mode styling when offline or when user needs to reload after premature disconnect
-  const showOfflineIndicator =
-    offline || (!offline && wentOfflineDuringSetup && !isReadyForOffline);
+  const showOfflineIndicator = isIndicatorOpen;
 
   return (
     <div className={clsx(styles.navigationWrapper, showOfflineIndicator && styles.offlineMode)}>
-      <OfflineIndicator />
+      <OfflineIndicator
+        offline={offline}
+        isReadyForOffline={isReadyForOffline}
+        isServiceWorkerSupported={isServiceWorkerSupported}
+        showWarning={showWarning}
+        showReloadToResume={showReloadToResume}
+        showReset={showReset}
+        isIndicatorOpen={isIndicatorOpen}
+        reloadApp={reloadApp}
+        resetApplication={resetApplication}
+      />
       <PureNavigation
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { OFFLINE_READY_EVENT } from '../../pwa/offlineReadyEvent';
 import {
@@ -68,6 +68,12 @@ async function checkCacheStatus(): Promise<CacheValidation> {
  * 1. A Service Worker has completed its installation and precaching
  * 2. The SW has taken control of the page
  * 3. All expected assets are present in the cache (validated)
+ *
+ * Event flow (single source):
+ * - main.jsx dispatches OFFLINE_READY_EVENT from registerSW(onOfflineReady)
+ * - this hook listens for OFFLINE_READY_EVENT and validates cache integrity
+ * - this hook also validates on startup (if controlled) and when going offline
+ * - UI reads derived flags from this state (warning, reload prompt, reset)
  */
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
@@ -88,8 +94,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     recoveryMode,
   });
 
-  // Helper to validate and update state
+  // Central validator used by all entry points (startup, offlineReady event, offline transition)
   const validateAndUpdateState = async () => {
+    const controlled = !!navigator.serviceWorker?.controller;
+    dispatch(setControlled(controlled));
+
     const validation = await checkCacheStatus();
     dispatch(setCacheValidation(validation));
 
@@ -98,13 +107,12 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       dispatch(setWentOfflineDuringSetup(false));
       dispatch(setRecoveryMode(false));
     } else {
-      // Detect unrecoverable state: cache is completely empty despite having an active SW
-      // This indicates the cache was dropped and won't regenerate without intervention
-      if (validation.error === 'Cache is empty' && !offline && isControlled) {
+      // Unrecoverable: active SW + empty cache means cache was dropped.
+      if (validation.error === 'Cache is empty' && !offline && controlled) {
         dispatch(setRecoveryMode(true));
       }
-      // Mark as interrupted setup if we are offline OR have a critical error (e.g. no controller)
-      // If we are online and just incomplete (normal downloading), don't flag as interrupted
+      // Mark as interrupted setup if we are offline OR have a critical error (e.g. no controller).
+      // If we are online and just incomplete (normal downloading), don't flag as interrupted.
       else if (offline || validation.error) {
         dispatch(setWentOfflineDuringSetup(true));
       }
@@ -112,10 +120,9 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     return validation;
   };
 
-  // Reset "wentOfflineDuringSetup" flag on mount.
-  // This ensures that if the user reloads the page (to "try again"),
-  // they don't see the stale error message from the previous session.
-  useEffect(() => {
+  // Clear stale setup-interrupted state before first paint on fresh page load.
+  // This avoids a one-frame flash of the reconnect prompt after reload.
+  useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
   }, []);
 
@@ -131,12 +138,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       }
 
       await validateAndUpdateState();
-    };
-
-    const handleControllerChange = () => {
-      console.log('Service worker controller changed, re-checking control status...');
-      const controlled = !!navigator.serviceWorker?.controller;
-      dispatch(setControlled(controlled));
     };
 
     const checkInitialState = async () => {
@@ -155,34 +156,26 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       }
     };
 
-    // Listen for the custom offline ready event from registerSW
+    // Listen for app-level signal emitted from registerSW(onOfflineReady).
     window.addEventListener(OFFLINE_READY_EVENT, handleOfflineReady);
 
     if (navigator.serviceWorker) {
-      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
       checkInitialState();
     }
 
     return () => {
       window.removeEventListener(OFFLINE_READY_EVENT, handleOfflineReady);
-
-      if (navigator.serviceWorker) {
-        navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
-      }
     };
   }, []);
 
-  // Track when user goes offline during setup
-  // We track this if the client supports SW, even if not yet controlled.
-  // This ensures we catch connection drops during the initial install phase.
+  // Flag setup interruption if connection drops before offline-ready state.
   useEffect(() => {
     if (offline && !isReadyForOffline && isServiceWorkerSupported) {
       dispatch(setWentOfflineDuringSetup(true));
     }
   }, [offline, isReadyForOffline, isServiceWorkerSupported]);
 
-  // Re-validate cache when going offline.
-  // This detects cases where the cache was manually deleted or corrupted while the app was running.
+  // Re-validate on offline transition to detect missing/corrupt precache.
   useEffect(() => {
     if (offline) {
       console.log('Went offline, validating cache status...');

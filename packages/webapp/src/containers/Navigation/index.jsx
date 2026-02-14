@@ -24,21 +24,12 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
-import { useOfflineReadiness } from '../../hooks/useOfflineReadiness/useOfflineReadiness';
+import { offlineReadinessSelector } from '../../hooks/useOfflineReadiness/offlineReadinessSlice';
 import OfflineIndicator from '../OfflineIndicator';
 
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
-  const {
-    isReadyForOffline,
-    isServiceWorkerSupported,
-    showWarning,
-    showReloadToResume,
-    showReset,
-    isIndicatorOpen,
-    reloadApp,
-    resetApplication,
-  } = useOfflineReadiness();
+  const { isReadyForOffline, wentOfflineDuringSetup } = useSelector(offlineReadinessSelector);
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -57,22 +48,15 @@ const Navigation = ({ children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
-  // Show offline mode styling when offline or when user needs to reload after premature disconnect
-  const showOfflineIndicator = isIndicatorOpen;
+  const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
+
+  const showOfflineIndicator =
+    offline ||
+    (isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline);
 
   return (
     <div className={clsx(styles.navigationWrapper, showOfflineIndicator && styles.offlineMode)}>
-      <OfflineIndicator
-        offline={offline}
-        isReadyForOffline={isReadyForOffline}
-        isServiceWorkerSupported={isServiceWorkerSupported}
-        showWarning={showWarning}
-        showReloadToResume={showReloadToResume}
-        showReset={showReset}
-        isIndicatorOpen={isIndicatorOpen}
-        reloadApp={reloadApp}
-        resetApplication={resetApplication}
-      />
+      <OfflineIndicator />
       <PureNavigation
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}

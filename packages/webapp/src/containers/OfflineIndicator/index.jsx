@@ -16,6 +16,8 @@
 import { Snackbar, Slide } from '@mui/material';
 import { useTranslation, Trans } from 'react-i18next';
 import clsx from 'clsx';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { useOfflineReadiness } from '../../hooks/useOfflineReadiness/useOfflineReadiness';
 import styles from './styles.module.scss';
 import Badge from '../../components/Badge';
 
@@ -23,17 +25,18 @@ function TransitionDown(props) {
   return <Slide {...props} direction="down" />;
 }
 
-const OfflineIndicator = ({
-  offline,
-  isReadyForOffline,
-  isServiceWorkerSupported,
-  showWarning,
-  showReloadToResume,
-  showReset,
-  isIndicatorOpen,
-  reloadApp,
-  resetApplication,
-}) => {
+const OfflineIndicator = () => {
+  const offline = useIsOffline();
+  const {
+    isReadyForOffline,
+    isServiceWorkerSupported,
+    showWarning,
+    showReloadToResume,
+    showReset,
+    isIndicatorOpen,
+    reloadApp,
+    resetApplication,
+  } = useOfflineReadiness();
   const { t } = useTranslation();
 
   if (!isIndicatorOpen) {

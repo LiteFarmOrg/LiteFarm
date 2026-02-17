@@ -16,28 +16,30 @@
 import { offlineEventLogUrl } from '../apiConfig';
 import { APP_VERSION } from './constants';
 
-export const recordOfflineEvent = async ({
-  auth,
-  farm_id,
-  went_online_at,
-  logs,
-}: {
+export interface OfflineEventPayload {
   auth: string;
-  went_online_at: number;
-  farm_id?: string;
+  farmId?: string;
+  wentOnlineAt: number;
   logs: {
     eventName: string;
     eventAt: number;
     statusCode?: number;
   }[];
-}) => {
+}
+
+export const recordOfflineEvent = async ({
+  auth,
+  farmId,
+  wentOnlineAt,
+  logs,
+}: OfflineEventPayload) => {
   return fetch(offlineEventLogUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({
       app_version: APP_VERSION,
-      farm_id,
-      went_online_at,
+      farm_id: farmId,
+      went_online_at: wentOnlineAt,
       logs: logs.map(({ eventName, eventAt, statusCode }) => ({
         event_name: eventName,
         event_at: eventAt,

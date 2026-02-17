@@ -68,6 +68,9 @@ const createOnSyncHandler = () => {
               method: entry.request.method,
               status: response.status,
               response: responseContent,
+              queuedAt: entry.metadata.timestamp,
+              auth: entry.request.headers.get('Authorization'),
+              farm_id: entry.request.headers.get('farm_id'),
             },
           }),
         );

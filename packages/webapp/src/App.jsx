@@ -37,13 +37,14 @@ function App() {
 
   useOfflineDetector();
   useServiceWorkerListener();
-  useGoogleMapsLoader();
+  const { isLoaded } = useGoogleMapsLoader();
 
   return (
     <div className={clsx(styles.container)}>
       <NavMenuControlsContext.Provider
         value={{
           feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          maps: { isLoaded },
         }}
       >
         <Navigation

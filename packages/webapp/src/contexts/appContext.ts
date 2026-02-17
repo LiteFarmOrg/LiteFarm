@@ -20,6 +20,9 @@ export type NavMenuControls = {
     isFeedbackSurveyOpen: boolean;
     setFeedbackSurveyOpen: Dispatch<SetStateAction<boolean>>;
   };
+  maps: {
+    isLoaded: boolean;
+  };
 };
 
 export const NavMenuControlsContext = createContext<NavMenuControls | null>(null);

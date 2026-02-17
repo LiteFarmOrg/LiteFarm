@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (yieldController.js) is part of LiteFarm.
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,22 +14,9 @@
  */
 
 import { Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { tokenType } from '../util/jwt.js';
-import farmModel from '../models/farmModel.js';
 import offlineEventLogModel from '../models/offlineEventLogModel.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
-
-export interface OfflineEventLogReqBody {
-  logs: {
-    event_name?: string;
-    event_at?: Date | number;
-    status_code?: number;
-  }[];
-  went_online_at?: Date | number;
-  farm_id?: string;
-  app_version?: string;
-}
+import { OfflineEventLogReqBody } from '../middleware/validation/checkOfflineLogs.js';
 
 const offlineEventLogController = {
   addOfflineEventLog() {
@@ -37,41 +24,8 @@ const offlineEventLogController = {
       req: LiteFarmRequest<unknown, unknown, unknown, OfflineEventLogReqBody>,
       res: Response,
     ) => {
-      if (!Array.isArray(req.body.logs) || req.body.logs.length === 0) {
-        return res.status(400).json({ error: 'Invalid request' });
-      }
-
-      const token = req.headers.authorization?.split(' ')[1];
-      let authenticated = false;
-
       try {
-        if (!token) {
-          throw new Error('token is missing');
-        }
-
-        const decoded = jwt.verify(token, tokenType.access!, { ignoreExpiration: true });
-
-        if (typeof decoded === 'string' || typeof decoded.exp !== 'number') {
-          throw new Error('invalid token');
-        }
-
-        const now = Math.floor(Date.now() / 1000); // JWT exp is in seconds
-
-        const tokenExpired = decoded.exp < now;
-        authenticated = !tokenExpired;
-      } catch (err) {
-        console.error(err);
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-
-      try {
-        const { logs, went_online_at, farm_id, app_version } = req.body;
-        let farm: { country_id?: number } | undefined;
-
-        if (farm_id) {
-          /* @ts-expect-error known issue with models */
-          farm = await farmModel.query().findOne({ farm_id });
-        }
+        const { logs, went_online_at, app_version } = req.body;
 
         const wentOnlineAt = went_online_at && new Date(went_online_at).toISOString();
 
@@ -81,8 +35,8 @@ const offlineEventLogController = {
           went_online_at: wentOnlineAt,
           status_code,
           app_version,
-          country_id: farm?.country_id,
-          authenticated,
+          country_id: res.locals.country_id,
+          authenticated: res.locals.authenticated,
         }));
 
         await offlineEventLogModel.query().insert(records);

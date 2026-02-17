@@ -15,9 +15,18 @@
 
 import express from 'express';
 import offlineEventLogController from '../controllers/offlineEventLogController.js';
+import {
+  checkAuthForOfflineLogs,
+  checkOfflineLogs,
+} from '../middleware/validation/checkOfflineLogs.js';
 
 const router = express.Router();
 
-router.post('/', offlineEventLogController.addOfflineEventLog());
+router.post(
+  '/',
+  checkAuthForOfflineLogs(),
+  checkOfflineLogs(),
+  offlineEventLogController.addOfflineEventLog(),
+);
 
 export default router;

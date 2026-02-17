@@ -68,7 +68,7 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  useGoogleMapsLoader(['drawing', 'geometry']);
+  const { isLoaded } = useGoogleMapsLoader(['drawing', 'geometry']);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
@@ -451,142 +451,146 @@ export default function Map({ isCompactSideMenu }) {
   } = drawingState;
 
   return (
-    <>
-      {!drawingState.type && !showSuccessHeader && (
-        <PureMapHeader
-          farmName={farm_name}
-          handleVideoClick={handleVideoClick}
-          isAdmin={is_admin}
-        />
-      )}
-      {showSuccessHeader && (
-        <PureSnackbarWithoutBorder
-          className={styles.successSnackbar}
-          onDismiss={handleCloseSuccessHeader}
-          title={successMessage}
-        />
-      )}
-      <div data-cy="map-selection" className={styles.pageWrapper}>
-        <div className={styles.mapContainer}>
-          <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
-            <GoogleMap
-              data-cy="google-map"
-              style={{ flexGrow: 1 }}
-              center={grid_points}
-              defaultZoom={DEFAULT_ZOOM}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-              options={getMapOptions}
-            />
-          </div>
-          {drawingState.type && (
-            <div
-              className={clsx(
-                styles.drawingBar,
-                isCompactSideMenu && styles.drawingBarWithCompactMenu,
-              )}
-            >
-              <DrawingManager
-                drawingType={drawingState.type}
-                isDrawing={drawingState.isActive}
-                showLineModal={isLineWithWidth() && !drawingState.isActive}
-                onClickBack={() => {
-                  setZeroAreaWarning(false);
-                  setShowZeroLengthWarning(false);
-                  resetDrawing(true);
-                  dispatch(resetAndUnLockFormData());
-                  closeDrawer();
-                  setShowingConfirmButtons(false);
-                }}
-                onClickTryAgain={() => {
-                  setZeroAreaWarning(false);
-                  setShowZeroLengthWarning(false);
-                  resetDrawing();
-                  startDrawing(drawingState.type);
-                  setShowingConfirmButtons(false);
-                  dispatch(setIsRedrawing(true));
-                }}
-                onClickConfirm={handleConfirm}
-                showZeroAreaWarning={showZeroAreaWarning}
-                showZeroLengthWarning={showZeroLengthWarning}
-                confirmLine={handleLineConfirm}
-                updateLineWidth={setLineWidth}
-                system={system}
-                lineData={overlayData}
-                typeOfLine={drawingState.type}
-                onLineParameterChange={() => {
-                  dispatch(setIsRedrawing(true));
-                }}
+    isLoaded && (
+      <>
+        {!drawingState.type && !showSuccessHeader && (
+          <PureMapHeader
+            farmName={farm_name}
+            handleVideoClick={handleVideoClick}
+            isAdmin={is_admin}
+          />
+        )}
+        {showSuccessHeader && (
+          <PureSnackbarWithoutBorder
+            className={styles.successSnackbar}
+            onDismiss={handleCloseSuccessHeader}
+            title={successMessage}
+          />
+        )}
+        <div data-cy="map-selection" className={styles.pageWrapper}>
+          <div className={styles.mapContainer}>
+            <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
+              <GoogleMap
+                data-cy="google-map"
+                style={{ flexGrow: 1 }}
+                center={grid_points}
+                defaultZoom={DEFAULT_ZOOM}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+                options={getMapOptions}
               />
             </div>
+            {drawingState.type && (
+              <div
+                className={clsx(
+                  styles.drawingBar,
+                  isCompactSideMenu && styles.drawingBarWithCompactMenu,
+                )}
+              >
+                <DrawingManager
+                  drawingType={drawingState.type}
+                  isDrawing={drawingState.isActive}
+                  showLineModal={isLineWithWidth() && !drawingState.isActive}
+                  onClickBack={() => {
+                    setZeroAreaWarning(false);
+                    setShowZeroLengthWarning(false);
+                    resetDrawing(true);
+                    dispatch(resetAndUnLockFormData());
+                    closeDrawer();
+                    setShowingConfirmButtons(false);
+                  }}
+                  onClickTryAgain={() => {
+                    setZeroAreaWarning(false);
+                    setShowZeroLengthWarning(false);
+                    resetDrawing();
+                    startDrawing(drawingState.type);
+                    setShowingConfirmButtons(false);
+                    dispatch(setIsRedrawing(true));
+                  }}
+                  onClickConfirm={handleConfirm}
+                  showZeroAreaWarning={showZeroAreaWarning}
+                  showZeroLengthWarning={showZeroLengthWarning}
+                  confirmLine={handleLineConfirm}
+                  updateLineWidth={setLineWidth}
+                  system={system}
+                  lineData={overlayData}
+                  typeOfLine={drawingState.type}
+                  onLineParameterChange={() => {
+                    dispatch(setIsRedrawing(true));
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <LocationSelectionModal history={history} />
+
+          {!drawingState.type && (
+            <PureMapFooter
+              isAdmin={is_admin}
+              showSpotlight={!showedSpotlight.map}
+              resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
+              onClickAdd={handleClickAdd}
+              showModal={showExportModal}
+              onClickExport={handleClickExport}
+              setShowMapFilter={setShowMapFilter}
+              showMapFilter={showMapFilter}
+              setShowAddDrawer={(showAddDrawer) => {
+                dispatch(
+                  showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id),
+                );
+              }}
+              showAddDrawer={showAddDrawer}
+              handleClickFilter={handleClickFilter}
+              filterSettings={filterSettings}
+              onFilterMenuClick={handleFilterMenuClick}
+              onAddMenuClick={handleAddMenuClick}
+              availableFilterSettings={availableFilterSettings}
+              isMapFilterSettingActive={isMapFilterSettingActive}
+              isCompactSideMenu={isCompactSideMenu}
+              isOffline={isOffline}
+            />
+          )}
+          {showExportModal && (
+            <ExportMapModal
+              onClickDownload={handleDownload}
+              onClickShare={handleShare}
+              dismissModal={() => setShowExportModal(false)}
+            />
+          )}
+          {showDrawAreaSpotlightModal && (
+            <DrawAreaModal
+              dismissModal={() => {
+                setShowDrawAreaSpotlightModal(false);
+                dispatch(setSpotlightToShown('draw_area'));
+              }}
+            />
+          )}
+          {showDrawLineSpotlightModal && (
+            <DrawLineModal
+              dismissModal={() => {
+                setShowDrawLineSpotlightModal(false);
+                dispatch(setSpotlightToShown('draw_line'));
+              }}
+            />
+          )}
+          {showAdjustAreaSpotlightModal && (
+            <AdjustAreaModal
+              dismissModal={() => {
+                setShowAdjustAreaSpotlightModal(false);
+                dispatch(setSpotlightToShown('adjust_area'));
+              }}
+            />
+          )}
+          {showAdjustLineSpotlightModal && (
+            <AdjustLineModal
+              dismissModal={() => {
+                setShowAdjustLineSpotlightModal(false);
+                dispatch(setSpotlightToShown('adjust_line'));
+              }}
+            />
           )}
         </div>
-        <LocationSelectionModal history={history} />
-
-        {!drawingState.type && (
-          <PureMapFooter
-            isAdmin={is_admin}
-            showSpotlight={!showedSpotlight.map}
-            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
-            onClickAdd={handleClickAdd}
-            showModal={showExportModal}
-            onClickExport={handleClickExport}
-            setShowMapFilter={setShowMapFilter}
-            showMapFilter={showMapFilter}
-            setShowAddDrawer={(showAddDrawer) => {
-              dispatch(showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id));
-            }}
-            showAddDrawer={showAddDrawer}
-            handleClickFilter={handleClickFilter}
-            filterSettings={filterSettings}
-            onFilterMenuClick={handleFilterMenuClick}
-            onAddMenuClick={handleAddMenuClick}
-            availableFilterSettings={availableFilterSettings}
-            isMapFilterSettingActive={isMapFilterSettingActive}
-            isCompactSideMenu={isCompactSideMenu}
-            isOffline={isOffline}
-          />
-        )}
-        {showExportModal && (
-          <ExportMapModal
-            onClickDownload={handleDownload}
-            onClickShare={handleShare}
-            dismissModal={() => setShowExportModal(false)}
-          />
-        )}
-        {showDrawAreaSpotlightModal && (
-          <DrawAreaModal
-            dismissModal={() => {
-              setShowDrawAreaSpotlightModal(false);
-              dispatch(setSpotlightToShown('draw_area'));
-            }}
-          />
-        )}
-        {showDrawLineSpotlightModal && (
-          <DrawLineModal
-            dismissModal={() => {
-              setShowDrawLineSpotlightModal(false);
-              dispatch(setSpotlightToShown('draw_line'));
-            }}
-          />
-        )}
-        {showAdjustAreaSpotlightModal && (
-          <AdjustAreaModal
-            dismissModal={() => {
-              setShowAdjustAreaSpotlightModal(false);
-              dispatch(setSpotlightToShown('adjust_area'));
-            }}
-          />
-        )}
-        {showAdjustLineSpotlightModal && (
-          <AdjustLineModal
-            dismissModal={() => {
-              setShowAdjustLineSpotlightModal(false);
-              dispatch(setSpotlightToShown('adjust_line'));
-            }}
-          />
-        )}
-      </div>
-    </>
+      </>
+    )
   );
 }

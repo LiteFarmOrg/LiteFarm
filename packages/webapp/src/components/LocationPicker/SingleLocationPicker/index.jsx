@@ -51,7 +51,7 @@ const LocationPicker = ({
   showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
-  useGoogleMapsLoader(['maps', 'geometry']);
+  const { isLoaded } = useGoogleMapsLoader(['maps', 'geometry']);
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
@@ -352,29 +352,31 @@ const LocationPicker = ({
   };
 
   return (
-    <div
-      data-cy="map-selectLocation"
-      className={clsx(styles.mapContainer, className)}
-      style={style}
-    >
-      <GoogleMap
-        style={{ flexGrow: 1 }}
-        defaultCenter={farmCenterCoordinate}
-        defaultZoom={DEFAULT_ZOOM}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-        options={getMapOptions}
-      />
-      {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
-        <PureSelectionHandler
-          locations={overlappedPositions}
-          onSelect={onSelectionModalClick}
-          dismissSelectionModal={dismissSelectionModal}
-          selectedLocationIds={selectedLocationIds}
+    isLoaded && (
+      <div
+        data-cy="map-selectLocation"
+        className={clsx(styles.mapContainer, className)}
+        style={style}
+      >
+        <GoogleMap
+          style={{ flexGrow: 1 }}
+          defaultCenter={farmCenterCoordinate}
+          defaultZoom={DEFAULT_ZOOM}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+          options={getMapOptions}
         />
-      )}
-      {disabled && <div className={styles.layerMask} />}
-    </div>
+        {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
+          <PureSelectionHandler
+            locations={overlappedPositions}
+            onSelect={onSelectionModalClick}
+            dismissSelectionModal={dismissSelectionModal}
+            selectedLocationIds={selectedLocationIds}
+          />
+        )}
+        {disabled && <div className={styles.layerMask} />}
+      </div>
+    )
   );
 };
 

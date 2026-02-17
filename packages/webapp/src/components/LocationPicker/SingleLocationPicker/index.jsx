@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { useNavMenuControls } from '../../../contexts/appContext';
+import { useAppUIContext } from '../../../contexts/appContext';
 import {
   DEFAULT_ZOOM,
   isPoint,
@@ -53,7 +53,7 @@ const LocationPicker = ({
 }) => {
   const {
     maps: { isLoaded },
-  } = useNavMenuControls();
+  } = useAppUIContext();
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);

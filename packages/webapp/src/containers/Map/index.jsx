@@ -7,7 +7,7 @@ import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
 import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavMenuControls } from '../../contexts/appContext';
+import { useAppUIContext } from '../../contexts/appContext';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
@@ -70,7 +70,7 @@ export default function Map({ isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const {
     maps: { isLoaded },
-  } = useNavMenuControls();
+  } = useAppUIContext();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);

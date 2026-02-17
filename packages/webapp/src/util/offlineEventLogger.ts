@@ -36,6 +36,8 @@ export const recordOfflineEvent = async ({
   return fetch(offlineEventLogUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
+    // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
+    keepalive: true, // Attempt to send even when the page is unloading
     body: JSON.stringify({
       app_version: APP_VERSION,
       farm_id: farmId,

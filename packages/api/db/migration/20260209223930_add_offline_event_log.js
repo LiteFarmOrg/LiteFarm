@@ -26,7 +26,7 @@ export const up = async function (knex) {
     table.string('app_version');
     table.boolean('authenticated');
     table.dateTime('event_at');
-    table.dateTime('went_offline_at').notNullable();
+    table.dateTime('went_online_at').notNullable();
   });
 };
 

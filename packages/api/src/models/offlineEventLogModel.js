@@ -27,7 +27,7 @@ class offlineEventLogModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['event_name', 'app_version', 'authenticated', 'event_at', 'went_offline_at'],
+      required: ['event_name', 'app_version', 'authenticated', 'event_at', 'went_online_at'],
       properties: {
         event_name: { type: 'string' },
         status_code: { type: ['integer', 'null'] },
@@ -35,7 +35,7 @@ class offlineEventLogModel extends Model {
         app_version: { type: 'string' },
         authenticated: { type: 'boolean' },
         event_at: { type: 'string', format: 'date-time' },
-        went_offline_at: { type: 'string', format: 'date-time' },
+        went_online_at: { type: 'string', format: 'date-time' },
       },
       additionalProperties: false,
     };

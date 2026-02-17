@@ -26,7 +26,7 @@ export interface OfflineEventLogReqBody {
     event_at?: Date | number;
     status_code?: number;
   }[];
-  went_offline_at?: Date | number;
+  went_online_at?: Date | number;
   farm_id?: string;
   app_version?: string;
 }
@@ -65,7 +65,7 @@ const offlineEventLogController = {
       }
 
       try {
-        const { logs, went_offline_at, farm_id, app_version } = req.body;
+        const { logs, went_online_at, farm_id, app_version } = req.body;
         let farm: { country_id?: number } | undefined;
 
         if (farm_id) {
@@ -73,12 +73,12 @@ const offlineEventLogController = {
           farm = await farmModel.query().findOne({ farm_id });
         }
 
-        const wentOfflineAt = went_offline_at && new Date(went_offline_at).toISOString();
+        const wentOnlineAt = went_online_at && new Date(went_online_at).toISOString();
 
         const records = logs.map(({ event_name, event_at, status_code }) => ({
           event_name,
           event_at: event_at && new Date(event_at).toISOString(),
-          went_offline_at: wentOfflineAt,
+          went_online_at: wentOnlineAt,
           status_code,
           app_version,
           country_id: farm?.country_id,

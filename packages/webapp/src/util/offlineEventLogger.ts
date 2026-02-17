@@ -19,11 +19,11 @@ import { APP_VERSION } from './constants';
 export const recordOfflineEvent = async ({
   auth,
   farm_id,
-  went_offline_at,
+  went_online_at,
   logs,
 }: {
   auth: string;
-  went_offline_at: number;
+  went_online_at: number;
   farm_id?: string;
   logs: {
     eventName: string;
@@ -37,7 +37,7 @@ export const recordOfflineEvent = async ({
     body: JSON.stringify({
       app_version: APP_VERSION,
       farm_id,
-      went_offline_at,
+      went_online_at,
       logs: logs.map(({ eventName, eventAt, statusCode }) => ({
         event_name: eventName,
         event_at: eventAt,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
+import { useNavMenuControls } from '../../../contexts/appContext';
 import {
   DEFAULT_ZOOM,
   isPoint,
@@ -51,7 +51,9 @@ const LocationPicker = ({
   showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
-  const { isLoaded } = useGoogleMapsLoader(['maps', 'geometry']);
+  const {
+    maps: { isLoaded },
+  } = useNavMenuControls();
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
 import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
+import { useNavMenuControls } from '../../contexts/appContext';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
@@ -68,7 +68,9 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 export default function Map({ isCompactSideMenu }) {
   const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  const { isLoaded } = useGoogleMapsLoader(['drawing', 'geometry']);
+  const {
+    maps: { isLoaded },
+  } = useNavMenuControls();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);

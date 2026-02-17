@@ -21,12 +21,12 @@ export const up = async function (knex) {
   return knex.schema.createTable('offline_event_log', function (table) {
     table.increments('id').primary();
     table.string('event_name').notNullable();
-    table.string('status');
+    table.string('status_code');
     table.integer('country_id').references('id').inTable('countries');
     table.string('app_version');
     table.boolean('authenticated');
     table.dateTime('event_at');
-    table.dateTime('created_at').notNullable();
+    table.dateTime('went_offline_at').notNullable();
   });
 };
 

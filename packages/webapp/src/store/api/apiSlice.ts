@@ -85,9 +85,13 @@ import {
  * @returns - The invalidateTags action,
  * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
  */
-export const invalidateTags = (tags: (FarmTag | FarmLibraryTag)[], farm_id: string) =>
-  api.util.invalidateTags(mapFarmTags(tags, farm_id));
-
+export const invalidateTags = (tags: (FarmTag | FarmLibraryTag)[], farm_id?: string) => {
+  if (!farm_id) {
+    console.warn('Cannot invalidate tags — farm_id is missing');
+    return undefined;
+  }
+  return api.util.invalidateTags(mapFarmTags(tags, farm_id));
+};
 const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
 
 export const api = createApi({
@@ -175,14 +179,23 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+      async onQueryStarted(patch, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimals.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
         } catch (err) {
           // handled in component
         }
@@ -199,14 +212,23 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+      async onQueryStarted(patch, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimalBatches.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
         } catch (err) {
           // handled in component
         }
@@ -223,14 +245,23 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
-      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+      async onQueryStarted(del, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimals.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
         } catch (err) {
           // handled in component
         }
@@ -247,14 +278,23 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
-      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+      async onQueryStarted(del, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimalBatches.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
         } catch (err) {
           // handled in component
         }
@@ -271,15 +311,24 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimals.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+          await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id }));
         } catch (err) {
           // handled in component
         }
@@ -297,15 +346,24 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimalBatches.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+          await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id }));
         } catch (err) {
           // handled in component
         }
@@ -323,15 +381,24 @@ export const api = createApi({
         method: 'PATCH',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimals.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+          await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id }));
         } catch (err) {
           // handled in component
         }
@@ -349,15 +416,24 @@ export const api = createApi({
         method: 'PATCH',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
         try {
+          const state = getState() as RootState;
+          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+          if (!farm_id) {
+            throw 'Cannot initiate fetching — farm_id is missing';
+          }
           const { data } = await queryFulfilled;
-          await dispatch(api.endpoints.getAnimalBatches.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
-          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
-          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
-          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+          await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
+          await dispatch(
+            api.endpoints.getCustomAnimalTypes.initiate({ farm_id, params: '?count=true' }),
+          );
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id }));
         } catch (err) {
           // handled in component
         }

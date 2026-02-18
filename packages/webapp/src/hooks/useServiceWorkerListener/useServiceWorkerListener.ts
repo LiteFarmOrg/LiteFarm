@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   enqueueSuccessSnackbar,
@@ -23,6 +23,8 @@ import {
 import { getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
+import { loginSelector } from 'src/containers/userFarmSlice';
+import { mapFarmTags } from 'src/store/api/util';
 
 type SyncArea =
   | 'tasks.create'
@@ -66,7 +68,7 @@ function resolveAreaFromUrl(method: string, url: string): SyncArea {
 export function useServiceWorkerListener() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const { farm_id } = useSelector(loginSelector);
   const syncConfig = useMemo(
     (): Record<SyncArea, SyncConfig> => ({
       'tasks.create': {
@@ -76,7 +78,7 @@ export function useServiceWorkerListener() {
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
-            return invalidateTags(['IrrigationPrescriptions']);
+            return invalidateTags(['IrrigationPrescriptions'], farm_id);
           }
         },
         refresh: () => {
@@ -94,7 +96,7 @@ export function useServiceWorkerListener() {
         onSuccess: (response) => {
           // taskType not returned in the completion API response
           if (response?.animal_movement_task) {
-            return invalidateTags(['Animals', 'AnimalBatches']);
+            return invalidateTags(['Animals', 'AnimalBatches'], farm_id);
           }
         },
         refresh: () => dispatch(getTasks()),
@@ -121,13 +123,13 @@ export function useServiceWorkerListener() {
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
-            return invalidateTags(['IrrigationPrescriptions']);
+            return invalidateTags(['IrrigationPrescriptions'], farm_id);
           }
         },
         refresh: () => dispatch(getTasks()),
       },
     }),
-    [t, dispatch],
+    [t, dispatch, farm_id],
   );
 
   useEffect(() => {

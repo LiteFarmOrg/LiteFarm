@@ -18,6 +18,7 @@ import {
   QueryStatus,
   SkipToken,
   skipToken,
+  SubscriptionOptions,
 } from '@reduxjs/toolkit/query/react';
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
@@ -25,7 +26,19 @@ import { WithFarmId, WithFarmIdPayload } from './types';
 import { FarmLibraryTag, FarmTag } from './apiTags';
 import { LazyQueryTrigger, UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
-type RawQueryResult<T> = {
+type RefetchQueryResult<T, A> = Promise<RawQueryResult<T, A>> & {
+  arg: A;
+  requestId: string;
+  subscriptionOptions: SubscriptionOptions | undefined;
+  abort(): void;
+  unwrap(): Promise<T>;
+  unsubscribe(): void;
+  refetch(): RefetchQueryResult<T, A>;
+  updateSubscriptionOptions(options: SubscriptionOptions): void;
+  queryCacheKey: string;
+};
+
+type RawQueryResult<T, A> = {
   data?: T;
   currentData?: T;
   isUninitialized: boolean;
@@ -37,6 +50,10 @@ type RawQueryResult<T> = {
   status: QueryStatus;
   startedTimeStamp?: number;
   fulfilledTimeStamp?: number;
+  endpointName?: string;
+  originalArgs?: unknown;
+  requestId?: string;
+  refetch(): RefetchQueryResult<T, A>;
 };
 
 type RawMutationResult<T> = {
@@ -126,19 +143,19 @@ function queryWithFarmId(
  * ```
  */
 export function getUseQueryWithFarmId<Data, Args extends WithFarmId>(
-  rawHook: (arg: Args, options?: any) => RawQueryResult<Data>,
+  rawHook: (arg: Args, options?: any) => any,
 ) {
   // Overload 1: when selectFromResult is present
   function useQueryWithFarmId<Selected>(
     extraArgs: ExtraArgs<Args> | undefined,
-    options: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
+    options: UseQueryOptionsWithSelect<RawQueryResult<Data, Args>, Selected>,
   ): Selected;
 
   // Overload 2: plain call (no selectFromResult or no options)
   function useQueryWithFarmId(
     extraArgs?: ExtraArgs<Args>,
     options?: BaseUseQueryOptions,
-  ): RawQueryResult<Data>;
+  ): RawQueryResult<Data, Args>;
 
   function useQueryWithFarmId(extraArgs?: ExtraArgs<Args>, options?: any): any {
     return queryWithFarmId(rawHook, extraArgs, options);
@@ -150,11 +167,11 @@ export function getUseQueryWithFarmId<Data, Args extends WithFarmId>(
 export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
   rawLazyHook: (
     options?: any,
-  ) => [(arg: Args, preferCacheValue?: boolean) => Promise<any>, RawQueryResult<Data>, any],
+  ) => [(arg: Args, preferCacheValue?: boolean) => Promise<any>, any, any],
 ) {
   // Overload 1: when selectFromResult is present
   function useLazyQueryWithFarmId<Selected>(
-    options: UseQueryOptionsWithSelect<RawQueryResult<Data>, Selected>,
+    options: UseQueryOptionsWithSelect<RawQueryResult<Data, Args>, Selected>,
   ): [(arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>, Selected, Args];
 
   // Overload 2: plain call (no selectFromResult or no options)
@@ -162,7 +179,7 @@ export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
     options?: BaseUseQueryOptions,
   ): [
     (arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>,
-    RawQueryResult<Data>,
+    RawQueryResult<Data, Args>,
     Args,
   ];
 

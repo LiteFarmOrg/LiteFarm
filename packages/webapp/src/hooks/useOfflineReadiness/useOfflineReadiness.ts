@@ -123,34 +123,30 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       dispatch(setOfflineReady(true));
       dispatch(setWentOfflineDuringSetup(false));
       dispatch(setRecoveryMode(false));
-    } else {
-      // Unrecoverable: active SW + empty cache means cache was dropped.
-      // Only set recovery mode if cache is truly empty (totalCached = 0), we have a
-      // controller, and we're online. A partial cache (totalCached > 0) means the SW
-      // is still downloading -- that's handled by the next branch.
-      if (validation.error === 'Cache is empty' && !offline && controlled) {
-        dispatch(setRecoveryMode(true));
-      }
-      // If cache has some entries, we're re-downloading - clear recovery mode
-      else if (validation.totalCached && validation.totalCached > 0) {
-        dispatch(setRecoveryMode(false));
-      }
-      // Mark as interrupted setup ONLY if:
-      // 1. We are offline (interrupted by going offline), OR
-      // 2. We have a real error while online (not just "no controller" which is normal during startup)
-      // "No service worker controller" while online is expected during fresh SW install.
-      else if (offline) {
-        dispatch(setWentOfflineDuringSetup(true));
-      }
+    } else if (controlled) {
+      // SW is active (install phase complete via skipWaiting+clientsClaim), but cache is
+      // incomplete. This is unrecoverable regardless of how many entries are cached:
+      // 0 entries = cache was dropped; >0 entries = cache got stuck mid-install.
+      // Crucially we don't guard on !offline here -- setting recoveryMode while offline
+      // means coming back online immediately shows Reset, not Reload (no flash).
+      dispatch(setRecoveryMode(true));
+    } else if (validation.totalCached && validation.totalCached > 0) {
+      // No controller yet -- SW is still installing and actively filling the cache.
+      // Not broken, just in progress. Clear any stale recovery mode.
+      dispatch(setRecoveryMode(false));
+    } else if (offline) {
+      // No controller, empty cache, offline -- interrupted very early in install.
+      dispatch(setWentOfflineDuringSetup(true));
     }
     return validation;
   };
 
-  // Clear stale state before first paint on fresh page load.
-  // This avoids a one-frame flash of prompts after reload.
+  // Clear stale setup-interrupted state before first paint on fresh page load.
+  // This avoids a one-frame flash of the reconnect prompt after reload.
+  // Note: recoveryMode is NOT cleared here -- it must be cleared by validation
+  // (either finding a complete cache or finding no controller with a partial cache).
   useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
-    dispatch(setRecoveryMode(false));
   }, []);
 
   useEffect(() => {

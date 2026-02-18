@@ -55,10 +55,10 @@ export function checkAuthForOfflineLogs() {
 
         const tokenExpired = decoded.exp < now;
 
-        res.locals.authenticated = !tokenExpired;
+        res.locals.log_status = tokenExpired ? 'expired' : 'authenticated';
         res.locals.user_id = decoded.user_id;
       } else {
-        res.locals.authenticated = false;
+        res.locals.log_status = 'anonymous';
       }
 
       next();

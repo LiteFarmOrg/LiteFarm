@@ -27,7 +27,14 @@ class offlineEventLogModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['event_name', 'app_version', 'authenticated', 'event_at', 'went_online_at'],
+      required: [
+        'session_id',
+        'event_name',
+        'app_version',
+        'log_status',
+        'event_at',
+        'went_online_at',
+      ],
       properties: {
         session_id: { type: 'string', format: 'uuid' },
         event_name: { type: 'string' },
@@ -36,12 +43,12 @@ class offlineEventLogModel extends Model {
         country_id: { type: ['number', 'null'] },
         network: { type: ['string', 'null'] },
         browser: { type: ['string', 'null'] },
-        browser_version: { type: 'string' },
+        browser_version: { type: ['string', 'null'] },
         device_vendor: { type: ['string', 'null'] },
-        os: { type: 'string' },
-        device_model: { type: 'string' },
+        os: { type: ['string', 'null'] },
+        device_model: { type: ['string', 'null'] },
         app_version: { type: 'string' },
-        authenticated: { type: 'boolean' },
+        log_status: { type: 'string' },
         event_at: { type: 'string', format: 'date-time' },
         went_online_at: { type: 'string', format: 'date-time' },
       },

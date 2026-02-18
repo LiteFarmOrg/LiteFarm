@@ -20,20 +20,20 @@
 export const up = async function (knex) {
   return knex.schema.createTable('offline_event_log', function (table) {
     table.increments('id').primary();
-    table.uuid('session_id');
+    table.uuid('session_id').notNullable();
     table.string('event_name').notNullable();
     table.string('status_code');
     table.string('url');
     table.integer('country_id').references('id').inTable('countries');
-    table.string('network').notNullable();
-    table.string('browser').notNullable();
-    table.string('browser_version').notNullable();
+    table.string('network');
+    table.string('browser');
+    table.string('browser_version');
     table.string('device_vendor');
-    table.string('os').notNullable();
+    table.string('os');
     table.string('device_model');
-    table.string('app_version');
-    table.boolean('authenticated');
-    table.dateTime('event_at');
+    table.string('app_version').notNullable();
+    table.string('log_status').notNullable();
+    table.dateTime('event_at').notNullable();
     table.dateTime('went_online_at').notNullable();
   });
 };

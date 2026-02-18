@@ -44,7 +44,7 @@ const offlineEventLogController = {
           os: ua.os.name,
           device_model: ua.device.model,
           app_version,
-          authenticated: res.locals.authenticated,
+          log_status: res.locals.log_status,
           event_at: event_at && new Date(event_at).toISOString(),
           went_online_at: wentOnlineAt,
         }));

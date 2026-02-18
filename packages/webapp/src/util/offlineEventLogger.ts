@@ -22,8 +22,8 @@ const ACTIVITY_LOGS_KEY = 'offline_activity_logs';
 
 export const startOfflineSession = () => {
   const session = {
+    id_token: localStorage.getItem('id_token'),
     session_id: uuidv4(),
-    started_at: Date.now(),
     went_online_at: undefined,
   };
   localStorage.setItem(OFFLINE_SESSION_KEY, JSON.stringify(session));
@@ -71,23 +71,23 @@ export interface OfflineEventPayload {
 }
 
 export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPayload) => {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (auth) {
-    headers['Authorization'] = auth;
-  }
+  const { id_token, session_id, went_online_at = Date.now() } = getOfflineSession();
 
   return fetch(offlineEventLogUrl, {
     method: 'POST',
-    headers,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: auth || id_token,
+    },
     // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
     keepalive: true, // Attempt to send even when the page is unloading
     body: JSON.stringify({
       app_version: APP_VERSION,
       farm_id: farmId,
-      went_online_at: getOfflineSession()?.went_online_at || Date.now(),
+      went_online_at,
       // @ts-expect-error -- connection exists
       network: navigator?.connection?.effectiveType,
-      session_id: getOfflineSession()?.session_id || '',
+      session_id,
       logs: logs.map(({ eventName, eventAt, statusCode, url }) => ({
         event_name: eventName,
         event_at: eventAt,

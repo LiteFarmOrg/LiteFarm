@@ -123,12 +123,14 @@ export const api = createApi({
       query: (_args) => `${animalBatchesUrl}`,
       providesTags: getFarmTagsFn<AnimalBatch[], WithFarmId>(['AnimalBatches']),
     }),
-    getDefaultAnimalTypes: build.query<DefaultAnimalType[], WithFarmId<{ param?: string | void }>>({
-      query: ({ param = '' }) => `${defaultAnimalTypesUrl}${param}`,
-      providesTags: getFarmTagsFn<DefaultAnimalType[], WithFarmId>(['DefaultAnimalTypes']),
-    }),
-    getCustomAnimalTypes: build.query<CustomAnimalType[], WithFarmId<{ param?: string | void }>>({
-      query: ({ param = '' }) => `${customAnimalTypesUrl}${param}`,
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], WithFarmId<{ params?: string | void }>>(
+      {
+        query: ({ params = '' }) => `${defaultAnimalTypesUrl}${params}`,
+        providesTags: getFarmTagsFn<DefaultAnimalType[], WithFarmId>(['DefaultAnimalTypes']),
+      },
+    ),
+    getCustomAnimalTypes: build.query<CustomAnimalType[], WithFarmId<{ params?: string | void }>>({
+      query: ({ params = '' }) => `${customAnimalTypesUrl}${params}`,
       providesTags: getFarmTagsFn<CustomAnimalType[], WithFarmId>(['CustomAnimalTypes']),
     }),
     getCustomAnimalBreeds: build.query<CustomAnimalBreed[], WithFarmId>({

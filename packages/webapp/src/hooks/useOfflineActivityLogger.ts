@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -30,8 +30,8 @@ const useOfflineActivityLogger = () => {
   const isOffline = useIsOffline();
   const location = useLocation();
 
-  const farm = useSelector(userFarmSelector);
-  const farmId = 'farm_id' in farm ? (farm?.farm_id as string) : undefined;
+  const farm: { farm_id?: string } = useSelector(userFarmSelector);
+  const farmIdRef = useRef(farm?.farm_id);
 
   const flushLogs = async () => {
     const activities = getActivities();
@@ -43,7 +43,7 @@ const useOfflineActivityLogger = () => {
 
     await recordOfflineEvent({
       auth: token ? 'Bearer ' + token : undefined,
-      farmId,
+      farmId: farmIdRef.current,
       logs: activities.map(([timestamp, url, event]) => ({
         eventName: event || 'navigate',
         eventAt: timestamp,
@@ -53,6 +53,12 @@ const useOfflineActivityLogger = () => {
 
     clearActivities();
   };
+
+  useEffect(() => {
+    if (farm.farm_id) {
+      farmIdRef.current = farm.farm_id;
+    }
+  }, [farm?.farm_id]);
 
   useEffect(() => {
     if (isOffline) {

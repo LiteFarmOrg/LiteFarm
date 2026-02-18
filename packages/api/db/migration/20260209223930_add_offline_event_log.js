@@ -27,16 +27,14 @@ export const up = async function (knex) {
     table.integer('country_id').references('id').inTable('countries');
     table.string('network').notNullable();
     table.string('browser').notNullable();
+    table.string('browser_version').notNullable();
     table.string('device_vendor');
-    table.boolean('authenticated');
+    table.string('os').notNullable();
+    table.string('device_model');
     table.string('app_version');
+    table.boolean('authenticated');
     table.dateTime('event_at');
     table.dateTime('went_online_at').notNullable();
-    // table.string('browser_version').notNullable();
-    // table.string('os').notNullable();
-    // table.string('os_version').notNullable();
-    // table.string('device_model');
-    // table.string('device_type');
   });
 };
 

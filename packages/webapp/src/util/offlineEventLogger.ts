@@ -60,7 +60,7 @@ export const clearActivities = () => {
 };
 
 export interface OfflineEventPayload {
-  auth: string;
+  auth?: string;
   farmId?: string;
   logs: {
     eventName: string;
@@ -71,9 +71,14 @@ export interface OfflineEventPayload {
 }
 
 export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPayload) => {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (auth) {
+    headers['Authorization'] = auth;
+  }
+
   return fetch(offlineEventLogUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    headers,
     // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
     keepalive: true, // Attempt to send even when the page is unloading
     body: JSON.stringify({
@@ -87,7 +92,7 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
         event_name: eventName,
         event_at: eventAt,
         status_code: statusCode,
-        url,
+        url: url || undefined,
       })),
     }),
   }).catch(() => {}); // Fire and forget

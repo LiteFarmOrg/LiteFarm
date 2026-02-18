@@ -39,8 +39,10 @@ const useOfflineActivityLogger = () => {
       return;
     }
 
+    const token = localStorage.getItem('id_token');
+
     await recordOfflineEvent({
-      auth: 'Bearer ' + localStorage.getItem('id_token'),
+      auth: token ? 'Bearer ' + token : undefined,
       farmId,
       logs: activities.map(([timestamp, url, event]) => ({
         eventName: event || 'navigate',

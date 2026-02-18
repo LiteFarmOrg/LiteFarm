@@ -44,22 +44,22 @@ export function checkAuthForOfflineLogs() {
     const token = req.headers.authorization?.split(' ')[1];
 
     try {
-      if (!token) {
-        throw new Error('token is missing');
+      if (token) {
+        const decoded = jwt.verify(token, tokenType.access!, { ignoreExpiration: true });
+
+        if (typeof decoded === 'string' || typeof decoded.exp !== 'number' || !decoded.user_id) {
+          throw new Error('invalid token');
+        }
+
+        const now = Math.floor(Date.now() / 1000); // JWT exp is in seconds
+
+        const tokenExpired = decoded.exp < now;
+
+        res.locals.authenticated = !tokenExpired;
+        res.locals.user_id = decoded.user_id;
+      } else {
+        res.locals.authenticated = false;
       }
-
-      const decoded = jwt.verify(token, tokenType.access!, { ignoreExpiration: true });
-
-      if (typeof decoded === 'string' || typeof decoded.exp !== 'number' || !decoded.user_id) {
-        throw new Error('invalid token');
-      }
-
-      const now = Math.floor(Date.now() / 1000); // JWT exp is in seconds
-
-      const tokenExpired = decoded.exp < now;
-
-      res.locals.authenticated = !tokenExpired;
-      res.locals.user_id = decoded.user_id;
 
       next();
     } catch (err) {
@@ -80,10 +80,12 @@ export function checkOfflineLogs() {
         throw new Error('logs must be a non-empty array');
       }
 
-      const user = await userModel.query().findOne({ user_id: res.locals.user_id });
+      if (res.locals.user_id) {
+        const user = await userModel.query().findOne({ user_id: res.locals.user_id });
 
-      if (!user) {
-        throw new Error('User not found');
+        if (!user) {
+          throw new Error('User not found');
+        }
       }
 
       const { farm_id } = req.body;
@@ -96,12 +98,14 @@ export function checkOfflineLogs() {
           throw new Error('Invalid farm_id');
         }
 
-        const userFarm = await userFarmModel
-          .query()
-          .findOne({ user_id: res.locals.user_id, farm_id });
+        if (res.locals.user_id) {
+          const userFarm = await userFarmModel
+            .query()
+            .findOne({ user_id: res.locals.user_id, farm_id });
 
-        if (!userFarm) {
-          throw new Error('user_id and farm_id do not match');
+          if (!userFarm) {
+            throw new Error('user_id and farm_id do not match');
+          }
         }
 
         res.locals.country_id = farm.country_id;

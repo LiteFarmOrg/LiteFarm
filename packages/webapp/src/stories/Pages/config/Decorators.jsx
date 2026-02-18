@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
 import Navigation from '../../../containers/Navigation';
-import { NavMenuControlsContext } from '../../../contexts/appContext';
+import { AppUIContext } from '../../../contexts/appContext';
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {
@@ -23,13 +23,13 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <NavMenuControlsContext.Provider
+        <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
           }}
         >
           <Navigation />
-        </NavMenuControlsContext.Provider>
+        </AppUIContext.Provider>
         <div
           className="app"
           style={{
@@ -60,13 +60,13 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <NavMenuControlsContext.Provider
+        <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
           }}
         >
           <Navigation />
-        </NavMenuControlsContext.Provider>
+        </AppUIContext.Provider>
         <div
           className="app"
           style={{
@@ -134,13 +134,13 @@ export const navMenuControlDecorator = [
   (story) => {
     const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
     return (
-      <NavMenuControlsContext.Provider
+      <AppUIContext.Provider
         value={{
           feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
         }}
       >
         {story()}
-      </NavMenuControlsContext.Provider>
+      </AppUIContext.Provider>
     );
   },
 ];

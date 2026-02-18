@@ -72,3 +72,21 @@
   padding-top: 24px;
   padding-bottom: 72px;
 }
+
+.offlineNotice {
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  border-radius: 4px;
+  background: var(--Box-bg);
+
+  color: var(--Colors-Primary-Primary-teal-700);
+
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+  }
+}

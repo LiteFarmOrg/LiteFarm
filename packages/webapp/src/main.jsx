@@ -79,7 +79,6 @@ import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { registerSW } from 'virtual:pwa-register';
 
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
@@ -93,10 +92,6 @@ if (import.meta.env.VITE_SENTRY_DSN) {
     // We recommend adjusting this value in production
     tracesSampleRate: 0.7,
   });
-}
-
-if ('serviceWorker' in navigator) {
-  registerSW();
 }
 
 sagaMiddleware.run(homeSaga);

@@ -31,7 +31,7 @@ const offlineEventLogController = {
         const wentOnlineAt = went_online_at && new Date(went_online_at).toISOString();
         const ua = parser(req.headers['user-agent']);
 
-        const records = logs.map(({ event_name, event_at, status_code }) => ({
+        const records = logs.map(({ event_name, event_at, status_code, url }) => ({
           session_id,
           event_name,
           event_at: event_at && new Date(event_at).toISOString(),
@@ -43,6 +43,7 @@ const offlineEventLogController = {
           network,
           browser: ua.browser.name,
           device_vendor: ua.device.vendor,
+          url,
           // browser_version: ua.browser.version,
           // os: ua.os.name,
           // os_version: ua.os.version,

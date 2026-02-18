@@ -26,6 +26,7 @@ export interface OfflineEventLogReqBody {
     event_name?: string;
     event_at?: Date | number;
     status_code?: number;
+    url?: string;
   }[];
   went_online_at?: Date | number;
   farm_id?: string;

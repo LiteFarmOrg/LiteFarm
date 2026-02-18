@@ -31,6 +31,7 @@ export const up = async function (knex) {
     table.string('browser').notNullable();
     table.string('network').notNullable();
     table.string('device_vendor');
+    table.string('url');
     // table.string('browser_version').notNullable();
     // table.string('os').notNullable();
     // table.string('os_version').notNullable();

@@ -32,6 +32,7 @@ class offlineEventLogModel extends Model {
         session_id: { type: 'string', format: 'uuid' },
         event_name: { type: 'string' },
         status_code: { type: ['integer', 'null'] },
+        url: { type: ['string', 'null'] },
         country_id: { type: ['number', 'null'] },
         app_version: { type: 'string' },
         authenticated: { type: 'boolean' },

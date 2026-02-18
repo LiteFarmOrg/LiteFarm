@@ -13,26 +13,64 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { v4 as uuidv4 } from 'uuid';
 import { offlineEventLogUrl } from '../apiConfig';
 import { APP_VERSION } from './constants';
+
+const OFFLINE_SESSION_KEY = 'offline_session';
+const ACTIVITY_LOGS_KEY = 'offline_activity_logs';
+
+export const startOfflineSession = () => {
+  const session = {
+    session_id: uuidv4(),
+    started_at: Date.now(),
+    went_online_at: undefined,
+  };
+  localStorage.setItem(OFFLINE_SESSION_KEY, JSON.stringify(session));
+  return session;
+};
+
+export const updateOfflineSessionOnline = () => {
+  const session = getOfflineSession();
+  if (!session) {
+    return;
+  }
+  localStorage.setItem(
+    OFFLINE_SESSION_KEY,
+    JSON.stringify({ ...session, went_online_at: Date.now() }),
+  );
+};
+
+export const getOfflineSession = () => {
+  return JSON.parse(localStorage.getItem(OFFLINE_SESSION_KEY) ?? 'null');
+};
+
+export const storeActivity = (url: string = '', event?: string) => {
+  const existing = JSON.parse(localStorage.getItem(ACTIVITY_LOGS_KEY) ?? '[]');
+  existing.push([Date.now(), url, event]);
+  localStorage.setItem(ACTIVITY_LOGS_KEY, JSON.stringify(existing));
+};
+
+export const getActivities = (): [number, string, string][] => {
+  return JSON.parse(localStorage.getItem(ACTIVITY_LOGS_KEY) ?? '[]');
+};
+
+export const clearActivities = () => {
+  localStorage.removeItem(ACTIVITY_LOGS_KEY);
+};
 
 export interface OfflineEventPayload {
   auth: string;
   farmId?: string;
-  wentOnlineAt: number;
   logs: {
     eventName: string;
     eventAt: number;
     statusCode?: number;
+    url?: string;
   }[];
 }
 
-export const recordOfflineEvent = async ({
-  auth,
-  farmId,
-  wentOnlineAt,
-  logs,
-}: OfflineEventPayload) => {
+export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPayload) => {
   return fetch(offlineEventLogUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
@@ -41,11 +79,15 @@ export const recordOfflineEvent = async ({
     body: JSON.stringify({
       app_version: APP_VERSION,
       farm_id: farmId,
-      went_online_at: wentOnlineAt,
-      logs: logs.map(({ eventName, eventAt, statusCode }) => ({
+      went_online_at: getOfflineSession()?.went_online_at || Date.now(),
+      // @ts-expect-error -- connection exists
+      network: navigator?.connection?.effectiveType,
+      session_id: getOfflineSession()?.session_id || '',
+      logs: logs.map(({ eventName, eventAt, statusCode, url }) => ({
         event_name: eventName,
         event_at: eventAt,
         status_code: statusCode,
+        url,
       })),
     }),
   }).catch(() => {}); // Fire and forget

@@ -78,31 +78,25 @@ export function useServiceWorkerListener() {
   const logTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const logBufferRef = useRef<OfflineEventBuffer>({
     logs: [],
-    wentOnlineAt: undefined,
     auth: '',
     farmId: '',
   });
 
   const flushLogs = () => {
-    const { auth, farmId, wentOnlineAt, logs } = logBufferRef.current;
+    const { auth, farmId, logs } = logBufferRef.current;
 
-    logBufferRef.current = {
-      wentOnlineAt, // keep this until next time we go offline
-      logs: [],
-      auth: '',
-      farmId: '',
-    };
+    logBufferRef.current = { logs: [], auth: '', farmId: '' };
 
     if (logTimeoutRef.current) {
       clearTimeout(logTimeoutRef.current);
       logTimeoutRef.current = null;
     }
 
-    if (logs.length === 0 || !auth || !farmId || wentOnlineAt === undefined) {
+    if (logs.length === 0 || !auth || !farmId) {
       return;
     }
 
-    recordOfflineEvent({ auth, farmId: farmId, wentOnlineAt, logs });
+    recordOfflineEvent({ auth, farmId, logs });
   };
 
   const syncConfig = useMemo(
@@ -243,11 +237,6 @@ export function useServiceWorkerListener() {
 
     const replayQueue = async () => {
       if (swContainer) {
-        // Set wentOnlineAt only once, when we detect we're back online
-        if (logBufferRef.current.wentOnlineAt === undefined) {
-          logBufferRef.current.wentOnlineAt = Date.now();
-        }
-
         const registration = await swContainer.ready;
         if (registration.active) {
           registration.active.postMessage('replay_queue');
@@ -262,7 +251,6 @@ export function useServiceWorkerListener() {
         logTimeoutRef.current = null;
       }
       logBufferRef.current.logs = [];
-      logBufferRef.current.wentOnlineAt = undefined;
     };
 
     const handleVisibilityChange = () => {

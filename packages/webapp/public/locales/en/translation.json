@@ -1628,7 +1628,7 @@
     },
     "NOT_READY_BADGE": {
       "TITLE": "Info",
-      "TOOLTIP_CONTENT": "Litefarm needs to download data to work offline.<br><br>Complete this process when online."
+      "TOOLTIP_CONTENT": "LiteFarm needs to download data to work offline.<br><br>Complete this process when online."
     },
     "NOT_READY_WARNING": "LiteFarm hasn’t finished preparing offline data.",
     "PREPARE_TO_WORK_OFFLINE": "Prepare LiteFarm to work offline next time.",

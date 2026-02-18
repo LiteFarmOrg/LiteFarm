@@ -44,7 +44,7 @@ async function checkCacheStatus(): Promise<CacheValidation> {
     if (window.caches) {
       try {
         const cacheKeys = await window.caches.keys();
-        const precacheName = cacheKeys.find((k) => k.includes('workbox-precache'));
+        const precacheName = cacheKeys.find((key) => key.includes('workbox-precache'));
         if (precacheName) {
           const cache = await window.caches.open(precacheName);
           const cachedKeys = await cache.keys();
@@ -55,7 +55,7 @@ async function checkCacheStatus(): Promise<CacheValidation> {
           }
         }
       } catch {
-        // caches API not available or failed; fall through to the generic error
+        // caches API not available or failed
       }
     }
     return { isComplete: false, error: 'No service worker controller' };
@@ -71,14 +71,6 @@ async function checkCacheStatus(): Promise<CacheValidation> {
   });
 }
 
-/**
- * Hook to determine if the App is ready for offline usage.
- *
- * 'Ready for offline' means that:
- * 1. A Service Worker has completed its installation and precaching
- * 2. The SW has taken control of the page
- * 3. All expected assets are present in the cache (validated)
- */
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
@@ -86,7 +78,8 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     useSelector(offlineReadinessSelector);
   const isReadyForOffline = !!cacheValidation?.isComplete;
 
-  // Check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts (e.g. hosted over the local network)
+  // This check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts
+  // (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
 
   console.log('useOfflineReadiness state:', {
@@ -98,7 +91,7 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     recoveryMode,
   });
 
-  // Central validator run on startup, offlineReady, and offline transitions
+  // Central validator run on startup, controllerchange, and offline/online transitions
   const validateAndUpdateState = async () => {
     const controlled = !!navigator.serviceWorker?.controller;
 
@@ -121,7 +114,7 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     return validation;
   };
 
-  // Clear stale setup-interrupted state on fresh page load
+  // Clear setup-interrupted state on page load
   useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
   }, []);
@@ -143,10 +136,8 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       }
     };
 
-    // Fires when clientsClaim() makes the newly installed SW take control of this page.
-    // This covers the first-visit case where checkInitialState found no controller yet.
+    // Revalidate cache on controller change (new SW taking control)
     const handleControllerChange = () => {
-      console.log('Received controllerchange event, validating cache...');
       validateAndUpdateState();
     };
 
@@ -160,17 +151,12 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     };
   }, []);
 
-  // Handle offline/online transitions: validate cache on each transition
+  // Handle offline/online transitions
   useEffect(() => {
-    if (offline) {
-      if (!isReadyForOffline && isServiceWorkerSupported) {
-        dispatch(setWentOfflineDuringSetup(true));
-      }
-      console.log('Went offline, validating cache status...');
-      validateAndUpdateState();
-    } else if (wentOfflineDuringSetup && !isReadyForOffline) {
-      // Coming back online after interrupted setup: re-validate to detect recoverable vs unrecoverable state
-      console.log('Back online after interrupted setup, re-validating cache...');
+    if (offline && !isReadyForOffline && isServiceWorkerSupported) {
+      dispatch(setWentOfflineDuringSetup(true));
+    }
+    if (offline || (wentOfflineDuringSetup && !isReadyForOffline)) {
       validateAndUpdateState();
     }
   }, [offline]);

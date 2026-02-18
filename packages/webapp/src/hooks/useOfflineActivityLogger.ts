@@ -45,7 +45,7 @@ const useOfflineActivityLogger = () => {
       auth: token ? 'Bearer ' + token : undefined,
       farmId: farmIdRef.current,
       logs: activities.map(([timestamp, url, event]) => ({
-        eventName: event || 'navigate',
+        eventName: event || 'page_view',
         eventAt: timestamp,
         url,
       })),

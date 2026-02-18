@@ -45,7 +45,7 @@ export const getOfflineSession = () => {
   return JSON.parse(localStorage.getItem(OFFLINE_SESSION_KEY) ?? 'null');
 };
 
-export const storeActivity = (url: string = '', event?: string) => {
+export const storeActivity = (url: string, event?: string) => {
   const existing = JSON.parse(localStorage.getItem(ACTIVITY_LOGS_KEY) ?? '[]');
   existing.push([Date.now(), url, event]);
   localStorage.setItem(ACTIVITY_LOGS_KEY, JSON.stringify(existing));

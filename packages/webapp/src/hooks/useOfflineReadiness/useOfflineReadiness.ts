@@ -15,7 +15,6 @@
 
 import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { OFFLINE_READY_EVENT } from '../../pwa/offlineReadyEvent';
 import {
   setOfflineReady,
   setWentOfflineDuringSetup,
@@ -131,19 +130,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   }, []);
 
   useEffect(() => {
-    const handleOfflineReady = async () => {
-      console.log('Received offline ready event, validating cache...');
-
-      // Wait for controller to be available
-      let attempts = 0;
-      while (!navigator.serviceWorker?.controller && attempts < 10) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        attempts++;
-      }
-
-      await validateAndUpdateState();
-    };
-
     const checkInitialState = async () => {
       if (!navigator.serviceWorker) return;
 
@@ -160,15 +146,20 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       }
     };
 
-    // Listen for app-level signal emitted from registerSW(onOfflineReady).
-    window.addEventListener(OFFLINE_READY_EVENT, handleOfflineReady);
+    // Fires when clientsClaim() makes the newly installed SW take control of this page.
+    // This covers the first-visit case where checkInitialState found no controller yet.
+    const handleControllerChange = () => {
+      console.log('Received controllerchange event, validating cache...');
+      validateAndUpdateState();
+    };
 
     if (navigator.serviceWorker) {
       checkInitialState();
+      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
     }
 
     return () => {
-      window.removeEventListener(OFFLINE_READY_EVENT, handleOfflineReady);
+      navigator.serviceWorker?.removeEventListener('controllerchange', handleControllerChange);
     };
   }, []);
 

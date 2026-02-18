@@ -80,7 +80,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { registerSW } from 'virtual:pwa-register';
-import { dispatchOfflineReadyEvent } from './pwa/offlineReadyEvent';
 
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
@@ -97,11 +96,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
 }
 
 if ('serviceWorker' in navigator) {
-  registerSW({
-    onOfflineReady() {
-      dispatchOfflineReadyEvent();
-    },
-  });
+  registerSW();
 }
 
 sagaMiddleware.run(homeSaga);

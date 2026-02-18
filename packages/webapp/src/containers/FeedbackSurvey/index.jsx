@@ -20,14 +20,14 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
-import { useNavMenuControls } from '../../contexts/appContext';
+import { useAppUIContext } from '../../contexts/appContext';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function FeedbackSurvey() {
   const { t } = useTranslation();
   const {
     feedback: { isFeedbackSurveyOpen: isSurveyOpen, setFeedbackSurveyOpen: setIsSurveyOpen },
-  } = useNavMenuControls();
+  } = useAppUIContext();
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
   const isOffline = useIsOffline();
 

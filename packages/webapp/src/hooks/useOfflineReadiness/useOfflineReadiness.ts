@@ -113,13 +113,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       // SW is active (install phase complete), but cache is incomplete.
       // This is unrecoverable regardless of how many entries are cached
       dispatch(setRecoveryMode(true));
+      dispatch(setWentOfflineDuringSetup(true));
     } else if (validation.totalCached && validation.totalCached > 0) {
       // No controller yet -- SW is still installing and actively filling the cache.
       // Not broken, just in progress
       dispatch(setRecoveryMode(false));
-    } else if (offline && isServiceWorkerSupported) {
-      // No controller, empty cache, offline -- interrupted very early in install.
-      dispatch(setWentOfflineDuringSetup(true));
     }
     return validation;
   };
@@ -163,22 +161,14 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     };
   }, []);
 
-  // Handle offline/online transitions: flag interrupted setup, validate cache
+  // Handle offline/online transitions: validate cache on each transition
   useEffect(() => {
     if (offline) {
       if (!isReadyForOffline && isServiceWorkerSupported) {
         dispatch(setWentOfflineDuringSetup(true));
       }
-
       console.log('Went offline, validating cache status...');
-      const validate = async () => {
-        const validation = await validateAndUpdateState();
-        if (!validation.isComplete && isServiceWorkerSupported) {
-          dispatch(setOfflineReady(false));
-          dispatch(setWentOfflineDuringSetup(true));
-        }
-      };
-      validate();
+      validateAndUpdateState();
     } else if (wentOfflineDuringSetup && !isReadyForOffline) {
       // Coming back online after interrupted setup: re-validate to detect recoverable vs unrecoverable state
       console.log('Back online after interrupted setup, re-validating cache...');

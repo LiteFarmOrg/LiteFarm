@@ -23,8 +23,7 @@ import {
 import { getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
-import { loginSelector } from 'src/containers/userFarmSlice';
-import { mapFarmTags } from 'src/store/api/util';
+import { loginSelector } from '../../containers/userFarmSlice';
 
 type SyncArea =
   | 'tasks.create'

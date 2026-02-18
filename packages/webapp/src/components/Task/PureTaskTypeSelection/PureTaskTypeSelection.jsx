@@ -161,6 +161,13 @@ export const PureTaskTypeSelection = ({
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
+        {isOffline && (
+          <div className={styles.offlineNotice}>
+            <h3>{t('ADD_TASK.OFFLINE_NOTICE.YOURE_OFFLINE')}</h3>
+            <p>{t('ADD_TASK.OFFLINE_NOTICE.CANNOT_ADD_NEW')}</p>
+          </div>
+        )}
+
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
             ?.filter(shouldDisplayTaskType)

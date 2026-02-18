@@ -221,6 +221,10 @@
     "NO_SOIL_SAMPLE_LOCATION": "No eligible soil sample locations",
     "NOTES_LABEL": "Anything specific to add related to this task?",
     "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "You can use existing locations, crops and products in your tasks, but you cannot add new ones while offline.",
+      "YOURE_OFFLINE": "You're offline"
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",

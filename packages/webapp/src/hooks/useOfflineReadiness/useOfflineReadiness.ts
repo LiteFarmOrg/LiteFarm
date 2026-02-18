@@ -32,7 +32,7 @@ export interface UseOfflineReadinessResult {
   cacheValidation: CacheValidation | null;
   recoveryMode: boolean;
   isServiceWorkerSupported: boolean;
-  showReloadToResume: boolean;
+  showRefresh: boolean;
   showWarning: boolean;
   showReset: boolean;
   isIndicatorOpen: boolean;
@@ -218,11 +218,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     }
   }, [offline]);
 
-  const showReloadToResume =
+  const showRefresh =
     isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline;
   const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
-  const showReset = showReloadToResume && recoveryMode;
-  const isIndicatorOpen = offline || showReloadToResume;
+  const showReset = showRefresh && recoveryMode;
+  const isIndicatorOpen = offline || showRefresh;
 
   const reloadApp = () => {
     window.location.reload();
@@ -251,7 +251,7 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     cacheValidation,
     recoveryMode,
     isServiceWorkerSupported,
-    showReloadToResume,
+    showRefresh,
     showWarning,
     showReset,
     isIndicatorOpen,

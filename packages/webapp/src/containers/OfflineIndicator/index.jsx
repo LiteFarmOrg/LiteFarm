@@ -20,6 +20,7 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 import { useOfflineReadiness } from '../../hooks/useOfflineReadiness/useOfflineReadiness';
 import styles from './styles.module.scss';
 import Badge from '../../components/Badge';
+import { ReactComponent as RefreshIcon } from '../../assets/images/refresh-cw.svg';
 
 function TransitionDown(props) {
   return <Slide {...props} direction="down" />;
@@ -31,7 +32,7 @@ const OfflineIndicator = () => {
     isReadyForOffline,
     isServiceWorkerSupported,
     showWarning,
-    showReloadToResume,
+    showRefresh,
     showReset,
     isIndicatorOpen,
     reloadApp,
@@ -50,8 +51,30 @@ const OfflineIndicator = () => {
       TransitionComponent={TransitionDown}
       classes={{ root: styles.snackbarRoot }}
     >
-      <div className={clsx(styles.offlineIndicator, showWarning && styles.notReady)}>
-        {showWarning && <span className={styles.message}>{t('OFFLINE.NOT_READY_WARNING')}</span>}
+      <div
+        className={clsx(
+          styles.offlineIndicator,
+          showWarning && styles.notReady,
+          showRefresh && styles.prepareOffline,
+        )}
+      >
+        {showWarning && (
+          <>
+            <span className={styles.message}>{t('OFFLINE.NOT_READY_WARNING')}</span>
+            <Badge
+              title={t('OFFLINE.NOT_READY_BADGE.TITLE')}
+              content={
+                <Trans
+                  i18nKey="OFFLINE.NOT_READY_BADGE.TOOLTIP_CONTENT"
+                  components={{ br: <br /> }}
+                />
+              }
+              classes={{
+                iconButton: clsx(styles.badge, styles.warningBadge),
+              }}
+            />
+          </>
+        )}
         {offline && (isReadyForOffline || !isServiceWorkerSupported) && (
           <>
             <span className={styles.message}>
@@ -63,26 +86,24 @@ const OfflineIndicator = () => {
               content={
                 <Trans i18nKey="OFFLINE.BADGE.TOOLTIP_CONTENT" components={{ br: <br /> }} />
               }
-              classes={{ iconButton: styles.badge, focus: styles.active }}
+              classes={{
+                iconButton: clsx(styles.badge, styles.offlineBadge),
+                focus: styles.offlineActive,
+              }}
             />
           </>
         )}
-        {showReloadToResume && (
+        {showRefresh && (
           <>
-            <span className={styles.message}>
-              {showReset
-                ? t('OFFLINE.OFFLINE_STORAGE_UNAVAILABLE')
-                : t('OFFLINE.RELOAD_TO_RESUME_MESSAGE')}
-            </span>
-            {showReset ? (
-              <button type="button" className={styles.reloadButton} onClick={resetApplication}>
-                {t('OFFLINE.RESET_APPLICATION')}
-              </button>
-            ) : (
-              <button type="button" className={styles.reloadButton} onClick={reloadApp}>
-                {t('OFFLINE.RELOAD_NOW')}
-              </button>
-            )}
+            <span className={styles.message}>{t('OFFLINE.PREPARE_TO_WORK_OFFLINE')}</span>
+            <button
+              type="button"
+              className={styles.refreshButton}
+              onClick={showReset ? resetApplication : reloadApp}
+            >
+              <RefreshIcon />
+              {t('OFFLINE.REFRESH')}
+            </button>
           </>
         )}
       </div>

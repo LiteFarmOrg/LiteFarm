@@ -16,7 +16,6 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setOfflineReady,
   setWentOfflineDuringSetup,
   setCacheValidation,
   setRecoveryMode,
@@ -83,8 +82,9 @@ async function checkCacheStatus(): Promise<CacheValidation> {
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
-  const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, recoveryMode } =
+  const { wentOfflineDuringSetup, cacheValidation, recoveryMode } =
     useSelector(offlineReadinessSelector);
+  const isReadyForOffline = !!cacheValidation?.isComplete;
 
   // Check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
@@ -106,7 +106,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     dispatch(setCacheValidation(validation));
 
     if (validation.isComplete) {
-      dispatch(setOfflineReady(true));
       dispatch(setWentOfflineDuringSetup(false));
       dispatch(setRecoveryMode(false));
     } else if (controlled) {

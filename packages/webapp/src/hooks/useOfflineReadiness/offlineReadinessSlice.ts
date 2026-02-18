@@ -23,14 +23,12 @@ export interface CacheValidation {
 }
 
 interface OfflineReadinessState {
-  isReadyForOffline: boolean;
   wentOfflineDuringSetup: boolean;
   cacheValidation: CacheValidation | null;
   recoveryMode: boolean; // True when cache is in unrecoverable state (completely dropped despite active SW)
 }
 
 const initialState: OfflineReadinessState = {
-  isReadyForOffline: false,
   wentOfflineDuringSetup: false,
   cacheValidation: null,
   recoveryMode: false,
@@ -40,18 +38,11 @@ const offlineReadinessSlice = createSlice({
   name: 'offlineReadinessReducer',
   initialState,
   reducers: {
-    setOfflineReady: (state, action: PayloadAction<boolean>) => {
-      state.isReadyForOffline = action.payload;
-    },
     setWentOfflineDuringSetup: (state, action: PayloadAction<boolean>) => {
       state.wentOfflineDuringSetup = action.payload;
     },
     setCacheValidation: (state, action: PayloadAction<CacheValidation>) => {
       state.cacheValidation = action.payload;
-      // If cache validation shows incomplete, mark as not ready
-      if (!action.payload.isComplete) {
-        state.isReadyForOffline = false;
-      }
     },
     setRecoveryMode: (state, action: PayloadAction<boolean>) => {
       state.recoveryMode = action.payload;
@@ -59,7 +50,7 @@ const offlineReadinessSlice = createSlice({
   },
 });
 
-export const { setOfflineReady, setWentOfflineDuringSetup, setCacheValidation, setRecoveryMode } =
+export const { setWentOfflineDuringSetup, setCacheValidation, setRecoveryMode } =
   offlineReadinessSlice.actions;
 
 export default offlineReadinessSlice.reducer;

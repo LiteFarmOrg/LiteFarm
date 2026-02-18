@@ -29,7 +29,8 @@ import OfflineIndicator from '../OfflineIndicator';
 
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
-  const { isReadyForOffline, wentOfflineDuringSetup } = useSelector(offlineReadinessSelector);
+  const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
+  const isReadyForOffline = !!cacheValidation?.isComplete;
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();

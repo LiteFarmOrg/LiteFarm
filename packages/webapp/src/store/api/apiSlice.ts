@@ -66,12 +66,13 @@ import type {
 } from './types';
 
 import { addDaysToDate } from '../../util/date';
-import { API_TAGS, ApiTag } from './apiTags';
+import { API_TAGS, ApiTag, FarmLibraryTag, FarmTag } from './apiTags';
 import {
   getFarmTagsFn,
   getLazyUseQueryWithFarmId,
   getMutationWithFarmId,
   getUseQueryWithFarmId,
+  mapFarmTags,
 } from './util';
 
 /**
@@ -84,7 +85,8 @@ import {
  * @returns - The invalidateTags action,
  * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
  */
-export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
+export const invalidateTags = (tags: (FarmTag | FarmLibraryTag)[], farm_id: string) =>
+  api.util.invalidateTags(mapFarmTags(tags, farm_id));
 
 const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
 

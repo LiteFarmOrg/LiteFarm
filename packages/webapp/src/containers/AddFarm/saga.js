@@ -61,9 +61,6 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
 
-    // Clear old farm RTK Query data
-    yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
-
     const user = getUserResult?.data;
     yield put(
       postFarmSuccess({

@@ -62,7 +62,7 @@ function resolveAreaFromUrl(method: string, url: string): SyncArea {
 }
 
 const LOG_BATCH_SIZE = 10;
-const LOG_BATCH_TIMEOUT_MS = 5000;
+const LOG_BATCH_TIMEOUT_MS = 2000;
 
 type OfflineEventBuffer = Partial<OfflineEventPayload> & {
   logs: OfflineEventPayload['logs'];
@@ -283,6 +283,8 @@ export function useServiceWorkerListener() {
         if (logTimeoutRef.current) {
           clearTimeout(logTimeoutRef.current);
         }
+
+        flushLogs();
       }
     };
   }, [dispatch, t, syncConfig]);

@@ -95,6 +95,8 @@ const useOfflineActivityLogger = () => {
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+
+      flushLogs();
     };
   }, []);
 };

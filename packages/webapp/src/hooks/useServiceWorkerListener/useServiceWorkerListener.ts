@@ -204,7 +204,10 @@ export function useServiceWorkerListener() {
       window.addEventListener('online', replayQueue);
 
       // Also replay queue on startup
-      replayQueue();
+      // Do not use Redux isOnline state here - it may not reflect the actual network status on initial render
+      if (window.navigator.onLine) {
+        replayQueue();
+      }
     }
 
     return () => {

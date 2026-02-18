@@ -128,7 +128,7 @@ const createOnSyncHandler = () => {
   };
 };
 
-const BG_SYNC_ROUTES = [
+const RETRY_ROUTES = [
   {
     matcher: ({ url }) => url.pathname.includes('/task/'),
     method: 'POST',
@@ -144,9 +144,9 @@ const BG_SYNC_ROUTES = [
   },
 ];
 
-const BG_SYNC_QUEUE_NAME = 'background-sync';
+const RETRY_QUEUE_NAME = 'retry-requests';
 
-const backgroundSyncQueue = new Queue(BG_SYNC_QUEUE_NAME, {
+const retryQueue = new Queue(RETRY_QUEUE_NAME, {
   maxRetentionTime: 24 * 60, // 24 hours
   // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
   onSync: () => ({}),
@@ -154,14 +154,14 @@ const backgroundSyncQueue = new Queue(BG_SYNC_QUEUE_NAME, {
 
 // Store queue references globally to allow manual replay
 const queues = {
-  [BG_SYNC_QUEUE_NAME]: { queue: backgroundSyncQueue },
+  [RETRY_QUEUE_NAME]: { queue: retryQueue },
 };
 
-BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
+RETRY_ROUTES.forEach(({ matcher, method }) => {
   // Push to our queue on failure
-  const bgSyncPlugin = {
+  const queueOnFailurePlugin = {
     fetchDidFail: async ({ request }) => {
-      await backgroundSyncQueue.pushRequest({
+      await retryQueue.pushRequest({
         request,
         metadata: {
           timestamp: Date.now(),
@@ -170,7 +170,7 @@ BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
     },
   };
 
-  registerRoute(matcher, new NetworkOnly({ plugins: [bgSyncPlugin] }), method);
+  registerRoute(matcher, new NetworkOnly({ plugins: [queueOnFailurePlugin] }), method);
 });
 
 // ——————————————————————————————

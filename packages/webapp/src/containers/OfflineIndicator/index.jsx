@@ -29,20 +29,21 @@ function TransitionDown(props) {
 const OfflineIndicator = () => {
   const offline = useIsOffline();
   const {
-    isReadyForOffline,
     isServiceWorkerSupported,
-    showWarning,
-    showRefresh,
-    showReset,
-    isIndicatorOpen,
+    isReadyForOffline,
+    wentOfflineDuringSetup,
+    recoveryMode,
     reloadApp,
     resetApplication,
   } = useOfflineReadiness();
   const { t } = useTranslation();
 
-  if (!isIndicatorOpen) {
-    return null;
-  }
+  const showRefresh =
+    isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline;
+  const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
+  const showReset = showRefresh && recoveryMode;
+
+  const isIndicatorOpen = offline || showRefresh;
 
   return (
     <Snackbar
@@ -75,6 +76,19 @@ const OfflineIndicator = () => {
             />
           </>
         )}
+        {showRefresh && (
+          <>
+            <span className={styles.message}>{t('OFFLINE.PREPARE_TO_WORK_OFFLINE')}</span>
+            <button
+              type="button"
+              className={styles.refreshButton}
+              onClick={showReset ? resetApplication : reloadApp}
+            >
+              <RefreshIcon />
+              {t('OFFLINE.REFRESH')}
+            </button>
+          </>
+        )}
         {offline && (isReadyForOffline || !isServiceWorkerSupported) && (
           <>
             <span className={styles.message}>
@@ -91,19 +105,6 @@ const OfflineIndicator = () => {
                 focus: styles.offlineActive,
               }}
             />
-          </>
-        )}
-        {showRefresh && (
-          <>
-            <span className={styles.message}>{t('OFFLINE.PREPARE_TO_WORK_OFFLINE')}</span>
-            <button
-              type="button"
-              className={styles.refreshButton}
-              onClick={showReset ? resetApplication : reloadApp}
-            >
-              <RefreshIcon />
-              {t('OFFLINE.REFRESH')}
-            </button>
           </>
         )}
       </div>

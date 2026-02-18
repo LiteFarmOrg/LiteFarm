@@ -603,7 +603,7 @@ export function* fetchAllSaga() {
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
-  yield put(api.endpoints.getSensors.initiate());
+  yield put(api.endpoints.getSensors.initiate({ farm_id }));
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [

@@ -20,7 +20,6 @@ import {
   setOfflineReady,
   setWentOfflineDuringSetup,
   setCacheValidation,
-  setControlled,
   setRecoveryMode,
   offlineReadinessSelector,
   type CacheValidation,
@@ -32,7 +31,6 @@ export interface UseOfflineReadinessResult {
   wentOfflineDuringSetup: boolean;
   cacheValidation: CacheValidation | null;
   recoveryMode: boolean;
-  isControlled: boolean;
   isServiceWorkerSupported: boolean;
   showReloadToResume: boolean;
   showWarning: boolean;
@@ -78,7 +76,7 @@ async function checkCacheStatus(): Promise<CacheValidation> {
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
-  const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, isControlled, recoveryMode } =
+  const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, recoveryMode } =
     useSelector(offlineReadinessSelector);
 
   // TODO: fix this check; doesn't actually exclude localhost:3000 as intended
@@ -89,7 +87,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     isReadyForOffline,
     wentOfflineDuringSetup,
     cacheValidation,
-    isControlled,
     isServiceWorkerSupported,
     recoveryMode,
   });
@@ -97,9 +94,10 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   // Central validator used by all entry points (startup, offlineReady event, offline transition)
   const validateAndUpdateState = async () => {
     const controlled = !!navigator.serviceWorker?.controller;
-    dispatch(setControlled(controlled));
+    console.log('validateAndUpdateState: controlled =', controlled);
 
     const validation = await checkCacheStatus();
+    console.log('validateAndUpdateState: validation =', validation);
     dispatch(setCacheValidation(validation));
 
     if (validation.isComplete) {
@@ -145,10 +143,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
 
       try {
         await navigator.serviceWorker.ready;
-        dispatch(setControlled(!!navigator.serviceWorker.controller));
+        const controlled = !!navigator.serviceWorker.controller;
+        console.log('checkInitialState: controlled =', controlled);
 
         // Validate cache on mount if we have a controller
-        if (navigator.serviceWorker.controller) {
+        if (controlled) {
           await validateAndUpdateState();
         }
       } catch (e) {
@@ -223,7 +222,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     wentOfflineDuringSetup,
     cacheValidation,
     recoveryMode,
-    isControlled,
     isServiceWorkerSupported,
     showReloadToResume,
     showWarning,

@@ -29,6 +29,7 @@ class offlineEventLogModel extends Model {
       type: 'object',
       required: ['event_name', 'app_version', 'authenticated', 'event_at', 'went_online_at'],
       properties: {
+        session_id: { type: 'string', format: 'uuid' },
         event_name: { type: 'string' },
         status_code: { type: ['integer', 'null'] },
         country_id: { type: ['number', 'null'] },
@@ -36,6 +37,9 @@ class offlineEventLogModel extends Model {
         authenticated: { type: 'boolean' },
         event_at: { type: 'string', format: 'date-time' },
         went_online_at: { type: 'string', format: 'date-time' },
+        browser: { type: ['string', 'null'] },
+        network: { type: ['string', 'null'] },
+        device_vendor: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

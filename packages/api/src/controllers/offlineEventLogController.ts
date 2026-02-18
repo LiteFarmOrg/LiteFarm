@@ -14,6 +14,7 @@
  */
 
 import { Response } from 'express';
+import parser from 'ua-parser-js';
 import offlineEventLogModel from '../models/offlineEventLogModel.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 import { OfflineEventLogReqBody } from '../middleware/validation/checkOfflineLogs.js';
@@ -25,11 +26,13 @@ const offlineEventLogController = {
       res: Response,
     ) => {
       try {
-        const { logs, went_online_at, app_version } = req.body;
+        const { logs, went_online_at, app_version, network, session_id } = req.body;
 
         const wentOnlineAt = went_online_at && new Date(went_online_at).toISOString();
+        const ua = parser(req.headers['user-agent']);
 
         const records = logs.map(({ event_name, event_at, status_code }) => ({
+          session_id,
           event_name,
           event_at: event_at && new Date(event_at).toISOString(),
           went_online_at: wentOnlineAt,
@@ -37,6 +40,14 @@ const offlineEventLogController = {
           app_version,
           country_id: res.locals.country_id,
           authenticated: res.locals.authenticated,
+          network,
+          browser: ua.browser.name,
+          device_vendor: ua.device.vendor,
+          // browser_version: ua.browser.version,
+          // os: ua.os.name,
+          // os_version: ua.os.version,
+          // device_model: ua.device.model,
+          // device_type: ua.device.type,
         }));
 
         await offlineEventLogModel.query().insert(records);

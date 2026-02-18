@@ -30,6 +30,8 @@ export interface OfflineEventLogReqBody {
   went_online_at?: Date | number;
   farm_id?: string;
   app_version?: string;
+  network?: string;
+  session_id?: string;
 }
 
 export function checkAuthForOfflineLogs() {

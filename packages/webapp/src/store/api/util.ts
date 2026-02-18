@@ -313,8 +313,12 @@ export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>
   return useMutationWithFarmId;
 }
 
+export function mapFarmTags(tags: (FarmTag | FarmLibraryTag)[], farm_id: string) {
+  return tags.map((tag) => ({ type: tag, id: farm_id }));
+}
+
 export function getFarmTagsFn<Data, Args extends WithFarmId>(tags: (FarmTag | FarmLibraryTag)[]) {
   return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
-    return tags.map((tag) => ({ type: tag, id: args.farm_id }));
+    return mapFarmTags(tags, args.farm_id);
   };
 }

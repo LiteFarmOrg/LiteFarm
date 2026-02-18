@@ -38,8 +38,7 @@ const OfflineIndicator = () => {
   } = useOfflineReadiness();
   const { t } = useTranslation();
 
-  const showRefresh =
-    isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline;
+  const showRefresh = !offline && wentOfflineDuringSetup && !isReadyForOffline;
   const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
   const showReset = showRefresh && recoveryMode;
 

@@ -48,11 +48,7 @@ const Navigation = ({ children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
-  const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
-
-  const showOfflineIndicator =
-    offline ||
-    (isServiceWorkerSupported && !offline && wentOfflineDuringSetup && !isReadyForOffline);
+  const showOfflineIndicator = offline || (wentOfflineDuringSetup && !isReadyForOffline);
 
   return (
     <div className={clsx(styles.navigationWrapper, showOfflineIndicator && styles.offlineMode)}>

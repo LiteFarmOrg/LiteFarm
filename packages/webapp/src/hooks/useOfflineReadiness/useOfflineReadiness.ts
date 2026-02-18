@@ -37,13 +37,12 @@ export interface UseOfflineReadinessResult {
 }
 
 /**
- * Checks the cache status via the Service Worker.
+ * Checks the cache status via the Service Worker or directly on window.caches (if no active controller) to determine offline readiness.
  * @returns Promise<CacheValidation> - The cache validation result.
  */
 async function checkCacheStatus(): Promise<CacheValidation> {
   if (!navigator.serviceWorker?.controller) {
-    // No active controller yet (SW still installing/activating), but cache storage is independent
-    // of the SW lifecycle -- check it directly so we can report whether precaching has started.
+    // No active controller yet (SW still installing/activating)
     if (window.caches) {
       try {
         const cacheKeys = await window.caches.keys();
@@ -53,7 +52,7 @@ async function checkCacheStatus(): Promise<CacheValidation> {
           const cachedKeys = await cache.keys();
           const totalCached = cachedKeys.length;
           if (totalCached > 0) {
-            // Cache is downloading but SW hasn't claimed the page yet -- not ready, but not broken
+            // Cache is present but SW hasn't claimed the page -- treat as in-progress
             return { isComplete: false, totalCached };
           }
         }
@@ -81,12 +80,6 @@ async function checkCacheStatus(): Promise<CacheValidation> {
  * 1. A Service Worker has completed its installation and precaching
  * 2. The SW has taken control of the page
  * 3. All expected assets are present in the cache (validated)
- *
- * Event flow (single source):
- * - main.jsx dispatches OFFLINE_READY_EVENT from registerSW(onOfflineReady)
- * - this hook listens for OFFLINE_READY_EVENT and validates cache integrity
- * - this hook also validates on startup (if controlled) and when going offline
- * - UI reads derived flags from this state (warning, reload prompt, reset)
  */
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
@@ -94,7 +87,7 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   const { isReadyForOffline, wentOfflineDuringSetup, cacheValidation, recoveryMode } =
     useSelector(offlineReadinessSelector);
 
-  // TODO: fix this check; doesn't actually exclude localhost:3000 as intended
+  // Check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
 
   console.log('useOfflineReadiness state:', {
@@ -106,13 +99,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     recoveryMode,
   });
 
-  // Central validator used by all entry points (startup, offlineReady event, offline transition)
+  // Central validator run on startup, offlineReady, and offline transitions
   const validateAndUpdateState = async () => {
     const controlled = !!navigator.serviceWorker?.controller;
-    console.log('validateAndUpdateState: controlled =', controlled);
 
     const validation = await checkCacheStatus();
-    console.log('validateAndUpdateState: validation =', validation);
     dispatch(setCacheValidation(validation));
 
     if (validation.isComplete) {
@@ -120,27 +111,21 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       dispatch(setWentOfflineDuringSetup(false));
       dispatch(setRecoveryMode(false));
     } else if (controlled) {
-      // SW is active (install phase complete via skipWaiting+clientsClaim), but cache is
-      // incomplete. This is unrecoverable regardless of how many entries are cached:
-      // 0 entries = cache was dropped; >0 entries = cache got stuck mid-install.
-      // Crucially we don't guard on !offline here -- setting recoveryMode while offline
-      // means coming back online immediately shows Reset, not Reload (no flash).
+      // SW is active (install phase complete), but cache is incomplete.
+      // This is unrecoverable regardless of how many entries are cached
       dispatch(setRecoveryMode(true));
     } else if (validation.totalCached && validation.totalCached > 0) {
       // No controller yet -- SW is still installing and actively filling the cache.
-      // Not broken, just in progress. Clear any stale recovery mode.
+      // Not broken, just in progress
       dispatch(setRecoveryMode(false));
-    } else if (offline) {
+    } else if (offline && isServiceWorkerSupported) {
       // No controller, empty cache, offline -- interrupted very early in install.
       dispatch(setWentOfflineDuringSetup(true));
     }
     return validation;
   };
 
-  // Clear stale setup-interrupted state before first paint on fresh page load.
-  // This avoids a one-frame flash of the reconnect prompt after reload.
-  // Note: recoveryMode is NOT cleared here -- it must be cleared by validation
-  // (either finding a complete cache or finding no controller with a partial cache).
+  // Clear stale setup-interrupted state on fresh page load
   useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
   }, []);
@@ -149,7 +134,7 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     const handleOfflineReady = async () => {
       console.log('Received offline ready event, validating cache...');
 
-      // Retry logic: wait for controller to be available
+      // Wait for controller to be available
       let attempts = 0;
       while (!navigator.serviceWorker?.controller && attempts < 10) {
         await new Promise((resolve) => setTimeout(resolve, 50));
@@ -165,7 +150,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       try {
         await navigator.serviceWorker.ready;
         const controlled = !!navigator.serviceWorker.controller;
-        console.log('checkInitialState: controlled =', controlled);
 
         // Validate cache on mount if we have a controller
         if (controlled) {
@@ -191,23 +175,20 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   // Handle offline/online transitions: flag interrupted setup, validate cache
   useEffect(() => {
     if (offline) {
-      // Going offline: flag setup interruption if not ready
       if (!isReadyForOffline && isServiceWorkerSupported) {
-        console.log('Went offline before ready, flagging interrupted setup');
         dispatch(setWentOfflineDuringSetup(true));
       }
 
-      // Validate to detect missing/corrupt precache
       console.log('Went offline, validating cache status...');
       const validate = async () => {
         const validation = await validateAndUpdateState();
-        if (!validation.isComplete) {
+        if (!validation.isComplete && isServiceWorkerSupported) {
           dispatch(setOfflineReady(false));
           dispatch(setWentOfflineDuringSetup(true));
         }
       };
       validate();
-    } else if (wentOfflineDuringSetup && !isReadyForOffline && isServiceWorkerSupported) {
+    } else if (wentOfflineDuringSetup && !isReadyForOffline) {
       // Coming back online after interrupted setup: re-validate to detect recoverable vs unrecoverable state
       console.log('Back online after interrupted setup, re-validating cache...');
       validateAndUpdateState();

@@ -34,6 +34,7 @@ import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/Cant
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 import { NoSoilSampleLocationsModal } from '../../Modals/NoSoilSampleLocationsModal';
 import { NoSoilAmendmentProductsModal } from '../../Modals/NoSoilAmendmentProductsModal';
+import { NoIrrigationLocationsModal } from '../../Modals/NoIrrigationLocationsModal';
 import { PRODUCT_INVENTORY_URL } from '../../../util/siteMapConstants';
 import navStyles from '@navStyles';
 
@@ -76,6 +77,7 @@ export const PureTaskTypeSelection = ({
   hasAnimals,
   hasSoilSampleLocations,
   hasSoilAmendmentProducts,
+  hasIrrigationLocations,
   isOffline,
 }) => {
   const { t } = useTranslation();
@@ -119,7 +121,8 @@ export const PureTaskTypeSelection = ({
         !hasCurrentManagementPlans) ||
       (isTaskType(taskType, 'MOVEMENT_TASK') && !hasAnimalMovementLocations) ||
       (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations) ||
-      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts)
+      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts) ||
+      (isTaskType(taskType, 'IRRIGATION_TASK') && !hasIrrigationLocations)
     ) {
       return setErrorModal(taskType.task_translation_key);
     }
@@ -254,6 +257,13 @@ export const PureTaskTypeSelection = ({
         <NoSoilAmendmentProductsModal
           dismissModal={() => setErrorModal('')}
           goToInventory={goToInventory}
+        />
+      )}
+      {errorModal === 'IRRIGATION_TASK' && (
+        <NoIrrigationLocationsModal
+          dismissModal={() => setErrorModal('')}
+          goToMap={goToMap}
+          isAdmin={isAdmin}
         />
       )}
     </>

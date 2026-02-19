@@ -67,9 +67,12 @@ const useOfflineActivityLogger = () => {
   }, [isOffline, location.pathname]);
 
   useEffect(() => {
+    const LOG_TIMEOUT_MS = 3000;
+    let logTimeout: NodeJS.Timeout | undefined;
+
     const handleOnline = () => {
       updateOfflineSessionOnline();
-      flushLogs();
+      logTimeout = setTimeout(flushLogs, LOG_TIMEOUT_MS);
     };
 
     const handleOffline = () => {
@@ -95,6 +98,9 @@ const useOfflineActivityLogger = () => {
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      if (logTimeout) {
+        clearTimeout(logTimeout);
+      }
 
       flushLogs();
     };

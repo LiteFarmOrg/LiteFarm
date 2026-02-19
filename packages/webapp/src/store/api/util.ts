@@ -288,6 +288,8 @@ export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>
     options?: any,
   ) => readonly [(arg: Args) => Promise<any>, RawMutationResult<Data>],
 ) {
+  type InnerPayload = Args extends WithFarmIdPayload<infer P> ? P : never;
+
   // Overload 1: when selectFromResult is present
   function useMutationWithFarmId<Selected>(
     options: UseMutationOptionsWithSelect<RawMutationResult<Data>, Selected>,
@@ -302,10 +304,11 @@ export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>
     const { farm_id } = useSelector(loginSelector);
     const [trigger, result] = rawMutationHook(options);
     if (!farm_id) {
-      return [(extraArgs?: any) => trigger(skipToken as unknown as Args), result];
+      return [(payload?: InnerPayload) => trigger(skipToken as unknown as Args), result];
     }
     return [
-      (extraArgs?: any) => trigger({ ...extraArgs, farm_id }) as AssertedMutationPromise<Data>,
+      (payload?: InnerPayload) =>
+        trigger({ farm_id, payload } as Args) as AssertedMutationPromise<Data>,
       result,
     ];
   }

@@ -27,6 +27,8 @@ export const startOfflineSession = () => {
     went_online_at: undefined,
   };
   localStorage.setItem(OFFLINE_SESSION_KEY, JSON.stringify(session));
+  storeActivity('', 'session_start');
+
   return session;
 };
 

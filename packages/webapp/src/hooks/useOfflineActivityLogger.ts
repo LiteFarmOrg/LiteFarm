@@ -75,11 +75,6 @@ const useOfflineActivityLogger = () => {
       logTimeout = setTimeout(flushLogs, LOG_TIMEOUT_MS);
     };
 
-    const handleOffline = () => {
-      startOfflineSession();
-      storeActivity('', 'session_start');
-    };
-
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         // Flush any pending logs when the user navigates away or closes the tab
@@ -88,16 +83,23 @@ const useOfflineActivityLogger = () => {
       }
     };
 
-    handleOnline(); // Check immediately in case we start online
+    if (window.navigator.onLine) {
+      handleOnline();
+    } else {
+      const activities = getActivities();
+      if (!activities || activities.length === 0) {
+        startOfflineSession();
+      }
+    }
 
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener('offline', startOfflineSession);
     window.addEventListener('online', handleOnline);
     window.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('offline', startOfflineSession);
       if (logTimeout) {
         clearTimeout(logTimeout);
       }

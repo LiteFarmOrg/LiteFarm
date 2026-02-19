@@ -35,6 +35,7 @@ export const up = async function (knex) {
     table.string('log_status').notNullable();
     table.dateTime('event_at').notNullable();
     table.dateTime('went_online_at').notNullable();
+    table.unique(['session_id', 'event_name', 'event_at']);
   });
 };
 

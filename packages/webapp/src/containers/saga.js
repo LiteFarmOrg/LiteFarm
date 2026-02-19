@@ -151,8 +151,7 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
-import { api, invalidateTags } from '../store/api/apiSlice';
-import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
+import { api } from '../store/api/apiSlice';
 import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
@@ -629,12 +628,12 @@ export function* fetchAllSaga() {
 
   // Animals
   yield all([
-    put(api.endpoints.getAnimals.initiate()),
-    put(api.endpoints.getAnimalBatches.initiate()),
-    put(api.endpoints.getDefaultAnimalTypes.initiate()),
+    put(api.endpoints.getAnimals.initiate({ farm_id })),
+    put(api.endpoints.getAnimalBatches.initiate({ farm_id })),
+    put(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id })),
     put(api.endpoints.getDefaultAnimalBreeds.initiate()),
-    put(api.endpoints.getCustomAnimalTypes.initiate()),
-    put(api.endpoints.getCustomAnimalBreeds.initiate()),
+    put(api.endpoints.getCustomAnimalTypes.initiate({ farm_id })),
+    put(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id })),
     put(api.endpoints.getAnimalSexes.initiate()),
     put(api.endpoints.getAnimalIdentifierTypes.initiate()),
     put(api.endpoints.getAnimalIdentifierColors.initiate()),
@@ -658,7 +657,6 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
-  // yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

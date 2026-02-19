@@ -179,13 +179,8 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      async onQueryStarted(patch, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
@@ -212,13 +207,8 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      async onQueryStarted(patch, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
@@ -245,13 +235,8 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
-      async onQueryStarted(del, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled, getState }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
@@ -278,13 +263,8 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
-      async onQueryStarted(del, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
           await dispatch(api.endpoints.getCustomAnimalTypes.initiate({ farm_id }));
@@ -311,13 +291,8 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
@@ -346,13 +321,8 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
@@ -381,13 +351,8 @@ export const api = createApi({
         method: 'PATCH',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimals.initiate({ farm_id }));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
@@ -416,13 +381,8 @@ export const api = createApi({
         method: 'PATCH',
         body,
       }),
-      async onQueryStarted(body, { dispatch, queryFulfilled, getState }) {
+      async onQueryStarted({ farm_id }, { dispatch, queryFulfilled }) {
         try {
-          const state = getState() as RootState;
-          const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
-          if (!farm_id) {
-            throw 'Cannot initiate fetching — farm_id is missing';
-          }
           const { data } = await queryFulfilled;
           await dispatch(api.endpoints.getAnimalBatches.initiate({ farm_id }));
           await dispatch(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id }));
@@ -552,7 +512,7 @@ export const api = createApi({
 
         return `${irrigationPrescriptionUrl}?${params.toString()}`;
       },
-      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
           // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
           dispatch({ type: 'getTasksSaga' });

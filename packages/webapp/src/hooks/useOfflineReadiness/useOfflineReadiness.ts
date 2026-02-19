@@ -166,17 +166,11 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   };
 
   const resetApplication = async () => {
-    console.log('resetApplication: unregistering SWs and clearing caches...');
+    console.log('resetApplication: unregistering SWs...');
     if (navigator.serviceWorker) {
       const registrations = await navigator.serviceWorker.getRegistrations();
       for (const registration of registrations) {
         await registration.unregister();
-      }
-    }
-    if (window.caches) {
-      const keys = await window.caches.keys();
-      for (const key of keys) {
-        await window.caches.delete(key);
       }
     }
     window.location.reload();

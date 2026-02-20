@@ -99,3 +99,26 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
     }),
   }).catch(() => {}); // Fire and forget
 };
+
+export const postEventLogs = async ({ farmId, logs }: OfflineEventPayload) => {
+  return fetch(offlineEventLogUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+    },
+    // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
+    keepalive: true, // Attempt to send even when the page is unloading
+    body: JSON.stringify({
+      app_version: APP_VERSION,
+      farm_id: farmId,
+      // @ts-expect-error -- connection exists
+      network: navigator?.connection?.effectiveType,
+      session_id: uuidv4(),
+      logs: logs.map(({ eventName, eventAt }) => ({
+        event_name: eventName,
+        event_at: eventAt,
+      })),
+    }),
+  }).catch(() => {}); // Fire and forget
+};

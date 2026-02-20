@@ -22,7 +22,7 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.uuid('session_id').notNullable();
     table.string('event_name').notNullable();
-    table.string('status_code');
+    table.integer('status_code');
     table.string('url');
     table.integer('country_id').references('id').inTable('countries');
     table.string('network');

@@ -127,6 +127,7 @@
     "@types/jest": "^30.0.0",
     "@types/jwk-to-pem": "^2.0.3",
     "@types/node": "^22.5.4",
+    "@types/ua-parser-js": "^0.7.39",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-json": "^4.0.1",

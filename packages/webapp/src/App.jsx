@@ -27,6 +27,7 @@ import { AppUIContext } from './contexts/appContext';
 import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
 import { useGoogleMapsLoader } from './hooks/useGoogleMapsLoader';
+import useOfflineActivityLogger from './hooks/useOfflineActivityLogger';
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,7 @@ function App() {
 
   useOfflineDetector();
   useServiceWorkerListener();
+  useOfflineActivityLogger();
   const { isLoaded } = useGoogleMapsLoader();
 
   return (

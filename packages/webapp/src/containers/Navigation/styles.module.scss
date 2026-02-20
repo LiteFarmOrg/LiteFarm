@@ -32,5 +32,13 @@
     .hideWhenOffline {
       display: none;
     }
+
+    .showWhenOffline {
+      display: block;
+    }
+  }
+
+  .showWhenOffline {
+    display: none;
   }
 }

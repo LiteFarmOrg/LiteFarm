@@ -23,6 +23,7 @@ import {
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
 import { postEventLogs } from '../../util/offlineEventLogger';
+import { userFarmSelector } from '../../containers/userFarmSlice';
 
 export interface UseOfflineReadinessResult {
   isReadyForOffline: boolean;
@@ -53,14 +54,15 @@ async function checkCacheStatus(): Promise<CacheValidation> {
   });
 }
 
-const reloadApp = () => {
+const reloadApp = (farmId?: string) => {
   window.location.reload();
   postEventLogs({
+    farmId,
     logs: [{ eventName: 'reload_app', eventAt: Date.now() }],
   });
 };
 
-const resetApplication = async () => {
+const resetApplication = async (farmId?: string) => {
   if (navigator.serviceWorker) {
     const registrations = await navigator.serviceWorker.getRegistrations();
     for (const registration of registrations) {
@@ -68,6 +70,7 @@ const resetApplication = async () => {
     }
   }
   postEventLogs({
+    farmId,
     logs: [{ eventName: 'reset_app', eventAt: Date.now() }],
   });
   window.location.reload();
@@ -84,6 +87,8 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   // This check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts
   // (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
+
+  const farm: { farm_id?: string } = useSelector(userFarmSelector);
 
   const validateAndUpdateState = async () => {
     const validation = await checkCacheStatus();
@@ -130,6 +135,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     isReadyForOffline,
     wentOfflineDuringSetup,
     isServiceWorkerSupported,
-    restoreCache: recoveryMode ? resetApplication : reloadApp,
+    restoreCache: () => (recoveryMode ? resetApplication : reloadApp)(farm?.farm_id),
   };
 }

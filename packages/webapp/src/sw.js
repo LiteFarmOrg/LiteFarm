@@ -42,29 +42,9 @@ async function validatePrecacheIntegrity() {
     const cacheName = cacheNames.precache || 'workbox-precache-v2';
     const cache = await caches.open(cacheName);
     const cachedKeys = await cache.keys();
-    const totalCached = cachedKeys.length;
-    const totalExpected = precacheManifest.length;
-
-    // Fail if the cache is empty but we expect files (dropped cache scenario)
-    if (totalCached === 0 && totalExpected > 0) {
-      return {
-        isComplete: false,
-        error: 'Cache is empty',
-        totalExpected,
-        totalCached,
-      };
-    }
-
-    return {
-      isComplete: totalCached >= totalExpected,
-      totalExpected,
-      totalCached,
-    };
-  } catch (error) {
-    return {
-      isComplete: false,
-      error: error.message,
-    };
+    return { isComplete: cachedKeys.length >= precacheManifest.length };
+  } catch {
+    return { isComplete: false };
   }
 }
 

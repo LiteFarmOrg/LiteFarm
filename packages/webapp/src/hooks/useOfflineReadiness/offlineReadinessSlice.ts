@@ -18,9 +18,6 @@ import { createSelector } from 'reselect';
 
 export interface CacheValidation {
   isComplete: boolean;
-  totalExpected?: number;
-  totalCached?: number;
-  error?: string;
   controlled?: boolean;
 }
 

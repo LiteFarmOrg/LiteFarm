@@ -34,32 +34,15 @@ export interface UseOfflineReadinessResult {
 }
 
 /**
- * Checks the cache status via the Service Worker or directly on window.caches (if no active controller) to determine offline readiness.
+ * Checks the cache status via the Service Worker to determine offline readiness.
  * @returns Promise<CacheValidation> - The cache validation result.
  */
 async function checkCacheStatus(): Promise<CacheValidation> {
   const controlled = !!navigator.serviceWorker?.controller;
 
   if (!controlled) {
-    // No active controller yet (SW still installing/activating)
-    if (window.caches) {
-      try {
-        const cacheKeys = await window.caches.keys();
-        const precacheName = cacheKeys.find((key) => key.includes('workbox-precache'));
-        if (precacheName) {
-          const cache = await window.caches.open(precacheName);
-          const cachedKeys = await cache.keys();
-          const totalCached = cachedKeys.length;
-          if (totalCached > 0) {
-            // Cache is present but SW hasn't claimed the page -- treat as in-progress
-            return { isComplete: false, totalCached, controlled };
-          }
-        }
-      } catch {
-        // caches API not available or failed
-      }
-    }
-    return { isComplete: false, error: 'No service worker controller', controlled };
+    // No active controller yet (SW still installing/activating) — not ready for offline
+    return { isComplete: false, controlled };
   }
 
   return new Promise((resolve) => {

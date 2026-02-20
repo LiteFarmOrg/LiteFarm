@@ -29,7 +29,7 @@ const selectSensorsData = createSelector(
     if (!farm_id) return undefined;
 
     // Call the selector directly with state
-    return api.endpoints.getSensors.select({ farm_id })(state);
+    return api.endpoints.getSensors.select({ farm_id, payload: undefined })(state);
   },
 );
 

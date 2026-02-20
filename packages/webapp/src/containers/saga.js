@@ -602,7 +602,7 @@ export function* fetchAllSaga() {
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
-  yield put(api.endpoints.getSensors.initiate({ farm_id }));
+  yield put(api.endpoints.getSensors.initiate({ farm_id, payload: undefined }));
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [
@@ -628,12 +628,12 @@ export function* fetchAllSaga() {
 
   // Animals
   yield all([
-    put(api.endpoints.getAnimals.initiate({ farm_id })),
-    put(api.endpoints.getAnimalBatches.initiate({ farm_id })),
-    put(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id })),
+    put(api.endpoints.getAnimals.initiate({ farm_id, payload: undefined })),
+    put(api.endpoints.getAnimalBatches.initiate({ farm_id, payload: undefined })),
+    put(api.endpoints.getDefaultAnimalTypes.initiate({ farm_id, payload: undefined })),
     put(api.endpoints.getDefaultAnimalBreeds.initiate()),
-    put(api.endpoints.getCustomAnimalTypes.initiate({ farm_id })),
-    put(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id })),
+    put(api.endpoints.getCustomAnimalTypes.initiate({ farm_id, payload: undefined })),
+    put(api.endpoints.getCustomAnimalBreeds.initiate({ farm_id, payload: undefined })),
     put(api.endpoints.getAnimalSexes.initiate()),
     put(api.endpoints.getAnimalIdentifierTypes.initiate()),
     put(api.endpoints.getAnimalIdentifierColors.initiate()),

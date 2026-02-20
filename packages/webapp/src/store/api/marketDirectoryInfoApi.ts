@@ -15,17 +15,17 @@
 
 import { api } from './apiSlice';
 import { marketDirectoryInfoUrl } from '../../apiConfig';
-import { MarketDirectoryInfo, WithFarmId, WithFarmIdPayload } from './types';
+import { MarketDirectoryInfo, WithFarmIdPayload } from './types';
 import { getFarmTagsFn, getMutationWithFarmId, getUseQueryWithFarmId } from './util';
 
 export const marketDirectoryInfo = api.injectEndpoints({
   endpoints: (build) => ({
-    getMarketDirectoryInfo: build.query<MarketDirectoryInfo, WithFarmId>({
+    getMarketDirectoryInfo: build.query<MarketDirectoryInfo, WithFarmIdPayload>({
       query: (_args) => ({
         url: `${marketDirectoryInfoUrl}`,
         method: 'GET',
       }),
-      providesTags: getFarmTagsFn<MarketDirectoryInfo, WithFarmId>(['MarketDirectoryInfo']),
+      providesTags: getFarmTagsFn<MarketDirectoryInfo, WithFarmIdPayload>(['MarketDirectoryInfo']),
     }),
     addMarketDirectoryInfo: build.mutation<
       void,
@@ -60,7 +60,7 @@ export const marketDirectoryInfo = api.injectEndpoints({
 
 export const useGetMarketDirectoryInfoQuery = getUseQueryWithFarmId<
   MarketDirectoryInfo,
-  WithFarmId
+  WithFarmIdPayload
 >(marketDirectoryInfo.useGetMarketDirectoryInfoQuery);
 
 export const useAddMarketDirectoryInfoMutation = getMutationWithFarmId<

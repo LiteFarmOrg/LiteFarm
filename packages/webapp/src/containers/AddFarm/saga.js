@@ -29,8 +29,6 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { invalidateTags } from '../../store/api/apiSlice';
-import { FarmLibraryTags, FarmTags } from '../../store/api/apiTags';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;

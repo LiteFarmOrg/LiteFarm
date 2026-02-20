@@ -20,9 +20,12 @@ import { PARTNERS_INFO } from '../../containers/Profile/FarmSettings/MarketDirec
 
 export const marketDirectoryPartners = api.injectEndpoints({
   endpoints: (build) => ({
-    getMarketDirectoryPartners: build.query<MarketDirectoryPartner[], string | void>({
-      query: (param = '') => ({
-        url: `${marketDirectoryPartnersUrl}${param}`,
+    getMarketDirectoryPartners: build.query<
+      MarketDirectoryPartner[],
+      { params: string } | undefined
+    >({
+      query: ({ params } = { params: '' }) => ({
+        url: `${marketDirectoryPartnersUrl}${params}`,
         method: 'GET',
       }),
       transformResponse: (response: MarketDirectoryPartner[]) => {

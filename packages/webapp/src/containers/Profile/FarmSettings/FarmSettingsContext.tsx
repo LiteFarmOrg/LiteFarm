@@ -25,7 +25,7 @@ const FarmSettingsContext = createContext<FarmSettingsContextType | undefined>(u
 
 export const FarmSettingsProvider = ({ children }: { children: ReactNode }) => {
   const { data: esciDataArray = [] } = useGetFarmAddonQuery({
-    param: `?addon_partner_id=${PARTNERS.ESCI.id}`,
+    params: `?addon_partner_id=${PARTNERS.ESCI.id}`,
   });
 
   const hasActiveConnection = esciDataArray.length > 0;

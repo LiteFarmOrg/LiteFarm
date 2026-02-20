@@ -29,7 +29,7 @@ const FarmAddons = () => {
   const routerTabs = useFarmSettingsRouterTabs();
 
   const { data: esciDataArray = [] } = useGetFarmAddonQuery({
-    param: `?addon_partner_id=${PARTNERS.ESCI.id}`,
+    params: `?addon_partner_id=${PARTNERS.ESCI.id}`,
   });
 
   const hasActiveConnection = {

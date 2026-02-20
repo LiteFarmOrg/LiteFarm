@@ -15,14 +15,14 @@
 
 import { api } from './apiSlice';
 import { weatherUrl } from '../../apiConfig';
-import { WeatherData, WithFarmId } from './types';
+import { WeatherData, WithFarmIdPayload } from './types';
 import { getFarmTagsFn, getUseQueryWithFarmId } from './util';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getWeather: build.query<WeatherData, WithFarmId<{ measurementSystem?: string }>>({
+    getWeather: build.query<WeatherData, WithFarmIdPayload<{ measurementSystem?: string }>>({
       query: (_args) => `${weatherUrl}`,
-      providesTags: getFarmTagsFn<WeatherData, WithFarmId<{ measurementSystem?: string }>>([
+      providesTags: getFarmTagsFn<WeatherData, WithFarmIdPayload<{ measurementSystem?: string }>>([
         'Weather',
       ]),
       keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
@@ -32,5 +32,5 @@ export const weatherApi = api.injectEndpoints({
 
 export const useGetWeatherQuery = getUseQueryWithFarmId<
   WeatherData,
-  WithFarmId<{ measurementSystem?: string }>
+  WithFarmIdPayload<{ measurementSystem?: string }>
 >(weatherApi.useGetWeatherQuery);

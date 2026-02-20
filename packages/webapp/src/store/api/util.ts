@@ -16,15 +16,13 @@
 import {
   FetchBaseQueryError,
   QueryStatus,
-  SkipToken,
   skipToken,
   SubscriptionOptions,
 } from '@reduxjs/toolkit/query/react';
 import { useSelector } from 'react-redux';
 import { loginSelector } from '../../containers/userFarmSlice';
-import { WithFarmId, WithFarmIdPayload } from './types';
+import { WithFarmIdPayload } from './types';
 import { FarmLibraryTag, FarmTag } from './apiTags';
-import { LazyQueryTrigger, UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
 type RefetchQueryResult<T, A> = Promise<RawQueryResult<T, A>> & {
   arg: A;
@@ -108,7 +106,7 @@ type UseMutationOptionsWithSelect<Result, Selected> = BaseUseMutationOptions & {
  */
 function queryWithFarmId(
   rawHook: (arg: any, options?: any) => any,
-  extraArgs?: any,
+  payload?: any,
   options?: any,
 ): any {
   const { farm_id } = useSelector(loginSelector);
@@ -116,7 +114,7 @@ function queryWithFarmId(
     return rawHook(skipToken);
   }
 
-  const fullArg = { farm_id, ...extraArgs };
+  const fullArg = { farm_id, payload };
   return rawHook(fullArg, options);
 }
 
@@ -142,43 +140,45 @@ function queryWithFarmId(
  * });
  * ```
  */
-export function getUseQueryWithFarmId<Data, Args extends WithFarmId>(
+export function getUseQueryWithFarmId<Data, Args extends WithFarmIdPayload>(
   rawHook: (arg: Args, options?: any) => any,
 ) {
+  type InnerPayload = Args extends WithFarmIdPayload<infer P> ? P : never;
   // Overload 1: when selectFromResult is present
   function useQueryWithFarmId<Selected>(
-    extraArgs: ExtraArgs<Args> | undefined,
+    payload: InnerPayload | undefined,
     options: UseQueryOptionsWithSelect<RawQueryResult<Data, Args>, Selected>,
   ): Selected;
 
   // Overload 2: plain call (no selectFromResult or no options)
   function useQueryWithFarmId(
-    extraArgs?: ExtraArgs<Args>,
+    payload?: InnerPayload,
     options?: BaseUseQueryOptions,
   ): RawQueryResult<Data, Args>;
 
-  function useQueryWithFarmId(extraArgs?: ExtraArgs<Args>, options?: any): any {
-    return queryWithFarmId(rawHook, extraArgs, options);
+  function useQueryWithFarmId(payload?: InnerPayload, options?: any): any {
+    return queryWithFarmId(rawHook, payload, options);
   }
 
   return useQueryWithFarmId;
 }
 
-export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
+export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmIdPayload>(
   rawLazyHook: (
     options?: any,
-  ) => [(arg: Args, preferCacheValue?: boolean) => Promise<any>, any, any],
+  ) => [(payload: any, preferCacheValue?: boolean) => Promise<any>, any, any],
 ) {
+  type InnerPayload = Args extends WithFarmIdPayload<infer P> ? P : never;
   // Overload 1: when selectFromResult is present
   function useLazyQueryWithFarmId<Selected>(
     options: UseQueryOptionsWithSelect<RawQueryResult<Data, Args>, Selected>,
-  ): [(arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>, Selected, Args];
+  ): [(payload?: InnerPayload, preferCacheValue?: boolean) => Promise<any>, Selected, Args];
 
   // Overload 2: plain call (no selectFromResult or no options)
   function useLazyQueryWithFarmId(
     options?: BaseUseQueryOptions,
   ): [
-    (arg?: ExtraArgs<Args>, preferCacheValue?: boolean) => Promise<any>,
+    (payload?: InnerPayload, preferCacheValue?: boolean) => Promise<any>,
     RawQueryResult<Data, Args>,
     Args,
   ];
@@ -188,15 +188,15 @@ export function getLazyUseQueryWithFarmId<Data, Args extends WithFarmId>(
     const [trigger, result, lastPromiseInfo] = rawLazyHook(options);
     if (!farm_id) {
       return [
-        (extraArgs?: any, preferCacheValue?: boolean) =>
+        (payload?: InnerPayload, preferCacheValue?: boolean) =>
           trigger(skipToken as unknown as Args, preferCacheValue),
         result,
         lastPromiseInfo,
       ];
     }
     return [
-      (extraArgs?: any, preferCacheValue?: boolean) =>
-        trigger({ ...extraArgs, farm_id }, preferCacheValue),
+      (payload?: InnerPayload, preferCacheValue?: boolean) =>
+        trigger({ payload, farm_id }, preferCacheValue),
       result,
       lastPromiseInfo,
     ];
@@ -283,7 +283,7 @@ type AssertedMutationPromise<T> = Promise<
   unsubscribe(): void;
 };
 
-export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload<any>>(
+export function getMutationWithFarmId<Data, Args extends WithFarmIdPayload>(
   rawMutationHook: (
     options?: any,
   ) => readonly [(arg: Args) => Promise<any>, RawMutationResult<Data>],
@@ -320,7 +320,9 @@ export function mapFarmTags(tags: (FarmTag | FarmLibraryTag)[], farm_id: string)
   return tags.map((tag) => ({ type: tag, id: farm_id }));
 }
 
-export function getFarmTagsFn<Data, Args extends WithFarmId>(tags: (FarmTag | FarmLibraryTag)[]) {
+export function getFarmTagsFn<Data, Args extends WithFarmIdPayload>(
+  tags: (FarmTag | FarmLibraryTag)[],
+) {
   return (_result: Data | undefined, _error: FetchBaseQueryError | undefined, args: Args) => {
     return mapFarmTags(tags, args.farm_id);
   };

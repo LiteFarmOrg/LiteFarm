@@ -23,7 +23,7 @@ const Partners = ({
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { data: esciData = [], isLoading: esciLoading } = useGetFarmAddonQuery({
-    param: `?addon_partner_id=${PARTNERS.ESCI.id}`,
+    params: `?addon_partner_id=${PARTNERS.ESCI.id}`,
   });
 
   const hasActiveConnection = {

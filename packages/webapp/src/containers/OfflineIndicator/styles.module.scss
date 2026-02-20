@@ -34,14 +34,45 @@
   background-color: var(--Colors-Primary-Primary-teal-100);
   color: var(--Colors-Primary-Primary-teal-700);
 
+  &.notReady {
+    background-color: var(--Colors-Accent-Accent-yellow-50);
+    color: var(--Colors-Accent-Accent-yellow-900);
+  }
+
+  &.prepareOffline {
+    background-color: var(--Colors-Accent---singles-Red-light);
+    color: var(--Colors-Accent---singles-Red-dark);
+  }
+
   .message {
     @include truncateText();
+    font-weight: 600;
 
     @include md-breakpoint {
+      font-weight: 400;
+
       .additionalText {
         display: none;
       }
     }
+  }
+
+  .refreshButton {
+    height: 20px;
+    padding: 0px 4px;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    border-radius: 16px;
+    background: var(--Colors-Neutral-Neutral-900);
+    color: var(--White);
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 5px;
+    cursor: pointer;
   }
 
   /* Note: These style overrides are necessary because the <Badge /> component's default styles match the larger, yellow Beta badge */
@@ -49,18 +80,27 @@
     padding: 0 4px;
     height: auto;
 
-    background: var(--Colors-Primary-Primary-teal-50);
-    color: var(--Colors-Primary-Primary-teal-500);
     font-size: 12px;
+    font-weight: 500;
 
     svg {
       height: 20px;
       width: auto;
     }
+  }
 
-    &.active {
+  .offlineBadge {
+    background: var(--Colors-Primary-Primary-teal-50);
+    color: var(--Colors-Primary-Primary-teal-500);
+
+    &.offlineActive {
       color: var(--Colors-Secondary-Secondary-green-50);
       background: var(--Colors-Secondary-Secondary-green-600);
     }
+  }
+
+  .warningBadge {
+    background: var(--Colors-Accent-Accent-yellow-100);
+    color: var(--Colors-Accent-Accent-yellow-900);
   }
 }

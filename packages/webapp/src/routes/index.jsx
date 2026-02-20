@@ -64,7 +64,6 @@ const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'))
 const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
-const MapVideo = React.lazy(() => import('../components/Map/Videos'));
 const PostFarmSiteBoundaryForm = React.lazy(
   () =>
     import(
@@ -555,7 +554,6 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route path="/map/videos" exact children={<MapVideo />} />
                     <Route
                       path="/create_location/farm_site_boundary"
                       exact
@@ -941,7 +939,6 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route path="/map/videos" exact children={<MapVideo />} />
                     <Route
                       path="/create_location/farm_site_boundary"
                       exact

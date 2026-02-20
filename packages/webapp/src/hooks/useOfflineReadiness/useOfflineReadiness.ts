@@ -136,18 +136,13 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       }
     };
 
-    // Revalidate cache on controller change (new SW taking control)
-    const handleControllerChange = () => {
-      validateAndUpdateState();
-    };
-
     if (navigator.serviceWorker) {
       checkInitialState();
-      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+      navigator.serviceWorker.addEventListener('controllerchange', validateAndUpdateState);
     }
 
     return () => {
-      navigator.serviceWorker?.removeEventListener('controllerchange', handleControllerChange);
+      navigator.serviceWorker?.removeEventListener('controllerchange', validateAndUpdateState);
     };
   }, []);
 

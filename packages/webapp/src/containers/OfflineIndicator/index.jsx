@@ -28,19 +28,12 @@ function TransitionDown(props) {
 
 const OfflineIndicator = () => {
   const offline = useIsOffline();
-  const {
-    isServiceWorkerSupported,
-    isReadyForOffline,
-    wentOfflineDuringSetup,
-    recoveryMode,
-    reloadApp,
-    resetApplication,
-  } = useOfflineReadiness();
+  const { isServiceWorkerSupported, isReadyForOffline, wentOfflineDuringSetup, restoreCache } =
+    useOfflineReadiness();
   const { t } = useTranslation();
 
   const showRefresh = !offline && wentOfflineDuringSetup && !isReadyForOffline;
   const showWarning = offline && !isReadyForOffline && isServiceWorkerSupported;
-  const showReset = showRefresh && recoveryMode;
 
   const isIndicatorOpen = offline || showRefresh;
 
@@ -78,11 +71,7 @@ const OfflineIndicator = () => {
         {showRefresh && (
           <>
             <span className={styles.message}>{t('OFFLINE.PREPARE_TO_WORK_OFFLINE')}</span>
-            <button
-              type="button"
-              className={styles.refreshButton}
-              onClick={showReset ? resetApplication : reloadApp}
-            >
+            <button type="button" className={styles.refreshButton} onClick={restoreCache}>
               <RefreshIcon />
               {t('OFFLINE.REFRESH')}
             </button>

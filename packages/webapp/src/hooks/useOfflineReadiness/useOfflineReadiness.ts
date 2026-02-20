@@ -30,8 +30,7 @@ export interface UseOfflineReadinessResult {
   cacheValidation: CacheValidation | null;
   recoveryMode: boolean;
   isServiceWorkerSupported: boolean;
-  reloadApp: () => void;
-  resetApplication: () => Promise<void>;
+  restoreCache: () => void;
 }
 
 /**
@@ -70,6 +69,21 @@ async function checkCacheStatus(): Promise<CacheValidation> {
     navigator.serviceWorker.controller!.postMessage('check_cache_status', [messageChannel.port2]);
   });
 }
+
+const reloadApp = () => {
+  window.location.reload();
+};
+
+const resetApplication = async () => {
+  console.log('resetApplication: unregistering SWs...');
+  if (navigator.serviceWorker) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (const registration of registrations) {
+      await registration.unregister();
+    }
+  }
+  window.location.reload();
+};
 
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
@@ -156,28 +170,12 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     }
   }, [offline]);
 
-  const reloadApp = () => {
-    window.location.reload();
-  };
-
-  const resetApplication = async () => {
-    console.log('resetApplication: unregistering SWs...');
-    if (navigator.serviceWorker) {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for (const registration of registrations) {
-        await registration.unregister();
-      }
-    }
-    window.location.reload();
-  };
-
   return {
     isReadyForOffline,
     wentOfflineDuringSetup,
     cacheValidation,
     recoveryMode,
     isServiceWorkerSupported,
-    reloadApp,
-    resetApplication,
+    restoreCache: recoveryMode ? resetApplication : reloadApp,
   };
 }

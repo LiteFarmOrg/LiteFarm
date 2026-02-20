@@ -22,6 +22,7 @@ import {
   type CacheValidation,
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
+import { postEventLogs } from '../../util/offlineEventLogger';
 
 export interface UseOfflineReadinessResult {
   isReadyForOffline: boolean;
@@ -54,6 +55,9 @@ async function checkCacheStatus(): Promise<CacheValidation> {
 
 const reloadApp = () => {
   window.location.reload();
+  postEventLogs({
+    logs: [{ eventName: 'reload_app', eventAt: Date.now() }],
+  });
 };
 
 const resetApplication = async () => {
@@ -63,6 +67,9 @@ const resetApplication = async () => {
       await registration.unregister();
     }
   }
+  postEventLogs({
+    logs: [{ eventName: 'reset_app', eventAt: Date.now() }],
+  });
   window.location.reload();
 };
 

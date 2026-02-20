@@ -21,16 +21,32 @@ import {
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
-import { clientsClaim } from 'workbox-core';
+import { clientsClaim, cacheNames } from 'workbox-core';
 
 self.skipWaiting();
 clientsClaim();
 
 // Precache all the assets injected by VitePWA
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
-precacheAndRoute(self.__WB_MANIFEST);
+const precacheManifest = self.__WB_MANIFEST || [];
+precacheAndRoute(precacheManifest);
 
 cleanupOutdatedCaches();
+
+/**
+ * Validates that the cache has the expected number of entries.
+ * Returns an object with validation results.
+ */
+async function validatePrecacheIntegrity() {
+  try {
+    const cacheName = cacheNames.precache || 'workbox-precache-v2';
+    const cache = await caches.open(cacheName);
+    const cachedKeys = await cache.keys();
+    return { isComplete: cachedKeys.length >= precacheManifest.length };
+  } catch {
+    return { isComplete: false };
+  }
+}
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
@@ -139,6 +155,12 @@ RETRY_ROUTES.forEach(({ matcher, method }) => {
 
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
+  if (event.data === 'check_cache_status') {
+    const validation = await validatePrecacheIntegrity();
+    event.ports[0].postMessage(validation);
+    return;
+  }
+
   if (event.data === 'replay_queue') {
     for (let { queue } of Object.values(queues)) {
       const handler = createOnSyncHandler();

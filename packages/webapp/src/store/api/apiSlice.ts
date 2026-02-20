@@ -714,10 +714,12 @@ export const useLazyGetSensorsQuery = getLazyUseQueryWithFarmId<SensorData, With
 export const useLazyGetSensorReadingsQuery = getLazyUseQueryWithFarmId<
   SensorReadings[],
   WithFarmIdPayload<{
-    esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
-    startTime?: string; // ISO 8601
-    endTime?: string; // ISO 8601
-    truncPeriod?: 'minute' | 'hour' | 'day';
+    params: {
+      esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
+      startTime?: string; // ISO 8601
+      endTime?: string; // ISO 8601
+      truncPeriod?: 'minute' | 'hour' | 'day';
+    };
   }>
 >(api.useLazyGetSensorReadingsQuery);
 

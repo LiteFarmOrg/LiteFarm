@@ -31,10 +31,10 @@ export const up = async function (knex) {
     table.string('device_vendor');
     table.string('os');
     table.string('device_model');
-    table.string('app_version').notNullable();
-    table.string('log_status').notNullable();
+    table.string('app_version');
+    table.string('log_status');
     table.dateTime('event_at').notNullable();
-    table.dateTime('went_online_at').notNullable();
+    table.dateTime('went_online_at');
     table.unique(['session_id', 'event_name', 'event_at']);
   });
 };

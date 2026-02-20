@@ -387,10 +387,6 @@ export default function Map({ isCompactSideMenu }) {
 
   const mapWrapperRef = useRef();
 
-  const handleVideoClick = () => {
-    history.push('/map/videos');
-  };
-
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
@@ -455,13 +451,7 @@ export default function Map({ isCompactSideMenu }) {
   return (
     isLoaded && (
       <>
-        {!drawingState.type && !showSuccessHeader && (
-          <PureMapHeader
-            farmName={farm_name}
-            handleVideoClick={handleVideoClick}
-            isAdmin={is_admin}
-          />
-        )}
+        {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
         {showSuccessHeader && (
           <PureSnackbarWithoutBorder
             className={styles.successSnackbar}

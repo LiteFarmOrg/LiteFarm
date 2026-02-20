@@ -52,7 +52,7 @@ const IrrigationPrescription = ({ isCompactSideMenu }: IrrigationPrescriptionPro
   const { ip_pk } = useParams<{ ip_pk: string }>();
 
   const { data: irrigationPrescription, isLoading } = useGetIrrigationPrescriptionDetailsQuery(
-    { id: Number(ip_pk) },
+    Number(ip_pk),
     {
       refetchOnMountOrArgChange: true,
     },

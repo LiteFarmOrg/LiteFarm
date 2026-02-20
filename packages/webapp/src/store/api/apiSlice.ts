@@ -636,12 +636,12 @@ export const api = createApi({
     }),
     getIrrigationPrescriptionDetails: build.query<
       IrrigationPrescriptionDetails,
-      WithFarmIdPayload<{ id: number }>
+      WithFarmIdPayload<number>
     >({
       query: ({ payload: id }) => `${irrigationPrescriptionUrl}/${id}`,
-      providesTags: getFarmTagsFn<IrrigationPrescriptionDetails, WithFarmIdPayload<{ id: number }>>(
-        ['IrrigationPrescriptionDetails'],
-      ),
+      providesTags: getFarmTagsFn<IrrigationPrescriptionDetails, WithFarmIdPayload<number>>([
+        'IrrigationPrescriptionDetails',
+      ]),
     }),
   }),
 });
@@ -690,7 +690,7 @@ export const useGetIrrigationPrescriptionsQuery = getUseQueryWithFarmId<
 >(api.useGetIrrigationPrescriptionsQuery);
 export const useGetIrrigationPrescriptionDetailsQuery = getUseQueryWithFarmId<
   IrrigationPrescriptionDetails,
-  WithFarmIdPayload<{ id: number }>
+  WithFarmIdPayload<number>
 >(api.useGetIrrigationPrescriptionDetailsQuery);
 export const useGetSensorsQuery = getUseQueryWithFarmId<SensorData, WithFarmIdPayload>(
   api.useGetSensorsQuery,

@@ -29,7 +29,6 @@ export const LibraryTags = [
   'AnimalUses',
   'AnimalRemovalReasons',
   'DefaultAnimalBreeds',
-  'MarketDirectoryPartners',
   'MarketProductCategories',
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
@@ -67,17 +66,21 @@ export const FarmTags = [
  * Using this may be an indicator of possible improvements to backend architecture
  *
  * Does not belong here:
- * eg. 'MarketDirectoryPartners' sends farm.country and returns country specific library data
+ * eg. 'DefaultAnimalBreeds' sends nothing and returns only library data
+ * eg. If 'MarketDirectoryPartners' sent farm.country instead of '?filter=country' and returned country specific library data
  * even though farm.country is farm related it is generic/anonymous enough to be reused between farms
- * eg. 'DefaultAnimalBreeds' sends nothing and returns library data
  *
  *  Belongs here:
  * eg. 'DefaultAnimalTypes' sends '?count=true' and returns farm specific data
  * even though 'DefaultAnimalTypes' sends nothing and returns library data
+ * eg. 'MarketDirectoryPartners' sends '?filter=country' and returns country specific library data
+ * this query does not send the country to filter by and so cannot be reused between farms
  */
 export const FarmLibraryTags = [
   // 'count' param returns farm specific data
   'DefaultAnimalTypes',
+  // result might depend on the farm country
+  'MarketDirectoryPartners',
 ] as const;
 
 export const API_TAGS = [...LibraryTags, ...FarmTags, ...FarmLibraryTags] as const;

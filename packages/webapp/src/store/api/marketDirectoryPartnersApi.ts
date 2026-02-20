@@ -15,17 +15,18 @@
 
 import { api } from './apiSlice';
 import { marketDirectoryPartnersUrl } from '../../apiConfig';
-import { MarketDirectoryPartner } from './types';
+import { MarketDirectoryPartner, WithFarmIdPayload } from './types';
 import { PARTNERS_INFO } from '../../containers/Profile/FarmSettings/MarketDirectory/Consent/partners';
+import { getUseQueryWithFarmId } from './util';
 
 export const marketDirectoryPartners = api.injectEndpoints({
   endpoints: (build) => ({
     getMarketDirectoryPartners: build.query<
       MarketDirectoryPartner[],
-      { params: string } | undefined
+      WithFarmIdPayload<{ params: string } | void>
     >({
-      query: ({ params } = { params: '' }) => ({
-        url: `${marketDirectoryPartnersUrl}${params}`,
+      query: ({ payload }) => ({
+        url: `${marketDirectoryPartnersUrl}${payload?.params ?? ''}`,
         method: 'GET',
       }),
       transformResponse: (response: MarketDirectoryPartner[]) => {
@@ -36,4 +37,7 @@ export const marketDirectoryPartners = api.injectEndpoints({
   }),
 });
 
-export const { useGetMarketDirectoryPartnersQuery } = marketDirectoryPartners;
+export const useGetMarketDirectoryPartnersQuery = getUseQueryWithFarmId<
+  MarketDirectoryPartner[],
+  WithFarmIdPayload<{ params: string } | void>
+>(marketDirectoryPartners.useGetMarketDirectoryPartnersQuery);

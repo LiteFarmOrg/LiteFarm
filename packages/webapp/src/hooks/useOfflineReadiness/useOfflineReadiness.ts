@@ -99,36 +99,21 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       dispatch(setWentOfflineDuringSetup(false));
     } else if (validation.controlled) {
       // SW is active (install phase complete), but cache is incomplete.
-      // This is unrecoverable regardless of how many entries are cached
+      // Note: This combination of state already sets recovery mode to true
+      // (wentOfflineDuringSetup is used for the UI)
       dispatch(setWentOfflineDuringSetup(true));
     }
     return validation;
   };
 
-  // Clear setup-interrupted state on page load
   useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
   }, []);
 
+  // Handle initial page load
   useEffect(() => {
-    const checkInitialState = async () => {
-      if (!navigator.serviceWorker) return;
-
-      try {
-        await navigator.serviceWorker.ready;
-        const controlled = !!navigator.serviceWorker.controller;
-
-        // Validate cache on mount if we have a controller
-        if (controlled) {
-          await validateAndUpdateState();
-        }
-      } catch (e) {
-        // Service worker not available or failed
-      }
-    };
-
     if (navigator.serviceWorker) {
-      checkInitialState();
+      validateAndUpdateState();
       navigator.serviceWorker.addEventListener('controllerchange', validateAndUpdateState);
     }
 

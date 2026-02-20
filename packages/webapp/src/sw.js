@@ -155,7 +155,6 @@ RETRY_ROUTES.forEach(({ matcher, method }) => {
 
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
-  // Handle cache status check requests
   if (event.data === 'check_cache_status') {
     const validation = await validatePrecacheIntegrity();
     event.ports[0].postMessage(validation);

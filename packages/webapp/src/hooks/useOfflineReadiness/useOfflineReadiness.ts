@@ -60,7 +60,6 @@ const reloadApp = () => {
 };
 
 const resetApplication = async () => {
-  console.log('resetApplication: unregistering SWs...');
   if (navigator.serviceWorker) {
     const registrations = await navigator.serviceWorker.getRegistrations();
     for (const registration of registrations) {
@@ -81,16 +80,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   // (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
 
-  console.log('useOfflineReadiness state:', {
-    offline,
-    isReadyForOffline,
-    wentOfflineDuringSetup,
-    cacheValidation,
-    isServiceWorkerSupported,
-    recoveryMode,
-  });
-
-  // Central validator run on startup, controllerchange, and offline/online transitions
   const validateAndUpdateState = async () => {
     const validation = await checkCacheStatus();
     dispatch(setCacheValidation(validation));
@@ -99,13 +88,14 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       dispatch(setWentOfflineDuringSetup(false));
     } else if (validation.controlled) {
       // SW is active (install phase complete), but cache is incomplete.
-      // Note: This combination of state already sets recovery mode to true
-      // (wentOfflineDuringSetup is used for the UI)
+      // Note: This combination of state already sets recovery mode to true;
+      // setWentOfflineDuringSetup is used for the UI element
       dispatch(setWentOfflineDuringSetup(true));
     }
     return validation;
   };
 
+  // useLayoutEffect to prevent flash of refresh UI from persisted state
   useLayoutEffect(() => {
     dispatch(setWentOfflineDuringSetup(false));
   }, []);

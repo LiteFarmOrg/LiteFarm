@@ -29,6 +29,7 @@ export const LibraryTags = [
   'AnimalUses',
   'AnimalRemovalReasons',
   'DefaultAnimalBreeds',
+  'MarketDirectoryPartners',
   'MarketProductCategories',
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
@@ -57,17 +58,26 @@ export const FarmTags = [
 ] as const;
 
 /**
- * These tags contain endpoints that could either return farm specific data
- * or farm neutral defaults data.
+ * These tags contain endpoints that could either send or return
+ * farm specific data and/or farm neutral default data.
  *
- * For data safety these data should also not persist when switching farms,
- * or should be stored in a separate farm store.
+ * For data safety if the sent data or returned data
+ * should not be used between farms add it here.
+ *
+ * Using this may be an indicator of possible improvements to backend architecture
+ *
+ * Does not belong here:
+ * eg. 'MarketDirectoryPartners' sends farm.country and returns country specific library data
+ * even though farm.country is farm related it is generic/anonymous enough to be reused between farms
+ * eg. 'DefaultAnimalBreeds' sends nothing and returns library data
+ *
+ *  Belongs here:
+ * eg. 'DefaultAnimalTypes' sends '?count=true' and returns farm specific data
+ * even though 'DefaultAnimalTypes' sends nothing and returns library data
  */
 export const FarmLibraryTags = [
   // 'count' param returns farm specific data
   'DefaultAnimalTypes',
-  // result might depend on the farm country
-  'MarketDirectoryPartners',
 ] as const;
 
 export const API_TAGS = [...LibraryTags, ...FarmTags, ...FarmLibraryTags] as const;

@@ -18,8 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setWentOfflineDuringSetup,
   setCacheValidation,
-  setRecoveryMode,
   offlineReadinessSelector,
+  recoveryModeSelector,
   type CacheValidation,
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
@@ -38,7 +38,9 @@ export interface UseOfflineReadinessResult {
  * @returns Promise<CacheValidation> - The cache validation result.
  */
 async function checkCacheStatus(): Promise<CacheValidation> {
-  if (!navigator.serviceWorker?.controller) {
+  const controlled = !!navigator.serviceWorker?.controller;
+
+  if (!controlled) {
     // No active controller yet (SW still installing/activating)
     if (window.caches) {
       try {
@@ -50,20 +52,20 @@ async function checkCacheStatus(): Promise<CacheValidation> {
           const totalCached = cachedKeys.length;
           if (totalCached > 0) {
             // Cache is present but SW hasn't claimed the page -- treat as in-progress
-            return { isComplete: false, totalCached };
+            return { isComplete: false, totalCached, controlled };
           }
         }
       } catch {
         // caches API not available or failed
       }
     }
-    return { isComplete: false, error: 'No service worker controller' };
+    return { isComplete: false, error: 'No service worker controller', controlled };
   }
 
   return new Promise((resolve) => {
     const messageChannel = new MessageChannel();
     messageChannel.port1.onmessage = (event) => {
-      resolve(event.data as CacheValidation);
+      resolve({ ...(event.data as CacheValidation), controlled });
     };
 
     navigator.serviceWorker.controller!.postMessage('check_cache_status', [messageChannel.port2]);
@@ -88,8 +90,8 @@ const resetApplication = async () => {
 export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
-  const { wentOfflineDuringSetup, cacheValidation, recoveryMode } =
-    useSelector(offlineReadinessSelector);
+  const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
+  const recoveryMode = useSelector(recoveryModeSelector);
   const isReadyForOffline = !!cacheValidation?.isComplete;
 
   // This check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts
@@ -107,23 +109,15 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
 
   // Central validator run on startup, controllerchange, and offline/online transitions
   const validateAndUpdateState = async () => {
-    const controlled = !!navigator.serviceWorker?.controller;
-
     const validation = await checkCacheStatus();
     dispatch(setCacheValidation(validation));
 
     if (validation.isComplete) {
       dispatch(setWentOfflineDuringSetup(false));
-      dispatch(setRecoveryMode(false));
-    } else if (controlled) {
+    } else if (validation.controlled) {
       // SW is active (install phase complete), but cache is incomplete.
       // This is unrecoverable regardless of how many entries are cached
-      dispatch(setRecoveryMode(true));
       dispatch(setWentOfflineDuringSetup(true));
-    } else if (validation.totalCached && validation.totalCached > 0) {
-      // No controller yet -- SW is still installing and actively filling the cache.
-      // Not broken, just in progress
-      dispatch(setRecoveryMode(false));
     }
     return validation;
   };

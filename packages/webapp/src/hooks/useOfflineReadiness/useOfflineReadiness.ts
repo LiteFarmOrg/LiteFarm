@@ -54,25 +54,17 @@ async function checkCacheStatus(): Promise<CacheValidation> {
   });
 }
 
-const reloadApp = (farmId?: string) => {
+const reloadApp = () => {
   window.location.reload();
-  postEventLogs({
-    farmId,
-    logs: [{ eventName: 'reload_app', eventAt: Date.now() }],
-  });
 };
 
-const resetApplication = async (farmId?: string) => {
+const resetApplication = async () => {
   if (navigator.serviceWorker) {
     const registrations = await navigator.serviceWorker.getRegistrations();
     for (const registration of registrations) {
       await registration.unregister();
     }
   }
-  postEventLogs({
-    farmId,
-    logs: [{ eventName: 'reset_app', eventAt: Date.now() }],
-  });
   window.location.reload();
 };
 
@@ -131,10 +123,19 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     }
   }, [offline]);
 
+  const restoreCache = () => {
+    postEventLogs({
+      farmId: farm?.farm_id,
+      logs: [{ eventName: recoveryMode ? 'reset_app' : 'reload_app', eventAt: Date.now() }],
+    });
+
+    recoveryMode ? resetApplication() : reloadApp();
+  };
+
   return {
     isReadyForOffline,
     wentOfflineDuringSetup,
     isServiceWorkerSupported,
-    restoreCache: () => (recoveryMode ? resetApplication : reloadApp)(farm?.farm_id),
+    restoreCache,
   };
 }

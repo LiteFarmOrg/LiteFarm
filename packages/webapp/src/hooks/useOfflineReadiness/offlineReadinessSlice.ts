@@ -14,7 +14,6 @@
  */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
 
 export interface CacheValidation {
   isComplete: boolean;
@@ -50,13 +49,3 @@ export default offlineReadinessSlice.reducer;
 
 export const offlineReadinessSelector = (state: any) =>
   state.tempStateReducer[offlineReadinessSlice.name];
-
-/**
- * Derived selector: true when the SW has an active controller but the cache is incomplete.
- * This is an unrecoverable state — the SW finished installing but the cache was lost.
- */
-export const recoveryModeSelector = createSelector(
-  offlineReadinessSelector,
-  ({ cacheValidation }) =>
-    !!cacheValidation && !cacheValidation.isComplete && !!cacheValidation.controlled,
-);

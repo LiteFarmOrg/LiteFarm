@@ -19,7 +19,6 @@ import {
   setWentOfflineDuringSetup,
   setCacheValidation,
   offlineReadinessSelector,
-  recoveryModeSelector,
   type CacheValidation,
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
@@ -27,8 +26,6 @@ import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOff
 export interface UseOfflineReadinessResult {
   isReadyForOffline: boolean;
   wentOfflineDuringSetup: boolean;
-  cacheValidation: CacheValidation | null;
-  recoveryMode: boolean;
   isServiceWorkerSupported: boolean;
   restoreCache: () => void;
 }
@@ -73,8 +70,9 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   const dispatch = useDispatch();
   const offline = useIsOffline();
   const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
-  const recoveryMode = useSelector(recoveryModeSelector);
   const isReadyForOffline = !!cacheValidation?.isComplete;
+  const recoveryMode =
+    !!cacheValidation && !cacheValidation.isComplete && !!cacheValidation.controlled;
 
   // This check will not exclude localhost:3000, but will exclude browsers without SW support or other unsecured contexts
   // (e.g. hosted over the local network)
@@ -92,7 +90,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
       // setWentOfflineDuringSetup is used for the UI element
       dispatch(setWentOfflineDuringSetup(true));
     }
-    return validation;
   };
 
   // useLayoutEffect to prevent flash of refresh UI from persisted state
@@ -125,8 +122,6 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   return {
     isReadyForOffline,
     wentOfflineDuringSetup,
-    cacheValidation,
-    recoveryMode,
     isServiceWorkerSupported,
     restoreCache: recoveryMode ? resetApplication : reloadApp,
   };

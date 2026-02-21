@@ -26,6 +26,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -293,6 +294,7 @@ function TaskLocations({
   const onGoBack = () => {
     history.back();
   };
+  const isOffline = useIsOffline();
 
   return (
     <HookFormPersistProvider>
@@ -312,6 +314,7 @@ function TaskLocations({
         isAnimalTask={isAnimalTask}
         optionalLocation={optionalLocation}
         progress={progress}
+        isOffline={isOffline}
       />
     </HookFormPersistProvider>
   );

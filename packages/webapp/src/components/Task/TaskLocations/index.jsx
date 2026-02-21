@@ -13,6 +13,7 @@ import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import Switch from '../../Form/Switch';
+import OfflineLocationPicker from '../../LocationPicker/OfflineLocationPicker';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -31,6 +32,7 @@ export default function PureTaskLocations({
   isAnimalTask = false,
   optionalLocation = false,
   progress = 43,
+  isOffline,
 }) {
   const { t } = useTranslation();
 
@@ -171,6 +173,18 @@ export default function PureTaskLocations({
             hideInnerText
             classes={{ container: styles.switchContainer }}
           />
+        )}
+        {isOffline && (
+          <div className={styles.offlinePickerContainer}>
+            <OfflineLocationPicker
+              locations={locations}
+              isMulti={isMulti}
+              onSelectLocation={onSelectLocation}
+              clearLocations={clearLocations}
+              selectedLocationIds={selectedLocationIds}
+              disabled={noLocationsChecked}
+            />
+          </div>
         )}
         <LocationPicker
           onSelectLocation={onSelectLocation}

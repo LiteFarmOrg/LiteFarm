@@ -133,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
     "DUPLICATE_NAME": "Um produto com este nome já existe. Por favor escolha outro.",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
+    "EDIT_TASK_WAGE": "Editar salário da tarefa",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",
       "TYPE": {
@@ -153,6 +154,7 @@
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "O salário horário de {{name}} é {{wage}} /hr",
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
       "FOR_THIS_TASK": "Sim, somente para esta tarefa",
@@ -209,16 +211,23 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Por favor, descreva a finalidade deste movimento"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Você precisará de uma localização ou área onde os animais podem ser movidos. Vá ao mapa para criar uma localização do animal.",
+    "NEED_IRRIGATION_LOCATION": "Para criar uma tarefa de irrigação, primeiro você precisa de uma localização que apoie as culturas. Vá para o mapa para criar um, como um campo, uma estufa ou uma zona tampão.",
+    "NEED_IRRIGATION_LOCATION_WORKER": "Você precisará gerir para criar um local que possa apoiar culturas antes de criar uma tarefa de irrigação.",
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Parece que você não tem um produto de correção de solo ainda. Vá ao inventário para adicionar um antes de criar sua tarefa de correção de solo.",
     "NEED_SOIL_SAMPLE_LOCATION": "Você precisará de um local específico designado para fazer a amostragem do solo. Vá para o mapa para criar um local de amostragem do solo.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Você precisará de gerenciamento para criar pelo menos um local de amostra do solo antes de criar uma tarefa de amostra do solo.",
     "NO_ANIMAL_LOCATION": "Nenhum local elegível para animais",
+    "NO_IRRIGATION_LOCATIONS": "Não há locais disponíveis para irrigação",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Adicione primeiro um produto com correção de solo",
     "NO_SOIL_SAMPLE_LOCATION": "Nenhum local de amostra de solo elegível",
     "NOTES_LABEL": "Algo específico para adicionar relacionado a esta tarefa?",
     "NOTES_PLACEHOLDER": "Adicione quaisquer instruções ou especificações para o responsável",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "Você pode usar locais existentes, culturas e produtos em suas tarefas, mas você não pode adicionar novos estando offline.",
+      "YOURE_OFFLINE": "Você está offline"
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -287,6 +296,12 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
+    "TASK_SPECIFIC_HOURLY_WAGE": "Salário horário específico para tarefas",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "Não há salário definido para esta tarefa",
+      "TASK_WAGE_SET": "O salário horário para esta tarefa é definido como <strong>{{wage}} por hora</strong>",
+      "WANT_TO_SET_HOURLY_WAGE": "Defina um salário por hora só para esta tarefa?"
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Ao clicar em \"Salvar\", esta tarefa será salva imediatamente. Em seguida, será solicitado que você a conclua.",
@@ -1147,6 +1162,14 @@
       "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
       "TITLE": "Matéria Orgânica do Solo"
     },
+    "TAPE": {
+      "COMPLETED": "Concluído - Veja os seus resultados",
+      "IN_PROGRESS": "Em progresso",
+      "NOT_FILLED": "Não preenchido",
+      "RESULTS_TITLE": "Caracterização das Pontuações das Transições Agroecológicas (CAET)",
+      "TITLE": "Levantamento TAPE (Ferramenta para Avaliação do Desempenho em Agroecologia)",
+      "UPDATE_ANSWERS": "Atualizar as suas respostas"
+    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },
@@ -1598,6 +1621,25 @@
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "Você está offline. Algumas ações estão indisponíveis.",
+    "BADGE": {
+      "TITLE": "Offline",
+      "TOOLTIP_CONTENT": "Não podemos acessar a rede agora.<br><br>Você pode continuar no modo offline. Algumas seções serão apenas visualizadas, mas as tarefas estão totalmente disponíveis."
+    },
+    "CHANGES_WILL_SYNC": "Qualquer alteração que fizer será sincronizada quando estiver online.",
+    "LOG_OUT_MODAL": {
+      "INFO": "Você não poderá fazer login novamente enquanto estiver offline. Todas as alterações feitas enquanto offline serão perdidas após o logout.",
+      "TITLE": "Tem certeza que deseja realizar o logout?"
+    },
+    "NOT_READY_BADGE": {
+      "TITLE": "Informação",
+      "TOOLTIP_CONTENT": "LiteFarm precisa baixar dados para trabalhar off-line.<br><br>Complete este processo quando estiver online."
+    },
+    "NOT_READY_WARNING": "LiteFarm não terminou de preparar dados offline.",
+    "PREPARE_TO_WORK_OFFLINE": "Prepare o LiteFarm para trabalhar offline na próxima vez.",
+    "REFRESH": "Atualizar"
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",
@@ -2135,7 +2177,8 @@
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
-    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório"
+    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório",
+    "WILL_SAVE_ONLINE": "Será salvo quando estiver online"
   },
   "UNIT": {
     "TIME": {
@@ -2162,7 +2205,7 @@
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
-    "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
+    "HOURLY_WAGE_TOOLTIP": "Este salário específico de tarefas substituirá o salário padrão do atribuído. Salários padrão de trabalhadores podem ser gerenciados na aba pessoas."
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

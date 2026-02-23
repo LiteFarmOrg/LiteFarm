@@ -20,7 +20,7 @@ import {
   enqueueSuccessSnackbar,
   enqueueErrorSnackbar,
 } from '../../containers/Snackbar/snackbarSlice';
-import { getTasks } from '../../containers/Task/saga';
+import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
@@ -113,6 +113,7 @@ export function useServiceWorkerListener() {
         },
         refresh: () => {
           dispatch(getManagementPlans());
+          dispatch(getProducts()); // cleaning and pest control task creation
           dispatch(getTasks());
         },
       },

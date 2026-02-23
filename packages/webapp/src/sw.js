@@ -19,9 +19,11 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { NetworkFirst, NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
 
 self.skipWaiting();
 clientsClaim();
@@ -50,6 +52,21 @@ async function validatePrecacheIntegrity() {
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
+registerRoute(
+  // Match /locales/{not-en}/anything.json
+  /\/locales\/(?!en\/).*\.json$/,
+  new NetworkFirst({
+    cacheName: 'i18next-translations',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 50,
+      }),
+    ],
+  }),
+);
 
 /*
  * Higher-order function for onSync callbacks.

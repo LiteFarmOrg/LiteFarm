@@ -42,6 +42,8 @@ const offlineEventLogController = {
           log_status: res.locals.log_status,
           app_version,
           went_online_at: wentOnlineAt,
+          user_id: res.locals.user_id,
+          role_id: res.locals.role_id,
         };
 
         const records = logs.map(({ event_name, event_at, status_code, url }, index) => {

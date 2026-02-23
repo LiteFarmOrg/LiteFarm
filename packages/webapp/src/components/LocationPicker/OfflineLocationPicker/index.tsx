@@ -35,6 +35,7 @@ interface LocationOption {
   value: string; // location_id
 }
 
+// Offline-compatible version of the Google Maps location picker; presents farm locations as a searchable dropdown
 const OfflineLocationPicker = ({
   locations,
   isMulti = true,
@@ -51,6 +52,7 @@ const OfflineLocationPicker = ({
   const selectedOptions = options.filter(({ value }) => selectedLocationIds.includes(value));
 
   if (isMulti) {
+    // This handler adapts React Select's full selection state to the same single location_id that onSelectLocation expects
     const handleChange = (newValue: MultiValue<SelectOption>) => {
       if (newValue.length === 0) {
         clearLocations();
@@ -62,6 +64,7 @@ const OfflineLocationPicker = ({
       );
       const removed = selectedLocationIds.find((id) => !newIds.has(id));
 
+      // Assumes only one location is added or removed per change event (other than when clearing), which is correct for the <CheckboxMultiSelect />
       if (added) {
         onSelectLocation(added.value as string);
       } else if (removed) {

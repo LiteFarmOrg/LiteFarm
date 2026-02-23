@@ -31,7 +31,26 @@ const offlineEventLogController = {
         const wentOnlineAt = went_online_at && new Date(went_online_at).toISOString();
         const ua = parser(req.headers['user-agent']);
 
-        const commonInfo = {
+        let indexToIncludeCommonInfo = 0;
+
+        const records: Record<string, unknown>[] = logs.map(
+          ({ event_name, event_at, status_code, url }, index) => {
+            if (event_name === 'session_start') {
+              indexToIncludeCommonInfo = index;
+            }
+
+            return {
+              session_id,
+              event_name,
+              status_code,
+              url,
+              event_at: event_at && new Date(event_at).toISOString(),
+            };
+          },
+        );
+
+        records[indexToIncludeCommonInfo] = {
+          ...records[indexToIncludeCommonInfo],
           country_id: res.locals.country_id,
           network,
           browser: ua.browser.name,
@@ -45,19 +64,6 @@ const offlineEventLogController = {
           user_id: res.locals.user_id,
           role_id: res.locals.role_id,
         };
-
-        const records = logs.map(({ event_name, event_at, status_code, url }, index) => {
-          const isFirst = index === 0;
-
-          return {
-            session_id,
-            event_name,
-            status_code,
-            url,
-            event_at: event_at && new Date(event_at).toISOString(),
-            ...(isFirst ? commonInfo : {}),
-          };
-        });
 
         await offlineEventLogModel.query().insert(records);
 

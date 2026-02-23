@@ -65,7 +65,7 @@ const offlineEventLogController = {
           role_id: res.locals.role_id,
         };
 
-        await offlineEventLogModel.query().insert(records);
+        await offlineEventLogModel.query().insert(records).onConflict().ignore();
 
         return res.status(201).send();
       } catch (error: unknown) {

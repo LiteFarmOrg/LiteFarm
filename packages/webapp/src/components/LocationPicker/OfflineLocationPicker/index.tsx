@@ -61,8 +61,9 @@ const OfflineLocationPicker = ({
         (option) => !selectedLocationIds.includes(option.value as string),
       );
       const removed = selectedLocationIds.find((id) => !newIds.has(id));
+
       if (added) {
-        onSelectLocation(String(added.value));
+        onSelectLocation(added.value as string);
       } else if (removed) {
         onSelectLocation(removed);
       }
@@ -74,7 +75,6 @@ const OfflineLocationPicker = ({
         value={selectedOptions}
         onChange={handleChange}
         isDisabled={disabled}
-        showSelectionStatus={false}
       />
 
       // Wait, maybe we just want this???!

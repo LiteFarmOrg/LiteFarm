@@ -14,8 +14,9 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { MultiValue } from 'react-select';
+import { useTranslation } from 'react-i18next';
 import produce from 'immer';
+import type { MultiValue } from 'react-select';
 import { FilterItemProps } from '../FilterGroup';
 import { Label } from '../../Typography';
 import styles from './styles.module.scss';
@@ -37,6 +38,7 @@ export const FilterMultiSelectV2 = ({
   isDisabled,
   shouldReset,
 }: FilterMultiSelectProps) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<ComponentFilterOption[]>(() =>
     options.filter((option) => option.default),
   );
@@ -81,6 +83,8 @@ export const FilterMultiSelectV2 = ({
         value={value}
         onChange={handleChange}
         isDisabled={isDisabled}
+        placeholder={t('FILTER.SHOWING_ALL_DEFAULT')}
+        showSelectionStatus={true}
       />
     </div>
   );

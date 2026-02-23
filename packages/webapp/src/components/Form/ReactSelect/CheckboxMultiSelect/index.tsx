@@ -41,7 +41,7 @@ export interface CheckboxMultiSelectProps {
   onChange: (newValue: MultiValue<SelectOption>) => void;
   isDisabled?: boolean;
   placeholder?: string;
-  showSelectionStatus?: boolean;
+  showSelectionStatus?: boolean; // indicator with "Showing all" and partially or fully checked status; appropriate for filters
 }
 
 const MultiValueRemove = (props: MultiValueRemoveProps) => (
@@ -135,7 +135,7 @@ export const CheckboxMultiSelect = ({
   onChange,
   isDisabled = false,
   placeholder,
-  showSelectionStatus = true,
+  showSelectionStatus = false,
 }: CheckboxMultiSelectProps) => {
   const { t } = useTranslation();
   const defaultPlaceholder = t('common:SELECT') + '...';

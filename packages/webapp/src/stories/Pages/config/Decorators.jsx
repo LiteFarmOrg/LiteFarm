@@ -26,22 +26,23 @@ export default [
         <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            maps: { isLoaded: true },
           }}
         >
           <Navigation />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
         </AppUIContext.Provider>
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {story()}
-        </div>
       </div>
     );
   },
@@ -63,22 +64,23 @@ export const authenticatedDecorators = [
         <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            maps: { isLoaded: true },
           }}
         >
           <Navigation />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
         </AppUIContext.Provider>
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {story()}
-        </div>
       </div>
     );
   },

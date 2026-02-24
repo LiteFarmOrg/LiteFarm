@@ -79,7 +79,7 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: auth || id_token,
+      ...(auth || id_token ? { Authorization: auth || `Bearer ${id_token}` } : {}),
     },
     // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
     keepalive: true, // Attempt to send even when the page is unloading
@@ -101,11 +101,13 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
 };
 
 export const postEventLogs = async ({ farmId, logs }: OfflineEventPayload) => {
+  const idToken = localStorage.getItem('id_token');
+
   return fetch(offlineEventLogUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
     },
     // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
     keepalive: true, // Attempt to send even when the page is unloading

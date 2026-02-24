@@ -36,6 +36,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
+import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
+import { storeActivity } from '../../../util/offlineEventLogger';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
@@ -46,6 +48,8 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
   const sectionHeader = useSectionHeader(history.location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [showOfflineLogoutWarning, setShowOfflineLogoutWarning] = useState(false);
+
   const toggleMenu = () => {
     setOpenMenu((prev) => !prev);
   };
@@ -69,9 +73,18 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     }
   };
 
-  const logOutClick = () => {
+  const onLogOut = () => {
     closeMenu();
     logout();
+  };
+
+  const logOutClick = () => {
+    if (offline) {
+      closeMenu();
+      setShowOfflineLogoutWarning(true);
+      return;
+    }
+    onLogOut();
   };
 
   const openTutorialsClick = () => {
@@ -218,9 +231,10 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
         className={styles.iconButton}
         classes={{ root: styles.notificationButton }}
         size="large"
+        disabled={offline}
       >
         <NotificationIcon />
-        <Alert />
+        {!offline && <Alert />}
       </IconButton>
       <IconButton
         data-cy="home-profileButton"
@@ -258,16 +272,38 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     );
   };
 
+  const onLogOutOffline = async () => {
+    setShowOfflineLogoutWarning(false);
+
+    if (navigator.serviceWorker) {
+      const registration = await navigator.serviceWorker.ready;
+      if (registration.active) {
+        registration.active.postMessage('clear_queue');
+      }
+    }
+
+    storeActivity('', 'logout');
+    onLogOut();
+  };
+
   return (
     showNav && (
-      <AppBar position="sticky" className={styles.appBar}>
-        <Toolbar
-          className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
-        >
-          {!showNavActions ? <Logo /> : showMainNavigation}
-          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
-        </Toolbar>
-      </AppBar>
+      <>
+        <AppBar position="sticky" className={styles.appBar}>
+          <Toolbar
+            className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
+          >
+            {!showNavActions ? <Logo /> : showMainNavigation}
+            {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+          </Toolbar>
+        </AppBar>
+        {showOfflineLogoutWarning && (
+          <OfflineLogOutWarningModal
+            dismissModal={() => setShowOfflineLogoutWarning(false)}
+            onLogOut={onLogOutOffline}
+          />
+        )}
+      </>
     )
   );
 };

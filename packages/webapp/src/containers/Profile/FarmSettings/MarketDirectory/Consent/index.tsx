@@ -16,7 +16,8 @@
 import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { TFunction, Trans, useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { BiPencil } from 'react-icons/bi';
 import { useGetMarketDirectoryPartnersQuery } from '../../../../../store/api/marketDirectoryPartnersApi';
@@ -34,7 +35,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import { areSetsEqual } from '../../../../../util/comparisons';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
-import { useNavMenuControls } from '../../../../../contexts/appContext';
+import { useAppUIContext } from '../../../../../contexts/appContext';
 
 interface MarketDirectoryConsentProps {
   canConsent: boolean;
@@ -50,7 +51,7 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { feedback: feedbackFormControls } = useNavMenuControls();
+  const { feedback: feedbackFormControls } = useAppUIContext();
 
   const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 

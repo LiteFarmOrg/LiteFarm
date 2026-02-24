@@ -3981,8 +3981,8 @@ describe('Task tests', () => {
   });
 
   describe('Patch task wage test', () => {
-    const testWithRole = async (userRoleId, wage_at_moment) => {
-      const patchTaskWageBody = { wage_at_moment };
+    const testWithRole = async (userRoleId, wage_at_moment, override_hourly_wage = true) => {
+      const patchTaskWageBody = { wage_at_moment, override_hourly_wage };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(userRoleId));
       const [{ task_id }] = await mocks.taskFactory({
         promisedUser: [{ user_id }],
@@ -4004,7 +4004,7 @@ describe('Task tests', () => {
             expect(res.status).toBe(200);
             const updated_task = await getTask(task_id);
             expect(updated_task.wage_at_moment).toBe(wage_at_moment);
-            expect(updated_task.override_hourly_wage).toBe(true);
+            expect(updated_task.override_hourly_wage).toBe(override_hourly_wage);
           },
         );
         return;
@@ -4034,6 +4034,14 @@ describe('Task tests', () => {
 
     test('Farm worker must not be able to patch task wage', async () => {
       await testWithRole(3, 30);
+    });
+
+    test('Farm owner must be able to remove override on task wage', async () => {
+      await testWithRole(1, null, false);
+    });
+
+    test('Farm worker must not be able to remove override on task wage', async () => {
+      await testWithRole(3, null, false);
     });
   });
 });

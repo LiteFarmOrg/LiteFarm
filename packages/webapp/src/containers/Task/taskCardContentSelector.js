@@ -24,6 +24,7 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       abandon_date: task.abandon_date,
       date: task.abandon_date || task.complete_date || task.due_date,
       wage_at_moment: task.wage_at_moment,
+      override_hourly_wage: task.override_hourly_wage,
       revision_date: task.revision_date,
       revised_by_user_id: task.revised_by_user_id,
       to_sync: task.to_sync,

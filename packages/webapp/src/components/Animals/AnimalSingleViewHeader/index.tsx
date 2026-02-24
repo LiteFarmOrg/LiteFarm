@@ -14,7 +14,8 @@
  */
 
 import { ReactNode } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';

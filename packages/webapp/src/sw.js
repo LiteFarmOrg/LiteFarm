@@ -21,16 +21,32 @@ import {
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
-import { clientsClaim } from 'workbox-core';
+import { clientsClaim, cacheNames } from 'workbox-core';
 
 self.skipWaiting();
 clientsClaim();
 
 // Precache all the assets injected by VitePWA
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
-precacheAndRoute(self.__WB_MANIFEST);
+const precacheManifest = self.__WB_MANIFEST || [];
+precacheAndRoute(precacheManifest);
 
 cleanupOutdatedCaches();
+
+/**
+ * Validates that the cache has the expected number of entries.
+ * Returns an object with validation results.
+ */
+async function validatePrecacheIntegrity() {
+  try {
+    const cacheName = cacheNames.precache || 'workbox-precache-v2';
+    const cache = await caches.open(cacheName);
+    const cachedKeys = await cache.keys();
+    return { isComplete: cachedKeys.length >= precacheManifest.length };
+  } catch {
+    return { isComplete: false };
+  }
+}
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
@@ -39,7 +55,7 @@ registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
  * Higher-order function for onSync callbacks.
  * Replays requests and sends per-item success/failure messages to clients.
  */
-const createOnSyncHandler = (area) => {
+const createOnSyncHandler = () => {
   return async ({ queue }) => {
     let entry;
     while ((entry = await queue.shiftRequest())) {
@@ -64,10 +80,13 @@ const createOnSyncHandler = (area) => {
           client.postMessage({
             type: 'SYNC_ITEM_SUCCESS',
             payload: {
-              area,
               url: entry.request.url,
+              method: entry.request.method,
               status: response.status,
               response: responseContent,
+              queuedAt: entry.metadata.timestamp,
+              auth: entry.request.headers.get('Authorization'),
+              farm_id: entry.request.headers.get('farm_id'),
             },
           }),
         );
@@ -79,8 +98,8 @@ const createOnSyncHandler = (area) => {
           client.postMessage({
             type: 'SYNC_ITEM_FAILURE',
             payload: {
-              area,
               url: entry.request.url,
+              method: entry.request.method,
               error: error.message,
             },
           }),
@@ -92,43 +111,40 @@ const createOnSyncHandler = (area) => {
   };
 };
 
-const BG_SYNC_ROUTES = [
+const RETRY_ROUTES = [
   {
-    queueName: 'create-task-queue',
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.create',
     method: 'POST',
   },
   {
-    queueName: 'patch-task-queue',
     // This matcher as written will include task/patch_due_date, task/assign, task/abandon, etc.
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.update',
     method: 'PATCH',
   },
   {
-    queueName: 'delete-task-queue',
     matcher: ({ url }) => url.pathname.includes('/task/'),
-    area: 'tasks.delete',
     method: 'DELETE',
   },
 ];
 
+const RETRY_QUEUE_NAME = 'retry-requests';
+
+const retryQueue = new Queue(RETRY_QUEUE_NAME, {
+  maxRetentionTime: 24 * 60, // 24 hours
+  // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
+  onSync: () => ({}),
+});
+
 // Store queue references globally to allow manual replay
-const queues = {};
+const queues = {
+  [RETRY_QUEUE_NAME]: { queue: retryQueue },
+};
 
-BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
-  const queue = new Queue(queueName, {
-    maxRetentionTime: 24 * 60, // 24 hours
-    onSync: createOnSyncHandler(area),
-  });
-
-  queues[queueName] = { queue, area };
-
+RETRY_ROUTES.forEach(({ matcher, method }) => {
   // Push to our queue on failure
-  const bgSyncPlugin = {
+  const queueOnFailurePlugin = {
     fetchDidFail: async ({ request }) => {
-      await queue.pushRequest({
+      await retryQueue.pushRequest({
         request,
         metadata: {
           timestamp: Date.now(),
@@ -137,19 +153,33 @@ BG_SYNC_ROUTES.forEach(({ queueName, matcher, area, method }) => {
     },
   };
 
-  registerRoute(matcher, new NetworkOnly({ plugins: [bgSyncPlugin] }), method);
+  registerRoute(matcher, new NetworkOnly({ plugins: [queueOnFailurePlugin] }), method);
 });
 
 // ——————————————————————————————
-self.addEventListener('message', (event) => {
+self.addEventListener('message', async (event) => {
+  if (event.data === 'check_cache_status') {
+    const validation = await validatePrecacheIntegrity();
+    event.ports[0].postMessage(validation);
+    return;
+  }
+
   if (event.data === 'replay_queue') {
-    Object.values(queues).forEach(async ({ queue, area }) => {
-      const handler = createOnSyncHandler(area);
+    for (let { queue } of Object.values(queues)) {
+      const handler = createOnSyncHandler();
       try {
         await handler({ queue });
       } catch (err) {
         // Ignore errors during manual replay; they are logged by the handler anyway
       }
-    });
+    }
+  }
+
+  if (event.data === 'clear_queue') {
+    for (const { queue } of Object.values(queues)) {
+      while (await queue.shiftRequest()) {
+        // Keep removing until shiftRequest returns undefined
+      }
+    }
   }
 });

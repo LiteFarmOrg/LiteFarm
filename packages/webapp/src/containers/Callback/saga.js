@@ -82,7 +82,7 @@ export function* patchUserFarmStatusSaga({ payload }) {
       const { email } = decodeToken(invite_token);
       currentEmail !== email && logout();
       const translateKey =
-        e.response.data === 'Invitation link is used'
+        e.response?.data === 'Invitation link is used'
           ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
           : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(email)}`, {

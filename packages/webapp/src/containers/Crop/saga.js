@@ -202,7 +202,7 @@ export function* checkManagementPlanDependenciesSaga({ payload: data }) {
       header,
     );
   } catch (e) {
-    if (e.response.data === 'Cannot delete management plan with completed or abandonded tasks') {
+    if (e.response?.data === 'Cannot delete management plan with completed or abandonded tasks') {
       setShowCannotDeleteModal(true);
     }
   }

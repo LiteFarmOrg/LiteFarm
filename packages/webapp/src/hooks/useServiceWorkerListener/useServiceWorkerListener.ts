@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -23,6 +23,7 @@ import {
 import { getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
+import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
 
 type SyncArea =
   | 'tasks.create'
@@ -39,11 +40,15 @@ type SyncConfig = {
 };
 
 /**
- * Resolve specific kinds of task patch operations from the URL
+ * Resolve specific kinds of task operations from the URL and HTTP method.
  */
-function resolveAreaFromUrl(area: string, url: string): SyncArea {
-  if (area !== 'tasks.update') {
-    return area as SyncArea;
+function resolveAreaFromUrl(method: string, url: string): SyncArea {
+  if (method === 'POST') {
+    return 'tasks.create';
+  }
+
+  if (method === 'DELETE') {
+    return 'tasks.delete';
   }
 
   if (url.includes('/task/complete/')) {
@@ -56,12 +61,43 @@ function resolveAreaFromUrl(area: string, url: string): SyncArea {
   return 'tasks.update';
 }
 
+const LOG_BATCH_SIZE = 10;
+const LOG_BATCH_TIMEOUT_MS = 2000;
+
+type OfflineEventBuffer = Partial<OfflineEventPayload> & {
+  logs: OfflineEventPayload['logs'];
+};
+
 /**
  * Global listener for messages sent from the Service Worker (sw.js).
  */
 export function useServiceWorkerListener() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const logTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const logBufferRef = useRef<OfflineEventBuffer>({
+    logs: [],
+    auth: '',
+    farmId: '',
+  });
+
+  const flushLogs = () => {
+    const { auth, farmId, logs } = logBufferRef.current;
+
+    logBufferRef.current = { logs: [], auth: '', farmId: '' };
+
+    if (logTimeoutRef.current) {
+      clearTimeout(logTimeoutRef.current);
+      logTimeoutRef.current = null;
+    }
+
+    if (logs.length === 0 || !auth || !farmId) {
+      return;
+    }
+
+    recordOfflineEvent({ auth, farmId, logs });
+  };
 
   const syncConfig = useMemo(
     (): Record<SyncArea, SyncConfig> => ({
@@ -132,11 +168,10 @@ export function useServiceWorkerListener() {
 
       const { type, payload } = event.data;
 
-      const { area: rawArea, status, url } = payload || {};
+      const { method, status, url, queuedAt, auth, farm_id } = payload || {};
+      const area = resolveAreaFromUrl(method, url);
 
       if (type === 'SYNC_ITEM_SUCCESS') {
-        const area = resolveAreaFromUrl(rawArea, url);
-
         const handler = syncConfig[area as SyncArea];
         if (!handler) return;
 
@@ -161,14 +196,26 @@ export function useServiceWorkerListener() {
 
         // Refresh data regardless of success/failure
         refresh();
+
+        logBufferRef.current.logs.push({ eventName: area, eventAt: queuedAt, statusCode: status });
+
+        if (!logBufferRef.current.auth) {
+          logBufferRef.current.auth = auth;
+          logBufferRef.current.farmId = farm_id;
+        }
+
+        // Flush if batch size reached
+        if (logBufferRef.current.logs.length >= LOG_BATCH_SIZE) {
+          flushLogs();
+        } else if (!logTimeoutRef.current) {
+          logTimeoutRef.current = setTimeout(flushLogs, LOG_BATCH_TIMEOUT_MS);
+        }
       } else if (type === 'SYNC_ITEM_FAILURE') {
         /*
          * This indicates a failure to reach the server (e.g. API down). It should be rare.
-         * The background-sync-api retries automatically with exponential backoff (approx. 5 min on Chrome).
-         * See: https://developer.chrome.com/docs/workbox/modules/workbox-background-sync
+         * We will manually replay when the app is re-rendered.
          */
-        // We will also manually replay when the app comes back online.
-        switch (rawArea) {
+        switch (area) {
           case 'tasks.create':
             dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
             break;
@@ -197,19 +244,47 @@ export function useServiceWorkerListener() {
       }
     };
 
+    const handleOffline = () => {
+      // Clear any pending logs when going offline, since they will likely fail to send
+      if (logTimeoutRef.current) {
+        clearTimeout(logTimeoutRef.current);
+        logTimeoutRef.current = null;
+      }
+      logBufferRef.current.logs = [];
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        flushLogs();
+      }
+    };
+
     // It's possible for navigator.serviceWorker to be undefined in some environments (e.g. non-secure contexts or older browsers)
     if (swContainer) {
       swContainer.addEventListener('message', handleServiceWorkerMessage);
       window.addEventListener('online', replayQueue);
+      window.addEventListener('offline', handleOffline);
+      // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
+      window.addEventListener('visibilitychange', handleVisibilityChange);
 
       // Also replay queue on startup
-      replayQueue();
+      // Do not use Redux isOnline state here - it may not reflect the actual network status on initial render
+      if (window.navigator.onLine) {
+        replayQueue();
+      }
     }
 
     return () => {
       if (swContainer) {
         swContainer.removeEventListener('message', handleServiceWorkerMessage);
         window.removeEventListener('online', replayQueue);
+        window.removeEventListener('offline', handleOffline);
+        window.removeEventListener('visibilitychange', handleVisibilityChange);
+        if (logTimeoutRef.current) {
+          clearTimeout(logTimeoutRef.current);
+        }
+
+        flushLogs();
       }
     };
   }, [dispatch, t, syncConfig]);

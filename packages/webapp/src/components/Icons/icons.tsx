@@ -63,9 +63,6 @@ import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
-// Map
-import { ReactComponent as VideoLogo } from '../../assets/images/map/video.svg';
-
 // System
 import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
@@ -144,8 +141,6 @@ export const iconMap = {
   REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
-  // Map
-  VIDEO_LOGO: VideoLogo,
   // System
   EXTERNAL_LINK: ExternalLinkIcon,
   MORE_HORIZONTAL: MoreHorizontalIcon,

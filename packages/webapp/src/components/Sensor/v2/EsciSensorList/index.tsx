@@ -16,7 +16,8 @@
 import { History } from 'history';
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { VscLocation } from 'react-icons/vsc';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';

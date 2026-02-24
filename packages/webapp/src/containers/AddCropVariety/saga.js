@@ -31,7 +31,7 @@ export function* postVarietalSaga({ payload: varietal }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     //TODO remove toastr messages
-    if (e.response.data.violationError) {
+    if (e.response?.data?.violationError) {
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
       console.log('failed to add varietal to database already exists');
     } else {
@@ -94,7 +94,7 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
     history.push(`/crop/${result.data.variety.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
-    if (e.response.data.violationError) {
+    if (e.response?.data?.violationError) {
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD')));
@@ -122,7 +122,7 @@ export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
     if (
-      e.response.data.error ===
+      e.response?.data.error ===
       'This crop variety already exists, please choose a different variety name'
     ) {
       yield put(enqueueErrorSnackbar(i18n.t('translation:CROP.DUPLICATE_VARIETY')));

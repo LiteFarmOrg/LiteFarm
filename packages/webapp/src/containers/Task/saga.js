@@ -170,7 +170,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task update
@@ -231,7 +231,7 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task update
@@ -244,36 +244,36 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
 
 export const changeTaskWage = createAction('changeTaskWageSaga');
 
-export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
+export function* changeTaskWageSaga({
+  payload: { task_id, wage_at_moment, override_hourly_wage },
+}) {
   const { taskUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const patchData = { wage_at_moment, override_hourly_wage };
   try {
-    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);
-    yield put(putTaskSuccess({ wage_at_moment, task_id }));
+    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
+    yield put(putTaskSuccess({ ...patchData, task_id }));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      if (isOffline) {
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+      }
+
+      // Optimistic update for task wage update
+      yield put(putTaskSuccess({ ...patchData, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 
-export const updateUserFarmWage = createAction('updateUserFarmWageSaga');
-
-export function* updateUserFarmWageSaga({ payload: user }) {
-  const { userFarmUrl } = apiConfig;
-  const { user_id, farm_id } = yield select(loginSelector);
-  const target_user_id = user.user_id;
-  const patchWageUrl = `${userFarmUrl}/wage/farm/${farm_id}/user/${target_user_id}`;
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield call(axios.patch, patchWageUrl, user, header);
-    yield put(putUserSuccess({ ...user, farm_id }));
-  } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
-    console.error(e);
-  }
-}
-
+/**
+ * @deprecated No longer used in task assignment flows and should be removed in future
+ */
 export const setUserFarmWageDoNotAskAgain = createAction('setUserFarmWageDoNotAskAgainSaga');
 
 export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {
@@ -914,7 +914,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task completion
@@ -957,7 +957,7 @@ export function* abandonTaskSaga({ payload: data }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
       }
 
       // Optimistic update for task abandonment
@@ -1106,7 +1106,7 @@ export function* deleteTaskSaga({ payload: data }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task deletion
@@ -1130,7 +1130,6 @@ export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(changeTaskWage.type, changeTaskWageSaga);
-  yield takeLeading(updateUserFarmWage.type, updateUserFarmWageSaga);
   yield takeLeading(setUserFarmWageDoNotAskAgain.type, setUserFarmWageDoNotAskAgainSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);

@@ -36,6 +36,7 @@ export default defineConfig({
       filename: 'sw.js',
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg}'],
+        maximumFileSizeToCacheInBytes: 3 * 1024 ** 2, // 3MB
       },
     }),
   ],

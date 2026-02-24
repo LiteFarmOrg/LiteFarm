@@ -682,3 +682,28 @@ export interface MarketDirectoryPartnerPermissions extends BaseProperties {
   market_directory_info_id: string;
   market_directory_partner_id: number;
 }
+
+export interface UserFarm {
+  user_id: string;
+  farm_id: string;
+  role_id: number;
+  has_consent?: boolean;
+  status: 'Active' | 'Inactive' | 'Invited';
+  created_at: string;
+  consent_version: string;
+  wage?: {
+    type: 'hourly' | 'annually';
+    amount: { type?: number };
+  };
+  step_one?: boolean;
+  step_one_end?: string;
+  step_two?: boolean;
+  step_two_end?: string;
+  step_three?: boolean;
+  step_three_end?: string;
+  step_four?: boolean;
+  step_four_end?: string;
+  step_five?: boolean;
+  step_five_end?: string;
+  wage_do_not_ask_again?: boolean;
+}

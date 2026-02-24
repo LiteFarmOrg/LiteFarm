@@ -21,7 +21,7 @@ import {
   SelectOption,
 } from '../../Form/ReactSelect/CheckboxMultiSelect/index';
 
-interface OfflineLocationPickerProps {
+interface DropdownLocationPickerProps {
   locations: Location[];
   isMulti?: boolean;
   onSelectLocation: (location_id: string) => void;
@@ -36,14 +36,14 @@ interface LocationOption {
 }
 
 // Offline-compatible version of the Google Maps location picker; presents farm locations as a searchable dropdown
-const OfflineLocationPicker = ({
+const DropdownLocationPicker = ({
   locations,
   isMulti = true,
   onSelectLocation,
   clearLocations,
   selectedLocationIds,
   disabled = false,
-}: OfflineLocationPickerProps) => {
+}: DropdownLocationPickerProps) => {
   const options = locations.map(({ location_id, name }) => ({
     value: location_id,
     label: name,
@@ -79,17 +79,6 @@ const OfflineLocationPicker = ({
         onChange={handleChange}
         isDisabled={disabled}
       />
-
-      // Wait, maybe we just want this???!
-      // <Select
-      //   isMulti
-      //   options={options}
-      //   value={selectedOptions}
-      //   isDisabled={disabled}
-      //   onChange={handleChange}
-      //   isClearable
-      //   components={{ IndicatorSeparator: null }}
-      // />
     );
   }
 
@@ -113,4 +102,4 @@ const OfflineLocationPicker = ({
   );
 };
 
-export default OfflineLocationPicker;
+export default DropdownLocationPicker;

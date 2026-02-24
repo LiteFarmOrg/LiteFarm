@@ -133,7 +133,6 @@
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
     "DUPLICATE_NAME": "Um produto com este nome já existe. Por favor escolha outro.",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
-    "EDIT_TASK_WAGE": "",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",
       "TYPE": {
@@ -154,7 +153,6 @@
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
-      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
       "FOR_THIS_TASK": "Sim, somente para esta tarefa",
@@ -211,23 +209,16 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Por favor, descreva a finalidade deste movimento"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Você precisará de uma localização ou área onde os animais podem ser movidos. Vá ao mapa para criar uma localização do animal.",
-    "NEED_IRRIGATION_LOCATION": "",
-    "NEED_IRRIGATION_LOCATION_WORKER": "",
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Parece que você não tem um produto de correção de solo ainda. Vá ao inventário para adicionar um antes de criar sua tarefa de correção de solo.",
     "NEED_SOIL_SAMPLE_LOCATION": "Você precisará de um local específico designado para fazer a amostragem do solo. Vá para o mapa para criar um local de amostragem do solo.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Você precisará de gerenciamento para criar pelo menos um local de amostra do solo antes de criar uma tarefa de amostra do solo.",
     "NO_ANIMAL_LOCATION": "Nenhum local elegível para animais",
-    "NO_IRRIGATION_LOCATIONS": "",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Adicione primeiro um produto com correção de solo",
     "NO_SOIL_SAMPLE_LOCATION": "Nenhum local de amostra de solo elegível",
     "NOTES_LABEL": "Algo específico para adicionar relacionado a esta tarefa?",
     "NOTES_PLACEHOLDER": "Adicione quaisquer instruções ou especificações para o responsável",
-    "OFFLINE_NOTICE": {
-      "CANNOT_ADD_NEW": "",
-      "YOURE_OFFLINE": ""
-    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -296,12 +287,6 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "TASK_SPECIFIC_HOURLY_WAGE": "",
-    "TASK_WAGE": {
-      "NO_TASK_WAGE": "",
-      "TASK_WAGE_SET": "",
-      "WANT_TO_SET_HOURLY_WAGE": ""
-    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Ao clicar em \"Salvar\", esta tarefa será salva imediatamente. Em seguida, será solicitado que você a conclua.",
@@ -1162,14 +1147,6 @@
       "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
       "TITLE": "Matéria Orgânica do Solo"
     },
-    "TAPE": {
-      "COMPLETED": "",
-      "IN_PROGRESS": "",
-      "NOT_FILLED": "",
-      "RESULTS_TITLE": "",
-      "TITLE": "",
-      "UPDATE_ANSWERS": ""
-    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },
@@ -1179,7 +1156,7 @@
   },
   "INVENTORY": {
     "PRODUCT_NAME": "Nome do Produto",
-    "PRODUCT_TYPE": "",
+    "PRODUCT_TYPE": "Tipo de Produto",
     "REMOVE_CONFIRMATION": {
       "BODY": "Tem certeza que deseja remover o produto <strong>{{name}}</strong> do inventário?",
       "TITLE": "Remover produto do inventário?"
@@ -1238,7 +1215,7 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Profundidade do aplicativo",
     "APPROVE_AND_CREATE_TASK": "Ao aprovar, você criará uma tarefa de irrigação",
-    "AVAILABLE_SOIL_MOISTURE": "",
+    "AVAILABLE_SOIL_MOISTURE": "Humidade de solo disponível",
     "DATA_FROM": "Dados de",
     "ESTIMATED_WATER_CONSUMPTION": "Consumo estimado de água",
     "ET_RATE": "Taxa ET",
@@ -1477,7 +1454,7 @@
     "AGREE_WITH_TERMS": "Ao compartilhar seus dados com {{ partner }}, você concorda com os <3>Termos de Um</3>",
     "COMPLETE_PROFILE": "Complete seu perfil abaixo para começar e promover seus produtos. Você só precisa passar por este processo uma vez. Você pode atualizar seus dados compartilhados e desativar a qualquer momento.",
     "CONSENT": {
-      "ALMOST_READY": "",
+      "ALMOST_READY": "Você está quase pronto para ser publicado! Basta preencher os detalhes ausentes no formulário de informação do diretório de Mercado acima primeiro.",
       "CONSENT_TO_SHARE_INFORMATION": "Eu concordo em compartilhar as informações acima com diretórios de parceiros confiáveis. Posso revogar o consentimento a qualquer momento.<br />O consentimento revogará a LiteFarm de sincronizar seus dados. Suas informações ainda podem existir no diretório de parceiros — talvez você precise solicitar a remoção diretamente.",
       "I_AGREE": "Concordo",
       "SEE_ALL_DATA": "Ver todos os dados que serão compartilhados",
@@ -1500,7 +1477,7 @@
       "INVALID_ADDRESS": "Endereço inválido",
       "INVALID_USERNAME_OR_URL": "Formato inválido para {{social}}",
       "INVALID_WEBSITE": "Site inválido",
-      "ONLINE_PRESENCE": "",
+      "ONLINE_PRESENCE": "Presença online",
       "PHONE_NUMBER": "Número de telefone",
       "PRIVATE_INFO_NOTE": "Campos privados serão compartilhados com parceiros do diretório, mas não serão publicados",
       "PRODUCT_CATEGORY": "Categoria de produto",
@@ -1516,7 +1493,7 @@
       "PRODUCTS_AND_SERVICES": "Produtos e Serviços",
       "PRODUCTS_CATEGORIES": "Categoria de produto"
     },
-    "KNOW_A_MARKETPLACE": "",
+    "KNOW_A_MARKETPLACE": "Sabe de um mercado que devemos apoiar?<br />Compartilhe-o conosco.",
     "MARKET_DIRECTORIES": "Diretórios de mercado",
     "MARKET_DIRECTORY_INFO": "Pasta do mercado",
     "NO_PARTNER": "Não temos nenhum parceiro em sua localização por enquanto.",
@@ -1621,25 +1598,6 @@
       "BODY": "Você tem tarefas não atribuídas para esta semana.",
       "TITLE": "Tarefas não atribuídas"
     }
-  },
-  "OFFLINE": {
-    "ARE_OFFLINE": "",
-    "BADGE": {
-      "TITLE": "",
-      "TOOLTIP_CONTENT": ""
-    },
-    "CHANGES_WILL_SYNC": "",
-    "LOG_OUT_MODAL": {
-      "INFO": "",
-      "TITLE": ""
-    },
-    "NOT_READY_BADGE": {
-      "TITLE": "",
-      "TOOLTIP_CONTENT": ""
-    },
-    "NOT_READY_WARNING": "",
-    "PREPARE_TO_WORK_OFFLINE": "",
-    "REFRESH": ""
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",
@@ -1835,7 +1793,7 @@
   },
   "REVISION_PROMPT": {
     "FIX_IT_NOW": "Corrigir agora",
-    "NOTICED_SOMETHING_OFF": "",
+    "NOTICED_SOMETHING_OFF": "Você notou alguma coisa estranha?",
     "UPDATE_THIS_TASK": "Você pode revisitar e atualizar as informações que você enviou para esta tarefa."
   },
   "ROLE_SELECTION": {
@@ -2177,8 +2135,7 @@
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
-    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório",
-    "WILL_SAVE_ONLINE": ""
+    "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório"
   },
   "UNIT": {
     "TIME": {
@@ -2205,7 +2162,7 @@
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "HOURLY_WAGE_TOOLTIP": "Os salários por hora podem ser definidos selecionando um indivíduo na guia Pessoas em 'minha fazenda'"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

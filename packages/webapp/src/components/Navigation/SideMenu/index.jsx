@@ -71,6 +71,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 
 const SideMenuContent = ({ closeDrawer, isCompact, hasBeenExpanded }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -96,10 +97,9 @@ const SideMenuContent = ({ closeDrawer, isCompact, hasBeenExpanded }) => {
   const getMenuItemProps = (key, label, path, className) => {
     const isViewOnly = offline && offlineViewOnlyPageKeys.has(key);
     const isDisabled = offline && offlineDisabledPageKeys.has(key);
-    const isActive = matchPath(history.location.pathname, path);
+    const isActive = matchPath(location.pathname, path);
 
     return {
-      history,
       path,
       'aria-label': label + (isViewOnly ? ' - view only page' : ''),
       disabled: isDisabled,

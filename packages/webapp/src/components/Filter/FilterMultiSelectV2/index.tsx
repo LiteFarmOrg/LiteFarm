@@ -69,7 +69,7 @@ export const FilterMultiSelectV2 = ({
     onChange?.(
       produce(defaultFilterState, (defaultFilterState) => {
         for (const option of updatedValue) {
-          defaultFilterState[String(option.value)].active = true;
+          defaultFilterState[option.value].active = true;
         }
       }),
     );

@@ -130,7 +130,10 @@ export function useServiceWorkerListener() {
             return invalidateTags(['Animals', 'AnimalBatches']);
           }
         },
-        refresh: () => dispatch(getTasks()),
+        refresh: () => {
+          dispatch(getProducts());
+          dispatch(getTasks());
+        },
       },
       'tasks.abandon': {
         successMessage: t('message:TASK.ABANDON.SYNC.SUCCESS'),

@@ -38,6 +38,7 @@ import {
   getProductsSaga,
   getTaskTypesSaga,
   getTasksSaga,
+  getTasksSuccessSaga,
 } from './Task/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
@@ -152,6 +153,7 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api, resetApiState } from '../store/api/apiSlice';
+import { libraryApi } from '../store/api/libraryApiSlice';
 import {
   getSoilSampleLocationsSuccess,
   onLoadingSoilSampleLocationFail,
@@ -614,10 +616,10 @@ export function* fetchAllSaga() {
     call(getAllUserFarmsByFarmIDSaga),
     put(getFieldWorkTypes()),
     put(getIrrigationTaskTypes()),
-    put(api.endpoints.getSoilAmendmentMethods.initiate()),
-    put(api.endpoints.getSoilAmendmentPurposes.initiate()),
-    put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
-    put(api.endpoints.getAnimalMovementPurposes.initiate()),
+    put(libraryApi.endpoints.getSoilAmendmentMethods.initiate()),
+    put(libraryApi.endpoints.getSoilAmendmentPurposes.initiate()),
+    put(libraryApi.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
+    put(libraryApi.endpoints.getAnimalMovementPurposes.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
@@ -629,15 +631,15 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimals.initiate()),
     put(api.endpoints.getAnimalBatches.initiate()),
     put(api.endpoints.getDefaultAnimalTypes.initiate()),
-    put(api.endpoints.getDefaultAnimalBreeds.initiate()),
+    put(libraryApi.endpoints.getDefaultAnimalBreeds.initiate()),
     put(api.endpoints.getCustomAnimalTypes.initiate()),
     put(api.endpoints.getCustomAnimalBreeds.initiate()),
-    put(api.endpoints.getAnimalSexes.initiate()),
-    put(api.endpoints.getAnimalIdentifierTypes.initiate()),
-    put(api.endpoints.getAnimalIdentifierColors.initiate()),
-    put(api.endpoints.getAnimalMovementPurposes.initiate()),
-    put(api.endpoints.getAnimalOrigins.initiate()),
-    put(api.endpoints.getAnimalUses.initiate()),
+    put(libraryApi.endpoints.getAnimalSexes.initiate()),
+    put(libraryApi.endpoints.getAnimalIdentifierTypes.initiate()),
+    put(libraryApi.endpoints.getAnimalIdentifierColors.initiate()),
+    put(libraryApi.endpoints.getAnimalMovementPurposes.initiate()),
+    put(libraryApi.endpoints.getAnimalOrigins.initiate()),
+    put(libraryApi.endpoints.getAnimalUses.initiate()),
   ]);
 
   const {

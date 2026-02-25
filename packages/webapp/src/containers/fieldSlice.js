@@ -14,7 +14,10 @@ export const getLocationObjectFromField = (data) => {
     },
     field: {
       ...pick(data, fieldProperties),
-      organic_history: { effective_date: getDateInputFormat(), organic_status: data.organic_status },
+      organic_history: {
+        effective_date: getDateInputFormat(),
+        organic_status: data.organic_status,
+      },
     },
     ...pick(data, locationProperties),
   };
@@ -90,10 +93,3 @@ export const fieldsSelector = createSelector(
 
 export const fieldSelector = (location_id) =>
   createSelector(fieldEntitiesSelector, (entities) => entities[location_id]);
-
-export const fieldStatusSelector = createSelector(
-  [fieldReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

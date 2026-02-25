@@ -90,10 +90,3 @@ export const surfaceWatersSelector = createSelector(
 
 export const surfaceWaterSelector = (location_id) =>
   createSelector(surfaceWaterEntitiesSelector, (entities) => entities[location_id]);
-
-export const surfaceWaterStatusSelector = createSelector(
-  [surfaceWaterReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

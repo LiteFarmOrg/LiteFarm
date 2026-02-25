@@ -91,10 +91,3 @@ export const bufferZonesSelector = createSelector(
 
 export const bufferZoneSelector = (location_id) =>
   createSelector(bufferZoneEntitiesSelector, (entities) => entities[location_id]);
-
-export const bufferZoneStatusSelector = createSelector(
-  [bufferZoneReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

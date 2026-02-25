@@ -51,4 +51,4 @@ jobs:
         run: npm install
 
       - name: Run linters
-        run: npx eslint@^9 './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'
+        run: npx eslint@9.39.2 './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'

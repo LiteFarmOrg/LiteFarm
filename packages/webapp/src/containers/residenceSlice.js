@@ -88,10 +88,3 @@ export const residencesSelector = createSelector(
 
 export const residenceSelector = (location_id) =>
   createSelector(residenceEntitiesSelector, (entities) => entities[location_id]);
-
-export const residenceStatusSelector = createSelector(
-  [residenceReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

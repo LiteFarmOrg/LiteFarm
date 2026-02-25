@@ -91,10 +91,3 @@ export const ceremonialsSelector = createSelector(
 
 export const ceremonialSelector = (location_id) =>
   createSelector(ceremonialEntitiesSelector, (entities) => entities[location_id]);
-
-export const ceremonialStatusSelector = createSelector(
-  [ceremonialReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

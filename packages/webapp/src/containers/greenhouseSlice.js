@@ -21,7 +21,10 @@ export const getLocationObjectFromGreenHouse = (data) => {
     },
     greenhouse: {
       ...pick(data, greenHouseProperties),
-      organic_history: { effective_date: getDateInputFormat(), organic_status: data.organic_status },
+      organic_history: {
+        effective_date: getDateInputFormat(),
+        organic_status: data.organic_status,
+      },
     },
     ...pick(data, locationProperties),
   };
@@ -101,10 +104,3 @@ export const greenhousesSelector = createSelector(
 
 export const greenhouseSelector = (location_id) =>
   createSelector(greenhouseEntitiesSelector, (entities) => entities[location_id]);
-
-export const greenhouseStatusSelector = createSelector(
-  [greenhouseReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

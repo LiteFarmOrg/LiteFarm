@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -30,7 +31,7 @@ export function* postGardenLocationSaga({ payload: data }) {
       header,
     );
     yield put(postGardenSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GARDEN'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
@@ -69,7 +70,7 @@ export function* editGardenLocationSaga({ payload: data }) {
       header,
     );
     yield put(editGardenSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.GARDEN'),
@@ -104,6 +105,7 @@ export function* deleteGardenLocationSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteGardenSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.GARDEN'),

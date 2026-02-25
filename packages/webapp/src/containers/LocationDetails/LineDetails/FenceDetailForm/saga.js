@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -31,7 +32,7 @@ export function* postFenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(postFenceSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
@@ -70,7 +71,7 @@ export function* editFenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(editFenceSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
@@ -102,6 +103,7 @@ export function* deleteFenceLocationSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteFenceSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.FENCE'),

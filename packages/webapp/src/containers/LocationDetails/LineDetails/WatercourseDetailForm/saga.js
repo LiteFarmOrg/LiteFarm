@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -31,7 +32,7 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       header,
     );
     yield put(postWatercourseSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
@@ -73,7 +74,7 @@ export function* editWatercourseLocationSaga({ payload: data }) {
       header,
     );
     yield put(editWatercourseSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
@@ -108,6 +109,7 @@ export function* deleteWatercourseLocationSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteWatercourseSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),

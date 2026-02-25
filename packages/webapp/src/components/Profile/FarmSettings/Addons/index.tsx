@@ -23,7 +23,7 @@ import { ReactComponent as BrokenLinkIcon } from '../../../../assets/images/link
 import styles from './styles.module.scss';
 import { Partner } from '../../../AddSensors/Partners';
 import Button from '../../../Form/Button';
-import ModalComponent from '../../../Modals/ModalComponent/v2';
+import ModalComponent from '../../../Modals/ModalComponent/v3';
 import { AddonPartner } from '../../../../types';
 import { createSensorsUrl } from '../../../../util/siteMapConstants';
 
@@ -127,16 +127,15 @@ const DisconnectModal = ({ title, infoText, onConfirm, onCancel }: DisconnectMod
     <ModalComponent
       title={title}
       dismissModal={onCancel}
-      className={styles.disconnectModal}
       buttonGroup={
-        <div className={styles.modalButtonGroup}>
+        <>
           <Button onClick={onCancel} color="secondary-cta" sm>
             {t('ADDON.DISCONNECT_MODAL.CANCEL')}
           </Button>
           <Button onClick={onConfirm} color="primary" sm>
             {t('ADDON.DISCONNECT_MODAL.CONFIRM')}
           </Button>
-        </div>
+        </>
       }
     >
       {infoText}

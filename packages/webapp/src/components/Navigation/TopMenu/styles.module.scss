@@ -1,8 +1,8 @@
-
 .appBar {
   background-color: var(--bgInputListTile);
-  box-shadow: 0px 2px 0px 0px #0000000D;
+  box-shadow: 0px 2px 0px 0px #0000000d;
   height: var(--global-navbar-height);
+  padding-top: var(--offline-indicator-offset);
 }
 
 .toolbar {
@@ -32,7 +32,18 @@
 }
 
 .notificationButton {
-  transform: translateY(1px);
+  transform: translate(4px, 1px);
+  padding: 4px;
+  border-radius: 4px;
+
+  &:disabled {
+    border-radius: 4px;
+    background: var(--Colors-Neutral-Neutral-50);
+
+    svg path {
+      stroke: var(--Colors-Neutral-Neutral-200);
+    }
+  }
 }
 
 .menuList {
@@ -51,8 +62,8 @@
 }
 
 .drawerMenuPaper {
-  border-radius: var(--Spaces-4x, 16px) var(--Spaces-4x, 16px) 0px 0px ;
-  box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.10);
+  border-radius: var(--Spaces-4x, 16px) var(--Spaces-4x, 16px) 0px 0px;
+  box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
 .drawerMenuList {
@@ -72,12 +83,12 @@
 .menuItemRoot {
   width: 100%;
   padding: 16px 22px 16px 14px;
-  border-top: 1px solid #E9EBF8;
+  border-top: 1px solid #e9ebf8;
   align-items: center;
 
-//   &:hover {
-//     background-color: var(--teal50);
-//   }
+  //   &:hover {
+  //     background-color: var(--teal50);
+  //   }
 }
 
 .itemTextRoot {
@@ -103,4 +114,23 @@
 
 .sectionHeader {
   margin-left: 16px;
+}
+
+/* Disabled menu item style */
+.menuItemRoot.menuItemDisabled {
+  opacity: 1;
+  border-color: var(--White);
+  background: var(--Colors-Neutral-Neutral-50);
+
+  .listItemIconRoot svg path {
+    stroke: var(--Colors-Neutral-Neutral-200);
+  }
+
+  .itemTextRoot {
+    color: var(--Colors-Neutral-Neutral-200);
+  }
+
+  .itemTextRoot + svg path {
+    fill: var(--Colors-Neutral-Neutral-200);
+  }
 }

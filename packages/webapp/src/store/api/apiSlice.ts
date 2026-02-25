@@ -100,6 +100,8 @@ export const api = createApi({
     responseHandler: 'content-type',
   }),
   tagTypes: API_TAGS,
+  keepUnusedDataFor: 60 * 60 * 24 * 7, // 7 days
+  refetchOnMountOrArgChange: 60,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -161,6 +163,18 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
+      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
@@ -169,6 +183,18 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
+      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     deleteAnimals: build.mutation<Animal[], number[]>({
@@ -177,6 +203,18 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
+      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     deleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
@@ -185,6 +223,18 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
+      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     addAnimals: build.mutation<Animal[], Partial<Animal>[]>({
@@ -193,6 +243,19 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
@@ -201,6 +264,19 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: [
         'AnimalBatches',
         'DefaultAnimalTypes',
@@ -210,10 +286,36 @@ export const api = createApi({
     }),
     updateAnimals: build.mutation<void, Partial<Animal>[]>({
       query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
       query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: [
         'AnimalBatches',
         'DefaultAnimalTypes',

@@ -78,6 +78,7 @@
 
   &.openD {
     bottom: 0;
+    max-height: calc(100% - var(--offline-indicator-offset));
   }
 }
 

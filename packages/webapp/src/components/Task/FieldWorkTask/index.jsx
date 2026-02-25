@@ -5,7 +5,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
 import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { fieldWorkSliceSliceSelector } from '../../../containers/fieldWorkSlice';
+import { fieldWorkTypeSliceSelector } from '../../../containers/fieldWorkTypeSlice';
 
 const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
   const option = fieldWorkTypeOptions.filter(({ field_work_type_id }) => {
@@ -31,7 +31,7 @@ const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
 const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
   const { t } = useTranslation();
 
-  const fieldWorkTypes = useSelector(fieldWorkSliceSliceSelector)?.fieldWorkTypes || [];
+  const fieldWorkTypes = useSelector(fieldWorkTypeSliceSelector)?.fieldWorkTypes || [];
   const dispatch = useDispatch();
   const [fieldWorkTypeOptions, setFieldWorkTypeOptions] = useState([]);
 

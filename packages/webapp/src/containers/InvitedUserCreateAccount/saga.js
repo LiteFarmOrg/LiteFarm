@@ -54,10 +54,10 @@ export function* acceptInvitationWithSSOSaga({
     history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    if (e.response.status === 401) {
+    if (e.response?.status === 401) {
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
         error:
-          e.response.data === 'Invitation link is used'
+          e.response?.data === 'Invitation link is used'
             ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
             : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });
@@ -99,10 +99,10 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    if (e.response.status === 401) {
+    if (e.response?.status === 401) {
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
         error:
-          e.response.data === 'Invitation link is used'
+          e.response?.data === 'Invitation link is used'
             ? i18n.t('SIGNUP.USED_INVITATION_LINK_ERROR')
             : i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });

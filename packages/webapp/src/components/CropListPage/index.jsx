@@ -11,6 +11,7 @@ import PageBreak from '../PageBreak';
 import Square from '../Square';
 import { AddLink } from '../Typography';
 import { Variant } from '../RouterTab/Tab';
+import navStyles from '@navStyles';
 
 export default function PureCropList({
   onFilterChange,
@@ -64,6 +65,7 @@ export default function PureCropList({
             cursor: 'pointer',
           }}
           onClick={onAddCrop}
+          className={navStyles.hideWhenOffline}
         >
           <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>
         </div>

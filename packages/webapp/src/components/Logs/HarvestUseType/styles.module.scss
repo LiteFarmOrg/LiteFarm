@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .logContainer {
   width: 100%;
@@ -32,7 +32,6 @@
   --emptySpace: calc(26.8vw - 48px);
   --gap: calc(var(--emptySpace) / 2);
   column-gap: var(--gap);
-
 }
 
 .matrixItem {
@@ -48,7 +47,6 @@
   padding: 0 4px;
   overflow: hidden;
   cursor: pointer;
-
 
   svg {
     width: 13.3vw;
@@ -75,7 +73,6 @@
 
 @media only screen and (min-width: 480px) {
   .matrixContainer {
-
     row-gap: 5.2vw;
 
     --emptySpace: calc(23.76vw - 48px);
@@ -118,8 +115,6 @@
     font-size: 14px;
     line-height: 20px;
   }
-
-
 }
 
 @media only screen and (min-width: 734px) {
@@ -130,7 +125,6 @@
   }
 }
 
-
 @media only screen and (min-width: 876px) {
   .matrixContainer {
     --emptySpace: calc(100% - 708px);
@@ -139,13 +133,11 @@
   }
 }
 
-
 @media only screen and (min-width: 1024px) {
   .matrixContainer {
-    gap: 25px
+    gap: 25px;
   }
 }
-
 
 .buttonContainer {
   width: 100%;

@@ -15,7 +15,8 @@
 
 import { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useTranslation, TFunction, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,

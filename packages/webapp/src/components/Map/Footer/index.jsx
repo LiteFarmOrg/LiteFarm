@@ -44,6 +44,7 @@ export default function PureMapFooter({
   },
   isMapFilterSettingActive = false,
   isCompactSideMenu,
+  isOffline,
 }) {
   const { t } = useTranslation();
 
@@ -90,6 +91,7 @@ export default function PureMapFooter({
           handleClickFilter={handleClickFilter}
           onClickExport={onClickExport}
           isMapFilterSettingActive={isMapFilterSettingActive}
+          isOffline={isOffline}
         />
       </FloatingContainer>
       <MapDrawer
@@ -139,4 +141,5 @@ PureMapFooter.prototype = {
     line: PropTypes.array,
   }),
   isMapFilterSettingActive: PropTypes.bool,
+  isOffline: PropTypes.bool,
 };

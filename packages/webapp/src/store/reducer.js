@@ -27,6 +27,7 @@ import userLogReducer from '../containers/userLogSlice';
 import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
+import offlineReadinessReducer from '../hooks/useOfflineReadiness/offlineReadinessSlice';
 
 import barnReducer from '../containers/barnSlice';
 import ceremonialReducer from '../containers/ceremonialSlice';
@@ -81,10 +82,12 @@ import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlic
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
-import fieldWorkReducer from '../containers/fieldWorkSlice';
+import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
+// LF-5131 Restore TAPE
+// import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -203,7 +206,7 @@ const entitiesReducer = combineReducers({
   harvestUseTypeReducer,
   productReducer,
   mapAddDrawerReducer,
-  fieldWorkReducer,
+  fieldWorkTypeReducer,
   irrigationTaskReducer,
   irrigationTaskTypesReducer,
   revenueTypeReducer,
@@ -211,6 +214,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
+  // tapeSurveyReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -229,6 +233,7 @@ const tempStateReducer = combineReducers({
   snackbarReducer,
   customSignUpReducer,
   offlineDetectorReducer,
+  offlineReadinessReducer,
 });
 
 // combine all reducers here and pass it to application

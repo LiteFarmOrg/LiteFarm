@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .planting_label {
   margin-bottom: 24px;
@@ -38,4 +38,8 @@
 
 .switchContainer {
   margin-bottom: 24px;
+}
+
+.dropdownLocationPickerContainer {
+  margin-bottom: 32px;
 }

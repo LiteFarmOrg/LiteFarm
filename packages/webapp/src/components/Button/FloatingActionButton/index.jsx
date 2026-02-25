@@ -18,12 +18,13 @@ import PropTypes from 'prop-types';
 import { Fab } from '@mui/material';
 import styles from './styles.module.scss';
 
-const FloatingActionButton = forwardRef(({ type, className, ...props }, ref) => {
+const FloatingActionButton = forwardRef(({ type, className, disabled, ...props }, ref) => {
   return (
     <Fab
       color="yellow300"
-      className={clsx(styles.floatingActionButton, styles[type])}
+      className={clsx(styles.floatingActionButton, styles[type], disabled && styles.disabled)}
       ref={ref}
+      disabled={disabled}
       {...props}
     />
   );
@@ -32,6 +33,8 @@ const FloatingActionButton = forwardRef(({ type, className, ...props }, ref) => 
 FloatingActionButton.displayName = 'FloatingActionButton';
 FloatingActionButton.propTypes = {
   type: PropTypes.oneOf(['add']),
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default FloatingActionButton;

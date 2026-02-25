@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
@@ -86,7 +86,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.9.0',
+    release: '3.10.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -154,9 +154,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <ErrorBoundary FallbackComponent={ReactErrorFallback}>
                   <Router history={history}>
-                    <>
+                    <Suspense fallback={null}>
                       <App />
-                    </>
+                    </Suspense>
                   </Router>
                 </ErrorBoundary>
               </LocalizationProvider>

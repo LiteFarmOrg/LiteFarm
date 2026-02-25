@@ -97,6 +97,7 @@ export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
 export const marketProductCategoryUrl = `${URI}/market_product_categories`;
 export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
 export const supportTicketUrl = `${URI}/support_ticket`;
+export const offlineEventLogUrl = `${URI}/offline_event_log`;
 
 export const url = URI;
 

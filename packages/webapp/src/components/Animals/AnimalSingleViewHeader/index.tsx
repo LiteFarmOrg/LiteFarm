@@ -14,7 +14,8 @@
  */
 
 import { ReactNode } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -35,6 +36,7 @@ import {
   chooseAnimalTypeLabel,
 } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import styles from './styles.module.scss';
+import navStyles from '@navStyles';
 
 type MenuItemProps = { iconName: IconName; text: string };
 
@@ -112,7 +114,9 @@ const ContainerWithButtons = ({
           <MeatballsMenu
             disabled={!!isEditing}
             options={options}
-            classes={{ button: isEditing ? styles.editingStatusButton : '' }}
+            classes={{
+              button: clsx(isEditing ? styles.editingStatusButton : '', navStyles.hideWhenOffline),
+            }}
           />
         )}
       </div>

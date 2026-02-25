@@ -1,12 +1,12 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .label {
-    font-style: normal;
-    font-weight: normal;
-    color: var(--grey900);
-    font-size: 16px;
-    line-height: 16px;
-    @include fontFamily();
-    margin-bottom: 4px;
-    margin-top: 0;
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey900);
+  font-size: 16px;
+  line-height: 16px;
+  @include fontFamily();
+  margin-bottom: 4px;
+  margin-top: 0;
 }

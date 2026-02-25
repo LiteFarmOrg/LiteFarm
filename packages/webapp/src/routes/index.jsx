@@ -60,9 +60,11 @@ const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('../containers/Insights/Prices'));
+/* LF-5131 Restore TAPE */
+// const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'));
+// const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
-const MapVideo = React.lazy(() => import('../components/Map/Videos'));
 const PostFarmSiteBoundaryForm = React.lazy(
   () =>
     import(
@@ -553,7 +555,6 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route path="/map/videos" exact children={<MapVideo />} />
                     <Route
                       path="/create_location/farm_site_boundary"
                       exact
@@ -647,6 +648,9 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    {/* LF-5131 Restore TAPE */}
+                    {/* <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} /> */}
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
@@ -937,7 +941,6 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route path="/map/videos" exact children={<MapVideo />} />
                     <Route
                       path="/create_location/farm_site_boundary"
                       exact
@@ -1037,6 +1040,8 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    {/* <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} /> */}
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
@@ -1229,6 +1234,8 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
                     <Route path="/insights/prices" exact children={<Prices />} />
+                    {/* <Route path="/insights/tape" exact children={<TapeSurvey />} />
+                    <Route path="/insights/tape/results" exact children={<TapeResults />} /> */}
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
                     <Route

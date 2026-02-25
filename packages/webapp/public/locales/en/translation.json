@@ -133,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "DUPLICATE_NAME": "A product with this name already exists. Please choose another.",
     "EDIT_CUSTOM_TASK": "Edit custom task",
+    "EDIT_TASK_WAGE": "Edit task wage",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
@@ -153,6 +154,7 @@
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "{{name}}'s hourly wage is {{wage}}/hr",
       "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
       "DONT_ASK": "No, do not ask again for this employee",
       "FOR_THIS_TASK": "Yes, just for this task",
@@ -209,16 +211,23 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Please describe the reason for this movement"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "You'll need a location or area where animals can be moved. Go to the map to create an animal location.",
+    "NEED_IRRIGATION_LOCATION": "To create an irrigation task, you first need a location that can support crops. Go to the map to create one, such as a field, greenhouse, or buffer zone.",
+    "NEED_IRRIGATION_LOCATION_WORKER": "You'll need management to create a location that can support crops before you can create an irrigation task.",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Looks like you don’t have a soil amendment product yet. Head to the inventory to add one before creating your soil amendment task.",
     "NEED_SOIL_SAMPLE_LOCATION": "You'll need a specific location designated to sample the soil. Go to the map to create a soil sampling location.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "You’ll need management to create at least one soil sample location before you can create a soil sample task.",
     "NO_ANIMAL_LOCATION": "No eligible animal locations",
+    "NO_IRRIGATION_LOCATIONS": "No locations available for irrigation",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Add a soil amendment product first",
     "NO_SOIL_SAMPLE_LOCATION": "No eligible soil sample locations",
     "NOTES_LABEL": "Anything specific to add related to this task?",
     "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "You can use existing locations, crops and products in your tasks, but you cannot add new ones while offline.",
+      "YOURE_OFFLINE": "You're offline"
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",
@@ -287,6 +296,12 @@
     },
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+    "TASK_SPECIFIC_HOURLY_WAGE": "Task-specific hourly wage",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "There is no wage set for this task",
+      "TASK_WAGE_SET": "The hourly wage for this task is set to <strong>{{wage}} per hour</strong>",
+      "WANT_TO_SET_HOURLY_WAGE": "Set an hourly wage just for this task?"
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",
     "THIS_TASK_IS_COMPLETED": "This task has already been completed",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Clicking 'Save' will immediately save this task. You'll then be prompted to complete it.",
@@ -963,7 +978,6 @@
         "TITLE": "Draw a line"
       }
     },
-    "TUTORIALS": "Map Tutorials",
     "UNABLE_TO_RETIRE": {
       "BODY": "You can only retire locations that have no active or planned crops, no animals or tasks.",
       "TITLE": "Unable to retire"
@@ -1146,6 +1160,14 @@
       "HEADER": "Soil Organic Matter",
       "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
+    },
+    "TAPE": {
+      "COMPLETED": "Completed - See your results",
+      "IN_PROGRESS": "In progress",
+      "NOT_FILLED": "Not filled",
+      "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
+      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
+      "UPDATE_ANSWERS": "Update your answers"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
@@ -1598,6 +1620,25 @@
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "You're offline. Some actions are unavailable.",
+    "BADGE": {
+      "TITLE": "Offline",
+      "TOOLTIP_CONTENT": "We can't reach the network right now.<br><br>You can continue in offline mode. Some sections will be view-only, but Tasks is fully available."
+    },
+    "CHANGES_WILL_SYNC": "Any changes you make will sync when you're back online.",
+    "LOG_OUT_MODAL": {
+      "INFO": "You won't be able to log back in while offline. All changes made while offline will be lost after logging out.",
+      "TITLE": "Are you sure you want to logout?"
+    },
+    "NOT_READY_BADGE": {
+      "TITLE": "Info",
+      "TOOLTIP_CONTENT": "LiteFarm needs to download data to work offline.<br><br>Complete this process when online."
+    },
+    "NOT_READY_WARNING": "LiteFarm hasn’t finished preparing offline data.",
+    "PREPARE_TO_WORK_OFFLINE": "Prepare LiteFarm to work offline next time.",
+    "REFRESH": "Refresh"
   },
   "OUTRO": {
     "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
@@ -2135,7 +2176,8 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned",
-    "UPLOAD_LAB_DOCUMENT": "Upload lab document"
+    "UPLOAD_LAB_DOCUMENT": "Upload lab document",
+    "WILL_SAVE_ONLINE": "Will save when online"
   },
   "UNIT": {
     "TIME": {
@@ -2162,7 +2204,7 @@
     "ERROR": "Wage must be a valid, non-negative decimal number",
     "HOURLY_WAGE": "Hourly Wage",
     "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
-    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+    "HOURLY_WAGE_TOOLTIP": "This task-specific wage will override the assignee's default wage. Default worker wages can be managed in the People tab."
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

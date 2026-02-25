@@ -14,7 +14,7 @@
  */
 
 import { ReactElement } from 'react';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { LabelSize } from '../Tile/DescriptionList';
 import { ReactComponent as WindIcon } from '../../assets/images/weather/wind.svg';
 import { ReactComponent as RainfallIcon } from '../../assets/images/weather/droplets.svg';

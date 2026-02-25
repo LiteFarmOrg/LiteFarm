@@ -30,6 +30,7 @@ import {
   HAPPINESS,
   PREFER_NOT_TO_SAY,
 } from '.';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
 const COMPLETION_FIELDS = [
   DURATION,
@@ -68,6 +69,7 @@ export default function PureCompleteStepOne({
   isUploading,
 }) {
   const { t } = useTranslation();
+  const isOffline = useIsOffline();
   const defaultsToUse = formatTaskReadOnlyDefaultValues(
     persistedFormData.need_changes ? persistedFormData : selectedTask,
   );
@@ -237,7 +239,7 @@ export default function PureCompleteStepOne({
             locations: selectedTask.locations,
           })
         : null}
-      {taskType === 'SOIL_SAMPLE_TASK' && (
+      {taskType === 'SOIL_SAMPLE_TASK' && !isOffline && (
         <div>
           <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_GET_RESULTS')}</Main>
           <RadioGroup hookFormControl={control} required name={RESULTS_AVAILABLE} />

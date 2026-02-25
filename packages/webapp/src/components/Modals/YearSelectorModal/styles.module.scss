@@ -1,7 +1,7 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .dialogTitle {
-  background: #F3F6FB;
+  background: #f3f6fb;
   border-radius: 4px 4px 0px 0px;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .initYear {
-  color: #037A0F;
+  color: #037a0f;
   font-weight: 600;
   @include fontFamily();
 }

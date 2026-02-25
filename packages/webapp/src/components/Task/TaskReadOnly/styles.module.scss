@@ -1,4 +1,4 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .mapContainer {
   position: relative;
@@ -131,4 +131,20 @@
     margin-top: 0;
     text-align: left;
   }
+}
+
+.taskWageSet {
+  color: var(--Colors-Neutral-Neutral-900);
+  padding-top: 12px;
+}
+
+.taskWageNotSet {
+  color: var(--Colors-Accent-Accent-yellow-900);
+  font-style: italic;
+  padding-top: 12px;
+}
+
+.locationList {
+  margin-bottom: 20px;
+  list-style-position: inside;
 }

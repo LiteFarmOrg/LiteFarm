@@ -33,6 +33,7 @@ import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
 import Drawer from '../../components/Drawer';
+import navStyles from '@navStyles';
 
 export default function CropCatalogue() {
   const history = useHistory();
@@ -193,7 +194,7 @@ export default function CropCatalogue() {
           )
         )}
         {isAdmin && !isFilterCurrentlyActive && (
-          <>
+          <div className={navStyles.hideWhenOffline}>
             {!!crops?.length && (
               <>
                 <PageBreak
@@ -225,7 +226,7 @@ export default function CropCatalogue() {
             <AddLink data-cy="crop-addLink" onClick={onAddCrop}>
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>
-          </>
+          </div>
         )}
       </div>
     </Layout>

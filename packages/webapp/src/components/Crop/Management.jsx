@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
+import navStyles from '@navStyles';
 
 export default function PureCropManagement({
   history,
@@ -93,7 +94,11 @@ export default function PureCropManagement({
         />
       )}
       {isAdmin && (
-        <AddLink data-cy="crop-addPlan" onClick={handleAddPlan}>
+        <AddLink
+          data-cy="crop-addPlan"
+          onClick={handleAddPlan}
+          className={navStyles.hideWhenOffline}
+        >
           {' '}
           {t('CROP_DETAIL.ADD_PLAN')}
         </AddLink>

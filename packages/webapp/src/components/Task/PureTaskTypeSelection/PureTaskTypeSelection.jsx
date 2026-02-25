@@ -34,7 +34,9 @@ import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/Cant
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
 import { NoSoilSampleLocationsModal } from '../../Modals/NoSoilSampleLocationsModal';
 import { NoSoilAmendmentProductsModal } from '../../Modals/NoSoilAmendmentProductsModal';
+import { NoIrrigationLocationsModal } from '../../Modals/NoIrrigationLocationsModal';
 import { PRODUCT_INVENTORY_URL } from '../../../util/siteMapConstants';
+import navStyles from '@navStyles';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -75,6 +77,8 @@ export const PureTaskTypeSelection = ({
   hasAnimals,
   hasSoilSampleLocations,
   hasSoilAmendmentProducts,
+  hasIrrigationLocations,
+  isOffline,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -117,7 +121,8 @@ export const PureTaskTypeSelection = ({
         !hasCurrentManagementPlans) ||
       (isTaskType(taskType, 'MOVEMENT_TASK') && !hasAnimalMovementLocations) ||
       (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations) ||
-      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts)
+      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts) ||
+      (isTaskType(taskType, 'IRRIGATION_TASK') && !hasIrrigationLocations)
     ) {
       return setErrorModal(taskType.task_translation_key);
     }
@@ -127,6 +132,10 @@ export const PureTaskTypeSelection = ({
   const shouldDisplayTaskType = (taskType) => {
     const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
     const { farm_id, task_translation_key } = taskType;
+
+    if (isOffline && isTaskType(taskType, 'PLANT_TASK')) {
+      return false;
+    }
 
     if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {
       // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
@@ -154,6 +163,13 @@ export const PureTaskTypeSelection = ({
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
+
+        {isOffline && (
+          <div className={styles.offlineNotice}>
+            <h3>{t('ADD_TASK.OFFLINE_NOTICE.YOURE_OFFLINE')}</h3>
+            <p>{t('ADD_TASK.OFFLINE_NOTICE.CANNOT_ADD_NEW')}</p>
+          </div>
+        )}
 
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
@@ -210,7 +226,7 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <div className={styles.cantFindCustomTypeWrapper}>
+          <div className={clsx(styles.cantFindCustomTypeWrapper, navStyles.hideWhenOffline)}>
             <CantFindCustomType
               customTypeMessages={{
                 info: t('ADD_TASK.CANT_FIND_INFO_TASK'),
@@ -248,6 +264,13 @@ export const PureTaskTypeSelection = ({
         <NoSoilAmendmentProductsModal
           dismissModal={() => setErrorModal('')}
           goToInventory={goToInventory}
+        />
+      )}
+      {errorModal === 'IRRIGATION_TASK' && (
+        <NoIrrigationLocationsModal
+          dismissModal={() => setErrorModal('')}
+          goToMap={goToMap}
+          isAdmin={isAdmin}
         />
       )}
     </>

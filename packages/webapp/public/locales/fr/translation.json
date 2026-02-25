@@ -133,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Souhaitez-vous affecter la tâche maintenant ?",
     "DUPLICATE_NAME": "Un produit portant ce nom existe déjà. Veuillez en choisir un autre.",
     "EDIT_CUSTOM_TASK": "Modifier la tâche personnalisée",
+    "EDIT_TASK_WAGE": "Éditer le salaire de la tâche",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail de terrain",
       "TYPE": {
@@ -153,6 +154,7 @@
     "HARVEST_EVERYTHING": "Récolter tout ce qui est prêt",
     "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "Le salaire horaire de {{name}} est de {{wage}}/h",
       "ASSIGNEE_WAGE_WARNING": "{{name}} n'a pas de salaire horaire",
       "DONT_ASK": "Non, ne demandez plus pour cet employé",
       "FOR_THIS_TASK": "Oui, juste pour cette tâche",
@@ -209,16 +211,23 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Veuillez décrire la raison de ce mouvement"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Vous aurez besoin d'un emplacement ou d'une zone où les animaux peuvent être déplacés. Allez sur la carte pour créer un emplacement animal.",
+    "NEED_IRRIGATION_LOCATION": "Pour créer une tâche d'irrigation, vous avez d'abord besoin d'un emplacement qui puisse supporter les cultures. Allez sur la carte pour en créer un, comme un champ, une serre ou une zone tampon.",
+    "NEED_IRRIGATION_LOCATION_WORKER": "Vous aurez besoin de créer un emplacement qui puisse soutenir les cultures avant de pouvoir créer une tâche d'irrigation.",
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Vous n'avez pas encore de produit d'amendement de sol. Rendez-vous dans l'inventaire pour en ajouter un avant de créer votre tâche de modification du sol.",
     "NEED_SOIL_SAMPLE_LOCATION": "Vous devez désigner un emplacement spécifique pour l’échantillonnage du sol. Allez sur la carte pour créer un emplacement d’échantillonnage du sol.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Le manager doit créer au moins un emplacement d’échantillon de sol avant que vous puissiez créer une tâche d’échantillonnage de sol.",
     "NO_ANIMAL_LOCATION": "Aucun emplacement animal éligible",
+    "NO_IRRIGATION_LOCATIONS": "Aucun emplacement n'est disponible pour l'irrigation",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Ajouter d'abord un produit d'amendement de sol",
     "NO_SOIL_SAMPLE_LOCATION": "Pas d'emplacement d’échantillonnage du sol admissible",
     "NOTES_LABEL": "Quelque chose de spécifique à ajouter à cette tâche?",
     "NOTES_PLACEHOLDER": "Ajouter des instructions ou des précisions pour le responsable",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "Vous pouvez utiliser les emplacements, cultures et produits existants pour vos tâches, mais vous ne pouvez pas en ajouter de nouveaux en étant hors ligne.",
+      "YOURE_OFFLINE": "Vous êtes hors ligne"
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Lutte biologique",
       "FLAME_WEEDING": "Sarclage à la flamme",
@@ -287,6 +296,12 @@
     },
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+    "TASK_SPECIFIC_HOURLY_WAGE": "Salaire horaire spécifique à la tâche",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "Il n'y a pas de salaire défini pour cette tâche",
+      "TASK_WAGE_SET": "Le salaire horaire pour cette tâche est défini à <strong>{{wage}} par heure</strong>",
+      "WANT_TO_SET_HOURLY_WAGE": "Définir un salaire horaire juste pour cette tâche?"
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Décrivez cette tache",
     "THIS_TASK_IS_COMPLETED": "Cette tâche a déjà été complétée",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "En cliquant sur « Enregistrer », vous sauverez immédiatement cette tâche. Vous serez ensuite invité à la compléter.",
@@ -1147,6 +1162,14 @@
       "INFO": "La matière organique du sol est essentielle pour maintenir un sol sain pour vos récoltes. La teneur en matière organique est calculée à partir de vos journaux d’analyse de sol les plus récents. Si vous n’avez pas de données sur votre sol, nous estimons la matière organique potentielle de votre sol en fonction de votre emplacement dans le monde.",
       "TITLE": "Matière organique du Sol"
     },
+    "TAPE": {
+      "COMPLETED": "Terminé - Voir vos résultats",
+      "IN_PROGRESS": "En cours",
+      "NOT_FILLED": "Non rempli",
+      "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
+      "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
+      "UPDATE_ANSWERS": "Mettre à jour vos réponses"
+    },
     "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible"
   },
@@ -1485,7 +1508,6 @@
       "WEBSITE": "Site Web"
     },
     "INFO_SUMMARY": {
-      "FARM_ADDRESS": "Adresse de la ferme",
       "FARM_EMAIL": "E-mail de la ferme",
       "FARM_PROFILE": "Profil de la ferme",
       "FARM_STORE_ADDRESS": "Adresse du magasin de la ferme",
@@ -1599,6 +1621,25 @@
       "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
       "TITLE": "Tâches non attribuées"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "Vous êtes hors ligne. Certaines actions ne sont pas disponibles.",
+    "BADGE": {
+      "TITLE": "Hors ligne",
+      "TOOLTIP_CONTENT": "Nous ne pouvons pas atteindre le réseau pour le moment.<br><br>Vous pouvez continuer en mode hors ligne. Certaines sections seront en affichage uniquement, mais les tâches sont entièrement disponibles."
+    },
+    "CHANGES_WILL_SYNC": "Toutes les modifications que vous effectuerez seront synchronisées lorsque vous serez de retour en ligne.",
+    "LOG_OUT_MODAL": {
+      "INFO": "Vous ne pourrez pas vous reconnecter tout en étant hors ligne. Toutes les modifications effectuées hors ligne seront perdues après la déconnexion.",
+      "TITLE": "Êtes- vous sur de vouloir vous déconnecter?"
+    },
+    "NOT_READY_BADGE": {
+      "TITLE": "Infos",
+      "TOOLTIP_CONTENT": "LiteFarm doit télécharger des données pour fonctionner hors ligne.<br><br>Effectuez ce processus en étant en ligne."
+    },
+    "NOT_READY_WARNING": "LiteFarm n’a pas fini de préparer les données hors ligne.",
+    "PREPARE_TO_WORK_OFFLINE": "Préparer LiteFarm pour une utilisation hors ligne la prochaine fois.",
+    "REFRESH": "Actualiser"
   },
   "OUTRO": {
     "ALL_DONE": "Super ! Vous avez terminé. Prêt à vous salir les mains ?",
@@ -2136,7 +2177,8 @@
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
     "UNASSIGNED": "Non attribué",
-    "UPLOAD_LAB_DOCUMENT": "Charger un document de labo"
+    "UPLOAD_LAB_DOCUMENT": "Charger un document de labo",
+    "WILL_SAVE_ONLINE": "Sera sauvegarder quand vous serez en ligne"
   },
   "UNIT": {
     "TIME": {
@@ -2163,7 +2205,7 @@
     "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "HOURLY_WAGE": "Salaire horaire",
     "HOURLY_WAGE_RANGE_ERROR": "Le salaire horaire doit être un nombre positif inférieur à 999 999 999",
-    "HOURLY_WAGE_TOOLTIP": "Les salaires horaires peuvent être établis en sélectionnant une personne à l’onglet Employés sous 'Mon exploitation'."
+    "HOURLY_WAGE_TOOLTIP": "Ce salaire spécifique à la tâche remplacera le salaire par défaut du salarié. Les salaires par défaut des employés peuvent être gérés dans l'onglet Personnes."
   },
   "WEATHER": {
     "HUMIDITY": "Humidité",

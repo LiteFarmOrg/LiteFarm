@@ -15,8 +15,8 @@
 
 // This file contains validation functions for use with react-hook-forms input validator
 
+import { TFunction } from 'i18next';
 import i18n from '../../locales/i18n';
-import { TFunction } from 'react-i18next';
 
 export const hookFormMaxValidation = (max: number = 9999, message: string = '') => ({
   value: max,

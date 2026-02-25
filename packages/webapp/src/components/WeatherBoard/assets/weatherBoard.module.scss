@@ -1,4 +1,4 @@
-@import '../../../assets/mixin';
+@use '../../../assets/mixin' as *;
 
 .container {
   top: 0;
@@ -12,7 +12,7 @@
     'date date'
     'temperature icon'
     'wind humidity';
-  word-break: break-word;    
+  word-break: break-word;
   background-color: var(--overlay);
   font-size: 3.88vw;
   line-height: 6.66vw;
@@ -92,7 +92,7 @@
     font-size: 144.375px;
     padding-top: 20px;
   }
-  
+
   .wind {
     padding-top: 20px;
   }

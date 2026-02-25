@@ -1,8 +1,8 @@
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .stagesBox {
-  background: #FAFAFD;
-  border: 1px solid #D4DAE3;
+  background: #fafafd;
+  border: 1px solid #d4dae3;
   box-sizing: border-box;
   border-radius: 4px;
   width: 100%;
@@ -15,7 +15,7 @@
   justify-content: center;
 }
 
-.flexStage{
+.flexStage {
   flex: 1;
   margin: auto;
 }
@@ -54,7 +54,7 @@
 }
 
 .calendarBox {
-  border: 1px solid #D4DAE3;
+  border: 1px solid #d4dae3;
   border-radius: 4px;
   max-height: 436px;
   background-color: var(--bgInputListTile);

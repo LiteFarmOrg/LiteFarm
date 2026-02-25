@@ -15,7 +15,8 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import CardLayout from '../../../../components/Layout/CardLayout';

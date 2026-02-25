@@ -109,7 +109,7 @@ export function* updateSaleSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
-    switch (e.response.data) {
+    switch (e.response?.data) {
       case 'sale deleted':
         yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.SALE_DELETED')));
         history.push(FINANCES_HOME_URL);
@@ -151,7 +151,7 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
-    if (e.response.status === 404) {
+    if (e.response?.status === 404) {
       yield put(setExpense([]));
     }
     console.log('failed to fetch expenses from database');
@@ -344,7 +344,7 @@ export function* editExpenseSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
-    switch (e.response.data) {
+    switch (e.response?.data) {
       case 'expense deleted':
         yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
         history.push(FINANCES_HOME_URL);

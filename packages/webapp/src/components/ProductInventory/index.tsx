@@ -34,6 +34,7 @@ import { TableProduct } from '../../containers/ProductInventory';
 import { Product } from '../../store/api/types';
 import { TASK_TYPES } from '../../containers/Task/constants';
 import { Title } from '../Typography';
+import navStyles from '@navStyles';
 
 const TABLE_MIN_ROWS = 20;
 
@@ -113,7 +114,13 @@ const PureProductInventory = ({
             onClick={clearFilters}
           />
         </div>
-        {showActionFloaterButton && <FloatingButtonMenu type={'add'} Menu={AddProductMenuItems} />}
+        {showActionFloaterButton && (
+          <FloatingButtonMenu
+            classes={{ button: navStyles.hideWhenOffline }}
+            type={'add'}
+            Menu={AddProductMenuItems}
+          />
+        )}
       </div>
       <div
         className={clsx(isDesktop ? '' : styles.tableWrapper, productInventoryStyles.tableWrapper)}

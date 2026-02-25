@@ -14,7 +14,7 @@
  */
 
 import { CSSProperties } from 'react';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { LineConfig } from '../../../../components/Charts/LineChart';
 import { convertEsciReadingValue, degToDirection, getReadingUnit, getStatusProps } from '../utils';
 import { isValidNumber } from '../../../../util/validation';

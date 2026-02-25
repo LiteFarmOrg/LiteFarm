@@ -211,16 +211,23 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Veuillez décrire la raison de ce mouvement"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Vous aurez besoin d'un emplacement ou d'une zone où les animaux peuvent être déplacés. Allez sur la carte pour créer un emplacement animal.",
+    "NEED_IRRIGATION_LOCATION": "Pour créer une tâche d'irrigation, vous avez d'abord besoin d'un emplacement qui puisse supporter les cultures. Allez sur la carte pour en créer un, comme un champ, une serre ou une zone tampon.",
+    "NEED_IRRIGATION_LOCATION_WORKER": "Vous aurez besoin de créer un emplacement qui puisse soutenir les cultures avant de pouvoir créer une tâche d'irrigation.",
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Vous n'avez pas encore de produit d'amendement de sol. Rendez-vous dans l'inventaire pour en ajouter un avant de créer votre tâche de modification du sol.",
     "NEED_SOIL_SAMPLE_LOCATION": "Vous devez désigner un emplacement spécifique pour l’échantillonnage du sol. Allez sur la carte pour créer un emplacement d’échantillonnage du sol.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Le manager doit créer au moins un emplacement d’échantillon de sol avant que vous puissiez créer une tâche d’échantillonnage de sol.",
     "NO_ANIMAL_LOCATION": "Aucun emplacement animal éligible",
+    "NO_IRRIGATION_LOCATIONS": "Aucun emplacement n'est disponible pour l'irrigation",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Ajouter d'abord un produit d'amendement de sol",
     "NO_SOIL_SAMPLE_LOCATION": "Pas d'emplacement d’échantillonnage du sol admissible",
     "NOTES_LABEL": "Quelque chose de spécifique à ajouter à cette tâche?",
     "NOTES_PLACEHOLDER": "Ajouter des instructions ou des précisions pour le responsable",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "Vous pouvez utiliser les emplacements, cultures et produits existants pour vos tâches, mais vous ne pouvez pas en ajouter de nouveaux en étant hors ligne.",
+      "YOURE_OFFLINE": "Vous êtes hors ligne"
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Lutte biologique",
       "FLAME_WEEDING": "Sarclage à la flamme",
@@ -1623,9 +1630,16 @@
     },
     "CHANGES_WILL_SYNC": "Toutes les modifications que vous effectuerez seront synchronisées lorsque vous serez de retour en ligne.",
     "LOG_OUT_MODAL": {
-      "INFO": "Vous ne pourrez pas vous reconnecter en étant hors ligne. Toutes les modifications apportées en mode hors connexion seront perdues après déconnexion.",
+      "INFO": "Vous ne pourrez pas vous reconnecter tout en étant hors ligne. Toutes les modifications effectuées hors ligne seront perdues après la déconnexion.",
       "TITLE": "Êtes- vous sur de vouloir vous déconnecter?"
-    }
+    },
+    "NOT_READY_BADGE": {
+      "TITLE": "Infos",
+      "TOOLTIP_CONTENT": "LiteFarm doit télécharger des données pour fonctionner hors ligne.<br><br>Effectuez ce processus en étant en ligne."
+    },
+    "NOT_READY_WARNING": "LiteFarm n’a pas fini de préparer les données hors ligne.",
+    "PREPARE_TO_WORK_OFFLINE": "Préparer LiteFarm pour une utilisation hors ligne la prochaine fois.",
+    "REFRESH": "Actualiser"
   },
   "OUTRO": {
     "ALL_DONE": "Super ! Vous avez terminé. Prêt à vous salir les mains ?",

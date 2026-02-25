@@ -20,6 +20,7 @@ import userModel from '../../models/userModel.js';
 import farmModel from '../../models/farmModel.js';
 import userFarmModel from '../../models/userFarmModel.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
+import { UserFarm } from '../../models/types.js';
 
 export interface OfflineEventLogReqBody {
   logs: {
@@ -99,13 +100,15 @@ export function checkOfflineLogs() {
         }
 
         if (res.locals.user_id) {
-          const userFarm = await userFarmModel
+          const userFarm = (await userFarmModel
             .query()
-            .findOne({ user_id: res.locals.user_id, farm_id });
+            .findOne({ user_id: res.locals.user_id, farm_id })) as UserFarm | undefined;
 
           if (!userFarm) {
             throw new Error('user_id and farm_id do not match');
           }
+
+          res.locals.role_id = userFarm.role_id;
         }
 
         res.locals.country_id = farm.country_id;

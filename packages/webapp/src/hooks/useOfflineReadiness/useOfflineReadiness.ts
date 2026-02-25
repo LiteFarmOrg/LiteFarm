@@ -22,6 +22,8 @@ import {
   type CacheValidation,
 } from './offlineReadinessSlice';
 import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
+import { postEventLogs } from '../../util/offlineEventLogger';
+import { userFarmSelector } from '../../containers/userFarmSlice';
 
 export interface UseOfflineReadinessResult {
   isReadyForOffline: boolean;
@@ -78,6 +80,8 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
   // (e.g. hosted over the local network)
   const isServiceWorkerSupported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
 
+  const farm: { farm_id?: string } = useSelector(userFarmSelector);
+
   const validateAndUpdateState = async () => {
     const validation = await checkCacheStatus();
     dispatch(setCacheValidation(validation));
@@ -119,10 +123,19 @@ export function useOfflineReadiness(): UseOfflineReadinessResult {
     }
   }, [offline]);
 
+  const restoreCache = () => {
+    postEventLogs({
+      farmId: farm?.farm_id,
+      logs: [{ eventName: recoveryMode ? 'reset_app' : 'reload_app', eventAt: Date.now() }],
+    });
+
+    recoveryMode ? resetApplication() : reloadApp();
+  };
+
   return {
     isReadyForOffline,
     wentOfflineDuringSetup,
     isServiceWorkerSupported,
-    restoreCache: recoveryMode ? resetApplication : reloadApp,
+    restoreCache,
   };
 }

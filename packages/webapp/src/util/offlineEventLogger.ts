@@ -79,7 +79,7 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: auth || id_token,
+      ...(auth || id_token ? { Authorization: auth || `Bearer ${id_token}` } : {}),
     },
     // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
     keepalive: true, // Attempt to send even when the page is unloading
@@ -95,6 +95,31 @@ export const recordOfflineEvent = async ({ auth, farmId, logs }: OfflineEventPay
         event_at: eventAt,
         status_code: statusCode,
         url: url || undefined,
+      })),
+    }),
+  }).catch(() => {}); // Fire and forget
+};
+
+export const postEventLogs = async ({ farmId, logs }: OfflineEventPayload) => {
+  const idToken = localStorage.getItem('id_token');
+
+  return fetch(offlineEventLogUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+    },
+    // https://developer.mozilla.org/en-US/docs/Web/API/Request/keepalive
+    keepalive: true, // Attempt to send even when the page is unloading
+    body: JSON.stringify({
+      app_version: APP_VERSION,
+      farm_id: farmId,
+      // @ts-expect-error -- connection exists
+      network: navigator?.connection?.effectiveType,
+      session_id: uuidv4(),
+      logs: logs.map(({ eventName, eventAt }) => ({
+        event_name: eventName,
+        event_at: eventAt,
       })),
     }),
   }).catch(() => {}); // Fire and forget

@@ -84,7 +84,7 @@
   "REMOVED": "നീക്കം ചെയ്തു",
   "REQUIRED": "ആവശ്യമാണ്",
   "RETIRE": "വിരമിക്കുക",
-  "REVISION_INFO": "പരിഷ്കരിച്ചത് <strong>{{date}}</strong> <i>by</i> <strong>{{user}}</strong>",
+  "REVISION_INFO": "പരിഷ്കരിച്ചത് <strong>{{date}}</strong> <i>ചെയ്തത്</i> <strong>{{user}}</strong>",
   "SAVE": "സംരക്ഷിക്കുക",
   "SAVE_CHANGES": "മാറ്റങ്ങൾ സംരക്ഷിക്കുക",
   "SEARCH": "തിരയുക",

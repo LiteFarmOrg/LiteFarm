@@ -541,8 +541,8 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
             <Route path="/insights/biodiversity" element={<Biodiversity />} />
             <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" children={<TapeSurvey />} />
-            <Route path="/insights/tape/results" children={<TapeResults />} />
+            <Route path="/insights/tape" element={<TapeSurvey />} />
+            <Route path="/insights/tape/results" element={<TapeResults />} />
             <Route path="/farm_selection" element={<ChooseFarm />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
@@ -792,8 +792,8 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
             <Route path="/insights/biodiversity" element={<Biodiversity />} />
             <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" children={<TapeSurvey />} />
-            <Route path="/insights/tape/results" children={<TapeResults />} />
+            <Route path="/insights/tape" element={<TapeSurvey />} />
+            <Route path="/insights/tape/results" element={<TapeResults />} />
             <Route path="/farm_selection" element={<ChooseFarm />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
@@ -913,8 +913,8 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
             <Route path="/insights/biodiversity" element={<Biodiversity />} />
             <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" children={<TapeSurvey />} />
-            <Route path="/insights/tape/results" children={<TapeResults />} />
+            <Route path="/insights/tape" element={<TapeSurvey />} />
+            <Route path="/insights/tape/results" element={<TapeResults />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
             <Route

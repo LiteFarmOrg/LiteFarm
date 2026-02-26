@@ -52,7 +52,11 @@ const generateSensorArrayColorMap = (sensors: Sensor[]) => {
   }));
 };
 
-const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor[] | undefined => {
+const filterSensors = (
+  id: string | undefined,
+  type: SensorType,
+  sensors?: Sensor[],
+): Sensor[] | undefined => {
   return type === SensorType.SENSOR_ARRAY
     ? sensors
         ?.filter(({ sensor_array_id }) => sensor_array_id == id)

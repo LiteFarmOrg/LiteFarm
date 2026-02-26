@@ -296,6 +296,660 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
+const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
+  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three, step_four } =
+    userFarm;
+  const hasSelectedFarm = !!farm_id;
+  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
+
+  if (isAuthenticated()) {
+    role_id = Number(role_id);
+    if (isInvitationFlow) {
+      return (
+        <Routes>
+          <Route
+            path="/farm_selection"
+            element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" />}
+          />
+          <Route path="/consent" element={<ConsentForm goForwardTo={'/outro'} goBackTo={null} />} />
+          <Route
+            path="/outro"
+            element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" />}
+          />
+        </Routes>
+      );
+    } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
+      return <OnboardingFlow {...userFarm} />;
+    } else if (!has_consent) {
+      return (
+        <Routes>
+          <Route path="/farm_selection" element={<ChooseFarm />} />
+          <Route path="/consent" element={<ConsentForm goForwardTo={'/'} goBackTo={null} />} />
+          <Route path="*" element={<Navigate to="/consent" />} />
+        </Routes>
+      );
+    } else if (role_id === 1) {
+      return (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Account />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/farm_settings/*" element={<FarmSettings />} />
+          <Route path="/user/:user_id" element={<EditUser />} />
+          <Route path="/consent" element={<ConsentForm />} />
+          <Route path="/crop/new" element={<AddNewCrop />} />
+          <Route path="/crop/:crop_id/add_crop_variety" element={<AddCrop />} />
+          <Route path="/crop/:crop_id/add_crop_variety/compliance" element={<ComplianceInfo />} />
+          <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
+          <Route path="/crop/:variety_id/management" element={<CropManagement />} />
+          <Route path="/crop/:variety_id/edit_crop_variety" element={<EditCrop />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/planted_already"
+            element={<PlantedAlready />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/needs_transplant"
+            element={<Transplant />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/plant_date"
+            element={<PlantingDate />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
+            element={<PlantingLocation />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
+            element={<PlantingLocation />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/final_planting_method"
+            element={<PlantingMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_planting_method"
+            element={<PlantingMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
+            element={<PlantBroadcast />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_container_method"
+            element={<PlantInContainer />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_bed_method"
+            element={<BedPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
+            element={<BedPlanGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_row_method"
+            element={<RowMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_row_guidance"
+            element={<RowMethodGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/broadcast_method"
+            element={<PlantBroadcast />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/container_method"
+            element={<PlantInContainer />}
+          />
+          <Route path="/crop/:variety_id/add_management_plan/bed_method" element={<BedPlan />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/bed_guidance"
+            element={<BedPlanGuidance />}
+          />
+          <Route path="/crop/:variety_id/add_management_plan/row_method" element={<RowMethod />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/row_guidance"
+            element={<RowMethodGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/name"
+            element={<ManagementPlanName />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
+            element={<ManagementTasks />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/details"
+            element={<ManagementDetails />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
+            element={<RepeatCropPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+            element={<RepeatCropPlanConfirmation />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/edit"
+            element={<EditManagementDetails />}
+          />
+          <Route
+            path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+            element={<CompleteManagementPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+            element={<AbandonManagementPlan />}
+          />
+          <Route path="/crop_catalogue" element={<CropCatalogue />} />
+          <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
+          <Route path="/documents" element={<Documents />} />
+          <Route path="/documents/add_document" element={<AddDocument />} />
+          <Route path="/documents/:document_id/edit_document" element={<EditDocument />} />
+          <Route path="/documents/:document_id" element={<MainDocument />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
+          <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
+          <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
+          <Route
+            path="/tasks/:task_id/complete_harvest_quantity"
+            element={<HarvestCompleteQuantity />}
+          />
+          <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
+          <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
+          <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
+          <Route
+            path="/create_location/farm_site_boundary"
+            element={<PostFarmSiteBoundaryForm />}
+          />
+          <Route path="/create_location/barn" element={<PostBarnForm />} />
+          <Route path="/create_location/natural_area" element={<PostNaturalAreaForm />} />
+          <Route path="/create_location/surface_water" element={<PostSurfaceWaterForm />} />
+          <Route path="/create_location/residence" element={<PostResidenceForm />} />
+          <Route path="/create_location/ceremonial_area" element={<PostCeremonialForm />} />
+          <Route path="/create_location/garden" element={<PostGardenForm />} />
+          <Route path="/create_location/greenhouse" element={<PostGreenhouseForm />} />
+          <Route path="/create_location/field" element={<PostFieldForm />} />
+          <Route path="/create_location/gate" element={<PostGateForm />} />
+          <Route path="/create_location/water_valve" element={<PostWaterValveForm />} />
+          <Route
+            path="/create_location/soil_sample_location"
+            element={<PostSoilSampleLocationForm />}
+          />
+          <Route path="/create_location/fence" element={<PostFenceForm />} />
+          <Route path="/create_location/buffer_zone" element={<PostBufferZoneForm />} />
+          <Route path="/create_location/watercourse" element={<PostWatercourseForm />} />
+          <Route
+            path={ADD_SENSORS_URL}
+            element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route path="/farm_site_boundary/:location_id/*" element={<FarmSiteBoundaryDetails />} />
+          <Route path="/barn/:location_id/*" element={<BarnDetails />} />
+          <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
+          <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
+          <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
+          <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
+          <Route path="/garden/:location_id/*" element={<GardenDetails />} />
+          <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
+          <Route path="/field/:location_id/*" element={<FieldDetails />} />
+          <Route path="/gate/:location_id/*" element={<GateDetails />} />
+          <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
+          <Route
+            path="/soil_sample_location/:location_id/*"
+            element={<SoilSampleLocationDetails />}
+          />
+          <Route path="/fence/:location_id/*" element={<FenceDetails />} />
+          <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
+          <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
+          <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
+          <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/insights/soilom" element={<SoilOM />} />
+          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
+          <Route path="/insights/biodiversity" element={<Biodiversity />} />
+          <Route path="/insights/prices" element={<Prices />} />
+          <Route path="/insights/tape" element={<TapeSurvey />} />
+          <Route path="/insights/tape/results" element={<TapeResults />} />
+          <Route path="/farm_selection" element={<ChooseFarm />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
+          <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
+          <Route path="/password_reset" element={<PasswordResetAccount />} />
+          <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+          <Route path="/invite_user" element={<InviteUser />} />
+          <Route path="/certification" element={<ViewCertification />} />
+          <Route path="/certification/report_period" element={<CertificationReportingPeriod />} />
+          <Route path="/certification/survey" element={<CertificationSurvey />} />
+          <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
+          <Route path="/certification/selection" element={<CertificationSelection />} />
+          <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
+          <Route path="/certification/certifier/request" element={<RequestCertifier />} />
+          <Route path="/certification/summary" element={<SetCertificationSummary />} />
+          <Route path="/export/:id/from/:from/to/:to" element={<ExportDownload />} />
+          <Route path="/add_task/task_locations" element={<TaskLocations />} />
+          <Route path="/add_task/task_date" element={<TaskDate />} />
+          <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
+          <Route path="/add_task/task_details" element={<TaskDetails />} />
+          <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
+          <Route path="/add_task/task_crops" element={<TaskCrops />} />
+          <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
+          <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
+          <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
+          <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
+          {/* <Route
+              path="/add_task/edit_custom_task_update"
+              element={<EditCustomTaskUpdate />}
+            /> */}
+          <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
+          <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
+          <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
+          <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
+          <Route path="/add_task/row_method" element={<TaskRowMethod />} />
+          <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route
+            path="/notifications/:notification_id/read_only"
+            element={<NotificationReadOnly />}
+          />
+          <Route path="/finances/*" element={<Finances />} />
+          <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
+          <Route
+            path={PRODUCT_INVENTORY_URL}
+            element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={SENSORS_URL}
+            element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+            element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route path="/unknown_record" element={<UnknownRecord />} />
+          <Route
+            path="*"
+            //TODO change to 404
+            element={<Navigate to={'/'} />}
+          />
+        </Routes>
+      );
+    } else if (role_id === 2 || role_id === 5) {
+      return (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Account />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/user/:user_id" element={<EditUser />} />
+          <Route path="/farm_settings" element={<FarmSettings />} />
+          <Route path="/consent" element={<ConsentForm />} />
+          <Route path="/crop/new" element={<AddNewCrop />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/planted_already"
+            element={<PlantedAlready />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/needs_transplant"
+            element={<Transplant />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/plant_date"
+            element={<PlantingDate />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
+            element={<PlantingLocation />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
+            element={<PlantingLocation />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/final_planting_method"
+            element={<PlantingMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_planting_method"
+            element={<PlantingMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
+            element={<PlantBroadcast />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_container_method"
+            element={<PlantInContainer />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_bed_method"
+            element={<BedPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
+            element={<BedPlanGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_row_method"
+            element={<RowMethod />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/initial_row_guidance"
+            element={<RowMethodGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/broadcast_method"
+            element={<PlantBroadcast />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/container_method"
+            element={<PlantInContainer />}
+          />
+          <Route path="/crop/:variety_id/add_management_plan/bed_method" element={<BedPlan />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/bed_guidance"
+            element={<BedPlanGuidance />}
+          />
+          <Route path="/crop/:variety_id/add_management_plan/row_method" element={<RowMethod />} />
+          <Route
+            path="/crop/:variety_id/add_management_plan/row_guidance"
+            element={<RowMethodGuidance />}
+          />
+          <Route
+            path="/crop/:variety_id/add_management_plan/name"
+            element={<ManagementPlanName />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
+            element={<ManagementTasks />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/details"
+            element={<ManagementDetails />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/edit"
+            element={<EditManagementDetails />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
+            element={<RepeatCropPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+            element={<RepeatCropPlanConfirmation />}
+          />
+          <Route
+            path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+            element={<CompleteManagementPlan />}
+          />
+          <Route
+            path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+            element={<AbandonManagementPlan />}
+          />
+          <Route path="/crop_catalogue" element={<CropCatalogue />} />
+          <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
+          <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
+          <Route path="/crop/:variety_id/management" element={<CropManagement />} />
+          <Route path="/crop/:variety_id/edit_crop_variety" element={<EditCrop />} />
+          <Route path="/documents" element={<Documents />} />
+          <Route path="/documents/add_document" element={<AddDocument />} />
+          <Route path="/documents/:document_id/edit_document" element={<EditDocument />} />
+          <Route path="/documents/:document_id" element={<MainDocument />} />
+          <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
+          <Route
+            path="/create_location/farm_site_boundary"
+            element={<PostFarmSiteBoundaryForm />}
+          />
+          <Route path="/create_location/barn" element={<PostBarnForm />} />
+          <Route path="/create_location/natural_area" element={<PostNaturalAreaForm />} />
+          <Route path="/create_location/surface_water" element={<PostSurfaceWaterForm />} />
+          <Route path="/create_location/residence" element={<PostResidenceForm />} />
+          <Route path="/create_location/ceremonial_area" element={<PostCeremonialForm />} />
+          <Route path="/create_location/garden" element={<PostGardenForm />} />
+          <Route path="/create_location/greenhouse" element={<PostGreenhouseForm />} />
+          <Route path="/create_location/field" element={<PostFieldForm />} />
+          <Route path="/create_location/gate" element={<PostGateForm />} />
+          <Route path="/create_location/water_valve" element={<PostWaterValveForm />} />
+          <Route
+            path="/create_location/soil_sample_location"
+            element={<PostSoilSampleLocationForm />}
+          />
+          <Route path="/create_location/fence" element={<PostFenceForm />} />
+          <Route path="/create_location/buffer_zone" element={<PostBufferZoneForm />} />
+          <Route path="/create_location/watercourse" element={<PostWatercourseForm />} />
+          <Route
+            path={ADD_SENSORS_URL}
+            element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route path="/farm_site_boundary/:location_id/*" element={<FarmSiteBoundaryDetails />} />
+          <Route path="/barn/:location_id/*" element={<BarnDetails />} />
+          <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
+          <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
+          <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
+          <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
+          <Route path="/garden/:location_id/*" element={<GardenDetails />} />
+          <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
+          <Route path="/field/:location_id/*" element={<FieldDetails />} />
+          <Route path="/gate/:location_id/*" element={<GateDetails />} />
+          <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
+          <Route
+            path="/soil_sample_location/:location_id/*"
+            element={<SoilSampleLocationDetails />}
+          />
+          <Route path="/fence/:location_id/*" element={<FenceDetails />} />
+          <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
+          <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
+          <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
+          <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
+          <Route path="/crop/:crop_id/add_crop_variety" element={<AddCrop />} />
+          <Route path="/crop/:crop_id/add_crop_variety/compliance" element={<ComplianceInfo />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/insights/soilom" element={<SoilOM />} />
+          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
+          <Route path="/insights/biodiversity" element={<Biodiversity />} />
+          <Route path="/insights/prices" element={<Prices />} />
+          <Route path="/insights/tape" element={<TapeSurvey />} />
+          <Route path="/insights/tape/results" element={<TapeResults />} />
+          <Route path="/farm_selection" element={<ChooseFarm />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
+          <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
+          <Route path="/password_reset" element={<PasswordResetAccount />} />
+          <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+          <Route path="/invite_user" element={<InviteUser />} />
+          <Route path="/certification" element={<ViewCertification />} />
+          <Route path="/certification/report_period" element={<CertificationReportingPeriod />} />
+          <Route path="/certification/survey" element={<CertificationSurvey />} />
+          <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
+          <Route path="/certification/selection" element={<CertificationSelection />} />
+          <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
+          <Route path="/certification/certifier/request" element={<RequestCertifier />} />
+          <Route path="/certification/summary" element={<SetCertificationSummary />} />
+          <Route path="/export/:id/from/:from/to/:to" element={<ExportDownload />} />
+          <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
+          <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
+          <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
+          <Route
+            path="/tasks/:task_id/complete_harvest_quantity"
+            element={<HarvestCompleteQuantity />}
+          />
+          <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
+          <Route path="/add_task/task_locations" element={<TaskLocations />} />
+          <Route path="/add_task/task_date" element={<TaskDate />} />
+          <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
+          <Route path="/add_task/task_details" element={<TaskDetails />} />
+          <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
+          <Route path="/add_task/task_crops" element={<TaskCrops />} />
+          <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
+          <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
+          <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
+          <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
+          {/* <Route
+              path="/add_task/edit_custom_task_update"
+              element={<EditCustomTaskUpdate />}
+            /> */}
+          <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
+          <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
+          <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
+          <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
+          <Route path="/add_task/row_method" element={<TaskRowMethod />} />
+          <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route
+            path="/notifications/:notification_id/read_only"
+            element={<NotificationReadOnly />}
+          />
+          <Route path="/finances/*" element={<Finances />} />
+          <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
+          <Route
+            path={PRODUCT_INVENTORY_URL}
+            element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={SENSORS_URL}
+            element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+            element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route path="/unknown_record" element={<UnknownRecord />} />
+          <Route path="*" element={<Navigate to={'/'} />} />
+        </Routes>
+      );
+    } else {
+      return (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Account />} />
+          <Route path="/consent" element={<ConsentForm />} />
+          <Route path="/crop_catalogue" element={<CropCatalogue />} />
+          <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
+          <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
+          <Route path="/crop/:variety_id/management" element={<CropManagement />} />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
+            element={<ManagementTasks />}
+          />
+          <Route
+            path="/crop/:variety_id/management_plan/:management_plan_id/details"
+            element={<ManagementDetails />}
+          />
+          <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
+          <Route path="/farm_site_boundary/:location_id/*" element={<FarmSiteBoundaryDetails />} />
+          <Route path="/barn/:location_id/*" element={<BarnDetails />} />
+          <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
+          <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
+          <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
+          <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
+          <Route path="/garden/:location_id/*" element={<GardenDetails />} />
+          <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
+          <Route path="/field/:location_id/*" element={<FieldDetails />} />
+          <Route path="/gate/:location_id/*" element={<GateDetails />} />
+          <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
+          <Route
+            path="/soil_sample_location/:location_id/*"
+            element={<SoilSampleLocationDetails />}
+          />
+          <Route path="/fence/:location_id/*" element={<FenceDetails />} />
+          <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
+          <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
+          <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
+          <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
+          <Route path="/farm_selection" element={<ChooseFarm />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/insights/soilom" element={<SoilOM />} />
+          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
+          <Route path="/insights/biodiversity" element={<Biodiversity />} />
+          <Route path="/insights/prices" element={<Prices />} />
+          <Route path="/insights/tape" element={<TapeSurvey />} />
+          <Route path="/insights/tape/results" element={<TapeResults />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
+          <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
+          <Route path="/password_reset" element={<PasswordResetAccount />} />
+          <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
+          <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
+          <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
+          <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
+          <Route
+            path="/tasks/:task_id/complete_harvest_quantity"
+            element={<HarvestCompleteQuantity />}
+          />
+          <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
+          <Route path="/add_task/task_locations" element={<TaskLocations />} />
+          <Route path="/add_task/task_date" element={<TaskDate />} />
+          <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
+          <Route path="/add_task/task_details" element={<TaskDetails />} />
+          <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
+          <Route path="/add_task/task_crops" element={<TaskCrops />} />
+          <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
+          <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
+          <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
+          <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
+          {/* <Route
+              path="/add_task/edit_custom_task_update"
+              element={<EditCustomTaskUpdate />}
+            /> */}
+          <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
+          <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
+          <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
+          <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
+          <Route path="/add_task/row_method" element={<TaskRowMethod />} />
+          <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route
+            path="/notifications/:notification_id/read_only"
+            element={<NotificationReadOnly />}
+          />
+          <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
+          <Route
+            path={PRODUCT_INVENTORY_URL}
+            element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={SENSORS_URL}
+            element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route
+            path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
+            element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
+          />
+          <Route path="/unknown_record" element={<UnknownRecord />} />
+          <Route path="*" element={<Navigate to={'/'} />} />
+        </Routes>
+      );
+    }
+  } else if (!isAuthenticated()) {
+    return (
+      <Routes>
+        <Route path={'/render_survey'} element={<RenderSurvey />} />
+        <Route path="/callback" element={<Callback />} />
+        <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
+        <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
+        <Route path="/password_reset" element={<PasswordResetAccount />} />
+        <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+        <Route path="/" element={<CustomSignUp />} />
+        <Route
+          path="*"
+          //TODO change to 404
+          element={<Navigate to={'/'} />}
+        />
+      </Routes>
+    );
+  }
+};
+
 const RoutesComponent = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
@@ -315,691 +969,20 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three, step_four } =
-    userFarm;
-  const hasSelectedFarm = !!farm_id;
-  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
-
-  const Element = () => {
-    if (isAuthenticated()) {
-      role_id = Number(role_id);
-      if (isInvitationFlow) {
-        return (
-          <Routes>
-            <Route
-              path="/farm_selection"
-              element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" />}
-            />
-            <Route
-              path="/consent"
-              element={<ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
-            />
-            <Route
-              path="/outro"
-              element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" />}
-            />
-          </Routes>
-        );
-      } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
-        return <OnboardingFlow {...userFarm} />;
-      } else if (!has_consent) {
-        return (
-          <Routes>
-            <Route path="/farm_selection" element={<ChooseFarm />} />
-            <Route path="/consent" element={<ConsentForm goForwardTo={'/'} goBackTo={null} />} />
-            <Route path="*" element={<Navigate to="/consent" />} />
-          </Routes>
-        );
-      } else if (role_id === 1) {
-        return (
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Account />} />
-            <Route path="/people" element={<People />} />
-            <Route path="/farm_settings/*" element={<FarmSettings />} />
-            <Route path="/user/:user_id" element={<EditUser />} />
-            <Route path="/consent" element={<ConsentForm />} />
-            <Route path="/crop/new" element={<AddNewCrop />} />
-            <Route path="/crop/:crop_id/add_crop_variety" element={<AddCrop />} />
-            <Route path="/crop/:crop_id/add_crop_variety/compliance" element={<ComplianceInfo />} />
-            <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
-            <Route path="/crop/:variety_id/management" element={<CropManagement />} />
-            <Route path="/crop/:variety_id/edit_crop_variety" element={<EditCrop />} />
-            <Route
-              path="/crop/:variety_id/add_management_plan/planted_already"
-              element={<PlantedAlready />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/needs_transplant"
-              element={<Transplant />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/plant_date"
-              element={<PlantingDate />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
-              element={<PlantingLocation />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
-              element={<PlantingLocation />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/final_planting_method"
-              element={<PlantingMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_planting_method"
-              element={<PlantingMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
-              element={<PlantBroadcast />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_container_method"
-              element={<PlantInContainer />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_bed_method"
-              element={<BedPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
-              element={<BedPlanGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_row_method"
-              element={<RowMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
-              element={<RowMethodGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/broadcast_method"
-              element={<PlantBroadcast />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/container_method"
-              element={<PlantInContainer />}
-            />
-            <Route path="/crop/:variety_id/add_management_plan/bed_method" element={<BedPlan />} />
-            <Route
-              path="/crop/:variety_id/add_management_plan/bed_guidance"
-              element={<BedPlanGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/row_method"
-              element={<RowMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/row_guidance"
-              element={<RowMethodGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/name"
-              element={<ManagementPlanName />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
-              element={<ManagementTasks />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/details"
-              element={<ManagementDetails />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
-              element={<RepeatCropPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
-              element={<RepeatCropPlanConfirmation />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/edit"
-              element={<EditManagementDetails />}
-            />
-            <Route
-              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
-              element={<CompleteManagementPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
-              element={<AbandonManagementPlan />}
-            />
-            <Route path="/crop_catalogue" element={<CropCatalogue />} />
-            <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/documents/add_document" element={<AddDocument />} />
-            <Route path="/documents/:document_id/edit_document" element={<EditDocument />} />
-            <Route path="/documents/:document_id" element={<MainDocument />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
-            <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
-            <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              element={<HarvestCompleteQuantity />}
-            />
-            <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
-            <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
-            <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path="/create_location/farm_site_boundary"
-              element={<PostFarmSiteBoundaryForm />}
-            />
-            <Route path="/create_location/barn" element={<PostBarnForm />} />
-            <Route path="/create_location/natural_area" element={<PostNaturalAreaForm />} />
-            <Route path="/create_location/surface_water" element={<PostSurfaceWaterForm />} />
-            <Route path="/create_location/residence" element={<PostResidenceForm />} />
-            <Route path="/create_location/ceremonial_area" element={<PostCeremonialForm />} />
-            <Route path="/create_location/garden" element={<PostGardenForm />} />
-            <Route path="/create_location/greenhouse" element={<PostGreenhouseForm />} />
-            <Route path="/create_location/field" element={<PostFieldForm />} />
-            <Route path="/create_location/gate" element={<PostGateForm />} />
-            <Route path="/create_location/water_valve" element={<PostWaterValveForm />} />
-            <Route
-              path="/create_location/soil_sample_location"
-              element={<PostSoilSampleLocationForm />}
-            />
-            <Route path="/create_location/fence" element={<PostFenceForm />} />
-            <Route path="/create_location/buffer_zone" element={<PostBufferZoneForm />} />
-            <Route path="/create_location/watercourse" element={<PostWatercourseForm />} />
-            <Route
-              path={ADD_SENSORS_URL}
-              element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path="/farm_site_boundary/:location_id/*"
-              element={<FarmSiteBoundaryDetails />}
-            />
-            <Route path="/barn/:location_id/*" element={<BarnDetails />} />
-            <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
-            <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
-            <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
-            <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
-            <Route path="/garden/:location_id/*" element={<GardenDetails />} />
-            <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
-            <Route path="/field/:location_id/*" element={<FieldDetails />} />
-            <Route path="/gate/:location_id/*" element={<GateDetails />} />
-            <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
-            <Route
-              path="/soil_sample_location/:location_id/*"
-              element={<SoilSampleLocationDetails />}
-            />
-            <Route path="/fence/:location_id/*" element={<FenceDetails />} />
-            <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
-            <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
-            <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
-            <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
-            <Route path="/insights" element={<Insights />} />
-            <Route path="/insights/soilom" element={<SoilOM />} />
-            <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-            <Route path="/insights/biodiversity" element={<Biodiversity />} />
-            <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" element={<TapeSurvey />} />
-            <Route path="/insights/tape/results" element={<TapeResults />} />
-            <Route path="/farm_selection" element={<ChooseFarm />} />
-            <Route path="/callback" element={<Callback />} />
-            <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
-            <Route
-              path="/accept_invitation/create_account"
-              element={<InvitedUserCreateAccount />}
-            />
-            <Route path="/password_reset" element={<PasswordResetAccount />} />
-            <Route path={'/expired'} element={<ExpiredTokenScreen />} />
-            <Route path="/invite_user" element={<InviteUser />} />
-            <Route path="/certification" element={<ViewCertification />} />
-            <Route path="/certification/report_period" element={<CertificationReportingPeriod />} />
-            <Route path="/certification/survey" element={<CertificationSurvey />} />
-            <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
-            <Route path="/certification/selection" element={<CertificationSelection />} />
-            <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
-            <Route path="/certification/certifier/request" element={<RequestCertifier />} />
-            <Route path="/certification/summary" element={<SetCertificationSummary />} />
-            <Route path="/export/:id/from/:from/to/:to" element={<ExportDownload />} />
-            <Route path="/add_task/task_locations" element={<TaskLocations />} />
-            <Route path="/add_task/task_date" element={<TaskDate />} />
-            <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
-            <Route path="/add_task/task_details" element={<TaskDetails />} />
-            <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
-            <Route path="/add_task/task_crops" element={<TaskCrops />} />
-            <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
-            <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
-            <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
-            <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
-            {/* <Route
-              path="/add_task/edit_custom_task_update"
-              element={<EditCustomTaskUpdate />}
-            /> */}
-            <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
-            <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
-            <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
-            <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
-            <Route path="/add_task/row_method" element={<TaskRowMethod />} />
-            <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route
-              path="/notifications/:notification_id/read_only"
-              element={<NotificationReadOnly />}
-            />
-            <Route path="/finances/*" element={<Finances />} />
-            <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path={PRODUCT_INVENTORY_URL}
-              element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={SENSORS_URL}
-              element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
-              element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route path="/unknown_record" element={<UnknownRecord />} />
-            <Route
-              path="*"
-              //TODO change to 404
-              element={<Navigate to={'/'} />}
-            />
-          </Routes>
-        );
-      } else if (role_id === 2 || role_id === 5) {
-        return (
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Account />} />
-            <Route path="/people" element={<People />} />
-            <Route path="/user/:user_id" element={<EditUser />} />
-            <Route path="/farm_settings" element={<FarmSettings />} />
-            <Route path="/consent" element={<ConsentForm />} />
-            <Route path="/crop/new" element={<AddNewCrop />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
-            <Route
-              path="/crop/:variety_id/add_management_plan/planted_already"
-              element={<PlantedAlready />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/needs_transplant"
-              element={<Transplant />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/plant_date"
-              element={<PlantingDate />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
-              element={<PlantingLocation />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
-              element={<PlantingLocation />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/final_planting_method"
-              element={<PlantingMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_planting_method"
-              element={<PlantingMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
-              element={<PlantBroadcast />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_container_method"
-              element={<PlantInContainer />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_bed_method"
-              element={<BedPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
-              element={<BedPlanGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_row_method"
-              element={<RowMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
-              element={<RowMethodGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/broadcast_method"
-              element={<PlantBroadcast />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/container_method"
-              element={<PlantInContainer />}
-            />
-            <Route path="/crop/:variety_id/add_management_plan/bed_method" element={<BedPlan />} />
-            <Route
-              path="/crop/:variety_id/add_management_plan/bed_guidance"
-              element={<BedPlanGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/row_method"
-              element={<RowMethod />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/row_guidance"
-              element={<RowMethodGuidance />}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/name"
-              element={<ManagementPlanName />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
-              element={<ManagementTasks />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/details"
-              element={<ManagementDetails />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/edit"
-              element={<EditManagementDetails />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
-              element={<RepeatCropPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
-              element={<RepeatCropPlanConfirmation />}
-            />
-            <Route
-              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
-              element={<CompleteManagementPlan />}
-            />
-            <Route
-              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
-              element={<AbandonManagementPlan />}
-            />
-            <Route path="/crop_catalogue" element={<CropCatalogue />} />
-            <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
-            <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
-            <Route path="/crop/:variety_id/management" element={<CropManagement />} />
-            <Route path="/crop/:variety_id/edit_crop_variety" element={<EditCrop />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/documents/add_document" element={<AddDocument />} />
-            <Route path="/documents/:document_id/edit_document" element={<EditDocument />} />
-            <Route path="/documents/:document_id" element={<MainDocument />} />
-            <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path="/create_location/farm_site_boundary"
-              element={<PostFarmSiteBoundaryForm />}
-            />
-            <Route path="/create_location/barn" element={<PostBarnForm />} />
-            <Route path="/create_location/natural_area" element={<PostNaturalAreaForm />} />
-            <Route path="/create_location/surface_water" element={<PostSurfaceWaterForm />} />
-            <Route path="/create_location/residence" element={<PostResidenceForm />} />
-            <Route path="/create_location/ceremonial_area" element={<PostCeremonialForm />} />
-            <Route path="/create_location/garden" element={<PostGardenForm />} />
-            <Route path="/create_location/greenhouse" element={<PostGreenhouseForm />} />
-            <Route path="/create_location/field" element={<PostFieldForm />} />
-            <Route path="/create_location/gate" element={<PostGateForm />} />
-            <Route path="/create_location/water_valve" element={<PostWaterValveForm />} />
-            <Route
-              path="/create_location/soil_sample_location"
-              element={<PostSoilSampleLocationForm />}
-            />
-            <Route path="/create_location/fence" element={<PostFenceForm />} />
-            <Route path="/create_location/buffer_zone" element={<PostBufferZoneForm />} />
-            <Route path="/create_location/watercourse" element={<PostWatercourseForm />} />
-            <Route
-              path={ADD_SENSORS_URL}
-              element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path="/farm_site_boundary/:location_id/*"
-              element={<FarmSiteBoundaryDetails />}
-            />
-            <Route path="/barn/:location_id/*" element={<BarnDetails />} />
-            <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
-            <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
-            <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
-            <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
-            <Route path="/garden/:location_id/*" element={<GardenDetails />} />
-            <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
-            <Route path="/field/:location_id/*" element={<FieldDetails />} />
-            <Route path="/gate/:location_id/*" element={<GateDetails />} />
-            <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
-            <Route
-              path="/soil_sample_location/:location_id/*"
-              element={<SoilSampleLocationDetails />}
-            />
-            <Route path="/fence/:location_id/*" element={<FenceDetails />} />
-            <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
-            <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
-            <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
-            <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
-            <Route path="/crop/:crop_id/add_crop_variety" element={<AddCrop />} />
-            <Route path="/crop/:crop_id/add_crop_variety/compliance" element={<ComplianceInfo />} />
-            <Route path="/insights" element={<Insights />} />
-            <Route path="/insights/soilom" element={<SoilOM />} />
-            <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-            <Route path="/insights/biodiversity" element={<Biodiversity />} />
-            <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" element={<TapeSurvey />} />
-            <Route path="/insights/tape/results" element={<TapeResults />} />
-            <Route path="/farm_selection" element={<ChooseFarm />} />
-            <Route path="/callback" element={<Callback />} />
-            <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
-            <Route
-              path="/accept_invitation/create_account"
-              element={<InvitedUserCreateAccount />}
-            />
-            <Route path="/password_reset" element={<PasswordResetAccount />} />
-            <Route path={'/expired'} element={<ExpiredTokenScreen />} />
-            <Route path="/invite_user" element={<InviteUser />} />
-            <Route path="/certification" element={<ViewCertification />} />
-            <Route path="/certification/report_period" element={<CertificationReportingPeriod />} />
-            <Route path="/certification/survey" element={<CertificationSurvey />} />
-            <Route path="/certification/interested_in_organic" element={<InterestedOrganic />} />
-            <Route path="/certification/selection" element={<CertificationSelection />} />
-            <Route path="/certification/certifier/selection" element={<CertifierSelectionMenu />} />
-            <Route path="/certification/certifier/request" element={<RequestCertifier />} />
-            <Route path="/certification/summary" element={<SetCertificationSummary />} />
-            <Route path="/export/:id/from/:from/to/:to" element={<ExportDownload />} />
-            <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
-            <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
-            <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              element={<HarvestCompleteQuantity />}
-            />
-            <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
-            <Route path="/add_task/task_locations" element={<TaskLocations />} />
-            <Route path="/add_task/task_date" element={<TaskDate />} />
-            <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
-            <Route path="/add_task/task_details" element={<TaskDetails />} />
-            <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
-            <Route path="/add_task/task_crops" element={<TaskCrops />} />
-            <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
-            <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
-            <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
-            <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
-            {/* <Route
-              path="/add_task/edit_custom_task_update"
-              element={<EditCustomTaskUpdate />}
-            /> */}
-            <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
-            <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
-            <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
-            <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
-            <Route path="/add_task/row_method" element={<TaskRowMethod />} />
-            <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route
-              path="/notifications/:notification_id/read_only"
-              element={<NotificationReadOnly />}
-            />
-            <Route path="/finances/*" element={<Finances />} />
-            <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path={PRODUCT_INVENTORY_URL}
-              element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={SENSORS_URL}
-              element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
-              element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route path="/unknown_record" element={<UnknownRecord />} />
-            <Route path="*" element={<Navigate to={'/'} />} />
-          </Routes>
-        );
-      } else {
-        return (
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Account />} />
-            <Route path="/consent" element={<ConsentForm />} />
-            <Route path="/crop_catalogue" element={<CropCatalogue />} />
-            <Route path="/crop_varieties/crop/:crop_id" element={<CropVarieties />} />
-            <Route path="/crop/:variety_id/detail" element={<CropDetail />} />
-            <Route path="/crop/:variety_id/management" element={<CropManagement />} />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
-              element={<ManagementTasks />}
-            />
-            <Route
-              path="/crop/:variety_id/management_plan/:management_plan_id/details"
-              element={<ManagementDetails />}
-            />
-            <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path="/farm_site_boundary/:location_id/*"
-              element={<FarmSiteBoundaryDetails />}
-            />
-            <Route path="/barn/:location_id/*" element={<BarnDetails />} />
-            <Route path="/natural_area/:location_id/*" element={<NaturalAreaDetails />} />
-            <Route path="/surface_water/:location_id/*" element={<SurfaceWaterDetails />} />
-            <Route path="/residence/:location_id/*" element={<ResidenceDetails />} />
-            <Route path="/ceremonial_area/:location_id/*" element={<CeremonialAreaDetails />} />
-            <Route path="/garden/:location_id/*" element={<GardenDetails />} />
-            <Route path="/greenhouse/:location_id/*" element={<GreenhouseDetails />} />
-            <Route path="/field/:location_id/*" element={<FieldDetails />} />
-            <Route path="/gate/:location_id/*" element={<GateDetails />} />
-            <Route path="/water_valve/:location_id/*" element={<WaterValveDetails />} />
-            <Route
-              path="/soil_sample_location/:location_id/*"
-              element={<SoilSampleLocationDetails />}
-            />
-            <Route path="/fence/:location_id/*" element={<FenceDetails />} />
-            <Route path="/buffer_zone/:location_id/*" element={<BufferZoneDetails />} />
-            <Route path="/watercourse/:location_id/*" element={<WatercourseDetails />} />
-            <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
-            <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
-            <Route path="/farm_selection" element={<ChooseFarm />} />
-            <Route path="/insights" element={<Insights />} />
-            <Route path="/insights/soilom" element={<SoilOM />} />
-            <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-            <Route path="/insights/biodiversity" element={<Biodiversity />} />
-            <Route path="/insights/prices" element={<Prices />} />
-            <Route path="/insights/tape" element={<TapeSurvey />} />
-            <Route path="/insights/tape/results" element={<TapeResults />} />
-            <Route path="/callback" element={<Callback />} />
-            <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
-            <Route
-              path="/accept_invitation/create_account"
-              element={<InvitedUserCreateAccount />}
-            />
-            <Route path="/password_reset" element={<PasswordResetAccount />} />
-            <Route path={'/expired'} element={<ExpiredTokenScreen />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
-            <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
-            <Route path="/tasks/:task_id/complete" element={<TaskComplete />} />
-            <Route path="/tasks/:task_id/before_complete" element={<TaskCompleteStepOne />} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              element={<HarvestCompleteQuantity />}
-            />
-            <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
-            <Route path="/add_task/task_locations" element={<TaskLocations />} />
-            <Route path="/add_task/task_date" element={<TaskDate />} />
-            <Route path="/add_task/task_assignment" element={<TaskAssignment />} />
-            <Route path="/add_task/task_details" element={<TaskDetails />} />
-            <Route path="/add_task/task_type_selection" element={<TaskTypeSelection />} />
-            <Route path="/add_task/task_crops" element={<TaskCrops />} />
-            <Route path="/add_task/task_animal_selection" element={<TaskAnimals />} />
-            <Route path="/add_task/manage_custom_tasks" element={<ManageCustomTasks />} />
-            <Route path="/add_task/add_custom_task" element={<AddCustomTask />} />
-            <Route path="/add_task/edit_custom_task" element={<EditCustomTask />} />
-            {/* <Route
-              path="/add_task/edit_custom_task_update"
-              element={<EditCustomTaskUpdate />}
-            /> */}
-            <Route path="/add_task/planting_method" element={<TaskTransplantMethod />} />
-            <Route path="/add_task/bed_method" element={<TaskBedMethod />} />
-            <Route path="/add_task/bed_guidance" element={<TaskBedGuidance />} />
-            <Route path="/add_task/container_method" element={<TaskContainerMethod />} />
-            <Route path="/add_task/row_method" element={<TaskRowMethod />} />
-            <Route path="/add_task/row_guidance" element={<TaskRowGuidance />} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route
-              path="/notifications/:notification_id/read_only"
-              element={<NotificationReadOnly />}
-            />
-            <Route path="/animals/*" element={<Animals isCompactSideMenu={isCompactSideMenu} />} />
-            <Route
-              path={PRODUCT_INVENTORY_URL}
-              element={<ProductInventory isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={SENSORS_URL}
-              element={<SensorList isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route
-              path={`${IRRIGATION_PRESCRIPTION_URL}/:ip_pk`}
-              element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
-            />
-            <Route path="/unknown_record" element={<UnknownRecord />} />
-            <Route path="*" element={<Navigate to={'/'} />} />
-          </Routes>
-        );
-      }
-    } else if (!isAuthenticated()) {
-      return (
-        <Routes>
-          <Route path={'/render_survey'} element={<RenderSurvey />} />
-          <Route path="/callback" element={<Callback />} />
-          <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
-          <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
-          <Route path="/password_reset" element={<PasswordResetAccount />} />
-          <Route path={'/expired'} element={<ExpiredTokenScreen />} />
-          <Route path="/" element={<CustomSignUp />} />
-          <Route
-            path="*"
-            //TODO change to 404
-            element={<Navigate to={'/'} />}
-          />
-        </Routes>
-      );
-    }
-  };
 
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
-        <Route path="*" element={<Element />} />
+        <Route
+          path="*"
+          element={
+            <Element
+              userFarm={userFarm}
+              isInvitationFlow={isInvitationFlow}
+              isCompactSideMenu={isCompactSideMenu}
+            />
+          }
+        />
       </Routes>
     </Suspense>
   );

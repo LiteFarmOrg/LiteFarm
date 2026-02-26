@@ -15,7 +15,7 @@
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
 import { saveSurveyProgress, completeSurvey, tapeSurveySelector } from './tapeSurveySlice';
@@ -25,7 +25,7 @@ import PageTitle from '../../../components/PageTitle';
 
 function TAPESurvey() {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { prepopulatedData, isLoading } = useTapeSurveyPrepopulatedData();
@@ -40,7 +40,7 @@ function TAPESurvey() {
 
   const handleComplete = useCallback((currentPageNo: number, surveyData: any) => {
     dispatch(completeSurvey({ currentPageNo, surveyData }));
-    history.push('/insights/tape/results');
+    navigate('/insights/tape/results');
   }, []);
 
   return (

@@ -121,6 +121,7 @@ const FixedHeaderContainer = ({
 
   return (
     <div className={clsx(styles.wrapper, classes.wrapper)}>
+      {/* TODO: LF-4242 Fix width */}
       {header}
       <Wrapper paperRef={paperRef} classes={classes} hasMaxWidth={!isFullWidth}>
         {childrenWithProps}

@@ -71,7 +71,7 @@ export default function CropPlansModal({ variety, managementPlanCardContents, di
                 onClick={() =>
                   navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    { state: location.state },
                   )
                 }
               />

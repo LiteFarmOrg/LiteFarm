@@ -36,7 +36,7 @@ const Navigation = ({ children, ...props }) => {
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
-    matchPath(location.pathname, path),
+    matchPath(path, location.pathname),
   );
   const isLoginPage = location.state?.component === CUSTOM_SIGN_UP;
   // Hides the top navigation bar with logo on the login component

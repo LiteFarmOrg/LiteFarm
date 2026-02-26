@@ -80,7 +80,7 @@ const FixedHeaderContainer = ({
   const location = useLocation();
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
-  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
+  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) => matchPath(path, location.pathname));
 
   useLayoutEffect(() => {
     if (kind === ContainerKind.OVERFLOW) {
@@ -121,7 +121,6 @@ const FixedHeaderContainer = ({
 
   return (
     <div className={clsx(styles.wrapper, classes.wrapper)}>
-      {/* TODO: LF-4242 Fix width */}
       {header}
       <Wrapper paperRef={paperRef} classes={classes} hasMaxWidth={!isFullWidth}>
         {childrenWithProps}

@@ -97,7 +97,7 @@ const SideMenuContent = ({ closeDrawer, isCompact, hasBeenExpanded }) => {
   const getMenuItemProps = (key, label, path, className) => {
     const isViewOnly = offline && offlineViewOnlyPageKeys.has(key);
     const isDisabled = offline && offlineDisabledPageKeys.has(key);
-    const isActive = matchPath(location.pathname, path);
+    const isActive = matchPath(path, location.pathname);
 
     return {
       path,

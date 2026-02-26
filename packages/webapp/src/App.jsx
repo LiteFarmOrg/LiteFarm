@@ -34,8 +34,9 @@ function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
   const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
-  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(location.pathname, path));
-
+  const isFullWidth = FULL_WIDTH_ROUTES.some((path) =>
+    matchPath({ path, end: false }, location.pathname),
+  );
   useOfflineDetector();
   useServiceWorkerListener();
   useOfflineActivityLogger();

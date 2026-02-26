@@ -19,8 +19,6 @@ export default function PureWaterValveWrapper(props) {
 }
 
 export function PureWaterValve({
-  history,
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -41,8 +39,6 @@ export function PureWaterValve({
   };
   return (
     <PureLocationDetailLayout
-      history={history}
-      match={match}
       locationType={'water_valve'}
       locationCategory={'point'}
       isCreateLocationPage={isCreateLocationPage}

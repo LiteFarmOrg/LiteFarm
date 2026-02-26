@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PureInviteSignup from '../../components/InviteSignup';
 import { decodeToken } from 'react-jwt';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +10,9 @@ import Button from '../../components/Form/Button';
 import { isChrome } from '../../util';
 
 function InviteSignUp() {
-  const history = useHistory();
-  const invite_token = history.location.state;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const invite_token = location.state;
   const GOOGLE = 1;
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation(['translation', 'common']);
@@ -21,7 +22,7 @@ function InviteSignUp() {
   const [showError, setShowError] = useState();
   useEffect(() => {
     if (!invite_token) {
-      history.push('/');
+      navigate('/');
     } else {
       const { email, gender, birth_year } = getTokenContent(invite_token);
       setEmail(email);
@@ -41,13 +42,15 @@ function InviteSignUp() {
 
   const onSuccessGoogle = (data, token) => {
     if (data.email === email) {
-      history.push('/accept_invitation/create_account', {
-        email,
-        google_id_token: token.access_token,
-        invite_token,
-        name: data.name,
-        gender,
-        birth_year,
+      navigate('/accept_invitation/create_account', {
+        state: {
+          email,
+          google_id_token: token.access_token,
+          invite_token,
+          name: data.name,
+          gender,
+          birth_year,
+        },
       });
     } else {
       setShowError(true);
@@ -59,12 +62,14 @@ function InviteSignUp() {
       login();
     } else {
       const { email, first_name, last_name } = getTokenContent(invite_token);
-      history.push('/accept_invitation/create_account', {
-        invite_token,
-        email,
-        name: `${first_name} ${last_name}`,
-        gender,
-        birth_year,
+      navigate('/accept_invitation/create_account', {
+        state: {
+          invite_token,
+          email,
+          name: `${first_name} ${last_name}`,
+          gender,
+          birth_year,
+        },
       });
     }
   };

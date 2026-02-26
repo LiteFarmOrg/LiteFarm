@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/Detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
   currentAndPlannedManagementPlansByCropVarietySelector,
@@ -17,10 +17,9 @@ import { deleteVarietal } from '../../AddCropVariety/saga';
 import { isAdminSelector } from '../../userFarmSlice';
 
 function CropDetail() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
-  const { variety_id } = match.params;
+  const { variety_id } = useParams();
   const dispatch = useDispatch();
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
   const { crop_id } = selectedVariety;
@@ -36,7 +35,9 @@ function CropDetail() {
   const hasNoManagementPlans = currentMPs.length < 1 && plannedMPs.length < 1;
 
   const goBack = () => {
-    history.push(location?.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, location.state);
+    navigate(location.state?.returnPath ?? `/crop_varieties/crop/${crop_id}`, {
+      state: location.state,
+    });
   };
 
   const warningModal = () => {
@@ -53,7 +54,7 @@ function CropDetail() {
 
   const handleEdit = () => {
     if (hasNoManagementPlans) {
-      history.push(`/crop/${variety_id}/edit_crop_variety`);
+      navigate(`/crop/${variety_id}/edit_crop_variety`);
     } else {
       setShowEditModal(true);
     }
@@ -64,15 +65,12 @@ function CropDetail() {
   return (
     <CropVarietySpotlight>
       <PureCropDetail
-        history={history}
-        match={match}
         variety={selectedVariety}
         isInterestedInOrganic={interested}
         onBack={goBack}
         onRetire={() => warningModal()}
         onEdit={handleEdit}
         isAdmin={isAdmin}
-        location={location}
       />
       {showWarningBox && (
         <RetireCropWarning
@@ -84,7 +82,7 @@ function CropDetail() {
       {showEditModal && (
         <EditCropVarietyModal
           dismissModal={() => setShowEditModal(false)}
-          handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
+          handleEdit={() => navigate(`/crop/${variety_id}/edit_crop_variety`)}
         />
       )}
     </CropVarietySpotlight>

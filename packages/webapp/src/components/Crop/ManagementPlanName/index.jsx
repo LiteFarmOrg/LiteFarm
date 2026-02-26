@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -16,14 +17,12 @@ import { cloneObject } from '../../../util';
 export default function PureManagementPlanName({
   onSubmit,
   onError,
-  match,
-  history,
   persistedFormData,
   useHookFormPersist,
   managementPlanCount,
 }) {
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
+  const navigate = useNavigate();
 
   const NAME = 'name';
   const NOTES = 'notes';
@@ -59,7 +58,7 @@ export default function PureManagementPlanName({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 
@@ -120,8 +119,6 @@ export default function PureManagementPlanName({
 }
 
 PureManagementPlanName.prototype = {
-  history: PropTypes.object,
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCertificationName } from '../useCertificationName';
@@ -11,7 +11,7 @@ import { postOrganicCertifierSurvey, putOrganicCertifierSurvey } from '../saga';
 import { certifierSurveySelector } from '../slice';
 
 export default function OnboardingSetCertificationSummary() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const requestCertifierPath = '/certification/certifier/request';
@@ -19,7 +19,7 @@ export default function OnboardingSetCertificationSummary() {
   const outroPath = '/outro';
   const dispatch = useDispatch();
   const onSubmit = () => {
-    const callback = () => history.push('/outro', { success: true });
+    const callback = () => navigate('/outro', { state: { success: true } });
     if (survey.survey_id) {
       dispatch(
         putOrganicCertifierSurvey({
@@ -41,8 +41,8 @@ export default function OnboardingSetCertificationSummary() {
   const certifiers = useCertifiers();
   const onGoBack = () => {
     isRequestedCertifier || certifiers.length < 1
-      ? history.push(requestCertifierPath)
-      : history.push(selectCertifierPath);
+      ? navigate(requestCertifierPath)
+      : navigate(selectCertifierPath);
   };
 
   useHookFormPersist(() => ({}), [requestCertifierPath, selectCertifierPath, outroPath]);

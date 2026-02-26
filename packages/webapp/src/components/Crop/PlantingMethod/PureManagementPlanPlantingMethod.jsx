@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -16,13 +17,12 @@ import { PurePlantingMethod } from './PurePlantingMethod';
 export default function PureManagementPlanPlantingMethod({
   useHookFormPersist,
   persistedFormData,
-  match,
-  history,
   isFinalPlantingMethod,
   system,
 }) {
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
+  const navigate = useNavigate();
+  const { variety_id } = useParams();
 
   const { showBroadcast, showIsPlantingMethodKnown } = useMemo(() => {
     const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } =
@@ -70,7 +70,7 @@ export default function PureManagementPlanPlantingMethod({
   const onError = () => {};
 
   const onSubmit = () =>
-    history.push(
+    navigate(
       getPlantingMethodPaths(
         variety_id,
         persistedFormData,
@@ -79,7 +79,7 @@ export default function PureManagementPlanPlantingMethod({
         is_planting_method_known,
       ).submitPath,
     );
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const disabled = !isValid;
 
@@ -140,8 +140,6 @@ export default function PureManagementPlanPlantingMethod({
 }
 
 PureManagementPlanPlantingMethod.prototype = {
-  history: PropTypes.object,
-  match: PropTypes.object,
   onSubmit: PropTypes.func,
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,

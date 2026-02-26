@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { History } from 'history';
 import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
@@ -84,10 +84,10 @@ type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
   userFarm: UserFarm;
-  history: History;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -112,7 +112,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSens
         ? `/sensor_array/${selectedLocation.id}`
         : `/sensor/${cleanSensorId(selectedLocation.id)}`;
 
-    history.push(readingsUrl);
+    navigate(readingsUrl);
   };
 
   const handleClose = () => {

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
@@ -15,8 +16,6 @@ import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
 
 export function PureLocationDetailLayout({
-  history,
-  match,
   system,
   locationType,
   locationCategory,
@@ -31,6 +30,7 @@ export function PureLocationDetailLayout({
   detailsChildren,
   showPerimeter,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',
@@ -38,7 +38,7 @@ export function PureLocationDetailLayout({
     defaultValues: persistedFormData,
   });
   const historyCancel = () => {
-    history.push('/map', { hideLocationPin: true });
+    navigate('/map', { state: { hideLocationPin: true } });
   };
 
   const onError = (data) => {};
@@ -50,7 +50,7 @@ export function PureLocationDetailLayout({
     (isViewLocationPage && persistedFormData.name);
 
   // TODO: Move this up to container when just 1 container exists for locations
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const location =
     isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
   const routerTabs = location && useLocationRouterTabs(location);
@@ -60,7 +60,6 @@ export function PureLocationDetailLayout({
       return (
         <AreaDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
@@ -74,7 +73,6 @@ export function PureLocationDetailLayout({
       return (
         <LineDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -86,7 +84,6 @@ export function PureLocationDetailLayout({
       return (
         <PointDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -107,7 +104,7 @@ export function PureLocationDetailLayout({
               isCreateLocationPage={isCreateLocationPage}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}
-              onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+              onEdit={() => navigate(`/${locationType}/${location_id}/edit`)}
               onRetire={handleRetire}
               isAdmin={isAdmin}
             />
@@ -120,16 +117,12 @@ export function PureLocationDetailLayout({
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            history={history}
-            match={match}
             onCancel={historyCancel}
             formMethods={formMethods}
           />
           {isViewLocationPage && (
             <RouterTab
               classes={{ container: { margin: '6px 0 26px 0' } }}
-              history={history}
-              match={match}
               tabs={routerTabs}
               variant={Variant.UNDERLINE}
             />

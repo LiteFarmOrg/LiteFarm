@@ -10,7 +10,8 @@ import {
   resetAndUnLockFormData,
 } from './hookFormPersistSlice';
 import { useCallback, useEffect, useLayoutEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import history from '../../../history';
 
 /**
  * Persists form values when navigating between routes.
@@ -29,7 +30,7 @@ export default function useHookFormPersist(
   persistedPathNames = [],
   formFieldsToKeep = [],
 ) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const historyStack = useSelector(hookFormPersistHistoryStackSelector);
@@ -40,7 +41,7 @@ export default function useHookFormPersist(
   }, []);
 
   const historyCancel = useCallback(() => {
-    history.go(-historyStack.length);
+    navigate(-historyStack.length);
   }, [historyStack]);
 
   const formData = useSelector(hookFormPersistSelector);
@@ -77,18 +78,18 @@ export default function useHookFormPersist(
           const unlisten = history.listen(() => {
             if (history.action === 'POP') {
               unlisten();
-              history.push(pathname, state);
+              navigate(pathname, { state });
             }
           });
-          history.go(-(historyStack.length || 1) - 1);
+          navigate(-(historyStack.length || 1) - 1);
         } else if (history.action === 'POP') {
           const unlisten = history.listen(() => {
             if (history.action === 'POP') {
               unlisten();
-              history.push(pathname, state);
+              navigate(pathname, { state });
             }
           });
-          history.back();
+          navigate(-1);
         }
       }
     };

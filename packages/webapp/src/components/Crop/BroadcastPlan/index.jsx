@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Form from '../../Form';
@@ -15,14 +16,14 @@ function PureBroadcastPlan({
   useHookFormPersist,
   system,
   variety_id,
-  history,
   locationSize,
   yieldPerArea,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  location,
 }) {
   const { t } = useTranslation(['translation']);
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -39,8 +40,8 @@ function PureBroadcastPlan({
   const { historyCancel } = useHookFormPersist(getValues);
 
   const { submitPath } = useMemo(() => getBroadcastMethodPaths(variety_id, isFinalPage), []);
-  const onSubmit = () => history.push(submitPath, location?.state);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath, { state: location.state });
+  const onGoBack = () => () => navigate(-1);
 
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =

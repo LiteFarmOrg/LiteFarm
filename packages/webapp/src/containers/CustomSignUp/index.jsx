@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -34,7 +34,7 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const {
     register,
@@ -46,7 +46,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = location?.state || {};
+  const { user, component: componentToShow } = location.state || {};
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: VALID_EMAIL_REGEX });
   const dispatch = useDispatch();
@@ -98,11 +98,9 @@ function CustomSignUp() {
 
   useEffect(() => {
     if (!componentToShow) {
-      history.replace(
-        {
-          pathname: '/',
-        },
-        { user: { email }, component: CUSTOM_SIGN_UP },
+      navigate(
+        { pathname: '/' }, // TOOD: verify if pathname should be '/'
+        { replace: true, state: { user: { email }, component: CUSTOM_SIGN_UP } },
       );
     }
   }, [componentToShow, email]);
@@ -122,7 +120,7 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push(
+    navigate(
       {
         pathname: '/',
       },
@@ -130,7 +128,7 @@ function CustomSignUp() {
     );
   };
   const createUserAccountOnGoBack = () => {
-    history.push(
+    navigate(
       {
         pathname: '/',
       },

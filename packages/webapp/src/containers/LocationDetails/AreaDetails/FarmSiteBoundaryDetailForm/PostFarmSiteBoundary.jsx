@@ -1,4 +1,3 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
 import PureFarmSiteBoundary from '../../../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 import { postFarmSiteBoundaryLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +6,6 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function PostFarmSiteBoundaryDetailForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -19,8 +16,6 @@ function PostFarmSiteBoundaryDetailForm() {
 
   return (
     <PureFarmSiteBoundary
-      history={history}
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

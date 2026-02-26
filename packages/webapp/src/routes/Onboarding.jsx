@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -27,33 +27,29 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(
-  () =>
-    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-    ),
+const CertificationSelection = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+  ),
 );
 
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-    ),
+const CertifierSelectionMenu = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+  ),
 );
 
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-    ),
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+  ),
 );
 
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 function OnboardingFlow(props) {
@@ -69,15 +65,13 @@ function OnboardingFlow(props) {
   const requireConditionProps = { ...props, hasUserFarms };
 
   return (
-    <Switch>
-      <Route path="/farm_selection" exact children={<ChooseFarm />} />
-      <Route path="/welcome" exact children={<WelcomeScreen />} />
-      <Route path="/add_farm" exact children={<AddFarm />} />
-
+    <Routes>
+      <Route path="/farm_selection" element={<ChooseFarm />} />
+      <Route path="/welcome" element={<WelcomeScreen />} />
+      <Route path="/add_farm" element={<AddFarm />} />
       <Route
         path="/role_selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_one} {...requireConditionProps}>
             <RoleSelection />
           </RequireCondition>
@@ -85,8 +79,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/consent"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
             <ConsentForm />
           </RequireCondition>
@@ -94,18 +87,15 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/consent"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
             <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
           </RequireCondition>
         }
       />
-
       <Route
         path="/certification/interested_in_organic"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_three} {...requireConditionProps}>
             <InterestedOrganic />
           </RequireCondition>
@@ -113,8 +103,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <CertificationSelection />
           </RequireCondition>
@@ -122,8 +111,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/certifier/selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <CertifierSelectionMenu />
           </RequireCondition>
@@ -131,8 +119,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/certifier/request"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <RequestCertifier />
           </RequireCondition>
@@ -140,8 +127,7 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/certification/summary"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four || interested} {...requireConditionProps}>
             <SetCertificationSummary />
           </RequireCondition>
@@ -149,16 +135,15 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/outro"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_four} {...requireConditionProps}>
             <Outro />
           </RequireCondition>
         }
       />
       {/* Fallback route - handles redirects when no other routes match */}
-      <Route render={() => <RequireCondition {...requireConditionProps} />} />
-    </Switch>
+      <Route path="*" element={<RequireCondition {...requireConditionProps} />} />
+    </Routes>
   );
 }
 
@@ -180,35 +165,35 @@ const RequireCondition = ({
   }
 
   if (step_one && step_four && !step_five) {
-    return <Redirect to="/outro" />;
+    return <Navigate to="/outro" />;
   }
 
   if (step_one && step_three && !step_four) {
-    return <Redirect to="/certification/interested_in_organic" />;
+    return <Navigate to="/certification/interested_in_organic" />;
   }
 
   if (step_two && !step_three) {
-    return <Redirect to="/consent" />;
+    return <Navigate to="/consent" />;
   }
 
   if (step_one && !step_two) {
-    return <Redirect to="/role_selection" />;
+    return <Navigate to="/role_selection" />;
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
-    return <Redirect to="/welcome" />;
+    return <Navigate to="/welcome" />;
   }
 
   if (!farm_id && hasUserFarms) {
-    return <Redirect to="/farm_selection" />;
+    return <Navigate to="/farm_selection" />;
   }
 
   if (step_four && !has_consent) {
-    return <Redirect to="/consent" />;
+    return <Navigate to="/consent" />;
   }
 
   if (!step_one) {
-    return <Redirect to="/add_farm" />;
+    return <Navigate to="/add_farm" />;
   }
 
   return null;

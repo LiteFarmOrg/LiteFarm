@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import { useSelector } from 'react-redux';
 import { certificationsSelector } from '../certificationSlice';
@@ -7,7 +7,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useGetCertifiers } from '../useCertifiers';
 
 export default function CertificationSelection() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
 
   const certifications = useSelector(certificationsSelector);
@@ -19,14 +19,14 @@ export default function CertificationSelection() {
   const onSubmit = (data) => {
     const certifiers = getCertifiers(data.certification_id);
     if (data.certification_id === 0 || certifiers.length === 0) {
-      history.push(requestCertifierPath);
+      navigate(requestCertifierPath);
     } else {
-      history.push(selectCertifierPath);
+      navigate(selectCertifierPath);
     }
   };
 
   const onGoBack = () => {
-    history.push(interestedInOrganicPath);
+    navigate(interestedInOrganicPath);
   };
 
   return (

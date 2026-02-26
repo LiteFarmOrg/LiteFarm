@@ -1,4 +1,5 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCropAndVarietal, postVarietal } from './saga';
@@ -7,13 +8,12 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { cropSelector } from '../cropSlice';
 
 function ComplianceInfoForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   //TODO: create two different route for creating crop / crop_variety
-  const crop_id = match.params.crop_id;
+  const { crop_id } = useParams();
   const crop = useSelector(cropSelector(crop_id));
   const isNewCrop = crop_id === 'new';
 
@@ -36,19 +36,12 @@ function ComplianceInfoForm() {
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (
     <HookFormPersistProvider>
-      <ComplianceInfo
-        history={history}
-        onSubmit={onSubmit}
-        onError={onError}
-        onGoBack={onGoBack}
-        match={match}
-        crop={crop}
-      />
+      <ComplianceInfo onSubmit={onSubmit} onError={onError} onGoBack={onGoBack} crop={crop} />
     </HookFormPersistProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
@@ -9,7 +9,7 @@ import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPer
 import { userFarmSelector } from '../../userFarmSlice';
 
 function CertificationSurveyPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const onExport = (exportData) => {
     dispatch(exportCertificationData(exportData));
@@ -29,8 +29,8 @@ function CertificationSurveyPage() {
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
         onExport={onExport}
-        handleGoBack={() => history.back()}
-        handleCancel={() => history.push('/certification')}
+        handleGoBack={() => navigate(-1)}
+        handleCancel={() => navigate('/certification')}
         certifierSurvey={certifierSurvey}
         interested={interested}
         certifier={certifier}

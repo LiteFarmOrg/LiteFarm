@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useParams, useMatch, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -17,25 +17,26 @@ import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
 const ExpenseDetail = () => {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useHookFormPersist(); // To clear form history after editing
 
-  const isEditing = match.path.endsWith('/edit');
+  // TODO: Pass isEditing as a param instead of parsing URL
+  const { pathname } = useLocation();
+  const isEditing = pathname.endsWith('/edit');
 
-  const { expense_id } = match.params;
+  const { expense_id } = useParams();
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));
 
   useEffect(() => {
     if (!expense) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [expense, history]);
+  }, [expense]);
 
   const currentExpenseType = useSelector(expenseTypeByIdSelector(expense.expense_type_id));
 
@@ -68,7 +69,7 @@ const ExpenseDetail = () => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    history.push(createEditExpenseDetailsUrl(expense_id));
+    navigate(createEditExpenseDetailsUrl(expense_id)); // TODO: Fix navigation
   };
 
   const onRetire = () => {
@@ -76,7 +77,7 @@ const ExpenseDetail = () => {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

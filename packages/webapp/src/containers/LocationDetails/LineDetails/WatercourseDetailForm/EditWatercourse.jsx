@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureWatercourse from '../../../../components/LocationDetailLayout/LineDetails/Watercourse';
 import { deleteWatercourseLocation, editWatercourseLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,8 +15,7 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditWatercourseDetailForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
@@ -26,24 +25,23 @@ function EditWatercourseDetailForm() {
       dispatch(
         editWatercourseLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: watercourse.figure_id,
         }),
       );
   };
-  const watercourse = useSelector(watercourseSelector(match.params.location_id));
+  const watercourse = useSelector(watercourseSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -72,8 +70,6 @@ function EditWatercourseDetailForm() {
   return (
     <>
       <PureWatercourse
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={watercourse}

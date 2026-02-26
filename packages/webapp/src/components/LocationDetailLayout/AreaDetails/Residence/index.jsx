@@ -12,8 +12,6 @@ export default function PureResidenceWrapper(props) {
 }
 
 export function PureResidence({
-  history,
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -39,8 +37,6 @@ export function PureResidence({
 
   return (
     <PureLocationDetailLayout
-      history={history}
-      match={match}
       system={system}
       locationType={'residence'}
       locationCategory={'area'}

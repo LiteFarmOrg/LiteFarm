@@ -14,7 +14,7 @@
  */
 
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import CardLayout from '../../../components/Layout/CardLayout';
@@ -52,7 +52,11 @@ const generateSensorArrayColorMap = (sensors: Sensor[]) => {
   }));
 };
 
-const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor[] | undefined => {
+const filterSensors = (
+  id: string | undefined,
+  type: SensorType,
+  sensors?: Sensor[],
+): Sensor[] | undefined => {
   return type === SensorType.SENSOR_ARRAY
     ? sensors
         ?.filter(({ sensor_array_id }) => sensor_array_id == id)
@@ -97,7 +101,7 @@ const PAGE_TITLE_KEY = {
 };
 
 const SensorReadings = ({ type }: SensorReadingsProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
 
@@ -119,9 +123,9 @@ const SensorReadings = ({ type }: SensorReadingsProps) => {
 
   useEffect(() => {
     if (!isFetching && !sensors?.length) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [isFetching, sensors?.length, history]);
+  }, [isFetching, sensors?.length]);
 
   const label = sensorArray ? sensorArray.label : sensors?.[0]?.label;
 
@@ -133,8 +137,7 @@ const SensorReadings = ({ type }: SensorReadingsProps) => {
           system: sensorArray?.system,
           fallback: t(PAGE_TITLE_KEY[type]),
         })}
-        // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-        onGoBack={history.back}
+        onGoBack={() => navigate(-1)}
         classNames={{ wrapper: styles.title }}
       />
       {!!sensors?.length && (

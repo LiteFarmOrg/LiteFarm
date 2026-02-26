@@ -12,8 +12,6 @@ export default function PureCeremonialAreaWrapper(props) {
 }
 
 export function PureCeremonialArea({
-  history,
-  match,
   submitForm,
   system,
   isCreateLocationPage,
@@ -37,8 +35,6 @@ export function PureCeremonialArea({
 
   return (
     <PureLocationDetailLayout
-      history={history}
-      match={match}
       system={system}
       locationType={'ceremonial_area'}
       locationCategory={'area'}

@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { patchUserFarmStatus, validateResetToken } from './saga';
 import Spinner from '../../components/Spinner';
 
 function Callback() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
-    const params = new URLSearchParams(history.location.search.substring(1));
+    const params = new URLSearchParams(location.search.substring(1));
     const isResetLink = params.has('reset_token');
     const isInviteLink = params.has('invite_token');
     if (isResetLink) {
@@ -21,7 +22,7 @@ function Callback() {
         }),
       );
     } else {
-      history.push('/');
+      navigate('/');
     }
   }, []);
 

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { logout } from '../../../util/jwt';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
@@ -41,11 +42,13 @@ import { storeActivity } from '../../../util/offlineEventLogger';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
-const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
   const offline = useIsOffline();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
-  const sectionHeader = useSectionHeader(history.location.pathname);
+  const sectionHeader = useSectionHeader(location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const [showOfflineLogoutWarning, setShowOfflineLogoutWarning] = useState(false);
@@ -59,15 +62,15 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
 
   const handleClick = (link) => {
     closeMenu();
-    history.push(link);
+    navigate(link);
   };
 
   const notificationIconClick = () => {
     const url = '/notifications';
-    if (history.location.pathname === url) {
+    if (location.pathname === url) {
       // TODO click should update contents; is there better way than full page refresh?
       closeMenu();
-      history.go();
+      navigate(url, { replace: true });
     } else {
       handleClick(url);
     }
@@ -294,7 +297,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
             className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
           >
             {!showNavActions ? <Logo /> : showMainNavigation}
-            {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+            {showNavActions && isMobile && <Logo withoutWords onClick={() => navigate('/')} />}
           </Toolbar>
         </AppBar>
         {showOfflineLogoutWarning && (

@@ -1,5 +1,6 @@
 import styles from './styles.module.scss';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
@@ -20,7 +21,6 @@ export default function PurePlantingLocation({
   useHookFormPersist,
   isFinalLocationPage,
   variety_id,
-  history,
   cropLocations,
   default_initial_location_id,
   farmCenterCoordinate,
@@ -28,6 +28,7 @@ export default function PurePlantingLocation({
   isPursuingCertification,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const navigate = useNavigate();
   const { getValues, watch, setValue } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
@@ -107,7 +108,7 @@ export default function PurePlantingLocation({
   };
 
   const proceedToNextStep = () =>
-    history.push(
+    navigate(
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
 
@@ -146,8 +147,7 @@ export default function PurePlantingLocation({
   };
 
   const onGoBack = () => {
-    history.back();
-    ``;
+    navigate(-1);
   };
 
   return (
@@ -241,7 +241,6 @@ PurePlantingLocation.prototype = {
   useHookFormPersist: PropTypes.func,
   isFinalLocationPage: PropTypes.bool,
   variety_id: PropTypes.string,
-  history: PropTypes.object,
   locations: PropTypes.object,
   farmCenterCoordinate: PropTypes.object,
   isCropOrganic: PropTypes.bool,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureBarn from '../../../../components/LocationDetailLayout/AreaDetails/Barn';
 import { deleteBarnLocation, editBarnLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,28 +16,27 @@ import {
 
 function EditBarnDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
+
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editBarnLocation({ ...data, ...match.params, figure_id: barn.figure_id }));
+      dispatch(editBarnLocation({ ...data, location_id, figure_id: barn.figure_id }));
   };
-  const barn = useSelector(barnSelector(match.params.location_id));
+  const barn = useSelector(barnSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -66,8 +65,6 @@ function EditBarnDetailForm() {
   return (
     <>
       <PureBarn
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={barn}

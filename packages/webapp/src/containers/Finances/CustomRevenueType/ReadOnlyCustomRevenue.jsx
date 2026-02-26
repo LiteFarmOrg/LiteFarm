@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,7 +26,7 @@ import CustomRevenueRadios from './CustomRevenueRadios';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
 
 function ReadOnlyCustomRevenue() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { revenue_type_id } = useParams();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
@@ -40,11 +41,11 @@ function ReadOnlyCustomRevenue() {
     : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const handleEdit = () => {
-    history.push(createEditCustomRevenueUrl(revenue_type_id));
+    navigate(createEditCustomRevenueUrl(revenue_type_id));
   };
 
   const onRetire = () => {

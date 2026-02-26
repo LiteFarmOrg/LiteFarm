@@ -11,7 +11,7 @@ import {
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath, useNavigate, useLocation } from 'react-router-dom';
 import { FiEye } from 'react-icons/fi';
 
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -28,9 +28,11 @@ import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 
-const MenuItem = forwardRef(({ history, onClick, path, children, ...props }, ref) => {
+const MenuItem = forwardRef(({ onClick, path, children, ...props }, ref) => {
+  const navigate = useNavigate();
+
   return (
-    <ListItemButton onClick={onClick ?? (() => history.push(path))} ref={ref} {...props}>
+    <ListItemButton onClick={onClick ?? (() => navigate(path))} ref={ref} {...props}>
       {/* Visibility controlled via props.classes passed to ListItemButton */}
       <span className={styles.eyeIconWrapper}>
         <FiEye aria-hidden="true" />
@@ -67,7 +69,9 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
+const SideMenuContent = ({ closeDrawer, isCompact, hasBeenExpanded }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -77,7 +81,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const offline = useIsOffline();
 
   const handleClick = (link) => {
-    history.push(link);
+    navigate(link);
     closeDrawer?.();
   };
 
@@ -93,10 +97,9 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   const getMenuItemProps = (key, label, path, className) => {
     const isViewOnly = offline && offlineViewOnlyPageKeys.has(key);
     const isDisabled = offline && offlineDisabledPageKeys.has(key);
-    const isActive = matchPath(history.location.pathname, path);
+    const isActive = matchPath(location.pathname, path);
 
     return {
-      history,
       path,
       'aria-label': label + (isViewOnly ? ' - view only page' : ''),
       disabled: isDisabled,
@@ -230,14 +233,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   );
 };
 
-const PureSideMenu = ({
-  history,
-  isMobile,
-  isDrawerOpen,
-  onDrawerClose,
-  isCompact,
-  setIsCompact,
-}) => {
+const PureSideMenu = ({ isMobile, isDrawerOpen, onDrawerClose, isCompact, setIsCompact }) => {
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
   const selectedLanguage = getLanguageFromLocalStorage();
 
@@ -269,7 +265,7 @@ const PureSideMenu = ({
           drawerContent: styles.drawerContent,
         }}
       >
-        <SideMenuContent history={history} closeDrawer={onDrawerClose} />
+        <SideMenuContent closeDrawer={onDrawerClose} />
       </Drawer>
     </div>
   ) : (
@@ -285,13 +281,12 @@ const PureSideMenu = ({
       >
         <CollapseMenuIcon />
       </IconButton>
-      <SideMenuContent history={history} isCompact={isCompact} hasBeenExpanded={hasBeenExpanded} />
+      <SideMenuContent isCompact={isCompact} hasBeenExpanded={hasBeenExpanded} />
     </>
   );
 };
 
 PureSideMenu.propTypes = {
-  history: PropTypes.object.isRequired,
   isMobile: PropTypes.bool.isRequired,
   isDrawerOpen: PropTypes.bool,
   onDrawerClose: PropTypes.func,

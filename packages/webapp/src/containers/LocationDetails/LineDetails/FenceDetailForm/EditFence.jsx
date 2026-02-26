@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureFence from '../../../../components/LocationDetailLayout/LineDetails/Fence';
 import { deleteFenceLocation, editFenceLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -15,29 +15,27 @@ import {
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditFenceDetailForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editFenceLocation({ ...data, ...match.params, figure_id: fence.figure_id }));
+      dispatch(editFenceLocation({ ...data, location_id, figure_id: fence.figure_id }));
   };
-  const fence = useSelector(fenceSelector(match.params.location_id));
+  const fence = useSelector(fenceSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -66,8 +64,6 @@ function EditFenceDetailForm() {
   return (
     <>
       <PureFence
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={fence}

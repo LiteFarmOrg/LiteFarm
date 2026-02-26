@@ -19,12 +19,12 @@ import PureLocationIrrigation from '../../../components/LocationIrrigation';
 import useIrrigationPrescriptions from './useIrrigationPrescriptions';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 
 function LocationIrrigation() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -33,7 +33,7 @@ function LocationIrrigation() {
 
   useEffect(() => {
     if (location === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [location]);
 
@@ -44,7 +44,6 @@ function LocationIrrigation() {
     location && (
       <PureLocationIrrigation
         irrigationPrescriptions={irrigationPrescriptions}
-        history={history}
         location={location}
         routerTabs={routerTabs}
         isCompact={isCompact}

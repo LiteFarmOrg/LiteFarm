@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
@@ -29,6 +29,7 @@ import {
   createEditCustomExpenseURL,
   createReadonlyCustomExpenseURL,
 } from '../../../util/siteMapConstants';
+import history from '../../../history';
 
 const addCustomTypePath = ADD_CUSTOM_EXPENSE_URL;
 
@@ -38,7 +39,8 @@ const getPaths = (typeId) => ({
 });
 
 export default function ManageExpenseTypes() {
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const customTypes = useCustomExpenseTypeTileContents();
@@ -47,7 +49,7 @@ export default function ManageExpenseTypes() {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
-    history.push(readOnly);
+    navigate(readOnly);
   };
 
   useEffect(() => {
@@ -55,16 +57,16 @@ export default function ManageExpenseTypes() {
     // When browser's back button or form's back button is clicked, we want to
     // navigate the user to EXPENSE_CATEGORIES_URL not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
+      if (history.action === 'POP' && location.pathname === FINANCES_HOME_URL) {
         dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
         unlisten();
-        history.push(EXPENSE_CATEGORIES_URL);
+        navigate(EXPENSE_CATEGORIES_URL);
       } else if (
         // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_expenses" happens when the user lands on this page.
         !(
-          history.location.pathname === MANAGE_CUSTOM_EXPENSES_URL ||
-          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
+          location.pathname === MANAGE_CUSTOM_EXPENSES_URL ||
+          (history.action === 'POP' && location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();
@@ -74,13 +76,13 @@ export default function ManageExpenseTypes() {
 
   const onAddType = () => {
     setPersistedPaths(addCustomTypePath);
-    history.push(addCustomTypePath);
+    navigate(addCustomTypePath);
   };
 
   return (
     <PureManageCustomTypes
       title={t('EXPENSE.ADD_EXPENSE.MANAGE_CUSTOM_EXPENSE_TYPE')}
-      handleGoBack={history.back}
+      handleGoBack={() => navigate(-1)}
       addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
       onAddType={onAddType}
       listItemData={customTypes}

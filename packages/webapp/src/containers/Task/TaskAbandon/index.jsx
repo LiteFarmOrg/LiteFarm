@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAbandonTask from '../../../components/Task/AbandonTask';
 import {
@@ -14,7 +15,7 @@ import { isAdminSelector, loginSelector } from '../../userFarmSlice';
 import { abandonTask } from '../saga';
 
 function TaskAbandon() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { task_id } = useParams();
   const task = useSelector(taskSelector(task_id));
@@ -31,7 +32,7 @@ function TaskAbandon() {
       task.abandon_date ||
       (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)
     ) {
-      history.back();
+      navigate(-1);
     }
   }, []);
 
@@ -67,13 +68,13 @@ function TaskAbandon() {
       abandonTask({
         task_id,
         patchData,
-        returnPath: location.state ? location.state.pathname : null,
+        returnPath: location.state ? location.state?.pathname : null,
       }),
     );
   };
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const checkIfAssigneeIsLoggedInUser = () =>

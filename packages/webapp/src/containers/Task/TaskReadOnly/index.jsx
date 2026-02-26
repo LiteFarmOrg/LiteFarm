@@ -14,7 +14,8 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
@@ -38,7 +39,7 @@ import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalS
 
 function TaskReadOnly() {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { task_id } = useParams();
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
@@ -80,7 +81,7 @@ function TaskReadOnly() {
 
   useEffect(() => {
     if (task === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     } else {
       setIsTaskTypeCustom(!!task.taskType.farm_id);
       setIsHarvest(isTaskType(task.taskType, 'HARVEST_TASK'));
@@ -88,21 +89,21 @@ function TaskReadOnly() {
       setOverrideHourlyWage(task.override_hourly_wage);
       setHasAnimals(task.animals?.length || task.animal_batches?.length);
     }
-  }, [task, history]);
+  }, [task]);
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onComplete = () => {
     if (isHarvest) {
-      history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
+      navigate(`/tasks/${task_id}/complete_harvest_quantity`, { state: location.state });
     } else if (isTaskTypeCustom && !hasAnimals) {
       const duration = task.duration || undefined; // ensure duration is undefined instead of null
       dispatch(setFormData({ ...task, duration }));
-      history.push(`/tasks/${task_id}/complete`, location?.state);
+      navigate(`/tasks/${task_id}/complete`, { state: location.state });
     } else {
-      history.push(`/tasks/${task_id}/before_complete`, location?.state);
+      navigate(`/tasks/${task_id}/before_complete`, { state: location.state });
     }
   };
 
@@ -111,14 +112,14 @@ function TaskReadOnly() {
   };
 
   const onAbandon = () => {
-    history.push(`/tasks/${task_id}/abandon`, location?.state);
+    navigate(`/tasks/${task_id}/abandon`, { state: location.state });
   };
 
   const onGoToCropPlan = () => {
     const { crop_variety_id, planting_management_plan } = task.managementPlans[0];
     const path = `/crop/${crop_variety_id}/management_plan/${planting_management_plan.management_plan_id}/tasks`;
 
-    history.push(path, location?.state);
+    navigate(path, { state: location.state });
   };
 
   const { maxZoomRef, getMaxZoom } = useMaxZoom();

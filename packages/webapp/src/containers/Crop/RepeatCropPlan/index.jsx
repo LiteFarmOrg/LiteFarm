@@ -14,7 +14,8 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -30,7 +31,7 @@ import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
 
 function RepeatCropPlan() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { management_plan_id, variety_id } = useParams();
   useEffect(() => {
@@ -58,7 +59,7 @@ function RepeatCropPlan() {
   const firstTaskDate = getDateInputFormat(sortedTasks[0].complete_date || sortedTasks[0].due_date);
 
   const onContinue = () => {
-    history.push(
+    navigate(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
       { origStartDate: firstTaskDate },
     );
@@ -71,7 +72,7 @@ function RepeatCropPlan() {
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
         origStartDateType={sortedTasks[0].complete_date ? 'completion' : 'due'}
-        onGoBack={() => history.back()}
+        onGoBack={() => navigate(-1)}
         onContinue={onContinue}
         persistedFormData={persistedFormData}
       />

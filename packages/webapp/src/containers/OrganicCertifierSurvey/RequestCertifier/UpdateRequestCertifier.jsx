@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureRequestCertifier } from '../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifiersSelector } from '../certifierSlice';
@@ -9,7 +9,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { useCertificationName } from '../useCertificationName';
 
 export default function RequestCertifier() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
 
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export default function RequestCertifier() {
   const selectCertifierPath = '/certification/certifier/selection';
 
   const onSubmit = (data) => {
-    history.push(summaryPath);
+    navigate(summaryPath);
   };
   const certifiers = useSelector(certifiersSelector);
   const certifiersByCertificationId = useMemo(
@@ -32,8 +32,8 @@ export default function RequestCertifier() {
 
   const onGoBack = () => {
     certification_id === 0 || certifiersByCertificationId.length < 1
-      ? history.push(selectCertificationPath)
-      : history.push(selectCertifierPath);
+      ? navigate(selectCertificationPath)
+      : navigate(selectCertifierPath);
   };
 
   return (

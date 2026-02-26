@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -62,8 +63,6 @@ const icons = {
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
-  history,
-  location,
   persistedFormData,
   useHookFormPersist,
   onContinue,
@@ -80,6 +79,8 @@ export const PureTaskTypeSelection = ({
   hasIrrigationLocations,
   isOffline,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
     defaultValues: persistedFormData,
@@ -91,8 +92,8 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
-  const isMakingCropTask = !!location?.state?.management_plan_id;
-  const isMakingAnimalTask = !!location?.state?.animal_ids;
+  const isMakingCropTask = !!location.state?.management_plan_id;
+  const isMakingAnimalTask = !!location.state?.animal_ids;
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -101,9 +102,9 @@ export const PureTaskTypeSelection = ({
 
   const [errorModal, setErrorModal] = useState('');
 
-  const goToCatalogue = () => history.push('/crop_catalogue');
-  const goToMap = () => history.push('/map');
-  const goToInventory = () => history.push(PRODUCT_INVENTORY_URL);
+  const goToCatalogue = () => navigate('/crop_catalogue');
+  const goToMap = () => navigate('/map');
+  const goToInventory = () => navigate(PRODUCT_INVENTORY_URL);
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
       setErrorModal('PLANT_TASK');

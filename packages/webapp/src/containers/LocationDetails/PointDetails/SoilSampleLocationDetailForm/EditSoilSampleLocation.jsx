@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureSoilSampleLocation from '../../../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 import { deleteSoilSampleLocationLocation, editSoilSampleLocationLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -27,8 +27,7 @@ import RetireConfirmationModal from '../../../../components/Modals/RetireConfirm
 
 function EditSoilSampleLocationDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -37,24 +36,23 @@ function EditSoilSampleLocationDetailForm() {
       dispatch(
         editSoilSampleLocationLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: soilSampleLocation.figure_id,
         }),
       );
   };
-  const soilSampleLocation = useSelector(soilSampleLocationSelector(match.params.location_id));
+  const soilSampleLocation = useSelector(soilSampleLocationSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const handleRetire = () => {
     dispatch(
       checkLocationDependencies({
@@ -73,8 +71,6 @@ function EditSoilSampleLocationDetailForm() {
   return (
     <>
       <PureSoilSampleLocation
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={soilSampleLocation}

@@ -19,7 +19,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isAdminSelector, userFarmsByFarmSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -52,7 +52,8 @@ import styles from './styles.module.scss';
 import LocationCreationModal from '../../components/LocationCreationModal';
 
 export default function TaskPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id, farm_id, first_name, last_name } = useSelector(userFarmSelector);
@@ -84,7 +85,7 @@ export default function TaskPage() {
 
   const handleAddTask = () => {
     if (locations.length) {
-      onAddTask(dispatch, history, {})();
+      onAddTask(dispatch, navigate, {})();
     } else {
       setCreateLocation(true);
     }
@@ -115,7 +116,7 @@ export default function TaskPage() {
     dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());
 
-    const context = history.location?.state;
+    const context = location.state;
 
     let notificationDate;
     if (context?.notification_date) {
@@ -218,7 +219,7 @@ export default function TaskPage() {
           taskCardContents.map((task) => (
             <TaskCard
               key={task.task_id}
-              onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+              onClick={() => navigate(`/tasks/${task.task_id}/read_only`)}
               style={{ marginBottom: '14px' }}
               {...task}
             />

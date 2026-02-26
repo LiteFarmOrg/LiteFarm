@@ -15,7 +15,7 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -102,7 +102,7 @@ interface TAPEDimension {
 
 function TAPEResults() {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { surveyData } = useSelector(tapeSurveySelector);
@@ -154,7 +154,7 @@ function TAPEResults() {
 
   const returnToSurvey = () => {
     dispatch(reopenSurvey());
-    history.push('/insights/tape');
+    navigate('/insights/tape');
   };
 
   return (

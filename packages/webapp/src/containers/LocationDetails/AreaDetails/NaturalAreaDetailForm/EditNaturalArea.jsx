@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureNaturalArea from '../../../../components/LocationDetailLayout/AreaDetails/NaturalArea';
 import { deleteNaturalAreaLocation, editNaturalAreaLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,8 +16,7 @@ import {
 
 function EditNaturalAreaDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -26,24 +25,23 @@ function EditNaturalAreaDetailForm() {
       dispatch(
         editNaturalAreaLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: naturalArea.figure_id,
         }),
       );
   };
-  const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
+  const naturalArea = useSelector(naturalAreaSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -72,8 +70,6 @@ function EditNaturalAreaDetailForm() {
   return (
     <>
       <PureNaturalArea
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={naturalArea}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureResidence from '../../../../components/LocationDetailLayout/AreaDetails/Residence';
 import { deleteResidenceLocation, editResidenceLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,28 +16,26 @@ import {
 
 function EditResidenceDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
-      dispatch(editResidenceLocation({ ...data, ...match.params, figure_id: residence.figure_id }));
+      dispatch(editResidenceLocation({ ...data, location_id, figure_id: residence.figure_id }));
   };
-  const residence = useSelector(residenceSelector(match.params.location_id));
+  const residence = useSelector(residenceSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -66,8 +64,6 @@ function EditResidenceDetailForm() {
   return (
     <>
       <PureResidence
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={residence}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureFarmSiteBoundary from '../../../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 import { deleteFarmSiteBoundaryLocation, editFarmSiteBoundaryLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,8 +16,7 @@ import {
 
 function EditFarmSiteBoundaryDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -26,24 +25,23 @@ function EditFarmSiteBoundaryDetailForm() {
       dispatch(
         editFarmSiteBoundaryLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: farmSiteBoundary.figure_id,
         }),
       );
   };
-  const farmSiteBoundary = useSelector(farmSiteBoundarySelector(match.params.location_id));
+  const farmSiteBoundary = useSelector(farmSiteBoundarySelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -72,8 +70,6 @@ function EditFarmSiteBoundaryDetailForm() {
   return (
     <>
       <PureFarmSiteBoundary
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={farmSiteBoundary}

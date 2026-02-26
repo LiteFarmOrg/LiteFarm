@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
 function InviteUser() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const roles = useSelector(rolesSelector);
@@ -23,7 +23,7 @@ function InviteUser() {
   };
   const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const onGoBack = () => {
-    history.push({
+    navigate({
       pathname: '/people',
     });
   };
@@ -83,7 +83,7 @@ function InviteUser() {
       dispatch(addPseudoWorker(user));
     }
 
-    history.push({
+    navigate({
       pathname: '/people',
     });
   };

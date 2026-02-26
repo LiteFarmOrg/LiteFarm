@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PureCeremonial from '../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { deleteCeremonialLocation, editCeremonialLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
@@ -16,8 +16,7 @@ import {
 
 function EditCeremonialDetailForm() {
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { location_id } = useParams();
   const dispatch = useDispatch();
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
@@ -26,24 +25,23 @@ function EditCeremonialDetailForm() {
       dispatch(
         editCeremonialLocation({
           ...data,
-          ...match.params,
+          location_id,
           figure_id: ceremonial.figure_id,
         }),
       );
   };
-  const ceremonial = useSelector(ceremonialSelector(match.params.location_id));
+  const ceremonial = useSelector(ceremonialSelector(location_id));
 
   useEffect(() => {
-    if (location?.state?.error?.retire) {
+    if (location.state?.error?.retire) {
       setShowCannotRetireModal(true);
     }
-  }, [location?.state?.error]);
+  }, [location.state?.error]);
 
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-  const { location_id } = match.params;
   const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
@@ -72,8 +70,6 @@ function EditCeremonialDetailForm() {
   return (
     <>
       <PureCeremonial
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={ceremonial}

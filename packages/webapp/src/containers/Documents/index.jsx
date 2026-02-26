@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
@@ -25,7 +25,7 @@ import { resetDocumentsFilter } from '../filterSlice';
 import Drawer from '../../components/Drawer';
 
 export default function Documents() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();
@@ -70,12 +70,12 @@ export default function Documents() {
   } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const tileClick = (document_id) => {
-    history.push(`/documents/${document_id}`);
+    navigate(`/documents/${document_id}`);
   };
 
   const onUpload = () => {
     dispatch(setPersistedPaths(['/documents/add_document']));
-    history.push('/documents/add_document');
+    navigate('/documents/add_document');
   };
   const resetFilter = () => dispatch(resetDocumentsFilter());
   return (

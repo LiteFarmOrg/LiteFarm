@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
@@ -18,7 +19,7 @@ import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 function TaskTypeSelection() {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
@@ -36,13 +37,13 @@ function TaskTypeSelection() {
   }, []);
 
   const onCustomTask = () => {
-    history.push(customTaskPath, location?.state);
+    navigate(customTaskPath, { state: location.state });
   };
 
-  const onContinue = () => history.push(continuePath, location?.state);
+  const onContinue = () => navigate(continuePath, { state: location.state });
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onError = () => {};
@@ -63,8 +64,6 @@ function TaskTypeSelection() {
     <>
       <HookFormPersistProvider>
         <PureTaskTypeSelection
-          history={history}
-          location={location}
           onCustomTask={onCustomTask}
           handleGoBack={handleGoBack}
           persistedPaths={persistedPaths}

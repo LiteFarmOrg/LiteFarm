@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
@@ -7,22 +7,22 @@ import { getOrganicSurveyReqBody } from '../SetCertificationSummary/utils/getOrg
 import { putOrganicCertifierSurvey } from '../saga';
 
 export default function UpdateInterestedOrganic() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
 
   const goBackPath = '/certification';
   const onGoBack = () => {
-    history.push(goBackPath);
+    navigate(goBackPath);
   };
   const certificationSelectionPath = '/certification/selection';
 
   const onSubmit = (data) => {
     if (data.interested) {
-      history.push(certificationSelectionPath);
+      navigate(certificationSelectionPath);
     } else {
       const reqBody = getOrganicSurveyReqBody({ interested: false, survey_id: survey.survey_id });
-      const callback = () => history.push('/certification', { success: true });
+      const callback = () => navigate('/certification', { state: { success: true } });
       dispatch(putOrganicCertifierSurvey({ survey: reqBody, callback }));
     }
   };

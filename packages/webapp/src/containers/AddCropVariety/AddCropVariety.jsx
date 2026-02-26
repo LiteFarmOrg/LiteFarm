@@ -1,4 +1,5 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
@@ -12,11 +13,10 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { AddLink } from '../../components/Typography';
 
 function AddCropVarietyForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
-  const crop_id = match.params.crop_id;
+  const { crop_id } = useParams();
   const existingCropInfo = useSelector(cropSelector(crop_id));
   const { interested } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -26,7 +26,7 @@ function AddCropVarietyForm() {
     console.log(error);
   };
   const onContinue = (data) => {
-    history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
+    navigate(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
 
   const farmCropVarieties = useSelector(cropVarietiesSelector);
@@ -54,7 +54,6 @@ function AddCropVarietyForm() {
   return (
     <HookFormPersistProvider>
       <PureAddCropVariety
-        match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}
         isSeekingCert={interested}
@@ -64,7 +63,7 @@ function AddCropVarietyForm() {
             <AddLink>{t('CROP.VARIETAL_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.back()}
+        handleGoBack={() => navigate(-1)}
         farmCropVarieties={farmCropVarieties}
       />
     </HookFormPersistProvider>

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureExpiredTokenScreen from '../../components/ExpiredTokenScreen';
@@ -8,14 +8,15 @@ import { sendResetPasswordEmail } from '../CustomSignUp/saga';
 import { useDispatch } from 'react-redux';
 
 export default function ExpiredTokenScreen() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { translation_key, email } = history.location.state;
+  const { translation_key, email } = location.state;
   const isInvalidPasswordResetToken = translation_key === 'RESET_PASSWORD';
   useLayoutEffect(() => {
     if (!isInvalidPasswordResetToken) {
-      history.push('/');
+      navigate('/');
     }
   }, []);
   const [showResetModal, setShowResetModal] = useState(false);

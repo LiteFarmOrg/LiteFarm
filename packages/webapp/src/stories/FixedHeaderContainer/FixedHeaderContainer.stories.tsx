@@ -18,13 +18,13 @@ import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/Fi
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
 
+// TODO: LF-4242 Test
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
   return (
     <div style={{ display: 'flex' }}>
-      <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
+      <PureSideMenu isMobile={false} />
       <div style={{ width: '100%' }}>
         <TopMenu
-          history={{ location: { pathname: '' } }}
           isMobile={undefined}
           showNavActions={undefined}
           onClickBurger={undefined}

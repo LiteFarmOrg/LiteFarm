@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
@@ -9,11 +9,10 @@ import useLocationCrops from './useLocationCrops';
 import useLocationRouterTabs from '../useLocationRouterTabs';
 
 function LocationManagementPlan() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const location = useSelector(cropLocationByIdSelector(location_id));
   const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
   const routerTabs = useLocationRouterTabs(location);
@@ -24,7 +23,7 @@ function LocationManagementPlan() {
   };
 
   const onAddCrop = () => {
-    history.push(`/crop_catalogue`);
+    navigate(`/crop_catalogue`);
   };
   const { name } = useSelector(cropLocationByIdSelector(location_id));
 
@@ -37,8 +36,6 @@ function LocationManagementPlan() {
         pastCrops={filteredManagementPlans(filter, pastCrops, t)}
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
-        history={history}
-        match={match}
         title={name}
         location={location}
         routerTabs={routerTabs}

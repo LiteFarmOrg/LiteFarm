@@ -14,7 +14,7 @@ function LocationManagementPlan() {
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
-  const { locations: location } = useLocationsById(location_id);
+  const { locations: location } = useLocationsById(location_id, { deleted: true });
   const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
   const routerTabs = useLocationRouterTabs(location);
   const { t } = useTranslation();

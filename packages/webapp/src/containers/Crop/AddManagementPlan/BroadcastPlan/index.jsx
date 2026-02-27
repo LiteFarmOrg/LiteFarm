@@ -21,6 +21,7 @@ function BroadcastPlan() {
     persistedFormData.crop_management_plan.planting_management_plans[
       isFinalPage ? 'final' : 'initial'
     ].location_id,
+    { deleted: true },
   );
 
   return (

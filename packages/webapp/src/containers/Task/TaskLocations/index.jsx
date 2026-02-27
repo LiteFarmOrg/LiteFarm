@@ -73,7 +73,9 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
   const activeAndPlannedLocationsIds = Object.keys(
     useActiveAndCurrentManagementPlanTilesByLocationIds(cropLocationsIds),
   );
-  const { locations: activeAndPlannedLocations } = useLocationsById(activeAndPlannedLocationsIds);
+  const { locations: activeAndPlannedLocations } = useLocationsById(activeAndPlannedLocationsIds, {
+    deleted: true,
+  });
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {

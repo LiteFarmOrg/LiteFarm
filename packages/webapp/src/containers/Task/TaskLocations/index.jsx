@@ -8,7 +8,7 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { animalLocationsSelector, cropLocationEntitiesSelector } from '../../locationSlice';
+import { cropLocationEntitiesSelector } from '../../locationSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
@@ -23,6 +23,7 @@ import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import useLocations from '../../../hooks/location/useLocations';
 import useCropLocations from '../../../hooks/location/useCropLocations';
+import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -157,7 +158,7 @@ function TaskSoilAmendmentLocations({ history, location }) {
 
 function TaskAnimalLocations({ history, location }) {
   const { t } = useTranslation();
-  const animalLocations = useSelector(animalLocationsSelector);
+  const { locations: animalLocations } = useAnimalLocations();
   const onContinue = () => {
     history.push('/add_task/task_details', location.state);
   };

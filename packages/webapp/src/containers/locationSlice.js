@@ -1,19 +1,19 @@
 import { createSelector } from 'reselect';
-import { barnEntitiesSelector, barnsSelector } from './barnSlice';
-import { ceremonialEntitiesSelector, ceremonialsSelector } from './ceremonialSlice';
+import { barnEntitiesSelector } from './barnSlice';
+import { ceremonialEntitiesSelector } from './ceremonialSlice';
 import { farmSiteBoundaryEntitiesSelector } from './farmSiteBoundarySlice';
-import { fieldEntitiesSelector, fieldsSelector } from './fieldSlice';
-import { greenhouseEntitiesSelector, greenhousesSelector } from './greenhouseSlice';
-import { surfaceWaterEntitiesSelector, surfaceWatersSelector } from './surfaceWaterSlice';
-import { naturalAreaEntitiesSelector, naturalAreasSelector } from './naturalAreaSlice';
-import { residenceEntitiesSelector, residencesSelector } from './residenceSlice';
-import { bufferZoneEntitiesSelector, bufferZonesSelector } from './bufferZoneSlice';
-import { watercourseEntitiesSelector, watercoursesSelector } from './watercourseSlice';
+import { fieldEntitiesSelector } from './fieldSlice';
+import { greenhouseEntitiesSelector } from './greenhouseSlice';
+import { surfaceWaterEntitiesSelector } from './surfaceWaterSlice';
+import { naturalAreaEntitiesSelector } from './naturalAreaSlice';
+import { residenceEntitiesSelector } from './residenceSlice';
+import { bufferZoneEntitiesSelector } from './bufferZoneSlice';
+import { watercourseEntitiesSelector } from './watercourseSlice';
 import { fenceEntitiesSelector } from './fenceSlice';
 import { gateEntitiesSelector } from './gateSlice';
 import { waterValveEntitiesSelector } from './waterValveSlice';
 import { soilSampleLocationEntitiesSelector } from './soilSampleLocationSlice';
-import { gardenEntitiesSelector, gardensSelector } from './gardenSlice';
+import { gardenEntitiesSelector } from './gardenSlice';
 
 /**
  * {
@@ -42,46 +42,6 @@ export const cropLocationEntitiesSelector = createSelector(
 
 export const cropLocationByIdSelector = (location_id) =>
   createSelector(cropLocationEntitiesSelector, (entities) => entities[location_id]);
-
-export const animalLocationsSelector = createSelector(
-  [
-    barnsSelector,
-    ceremonialsSelector,
-    fieldsSelector,
-    gardensSelector,
-    greenhousesSelector,
-    surfaceWatersSelector,
-    naturalAreasSelector,
-    residencesSelector,
-    bufferZonesSelector,
-    watercoursesSelector,
-  ],
-  (
-    barns,
-    ceremonials,
-    fields,
-    gardens,
-    greenhouses,
-    surfaceWaters,
-    naturalAreas,
-    residences,
-    bufferzones,
-    watercourses,
-  ) => {
-    return [
-      ...barns,
-      ...ceremonials,
-      ...fields,
-      ...gardens,
-      ...greenhouses,
-      ...surfaceWaters,
-      ...naturalAreas,
-      ...residences,
-      ...bufferzones,
-      ...watercourses,
-    ];
-  },
-);
 
 export const locationEntitiesSelector = createSelector(
   [

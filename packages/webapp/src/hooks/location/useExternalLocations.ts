@@ -17,7 +17,9 @@ import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { FigureType } from '../../store/api/types';
 import {
   ExternalMapLocation,
+  ExternalMapLocationByType,
   ExternalMapLocationType,
+  FigureTypeToExternal,
   GroupByOptions,
   LocationsGroupedByFigure,
   LocationsGroupedByFigureAndType,
@@ -37,9 +39,17 @@ type UseExternalLocationProps =
   | UseLocationsPropsWithGroupBy;
 
 // Function overloads to correctly infer types based on props
-function useExternalLocations(
-  props: UseExternalLocationsPropsWithFilterBy & { filterBy: ExternalMapLocationType | FigureType },
-): UseLocationsReturn<ExternalMapLocation[] | undefined>;
+function useExternalLocations<T extends ExternalMapLocationType>(
+  props: UseExternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<ExternalMapLocationByType[T][] | undefined>;
+
+function useExternalLocations<T extends ExternalMapLocationType[]>(
+  props: UseExternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<ExternalMapLocationByType[T[number]][] | undefined>;
+
+function useExternalLocations<T extends FigureType>(
+  props: UseExternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<FigureTypeToExternal[T][] | undefined>;
 
 function useExternalLocations(
   props: UseLocationsPropsWithGroupBy & { groupBy: GroupByOptions.TYPE },
@@ -91,6 +101,11 @@ function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = 
   const locations = [...sensorArrays, ...standaloneSensors];
 
   if (locations.length && (filterBy || groupBy)) {
+    if (Array.isArray(filterBy)) {
+      const filteredLocations = locations.filter(({ type }) => filterBy.includes(type));
+      return { locations: filteredLocations, isLoading };
+    }
+
     if (filterBy && allLocationTypes.includes(filterBy)) {
       const filteredLocations = locations.filter(({ type }) => type === filterBy);
       return { locations: filteredLocations, isLoading };

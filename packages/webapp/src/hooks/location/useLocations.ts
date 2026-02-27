@@ -133,6 +133,10 @@ function useLocations<T extends InternalMapLocationType>(
   props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
 ): UseLocationsReturn<FlattenedMapLocationByType[T][] | undefined>;
 
+function useLocations<T extends InternalMapLocationType[]>(
+  props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
+): UseLocationsReturn<FlattenedMapLocationByType[T[number]][] | undefined>;
+
 function useLocations<T extends FigureType>(
   props: UseInternalLocationsPropsWithFilterBy & { filterBy: T },
 ): UseLocationsReturn<FigureTypeToFlattened[T][] | undefined>;
@@ -168,6 +172,11 @@ function useLocations({ filterBy, groupBy }: UseInternalLocationProps = {}): any
     const activeLocations = locations.filter(({ deleted }) => deleted === false);
     const cleanedLocations = activeLocations.map(clean);
     const flattenedLocations = cleanedLocations.map(flatten);
+
+    if (Array.isArray(filterBy)) {
+      const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
+      return { locations: filteredLocations, isLoading };
+    }
 
     if (filterBy && allLocationTypes.includes(filterBy)) {
       const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);

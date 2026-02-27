@@ -8,7 +8,6 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { cropLocationEntitiesSelector } from '../../locationSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
@@ -24,6 +23,7 @@ import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import useLocations from '../../../hooks/location/useLocations';
 import useCropLocations from '../../../hooks/location/useCropLocations';
 import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
+import useLocationsById from '../../../hooks/location/useLocationsById';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -69,15 +69,11 @@ export default function TaskLocationsSwitch() {
 
 function TaskActiveAndPlannedCropLocations({ history, location }) {
   const { locations: cropLocations } = useCropLocations();
-
-  const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
   const activeAndPlannedLocationsIds = Object.keys(
     useActiveAndCurrentManagementPlanTilesByLocationIds(cropLocationsIds),
   );
-  const activeAndPlannedLocations = activeAndPlannedLocationsIds.map(
-    (location_id) => cropLocationEntities[location_id],
-  );
+  const { locations: activeAndPlannedLocations } = useLocationsById(activeAndPlannedLocationsIds);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {

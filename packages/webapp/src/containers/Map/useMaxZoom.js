@@ -48,32 +48,31 @@ export function useMaxZoom() {
           });
         });
       });
-      await Promise.all(promises)
-        .then(function (results) {
-          const cachedAndActivePoints = retrievedPoints.filter((element) =>
-            pointsCollections.some(
-              ({ point }) => point.lat === element.point.lat && point.lng === element.point.lng,
-            ),
-          );
-          const maxZooms = [...results, ...cachedAndActivePoints].map(({ maxZoom }) => maxZoom);
-          const minNumber = Math.min(...maxZooms);
-          setMaxZoom(minNumber);
-          dispatch(
-            setRetrievedPoints({
-              farm_id,
-              retrievedPoints: [...cachedAndActivePoints, ...results],
-            }),
-          );
-          if (map) map.setOptions({ maxZoom: minNumber });
-        })
-        .catch(function (error) {
-          console.log('Error getting available zooms: ', error);
-          const previousMaxZooms = retrievedPoints.map(({ maxZoom }) => maxZoom);
-          const fallbackZoom =
-            previousMaxZooms.length > 0 ? Math.min(...previousMaxZooms) : DEFAULT_MAX_ZOOM;
-          setMaxZoom(fallbackZoom);
-          if (map) map.setOptions({ maxZoom: fallbackZoom });
-        });
+      try {
+        const results = await Promise.all(promises);
+        const cachedAndActivePoints = retrievedPoints.filter((element) =>
+          pointsCollections.some(
+            ({ point }) => point.lat === element.point.lat && point.lng === element.point.lng,
+          ),
+        );
+        const maxZooms = [...results, ...cachedAndActivePoints].map(({ maxZoom }) => maxZoom);
+        const minNumber = Math.min(...maxZooms);
+        setMaxZoom(minNumber);
+        dispatch(
+          setRetrievedPoints({
+            farm_id,
+            retrievedPoints: [...cachedAndActivePoints, ...results],
+          }),
+        );
+        if (map) map.setOptions({ maxZoom: minNumber });
+      } catch (error) {
+        console.log('Error getting available zooms: ', error);
+        const previousMaxZooms = retrievedPoints.map(({ maxZoom }) => maxZoom);
+        const fallbackZoom =
+          previousMaxZooms.length > 0 ? Math.min(...previousMaxZooms) : DEFAULT_MAX_ZOOM;
+        setMaxZoom(fallbackZoom);
+        if (map) map.setOptions({ maxZoom: fallbackZoom });
+      }
     } else if (map) {
       map.setOptions({ maxZoom: maxZoom });
     }

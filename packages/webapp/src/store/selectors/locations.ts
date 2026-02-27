@@ -17,6 +17,7 @@ import { InternalMapLocationType } from '../api/types';
  * }
  */
 
+// Note: This will not be able to be removed in favour of hooks until management plans are migrated to rtk-query
 export const cropLocationEntitiesSelector = ({ deleted } = { deleted: false }) =>
   createSelector([locationApi.endpoints.getLocations.select()], (locationsResult) => {
     const activeLocations = deleted
@@ -40,6 +41,7 @@ export const cropLocationEntitiesSelector = ({ deleted } = { deleted: false }) =
     return locationEntities;
   });
 
+// This will not be able to be removed until tasks are migrated to rtk-query
 export const locationEntitiesSelector = ({ deleted } = { deleted: false }) =>
   createSelector([locationApi.endpoints.getLocations.select()], (locationsResult) => {
     const activeLocations = deleted

@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
 import { productsSelector } from './productSlice';
-import { locationEntitiesSelector } from './locationSlice';
+import { locationEntitiesSelector } from '../store/selectors/locations.ts';
 import { cleaningTaskEntitiesSelector } from './slice/taskSlice/cleaningTaskSlice';
 import { fieldWorkTaskEntitiesSelector } from './slice/taskSlice/fieldWorkTaskSlice';
 import { harvestTaskEntitiesSelector } from './slice/taskSlice/harvestTaskSlice';

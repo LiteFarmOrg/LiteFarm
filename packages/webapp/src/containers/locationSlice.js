@@ -40,9 +40,6 @@ export const cropLocationEntitiesSelector = createSelector(
   },
 );
 
-export const cropLocationByIdSelector = (location_id) =>
-  createSelector(cropLocationEntitiesSelector, (entities) => entities[location_id]);
-
 export const locationEntitiesSelector = createSelector(
   [
     barnEntitiesSelector,

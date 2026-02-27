@@ -1,0 +1,66 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { InternalMapLocationType } from '../../store/api/types';
+import {
+  FlattenedBarn,
+  FlattenedBufferZone,
+  FlattenedCeremonialArea,
+  FlattenedField,
+  FlattenedGarden,
+  FlattenedGreenhouse,
+  FlattenedNaturalArea,
+  FlattenedResidence,
+  FlattenedSurfaceWater,
+  FlattenedWatercourse,
+  UseLocationsReturn,
+} from './types';
+import useLocations from './useLocations';
+
+type AnimalLocations =
+  | FlattenedBarn
+  | FlattenedCeremonialArea
+  | FlattenedField
+  | FlattenedGarden
+  | FlattenedGreenhouse
+  | FlattenedSurfaceWater
+  | FlattenedNaturalArea
+  | FlattenedResidence
+  | FlattenedBufferZone
+  | FlattenedWatercourse;
+
+function useAnimalLocations(): UseLocationsReturn<AnimalLocations[] | undefined> {
+  const { locations, isLoading } = useLocations({
+    filterBy: [
+      InternalMapLocationType.BARN,
+      InternalMapLocationType.CEREMONIAL_AREA,
+      InternalMapLocationType.FIELD,
+      InternalMapLocationType.GARDEN,
+      InternalMapLocationType.GREENHOUSE,
+      InternalMapLocationType.SURFACE_WATER,
+      InternalMapLocationType.NATURAL_AREA,
+      InternalMapLocationType.RESIDENCE,
+      InternalMapLocationType.BUFFER_ZONE,
+      InternalMapLocationType.WATERCOURSE,
+    ],
+  });
+
+  return {
+    locations,
+    isLoading,
+  };
+}
+
+export default useAnimalLocations;

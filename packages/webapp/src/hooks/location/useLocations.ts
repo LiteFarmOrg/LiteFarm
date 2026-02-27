@@ -43,7 +43,7 @@ const getFigureType = (figure: InternalMapLocation['figure']) => {
   }
 };
 
-const clean = (location: InternalMapLocation): any => {
+export const clean = (location: InternalMapLocation): any => {
   const locationType = location.figure.type;
   const figureType = getFigureType(location.figure);
 
@@ -71,7 +71,7 @@ const clean = (location: InternalMapLocation): any => {
   return cleanedLocation;
 };
 
-const flatten = (location: any): FlattenedInternalMapLocation => {
+export const flatten = (location: any): FlattenedInternalMapLocation => {
   const clone: InternalMapLocation = { ...location };
   let flattened = {} as any;
   const locationType = clone.figure.type;

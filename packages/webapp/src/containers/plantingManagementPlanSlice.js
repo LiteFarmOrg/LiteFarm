@@ -121,7 +121,7 @@ export const plantingManagementPlanEntitiesSelector = createSelector(
     rowMethodSelectors.selectEntities,
     containerMethodSelectors.selectEntities,
     broadcastMethodSelectors.selectEntities,
-    cropLocationEntitiesSelector,
+    cropLocationEntitiesSelector({ deleted: true }),
   ],
   (
     plantingManagementPlans,
@@ -139,11 +139,8 @@ export const plantingManagementPlanEntitiesSelector = createSelector(
       row_method: rowMethodEntities,
     };
     for (const planting_management_plan of plantingManagementPlans) {
-      const {
-        planting_management_plan_id,
-        planting_method,
-        location_id,
-      } = planting_management_plan;
+      const { planting_management_plan_id, planting_method, location_id } =
+        planting_management_plan;
       entities[planting_management_plan_id] = { ...planting_management_plan };
       const plantingMethodLowercase = planting_method?.toLowerCase();
       plantingMethodLowercase &&

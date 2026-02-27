@@ -180,7 +180,7 @@ export const taskEntitiesSelector = createSelector(
     taskSelectors.selectEntities,
     taskTypeEntitiesSelector,
     managementPlanEntitiesSelector,
-    locationEntitiesSelector,
+    locationEntitiesSelector({ deleted: true }),
     cleaningTaskEntitiesSelector,
     fieldWorkTaskEntitiesSelector,
     irrigationTaskEntitiesSelector,

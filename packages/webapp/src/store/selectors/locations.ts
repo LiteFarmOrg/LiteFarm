@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { locationApi } from '../store/api/locationApi';
-import { clean, flatten } from '../hooks/location/useLocations';
-import { InternalMapLocationType } from '../store/api/types';
+import { locationApi } from '../api/locationApi';
+import { clean, flatten } from '../../hooks/location/useLocations';
+import { InternalMapLocationType } from '../api/types';
 
 /**
  * {
@@ -18,7 +18,7 @@ import { InternalMapLocationType } from '../store/api/types';
  */
 
 export const cropLocationEntitiesSelector = ({ deleted } = { deleted: false }) =>
-  createSelector([locationApi.endpoints.getLocations.select()], (locationsResult = []) => {
+  createSelector([locationApi.endpoints.getLocations.select()], (locationsResult) => {
     const activeLocations = deleted
       ? locationsResult.data || []
       : (locationsResult.data || []).filter(({ deleted }) => deleted === false);

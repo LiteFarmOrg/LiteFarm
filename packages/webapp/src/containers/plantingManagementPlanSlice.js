@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 
-import { cropLocationEntitiesSelector } from './locationSlice';
+import { cropLocationEntitiesSelector } from '../store/selectors/locations.ts';
 
 import { pick } from '../util/pick';
 import { bedMethodSelectors } from './bedMethodSlice';

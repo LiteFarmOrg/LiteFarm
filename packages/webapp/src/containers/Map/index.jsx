@@ -80,9 +80,6 @@ export default function Map({ isCompactSideMenu }) {
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
   const [gMaps, setGMaps] = useState(null);
-  // Unused: Kept in for map debugging
-  const [_gMap, setGMap] = useState(null);
-  const [_gMapBounds, setGMapBounds] = useState(null);
 
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
@@ -319,8 +316,7 @@ export default function Map({ isCompactSideMenu }) {
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
 
-    // Unused const: Assets need to be drawn but this const is essentially unused
-    const _bounds = drawAssets(map, maps, mapBounds);
+    drawAssets(map, maps, mapBounds);
 
     if (history.location.state?.isStepBack) {
       reconstructOverlay();
@@ -334,10 +330,6 @@ export default function Map({ isCompactSideMenu }) {
       }
     }
     setGMaps(maps);
-
-    // Unused: Kept in for map debugging
-    setGMap(map);
-    setGMapBounds(_bounds);
   };
 
   const handleClickAdd = () => {

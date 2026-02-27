@@ -16,21 +16,29 @@
 import { FlattenedInternalMapLocation, UseLocationsReturn } from './types';
 import useLocations from './useLocations';
 
+type useLocationsByIdOptions = {
+  deleted?: boolean;
+};
+
 // Function overrides for correct return type inference
 function useLocationsById<T extends FlattenedInternalMapLocation>(
-  locationIds?: T['location_id'],
+  locationIds: T['location_id'] | undefined,
+  options?: useLocationsByIdOptions,
 ): UseLocationsReturn<T | undefined>;
 
 function useLocationsById<T extends FlattenedInternalMapLocation>(
-  locationIds?: T['location_id'][],
+  locationIds: T['location_id'][] | undefined,
+  options?: useLocationsByIdOptions,
 ): UseLocationsReturn<T[] | undefined>;
 
 function useLocationsById(
-  locationIds?:
+  locationIds:
     | FlattenedInternalMapLocation['location_id'][]
-    | FlattenedInternalMapLocation['location_id'],
+    | FlattenedInternalMapLocation['location_id']
+    | undefined,
+  options: useLocationsByIdOptions = { deleted: false },
 ): UseLocationsReturn<FlattenedInternalMapLocation[] | FlattenedInternalMapLocation | undefined> {
-  const { locations, isLoading } = useLocations();
+  const { locations, isLoading } = useLocations({ deleted: options.deleted });
 
   if (isLoading || !locations || !locationIds) {
     return { locations, isLoading };

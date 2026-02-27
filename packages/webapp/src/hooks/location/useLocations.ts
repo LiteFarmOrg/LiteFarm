@@ -158,10 +158,12 @@ function useLocations(
 >;
 
 function useLocations(
-  props?: undefined,
+  props?: undefined | UseInternalLocationProps,
 ): UseLocationsReturn<FlattenedInternalMapLocation[] | undefined>;
 
-function useLocations({ filterBy, groupBy }: UseInternalLocationProps = {}): any {
+function useLocations(
+  { filterBy, groupBy, deleted }: UseInternalLocationProps = { deleted: false },
+): any {
   const { data: locations, isLoading } = useGetLocationsQuery();
 
   if (isLoading) {
@@ -169,7 +171,9 @@ function useLocations({ filterBy, groupBy }: UseInternalLocationProps = {}): any
   }
 
   if (locations && locations.length) {
-    const activeLocations = locations.filter(({ deleted }) => deleted === false);
+    const activeLocations = deleted
+      ? locations
+      : locations.filter(({ deleted }) => deleted === false);
     const cleanedLocations = activeLocations.map(clean);
     const flattenedLocations = cleanedLocations.map(flatten);
 

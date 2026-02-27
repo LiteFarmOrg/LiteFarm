@@ -10,11 +10,12 @@ import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { animalLocationsSelector, cropLocationsSelector } from '../../locationSlice';
+import { animalLocationsSelector } from '../../locationSlice';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import { hasAvailableProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../constants';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import useCropLocations from '../../../hooks/location/useCropLocations';
 
 function TaskTypeSelection() {
   const location = useLocation();
@@ -57,7 +58,8 @@ function TaskTypeSelection() {
   const hasSoilAmendmentProducts = useSelector((state) =>
     hasAvailableProductsSelector(state, TASK_TYPES.SOIL_AMENDMENT),
   );
-  const hasIrrigationLocations = useSelector(cropLocationsSelector)?.length > 0;
+  const { locations: cropLocations } = useCropLocations();
+  const hasIrrigationLocations = cropLocations?.length > 0;
 
   return (
     <>

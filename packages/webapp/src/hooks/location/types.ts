@@ -150,6 +150,21 @@ export interface ExternalSensorArrayWithType extends ExternalLocationWithType<Se
 
 export type ExternalMapLocation = ExternalSensorWithType | ExternalSensorArrayWithType;
 
+export type ExternalMapLocationByType = {
+  [ExternalMapLocationType.SENSOR]: Sensor;
+  [ExternalMapLocationType.SENSOR_ARRAY]: SensorArray;
+};
+
+type FlattenedExternalArea = never;
+type FlattenedExternalLine = never;
+type FlattenedExternalPoint = Sensor | SensorArray;
+
+export type FigureTypeToExternal = {
+  [FigureType.AREA]: FlattenedExternalArea;
+  [FigureType.LINE]: FlattenedExternalLine;
+  [FigureType.POINT]: FlattenedExternalPoint;
+};
+
 // Shared
 export enum GroupByOptions {
   TYPE = 'type',
@@ -160,7 +175,7 @@ export enum GroupByOptions {
 type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
 
 export type UseLocationsPropsWithFilterBy<AvailableLocationTypes extends MapLocationType> = {
-  filterBy?: AvailableLocationTypes | FigureType;
+  filterBy?: AvailableLocationTypes[] | AvailableLocationTypes | FigureType;
   groupBy?: never;
 };
 

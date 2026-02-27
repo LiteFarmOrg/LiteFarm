@@ -2041,9 +2041,8 @@ describe('Task tests', () => {
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
       const new_soil_amendment_task = fakeTaskData.soil_amendment_task(farm_id);
-      const new_soil_amendment_task_products = await fakeProductData.soil_amendment_task_products(
-        farm_id,
-      );
+      const new_soil_amendment_task_products =
+        await fakeProductData.soil_amendment_task_products(farm_id);
 
       await completeTaskRequest(
         { user_id, farm_id },

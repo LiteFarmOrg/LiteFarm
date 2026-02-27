@@ -79,9 +79,8 @@ export default function Map({ isCompactSideMenu }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
-  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
-  const [gMapBounds, setGMapBounds] = useState(null);
+
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
@@ -215,9 +214,9 @@ export default function Map({ isCompactSideMenu }) {
     };
   }, [gMaps]);
 
-  const { getMaxZoom, maxZoom } = useMaxZoom();
-  const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps, map);
+  const { getMaxZoom } = useMaxZoom();
+  const handleGoogleMapApi = async ({ map, maps }) => {
+    await getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -316,7 +315,8 @@ export default function Map({ isCompactSideMenu }) {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    const bounds = drawAssets(map, maps, mapBounds);
+
+    drawAssets(map, maps, mapBounds);
 
     if (history.location.state?.isStepBack) {
       reconstructOverlay();
@@ -329,9 +329,7 @@ export default function Map({ isCompactSideMenu }) {
         map.setCenter(location);
       }
     }
-    setGMap(map);
     setGMaps(maps);
-    setGMapBounds(bounds);
   };
 
   const handleClickAdd = () => {
@@ -391,13 +389,6 @@ export default function Map({ isCompactSideMenu }) {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
   };
-
-  useEffect(() => {
-    if (maxZoom && gMap && gMaps && gMapBounds) {
-      const newBounds = drawAssets(gMap, gMaps, gMapBounds);
-      setGMapBounds(newBounds);
-    }
-  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
@@ -468,7 +459,7 @@ export default function Map({ isCompactSideMenu }) {
                 center={grid_points}
                 defaultZoom={DEFAULT_ZOOM}
                 yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+                onGoogleApiLoaded={handleGoogleMapApi}
                 options={getMapOptions}
               />
             </div>

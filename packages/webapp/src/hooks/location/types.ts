@@ -177,11 +177,13 @@ type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
 export type UseLocationsPropsWithFilterBy<AvailableLocationTypes extends MapLocationType> = {
   filterBy?: AvailableLocationTypes[] | AvailableLocationTypes | FigureType;
   groupBy?: never;
+  deleted?: boolean;
 };
 
 export type UseLocationsPropsWithGroupBy = {
   filterBy?: never;
   groupBy?: GroupByOptions;
+  deleted?: boolean;
 };
 
 export type UseLocationsReturn<T> = {

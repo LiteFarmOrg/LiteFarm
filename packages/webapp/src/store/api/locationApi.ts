@@ -18,7 +18,7 @@ import { checkDeleteLocationUrl, getLocationsByFarmIdUrl, locationURL } from '..
 import { InternalMapLocation, InternalMapLocationType, WithLocationId } from './types';
 import { RootState } from '../store';
 
-export const locations = api.injectEndpoints({
+export const locationApi = api.injectEndpoints({
   endpoints: (build) => ({
     getLocations: build.query<InternalMapLocation[], void>({
       queryFn: async (_arg, { getState }, _extraOptions, baseQuery) => {
@@ -82,4 +82,4 @@ export const {
   useDeleteLocationMutation,
   useAddLocationByTypeMutation,
   useUpdateLocationByTypeMutation,
-} = locations;
+} = locationApi;

@@ -8,11 +8,7 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import {
-  animalLocationsSelector,
-  cropLocationEntitiesSelector,
-  cropLocationsSelector,
-} from '../../locationSlice';
+import { animalLocationsSelector, cropLocationEntitiesSelector } from '../../locationSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
@@ -26,6 +22,7 @@ import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import useLocations from '../../../hooks/location/useLocations';
+import useCropLocations from '../../../hooks/location/useCropLocations';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -70,7 +67,8 @@ export default function TaskLocationsSwitch() {
 }
 
 function TaskActiveAndPlannedCropLocations({ history, location }) {
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
+
   const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
   const activeAndPlannedLocationsIds = Object.keys(
@@ -99,7 +97,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
 
 function TaskTransplantLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const onContinue = () => {
     history.push('/add_task/planting_method', location.state);
   };
@@ -118,7 +116,7 @@ function TaskTransplantLocations({ history, location }) {
 
 function TaskIrrigationLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const onContinue = () => {
     history.push('/add_task/task_crops', location.state);
@@ -140,7 +138,7 @@ function TaskIrrigationLocations({ history, location }) {
 //This goes to all crop locations, multiSelect, not wildCrops with pins
 function TaskSoilAmendmentLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const onContinue = () => {
     history.push('/add_task/task_crops', location.state);
   };

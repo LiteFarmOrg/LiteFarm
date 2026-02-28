@@ -1,0 +1,23 @@
+.spinner {
+  rect {
+    fill: #DAE3E1;
+    transition: fill 0.3s ease;
+  }
+
+  // Start animation from the second rect so it doesn't begin at full grey
+  rect:nth-child(1) { animation: cycle 0.96s infinite steps(8); }
+  rect:nth-child(2) { animation: cycle 0.96s infinite steps(8) -0.12s; }
+  rect:nth-child(3) { animation: cycle 0.96s infinite steps(8) -0.24s; }
+  rect:nth-child(4) { animation: cycle 0.96s infinite steps(8) -0.36s; }
+  rect:nth-child(5) { animation: cycle 0.96s infinite steps(8) -0.48s; }
+  rect:nth-child(6) { animation: cycle 0.96s infinite steps(8) -0.60s; }
+  rect:nth-child(7) { animation: cycle 0.96s infinite steps(8) -0.72s; }
+  rect:nth-child(8) { animation: cycle 0.96s infinite steps(8) -0.84s; }
+}
+
+@keyframes cycle {
+  0%   { fill: #89D1C7; }
+  12.5% { fill: #89D1C7; }
+  12.6% { fill: #DAE3E1; }
+  100%  { fill: #DAE3E1; }
+}

@@ -16,11 +16,17 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import RadioGroup from '../../Form/RadioGroup';
 import Input, { numberOnKeyDown } from '../../Form/Input';
-import { HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
+import { HOURLY_WAGE, HOURLY_WAGE_ACTION, HourlyWageAction } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
+const HourlyWageInputs = ({
+  register,
+  control,
+  errors,
+  shouldSetWage,
+  onHourlyWageActionChange,
+}) => {
   const { t } = useTranslation(['translation']);
 
   const currencySymbol = useCurrencySymbol();
@@ -28,11 +34,11 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
   const radioOptions = [
     {
       label: t('common:YES'),
-      value: hourlyWageActions.FOR_THIS_TASK,
+      value: HourlyWageAction.FOR_THIS_TASK,
     },
     {
       label: t('common:NO'),
-      value: hourlyWageActions.NO,
+      value: HourlyWageAction.NO,
     },
   ];
 
@@ -48,6 +54,7 @@ const HourlyWageInputs = ({ register, control, errors, shouldSetWage }) => {
         data-cy="hourlyWageInputs-action"
         style={{ marginBottom: '20px' }}
         row
+        onChange={onHourlyWageActionChange}
       />
       {shouldSetWage && (
         <Input

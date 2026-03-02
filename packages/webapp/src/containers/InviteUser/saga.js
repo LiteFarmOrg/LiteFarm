@@ -22,8 +22,8 @@ export function* inviteUserToFarmSaga({ payload: user }) {
 
     yield put(postUserSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.ADD')));
-  } catch (err) {
-    if (err.response.status === 409) {
+  } catch (e) {
+    if (e.response?.status === 409) {
       yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.EXISTS')));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.ADD')));

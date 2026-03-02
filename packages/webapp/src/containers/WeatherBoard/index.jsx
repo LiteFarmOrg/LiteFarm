@@ -11,11 +11,7 @@ export default function WeatherBoard() {
     units: { measurement },
   } = useSelector(userFarmSelector);
 
-  const {
-    data,
-    error,
-    isSuccess: loaded,
-  } = useGetWeatherQuery({
+  const { data } = useGetWeatherQuery({
     measurementSystem: measurement,
   });
   const language_preference = getLanguageFromLocalStorage();
@@ -31,7 +27,7 @@ export default function WeatherBoard() {
     city: data?.city,
   };
 
-  return loaded && !error ? <PureWeatherBoard {...formattedForecast} /> : <span />;
+  return data ? <PureWeatherBoard {...formattedForecast} /> : <span />;
 }
 
 WeatherBoard.propTypes = {};

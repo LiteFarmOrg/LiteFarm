@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { StatusLabel } from '../CardWithStatus/StatusLabel';
 import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { useTranslation } from 'react-i18next';
-import { useIsOffline } from '../../containers/hooks/useOfflineDetector/useIsOffline';
 
 export default function PureCropTile({
   className,
@@ -22,32 +21,23 @@ export default function PureCropTile({
   children,
   isSelected,
   status,
-  getIsOffline = useIsOffline,
 }) {
   const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;
   const { t } = useTranslation();
-  const isOffline = getIsOffline();
-  const [hasError, setHasError] = useState();
-  const showImage = !(isOffline && hasError);
   const image = useMemo(() => {
-    if (showImage) {
-      return (
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          className={styles.img}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/crop-images/default.jpg';
-            setHasError(true);
-          }}
-        />
-      );
-    } else {
-      return <div className={clsx(styles.img, styles.imgPlaceHolder)} />;
-    }
-  }, [showImage, src, alt, styles.img]);
+    return (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className={styles.img}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '/crop-images/default.jpg';
+        }}
+      />
+    );
+  }, [src, alt, styles.img]);
   return (
     <div
       data-cy="crop-tile"

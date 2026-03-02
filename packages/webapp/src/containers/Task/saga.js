@@ -170,7 +170,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task update
@@ -231,7 +231,7 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task update
@@ -260,7 +260,7 @@ export function* changeTaskWageSaga({
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task wage update
@@ -914,7 +914,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task completion
@@ -957,7 +957,7 @@ export function* abandonTaskSaga({ payload: data }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
       }
 
       // Optimistic update for task abandonment
@@ -1106,7 +1106,7 @@ export function* deleteTaskSaga({ payload: data }) {
       const isOffline = yield select(isOfflineSelector);
 
       if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
       }
 
       // Optimistic update for task deletion

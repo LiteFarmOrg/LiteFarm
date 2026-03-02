@@ -15,10 +15,10 @@
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, hourlyWageActions } from './constants';
+import { ASSIGNEE, HOURLY_WAGE, HOURLY_WAGE_ACTION, HourlyWageAction } from './constants';
 
 const isYesOptionSelected = (option) => {
-  return option === hourlyWageActions.FOR_THIS_TASK;
+  return option === HourlyWageAction.FOR_THIS_TASK;
 };
 
 /**
@@ -134,7 +134,7 @@ const useTaskAssignForm = ({
     return users.find(({ user_id }) => user_id === selectedWorker.value);
   }, [users, selectedWorker]);
 
-  const showHourlyWageInputs = user.is_admin && selectedWorker && assigned;
+  const showHourlyWageInputs = user.is_admin && selectedWorker;
 
   const shouldSetWage = useMemo(() => {
     let shouldSet = false;

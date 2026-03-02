@@ -21,16 +21,32 @@ import {
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
-import { clientsClaim } from 'workbox-core';
+import { clientsClaim, cacheNames } from 'workbox-core';
 
 self.skipWaiting();
 clientsClaim();
 
 // Precache all the assets injected by VitePWA
 // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
-precacheAndRoute(self.__WB_MANIFEST);
+const precacheManifest = self.__WB_MANIFEST || [];
+precacheAndRoute(precacheManifest);
 
 cleanupOutdatedCaches();
+
+/**
+ * Validates that the cache has the expected number of entries.
+ * Returns an object with validation results.
+ */
+async function validatePrecacheIntegrity() {
+  try {
+    const cacheName = cacheNames.precache || 'workbox-precache-v2';
+    const cache = await caches.open(cacheName);
+    const cachedKeys = await cache.keys();
+    return { isComplete: cachedKeys.length >= precacheManifest.length };
+  } catch {
+    return { isComplete: false };
+  }
+}
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
@@ -68,6 +84,9 @@ const createOnSyncHandler = () => {
               method: entry.request.method,
               status: response.status,
               response: responseContent,
+              queuedAt: entry.metadata.timestamp,
+              auth: entry.request.headers.get('Authorization'),
+              farm_id: entry.request.headers.get('farm_id'),
             },
           }),
         );
@@ -92,7 +111,7 @@ const createOnSyncHandler = () => {
   };
 };
 
-const BG_SYNC_ROUTES = [
+const RETRY_ROUTES = [
   {
     matcher: ({ url }) => url.pathname.includes('/task/'),
     method: 'POST',
@@ -108,23 +127,24 @@ const BG_SYNC_ROUTES = [
   },
 ];
 
-const BG_SYNC_QUEUE_NAME = 'background-sync';
+const RETRY_QUEUE_NAME = 'retry-requests';
 
-const backgroundSyncQueue = new Queue(BG_SYNC_QUEUE_NAME, {
+const retryQueue = new Queue(RETRY_QUEUE_NAME, {
   maxRetentionTime: 24 * 60, // 24 hours
-  onSync: createOnSyncHandler(),
+  // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
+  onSync: () => ({}),
 });
 
 // Store queue references globally to allow manual replay
 const queues = {
-  [BG_SYNC_QUEUE_NAME]: { queue: backgroundSyncQueue },
+  [RETRY_QUEUE_NAME]: { queue: retryQueue },
 };
 
-BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
+RETRY_ROUTES.forEach(({ matcher, method }) => {
   // Push to our queue on failure
-  const bgSyncPlugin = {
+  const queueOnFailurePlugin = {
     fetchDidFail: async ({ request }) => {
-      await backgroundSyncQueue.pushRequest({
+      await retryQueue.pushRequest({
         request,
         metadata: {
           timestamp: Date.now(),
@@ -133,22 +153,25 @@ BG_SYNC_ROUTES.forEach(({ matcher, method }) => {
     },
   };
 
-  registerRoute(matcher, new NetworkOnly({ plugins: [bgSyncPlugin] }), method);
+  registerRoute(matcher, new NetworkOnly({ plugins: [queueOnFailurePlugin] }), method);
 });
 
 // ——————————————————————————————
 self.addEventListener('message', async (event) => {
-  // Manually replay queues if background sync is not supported
-  if (!('sync' in self.registration)) {
-    if (event.data === 'replay_queue') {
-      Object.values(queues).forEach(async ({ queue }) => {
-        const handler = createOnSyncHandler();
-        try {
-          await handler({ queue });
-        } catch (err) {
-          // Ignore errors during manual replay; they are logged by the handler anyway
-        }
-      });
+  if (event.data === 'check_cache_status') {
+    const validation = await validatePrecacheIntegrity();
+    event.ports[0].postMessage(validation);
+    return;
+  }
+
+  if (event.data === 'replay_queue') {
+    for (let { queue } of Object.values(queues)) {
+      const handler = createOnSyncHandler();
+      try {
+        await handler({ queue });
+      } catch (err) {
+        // Ignore errors during manual replay; they are logged by the handler anyway
+      }
     }
   }
 

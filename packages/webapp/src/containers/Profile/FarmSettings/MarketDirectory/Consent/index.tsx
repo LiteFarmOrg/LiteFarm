@@ -35,7 +35,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackb
 import { areSetsEqual } from '../../../../../util/comparisons';
 import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
-import { useNavMenuControls } from '../../../../../contexts/appContext';
+import { useAppUIContext } from '../../../../../contexts/appContext';
 
 interface MarketDirectoryConsentProps {
   canConsent: boolean;
@@ -51,7 +51,7 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { feedback: feedbackFormControls } = useNavMenuControls();
+  const { feedback: feedbackFormControls } = useAppUIContext();
 
   const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 

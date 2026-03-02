@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
 import Navigation from '../../../containers/Navigation';
-import { NavMenuControlsContext } from '../../../contexts/appContext';
+import { AppUIContext } from '../../../contexts/appContext';
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {
@@ -23,25 +23,26 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <NavMenuControlsContext.Provider
+        <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            maps: { isLoaded: true },
           }}
         >
           <Navigation />
-        </NavMenuControlsContext.Provider>
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {story()}
-        </div>
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
+        </AppUIContext.Provider>
       </div>
     );
   },
@@ -60,25 +61,26 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <NavMenuControlsContext.Provider
+        <AppUIContext.Provider
           value={{
             feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            maps: { isLoaded: true },
           }}
         >
           <Navigation />
-        </NavMenuControlsContext.Provider>
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {story()}
-        </div>
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
+        </AppUIContext.Provider>
       </div>
     );
   },
@@ -134,13 +136,13 @@ export const navMenuControlDecorator = [
   (story) => {
     const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
     return (
-      <NavMenuControlsContext.Provider
+      <AppUIContext.Provider
         value={{
           feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
         }}
       >
         {story()}
-      </NavMenuControlsContext.Provider>
+      </AppUIContext.Provider>
     );
   },
 ];

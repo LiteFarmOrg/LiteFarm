@@ -61,7 +61,7 @@ function RepeatCropPlan() {
   const onContinue = () => {
     navigate(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
-      { origStartDate: firstTaskDate },
+      { state: { origStartDate: firstTaskDate } },
     );
   };
 

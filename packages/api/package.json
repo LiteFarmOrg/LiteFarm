@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -57,7 +57,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.622.0",
+    "@aws-sdk/client-s3": "^3.994.0",
     "@datafoodconsortium/connector": "^1.0.0-alpha.10",
     "@googlemaps/google-maps-services-js": "^3.4.1",
     "@sentry/node": "^7.119.2",
@@ -66,7 +66,7 @@
     "adm-zip": "^0.4.16",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",
-    "axios": "^1.8.4",
+    "axios": "^1.13.5",
     "bcryptjs": "^2.4.3",
     "bull": "^3.22.9",
     "chai": "^4.2.0",
@@ -97,7 +97,6 @@
     "lodash.groupby": "^4.6.0",
     "multer": "^2.0.2",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.9",
     "objection": "^3.0.1",
     "objection-soft-delete": "^1.0.7",
     "pg": "^8.5.1",
@@ -106,7 +105,6 @@
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "sinon": "^9.1.0",
     "ua-parser-js": "^0.7.28",
     "uuid": "^8.3.0",
     "winston": "^3.8.2",

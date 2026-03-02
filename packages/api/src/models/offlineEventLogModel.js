@@ -33,7 +33,7 @@ class offlineEventLogModel extends Model {
         event_name: { type: 'string' },
         status_code: { type: ['integer', 'null'] },
         url: { type: ['string', 'null'] },
-        country_id: { type: ['number', 'null'] },
+        country_id: { type: ['integer', 'null'] },
         network: { type: ['string', 'null'] },
         browser: { type: ['string', 'null'] },
         browser_version: { type: ['string', 'null'] },
@@ -44,6 +44,8 @@ class offlineEventLogModel extends Model {
         log_status: { type: ['string', 'null'] },
         event_at: { type: 'string', format: 'date-time' },
         went_online_at: { type: ['string', 'null'], format: 'date-time' },
+        user_id: { type: ['string', 'null'] },
+        role_id: { type: ['integer', 'null'] },
       },
       additionalProperties: false,
     };

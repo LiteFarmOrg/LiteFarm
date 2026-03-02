@@ -56,9 +56,6 @@ const LocationPicker = ({
   } = useAppUIContext();
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const [gMaps, setGMaps] = useState(null);
-  // Unused: Kept in for map debugging
-  const [_gMap, setGMap] = useState(null);
-  const [_gMapBounds, setGMapBounds] = useState(null);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
   const mapRef = useRef();
@@ -346,10 +343,6 @@ const LocationPicker = ({
     drawAllLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
     setGMaps(maps);
-
-    // Unused: Kept in for map debugging
-    setGMap(map);
-    setGMapBounds(mapBounds);
 
     setGoogleMapInitiated(true);
   };

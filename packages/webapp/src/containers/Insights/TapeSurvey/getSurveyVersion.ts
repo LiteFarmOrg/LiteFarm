@@ -13,15 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const COUNTRY_VERSIONS = ['AU'];
+
 /**
  * Returns the survey version key used to fetch the correct JSON from DO CDN,
  * based on the farm's 2-letter ISO country code.
  *
  * To add a new country-specific version:
- * 1. Upload `tape-surveys/v1/<key>.json` to the DO Spaces bucket.
- * 2. Add a case here mapping the relevant country_code(s) to that key.
+ * 1. Upload `tape_surveys/<key>.json` to the DO Spaces bucket.
+ * 2. Add a country_code to `COUNTRY_VERSIONS`.
  */
 export const getSurveyVersion = (countryCode: string | undefined): string => {
-  if (countryCode === 'US') return 'us';
-  return 'default';
+  return countryCode && COUNTRY_VERSIONS.includes(countryCode)
+    ? countryCode.toLowerCase()
+    : 'default';
 };

@@ -86,8 +86,7 @@ import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
-// LF-5131 Restore TAPE
-// import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -214,7 +213,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
-  // tapeSurveyReducer,
+  tapeSurveyReducer,
 });
 
 const persistedStateReducer = combineReducers({

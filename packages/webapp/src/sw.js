@@ -48,6 +48,12 @@ async function validatePrecacheIntegrity() {
   }
 }
 
+// SurveyJS vendor chunk — not precached, always fetched from network (online-only)
+registerRoute(
+  ({ url }) => /\/assets\/survey-vendor-[^/]+\.js$/.test(url.pathname),
+  new NetworkOnly(),
+);
+
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
 

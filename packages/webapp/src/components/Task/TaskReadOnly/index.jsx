@@ -69,6 +69,7 @@ import PureDocumentTile from '../../../containers/Documents/DocumentTile';
 import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
 import RevisionPrompt from '../RevisionPrompt';
 import RevisionInfoText from '../../RevisionInfoText';
+import LocationList from './LocationList';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -163,9 +164,9 @@ export default function PureTaskReadOnly({
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
   const isRevised = !!task.revision_date;
+  const isTransplantTask = isTaskType(taskType, 'TRANSPLANT_TASK');
 
-  const showTaskNotes =
-    !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
+  const showTaskNotes = !isTaskType(taskType, 'PLANT_TASK') && !isTransplantTask;
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
@@ -300,7 +301,12 @@ export default function PureTaskReadOnly({
       {showLocations ? (
         <>
           <Semibold className={styles.taskLocationsTitle}>{t('TASK.LOCATIONS')}</Semibold>
-          {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+          <LocationList
+            isTransplantTask={isTransplantTask}
+            locations={task.locations}
+            selectedLocationIds={task.selectedLocationIds}
+          />
+          {isTransplantTask && (
             <TransplantLocationLabel
               locations={task.locations}
               selectedLocationId={task.selectedLocationIds[0]}

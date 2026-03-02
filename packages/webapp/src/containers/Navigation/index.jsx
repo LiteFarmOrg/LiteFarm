@@ -24,10 +24,13 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { offlineReadinessSelector } from '../../hooks/useOfflineReadiness/offlineReadinessSlice';
 import OfflineIndicator from '../OfflineIndicator';
 
 const Navigation = ({ children, ...props }) => {
   const offline = useIsOffline();
+  const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
+  const isReadyForOffline = !!cacheValidation?.isComplete;
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -46,8 +49,10 @@ const Navigation = ({ children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
+  const showOfflineIndicator = offline || (wentOfflineDuringSetup && !isReadyForOffline);
+
   return (
-    <div className={clsx(styles.navigationWrapper, offline && styles.offlineMode)}>
+    <div className={clsx(styles.navigationWrapper, showOfflineIndicator && styles.offlineMode)}>
       <OfflineIndicator />
       <PureNavigation
         showNavigationSpotlight={!navigation}

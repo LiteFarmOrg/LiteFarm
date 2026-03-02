@@ -37,6 +37,7 @@ import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
+import { storeActivity } from '../../../util/offlineEventLogger';
 
 const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
 
@@ -281,6 +282,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       }
     }
 
+    storeActivity('', 'logout');
     onLogOut();
   };
 

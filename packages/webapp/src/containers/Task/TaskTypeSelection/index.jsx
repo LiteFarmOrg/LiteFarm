@@ -10,7 +10,7 @@ import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { animalLocationsSelector } from '../../locationSlice';
+import { animalLocationsSelector, cropLocationsSelector } from '../../locationSlice';
 import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import { hasAvailableProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../constants';
@@ -57,6 +57,7 @@ function TaskTypeSelection() {
   const hasSoilAmendmentProducts = useSelector((state) =>
     hasAvailableProductsSelector(state, TASK_TYPES.SOIL_AMENDMENT),
   );
+  const hasIrrigationLocations = useSelector(cropLocationsSelector)?.length > 0;
 
   return (
     <>
@@ -79,6 +80,7 @@ function TaskTypeSelection() {
           hasAnimals={animalsExistOnFarm}
           hasSoilSampleLocations={hasSoilSampleLocations}
           hasSoilAmendmentProducts={hasSoilAmendmentProducts}
+          hasIrrigationLocations={hasIrrigationLocations}
           isOffline={isOffline}
         />
       </HookFormPersistProvider>

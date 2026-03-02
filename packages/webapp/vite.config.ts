@@ -8,6 +8,15 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // see https://sass-lang.com/d/legacy-js-api
+        // api: 'modern-compiler' requires Vite 5.4+
+        silenceDeprecations: ['legacy-js-api'],
+      },
+    },
+  },
   plugins: [
     { enforce: 'pre', ...mdx({ providerImportSource: '@mdx-js/react' }) },
     react({
@@ -34,6 +43,10 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.js',
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,svg}'],
+        maximumFileSizeToCacheInBytes: 3 * 1024 ** 2, // 3MB
+      },
     }),
   ],
   build: {

@@ -28,6 +28,7 @@ import userLogReducer from '../containers/userLogSlice';
 import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
+import offlineReadinessReducer from '../hooks/useOfflineReadiness/offlineReadinessSlice';
 
 import barnReducer from '../containers/barnSlice';
 import ceremonialReducer from '../containers/ceremonialSlice';
@@ -86,7 +87,8 @@ import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
-import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+// LF-5131 Restore TAPE
+// import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -213,7 +215,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
-  tapeSurveyReducer,
+  // tapeSurveyReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -232,6 +234,7 @@ const tempStateReducer = combineReducers({
   snackbarReducer,
   customSignUpReducer,
   offlineDetectorReducer,
+  offlineReadinessReducer,
 });
 
 // combine all reducers here and pass it to application

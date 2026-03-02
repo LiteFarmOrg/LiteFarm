@@ -1,29 +1,21 @@
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import Icon, { Cross } from '../../Icons';
+import { Cross } from '../../Icons';
 
 type MapHeaderProps = {
   farmName: string;
-  isAdmin?: boolean;
 };
 
 interface MapHeaderMain extends MapHeaderProps {
-  handleVideoClick: () => void;
   handleClose?: never;
 }
 
 interface MapHeaderViewer extends MapHeaderProps {
-  handleVideoClick?: never;
   handleClose: () => void;
 }
 
-export default function PureMapHeader({
-  farmName,
-  isAdmin,
-  handleVideoClick,
-  handleClose,
-}: MapHeaderMain | MapHeaderViewer) {
+export default function PureMapHeader({ farmName, handleClose }: MapHeaderMain | MapHeaderViewer) {
   const { t } = useTranslation();
 
   return (
@@ -35,9 +27,6 @@ export default function PureMapHeader({
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      {isAdmin && handleVideoClick && (
-        <Icon iconName="VIDEO_LOGO" onClick={handleVideoClick} className={styles.pointer} />
-      )}
       {handleClose && <Cross className={styles.cross} onClick={handleClose} />}
     </div>
   );

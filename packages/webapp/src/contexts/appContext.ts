@@ -15,20 +15,23 @@
 
 import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
-export type NavMenuControls = {
+export type AppUIData = {
   feedback: {
     isFeedbackSurveyOpen: boolean;
     setFeedbackSurveyOpen: Dispatch<SetStateAction<boolean>>;
   };
+  maps: {
+    isLoaded: boolean;
+  };
 };
 
-export const NavMenuControlsContext = createContext<NavMenuControls | null>(null);
+export const AppUIContext = createContext<AppUIData | null>(null);
 
-export const useNavMenuControls = () => {
-  const NavMenuControls = useContext(NavMenuControlsContext);
-  if (!NavMenuControls) {
-    throw new Error('NavMenuControlsContext must be used within a provider');
+export const useAppUIContext = () => {
+  const AppUIData = useContext(AppUIContext);
+  if (!AppUIData) {
+    throw new Error('AppUIContext must be used within a provider');
   } else {
-    return NavMenuControls;
+    return AppUIData;
   }
 };

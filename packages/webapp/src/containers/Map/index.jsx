@@ -21,6 +21,7 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import PureMapHeader from '../../components/Map/Header';
 import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
 import PureMapFooter from '../../components/Map/Footer';
+import { LoadingBackdrop } from '../../components/Loading/LoadingV2';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
@@ -62,7 +63,6 @@ import {
   cleanupGeometryListeners,
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
-import LoadingMapModal from '../../components/Modals/LoadingMapModal';
 import useAvailableFilterSettings from './useAvailableFilterSettings';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
@@ -578,7 +578,7 @@ export default function Map({ isCompactSideMenu }) {
           </div>
         </>
       )}
-      {isLocationsFetching && <LoadingMapModal isOpen={isLocationsFetching} />}
+      <LoadingBackdrop isOpen={isLocationsFetching} isCompactSideMenu={isCompactSideMenu} />
     </>
   );
 }

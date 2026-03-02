@@ -1,3 +1,5 @@
+@use '@assets/mixin' as *;
+
 .spinner {
   rect {
     fill: #DAE3E1;
@@ -20,4 +22,42 @@
   12.5% { fill: #89D1C7; }
   12.6% { fill: #DAE3E1; }
   100%  { fill: #DAE3E1; }
+}
+
+.loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min-content;
+}
+
+.loadingText {
+  @include fontFamily();
+  color: black;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}
+
+.loadingDialog {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 0 1px 0 rgba(43, 48, 58, 0.30);
+}
+
+.sitBackText {
+  @include fontFamily();
+  color: black;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
 }

@@ -1802,6 +1802,10 @@ export default {
     offlineDetectorReducer: {
       isOffline: false,
     },
+    offlineReadinessReducer: {
+      wentOfflineDuringSetup: false,
+      cacheValidation: null,
+    },
   },
   baseReducer: {},
   insightReducer: {

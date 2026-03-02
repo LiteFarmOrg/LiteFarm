@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.9.0',
+    release: '3.10.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -179,6 +179,7 @@ import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
 import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
 import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
 import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
+import offlineEventLogRoute from './routes/offlineEventLogRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -358,7 +359,8 @@ app
   .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
   .use('/market_directory_info', marketDirectoryInfoRoute)
   .use('/market_product_categories', marketProductCategoryRoute)
-  .use('/market_directory_partners', marketDirectoryPartnerRoute);
+  .use('/market_directory_partners', marketDirectoryPartnerRoute)
+  .use('/offline_event_log', offlineEventLogRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

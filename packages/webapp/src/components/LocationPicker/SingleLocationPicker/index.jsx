@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
+import { useAppUIContext } from '../../../contexts/appContext';
 import {
   DEFAULT_ZOOM,
   isPoint,
@@ -51,11 +51,11 @@ const LocationPicker = ({
   showOverlappingAreasModal = true,
   gestureHandling = GestureHandling.GREEDY,
 }) => {
-  useGoogleMapsLoader(['maps', 'geometry']);
+  const {
+    maps: { isLoaded },
+  } = useAppUIContext();
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
-  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
-  const [gMapBounds, setGMapBounds] = useState(null);
   const geometriesRef = useRef({});
   const markerClusterRef = useRef();
   const mapRef = useRef();
@@ -85,12 +85,9 @@ const LocationPicker = ({
     }
   }, [isPinMode, isGoogleMapInitiated]);
 
+  // Cleanup listeners on map instance objects
   useEffect(() => {
-    if (maxZoom && gMap && gMaps && gMapBounds) {
-      drawAllLocations(gMap, gMaps, gMapBounds);
-    }
-
-    // Cleanup event listeners
+    if (!gMaps) return;
     return () => {
       if (gMaps && geometriesRef.current) {
         cleanupGeometryListeners(geometriesRef.current, gMaps);
@@ -99,7 +96,7 @@ const LocationPicker = ({
         cleanupInstanceListeners(markerClusterRef.current, gMaps);
       }
     };
-  }, [maxZoom, gMap, gMaps, gMapBounds]);
+  }, [gMaps]);
 
   useEffect(() => {
     if (markerClusterRef?.current?.markers?.length > 0) {
@@ -292,9 +289,9 @@ const LocationPicker = ({
     };
   };
 
-  const handleGoogleMapApi = (map, maps) => {
+  const handleGoogleMapApi = async ({ map, maps }) => {
     mapRef.current = map;
-    getMaxZoom?.(maps, map);
+    await getMaxZoom(maps, map);
     const mapBounds = new maps.LatLngBounds();
     mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({
@@ -345,36 +342,37 @@ const LocationPicker = ({
     drawWildCropPins(map, maps, mapBounds);
     drawAllLocations(map, maps, mapBounds);
     map.fitBounds(mapBounds);
-    setGMap(map);
     setGMaps(maps);
-    setGMapBounds(mapBounds);
+
     setGoogleMapInitiated(true);
   };
 
   return (
-    <div
-      data-cy="map-selectLocation"
-      className={clsx(styles.mapContainer, className)}
-      style={style}
-    >
-      <GoogleMap
-        style={{ flexGrow: 1 }}
-        defaultCenter={farmCenterCoordinate}
-        defaultZoom={DEFAULT_ZOOM}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-        options={getMapOptions}
-      />
-      {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
-        <PureSelectionHandler
-          locations={overlappedPositions}
-          onSelect={onSelectionModalClick}
-          dismissSelectionModal={dismissSelectionModal}
-          selectedLocationIds={selectedLocationIds}
+    isLoaded && (
+      <div
+        data-cy="map-selectLocation"
+        className={clsx(styles.mapContainer, className)}
+        style={style}
+      >
+        <GoogleMap
+          style={{ flexGrow: 1 }}
+          defaultCenter={farmCenterCoordinate}
+          defaultZoom={DEFAULT_ZOOM}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={handleGoogleMapApi}
+          options={getMapOptions}
         />
-      )}
-      {disabled && <div className={styles.layerMask} />}
-    </div>
+        {showOverlappingAreasModal && overlappedPositions.length > 1 && !isPinMode && (
+          <PureSelectionHandler
+            locations={overlappedPositions}
+            onSelect={onSelectionModalClick}
+            dismissSelectionModal={dismissSelectionModal}
+            selectedLocationIds={selectedLocationIds}
+          />
+        )}
+        {disabled && <div className={styles.layerMask} />}
+      </div>
+    )
   );
 };
 

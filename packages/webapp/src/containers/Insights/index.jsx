@@ -130,7 +130,7 @@ const Insights = () => {
     const insightData = {};
     insightData['TAPE'] = isTapeSurveyCompleted
       ? t('INSIGHTS.TAPE.COMPLETED')
-      : tapeStatus.hasData
+      : tapeStatus.inProgress
       ? t('INSIGHTS.TAPE.IN_PROGRESS')
       : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';

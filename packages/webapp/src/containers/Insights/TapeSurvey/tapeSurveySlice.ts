@@ -53,5 +53,5 @@ export const tapeSurveySelector = (state: any) =>
   state.farmStateReducer[tapeSurveySlice.name] || initialState;
 
 export const tapeSurveyStatusSelector = createSelector([tapeSurveySelector], (tapeSurvey) => ({
-  hasData: Object.keys(tapeSurvey.surveyDataInProgress).length > 0,
+  inProgress: Object.keys(tapeSurvey.surveyDataInProgress).length > 0,
 }));

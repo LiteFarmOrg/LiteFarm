@@ -42,9 +42,9 @@ function TAPESurvey() {
   const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
   const prefetchSurveyData = usePrefetch('getTapeSurvey');
 
-  const { surveyData: savedData, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
+  const { surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
 
-  const initialData = { ...prepopulatedData, ...savedData };
+  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
   const handleDataChange = useCallback((currentPageNo: number, surveyData: Record<string, any>) => {
     dispatch(saveSurveyProgress({ currentPageNo, surveyData }));

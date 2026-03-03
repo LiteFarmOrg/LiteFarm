@@ -40,6 +40,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useGetTapeSurveyQuery } from '../../store/api/tapeSurveyApi';
 
 const Insights = () => {
   const history = useHistory();
@@ -54,11 +55,14 @@ const Insights = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const { data: tapeSurvey } = useGetTapeSurveyQuery();
+  const isTapeSurveyCompleted = !!tapeSurvey?.tape_survey_id;
+
   const items = [
     {
       label: t('INSIGHTS.TAPE.TITLE'),
       image: tape_survey,
-      route: tapeStatus.isCompleted ? 'tape/results' : 'tape',
+      route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
       data_point: 'TAPE',
     },
     {
@@ -124,11 +128,11 @@ const Insights = () => {
 
   const insightData = useMemo(() => {
     const insightData = {};
-    insightData['TAPE'] = tapeStatus.isCompleted
+    insightData['TAPE'] = isTapeSurveyCompleted
       ? t('INSIGHTS.TAPE.COMPLETED')
       : tapeStatus.hasData
-        ? t('INSIGHTS.TAPE.IN_PROGRESS')
-        : t('INSIGHTS.TAPE.NOT_FILLED');
+      ? t('INSIGHTS.TAPE.IN_PROGRESS')
+      : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'

@@ -59,5 +59,9 @@ export const tapeSurveyApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetTapeSurveyJsonQuery, useGetTapeSurveyQuery, useSubmitTapeSurveyMutation } =
-  tapeSurveyApi;
+export const {
+  useGetTapeSurveyJsonQuery,
+  useGetTapeSurveyQuery,
+  useSubmitTapeSurveyMutation,
+  usePrefetch,
+} = tapeSurveyApi;

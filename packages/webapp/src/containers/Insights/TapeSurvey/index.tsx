@@ -26,13 +26,9 @@ import {
 } from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
-import { userFarmSelector } from '../../userFarmSlice';
-import {
-  useGetTapeSurveyJsonQuery,
-  useSubmitTapeSurveyMutation,
-} from '../../../store/api/tapeSurveyApi';
-import { getSurveyVersion } from './getSurveyVersion';
+import { useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
 
 function TAPESurvey() {
   const { t } = useTranslation();
@@ -42,15 +38,11 @@ function TAPESurvey() {
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
     useTapeSurveyPrepopulatedData();
 
-  // @ts-expect-error -- userFarmSelector issue
-  const { country_code } = useSelector(userFarmSelector);
-  const versionKey = getSurveyVersion(country_code);
-
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
-  } = useGetTapeSurveyJsonQuery(versionKey);
+  } = useTapeSurveyJsonForFarmCountry();
 
   const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
 

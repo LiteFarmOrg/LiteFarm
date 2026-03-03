@@ -18,17 +18,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
-import {
-  saveSurveyProgress,
-  completeSurvey,
-  clearSurvey,
-  tapeSurveySelector,
-} from './tapeSurveySlice';
+import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
-import { useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { usePrefetch, useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
 import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
+import { CompleteEvent } from 'survey-core';
 
 function TAPESurvey() {
   const { t } = useTranslation();
@@ -45,6 +40,7 @@ function TAPESurvey() {
   } = useTapeSurveyJsonForFarmCountry();
 
   const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
+  const prefetchSurveyData = usePrefetch('getTapeSurvey');
 
   const { surveyData: savedData, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
 
@@ -55,18 +51,15 @@ function TAPESurvey() {
   }, []);
 
   const handleComplete = useCallback(
-    async (currentPageNo: number, surveyData: any) => {
-      // Persist completion state immediately so TapeResults has data during the transition.
-      dispatch(completeSurvey({ currentPageNo, surveyData }));
+    async (surveyData: any, options: CompleteEvent) => {
       try {
         await submitTapeSurvey({ survey_data: surveyData }).unwrap();
-        // TODO: Once TapeResults reads from RTK Query cache instead of Redux, remove this
-        // clearSurvey call (or move it to after TapeResults has rendered from the cache).
+        prefetchSurveyData();
         dispatch(clearSurvey());
         history.push('/insights/tape/results');
       } catch {
-        // Submission failed; data stays in Redux so the user can retry.
-        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.SUBMIT_ERROR')));
+        // TODO: handle error properly
+        options.showSaveError();
       }
     },
     [submitTapeSurvey, dispatch, history, t],

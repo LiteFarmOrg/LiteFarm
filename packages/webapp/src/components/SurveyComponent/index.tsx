@@ -14,14 +14,14 @@
  */
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { Model } from 'survey-core';
+import { CompleteEvent, Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object
-  onComplete: (currentPageNo: number, surveyData: any) => void;
+  onComplete: (surveyData: any, options: CompleteEvent) => void;
   initialData?: Record<string, any>;
   initialPageNo?: number;
   onCurrentPageChanged?: (currentPageNo: number, surveyData: Record<string, any>) => void;
@@ -62,9 +62,9 @@ export default function SurveyComponent({
 
   // https://surveyjs.io/form-library/documentation/get-started-react
   const handleComplete = useCallback(
-    (surveyModel: Model) => {
-      const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
-      onComplete(currentPageNo, surveyData);
+    (surveyModel: Model, options: CompleteEvent) => {
+      const { surveyData } = extractSurveyState(surveyModel);
+      onComplete(surveyData, options);
     },
     [onComplete],
   );

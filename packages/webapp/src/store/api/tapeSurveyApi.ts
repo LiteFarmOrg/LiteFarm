@@ -31,7 +31,7 @@ export const tapeSurveyApi = api.injectEndpoints({
     getTapeSurveyJson: build.query<Record<string, any>, string>({
       queryFn: async (versionKey) => {
         try {
-          const response = await fetch(`${DO_CDN_URL}/tape-surveys/v1/${versionKey}.json`);
+          const response = await fetch(`${DO_CDN_URL}/tape_surveys/${versionKey}.json`);
           if (!response.ok) {
             return {
               error: { status: response.status, data: `Failed to fetch survey JSON` },
@@ -44,6 +44,10 @@ export const tapeSurveyApi = api.injectEndpoints({
         }
       },
     }),
+    getTapeSurvey: build.query<TapeSurveyRecord, void>({
+      query: () => `${tapeSurveyUrl}`,
+      providesTags: ['TapeSurvey'],
+    }),
     submitTapeSurvey: build.mutation<TapeSurveyRecord, { survey_data: Record<string, any> }>({
       query: (body) => ({
         url: tapeSurveyUrl,
@@ -55,4 +59,5 @@ export const tapeSurveyApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetTapeSurveyJsonQuery, useSubmitTapeSurveyMutation } = tapeSurveyApi;
+export const { useGetTapeSurveyJsonQuery, useGetTapeSurveyQuery, useSubmitTapeSurveyMutation } =
+  tapeSurveyApi;

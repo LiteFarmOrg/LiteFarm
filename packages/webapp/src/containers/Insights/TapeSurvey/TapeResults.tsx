@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -29,10 +30,10 @@ import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
-import TapeQuestions from './tapeQuestions.json';
 import { roundToOne } from '../../../util/rounding';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
+import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -80,18 +81,6 @@ const CHOSEN_SECTION_NAMES = [
   'responsible_governance',
 ];
 
-const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) => {
-  if (CHOSEN_SECTION_NAMES.includes(cv.name)) {
-    acc.push({
-      dimension: getChartTitleFromSurveyTitle(cv.title),
-      answerKeys: getAnswerKeys(cv),
-      maxScore: MAX_SCORE,
-    });
-    return acc;
-  }
-  return acc;
-}, []);
-
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
 interface TAPEDimension {
@@ -105,9 +94,29 @@ function TAPEResults() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const { data: surveyJson } = useTapeSurveyJsonForFarmCountry();
+
+  const chartSectionData = useMemo(() => {
+    if (!Array.isArray(surveyJson?.pages)) {
+      return [];
+    }
+
+    return surveyJson.pages.reduce<ChartSection[]>((acc, cv) => {
+      if (CHOSEN_SECTION_NAMES.includes(cv.name)) {
+        acc.push({
+          dimension: getChartTitleFromSurveyTitle(cv.title),
+          answerKeys: getAnswerKeys(cv),
+          maxScore: MAX_SCORE,
+        });
+        return acc;
+      }
+      return acc;
+    }, []);
+  }, [surveyJson]);
+
   const { surveyData } = useSelector(tapeSurveySelector);
 
-  const tapeData = analyzeTAPEData(surveyData);
+  const tapeData = surveyJson ? analyzeTAPEData(surveyData, chartSectionData) : [];
 
   const chartData = {
     labels: tapeData.map((d) => d.dimension),
@@ -198,10 +207,10 @@ interface ChartSection {
   maxScore: number;
 }
 
-const analyzeTAPEData = (data: any): TAPEDimension[] => {
+const analyzeTAPEData = (data: any, chartSectionData: ChartSection[]): TAPEDimension[] => {
   if (!data) return [];
 
-  return CHART_SECTION_DATA.map(({ dimension, answerKeys, maxScore }) => {
+  return chartSectionData.map(({ dimension, answerKeys, maxScore }) => {
     return {
       dimension,
       score:

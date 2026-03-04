@@ -128,10 +128,10 @@ const Insights = () => {
 
   const insightData = useMemo(() => {
     const insightData = {};
-    insightData['TAPE'] = isTapeSurveyCompleted
-      ? t('INSIGHTS.TAPE.COMPLETED')
-      : tapeStatus.inProgress
+    insightData['TAPE'] = tapeStatus.inProgress
       ? t('INSIGHTS.TAPE.IN_PROGRESS')
+      : isTapeSurveyCompleted
+      ? t('INSIGHTS.TAPE.COMPLETED')
       : t('INSIGHTS.TAPE.NOT_FILLED');
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview

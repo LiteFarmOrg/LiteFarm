@@ -16,6 +16,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
 import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
@@ -24,8 +25,9 @@ import PageTitle from '../../../components/PageTitle';
 import { usePrefetch, useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
 import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
 import { CompleteEvent } from 'survey-core';
+import styles from './styles.module.scss';
 
-function TAPESurvey() {
+function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -79,15 +81,19 @@ function TAPESurvey() {
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-      {!isLoading && surveyJson && (
-        <SurveyComponent
-          surveyJson={surveyJson}
-          onComplete={handleComplete}
-          onValueChanged={handleDataChange}
-          initialData={initialData}
-          initialPageNo={savedPageNo}
-        />
-      )}
+      <div
+        className={clsx(styles.tapeSurveyContainer, isCompactSideMenu && styles.compactSideMenu)}
+      >
+        {!isLoading && surveyJson && (
+          <SurveyComponent
+            surveyJson={surveyJson}
+            onComplete={handleComplete}
+            onValueChanged={handleDataChange}
+            initialData={initialData}
+            initialPageNo={savedPageNo}
+          />
+        )}
+      </div>
     </>
   );
 }

@@ -45,21 +45,13 @@ export default defineConfig({
       filename: 'sw.js',
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg}'],
-        globIgnores: ['**/survey-vendor-*.js'],
+        globIgnores: ['**/TapeSurvey-*.js', '**/TapeSurvey-*.css'],
         maximumFileSizeToCacheInBytes: 3 * 1024 ** 2, // 3MB
       },
     }),
   ],
   build: {
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: (id) =>
-          id.includes('survey-core') || id.includes('survey-react-ui')
-            ? 'survey-vendor'
-            : undefined,
-      },
-    },
   },
   server: {
     port: 3000,

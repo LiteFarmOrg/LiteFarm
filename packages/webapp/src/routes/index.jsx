@@ -60,7 +60,7 @@ const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('../containers/Insights/Prices'));
-const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'));
+const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeSurvey'));
 const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));

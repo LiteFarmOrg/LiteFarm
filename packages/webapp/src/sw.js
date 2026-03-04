@@ -19,7 +19,7 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
 
@@ -48,10 +48,10 @@ async function validatePrecacheIntegrity() {
   }
 }
 
-// SurveyJS vendor chunk — not precached, always fetched from network (online-only)
+// Assets omitted from precache, but cached on first fetch for fast subsequent loads
 registerRoute(
-  ({ url }) => /\/assets\/survey-vendor-[^/]+\.js$/.test(url.pathname),
-  new NetworkOnly(),
+  ({ url }) => /\/assets\/TapeSurvey-[^/]+\.(js|css)$/.test(url.pathname),
+  new CacheFirst({ cacheName: 'dynamic-chunks' }),
 );
 
 // SPA navigation handler

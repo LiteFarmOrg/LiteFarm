@@ -23,12 +23,20 @@ import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
 import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
-import { usePrefetch, useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
-import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
+import {
+  usePrefetch,
+  useGetTapeSurveyJsonQuery,
+  useSubmitTapeSurveyMutation,
+} from '../../../store/api/tapeSurveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
 
-function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
+interface TAPESurveyProps {
+  isCompactSideMenu: boolean;
+  surveyVersion: string;
+}
+
+function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -40,7 +48,7 @@ function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
-  } = useTapeSurveyJsonForFarmCountry();
+  } = useGetTapeSurveyJsonQuery(surveyVersion);
 
   const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
   const prefetchSurveyData = usePrefetch('getTapeSurvey');

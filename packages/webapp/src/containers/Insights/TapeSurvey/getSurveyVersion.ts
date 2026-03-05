@@ -23,8 +23,8 @@ const COUNTRY_VERSIONS = ['AU'];
  * 1. Upload `tape_surveys/<key>.json` to the DO Spaces bucket.
  * 2. Add a country_code to `COUNTRY_VERSIONS`.
  */
-export const getSurveyVersion = (countryCode: string | undefined): string => {
+export const getSurveyVersion = (countryCode: string | undefined): string | undefined => {
   return countryCode && COUNTRY_VERSIONS.includes(countryCode)
     ? countryCode.toLowerCase()
-    : 'default';
+    : undefined;
 };

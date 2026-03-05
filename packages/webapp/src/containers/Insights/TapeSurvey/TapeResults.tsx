@@ -33,7 +33,7 @@ import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
-import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
+import { useGetTapeSurveyJsonQuery } from '../../../store/api/tapeSurveyApi';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -89,12 +89,12 @@ interface TAPEDimension {
   maxScore: number;
 }
 
-function TAPEResults() {
+function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { data: surveyJson } = useTapeSurveyJsonForFarmCountry();
+  const { data: surveyJson } = useGetTapeSurveyJsonQuery(surveyVersion);
 
   const chartSectionData = useMemo(() => {
     if (!Array.isArray(surveyJson?.pages)) {

@@ -38,9 +38,10 @@ import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 import { useGetTapeSurveyQuery } from '../../store/api/tapeSurveyApi';
+import { getSurveyVersion } from './TapeSurvey/getSurveyVersion';
 
 const Insights = () => {
   const history = useHistory();
@@ -51,20 +52,24 @@ const Insights = () => {
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
+  const isAdmin = useSelector(isAdminSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const surveyVersion = getSurveyVersion(farm?.country_code);
   const { data: tapeSurvey } = useGetTapeSurveyQuery();
   const isTapeSurveyCompleted = !!tapeSurvey?.tape_survey_id;
 
   const items = [
-    {
-      label: t('INSIGHTS.TAPE.TITLE'),
-      image: tape_survey,
-      route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
-      data_point: 'TAPE',
-    },
+    isAdmin && surveyVersion
+      ? {
+          label: t('INSIGHTS.TAPE.TITLE'),
+          image: tape_survey,
+          route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
+          data_point: 'TAPE',
+        }
+      : undefined,
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -147,7 +152,10 @@ const Insights = () => {
   const renderedItems = useMemo(() => {
     return (
       insightData &&
-      items.map((item, index) => {
+      items.flatMap((item, index) => {
+        if (!item) {
+          return [];
+        }
         return renderItem(item, index, insightData[item.data_point]);
       })
     );

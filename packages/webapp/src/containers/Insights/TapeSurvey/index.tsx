@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { CompleteEvent } from 'survey-core';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
@@ -24,7 +25,7 @@ import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import { usePrefetch, useSubmitTapeSurveyMutation } from '../../../store/api/tapeSurveyApi';
 import useTapeSurveyJsonForFarmCountry from './useTapeSurveyJsonForFarmCountry';
-import { CompleteEvent } from 'survey-core';
+import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
 
 function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
@@ -45,6 +46,7 @@ function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
   const prefetchSurveyData = usePrefetch('getTapeSurvey');
 
   const { surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
+  const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
@@ -67,16 +69,18 @@ function TAPESurvey({ isCompactSideMenu }: { isCompactSideMenu: boolean }) {
     [submitTapeSurvey, dispatch, history, t],
   );
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
+  useEffect(() => {
+    if (isSurveyJsonError) {
+      const activeError = notifications.find(
+        ({ message }) => message === t('INSIGHTS.TAPE.LOAD_ERROR'),
+      );
+      if (!activeError) {
+        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
+      }
+    }
+  }, [isSurveyJsonError]);
 
-  if (isSurveyJsonError) {
-    return (
-      <>
-        <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-        <p>{t('INSIGHTS.TAPE.LOAD_ERROR')}</p>
-      </>
-    );
-  }
+  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
 
   return (
     <>

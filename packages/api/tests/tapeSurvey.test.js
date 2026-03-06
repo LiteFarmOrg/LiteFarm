@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Copyright (C) 2026 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (tapeSurvey.test.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -184,6 +184,7 @@ describe('TapeSurvey endpoint tests', () => {
       const latest = await getRequest();
       expect(latest.status).toBe(200);
       expect(latest.body?.survey_response?.survey_step).toBe('step-3');
+      expect(latest.body?.submission_id).toBe(submission_id);
     });
 
     test('Worker should not be able to patch a tape survey', async () => {

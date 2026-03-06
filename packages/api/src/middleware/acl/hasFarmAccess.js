@@ -31,6 +31,7 @@ const entitiesGetters = {
   transplant_task: fromTransPlantTask,
   product_id: fromProductFarm,
   tape_survey_id: fromTapeSurvey,
+  submission_id: fromTapeSurvey,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 

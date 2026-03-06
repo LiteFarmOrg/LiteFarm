@@ -27,14 +27,7 @@ class TapeSurveyModel extends BaseFormatModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [
-        'submission_id',
-        'farm_id',
-        'survey_version',
-        'project_id',
-        'survey_step',
-        'survey_response',
-      ],
+      required: ['farm_id', 'survey_version', 'project_id', 'survey_step', 'survey_response'],
       properties: {
         id: { type: 'integer' },
         submission_id: { type: 'string' },

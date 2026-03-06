@@ -20,13 +20,15 @@ const tapeSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const user_id = req.auth.user_id;
-        const { survey_data } = req.body;
-        const result = await TapeSurveyModel.query()
+        const { user_id } = req.auth;
+        const { survey_response } = req.body;
+        const { survey_version, project_id, survey_step } = survey_response;
+
+        await TapeSurveyModel.query()
           .context({ user_id })
-          .insert({ farm_id, user_id, survey_data })
-          .returning('*');
-        return res.status(201).send(result);
+          .insert({ farm_id, survey_response, survey_version, project_id, survey_step });
+
+        return res.status(201).send();
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });
@@ -37,8 +39,12 @@ const tapeSurveyController = {
   getTapeSurvey() {
     return async (req, res) => {
       try {
-        const { tape_survey_id } = req.params;
-        const result = await TapeSurveyModel.query().findById(tape_survey_id);
+        const { farm_id } = req.headers;
+        // Find the latest tape survey for the farm
+        const result = await TapeSurveyModel.query()
+          .where({ farm_id })
+          .orderBy('created_at', 'desc')
+          .first();
         if (!result) {
           return res.status(404).json({ error: 'Tape survey not found' });
         }
@@ -53,16 +59,23 @@ const tapeSurveyController = {
   updateTapeSurvey() {
     return async (req, res) => {
       try {
-        const { tape_survey_id } = req.params;
-        const { survey_data } = req.body;
-        const result = await TapeSurveyModel.query()
-          .findById(tape_survey_id)
-          .patch({ survey_data });
-        if (result === 0) {
-          return res.status(404).json({ error: 'Tape survey not found' });
+        const { submission_id } = req.params;
+        if (!submission_id) {
+          return res.status(400).json({ error: 'submission_id is required' });
         }
-        const updated = await TapeSurveyModel.query().findById(tape_survey_id);
-        return res.status(200).send(updated);
+        const { farm_id } = req.headers;
+        const { user_id } = req.auth;
+        const { survey_response } = req.body;
+        const { survey_version, project_id, survey_step } = survey_response;
+        await TapeSurveyModel.query().context({ user_id }).insert({
+          submission_id,
+          farm_id,
+          survey_response,
+          survey_version,
+          project_id,
+          survey_step,
+        });
+        return res.status(204).send();
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

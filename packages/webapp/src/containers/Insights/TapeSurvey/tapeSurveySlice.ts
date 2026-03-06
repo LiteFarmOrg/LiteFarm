@@ -19,11 +19,13 @@ import { createSelector } from 'reselect';
 interface TapeSurveyState {
   currentPageNo: number;
   surveyDataInProgress: Record<string, any>;
+  submissionType?: 'baseline' | 'update' | 'retake';
 }
 
 const initialState: TapeSurveyState = {
   currentPageNo: 0,
   surveyDataInProgress: {},
+  submissionType: undefined,
 };
 
 const tapeSurveySlice = createSlice({
@@ -32,10 +34,17 @@ const tapeSurveySlice = createSlice({
   reducers: {
     saveSurveyProgress: (
       state,
-      action: PayloadAction<{ currentPageNo: number; surveyData: Record<string, any> }>,
+      action: PayloadAction<{
+        currentPageNo: number;
+        surveyData: Record<string, any>;
+        submissionType?: TapeSurveyState['submissionType'];
+      }>,
     ) => {
       state.currentPageNo = action.payload.currentPageNo;
       state.surveyDataInProgress = { ...state.surveyDataInProgress, ...action.payload.surveyData };
+      if (action.payload.submissionType) {
+        state.submissionType = action.payload.submissionType;
+      }
     },
     reopenSurvey: (state) => {
       state.currentPageNo = 0;

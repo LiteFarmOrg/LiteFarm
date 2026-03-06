@@ -30,6 +30,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 
 import mocks from './mock.factories.js';
+import { createUserFarmIds } from './utils/testDataSetup.js';
 
 describe('TapeSurvey endpoint tests', () => {
   let owner;
@@ -95,70 +96,127 @@ describe('TapeSurvey endpoint tests', () => {
     await knex.destroy();
   });
 
-  test('POST /tape_survey should create a new tape survey', async () => {
-    const res = await postRequest(fakeTapeSurveyPayload(farm.farm_id));
-    expect(res.status).toBe(201);
+  describe('POST /tape_survey', () => {
+    test('Admin roles should be able to create a tape survey', async () => {
+      const adminRoles = [1, 2, 5];
+      for (const role of adminRoles) {
+        const userFarmIds = await createUserFarmIds(role);
+        const res = await postRequest(fakeTapeSurveyPayload(userFarmIds.farm_id), userFarmIds);
 
-    const getRes = await getRequest();
-    expect(getRes.status).toBe(200);
-    expect(getRes.body?.survey_response).toEqual({
-      survey_version: 'v1',
-      project_id: 'project-1',
-      survey_step: 'step-1',
+        expect(res.status).toBe(201);
+        const getRes = await getRequest(userFarmIds);
+        expect(getRes.status).toBe(200);
+        expect(getRes.body?.survey_response?.survey_step).toBe('step-1');
+      }
+    });
+
+    test('Worker should not be able to create a tape survey', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      const res = await postRequest(fakeTapeSurveyPayload(userFarmIds.farm_id), userFarmIds);
+      expect(res.status).toBe(403);
+    });
+
+    test('Should return 403 if user is not part of the farm', async () => {
+      const idsA = await createUserFarmIds(1);
+      const idsB = await createUserFarmIds(1);
+      const res = await postRequest(fakeTapeSurveyPayload(idsA.farm_id), {
+        farm_id: idsA.farm_id,
+        user_id: idsB.user_id,
+      });
+      expect(res.status).toBe(403);
     });
   });
 
-  test('GET /tape_survey should return 404 when none exist', async () => {
-    const res = await getRequest();
-    expect(res.status).toBe(404);
-    expect(res.body.error).toBe('Tape survey not found');
-  });
-
-  test('GET /tape_survey should return the most recent tape survey', async () => {
-    await postRequest(fakeTapeSurveyPayload(farm.farm_id));
-    await postRequest({
-      ...fakeTapeSurveyPayload(farm.farm_id),
-      survey_response: {
-        survey_version: 'v2',
-        project_id: 'project-2',
-        survey_step: 'step-2',
-      },
+  describe('GET /tape_survey', () => {
+    test('Should return 404 when none exist', async () => {
+      const res = await getRequest();
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe('Tape survey not found');
     });
 
-    const res = await getRequest();
-    expect(res.status).toBe(200);
-    expect(res.body?.survey_response?.survey_step).toBe('step-2');
-  });
+    test('Should return the most recent tape survey', async () => {
+      await postRequest(fakeTapeSurveyPayload(farm.farm_id));
+      await postRequest({
+        ...fakeTapeSurveyPayload(farm.farm_id),
+        survey_response: {
+          survey_version: 'v2',
+          project_id: 'project-2',
+          survey_step: 'step-2',
+        },
+      });
 
-  test('PATCH /tape_survey/:submission_id should insert a new record with same submission_id', async () => {
-    await postRequest(fakeTapeSurveyPayload(farm.farm_id));
-
-    const created = await getRequest();
-    const submission_id = created.body.submission_id;
-
-    const patchRes = await patchRequest(submission_id, {
-      farm_id: farm.farm_id,
-      survey_response: {
-        survey_version: 'v3',
-        project_id: 'project-3',
-        survey_step: 'step-3',
-      },
+      const res = await getRequest();
+      expect(res.status).toBe(200);
+      expect(res.body?.survey_response?.survey_step).toBe('step-2');
     });
-    expect(patchRes.status).toBe(204);
 
-    const latest = await getRequest();
-    expect(latest.status).toBe(200);
-    expect(latest.body?.survey_response?.survey_step).toBe('step-3');
+    test('Worker should not be able to get tape survey', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      const res = await getRequest(userFarmIds);
+      expect(res.status).toBe(403);
+    });
+
+    test('Should return 403 if user is not part of the farm', async () => {
+      const idsA = await createUserFarmIds(1);
+      const idsB = await createUserFarmIds(1);
+      const res = await getRequest({ farm_id: idsA.farm_id, user_id: idsB.user_id });
+      expect(res.status).toBe(403);
+    });
   });
 
-  test('should return 403 if user lacks tape_survey permission', async () => {
-    const [unauthorizedUser] = await mocks.usersFactory();
-    await mocks.userFarmFactory(
-      { promisedUser: [unauthorizedUser], promisedFarm: [farm] },
-      fakeUserFarm(3),
-    );
+  describe('PATCH /tape_survey/:submission_id', () => {
+    test('Should insert a new record with same submission_id', async () => {
+      await postRequest(fakeTapeSurveyPayload(farm.farm_id));
 
-    const res = await getRequest({ user_id: unauthorizedUser.user_id });
-    expect(res.status).toBe(403);
+      const created = await getRequest();
+      const submission_id = created.body.submission_id;
+
+      const patchRes = await patchRequest(submission_id, {
+        farm_id: farm.farm_id,
+        survey_response: {
+          survey_version: 'v3',
+          project_id: 'project-3',
+          survey_step: 'step-3',
+        },
+      });
+      expect(patchRes.status).toBe(204);
+
+      const latest = await getRequest();
+      expect(latest.status).toBe(200);
+      expect(latest.body?.survey_response?.survey_step).toBe('step-3');
+    });
+
+    test('Worker should not be able to patch a tape survey', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      await postRequest(fakeTapeSurveyPayload(userFarmIds.farm_id), userFarmIds);
+      const created = await getRequest(userFarmIds);
+      const submission_id = created.body.submission_id;
+
+      const res = await patchRequest(
+        submission_id,
+        {
+          survey_response: { survey_version: 'v3', project_id: 'project-3', survey_step: 'step-3' },
+        },
+        userFarmIds,
+      );
+      expect(res.status).toBe(403);
+    });
+
+    test('Should return 403 if user is not part of the farm', async () => {
+      const idsA = await createUserFarmIds(1);
+      const idsB = await createUserFarmIds(1);
+      await postRequest(fakeTapeSurveyPayload(idsA.farm_id), idsA);
+      const created = await getRequest(idsA);
+      const submission_id = created.body.submission_id;
+
+      const res = await patchRequest(
+        submission_id,
+        {
+          survey_response: { survey_version: 'v3', project_id: 'project-3', survey_step: 'step-3' },
+        },
+        { farm_id: idsA.farm_id, user_id: idsB.user_id },
+      );
+      expect(res.status).toBe(403);
+    });
   });
 });

@@ -13,30 +13,51 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import BaseModel from './baseModel.js';
+import BaseFormatModel from './baseFormatModel.js';
 
-class TapeSurveyModel extends BaseModel {
+class TapeSurveyModel extends BaseFormatModel {
   static get tableName() {
     return 'tape_survey';
   }
 
   static get idColumn() {
-    return 'tape_survey_id';
+    return 'id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'user_id', 'survey_data'],
+      required: [
+        'submission_id',
+        'farm_id',
+        'survey_version',
+        'project_id',
+        'survey_step',
+        'survey_response',
+      ],
       properties: {
-        tape_survey_id: { type: 'integer' },
+        id: { type: 'integer' },
+        submission_id: { type: 'string' },
         farm_id: { type: 'string' },
-        user_id: { type: 'string' },
-        survey_data: { type: 'object' },
-        ...super.baseProperties,
+        survey_version: { type: 'string' },
+        project_id: { type: 'string' },
+        survey_step: { type: 'string' },
+        survey_response: { type: 'object' },
+        created_by_user_id: { type: 'string' },
+        created_at: { type: 'string', format: 'date-time' },
       },
       additionalProperties: false,
     };
+  }
+
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    const user_id = context?.user_id;
+    if (!user_id) {
+      throw new Error('user_id must be passed into context on insert');
+    }
+    this.created_by_user_id = user_id;
+    this.created_at = new Date().toISOString();
   }
 }
 

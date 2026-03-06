@@ -284,8 +284,8 @@ function fromProductFarm(product_id, _next, farm_id) {
   return knex('product_farm').where({ product_id, farm_id }).first();
 }
 
-function fromTapeSurvey(tape_survey_id) {
-  return knex('tape_survey').where({ tape_survey_id }).first();
+function fromTapeSurvey(submission_id) {
+  return knex('tape_survey').where({ submission_id }).first();
 }
 
 function sameFarm(object, farm) {

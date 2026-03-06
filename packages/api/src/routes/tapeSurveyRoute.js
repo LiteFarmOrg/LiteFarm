@@ -27,17 +27,12 @@ router.post(
   tapeSurveyController.createTapeSurvey(),
 );
 
-router.get(
-  '/:tape_survey_id',
-  checkScope(['get:tape_survey']),
-  hasFarmAccess({ params: 'tape_survey_id' }),
-  tapeSurveyController.getTapeSurvey(),
-);
+router.get('/', checkScope(['get:tape_survey']), tapeSurveyController.getTapeSurvey());
 
 router.patch(
-  '/:tape_survey_id',
+  '/:submission_id',
   checkScope(['edit:tape_survey']),
-  hasFarmAccess({ params: 'tape_survey_id' }),
+  hasFarmAccess({ params: 'submission_id' }),
   tapeSurveyController.updateTapeSurvey(),
 );
 

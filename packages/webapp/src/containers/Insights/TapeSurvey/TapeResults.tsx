@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
@@ -26,14 +26,14 @@ import {
   Filler,
   Tooltip,
 } from 'chart.js';
-import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
+import { reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
-import { useGetTapeSurveyJsonQuery } from '../../../store/api/tapeSurveyApi';
+import { useGetTapeSurveyJsonQuery, useGetTapeSurveyQuery } from '../../../store/api/tapeSurveyApi';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -114,9 +114,9 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
     }, []);
   }, [surveyJson]);
 
-  const { surveyData } = useSelector(tapeSurveySelector);
+  const { data: surveyData } = useGetTapeSurveyQuery();
 
-  const tapeData = surveyJson ? analyzeTAPEData(surveyData, chartSectionData) : [];
+  const tapeData = surveyData && surveyJson ? analyzeTAPEData(surveyData, chartSectionData) : [];
 
   const chartData = {
     labels: tapeData.map((d) => d.dimension),

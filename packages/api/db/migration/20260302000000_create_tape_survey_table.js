@@ -18,7 +18,7 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
-  return knex.schema.createTable('tape_survey', function (table) {
+  await knex.schema.createTable('tape_survey', function (table) {
     table.increments('tape_survey_id').primary();
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
     table.string('user_id').notNullable().references('user_id').inTable('users');
@@ -39,6 +39,23 @@ export const up = async function (knex) {
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
   });
+
+  await knex('permissions').insert([
+    { permission_id: 185, name: 'add:tape_survey', description: 'add tape_survey' },
+    { permission_id: 186, name: 'get:tape_survey', description: 'get tape_survey' },
+    { permission_id: 187, name: 'edit:tape_survey', description: 'edit tape_survey' },
+  ]);
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 185 },
+    { role_id: 2, permission_id: 185 },
+    { role_id: 5, permission_id: 185 },
+    { role_id: 1, permission_id: 186 },
+    { role_id: 2, permission_id: 186 },
+    { role_id: 5, permission_id: 186 },
+    { role_id: 1, permission_id: 187 },
+    { role_id: 2, permission_id: 187 },
+    { role_id: 5, permission_id: 187 },
+  ]);
 };
 
 /**
@@ -46,5 +63,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
-  return knex.schema.dropTable('tape_survey');
+  await knex.schema.dropTable('tape_survey');
+  await knex('rolePermissions').whereIn('permission_id', [185, 186, 187]).del();
+  await knex('permissions').whereIn('permission_id', [185, 186, 187]).del();
 };

@@ -26,7 +26,7 @@ import {
   Filler,
   Tooltip,
 } from 'chart.js';
-import { reopenSurvey } from './tapeSurveySlice';
+import { saveSurveyProgress } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
@@ -161,8 +161,15 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
     },
   };
 
-  const returnToSurvey = () => {
-    dispatch(reopenSurvey());
+  const onUpdateClick = () => {
+    dispatch(
+      saveSurveyProgress({ currentPageNo: 0, surveyData: surveyData!, submissionType: 'update' }),
+    );
+    history.push('/insights/tape');
+  };
+
+  const onRetakeClick = () => {
+    dispatch(saveSurveyProgress({ currentPageNo: 0, surveyData: {}, submissionType: 'retake' }));
     history.push('/insights/tape');
   };
 
@@ -172,7 +179,7 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
       <div className={styles.resultsContainer}>
         <div className={styles.sectionContainer}>
           <div className={styles.buttonContainer}>
-            <Button sm color="secondary-2" onClick={returnToSurvey}>
+            <Button sm color="secondary-2" onClick={onUpdateClick}>
               {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
               <EditIcon className={styles.editIcon} />
             </Button>

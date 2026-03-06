@@ -34,4 +34,11 @@ router.get(
   tapeSurveyController.getTapeSurvey(),
 );
 
+router.patch(
+  '/:tape_survey_id',
+  checkScope(['edit:tape_survey']),
+  hasFarmAccess({ params: 'tape_survey_id' }),
+  tapeSurveyController.updateTapeSurvey(),
+);
+
 export default router;

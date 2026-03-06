@@ -49,6 +49,26 @@ const tapeSurveyController = {
       }
     };
   },
+
+  updateTapeSurvey() {
+    return async (req, res) => {
+      try {
+        const { tape_survey_id } = req.params;
+        const { survey_data } = req.body;
+        const result = await TapeSurveyModel.query()
+          .findById(tape_survey_id)
+          .patch({ survey_data });
+        if (result === 0) {
+          return res.status(404).json({ error: 'Tape survey not found' });
+        }
+        const updated = await TapeSurveyModel.query().findById(tape_survey_id);
+        return res.status(200).send(updated);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
 };
 
 export default tapeSurveyController;

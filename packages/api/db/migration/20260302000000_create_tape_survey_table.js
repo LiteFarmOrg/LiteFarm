@@ -19,25 +19,20 @@
  */
 export const up = async function (knex) {
   await knex.schema.createTable('tape_survey', function (table) {
-    table.increments('tape_survey_id').primary();
+    table.increments('id').primary();
+    table.uuid('submission_id').notNullable().defaultTo(knex.raw('uuid_generate_v4()'));
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
-    table.string('user_id').notNullable().references('user_id').inTable('users');
-    table.jsonb('survey_data').notNullable();
-    table.boolean('deleted').notNullable().defaultTo(false);
+    table.string('survey_version').notNullable();
+    table.string('project_id').notNullable();
+    table.string('survey_step').notNullable();
+    table.jsonb('survey_response').notNullable();
     table
       .string('created_by_user_id')
       .notNullable()
       .references('user_id')
       .inTable('users')
       .defaultTo(1);
-    table
-      .string('updated_by_user_id')
-      .notNullable()
-      .references('user_id')
-      .inTable('users')
-      .defaultTo(1);
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
-    table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
   });
 
   await knex('permissions').insert([

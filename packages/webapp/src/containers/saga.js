@@ -510,11 +510,15 @@ export function* getManagementPlansSaga() {
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
     yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
-    console.log(e);
-    yield put(onLoadingManagementPlanFail(e));
-    yield put(onLoadingCropManagementPlanFail(e));
-    yield put(onLoadingPlantingManagementPlanFail(e));
-    console.log('failed to fetch field crops from db');
+    if (e.response?.status === 404) {
+      yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: [] });
+    } else {
+      console.log(e);
+      yield put(onLoadingManagementPlanFail(e));
+      yield put(onLoadingCropManagementPlanFail(e));
+      yield put(onLoadingPlantingManagementPlanFail(e));
+      console.log('failed to fetch field crops from db');
+    }
   }
 }
 
@@ -535,8 +539,12 @@ export function* getManagementPlansByDateSaga() {
     );
     yield put(getManagementPlansSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingManagementPlanFail());
-    console.log('failed to fetch field crops by date');
+    if (e.response?.status === 404) {
+      yield put(getManagementPlansSuccess([]));
+    } else {
+      yield put(onLoadingManagementPlanFail());
+      console.log('failed to fetch field crops by date');
+    }
   }
 }
 

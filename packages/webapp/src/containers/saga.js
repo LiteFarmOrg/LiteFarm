@@ -517,7 +517,7 @@ export function* getManagementPlansSaga() {
       yield put(onLoadingManagementPlanFail(e));
       yield put(onLoadingCropManagementPlanFail(e));
       yield put(onLoadingPlantingManagementPlanFail(e));
-      console.log('failed to fetch field crops from db');
+      console.log('failed to fetch management plans from db');
     }
   }
 }
@@ -543,7 +543,7 @@ export function* getManagementPlansByDateSaga() {
       yield put(getManagementPlansSuccess([]));
     } else {
       yield put(onLoadingManagementPlanFail());
-      console.log('failed to fetch field crops by date');
+      console.log('failed to fetch management plans by date');
     }
   }
 }

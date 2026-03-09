@@ -53,11 +53,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
   const prefetchSurveyData = usePrefetch('getTapeSurvey');
 
-  const {
-    surveyDataInProgress,
-    currentPageNo: savedPageNo,
-    submissionType,
-  } = useSelector(tapeSurveySelector);
+  const { surveyDataInProgress, currentPageNo: savedPageNo, id } = useSelector(tapeSurveySelector);
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   const initialData = { ...prepopulatedData, ...surveyDataInProgress };
@@ -69,10 +65,11 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const handleComplete = useCallback(
     async (surveyData: any, options: CompleteEvent) => {
       try {
-        await submitTapeSurvey({
-          survey_response: surveyData,
-          submission_type: submissionType || 'baseline',
-        }).unwrap();
+        if (id) {
+          // TODO: Handle update
+        } else {
+          await submitTapeSurvey({ survey_response: surveyData }).unwrap();
+        }
         prefetchSurveyData();
         dispatch(clearSurvey());
         history.push('/insights/tape/results');

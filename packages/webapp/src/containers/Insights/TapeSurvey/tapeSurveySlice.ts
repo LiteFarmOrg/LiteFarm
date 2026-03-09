@@ -17,15 +17,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
 interface TapeSurveyState {
+  id?: string;
   currentPageNo: number;
   surveyDataInProgress: Record<string, any>;
-  submissionType?: 'baseline' | 'update' | 'retake';
 }
 
 const initialState: TapeSurveyState = {
+  id: undefined,
   currentPageNo: 0,
   surveyDataInProgress: {},
-  submissionType: undefined,
 };
 
 const tapeSurveySlice = createSlice({
@@ -37,14 +37,12 @@ const tapeSurveySlice = createSlice({
       action: PayloadAction<{
         currentPageNo: number;
         surveyData: Record<string, any>;
-        submissionType?: TapeSurveyState['submissionType'];
+        id?: string;
       }>,
     ) => {
       state.currentPageNo = action.payload.currentPageNo;
       state.surveyDataInProgress = { ...state.surveyDataInProgress, ...action.payload.surveyData };
-      if (action.payload.submissionType) {
-        state.submissionType = action.payload.submissionType;
-      }
+      state.id = action.payload.id;
     },
     reopenSurvey: (state) => {
       state.currentPageNo = 0;

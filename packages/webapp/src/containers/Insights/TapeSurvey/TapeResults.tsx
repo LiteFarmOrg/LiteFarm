@@ -115,8 +115,10 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   }, [surveyJson]);
 
   const { data: surveyData } = useGetTapeSurveyQuery();
+  const { survey_response, id } = surveyData || {};
 
-  const tapeData = surveyData && surveyJson ? analyzeTAPEData(surveyData, chartSectionData) : [];
+  const tapeData =
+    survey_response && surveyJson ? analyzeTAPEData(survey_response, chartSectionData) : [];
 
   const chartData = {
     labels: tapeData.map((d) => d.dimension),
@@ -162,14 +164,7 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   };
 
   const onUpdateClick = () => {
-    dispatch(
-      saveSurveyProgress({ currentPageNo: 0, surveyData: surveyData!, submissionType: 'update' }),
-    );
-    history.push('/insights/tape');
-  };
-
-  const onRetakeClick = () => {
-    dispatch(saveSurveyProgress({ currentPageNo: 0, surveyData: {}, submissionType: 'retake' }));
+    dispatch(saveSurveyProgress({ currentPageNo: 0, surveyData: surveyData!, id }));
     history.push('/insights/tape');
   };
 

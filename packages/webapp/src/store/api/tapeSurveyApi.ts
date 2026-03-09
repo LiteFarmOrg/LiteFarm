@@ -47,7 +47,7 @@ export const tapeSurveyApi = api.injectEndpoints({
       query: () => `${tapeSurveyUrl}`,
       providesTags: ['TapeSurvey'],
     }),
-    submitTapeSurvey: build.mutation<TapeSurveyRecord, { survey_response: Record<string, any> }>({
+    addTapeSurvey: build.mutation<TapeSurveyRecord, { survey_response: Record<string, any> }>({
       query: (body) => ({
         url: tapeSurveyUrl,
         method: 'POST',
@@ -72,7 +72,7 @@ export const tapeSurveyApi = api.injectEndpoints({
 export const {
   useGetTapeSurveyJsonQuery,
   useGetTapeSurveyQuery,
-  useSubmitTapeSurveyMutation,
+  useAddTapeSurveyMutation,
   useUpdateTapeSurveyMutation,
   usePrefetch,
 } = tapeSurveyApi;

@@ -26,7 +26,7 @@ import PageTitle from '../../../components/PageTitle';
 import {
   usePrefetch,
   useGetTapeSurveyJsonQuery,
-  useSubmitTapeSurveyMutation,
+  useAddTapeSurveyMutation,
   useUpdateTapeSurveyMutation,
 } from '../../../store/api/tapeSurveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
@@ -51,7 +51,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
     isError: isSurveyJsonError,
   } = useGetTapeSurveyJsonQuery(surveyVersion);
 
-  const [submitTapeSurvey] = useSubmitTapeSurveyMutation();
+  const [addTapeSurvey] = useAddTapeSurveyMutation();
   const [updateTapeSurvey] = useUpdateTapeSurveyMutation();
   const prefetchSurveyData = usePrefetch('getTapeSurvey');
 
@@ -70,7 +70,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
         if (id) {
           await updateTapeSurvey({ id, survey_response: surveyData }).unwrap();
         } else {
-          await submitTapeSurvey({ survey_response: surveyData }).unwrap();
+          await addTapeSurvey({ survey_response: surveyData }).unwrap();
         }
         prefetchSurveyData();
         dispatch(clearSurvey());
@@ -80,7 +80,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
         options.showSaveError();
       }
     },
-    [submitTapeSurvey, updateTapeSurvey, dispatch, history, t],
+    [addTapeSurvey, updateTapeSurvey, dispatch, history, t],
   );
 
   useEffect(() => {

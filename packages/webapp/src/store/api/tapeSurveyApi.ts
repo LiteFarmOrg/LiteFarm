@@ -18,10 +18,9 @@ import { tapeSurveyUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface TapeSurveyRecord {
-  tape_survey_id: number;
+  id?: string;
   farm_id: string;
-  user_id: string;
-  survey_data: Record<string, any>;
+  survey_response: Record<string, any>;
 }
 
 export const tapeSurveyApi = api.injectEndpoints({
@@ -50,7 +49,7 @@ export const tapeSurveyApi = api.injectEndpoints({
     }),
     submitTapeSurvey: build.mutation<
       TapeSurveyRecord,
-      { survey_data: Record<string, any>; submission_type: 'baseline' | 'update' | 'retake' }
+      { survey_response: Record<string, any>; submission_type: 'baseline' | 'update' | 'retake' }
     >({
       query: (body) => ({
         url: tapeSurveyUrl,

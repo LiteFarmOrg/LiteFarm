@@ -59,7 +59,7 @@ const Insights = () => {
 
   const surveyVersion = getSurveyVersion(farm?.country_code);
   const { data: tapeSurvey } = useGetTapeSurveyQuery();
-  const isTapeSurveyCompleted = !!tapeSurvey?.tape_survey_id;
+  const isTapeSurveyCompleted = Object.keys(tapeSurvey).length > 0;
 
   const items = [
     isAdmin && surveyVersion

@@ -70,7 +70,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
     async (surveyData: any, options: CompleteEvent) => {
       try {
         await submitTapeSurvey({
-          survey_data: surveyData,
+          survey_response: surveyData,
           submission_type: submissionType || 'baseline',
         }).unwrap();
         prefetchSurveyData();

@@ -89,7 +89,7 @@ import {
 } from './farmSiteBoundarySlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
-import { resetTasksFilter } from './filterSlice';
+import { resetAnimalsFilter, resetTasksFilter } from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
@@ -657,6 +657,7 @@ export function* fetchAllSaga() {
 
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
+  yield put(resetAnimalsFilter());
   yield put(resetDateRange());
   yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 

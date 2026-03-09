@@ -76,7 +76,8 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
         dispatch(clearSurvey());
         history.push('/insights/tape/results');
       } catch {
-        // TODO: handle error properly
+        // Display the default "An error occurred and we could not save the results." message.
+        // (pass translated string for multiple language support)
         options.showSaveError();
       }
     },

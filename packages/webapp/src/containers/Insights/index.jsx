@@ -58,8 +58,8 @@ const Insights = () => {
   const { t } = useTranslation();
 
   const surveyVersion = getSurveyVersion(farm?.country_code);
-  const { data: tapeSurvey } = useGetTapeSurveyQuery();
-  const isTapeSurveyCompleted = !!tapeSurvey?.id;
+  const { data: tapeSurvey, isError: isTapeSurveyError } = useGetTapeSurveyQuery();
+  const isTapeSurveyCompleted = !isTapeSurveyError && !!tapeSurvey?.id;
 
   const items = [
     isAdmin && surveyVersion

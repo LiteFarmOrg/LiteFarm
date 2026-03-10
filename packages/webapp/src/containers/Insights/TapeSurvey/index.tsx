@@ -100,6 +100,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
       <div
         className={clsx(styles.tapeSurveyContainer, isCompactSideMenu && styles.compactSideMenu)}
       >
+        {/* wait for prepopulated data to load */}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}

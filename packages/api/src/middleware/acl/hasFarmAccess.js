@@ -30,6 +30,8 @@ const entitiesGetters = {
   nomination_id: fromNomination,
   transplant_task: fromTransPlantTask,
   product_id: fromProductFarm,
+  tape_survey_id: fromTapeSurvey,
+  submission_id: fromTapeSurvey,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -281,6 +283,10 @@ function fromOrganicCertifierSurvey(survey_id) {
 
 function fromProductFarm(product_id, _next, farm_id) {
   return knex('product_farm').where({ product_id, farm_id }).first();
+}
+
+function fromTapeSurvey(submission_id) {
+  return knex('tape_survey').where({ submission_id }).first();
 }
 
 function sameFarm(object, farm) {

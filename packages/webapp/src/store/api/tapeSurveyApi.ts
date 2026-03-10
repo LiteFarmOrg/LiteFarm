@@ -18,7 +18,15 @@ import { tapeSurveyUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface TapeSurveyRecord {
-  id?: string;
+  id: string;
+  farm_id: string;
+  survey_response: Record<string, any>;
+  survey_version: string;
+  project_id: string;
+  survey_step: string;
+}
+
+export interface AddTapeSurveyReqBody {
   farm_id: string;
   survey_response: Record<string, any>;
 }
@@ -47,7 +55,7 @@ export const tapeSurveyApi = api.injectEndpoints({
       query: () => `${tapeSurveyUrl}`,
       providesTags: ['TapeSurvey'],
     }),
-    addTapeSurvey: build.mutation<TapeSurveyRecord, { survey_response: Record<string, any> }>({
+    addTapeSurvey: build.mutation<void, AddTapeSurveyReqBody>({
       query: (body) => ({
         url: tapeSurveyUrl,
         method: 'POST',
@@ -55,10 +63,7 @@ export const tapeSurveyApi = api.injectEndpoints({
       }),
       invalidatesTags: ['TapeSurvey'],
     }),
-    updateTapeSurvey: build.mutation<
-      TapeSurveyRecord,
-      { id: string; survey_response: Record<string, any> }
-    >({
+    updateTapeSurvey: build.mutation<void, AddTapeSurveyReqBody & { id: string }>({
       query: ({ id, survey_response }) => ({
         url: `${tapeSurveyUrl}/${id}`,
         method: 'PATCH',

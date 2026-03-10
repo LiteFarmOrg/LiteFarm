@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
@@ -30,6 +31,7 @@ import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
 import { useGetTapeSurveyJsonQuery, useGetTapeSurveyQuery } from '../../../store/api/tapeSurveyApi';
+import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
@@ -88,8 +90,9 @@ interface TAPEDimension {
 function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { data: surveyJson } = useGetTapeSurveyJsonQuery(surveyVersion);
+  const { data: surveyJson, isError: isSurveyJsonError } = useGetTapeSurveyJsonQuery(surveyVersion);
 
   const chartSectionData = useMemo(() => {
     if (!Array.isArray(surveyJson?.pages)) {
@@ -111,14 +114,22 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
 
   const { data: surveyData, error: surveyDataError } = useGetTapeSurveyQuery();
   const { survey_response } = surveyData || {};
+  const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   useEffect(() => {
     // Redirect back to survey page if no saved survey data is found
     // (e.g. if user tries to access results page directly without completing survey)
     if (surveyDataError && 'status' in surveyDataError && surveyDataError?.status === 404) {
       history.replace('/Insights/tape');
+    } else if (surveyDataError || isSurveyJsonError) {
+      const activeError = notifications.find(
+        ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),
+      );
+      if (!activeError) {
+        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
+      }
     }
-  }, [surveyDataError]);
+  }, [surveyDataError, isSurveyJsonError]);
 
   const tapeData =
     survey_response && surveyJson ? analyzeTAPEData(survey_response, chartSectionData) : [];

@@ -63,14 +63,6 @@ export const tapeSurveyApi = api.injectEndpoints({
       }),
       invalidatesTags: ['TapeSurvey'],
     }),
-    updateTapeSurvey: build.mutation<void, AddTapeSurveyReqBody & { id: string }>({
-      query: ({ id, survey_response }) => ({
-        url: `${tapeSurveyUrl}/${id}`,
-        method: 'PATCH',
-        body: { survey_response },
-      }),
-      invalidatesTags: ['TapeSurvey'],
-    }),
   }),
 });
 
@@ -78,6 +70,5 @@ export const {
   useGetTapeSurveyJsonQuery,
   useGetTapeSurveyQuery,
   useAddTapeSurveyMutation,
-  useUpdateTapeSurveyMutation,
   usePrefetch,
 } = tapeSurveyApi;

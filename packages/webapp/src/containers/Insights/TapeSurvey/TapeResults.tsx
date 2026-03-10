@@ -26,13 +26,10 @@ import {
   Filler,
   Tooltip,
 } from 'chart.js';
-import { saveSurveyProgress } from './tapeSurveySlice';
 import styles from './styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
-import Button from '../../../components/Form/Button';
-import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
 import { useGetTapeSurveyJsonQuery, useGetTapeSurveyQuery } from '../../../store/api/tapeSurveyApi';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
@@ -91,8 +88,6 @@ interface TAPEDimension {
 
 function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   const { t } = useTranslation();
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   const { data: surveyJson } = useGetTapeSurveyJsonQuery(surveyVersion);
 
@@ -115,7 +110,7 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   }, [surveyJson]);
 
   const { data: surveyData } = useGetTapeSurveyQuery();
-  const { survey_response, id } = surveyData || {};
+  const { survey_response } = surveyData || {};
 
   const tapeData =
     survey_response && surveyJson ? analyzeTAPEData(survey_response, chartSectionData) : [];
@@ -163,22 +158,11 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
     },
   };
 
-  const onUpdateClick = () => {
-    dispatch(saveSurveyProgress({ currentPageNo: 0, surveyData: surveyData!, id }));
-    history.push('/insights/tape');
-  };
-
   return (
     <>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
       <div className={styles.resultsContainer}>
         <div className={styles.sectionContainer}>
-          <div className={styles.buttonContainer}>
-            <Button sm color="secondary-2" onClick={onUpdateClick}>
-              {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
-              <EditIcon className={styles.editIcon} />
-            </Button>
-          </div>
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
           {tapeData && tapeData.length > 0 && (
             <div className={styles.chartContainer}>

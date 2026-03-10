@@ -21,6 +21,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
 import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import {
@@ -41,6 +42,8 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
+  // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
+  const { farm_id } = useSelector(userFarmSelector);
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
     useTapeSurveyPrepopulatedData();
@@ -68,9 +71,9 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
     async (surveyData: any, options: CompleteEvent) => {
       try {
         if (id) {
-          await updateTapeSurvey({ id, survey_response: surveyData }).unwrap();
+          await updateTapeSurvey({ id, survey_response: surveyData, farm_id }).unwrap();
         } else {
-          await addTapeSurvey({ survey_response: surveyData }).unwrap();
+          await addTapeSurvey({ survey_response: surveyData, farm_id }).unwrap();
         }
         prefetchSurveyData();
         dispatch(clearSurvey());

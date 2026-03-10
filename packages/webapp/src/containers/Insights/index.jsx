@@ -40,6 +40,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 import { useGetTapeSurveyQuery } from '../../store/api/tapeSurveyApi';
 import { getSurveyVersion } from './TapeSurvey/getSurveyVersion';
 
@@ -52,6 +53,7 @@ const Insights = () => {
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
+  const isOffline = useIsOffline();
   const isAdmin = useSelector(isAdminSelector);
 
   const dispatch = useDispatch();
@@ -62,14 +64,12 @@ const Insights = () => {
   const isTapeSurveyCompleted = !isTapeSurveyError && !!tapeSurvey?.id;
 
   const items = [
-    isAdmin && surveyVersion
-      ? {
-          label: t('INSIGHTS.TAPE.TITLE'),
-          image: tape_survey,
-          route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
-          data_point: 'TAPE',
-        }
-      : undefined,
+    {
+      label: t('INSIGHTS.TAPE.TITLE'),
+      image: tape_survey,
+      route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
+      data_point: 'TAPE',
+    },
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -152,14 +152,15 @@ const Insights = () => {
   const renderedItems = useMemo(() => {
     return (
       insightData &&
-      items.flatMap((item, index) => {
-        if (!item) {
-          return [];
-        }
-        return renderItem(item, index, insightData[item.data_point]);
-      })
+      items
+        .filter(
+          (item) => !((isOffline || !isAdmin || !surveyVersion) && item.data_point === 'TAPE'),
+        )
+        .map((item, index) => {
+          return renderItem(item, index, insightData[item.data_point]);
+        })
     );
-  }, [insightData]);
+  }, [insightData, isOffline]);
 
   return (
     <div className={styles.insightContainer}>

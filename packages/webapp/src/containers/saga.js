@@ -152,6 +152,7 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api, invalidateTags } from '../store/api/apiSlice';
+import { locationApi } from '../store/api/locationApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import {
   getSoilSampleLocationsSuccess,
@@ -619,6 +620,8 @@ export function* fetchAllSaga() {
     put(api.endpoints.getSoilAmendmentPurposes.initiate()),
     put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
+    //Todo: LF-4672 Remove once refactor to rtk is complete
+    put(locationApi.endpoints.getLocations.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);

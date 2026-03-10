@@ -45,13 +45,39 @@ export default defineConfig({
       filename: 'sw.js',
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg}'],
+        globIgnores: ['**/survey-vendor-*.js'],
         maximumFileSizeToCacheInBytes: 3 * 1024 ** 2, // 3MB
       },
     }),
   ],
   build: {
     sourcemap: true,
+    modulePreload: false,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // separate out the shared React dependencies that would otherwise be bundled with 'survey-vendor' and cause it to be loaded from main entrypoint
+          if (
+            id.includes('/node_modules/react/') ||
+            id.includes('/node_modules/react-dom/') ||
+            id.includes('/node_modules/scheduler/')
+          ) {
+            return 'framework-vendor';
+          }
+
+          if (
+            id.includes('/node_modules/survey-core/') ||
+            id.includes('/node_modules/survey-react-ui/')
+          ) {
+            return 'survey-vendor';
+          }
+
+          return undefined;
+        },
+      },
+    },
   },
+
   server: {
     port: 3000,
   },

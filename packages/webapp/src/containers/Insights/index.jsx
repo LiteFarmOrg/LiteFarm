@@ -40,6 +40,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 const Insights = () => {
   const history = useHistory();
@@ -50,6 +51,7 @@ const Insights = () => {
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
+  const isOffline = useIsOffline();
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -143,11 +145,13 @@ const Insights = () => {
   const renderedItems = useMemo(() => {
     return (
       insightData &&
-      items.map((item, index) => {
-        return renderItem(item, index, insightData[item.data_point]);
-      })
+      items
+        .filter((item) => !(isOffline && item.data_point === 'TAPE'))
+        .map((item, index) => {
+          return renderItem(item, index, insightData[item.data_point]);
+        })
     );
-  }, [insightData]);
+  }, [insightData, isOffline]);
 
   return (
     <div className={styles.insightContainer}>

@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
@@ -88,6 +87,7 @@ interface TAPEDimension {
 
 function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
   const { t } = useTranslation();
+  const history = useHistory();
 
   const { data: surveyJson } = useGetTapeSurveyJsonQuery(surveyVersion);
 
@@ -109,8 +109,16 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
     }, []);
   }, [surveyJson]);
 
-  const { data: surveyData } = useGetTapeSurveyQuery();
+  const { data: surveyData, error: surveyDataError } = useGetTapeSurveyQuery();
   const { survey_response } = surveyData || {};
+
+  useEffect(() => {
+    // Redirect back to survey page if no saved survey data is found
+    // (e.g. if user tries to access results page directly without completing survey)
+    if (surveyDataError && 'status' in surveyDataError && surveyDataError?.status === 404) {
+      history.replace('/Insights/tape');
+    }
+  }, [surveyDataError]);
 
   const tapeData =
     survey_response && surveyJson ? analyzeTAPEData(survey_response, chartSectionData) : [];

@@ -1164,7 +1164,9 @@
     "TAPE": {
       "COMPLETED": "Completed - See your results",
       "IN_PROGRESS": "In progress",
+      "LOAD_ERROR": "Failed to load survey. Please try again later.",
       "NOT_FILLED": "Not filled",
+      "RESULTS_LOAD_ERROR": "Failed to load results. Please try again later.",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"

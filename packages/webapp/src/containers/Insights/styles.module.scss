@@ -49,6 +49,10 @@
   align-items: center;
   justify-content: flex-start;
   gap: 16px;
+
+  &.isLoading {
+    pointer-events: none;
+  }
 }
 
 .itemDescription {

@@ -18,14 +18,12 @@ import { createSelector } from 'reselect';
 
 interface TapeSurveyState {
   currentPageNo: number;
-  surveyData: Record<string, any>;
-  isCompleted: boolean;
+  surveyDataInProgress: Record<string, any>;
 }
 
 const initialState: TapeSurveyState = {
   currentPageNo: 0,
-  surveyData: {},
-  isCompleted: false,
+  surveyDataInProgress: {},
 };
 
 const tapeSurveySlice = createSlice({
@@ -34,29 +32,22 @@ const tapeSurveySlice = createSlice({
   reducers: {
     saveSurveyProgress: (
       state,
-      action: PayloadAction<{ currentPageNo: number; surveyData: Record<string, any> }>,
+      action: PayloadAction<{
+        currentPageNo: number;
+        surveyData: Record<string, any>;
+      }>,
     ) => {
       state.currentPageNo = action.payload.currentPageNo;
-      state.surveyData = { ...state.surveyData, ...action.payload.surveyData };
-    },
-    completeSurvey: (
-      state,
-      action: PayloadAction<{ currentPageNo: number; surveyData: Record<string, any> }>,
-    ) => {
-      state.currentPageNo = action.payload.currentPageNo;
-      state.surveyData = action.payload.surveyData;
-      state.isCompleted = true;
+      state.surveyDataInProgress = { ...state.surveyDataInProgress, ...action.payload.surveyData };
     },
     reopenSurvey: (state) => {
-      state.isCompleted = false;
       state.currentPageNo = 0;
     },
     clearSurvey: () => initialState,
   },
 });
 
-export const { saveSurveyProgress, completeSurvey, reopenSurvey, clearSurvey } =
-  tapeSurveySlice.actions;
+export const { saveSurveyProgress, reopenSurvey, clearSurvey } = tapeSurveySlice.actions;
 export default tapeSurveySlice.reducer;
 
 // Selectors
@@ -65,6 +56,5 @@ export const tapeSurveySelector = (state: any) =>
   state.farmStateReducer[tapeSurveySlice.name] || initialState;
 
 export const tapeSurveyStatusSelector = createSelector([tapeSurveySelector], (tapeSurvey) => ({
-  isCompleted: tapeSurvey.isCompleted,
-  hasData: Object.keys(tapeSurvey.surveyData).length > 0,
+  inProgress: Object.keys(tapeSurvey.surveyDataInProgress).length > 0,
 }));

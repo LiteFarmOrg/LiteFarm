@@ -18,6 +18,7 @@
 .navigationWrapper {
   display: flex;
   flex: 1;
+  min-width: 0;
 
   --offline-indicator-offset: 0px;
 

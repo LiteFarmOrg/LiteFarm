@@ -37,7 +37,7 @@ const TapeRoutes = ({ isCompactSideMenu }: { isCompactSideMenu: boolean }) => {
         <TapeSurvey isCompactSideMenu={isCompactSideMenu} surveyVersion={surveyVersion} />
       </Route>
       <Route path="/insights/tape/results" exact>
-        <TapeResults surveyVersion={surveyVersion} />
+        <TapeResults />
       </Route>
       <Route render={() => <Redirect to="/" />} />
     </Switch>

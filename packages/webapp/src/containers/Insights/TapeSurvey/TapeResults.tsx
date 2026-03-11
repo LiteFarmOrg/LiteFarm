@@ -37,15 +37,6 @@ const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-gre
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
 const MAX_SCORE = 100;
 
-// const STEP_TWO_SURVEY_NAMES = [
-//   'Qualitative economic indicator',
-//   'Land tenure',
-//   'Food and nutrition',
-//   'Dietary diversity',
-//   'Youth employment and aspiration',
-//   'Soil health',
-// ];
-
 const getChartTitleFromSurveyTitle = (surveyTitle: unknown) => {
   if (!surveyTitle || typeof surveyTitle !== 'string') return '';
 
@@ -189,19 +180,6 @@ function TAPEResults({ surveyVersion }: { surveyVersion: string }) {
             </div>
           )}
         </div>
-        {/* <div className={styles.sectionContainer}>
-          <Semibold className={styles.titleText}>Step 2 - Core Criteria of Performance</Semibold>
-          <div className={styles.stepTwoButtonContainer}>
-            {
-              // Placeholders for Step 2 content. Ultimately these will link to distinct surveys for each section
-              STEP_TWO_SURVEY_NAMES.map((name) => (
-                <Button key={name} sm color="secondary">
-                  {name}
-                </Button>
-              ))
-            }
-          </div>
-        </div> */}
       </div>
     </>
   );

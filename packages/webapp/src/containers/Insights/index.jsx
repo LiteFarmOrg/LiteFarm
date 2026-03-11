@@ -60,7 +60,12 @@ const Insights = () => {
   const { t } = useTranslation();
 
   const surveyVersion = getSurveyVersion(farm?.country_code);
-  const { data: tapeSurvey, isError: isTapeSurveyError } = useGetTapeSurveyQuery();
+  const {
+    data: tapeSurvey,
+    isError: isTapeSurveyError,
+    isFetching: isTapeSurveyFetching,
+  } = useGetTapeSurveyQuery();
+
   const isTapeSurveyCompleted = !isTapeSurveyError && !!tapeSurvey?.id;
 
   const items = [
@@ -106,38 +111,49 @@ const Insights = () => {
     history.push(`/Insights/${route}`);
   };
 
-  const renderItem = (item, index, currentData) => (
-    <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
-      <div
-        className={`itemButton item-${index} ${styles.itemButton}`}
-        onClick={() => handleClick(item.route)}
-      >
-        <img
-          className={`itemIcon item-${index} ${styles.itemIcon}`}
-          src={item.image}
-          alt={item.label}
-        />
-        <div className={`itemText item-${index} ${styles.itemText}`}>
-          <Semibold className={styles.itemTitle}>{item.label}</Semibold>
-          {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
-            <Text>{currentData}</Text>
-          ) : (
-            <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
-          )}
+  const renderItem = (item, index, currentData) => {
+    const isLoading = currentData === t('common:LOADING');
+
+    return (
+      <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
+        <div
+          className={`itemButton item-${index} ${styles.itemButton} ${
+            isLoading ? styles.isLoading : ''
+          }`}
+          onClick={() => handleClick(item.route)}
+        >
+          <img
+            className={`itemIcon item-${index} ${styles.itemIcon}`}
+            src={item.image}
+            alt={item.label}
+          />
+          <div className={`itemText item-${index} ${styles.itemText}`}>
+            <Semibold className={styles.itemTitle}>{item.label}</Semibold>
+            {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
+              <Text>{currentData}</Text>
+            ) : (
+              <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
+            )}
+          </div>
+          <BsChevronRight className={styles.itemArrow} />
         </div>
-        <BsChevronRight className={styles.itemArrow} />
+        <hr className={styles.defaultLine} />
       </div>
-      <hr className={styles.defaultLine} />
-    </div>
-  );
+    );
+  };
 
   const insightData = useMemo(() => {
+    let tapeCurrentData = t('INSIGHTS.TAPE.NOT_FILLED');
+    if (isTapeSurveyFetching) {
+      tapeCurrentData = t('common:LOADING');
+    } else if (tapeStatus.inProgress) {
+      tapeCurrentData = t('INSIGHTS.TAPE.IN_PROGRESS');
+    } else if (isTapeSurveyCompleted) {
+      tapeCurrentData = t('INSIGHTS.TAPE.COMPLETED');
+    }
+
     const insightData = {};
-    insightData['TAPE'] = tapeStatus.inProgress
-      ? t('INSIGHTS.TAPE.IN_PROGRESS')
-      : isTapeSurveyCompleted
-      ? t('INSIGHTS.TAPE.COMPLETED')
-      : t('INSIGHTS.TAPE.NOT_FILLED');
+    insightData['TAPE'] = tapeCurrentData;
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -147,7 +163,15 @@ const Insights = () => {
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');
     return insightData;
-  }, [tapeStatus, soilOMData, labourHappinessData, biodiversityData, pricesData]);
+  }, [
+    tapeStatus?.inProgress,
+    isTapeSurveyFetching,
+    isTapeSurveyCompleted,
+    soilOMData,
+    labourHappinessData,
+    biodiversityData,
+    pricesData,
+  ]);
 
   const renderedItems = useMemo(() => {
     return (

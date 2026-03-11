@@ -27,6 +27,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import styles from './styles.module.scss';
+import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
@@ -103,6 +104,13 @@ function TAPEResults() {
           font: {
             size: 14,
           },
+          // Splits labels into a maximum of 2 lines (assumes English labels)
+          callback: (label: any) => {
+            const words = label.split(' ');
+            const splitIndex = words.length === 1 ? 1 : Math.floor(words.length / 2);
+
+            return [words.slice(0, splitIndex).join(' '), words.slice(splitIndex).join(' ')];
+          },
         },
       },
     },
@@ -116,19 +124,21 @@ function TAPEResults() {
   };
 
   return (
-    <>
+    <div className={insightStyles.insightContainer}>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
       <div className={styles.resultsContainer}>
         <div className={styles.sectionContainer}>
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
-          {tapeData && tapeData.length > 0 && (
-            <div className={styles.chartContainer}>
-              <Radar data={chartData} options={options} />
-            </div>
-          )}
+          <div className={styles.chartContainerWrapper}>
+            {tapeData && tapeData.length > 0 && (
+              <div className={styles.chartContainer}>
+                <Radar data={chartData} options={options} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

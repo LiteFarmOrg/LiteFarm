@@ -31,6 +31,7 @@ import {
 } from '../../../store/api/tapeSurveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
+import insightStyles from '../styles.module.scss';
 
 interface TAPESurveyProps {
   isCompactSideMenu: boolean;
@@ -95,7 +96,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
 
   return (
-    <>
+    <div className={insightStyles.insightContainer}>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
       <div
         className={clsx(styles.tapeSurveyContainer, isCompactSideMenu && styles.compactSideMenu)}
@@ -111,7 +112,7 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
 

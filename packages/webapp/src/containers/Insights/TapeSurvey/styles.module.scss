@@ -20,9 +20,15 @@
   gap: 48px;
 }
 
+.chartContainerWrapper {
+  overflow-x: auto;
+}
+
 .chartContainer {
   height: 500px;
   width: calc(100% - 4px); // This makes the chart responsive
+  min-width: 400px;
+  margin-top: 24px;
 }
 
 .tapeSurveyContainer {

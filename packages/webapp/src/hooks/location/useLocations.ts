@@ -164,10 +164,10 @@ function useLocations(
 function useLocations(
   { filterBy, groupBy, deleted }: UseInternalLocationProps = { deleted: false },
 ): any {
-  const { data: locations, isLoading } = useGetLocationsQuery();
+  const { data: locations, isLoading, isFetching } = useGetLocationsQuery();
 
   if (isLoading) {
-    return { locations, isLoading };
+    return { locations, isLoading, isFetching };
   }
 
   if (locations && locations.length) {
@@ -179,29 +179,29 @@ function useLocations(
 
     if (Array.isArray(filterBy)) {
       const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (filterBy && allLocationTypes.includes(filterBy)) {
       const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (filterBy && allFigureTypes.includes(filterBy)) {
       const filteredLocations = flattenedLocations.filter(
         ({ figure_type }) => figure_type === filterBy,
       );
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.TYPE) {
       const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.FIGURE) {
       const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
@@ -216,13 +216,13 @@ function useLocations(
         }),
       );
 
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
 
-    return { locations: flattenedLocations, isLoading };
+    return { locations: flattenedLocations, isLoading, isFetching };
   }
 
-  return { locations, isLoading };
+  return { locations, isLoading, isFetching };
 }
 
 export default useLocations;

@@ -72,12 +72,17 @@ function useExternalLocations(
 ): UseLocationsReturn<ExternalMapLocation[] | undefined>;
 
 function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = {}): any {
-  const { data: sensorData, isLoading: isLoadingSensors } = useGetSensorsQuery();
+  const {
+    data: sensorData,
+    isLoading: isLoadingSensors,
+    isFetching: isFetchingSensors,
+  } = useGetSensorsQuery();
 
   const isLoading = isLoadingSensors;
+  const isFetching = isFetchingSensors;
 
   if (isLoading) {
-    return { locations: sensorData, isLoading };
+    return { locations: sensorData, isLoading, isFetching };
   }
 
   const allSensors =
@@ -103,27 +108,27 @@ function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = 
   if (locations.length && (filterBy || groupBy)) {
     if (Array.isArray(filterBy)) {
       const filteredLocations = locations.filter(({ type }) => filterBy.includes(type));
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (filterBy && allLocationTypes.includes(filterBy)) {
       const filteredLocations = locations.filter(({ type }) => type === filterBy);
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (filterBy && allFigureTypes.includes(filterBy)) {
       const filteredLocations = locations.filter(({ figure_type }) => figure_type === filterBy);
-      return { locations: filteredLocations, isLoading };
+      return { locations: filteredLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.TYPE) {
       const groupedLocations = Object.groupBy(locations, ({ type }) => type);
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.FIGURE) {
       const groupedLocations = Object.groupBy(locations, ({ figure_type }) => figure_type);
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
 
     if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
@@ -138,13 +143,14 @@ function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = 
         }),
       );
 
-      return { locations: groupedLocations, isLoading };
+      return { locations: groupedLocations, isLoading, isFetching };
     }
   }
 
   return {
     locations,
     isLoading,
+    isFetching,
   };
 }
 

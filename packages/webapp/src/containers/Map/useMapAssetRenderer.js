@@ -109,12 +109,22 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [isClickable]);
 
-  const { locations: internalLocations, isLoading: isLoadingInternalLocations } = useLocations({
+  const {
+    locations: internalLocations,
+    isLoading: isLoadingInternalLocations,
+    isFetching: isFetchingInternalLocations,
+  } = useLocations({
     groupBy: 'figure_and_type',
   });
-  const { locations: externalLocations, isLoading: isLoadingExternalLocations } =
-    useExternalLocations({ groupBy: 'figure_and_type' });
+  const {
+    locations: externalLocations,
+    isLoading: isLoadingExternalLocations,
+    isFetching: isFetchingExternalLocations,
+  } = useExternalLocations({ groupBy: 'figure_and_type' });
   const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
+  const isLocationsFetching = [isFetchingInternalLocations, isFetchingExternalLocations].some(
+    Boolean,
+  );
 
   const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };
   const lineAssets = { ...internalLocations?.line, ...externalLocations?.line };
@@ -584,6 +594,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     assetGeometriesRef,
     markerClusterRef,
     isLocationsLoading,
+    isLocationsFetching,
   };
 };
 

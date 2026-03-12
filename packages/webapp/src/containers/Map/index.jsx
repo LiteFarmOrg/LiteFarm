@@ -193,7 +193,7 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsLoading } =
+  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsFetching } =
     useMapAssetRenderer({
       isClickable: !drawingState.type,
       drawingState: drawingState,
@@ -443,13 +443,9 @@ export default function Map({ isCompactSideMenu }) {
 
   return (
     <>
-      {!isLocationsLoading && isLoaded &&
+      {!isLocationsFetching && isLoaded && (
         <>
-          {!drawingState.type && !showSuccessHeader && (
-            <PureMapHeader
-              farmName={farm_name}
-            />
-          )}
+          {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
           {showSuccessHeader && (
             <PureSnackbarWithoutBorder
               className={styles.successSnackbar}
@@ -525,7 +521,9 @@ export default function Map({ isCompactSideMenu }) {
                 setShowMapFilter={setShowMapFilter}
                 showMapFilter={showMapFilter}
                 setShowAddDrawer={(showAddDrawer) => {
-                  dispatch(showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id));
+                  dispatch(
+                    showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id),
+                  );
                 }}
                 showAddDrawer={showAddDrawer}
                 handleClickFilter={handleClickFilter}
@@ -579,8 +577,8 @@ export default function Map({ isCompactSideMenu }) {
             )}
           </div>
         </>
-      }
-      {isLocationsLoading && <LoadingMapModal isOpen={isLocationsLoading} />}
+      )}
+      {isLocationsFetching && <LoadingMapModal isOpen={isLocationsFetching} />}
     </>
   );
 }

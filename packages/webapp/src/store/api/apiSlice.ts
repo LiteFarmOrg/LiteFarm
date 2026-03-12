@@ -78,6 +78,8 @@ import { API_TAGS, ApiTag } from './apiTags';
  */
 export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
 
+export const resetApiState = () => api.util.resetApiState();
+
 const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
 
 export const api = createApi({

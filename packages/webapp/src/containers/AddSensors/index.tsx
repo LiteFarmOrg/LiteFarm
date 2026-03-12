@@ -45,7 +45,11 @@ const AddSensor = ({ isCompactSideMenu }: AddSensorProps) => {
     const result = await addFarmAddon(values[PARTNER]);
 
     if ('error' in result) {
-      const isInvalidId = 'data' in result.error && result.error.data === 'Organisation not found';
+      const isInvalidId =
+        result.error &&
+        typeof result.error === 'object' &&
+        'data' in result.error &&
+        result.error.data === 'Organisation not found';
       const errorMessage = isInvalidId
         ? t('SENSOR.ESCI.ORGANISATION_ID_ERROR')
         : t('SENSOR.ESCI.ORGANISATION_ID_GENERIC_ERROR');

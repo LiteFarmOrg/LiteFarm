@@ -61,9 +61,11 @@ function useLatestReading(sensors: Sensor[]): {
     // The "minute" and "second" truncation periods do not guarantee data for every minute or second.
     // Use "minute" here to ensure we get data.
     return triggerGetSensorReadings({
-      esids: sensors.map(({ external_id }) => external_id).join(','),
-      startTime: adjustedStartTime.toISOString(),
-      truncPeriod: 'minute',
+      params: {
+        esids: sensors.map(({ external_id }) => external_id).join(','),
+        startTime: adjustedStartTime.toISOString(),
+        truncPeriod: 'minute',
+      },
     });
   };
 

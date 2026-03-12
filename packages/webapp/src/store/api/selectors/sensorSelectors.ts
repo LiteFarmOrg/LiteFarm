@@ -15,27 +15,42 @@
 
 import { createSelector } from '@reduxjs/toolkit';
 import { api } from '../apiSlice';
+import { loginSelector } from '../../../containers/userFarmSlice';
 
 // For map use / to use with old selectors only (e.g. pointSelector). In components, use the query hook and selectFromWithin
 
+const selectSensorsData = createSelector(
+  [
+    loginSelector,
+    (state) => state, // Just pass state, don't type it here
+  ],
+  (login, state) => {
+    const { farm_id } = login;
+    if (!farm_id) return undefined;
+
+    // Call the selector directly with state
+    return api.endpoints.getSensors.select({ farm_id, payload: undefined })(state);
+  },
+);
+
 export const allSensorsSelector = createSelector(
-  [api.endpoints.getSensors.select()],
+  [selectSensorsData],
   (sensorResult) =>
-    sensorResult.data?.sensors.map((sensor) => ({
+    sensorResult?.data?.sensors.map((sensor) => ({
       ...sensor,
       isAddonSensor: 'true',
       type: 'sensor',
-    })) || [],
+    })) ?? [],
 );
 
 export const sensorArraysSelector = createSelector(
-  [api.endpoints.getSensors.select()],
+  [selectSensorsData],
   (sensorResult) =>
-    sensorResult.data?.sensor_arrays.map((sensorArray) => ({
+    sensorResult?.data?.sensor_arrays.map((sensorArray) => ({
       ...sensorArray,
       isAddonSensor: 'true',
       type: 'sensor_array',
-    })) || [],
+    })) ?? [],
 );
 
 export const standaloneSensorsSelector = createSelector(

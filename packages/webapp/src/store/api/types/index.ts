@@ -31,6 +31,8 @@ export interface BasicEnum {
   id: number;
   key: string;
 }
+
+export type WithFarmIdPayload<T = any> = { farm_id: string; payload: T };
 export interface Animal {
   animal_use_relationships?: {
     animal_id: number;

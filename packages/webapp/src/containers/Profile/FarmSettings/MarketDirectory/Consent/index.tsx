@@ -55,8 +55,9 @@ const MarketDirectoryConsent = ({
 
   const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 
-  const { data: marketDirectoryPartners = [] } =
-    useGetMarketDirectoryPartnersQuery('?filter=country');
+  const { data: marketDirectoryPartners = [] } = useGetMarketDirectoryPartnersQuery({
+    params: '?filter=country',
+  });
   const [updateMarketDirectoryInfo, { isLoading }] = useUpdateMarketDirectoryInfoMutation();
 
   const [isConsentReadonly, setIsConsentReadonly] = useState(savedConsent === true);

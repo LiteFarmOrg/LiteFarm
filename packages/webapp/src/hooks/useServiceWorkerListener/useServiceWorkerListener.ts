@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   enqueueSuccessSnackbar,
@@ -24,6 +24,7 @@ import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
+import { loginSelector } from '../../containers/userFarmSlice';
 
 type SyncArea =
   | 'tasks.create'
@@ -98,7 +99,7 @@ export function useServiceWorkerListener() {
 
     recordOfflineEvent({ auth, farmId, logs });
   };
-
+  const { farm_id } = useSelector(loginSelector);
   const syncConfig = useMemo(
     (): Record<SyncArea, SyncConfig> => ({
       'tasks.create': {
@@ -108,7 +109,7 @@ export function useServiceWorkerListener() {
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
-            return invalidateTags(['IrrigationPrescriptions']);
+            return invalidateTags(['IrrigationPrescriptions'], farm_id);
           }
         },
         refresh: () => {
@@ -127,7 +128,7 @@ export function useServiceWorkerListener() {
         onSuccess: (response) => {
           // taskType not returned in the completion API response
           if (response?.animal_movement_task) {
-            return invalidateTags(['Animals', 'AnimalBatches']);
+            return invalidateTags(['Animals', 'AnimalBatches'], farm_id);
           }
         },
         refresh: () => {
@@ -157,13 +158,13 @@ export function useServiceWorkerListener() {
         },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
-            return invalidateTags(['IrrigationPrescriptions']);
+            return invalidateTags(['IrrigationPrescriptions'], farm_id);
           }
         },
         refresh: () => dispatch(getTasks()),
       },
     }),
-    [t, dispatch],
+    [t, dispatch, farm_id],
   );
 
   useEffect(() => {

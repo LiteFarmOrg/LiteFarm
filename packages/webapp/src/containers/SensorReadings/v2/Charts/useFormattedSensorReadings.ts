@@ -93,10 +93,12 @@ function useFormattedSensorReadings({
     data: sensorReadings,
   } = useGetSensorReadingsQuery(
     {
-      esids: sensorIds.join(','),
-      startTime: startDate,
-      endTime: getAdjustedEndTime(endDate),
-      truncPeriod,
+      params: {
+        esids: sensorIds.join(','),
+        startTime: startDate,
+        endTime: getAdjustedEndTime(endDate),
+        truncPeriod,
+      },
     },
     { refetchOnMountOrArgChange: true },
   );

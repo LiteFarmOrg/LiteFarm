@@ -15,40 +15,60 @@
 
 import { api } from './apiSlice';
 import { marketDirectoryInfoUrl } from '../../apiConfig';
-import { MarketDirectoryInfo } from './types';
+import { MarketDirectoryInfo, WithFarmIdPayload } from './types';
+import { getFarmTagsFn, getMutationWithFarmId, getUseQueryWithFarmId } from './util';
 
 export const marketDirectoryInfo = api.injectEndpoints({
   endpoints: (build) => ({
-    getMarketDirectoryInfo: build.query<MarketDirectoryInfo, void>({
-      query: () => ({
+    getMarketDirectoryInfo: build.query<MarketDirectoryInfo, WithFarmIdPayload>({
+      query: (_args) => ({
         url: `${marketDirectoryInfoUrl}`,
         method: 'GET',
       }),
-      providesTags: ['MarketDirectoryInfo'],
+      providesTags: getFarmTagsFn<MarketDirectoryInfo, WithFarmIdPayload>(['MarketDirectoryInfo']),
     }),
-    addMarketDirectoryInfo: build.mutation<void, Omit<MarketDirectoryInfo, 'id'>>({
-      query: (body) => ({
+    addMarketDirectoryInfo: build.mutation<
+      void,
+      WithFarmIdPayload<Omit<MarketDirectoryInfo, 'id'>>
+    >({
+      query: ({ farm_id: _farm_id, payload: body }) => ({
         url: `${marketDirectoryInfoUrl}`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['MarketDirectoryInfo'],
+      invalidatesTags: getFarmTagsFn<void, WithFarmIdPayload<Omit<MarketDirectoryInfo, 'id'>>>([
+        'MarketDirectoryInfo',
+      ]),
     }),
-    updateMarketDirectoryInfo: build.mutation<void, Partial<MarketDirectoryInfo>>({
-      query: ({ id, ...patch }) => {
+    updateMarketDirectoryInfo: build.mutation<
+      void,
+      WithFarmIdPayload<Partial<MarketDirectoryInfo>>
+    >({
+      query: ({ farm_id: _farm_id, payload: { id, ...patch } }) => {
         return {
           url: `${marketDirectoryInfoUrl}/${id}`,
           method: 'PATCH',
           body: patch,
         };
       },
-      invalidatesTags: ['MarketDirectoryInfo'],
+      invalidatesTags: getFarmTagsFn<void, WithFarmIdPayload<Partial<MarketDirectoryInfo>>>([
+        'MarketDirectoryInfo',
+      ]),
     }),
   }),
 });
 
-export const {
-  useAddMarketDirectoryInfoMutation,
-  useUpdateMarketDirectoryInfoMutation,
-  useGetMarketDirectoryInfoQuery,
-} = marketDirectoryInfo;
+export const useGetMarketDirectoryInfoQuery = getUseQueryWithFarmId<
+  MarketDirectoryInfo,
+  WithFarmIdPayload
+>(marketDirectoryInfo.useGetMarketDirectoryInfoQuery);
+
+export const useAddMarketDirectoryInfoMutation = getMutationWithFarmId<
+  void,
+  WithFarmIdPayload<Omit<MarketDirectoryInfo, 'id'>>
+>(marketDirectoryInfo.useAddMarketDirectoryInfoMutation);
+
+export const useUpdateMarketDirectoryInfoMutation = getMutationWithFarmId<
+  void,
+  WithFarmIdPayload<Partial<MarketDirectoryInfo>>
+>(marketDirectoryInfo.useUpdateMarketDirectoryInfoMutation);

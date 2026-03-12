@@ -99,6 +99,7 @@ function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = 
       isAddonSensor: true,
       type: ExternalMapLocationType.SENSOR_ARRAY,
       figure_type: FigureType.POINT,
+      name: sensorArray.label,
     })) || [];
 
   const standaloneSensors = allSensors?.filter((sensor) => sensor.sensor_array_id === null) || [];

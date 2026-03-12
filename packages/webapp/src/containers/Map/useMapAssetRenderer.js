@@ -302,6 +302,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       ...assetGeometries.water_valve,
       ...assetGeometries.soil_sample_location,
       ...assetGeometries.sensor,
+      ...assetGeometries.sensor_array,
     ];
 
     createMarkerClusters(maps, map, pointsArray);

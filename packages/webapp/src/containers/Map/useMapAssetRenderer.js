@@ -163,6 +163,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     filterSettings?.water_valve,
     filterSettings?.soil_sample_location,
     filterSettings?.sensor,
+    filterSettings?.sensor_array,
   ]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });

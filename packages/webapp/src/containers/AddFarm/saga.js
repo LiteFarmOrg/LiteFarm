@@ -71,6 +71,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
         ...farm,
         ...step,
         country: addFarmData.country,
+        country_code: addFarmData.country,
       }),
     );
     yield put(selectFarmSuccess({ farm_id }));

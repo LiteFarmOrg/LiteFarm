@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import Spinner from './Spinner';
 import styles from './styles.module.scss';
 import { Backdrop } from '@mui/material';
@@ -23,9 +24,39 @@ export function LoadingDialog() {
 interface LoadingBackdropProps {
   isOpen: boolean;
   isCompactSideMenu: boolean;
+  showDelay?: number;
+  hideDelay?: number;
 }
 
-export function LoadingBackdrop({ isOpen, isCompactSideMenu }: LoadingBackdropProps) {
+export function LoadingBackdrop({
+  isOpen,
+  isCompactSideMenu,
+  showDelay = 200,
+  hideDelay = 100,
+}: LoadingBackdropProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    if (isOpen) {
+      timerRef.current = setTimeout(() => setIsVisible(true), showDelay);
+    } else {
+      timerRef.current = setTimeout(() => setIsVisible(false), hideDelay);
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isOpen, showDelay, hideDelay]);
+
   const customStyles = isCompactSideMenu
     ? {
         width: 'calc(100vw + var(--global-compact-side-menu-width))',
@@ -36,7 +67,7 @@ export function LoadingBackdrop({ isOpen, isCompactSideMenu }: LoadingBackdropPr
 
   return (
     <Backdrop
-      open={isOpen}
+      open={isVisible}
       sx={{
         ...customStyles,
         top: 'var(--global-navbar-height)',

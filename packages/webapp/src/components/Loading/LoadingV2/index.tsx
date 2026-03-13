@@ -2,21 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import Spinner from './Spinner';
 import styles from './styles.module.scss';
 import { Backdrop } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export function LoadingSpinner() {
+  const { t } = useTranslation();
   return (
     <div className={styles.loadingSpinner}>
       <Spinner size={48} />
-      <span className={styles.loadingText}>Loading...</span>
+      <span className={styles.loadingText}>{t('common:LOADING')}</span>
     </div>
   );
 }
 
-export function LoadingDialog() {
+export function LoadingDialog({ dataName }: { dataName: string }) {
+  const { t } = useTranslation();
   return (
     <div className={styles.loadingDialog}>
       <LoadingSpinner />
-      <span className={styles.sitBackText}>Sit back we're fetching your results</span>
+      <span className={styles.sitBackText}>{t('common:FETCHING_YOUR_DATA', { dataName })}</span>
     </div>
   );
 }
@@ -26,6 +29,7 @@ interface LoadingBackdropProps {
   isCompactSideMenu: boolean;
   showDelay?: number;
   hideDelay?: number;
+  dataName: string;
 }
 
 export function LoadingBackdrop({
@@ -33,6 +37,7 @@ export function LoadingBackdrop({
   isCompactSideMenu,
   showDelay = 200,
   hideDelay = 100,
+  dataName,
 }: LoadingBackdropProps) {
   const [isVisible, setIsVisible] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -79,7 +84,7 @@ export function LoadingBackdrop({
         justifyContent: 'center',
       }}
     >
-      <LoadingDialog />
+      <LoadingDialog dataName={dataName} />
     </Backdrop>
   );
 }

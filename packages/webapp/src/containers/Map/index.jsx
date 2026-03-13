@@ -578,7 +578,11 @@ export default function Map({ isCompactSideMenu }) {
           </div>
         </>
       )}
-      <LoadingBackdrop isOpen={isLocationsFetching} isCompactSideMenu={isCompactSideMenu} />
+      <LoadingBackdrop
+        isOpen={isLocationsFetching}
+        isCompactSideMenu={isCompactSideMenu}
+        dataName={t('MENU.MAP').toLocaleLowerCase()}
+      />
     </>
   );
 }

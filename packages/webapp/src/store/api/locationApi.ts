@@ -55,7 +55,7 @@ export const locationApi = api.injectEndpoints({
       query: ({ data, type }) => ({
         url: `${locationURL}/${type}`,
         method: 'POST',
-        data,
+        body: data,
       }),
       invalidatesTags: ['Locations'],
     }),
@@ -66,11 +66,14 @@ export const locationApi = api.injectEndpoints({
         type: InternalMapLocationType;
       }>
     >({
-      query: ({ data, type, location_id }) => ({
-        url: `${locationURL}/${type}/${location_id}`,
-        method: 'PUT',
-        data,
-      }),
+      query: ({ data, type, location_id }) => {
+        console.log(data);
+        return {
+          url: `${locationURL}/${type}/${location_id}`,
+          method: 'PUT',
+          body: data,
+        };
+      },
       invalidatesTags: ['Locations'],
     }),
   }),

@@ -124,6 +124,7 @@
   "MAP": {
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
+    "FAIL_DELETE": "Failed to retire",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
     "SUCCESS_POST": "Successfully saved"

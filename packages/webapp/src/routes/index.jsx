@@ -59,9 +59,7 @@ const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('../containers/Insights/Prices'));
-/* LF-5131 Restore TAPE */
-// const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'));
-// const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
+const TapeRoutes = React.lazy(() => import('./TapeRoutes'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 const PostFarmSiteBoundaryForm = React.lazy(() =>
@@ -514,9 +512,10 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
           <Route path="/insights/biodiversity" element={<Biodiversity />} />
           <Route path="/insights/prices" element={<Prices />} />
-          {/* LF-5131 Restore TAPE */}
-          {/* <Route path="/insights/tape" element={<TapeSurvey />} />
-          <Route path="/insights/tape/results" element={<TapeResults />} /> */}
+          <Route
+            path="/insights/tape/*"
+            element={<TapeRoutes isCompactSideMenu={isCompactSideMenu} />}
+          />
           <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
@@ -757,8 +756,10 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
           <Route path="/insights/biodiversity" element={<Biodiversity />} />
           <Route path="/insights/prices" element={<Prices />} />
-          {/* <Route path="/insights/tape" element={<TapeSurvey />} />
-          <Route path="/insights/tape/results" element={<TapeResults />} /> */}
+          <Route
+            path="/insights/tape/*"
+            element={<TapeRoutes isCompactSideMenu={isCompactSideMenu} />}
+          />
           <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
@@ -872,8 +873,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
           <Route path="/insights/biodiversity" element={<Biodiversity />} />
           <Route path="/insights/prices" element={<Prices />} />
-          {/* <Route path="/insights/tape" element={<TapeSurvey />} />
-          <Route path="/insights/tape/results" element={<TapeResults />} /> */}
           <Route path="/callback" element={<Callback />} />
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
           <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />

@@ -13,34 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.resultsContainer {
-  padding-bottom: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
+const COUNTRY_VERSIONS = ['AU'];
 
-.chartContainerWrapper {
-  overflow-x: auto;
-}
-
-.chartContainer {
-  height: 500px;
-  width: calc(100% - 4px); // This makes the chart responsive
-  min-width: 400px;
-  margin-top: 24px;
-}
-
-.tapeSurveyContainer {
-  height: 100%;
-
-  &.compactSideMenu {
-    :global(.sv-save-data_root) {
-      margin-left: calc(var(--global-compact-side-menu-width) / 2);
-    }
-  }
-
-  :global(.sv-save-data_root) {
-    margin-left: calc(var(--global-side-menu-width) / 2);
-  }
-}
+/**
+ * Returns the survey version key used to fetch the correct JSON from DO CDN,
+ * based on the farm's 2-letter ISO country code.
+ *
+ * To add a new country-specific version:
+ * 1. Upload `tape_surveys/<key>.json` to the DO Spaces bucket.
+ * 2. Add a country_code to `COUNTRY_VERSIONS`.
+ */
+export const getSurveyVersion = (countryCode: string | undefined): string | undefined => {
+  return countryCode && COUNTRY_VERSIONS.includes(countryCode)
+    ? countryCode.toLowerCase()
+    : undefined;
+};

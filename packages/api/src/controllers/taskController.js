@@ -1113,9 +1113,8 @@ const taskController = {
   async getIrrigationTaskTypes(req, res) {
     const { farm_id } = req.params;
     try {
-      const irrigationTaskTypes = await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(
-        farm_id,
-      );
+      const irrigationTaskTypes =
+        await IrrigationTypesModel.getAllIrrigationTaskTypesByFarmId(farm_id);
       res.status(200).json(irrigationTaskTypes);
     } catch (error) {
       return res.status(400).send(error);

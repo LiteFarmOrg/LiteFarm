@@ -19,8 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 // images
-/* LF-5131 Restore TAPE */
-// import tape_survey from '../../assets/images/insights/tape_survey.svg';
+import tape_survey from '../../assets/images/insights/tape_survey.svg';
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
 import biodiversity from '../../assets/images/insights/biodiversity.svg';
@@ -35,33 +34,47 @@ import {
   pricesSelector,
   soilOMSelector,
 } from './selectors';
-// import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
+import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { useGetTapeSurveyQuery } from '../../store/api/tapeSurveyApi';
+import { getSurveyVersion } from './TapeSurvey/getSurveyVersion';
 
 const Insights = () => {
   const navigate = useNavigate();
   const farm = useSelector(userFarmSelector);
-  // const tapeStatus = useSelector(tapeSurveyStatusSelector);
+  const tapeStatus = useSelector(tapeSurveyStatusSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
+  const isOffline = useIsOffline();
+  const isAdmin = useSelector(isAdminSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const surveyVersion = getSurveyVersion(farm?.country_code);
+  const {
+    data: tapeSurvey,
+    isError: isTapeSurveyError,
+    isFetching: isTapeSurveyFetching,
+  } = useGetTapeSurveyQuery();
+
+  const isTapeSurveyCompleted = !isTapeSurveyError && !!tapeSurvey?.id;
+
   const items = [
-    // {
-    //   label: t('INSIGHTS.TAPE.TITLE'),
-    //   image: tape_survey,
-    //   route: tapeStatus.isCompleted ? 'tape/results' : 'tape',
-    //   data_point: 'TAPE',
-    // },
+    {
+      label: t('INSIGHTS.TAPE.TITLE'),
+      image: tape_survey,
+      route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
+      data_point: 'TAPE',
+    },
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -98,39 +111,49 @@ const Insights = () => {
     navigate(`/Insights/${route}`);
   };
 
-  const renderItem = (item, index, currentData) => (
-    <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
-      <div
-        className={`itemButton item-${index} ${styles.itemButton}`}
-        onClick={() => handleClick(item.route)}
-      >
-        <img
-          className={`itemIcon item-${index} ${styles.itemIcon}`}
-          src={item.image}
-          alt={item.label}
-        />
-        <div className={`itemText item-${index} ${styles.itemText}`}>
-          <Semibold className={styles.itemTitle}>{item.label}</Semibold>
-          {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
-            <Text>{currentData}</Text>
-          ) : (
-            <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
-          )}
+  const renderItem = (item, index, currentData) => {
+    const isLoading = currentData === t('common:LOADING');
+
+    return (
+      <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
+        <div
+          className={`itemButton item-${index} ${styles.itemButton} ${
+            isLoading ? styles.isLoading : ''
+          }`}
+          onClick={() => handleClick(item.route)}
+        >
+          <img
+            className={`itemIcon item-${index} ${styles.itemIcon}`}
+            src={item.image}
+            alt={item.label}
+          />
+          <div className={`itemText item-${index} ${styles.itemText}`}>
+            <Semibold className={styles.itemTitle}>{item.label}</Semibold>
+            {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
+              <Text>{currentData}</Text>
+            ) : (
+              <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
+            )}
+          </div>
+          <BsChevronRight className={styles.itemArrow} />
         </div>
-        <BsChevronRight className={styles.itemArrow} />
+        <hr className={styles.defaultLine} />
       </div>
-      <hr className={styles.defaultLine} />
-    </div>
-  );
+    );
+  };
 
   const insightData = useMemo(() => {
+    let tapeCurrentData = t('INSIGHTS.TAPE.NOT_FILLED');
+    if (isTapeSurveyFetching) {
+      tapeCurrentData = t('common:LOADING');
+    } else if (tapeStatus.inProgress) {
+      tapeCurrentData = t('INSIGHTS.TAPE.IN_PROGRESS');
+    } else if (isTapeSurveyCompleted) {
+      tapeCurrentData = t('INSIGHTS.TAPE.COMPLETED');
+    }
+
     const insightData = {};
-    /* LF-5131 Restore TAPE */
-    // insightData['TAPE'] = tapeStatus.isCompleted
-    //   ? t('INSIGHTS.TAPE.COMPLETED')
-    //   : tapeStatus.hasData
-    //   ? t('INSIGHTS.TAPE.IN_PROGRESS')
-    //   : t('INSIGHTS.TAPE.NOT_FILLED');
+    insightData['TAPE'] = tapeCurrentData;
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -141,7 +164,9 @@ const Insights = () => {
       : t('INSIGHTS.UNAVAILABLE');
     return insightData;
   }, [
-    // tapeStatus,
+    tapeStatus?.inProgress,
+    isTapeSurveyFetching,
+    isTapeSurveyCompleted,
     soilOMData,
     labourHappinessData,
     biodiversityData,
@@ -151,11 +176,15 @@ const Insights = () => {
   const renderedItems = useMemo(() => {
     return (
       insightData &&
-      items.map((item, index) => {
-        return renderItem(item, index, insightData[item.data_point]);
-      })
+      items
+        .filter(
+          (item) => !((isOffline || !isAdmin || !surveyVersion) && item.data_point === 'TAPE'),
+        )
+        .map((item, index) => {
+          return renderItem(item, index, insightData[item.data_point]);
+        })
     );
-  }, [insightData]);
+  }, [insightData, isOffline]);
 
   return (
     <div className={styles.insightContainer}>

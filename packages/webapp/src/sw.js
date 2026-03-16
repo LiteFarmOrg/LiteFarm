@@ -19,7 +19,7 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, NetworkOnly } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
 
@@ -47,6 +47,12 @@ async function validatePrecacheIntegrity() {
     return { isComplete: false };
   }
 }
+
+// Assets omitted from precache, but cached on first fetch for fast subsequent loads
+registerRoute(
+  ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
+  new CacheFirst({ cacheName: 'dynamic-chunks' }),
+);
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));

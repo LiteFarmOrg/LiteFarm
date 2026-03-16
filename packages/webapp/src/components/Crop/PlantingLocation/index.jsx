@@ -15,6 +15,7 @@ import { cloneObject } from '../../../util';
 import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 import OrganicStatusMismatchModal from '../../Modals/OrganicStatusMismatchModal';
 import { buttonStatusEnum } from '../../Modals/OrganicStatusMismatchModal/constants';
+import { useMaxZoom } from '../../../containers/Map/useMaxZoom';
 
 export default function PurePlantingLocation({
   persistedFormData,
@@ -34,6 +35,7 @@ export default function PurePlantingLocation({
     shouldUnregister: false,
   });
   const { historyCancel } = useHookFormPersist(getValues);
+  const { getMaxZoom } = useMaxZoom();
 
   const {
     crop_management_plan: { needs_transplant, is_seed, is_wild, already_in_ground },
@@ -185,6 +187,7 @@ export default function PurePlantingLocation({
           setPinCoordinate={setPinLocation}
           pinCoordinate={pinCoordinate}
           locations={cropLocations}
+          getMaxZoom={getMaxZoom}
         />
 
         <div>

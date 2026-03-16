@@ -13,49 +13,106 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { CompleteEvent } from 'survey-core';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
-import { saveSurveyProgress, completeSurvey, tapeSurveySelector } from './tapeSurveySlice';
+import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
-import surveyJson from './tapeQuestions.json';
 import PageTitle from '../../../components/PageTitle';
+import {
+  usePrefetch,
+  useGetTapeSurveyJsonQuery,
+  useAddTapeSurveyMutation,
+} from '../../../store/api/tapeSurveyApi';
+import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import styles from './styles.module.scss';
+import insightStyles from '../styles.module.scss';
 
-function TAPESurvey() {
+interface TAPESurveyProps {
+  isCompactSideMenu: boolean;
+  surveyVersion: string;
+}
+
+function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
+  const { farm_id } = useSelector(userFarmSelector);
 
-  const { prepopulatedData, isLoading } = useTapeSurveyPrepopulatedData();
+  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
+    useTapeSurveyPrepopulatedData();
 
-  const { surveyData: savedData, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
+  const {
+    data: surveyJson,
+    isLoading: isSurveyJsonLoading,
+    isError: isSurveyJsonError,
+  } = useGetTapeSurveyJsonQuery(surveyVersion);
 
-  const initialData = { ...prepopulatedData, ...savedData };
+  const [addTapeSurvey] = useAddTapeSurveyMutation();
+  const prefetchSurveyData = usePrefetch('getTapeSurvey');
+
+  const { surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
+  const notifications: { message: string }[] = useSelector(snackbarSelector);
+
+  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
   const handleDataChange = useCallback((currentPageNo: number, surveyData: Record<string, any>) => {
     dispatch(saveSurveyProgress({ currentPageNo, surveyData }));
   }, []);
 
-  const handleComplete = useCallback((currentPageNo: number, surveyData: any) => {
-    dispatch(completeSurvey({ currentPageNo, surveyData }));
-    navigate('/insights/tape/results');
-  }, []);
+  const handleComplete = useCallback(
+    async (surveyData: any, options: CompleteEvent) => {
+      try {
+        await addTapeSurvey({ survey_response: surveyData, farm_id }).unwrap();
+        prefetchSurveyData();
+        dispatch(clearSurvey());
+        navigate('/insights/tape/results');
+      } catch {
+        // Display the default "An error occurred and we could not save the results." message.
+        // (pass translated string for multiple language support)
+        options.showSaveError();
+      }
+    },
+    [addTapeSurvey, dispatch, navigate, t],
+  );
+
+  useEffect(() => {
+    if (isSurveyJsonError) {
+      const activeError = notifications.find(
+        ({ message }) => message === t('INSIGHTS.TAPE.LOAD_ERROR'),
+      );
+      if (!activeError) {
+        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
+      }
+    }
+  }, [isSurveyJsonError]);
+
+  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
 
   return (
-    <>
+    <div className={insightStyles.insightContainer}>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-      {!isLoading && ( // wait for prepopulated data to load
-        <SurveyComponent
-          surveyJson={surveyJson}
-          onComplete={handleComplete}
-          onValueChanged={handleDataChange}
-          initialData={initialData}
-          initialPageNo={savedPageNo}
-        />
-      )}
-    </>
+      <div
+        className={clsx(styles.tapeSurveyContainer, isCompactSideMenu && styles.compactSideMenu)}
+      >
+        {/* wait for prepopulated data to load */}
+        {!isLoading && surveyJson && (
+          <SurveyComponent
+            surveyJson={surveyJson}
+            onComplete={handleComplete}
+            onValueChanged={handleDataChange}
+            initialData={initialData}
+            initialPageNo={savedPageNo}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 

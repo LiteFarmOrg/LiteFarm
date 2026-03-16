@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -48,44 +47,20 @@ export function PureLocationDetailLayout({
   // TODO: Move this up to container when just 1 container exists for locations
   const { location_id } = useParams();
 
-  const details = useMemo(() => {
-    if (locationCategory === 'area') {
-      return (
-        <AreaDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          system={system}
-          showPerimeter={showPerimeter}
-        >
-          {detailsChildren && detailsChildren}
-        </AreaDetails>
-      );
-    } else if (locationCategory === 'line') {
-      return (
-        <LineDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          isViewLocationPage={isViewLocationPage}
-        >
-          {detailsChildren && detailsChildren}
-        </LineDetails>
-      );
-    } else if (locationCategory === 'point') {
-      return (
-        <PointDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          isViewLocationPage={isViewLocationPage}
-        >
-          {detailsChildren && detailsChildren}
-        </PointDetails>
-      );
-    }
-  }, [locationCategory]);
+  const DetailsComponent =
+    locationCategory === 'area'
+      ? AreaDetails
+      : locationCategory === 'line'
+      ? LineDetails
+      : PointDetails;
+
+  const detailsProps = {
+    name: t(`FARM_MAP.${translationKey}.NAME`),
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+    ...(locationCategory === 'area' ? { system, showPerimeter } : {}),
+  };
 
   return (
     <CardLayout>
@@ -114,7 +89,7 @@ export function PureLocationDetailLayout({
             formMethods={formMethods}
           />
           {isViewLocationPage && location_id && <LocationRouterTab location_id={location_id} />}
-          {details}
+          <DetailsComponent {...detailsProps}>{detailsChildren}</DetailsComponent>
         </Form>
       </FormProvider>
     </CardLayout>

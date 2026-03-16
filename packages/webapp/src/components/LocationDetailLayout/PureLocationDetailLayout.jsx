@@ -8,12 +8,8 @@ import Form from '../Form';
 import AreaDetails from './AreaDetails/AreaDetails';
 import LineDetails from './LineDetails/LineDetails';
 import PointDetails from './PointDetails/PointDetails';
-import RouterTab from '../RouterTab';
-import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
-import { useSelector } from 'react-redux';
-import { locationByIdSelector } from '../../containers/locationSlice';
-import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
+import LocationRouterTab from './LocationRouterTab';
 
 export function PureLocationDetailLayout({
   system,
@@ -51,9 +47,6 @@ export function PureLocationDetailLayout({
 
   // TODO: Move this up to container when just 1 container exists for locations
   const { location_id } = useParams();
-  const location =
-    isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
-  const routerTabs = location && useLocationRouterTabs(location);
 
   const details = useMemo(() => {
     if (locationCategory === 'area') {
@@ -120,13 +113,7 @@ export function PureLocationDetailLayout({
             onCancel={historyCancel}
             formMethods={formMethods}
           />
-          {isViewLocationPage && (
-            <RouterTab
-              classes={{ container: { margin: '6px 0 26px 0' } }}
-              tabs={routerTabs}
-              variant={Variant.UNDERLINE}
-            />
-          )}
+          {isViewLocationPage && location_id && <LocationRouterTab location_id={location_id} />}
           {details}
         </Form>
       </FormProvider>

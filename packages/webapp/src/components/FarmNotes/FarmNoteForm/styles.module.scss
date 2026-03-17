@@ -1,0 +1,122 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+/* outer panel — parent controls sizing/positioning */
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--white, #ffffff);
+}
+
+/* ── Header ────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 8px 16px;
+  background: var(--white, #ffffff);
+  border-bottom: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  border-left: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  border-top: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  border-radius: 8px 0 0 0;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+}
+
+.headerClose {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--Colors-Accent---singles-Blue-dark, #032d61);
+}
+
+.closeTxt {
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.closeIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ── Body ──────────────────────────────────────── */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* ── Privacy row ───────────────────────────────── */
+.privacyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px;
+  border-radius: 24px;
+  width: 100%;
+}
+
+.privacyLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
+  overflow: hidden;
+}
+
+.lockIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+
+  path {
+    stroke: var(--Colors-Neutral-Neutral-200, #b9bfc9);
+  }
+}
+
+/* ── Footer ────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 4px 32px 8px;
+  height: 64px;
+  background: var(--white, #ffffff);
+  border-radius: 0 0 16px 16px;
+  flex-shrink: 0;
+}

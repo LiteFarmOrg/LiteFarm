@@ -1,4 +1,5 @@
 {
+  "{undefined}": "MISSING",
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
@@ -1002,6 +1003,21 @@
       "TITLE": "Add watercourse",
       "WIDTH": "Watercourse width"
     }
+  },
+  "FARM_NOTE": {
+    "ATTACH_PHOTO": "Attach a photo",
+    "CANCEL": "Cancel",
+    "CLOSE": "Close",
+    "EDIT_NOTE": "Edit note",
+    "ESC_TO_CLOSE": "Or press \"Esc\" to close",
+    "KEEP_PRIVATE": "Keep this note private",
+    "NEW_NOTE": "New note",
+    "NOTE_LABEL": "Note",
+    "NOTE_PLACEHOLDER": "Type in your note",
+    "PHOTO_LIBRARY": "Photo library",
+    "PRIVATE_HELPER": "This is only seen by the author",
+    "SAVE_NOTE": "Save note",
+    "TAKE_PHOTO": "Take photo"
   },
   "FARM_SETTINGS": {
     "TABS": {

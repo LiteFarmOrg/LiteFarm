@@ -38,7 +38,9 @@ function PurePlanGuidance({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onFormSubmit = handleSubmit(onSubmit || navigate(submitPath, { state: location.state }));
+  const onFormSubmit = handleSubmit(
+    onSubmit || (() => navigate(submitPath, { state: location.state })),
+  );
 
   return (
     <Form

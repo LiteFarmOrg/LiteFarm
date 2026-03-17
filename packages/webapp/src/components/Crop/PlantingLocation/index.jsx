@@ -109,10 +109,11 @@ export default function PurePlantingLocation({
     setPinToggle((pinToggle) => !pinToggle);
   };
 
-  const proceedToNextStep = () =>
+  const proceedToNextStep = () => {
     navigate(
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
+  };
 
   const checkAndClearLocations = (dismissStatus) => {
     if (dismissStatus === buttonStatusEnum.THATS_FINE) {
@@ -149,6 +150,7 @@ export default function PurePlantingLocation({
   };
 
   const onGoBack = () => {
+    console.log('go back');
     navigate(-1);
   };
 

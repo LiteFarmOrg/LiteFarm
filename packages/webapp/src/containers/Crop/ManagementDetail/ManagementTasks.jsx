@@ -93,7 +93,9 @@ export default function ManagementTasks() {
           <TaskCard
             key={task.task_id}
             onClick={() =>
-              navigate(`/tasks/${task.task_id}/read_only`, { pathname: location.pathname })
+              navigate(`/tasks/${task.task_id}/read_only`, {
+                state: { pathname: location.pathname },
+              })
             }
             style={{ marginBottom: '14px' }}
             {...task}

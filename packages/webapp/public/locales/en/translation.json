@@ -1,4 +1,5 @@
 {
+  "{undefined}": "MISSING",
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
@@ -1002,6 +1003,28 @@
       "TITLE": "Add watercourse",
       "WIDTH": "Watercourse width"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "Add a note",
+    "ATTACH_PHOTO": "Attach a photo",
+    "CANCEL": "Cancel",
+    "CLICK_TO_ENLARGE": "Click to enlarge",
+    "CLOSE": "Close",
+    "DELETE": "Delete",
+    "DELETE_CONFIRM": "Are you sure you want to delete this note?",
+    "DELETE_NOTE": "Delete note",
+    "EDIT_NOTE": "Edit note",
+    "EMPTY_STATE": "You do not have any notes",
+    "ESC_TO_CLOSE": "Or press \"Esc\" to close",
+    "KEEP_PRIVATE": "Keep this note private",
+    "NEW_NOTE": "New note",
+    "PENDING_SYNC": "Pending sync",
+    "PHOTO_LIBRARY": "Photo library",
+    "PRIVATE_HELPER": "This is only seen by the author",
+    "SAVE_NOTE": "Save note",
+    "TAKE_PHOTO": "Take photo",
+    "TITLE": "Farm notes",
+    "TODAY": "Today"
   },
   "FARM_SETTINGS": {
     "TABS": {

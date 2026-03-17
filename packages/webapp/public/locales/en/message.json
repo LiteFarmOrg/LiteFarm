@@ -88,6 +88,10 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
+  "FARM_NOTE": {
+    "CREATE_ERROR": "Failed to create note",
+    "OFFLINE_QUEUE_MESSAGE": "Your note will sync when you're back online"
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Something went wrong while submitting your feedback. Please try again."

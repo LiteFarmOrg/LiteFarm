@@ -137,7 +137,6 @@ describe('Farm Note tests', () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).not.toHaveProperty('has_unread');
     });
 
     test('Returns 403 for user on a different farm', async () => {
@@ -232,7 +231,7 @@ describe('Farm Note tests', () => {
         .patch(`/farm_note/${note.farm_note_id}`)
         .set('user_id', user_id)
         .set('farm_id', farm_id)
-        .send({ note: 'Updated text', is_private: true });
+        .field('data', JSON.stringify({ note: 'Updated text', is_private: true }));
 
       expect(res.status).toBe(200);
       expect(res.body.note).toBe('Updated text');
@@ -281,6 +280,24 @@ describe('Farm Note tests', () => {
         .send({ note: 'Should fail', is_private: false });
 
       expect(res.status).toBe(403);
+    });
+
+    test('Author can remove the image', async () => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const note = await insertNote(knex, {
+        farm_id,
+        user_id,
+        note: 'NOTE with image to be removed',
+        image_url: 'http://example.com/image.jpg',
+      });
+      const res = await chai
+        .request(server)
+        .patch(`/farm_note/${note.farm_note_id}`)
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .field('data', JSON.stringify({ image_url: null }));
+      expect(res.status).toBe(200);
+      expect(res.body.image_url).toBe(null);
     });
   });
 

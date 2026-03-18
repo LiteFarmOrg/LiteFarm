@@ -18,7 +18,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
-import { checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
+import { checkFarmNoteBody, checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
 
 const router = express.Router();
 
@@ -29,6 +29,7 @@ router.post(
   checkScope(['add:farm_notes']),
   hasFarmAccess({}),
   multerDiskUpload,
+  checkFarmNoteBody(),
   controller.createFarmNote(),
 );
 
@@ -37,6 +38,8 @@ router.patch(
   checkScope(['edit:farm_notes']),
   hasFarmAccess({ params: 'farm_note_id' }),
   checkFarmNoteId('edit'),
+  multerDiskUpload,
+  checkFarmNoteBody(),
   controller.editFarmNote(),
 );
 

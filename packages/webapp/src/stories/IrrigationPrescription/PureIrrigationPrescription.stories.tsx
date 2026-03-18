@@ -16,13 +16,13 @@
 import { Meta, StoryObj } from '@storybook/react/*';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription/';
 import { mockField, mockPivot, mockUriData, mockVriZones, mockVriZonesFive } from './mockData';
-import { componentDecorators } from '../Pages/config/Decorators';
+import { navMenuControlDecorator } from '../Pages/config/Decorators';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureIrrigationPrescription> = {
   title: 'Components/IrrigationPrescription',
   component: PureIrrigationPrescription,
-  decorators: componentDecorators,
+  decorators: navMenuControlDecorator,
 };
 
 export default meta;
@@ -40,6 +40,7 @@ export const URIPrescription: Story = {
       available_soil_moisture: mockUriData.available_soil_moisture,
       available_soil_moisture_unit: mockUriData.available_soil_moisture_unit,
     },
+    system: 'metric',
   },
 };
 
@@ -49,6 +50,7 @@ export const VRIPrescription: Story = {
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
     vriData: mockVriZones,
+    system: 'metric',
   },
 };
 
@@ -58,5 +60,6 @@ export const VRIPrescriptionFiveZones: Story = {
     pivotCenter: mockPivot.center,
     pivotRadiusInMeters: mockPivot.radius,
     vriData: mockVriZonesFive,
+    system: 'metric',
   },
 };

@@ -3,7 +3,7 @@ import PureCropManagement from '../../../components/Crop/Management';
 import decorator from '../config/Decorators';
 import { Abandoned, Active, Completed, Planned } from '../../Card/ManagementPlanCard.stories';
 import { chromaticSmallScreen } from '../config/chromatic';
-import { commonArgs, planBaseContents } from '../../Modal/CropPlansModal.stories';
+import { managementPlanCardCommonArgs, planBaseContents } from '../../constants';
 
 export default {
   title: 'Form/Crop/Management',
@@ -90,7 +90,7 @@ ManagementWithManyCards.parameters = {
 
 export const ManagementWithRepeatPlanCards = Template.bind({});
 ManagementWithRepeatPlanCards.args = {
-  ...commonArgs,
+  ...managementPlanCardCommonArgs,
   managementPlanCardContents: [
     ...getManagementPlanCardContents(2),
     ...[...Array(5)].map((item, index) => {

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { Router } from 'react-router-dom';
-import history from '../../../history';
 import Navigation from '../../../containers/Navigation';
 import { AppUIContext } from '../../../contexts/appContext';
 
@@ -88,11 +86,7 @@ export const authenticatedDecorators = [
 
 export const decoratorsWithStore = [
   (story) => {
-    return (
-      <Router history={history}>
-        <div style={{ padding: '24px' }}>{story()}</div>
-      </Router>
-    );
+    return <div style={{ padding: '24px' }}>{story()}</div>;
   },
 ];
 
@@ -123,11 +117,9 @@ export const componentDecoratorsFullHeight = [
 export const v2TableDecorator = [
   (story) => {
     return (
-      <Router history={history}>
-        <div style={{ padding: '24px' }}>
-          <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
-        </div>
-      </Router>
+      <div style={{ padding: '24px' }}>
+        <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
+      </div>
     );
   },
 ];
@@ -139,6 +131,7 @@ export const navMenuControlDecorator = [
       <AppUIContext.Provider
         value={{
           feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          maps: { isLoaded: true },
         }}
       >
         {story()}

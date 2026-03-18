@@ -1708,6 +1708,12 @@ export default {
       loading: false,
       loaded: false,
     },
+    irrigationTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
+    },
     irrigationTaskTypesReducer: {
       irrigationTaskTypes: [
         {
@@ -1723,6 +1729,18 @@ export default {
           irrigation_type_translation_key: 'CHANNEL',
         },
       ],
+    },
+    animalMovementTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
+    },
+    soilSampleTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
     },
     productReducer: {
       ids: [],

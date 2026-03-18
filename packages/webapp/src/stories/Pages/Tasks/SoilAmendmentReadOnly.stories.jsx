@@ -104,6 +104,7 @@ const args = {
       '91bd7698-a0b7-11ed-be24-e66db4bef552': {},
     },
     managementPlansByLocation: {},
+    soil_amendment_task_products: [],
   },
   users: [{ user_id: '1', first_name: 'John', last_name: 'Doe' }],
   user: {

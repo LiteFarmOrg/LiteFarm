@@ -17,13 +17,13 @@ import { Meta, StoryObj } from '@storybook/react/*';
 import PureIrrigationPrescriptionMapView from '../../components/IrrigationPrescription/IrrigationPrescriptionMapView';
 import styles from './styles.module.scss';
 import { mockField, mockPivot, mockVriZones, mockVriZonesFive } from './mockData';
-import { componentDecorators } from '../Pages/config/Decorators';
+import { navMenuControlDecorator } from '../Pages/config/Decorators';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureIrrigationPrescriptionMapView> = {
   title: 'Components/IrrigationPrescription/MapView',
   component: PureIrrigationPrescriptionMapView,
-  decorators: componentDecorators,
+  decorators: navMenuControlDecorator,
 };
 
 export default meta;

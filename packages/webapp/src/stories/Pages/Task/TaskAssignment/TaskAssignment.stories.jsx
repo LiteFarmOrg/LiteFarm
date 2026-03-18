@@ -2,11 +2,19 @@ import React from 'react';
 import decorators from '../../config/Decorators';
 import PureTaskAssignment from '../../../../components/Task/PureTaskAssignment';
 
+import { useForm } from 'react-hook-form';
+
+const WithForm = (Story, context) => {
+  const { control, handleSubmit } = useForm();
+  return <Story {...context} args={{ ...context.args, control, handleSubmit }} />;
+};
+
 export default {
   title: 'Page/Task/AddTask',
-  decorators: decorators,
+  decorators: [...decorators, WithForm],
   component: PureTaskAssignment,
 };
+
 const userFarmOptions = [
   { label: 'Apple', value: 'apple' },
   { label: 'Banana', value: 'banana' },

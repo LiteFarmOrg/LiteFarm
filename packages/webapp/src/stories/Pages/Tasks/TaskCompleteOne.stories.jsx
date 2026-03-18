@@ -15,7 +15,7 @@ TaskCompleteCleaning.args = {
   onCancel: () => {},
   onGoBack: () => {},
   onSave: () => {},
-  useHookFormPersist: () => ({}),
+  useHookFormPersist: () => ({ persistedData: { uploadedFiles: undefined } }),
   persistedFormData: {
     need_changes: true,
     cleaning_task: {
@@ -34,6 +34,10 @@ TaskCompleteCleaning.args = {
         farm_id: '1231456',
       },
     },
+  },
+  selectedTask: {
+    animals: [],
+    animal_batches: [],
   },
   selectedTaskType: { task_translation_key: 'CLEANING_TASK' },
   farm: '1231456',

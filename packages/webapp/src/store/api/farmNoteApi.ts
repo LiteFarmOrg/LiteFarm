@@ -17,6 +17,14 @@ import { api } from './apiSlice';
 import { farmNoteUrl } from '../../apiConfig';
 import { FarmNote } from './types';
 
+interface AddFarmNoteReqBody {
+  file?: File;
+  data: {
+    note: string;
+    is_private: boolean;
+  };
+}
+
 export const farmNoteApi = api.injectEndpoints({
   endpoints: (build) => ({
     getFarmNotes: build.query<FarmNote[], void>({
@@ -26,16 +34,15 @@ export const farmNoteApi = api.injectEndpoints({
       }),
       providesTags: ['FarmNote'],
     }),
-    createFarmNote: build.mutation<
-      FarmNote,
-      Pick<FarmNote, 'note' | 'is_private'> & { file?: File }
-    >({
-      query: ({ note, is_private, file }) => {
+    addFarmNote: build.mutation<FarmNote, AddFarmNoteReqBody>({
+      query: ({ file, data }) => {
+        // Mirrors supportTicketApi.ts
+        // Must similarly add to non-JSON endpoint keys in apiSlice.ts
         const formData = new FormData();
         if (file) {
           formData.append('_file_', file);
         }
-        formData.append('data', JSON.stringify({ note, is_private }));
+        formData.append('data', JSON.stringify(data));
         return {
           url: farmNoteUrl,
           method: 'POST',
@@ -64,7 +71,7 @@ export const farmNoteApi = api.injectEndpoints({
 
 export const {
   useGetFarmNotesQuery,
-  useCreateFarmNoteMutation,
+  useAddFarmNoteMutation,
   useEditFarmNoteMutation,
   useDeleteFarmNoteMutation,
 } = farmNoteApi;

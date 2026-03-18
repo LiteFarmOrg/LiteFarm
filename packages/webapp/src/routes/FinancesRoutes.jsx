@@ -18,43 +18,43 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import WithNavigation from './WithNavigation';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
-const UpdateEstimatedCropRevenue = React.lazy(() =>
-  import('../containers/Finances/UpdateEstimatedCropRevenue'),
+const UpdateEstimatedCropRevenue = React.lazy(
+  () => import('../containers/Finances/UpdateEstimatedCropRevenue'),
 );
 const RevenueTypes = React.lazy(() => import('../containers/Finances/AddSale/RevenueTypes'));
 const AddSale = React.lazy(() => import('../containers/Finances/AddSale'));
-const ManageRevenueTypes = React.lazy(() =>
-  import('../containers/Finances/ManageCustomRevenueTypes'),
+const ManageRevenueTypes = React.lazy(
+  () => import('../containers/Finances/ManageCustomRevenueTypes'),
 );
 const RevenueDetail = React.lazy(() => import('../containers/Finances/RevenueDetail'));
 const EstimatedRevenue = React.lazy(() => import('../containers/Finances/EstimatedRevenue'));
 const Labour = React.lazy(() => import('../containers/Finances/Labour'));
 const OtherExpense = React.lazy(() => import('../containers/Finances/OtherExpense'));
 const ExpenseDetail = React.lazy(() => import('../containers/Finances/ExpenseDetail'));
-const ExpenseCategories = React.lazy(() =>
-  import('../containers/Finances/NewExpense/ExpenseCategories'),
+const ExpenseCategories = React.lazy(
+  () => import('../containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('../containers/Finances/NewExpense/AddExpense'));
-const ManageExpenseTypes = React.lazy(() =>
-  import('../containers/Finances/ManageCustomExpenseTypes'),
+const ManageExpenseTypes = React.lazy(
+  () => import('../containers/Finances/ManageCustomExpenseTypes'),
 );
-const AddCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
+const AddCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
 );
-const ReadOnlyCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
+const ReadOnlyCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
 );
-const EditCustomExpense = React.lazy(() =>
-  import('../containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
+const EditCustomExpense = React.lazy(
+  () => import('../containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
 );
-const AddCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/AddCustomRevenue'),
+const AddCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/AddCustomRevenue'),
 );
-const ReadOnlyCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
+const ReadOnlyCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
 );
-const EditCustomRevenue = React.lazy(() =>
-  import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
+const EditCustomRevenue = React.lazy(
+  () => import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
 
 const FinancesRoutes = () => (
@@ -69,12 +69,12 @@ const FinancesRoutes = () => (
     <Route path="add_revenue" element={<AddSale />} />
     <Route path="manage_custom_revenues" element={<ManageRevenueTypes />} />
     <Route path="revenue/:sale_id" element={<RevenueDetail />} />
-    <Route path="revenue/:sale_id/edit" element={<RevenueDetail />} />
+    <Route path="revenue/:sale_id/edit" element={<RevenueDetail isEditing={true} />} />
     <Route path="estimated_revenue" element={<EstimatedRevenue />} />
     <Route path="labour" element={<Labour />} />
     <Route path="other_expense" element={<OtherExpense />} />
     <Route path="expense/:expense_id" element={<ExpenseDetail />} />
-    <Route path="expense/:expense_id/edit" element={<ExpenseDetail />} />
+    <Route path="expense/:expense_id/edit" element={<ExpenseDetail isEditing={true} />} />
     <Route path="expense_categories" element={<WithNavigation component={ExpenseCategories} />} />
     <Route path="add_expense" element={<WithNavigation component={AddExpense} />} />
     <Route path="manage_custom_expenses" element={<ManageExpenseTypes />} />

@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useLocation, useMatch, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
@@ -31,11 +31,8 @@ import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
-function RevenueDetail() {
+function RevenueDetail({ isEditing }) {
   const navigate = useNavigate();
-  // TODO: Pass isEditing as a param instead of parsing URL
-  const { pathname } = useLocation();
-  const isEditing = pathname.endsWith('/edit');
   const { sale_id } = useParams();
 
   // To clear form history after editing
@@ -63,7 +60,7 @@ function RevenueDetail() {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
-    navigate(createEditRevenueDetailsUrl(sale_id)); // TODO: Fix navigation
+    navigate(createEditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {
@@ -81,7 +78,6 @@ function RevenueDetail() {
 
   return (
     <GeneralRevenue
-      key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}

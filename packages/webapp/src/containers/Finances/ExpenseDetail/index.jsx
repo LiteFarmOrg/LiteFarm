@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams, useMatch, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -16,16 +16,12 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
-const ExpenseDetail = () => {
+const ExpenseDetail = ({ isEditing }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useHookFormPersist(); // To clear form history after editing
-
-  // TODO: Pass isEditing as a param instead of parsing URL
-  const { pathname } = useLocation();
-  const isEditing = pathname.endsWith('/edit');
 
   const { expense_id } = useParams();
 
@@ -83,7 +79,6 @@ const ExpenseDetail = () => {
   return (
     expense && (
       <PureExpenseDetail
-        key={isEditing ? 'editing' : 'readonly'} // remount the component
         pageTitle={isEditing ? t('EXPENSE.EDIT_EXPENSE.TITLE') : t('SALE.EXPENSE_DETAIL.TITLE')}
         expense={expense}
         handleGoBack={handleGoBack}

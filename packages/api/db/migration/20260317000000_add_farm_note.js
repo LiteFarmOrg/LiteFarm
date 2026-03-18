@@ -31,6 +31,32 @@ export const up = async function (knex) {
     table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
     table.boolean('deleted').notNullable().defaultTo(false);
   });
+
+  await knex('permissions').insert([
+    { permission_id: 188, name: 'get:farm_notes', description: 'get farm_notes' },
+    { permission_id: 189, name: 'add:farm_notes', description: 'add farm_notes' },
+    { permission_id: 190, name: 'edit:farm_notes', description: 'edit farm_notes' },
+    { permission_id: 191, name: 'delete:farm_notes', description: 'delete farm_notes' },
+  ]);
+
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 188 },
+    { role_id: 2, permission_id: 188 },
+    { role_id: 3, permission_id: 188 },
+    { role_id: 5, permission_id: 188 },
+    { role_id: 1, permission_id: 189 },
+    { role_id: 2, permission_id: 189 },
+    { role_id: 3, permission_id: 189 },
+    { role_id: 5, permission_id: 189 },
+    { role_id: 1, permission_id: 190 },
+    { role_id: 2, permission_id: 190 },
+    { role_id: 3, permission_id: 190 },
+    { role_id: 5, permission_id: 190 },
+    { role_id: 1, permission_id: 191 },
+    { role_id: 2, permission_id: 191 },
+    { role_id: 3, permission_id: 191 },
+    { role_id: 5, permission_id: 191 },
+  ]);
 };
 
 /**
@@ -39,4 +65,8 @@ export const up = async function (knex) {
  */
 export const down = async function (knex) {
   await knex.schema.dropTable('farm_note');
+
+  const permissions = [188, 189, 190, 191];
+  await knex('rolePermissions').whereIn('permission_id', permissions).del();
+  await knex('permissions').whereIn('permission_id', permissions).del();
 };

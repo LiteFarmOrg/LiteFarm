@@ -298,8 +298,9 @@ const managementPlanController = {
           if (req.body.assignee_user_id) {
             tasks.forEach(async (task) => {
               const { assignee_user_id, task_type_id } = task;
-              const taskTypeTranslation =
-                await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+              const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(
+                task_type_id,
+              );
               await sendTaskNotification(
                 [assignee_user_id],
                 req.auth.user_id,
@@ -731,7 +732,7 @@ const managementPlanController = {
           .withGraphFetched(planGraphFetchedQueryString, graphJoinedOptions);
         return managementPlan
           ? res.status(200).send(removeCropVarietyFromManagementPlan(managementPlan))
-          : res.status(404).send('Field crop not found');
+          : res.status(404).send('Management plan not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({
@@ -757,7 +758,7 @@ const managementPlanController = {
         );
         return managementPlans?.length
           ? res.status(200).send(transformedPlans)
-          : res.status(404).send('Field crop not found');
+          : res.status(404).send('Management plan not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({
@@ -780,7 +781,7 @@ const managementPlanController = {
 
         return managementPlans?.length
           ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans))
-          : res.status(404).send('Field crop not found');
+          : res.status(404).send('Management plan not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({ error });
@@ -799,7 +800,7 @@ const managementPlanController = {
           .andWhere(raw('harvest_date < now()'));
         return managementPlans?.length
           ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans))
-          : res.status(404).send('Field crop not found');
+          : res.status(404).send('Management plan not found');
       } catch (error) {
         console.error(error);
         res.status(400).json({ error });

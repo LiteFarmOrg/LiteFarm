@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import BaseModel from './baseModel.js';
+import Model from './baseFormatModel.js';
 
-class FarmNotesReadModel extends BaseModel {
+class FarmNotesReadModel extends Model {
   static get tableName() {
     return 'farm_notes_read';
   }
@@ -32,7 +32,6 @@ class FarmNotesReadModel extends BaseModel {
         user_id: { type: 'string' },
         farm_id: { type: 'string' },
         last_read_at: { type: 'string', format: 'date-time' },
-        ...this.baseProperties,
       },
     };
   }

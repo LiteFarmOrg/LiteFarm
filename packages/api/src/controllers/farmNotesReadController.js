@@ -22,10 +22,7 @@ const farmNotesReadController = {
         const { user_id } = req.auth;
         const { farm_id } = req.headers;
 
-        const row = await FarmNotesReadModel.query()
-          .whereNotDeleted()
-          .where({ user_id, farm_id })
-          .first();
+        const row = await FarmNotesReadModel.query().where({ user_id, farm_id }).first();
 
         return res.status(200).json({ last_read_at: row ? row.last_read_at : null });
       } catch (error) {
@@ -42,10 +39,7 @@ const farmNotesReadController = {
         const { farm_id } = req.headers;
         const last_read_at = new Date().toISOString();
 
-        const existing = await FarmNotesReadModel.query()
-          .whereNotDeleted()
-          .where({ user_id, farm_id })
-          .first();
+        const existing = await FarmNotesReadModel.query().where({ user_id, farm_id }).first();
 
         if (existing) {
           await FarmNotesReadModel.query()

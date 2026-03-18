@@ -23,11 +23,6 @@ export const up = async function (knex) {
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
     table.dateTime('last_read_at').notNullable();
     table.primary(['user_id', 'farm_id']);
-    table.string('created_by_user_id').references('user_id').inTable('users');
-    table.string('updated_by_user_id').references('user_id').inTable('users');
-    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
-    table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
-    table.boolean('deleted').notNullable().defaultTo(false);
   });
 };
 

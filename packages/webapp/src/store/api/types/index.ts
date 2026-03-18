@@ -420,7 +420,7 @@ export interface FarmNote {
   user_id: string;
   note: string;
   is_private: boolean;
-  image_url?: string;
+  image_url?: string | null;
   created_at: string;
   to_sync?: boolean; // client-only flag for offline-queued notes
 }

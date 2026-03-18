@@ -17,11 +17,21 @@ import { api } from './apiSlice';
 import { farmNoteUrl } from '../../apiConfig';
 import { FarmNote } from './types';
 
+type FarmNoteData = {
+  note: string;
+  is_private: boolean;
+};
+
 interface AddFarmNoteReqBody {
   file?: File;
-  data: {
-    note: string;
-    is_private: boolean;
+  data: FarmNoteData;
+}
+
+interface EditFarmNoteReqBody {
+  farm_note_id: string;
+  file?: File;
+  data: FarmNoteData & {
+    image_url?: null;
   };
 }
 
@@ -51,12 +61,20 @@ export const farmNoteApi = api.injectEndpoints({
       },
       invalidatesTags: ['FarmNote'],
     }),
-    editFarmNote: build.mutation<FarmNote, Pick<FarmNote, 'farm_note_id' | 'note' | 'is_private'>>({
-      query: ({ farm_note_id, ...patch }) => ({
-        url: `${farmNoteUrl}/${farm_note_id}`,
-        method: 'PATCH',
-        body: patch,
-      }),
+    editFarmNote: build.mutation<FarmNote, EditFarmNoteReqBody>({
+      query: ({ farm_note_id, file, data }) => {
+        const formData = new FormData();
+        if (file) {
+          formData.append('_file_', file);
+        }
+        formData.append('data', JSON.stringify(data));
+
+        return {
+          url: `${farmNoteUrl}/${farm_note_id}`,
+          method: 'PATCH',
+          body: formData,
+        };
+      },
       invalidatesTags: ['FarmNote'],
     }),
     deleteFarmNote: build.mutation<void, string>({

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { v4 as uuidv4 } from 'uuid';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import FarmNoteModel from '../models/farmNoteModel.js';
 import {
   s3,
@@ -20,8 +22,6 @@ import {
   getPublicS3Url,
   imaginaryPost,
 } from '../util/digitalOceanSpaces.js';
-import { v4 as uuidv4 } from 'uuid';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 const farmNoteController = {
   getFarmNotes() {
@@ -92,14 +92,6 @@ const farmNoteController = {
         const { farm_note_id } = req.params;
         const { user_id } = req.auth;
 
-        const existing = await FarmNoteModel.query().findById(farm_note_id).whereNotDeleted();
-        if (!existing) {
-          return res.status(404).json({ error: 'Note not found' });
-        }
-        if (existing.user_id !== user_id) {
-          return res.status(403).json({ error: 'Not authorized to edit this note' });
-        }
-
         const { note, is_private } = req.body;
         const updated = await FarmNoteModel.query()
           .context({ user_id })
@@ -118,14 +110,6 @@ const farmNoteController = {
       try {
         const { farm_note_id } = req.params;
         const { user_id } = req.auth;
-
-        const existing = await FarmNoteModel.query().findById(farm_note_id).whereNotDeleted();
-        if (!existing) {
-          return res.status(404).json({ error: 'Note not found' });
-        }
-        if (existing.user_id !== user_id) {
-          return res.status(403).json({ error: 'Not authorized to delete this note' });
-        }
 
         await FarmNoteModel.query().context({ user_id }).deleteById(farm_note_id);
 

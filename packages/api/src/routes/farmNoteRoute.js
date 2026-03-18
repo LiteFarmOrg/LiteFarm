@@ -18,6 +18,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
+import { checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.patch(
   '/:farm_note_id',
   checkScope(['edit:farm_notes']),
   hasFarmAccess({ params: 'farm_note_id' }),
+  checkFarmNoteId('edit'),
   controller.editFarmNote(),
 );
 
@@ -42,6 +44,7 @@ router.delete(
   '/:farm_note_id',
   checkScope(['delete:farm_notes']),
   hasFarmAccess({ params: 'farm_note_id' }),
+  checkFarmNoteId('delete'),
   controller.deleteFarmNote(),
 );
 

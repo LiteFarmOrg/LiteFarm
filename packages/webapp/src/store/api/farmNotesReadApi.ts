@@ -31,6 +31,7 @@ export const farmNotesReadApi = api.injectEndpoints({
         url: farmNotesReadUrl,
         method: 'PATCH',
       }),
+      invalidatesTags: ['FarmNotesRead'],
     }),
   }),
 });

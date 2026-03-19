@@ -415,7 +415,7 @@ export interface SupportTicketData {
 }
 
 export interface FarmNote {
-  farm_note_id: string;
+  id: string;
   farm_id: string;
   user_id: string;
   note: string;

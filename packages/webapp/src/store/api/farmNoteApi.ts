@@ -28,7 +28,7 @@ interface AddFarmNoteReqBody {
 }
 
 interface EditFarmNoteReqBody {
-  farm_note_id: string;
+  id: string;
   file?: File;
   data: FarmNoteData & {
     image_url?: null;
@@ -62,7 +62,7 @@ export const farmNoteApi = api.injectEndpoints({
       invalidatesTags: ['FarmNote'],
     }),
     editFarmNote: build.mutation<FarmNote, EditFarmNoteReqBody>({
-      query: ({ farm_note_id, file, data }) => {
+      query: ({ id, file, data }) => {
         const formData = new FormData();
         if (file) {
           formData.append('_file_', file);
@@ -70,7 +70,7 @@ export const farmNoteApi = api.injectEndpoints({
         formData.append('data', JSON.stringify(data));
 
         return {
-          url: `${farmNoteUrl}/${farm_note_id}`,
+          url: `${farmNoteUrl}/${id}`,
           method: 'PATCH',
           body: formData,
         };
@@ -78,8 +78,8 @@ export const farmNoteApi = api.injectEndpoints({
       invalidatesTags: ['FarmNote'],
     }),
     deleteFarmNote: build.mutation<void, string>({
-      query: (farm_note_id) => ({
-        url: `${farmNoteUrl}/${farm_note_id}`,
+      query: (id) => ({
+        url: `${farmNoteUrl}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['FarmNote'],

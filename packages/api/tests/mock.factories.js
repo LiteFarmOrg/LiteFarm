@@ -2879,6 +2879,25 @@ export const buildIrrigationPrescription = async ({
   };
 };
 
+const fakeFarmNote = (defaultData = {}) => {
+  return {
+    note: faker.lorem.sentence(),
+    is_private: false,
+    ...defaultData,
+  };
+};
+
+const farm_noteFactory = async (
+  { promisedUserFarm = userFarmFactory({ roleId: 1 }) } = {},
+  farmNote = fakeFarmNote(),
+) => {
+  const [{ user_id, farm_id }] = await Promise.all([promisedUserFarm]);
+
+  return await knex('farm_note')
+    .insert({ user_id, farm_id, ...baseProperties(user_id), ...farmNote })
+    .returning('*');
+};
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -3056,5 +3075,7 @@ export default {
   fakeMarketDirectoryPartnerAuth,
   market_directory_partner_authFactory,
   market_directory_partner_permissionsFactory,
+  fakeFarmNote,
+  farm_noteFactory,
   baseProperties,
 };

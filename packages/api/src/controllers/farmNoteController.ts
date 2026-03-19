@@ -13,20 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Response } from 'express';
+import { FarmNoteBody, FarmNoteParams } from '../middleware/validation/checkFarmNote.js';
 import FarmNoteModel from '../models/farmNoteModel.js';
+import { LiteFarmRequest } from '../types.js';
 
 const farmNoteController = {
   getFarmNotes() {
-    return async (req, res) => {
+    return async (req: LiteFarmRequest, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
 
+        /* @ts-expect-error known issue with models */
         const notes = await FarmNoteModel.query()
           .whereNotDeleted()
           .where('farm_id', farm_id)
-          .where(function () {
-            this.where('is_private', false).orWhere('user_id', user_id);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .where((builder: any) => {
+            builder.where('is_private', false).orWhere('user_id', user_id);
           })
           .orderBy('created_at', 'desc');
 
@@ -39,11 +44,12 @@ const farmNoteController = {
   },
 
   createFarmNote() {
-    return async (req, res) => {
+    return async (req: LiteFarmRequest<unknown, unknown, unknown, FarmNoteBody>, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
 
+        /* @ts-expect-error known issue with models */
         const note = await FarmNoteModel.query()
           .context({ user_id })
           .insert({ farm_id, user_id, ...res.locals.farmNoteData })
@@ -58,11 +64,15 @@ const farmNoteController = {
   },
 
   editFarmNote() {
-    return async (req, res) => {
+    return async (
+      req: LiteFarmRequest<unknown, FarmNoteParams, unknown, FarmNoteBody>,
+      res: Response,
+    ) => {
       try {
         const { id } = req.params;
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
 
+        /* @ts-expect-error known issue with models */
         const updated = await FarmNoteModel.query()
           .context({ user_id })
           .patchAndFetchById(id, res.locals.farmNoteData);
@@ -76,11 +86,15 @@ const farmNoteController = {
   },
 
   deleteFarmNote() {
-    return async (req, res) => {
+    return async (
+      req: LiteFarmRequest<unknown, FarmNoteParams, unknown, unknown>,
+      res: Response,
+    ) => {
       try {
         const { id } = req.params;
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
 
+        /* @ts-expect-error known issue with models */
         await FarmNoteModel.query().context({ user_id }).deleteById(id);
 
         return res.status(200).json({ message: 'Note deleted' });

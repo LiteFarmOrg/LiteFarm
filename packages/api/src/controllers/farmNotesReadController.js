@@ -37,20 +37,15 @@ const farmNotesReadController = {
       try {
         const { user_id } = req.auth;
         const { farm_id } = req.headers;
-        const last_read_at = new Date().toISOString();
 
-        const existing = await FarmNotesReadModel.query().where({ user_id, farm_id }).first();
-
-        if (existing) {
-          await FarmNotesReadModel.query()
-            .context({ user_id })
-            .patch({ last_read_at })
-            .where({ user_id, farm_id });
-        } else {
-          await FarmNotesReadModel.query()
-            .context({ user_id })
-            .insert({ user_id, farm_id, last_read_at });
-        }
+        await FarmNotesReadModel.query()
+          .insert({
+            user_id,
+            farm_id,
+            last_read_at: new Date().toISOString(),
+          })
+          .onConflict(['user_id', 'farm_id'])
+          .merge();
 
         return res.status(204).send();
       } catch (error) {

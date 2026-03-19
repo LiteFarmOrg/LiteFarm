@@ -421,7 +421,7 @@ export interface FarmNote {
   note: string;
   is_private: boolean;
   image_url?: string | null;
-  created_at: string;
+  updated_at: string;
   to_sync?: boolean; // client-only flag for offline-queued notes
 }
 

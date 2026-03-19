@@ -19,16 +19,17 @@ import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
 import { checkFarmNoteBody, checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 const router = express.Router();
 
-router.get('/', checkScope(['get:farm_notes']), hasFarmAccess({}), controller.getFarmNotes());
+router.get('/', checkScope(['get:farm_notes']), controller.getFarmNotes());
 
 router.post(
   '/',
   checkScope(['add:farm_notes']),
-  hasFarmAccess({}),
   multerDiskUpload,
+  validateFileExtension,
   checkFarmNoteBody(),
   controller.createFarmNote(),
 );
@@ -39,6 +40,7 @@ router.patch(
   hasFarmAccess({ tableName: 'farm_note' }),
   checkFarmNoteId('edit'),
   multerDiskUpload,
+  validateFileExtension,
   checkFarmNoteBody(),
   controller.editFarmNote(),
 );

@@ -19,8 +19,8 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import FarmNoteModel from '../../models/farmNoteModel.js';
 import {
   s3,
-  getPublicS3BucketName,
-  getPublicS3Url,
+  getPrivateS3Url,
+  getPrivateS3BucketName,
   imaginaryPost,
 } from '../../util/digitalOceanSpaces.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
@@ -61,12 +61,12 @@ export function checkFarmNoteBody() {
         await s3.send(
           new PutObjectCommand({
             Body: compressedImage.data,
-            Bucket: getPublicS3BucketName(),
+            Bucket: getPrivateS3BucketName(),
             Key: fileName,
-            ACL: 'public-read',
+            ACL: 'private',
           }),
         );
-        farmNoteData.image_url = `${getPublicS3Url()}/${fileName}`;
+        farmNoteData.image_url = `${getPrivateS3Url()}/${fileName}`;
       } else if (data.image_url === null) {
         farmNoteData.image_url = null;
       }

@@ -34,8 +34,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 // Mock S3/imaginary so file upload tests work without live infrastructure
 jest.mock('../src/util/digitalOceanSpaces.js', () => ({
   s3: { send: jest.fn().mockResolvedValue({}) },
-  getPublicS3BucketName: jest.fn().mockReturnValue('test-bucket'),
-  getPublicS3Url: jest.fn().mockReturnValue('http://localhost:9000/test-bucket'),
+  getPrivateS3BucketName: jest.fn().mockReturnValue('test-bucket'),
+  getPrivateS3Url: jest.fn().mockReturnValue('http://localhost:9000/test-bucket'),
   imaginaryPost: jest.fn().mockResolvedValue({ data: Buffer.from('fake-image') }),
 }));
 

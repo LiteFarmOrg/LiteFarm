@@ -24,10 +24,9 @@ class FarmNoteModel extends BaseModel {
     return 'id';
   }
 
-  // Override to expose created_at for date display on the frontend.
-  // BaseModel strips created_at by default (see baseModel.js line 83).
+  // Override to expose updated_at and created_by_user_id for display on the frontend.
   static get hidden() {
-    return ['created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted'];
+    return ['updated_by_user_id', 'created_at', 'deleted'];
   }
 
   static get jsonSchema() {

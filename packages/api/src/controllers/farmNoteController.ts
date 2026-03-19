@@ -33,7 +33,7 @@ const farmNoteController = {
           .where((builder: any) => {
             builder.where('is_private', false).orWhere('user_id', user_id);
           })
-          .orderBy('created_at', 'desc');
+          .orderBy('updated_at', 'desc');
 
         return res.status(200).json(notes);
       } catch (error) {

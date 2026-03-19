@@ -21,7 +21,7 @@ class FarmNoteModel extends BaseModel {
   }
 
   static get idColumn() {
-    return 'farm_note_id';
+    return 'id';
   }
 
   // Override to expose created_at for date display on the frontend.
@@ -35,7 +35,7 @@ class FarmNoteModel extends BaseModel {
       type: 'object',
       required: ['note', 'farm_id'],
       properties: {
-        farm_note_id: { type: 'string' },
+        id: { type: 'string' },
         farm_id: { type: 'string' },
         user_id: { type: 'string' },
         note: { type: 'string' },

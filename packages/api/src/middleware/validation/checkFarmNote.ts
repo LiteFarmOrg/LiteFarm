@@ -30,7 +30,7 @@ export interface FarmNoteBody {
 }
 
 export interface FarmNoteParams {
-  farm_note_id: string;
+  id: string;
 }
 
 export function checkFarmNoteBody() {
@@ -90,11 +90,11 @@ export function checkFarmNoteId(action: string) {
     next: NextFunction,
   ) => {
     const user_id = req.auth?.user_id;
-    const { farm_note_id } = req.params;
+    const { id } = req.params;
 
     try {
       /* @ts-expect-error known issue with models */
-      const existing = await FarmNoteModel.query().findById(farm_note_id).whereNotDeleted();
+      const existing = await FarmNoteModel.query().findById(id).whereNotDeleted();
       if (!existing) {
         return res.status(404).json({ error: 'Note not found' });
       }

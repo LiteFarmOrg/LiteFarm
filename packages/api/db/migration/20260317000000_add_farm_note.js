@@ -19,7 +19,7 @@
  */
 export const up = async function (knex) {
   await knex.schema.createTable('farm_note', (table) => {
-    table.uuid('farm_note_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
     table.string('user_id').notNullable().references('user_id').inTable('users');
     table.text('note').notNullable();

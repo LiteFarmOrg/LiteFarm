@@ -34,9 +34,9 @@ router.post(
 );
 
 router.patch(
-  '/:farm_note_id',
+  '/:id',
   checkScope(['edit:farm_notes']),
-  hasFarmAccess({ params: 'farm_note_id' }),
+  hasFarmAccess({ tableName: 'farm_note' }),
   checkFarmNoteId('edit'),
   multerDiskUpload,
   checkFarmNoteBody(),
@@ -44,9 +44,9 @@ router.patch(
 );
 
 router.delete(
-  '/:farm_note_id',
+  '/:id',
   checkScope(['delete:farm_notes']),
-  hasFarmAccess({ params: 'farm_note_id' }),
+  hasFarmAccess({ tableName: 'farm_note' }),
   checkFarmNoteId('delete'),
   controller.deleteFarmNote(),
 );

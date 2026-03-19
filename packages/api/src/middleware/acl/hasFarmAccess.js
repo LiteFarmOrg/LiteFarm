@@ -32,7 +32,6 @@ const entitiesGetters = {
   product_id: fromProductFarm,
   tape_survey_id: fromTapeSurvey,
   submission_id: fromTapeSurvey,
-  farm_note_id: fromFarmNote,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -288,10 +287,6 @@ function fromProductFarm(product_id, _next, farm_id) {
 
 function fromTapeSurvey(submission_id) {
   return knex('tape_survey').where({ submission_id }).first();
-}
-
-function fromFarmNote(farm_note_id) {
-  return knex('farm_note').where({ farm_note_id }).first();
 }
 
 function sameFarm(object, farm) {

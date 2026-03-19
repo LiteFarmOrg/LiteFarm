@@ -60,12 +60,12 @@ const farmNoteController = {
   editFarmNote() {
     return async (req, res) => {
       try {
-        const { farm_note_id } = req.params;
+        const { id } = req.params;
         const { user_id } = req.auth;
 
         const updated = await FarmNoteModel.query()
           .context({ user_id })
-          .patchAndFetchById(farm_note_id, res.locals.farmNoteData);
+          .patchAndFetchById(id, res.locals.farmNoteData);
 
         return res.status(200).json(updated);
       } catch (error) {
@@ -78,10 +78,10 @@ const farmNoteController = {
   deleteFarmNote() {
     return async (req, res) => {
       try {
-        const { farm_note_id } = req.params;
+        const { id } = req.params;
         const { user_id } = req.auth;
 
-        await FarmNoteModel.query().context({ user_id }).deleteById(farm_note_id);
+        await FarmNoteModel.query().context({ user_id }).deleteById(id);
 
         return res.status(200).json({ message: 'Note deleted' });
       } catch (error) {

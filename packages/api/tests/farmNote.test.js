@@ -216,7 +216,7 @@ describe('Farm Note tests', () => {
     });
   });
 
-  describe('PATCH /farm_note/:farm_note_id', () => {
+  describe('PATCH /farm_note/:id', () => {
     test('Author can update note text and is_private', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const note = await insertNote(knex, {
@@ -228,7 +228,7 @@ describe('Farm Note tests', () => {
 
       const res = await chai
         .request(server)
-        .patch(`/farm_note/${note.farm_note_id}`)
+        .patch(`/farm_note/${note.id}`)
         .set('user_id', user_id)
         .set('farm_id', farm_id)
         .field('data', JSON.stringify({ note: 'Updated text', is_private: true }));
@@ -252,7 +252,7 @@ describe('Farm Note tests', () => {
 
       const res = await chai
         .request(server)
-        .patch(`/farm_note/${note.farm_note_id}`)
+        .patch(`/farm_note/${note.id}`)
         .set('user_id', other_id)
         .set('farm_id', farm_id)
         .send({ note: 'Edited by non-author', is_private: false });
@@ -274,7 +274,7 @@ describe('Farm Note tests', () => {
 
       const res = await chai
         .request(server)
-        .patch(`/farm_note/${note.farm_note_id}`)
+        .patch(`/farm_note/${note.id}`)
         .set('user_id', other_user_id)
         .set('farm_id', other_farm_id)
         .send({ note: 'Should fail', is_private: false });
@@ -292,7 +292,7 @@ describe('Farm Note tests', () => {
       });
       const res = await chai
         .request(server)
-        .patch(`/farm_note/${note.farm_note_id}`)
+        .patch(`/farm_note/${note.id}`)
         .set('user_id', user_id)
         .set('farm_id', farm_id)
         .field('data', JSON.stringify({ image_url: null }));
@@ -301,14 +301,14 @@ describe('Farm Note tests', () => {
     });
   });
 
-  describe('DELETE /farm_note/:farm_note_id', () => {
+  describe('DELETE /farm_note/:id', () => {
     test('Author can soft-delete their note', async () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const note = await insertNote(knex, { farm_id, user_id, note: 'To be deleted' });
 
       const res = await chai
         .request(server)
-        .delete(`/farm_note/${note.farm_note_id}`)
+        .delete(`/farm_note/${note.id}`)
         .set('user_id', user_id)
         .set('farm_id', farm_id);
 
@@ -320,7 +320,7 @@ describe('Farm Note tests', () => {
         .get('/farm_note')
         .set('user_id', user_id)
         .set('farm_id', farm_id);
-      expect(getRes.body.some((n) => n.farm_note_id === note.farm_note_id)).toBe(false);
+      expect(getRes.body.some((n) => n.id === note.id)).toBe(false);
     });
 
     test('Non-author receives 403', async () => {
@@ -333,7 +333,7 @@ describe('Farm Note tests', () => {
 
       const res = await chai
         .request(server)
-        .delete(`/farm_note/${note.farm_note_id}`)
+        .delete(`/farm_note/${note.id}`)
         .set('user_id', other_id)
         .set('farm_id', farm_id);
 
@@ -350,7 +350,7 @@ describe('Farm Note tests', () => {
 
       const res = await chai
         .request(server)
-        .delete(`/farm_note/${note.farm_note_id}`)
+        .delete(`/farm_note/${note.id}`)
         .set('user_id', other_user_id)
         .set('farm_id', other_farm_id);
 

@@ -13,29 +13,41 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Response } from 'express';
 import FarmNotesReadModel from '../models/farmNotesReadModel.js';
+import { HttpError, LiteFarmRequest } from '../types.js';
+
+interface FarmNotesReadModelType {
+  user_id: string;
+  farm_id: string;
+  last_read_at: string;
+}
 
 const farmNotesReadController = {
   getFarmNotesRead() {
-    return async (req, res) => {
+    return async (req: LiteFarmRequest, res: Response) => {
       try {
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
         const { farm_id } = req.headers;
 
-        const row = await FarmNotesReadModel.query().where({ user_id, farm_id }).first();
+        const row = (await FarmNotesReadModel.query().where({ user_id, farm_id }).first()) as
+          | FarmNotesReadModelType
+          | undefined;
 
         return res.status(200).json({ last_read_at: row ? row.last_read_at : null });
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },
 
   markFarmNotesRead() {
-    return async (req, res) => {
+    return async (req: LiteFarmRequest, res: Response) => {
       try {
-        const { user_id } = req.auth;
+        const { user_id } = req.auth!;
         const { farm_id } = req.headers;
 
         await FarmNotesReadModel.query()
@@ -48,9 +60,11 @@ const farmNotesReadController = {
           .merge();
 
         return res.status(204).send();
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },

@@ -54,6 +54,14 @@ const propertiesToPick = {
   farm_site_boundary: ['location_id'],
   field: ['station_id', 'organic_status', 'transition_date', 'location_id'],
   garden: ['station_id', 'organic_status', 'transition_date', 'location_id'],
+  greenhouse: [
+    'organic_status',
+    'transition_date',
+    'supplemental_lighting',
+    'co2_enrichment',
+    'greenhouse_heated',
+    'location_id',
+  ],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -63,6 +71,7 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.FARM_SITE_BOUNDARY:
     case InternalMapLocationType.FIELD:
     case InternalMapLocationType.GARDEN:
+    case InternalMapLocationType.GREENHOUSE:
       return { area: pick(data, areaProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);
@@ -73,6 +82,7 @@ const getOrganicHistoryProperties = (data, locationType) => {
   switch (locationType) {
     case InternalMapLocationType.FIELD:
     case InternalMapLocationType.GARDEN:
+    case InternalMapLocationType.GREENHOUSE:
       return {
         organic_history: {
           effective_date: getDateInputFormat(),

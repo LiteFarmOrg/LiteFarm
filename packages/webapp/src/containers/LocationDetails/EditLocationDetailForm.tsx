@@ -34,6 +34,7 @@ import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDe
 import { PureFarmSiteBoundary } from '../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 import { PureField } from '../../components/LocationDetailLayout/AreaDetails/Field';
 import { PureGarden } from '../../components/LocationDetailLayout/AreaDetails/Garden';
+import { PureGreenhouse } from '../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -62,6 +63,8 @@ const PureComponentMap: {
   [InternalMapLocationType.FIELD]: PureField,
   // @ts-expect-error other locations not present yet
   [InternalMapLocationType.GARDEN]: PureGarden,
+  // @ts-expect-error other locations not present yet
+  [InternalMapLocationType.GREENHOUSE]: PureGreenhouse,
 };
 
 // @ts-expect-error other locations not present yet
@@ -71,6 +74,7 @@ const translationMap: { [key in InternalMapLocationType]: string } = {
   [InternalMapLocationType.FARM_SITE_BOUNDARY]: 'FARM_MAP.MAP_FILTER.FSB',
   [InternalMapLocationType.FIELD]: 'FARM_MAP.MAP_FILTER.FIELD',
   [InternalMapLocationType.GARDEN]: 'FARM_MAP.MAP_FILTER.GARDEN',
+  [InternalMapLocationType.GREENHOUSE]: 'FARM_MAP.MAP_FILTER.GREENHOUSE',
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

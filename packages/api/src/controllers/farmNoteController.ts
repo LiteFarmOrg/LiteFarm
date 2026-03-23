@@ -17,7 +17,7 @@ import { Response } from 'express';
 import { FarmNoteBody, FarmNoteParams } from '../middleware/validation/checkFarmNote.js';
 import FarmNoteModel from '../models/farmNoteModel.js';
 import { deleteImages, getPrivateS3Url } from '../util/digitalOceanSpaces.js';
-import { LiteFarmRequest } from '../types.js';
+import { HttpError, LiteFarmRequest } from '../types.js';
 
 const farmNoteController = {
   getFarmNotes() {
@@ -37,9 +37,11 @@ const farmNoteController = {
           .orderBy('updated_at', 'desc');
 
         return res.status(200).json(notes);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },
@@ -112,9 +114,11 @@ const farmNoteController = {
         await FarmNoteModel.query().context({ user_id }).deleteById(id);
 
         return res.sendStatus(204);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },

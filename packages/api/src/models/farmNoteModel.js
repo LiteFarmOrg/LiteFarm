@@ -32,15 +32,15 @@ class FarmNoteModel extends BaseModel {
 
   async $beforeInsert(queryContext) {
     await super.$beforeInsert(queryContext);
-    this.trimStringProperties();
+    this.trimNote();
   }
 
   async $beforeUpdate(opt, queryContext) {
     await super.$beforeUpdate(opt, queryContext);
-    this.trimStringProperties();
+    this.trimNote();
   }
 
-  trimStringProperties() {
+  trimNote() {
     if (this.note) {
       this.note = checkAndTrimString(this.note);
     }

@@ -2,23 +2,16 @@ import { useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import {
   areaProperties,
-  barnEnum,
-  fenceEnum,
   fieldEnum,
   figureProperties,
-  greenhouseEnum,
   lineProperties,
   locationProperties,
   pointProperties,
-  surfaceWaterEnum,
 } from '../constants';
 import moment from 'moment';
-import { get } from 'lodash-es';
 import { pick } from '../../util/pick';
 import { InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
-import { gardenEntitiesSelector } from '../gardenSlice';
-import { point } from '@turf/helpers';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -33,12 +26,6 @@ export const useLocationPageType = () => {
     }),
     [match],
   );
-};
-
-const boolToString = (bool) => {
-  if (bool === true) return 'true';
-  else if (bool === false) return 'false';
-  else return undefined;
 };
 
 export const getFormData = (location) => {

@@ -14,6 +14,7 @@ import moment from 'moment';
 import { get } from 'lodash-es';
 import { pick } from '../../util/pick';
 import { InternalMapLocationType } from '../../store/api/types';
+import { getDateInputFormat } from '../../util/moment';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -50,6 +51,7 @@ const propertiesToPick = {
   barn: ['wash_and_pack', 'cold_storage', 'used_for_animals', 'location_id'],
   ceremonial_area: ['location_id'],
   farm_site_boundary: ['location_id'],
+  field: ['station_id', 'organic_status', 'transition_date', 'location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -57,9 +59,24 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.BARN:
     case InternalMapLocationType.CEREMONIAL_AREA:
     case InternalMapLocationType.FARM_SITE_BOUNDARY:
+    case InternalMapLocationType.FIELD:
       return { area: pick(data, areaProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);
+  }
+};
+
+const getOrganicHistoryProperties = (data, locationType) => {
+  switch (locationType) {
+    case InternalMapLocationType.FIELD:
+      return {
+        organic_history: {
+          effective_date: getDateInputFormat(),
+          organic_status: data.organic_status,
+        },
+      };
+    default:
+      return {};
   }
 };
 
@@ -69,7 +86,10 @@ export const formatLocationTypeToLocationForDB = (data, locationType) => {
       ...pick(data, figureProperties),
       ...getFigureTypeProperties(data, locationType),
     },
-    [locationType]: pick(data, propertiesToPick[locationType]),
+    [locationType]: {
+      ...pick(data, propertiesToPick[locationType]),
+      ...getOrganicHistoryProperties(data, locationType),
+    },
     ...pick(data, locationProperties),
   };
 };

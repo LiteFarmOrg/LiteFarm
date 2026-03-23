@@ -39,6 +39,7 @@ import { PureNaturalArea } from '../../components/LocationDetailLayout/AreaDetai
 import { PureResidence } from '../../components/LocationDetailLayout/AreaDetails/Residence';
 import { PureSurfaceWater } from '../../components/LocationDetailLayout/AreaDetails/SurfaceWater';
 import { PureBufferZone } from '../../components/LocationDetailLayout/LineDetails/BufferZone';
+import { PureFence } from '../../components/LocationDetailLayout/LineDetails/Fence';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -77,6 +78,8 @@ const PureComponentMap: {
   [InternalMapLocationType.SURFACE_WATER]: PureSurfaceWater,
   // @ts-expect-error other locations not present yet
   [InternalMapLocationType.BUFFER_ZONE]: PureBufferZone,
+  // @ts-expect-error default case not present yet
+  [InternalMapLocationType.FENCE]: PureFence,
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

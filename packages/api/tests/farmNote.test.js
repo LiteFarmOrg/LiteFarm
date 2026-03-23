@@ -321,7 +321,7 @@ describe('Farm Note tests', () => {
       );
 
       const res = await deleteRequest(createdNote.id, userFarmIds);
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(204);
 
       const [deletedRecord] = await knex('farm_note').where('id', createdNote.id);
       expect(deletedRecord.deleted).toBe(true);

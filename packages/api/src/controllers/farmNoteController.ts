@@ -97,7 +97,7 @@ const farmNoteController = {
         /* @ts-expect-error known issue with models */
         await FarmNoteModel.query().context({ user_id }).deleteById(id);
 
-        return res.status(200).json({ message: 'Note deleted' });
+        return res.sendStatus(204);
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

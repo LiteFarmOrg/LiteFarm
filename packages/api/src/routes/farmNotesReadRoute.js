@@ -15,20 +15,11 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import controller from '../controllers/farmNotesReadController.js';
 
 const router = express.Router();
 
-// Both endpoints use get:farm_notes scope. The (user_id, farm_id) composite key
-// is resolved from req.auth and req.headers — no entity ID lookup needed.
-router.get('/', checkScope(['get:farm_notes']), hasFarmAccess({}), controller.getFarmNotesRead());
-
-router.patch(
-  '/',
-  checkScope(['get:farm_notes']),
-  hasFarmAccess({}),
-  controller.markFarmNotesRead(),
-);
+router.get('/', checkScope(['get:farm_notes']), controller.getFarmNotesRead());
+router.patch('/', checkScope(['get:farm_notes']), controller.markFarmNotesRead());
 
 export default router;

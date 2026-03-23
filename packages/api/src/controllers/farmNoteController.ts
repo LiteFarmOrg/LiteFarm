@@ -16,6 +16,7 @@
 import { Response } from 'express';
 import { FarmNoteBody, FarmNoteParams } from '../middleware/validation/checkFarmNote.js';
 import FarmNoteModel from '../models/farmNoteModel.js';
+import { deleteImages, getPrivateS3Url } from '../util/digitalOceanSpaces.js';
 import { LiteFarmRequest } from '../types.js';
 
 const farmNoteController = {
@@ -73,9 +74,19 @@ const farmNoteController = {
         const { user_id } = req.auth!;
 
         /* @ts-expect-error known issue with models */
+        const existing = await FarmNoteModel.query().findById(id);
+
+        /* @ts-expect-error known issue with models */
         const updated = await FarmNoteModel.query()
           .context({ user_id })
           .patchAndFetchById(id, res.locals.farmNoteData);
+
+        if (res.locals.farmNoteData !== undefined && existing.image_url) {
+          const bucketKey = existing.image_url.replace(`${getPrivateS3Url()}/`, '');
+          deleteImages({ keys: [bucketKey], visibility: 'private' }).catch((err) => {
+            console.error('Failed to delete old farm note image:', err);
+          });
+        }
 
         return res.status(200).json(updated);
       } catch (error) {

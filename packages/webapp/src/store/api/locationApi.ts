@@ -67,7 +67,6 @@ export const locationApi = api.injectEndpoints({
       }>
     >({
       query: ({ data, type, location_id }) => {
-        console.log(data);
         return {
           url: `${locationURL}/${type}/${location_id}`,
           method: 'PUT',

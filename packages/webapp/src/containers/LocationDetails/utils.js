@@ -15,6 +15,7 @@ import { get } from 'lodash-es';
 import { pick } from '../../util/pick';
 import { InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
+import { gardenEntitiesSelector } from '../gardenSlice';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -52,6 +53,7 @@ const propertiesToPick = {
   ceremonial_area: ['location_id'],
   farm_site_boundary: ['location_id'],
   field: ['station_id', 'organic_status', 'transition_date', 'location_id'],
+  garden: ['station_id', 'organic_status', 'transition_date', 'location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -60,6 +62,7 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.CEREMONIAL_AREA:
     case InternalMapLocationType.FARM_SITE_BOUNDARY:
     case InternalMapLocationType.FIELD:
+    case InternalMapLocationType.GARDEN:
       return { area: pick(data, areaProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);
@@ -69,6 +72,7 @@ const getFigureTypeProperties = (data, locationType) => {
 const getOrganicHistoryProperties = (data, locationType) => {
   switch (locationType) {
     case InternalMapLocationType.FIELD:
+    case InternalMapLocationType.GARDEN:
       return {
         organic_history: {
           effective_date: getDateInputFormat(),

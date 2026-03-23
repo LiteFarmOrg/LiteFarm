@@ -33,6 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { PureFarmSiteBoundary } from '../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 import { PureField } from '../../components/LocationDetailLayout/AreaDetails/Field';
+import { PureGarden } from '../../components/LocationDetailLayout/AreaDetails/Garden';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -59,6 +60,8 @@ const PureComponentMap: {
   [InternalMapLocationType.FARM_SITE_BOUNDARY]: PureFarmSiteBoundary,
   // @ts-expect-error PureComponent not yet typed
   [InternalMapLocationType.FIELD]: PureField,
+  // @ts-expect-error other locations not present yet
+  [InternalMapLocationType.GARDEN]: PureGarden,
 };
 
 // @ts-expect-error other locations not present yet
@@ -67,6 +70,7 @@ const translationMap: { [key in InternalMapLocationType]: string } = {
   [InternalMapLocationType.CEREMONIAL_AREA]: 'FARM_MAP.MAP_FILTER.CA',
   [InternalMapLocationType.FARM_SITE_BOUNDARY]: 'FARM_MAP.MAP_FILTER.FSB',
   [InternalMapLocationType.FIELD]: 'FARM_MAP.MAP_FILTER.FIELD',
+  [InternalMapLocationType.GARDEN]: 'FARM_MAP.MAP_FILTER.GARDEN',
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

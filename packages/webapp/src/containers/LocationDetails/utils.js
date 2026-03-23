@@ -68,6 +68,13 @@ const propertiesToPick = {
   surface_water: ['used_for_irrigation', 'location_id'],
   buffer_zone: ['location_id'],
   fence: ['pressure_treated', 'location_id'],
+  watercourse: [
+    'used_for_irrigation',
+    'includes_riparian_buffer',
+    'buffer_width',
+    'buffer_width_unit',
+    'location_id',
+  ],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -84,6 +91,7 @@ const getFigureTypeProperties = (data, locationType) => {
       return { area: pick(data, areaProperties) };
     case InternalMapLocationType.BUFFER_ZONE:
     case InternalMapLocationType.FENCE:
+    case InternalMapLocationType.WATERCOURSE:
       return { line: pick(data, lineProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);

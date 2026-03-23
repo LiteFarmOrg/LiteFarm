@@ -106,7 +106,7 @@ describe('Farm Note tests', () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const farmNote = { note: 'Public note', is_private: false };
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { farm_id, user_id: author_id } },
+        { promisedUserFarm: [{ farm_id, user_id: author_id }] },
         farmNote,
       );
 
@@ -130,7 +130,7 @@ describe('Farm Note tests', () => {
       const [{ user_id: other_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] });
       const farmNote = { note: 'Private note for author', is_private: true };
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { farm_id, user_id: author_id } },
+        { promisedUserFarm: [{ farm_id, user_id: author_id }] },
         farmNote,
       );
 
@@ -155,7 +155,7 @@ describe('Farm Note tests', () => {
 
     test('Deleted notes are not returned', async () => {
       const userFarmIds = await createUserFarmIds(1);
-      const [createdNote] = await mocks.farm_noteFactory({ promisedUserFarm: userFarmIds });
+      const [createdNote] = await mocks.farm_noteFactory({ promisedUserFarm: [userFarmIds] });
       await knex('farm_note').where('id', createdNote.id).update({ deleted: true });
 
       const res = await getRequest(userFarmIds);
@@ -168,7 +168,7 @@ describe('Farm Note tests', () => {
 
       for (const note of ['A', 'B', 'C']) {
         await new Promise((resolve) => setTimeout(resolve, 10));
-        await mocks.farm_noteFactory({ promisedUserFarm: userFarmIds }, { note });
+        await mocks.farm_noteFactory({ promisedUserFarm: [userFarmIds] }, { note });
       }
 
       const res = await getRequest(userFarmIds);
@@ -252,7 +252,7 @@ describe('Farm Note tests', () => {
       const userFarmIds = await createUserFarmIds(1);
       const originalNote = { note: 'Original text', is_private: false };
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: userFarmIds },
+        { promisedUserFarm: [userFarmIds] },
         originalNote,
       );
 
@@ -268,7 +268,7 @@ describe('Farm Note tests', () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const [{ user_id: other_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] });
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { farm_id, user_id: author_id } },
+        { promisedUserFarm: [{ farm_id, user_id: author_id }] },
         { note: 'Should not be edited', is_private: false },
       );
 
@@ -284,7 +284,7 @@ describe('Farm Note tests', () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const [{ user_id: other_user_id, farm_id: other_farm_id }] = await mocks.userFarmFactory();
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { farm_id, user_id: author_id } },
+        { promisedUserFarm: [{ farm_id, user_id: author_id }] },
         { note: 'Wrong farm', is_private: false },
       );
 
@@ -299,7 +299,7 @@ describe('Farm Note tests', () => {
     test('Author can remove the image', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: userFarmIds },
+        { promisedUserFarm: [userFarmIds] },
         {
           note: 'NOTE with image to be removed',
           image_url: 'http://example.com/image.jpg',
@@ -316,7 +316,7 @@ describe('Farm Note tests', () => {
     test('Author can soft-delete their note', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: userFarmIds },
+        { promisedUserFarm: [userFarmIds] },
         { note: 'To be deleted' },
       );
 
@@ -331,7 +331,7 @@ describe('Farm Note tests', () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const [{ user_id: other_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] });
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { user_id: author_id, farm_id } },
+        { promisedUserFarm: [{ user_id: author_id, farm_id }] },
         { note: 'Protected note', is_private: false },
       );
 
@@ -343,7 +343,7 @@ describe('Farm Note tests', () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const [{ user_id: other_user_id, farm_id: other_farm_id }] = await mocks.userFarmFactory();
       const [createdNote] = await mocks.farm_noteFactory(
-        { promisedUserFarm: { farm_id, user_id: author_id } },
+        { promisedUserFarm: [{ farm_id, user_id: author_id }] },
         { note: 'Wrong farm', is_private: false },
       );
 

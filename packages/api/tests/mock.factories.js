@@ -2891,7 +2891,7 @@ const farm_noteFactory = async (
   { promisedUserFarm = userFarmFactory({ roleId: 1 }) } = {},
   farmNote = fakeFarmNote(),
 ) => {
-  const [{ user_id, farm_id }] = await Promise.all([promisedUserFarm]);
+  const [[{ user_id, farm_id }]] = await Promise.all([promisedUserFarm]);
 
   return await knex('farm_note')
     .insert({ user_id, farm_id, ...baseProperties(user_id), ...farmNote })

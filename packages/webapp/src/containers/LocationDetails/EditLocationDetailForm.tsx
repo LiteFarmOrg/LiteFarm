@@ -25,12 +25,12 @@ import {
 import useLocationsById from '../../hooks/location/useLocationsById';
 import UnableToRetireModal from '../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../components/Modals/RetireConfirmationModal';
-import { useLocationPageType } from './utils';
+import { formatLocationTypeToLocationForDB, useLocationPageType } from './utils';
 import { PureBarn } from '../../components/LocationDetailLayout/AreaDetails/Barn';
 import { InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
-import { getLocationObjectFromBarn } from '../barnSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
+import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -49,13 +49,16 @@ type PureComponentProps = {
 const PureComponentMap: {
   [key in InternalMapLocationType]: React.ComponentType<PureComponentProps>;
 } = {
-  // @ts-expect-error PureBarn not yet typed
+  // @ts-expect-error PureComponent not yet typed
   [InternalMapLocationType.BARN]: PureBarn,
+  // @ts-expect-error PureComponent not yet typed
+  [InternalMapLocationType.CEREMONIAL_AREA]: PureCeremonialArea,
 };
 
 // @ts-expect-error other locations not present yet
 const translationMap: { [key in InternalMapLocationType]: string } = {
   [InternalMapLocationType.BARN]: 'FARM_MAP.MAP_FILTER.BARN',
+  [InternalMapLocationType.CEREMONIAL_AREA]: 'FARM_MAP.MAP_FILTER.CA',
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {
@@ -94,11 +97,14 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
     const { formData } = data;
     try {
       await updateLocationByType({
-        data: getLocationObjectFromBarn({
-          ...formData,
-          ...match.params,
-          figure_id: locationData?.figure_id,
-        }) as InternalMapLocation,
+        data: formatLocationTypeToLocationForDB(
+          {
+            ...formData,
+            ...match.params,
+            figure_id: locationData?.figure_id,
+          },
+          locationType,
+        ) as InternalMapLocation,
         type: locationType,
         location_id: location_id,
       }).unwrap();

@@ -16,7 +16,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { isAdminSelector, measurementSelector } from '../userFarmSlice';
+import { isAdminSelector, loginSelector, measurementSelector } from '../userFarmSlice';
 import {
   useCheckDeleteLocationMutation,
   useDeleteLocationMutation,
@@ -27,7 +27,7 @@ import UnableToRetireModal from '../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../components/Modals/RetireConfirmationModal';
 import { formatLocationTypeToLocationForDB, useLocationPageType } from './utils';
 import { PureBarn } from '../../components/LocationDetailLayout/AreaDetails/Barn';
-import { InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
+import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
 import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
@@ -41,6 +41,8 @@ import { PureSurfaceWater } from '../../components/LocationDetailLayout/AreaDeta
 import { PureBufferZone } from '../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { PureFence } from '../../components/LocationDetailLayout/LineDetails/Fence';
 import { PureWatercourse } from '../../components/LocationDetailLayout/LineDetails/Watercourse';
+import { PureGate } from '../../components/LocationDetailLayout/PointDetails/Gate';
+import { setMapCache } from '../Map/mapCacheSlice';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -83,6 +85,8 @@ const PureComponentMap: {
   [InternalMapLocationType.FENCE]: PureFence,
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.WATERCOURSE]: PureWatercourse,
+  // @ts-expect-error default case not present yet
+  [InternalMapLocationType.GATE]: PureGate,
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {
@@ -98,6 +102,7 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
   const { location_id } = match.params;
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
+  const { farm_id } = useSelector(loginSelector);
 
   const { locations: locationData } = useLocationsById(location_id);
 
@@ -119,6 +124,7 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
   const submitForm = async (data: { formData: any }) => {
     if (!isEditLocationPage) return;
     const { formData } = data;
+    formData.farm_id = farm_id;
     try {
       await updateLocationByType({
         data: formatLocationTypeToLocationForDB(
@@ -168,6 +174,9 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
     if (!isViewLocationPage) return;
     try {
       await deleteLocation({ location_id }).unwrap();
+      if (locationData?.figure_type === FigureType.POINT) {
+        dispatch(setMapCache({ maxZoom: undefined, farm_id }));
+      }
       history.push({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(

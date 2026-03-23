@@ -9,6 +9,7 @@ import {
   greenhouseEnum,
   lineProperties,
   locationProperties,
+  pointProperties,
   surfaceWaterEnum,
 } from '../constants';
 import moment from 'moment';
@@ -17,6 +18,7 @@ import { pick } from '../../util/pick';
 import { InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
 import { gardenEntitiesSelector } from '../gardenSlice';
+import { point } from '@turf/helpers';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -50,6 +52,7 @@ export const getFormData = (location) => {
 };
 
 const propertiesToPick = {
+  // areas
   barn: ['wash_and_pack', 'cold_storage', 'used_for_animals', 'location_id'],
   ceremonial_area: ['location_id'],
   farm_site_boundary: ['location_id'],
@@ -66,6 +69,7 @@ const propertiesToPick = {
   natural_area: ['location_id'],
   residence: ['location_id'],
   surface_water: ['used_for_irrigation', 'location_id'],
+  // lines
   buffer_zone: ['location_id'],
   fence: ['pressure_treated', 'location_id'],
   watercourse: [
@@ -75,6 +79,8 @@ const propertiesToPick = {
     'buffer_width_unit',
     'location_id',
   ],
+  // points
+  gate: ['location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -93,6 +99,8 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.FENCE:
     case InternalMapLocationType.WATERCOURSE:
       return { line: pick(data, lineProperties) };
+    case InternalMapLocationType.GATE:
+      return { point: pick(data, pointProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);
   }

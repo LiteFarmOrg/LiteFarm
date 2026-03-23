@@ -67,16 +67,6 @@ const PureComponentMap: {
   [InternalMapLocationType.GREENHOUSE]: PureGreenhouse,
 };
 
-// @ts-expect-error other locations not present yet
-const translationMap: { [key in InternalMapLocationType]: string } = {
-  [InternalMapLocationType.BARN]: 'FARM_MAP.MAP_FILTER.BARN',
-  [InternalMapLocationType.CEREMONIAL_AREA]: 'FARM_MAP.MAP_FILTER.CA',
-  [InternalMapLocationType.FARM_SITE_BOUNDARY]: 'FARM_MAP.MAP_FILTER.FSB',
-  [InternalMapLocationType.FIELD]: 'FARM_MAP.MAP_FILTER.FIELD',
-  [InternalMapLocationType.GARDEN]: 'FARM_MAP.MAP_FILTER.GARDEN',
-  [InternalMapLocationType.GREENHOUSE]: 'FARM_MAP.MAP_FILTER.GREENHOUSE',
-};
-
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {
   const PureComponent = PureComponentMap[locationType];
   const dispatch = useDispatch();
@@ -127,7 +117,9 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
       history.push({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
-          `${t(translationMap[locationType])} ${t('message:MAP.SUCCESS_PATCH')
+          `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
+            'message:MAP.SUCCESS_PATCH',
+          )
             .toString()
             ?.toLowerCase()}`,
         ),
@@ -137,7 +129,9 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
       console.error(error);
       dispatch(
         enqueueErrorSnackbar(
-          `${t('message:MAP.FAIL_PATCH')} ${t(translationMap[locationType]).toLowerCase()}`,
+          `${t('message:MAP.FAIL_PATCH')} ${t(
+            `FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`,
+          ).toLowerCase()}`,
         ),
       );
     }
@@ -159,7 +153,9 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
       history.push({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
-          `${t(translationMap[locationType])} ${t('message:MAP.SUCCESS_DELETE')
+          `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
+            'message:MAP.SUCCESS_DELETE',
+          )
             .toString()
             ?.toLowerCase()}`,
         ),
@@ -169,7 +165,9 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
       history.push({ pathname: history.location.pathname });
       dispatch(
         enqueueErrorSnackbar(
-          `${t('message:MAP.FAIL_DELETE')} ${t(translationMap[locationType]).toLowerCase()}`,
+          `${t('message:MAP.FAIL_DELETE')} ${t(
+            `FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`,
+          ).toLowerCase()}`,
         ),
       );
     }

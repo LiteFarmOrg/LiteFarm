@@ -1,12 +1,12 @@
 /* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
-import EditBufferZoneDetailForm from '../containers/LocationDetails/LineDetails/BufferZoneDetailForm/EditBufferZone';
 import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
 import LocationFieldTechnology from '../containers/LocationDetails/LocationFieldTechnology';
 import LocationIrrigation from '../containers/LocationDetails/LocationIrrigation';
+import EditLocationDetailForm from '../containers/LocationDetails/EditLocationDetailForm';
 
 export default function BufferZoneDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -15,13 +15,13 @@ export default function BufferZoneDetailsRoutes() {
       <Route
         path="/buffer_zone/:location_id/details"
         exact
-        children={<EditBufferZoneDetailForm />}
+        children={<EditLocationDetailForm locationType="buffer_zone" />}
       />
       {isAdmin && (
         <Route
           path="/buffer_zone/:location_id/edit"
           exact
-          children={<EditBufferZoneDetailForm />}
+          children={<EditLocationDetailForm locationType="buffer_zone" />}
         />
       )}
       <Route path="/buffer_zone/:location_id/crops" exact children={<LocationManagementPlan />} />

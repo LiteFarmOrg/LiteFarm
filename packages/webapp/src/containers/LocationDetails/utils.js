@@ -7,6 +7,7 @@ import {
   fieldEnum,
   figureProperties,
   greenhouseEnum,
+  lineProperties,
   locationProperties,
   surfaceWaterEnum,
 } from '../constants';
@@ -65,6 +66,7 @@ const propertiesToPick = {
   natural_area: ['location_id'],
   residence: ['location_id'],
   surface_water: ['used_for_irrigation', 'location_id'],
+  buffer_zone: ['location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -79,6 +81,8 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.RESIDENCE:
     case InternalMapLocationType.SURFACE_WATER:
       return { area: pick(data, areaProperties) };
+    case InternalMapLocationType.BUFFER_ZONE:
+      return { line: pick(data, lineProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);
   }

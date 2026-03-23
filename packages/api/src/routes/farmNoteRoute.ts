@@ -18,9 +18,10 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
-import { checkFarmNoteBody, checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
+import { checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
 import parseMultipartJsonField from '../middleware/format/parseMultipartJsonField.js';
+import uploadFarmNoteImage from '../middleware/image/uploadFarmNoteImage.js';
 
 const router = express.Router();
 
@@ -32,7 +33,7 @@ router.post(
   multerDiskUpload,
   validateFileExtension,
   parseMultipartJsonField,
-  checkFarmNoteBody(),
+  uploadFarmNoteImage(),
   controller.createFarmNote(),
 );
 
@@ -44,7 +45,7 @@ router.patch(
   multerDiskUpload,
   validateFileExtension,
   parseMultipartJsonField,
-  checkFarmNoteBody(),
+  uploadFarmNoteImage(),
   controller.editFarmNote(),
 );
 

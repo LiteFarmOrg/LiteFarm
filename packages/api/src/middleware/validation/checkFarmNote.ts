@@ -14,15 +14,7 @@
  */
 
 import { NextFunction, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import FarmNoteModel from '../../models/farmNoteModel.js';
-import {
-  s3,
-  getPrivateS3Url,
-  getPrivateS3BucketName,
-  imaginaryPost,
-} from '../../util/digitalOceanSpaces.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
 import { MultipartBody } from '../format/parseMultipartJsonField.js';
 
@@ -30,56 +22,6 @@ export type FarmNoteBody = MultipartBody;
 
 export interface FarmNoteParams {
   id: string;
-}
-
-export function checkFarmNoteBody() {
-  return async (
-    req: LiteFarmRequest<unknown, FarmNoteParams, unknown, FarmNoteBody> & {
-      // eslint-disable-next-line no-undef
-      file?: Express.Multer.File;
-    },
-    res: Response,
-    next: NextFunction,
-  ) => {
-    try {
-      const { data } = res.locals;
-      const { farm_id } = req.headers;
-      const farmNoteData = {
-        note: data.note,
-        is_private: data.is_private,
-        image_url: undefined as string | undefined | null,
-      };
-
-      if (req.file) {
-        const fileName = `${farm_id}/farm_note/${uuidv4()}.webp`;
-        const compressedImage = await imaginaryPost(
-          req.file,
-          { width: '1024', type: 'webp' },
-          { endpoint: 'resize' },
-        );
-        await s3.send(
-          new PutObjectCommand({
-            Body: compressedImage.data,
-            Bucket: getPrivateS3BucketName(),
-            Key: fileName,
-            ACL: 'private',
-          }),
-        );
-        farmNoteData.image_url = `${getPrivateS3Url()}/${fileName}`;
-      } else if (data.image_url === null) {
-        farmNoteData.image_url = null;
-      }
-      res.locals.farmNoteData = farmNoteData;
-
-      next();
-    } catch (error: unknown) {
-      console.error(error);
-
-      const err = error as HttpError;
-      const status = err.status || err.code || 500;
-      return res.status(status).json({ error: err.message || err });
-    }
-  };
 }
 
 export function checkFarmNoteId(action: string) {

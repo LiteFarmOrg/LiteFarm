@@ -49,12 +49,14 @@ export const getFormData = (location) => {
 const propertiesToPick = {
   barn: ['wash_and_pack', 'cold_storage', 'used_for_animals', 'location_id'],
   ceremonial_area: ['location_id'],
+  farm_site_boundary: ['location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
   switch (locationType) {
     case InternalMapLocationType.BARN:
     case InternalMapLocationType.CEREMONIAL_AREA:
+    case InternalMapLocationType.FARM_SITE_BOUNDARY:
       return { area: pick(data, areaProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);

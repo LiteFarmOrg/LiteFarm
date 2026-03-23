@@ -31,6 +31,7 @@ import { InternalMapLocation, InternalMapLocationType } from '../../store/api/ty
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
 import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
+import { PureFarmSiteBoundary } from '../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -53,12 +54,15 @@ const PureComponentMap: {
   [InternalMapLocationType.BARN]: PureBarn,
   // @ts-expect-error PureComponent not yet typed
   [InternalMapLocationType.CEREMONIAL_AREA]: PureCeremonialArea,
+  // @ts-expect-error PureComponent not yet typed
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: PureFarmSiteBoundary,
 };
 
 // @ts-expect-error other locations not present yet
 const translationMap: { [key in InternalMapLocationType]: string } = {
   [InternalMapLocationType.BARN]: 'FARM_MAP.MAP_FILTER.BARN',
   [InternalMapLocationType.CEREMONIAL_AREA]: 'FARM_MAP.MAP_FILTER.CA',
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: 'FARM_MAP.MAP_FILTER.FSB',
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

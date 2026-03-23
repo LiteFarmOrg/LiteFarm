@@ -20,6 +20,7 @@ import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
 import { checkFarmNoteBody, checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
+import parseMultipartJsonField from '../middleware/format/parseMultipartJsonField.js';
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.post(
   checkScope(['add:farm_notes']),
   multerDiskUpload,
   validateFileExtension,
+  parseMultipartJsonField,
   checkFarmNoteBody(),
   controller.createFarmNote(),
 );
@@ -41,6 +43,7 @@ router.patch(
   checkFarmNoteId('edit'),
   multerDiskUpload,
   validateFileExtension,
+  parseMultipartJsonField,
   checkFarmNoteBody(),
   controller.editFarmNote(),
 );

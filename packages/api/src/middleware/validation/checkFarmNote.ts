@@ -24,10 +24,9 @@ import {
   imaginaryPost,
 } from '../../util/digitalOceanSpaces.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
+import { MultipartBody } from '../format/parseMultipartJsonField.js';
 
-export interface FarmNoteBody {
-  data: string;
-}
+export type FarmNoteBody = MultipartBody;
 
 export interface FarmNoteParams {
   id: string;
@@ -43,7 +42,7 @@ export function checkFarmNoteBody() {
     next: NextFunction,
   ) => {
     try {
-      const data = JSON.parse(req.body.data);
+      const { data } = res.locals;
       const { farm_id } = req.headers;
       const farmNoteData = {
         note: data.note,

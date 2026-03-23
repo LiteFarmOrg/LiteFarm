@@ -1,4 +1,4 @@
-import { S3Client } from '@aws-sdk/client-s3';
+import { S3Client, DeleteObjectsCommand } from '@aws-sdk/client-s3';
 import axios from 'axios';
 import FormData from 'form-data';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,9 +30,13 @@ function getImaginaryUrl(
   } = {},
 ) {
   const reqUrl = new URL(`${serverUrl}/${endpoint}`);
-  width && reqUrl.searchParams.append('width', width);
+  if (width) {
+    reqUrl.searchParams.append('width', width);
+  }
   reqUrl.searchParams.append('type', type);
-  url && reqUrl.searchParams.append('url', url);
+  if (url) {
+    reqUrl.searchParams.append('url', url);
+  }
   for (const key in imaginaryQueries) {
     reqUrl.searchParams.append(key, imaginaryQueries[key]);
   }
@@ -131,6 +135,21 @@ function getPublicS3Url() {
   return `https://${getPublicS3BucketName()}.${DO_ENDPOINT}`;
 }
 
+async function deleteImages({ keys, visibility }) {
+  const bucketName = visibility === 'private' ? getPrivateS3BucketName() : getPublicS3BucketName();
+
+  const deleteCommand = new DeleteObjectsCommand({
+    Bucket: bucketName,
+    Delete: { Objects: keys.map((key) => ({ Key: key })) },
+  });
+
+  const response = await s3.send(deleteCommand);
+  if (response.Errors?.length) {
+    console.error('S3 deletion errors:', response.Errors);
+    throw new Error('Unable to delete images');
+  }
+}
+
 export {
   getPublicS3BucketName,
   getPrivateS3BucketName,
@@ -142,4 +161,5 @@ export {
   getRandomFileName,
   getPublicS3Url,
   getPrivateS3Url,
+  deleteImages,
 };

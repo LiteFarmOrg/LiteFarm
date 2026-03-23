@@ -37,6 +37,7 @@ import { PureGarden } from '../../components/LocationDetailLayout/AreaDetails/Ga
 import { PureGreenhouse } from '../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 import { PureNaturalArea } from '../../components/LocationDetailLayout/AreaDetails/NaturalArea';
 import { PureResidence } from '../../components/LocationDetailLayout/AreaDetails/Residence';
+import { PureSurfaceWater } from '../../components/LocationDetailLayout/AreaDetails/SurfaceWater';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -71,6 +72,8 @@ const PureComponentMap: {
   [InternalMapLocationType.NATURAL_AREA]: PureNaturalArea,
   // @ts-expect-error PureComponent not yet typed
   [InternalMapLocationType.RESIDENCE]: PureResidence,
+  // @ts-expect-error other locations not present yet
+  [InternalMapLocationType.SURFACE_WATER]: PureSurfaceWater,
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

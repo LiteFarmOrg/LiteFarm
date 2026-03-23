@@ -64,6 +64,7 @@ const propertiesToPick = {
   ],
   natural_area: ['location_id'],
   residence: ['location_id'],
+  surface_water: ['used_for_irrigation', 'location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -76,6 +77,7 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.GREENHOUSE:
     case InternalMapLocationType.NATURAL_AREA:
     case InternalMapLocationType.RESIDENCE:
+    case InternalMapLocationType.SURFACE_WATER:
       return { area: pick(data, areaProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);

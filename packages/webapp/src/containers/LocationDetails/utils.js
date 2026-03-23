@@ -69,6 +69,7 @@ const propertiesToPick = {
   // points
   gate: ['location_id'],
   soil_sample_location: ['location_id'],
+  water_valve: ['source', 'flow_rate', 'flow_rate_unit', 'location_id'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -89,6 +90,7 @@ const getFigureTypeProperties = (data, locationType) => {
       return { line: pick(data, lineProperties) };
     case InternalMapLocationType.GATE:
     case InternalMapLocationType.SOIL_SAMPLE_LOCATION:
+    case InternalMapLocationType.WATER_VALVE:
       return { point: pick(data, pointProperties) };
     default:
       throw new Error(`Unknown location type ${locationType}`);

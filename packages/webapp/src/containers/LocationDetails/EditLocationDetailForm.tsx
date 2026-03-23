@@ -44,6 +44,7 @@ import { PureWatercourse } from '../../components/LocationDetailLayout/LineDetai
 import { PureGate } from '../../components/LocationDetailLayout/PointDetails/Gate';
 import { setMapCache } from '../Map/mapCacheSlice';
 import { PureSoilSampleLocation } from '../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
+import { PureWaterValve } from '../../components/LocationDetailLayout/PointDetails/WaterValve';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -62,6 +63,7 @@ type PureComponentProps = {
 const PureComponentMap: {
   [key in InternalMapLocationType]: React.ComponentType<PureComponentProps>;
 } = {
+  // areas
   // @ts-expect-error PureComponent not yet typed
   [InternalMapLocationType.BARN]: PureBarn,
   // @ts-expect-error PureComponent not yet typed
@@ -80,16 +82,20 @@ const PureComponentMap: {
   [InternalMapLocationType.RESIDENCE]: PureResidence,
   // @ts-expect-error other locations not present yet
   [InternalMapLocationType.SURFACE_WATER]: PureSurfaceWater,
+  // lines
   // @ts-expect-error other locations not present yet
   [InternalMapLocationType.BUFFER_ZONE]: PureBufferZone,
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.FENCE]: PureFence,
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.WATERCOURSE]: PureWatercourse,
+  // points
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.GATE]: PureGate,
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: PureSoilSampleLocation,
+  // @ts-expect-error default case not present yet
+  [InternalMapLocationType.WATER_VALVE]: PureWaterValve,
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

@@ -59,6 +59,9 @@ const farmNoteController = {
         return res.status(201).json(note);
       } catch (error) {
         console.error(error);
+
+        deleteImage(res.locals.farmNoteData.image_url);
+
         return res.status(500).json({ error });
       }
     };
@@ -81,16 +84,16 @@ const farmNoteController = {
           .context({ user_id })
           .patchAndFetchById(id, res.locals.farmNoteData);
 
-        if (res.locals.farmNoteData !== undefined && existing.image_url) {
-          const bucketKey = existing.image_url.replace(`${getPrivateS3Url()}/`, '');
-          deleteImages({ keys: [bucketKey], visibility: 'private' }).catch((err) => {
-            console.error('Failed to delete old farm note image:', err);
-          });
+        if (res.locals.farmNoteData.image_url !== undefined && existing.image_url) {
+          deleteImage(existing.image_url);
         }
 
         return res.status(200).json(updated);
       } catch (error) {
         console.error(error);
+
+        deleteImage(res.locals.farmNoteData.image_url);
+
         return res.status(500).json({ error });
       }
     };
@@ -115,6 +118,17 @@ const farmNoteController = {
       }
     };
   },
+};
+
+const deleteImage = (imageUrl?: string) => {
+  if (!imageUrl) {
+    return;
+  }
+
+  const bucketKey = imageUrl.replace(`${getPrivateS3Url()}/`, '');
+  deleteImages({ keys: [bucketKey], visibility: 'private' }).catch((err) => {
+    console.error('Failed to delete old farm note image:', err);
+  });
 };
 
 export default farmNoteController;

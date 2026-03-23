@@ -43,6 +43,7 @@ import { PureFence } from '../../components/LocationDetailLayout/LineDetails/Fen
 import { PureWatercourse } from '../../components/LocationDetailLayout/LineDetails/Watercourse';
 import { PureGate } from '../../components/LocationDetailLayout/PointDetails/Gate';
 import { setMapCache } from '../Map/mapCacheSlice';
+import { PureSoilSampleLocation } from '../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
 
 type PureComponentProps = {
   history: ReturnType<typeof useHistory>;
@@ -87,6 +88,8 @@ const PureComponentMap: {
   [InternalMapLocationType.WATERCOURSE]: PureWatercourse,
   // @ts-expect-error default case not present yet
   [InternalMapLocationType.GATE]: PureGate,
+  // @ts-expect-error default case not present yet
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: PureSoilSampleLocation,
 };
 
 function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {

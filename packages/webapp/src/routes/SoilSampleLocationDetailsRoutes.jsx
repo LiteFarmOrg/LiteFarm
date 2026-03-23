@@ -15,10 +15,10 @@
 
 /* eslint-disable react/no-children-prop */
 import { Route } from 'react-router-dom';
-import EditSoilSampleLocationDetailForm from '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/EditSoilSampleLocation';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
+import EditLocationDetailForm from '../containers/LocationDetails/EditLocationDetailForm';
 
 export default function SoilSampleLocationDetailsRoutes() {
   const isAdmin = useSelector(isAdminSelector);
@@ -27,13 +27,13 @@ export default function SoilSampleLocationDetailsRoutes() {
       <Route
         path="/soil_sample_location/:location_id/details"
         exact
-        children={<EditSoilSampleLocationDetailForm />}
+        children={<EditLocationDetailForm locationType="soil_sample_location" />}
       />
       {isAdmin && (
         <Route
           path="/soil_sample_location/:location_id/edit"
           exact
-          children={<EditSoilSampleLocationDetailForm />}
+          children={<EditLocationDetailForm locationType="soil_sample_location" />}
         />
       )}
       <Route path="/soil_sample_location/:location_id/tasks" exact children={<LocationTasks />} />

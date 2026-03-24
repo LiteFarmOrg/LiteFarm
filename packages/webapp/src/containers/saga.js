@@ -40,7 +40,6 @@ import {
   getTasksSaga,
 } from './Task/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
-import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
 import {
   getBedMethodsSuccess,
   onLoadingBedMethodFail,
@@ -51,16 +50,6 @@ import {
   onLoadingBroadcastMethodFail,
   onLoadingBroadcastMethodStart,
 } from './broadcastMethodSlice';
-import {
-  getBufferZonesSuccess,
-  onLoadingBufferZoneFail,
-  onLoadingBufferZoneStart,
-} from './bufferZoneSlice';
-import {
-  getCeremonialsSuccess,
-  onLoadingCeremonialFail,
-  onLoadingCeremonialStart,
-} from './ceremonialSlice';
 import {
   getContainerMethodsSuccess,
   onLoadingContainerMethodFail,
@@ -82,23 +71,9 @@ import {
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
-import {
-  getFarmSiteBoundarysSuccess,
-  onLoadingFarmSiteBoundaryFail,
-  onLoadingFarmSiteBoundaryStart,
-} from './farmSiteBoundarySlice';
-import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
-import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
-import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
-import {
-  getGreenhousesSuccess,
-  onLoadingGreenhouseFail,
-  onLoadingGreenhouseStart,
-} from './greenhouseSlice';
 import {
   getAllManagementPlansSuccess,
   getManagementPlansSuccess,
@@ -106,30 +81,15 @@ import {
   onLoadingManagementPlanStart,
 } from './managementPlanSlice';
 import {
-  getNaturalAreasSuccess,
-  onLoadingNaturalAreaFail,
-  onLoadingNaturalAreaStart,
-} from './naturalAreaSlice';
-import {
   getPlantingManagementPlansSuccess,
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
 import {
-  getResidencesSuccess,
-  onLoadingResidenceFail,
-  onLoadingResidenceStart,
-} from './residenceSlice';
-import {
   getRowMethodsSuccess,
   onLoadingRowMethodFail,
   onLoadingRowMethodStart,
 } from './rowMethodSlice';
-import {
-  getSurfaceWatersSuccess,
-  onLoadingSurfaceWaterFail,
-  onLoadingSurfaceWaterStart,
-} from './surfaceWaterSlice';
 import { resetTasks } from './taskSlice';
 import {
   isAdminSelector,
@@ -141,23 +101,9 @@ import {
   userFarmsByFarmSelector,
 } from './userFarmSlice';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
-import {
-  getWaterValvesSuccess,
-  onLoadingWaterValveFail,
-  onLoadingWaterValveStart,
-} from './waterValveSlice';
-import {
-  getWatercoursesSuccess,
-  onLoadingWatercourseFail,
-  onLoadingWatercourseStart,
-} from './watercourseSlice';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
-import {
-  getSoilSampleLocationsSuccess,
-  onLoadingSoilSampleLocationFail,
-} from './soilSampleLocationSlice';
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
 
@@ -281,7 +227,7 @@ export function* getFarmInfoSaga() {
       return;
     }
     localStorage.setItem('role_id', userFarm.role_id);
-    yield put(getLocations());
+    yield put(locationApi.endpoints.getLocations.initiate());
     yield put(getManagementPlans());
   } catch (e) {
     console.log(e);
@@ -324,81 +270,6 @@ export function* putFarmSaga({ payload: farm }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.UPDATE')));
   }
 }
-
-export const onLoadingLocationStart = createAction('onLoadingLocationStartSaga');
-
-export function* onLoadingLocationStartSaga() {
-  yield put(onLoadingFieldStart());
-  yield put(onLoadingGardenStart());
-  yield put(onLoadingCeremonialStart());
-  yield put(onLoadingBarnStart());
-  yield put(onLoadingFarmSiteBoundaryStart());
-  yield put(onLoadingGreenhouseStart());
-  yield put(onLoadingSurfaceWaterStart());
-  yield put(onLoadingNaturalAreaStart());
-  yield put(onLoadingResidenceStart());
-  yield put(onLoadingBufferZoneStart());
-  yield put(onLoadingWatercourseStart());
-  yield put(onLoadingFenceStart());
-  yield put(onLoadingGateStart());
-  yield put(onLoadingWaterValveStart());
-}
-
-export const getLocations = createAction('getLocationsSaga');
-
-export function* getLocationsSaga() {
-  const { getLocationsByFarmIdUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield put(onLoadingLocationStart());
-    const result = yield call(axios.get, getLocationsByFarmIdUrl(farm_id), header);
-    yield put(getLocationsSuccess(result.data));
-  } catch (e) {
-    console.log('failed to fetch fields from database');
-  }
-}
-
-export const getLocationsSuccess = createAction('getLocationsSuccessSaga');
-
-export function* getLocationsSuccessSaga({ payload: locations }) {
-  const locations_by_figure_type = Object.keys(figureTypeActionMap).reduce(
-    (map, locationType) => Object.assign(map, { [locationType]: [] }),
-    {},
-  );
-  for (const location of locations) {
-    locations_by_figure_type[location.figure.type].push(location);
-  }
-  for (const figure_type in figureTypeActionMap) {
-    try {
-      yield put(figureTypeActionMap[figure_type].success(locations_by_figure_type[figure_type]));
-    } catch (e) {
-      yield put(figureTypeActionMap[figure_type].fail(e));
-      console.log(e);
-    }
-  }
-}
-
-const figureTypeActionMap = {
-  field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
-  garden: { success: getGardensSuccess, fail: onLoadingGardenFail },
-  barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
-  ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
-  farm_site_boundary: { success: getFarmSiteBoundarysSuccess, fail: onLoadingFarmSiteBoundaryFail },
-  greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
-  surface_water: { success: getSurfaceWatersSuccess, fail: onLoadingSurfaceWaterFail },
-  natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
-  residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
-  buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
-  watercourse: { success: getWatercoursesSuccess, fail: onLoadingWatercourseFail },
-  fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
-  gate: { success: getGatesSuccess, fail: onLoadingGateFail },
-  water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
-  soil_sample_location: {
-    success: getSoilSampleLocationsSuccess,
-    fail: onLoadingSoilSampleLocationFail,
-  },
-};
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
   yield put(onLoadingBroadcastMethodStart());
@@ -542,7 +413,7 @@ export const getCropsAndManagementPlans = createAction('getCropsAndManagementPla
 
 export function* getCropsAndManagementPlansSaga() {
   try {
-    yield all([call(getLocationsSaga), call(getCropsSaga)]);
+    yield all([put(locationApi.endpoints.getLocations.initiate()), call(getCropsSaga)]);
     yield call(getCropVarietiesSaga);
     yield call(getManagementPlansSaga);
   } catch (e) {
@@ -706,14 +577,11 @@ export default function* getFarmIdSaga() {
   yield takeLeading(updateUser.type, updateUserSaga);
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
   yield takeLeading(putFarm.type, putFarmSaga);
-  yield takeLatest(getLocations.type, getLocationsSaga);
   yield takeLatest(getManagementPlansByDate.type, getManagementPlansSaga);
   yield takeLatest(getManagementPlans.type, getManagementPlansSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
-  yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
-  yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   yield takeLatest(getDocuments.type, getDocumentsSaga);
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,

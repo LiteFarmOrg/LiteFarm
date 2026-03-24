@@ -1013,8 +1013,7 @@
     "EMPTY_STATE": "You do not have any notes",
     "FARM_NOTES": "Farm notes",
     "HAS_UNREAD_NOTES": "Has unread notes",
-    "PENDING_SYNC": "Pending sync",
-    "TODAY": "Today"
+    "PENDING_SYNC": "Pending sync"
   },
   "FARM_SETTINGS": {
     "TABS": {

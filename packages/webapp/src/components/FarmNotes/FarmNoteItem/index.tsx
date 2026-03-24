@@ -22,18 +22,10 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
+import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
 import { FarmNote } from '../types';
 import styles from './styles.module.scss';
-
-const isToday = (dateStr: string) => {
-  const date = new Date(dateStr);
-  const now = new Date();
-  return (
-    date.getFullYear() === now.getFullYear() &&
-    date.getMonth() === now.getMonth() &&
-    date.getDate() === now.getDate()
-  );
-};
 
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString(undefined, {
@@ -65,7 +57,6 @@ export default function FarmNoteItem({
   onImageClick,
 }: FarmNoteItemProps) {
   const { t } = useTranslation();
-  const dateLabel = isToday(note.created_at) ? t('FARM_NOTE.TODAY') : formatDate(note.created_at);
 
   if (isExpanded) {
     return (
@@ -86,7 +77,7 @@ export default function FarmNoteItem({
               <span className={styles.authorName}>{authorName}</span>
             </div>
           </div>
-          <span className={styles.dateBadge}>{dateLabel}</span>
+          <span className={styles.dateBadge}>{'TODO: dateLabel'}</span>
         </div>
 
         {/* Body */}
@@ -139,12 +130,48 @@ export default function FarmNoteItem({
       type="button"
     >
       <p className={styles.notePreview}>{note.note}</p>
-      <div className={styles.collapsedMeta}>
-        {note.is_private && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}
-        <span className={styles.authorName}>{authorName}</span>
-      </div>
-      <span className={styles.dateBadge}>{dateLabel}</span>
-      <KeyboardArrowDownIcon className={styles.chevronInline} fontSize="small" />
+      <NoteMetaData
+        authorName={authorName}
+        isPrivate={note.is_private}
+        createdAt={note.created_at}
+      />
     </button>
   );
 }
+
+const NoteMetaData = ({
+  authorName,
+  isPrivate,
+  createdAt,
+}: {
+  authorName: string;
+  isPrivate: boolean;
+  createdAt: string;
+}) => {
+  return (
+    <div className={styles.noteMeta}>
+      <KeyboardArrowDownIcon className={styles.chevronInline} fontSize="small" />
+      <div className={styles.nameAndVisibility}>
+        <span className={styles.authorName}>{authorName}</span>
+        {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}
+      </div>
+      <DateBadge createdAt={createdAt} />
+    </div>
+  );
+};
+
+const DateBadge = ({ createdAt }: { createdAt: string }) => {
+  const { t } = useTranslation('common');
+  const isCreatedToday = isSameDay(new Date(createdAt), new Date());
+
+  if (isCreatedToday) {
+    return <span className={styles.today}>{t('common:TODAY')}</span>;
+  }
+
+  return (
+    <span className={styles.date}>
+      <CalendarIcon />
+      {getIntlDate(createdAt)}
+    </span>
+  );
+};

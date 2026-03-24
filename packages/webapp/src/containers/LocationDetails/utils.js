@@ -40,36 +40,34 @@ export const getFormData = (location) => {
 
 const propertiesToPick = {
   // areas
-  barn: ['wash_and_pack', 'cold_storage', 'used_for_animals', 'location_id'],
-  ceremonial_area: ['location_id'],
-  farm_site_boundary: ['location_id'],
-  field: ['station_id', 'organic_status', 'transition_date', 'location_id'],
-  garden: ['station_id', 'organic_status', 'transition_date', 'location_id'],
+  barn: ['wash_and_pack', 'cold_storage', 'used_for_animals'],
+  ceremonial_area: [],
+  farm_site_boundary: [],
+  field: ['station_id', 'organic_status', 'transition_date'],
+  garden: ['station_id', 'organic_status', 'transition_date'],
   greenhouse: [
     'organic_status',
     'transition_date',
     'supplemental_lighting',
     'co2_enrichment',
     'greenhouse_heated',
-    'location_id',
   ],
-  natural_area: ['location_id'],
-  residence: ['location_id'],
-  surface_water: ['used_for_irrigation', 'location_id'],
+  natural_area: [],
+  residence: [],
+  surface_water: [],
   // lines
-  buffer_zone: ['location_id'],
-  fence: ['pressure_treated', 'location_id'],
+  buffer_zone: [],
+  fence: ['pressure_treated'],
   watercourse: [
     'used_for_irrigation',
     'includes_riparian_buffer',
     'buffer_width',
     'buffer_width_unit',
-    'location_id',
   ],
   // points
-  gate: ['location_id'],
-  soil_sample_location: ['location_id'],
-  water_valve: ['source', 'flow_rate', 'flow_rate_unit', 'location_id'],
+  gate: [],
+  soil_sample_location: [],
+  water_valve: ['source', 'flow_rate', 'flow_rate_unit'],
 };
 
 const getFigureTypeProperties = (data, locationType) => {
@@ -92,6 +90,31 @@ const getFigureTypeProperties = (data, locationType) => {
     case InternalMapLocationType.SOIL_SAMPLE_LOCATION:
     case InternalMapLocationType.WATER_VALVE:
       return { point: pick(data, pointProperties) };
+    default:
+      throw new Error(`Unknown location type ${locationType}`);
+  }
+};
+
+export const getFigureType = (locationType) => {
+  switch (locationType) {
+    case InternalMapLocationType.BARN:
+    case InternalMapLocationType.CEREMONIAL_AREA:
+    case InternalMapLocationType.FARM_SITE_BOUNDARY:
+    case InternalMapLocationType.FIELD:
+    case InternalMapLocationType.GARDEN:
+    case InternalMapLocationType.GREENHOUSE:
+    case InternalMapLocationType.NATURAL_AREA:
+    case InternalMapLocationType.RESIDENCE:
+    case InternalMapLocationType.SURFACE_WATER:
+      return 'area';
+    case InternalMapLocationType.BUFFER_ZONE:
+    case InternalMapLocationType.FENCE:
+    case InternalMapLocationType.WATERCOURSE:
+      return 'line';
+    case InternalMapLocationType.GATE:
+    case InternalMapLocationType.SOIL_SAMPLE_LOCATION:
+    case InternalMapLocationType.WATER_VALVE:
+      return 'point';
     default:
       throw new Error(`Unknown location type ${locationType}`);
   }
@@ -120,7 +143,7 @@ export const formatLocationTypeToLocationForDB = (data, locationType) => {
       ...getFigureTypeProperties(data, locationType),
     },
     [locationType]: {
-      ...pick(data, propertiesToPick[locationType]),
+      ...pick(data, ['location_id', ...propertiesToPick[locationType]]),
       ...getOrganicHistoryProperties(data, locationType),
     },
     ...pick(data, locationProperties),

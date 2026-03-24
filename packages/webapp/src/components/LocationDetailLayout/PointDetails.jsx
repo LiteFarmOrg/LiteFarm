@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
-import { gateEnum as pointEnum } from '../../../containers/constants';
-import PureWarningBox from '../../WarningBox';
-import { Label } from '../../Typography';
-import InputAutoSize from '../../Form/InputAutoSize';
+import Input from '../Form/Input';
+import { gateEnum as pointEnum } from '../../containers/constants';
+import PureWarningBox from '../WarningBox';
+import { Label } from '../Typography';
+import InputAutoSize from '../Form/InputAutoSize';
 import { useFormContext } from 'react-hook-form';
 
 export default function PointDetails({

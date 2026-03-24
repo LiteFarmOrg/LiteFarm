@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
-import Input from '../../Form/Input';
-import PureWarningBox from '../../WarningBox';
-import { Label } from '../../Typography';
-import Unit from '../../Form/Unit';
-import { fieldEnum as areaEnum } from '../../../containers/constants';
-import { area_perimeter, area_total_area } from '../../../util/convert-units/unit';
-import InputAutoSize from '../../Form/InputAutoSize';
+import Input from '../Form/Input';
+import PureWarningBox from '../WarningBox';
+import { Label } from '../Typography';
+import Unit from '../Form/Unit';
+import { fieldEnum as areaEnum } from '../../containers/constants';
+import { area_perimeter, area_total_area } from '../../util/convert-units/unit';
+import InputAutoSize from '../Form/InputAutoSize';
 
 export default function AreaDetails({
   name,

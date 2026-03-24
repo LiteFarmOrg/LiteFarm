@@ -108,14 +108,18 @@ function PostLocationDetailForm({ locationType }: { locationType: keyof typeof P
   const submitForm = async (data: { formData: any }) => {
     const { formData } = data;
     formData.farm_id = farm_id;
+    const locationData = formatLocationTypeToLocationForDB(
+      formData,
+      locationType,
+    ) as InternalMapLocation;
     try {
       await addLocationByType({
-        data: formatLocationTypeToLocationForDB(formData, locationType) as InternalMapLocation,
+        data: locationData,
         type: locationType,
       }).unwrap();
-      // if (locationData?.figure_type === FigureType.POINT) {
-      //   dispatch(setMapCache({ maxZoom: undefined, farm_id }));
-      // }
+      if (locationData.figure.point) {
+        dispatch(setMapCache({ maxZoom: undefined, farm_id }));
+      }
       history.push({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(

@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import moment from 'moment';
 import { pick } from '../../util/pick';
-import { InternalMapLocationType } from '../../store/api/types';
+import { FigureType, InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');

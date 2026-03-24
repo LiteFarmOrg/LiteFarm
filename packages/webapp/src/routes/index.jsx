@@ -64,11 +64,7 @@ const TapeSurvey = React.lazy(() => import('../containers/Insights/TapeSurvey'))
 const TapeResults = React.lazy(() => import('../containers/Insights/TapeSurvey/TapeResults'));
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
-const PostFarmSiteBoundaryForm = React.lazy(() =>
-  import(
-    '../containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'
-  ),
-);
+
 const LocationDetailsRoutes = React.lazy(() => import('./LocationDetailsRoutes'));
 
 // Import config separately to access allLocationTypes at render time
@@ -79,62 +75,9 @@ const PostLocationDetailForm = React.lazy(() =>
   import('../containers/LocationDetails/PostLocationDetailForm'),
 );
 
-const PostFieldForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
-);
-
-const PostGardenForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/GardenDetailForm/PostGarden'),
-);
-
-const PostGateForm = React.lazy(() =>
-  import('../containers/LocationDetails/PointDetails/GateDetailForm/PostGate'),
-);
-
-const PostWaterValveForm = React.lazy(() =>
-  import('../containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
-);
-
-const PostSoilSampleLocationForm = React.lazy(() =>
-  import(
-    '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/PostSoilSampleLocation'
-  ),
-);
-
-const PostNaturalAreaForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/PostNaturalArea'),
-);
-
-const PostSurfaceWaterForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/PostSurfaceWater'),
-);
-
-const PostResidenceForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/ResidenceDetailForm/PostResidence'),
-);
-
-const PostCeremonialForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/PostCeremonialArea'),
-);
-
-const PostGreenhouseForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
-);
-
 const CropManagement = React.lazy(() => import('../containers/Crop/CropManagement'));
 const CropDetail = React.lazy(() => import('../containers/Crop/CropDetail/index'));
 
-const PostFenceForm = React.lazy(() =>
-  import('../containers/LocationDetails/LineDetails/FenceDetailForm/PostFence'),
-);
-
-const PostBufferZoneForm = React.lazy(() =>
-  import('../containers/LocationDetails/LineDetails/BufferZoneDetailForm/PostBufferZone'),
-);
-
-const PostWatercourseForm = React.lazy(() =>
-  import('../containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
-);
 const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
@@ -537,65 +480,13 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route
-                      path="/create_location/farm_site_boundary"
-                      exact
-                      children={<PostFarmSiteBoundaryForm />}
-                    />
-                    <Route
-                      path="/create_location/barn"
-                      exact
-                      children={<PostLocationDetailForm locationType="barn" />}
-                    />
-                    <Route
-                      path="/create_location/natural_area"
-                      exact
-                      children={<PostNaturalAreaForm />}
-                    />
-                    <Route
-                      path="/create_location/surface_water"
-                      exact
-                      children={<PostSurfaceWaterForm />}
-                    />
-                    <Route
-                      path="/create_location/residence"
-                      exact
-                      children={<PostResidenceForm />}
-                    />
-                    <Route
-                      path="/create_location/ceremonial_area"
-                      exact
-                      children={<PostCeremonialForm />}
-                    />
-                    <Route path="/create_location/garden" exact children={<PostGardenForm />} />
-                    <Route
-                      path="/create_location/greenhouse"
-                      exact
-                      children={<PostGreenhouseForm />}
-                    />
-                    <Route path="/create_location/field" exact children={<PostFieldForm />} />
-                    <Route path="/create_location/gate" exact children={<PostGateForm />} />
-                    <Route
-                      path="/create_location/water_valve"
-                      exact
-                      children={<PostWaterValveForm />}
-                    />
-                    <Route
-                      path="/create_location/soil_sample_location"
-                      exact
-                      children={<PostSoilSampleLocationForm />}
-                    />
-                    <Route path="/create_location/fence" exact children={<PostFenceForm />} />
-                    <Route
-                      path="/create_location/buffer_zone"
-                      exact
-                      children={<PostBufferZoneForm />}
-                    />
-                    <Route
-                      path="/create_location/watercourse"
-                      exact
-                      children={<PostWatercourseForm />}
-                    />
+                    {allLocationTypes.map((type) => (
+                      <Route
+                        key={type}
+                        path={`/create_location/${type}`}
+                        children={<PostLocationDetailForm locationType={type} />}
+                      />
+                    ))}
                     <Route path={ADD_SENSORS_URL} exact>
                       <AddSensorsForm isCompactSideMenu={isCompactSideMenu} />
                     </Route>
@@ -909,65 +800,13 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/map" exact>
                       <Map isCompactSideMenu={isCompactSideMenu} />
                     </Route>
-                    <Route
-                      path="/create_location/farm_site_boundary"
-                      exact
-                      children={<PostFarmSiteBoundaryForm />}
-                    />
-                    <Route
-                      path="/create_location/barn"
-                      exact
-                      children={<PostLocationDetailForm locationType="barn" />}
-                    />
-                    <Route
-                      path="/create_location/natural_area"
-                      exact
-                      children={<PostNaturalAreaForm />}
-                    />
-                    <Route
-                      path="/create_location/surface_water"
-                      exact
-                      children={<PostSurfaceWaterForm />}
-                    />
-                    <Route
-                      path="/create_location/residence"
-                      exact
-                      children={<PostResidenceForm />}
-                    />
-                    <Route
-                      path="/create_location/ceremonial_area"
-                      exact
-                      children={<PostCeremonialForm />}
-                    />
-                    <Route path="/create_location/garden" exact children={<PostGardenForm />} />
-                    <Route
-                      path="/create_location/greenhouse"
-                      exact
-                      children={<PostGreenhouseForm />}
-                    />
-                    <Route path="/create_location/field" exact children={<PostFieldForm />} />
-                    <Route path="/create_location/gate" exact children={<PostGateForm />} />
-                    <Route
-                      path="/create_location/water_valve"
-                      exact
-                      children={<PostWaterValveForm />}
-                    />
-                    <Route
-                      path="/create_location/soil_sample_location"
-                      exact
-                      children={<PostSoilSampleLocationForm />}
-                    />
-                    <Route path="/create_location/fence" exact children={<PostFenceForm />} />
-                    <Route
-                      path="/create_location/buffer_zone"
-                      exact
-                      children={<PostBufferZoneForm />}
-                    />
-                    <Route
-                      path="/create_location/watercourse"
-                      exact
-                      children={<PostWatercourseForm />}
-                    />
+                    {allLocationTypes.map((type) => (
+                      <Route
+                        key={type}
+                        path={`/create_location/${type}`}
+                        children={<PostLocationDetailForm locationType={type} />}
+                      />
+                    ))}
                     <Route path={ADD_SENSORS_URL} exact>
                       <AddSensorsForm isCompactSideMenu={isCompactSideMenu} />
                     </Route>

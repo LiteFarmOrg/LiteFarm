@@ -18,6 +18,54 @@ import { getFormDataWithoutNulls } from '../../containers/hooks/useHookFormPersi
 import { PureLocationDetailLayout } from './PureLocationDetailLayout';
 import ExtraLocationFormFieldsMap from './ExtraFormFieldsMap';
 import { getFigureType } from '../../containers/LocationDetails/utils';
+import { getDateInputFormat } from '../../util/moment';
+
+const getOrganicStatusDefaultValues = (persistedFormData) => {
+  return {
+    ['organic_status']: 'Non-Organic',
+    ...persistedFormData,
+    ['transition_date']: getDateInputFormat(persistedFormData['transition_date'] || new Date()),
+  };
+};
+
+const config = (persistedFormData) => ({
+  barn: {
+    showPerimeter: false,
+    defaultValues: persistedFormData,
+  },
+  ceremonial_area: {
+    showPerimeter: true,
+    defaultValues: persistedFormData,
+  },
+  farm_site_boundary: {
+    showPerimeter: true,
+    defaultValues: persistedFormData,
+  },
+  field: {
+    showPerimeter: true,
+    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
+  },
+  garden: {
+    showPerimeter: true,
+    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
+  },
+  greenhouse: {
+    showPerimeter: false,
+    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
+  },
+  natural_area: {
+    showPerimeter: true,
+    defaultValues: persistedFormData,
+  },
+  residence: {
+    showPerimeter: false,
+    defaultValues: persistedFormData,
+  },
+  surface_water: {
+    showPerimeter: true,
+    defaultValues: persistedFormData,
+  },
+});
 
 export default function PureLocationFormWrapper({
   history,
@@ -46,7 +94,8 @@ export default function PureLocationFormWrapper({
     submitForm({ formData });
   };
 
-  const DetailsChildren = ExtraLocationFormFieldsMap[locationType];
+  const DetailsChildren = ExtraLocationFormFieldsMap[locationType] || undefined;
+  const locationtypeConfig = config(persistedFormData)[locationType] || {};
 
   return (
     <PersistedFormWrapper>
@@ -59,14 +108,16 @@ export default function PureLocationFormWrapper({
         isCreateLocationPage={isCreateLocationPage}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
-        persistedFormData={persistedFormData}
+        persistedFormData={locationtypeConfig.defaultValues}
         useHookFormPersist={useHookFormPersist}
         handleRetire={handleRetire}
         isAdmin={isAdmin}
         onSubmit={onSubmit}
         translationKey={locationType.toUpperCase()}
-        detailsChildren={<DetailsChildren isViewLocationPage={isViewLocationPage} />}
-        showPerimeter={false}
+        detailsChildren={
+          DetailsChildren ? <DetailsChildren isViewLocationPage={isViewLocationPage} /> : undefined
+        }
+        showPerimeter={locationtypeConfig.showPerimeter}
       />
     </PersistedFormWrapper>
   );

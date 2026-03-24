@@ -26,80 +26,13 @@ import useLocationsById from '../../hooks/location/useLocationsById';
 import UnableToRetireModal from '../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../components/Modals/RetireConfirmationModal';
 import { formatLocationTypeToLocationForDB, useLocationPageType } from './utils';
-import { PureBarn } from '../../components/LocationDetailLayout/AreaDetails/Barn';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
-import { PureCeremonialArea } from '../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
-import { PureFarmSiteBoundary } from '../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
-import { PureField } from '../../components/LocationDetailLayout/AreaDetails/Field';
-import { PureGarden } from '../../components/LocationDetailLayout/AreaDetails/Garden';
-import { PureGreenhouse } from '../../components/LocationDetailLayout/AreaDetails/Greenhouse';
-import { PureNaturalArea } from '../../components/LocationDetailLayout/AreaDetails/NaturalArea';
-import { PureResidence } from '../../components/LocationDetailLayout/AreaDetails/Residence';
-import { PureSurfaceWater } from '../../components/LocationDetailLayout/AreaDetails/SurfaceWater';
-import { PureBufferZone } from '../../components/LocationDetailLayout/LineDetails/BufferZone';
-import { PureFence } from '../../components/LocationDetailLayout/LineDetails/Fence';
-import { PureWatercourse } from '../../components/LocationDetailLayout/LineDetails/Watercourse';
-import { PureGate } from '../../components/LocationDetailLayout/PointDetails/Gate';
 import { setMapCache } from '../Map/mapCacheSlice';
-import { PureSoilSampleLocation } from '../../components/LocationDetailLayout/PointDetails/SoilSampleLocation';
-import { PureWaterValve } from '../../components/LocationDetailLayout/PointDetails/WaterValve';
+import PureLocationFormWrapper from '../../components/LocationDetailLayout/PureLocationFormWrapper';
 
-type PureComponentProps = {
-  history: ReturnType<typeof useHistory>;
-  match: ReturnType<typeof useRouteMatch>;
-  submitForm: (data: { formData: any }) => void;
-  system: ReturnType<typeof useSelector>;
-  isCreateLocationPage?: boolean;
-  isViewLocationPage: boolean;
-  isEditLocationPage: boolean;
-  persistedFormData: any;
-  useHookFormPersist?: any;
-  handleRetire: () => void;
-  isAdmin: boolean;
-};
-
-const PureComponentMap: {
-  [key in InternalMapLocationType]: React.ComponentType<PureComponentProps>;
-} = {
-  // areas
-  // @ts-expect-error PureComponent not yet typed
-  [InternalMapLocationType.BARN]: PureBarn,
-  // @ts-expect-error PureComponent not yet typed
-  [InternalMapLocationType.CEREMONIAL_AREA]: PureCeremonialArea,
-  // @ts-expect-error PureComponent not yet typed
-  [InternalMapLocationType.FARM_SITE_BOUNDARY]: PureFarmSiteBoundary,
-  // @ts-expect-error PureComponent not yet typed
-  [InternalMapLocationType.FIELD]: PureField,
-  // @ts-expect-error other locations not present yet
-  [InternalMapLocationType.GARDEN]: PureGarden,
-  // @ts-expect-error other locations not present yet
-  [InternalMapLocationType.GREENHOUSE]: PureGreenhouse,
-  // @ts-expect-error other locations not present yet
-  [InternalMapLocationType.NATURAL_AREA]: PureNaturalArea,
-  // @ts-expect-error PureComponent not yet typed
-  [InternalMapLocationType.RESIDENCE]: PureResidence,
-  // @ts-expect-error other locations not present yet
-  [InternalMapLocationType.SURFACE_WATER]: PureSurfaceWater,
-  // lines
-  // @ts-expect-error other locations not present yet
-  [InternalMapLocationType.BUFFER_ZONE]: PureBufferZone,
-  // @ts-expect-error default case not present yet
-  [InternalMapLocationType.FENCE]: PureFence,
-  // @ts-expect-error default case not present yet
-  [InternalMapLocationType.WATERCOURSE]: PureWatercourse,
-  // points
-  // @ts-expect-error default case not present yet
-  [InternalMapLocationType.GATE]: PureGate,
-  // @ts-expect-error default case not present yet
-  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: PureSoilSampleLocation,
-  // @ts-expect-error default case not present yet
-  [InternalMapLocationType.WATER_VALVE]: PureWaterValve,
-};
-
-function EditLocationDetailForm({ locationType }: { locationType: keyof typeof PureComponentMap }) {
-  const PureComponent = PureComponentMap[locationType];
+function EditLocationDetailForm({ locationType }: { locationType: InternalMapLocationType }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const location = useLocation();
@@ -212,7 +145,8 @@ function EditLocationDetailForm({ locationType }: { locationType: keyof typeof P
 
   return (
     <>
-      <PureComponent
+      <PureLocationFormWrapper
+        locationType={locationType}
         history={history}
         match={match}
         submitForm={submitForm}

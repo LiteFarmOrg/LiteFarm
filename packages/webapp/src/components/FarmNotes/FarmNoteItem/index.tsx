@@ -23,17 +23,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
+import TextButton from '../../Form/Button/TextButton';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
 import { FarmNote } from '../types';
 import styles from './styles.module.scss';
-
-const formatDate = (dateStr: string) => {
-  return new Date(dateStr).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-};
 
 interface FarmNoteItemProps {
   note: FarmNote;
@@ -83,6 +76,7 @@ export default function FarmNoteItem({
 
         {/* Body */}
         <div className={styles.expandedBody}>
+          <p className={styles.noteText}>{note.note}</p>
           {note.image_url && (
             <div className={styles.imageWrapper}>
               <img
@@ -91,17 +85,15 @@ export default function FarmNoteItem({
                 className={styles.thumbnail}
                 onClick={() => onImageClick(note.image_url!)}
               />
-              <button
+              <TextButton
                 className={styles.enlargeLink}
                 onClick={() => onImageClick(note.image_url!)}
-                type="button"
               >
                 <SearchIcon fontSize="small" />
                 {t('FARM_NOTE.CLICK_TO_ENLARGE')}
-              </button>
+              </TextButton>
             </div>
           )}
-          <p className={styles.noteText}>{note.note}</p>
         </div>
 
         {/* Author actions */}

@@ -28,7 +28,7 @@ const getOrganicStatusDefaultValues = (persistedFormData) => {
   };
 };
 
-const config = (persistedFormData) => ({
+const getAreaConfig = (persistedFormData) => ({
   barn: {
     showPerimeter: false,
     defaultValues: persistedFormData,
@@ -65,19 +65,6 @@ const config = (persistedFormData) => ({
     showPerimeter: true,
     defaultValues: persistedFormData,
   },
-  // lines
-  buffer_zone: {
-    showPerimeter: undefined,
-    defaultValues: persistedFormData,
-  },
-  fence: {
-    showPerimeter: undefined,
-    defaultValues: persistedFormData,
-  },
-  watercourse: {
-    showPerimeter: undefined,
-    defaultValues: persistedFormData,
-  },
 });
 
 export default function PureLocationFormWrapper({
@@ -85,13 +72,13 @@ export default function PureLocationFormWrapper({
   match,
   submitForm,
   system,
-  isCreateLocationPage,
-  isViewLocationPage,
-  isEditLocationPage,
+  isCreateLocationPage = false,
+  isViewLocationPage = false,
+  isEditLocationPage = false,
   persistedFormData,
-  useHookFormPersist,
-  handleRetire,
-  isAdmin,
+  useHookFormPersist = () => {},
+  handleRetire = () => {},
+  isAdmin = false,
   locationType,
 }) {
   const onSubmit = (data) => {
@@ -112,6 +99,11 @@ export default function PureLocationFormWrapper({
         delete data['total_area_unit'];
       }
     }
+    if (getFigureType(locationType) === 'point') {
+      if (locationType === 'water_valve') {
+        data['flow_rate_unit'] = data['flow_rate_unit']?.value;
+      }
+    }
 
     const formData = getFormDataWithoutNulls({
       ...persistedFormData,
@@ -123,7 +115,8 @@ export default function PureLocationFormWrapper({
   };
 
   const DetailsChildren = ExtraLocationFormFieldsMap[locationType] || undefined;
-  const locationtypeConfig = config(persistedFormData)[locationType] || {};
+  const areaConfig = getAreaConfig(persistedFormData)[locationType] || {};
+  const figureType = getFigureType(locationType);
 
   return (
     <PersistedFormWrapper>
@@ -132,11 +125,11 @@ export default function PureLocationFormWrapper({
         match={match}
         system={system}
         locationType={locationType}
-        locationCategory={getFigureType(locationType)}
+        locationCategory={figureType}
         isCreateLocationPage={isCreateLocationPage}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
-        persistedFormData={locationtypeConfig.defaultValues}
+        persistedFormData={figureType === 'area' ? areaConfig.defaultValues : persistedFormData}
         useHookFormPersist={useHookFormPersist}
         handleRetire={handleRetire}
         isAdmin={isAdmin}
@@ -148,10 +141,12 @@ export default function PureLocationFormWrapper({
               system={system}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}
+              // persisted form data only used in soil sample location
+              persistedFormData={persistedFormData}
             />
           ) : undefined
         }
-        showPerimeter={locationtypeConfig.showPerimeter}
+        showPerimeter={figureType === 'area' ? areaConfig.showPerimeter : undefined}
       />
     </PersistedFormWrapper>
   );

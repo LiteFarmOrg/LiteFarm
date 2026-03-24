@@ -30,6 +30,7 @@ import {
   greenhouseEnum,
   surfaceWaterEnum,
   watercourseEnum,
+  waterValveEnum,
 } from '../../containers/constants';
 import styles from './styles.module.scss';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
@@ -37,6 +38,7 @@ import {
   area_total_area,
   line_length,
   line_width,
+  water_valve_flow_rate,
   watercourse_width,
 } from '../../util/convert-units/unit';
 import { buffer } from 'd3';
@@ -571,6 +573,87 @@ function WatercourseDetailsChildren({ system, isViewLocationPage, isEditLocation
   );
 }
 
+// Points Children
+function WaterValveDetailsChildren({ system, isViewLocationPage }) {
+  const { t } = useTranslation();
+  const {
+    control,
+    register,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div className={styles.radioLabel}>
+        <Label>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</Label>
+        <Label sm>{t('common:OPTIONAL')}</Label>
+      </div>
+      <RadioGroup
+        disabled={isViewLocationPage}
+        hookFormControl={control}
+        style={{ marginBottom: '14px' }}
+        name={waterValveEnum.source}
+        radios={[
+          {
+            label: t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER'),
+            value: 'Municipal water',
+          },
+          {
+            label: t('FARM_MAP.WATER_VALVE.SURFACE_WATER'),
+            value: 'Surface water',
+          },
+          {
+            label: t('FARM_MAP.WATER_VALVE.GROUNDWATER'),
+            value: 'Groundwater',
+          },
+          {
+            label: t('FARM_MAP.WATER_VALVE.RAIN_WATER'),
+            value: 'Rain water',
+          },
+        ]}
+      />
+
+      <Unit
+        register={register}
+        classes={{ container: { flexGrow: 1, paddingBottom: '40px' } }}
+        label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
+        name={waterValveEnum.flow_rate}
+        displayUnitName={waterValveEnum.flow_rate_unit}
+        errors={errors[waterValveEnum.flow_rate]}
+        unitType={water_valve_flow_rate}
+        system={system}
+        hookFormSetValue={setValue}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
+        control={control}
+        optional
+        disabled={isViewLocationPage}
+      />
+    </div>
+  );
+}
+
+function SoilSampleLocationDetailsChildren({ persistedFormData }) {
+  const { t } = useTranslation();
+
+  return (
+    <div className={styles.latLngContainer}>
+      <Input
+        label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LATITUDE')}
+        disabled={true}
+        value={persistedFormData?.point?.lat}
+      />
+      <Input
+        label={t('FARM_MAP.SOIL_SAMPLE_LOCATION.LONGITUDE')}
+        disabled={true}
+        value={persistedFormData?.point?.lng}
+      />
+    </div>
+  );
+}
+
 const ExtraLocationFormFieldsMap = {
   //areas
   barn: BarnDetailsChildren,
@@ -586,6 +669,10 @@ const ExtraLocationFormFieldsMap = {
   buffer_zone: BufferZoneDetailsChildren,
   fence: FenceDetailsChildren,
   watercourse: WatercourseDetailsChildren,
+  // points
+  gate: null,
+  soil_sample_location: SoilSampleLocationDetailsChildren,
+  water_valve: WaterValveDetailsChildren,
 };
 
 export default ExtraLocationFormFieldsMap;

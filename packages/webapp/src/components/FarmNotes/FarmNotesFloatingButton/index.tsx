@@ -29,14 +29,12 @@ export default function FarmNotesFloatingButton({
   const { t } = useTranslation();
 
   return (
-    <div className={styles.wrapper}>
-      <button className={styles.button} onClick={onClick} type="button">
-        <MessageTextSquareIcon className={styles.icon} />
-        <span className={styles.label}>{t('FARM_NOTE.FARM_NOTES')}</span>
-      </button>
+    <button className={styles.button} onClick={onClick} type="button">
+      <MessageTextSquareIcon className={styles.icon} />
+      <span className={styles.label}>{t('FARM_NOTE.FARM_NOTES')}</span>
       {hasUnread && (
         <span className={styles.unreadDot} aria-label={t('FARM_NOTE.HAS_UNREAD_NOTES')} />
       )}
-    </div>
+    </button>
   );
 }

@@ -15,12 +15,8 @@
 
 @use '@assets/mixin' as *;
 
-.wrapper {
-  position: relative;
-  display: inline-flex;
-}
-
 .button {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -37,13 +33,28 @@
     color: var(--Colors-Primary-Primary-teal-50);
     border: 1px solid var(--Colors-Primary-Primary-teal-50);
     background: var(--Colors-Primary-Primary-teal-700);
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  @include md-breakpoint {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border-width: 2px;
+
+    .label {
+      @include visually-hidden();
+    }
+
+    .unreadDot {
+      top: 11px;
+      right: 12px;
+    }
   }
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
   color: inherit;
 }
@@ -64,6 +75,5 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--Colors-Accent-Accent-red-600);
-  pointer-events: none;
+  background: var(--Brand-Accents-colors-and-overlays-Accent-red);
 }

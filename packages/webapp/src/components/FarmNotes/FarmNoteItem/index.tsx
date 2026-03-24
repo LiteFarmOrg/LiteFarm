@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SearchIcon from '@mui/icons-material/Search';
@@ -57,13 +57,19 @@ export default function FarmNoteItem({
   onImageClick,
 }: FarmNoteItemProps) {
   const { t } = useTranslation();
+  const metaDataProps = {
+    authorName: authorName,
+    isPrivate: note.is_private,
+    createdAt: note.created_at,
+  };
 
   if (isExpanded) {
     return (
       <div className={clsx(styles.card, styles.expanded, note.to_sync && styles.pending)}>
         {/* Header row */}
-        <div className={styles.expandedHeader}>
-          <div className={styles.expandedHeaderLeft}>
+        <NoteMetaData
+          {...metaDataProps}
+          icon={
             <button
               className={styles.chevronButton}
               onClick={onToggle}
@@ -72,13 +78,8 @@ export default function FarmNoteItem({
             >
               <KeyboardArrowUpIcon fontSize="small" />
             </button>
-            <div className={styles.authorRow}>
-              <PeopleAltOutlinedIcon className={styles.authorIcon} fontSize="small" />
-              <span className={styles.authorName}>{authorName}</span>
-            </div>
-          </div>
-          <span className={styles.dateBadge}>{'TODO: dateLabel'}</span>
-        </div>
+          }
+        />
 
         {/* Body */}
         <div className={styles.expandedBody}>
@@ -131,26 +132,24 @@ export default function FarmNoteItem({
     >
       <p className={styles.notePreview}>{note.note}</p>
       <NoteMetaData
-        authorName={authorName}
-        isPrivate={note.is_private}
-        createdAt={note.created_at}
+        {...metaDataProps}
+        icon={<KeyboardArrowDownIcon className={styles.chevronInline} fontSize="small" />}
       />
     </button>
   );
 }
 
-const NoteMetaData = ({
-  authorName,
-  isPrivate,
-  createdAt,
-}: {
+interface NoteMetaDataProps {
   authorName: string;
   isPrivate: boolean;
   createdAt: string;
-}) => {
+  icon: ReactNode;
+}
+
+const NoteMetaData = ({ authorName, isPrivate, createdAt, icon }: NoteMetaDataProps) => {
   return (
     <div className={styles.noteMeta}>
-      <KeyboardArrowDownIcon className={styles.chevronInline} fontSize="small" />
+      {icon}
       <div className={styles.nameAndVisibility}>
         <span className={styles.authorName}>{authorName}</span>
         {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}

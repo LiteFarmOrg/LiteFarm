@@ -34,22 +34,17 @@
   border: none;
   box-shadow: 0px 1px 0px 0px rgba(182, 191, 189, 0.3);
   cursor: pointer;
-
-  // &:hover {
-  //   background: var(--Colors-Primary-Primary-teal-50, #ebf5f4);
-  // }
 }
 
 .notePreview {
   height: 48px;
-  // flex: 1 1 0;
-  // min-width: 0;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   color: var(--Colors-Neutral-Neutral-900, #2b303a);
   overflow: hidden;
   text-overflow: ellipsis;
+
   // 2-line clamp on mobile, 1-line on desktop
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -112,44 +107,12 @@
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
 }
 
-.expandedHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.expandedHeaderLeft {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .chevronButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--Colors-Primary-Primary-teal-50, #ebf5f4);
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
   flex-shrink: 0;
-  color: var(--Colors-Primary-Primary-teal-600, #308f85);
-  padding: 0;
-}
-
-.authorRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.authorIcon {
   color: var(--Colors-Neutral-Neutral-500, #66738a);
-  font-size: 18px !important;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .authorName {
@@ -158,24 +121,6 @@
   line-height: 24px;
   color: var(--Colors-Neutral-Neutral-900, #2b303a);
   white-space: nowrap;
-}
-
-/* ── Date badge ────────────────────────────────── */
-
-.dateBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 8px;
-  background: rgba(255, 214, 212, 0.2);
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  color: var(--Colors-Accent-Accent-red-600, #ff3d33);
-  text-transform: uppercase;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 /* ── Expanded body ─────────────────────────────── */

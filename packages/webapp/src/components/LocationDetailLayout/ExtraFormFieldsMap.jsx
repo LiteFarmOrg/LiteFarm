@@ -20,15 +20,26 @@ import { Label } from '../Typography';
 import RadioGroup from '../Form/RadioGroup';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../Form/Input';
+import Unit from '../Form/Unit';
 import {
   barnEnum,
+  bufferZoneEnum,
+  fenceEnum,
   fieldEnum,
   gardenEnum,
   greenhouseEnum,
   surfaceWaterEnum,
+  watercourseEnum,
 } from '../../containers/constants';
 import styles from './styles.module.scss';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
+import {
+  area_total_area,
+  line_length,
+  line_width,
+  watercourse_width,
+} from '../../util/convert-units/unit';
+import { buffer } from 'd3';
 
 // Areas Children
 
@@ -334,6 +345,232 @@ function SurfaceWaterDetailsChildren({ isViewLocationPage }) {
   );
 }
 
+// Lines Children
+function BufferZoneDetailsChildren({ system, isViewLocationPage, isEditLocationPage }) {
+  const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div>
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
+          label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
+          name={bufferZoneEnum.width}
+          displayUnitName={bufferZoneEnum.width_unit}
+          errors={errors[bufferZoneEnum.width]}
+          unitType={line_width}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={!isEditLocationPage}
+        />
+      </div>
+      <div
+        style={{
+          flexDirection: 'row',
+          display: 'inline-flex',
+          paddingBottom: '40px',
+          width: '100%',
+          gap: '16px',
+        }}
+      >
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          name={bufferZoneEnum.total_area}
+          displayUnitName={bufferZoneEnum.total_area_unit}
+          errors={errors[bufferZoneEnum.total_area]}
+          unitType={area_total_area}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FenceDetailsChildren({ system, isViewLocationPage }) {
+  const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div>
+        <Unit
+          style={{ marginBottom: '40px' }}
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.FENCE.LENGTH')}
+          name={fenceEnum.length}
+          displayUnitName={fenceEnum.length_unit}
+          errors={errors[fenceEnum.length]}
+          unitType={line_length}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+      <div>
+        <InputBaseLabel
+          label={t('FARM_MAP.FENCE.PRESSURE_TREATED')}
+          hasLeaf={true}
+          optional={true}
+          labelStyles={{
+            marginBottom: '12px',
+            fontSize: '16px',
+          }}
+        />
+        <div style={{ marginBottom: '16px' }}>
+          <RadioGroup
+            row
+            disabled={isViewLocationPage}
+            name={fenceEnum.pressure_treated}
+            hookFormControl={control}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WatercourseDetailsChildren({ system, isViewLocationPage, isEditLocationPage }) {
+  const { t } = useTranslation();
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <div>
+      <div>
+        <Unit
+          style={{ marginBottom: '40px', zIndex: 2 }}
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.WATERCOURSE.LENGTH')}
+          name={watercourseEnum.length}
+          displayUnitName={watercourseEnum.length_unit}
+          errors={errors[watercourseEnum.length]}
+          unitType={line_length}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+      <div
+        style={{
+          flexDirection: 'row',
+          display: 'inline-flex',
+          paddingBottom: '40px',
+          width: '100%',
+          gap: '16px',
+        }}
+      >
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
+          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          name={watercourseEnum.total_area}
+          displayUnitName={watercourseEnum.total_area_unit}
+          errors={errors[watercourseEnum.total_area]}
+          unitType={area_total_area}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={isViewLocationPage}
+        />
+      </div>
+      <div>
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
+          label={t('FARM_MAP.WATERCOURSE.WIDTH')}
+          name={watercourseEnum.width}
+          displayUnitName={watercourseEnum.width_unit}
+          errors={errors[watercourseEnum.width]}
+          unitType={line_width}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={!isEditLocationPage}
+        />
+      </div>
+      <div>
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
+          label={t('FARM_MAP.WATERCOURSE.BUFFER')}
+          name={watercourseEnum.buffer_width}
+          displayUnitName={watercourseEnum.buffer_width_unit}
+          errors={errors[watercourseEnum.buffer_width]}
+          unitType={watercourse_width}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          required
+          disabled={!isEditLocationPage}
+        />
+      </div>
+      <div>
+        <div className={styles.radioLabel}>
+          <Label>{t('FARM_MAP.WATERCOURSE.IRRIGATION')}</Label>
+          <Label sm>{t('common:OPTIONAL')}</Label>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <RadioGroup
+            row
+            disabled={isViewLocationPage}
+            name={watercourseEnum.used_for_irrigation}
+            hookFormControl={control}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ExtraLocationFormFieldsMap = {
   //areas
   barn: BarnDetailsChildren,
@@ -345,6 +582,10 @@ const ExtraLocationFormFieldsMap = {
   natural_area: null,
   residence: null,
   surface_water: SurfaceWaterDetailsChildren,
+  // lines
+  buffer_zone: BufferZoneDetailsChildren,
+  fence: FenceDetailsChildren,
+  watercourse: WatercourseDetailsChildren,
 };
 
 export default ExtraLocationFormFieldsMap;

@@ -65,6 +65,19 @@ const config = (persistedFormData) => ({
     showPerimeter: true,
     defaultValues: persistedFormData,
   },
+  // lines
+  buffer_zone: {
+    showPerimeter: undefined,
+    defaultValues: persistedFormData,
+  },
+  fence: {
+    showPerimeter: undefined,
+    defaultValues: persistedFormData,
+  },
+  watercourse: {
+    showPerimeter: undefined,
+    defaultValues: persistedFormData,
+  },
 });
 
 export default function PureLocationFormWrapper({
@@ -83,8 +96,23 @@ export default function PureLocationFormWrapper({
 }) {
   const onSubmit = (data) => {
     // area units lift value up to top level
-    data[`total_area_unit`] = data[`total_area_unit`]?.value;
-    data[`perimeter_unit`] = data[`perimeter_unit`]?.value;
+    if (getFigureType(locationType) === 'area') {
+      data[`total_area_unit`] = data[`total_area_unit`]?.value;
+      data[`perimeter_unit`] = data[`perimeter_unit`]?.value;
+    }
+    if (getFigureType(locationType) === 'line') {
+      data[`length_unit`] = data[`length_unit`]?.value;
+      data[`width_unit`] = data[`width_unit`]?.value;
+      data['total_area_unit'] = data['total_area_unit']?.value;
+      if (locationType === 'watercourse') {
+        data['buffer_width_unit'] = data['buffer_width_unit']?.value;
+      }
+      if (locationType === 'fence') {
+        data['width'] = 0;
+        delete data['total_area_unit'];
+      }
+    }
+
     const formData = getFormDataWithoutNulls({
       ...persistedFormData,
       ...data,
@@ -115,7 +143,13 @@ export default function PureLocationFormWrapper({
         onSubmit={onSubmit}
         translationKey={locationType.toUpperCase()}
         detailsChildren={
-          DetailsChildren ? <DetailsChildren isViewLocationPage={isViewLocationPage} /> : undefined
+          DetailsChildren ? (
+            <DetailsChildren
+              system={system}
+              isViewLocationPage={isViewLocationPage}
+              isEditLocationPage={isEditLocationPage}
+            />
+          ) : undefined
         }
         showPerimeter={locationtypeConfig.showPerimeter}
       />

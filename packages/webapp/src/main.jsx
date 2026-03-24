@@ -33,7 +33,6 @@ import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailFor
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
 import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';
 import naturalAreaSaga from './containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/saga';
-import barnSaga from './containers/LocationDetails/AreaDetails/BarnDetailForm/saga';
 import surfaceWaterSaga from './containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/saga';
 import greenhouseSaga from './containers/LocationDetails/AreaDetails/GreenhouseDetailForm/saga';
 import ceremonialSaga from './containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/saga';
@@ -103,7 +102,6 @@ sagaMiddleware.run(fieldLocationSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
-sagaMiddleware.run(barnSaga);
 sagaMiddleware.run(surfaceWaterSaga);
 sagaMiddleware.run(bufferZoneSaga);
 sagaMiddleware.run(naturalAreaSaga);

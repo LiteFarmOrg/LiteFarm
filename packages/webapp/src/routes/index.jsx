@@ -75,6 +75,10 @@ const LocationDetailsRoutes = React.lazy(() => import('./LocationDetailsRoutes')
 import { allLocationTypes as allLocationTypesConfig } from './LocationDetailsRoutes.jsx';
 const allLocationTypes = allLocationTypesConfig;
 
+const PostLocationDetailForm = React.lazy(() =>
+  import('../containers/LocationDetails/PostLocationDetailForm'),
+);
+
 const PostFieldForm = React.lazy(() =>
   import('../containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
 );
@@ -95,10 +99,6 @@ const PostSoilSampleLocationForm = React.lazy(() =>
   import(
     '../containers/LocationDetails/PointDetails/SoilSampleLocationDetailForm/PostSoilSampleLocation'
   ),
-);
-
-const PostBarnForm = React.lazy(() =>
-  import('../containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
 );
 
 const PostNaturalAreaForm = React.lazy(() =>
@@ -542,7 +542,11 @@ const Routes = ({ isCompactSideMenu }) => {
                       exact
                       children={<PostFarmSiteBoundaryForm />}
                     />
-                    <Route path="/create_location/barn" exact children={<PostBarnForm />} />
+                    <Route
+                      path="/create_location/barn"
+                      exact
+                      children={<PostLocationDetailForm locationType="barn" />}
+                    />
                     <Route
                       path="/create_location/natural_area"
                       exact
@@ -910,7 +914,11 @@ const Routes = ({ isCompactSideMenu }) => {
                       exact
                       children={<PostFarmSiteBoundaryForm />}
                     />
-                    <Route path="/create_location/barn" exact children={<PostBarnForm />} />
+                    <Route
+                      path="/create_location/barn"
+                      exact
+                      children={<PostLocationDetailForm locationType="barn" />}
+                    />
                     <Route
                       path="/create_location/natural_area"
                       exact

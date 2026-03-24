@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .wrapper {
   position: relative;
   display: inline-flex;
@@ -23,16 +25,19 @@
   align-items: center;
   gap: 4px;
   padding: 12px 16px;
-  background: var(--white, #fff);
-  border: 1px solid var(--Colors-Primary-Primary-teal-600, #308f85);
+  background: var(--white);
+  border: 1px solid var(--Colors-Primary-Primary-teal-600);
   border-radius: 8px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  color: var(--Colors-Primary-Primary-teal-600, #308f85);
+  color: var(--Colors-Primary-Primary-teal-600);
   cursor: pointer;
-  min-height: 48px; // touch target
+  height: 48px;
 
   &:hover {
-    background: var(--Colors-Primary-Primary-teal-50, #ebf5f4);
+    color: var(--Colors-Primary-Primary-teal-50);
+    border: 1px solid var(--Colors-Primary-Primary-teal-50);
+    background: var(--Colors-Primary-Primary-teal-700);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -44,7 +49,7 @@
 }
 
 .label {
-  font-family: 'Open Sans', sans-serif;
+  @include fontFamily();
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
@@ -59,6 +64,6 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--Colors-Accent-Accent-red-600, #d32f2f);
+  background: var(--Colors-Accent-Accent-red-600);
   pointer-events: none;
 }

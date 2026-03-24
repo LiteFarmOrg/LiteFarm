@@ -34,7 +34,9 @@ export default function FarmNotesFloatingButton({
         <MessageTextSquareIcon className={styles.icon} />
         <span className={styles.label}>{t('FARM_NOTE.FARM_NOTES')}</span>
       </button>
-      {hasUnread && <span className={styles.unreadDot} aria-label={t('FARM_NOTE.UNREAD_NOTES')} />}
+      {hasUnread && (
+        <span className={styles.unreadDot} aria-label={t('FARM_NOTE.HAS_UNREAD_NOTES')} />
+      )}
     </div>
   );
 }

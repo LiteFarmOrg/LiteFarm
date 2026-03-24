@@ -54,7 +54,7 @@ const propertiesToPick = {
   ],
   natural_area: [],
   residence: [],
-  surface_water: [],
+  surface_water: ['used_for_irrigation'],
   // lines
   buffer_zone: [],
   fence: ['pressure_treated'],

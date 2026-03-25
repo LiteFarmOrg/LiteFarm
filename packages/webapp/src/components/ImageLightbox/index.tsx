@@ -52,13 +52,13 @@ export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps
             className={styles.closeBtn}
             onClick={onClose}
             type="button"
-            aria-label={t('FARM_NOTE.CLOSE')}
+            aria-label={t('common:CLOSE')}
           >
-            <span>{t('FARM_NOTE.CLOSE')}</span>
+            <span>{t('common:CLOSE')}</span>
             <CloseIcon aria-hidden="true" />
           </TextButton>
         </div>
-        {!isMobile && <p className={styles.escHint}>{t('FARM_NOTE.ESC_TO_CLOSE')}</p>}
+        {!isMobile && <p className={styles.escHint}>{t('IMAGE_LIGHTBOX.ESC_TO_CLOSE')}</p>}
       </div>
     </Dialog>
   );

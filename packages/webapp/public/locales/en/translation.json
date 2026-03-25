@@ -1006,9 +1006,7 @@
   "FARM_NOTE": {
     "ATTACH_PHOTO": "Attach a photo",
     "CANCEL": "Cancel",
-    "CLOSE": "Close",
     "EDIT_NOTE": "Edit note",
-    "ESC_TO_CLOSE": "Or press \"Esc\" to close",
     "KEEP_PRIVATE": "Keep this note private",
     "NEW_NOTE": "New note",
     "NOTE_LABEL": "Note",
@@ -1128,6 +1126,9 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} others",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": "Or press \"Esc\" to close"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {

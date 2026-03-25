@@ -1,5 +1,4 @@
-import React from 'react';
-import LineDetails from '../../../../components/LocationDetailLayout/LineDetails/LineDetails';
+import LineDetails from '../../../../components/LocationDetailLayout/LineDetails';
 import decorator from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 import { FormProvider, useForm } from 'react-hook-form';

@@ -1,5 +1,4 @@
-import React from 'react';
-import PointDetails from '../../../../components/LocationDetailLayout/PointDetails/PointDetails';
+import PointDetails from '../../../../components/LocationDetailLayout/PointDetails';
 import decorator from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 import { FormProvider, useForm } from 'react-hook-form';

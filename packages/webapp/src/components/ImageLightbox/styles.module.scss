@@ -13,6 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.paper {
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
 /* centers image + hint in the dark overlay */
 .container {
   display: flex;

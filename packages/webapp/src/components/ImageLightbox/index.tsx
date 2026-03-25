@@ -15,6 +15,7 @@
 
 import Dialog from '@mui/material/Dialog';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
@@ -26,7 +27,8 @@ export type ImageLightboxProps = {
 
 export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps) {
   const { t } = useTranslation();
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Dialog
@@ -35,10 +37,10 @@ export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps
       fullScreen={isMobile}
       maxWidth="md"
       slotProps={{
-        backdrop: { sx: { backgroundColor: 'rgba(0,0,0,0.8)' } },
+        backdrop: { className: styles.backdrop },
       }}
       PaperProps={{
-        sx: { background: 'transparent', boxShadow: 'none', overflow: 'visible' },
+        className: styles.paper,
       }}
     >
       <div className={styles.container}>

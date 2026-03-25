@@ -15,7 +15,7 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList';
-import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
+import { componentDecoratorsFullHeight, componentDecorators } from '../Pages/config/Decorators';
 
 const currentUserId = 'user-1';
 
@@ -54,7 +54,7 @@ const userDisplayNameMap: Record<string, string> = {
 export default {
   title: 'Components/FarmNotes/FarmNoteList',
   component: FarmNoteList,
-  decorators: componentDecoratorsFullHeight,
+  decorators: [...componentDecoratorsFullHeight, ...componentDecorators],
   args: {
     notes,
     userDisplayNameMap,

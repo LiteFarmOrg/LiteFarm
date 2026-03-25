@@ -121,7 +121,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
             ?.toLowerCase()}`,
         ),
       );
-      setShowConfirmRetireModal(false);
     } catch (error) {
       console.error(error);
       history.push({ pathname: history.location.pathname });
@@ -132,8 +131,8 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
           ).toLowerCase()}`,
         ),
       );
-      setShowCannotRetireModal(true);
     }
+    setShowConfirmRetireModal(false);
   };
 
   return (

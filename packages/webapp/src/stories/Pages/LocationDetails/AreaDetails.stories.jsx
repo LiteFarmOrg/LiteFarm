@@ -1,7 +1,7 @@
-import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails';
-import decorator from '../../config/Decorators';
+import AreaDetails from '../../../components/LocationDetailLayout/AreaDetails';
+import decorator from '../config/Decorators';
 import { FormProvider, useForm } from 'react-hook-form';
-import { chromaticSmallScreen } from '../../config/chromatic';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/Location/Area/AreaDetails',

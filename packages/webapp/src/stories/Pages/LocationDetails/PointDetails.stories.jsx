@@ -1,25 +1,25 @@
-import LineDetails from '../../../../components/LocationDetailLayout/LineDetails';
-import decorator from '../../config/Decorators';
-import { chromaticSmallScreen } from '../../config/chromatic';
+import PointDetails from '../../../components/LocationDetailLayout/PointDetails';
+import decorator from '../config/Decorators';
+import { chromaticSmallScreen } from '../config/chromatic';
 import { FormProvider, useForm } from 'react-hook-form';
 
 export default {
-  title: 'Form/Location/Line/LineDetails',
+  title: 'Form/Location/Point/PointDetails',
   decorators: decorator,
-  component: LineDetails,
+  component: PointDetails,
 };
 
 const Template = (args) => (
   <FormProvider {...useForm()}>
-    <LineDetails {...args} />
+    <PointDetails {...args} />
   </FormProvider>
 );
 
 export const Post = Template.bind({});
 Post.args = {
   isCreateLocationPage: true,
-  name: 'Fence',
-  title: 'Add fence',
+  name: 'Gate',
+  title: 'Add gate',
   submitForm: (data) => {},
   children: (data) => {},
   setValue: (data) => {},

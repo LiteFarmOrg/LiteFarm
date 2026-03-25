@@ -180,5 +180,5 @@ export const toTranslationKey = (text) => {
 
 export const getFirstNameWithLastInitial = (user) => {
   const lastName = user.last_name.length > 0 ? user.last_name.toUpperCase().charAt(0) + '.' : '';
-  return `${user.first_name} ${lastName}`;
+  return `${user.first_name} ${lastName}`.trim();
 };

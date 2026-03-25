@@ -13,16 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import useExpandable from '../../Expandable/useExpandableItem';
 import FarmNoteItem from '../FarmNoteItem';
+import Button from '../../Form/Button';
+import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import { FarmNote } from '../types';
 import styles from './styles.module.scss';
 
 interface FarmNoteListProps {
   notes: FarmNote[];
-  users: Record<string, string>;
+  userDisplayNameMap: Record<FarmNote['user_id'], string>;
   currentUserId: string;
   onAddNote: () => void;
   onEditNote: (note: FarmNote) => void;
@@ -32,7 +34,7 @@ interface FarmNoteListProps {
 
 export default function FarmNoteList({
   notes,
-  users,
+  userDisplayNameMap,
   currentUserId,
   onAddNote,
   onEditNote,
@@ -43,35 +45,47 @@ export default function FarmNoteList({
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
 
   // Pending (offline-queued) notes render above server-fetched notes
-  const pendingNotes = notes.filter((n) => n.to_sync);
+  const pendingNotes = notes
+    .filter((n) => n.to_sync)
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
   const serverNotes = notes.filter((n) => !n.to_sync);
   const orderedNotes = [...pendingNotes, ...serverNotes];
+  const isEmpty = orderedNotes.length === 0;
 
   return (
-    <div className={styles.container}>
-      <button className={styles.addButton} onClick={onAddNote} type="button">
-        <AddCircleOutlineIcon fontSize="small" />
-        {t('FARM_NOTE.ADD_A_NOTE')}
-      </button>
+    <div className={clsx(styles.container, isEmpty && styles.emptyContainer)}>
+      <div className={styles.header}>
+        {isEmpty && <p className={styles.emptyState}>{t('FARM_NOTE.EMPTY_STATE')}</p>}
+        <Button
+          className={styles.addButton}
+          color="secondary-2"
+          type="button"
+          onClick={onAddNote}
+          sm
+        >
+          <PlusCircleIcon />
+          {t('FARM_NOTE.ADD_A_NOTE')}
+        </Button>
+      </div>
 
-      {orderedNotes.length === 0 ? (
-        <p className={styles.emptyState}>{t('FARM_NOTE.EMPTY_STATE')}</p>
-      ) : (
+      {!isEmpty && (
         <ul className={styles.list}>
-          {orderedNotes.map((note) => (
-            <li key={note.farm_note_id} className={styles.listItem}>
-              <FarmNoteItem
-                note={note}
-                authorName={users[note.user_id] ?? ''}
-                isAuthor={note.user_id === currentUserId}
-                isExpanded={expandedIds.includes(note.farm_note_id)}
-                onToggle={() => toggleExpanded(note.farm_note_id)}
-                onEdit={() => onEditNote(note)}
-                onDelete={() => onDeleteNote(note)}
-                onImageClick={onImageClick}
-              />
-            </li>
-          ))}
+          {orderedNotes.map((note) => {
+            return (
+              <li key={note.id}>
+                <FarmNoteItem
+                  note={note}
+                  authorName={userDisplayNameMap[note.user_id]}
+                  isAuthor={note.user_id === currentUserId}
+                  isExpanded={expandedIds.includes(note.id)}
+                  onToggle={() => toggleExpanded(note.id)}
+                  onEdit={() => onEditNote(note)}
+                  onDelete={() => onDeleteNote(note)}
+                  onImageClick={onImageClick}
+                />
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

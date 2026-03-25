@@ -16,12 +16,12 @@
 // Local type definition until LF-5214 (RTK Query API layer) merges and adds FarmNote to
 // store/api/types/index.ts. At that point, update imports to point to that file.
 export interface FarmNote {
-  farm_note_id: string;
+  id: string;
   farm_id: string;
   user_id: string;
   note: string;
   is_private: boolean;
   image_url?: string;
-  created_at: string;
+  updated_at: string;
   to_sync?: boolean; // client-only flag for offline-queued notes
 }

@@ -15,38 +15,38 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList';
-import { componentDecorators } from '../Pages/config/Decorators';
+import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
 
 const currentUserId = 'user-1';
 
 const notes = [
   {
-    farm_note_id: 'note-1',
+    id: 'note-1',
     farm_id: 'farm-1',
     user_id: 'user-1',
     note: 'Fence damage spotted on the east side of Field 3, about 20m from the gate.',
     is_private: false,
-    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   {
-    farm_note_id: 'note-2',
+    id: 'note-2',
     farm_id: 'farm-1',
     user_id: 'user-2',
     note: 'Irrigation system in Block B is running 10 minutes longer than scheduled. Checked the timer — settings look correct. Will monitor tomorrow.',
     is_private: false,
-    created_at: new Date(Date.now() - 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 86400000).toISOString(),
   },
   {
-    farm_note_id: 'note-3',
+    id: 'note-3',
     farm_id: 'farm-1',
     user_id: 'user-1',
     note: 'Personal reminder: submit soil sample to the lab by end of week.',
     is_private: true,
-    created_at: new Date(Date.now() - 172800000).toISOString(),
+    updated_at: new Date(Date.now() - 172800000).toISOString(),
   },
 ];
 
-const users: Record<string, string> = {
+const userDisplayNameMap: Record<string, string> = {
   'user-1': 'Joyce S',
   'user-2': 'Denis D',
 };
@@ -54,14 +54,14 @@ const users: Record<string, string> = {
 export default {
   title: 'Components/FarmNotes/FarmNoteList',
   component: FarmNoteList,
-  decorators: componentDecorators,
+  decorators: componentDecoratorsFullHeight,
   args: {
     notes,
-    users,
+    userDisplayNameMap,
     currentUserId,
     onAddNote: () => console.log('add note'),
-    onEditNote: (note: (typeof notes)[0]) => console.log('edit', note.farm_note_id),
-    onDeleteNote: (note: (typeof notes)[0]) => console.log('delete', note.farm_note_id),
+    onEditNote: (note: (typeof notes)[0]) => console.log('edit', note.id),
+    onDeleteNote: (note: (typeof notes)[0]) => console.log('delete', note.id),
     onImageClick: (src: string) => console.log('image click', src),
   },
 } as Meta<typeof FarmNoteList>;

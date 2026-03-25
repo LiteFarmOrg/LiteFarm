@@ -54,7 +54,7 @@ export default function FarmNoteItem({
   const metaDataProps = {
     authorName: authorName,
     isPrivate: note.is_private,
-    createdAt: note.created_at,
+    updatedAt: note.updated_at,
     isExpanded,
   };
 
@@ -138,7 +138,7 @@ export default function FarmNoteItem({
 interface NoteMetaDataProps {
   authorName: string;
   isPrivate: boolean;
-  createdAt: string;
+  updatedAt: string;
   icon: ReactNode;
   isExpanded: boolean;
 }
@@ -146,7 +146,7 @@ interface NoteMetaDataProps {
 const NoteMetaData = ({
   authorName,
   isPrivate,
-  createdAt,
+  updatedAt,
   icon,
   isExpanded,
 }: NoteMetaDataProps) => {
@@ -157,23 +157,23 @@ const NoteMetaData = ({
         <span className={styles.authorName}>{authorName}</span>
         {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}
       </div>
-      <DateBadge createdAt={createdAt} />
+      <DateBadge updatedAt={updatedAt} />
     </div>
   );
 };
 
-const DateBadge = ({ createdAt }: { createdAt: string }) => {
+const DateBadge = ({ updatedAt }: { updatedAt: string }) => {
   const { t } = useTranslation('common');
-  const isCreatedToday = isSameDay(new Date(createdAt), new Date());
+  const isUpdatedToday = isSameDay(new Date(updatedAt), new Date());
 
-  if (isCreatedToday) {
+  if (isUpdatedToday) {
     return <span className={styles.today}>{t('common:TODAY')}</span>;
   }
 
   return (
     <span className={styles.date}>
       <CalendarIcon />
-      {getIntlDate(createdAt)}
+      {getIntlDate(updatedAt)}
     </span>
   );
 };

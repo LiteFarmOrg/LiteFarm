@@ -18,12 +18,12 @@ import FarmNoteItem from '../../components/FarmNotes/FarmNoteItem';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 const baseNote = {
-  farm_note_id: 'note-1',
+  id: 'note-1',
   farm_id: 'farm-1',
   user_id: 'user-1',
   note: 'Fence damage spotted on the east side of Field 3, about 20m from the gate. Looks like something pushed through overnight. 2 staples missing, top wire loose, post cracked at ground level.',
   is_private: false,
-  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
 };
 
 export default {
@@ -81,6 +81,6 @@ export const PendingSync: Story = {
 
 export const PastDate: Story = {
   args: {
-    note: { ...baseNote, created_at: '2025-12-01T09:00:00.000Z' },
+    note: { ...baseNote, updated_at: '2025-12-01T09:00:00.000Z' },
   },
 };

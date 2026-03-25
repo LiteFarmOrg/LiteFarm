@@ -24,6 +24,27 @@ export interface FarmNoteParams {
   id: string;
 }
 
+export function checkFarmNote(action: string) {
+  return async (
+    _req: LiteFarmRequest<unknown, FarmNoteParams, unknown, unknown>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const isAdding = action === 'add';
+    const hasNote = 'note' in res.locals.data;
+
+    if (isAdding || hasNote) {
+      res.locals.data.note = res.locals.data.note?.trim();
+
+      if (!res.locals.data.note) {
+        return res.status(400).json({ error: 'Note is required' });
+      }
+    }
+
+    next();
+  };
+}
+
 export function checkFarmNoteId(action: string) {
   return async (
     req: LiteFarmRequest<unknown, FarmNoteParams, unknown, unknown>,

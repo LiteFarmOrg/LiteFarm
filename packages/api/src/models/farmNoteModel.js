@@ -14,7 +14,6 @@
  */
 
 import BaseModel from './baseModel.js';
-import { checkAndTrimString } from '../util/util.js';
 
 class FarmNoteModel extends BaseModel {
   static get tableName() {
@@ -28,22 +27,6 @@ class FarmNoteModel extends BaseModel {
   // Override to expose updated_at and created_by_user_id for display on the frontend.
   static get hidden() {
     return ['updated_by_user_id', 'created_at', 'deleted'];
-  }
-
-  async $beforeInsert(queryContext) {
-    await super.$beforeInsert(queryContext);
-    this.trimNote();
-  }
-
-  async $beforeUpdate(opt, queryContext) {
-    await super.$beforeUpdate(opt, queryContext);
-    this.trimNote();
-  }
-
-  trimNote() {
-    if (this.note) {
-      this.note = checkAndTrimString(this.note);
-    }
   }
 
   static get jsonSchema() {

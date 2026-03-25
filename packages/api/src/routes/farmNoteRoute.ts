@@ -18,7 +18,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import controller from '../controllers/farmNoteController.js';
-import { checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
+import { checkFarmNote, checkFarmNoteId } from '../middleware/validation/checkFarmNote.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
 import parseMultipartJsonField from '../middleware/format/parseMultipartJsonField.js';
 import uploadFarmNoteImage from '../middleware/image/uploadFarmNoteImage.js';
@@ -33,6 +33,7 @@ router.post(
   multerDiskUpload,
   validateFileExtension,
   parseMultipartJsonField,
+  checkFarmNote('add'),
   uploadFarmNoteImage(),
   controller.createFarmNote(),
 );
@@ -45,6 +46,7 @@ router.patch(
   multerDiskUpload,
   validateFileExtension,
   parseMultipartJsonField,
+  checkFarmNote('edit'),
   uploadFarmNoteImage(),
   controller.editFarmNote(),
 );

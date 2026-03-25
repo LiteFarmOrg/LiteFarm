@@ -1708,6 +1708,13 @@ export default {
       loading: false,
       loaded: false,
     },
+    irrigationTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      error: null,
+      loaded: false,
+    },
     irrigationTaskTypesReducer: {
       irrigationTaskTypes: [
         {
@@ -1745,6 +1752,20 @@ export default {
     mapAddDrawerReducer: {
       ids: [],
       entities: {},
+    },
+    animalMovementTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      error: null,
+      loaded: false,
+    },
+    soilSampleTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      error: null,
+      loaded: false,
     },
   },
   persistedStateReducer: {

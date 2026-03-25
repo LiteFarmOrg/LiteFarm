@@ -36,8 +36,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const location = useLocation();
-  // @ts-expect-error error not typed
-  const error: { retire: boolean } = location?.state?.error;
   const history = useHistory();
   const match = useRouteMatch();
   // @ts-expect-error match not typed
@@ -56,12 +54,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
-
-  useEffect(() => {
-    if (error?.retire) {
-      setShowCannotRetireModal(true);
-    }
-  }, [error]);
 
   const submitForm = async (data: { formData: any }) => {
     if (!isEditLocationPage) return;
@@ -129,6 +121,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
             ?.toLowerCase()}`,
         ),
       );
+      setShowConfirmRetireModal(false);
     } catch (error) {
       console.error(error);
       history.push({ pathname: history.location.pathname });
@@ -139,8 +132,8 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
           ).toLowerCase()}`,
         ),
       );
+      setShowCannotRetireModal(true);
     }
-    setShowConfirmRetireModal(false);
   };
 
   return (

@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import Input from '../Form/Input';
-import PureWarningBox from '../WarningBox';
-import { Label } from '../Typography';
 import Unit from '../Form/Unit';
 import { fieldEnum as areaEnum } from '../../containers/constants';
 import { area_perimeter, area_total_area } from '../../util/convert-units/unit';
@@ -12,7 +9,6 @@ import InputAutoSize from '../Form/InputAutoSize';
 export default function AreaDetails({
   name,
   showPerimeter,
-  history,
   children,
   system,
   isCreateLocationPage,
@@ -30,31 +26,9 @@ export default function AreaDetails({
     control,
     formState: { errors },
   } = useFormContext();
-  const [errorMessage, setErrorMessage] = useState();
-  useEffect(() => {
-    const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
-    const handleOnline = () => setErrorMessage(null);
-    window.addEventListener('offline', handleOffline);
-    window.addEventListener('online', handleOnline);
-    return () => {
-      window.removeEventListener('offline', handleOffline);
-      window.removeEventListener('online', handleOnline);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
-      setErrorMessage(history?.location?.state?.error);
-    }
-  }, [history?.location?.state?.error]);
 
   return (
     <>
-      {errorMessage && (
-        <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
-          <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
-        </PureWarningBox>
-      )}
       <Input
         data-cy="areaDetails-name"
         label={`${name}`}

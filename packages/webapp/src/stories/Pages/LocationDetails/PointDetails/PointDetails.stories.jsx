@@ -24,7 +24,6 @@ Post.args = {
   children: (data) => {},
   setValue: (data) => {},
   handleSubmit: (data) => {},
-  history: (data) => {},
   match: { params: { location_id: 1 } },
   onError: (data) => {},
   register: (data) => {},

@@ -795,7 +795,7 @@ export interface SurfaceWater extends LocationWithFigure<AreaFigure> {
   [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-enum BufferWidthUnit {
+export enum BufferWidthUnit {
   CM = 'cm',
   M = 'm',
   KM = 'km',
@@ -827,14 +827,14 @@ export interface Watercourse extends LocationWithFigure<LineFigure> {
   [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-enum WaterSource {
+export enum WaterSource {
   MUNICIPAL_WATER = 'Municipal water',
   SURFACE_WATER = 'Surface water',
   GROUNDWATER = 'Groundwater',
   RAIN_WATER = 'Rain water',
 }
 
-enum FlowRateUnit {
+export enum FlowRateUnit {
   L_PER_MIN = 'l/min',
   L_PER_H = 'l/h',
   GAL_PER_MIN = 'gal/min',

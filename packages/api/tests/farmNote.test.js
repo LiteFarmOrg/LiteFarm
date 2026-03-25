@@ -92,7 +92,7 @@ async function deleteRequest(id, { user_id, farm_id }) {
 
 const expectFarmNote = (expectedNote, returnedNotes) => {
   const returnedNote = returnedNotes.find(({ id }) => id === expectedNote.id);
-  for (const property of ['note', 'is_private', '']) {
+  for (const property of ['note', 'is_private']) {
     expect(returnedNote[property]).toBe(expectedNote[property]);
   }
 };

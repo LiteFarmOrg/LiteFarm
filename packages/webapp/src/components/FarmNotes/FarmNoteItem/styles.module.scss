@@ -16,15 +16,10 @@
 @use '@assets/mixin' as *;
 
 .card {
-  background: var(--white);
+  background: var(--white, #fff);
   border-radius: 8px;
   width: 100%;
-  padding: 16px;
   text-align: left;
-
-  &.pending {
-    opacity: 0.6;
-  }
 }
 
 .noteMeta {
@@ -81,28 +76,51 @@
   }
 }
 
-.chevronInline {
-  flex-shrink: 0;
-  color: var(--Colors-Neutral-Neutral-600);
-}
-
-.chevronButton {
+.chevron {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  color: var(--Colors-Neutral-Neutral-900);
-  background: var(--Colors-Primary-Primary-teal-50);
   border: none;
-  cursor: pointer;
+
+  .chevronInline {
+    color: var(--Colors-Neutral-Neutral-600);
+  }
+
+  .chevronButton {
+    color: var(--Colors-Neutral-Neutral-900);
+    background: var(--Colors-Primary-Primary-teal-50);
+    cursor: pointer;
+  }
 }
 
 /* ── Collapsed ─────────────────────────────────── */
 
 .collapsed {
-  border: none;
+  padding: 8px 16px;
+  border: 1px solid rgba(151, 166, 162, 0.1);
+  background: #fff;
   box-shadow: 0px 1px 0px 0px rgba(182, 191, 189, 0.3);
   cursor: pointer;
+
+  &.pending {
+    pointer-events: none;
+    border: 1px solid var(--Colors-Secondary-Secondary-green-100);
+    background: var(--Box-bg);
+
+    .notePreview {
+      color: var(--Colors-Neutral-Neutral-400);
+    }
+
+    .chevronInline {
+      color: var(--Colors-Neutral-Neutral-100);
+      background: var(--Colors-Neutral-Neutral-50);
+    }
+
+    .authorName {
+      color: var(--Colors-Neutral-Neutral-400);
+    }
+  }
 }
 
 .notePreview {
@@ -123,6 +141,7 @@
 /* ── Expanded ──────────────────────────────────── */
 
 .expanded {
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -205,14 +224,4 @@
       stroke: currentColor;
     }
   }
-}
-
-/* ── Pending sync label ────────────────────────── */
-
-.pendingLabel {
-  display: block;
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--Colors-Neutral-Neutral-400, #9faab6);
-  text-align: center;
 }

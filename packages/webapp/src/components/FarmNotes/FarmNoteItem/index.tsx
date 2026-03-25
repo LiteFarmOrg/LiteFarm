@@ -66,7 +66,7 @@ export default function FarmNoteItem({
           {...metaDataProps}
           icon={
             <button
-              className={styles.chevronButton}
+              className={clsx(styles.chevronButton, styles.chevron)}
               onClick={onToggle}
               aria-label={t('FARM_NOTE.COLLAPSE')}
               type="button"
@@ -111,9 +111,6 @@ export default function FarmNoteItem({
             </Button>
           </div>
         )}
-
-        {/* Pending sync label */}
-        {note.to_sync && <span className={styles.pendingLabel}>{t('FARM_NOTE.PENDING_SYNC')}</span>}
       </div>
     );
   }
@@ -127,7 +124,12 @@ export default function FarmNoteItem({
       <p className={styles.notePreview}>{note.note}</p>
       <NoteMetaData
         {...metaDataProps}
-        icon={<KeyboardArrowDownIcon className={styles.chevronInline} fontSize="small" />}
+        icon={
+          <KeyboardArrowDownIcon
+            className={clsx(styles.chevronInline, styles.chevron)}
+            fontSize="small"
+          />
+        }
       />
     </button>
   );

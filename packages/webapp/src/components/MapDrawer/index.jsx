@@ -158,7 +158,11 @@ export default function MapDrawer({
           firstLocationType.name.localeCompare(secondLocationType.name),
         )
         .filter(
-          ({ key }) => !availableFilterSettings || availableFilterSettings.point.includes(key),
+          // exclude sensor array from "add to map" drawer but include in "map filter" drawer
+          ({ key }) =>
+            !availableFilterSettings
+              ? key !== locationEnum.sensor_array
+              : availableFilterSettings.point.includes(key),
         ),
     [availableFilterSettings?.point],
   );

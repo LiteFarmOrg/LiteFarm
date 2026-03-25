@@ -19,11 +19,12 @@ import { useTranslation } from 'react-i18next';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
+import { ReactComponent as EditIcon } from '../../../assets/images/edit-02.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/images/document/trash.svg';
 import TextButton from '../../Form/Button/TextButton';
+import Button from '../../Form/Button';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
 import { FarmNote } from '../types';
 import styles from './styles.module.scss';
@@ -99,14 +100,14 @@ export default function FarmNoteItem({
         {/* Author actions */}
         {isAuthor && (
           <div className={styles.actions}>
-            <button className={styles.deleteButton} onClick={onDelete} type="button">
-              <DeleteOutlineIcon fontSize="small" />
-              {t('FARM_NOTE.DELETE_NOTE')}
-            </button>
-            <button className={styles.editButton} onClick={onEdit} type="button">
-              <EditOutlinedIcon fontSize="small" />
-              {t('FARM_NOTE.EDIT_NOTE')}
-            </button>
+            <TextButton type="button" onClick={onDelete}>
+              <DeleteIcon />
+              <span>{t('FARM_NOTE.DELETE_NOTE')}</span>
+            </TextButton>
+            <Button color="secondary" type="button" onClick={onEdit} sm>
+              <EditIcon />
+              <span>{t('FARM_NOTE.EDIT_NOTE')}</span>
+            </Button>
           </div>
         )}
 

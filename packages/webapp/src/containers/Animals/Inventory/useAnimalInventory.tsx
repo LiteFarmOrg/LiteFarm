@@ -40,6 +40,7 @@ import { useSelector } from 'react-redux';
 import { locationsSelector } from '../../locationSlice';
 import { Location } from '../../../types';
 import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
+import { chooseIdentification } from '../utils';
 
 export type AnimalInventoryItem = {
   id: string;
@@ -91,20 +92,6 @@ const getAnimalTypeLabel = (key: string) => {
 
 const getAnimalBreedLabel = (key: string) => {
   return t(`BREED.${key}`, { ns: 'animal' });
-};
-
-export const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
-  if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
-    if (animalOrBatch.name && animalOrBatch.identifier) {
-      return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;
-    } else if (!animalOrBatch.name && animalOrBatch.identifier) {
-      return animalOrBatch.identifier;
-    }
-  }
-  if (animalOrBatch.name) {
-    return animalOrBatch.name;
-  }
-  return `${t('ANIMAL.ANIMAL_ID')}${animalOrBatch.internal_identifier}`;
 };
 
 export const chooseAnimalTypeLabel = (

@@ -18,6 +18,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import TextButton from '../Form/Button/TextButton';
+import { ReactComponent as CloseIcon } from '../../assets/images/lightbox-close-x-icon.svg';
 
 export type ImageLightboxProps = {
   src: string;
@@ -46,14 +48,15 @@ export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps
       <div className={styles.container}>
         <div className={styles.imageWrapper}>
           <img className={styles.image} src={src} alt="" />
-          <button className={styles.closeBtn} onClick={onClose} type="button">
+          <TextButton
+            className={styles.closeBtn}
+            onClick={onClose}
+            type="button"
+            aria-label={t('FARM_NOTE.CLOSE')}
+          >
             <span>{t('FARM_NOTE.CLOSE')}</span>
-            {/* TODO(developer): Replace this × with the actual close SVG from Figma
-                (node-id 68412:156456, 8×8px) */}
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true">
-              <path d="M1 1l6 6M7 1L1 7" stroke="#5d697e" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </button>
+            <CloseIcon aria-hidden="true" />
+          </TextButton>
         </div>
         {!isMobile && <p className={styles.escHint}>{t('FARM_NOTE.ESC_TO_CLOSE')}</p>}
       </div>

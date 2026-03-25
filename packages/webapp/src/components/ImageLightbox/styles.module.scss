@@ -34,7 +34,7 @@
 /* image card with teal border */
 .imageWrapper {
   position: relative;
-  border: 1px solid var(--Colors-Primary-Primary-teal-300, #78bdb6);
+  border: 1px solid var(--Colors-Primary-Primary-teal-300);
   border-radius: 4px;
   overflow: hidden;
   max-width: 90vw;
@@ -52,25 +52,35 @@
 .closeBtn {
   position: absolute;
   top: 14px;
-  right: 15px;
+  right: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
   height: 28px;
   padding: 8px;
-  background: var(--white, #ffffff);
+  background: var(--White);
+  border: none;
   border-radius: 24px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 12px;
-  line-height: 13px;
-  color: var(--Colors-Neutral-Neutral-600, #5d697e);
+  color: var(--Colors-Neutral-Neutral-600);
   cursor: pointer;
-  white-space: nowrap;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.closeBtn:focus {
+  outline: none;
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
+  outline-offset: 2px;
 }
 
 /* "Or press Esc to close" hint — desktop only */
 .escHint {
   font-size: 12px;
-  color: var(--Colors-Neutral-Neutral-50, #f0f1f3);
+  color: var(--Colors-Neutral-Neutral-50);
   white-space: nowrap;
 }

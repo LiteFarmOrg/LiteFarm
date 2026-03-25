@@ -59,12 +59,13 @@ const farmNoteController = {
           .returning('*');
 
         return res.status(201).json(note);
-      } catch (error) {
-        console.error(error);
-
+      } catch (error: unknown) {
         deleteImage(res.locals.farmNoteData.image_url);
 
-        return res.status(500).json({ error });
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },
@@ -91,12 +92,13 @@ const farmNoteController = {
         }
 
         return res.status(200).json(updated);
-      } catch (error) {
-        console.error(error);
-
+      } catch (error: unknown) {
         deleteImage(res.locals.farmNoteData.image_url);
 
-        return res.status(500).json({ error });
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },

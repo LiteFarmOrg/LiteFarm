@@ -14,7 +14,7 @@
  */
 
 import { NextFunction, Response } from 'express';
-import { HttpError, LiteFarmRequest } from '../../types.js';
+import { LiteFarmRequest } from '../../types.js';
 
 export interface MultipartBody {
   data: string;
@@ -33,12 +33,8 @@ export default function parseMultipartJsonField(
   if (contentType?.includes('multipart/form-data') && typeof req.body?.data === 'string') {
     try {
       res.locals.data = JSON.parse(req.body.data);
-    } catch (error: unknown) {
-      console.error(error);
-
-      const err = error as HttpError;
-      const status = err.status || err.code || 500;
-      return res.status(status).json({ error: err.message || err });
+    } catch (_error) {
+      return res.status(400).json({ error: 'Invalid JSON' });
     }
   }
 

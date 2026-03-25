@@ -13,16 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import ImageLightbox, { type ImageLightboxProps } from '../../components/ImageLightbox';
+import styles from './styles.module.scss';
+import { Info } from '../../components/Typography';
 
 const meta: Meta<ImageLightboxProps> = {
   title: 'Components/ImageLightbox',
   component: ImageLightbox,
   decorators: componentDecorators,
   args: {
-    src: '/src/assets/images/certification/Farmland.svg',
+    src: 'src/stories/ImageLightbox/image_lightbox_sample.png',
     open: true,
     onClose: () => console.log('close'),
   },
@@ -33,8 +36,19 @@ type Story = StoryObj<typeof ImageLightbox>;
 
 export const Open: Story = {};
 
-export const Closed: Story = {
-  args: {
-    open: false,
+export const Interactive: Story = {
+  render: (args) => {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <div className={styles.wrapper}>
+        <button type="button" onClick={() => setOpen(true)} className={styles.triggerButton}>
+          <img src={args.src} alt="Sample for lightbox" className={styles.previewImage} />
+        </button>
+        <Info>Click to enlarge</Info>
+
+        <ImageLightbox {...args} open={open} onClose={() => setOpen(false)} />
+      </div>
+    );
   },
 };

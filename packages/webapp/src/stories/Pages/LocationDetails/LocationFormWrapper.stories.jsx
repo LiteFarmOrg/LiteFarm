@@ -18,7 +18,6 @@ import { chromaticSmallScreen } from '../config/chromatic';
 import PureLocationFormWrapper from '../../../components/LocationDetailLayout/PureLocationFormWrapper';
 import { InternalMapLocationType } from '../../../store/api/types';
 import { Provider } from 'react-redux';
-import { action } from '@storybook/addon-actions';
 import { fakeDBLocation } from './util';
 import { pick } from '../../../util/pick';
 import { areaProperties, lineProperties, pointProperties } from '../../../containers/constants';
@@ -176,7 +175,7 @@ const getStore = (locationType) => ({
     };
   },
   subscribe: () => () => {},
-  dispatch: action('dispatch'),
+  dispatch: () => {},
 });
 
 export default {

@@ -55,6 +55,7 @@ export default function FarmNoteItem({
     authorName: authorName,
     isPrivate: note.is_private,
     createdAt: note.created_at,
+    isExpanded,
   };
 
   if (isExpanded) {
@@ -137,11 +138,18 @@ interface NoteMetaDataProps {
   isPrivate: boolean;
   createdAt: string;
   icon: ReactNode;
+  isExpanded: boolean;
 }
 
-const NoteMetaData = ({ authorName, isPrivate, createdAt, icon }: NoteMetaDataProps) => {
+const NoteMetaData = ({
+  authorName,
+  isPrivate,
+  createdAt,
+  icon,
+  isExpanded,
+}: NoteMetaDataProps) => {
   return (
-    <div className={styles.noteMeta}>
+    <div className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
       {icon}
       <div className={styles.nameAndVisibility}>
         <span className={styles.authorName}>{authorName}</span>

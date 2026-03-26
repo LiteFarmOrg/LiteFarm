@@ -19,29 +19,12 @@ import clsx from 'clsx';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
 import TextButton from '../Form/Button/TextButton';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
-import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/camera.svg';
-import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
-import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
+import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCapture/photo-btn.svg';
+import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
+import { ReactComponent as TrashIcon } from '../../assets/images/imageCapture/trash-03.svg';
+import { ReactComponent as EditIcon } from '../../assets/images/imageCapture/edit-02.svg';
 import useHasCamera from './useHasCamera';
 import styles from './styles.module.scss';
-
-// TODO(developer): Replace the photo-library icon below with the actual SVG from Figma
-// (Figma node: Type=Files, Device=Mobile, Status=Pristine — node-id 68412:157004)
-const PhotoLibraryIcon = () => (
-  <svg
-    width="20"
-    height="18"
-    viewBox="0 0 20 18"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <rect x="1" y="3" width="18" height="14" rx="2" stroke="#308f85" strokeWidth="1.5" />
-    <circle cx="6.5" cy="7.5" r="1.5" fill="#308f85" />
-    <path d="M1 13l4-4 3 3 3-3 4 4" stroke="#308f85" strokeWidth="1.5" strokeLinejoin="round" />
-    <path d="M5 3V2a2 2 0 012-2h6a2 2 0 012 2v1" stroke="#308f85" strokeWidth="1.5" />
-  </svg>
-);
 
 export type ImageUploadCaptureProps = {
   onSelectImage: (file: File) => void;

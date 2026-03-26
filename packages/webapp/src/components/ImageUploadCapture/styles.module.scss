@@ -58,6 +58,10 @@
   justify-content: flex-start;
 }
 
+.photoBtnWrapper {
+  cursor: pointer;
+}
+
 /* individual tile */
 .photoBtn {
   display: flex;
@@ -70,6 +74,7 @@
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
 }
 
 /* icon box */
@@ -82,7 +87,6 @@
   border-radius: 8px;
   border: 1px solid var(--Colors-Primary-Primary-teal-50, #ebf5f4);
   background: #ffffff;
-  cursor: pointer;
 }
 
 .photoBtnLabel {

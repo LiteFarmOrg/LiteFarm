@@ -110,28 +110,33 @@ export default function ImageUploadCapture({
             </>
           ) : (
             <>
-              <div className={styles.photoBtn}>
-                <PureFilePickerWrapper accept="image/*" onChange={handleChange}>
+              <PureFilePickerWrapper
+                accept="image/*"
+                onChange={handleChange}
+                className={styles.photoBtnWrapper}
+              >
+                <div className={styles.photoBtn}>
                   <div className={styles.photoBtnIcon}>
                     <PhotoLibraryIcon />
                   </div>
-                </PureFilePickerWrapper>
-                <span className={styles.photoBtnLabel}>{t('FARM_NOTE.PHOTO_LIBRARY')}</span>
-              </div>
+                  <span className={styles.photoBtnLabel}>{t('FARM_NOTE.PHOTO_LIBRARY')}</span>
+                </div>
+              </PureFilePickerWrapper>
 
               {showTakePhoto && (
-                <div className={styles.photoBtn}>
-                  <PureFilePickerWrapper
-                    accept="image/*"
-                    capture="environment"
-                    onChange={handleChange}
-                  >
+                <PureFilePickerWrapper
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleChange}
+                  className={styles.photoBtnWrapper}
+                >
+                  <div className={styles.photoBtn}>
                     <div className={styles.photoBtnIcon}>
                       <CameraIcon />
                     </div>
-                  </PureFilePickerWrapper>
-                  <span className={styles.photoBtnLabel}>{t('FARM_NOTE.TAKE_PHOTO')}</span>
-                </div>
+                    <span className={styles.photoBtnLabel}>{t('FARM_NOTE.TAKE_PHOTO')}</span>
+                  </div>
+                </PureFilePickerWrapper>
               )}
             </>
           )}

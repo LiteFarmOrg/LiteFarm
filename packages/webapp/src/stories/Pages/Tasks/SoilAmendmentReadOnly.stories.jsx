@@ -98,13 +98,34 @@ const args = {
       purpose: 'structure',
       task_id: 73,
     },
+    soil_amendment_task_products: [
+      {
+        id: 14,
+        task_id: 115,
+        product_id: 31,
+        weight: 1,
+        weight_unit: 'kg',
+        volume: null,
+        volume_unit: null,
+        application_rate_weight_unit: 'kg/ha',
+        application_rate_volume_unit: null,
+        percent_of_location_amended: 100,
+        total_area_amended: 1269105,
+        purpose_relationships: [
+          {
+            task_products_id: 14,
+            purpose_id: 2,
+            other_purpose: null,
+          },
+        ],
+      },
+    ],
     pinCoordinates: [],
     managementPlansByPinCoordinate: {},
     locationsById: {
       '91bd7698-a0b7-11ed-be24-e66db4bef552': {},
     },
     managementPlansByLocation: {},
-    soil_amendment_task_products: [],
   },
   users: [{ user_id: '1', first_name: 'John', last_name: 'Doe' }],
   user: {

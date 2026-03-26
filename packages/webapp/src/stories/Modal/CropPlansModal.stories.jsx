@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
 import CropPlansModal from '../../components/Modals/CropModals/CropPlansModal';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';

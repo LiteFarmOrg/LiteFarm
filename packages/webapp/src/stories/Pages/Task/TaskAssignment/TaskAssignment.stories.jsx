@@ -1,7 +1,5 @@
-import React from 'react';
 import decorators from '../../config/Decorators';
 import PureTaskAssignment from '../../../../components/Task/PureTaskAssignment';
-
 import { useForm } from 'react-hook-form';
 
 const WithForm = (Story, context) => {
@@ -39,7 +37,10 @@ const moreThanEightUsers = [
 
 const oneUser = [{ label: 'Apple', value: 'apple' }];
 
-const Template = (args) => <PureTaskAssignment {...args} />;
+const Template = (args) => {
+  const form = useForm();
+  return <PureTaskAssignment {...args} {...form} />;
+};
 
 export const TaskAssignment = Template.bind({});
 TaskAssignment.args = {

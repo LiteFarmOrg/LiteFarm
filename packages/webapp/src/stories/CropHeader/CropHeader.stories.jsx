@@ -1,4 +1,3 @@
-import React from 'react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import CropHeader from '../../components/Crop/CropHeader';
 

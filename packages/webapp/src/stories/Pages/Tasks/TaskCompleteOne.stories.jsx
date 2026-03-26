@@ -1,4 +1,3 @@
-import React from 'react';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import decorator from '../config/Decorators';
 
@@ -15,7 +14,7 @@ TaskCompleteCleaning.args = {
   onCancel: () => {},
   onGoBack: () => {},
   onSave: () => {},
-  useHookFormPersist: () => ({ persistedData: { uploadedFiles: undefined } }),
+  useHookFormPersist: () => ({ persistedData: { uploadedFiles: [] } }),
   persistedFormData: {
     need_changes: true,
     cleaning_task: {
@@ -34,6 +33,7 @@ TaskCompleteCleaning.args = {
         farm_id: '1231456',
       },
     },
+    uploadedFiles: [],
   },
   selectedTask: {
     animals: [],

@@ -16,13 +16,13 @@
 import { Meta, StoryObj } from '@storybook/react/*';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription/';
 import { mockField, mockPivot, mockUriData, mockVriZones, mockVriZonesFive } from './mockData';
-import { navMenuControlDecorator } from '../Pages/config/Decorators';
+import decorators from '../Pages/config/Decorators';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureIrrigationPrescription> = {
   title: 'Components/IrrigationPrescription',
   component: PureIrrigationPrescription,
-  decorators: navMenuControlDecorator,
+  decorators: decorators,
 };
 
 export default meta;

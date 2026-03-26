@@ -5,6 +5,12 @@ import { chromaticSmallScreen } from '../config/chromatic';
 import ImagePickerWrapper from '../../../containers/ImagePickerWrapper';
 import { AddLink } from '../../../components/Typography';
 
+const imageUploader = (
+  <ImagePickerWrapper>
+    <AddLink>{'Add Image'}</AddLink>
+  </ImagePickerWrapper>
+);
+
 export default {
   title: 'Form/Crop/AddNewCrop',
   decorators: decorators,
@@ -18,11 +24,7 @@ Primary.args = {
   useHookFormPersist: () => ({}),
   handleGoBack: () => {},
   handleCancel: () => {},
-  imageUploader: (
-    <ImagePickerWrapper>
-      <AddLink>Add Image</AddLink>
-    </ImagePickerWrapper>
-  ),
+  imageUploader,
 };
 Primary.parameters = {
   ...chromaticSmallScreen,
@@ -34,11 +36,7 @@ WithDropdownOpen.args = {
   isPhysiologyAnatomyDropDownOpen: true,
   handleGoBack: () => {},
   handleCancel: () => {},
-  imageUploader: (
-    <ImagePickerWrapper>
-      <AddLink>Add Image</AddLink>
-    </ImagePickerWrapper>
-  ),
+  imageUploader,
 };
 WithDropdownOpen.parameters = {
   ...chromaticSmallScreen,

@@ -26,7 +26,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/images/document/tr
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
-import { FarmNote } from '../types';
+import { FarmNote } from '../../../store/api/types';
 import styles from './styles.module.scss';
 
 interface FarmNoteItemProps {

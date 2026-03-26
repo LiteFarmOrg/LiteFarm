@@ -32,35 +32,32 @@ export default meta;
 
 type Story = StoryObj<typeof ImageUploadCapture>;
 
-// Mock helpers — override navigator.mediaDevices for each story
-const mockEnumerateDevices = (devices: MediaDeviceInfo[]) => {
-  Object.defineProperty(navigator, 'mediaDevices', {
-    value: { enumerateDevices: () => Promise.resolve(devices) },
-    writable: true,
+// Mock helper — override navigator.userAgentData for getDeviceType()
+const mockPlatform = (platform: 'macOS' | 'iOS') => {
+  Object.defineProperty(navigator, 'userAgentData', {
+    value: { platform, mobile: platform !== 'macOS' },
     configurable: true,
   });
 };
 
-/** Single "Photo library" tile — no camera detected on the device */
-export const NoCamera: Story = {
+/** Single "Photo library" tile */
+export const Desktop: Story = {
   beforeEach: () => {
-    mockEnumerateDevices([]);
+    mockPlatform('macOS');
   },
 };
 
-/** Two tiles — "Photo library" + "Take photo" — camera detected */
-export const WithCamera: Story = {
+/** Two tiles — "Photo library" + "Take photo" */
+export const Mobile: Story = {
   beforeEach: () => {
-    mockEnumerateDevices([
-      { kind: 'videoinput', deviceId: '', groupId: '', label: '', toJSON: () => ({}) },
-    ]);
+    mockPlatform('iOS');
   },
 };
 
 /** Preview state — an image has already been selected */
 export const WithPreview: Story = {
   beforeEach: () => {
-    mockEnumerateDevices([]);
+    mockPlatform('macOS');
   },
   args: {
     selectedImageUrl: '/src/assets/images/certification/Farmland.svg',

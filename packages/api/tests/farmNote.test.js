@@ -22,7 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
-import { deleteImages, getPrivateS3Url } from '../src/util/digitalOceanSpaces.js';
+import { deleteImage, getPrivateS3Url } from '../src/util/digitalOceanSpaces.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -39,7 +39,7 @@ jest.mock('../src/util/digitalOceanSpaces.js', () => ({
   getPrivateS3BucketName: jest.fn().mockReturnValue('test-bucket'),
   getPrivateS3Url: jest.fn().mockReturnValue('http://localhost:9000/test-bucket'),
   imaginaryPost: jest.fn().mockResolvedValue({ data: Buffer.from('fake-image') }),
-  deleteImages: jest.fn().mockResolvedValue(undefined),
+  deleteImage: jest.fn().mockResolvedValue(undefined),
 }));
 
 jest.mock('@aws-sdk/client-s3', () => ({
@@ -311,7 +311,7 @@ describe('Farm Note tests', () => {
       const res = await patchRequest(createdNote.id, { image_url: null }, undefined, userFarmIds);
       expect(res.status).toBe(200);
       expect(res.body.image_url).toBe(null);
-      expect(deleteImages).toHaveBeenCalledWith({ keys: ['image.jpg'], visibility: 'private' });
+      expect(deleteImage).toHaveBeenCalledWith({ key: 'image.jpg', visibility: 'private' });
     });
   });
 

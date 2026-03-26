@@ -1,4 +1,4 @@
-import { S3Client, DeleteObjectsCommand } from '@aws-sdk/client-s3';
+import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import axios from 'axios';
 import FormData from 'form-data';
 import { v4 as uuidv4 } from 'uuid';
@@ -135,14 +135,10 @@ function getPublicS3Url() {
   return `https://${getPublicS3BucketName()}.${DO_ENDPOINT}`;
 }
 
-async function deleteImages({ keys, visibility }) {
+async function deleteImage({ key, visibility }) {
   const bucketName = visibility === 'private' ? getPrivateS3BucketName() : getPublicS3BucketName();
 
-  const deleteCommand = new DeleteObjectsCommand({
-    Bucket: bucketName,
-    Delete: { Objects: keys.map((key) => ({ Key: key })) },
-  });
-
+  const deleteCommand = new DeleteObjectCommand({ Bucket: bucketName, Key: key });
   const response = await s3.send(deleteCommand);
   if (response.Errors?.length) {
     console.error('S3 deletion errors:', response.Errors);
@@ -161,5 +157,5 @@ export {
   getRandomFileName,
   getPublicS3Url,
   getPrivateS3Url,
-  deleteImages,
+  deleteImage,
 };

@@ -16,7 +16,10 @@
 import { Response } from 'express';
 import { FarmNoteBody, FarmNoteParams } from '../middleware/validation/checkFarmNote.js';
 import FarmNoteModel from '../models/farmNoteModel.js';
-import { deleteImages, getPrivateS3Url } from '../util/digitalOceanSpaces.js';
+import {
+  deleteImage as deleteImageFromBucket,
+  getPrivateS3Url,
+} from '../util/digitalOceanSpaces.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 
 const farmNoteController = {
@@ -132,7 +135,7 @@ const deleteImage = (imageUrl?: string) => {
   }
 
   const bucketKey = imageUrl.replace(`${getPrivateS3Url()}/`, '');
-  deleteImages({ keys: [bucketKey], visibility: 'private' }).catch((err) => {
+  deleteImageFromBucket({ key: bucketKey, visibility: 'private' }).catch((err) => {
     console.error('Failed to delete old farm note image:', err);
   });
 };

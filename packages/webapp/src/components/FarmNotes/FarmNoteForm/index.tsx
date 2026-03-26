@@ -121,6 +121,8 @@ export default function FarmNoteForm({
         />
 
         <ImageUploadCapture
+          label={t('FARM_NOTE.ATTACH_PHOTO')}
+          optional
           onSelectImage={handleSelectImage}
           onRemoveImage={handleRemoveImage}
           defaultUrl={defaultValues?.imageUrl}

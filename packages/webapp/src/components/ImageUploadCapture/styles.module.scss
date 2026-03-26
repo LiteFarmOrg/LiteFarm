@@ -19,26 +19,6 @@
   gap: 8px;
 }
 
-.sectionHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sectionLabel {
-  font-size: 16px;
-  color: var(--Colors-Neutral-Neutral-500);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.optional {
-  font-size: 12px;
-  color: var(--Colors-Neutral-Neutral-300);
-  flex-shrink: 0;
-}
-
 /* picker tiles row */
 .body {
   display: flex;

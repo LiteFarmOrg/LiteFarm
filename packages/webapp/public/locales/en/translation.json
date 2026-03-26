@@ -1011,10 +1011,8 @@
     "NEW_NOTE": "New note",
     "NOTE_LABEL": "Note",
     "NOTE_PLACEHOLDER": "Type in your note",
-    "PHOTO_LIBRARY": "Photo library",
     "PRIVATE_HELPER": "This is only seen by the author",
-    "SAVE_NOTE": "Save note",
-    "TAKE_PHOTO": "Take photo"
+    "SAVE_NOTE": "Save note"
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1129,6 +1127,10 @@
   },
   "IMAGE_LIGHTBOX": {
     "ESC_TO_CLOSE": "Or press \"Esc\" to close"
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "Photo library",
+    "TAKE_PHOTO": "Take photo"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {

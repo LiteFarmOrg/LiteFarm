@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
 import TextButton from '../Form/Button/TextButton';
+import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCapture/photo-btn.svg';
 import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
@@ -30,12 +31,16 @@ export type ImageUploadCaptureProps = {
   onSelectImage: (file: File) => void;
   onRemoveImage: () => void;
   defaultUrl?: string;
+  label?: string;
+  optional?: boolean;
 };
 
 export default function ImageUploadCapture({
   onSelectImage,
   onRemoveImage,
   defaultUrl = '',
+  label,
+  optional,
 }: ImageUploadCaptureProps) {
   const { t } = useTranslation();
   const deviceType = getDeviceType();
@@ -82,10 +87,7 @@ export default function ImageUploadCapture({
       )}
 
       <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionLabel}>{t('FARM_NOTE.ATTACH_PHOTO')}</span>
-          <span className={styles.optional}>{t('common:OPTIONAL')}</span>
-        </div>
+        {label && <InputBaseLabel label={label} optional={optional} />}
 
         <div className={clsx(styles.body, previewUrl && styles.bodyWithPreview)}>
           {previewUrl ? (
@@ -115,7 +117,9 @@ export default function ImageUploadCapture({
                   <div className={styles.photoBtnIcon}>
                     <PhotoLibraryIcon />
                   </div>
-                  <span className={styles.photoBtnLabel}>{t('FARM_NOTE.PHOTO_LIBRARY')}</span>
+                  <span className={styles.photoBtnLabel}>
+                    {t('IMAGE_UPLOAD_CAPTURE.PHOTO_LIBRARY')}
+                  </span>
                 </div>
               </PureFilePickerWrapper>
 
@@ -124,13 +128,14 @@ export default function ImageUploadCapture({
                   accept="image/*"
                   capture="environment"
                   onChange={handleChange}
-                  className={styles.photoBtnWrapper}
                 >
                   <div className={styles.photoBtn}>
                     <div className={styles.photoBtnIcon}>
                       <CameraIcon />
                     </div>
-                    <span className={styles.photoBtnLabel}>{t('FARM_NOTE.TAKE_PHOTO')}</span>
+                    <span className={styles.photoBtnLabel}>
+                      {t('IMAGE_UPLOAD_CAPTURE.TAKE_PHOTO')}
+                    </span>
                   </div>
                 </PureFilePickerWrapper>
               )}

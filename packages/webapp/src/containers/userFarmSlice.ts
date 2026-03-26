@@ -316,7 +316,7 @@ export const getUserFarmSelector = (farmId: string, userId: string) => {
 };
 
 export const userDisplayNameMapSelector = createSelector(userFarmsByFarmSelector, (users) => {
-  return users.reduce<Record<string, string>>((userMap, user) => {
+  return users.reduce<Record<UserFarm['user_id'], string>>((userMap, user) => {
     userMap[user.user_id] = getFirstNameWithLastInitial(user);
     return userMap;
   }, {});

@@ -25,7 +25,7 @@ import { ReactComponent as WarningIcon } from '../../../assets/images/warning.sv
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 import { useTranslation } from 'react-i18next';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
-import { useGetAnimalRemovalReasonsQuery } from '../../../store/api/apiSlice';
+import { useGetAnimalRemovalReasonsQuery } from '../../../store/api/libraryApiSlice';
 import type { AnimalRemovalReasonKeys } from '../../../store/api/types';
 
 const REASON = 'reason';

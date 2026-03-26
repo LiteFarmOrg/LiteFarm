@@ -24,7 +24,7 @@ import {
   DetailsFields,
 } from '../types';
 import { AnimalOrBatchKeys } from '../../types';
-import { useGetAnimalUsesQuery } from '../../../../store/api/apiSlice';
+import { useGetAnimalUsesQuery } from '../../../../store/api/libraryApiSlice';
 import { parseUniqueDefaultId } from '../../../../util/animal';
 
 export const usePopulateDetails = (

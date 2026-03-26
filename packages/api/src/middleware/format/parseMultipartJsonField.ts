@@ -20,23 +20,38 @@ export interface MultipartBody {
   data: string;
 }
 
-export default function parseMultipartJsonField(
-  req: LiteFarmRequest<unknown, unknown, unknown, MultipartBody> & {
-    // eslint-disable-next-line no-undef
-    file?: Express.Multer.File;
-  },
-  res: Response,
-  next: NextFunction,
-) {
-  const contentType = req.get('Content-Type');
+type JsonType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null';
 
-  if (contentType?.includes('multipart/form-data') && typeof req.body?.data === 'string') {
-    try {
-      res.locals.data = JSON.parse(req.body.data);
-    } catch (_error) {
-      return res.status(400).json({ error: 'Invalid JSON' });
+export default function parseMultipartJsonField(expectedType: JsonType = 'object') {
+  return (
+    req: LiteFarmRequest<unknown, unknown, unknown, MultipartBody> & {
+      // eslint-disable-next-line no-undef
+      file?: Express.Multer.File;
+    },
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const contentType = req.get('Content-Type');
+
+    if (contentType?.includes('multipart/form-data') && typeof req.body?.data === 'string') {
+      try {
+        const parsed = JSON.parse(req.body.data);
+        let actualType = typeof parsed as JsonType;
+        if (Array.isArray(parsed)) {
+          actualType = 'array';
+        } else if (parsed === null) {
+          actualType = 'null';
+        }
+
+        if (actualType !== expectedType) {
+          return res.status(400).json({ error: `Invalid JSON: expected ${expectedType}` });
+        }
+        res.locals.data = parsed;
+      } catch (_error) {
+        return res.status(400).json({ error: 'Invalid JSON' });
+      }
     }
-  }
 
-  next();
+    next();
+  };
 }

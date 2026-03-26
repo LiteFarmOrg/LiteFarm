@@ -31,6 +31,11 @@ export function checkFarmNote(action: string) {
     next: NextFunction,
   ) => {
     const isAdding = action === 'add';
+
+    if (isAdding && !res.locals.data) {
+      return res.status(400).json({ error: 'Data is required' });
+    }
+
     const hasNote = res.locals.data && 'note' in res.locals.data;
 
     if (isAdding || hasNote) {

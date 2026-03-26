@@ -29,24 +29,20 @@ import styles from './styles.module.scss';
 export type ImageUploadCaptureProps = {
   onSelectImage: (file: File) => void;
   onRemoveImage: () => void;
-  selectedImageUrl?: string;
+  defaultUrl?: string;
 };
 
 export default function ImageUploadCapture({
   onSelectImage,
   onRemoveImage,
-  selectedImageUrl,
+  defaultUrl = '',
 }: ImageUploadCaptureProps) {
   const { t } = useTranslation();
   const deviceType = getDeviceType();
   const showTakePhoto = deviceType !== 'desktop';
 
-  const [previewUrl, setPreviewUrl] = useState(selectedImageUrl ?? '');
+  const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
-
-  useEffect(() => {
-    setPreviewUrl(selectedImageUrl ?? '');
-  }, [selectedImageUrl]);
 
   useEffect(() => {
     return () => {

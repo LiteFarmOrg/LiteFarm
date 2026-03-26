@@ -60,6 +60,6 @@ export const WithPreview: Story = {
     mockPlatform('macOS');
   },
   args: {
-    selectedImageUrl: '/src/assets/images/certification/Farmland.svg',
+    defaultUrl: '/src/assets/images/certification/Farmland.svg',
   },
 };

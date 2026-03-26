@@ -123,7 +123,7 @@ export default function FarmNoteForm({
         <ImageUploadCapture
           onSelectImage={handleSelectImage}
           onRemoveImage={handleRemoveImage}
-          selectedImageUrl={defaultValues?.imageUrl}
+          defaultUrl={defaultValues?.imageUrl}
         />
 
         <div className={styles.privacyRow}>

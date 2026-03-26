@@ -31,7 +31,7 @@ export function checkFarmNote(action: string) {
     next: NextFunction,
   ) => {
     const isAdding = action === 'add';
-    const hasNote = 'note' in res.locals.data;
+    const hasNote = res.locals.data && 'note' in res.locals.data;
 
     if (isAdding || hasNote) {
       res.locals.data.note = res.locals.data.note?.trim();

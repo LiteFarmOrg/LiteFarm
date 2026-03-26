@@ -266,6 +266,31 @@ describe('Farm Note tests', () => {
       expect(res.body.is_private).toBe(updatedNote.is_private);
     });
 
+    test('Author can update image', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const originalNote = {
+        note: 'Original text',
+        is_private: false,
+        image_url: `${getPrivateS3Url()}/image.jpg`,
+      };
+      const [createdNote] = await mocks.farm_noteFactory(
+        { promisedUserFarm: [userFarmIds] },
+        originalNote,
+      );
+
+      const res = await patchRequest(
+        createdNote.id,
+        undefined,
+        { buffer: Buffer.from('fake-image-data'), name: 'test.jpg' },
+        userFarmIds,
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.image_url).toBeDefined();
+      expect(typeof res.body.image_url).toBe('string');
+      expect(res.body.image_url).not.toBe(originalNote.image_url);
+    });
+
     test('Non-author receives 403', async () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const [{ user_id: other_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] });

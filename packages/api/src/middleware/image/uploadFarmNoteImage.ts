@@ -35,7 +35,7 @@ export default function uploadFarmNoteImage() {
     next: NextFunction,
   ) => {
     try {
-      const { data } = res.locals;
+      const { data = {} } = res.locals;
       const { farm_id } = req.headers;
       const farmNoteData = {
         note: data.note,

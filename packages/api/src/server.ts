@@ -181,6 +181,8 @@ import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
 import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 import offlineEventLogRoute from './routes/offlineEventLogRoute.js';
 import tapeSurveyRoute from './routes/tapeSurveyRoute.js';
+import farmNoteRoute from './routes/farmNoteRoute.js';
+import farmNotesReadRoute from './routes/farmNotesReadRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -362,7 +364,9 @@ app
   .use('/market_product_categories', marketProductCategoryRoute)
   .use('/market_directory_partners', marketDirectoryPartnerRoute)
   .use('/offline_event_log', offlineEventLogRoute)
-  .use('/tape_survey', tapeSurveyRoute);
+  .use('/tape_survey', tapeSurveyRoute)
+  .use('/farm_note', farmNoteRoute)
+  .use('/farm_notes_read', farmNotesReadRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

@@ -23,7 +23,7 @@ import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCap
 import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/imageCapture/trash-03.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/imageCapture/edit-02.svg';
-import useHasCamera from './useHasCamera';
+import getDeviceType from './getDeviceType';
 import styles from './styles.module.scss';
 
 export type ImageUploadCaptureProps = {
@@ -38,8 +38,8 @@ export default function ImageUploadCapture({
   selectedImageUrl,
 }: ImageUploadCaptureProps) {
   const { t } = useTranslation();
-  const hasCamera = useHasCamera();
-  const showTakePhoto = hasCamera || navigator.maxTouchPoints > 1;
+  const deviceType = getDeviceType();
+  const showTakePhoto = deviceType !== 'desktop';
 
   const [previewUrl, setPreviewUrl] = useState(selectedImageUrl ?? '');
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);

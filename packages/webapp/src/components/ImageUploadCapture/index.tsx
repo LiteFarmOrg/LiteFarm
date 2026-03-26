@@ -96,7 +96,7 @@ export default function ImageUploadCapture({
             <>
               <img className={styles.preview} src={previewUrl} alt="" />
               <div className={styles.previewActions}>
-                <PureFilePickerWrapper accept="image/*" onChange={handleChange}>
+                <PureFilePickerWrapper accept="image/*" onChange={handleChange} fullWidth>
                   <TextButton type="button" className={styles.actionBtn}>
                     <EditIcon />
                     {t('UPLOADER.CHANGE_IMAGE')}

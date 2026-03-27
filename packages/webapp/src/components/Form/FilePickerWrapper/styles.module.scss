@@ -16,11 +16,11 @@
 .inputContainer {
   position: relative;
   cursor: pointer;
+  display: inline-flex; // Prevents this container from stretching to fill its parent in non-flex layouts (e.g. mobile button of ImagePicker). Safe to override with display: flex when the calling component needs full-width layout
 }
 
 .input {
-  width: 100%;
-  height: 100%;
+  inset: 0; // Places the invisible input exactly over all all four sides of the container
   position: absolute;
   min-width: 10px;
   opacity: 0;

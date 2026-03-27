@@ -64,7 +64,7 @@ const InFormButtons = ({
         <Button
           type={confirmButtonType}
           color={confirmButtonColor || 'secondary'}
-          className={clsx(styles.button, styles.confirmButton)}
+          className={clsx(styles.button, !confirmButtonColor && styles.confirmButton)}
           onClick={onConfirm}
           disabled={isDisabled}
         >

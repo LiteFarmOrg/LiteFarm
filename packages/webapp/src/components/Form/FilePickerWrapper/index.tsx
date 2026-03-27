@@ -8,10 +8,6 @@ const useStyles = makeStyles({
     display: 'inline-block',
     cursor: 'pointer',
   },
-  inputContainerFullWidth: {
-    display: 'block',
-    width: '100%',
-  },
   input: {
     width: '100%',
     height: '100%',
@@ -30,21 +26,14 @@ export default function PureFilePickerWrapper({
   className,
   style,
   disabled,
-  fullWidth = false,
   onChange,
   ...props
-}: ComponentPropsWithoutRef<'input'> & { fullWidth?: boolean }) {
+}: ComponentPropsWithoutRef<'input'>) {
   const classes = useStyles();
-  const inputContainerClassName = [
-    classes.inputContainer,
-    fullWidth ? classes.inputContainerFullWidth : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
 
   return (
     <div className={className} style={style}>
-      <div className={inputContainerClassName}>
+      <div className={classes.inputContainer}>
         <input
           type={'file'}
           size={1}
@@ -61,7 +50,6 @@ export default function PureFilePickerWrapper({
 
 PureFilePickerWrapper.propTypes = {
   disabled: PropTypes.bool,
-  fullWidth: PropTypes.bool,
   style: PropTypes.object,
   onChange: PropTypes.func,
   children: PropTypes.node,

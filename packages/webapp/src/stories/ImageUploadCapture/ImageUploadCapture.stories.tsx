@@ -24,6 +24,8 @@ const meta: Meta<ImageUploadCaptureProps> = {
   component: ImageUploadCapture,
   decorators: componentDecorators,
   args: {
+    label: 'Attach photo',
+    optional: true,
     onSelectImage: (file) => console.log('select', file.name),
     onRemoveImage: () => console.log('remove'),
   },
@@ -33,9 +35,18 @@ export default meta;
 type Story = StoryObj<typeof ImageUploadCapture>;
 
 // Mock helper — override navigator.userAgentData for getDeviceType()
+const originalUserAgentData = (navigator as unknown as Record<string, unknown>).userAgentData;
+
 const mockPlatform = (platform: 'macOS' | 'iOS') => {
   Object.defineProperty(navigator, 'userAgentData', {
     value: { platform, mobile: platform !== 'macOS' },
+    configurable: true,
+  });
+};
+
+const restorePlatform = () => {
+  Object.defineProperty(navigator, 'userAgentData', {
+    value: originalUserAgentData,
     configurable: true,
   });
 };
@@ -44,6 +55,7 @@ const mockPlatform = (platform: 'macOS' | 'iOS') => {
 export const Desktop: Story = {
   beforeEach: () => {
     mockPlatform('macOS');
+    return restorePlatform;
   },
 };
 
@@ -51,6 +63,7 @@ export const Desktop: Story = {
 export const Mobile: Story = {
   beforeEach: () => {
     mockPlatform('iOS');
+    return restorePlatform;
   },
 };
 
@@ -58,6 +71,7 @@ export const Mobile: Story = {
 export const WithPreview: Story = {
   beforeEach: () => {
     mockPlatform('macOS');
+    return restorePlatform;
   },
   args: {
     defaultUrl: '/src/assets/images/certification/Farmland.svg',

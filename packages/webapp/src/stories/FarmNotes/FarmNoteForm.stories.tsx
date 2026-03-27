@@ -24,7 +24,6 @@ const meta: Meta<FarmNoteFormProps> = {
   args: {
     onSubmit: (data, imageFile) => console.log('submit', data, imageFile),
     onCancel: () => console.log('cancel'),
-    onClose: () => console.log('close'),
   },
 };
 export default meta;
@@ -32,20 +31,15 @@ export default meta;
 type Story = StoryObj<typeof FarmNoteForm>;
 
 /** Pristine new note — Save is disabled */
-export const NewNote: Story = {
-  args: {
-    title: 'New note',
-  },
-};
+export const NewNote: Story = {};
 
 /** Edit mode — form is pre-populated and Save is enabled */
 export const EditNote: Story = {
   args: {
-    title: 'Edit note',
     defaultValues: {
       note: 'Fence damage spotted on the east side of Field 3.',
-      isPrivate: false,
-      imageUrl: '/src/assets/images/certification/Farmland.svg',
+      is_private: false,
+      image_url: '/src/assets/images/certification/Farmland.svg',
     },
   },
 };
@@ -53,10 +47,9 @@ export const EditNote: Story = {
 /** Private note pre-filled */
 export const PrivateNote: Story = {
   args: {
-    title: 'Edit note',
     defaultValues: {
       note: 'Reminder to buy more cow feed supplement.',
-      isPrivate: true,
+      is_private: true,
     },
   },
 };

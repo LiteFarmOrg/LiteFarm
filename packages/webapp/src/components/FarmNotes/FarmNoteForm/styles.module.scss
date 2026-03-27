@@ -68,16 +68,3 @@
     stroke: var(--Colors-Neutral-Neutral-200, #b9bfc9);
   }
 }
-
-/* ── Footer ────────────────────────────────────── */
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 4px 32px 8px;
-  height: 64px;
-  background: var(--white, #ffffff);
-  border-radius: 0 0 16px 16px;
-  flex-shrink: 0;
-}

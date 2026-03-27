@@ -16,56 +16,48 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-// TextArea is a JS component whose PropTypes don't map cleanly to TS; cast to avoid false positives.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-import TextAreaBase from '../../Form/TextArea';
-const TextArea = TextAreaBase as any;
-import Button from '../../Form/Button';
+import TextArea from '../../Form/TextArea';
 import Switch from '../../Form/Switch';
+import InFormButtons from '../../Form/InFormButtons';
 import ImageUploadCapture from '../../ImageUploadCapture';
 import { ReactComponent as LockIcon } from '../../../assets/images/lock-03.svg';
 import styles from './styles.module.scss';
 
-// TODO(developer): Replace LockIcon with the actual lock-01 SVG from Figma
-// (Figma node: Property 1=lock-01, node-id 64483:149265)
+export const FARM_NOTE_FIELDS = {
+  NOTE: 'note',
+  IS_PRIVATE: 'is_private',
+} as const;
 
 export type FarmNoteFormValues = {
-  note: string;
-  isPrivate: boolean;
+  [FARM_NOTE_FIELDS.NOTE]: string;
+  [FARM_NOTE_FIELDS.IS_PRIVATE]: boolean;
 };
 
 export type FarmNoteFormProps = {
-  title: string;
-  defaultValues?: Partial<FarmNoteFormValues> & { imageUrl?: string };
-  onSubmit: (data: FarmNoteFormValues, imageFile: File | null) => void;
+  defaultValues?: Partial<FarmNoteFormValues> & { image_url?: string };
+  onSubmit: (data: FarmNoteFormValues, imageFile: File | null | undefined) => void;
   onCancel: () => void;
-  onClose: () => void;
 };
 
-export default function FarmNoteForm({
-  title,
-  defaultValues,
-  onSubmit,
-  onCancel,
-  onClose,
-}: FarmNoteFormProps) {
+export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: FarmNoteFormProps) {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting },
     setValue,
     watch,
   } = useForm<FarmNoteFormValues>({
+    mode: 'onChange',
     defaultValues: {
-      note: defaultValues?.note ?? '',
-      isPrivate: defaultValues?.isPrivate ?? false,
+      [FARM_NOTE_FIELDS.NOTE]: defaultValues?.note ?? '',
+      [FARM_NOTE_FIELDS.IS_PRIVATE]: defaultValues?.is_private ?? false,
     },
   });
 
-  const isPrivate = watch('isPrivate');
+  const isPrivate = watch(FARM_NOTE_FIELDS.IS_PRIVATE);
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null | undefined>(undefined);
   const [imageChanged, setImageChanged] = useState(false);
 
   const handleSelectImage = (file: File) => {
@@ -78,20 +70,20 @@ export default function FarmNoteForm({
     setImageChanged(true);
   };
 
-  const isSaveDisabled = (!isDirty && !imageChanged) || isSubmitting;
+  const isSaveDisabled = !isValid || (!isDirty && !imageChanged) || isSubmitting;
 
   const handleFormSubmit = handleSubmit((data) => {
     onSubmit(data, imageFile);
   });
 
   return (
-    <form className={styles.panel} onSubmit={handleFormSubmit} noValidate>
-      {/* Body */}
+    <div className={styles.panel}>
       <div className={styles.body}>
+        {/* @ts-expect-error */}
         <TextArea
           label={t('FARM_NOTE.NOTE_LABEL')}
           placeholder={t('FARM_NOTE.NOTE_PLACEHOLDER')}
-          hookFormRegister={register('note')}
+          hookFormRegister={register(FARM_NOTE_FIELDS.NOTE, { required: true })}
           rows={5}
         />
 
@@ -100,7 +92,7 @@ export default function FarmNoteForm({
           optional
           onSelectImage={handleSelectImage}
           onRemoveImage={handleRemoveImage}
-          defaultUrl={defaultValues?.imageUrl}
+          defaultUrl={defaultValues?.image_url}
         />
 
         <div className={styles.privacyRow}>
@@ -110,20 +102,20 @@ export default function FarmNoteForm({
           </div>
           <Switch
             checked={isPrivate}
-            onChange={(e) => setValue('isPrivate', e.target.checked, { shouldDirty: true })}
+            onChange={(e) =>
+              setValue(FARM_NOTE_FIELDS.IS_PRIVATE, e.target.checked, { shouldDirty: true })
+            }
           />
         </div>
       </div>
 
-      {/* Footer */}
-      <div className={styles.footer}>
-        <Button color="secondary-cta" type="button" sm fullLength onClick={onCancel}>
-          {t('FARM_NOTE.CANCEL')}
-        </Button>
-        <Button color="primary" type="submit" sm fullLength disabled={isSaveDisabled}>
-          {t('FARM_NOTE.SAVE_NOTE')}
-        </Button>
-      </div>
-    </form>
+      <InFormButtons
+        confirmText={t('FARM_NOTE.SAVE_NOTE')}
+        confirmButtonColor="primary"
+        onCancel={onCancel}
+        onConfirm={handleFormSubmit}
+        isDisabled={isSaveDisabled}
+      />
+    </div>
   );
 }

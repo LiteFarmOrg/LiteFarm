@@ -76,6 +76,14 @@
   flex: 1;
   overflow-y: auto;
   padding: 16px;
+
+  /* Updated style to match new Figma default for forms
+  This really should be applied to all <Label> elements in app at some point */
+  h5 {
+    font-size: 16px;
+    line-height: normal;
+    color: var(--Colors-Neutral-Neutral-500);
+  }
 }
 
 /* ── Privacy row ───────────────────────────────── */

@@ -86,31 +86,6 @@ export default function FarmNoteForm({
 
   return (
     <form className={styles.panel} onSubmit={handleFormSubmit} noValidate>
-      {/* Header */}
-      <div className={styles.header}>
-        <span className={styles.title}>{title}</span>
-        <div className={styles.headerClose}>
-          <span className={styles.closeTxt}>{t('FARM_NOTE.CLOSE')}</span>
-          {/* TODO(developer): Replace this × SVG with the actual close icon from Figma
-              (Figma node I68412:163495;370:11691) */}
-          <button
-            className={styles.closeIconBtn}
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
-              <path
-                d="M1 1l9 9M10 1L1 10"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
       {/* Body */}
       <div className={styles.body}>
         <TextArea

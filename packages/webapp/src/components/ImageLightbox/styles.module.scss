@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .backdrop {
   background-color: rgba(0, 0, 0, 0.8);
 }
@@ -21,6 +23,12 @@
   background: transparent;
   box-shadow: none;
   overflow: visible;
+
+  @include xs-breakpoint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* centers image + hint in the dark overlay */

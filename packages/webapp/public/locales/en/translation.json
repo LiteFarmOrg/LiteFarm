@@ -1007,11 +1007,10 @@
     "ATTACH_PHOTO": "Attach a photo",
     "CANCEL": "Cancel",
     "EDIT_NOTE": "Edit note",
-    "KEEP_PRIVATE": "Keep this note private",
+    "PRIVATE_NOTE": "Private note",
     "NEW_NOTE": "New note",
     "NOTE_LABEL": "Note",
     "NOTE_PLACEHOLDER": "Type in your note",
-    "PRIVATE_HELPER": "This is only seen by the author",
     "SAVE_NOTE": "Save note"
   },
   "FARM_SETTINGS": {

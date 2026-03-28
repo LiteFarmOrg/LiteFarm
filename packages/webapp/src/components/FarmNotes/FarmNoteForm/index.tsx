@@ -16,11 +16,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import TextArea from '../../Form/TextArea';
 import Switch from '../../Form/Switch';
 import InFormButtons from '../../Form/InFormButtons';
 import ImageUploadCapture from '../../ImageUploadCapture';
-import { ReactComponent as LockIcon } from '../../../assets/images/lock-03.svg';
+import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
 import styles from './styles.module.scss';
 
 export const FARM_NOTE_FIELDS = {
@@ -77,7 +78,7 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
   });
 
   return (
-    <div className={styles.panel}>
+    <div className={styles.container}>
       <div className={styles.body}>
         {/* @ts-expect-error */}
         <TextArea
@@ -96,9 +97,9 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
         />
 
         <div className={styles.privacyRow}>
-          <div className={styles.privacyLabel}>
+          <div className={clsx(styles.privacyLabel, isPrivate && styles.active)}>
             <LockIcon className={styles.lockIcon} aria-hidden="true" />
-            <span>{t('FARM_NOTE.KEEP_PRIVATE')}</span>
+            <span>{t('FARM_NOTE.PRIVATE_NOTE')}</span>
           </div>
           <Switch
             checked={isPrivate}

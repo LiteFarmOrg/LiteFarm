@@ -24,7 +24,7 @@ import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCap
 import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/imageCapture/trash-03.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/imageCapture/edit-02.svg';
-import getDeviceType from './getDeviceType';
+import getDeviceType from '../../util/getDeviceType';
 import styles from './styles.module.scss';
 
 export type ImageUploadCaptureProps = {

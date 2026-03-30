@@ -121,7 +121,7 @@ export default function FarmNoteItem({
       onClick={onToggle}
       type="button"
     >
-      <p className={styles.notePreview}>{note.note}</p>
+      <span className={styles.notePreview}>{note.note}</span>
       <NoteMetaData
         {...metaDataProps}
         icon={
@@ -151,14 +151,14 @@ const NoteMetaData = ({
   isExpanded,
 }: NoteMetaDataProps) => {
   return (
-    <div className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
+    <span className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
       {icon}
-      <div className={styles.nameAndVisibility}>
+      <span className={styles.nameAndVisibility}>
         <span className={styles.authorName}>{authorName}</span>
         {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}
-      </div>
+      </span>
       <DateBadge updatedAt={updatedAt} />
-    </div>
+    </span>
   );
 };
 

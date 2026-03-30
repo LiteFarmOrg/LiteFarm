@@ -224,5 +224,9 @@
     path {
       stroke: currentColor;
     }
+
+    &.deletIcon {
+      width: 16px;
+    }
   }
 }

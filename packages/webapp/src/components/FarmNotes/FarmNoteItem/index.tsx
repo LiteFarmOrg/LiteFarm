@@ -22,7 +22,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit-02.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/images/document/trash.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/images/animals/trash_icon_new.svg';
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
@@ -102,7 +102,7 @@ export default function FarmNoteItem({
         {isAuthor && (
           <div className={styles.actions}>
             <TextButton type="button" onClick={onDelete}>
-              <DeleteIcon />
+              <DeleteIcon className={styles.deletIcon} />
               <span>{t('translation:FARM_NOTE.DELETE_NOTE')}</span>
             </TextButton>
             <Button color="secondary" type="button" onClick={onEdit} sm>

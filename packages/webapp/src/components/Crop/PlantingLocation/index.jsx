@@ -150,7 +150,6 @@ export default function PurePlantingLocation({
   };
 
   const onGoBack = () => {
-    console.log('go back');
     navigate(-1);
   };
 

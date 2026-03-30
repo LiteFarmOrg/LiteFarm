@@ -113,6 +113,7 @@
   border-radius: 8px;
   background-color: var(--Colors-Primary-Primary-teal-50);
 
+  @include fontFamily();
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;

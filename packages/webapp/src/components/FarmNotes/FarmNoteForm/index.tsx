@@ -84,7 +84,10 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
         <TextArea
           label={t('FARM_NOTE.NOTE_LABEL')}
           placeholder={t('FARM_NOTE.NOTE_PLACEHOLDER')}
-          hookFormRegister={register(FARM_NOTE_FIELDS.NOTE, { required: true })}
+          hookFormRegister={register(FARM_NOTE_FIELDS.NOTE, {
+            required: true,
+            setValueAs: (value) => value.trim(),
+          })}
           rows={5}
         />
 

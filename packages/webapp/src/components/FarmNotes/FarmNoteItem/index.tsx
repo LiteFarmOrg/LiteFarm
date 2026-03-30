@@ -50,7 +50,7 @@ export default function FarmNoteItem({
   onDelete,
   onImageClick,
 }: FarmNoteItemProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const metaDataProps = {
     authorName: authorName,
     isPrivate: note.is_private,
@@ -68,7 +68,7 @@ export default function FarmNoteItem({
             <button
               className={clsx(styles.chevronButton, styles.chevron)}
               onClick={onToggle}
-              aria-label={t('FARM_NOTE.COLLAPSE')}
+              aria-label={t('translation:FARM_NOTE.COLLAPSE')}
               type="button"
             >
               <KeyboardArrowUpIcon fontSize="small" />
@@ -92,7 +92,7 @@ export default function FarmNoteItem({
                 onClick={() => onImageClick(note.image_url!)}
               >
                 <SearchIcon fontSize="small" />
-                {t('FARM_NOTE.CLICK_TO_ENLARGE')}
+                {t('common:CLICK_TO_ENLARGE')}
               </TextButton>
             </div>
           )}
@@ -103,11 +103,11 @@ export default function FarmNoteItem({
           <div className={styles.actions}>
             <TextButton type="button" onClick={onDelete}>
               <DeleteIcon />
-              <span>{t('FARM_NOTE.DELETE_NOTE')}</span>
+              <span>{t('translation:FARM_NOTE.DELETE_NOTE')}</span>
             </TextButton>
             <Button color="secondary" type="button" onClick={onEdit} sm>
               <EditIcon />
-              <span>{t('FARM_NOTE.EDIT_NOTE')}</span>
+              <span>{t('translation:FARM_NOTE.EDIT_NOTE')}</span>
             </Button>
           </div>
         )}

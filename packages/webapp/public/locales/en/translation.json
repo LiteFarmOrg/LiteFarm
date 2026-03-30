@@ -1005,14 +1005,12 @@
   },
   "FARM_NOTE": {
     "ADD_A_NOTE": "Add a note",
-    "CLICK_TO_ENLARGE": "Click to enlarge",
     "COLLAPSE": "Collapse note",
     "DELETE_NOTE": "Delete note",
     "EDIT_NOTE": "Edit note",
     "EMPTY_STATE": "You do not have any notes",
     "FARM_NOTES": "Farm notes",
-    "HAS_UNREAD_NOTES": "Has unread notes",
-    "PENDING_SYNC": "Pending sync"
+    "HAS_UNREAD_NOTES": "Has unread notes"
   },
   "FARM_SETTINGS": {
     "TABS": {

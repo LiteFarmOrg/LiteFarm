@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .section {
   display: flex;
   flex-direction: column;
@@ -61,6 +63,20 @@
   height: 44px;
   border-radius: 8px;
   border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background-color: var(--White);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-600));
+}
+
+.photoBtnWrapper:hover .photoBtnIcon {
+  background-color: var(--Colors-Primary-Primary-teal-200);
+  border-color: var(--Colors-Primary-Primary-teal-50);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+}
+
+.photoBtnWrapper:active .photoBtnIcon {
+  background-color: var(--Colors-Primary-Primary-teal-700);
+  border-color: var(--Colors-Primary-Primary-teal-700);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-200));
 }
 
 .photoBtnLabel {

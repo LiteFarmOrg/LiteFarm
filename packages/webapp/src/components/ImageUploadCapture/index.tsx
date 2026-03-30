@@ -112,7 +112,11 @@ export default function ImageUploadCapture({
             </>
           ) : (
             <>
-              <PureFilePickerWrapper accept="image/*" onChange={handleChange}>
+              <PureFilePickerWrapper
+                accept="image/*"
+                onChange={handleChange}
+                className={styles.photoBtnWrapper}
+              >
                 <div className={styles.photoBtn}>
                   <div className={styles.photoBtnIcon}>
                     <PhotoLibraryIcon />
@@ -128,6 +132,7 @@ export default function ImageUploadCapture({
                   accept="image/*"
                   capture="environment"
                   onChange={handleChange}
+                  className={styles.photoBtnWrapper}
                 >
                   <div className={styles.photoBtn}>
                     <div className={styles.photoBtnIcon}>

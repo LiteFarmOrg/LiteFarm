@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -62,19 +61,9 @@ export default function FarmNoteItem({
     return (
       <div className={clsx(styles.card, styles.expanded, note.to_sync && styles.pending)}>
         {/* Header row */}
-        <NoteMetaData
-          {...metaDataProps}
-          icon={
-            <button
-              className={clsx(styles.chevronButton, styles.chevron)}
-              onClick={onToggle}
-              aria-label={t('translation:FARM_NOTE.COLLAPSE')}
-              type="button"
-            >
-              <KeyboardArrowUpIcon fontSize="small" />
-            </button>
-          }
-        />
+        <button onClick={onToggle} type="button" className={styles.expandedHeader}>
+          <NoteMetaData {...metaDataProps} />
+        </button>
 
         {/* Body */}
         <div className={styles.expandedBody}>
@@ -122,15 +111,7 @@ export default function FarmNoteItem({
       type="button"
     >
       <span className={styles.notePreview}>{note.note}</span>
-      <NoteMetaData
-        {...metaDataProps}
-        icon={
-          <KeyboardArrowDownIcon
-            className={clsx(styles.chevronInline, styles.chevron)}
-            fontSize="small"
-          />
-        }
-      />
+      <NoteMetaData {...metaDataProps} />
     </button>
   );
 }
@@ -139,20 +120,20 @@ interface NoteMetaDataProps {
   authorName: string;
   isPrivate: boolean;
   updatedAt: string;
-  icon: ReactNode;
   isExpanded: boolean;
 }
 
-const NoteMetaData = ({
-  authorName,
-  isPrivate,
-  updatedAt,
-  icon,
-  isExpanded,
-}: NoteMetaDataProps) => {
+const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMetaDataProps) => {
   return (
     <span className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
-      {icon}
+      {isExpanded ? (
+        <KeyboardArrowUpIcon className={clsx(styles.chevronUp, styles.chevron)} fontSize="small" />
+      ) : (
+        <KeyboardArrowDownIcon
+          className={clsx(styles.chevronDown, styles.chevron)}
+          fontSize="small"
+        />
+      )}
       <span className={styles.nameAndVisibility}>
         <span className={styles.authorName}>{authorName}</span>
         {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}

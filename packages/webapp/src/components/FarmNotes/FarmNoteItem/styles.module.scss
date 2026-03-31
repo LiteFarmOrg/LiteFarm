@@ -84,14 +84,13 @@
   border-radius: 4px;
   border: none;
 
-  &.chevronInline {
+  &.chevronDown {
     color: var(--Colors-Neutral-Neutral-600);
   }
 
-  &.chevronButton {
+  &.chevronUp {
     color: var(--Colors-Neutral-Neutral-900);
     background: var(--Colors-Primary-Primary-teal-50);
-    cursor: pointer;
   }
 }
 
@@ -148,6 +147,12 @@
   gap: 16px;
   border: 1px solid var(--Brand-Accents-colors-and-overlays-Accent-green-light);
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.expandedHeader {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 
 .expandedBody {

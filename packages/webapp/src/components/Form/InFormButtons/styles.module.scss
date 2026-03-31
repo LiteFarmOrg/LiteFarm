@@ -45,6 +45,12 @@
   gap: 16px;
 }
 
+.buttonsEqualWidth {
+  .button {
+    flex: 1;
+  }
+}
+
 .button {
   min-height: 32px;
   height: 32px;

@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useMemo } from 'react';
-import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
@@ -40,6 +39,7 @@ import { useSelector } from 'react-redux';
 import { locationsSelector } from '../../locationSlice';
 import { Location } from '../../../types';
 import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
+import { chooseAnimalBreedLabel, chooseAnimalTypeLabel, chooseIdentification } from '../utils';
 
 export type AnimalInventoryItem = {
   id: string;
@@ -66,77 +66,12 @@ export type AnimalInventoryItem = {
   photo_url: string | null;
 };
 
-const { t } = i18n;
-
 export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
   const typeKey = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key || 'CUSTOM_ANIMAL';
   return isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
-};
-
-type hasId = {
-  id: number;
-  [key: string]: any;
-};
-
-const getProperty = (arr: hasId[] | undefined, id: number | null, key: string) => {
-  return arr?.find((el) => el.id === id)?.[key] || null;
-};
-
-const getAnimalTypeLabel = (key: string) => {
-  return t(`TYPE.${key}`, { ns: 'animal' });
-};
-
-const getAnimalBreedLabel = (key: string) => {
-  return t(`BREED.${key}`, { ns: 'animal' });
-};
-
-export const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
-  if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
-    if (animalOrBatch.name && animalOrBatch.identifier) {
-      return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;
-    } else if (!animalOrBatch.name && animalOrBatch.identifier) {
-      return animalOrBatch.identifier;
-    }
-  }
-  if (animalOrBatch.name) {
-    return animalOrBatch.name;
-  }
-  return `${t('ANIMAL.ANIMAL_ID')}${animalOrBatch.internal_identifier}`;
-};
-
-export const chooseAnimalTypeLabel = (
-  animalOrBatch: Animal | AnimalBatch,
-  defaultAnimalTypes: DefaultAnimalType[],
-  customAnimalTypes: CustomAnimalType[],
-) => {
-  if (animalOrBatch.default_type_id) {
-    return getAnimalTypeLabel(
-      getProperty(defaultAnimalTypes, animalOrBatch.default_type_id, 'key'),
-    );
-  } else if (animalOrBatch.custom_type_id) {
-    return getProperty(customAnimalTypes, animalOrBatch.custom_type_id, 'type');
-  } else {
-    return null;
-  }
-};
-
-export const chooseAnimalBreedLabel = (
-  animalOrBatch: Animal | AnimalBatch,
-  defaultAnimalBreeds: DefaultAnimalBreed[],
-  customAnimalBreeds: CustomAnimalBreed[],
-) => {
-  if (animalOrBatch.default_breed_id) {
-    return getAnimalBreedLabel(
-      getProperty(defaultAnimalBreeds, animalOrBatch.default_breed_id, 'key'),
-    );
-  } else if (animalOrBatch.custom_breed_id) {
-    return getProperty(customAnimalBreeds, animalOrBatch.custom_breed_id, 'breed');
-  } else {
-    return null;
-  }
 };
 
 const formatAnimalsData = (

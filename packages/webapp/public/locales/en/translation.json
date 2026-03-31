@@ -1004,13 +1004,19 @@
     }
   },
   "FARM_NOTE": {
+    "ADD_A_NOTE": "Add a note",
     "ATTACH_PHOTO": "Attach a photo",
     "CANCEL": "Cancel",
+    "COLLAPSE": "Collapse note",
+    "DELETE_NOTE": "Delete note",
     "EDIT_NOTE": "Edit note",
-    "PRIVATE_NOTE": "Private note",
+    "EMPTY_STATE": "You do not have any notes",
+    "FARM_NOTES": "Farm notes",
+    "HAS_UNREAD_NOTES": "Has unread notes",
     "NEW_NOTE": "New note",
     "NOTE_LABEL": "Note",
     "NOTE_PLACEHOLDER": "Type in your note",
+    "PRIVATE_NOTE": "Private note",
     "SAVE_NOTE": "Save note"
   },
   "FARM_SETTINGS": {

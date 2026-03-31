@@ -23,6 +23,7 @@
   "CHAR_LIMIT_ERROR": "Limit is {{value}} characters",
   "CLEAR_ACTIVE_FILTERS": "Clear active filters",
   "CLEAR_SELECTION": "Clear selection",
+  "CLICK_TO_ENLARGE": "Click to enlarge",
   "CLONE": "Clone",
   "CLOSE": "Close",
   "CONFIRM": "Confirm",

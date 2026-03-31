@@ -17,11 +17,11 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as EditIcon } from '../../../assets/images/edit-02.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/images/animals/trash_icon_new.svg';
+import { ReactComponent as TrashIcon } from '../../../assets/images/trash-03.svg';
+import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
@@ -91,7 +91,7 @@ export default function FarmNoteItem({
         {isAuthor && (
           <div className={styles.actions}>
             <TextButton type="button" onClick={onDelete}>
-              <DeleteIcon className={styles.deleteIcon} />
+              <TrashIcon />
               <span>{t('translation:FARM_NOTE.DELETE_NOTE')}</span>
             </TextButton>
             <Button color="secondary" type="button" onClick={onEdit} sm>
@@ -136,7 +136,7 @@ const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMeta
       )}
       <span className={styles.nameAndVisibility}>
         <span className={styles.authorName}>{authorName}</span>
-        {isPrivate && <LockOutlinedIcon className={styles.lockIcon} fontSize="small" />}
+        {isPrivate && <LockIcon className={styles.lockIcon} fontSize="small" />}
       </span>
       <DateBadge updatedAt={updatedAt} />
     </span>

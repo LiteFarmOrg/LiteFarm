@@ -45,7 +45,6 @@
   }
 
   .lockIcon {
-    color: var(--Colors-Neutral-Neutral-900);
     width: 18px;
   }
 
@@ -228,10 +227,6 @@
 
     path {
       stroke: currentColor;
-    }
-
-    &.deleteIcon {
-      width: 16px;
     }
   }
 }

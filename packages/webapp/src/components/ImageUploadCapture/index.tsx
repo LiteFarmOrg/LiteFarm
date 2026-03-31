@@ -23,7 +23,7 @@ import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCapture/photo-btn.svg';
 import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/imageCapture/trash-03.svg';
-import { ReactComponent as EditIcon } from '../../assets/images/imageCapture/edit-02.svg';
+import { ReactComponent as EditIcon } from '../../assets/images/edit-02.svg';
 import getDeviceType from '../../util/getDeviceType';
 import styles from './styles.module.scss';
 

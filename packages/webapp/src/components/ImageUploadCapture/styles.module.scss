@@ -121,4 +121,5 @@
   letter-spacing: 0.4px;
   white-space: nowrap;
   color: var(--Colors-Neutral-Neutral-900);
+  @include svgColorFill(var(--Colors-Neutral-Neutral-900));
 }

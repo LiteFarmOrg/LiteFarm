@@ -114,6 +114,8 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
       </div>
 
       <InFormButtons
+        equalWidth
+        className={styles.inFormButtons}
         confirmText={t('FARM_NOTE.SAVE_NOTE')}
         confirmButtonColor="primary"
         onCancel={onCancel}

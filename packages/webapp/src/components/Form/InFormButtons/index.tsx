@@ -30,6 +30,7 @@ export interface InFormButtonsProps {
   confirmButtonType?: 'button' | 'submit';
   className?: string;
   confirmButtonColor?: ButtonProps['color'];
+  equalWidth?: boolean;
 }
 
 const InFormButtons = ({
@@ -43,12 +44,13 @@ const InFormButtons = ({
   confirmButtonType = 'button',
   className,
   confirmButtonColor,
+  equalWidth,
 }: InFormButtonsProps) => {
   const { t } = useTranslation();
 
   return (
     <div className={clsx(styles.container, className)}>
-      <div className={styles.buttons}>
+      <div className={clsx(styles.buttons, equalWidth && styles.buttonsEqualWidth)}>
         {statusText && <span className={styles.statusText}>{statusText}</span>}
         {onCancel && (
           <Button

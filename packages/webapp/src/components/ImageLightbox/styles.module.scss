@@ -65,15 +65,19 @@
   padding: 8px;
   background: var(--White);
   border-radius: 24px;
+  border: 1.5px solid transparent;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
   font-size: 12px;
   color: var(--Colors-Neutral-Neutral-600);
 }
 
+.closeBtn:hover {
+  border-color: var(--Colors-Neutral-Neutral-400);
+}
+
 .closeBtn:focus-visible {
-  outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
-  outline-offset: 2px;
+  outline: 3px solid var(--Form-focus);
 }
 
 /* "Or press Esc to close" hint — desktop only */

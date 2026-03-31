@@ -16,6 +16,7 @@
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
+import { mockPlatform, restorePlatform } from '../Pages/config/deviceTypeMock';
 import ImageLightbox, { type ImageLightboxProps } from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
 import { Info } from '../../components/Typography';
@@ -34,7 +35,21 @@ export default meta;
 
 type Story = StoryObj<typeof ImageLightbox>;
 
-export const Open: Story = {};
+/** Shows the "Or press Esc to close" hint */
+export const Desktop: Story = {
+  beforeEach: () => {
+    mockPlatform('macOS');
+    return restorePlatform;
+  },
+};
+
+/** No Esc hint */
+export const Mobile: Story = {
+  beforeEach: () => {
+    mockPlatform('iOS');
+    return restorePlatform;
+  },
+};
 
 export const Interactive: Story = {
   render: (args) => {

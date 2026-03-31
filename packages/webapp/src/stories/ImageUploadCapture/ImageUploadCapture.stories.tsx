@@ -15,6 +15,7 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
+import { mockPlatform, restorePlatform } from '../Pages/config/deviceTypeMock';
 import ImageUploadCapture, {
   type ImageUploadCaptureProps,
 } from '../../components/ImageUploadCapture';
@@ -33,23 +34,6 @@ const meta: Meta<ImageUploadCaptureProps> = {
 export default meta;
 
 type Story = StoryObj<typeof ImageUploadCapture>;
-
-// Mock helper — override navigator.userAgentData for getDeviceType()
-const originalUserAgentData = (navigator as unknown as Record<string, unknown>).userAgentData;
-
-const mockPlatform = (platform: 'macOS' | 'iOS') => {
-  Object.defineProperty(navigator, 'userAgentData', {
-    value: { platform, mobile: platform !== 'macOS' },
-    configurable: true,
-  });
-};
-
-const restorePlatform = () => {
-  Object.defineProperty(navigator, 'userAgentData', {
-    value: originalUserAgentData,
-    configurable: true,
-  });
-};
 
 /** Single "Photo library" tile */
 export const Desktop: Story = {

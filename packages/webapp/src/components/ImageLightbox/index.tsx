@@ -14,12 +14,11 @@
  */
 
 import Dialog from '@mui/material/Dialog';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import TextButton from '../Form/Button/TextButton';
 import { ReactComponent as CloseIcon } from '../../assets/images/lightbox-close-x-icon.svg';
+import getDeviceType from '../../util/getDeviceType';
 
 export type ImageLightboxProps = {
   src: string;
@@ -29,14 +28,12 @@ export type ImageLightboxProps = {
 
 export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktopDevice = getDeviceType() === 'desktop';
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      fullScreen={isMobile}
       maxWidth="md"
       slotProps={{
         backdrop: { className: styles.backdrop },
@@ -58,7 +55,7 @@ export default function ImageLightbox({ src, open, onClose }: ImageLightboxProps
             <CloseIcon aria-hidden="true" />
           </TextButton>
         </div>
-        {!isMobile && <p className={styles.escHint}>{t('IMAGE_LIGHTBOX.ESC_TO_CLOSE')}</p>}
+        {isDesktopDevice && <p className={styles.escHint}>{t('IMAGE_LIGHTBOX.ESC_TO_CLOSE')}</p>}
       </div>
     </Dialog>
   );

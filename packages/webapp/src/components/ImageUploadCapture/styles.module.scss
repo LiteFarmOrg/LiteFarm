@@ -90,6 +90,7 @@
 .preview {
   width: 108px;
   height: 154px;
+  // height: auto; check with Loïc for preference
   object-fit: cover;
   border-radius: 4px;
   border: 1px solid var(--Colors-Primary-Primary-teal-300);

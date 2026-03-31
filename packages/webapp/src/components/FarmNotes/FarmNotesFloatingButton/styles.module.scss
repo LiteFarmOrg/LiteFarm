@@ -29,14 +29,16 @@
   cursor: pointer;
   height: 48px;
 
-  &:active {
-    background: var(--Colors-Primary-Primary-teal-50);
-  }
-
   &:hover {
     color: var(--Colors-Primary-Primary-teal-50);
     border: 1px solid var(--Colors-Primary-Primary-teal-50);
     background: var(--Colors-Primary-Primary-teal-700);
+  }
+
+  &:active {
+    color: var(--Colors-Primary-Primary-teal-600);
+    border: 1px solid var(--Colors-Primary-Primary-teal-600);
+    background: var(--Colors-Primary-Primary-teal-50);
   }
 
   @include md-breakpoint {

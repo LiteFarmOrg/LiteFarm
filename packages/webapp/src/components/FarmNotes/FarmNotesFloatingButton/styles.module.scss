@@ -29,6 +29,10 @@
   cursor: pointer;
   height: 48px;
 
+  &:active {
+    background: var(--Colors-Primary-Primary-teal-50);
+  }
+
   &:hover {
     color: var(--Colors-Primary-Primary-teal-50);
     border: 1px solid var(--Colors-Primary-Primary-teal-50);

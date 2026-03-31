@@ -21,7 +21,7 @@ import { ReactComponent as SensorIcon } from '../../../../assets/images/map/sign
 import { Alignment, CellKind, TableKind, type TableV2Column } from '../../../Table/types';
 import { type SensorInSimpleTableFormat } from '../../../../containers/AddSensors/types';
 import styles from './styles.module.scss';
-import { getDeviceType } from '../constants';
+import { getSensorDeviceTypeLabel } from '../constants';
 
 export enum SensorTableVariant {
   SIMPLE = 'simple',
@@ -51,7 +51,7 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
                 <SensorIcon />
                 <span>{d.external_id}</span>
               </div>
-              <div className={styles.deviceType}>{getDeviceType(d.deviceTypeKey)}</div>
+              <div className={styles.deviceType}>{getSensorDeviceTypeLabel(d.deviceTypeKey)}</div>
             </div>
           ),
         },
@@ -80,7 +80,7 @@ const SensorTable = ({ data, variant, showHeader = true, isCompact }: SensorTabl
           <Cell
             kind={CellKind.PLAIN}
             className={styles.plainCell}
-            text={getDeviceType(d.deviceTypeKey)}
+            text={getSensorDeviceTypeLabel(d.deviceTypeKey)}
           />
         ),
       },

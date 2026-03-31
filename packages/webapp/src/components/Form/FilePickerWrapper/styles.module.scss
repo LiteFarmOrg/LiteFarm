@@ -1,0 +1,32 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.inputContainer {
+  position: relative;
+  cursor: pointer;
+  display: inline-flex; // Prevents this container from stretching to fill its parent in non-flex layouts (e.g. mobile button of ImagePicker). Safe to override with display: flex when the calling component needs full-width layout
+}
+
+.input {
+  inset: 0; // Places the invisible input exactly over all all four sides of the container
+  position: absolute;
+  min-width: 10px;
+  opacity: 0;
+  cursor: pointer;
+
+  &::-webkit-file-upload-button {
+    cursor: pointer;
+  }
+}

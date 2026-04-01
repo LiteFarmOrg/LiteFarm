@@ -184,7 +184,7 @@ export function useServiceWorkerListener() {
       'farm_notes.create': {
         successMessage: t('message:FARM_NOTE.CREATE.SYNC.SUCCESS'),
         errors: {},
-        refresh: () => invalidateTags(['FarmNote']),
+        refresh: () => dispatch(invalidateTags(['FarmNote'])),
       },
       'farm_notes.edit': {
         successMessage: t('message:FARM_NOTE.EDIT.SYNC.SUCCESS'),
@@ -192,7 +192,7 @@ export function useServiceWorkerListener() {
           403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
           404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
         },
-        refresh: () => invalidateTags(['FarmNote']),
+        refresh: () => dispatch(invalidateTags(['FarmNote'])),
       },
       'farm_notes.delete': {
         successMessage: t('message:FARM_NOTE.DELETE.SYNC.SUCCESS'),
@@ -200,12 +200,12 @@ export function useServiceWorkerListener() {
           403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
           404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
         },
-        refresh: () => invalidateTags(['FarmNote']),
+        refresh: () => dispatch(invalidateTags(['FarmNote'])),
       },
       'farm_notes.patch': {
         successMessage: undefined,
         errors: null,
-        refresh: () => invalidateTags(['FarmNotesRead']),
+        refresh: () => dispatch(invalidateTags(['FarmNotesRead'])),
       },
     }),
     [t, dispatch],

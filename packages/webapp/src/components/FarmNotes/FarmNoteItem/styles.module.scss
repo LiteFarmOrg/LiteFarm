@@ -152,6 +152,9 @@
   cursor: pointer;
   background-color: transparent;
   border: none;
+
+  /* ──── Focus outline styles ──── */
+  border-radius: 8px;
 }
 
 .expandedBody {
@@ -184,6 +187,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
+
+  /* ──── Focus outline styles ──── */
+  padding-right: 4px;
+
+  &:focus-visible {
+    border-radius: 4px;
+  }
 }
 
 .noteText {
@@ -229,4 +239,10 @@
       stroke: currentColor;
     }
   }
+}
+
+/* ──── Focus outline styles ──── */
+.deleteButton {
+  padding: 8px 12px;
+  border-radius: 4px;
 }

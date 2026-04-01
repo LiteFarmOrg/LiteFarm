@@ -19,6 +19,7 @@
   gap: 24px;
   height: 100%;
   overflow: hidden;
+  padding-top: 8px;
 
   &.emptyContainer {
     .header {
@@ -52,7 +53,7 @@
 .list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 4px;
   display: flex;
   flex-direction: column;
   gap: 8px;

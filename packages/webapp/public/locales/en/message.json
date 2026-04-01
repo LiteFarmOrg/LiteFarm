@@ -89,6 +89,33 @@
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
   "FARM_NOTE": {
+    "CREATE": {
+      "FAILED": "Failed to create note",
+      "SUCCESS": "Successfully created note",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note creation automatically",
+        "ONLINE": "Note created. Will appear when you're back online",
+        "SUCCESS": "Note created offline has been saved successfully"
+      }
+    },
+    "DELETE": {
+      "FAILED": "Failed to delete note",
+      "SUCCESS": "Successfully deleted note",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note deletion automatically",
+        "ONLINE": "Note deleted. Will save when you're back online",
+        "SUCCESS": "Note deleted offline has been saved successfully"
+      }
+    },
+    "EDIT": {
+      "FAILED": "Failed to update note",
+      "SUCCESS": "Successfully updated note",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note update automatically",
+        "ONLINE": "Note updated. Will save when you're back online",
+        "SUCCESS": "Note updated offline has been saved successfully"
+      }
+    },
     "ERROR": {
       "ADD": "Failed to save note",
       "DELETE": "Failed to delete note",

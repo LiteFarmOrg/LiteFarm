@@ -22,6 +22,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Cale
 import { ReactComponent as EditIcon } from '../../../assets/images/edit-02.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/trash-03.svg';
 import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
+import { ReactComponent as PhotoIcon } from '../../../assets/images/imageCapture/photo-btn.svg';
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
@@ -55,6 +56,7 @@ export default function FarmNoteItem({
     isPrivate: note.is_private,
     updatedAt: note.updated_at,
     isExpanded,
+    hasImage: !!note.image_url,
   };
 
   if (isExpanded) {
@@ -121,9 +123,16 @@ interface NoteMetaDataProps {
   isPrivate: boolean;
   updatedAt: string;
   isExpanded: boolean;
+  hasImage: boolean;
 }
 
-const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMetaDataProps) => {
+const NoteMetaData = ({
+  authorName,
+  isPrivate,
+  updatedAt,
+  isExpanded,
+  hasImage,
+}: NoteMetaDataProps) => {
   return (
     <span className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
       {isExpanded ? (
@@ -134,9 +143,14 @@ const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMeta
           fontSize="small"
         />
       )}
-      <span className={styles.nameAndVisibility}>
+      <span className={styles.nameAndIcons}>
         <span className={styles.authorName}>{authorName}</span>
-        {isPrivate && <LockIcon className={styles.lockIcon} fontSize="small" />}
+        {isPrivate && <LockIcon />}
+        {hasImage && !isExpanded && (
+          <span className={styles.photoIcon}>
+            <PhotoIcon />
+          </span>
+        )}
       </span>
       <DateBadge updatedAt={updatedAt} />
     </span>

@@ -88,6 +88,18 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Failed to save note",
+      "DELETE": "Failed to delete note",
+      "EDIT": "Failed to update note"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully saved note",
+      "DELETE": "Successfully deleted note",
+      "EDIT": "Successfully updated note"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Something went wrong while submitting your feedback. Please try again."

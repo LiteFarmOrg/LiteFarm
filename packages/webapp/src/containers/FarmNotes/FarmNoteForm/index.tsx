@@ -13,11 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useAddFarmNoteMutation, useEditFarmNoteMutation } from '../../../store/api/farmNoteApi';
 import PureFarmNoteForm, {
   type FarmNoteFormValues,
 } from '../../../components/FarmNotes/FarmNoteForm';
 import type { FarmNote } from '../../../store/api/types';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 interface FarmNoteFormContainerProps {
   note?: FarmNote;
@@ -30,6 +33,8 @@ export default function FarmNoteFormContainer({
   onSuccess,
   onCancel,
 }: FarmNoteFormContainerProps) {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [addFarmNote] = useAddFarmNoteMutation();
   const [editFarmNote] = useEditFarmNoteMutation();
 
@@ -60,9 +65,19 @@ export default function FarmNoteFormContainer({
           data,
         }).unwrap();
       }
+      dispatch(
+        enqueueSuccessSnackbar(
+          t(isEditMode ? 'message:FARM_NOTE.SUCCESS.EDIT' : 'message:FARM_NOTE.SUCCESS.ADD'),
+        ),
+      );
       onSuccess();
     } catch (error) {
-      console.error('Failed to save farm note:', error);
+      console.error(error);
+      dispatch(
+        enqueueErrorSnackbar(
+          t(isEditMode ? 'message:FARM_NOTE.ERROR.EDIT' : 'message:FARM_NOTE.ERROR.ADD'),
+        ),
+      );
     }
   };
 

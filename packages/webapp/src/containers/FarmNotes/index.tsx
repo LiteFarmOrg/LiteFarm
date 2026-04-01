@@ -14,8 +14,9 @@
  */
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { userFarmSelector, userDisplayNameMapSelector } from '../userFarmSlice';
 import { useDeleteFarmNoteMutation, useGetFarmNotesQuery } from '../../store/api/farmNoteApi';
 import {
@@ -35,6 +36,7 @@ type FormState = null | 'add' | { mode: 'edit'; note: FarmNote };
 
 export default function FarmNotes() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const userFarm = useSelector(userFarmSelector) as { user_id?: string; [key: string]: unknown };
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
 
@@ -61,8 +63,10 @@ export default function FarmNotes() {
   const handleDeleteFarmNote = async (note: FarmNote) => {
     try {
       await deleteFarmNote(note.id).unwrap();
+      dispatch(enqueueSuccessSnackbar(t('message:FARM_NOTE.SUCCESS.DELETE')));
     } catch (error) {
-      console.error('Failed to delete farm note:', error);
+      console.error(error);
+      dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
     }
   };
 

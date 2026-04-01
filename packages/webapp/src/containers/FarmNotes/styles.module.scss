@@ -24,3 +24,13 @@
   width: 520px;
   max-width: 100%;
 }
+
+.listTitle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    width: 18px;
+  }
+}

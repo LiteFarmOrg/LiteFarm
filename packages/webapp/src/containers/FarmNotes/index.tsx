@@ -23,6 +23,7 @@ import {
   useMarkFarmNotesReadMutation,
 } from '../../store/api/farmNotesReadApi';
 import type { FarmNote } from '../../store/api/types';
+import { ReactComponent as MessageTextSquareIcon } from '../../assets/images/message-text-square-02.svg';
 import FarmNoteFormContainer from './FarmNoteForm';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList/';
 import FarmNotesFloatingButton from '../../components/FarmNotes/FarmNotesFloatingButton/';
@@ -67,7 +68,7 @@ export default function FarmNotes() {
 
   const isFormOpen = formState !== null;
   const isEditState = formState !== null && formState !== 'add';
-  const formTitle = isEditState ? t('FARM_NOTE.EDIT_NOTE') : t('FARM_NOTE.ADD_A_NOTE');
+  const formTitle = isEditState ? t('FARM_NOTE.EDIT_NOTE') : t('FARM_NOTE.NEW_NOTE');
 
   const lastReadAt = farmNotesRead?.last_read_at;
   const hasUnread = farmNotes?.some(
@@ -85,7 +86,16 @@ export default function FarmNotes() {
       <Drawer
         isOpen={isDrawerOpen}
         onClose={handleCloseDrawer}
-        title={isFormOpen ? formTitle : t('FARM_NOTE.FARM_NOTES')}
+        title={
+          isFormOpen ? (
+            formTitle
+          ) : (
+            <span className={styles.listTitle}>
+              <MessageTextSquareIcon />
+              {t('FARM_NOTE.FARM_NOTES')}
+            </span>
+          )
+        }
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}
         fullHeight
         addBackdrop={false}

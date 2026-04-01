@@ -134,6 +134,9 @@ const theme = createTheme({
           margin: 0,
           padding: 0,
         },
+        ':focus-visible': {
+          outlineColor: colors.teal500, // --Form-focus
+        },
       },
     },
     MuiDateCalendar: {

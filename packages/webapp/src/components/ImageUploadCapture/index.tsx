@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
@@ -48,6 +48,7 @@ export default function ImageUploadCapture({
 
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
+  const dropContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -80,6 +81,21 @@ export default function ImageUploadCapture({
     onRemoveImage();
   };
 
+  const handleDragEvent = (e: DragEvent) => {
+    e.preventDefault();
+    if (e.type === 'dragover') return;
+
+    if (e.type === 'dragenter' || e.type === 'dragleave') {
+      dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
+    } else if (e.type === 'drop') {
+      dropContainerRef.current?.classList.remove(styles.dropContainerActive);
+      const file = e.dataTransfer?.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    }
+  };
+
   return (
     <>
       {showFileSizeExceedsModal && (
@@ -89,7 +105,17 @@ export default function ImageUploadCapture({
       <div className={styles.section}>
         {label && <InputBaseLabel label={label} optional={optional} />}
 
-        <div className={clsx(styles.body, previewUrl && styles.bodyWithPreview)}>
+        <div
+          ref={dropContainerRef}
+          className={clsx(
+            styles.body,
+            previewUrl ? styles.bodyWithPreview : !showTakePhoto && styles.bodyDropZone,
+          )}
+          onDrop={handleDragEvent}
+          onDragEnter={handleDragEvent}
+          onDragLeave={handleDragEvent}
+          onDragOver={handleDragEvent}
+        >
           {previewUrl ? (
             <>
               <img className={styles.preview} src={previewUrl} alt="" />
@@ -122,7 +148,9 @@ export default function ImageUploadCapture({
                     <PhotoLibraryIcon />
                   </div>
                   <span className={styles.photoBtnLabel}>
-                    {t('IMAGE_UPLOAD_CAPTURE.PHOTO_LIBRARY')}
+                    {showTakePhoto
+                      ? t('IMAGE_UPLOAD_CAPTURE.PHOTO_LIBRARY')
+                      : t('UPLOADER.CLICK_TO_UPLOAD')}
                   </span>
                 </div>
               </PureFilePickerWrapper>
@@ -143,6 +171,10 @@ export default function ImageUploadCapture({
                     </span>
                   </div>
                 </PureFilePickerWrapper>
+              )}
+
+              {!showTakePhoto && (
+                <span className={styles.dragDropLabel}>{t('UPLOADER.DRAG_DROP')}</span>
               )}
             </>
           )}

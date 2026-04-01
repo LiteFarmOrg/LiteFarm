@@ -32,10 +32,37 @@
   background: var(--Box-bg);
 }
 
+/* desktop drop zone (no preview) */
+.bodyDropZone {
+  flex-direction: column;
+  gap: 8px;
+  border: 1px dashed var(--Colors-Primary-Primary-teal-200);
+  border: 1px solid transparent;
+}
+
 /* when an image is selected */
 .bodyWithPreview {
   gap: 16px;
   justify-content: stretch;
+}
+
+/* active drag-over highlight */
+.dropContainerActive {
+  background-color: var(--teal100);
+  border: 1px solid var(--teal500);
+}
+
+/* "or drag and drop" label (desktop only) */
+.dragDropLabel {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: center;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 
 /* individual tile */

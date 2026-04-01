@@ -131,6 +131,23 @@ const RETRY_ROUTES = [
     matcher: ({ url }) => url.pathname.includes('/task/'),
     method: 'DELETE',
   },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    method: 'POST',
+  },
+  {
+    // This matcher will include farm_note/{uuid} paths
+    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    method: 'PATCH',
+  },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    method: 'DELETE',
+  },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_notes_read'),
+    method: 'PATCH',
+  },
 ];
 
 const RETRY_QUEUE_NAME = 'retry-requests';

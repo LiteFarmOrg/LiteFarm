@@ -125,6 +125,11 @@
       "ADD": "Successfully saved note",
       "DELETE": "Successfully deleted note",
       "EDIT": "Successfully updated note"
+    },
+    "SYNC": {
+      "FAILED": "Task changes failed to save",
+      "NOT_FOUND": "Note failed to save: note no longer exists",
+      "UNAUTHORIZED": "Note failed to save: insufficient permissions"
     }
   },
   "HELP_REQUEST": {

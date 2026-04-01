@@ -121,6 +121,42 @@ export const farmNoteApi = api.injectEndpoints({
           body: formData,
         };
       },
+      async onQueryStarted({ id, file, data }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
+            const noteIndex = draft.findIndex((note) => note.id === id);
+            if (noteIndex !== -1) {
+              draft[noteIndex] = {
+                ...draft[noteIndex],
+                note: data.note,
+                is_private: data.is_private,
+                image_url: file ? 'pending' : data.image_url ?? draft[noteIndex].image_url,
+                updated_at: new Date().toISOString(),
+                to_sync: true,
+              };
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+
+          // TODO: Check the API call in the component and adjust
+          dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.SUCCESS')));
+        } catch (error: any) {
+          const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
+
+          if (!isNetworkError) {
+            // Server error: rollback the optimistic update
+            patchResult.undo();
+            dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.EDIT.FAILED')));
+
+            // TODO: Check the API call in the component and adjust
+            throw error;
+          }
+          // On FETCH_ERROR: keep the to_sync flag, snackbar already shown
+        }
+      },
       invalidatesTags: ['FarmNote'],
     }),
     deleteFarmNote: build.mutation<void, string>({
@@ -128,6 +164,35 @@ export const farmNoteApi = api.injectEndpoints({
         url: `${farmNoteUrl}/${id}`,
         method: 'DELETE',
       }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
+            const noteIndex = draft.findIndex((note) => note.id === id);
+            if (noteIndex !== -1) {
+              draft.splice(noteIndex, 1);
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+
+          // TODO: Check the API call in the component and adjust
+          dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.SUCCESS')));
+        } catch (error: any) {
+          const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
+
+          if (!isNetworkError) {
+            // Server error: rollback the deletion
+            patchResult.undo();
+            dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.DELETE.FAILED')));
+
+            // TODO: Check the API call in the component and adjust
+            throw error;
+          }
+          // On FETCH_ERROR: keep deleted, SW will replay
+        }
+      },
       invalidatesTags: ['FarmNote'],
     }),
   }),

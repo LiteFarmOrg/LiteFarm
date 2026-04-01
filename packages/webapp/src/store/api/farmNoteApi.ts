@@ -141,12 +141,14 @@ export const farmNoteApi = api.injectEndpoints({
         try {
           await queryFulfilled;
 
-          // TODO: Check the API call in the component and adjust
-          dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.SUCCESS')));
+          // TODO: success snackbar? Check the API call in the component and adjust
         } catch (error: any) {
           const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
 
-          if (!isNetworkError) {
+          if (isNetworkError) {
+            // Show offline queue snackbar
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.SUCCESS')));
+          } else {
             // Server error: rollback the optimistic update
             patchResult.undo();
             dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.EDIT.FAILED')));
@@ -177,12 +179,13 @@ export const farmNoteApi = api.injectEndpoints({
         try {
           await queryFulfilled;
 
-          // TODO: Check the API call in the component and adjust
-          dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.SUCCESS')));
+          // TODO: success snackbar? Check the API call in the component and adjust
         } catch (error: any) {
           const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
 
-          if (!isNetworkError) {
+          if (isNetworkError) {
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.SUCCESS')));
+          } else {
             // Server error: rollback the deletion
             patchResult.undo();
             dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.DELETE.FAILED')));

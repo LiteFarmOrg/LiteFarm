@@ -31,6 +31,21 @@ export const farmNotesReadApi = api.injectEndpoints({
         url: farmNotesReadUrl,
         method: 'PATCH',
       }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        // Always optimistic: update cache immediately with current timestamp
+        dispatch(
+          farmNotesReadApi.util.updateQueryData('getFarmNotesRead', undefined, (draft) => {
+            draft.last_read_at = new Date().toISOString();
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          // Even on network error, keep the optimistic update (marking as read is not critical)
+          // SW will queue the PATCH and replay it
+        }
+      },
       invalidatesTags: ['FarmNotesRead'],
     }),
   }),

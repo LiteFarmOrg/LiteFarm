@@ -30,11 +30,15 @@ type SyncArea =
   | 'tasks.complete'
   | 'tasks.abandon'
   | 'tasks.update' // Generic fallback; use for patching date and assignee as well
-  | 'tasks.delete';
+  | 'tasks.delete'
+  | 'farm_notes.create'
+  | 'farm_notes.edit'
+  | 'farm_notes.delete'
+  | 'farm_notes.patch';
 
 type SyncConfig = {
-  successMessage: string;
-  errors: Record<number, string>;
+  successMessage?: string;
+  errors: Record<number, string> | null;
   onSuccess?: (response: any) => any;
   refresh: () => any;
 };
@@ -43,6 +47,21 @@ type SyncConfig = {
  * Resolve specific kinds of task operations from the URL and HTTP method.
  */
 function resolveAreaFromUrl(method: string, url: string): SyncArea {
+  // Farm notes detection (check these first before tasks)
+  if (method === 'POST' && url.includes('/farm_note')) {
+    return 'farm_notes.create';
+  }
+  if (method === 'PATCH' && url.includes('/farm_note/')) {
+    return 'farm_notes.edit';
+  }
+  if (method === 'DELETE' && url.includes('/farm_note/')) {
+    return 'farm_notes.delete';
+  }
+  if (method === 'PATCH' && url.includes('/farm_notes_read')) {
+    return 'farm_notes.patch';
+  }
+
+  // Tasks (existing logic)
   if (method === 'POST') {
     return 'tasks.create';
   }
@@ -162,6 +181,32 @@ export function useServiceWorkerListener() {
         },
         refresh: () => dispatch(getTasks()),
       },
+      'farm_notes.create': {
+        successMessage: t('message:FARM_NOTE.CREATE.SYNC.SUCCESS'),
+        errors: {},
+        refresh: () => invalidateTags(['FarmNote']),
+      },
+      'farm_notes.edit': {
+        successMessage: t('message:FARM_NOTE.EDIT.SYNC.SUCCESS'),
+        errors: {
+          403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
+          404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
+        },
+        refresh: () => invalidateTags(['FarmNote']),
+      },
+      'farm_notes.delete': {
+        successMessage: t('message:FARM_NOTE.DELETE.SYNC.SUCCESS'),
+        errors: {
+          403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
+          404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
+        },
+        refresh: () => invalidateTags(['FarmNote']),
+      },
+      'farm_notes.patch': {
+        successMessage: undefined,
+        errors: null,
+        refresh: () => invalidateTags(['FarmNotesRead']),
+      },
     }),
     [t, dispatch],
   );
@@ -183,17 +228,19 @@ export function useServiceWorkerListener() {
         const isSuccess = status >= 200 && status < 400;
 
         if (isSuccess) {
-          dispatch(enqueueSuccessSnackbar(successMessage));
+          if (successMessage) {
+            dispatch(enqueueSuccessSnackbar(successMessage));
+          }
 
           const onSuccessAction = onSuccess?.(payload.response);
           if (onSuccessAction) {
             dispatch(onSuccessAction);
           }
         } else {
-          const errorMessage = errors[status];
+          const errorMessage = errors?.[status];
           if (errorMessage) {
             dispatch(enqueueErrorSnackbar(errorMessage));
-          } else {
+          } else if (errors !== null) {
             dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.FAILED')));
           }
         }
@@ -230,6 +277,15 @@ export function useServiceWorkerListener() {
           case 'tasks.abandon':
           case 'tasks.update':
             dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
+            break;
+          case 'farm_notes.create':
+            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.CREATE.SYNC.NETWORK_ERROR')));
+            break;
+          case 'farm_notes.edit':
+            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.EDIT.SYNC.NETWORK_ERROR')));
+            break;
+          case 'farm_notes.delete':
+            // No snackbar should appear
             break;
           default:
             dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));

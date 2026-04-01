@@ -88,13 +88,11 @@
 }
 
 .preview {
-  width: auto;
-  height: auto;
+  min-width: 108px;
   max-width: 154px;
   max-height: 154px;
   border-radius: 4px;
   border: 1px solid var(--Colors-Primary-Primary-teal-300);
-  flex-shrink: 0;
 }
 
 .previewActions {

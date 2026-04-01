@@ -171,9 +171,10 @@
 }
 
 .thumbnail {
-  width: 120px;
+  width: auto;
   height: auto;
-  object-fit: cover;
+  max-width: 175px;
+  max-height: 175px;
   border-radius: 4px;
   border: 1px solid var(--Colors-Primary-Primary-teal-300);
   cursor: pointer;

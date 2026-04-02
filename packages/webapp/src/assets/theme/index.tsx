@@ -117,6 +117,13 @@ const theme = createTheme({
       defaultProps: {
         disableRipple: true,
       },
+      styleOverrides: {
+        root: {
+          '&:focus-visible': {
+            outline: `3px solid ${colors.teal500}`,
+          },
+        },
+      },
     },
     MuiCssBaseline: {
       styleOverrides: {

@@ -145,10 +145,6 @@
 }
 
 .closeButton {
-  &:focus-visible {
-    outline: 3px solid var(--Form-focus);
-  }
-
   svg {
     width: 28px;
     height: 28px;

@@ -28,6 +28,7 @@ import { ReactComponent as MessageTextSquareIcon } from '../../assets/images/mes
 import FarmNoteFormContainer from './FarmNoteForm';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList/';
 import FarmNotesFloatingButton from '../../components/FarmNotes/FarmNotesFloatingButton/';
+import DeleteFarmNoteModal from '../../components/Modals/DeleteFarmNoteModal';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
@@ -49,6 +50,7 @@ export default function FarmNotes() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [formState, setFormState] = useState<FormState>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [noteToDelete, setNoteToDelete] = useState<FarmNote | null>(null);
 
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
@@ -60,14 +62,18 @@ export default function FarmNotes() {
     setFormState(null);
   };
 
-  const handleDeleteFarmNote = async (note: FarmNote) => {
+  const handleConfirmDelete = async () => {
+    if (!noteToDelete) {
+      return;
+    }
     try {
-      await deleteFarmNote(note.id).unwrap();
+      await deleteFarmNote(noteToDelete.id).unwrap();
       dispatch(enqueueSuccessSnackbar(t('message:FARM_NOTE.SUCCESS.DELETE')));
     } catch (error) {
       console.error(error);
       dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
     }
+    setNoteToDelete(null);
   };
 
   const isFormOpen = formState !== null;
@@ -119,7 +125,7 @@ export default function FarmNotes() {
             currentUserId={userFarm?.user_id ?? ''}
             onAddNote={() => setFormState('add')}
             onEditNote={(note) => setFormState({ mode: 'edit', note })}
-            onDeleteNote={handleDeleteFarmNote}
+            onDeleteNote={(note) => setNoteToDelete(note)}
             onImageClick={(src) => setLightboxSrc(src)}
           />
         )}
@@ -130,6 +136,13 @@ export default function FarmNotes() {
         open={!!lightboxSrc}
         onClose={() => setLightboxSrc(null)}
       />
+
+      {noteToDelete && (
+        <DeleteFarmNoteModal
+          dismissModal={() => setNoteToDelete(null)}
+          handleDelete={handleConfirmDelete}
+        />
+      )}
     </>
   );
 }

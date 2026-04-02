@@ -33,7 +33,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 24px;
 
   .title {
@@ -58,6 +58,10 @@
   .dismissButton {
     width: 36px;
     height: 36px;
+
+    &:focus-visible {
+      outline: 3px solid var(--Form-focus);
+    }
 
     svg {
       width: 28px;

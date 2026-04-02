@@ -33,10 +33,9 @@
 }
 
 /* desktop drop zone (no preview) */
-.bodyDropZone {
+.dragDropZone {
   flex-direction: column;
   gap: 8px;
-  border: 1px dashed var(--Colors-Primary-Primary-teal-200);
   border: 1px solid transparent;
 }
 

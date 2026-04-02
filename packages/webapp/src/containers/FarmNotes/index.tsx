@@ -32,13 +32,14 @@ import DeleteFarmNoteModal from '../../components/Modals/DeleteFarmNoteModal';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
+import type { UserFarm } from '../../types';
 
 type FormState = null | 'add' | { mode: 'edit'; note: FarmNote };
 
 export default function FarmNotes() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userFarm = useSelector(userFarmSelector) as { user_id?: string; [key: string]: unknown };
+  const userFarm = useSelector(userFarmSelector) as UserFarm;
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
 
   const { data: farmNotes } = useGetFarmNotesQuery();

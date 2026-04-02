@@ -109,7 +109,7 @@ export default function ImageUploadCapture({
           ref={dropContainerRef}
           className={clsx(
             styles.body,
-            previewUrl ? styles.bodyWithPreview : !showTakePhoto && styles.bodyDropZone,
+            previewUrl ? styles.bodyWithPreview : !showTakePhoto && styles.dragDropZone,
           )}
           onDrop={handleDragEvent}
           onDragEnter={handleDragEvent}

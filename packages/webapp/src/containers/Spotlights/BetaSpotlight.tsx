@@ -57,11 +57,12 @@ export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProp
             <b key={`${spotlight}_step_1_heading`}>
               {t(`BADGE.BETA.${upperCaseSpotlightKey}_HEADING`)}
             </b>,
-            <Trans
-              key={`${spotlight}_step_1_content`}
-              i18nKey={`BADGE.BETA.${upperCaseSpotlightKey}_CONTENT`}
-              components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
-            />,
+            <span key={`${spotlight}_step_1_content`}>
+              <Trans
+                i18nKey={`BADGE.BETA.${upperCaseSpotlightKey}_CONTENT`}
+                components={{ a: <a href={BETA_BADGE_LINK} target="_blank" rel="noreferrer" /> }}
+              />
+            </span>,
           ],
           selector: `#${spotlight}`,
           position: 'center',

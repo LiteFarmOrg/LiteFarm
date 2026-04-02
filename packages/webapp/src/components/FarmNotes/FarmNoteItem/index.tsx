@@ -145,12 +145,14 @@ const NoteMetaData = ({
       )}
       <span className={styles.nameAndIcons}>
         <span className={styles.authorName}>{authorName}</span>
-        {isPrivate && <LockIcon />}
-        {hasImage && !isExpanded && (
-          <span className={styles.photoIcon}>
-            <PhotoIcon />
-          </span>
-        )}
+        <span className={styles.icons}>
+          {isPrivate && <LockIcon />}
+          {hasImage && (
+            <span className={styles.photoIcon}>
+              <PhotoIcon />
+            </span>
+          )}
+        </span>
       </span>
       <DateBadge updatedAt={updatedAt} />
     </span>

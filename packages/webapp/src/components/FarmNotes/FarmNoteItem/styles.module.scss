@@ -44,11 +44,16 @@
     @include truncateText();
   }
 
+  .icons {
+    display: flex;
+    gap: 4px;
+
+    @include svgColorFill(#000);
+  }
+
   .photoIcon {
     display: flex;
     align-items: center;
-
-    @include svgColorFill(#000);
   }
 
   .date {

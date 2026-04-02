@@ -118,6 +118,8 @@ const theme = createTheme({
         disableRipple: true,
       },
       styleOverrides: {
+        // disableRipple removes MUI's default :focus-visible styling
+        // https://mui.com/material-ui/api/button-base/#button-base-prop-disableRipple
         root: {
           '&:focus-visible': {
             outline: `3px solid ${colors.teal500}`,

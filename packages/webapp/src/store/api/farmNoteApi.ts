@@ -15,6 +15,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import i18n from 'i18next';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { api } from './apiSlice';
 import { farmNoteUrl } from '../../apiConfig';
 import { FarmNote } from './types';
@@ -22,6 +23,9 @@ import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
 } from '../../containers/Snackbar/snackbarSlice';
+import { RootState } from '../store';
+
+type QueryResult<T> = { data: T } | { error: FetchBaseQueryError };
 
 type FarmNoteData = {
   note: string;
@@ -44,10 +48,16 @@ interface EditFarmNoteReqBody {
 export const farmNoteApi = api.injectEndpoints({
   endpoints: (build) => ({
     getFarmNotes: build.query<FarmNote[], void>({
-      query: () => ({
-        url: farmNoteUrl,
-        method: 'GET',
-      }),
+      queryFn: async (_, { getState }, __, baseQuery): Promise<QueryResult<FarmNote[]>> => {
+        const state = getState() as RootState;
+        if (state.tempStateReducer?.offlineDetectorReducer?.isOffline) {
+          const existingData = selectFarmNoteResult(state);
+          if (existingData.data) {
+            return { data: existingData.data };
+          }
+        }
+        return baseQuery({ url: farmNoteUrl, method: 'GET' }) as QueryResult<FarmNote[]>;
+      },
       providesTags: ['FarmNote'],
     }),
     addFarmNote: build.mutation<FarmNote, AddFarmNoteReqBody>({
@@ -200,6 +210,8 @@ export const farmNoteApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const selectFarmNoteResult = farmNoteApi.endpoints.getFarmNotes.select();
 
 export const {
   useGetFarmNotesQuery,

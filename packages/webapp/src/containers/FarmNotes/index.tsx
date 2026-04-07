@@ -34,7 +34,7 @@ import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
 
-type FormState = null | 'add' | { mode: 'edit'; note: FarmNote };
+type FormState = null | { mode: 'add' } | { mode: 'edit'; note: FarmNote };
 
 export default function FarmNotes() {
   const { t } = useTranslation();
@@ -78,7 +78,7 @@ export default function FarmNotes() {
   };
 
   const isFormOpen = formState !== null;
-  const isEditState = formState !== null && formState !== 'add';
+  const isEditState = formState?.mode === 'edit';
   const formTitle = isEditState ? t('FARM_NOTE.EDIT_NOTE') : t('FARM_NOTE.NEW_NOTE');
 
   const lastReadAt = farmNotesRead?.last_read_at;
@@ -123,7 +123,7 @@ export default function FarmNotes() {
             notes={farmNotes || []}
             userDisplayNameMap={userDisplayNameMap}
             currentUserId={userFarm?.user_id ?? ''}
-            onAddNote={() => setFormState('add')}
+            onAddNote={() => setFormState({ mode: 'add' })}
             onEditNote={(note) => setFormState({ mode: 'edit', note })}
             onDeleteNote={setNoteToDelete}
             onImageClick={setLightboxSrc}

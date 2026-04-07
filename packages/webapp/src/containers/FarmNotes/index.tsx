@@ -114,7 +114,6 @@ export default function FarmNotes() {
       >
         {isFormOpen ? (
           <FarmNoteFormContainer
-            key={isEditState ? formState.note.id : 'add'}
             note={isEditState ? formState.note : undefined}
             onSuccess={() => setFormState(null)}
             onCancel={() => setFormState(null)}

@@ -50,7 +50,7 @@ export default function ImageUploadCapture({
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
 
-  const previewUrl = localUrl !== null ? localUrl : defaultUrl;
+  const previewUrl = localUrl ?? defaultUrl;
 
   useEffect(() => {
     return () => {

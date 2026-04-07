@@ -100,7 +100,7 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.CREATE.SYNC.ONLINE')));
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.ADD.ONLINE')));
           } else {
             // Server error: rollback the optimistic updateconsole.error(error);
             patchResult.undo();
@@ -144,7 +144,7 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.ONLINE')));
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.EDIT.ONLINE')));
           } else {
             // Server error: rollback the optimistic update
             patchResult.undo();
@@ -172,7 +172,7 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.ONLINE')));
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.DELETE.ONLINE')));
           } else {
             // Server error: rollback the deletion
             patchResult.undo();

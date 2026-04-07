@@ -182,12 +182,12 @@ export function useServiceWorkerListener() {
         refresh: () => dispatch(getTasks()),
       },
       'farm_notes.create': {
-        successMessage: t('message:FARM_NOTE.CREATE.SYNC.SUCCESS'),
+        successMessage: t('message:FARM_NOTE.SYNC.ADD.SUCCESS'),
         errors: {},
         refresh: () => dispatch(invalidateTags(['FarmNote'])),
       },
       'farm_notes.edit': {
-        successMessage: t('message:FARM_NOTE.EDIT.SYNC.SUCCESS'),
+        successMessage: t('message:FARM_NOTE.SYNC.EDIT.SUCCESS'),
         errors: {
           403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
           404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
@@ -195,7 +195,7 @@ export function useServiceWorkerListener() {
         refresh: () => dispatch(invalidateTags(['FarmNote'])),
       },
       'farm_notes.delete': {
-        successMessage: t('message:FARM_NOTE.DELETE.SYNC.SUCCESS'),
+        successMessage: t('message:FARM_NOTE.SYNC.DELETE.SUCCESS'),
         errors: {
           403: t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
           404: t('message:FARM_NOTE.SYNC.NOT_FOUND'),
@@ -279,12 +279,14 @@ export function useServiceWorkerListener() {
             dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
             break;
           case 'farm_notes.create':
-            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.CREATE.SYNC.NETWORK_ERROR')));
+            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.SYNC.ADD.NETWORK_ERROR')));
             break;
           case 'farm_notes.edit':
-            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.EDIT.SYNC.NETWORK_ERROR')));
+            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.SYNC.EDIT.NETWORK_ERROR')));
             break;
           case 'farm_notes.delete':
+            dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.SYNC.DELETE.NETWORK_ERROR')));
+          case 'farm_notes.patch':
             // No snackbar should appear
             break;
           default:

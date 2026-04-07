@@ -89,27 +89,6 @@
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
   },
   "FARM_NOTE": {
-    "CREATE": {
-      "SYNC": {
-        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note creation automatically",
-        "ONLINE": "Note created. Will appear when you're back online",
-        "SUCCESS": "Note created offline has been saved successfully"
-      }
-    },
-    "DELETE": {
-      "SYNC": {
-        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note deletion automatically",
-        "ONLINE": "Note deleted. Will save when you're back online",
-        "SUCCESS": "Note deleted offline has been saved successfully"
-      }
-    },
-    "EDIT": {
-      "SYNC": {
-        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note update automatically",
-        "ONLINE": "Note updated. Will save when you're back online",
-        "SUCCESS": "Note updated offline has been saved successfully"
-      }
-    },
     "ERROR": {
       "ADD": "Failed to save note",
       "DELETE": "Failed to delete note",
@@ -121,6 +100,21 @@
       "EDIT": "Successfully updated note"
     },
     "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note creation automatically",
+        "ONLINE": "Note created. Will appear when you're back online",
+        "SUCCESS": "Note created offline has been saved successfully"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note deletion automatically",
+        "ONLINE": "Note deleted. Will save when you're back online",
+        "SUCCESS": "Note deleted offline has been saved successfully"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note update automatically",
+        "ONLINE": "Note updated. Will save when you're back online",
+        "SUCCESS": "Note updated offline has been saved successfully"
+      },
       "FAILED": "Task changes failed to save",
       "NOT_FOUND": "Note failed to save: note no longer exists",
       "UNAUTHORIZED": "Note failed to save: insufficient permissions"

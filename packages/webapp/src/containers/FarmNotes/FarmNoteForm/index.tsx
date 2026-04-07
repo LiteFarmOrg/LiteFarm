@@ -16,6 +16,7 @@
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useAddFarmNoteMutation, useEditFarmNoteMutation } from '../../../store/api/farmNoteApi';
+import useMediaWithAuthentication from '../../hooks/useMediaWithAuthentication';
 import PureFarmNoteForm, {
   type FarmNoteFormValues,
 } from '../../../components/FarmNotes/FarmNoteForm';
@@ -40,11 +41,15 @@ export default function FarmNoteFormContainer({
 
   const isEditMode = !!note;
 
+  const { mediaUrl: authenticatedImageUrl } = useMediaWithAuthentication({
+    fileUrls: note?.image_url ? [note.image_url] : [],
+  });
+
   const defaultValues = isEditMode
     ? {
         note: note.note,
         is_private: note.is_private,
-        image_url: note.image_url || undefined,
+        image_url: authenticatedImageUrl,
       }
     : undefined;
 

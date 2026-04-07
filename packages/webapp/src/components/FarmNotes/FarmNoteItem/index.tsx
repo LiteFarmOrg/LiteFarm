@@ -25,6 +25,7 @@ import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.
 import { ReactComponent as PhotoIcon } from '../../../assets/images/imageCapture/photo-btn.svg';
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
+import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
 import { FarmNote } from '../../../store/api/types';
 import styles from './styles.module.scss';
@@ -51,6 +52,9 @@ export default function FarmNoteItem({
   onImageClick,
 }: FarmNoteItemProps) {
   const { t } = useTranslation(['translation', 'common']);
+  const { mediaUrl: authenticatedImageUrl } = useMediaWithAuthentication({
+    fileUrls: note?.image_url ? [note.image_url] : [],
+  });
   const metaDataProps = {
     authorName: authorName,
     isPrivate: note.is_private,
@@ -70,17 +74,17 @@ export default function FarmNoteItem({
         {/* Body */}
         <div className={styles.expandedBody}>
           <p className={styles.noteText}>{note.note}</p>
-          {note.image_url && (
+          {authenticatedImageUrl && (
             <div className={styles.imageWrapper}>
               <img
-                src={note.image_url}
+                src={authenticatedImageUrl}
                 alt=""
                 className={styles.thumbnail}
-                onClick={() => onImageClick(note.image_url!)}
+                onClick={() => onImageClick(authenticatedImageUrl)}
               />
               <TextButton
                 className={styles.enlargeLink}
-                onClick={() => onImageClick(note.image_url!)}
+                onClick={() => onImageClick(authenticatedImageUrl)}
               >
                 <SearchIcon fontSize="small" />
                 {t('common:CLICK_TO_ENLARGE')}

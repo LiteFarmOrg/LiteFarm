@@ -46,17 +46,19 @@ export default function ImageUploadCapture({
   const deviceType = getDeviceType();
   const showTakePhoto = deviceType !== 'desktop';
 
-  const [previewUrl, setPreviewUrl] = useState(defaultUrl);
+  const [localUrl, setLocalUrl] = useState<string | null>(null);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
 
+  const previewUrl = localUrl !== null ? localUrl : defaultUrl;
+
   useEffect(() => {
     return () => {
-      if (previewUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(previewUrl);
+      if (localUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(localUrl);
       }
     };
-  }, [previewUrl]);
+  }, [localUrl]);
 
   const handleFile = (file: File) => {
     if (file.size > 5e6) {
@@ -64,7 +66,7 @@ export default function ImageUploadCapture({
       return;
     }
     const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
+    setLocalUrl(url);
     onSelectImage(file);
   };
 
@@ -77,7 +79,7 @@ export default function ImageUploadCapture({
   };
 
   const handleRemove = () => {
-    setPreviewUrl('');
+    setLocalUrl('');
     onRemoveImage();
   };
 

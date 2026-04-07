@@ -40,6 +40,8 @@ export default function useMediaWithAuthentication({
   const [zipContent, setZipContent] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
 
+  const fileUrlsKey = fileUrls.join(',');
+
   useEffect(() => {
     const config: RequestInit = {
       headers: {
@@ -49,6 +51,7 @@ export default function useMediaWithAuthentication({
     };
 
     let subscribed = true;
+    let blobUrl: string | undefined;
 
     const fetchMediaUrls = async () => {
       try {
@@ -95,10 +98,15 @@ export default function useMediaWithAuthentication({
 
             const response = await fetch(url.toString(), config);
             const blobFile = await response.blob();
+            const nextBlobUrl = URL.createObjectURL(blobFile);
 
-            if (subscribed) {
-              setMediaUrl(URL.createObjectURL(blobFile));
+            if (!subscribed) {
+              URL.revokeObjectURL(nextBlobUrl);
+              return;
             }
+
+            blobUrl = nextBlobUrl;
+            setMediaUrl(nextBlobUrl);
           }
         }
       } catch (e) {
@@ -112,8 +120,11 @@ export default function useMediaWithAuthentication({
 
     return () => {
       subscribed = false;
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
     };
-  }, []);
+  }, [fileUrlsKey]);
 
   return {
     mediaUrl,

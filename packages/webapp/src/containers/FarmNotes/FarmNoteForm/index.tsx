@@ -22,6 +22,7 @@ import PureFarmNoteForm, {
 } from '../../../components/FarmNotes/FarmNoteForm';
 import type { FarmNote } from '../../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
+import { isNetworkError } from '../../../util/apiUtils';
 
 interface FarmNoteFormContainerProps {
   note?: FarmNote;
@@ -76,13 +77,17 @@ export default function FarmNoteFormContainer({
         ),
       );
       onSuccess();
-    } catch (error) {
-      console.error(error);
-      dispatch(
-        enqueueErrorSnackbar(
-          t(isEditMode ? 'message:FARM_NOTE.ERROR.EDIT' : 'message:FARM_NOTE.ERROR.ADD'),
-        ),
-      );
+    } catch (error: any) {
+      if (isNetworkError(error)) {
+        onSuccess();
+      } else {
+        console.error(error);
+        dispatch(
+          enqueueErrorSnackbar(
+            t(isEditMode ? 'message:FARM_NOTE.ERROR.EDIT' : 'message:FARM_NOTE.ERROR.ADD'),
+          ),
+        );
+      }
     }
   };
 

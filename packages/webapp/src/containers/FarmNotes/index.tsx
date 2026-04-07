@@ -33,6 +33,7 @@ import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
+import { isNetworkError } from '../../util/apiUtils';
 
 type FormState = null | { mode: 'add' } | { mode: 'edit'; note: FarmNote };
 
@@ -71,8 +72,10 @@ export default function FarmNotes() {
       await deleteFarmNote(noteToDelete.id).unwrap();
       dispatch(enqueueSuccessSnackbar(t('message:FARM_NOTE.SUCCESS.DELETE')));
     } catch (error) {
-      console.error(error);
-      dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
+      if (!isNetworkError(error)) {
+        console.error(error);
+        dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
+      }
     }
     setNoteToDelete(null);
   };

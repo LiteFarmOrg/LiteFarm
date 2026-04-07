@@ -19,10 +19,10 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { api } from './apiSlice';
 import { farmNoteUrl } from '../../apiConfig';
 import { FarmNote } from './types';
-import {
-  enqueueErrorSnackbar,
-  enqueueSuccessSnackbar,
-} from '../../containers/Snackbar/snackbarSlice';
+import { enqueueSuccessSnackbar } from '../../containers/Snackbar/snackbarSlice';
+import { isOfflineSelector } from '../../containers/hooks/useOfflineDetector/offlineDetectorSlice';
+import { loginSelector } from '../../containers/userFarmSlice';
+import { isNetworkError } from '../../util/apiUtils';
 import { RootState } from '../store';
 
 type QueryResult<T> = { data: T } | { error: FetchBaseQueryError };
@@ -50,7 +50,7 @@ export const farmNoteApi = api.injectEndpoints({
     getFarmNotes: build.query<FarmNote[], void>({
       queryFn: async (_, { getState }, __, baseQuery): Promise<QueryResult<FarmNote[]>> => {
         const state = getState() as RootState;
-        if (state.tempStateReducer?.offlineDetectorReducer?.isOffline) {
+        if (isOfflineSelector(state)) {
           const existingData = selectFarmNoteResult(state);
           if (existingData.data) {
             return { data: existingData.data };
@@ -76,42 +76,34 @@ export const farmNoteApi = api.injectEndpoints({
         };
       },
       async onQueryStarted({ file, data }, { dispatch, queryFulfilled, getState }) {
+        const state = getState() as RootState;
+        const userFarm = loginSelector(state);
+
+        const optimisticNote: FarmNote = {
+          id: uuidv4(),
+          farm_id: userFarm.farm_id!,
+          user_id: userFarm.user_id!,
+          note: data.note,
+          is_private: data.is_private,
+          image_url: file ? 'pending' : undefined,
+          updated_at: new Date().toISOString(),
+          to_sync: true,
+        };
+
+        const patchResult = dispatch(
+          farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
+            draft.unshift(optimisticNote);
+          }),
+        );
+
         try {
           await queryFulfilled;
         } catch (error: any) {
-          // Check if this is a network error (FETCH_ERROR) vs server error
-          // In RTK Query, network errors result in undefined status or specific error structure
-          const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
-
-          if (isNetworkError) {
-            // Network failure: inject optimistic note with to_sync flag
-            const state = getState() as any;
-            const userFarm = state.entitiesReducer.userFarmReducer;
-
-            const optimisticNote: FarmNote = {
-              id: uuidv4(),
-              farm_id: userFarm.farm_id,
-              user_id: userFarm.user_id,
-              note: data.note,
-              is_private: data.is_private,
-              image_url: file ? 'pending' : undefined,
-              updated_at: new Date().toISOString(),
-              to_sync: true,
-            };
-
-            // Patch the getFarmNotes cache with optimistic update
-            dispatch(
-              farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
-                draft.unshift(optimisticNote);
-              }),
-            );
-
-            // Show offline queue snackbar
+          if (isNetworkError(error)) {
             dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.CREATE.SYNC.ONLINE')));
           } else {
-            // Server error: show error snackbar (no optimistic update to rollback)
-            console.error(error);
-            dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.CREATE.FAILED')));
+            // Server error: rollback the optimistic updateconsole.error(error);
+            patchResult.undo();
           }
         }
       },
@@ -150,23 +142,13 @@ export const farmNoteApi = api.injectEndpoints({
 
         try {
           await queryFulfilled;
-
-          // TODO: success snackbar? Check the API call in the component and adjust
         } catch (error: any) {
-          const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
-
-          if (isNetworkError) {
-            // Show offline queue snackbar
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.SUCCESS')));
+          if (isNetworkError(error)) {
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.EDIT.SYNC.ONLINE')));
           } else {
             // Server error: rollback the optimistic update
             patchResult.undo();
-            dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.EDIT.FAILED')));
-
-            // TODO: Check the API call in the component and adjust
-            throw error;
           }
-          // On FETCH_ERROR: keep the to_sync flag, snackbar already shown
         }
       },
       invalidatesTags: ['FarmNote'],
@@ -188,22 +170,13 @@ export const farmNoteApi = api.injectEndpoints({
 
         try {
           await queryFulfilled;
-
-          // TODO: success snackbar? Check the API call in the component and adjust
         } catch (error: any) {
-          const isNetworkError = !error.status || error.status === 'FETCH_ERROR';
-
-          if (isNetworkError) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.SUCCESS')));
+          if (isNetworkError(error)) {
+            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.DELETE.SYNC.ONLINE')));
           } else {
             // Server error: rollback the deletion
             patchResult.undo();
-            dispatch(enqueueErrorSnackbar(i18n.t('message:FARM_NOTE.DELETE.FAILED')));
-
-            // TODO: Check the API call in the component and adjust
-            throw error;
           }
-          // On FETCH_ERROR: keep deleted, SW will replay
         }
       },
       invalidatesTags: ['FarmNote'],

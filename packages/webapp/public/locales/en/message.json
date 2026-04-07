@@ -90,8 +90,6 @@
   },
   "FARM_NOTE": {
     "CREATE": {
-      "FAILED": "Failed to create note",
-      "SUCCESS": "Successfully created note",
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note creation automatically",
         "ONLINE": "Note created. Will appear when you're back online",
@@ -99,8 +97,6 @@
       }
     },
     "DELETE": {
-      "FAILED": "Failed to delete note",
-      "SUCCESS": "Successfully deleted note",
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note deletion automatically",
         "ONLINE": "Note deleted. Will save when you're back online",
@@ -108,8 +104,6 @@
       }
     },
     "EDIT": {
-      "FAILED": "Failed to update note",
-      "SUCCESS": "Successfully updated note",
       "SYNC": {
         "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note update automatically",
         "ONLINE": "Note updated. Will save when you're back online",

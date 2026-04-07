@@ -13,5 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
+export type QueryResult<T> = { data: T } | { error: FetchBaseQueryError };
+
 // In RTK Query, network errors result in undefined status or specific error structure
 export const isNetworkError = (error: any) => !error.status || error.status === 'FETCH_ERROR';

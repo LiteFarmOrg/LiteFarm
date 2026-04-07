@@ -15,17 +15,14 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import i18n from 'i18next';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { api } from './apiSlice';
 import { farmNoteUrl } from '../../apiConfig';
 import { FarmNote } from './types';
 import { enqueueSuccessSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { isOfflineSelector } from '../../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import { loginSelector } from '../../containers/userFarmSlice';
-import { isNetworkError } from '../../util/apiUtils';
+import { isNetworkError, QueryResult } from '../../util/apiUtils';
 import { RootState } from '../store';
-
-type QueryResult<T> = { data: T } | { error: FetchBaseQueryError };
 
 type FarmNoteData = {
   note: string;

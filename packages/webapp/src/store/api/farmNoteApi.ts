@@ -47,6 +47,8 @@ export const farmNoteApi = api.injectEndpoints({
     getFarmNotes: build.query<FarmNote[], void>({
       queryFn: async (_, { getState }, __, baseQuery): Promise<QueryResult<FarmNote[]>> => {
         const state = getState() as RootState;
+        // When offline, return cached data directly instead of making a network request.
+        // This keeps the query in 'fulfilled' status, which is required for optimistic updates to remain visible in the UI.
         if (isOfflineSelector(state)) {
           const existingData = selectFarmNoteResult(state);
           if (existingData.data) {

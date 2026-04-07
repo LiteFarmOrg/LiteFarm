@@ -125,8 +125,8 @@ export default function FarmNotes() {
             currentUserId={userFarm?.user_id ?? ''}
             onAddNote={() => setFormState('add')}
             onEditNote={(note) => setFormState({ mode: 'edit', note })}
-            onDeleteNote={(note) => setNoteToDelete(note)}
-            onImageClick={(src) => setLightboxSrc(src)}
+            onDeleteNote={setNoteToDelete}
+            onImageClick={setLightboxSrc}
           />
         )}
       </Drawer>

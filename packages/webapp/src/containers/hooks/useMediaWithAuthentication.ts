@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -17,58 +17,87 @@ import JSZip from 'jszip';
 import { useEffect, useState } from 'react';
 import { mediaEnum } from '../MediaWithAuthentication/constants';
 
+type MediaType = (typeof mediaEnum)[keyof typeof mediaEnum];
+
+interface UseMediaWithAuthenticationParams {
+  fileUrls?: string[];
+  title?: string;
+  mediaType?: MediaType;
+}
+
+interface UseMediaWithAuthenticationResult {
+  mediaUrl: string | undefined;
+  zipContent: string | undefined;
+  isLoading: boolean;
+}
+
 export default function useMediaWithAuthentication({
   fileUrls = [],
   title = '',
-  extensionName = '',
   mediaType = mediaEnum.IMAGE,
-}) {
-  const [mediaUrl, setMediaUrl] = useState();
-  const [zipContent, setZipContent] = useState();
+}: UseMediaWithAuthenticationParams): UseMediaWithAuthenticationResult {
+  const [mediaUrl, setMediaUrl] = useState<string>();
+  const [zipContent, setZipContent] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const config = {
+    const config: RequestInit = {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
+        Authorization: 'Bearer ' + (localStorage.getItem('farm_token') ?? ''),
       },
-      responseType: 'arraybuffer',
       method: 'GET',
     };
-    let subscribed;
+
+    let subscribed = true;
 
     const fetchMediaUrls = async () => {
       try {
-        subscribed = true;
         if (mediaType === mediaEnum.ZIP) {
           const zip = new JSZip();
           const folder = zip.folder(title);
 
+          if (!folder) {
+            return;
+          }
+
           await Promise.all(
             fileUrls.map(async (fileUrl) => {
               const url = new URL(fileUrl);
+
               if (import.meta.env.VITE_ENV !== 'development') {
                 url.hostname = 'images.litefarm.workers.dev';
               }
-              return fetch(url.toString(), config).then((response) => {
-                const blobFilePromise = response.blob();
-                folder.file(url.href.substring(url.href.lastIndexOf('/')), blobFilePromise);
-              });
+
+              const response = await fetch(url.toString(), config);
+              const blobFilePromise = response.blob();
+              folder.file(url.href.substring(url.href.lastIndexOf('/')), blobFilePromise);
             }),
           );
+
           const content = await zip.generateAsync({ type: 'base64' });
-          subscribed && setZipContent(content);
+          if (subscribed) {
+            setZipContent(content);
+          }
         } else {
           const fileUrl = fileUrls[0];
-          if (fileUrl) {
-            if (import.meta.env.VITE_ENV === 'development') {
-              subscribed && setMediaUrl(fileUrl);
-            } else {
-              const url = new URL(fileUrl);
-              url.hostname = 'images.litefarm.workers.dev';
-              const response = await fetch(url.toString(), config);
-              const blobFile = await response.blob();
-              subscribed && setMediaUrl(URL.createObjectURL(blobFile));
+
+          if (!fileUrl) {
+            return;
+          }
+
+          if (import.meta.env.VITE_ENV === 'development') {
+            if (subscribed) {
+              setMediaUrl(fileUrl);
+            }
+          } else {
+            const url = new URL(fileUrl);
+            url.hostname = 'images.litefarm.workers.dev';
+
+            const response = await fetch(url.toString(), config);
+            const blobFile = await response.blob();
+
+            if (subscribed) {
+              setMediaUrl(URL.createObjectURL(blobFile));
             }
           }
         }
@@ -78,8 +107,12 @@ export default function useMediaWithAuthentication({
         setIsLoading(false);
       }
     };
+
     fetchMediaUrls();
-    return () => (subscribed = false);
+
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   return {

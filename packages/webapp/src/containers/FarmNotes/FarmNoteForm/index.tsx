@@ -26,15 +26,10 @@ import { isNetworkError } from '../../../util/apiUtils';
 
 interface FarmNoteFormContainerProps {
   note?: FarmNote;
-  onSuccess: () => void;
-  onCancel: () => void;
+  onClose: () => void;
 }
 
-export default function FarmNoteFormContainer({
-  note,
-  onSuccess,
-  onCancel,
-}: FarmNoteFormContainerProps) {
+export default function FarmNoteFormContainer({ note, onClose }: FarmNoteFormContainerProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [addFarmNote] = useAddFarmNoteMutation();
@@ -76,22 +71,22 @@ export default function FarmNoteFormContainer({
           t(isEditMode ? 'message:FARM_NOTE.SUCCESS.EDIT' : 'message:FARM_NOTE.SUCCESS.ADD'),
         ),
       );
-      onSuccess();
     } catch (error: any) {
-      if (isNetworkError(error)) {
-        onSuccess();
-      } else {
+      if (!isNetworkError(error)) {
         console.error(error);
         dispatch(
           enqueueErrorSnackbar(
             t(isEditMode ? 'message:FARM_NOTE.ERROR.EDIT' : 'message:FARM_NOTE.ERROR.ADD'),
           ),
         );
+        return;
       }
+      // Don't show error snackbar for network errors since it's handled in the api slice
     }
+    onClose();
   };
 
   return (
-    <PureFarmNoteForm defaultValues={defaultValues} onSubmit={handleSubmit} onCancel={onCancel} />
+    <PureFarmNoteForm defaultValues={defaultValues} onSubmit={handleSubmit} onCancel={onClose} />
   );
 }

@@ -76,6 +76,7 @@ export default function FarmNotes() {
         console.error(error);
         dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
       }
+      // Don't show error snackbar for network errors since it's handled in the api slice
     }
     setNoteToDelete(null);
   };
@@ -118,8 +119,7 @@ export default function FarmNotes() {
         {isFormOpen ? (
           <FarmNoteFormContainer
             note={isEditState ? formState.note : undefined}
-            onSuccess={() => setFormState(null)}
-            onCancel={() => setFormState(null)}
+            onClose={() => setFormState(null)}
           />
         ) : (
           <FarmNoteList

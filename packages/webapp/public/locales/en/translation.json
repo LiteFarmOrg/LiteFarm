@@ -1015,6 +1015,7 @@
     "DELETE_NOTE": "Delete note",
     "EDIT_NOTE": "Edit note",
     "EMPTY_STATE": "You do not have any notes",
+    "EXPIRATION_WARNING": "Notes will be deleted automatically after 30 days",
     "FARM_NOTES": "Farm notes",
     "HAS_UNREAD_NOTES": "Has unread notes",
     "NEW_NOTE": "New note",

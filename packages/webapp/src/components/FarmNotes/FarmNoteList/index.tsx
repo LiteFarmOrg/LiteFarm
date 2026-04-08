@@ -69,24 +69,29 @@ export default function FarmNoteList({
       </div>
 
       {!isEmpty && (
-        <ul className={styles.list}>
-          {orderedNotes.map((note) => {
-            return (
-              <li key={note.id}>
-                <FarmNoteItem
-                  note={note}
-                  authorName={userDisplayNameMap[note.user_id]}
-                  isAuthor={note.user_id === currentUserId}
-                  isExpanded={expandedIds.includes(note.id)}
-                  onToggle={() => toggleExpanded(note.id)}
-                  onEdit={() => onEditNote(note)}
-                  onDelete={() => onDeleteNote(note)}
-                  onImageClick={onImageClick}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <ul className={styles.list}>
+            {orderedNotes.map((note) => {
+              return (
+                <li key={note.id}>
+                  <FarmNoteItem
+                    note={note}
+                    authorName={userDisplayNameMap[note.user_id]}
+                    isAuthor={note.user_id === currentUserId}
+                    isExpanded={expandedIds.includes(note.id)}
+                    onToggle={() => toggleExpanded(note.id)}
+                    onEdit={() => onEditNote(note)}
+                    onDelete={() => onDeleteNote(note)}
+                    onImageClick={onImageClick}
+                  />
+                </li>
+              );
+            })}
+            <div className={styles.expirationWarning}>
+              <p>{t('FARM_NOTE.EXPIRATION_WARNING')}</p>
+            </div>
+          </ul>
+        </>
       )}
     </div>
   );

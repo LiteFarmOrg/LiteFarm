@@ -27,7 +27,7 @@
   align-items: center;
   gap: 8px;
 
-  .nameAndVisibility {
+  .nameAndIcons {
     display: flex;
     flex: 1;
     align-items: center;
@@ -44,8 +44,16 @@
     @include truncateText();
   }
 
-  .lockIcon {
-    width: 18px;
+  .icons {
+    display: flex;
+    gap: 4px;
+
+    @include svgColorFill(#000);
+  }
+
+  .photoIcon {
+    display: flex;
+    align-items: center;
   }
 
   .date {
@@ -63,8 +71,8 @@
     font-size: 12px;
     font-weight: 700;
     border-radius: 4px;
-    color: #ff3d33;
-    background: rgba(255, 214, 212, 0.2);
+    color: var(--Colors-Accent---singles-Red-full);
+    background: var(--Colors-Accent---singles-Red-light);
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -152,6 +160,9 @@
   cursor: pointer;
   background-color: transparent;
   border: none;
+
+  /* ──── Focus outline styles ──── */
+  border-radius: 8px;
 }
 
 .expandedBody {
@@ -168,9 +179,10 @@
 }
 
 .thumbnail {
-  width: 120px;
+  width: auto;
   height: auto;
-  object-fit: cover;
+  max-width: 175px;
+  max-height: 175px;
   border-radius: 4px;
   border: 1px solid var(--Colors-Primary-Primary-teal-300);
   cursor: pointer;
@@ -184,6 +196,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
+
+  /* ──── Focus outline styles ──── */
+  padding-right: 4px;
+
+  &:focus-visible {
+    border-radius: 4px;
+  }
 }
 
 .noteText {
@@ -229,4 +248,10 @@
       stroke: currentColor;
     }
   }
+}
+
+/* ──── Focus outline styles ──── */
+.deleteButton {
+  padding: 8px 12px;
+  border-radius: 4px;
 }

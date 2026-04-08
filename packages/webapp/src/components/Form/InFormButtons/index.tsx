@@ -50,7 +50,7 @@ const InFormButtons = ({
 
   return (
     <div className={clsx(styles.container, className)}>
-      <div className={clsx(styles.buttons, equalWidth && styles.buttonsEqualWidth)}>
+      <div className={clsx(styles.buttons, equalWidth && styles.equalWidth)}>
         {statusText && <span className={styles.statusText}>{statusText}</span>}
         {onCancel && (
           <Button

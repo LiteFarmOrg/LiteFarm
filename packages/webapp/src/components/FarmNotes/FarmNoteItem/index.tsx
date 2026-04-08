@@ -22,8 +22,10 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Cale
 import { ReactComponent as EditIcon } from '../../../assets/images/edit-02.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/trash-03.svg';
 import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
+import { ReactComponent as PhotoIcon } from '../../../assets/images/imageCapture/photo-btn.svg';
 import TextButton from '../../Form/Button/TextButton';
 import Button from '../../Form/Button';
+import useMediaWithAuthentication from '../../../containers/hooks/useMediaWithAuthentication';
 import { isSameDay, getIntlDate } from '../../../util/date-migrate-TS';
 import { FarmNote } from '../../../store/api/types';
 import styles from './styles.module.scss';
@@ -50,11 +52,15 @@ export default function FarmNoteItem({
   onImageClick,
 }: FarmNoteItemProps) {
   const { t } = useTranslation(['translation', 'common']);
+  const { mediaUrl: authenticatedImageUrl } = useMediaWithAuthentication({
+    fileUrls: note?.image_url ? [note.image_url] : [],
+  });
   const metaDataProps = {
     authorName: authorName,
     isPrivate: note.is_private,
     updatedAt: note.updated_at,
     isExpanded,
+    hasImage: !!note.image_url,
   };
 
   if (isExpanded) {
@@ -68,17 +74,17 @@ export default function FarmNoteItem({
         {/* Body */}
         <div className={styles.expandedBody}>
           <p className={styles.noteText}>{note.note}</p>
-          {note.image_url && (
+          {authenticatedImageUrl && (
             <div className={styles.imageWrapper}>
               <img
-                src={note.image_url}
+                src={authenticatedImageUrl}
                 alt=""
                 className={styles.thumbnail}
-                onClick={() => onImageClick(note.image_url!)}
+                onClick={() => onImageClick(authenticatedImageUrl)}
               />
               <TextButton
                 className={styles.enlargeLink}
-                onClick={() => onImageClick(note.image_url!)}
+                onClick={() => onImageClick(authenticatedImageUrl)}
               >
                 <SearchIcon fontSize="small" />
                 {t('common:CLICK_TO_ENLARGE')}
@@ -90,7 +96,7 @@ export default function FarmNoteItem({
         {/* Author actions */}
         {isAuthor && (
           <div className={styles.actions}>
-            <TextButton type="button" onClick={onDelete}>
+            <TextButton className={styles.deleteButton} type="button" onClick={onDelete}>
               <TrashIcon />
               <span>{t('translation:FARM_NOTE.DELETE_NOTE')}</span>
             </TextButton>
@@ -121,9 +127,16 @@ interface NoteMetaDataProps {
   isPrivate: boolean;
   updatedAt: string;
   isExpanded: boolean;
+  hasImage: boolean;
 }
 
-const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMetaDataProps) => {
+const NoteMetaData = ({
+  authorName,
+  isPrivate,
+  updatedAt,
+  isExpanded,
+  hasImage,
+}: NoteMetaDataProps) => {
   return (
     <span className={clsx(styles.noteMeta, isExpanded && styles.isExpanded)}>
       {isExpanded ? (
@@ -134,9 +147,16 @@ const NoteMetaData = ({ authorName, isPrivate, updatedAt, isExpanded }: NoteMeta
           fontSize="small"
         />
       )}
-      <span className={styles.nameAndVisibility}>
+      <span className={styles.nameAndIcons}>
         <span className={styles.authorName}>{authorName}</span>
-        {isPrivate && <LockIcon className={styles.lockIcon} fontSize="small" />}
+        <span className={styles.icons}>
+          {isPrivate && <LockIcon />}
+          {hasImage && (
+            <span className={styles.photoIcon}>
+              <PhotoIcon />
+            </span>
+          )}
+        </span>
       </span>
       <DateBadge updatedAt={updatedAt} />
     </span>

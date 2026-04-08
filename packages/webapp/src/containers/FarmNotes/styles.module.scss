@@ -13,50 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  height: 100%;
-  overflow: hidden;
-  padding-top: 8px;
-
-  &.emptyContainer {
-    .header {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10;
 }
 
-.addButton {
-  width: fit-content;
+.sideDrawerContainer {
+  width: 520px;
+  max-width: 100%;
+}
+
+.listTitle {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin: 0 auto;
 
   svg {
-    width: 16px;
+    width: 18px;
   }
-}
-
-.emptyState {
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: var(--Colors-Neutral-Neutral-400);
-}
-
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  flex: 1;
 }

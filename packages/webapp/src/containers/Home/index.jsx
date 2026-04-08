@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -17,6 +17,7 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
+import FarmNotes from '../FarmNotes';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -44,6 +45,8 @@ export default function Home() {
       first_name={userFarm?.first_name}
       imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
     >
+      <FarmNotes />
+
       {userFarm ? <WeatherBoard /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 

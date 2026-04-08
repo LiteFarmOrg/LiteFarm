@@ -32,10 +32,36 @@
   background: var(--Box-bg);
 }
 
+/* desktop drop zone (no preview) */
+.dragDropZone {
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
 /* when an image is selected */
 .bodyWithPreview {
   gap: 16px;
   justify-content: stretch;
+}
+
+/* active drag-over highlight */
+.dropContainerActive {
+  background-color: var(--teal100);
+  border: 1px solid var(--teal500);
+}
+
+/* "or drag and drop" label (desktop only) */
+.dragDropLabel {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: center;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 
 /* individual tile */
@@ -88,20 +114,17 @@
 }
 
 .preview {
-  width: 108px;
-  height: 154px;
-  // height: auto; check with Loïc for preference
-  object-fit: cover;
+  min-width: 108px;
+  max-width: 154px;
+  max-height: 154px;
   border-radius: 4px;
   border: 1px solid var(--Colors-Primary-Primary-teal-300);
-  flex-shrink: 0;
 }
 
 .previewActions {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  // width: 100%; // check with Loïc for preference
 }
 
 .actionBtn {

@@ -45,9 +45,10 @@
   gap: 16px;
 }
 
-.buttonsEqualWidth {
-  .button {
+.equalWidth {
+  > * {
     flex: 1;
+    text-align: center;
   }
 }
 

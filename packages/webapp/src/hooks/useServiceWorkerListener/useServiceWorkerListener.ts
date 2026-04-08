@@ -24,7 +24,7 @@ import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
-import { feedbackMessages, resolveAreaFromUrl, SyncArea } from './utils';
+import { getFeedbackMessages, resolveAreaFromUrl, SyncArea } from './utils';
 
 type SyncConfig = {
   onSuccess?: (response: any) => any;
@@ -121,7 +121,7 @@ export function useServiceWorkerListener() {
 
       const { method, status, url, queuedAt, auth, farm_id } = payload || {};
       const area = resolveAreaFromUrl(method, url);
-      const { successMessage, errors, syncErrorMessage } = feedbackMessages[area];
+      const { successMessage, errors, retryMessage } = getFeedbackMessages()[area];
 
       if (type === 'SYNC_ITEM_SUCCESS') {
         const handler = syncConfig[area as SyncArea];
@@ -141,7 +141,7 @@ export function useServiceWorkerListener() {
           }
         } else if (errors !== null) {
           const errorMessage = errors?.[status] || t('message:TASK.SYNC.FAILED');
-          dispatch(errorMessage);
+          dispatch(enqueueErrorSnackbar(errorMessage));
         }
 
         // Refresh data regardless of success/failure
@@ -165,8 +165,8 @@ export function useServiceWorkerListener() {
          * This indicates a failure to reach the server (e.g. API down). It should be rare.
          * We will manually replay when the app is re-rendered.
          */
-        if (syncErrorMessage !== null) {
-          const message = syncErrorMessage || t('message:TASK.SYNC.NETWORK_ERROR');
+        if (retryMessage !== null) {
+          const message = retryMessage || t('message:TASK.SYNC.NETWORK_ERROR');
           dispatch(enqueueErrorSnackbar(message));
         }
       }

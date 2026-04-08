@@ -30,7 +30,6 @@ export type SyncArea =
  * Resolve specific kinds of task operations from the URL and HTTP method.
  */
 export function resolveAreaFromUrl(method: string, url: string): SyncArea {
-  // Farm notes detection (check these first before tasks)
   if (method === 'POST' && url.includes('/farm_note')) {
     return 'farm_notes.create';
   }
@@ -66,18 +65,18 @@ export function resolveAreaFromUrl(method: string, url: string): SyncArea {
 export interface Messages {
   successMessage?: string | null;
   errors: Record<number, string> | null;
-  syncErrorMessage?: string | null;
+  retryMessage?: string | null;
 }
 
 export type FeedbackMessages = Record<SyncArea, Messages>;
 
-export const feedbackMessages: FeedbackMessages = {
+export const getFeedbackMessages = (): FeedbackMessages => ({
   'tasks.create': {
     successMessage: i18n.t('message:TASK.CREATE.SYNC.SUCCESS'),
     errors: {
       409: i18n.t('message:TASK.SYNC.LOCATION_DELETED'),
     },
-    syncErrorMessage: i18n.t('message:TASK.CREATE.SYNC.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:TASK.CREATE.SYNC.NETWORK_ERROR'),
   },
   'tasks.complete': {
     successMessage: i18n.t('message:TASK.COMPLETE.SYNC.SUCCESS'),
@@ -86,14 +85,14 @@ export const feedbackMessages: FeedbackMessages = {
       404: i18n.t('message:TASK.SYNC.NOT_FOUND'),
       409: i18n.t('message:TASK.SYNC.LOCATION_DELETED'),
     },
-    syncErrorMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
   },
   'tasks.abandon': {
     successMessage: i18n.t('message:TASK.ABANDON.SYNC.SUCCESS'),
     errors: {
       404: i18n.t('message:TASK.SYNC.NOT_FOUND'),
     },
-    syncErrorMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
   },
   'tasks.update': {
     successMessage: i18n.t('message:TASK.UPDATE.SYNC.SUCCESS'),
@@ -101,19 +100,19 @@ export const feedbackMessages: FeedbackMessages = {
       403: i18n.t('message:TASK.SYNC.UNAUTHORIZED'),
       404: i18n.t('message:TASK.SYNC.NOT_FOUND'),
     },
-    syncErrorMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR'),
   },
   'tasks.delete': {
     successMessage: i18n.t('message:TASK.DELETE.SYNC.SUCCESS'),
     errors: {
       404: i18n.t('message:TASK.SYNC.NOT_FOUND'),
     },
-    syncErrorMessage: i18n.t('message:TASK.DELETE.SYNC.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:TASK.DELETE.SYNC.NETWORK_ERROR'),
   },
   'farm_notes.create': {
     successMessage: i18n.t('message:FARM_NOTE.SYNC.ADD.SUCCESS'),
     errors: {},
-    syncErrorMessage: i18n.t('message:FARM_NOTE.SYNC.ADD.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:FARM_NOTE.SYNC.ADD.NETWORK_ERROR'),
   },
   'farm_notes.edit': {
     successMessage: i18n.t('message:FARM_NOTE.SYNC.EDIT.SUCCESS'),
@@ -121,7 +120,7 @@ export const feedbackMessages: FeedbackMessages = {
       403: i18n.t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
       404: i18n.t('message:FARM_NOTE.SYNC.NOT_FOUND'),
     },
-    syncErrorMessage: i18n.t('message:FARM_NOTE.SYNC.EDIT.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:FARM_NOTE.SYNC.EDIT.NETWORK_ERROR'),
   },
   'farm_notes.delete': {
     successMessage: i18n.t('message:FARM_NOTE.SYNC.DELETE.SUCCESS'),
@@ -129,11 +128,11 @@ export const feedbackMessages: FeedbackMessages = {
       403: i18n.t('message:FARM_NOTE.SYNC.UNAUTHORIZED'),
       404: i18n.t('message:FARM_NOTE.SYNC.NOT_FOUND'),
     },
-    syncErrorMessage: i18n.t('message:FARM_NOTE.SYNC.DELETE.NETWORK_ERROR'),
+    retryMessage: i18n.t('message:FARM_NOTE.SYNC.DELETE.NETWORK_ERROR'),
   },
   'farm_notes.patch': {
     successMessage: null,
     errors: null,
-    syncErrorMessage: null,
+    retryMessage: null,
   },
-};
+});

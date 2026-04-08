@@ -20,17 +20,16 @@ LiteFarm is comprised of three applications which all reside in this monorepo.
 
 1. Check to see if you have Node.js installed. We use the version specified in the `.nvmrc` file of each folder with package imports. On a Mac use the command `node -v` in terminal. If it is installed, the version in use will be reported in the terminal. If not, install it from [node.js](https://nodejs.org/en/download/package-manager/).
 2. Check to see if you have NVM installed. On a Mac use the command `nvm -v`. If you do not have NVM (Node Version Manager) installed, install it using these instructions: [NVM](https://www.loginradius.com/blog/engineering/run-multiple-nodejs-version-on-the-same-machine/)
-3. Check to see if you have pnpm installed. On a Mac use the command `pnpm -v`. If it is installed, the version will be reported. LiteFarm requires a pnpm version of at least `9.7.0`. If you do not have pnpm installed, or if you have a version less than the minumum required version, run `npm install -g pnpm` in a terminal.
-4. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
-5. Install all packages:
+3. Clone the repository from Github to your computer. On a Mac, in a Terminal window navigate to the directory you want to put the files in. Then use the command `git clone https://github.com/LiteFarmOrg/LiteFarm.git`.
+4. Install all packages:
 
 - Switch to current version of Node.js by running `nvm use` in the root folder
 - Navigate to the root folder `/` of the repo and run `npm install`.
 - Navigate to the `packages/api` folder, and run `npm install`.
-- Navigate to the `packages/webapp` folder, and run `pnpm install`.
+- Navigate to the `packages/webapp` folder, and run `npm install`.
 - Navigate to the `packages/shared` folder, and run `npm install`.
 
-6. (Highly recommended) Go to [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/) and install Docker. Docker is the recommended method for setting up development dependencies, but alternative instructions will be provided as well if you are unable to use Docker. There will be extra instructions for each operating system. For example: Windows requires Windows subsystem for linux (WSL). Mac users may need to enable experimental/beta settings for Mac users.
+5. (Highly recommended) Go to [Get Docker | Docker Documentation](https://docs.docker.com/get-docker/) and install Docker. Docker is the recommended method for setting up development dependencies, but alternative instructions will be provided as well if you are unable to use Docker. There will be extra instructions for each operating system. For example: Windows requires Windows subsystem for linux (WSL). Mac users may need to enable experimental/beta settings for Mac users.
 
 ## Adding environment files
 
@@ -107,7 +106,7 @@ In a terminal, navigate to the `packages/api` folder. Run `npm run dev` to launc
 
 ## webapp
 
-In a terminal, navigate to the `packages/webapp` folder and run `pnpm dev`. This builds the frontend code, and starts a web server that will automatically reflect any changes you make to the frontend.
+In a terminal, navigate to the `packages/webapp` folder and run `npm run dev`. This builds the frontend code, and starts a web server that will automatically reflect any changes you make to the frontend.
 
 Load the frontend app in your browser at http://localhost:3000.
 
@@ -222,7 +221,7 @@ While the tests do attempt to clean up after themselves, it's a good idea to per
 
 ## webapp
 
-To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
+To run [ESLint](https://eslint.org/) checks execute `npm run lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
 
@@ -260,7 +259,7 @@ _Note: Please make sure to run the commands in the following order:_
 
 - `npm run ngrok` or `npm run ngrok:api` or `npm run ngrok:webapp`
 - `npm run ngrok:setup` (in a new terminal)
-- `pnpm dev` (in a new terminal from the `packages/webapp` folder)
+- `npm run dev` (in a new terminal from the `packages/webapp` folder)
 - `npm run dev` (in a new terminal from the `packages/api` folder)
 
 # Docker
@@ -306,7 +305,7 @@ Notes:
 
 You can use Storybook to visualize and test out the UI components used throughout the app.
 
-- To view Storybook on your local environment, run `pnpm storybook` on the `packages/webapp` directory and navigate to http://localhost:6006
+- To view Storybook on your local environment, run `npm run storybook` on the `packages/webapp` directory and navigate to http://localhost:6006
 - To view the deployed version of Storybook, which is updated automatically with the latest changes on the integration branch, go to https://65316fc4f177c73a9181a843-yobioprfjv.chromatic.com
 
 ## How to Contribute

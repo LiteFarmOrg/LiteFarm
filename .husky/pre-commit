@@ -1,11 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# For packages/api
-npx lerna run --concurrency 1 --stream precommit --scope litefarm-api --since HEAD --exclude-dependents
-
-# For packages/webapp
-pnpx lerna run --concurrency 1 --stream precommit --scope litefarm-webapp --since HEAD --exclude-dependents
+# For /api /webapp and /shared
+npx lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents
 
 # For root directory, which is not managed by lerna
 npx lint-staged

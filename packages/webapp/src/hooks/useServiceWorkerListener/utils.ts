@@ -14,7 +14,62 @@
  */
 
 import i18n from '../../locales/i18n';
-import { FeedbackMessages } from './useServiceWorkerListener';
+
+export type SyncArea =
+  | 'tasks.create'
+  | 'tasks.complete'
+  | 'tasks.abandon'
+  | 'tasks.update' // Generic fallback; use for patching date and assignee as well
+  | 'tasks.delete'
+  | 'farm_notes.create'
+  | 'farm_notes.edit'
+  | 'farm_notes.delete'
+  | 'farm_notes.patch';
+
+/**
+ * Resolve specific kinds of task operations from the URL and HTTP method.
+ */
+export function resolveAreaFromUrl(method: string, url: string): SyncArea {
+  // Farm notes detection (check these first before tasks)
+  if (method === 'POST' && url.includes('/farm_note')) {
+    return 'farm_notes.create';
+  }
+  if (method === 'PATCH' && url.includes('/farm_note/')) {
+    return 'farm_notes.edit';
+  }
+  if (method === 'DELETE' && url.includes('/farm_note/')) {
+    return 'farm_notes.delete';
+  }
+  if (method === 'PATCH' && url.includes('/farm_notes_read')) {
+    return 'farm_notes.patch';
+  }
+
+  // Tasks (existing logic)
+  if (method === 'POST') {
+    return 'tasks.create';
+  }
+
+  if (method === 'DELETE') {
+    return 'tasks.delete';
+  }
+
+  if (url.includes('/task/complete/')) {
+    return 'tasks.complete';
+  }
+  if (url.includes('/task/abandon/')) {
+    return 'tasks.abandon';
+  }
+
+  return 'tasks.update';
+}
+
+export interface Messages {
+  successMessage?: string | null;
+  errors: Record<number, string> | null;
+  syncErrorMessage?: string | null;
+}
+
+export type FeedbackMessages = Record<SyncArea, Messages>;
 
 export const feedbackMessages: FeedbackMessages = {
   'tasks.create': {
@@ -77,7 +132,7 @@ export const feedbackMessages: FeedbackMessages = {
     syncErrorMessage: i18n.t('message:FARM_NOTE.SYNC.DELETE.NETWORK_ERROR'),
   },
   'farm_notes.patch': {
-    successMessage: undefined,
+    successMessage: null,
     errors: null,
     syncErrorMessage: null,
   },

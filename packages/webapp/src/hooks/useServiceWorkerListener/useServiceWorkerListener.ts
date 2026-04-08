@@ -24,68 +24,12 @@ import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
-import { feedbackMessages } from './feedbackMessages';
-
-type SyncArea =
-  | 'tasks.create'
-  | 'tasks.complete'
-  | 'tasks.abandon'
-  | 'tasks.update' // Generic fallback; use for patching date and assignee as well
-  | 'tasks.delete'
-  | 'farm_notes.create'
-  | 'farm_notes.edit'
-  | 'farm_notes.delete'
-  | 'farm_notes.patch';
-
-interface Messages {
-  successMessage?: string;
-  errors: Record<number, string> | null;
-  syncErrorMessage?: string | null;
-}
-
-export type FeedbackMessages = Record<SyncArea, Messages>;
+import { feedbackMessages, resolveAreaFromUrl, SyncArea } from './utils';
 
 type SyncConfig = {
   onSuccess?: (response: any) => any;
   refresh: () => any;
 };
-
-/**
- * Resolve specific kinds of task operations from the URL and HTTP method.
- */
-function resolveAreaFromUrl(method: string, url: string): SyncArea {
-  // Farm notes detection (check these first before tasks)
-  if (method === 'POST' && url.includes('/farm_note')) {
-    return 'farm_notes.create';
-  }
-  if (method === 'PATCH' && url.includes('/farm_note/')) {
-    return 'farm_notes.edit';
-  }
-  if (method === 'DELETE' && url.includes('/farm_note/')) {
-    return 'farm_notes.delete';
-  }
-  if (method === 'PATCH' && url.includes('/farm_notes_read')) {
-    return 'farm_notes.patch';
-  }
-
-  // Tasks (existing logic)
-  if (method === 'POST') {
-    return 'tasks.create';
-  }
-
-  if (method === 'DELETE') {
-    return 'tasks.delete';
-  }
-
-  if (url.includes('/task/complete/')) {
-    return 'tasks.complete';
-  }
-  if (url.includes('/task/abandon/')) {
-    return 'tasks.abandon';
-  }
-
-  return 'tasks.update';
-}
 
 const LOG_BATCH_SIZE = 10;
 const LOG_BATCH_TIMEOUT_MS = 2000;

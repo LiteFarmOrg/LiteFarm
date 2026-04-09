@@ -60,3 +60,9 @@
   overflow-y: auto;
   flex: 1;
 }
+
+.expirationWarning {
+  padding-top: 32px;
+  color: var(--Colors-Accent-Accent-yellow-900);
+  font-size: 12px;
+}

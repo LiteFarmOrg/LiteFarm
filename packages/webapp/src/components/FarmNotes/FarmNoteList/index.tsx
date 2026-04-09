@@ -86,6 +86,7 @@ export default function FarmNoteList({
               </li>
             );
           })}
+          <li className={styles.expirationWarning}>{t('FARM_NOTE.EXPIRATION_WARNING')}</li>
         </ul>
       )}
     </div>

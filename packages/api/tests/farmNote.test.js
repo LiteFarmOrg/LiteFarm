@@ -47,13 +47,13 @@ jest.mock('@aws-sdk/client-s3', () => ({
 }));
 
 async function getRequest({ user_id, farm_id }) {
-  return chai.request(server).get('/farm_note').set('user_id', user_id).set('farm_id', farm_id);
+  return chai.request(server).get('/farm_notes').set('user_id', user_id).set('farm_id', farm_id);
 }
 
 async function postRequest(data, file, { user_id, farm_id }) {
   const request = chai
     .request(server)
-    .post('/farm_note')
+    .post('/farm_notes')
     .set('user_id', user_id)
     .set('farm_id', farm_id)
     .field('data', JSON.stringify(data));
@@ -68,7 +68,7 @@ async function postRequest(data, file, { user_id, farm_id }) {
 async function patchRequest(id, data, file, { user_id, farm_id }) {
   const request = chai
     .request(server)
-    .patch(`/farm_note/${id}`)
+    .patch(`/farm_notes/${id}`)
     .set('user_id', user_id)
     .set('farm_id', farm_id);
 
@@ -85,7 +85,7 @@ async function patchRequest(id, data, file, { user_id, farm_id }) {
 async function deleteRequest(id, { user_id, farm_id }) {
   return chai
     .request(server)
-    .delete(`/farm_note/${id}`)
+    .delete(`/farm_notes/${id}`)
     .set('user_id', user_id)
     .set('farm_id', farm_id);
 }
@@ -103,7 +103,7 @@ describe('Farm Note tests', () => {
     await knex.destroy();
   });
 
-  describe('GET /farm_note', () => {
+  describe('GET /farm_notes', () => {
     test('Returns public notes for any farm member', async () => {
       const { user_id: author_id, farm_id } = await createUserFarmIds(1);
       const farmNote = { note: 'Public note', is_private: false };
@@ -200,7 +200,7 @@ describe('Farm Note tests', () => {
     });
   });
 
-  describe('POST /farm_note', () => {
+  describe('POST /farm_notes', () => {
     test('Creates a note without file', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const farmNote = { note: 'Test create note', is_private: false };
@@ -249,7 +249,7 @@ describe('Farm Note tests', () => {
     });
   });
 
-  describe('PATCH /farm_note/:id', () => {
+  describe('PATCH /farm_notes/:id', () => {
     test('Author can update note text and is_private', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const originalNote = { note: 'Original text', is_private: false };
@@ -340,7 +340,7 @@ describe('Farm Note tests', () => {
     });
   });
 
-  describe('DELETE /farm_note/:id', () => {
+  describe('DELETE /farm_notes/:id', () => {
     test('Author can soft-delete their note', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const [createdNote] = await mocks.farm_noteFactory(

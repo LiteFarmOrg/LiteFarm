@@ -30,13 +30,13 @@ export type SyncArea =
  * Resolve specific kinds of task operations from the URL and HTTP method.
  */
 export function resolveAreaFromUrl(method: string, url: string): SyncArea {
-  if (method === 'POST' && url.includes('/farm_note')) {
+  if (method === 'POST' && url.includes('/farm_notes')) {
     return 'farm_notes.create';
   }
-  if (method === 'PATCH' && url.includes('/farm_note/')) {
+  if (method === 'PATCH' && url.includes('/farm_notes/')) {
     return 'farm_notes.edit';
   }
-  if (method === 'DELETE' && url.includes('/farm_note/')) {
+  if (method === 'DELETE' && url.includes('/farm_notes/')) {
     return 'farm_notes.delete';
   }
   if (method === 'PATCH' && url.includes('/farm_notes_read')) {

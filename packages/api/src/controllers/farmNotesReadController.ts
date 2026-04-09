@@ -15,6 +15,7 @@
 
 import { Response } from 'express';
 import FarmNotesReadModel from '../models/farmNotesReadModel.js';
+import { FarmNoteReadBody } from '../middleware/validation/checkFarmNotesRead.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 
 interface FarmNotesReadModelType {
@@ -45,16 +46,20 @@ const farmNotesReadController = {
   },
 
   markFarmNotesRead() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (
+      req: LiteFarmRequest<unknown, unknown, unknown, FarmNoteReadBody>,
+      res: Response,
+    ) => {
       try {
         const { user_id } = req.auth!;
         const { farm_id } = req.headers;
+        const { read_through } = req.body;
 
         await FarmNotesReadModel.query()
           .insert({
             user_id,
             farm_id,
-            read_through: new Date().toISOString(),
+            read_through: new Date(read_through).toISOString(),
           })
           .onConflict(['user_id', 'farm_id'])
           .merge();

@@ -52,7 +52,8 @@ async function patchRequest({ user_id, farm_id }) {
     .request(server)
     .patch('/farm_notes_read')
     .set('user_id', user_id)
-    .set('farm_id', farm_id);
+    .set('farm_id', farm_id)
+    .send({ read_through: new Date().toISOString() });
 }
 
 describe('Farm Notes Read tests', () => {

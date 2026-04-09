@@ -56,7 +56,7 @@ export default function FarmNotes() {
 
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
-    markFarmNotesRead();
+    markFarmNotesRead({ read_through: new Date().toISOString() });
   };
 
   const handleCloseDrawer = () => {

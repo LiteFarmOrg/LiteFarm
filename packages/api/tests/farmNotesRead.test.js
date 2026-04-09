@@ -34,7 +34,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 
 const setFarmNoteRead = async ({ farm_id, user_id }) => {
   return await knex('farm_notes_read')
-    .insert({ user_id, farm_id, last_read_at: new Date().toISOString() })
+    .insert({ user_id, farm_id, read_through: new Date().toISOString() })
     .onConflict(['user_id', 'farm_id'])
     .merge();
 };
@@ -63,26 +63,26 @@ describe('Farm Notes Read tests', () => {
 
   describe('GET /farm_notes_read', () => {
     test.each([1, 2, 3, 5])(
-      'Returns { last_read_at: null } when no record exists (role %i)',
+      'Returns { read_through: null } when no record exists (role %i)',
       async (role) => {
         const userFarmIds = await createUserFarmIds(role);
 
         const res = await getRequest(userFarmIds);
         expect(res.status).toBe(200);
-        expect(res.body).toEqual({ last_read_at: null });
+        expect(res.body).toEqual({ read_through: null });
       },
     );
 
     test.each([1, 2, 3, 5])(
-      'Returns { last_read_at: <timestamp> } after mark-read (role %i)',
+      'Returns { read_through: <timestamp> } after mark-read (role %i)',
       async (role) => {
         const userFarmIds = await createUserFarmIds(role);
         await setFarmNoteRead(userFarmIds);
 
         const res = await getRequest(userFarmIds);
         expect(res.status).toBe(200);
-        expect(res.body.last_read_at).not.toBeNull();
-        expect(typeof res.body.last_read_at).toBe('string');
+        expect(res.body.read_through).not.toBeNull();
+        expect(typeof res.body.read_through).toBe('string');
       },
     );
 
@@ -97,7 +97,7 @@ describe('Farm Notes Read tests', () => {
 
   describe('PATCH /farm_notes_read', () => {
     test.each([1, 2, 3, 5])(
-      'Creates a row when none exists and sets last_read_at (role %i)',
+      'Creates a row when none exists and sets read_through (role %i)',
       async (role) => {
         const userFarmIds = await createUserFarmIds(role);
 
@@ -106,12 +106,12 @@ describe('Farm Notes Read tests', () => {
 
         const row = await knex('farm_notes_read').where(userFarmIds).first();
         expect(row).toBeDefined();
-        expect(row.last_read_at).toBeDefined();
+        expect(row.read_through).toBeDefined();
       },
     );
 
     test.each([1, 2, 3, 5])(
-      'Updates last_read_at when a row already exists (role %i)',
+      'Updates read_through when a row already exists (role %i)',
       async (role) => {
         const userFarmIds = await createUserFarmIds(role);
 
@@ -128,8 +128,8 @@ describe('Farm Notes Read tests', () => {
 
         const second = await knex('farm_notes_read').where(userFarmIds).first();
 
-        expect(new Date(second.last_read_at).getTime()).toBeGreaterThanOrEqual(
-          new Date(first.last_read_at).getTime(),
+        expect(new Date(second.read_through).getTime()).toBeGreaterThanOrEqual(
+          new Date(first.read_through).getTime(),
         );
       },
     );

@@ -85,7 +85,7 @@ export default function FarmNotes() {
   const isEditState = formState?.mode === 'edit';
   const formTitle = isEditState ? t('FARM_NOTE.EDIT_NOTE') : t('FARM_NOTE.NEW_NOTE');
 
-  const lastReadAt = farmNotesRead?.last_read_at;
+  const lastReadAt = farmNotesRead?.read_through;
   const hasUnread = farmNotes?.some(
     (note) =>
       note.user_id !== userFarm?.user_id &&

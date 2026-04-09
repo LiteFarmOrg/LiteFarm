@@ -426,5 +426,5 @@ export interface FarmNote {
 }
 
 export interface FarmNotesRead {
-  last_read_at: string | null;
+  read_through: string | null;
 }

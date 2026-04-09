@@ -13,28 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async function (knex) {
+  return knex.schema.alterTable('farm_notes_read', (table) => {
+    table.renameColumn('last_read_at', 'read_through');
+  });
+};
 
-class FarmNotesReadModel extends Model {
-  static get tableName() {
-    return 'farm_notes_read';
-  }
-
-  static get idColumn() {
-    return ['user_id', 'farm_id'];
-  }
-
-  static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['user_id', 'farm_id', 'read_through'],
-      properties: {
-        user_id: { type: 'string' },
-        farm_id: { type: 'string' },
-        read_through: { type: 'string', format: 'date-time' },
-      },
-    };
-  }
-}
-
-export default FarmNotesReadModel;
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async function (knex) {
+  return knex.schema.table('farm_notes_read', (table) => {
+    table.renameColumn('read_through', 'last_read_at');
+  });
+};

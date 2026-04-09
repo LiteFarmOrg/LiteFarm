@@ -20,7 +20,7 @@ import { HttpError, LiteFarmRequest } from '../types.js';
 interface FarmNotesReadModelType {
   user_id: string;
   farm_id: string;
-  last_read_at: string;
+  read_through: string;
 }
 
 const farmNotesReadController = {
@@ -34,7 +34,7 @@ const farmNotesReadController = {
           | FarmNotesReadModelType
           | undefined;
 
-        return res.status(200).json({ last_read_at: row ? row.last_read_at : null });
+        return res.status(200).json({ read_through: row ? row.read_through : null });
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;
@@ -54,7 +54,7 @@ const farmNotesReadController = {
           .insert({
             user_id,
             farm_id,
-            last_read_at: new Date().toISOString(),
+            read_through: new Date().toISOString(),
           })
           .onConflict(['user_id', 'farm_id'])
           .merge();

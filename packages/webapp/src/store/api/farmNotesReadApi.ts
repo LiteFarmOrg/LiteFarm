@@ -35,7 +35,7 @@ export const farmNotesReadApi = api.injectEndpoints({
         // Always optimistic: update cache immediately with current timestamp
         dispatch(
           farmNotesReadApi.util.updateQueryData('getFarmNotesRead', undefined, (draft) => {
-            draft.last_read_at = new Date().toISOString();
+            draft.read_through = new Date().toISOString();
           }),
         );
 

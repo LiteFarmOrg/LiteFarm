@@ -55,15 +55,15 @@ export default function FarmNotes() {
   const [noteToDelete, setNoteToDelete] = useState<FarmNote | null>(null);
 
   const readThrough = farmNotesRead?.read_through;
-  const latestSomeoneElsesNote = farmNotes?.find((note) => note.user_id !== userFarm?.user_id);
+  const latestOtherUserNote = farmNotes?.find((note) => note.user_id !== userFarm?.user_id);
   const hasUnread =
-    latestSomeoneElsesNote &&
-    (!readThrough || new Date(latestSomeoneElsesNote.updated_at) > new Date(readThrough));
+    !!latestOtherUserNote &&
+    (!readThrough || new Date(latestOtherUserNote.updated_at) > new Date(readThrough));
 
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
     if (hasUnread) {
-      markFarmNotesRead({ read_through: new Date().toISOString() });
+      markFarmNotesRead({ read_through: latestOtherUserNote.updated_at });
     }
   };
 

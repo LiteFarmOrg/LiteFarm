@@ -1109,7 +1109,7 @@
     "OVER_255_CHARS": "Text cannot exceed 255 characters"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Upload screenshot or file",
+    "ATTACHMENT_LABEL": "Upload screenshot",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
     "MESSAGE_LABEL": "Message",

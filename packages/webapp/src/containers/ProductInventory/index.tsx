@@ -36,6 +36,7 @@ import { isFilterCurrentlyActiveSelector, resetInventoryFilter } from '../filter
 import { useFilteredInventory } from './useFilteredInventory';
 import { useSectionHeader } from '../../components/Navigation/useSectionHeaders';
 import BetaSpotlight from '../Spotlights/BetaSpotlight';
+import { useAppUIContext } from '../../contexts/appContext';
 
 export type TableProduct = SoilAmendmentProduct & {
   id: Extract<Product['product_id'], number>;
@@ -61,6 +62,8 @@ export default function ProductInventory() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
+  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+
   const zIndexBase = theme.zIndex.drawer;
 
   const sectionHeaderTitle = useSectionHeader(history.location.pathname) || '';
@@ -85,7 +88,7 @@ export default function ProductInventory() {
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('inventory'));
   const clearFilters = () => dispatch(resetInventoryFilter());
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const isFormOpen = activeDrawer === 'productForm';
   const [formMode, setFormMode] = useState<FormMode | null>(null);
   const [productFormType, setProductFormType] = useState<Product['type'] | null>(null);
 
@@ -123,7 +126,7 @@ export default function ProductInventory() {
     setSelectedIds([row.id]);
     setFormMode(FormMode.READ_ONLY);
     setProductFormType(row.type);
-    setIsFormOpen(true);
+    setActiveDrawer('productForm');
   };
 
   const productColumns = useMemo(
@@ -175,15 +178,24 @@ export default function ProductInventory() {
   const onAddMenuItemClick = (type: Product['type']) => {
     setFormMode(FormMode.CREATE);
     setProductFormType(type);
-    setIsFormOpen(true);
+    setActiveDrawer('productForm');
   };
 
   const onCancel = () => {
     setSelectedIds([]);
     setFormMode(null);
     setProductFormType(null);
-    setIsFormOpen(false);
+    setActiveDrawer(null);
   };
+
+  // Reset local form state when drawer is closed externally (another drawer opened)
+  useEffect(() => {
+    if (!isFormOpen) {
+      setSelectedIds([]);
+      setFormMode(null);
+      setProductFormType(null);
+    }
+  }, [isFormOpen]);
 
   return (
     <BetaSpotlight spotlight={'inventory_beta'}>

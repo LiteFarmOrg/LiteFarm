@@ -37,7 +37,7 @@ export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProp
   const spotlights = useSelector(showedSpotlightSelector);
   const onFinish = () => dispatch(setSpotlightToShown(spotlight));
   const upperCaseSpotlightKey = spotlight.toUpperCase();
-  const { feedback: feedbackControls } = useAppUIContext();
+  const { setActiveDrawer } = useAppUIContext();
 
   return (
     <TourProviderWrapper
@@ -75,7 +75,7 @@ export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProp
           buttonProps: {
             color: 'secondary',
           },
-          onNext: () => feedbackControls.setFeedbackSurveyOpen(true),
+          onNext: () => setActiveDrawer('feedbackSurvey'),
         },
       ]}
       onFinish={onFinish}

@@ -51,7 +51,7 @@ const MarketDirectoryConsent = ({
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { feedback: feedbackFormControls } = useAppUIContext();
+  const { setActiveDrawer } = useAppUIContext();
 
   const savedConsent = marketDirectoryInfo?.[CONSENTED_TO_SHARE] || false;
 
@@ -169,7 +169,7 @@ const MarketDirectoryConsent = ({
             );
           })}
           <MarketplaceSuggestionTile
-            onClick={() => feedbackFormControls.setFeedbackSurveyOpen(true)}
+            onClick={() => setActiveDrawer('feedbackSurvey')}
             noPartner={marketDirectoryPartners.length === 0}
           />
         </div>

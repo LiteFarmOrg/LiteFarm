@@ -20,15 +20,16 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
-import { useAppUIContext } from '../../contexts/appContext';
+import { useDrawerState } from '../../contexts/appContext';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function FeedbackSurvey() {
   const { t } = useTranslation();
   const {
-    feedback: { isFeedbackSurveyOpen: isSurveyOpen, setFeedbackSurveyOpen: setIsSurveyOpen },
-  } = useAppUIContext();
-  const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
+    isOpen: isSurveyOpen,
+    toggleDrawer: toggleSurveyOpen,
+    closeDrawer,
+  } = useDrawerState('feedbackSurvey');
   const isOffline = useIsOffline();
 
   const title = (
@@ -40,7 +41,7 @@ export default function FeedbackSurvey() {
 
   const drawerContent = (
     <div className={styles.content}>
-      <HelpRequest closeDrawer={() => setIsSurveyOpen(false)} />
+      <HelpRequest closeDrawer={closeDrawer} />
     </div>
   );
 
@@ -54,7 +55,7 @@ export default function FeedbackSurvey() {
       </TextButton>
       <Drawer
         isOpen={isSurveyOpen}
-        onClose={() => setIsSurveyOpen(false)}
+        onClose={closeDrawer}
         title={title}
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}

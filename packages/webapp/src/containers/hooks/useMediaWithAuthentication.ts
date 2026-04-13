@@ -88,26 +88,22 @@ export default function useMediaWithAuthentication({
             return;
           }
 
-          if (import.meta.env.VITE_ENV === 'development') {
-            if (subscribed) {
-              setMediaUrl(fileUrl);
-            }
-          } else {
-            const url = new URL(fileUrl);
+          const url = new URL(fileUrl);
+          if (import.meta.env.VITE_ENV !== 'development') {
             url.hostname = 'images.litefarm.workers.dev';
-
-            const response = await fetch(url.toString(), config);
-            const blobFile = await response.blob();
-            const nextBlobUrl = URL.createObjectURL(blobFile);
-
-            if (!subscribed) {
-              URL.revokeObjectURL(nextBlobUrl);
-              return;
-            }
-
-            blobUrl = nextBlobUrl;
-            setMediaUrl(nextBlobUrl);
           }
+
+          const response = await fetch(url.toString(), config);
+          const blobFile = await response.blob();
+          const nextBlobUrl = URL.createObjectURL(blobFile);
+
+          if (!subscribed) {
+            URL.revokeObjectURL(nextBlobUrl);
+            return;
+          }
+
+          blobUrl = nextBlobUrl;
+          setMediaUrl(nextBlobUrl);
         }
       } catch (e) {
         console.log(e);

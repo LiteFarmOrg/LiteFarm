@@ -34,6 +34,8 @@ import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
 import { isNetworkError } from '../../util/apiUtils';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { storeActivity } from '../../util/offlineEventLogger';
 
 type FormState = null | { mode: 'add' } | { mode: 'edit'; note: FarmNote };
 
@@ -42,6 +44,7 @@ export default function FarmNotes() {
   const dispatch = useDispatch();
   const userFarm = useSelector(userFarmSelector) as UserFarm;
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
+  const isOffline = useIsOffline();
 
   const { data: farmNotes } = useGetFarmNotesQuery();
   const [deleteFarmNote] = useDeleteFarmNoteMutation();
@@ -57,6 +60,10 @@ export default function FarmNotes() {
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
     markFarmNotesRead();
+
+    if (isOffline) {
+      storeActivity('/', 'open_farm_notes');
+    }
   };
 
   const handleCloseDrawer = () => {

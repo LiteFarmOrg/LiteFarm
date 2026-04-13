@@ -20,11 +20,13 @@ import Button from '../../Form/Button';
 interface DeleteFarmNoteModalProps {
   dismissModal: () => void;
   handleDelete: () => void;
+  isLoading: boolean;
 }
 
 export default function DeleteFarmNoteModal({
   dismissModal,
   handleDelete,
+  isLoading,
 }: DeleteFarmNoteModalProps) {
   const { t } = useTranslation(['translation', 'common']);
 
@@ -34,10 +36,10 @@ export default function DeleteFarmNoteModal({
       dismissModal={dismissModal}
       buttonGroup={
         <>
-          <Button onClick={dismissModal} color="secondary-cta" sm>
+          <Button onClick={dismissModal} color="secondary-cta" sm disabled={isLoading}>
             {t('common:CANCEL')}
           </Button>
-          <Button onClick={handleDelete} color="primary" sm>
+          <Button onClick={handleDelete} color="primary" sm disabled={isLoading}>
             {t('common:DELETE')}
           </Button>
         </>

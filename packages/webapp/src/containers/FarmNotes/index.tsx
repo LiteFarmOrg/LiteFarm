@@ -48,7 +48,7 @@ export default function FarmNotes() {
   const isOffline = useIsOffline();
 
   const { data: farmNotes } = useGetFarmNotesQuery();
-  const [deleteFarmNote] = useDeleteFarmNoteMutation();
+  const [deleteFarmNote, { isLoading }] = useDeleteFarmNoteMutation();
 
   const { data: farmNotesRead } = useGetFarmNotesReadQuery();
   const [markFarmNotesRead] = useMarkFarmNotesReadMutation();
@@ -153,6 +153,7 @@ export default function FarmNotes() {
         <DeleteFarmNoteModal
           dismissModal={() => setNoteToDelete(null)}
           handleDelete={handleConfirmDelete}
+          isLoading={isLoading}
         />
       )}
     </>

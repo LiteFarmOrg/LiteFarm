@@ -151,16 +151,16 @@ const RETRY_ROUTES = [
     method: 'DELETE',
   },
   {
-    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    matcher: ({ url }) => url.pathname.includes('/farm_notes'),
     method: 'POST',
   },
   {
-    // This matcher will include farm_note/{uuid} paths
-    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    // This matcher will include farm_notes/{uuid} paths
+    matcher: ({ url }) => url.pathname.includes('/farm_notes/'),
     method: 'PATCH',
   },
   {
-    matcher: ({ url }) => url.pathname.includes('/farm_note'),
+    matcher: ({ url }) => url.pathname.includes('/farm_notes/'),
     method: 'DELETE',
   },
   {

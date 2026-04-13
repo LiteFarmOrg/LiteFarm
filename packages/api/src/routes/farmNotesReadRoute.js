@@ -16,10 +16,16 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import controller from '../controllers/farmNotesReadController.js';
+import { checkFarmNotesRead } from '../middleware/validation/checkFarmNotesRead.js';
 
 const router = express.Router();
 
 router.get('/', checkScope(['get:farm_notes']), controller.getFarmNotesRead());
-router.patch('/', checkScope(['get:farm_notes']), controller.markFarmNotesRead());
+router.patch(
+  '/',
+  checkScope(['get:farm_notes']),
+  checkFarmNotesRead,
+  controller.markFarmNotesRead(),
+);
 
 export default router;

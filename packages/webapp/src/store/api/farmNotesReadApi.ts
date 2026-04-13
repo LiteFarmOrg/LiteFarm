@@ -26,16 +26,17 @@ export const farmNotesReadApi = api.injectEndpoints({
       }),
       providesTags: ['FarmNotesRead'],
     }),
-    markFarmNotesRead: build.mutation<void, void>({
-      query: () => ({
+    markFarmNotesRead: build.mutation<void, { read_up_to: string }>({
+      query: ({ read_up_to }) => ({
         url: farmNotesReadUrl,
         method: 'PATCH',
+        body: { read_up_to },
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ read_up_to }, { dispatch, queryFulfilled }) {
         // Always optimistic: update cache immediately with current timestamp
         dispatch(
           farmNotesReadApi.util.updateQueryData('getFarmNotesRead', undefined, (draft) => {
-            draft.last_read_at = new Date().toISOString();
+            draft.read_up_to = read_up_to;
           }),
         );
 

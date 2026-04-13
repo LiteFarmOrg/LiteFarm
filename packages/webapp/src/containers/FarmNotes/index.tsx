@@ -59,9 +59,18 @@ export default function FarmNotes() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [noteToDelete, setNoteToDelete] = useState<FarmNote | null>(null);
 
+  const readUpTo = farmNotesRead?.read_up_to;
+  const latestOtherUserNote = farmNotes?.find((note) => note.user_id !== userFarm?.user_id);
+  const hasUnread =
+    !!latestOtherUserNote &&
+    (!readUpTo || new Date(latestOtherUserNote.updated_at) > new Date(readUpTo));
+
   const handleOpenDrawer = () => {
     openDrawer();
-    markFarmNotesRead();
+
+    if (hasUnread) {
+      markFarmNotesRead({ read_up_to: latestOtherUserNote.updated_at });
+    }
 
     if (isOffline) {
       storeActivity('/', 'open_farm_notes');
@@ -93,13 +102,6 @@ export default function FarmNotes() {
   const isFormOpen = formState !== null;
   const isEditState = formState?.mode === 'edit';
   const formTitle = isEditState ? t('FARM_NOTE.EDIT_NOTE') : t('FARM_NOTE.NEW_NOTE');
-
-  const lastReadAt = farmNotesRead?.last_read_at;
-  const hasUnread = farmNotes?.some(
-    (note) =>
-      note.user_id !== userFarm?.user_id &&
-      (!lastReadAt || new Date(note.updated_at) > new Date(lastReadAt)),
-  );
 
   return (
     <>

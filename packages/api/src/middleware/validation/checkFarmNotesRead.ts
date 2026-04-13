@@ -13,28 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
+import { NextFunction, Response } from 'express';
+import { LiteFarmRequest } from '../../types.js';
 
-class FarmNotesReadModel extends Model {
-  static get tableName() {
-    return 'farm_notes_read';
-  }
-
-  static get idColumn() {
-    return ['user_id', 'farm_id'];
-  }
-
-  static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['user_id', 'farm_id', 'read_up_to'],
-      properties: {
-        user_id: { type: 'string' },
-        farm_id: { type: 'string' },
-        read_up_to: { type: 'string', format: 'date-time' },
-      },
-    };
-  }
+export interface FarmNoteReadBody {
+  read_up_to: string;
 }
 
-export default FarmNotesReadModel;
+export const checkFarmNotesRead = async (
+  req: LiteFarmRequest<unknown, unknown, unknown, FarmNoteReadBody>,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { read_up_to } = req.body;
+
+  if (!read_up_to) {
+    return res.status(400).json({ error: 'read_up_to is required' });
+  }
+  if (isNaN(Date.parse(read_up_to))) {
+    return res.status(400).json({ error: 'Invalid read_up_to' });
+  }
+
+  next();
+};

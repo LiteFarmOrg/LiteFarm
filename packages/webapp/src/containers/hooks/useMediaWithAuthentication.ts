@@ -85,6 +85,7 @@ export default function useMediaWithAuthentication({
           const fileUrl = fileUrls[0];
 
           if (!fileUrl) {
+            setMediaUrl(undefined);
             return;
           }
 

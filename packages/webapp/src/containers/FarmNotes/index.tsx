@@ -33,6 +33,9 @@ import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
+import { isNetworkError } from '../../util/apiUtils';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { storeActivity } from '../../util/offlineEventLogger';
 
 type FormState = null | { mode: 'add' } | { mode: 'edit'; note: FarmNote };
 
@@ -41,6 +44,7 @@ export default function FarmNotes() {
   const dispatch = useDispatch();
   const userFarm = useSelector(userFarmSelector) as UserFarm;
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
+  const isOffline = useIsOffline();
 
   const { data: farmNotes } = useGetFarmNotesQuery();
   const [deleteFarmNote] = useDeleteFarmNoteMutation();
@@ -56,6 +60,10 @@ export default function FarmNotes() {
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
     markFarmNotesRead();
+
+    if (isOffline) {
+      storeActivity('/', 'open_farm_notes');
+    }
   };
 
   const handleCloseDrawer = () => {
@@ -71,8 +79,11 @@ export default function FarmNotes() {
       await deleteFarmNote(noteToDelete.id).unwrap();
       dispatch(enqueueSuccessSnackbar(t('message:FARM_NOTE.SUCCESS.DELETE')));
     } catch (error) {
-      console.error(error);
-      dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
+      if (!isNetworkError(error)) {
+        console.error(error);
+        dispatch(enqueueErrorSnackbar(t('message:FARM_NOTE.ERROR.DELETE')));
+      }
+      // Don't show error snackbar for network errors since it's handled in the api slice
     }
     setNoteToDelete(null);
   };
@@ -115,8 +126,7 @@ export default function FarmNotes() {
         {isFormOpen ? (
           <FarmNoteFormContainer
             note={isEditState ? formState.note : undefined}
-            onSuccess={() => setFormState(null)}
-            onCancel={() => setFormState(null)}
+            onClose={() => setFormState(null)}
           />
         ) : (
           <FarmNoteList

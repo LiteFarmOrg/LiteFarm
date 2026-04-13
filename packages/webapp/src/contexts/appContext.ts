@@ -15,11 +15,11 @@
 
 import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
+export type DrawerName = 'feedbackSurvey' | 'farmNotes' | 'productForm' | 'profileMenu';
+
 export type AppUIData = {
-  feedback: {
-    isFeedbackSurveyOpen: boolean;
-    setFeedbackSurveyOpen: Dispatch<SetStateAction<boolean>>;
-  };
+  activeDrawer: DrawerName | null;
+  setActiveDrawer: Dispatch<SetStateAction<DrawerName | null>>;
   maps: {
     isLoaded: boolean;
   };

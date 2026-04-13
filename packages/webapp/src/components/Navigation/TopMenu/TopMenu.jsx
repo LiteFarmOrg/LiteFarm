@@ -36,7 +36,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
-import { useAppUIContext } from '../../../contexts/appContext';
+import { useDrawerState } from '../../../contexts/appContext';
 import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
 import { storeActivity } from '../../../util/offlineEventLogger';
 
@@ -47,17 +47,13 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const sectionHeader = useSectionHeader(history.location.pathname);
-  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+  const {
+    isOpen: openMenu,
+    toggleDrawer: toggleMenu,
+    closeDrawer: closeMenu,
+  } = useDrawerState('profileMenu');
 
-  const openMenu = activeDrawer === 'profileMenu';
   const [showOfflineLogoutWarning, setShowOfflineLogoutWarning] = useState(false);
-
-  const toggleMenu = () => {
-    setActiveDrawer(openMenu ? null : 'profileMenu');
-  };
-  const closeMenu = () => {
-    setActiveDrawer(null);
-  };
 
   const handleClick = (link) => {
     closeMenu();
@@ -183,7 +179,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
     <Drawer
       anchor={'bottom'}
       open={openMenu}
-      onClose={() => setActiveDrawer(null)}
+      onClose={closeMenu}
       classes={{ paper: styles.drawerMenuPaper }}
     >
       <MenuList
@@ -195,7 +191,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
         classes={{ list: styles.drawerMenuList, paper: styles.drawerMenuPaper }}
       >
         <ListSubheader classes={{ root: styles.drawerListSubheader }}>
-          <CloseX onClick={() => setActiveDrawer(null)} />
+          <CloseX onClick={closeMenu} />
         </ListSubheader>
         {menuItems}
       </MenuList>

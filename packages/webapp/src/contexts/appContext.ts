@@ -35,3 +35,26 @@ export const useAppUIContext = () => {
     return AppUIData;
   }
 };
+
+export const useDrawerState = (drawerName: DrawerName) => {
+  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+
+  const isOpen = activeDrawer === drawerName;
+
+  const openDrawer = () => setActiveDrawer(drawerName);
+
+  /**
+   * Safely closes this specific drawer.
+   * Can safely be used even as the onClose triggered by ClickAway listeners
+   * because it verifies it is still the active drawer before applying `null`.
+   */
+  const closeDrawer = () => {
+    setActiveDrawer((prev) => (prev === drawerName ? null : prev));
+  };
+
+  const toggleDrawer = () => {
+    setActiveDrawer((prev) => (prev === drawerName ? null : drawerName));
+  };
+
+  return { isOpen, openDrawer, closeDrawer, toggleDrawer };
+};

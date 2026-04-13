@@ -103,7 +103,7 @@ export const farmNoteApi = api.injectEndpoints({
           if (isNetworkError(error)) {
             dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.ADD.ONLINE')));
           } else {
-            // Server error: rollback the optimistic updateconsole.error(error);
+            // Server error: rollback the optimistic update
             patchResult.undo();
           }
         }

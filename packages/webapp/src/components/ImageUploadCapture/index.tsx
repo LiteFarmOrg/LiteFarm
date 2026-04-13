@@ -15,6 +15,7 @@
 
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
 import TextButton from '../Form/Button/TextButton';
@@ -24,7 +25,9 @@ import { ReactComponent as PhotoLibraryIcon } from '../../assets/images/imageCap
 import { ReactComponent as CameraIcon } from '../../assets/images/imageCapture/camera-btn.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/trash-03.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit-02.svg';
+import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import getDeviceType from '../../util/getDeviceType';
+import { isImageFile } from '../../util/validation';
 import styles from './styles.module.scss';
 
 export type ImageUploadCaptureProps = {
@@ -49,6 +52,7 @@ export default function ImageUploadCapture({
   const [localUrl, setLocalUrl] = useState<string | null>(null);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
   const previewUrl = localUrl ?? defaultUrl;
 
@@ -61,6 +65,11 @@ export default function ImageUploadCapture({
   }, [localUrl]);
 
   const handleFile = (file: File) => {
+    if (!isImageFile(file)) {
+      dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
+      return;
+    }
+
     if (file.size > 5e6) {
       setShowFileSizeExceedsModal(true);
       return;

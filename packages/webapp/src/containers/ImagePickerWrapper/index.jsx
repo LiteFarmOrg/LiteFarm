@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { uploadImage } from './saga';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { isImageFile } from '../../util/validation';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -48,9 +49,8 @@ export default function ImagePickerWrapper({
     onLoading?.(true);
     if (e?.target?.files?.[0]) {
       const blob = e.target.files[0];
-      const isNotImage = !/^image\/.*/.test(blob.type);
-      if (isNotImage) {
-        dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+      if (!isImageFile(blob)) {
+        dispatch(enqueueErrorSnackbar(i18n.t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
         onUploadFail('Not an image file');
       } else if (blob.size < 200000) {
         dispatch(

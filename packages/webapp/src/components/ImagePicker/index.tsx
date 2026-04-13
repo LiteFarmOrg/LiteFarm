@@ -15,6 +15,7 @@
 
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { AddLink } from '../Typography';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
@@ -23,6 +24,8 @@ import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/camera.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
+import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
+import { isImageFile } from '../../util/validation';
 import styles from './styles.module.scss';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 
@@ -90,6 +93,7 @@ export default function ImagePicker({
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -104,6 +108,11 @@ export default function ImagePicker({
   };
 
   const showImage = (file: File) => {
+    if (!isImageFile(file)) {
+      dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
+      return;
+    }
+
     if (file.size > 5e6) {
       setShowFileSizeExceedsModal(true);
       return;

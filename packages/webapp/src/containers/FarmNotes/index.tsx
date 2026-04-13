@@ -31,9 +31,12 @@ import FarmNotesFloatingButton from '../../components/FarmNotes/FarmNotesFloatin
 import DeleteFarmNoteModal from '../../components/Modals/DeleteFarmNoteModal';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
+import { useDrawerState } from '../../contexts/appContext';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
 import { isNetworkError } from '../../util/apiUtils';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { storeActivity } from '../../util/offlineEventLogger';
 
 type FormState = null | { mode: 'add' } | { mode: 'edit'; note: FarmNote };
 
@@ -42,6 +45,7 @@ export default function FarmNotes() {
   const dispatch = useDispatch();
   const userFarm = useSelector(userFarmSelector) as UserFarm;
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
+  const isOffline = useIsOffline();
 
   const { data: farmNotes } = useGetFarmNotesQuery();
   const [deleteFarmNote] = useDeleteFarmNoteMutation();
@@ -49,7 +53,8 @@ export default function FarmNotes() {
   const { data: farmNotesRead } = useGetFarmNotesReadQuery();
   const [markFarmNotesRead] = useMarkFarmNotesReadMutation();
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { isOpen: isDrawerOpen, openDrawer, closeDrawer } = useDrawerState('farmNotes');
+
   const [formState, setFormState] = useState<FormState>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [noteToDelete, setNoteToDelete] = useState<FarmNote | null>(null);
@@ -61,14 +66,19 @@ export default function FarmNotes() {
     (!readThrough || new Date(latestOtherUserNote.updated_at) > new Date(readThrough));
 
   const handleOpenDrawer = () => {
-    setIsDrawerOpen(true);
+    openDrawer();
+
     if (hasUnread) {
       markFarmNotesRead({ read_through: latestOtherUserNote.updated_at });
+    }
+
+    if (isOffline) {
+      storeActivity('/', 'open_farm_notes');
     }
   };
 
   const handleCloseDrawer = () => {
-    setIsDrawerOpen(false);
+    closeDrawer();
     setFormState(null);
   };
 

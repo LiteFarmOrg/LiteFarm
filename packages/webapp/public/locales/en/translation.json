@@ -1109,7 +1109,7 @@
     "OVER_255_CHARS": "Text cannot exceed 255 characters"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Upload screenshot or file",
+    "ATTACHMENT_LABEL": "Upload screenshot",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
     "MESSAGE_LABEL": "Message",
@@ -2228,6 +2228,7 @@
     "CLICK_TO_UPLOAD": "Click to upload",
     "DRAG_DROP": "or drag and drop",
     "REMOVE_IMAGE": "Remove Image",
+    "UNSUPPORTED_FILE_TYPE": "Please upload a PNG, JPG, GIF, or WebP image",
     "UPLOAD_IMAGE": "Upload Image"
   },
   "WAGE": {

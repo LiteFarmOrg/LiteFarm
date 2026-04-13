@@ -115,7 +115,7 @@
         "ONLINE": "Note updated. Will save when you're back online",
         "SUCCESS": "Note updated offline has been saved successfully"
       },
-      "FAILED": "Task changes failed to save",
+      "FAILED": "Note changes failed to save",
       "NOT_FOUND": "Note failed to save: note no longer exists",
       "UNAUTHORIZED": "Note failed to save: insufficient permissions"
     }

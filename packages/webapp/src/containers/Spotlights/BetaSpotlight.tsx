@@ -24,7 +24,7 @@ import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import { BETA_BADGE_LINK } from '../../util/constants';
 import { ReactElement } from 'react';
-import { useAppUIContext } from '../../contexts/appContext';
+import { useDrawerState } from '../../contexts/appContext';
 
 type BetaSpotlightProps = {
   children: ReactElement;
@@ -37,7 +37,7 @@ export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProp
   const spotlights = useSelector(showedSpotlightSelector);
   const onFinish = () => dispatch(setSpotlightToShown(spotlight));
   const upperCaseSpotlightKey = spotlight.toUpperCase();
-  const { feedback: feedbackControls } = useAppUIContext();
+  const { openDrawer: openFeedbackSurvey } = useDrawerState('feedbackSurvey');
 
   return (
     <TourProviderWrapper
@@ -75,7 +75,7 @@ export default function BetaSpotlight({ children, spotlight }: BetaSpotlightProp
           buttonProps: {
             color: 'secondary',
           },
-          onNext: () => feedbackControls.setFeedbackSurveyOpen(true),
+          onNext: openFeedbackSurvey,
         },
       ]}
       onFinish={onFinish}

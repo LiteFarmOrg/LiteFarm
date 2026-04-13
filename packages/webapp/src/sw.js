@@ -20,6 +20,7 @@ import {
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { CacheFirst, NetworkOnly } from 'workbox-strategies';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
 
@@ -52,6 +53,24 @@ async function validatePrecacheIntegrity() {
 registerRoute(
   ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
   new CacheFirst({ cacheName: 'dynamic-chunks' }),
+);
+
+// Farm note images served through the Cloudflare Worker proxy (beta/prod) or minio (dev)
+registerRoute(
+  ({ url, request }) =>
+    request.method === 'GET' &&
+    (url.hostname === 'images.litefarm.workers.dev' || url.pathname.includes('minio')) &&
+    url.pathname.includes('/farm_note/'),
+  new CacheFirst({
+    cacheName: 'farm-note-images',
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
 );
 
 // SPA navigation handler

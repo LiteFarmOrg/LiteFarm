@@ -101,9 +101,14 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.ADD.ONLINE')));
+            const isOffline = isOfflineSelector(getState() as RootState);
+            const message = isOffline
+              ? i18n.t('message:FARM_NOTE.SYNC.ADD.ONLINE')
+              : i18n.t('message:FARM_NOTE.SYNC.ADD.NETWORK_ERROR');
+
+            dispatch(enqueueSuccessSnackbar(message));
           } else {
-            // Server error: rollback the optimistic updateconsole.error(error);
+            // Server error: rollback the optimistic update
             patchResult.undo();
           }
         }
@@ -124,7 +129,7 @@ export const farmNoteApi = api.injectEndpoints({
           body: formData,
         };
       },
-      async onQueryStarted({ id, file, data }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, file, data }, { dispatch, queryFulfilled, getState }) {
         const patchResult = dispatch(
           farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
             const noteIndex = draft.findIndex((note) => note.id === id);
@@ -145,7 +150,12 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.EDIT.ONLINE')));
+            const isOffline = isOfflineSelector(getState() as RootState);
+            const message = isOffline
+              ? i18n.t('message:FARM_NOTE.SYNC.EDIT.ONLINE')
+              : i18n.t('message:FARM_NOTE.SYNC.EDIT.NETWORK_ERROR');
+
+            dispatch(enqueueSuccessSnackbar(message));
           } else {
             // Server error: rollback the optimistic update
             patchResult.undo();
@@ -159,7 +169,7 @@ export const farmNoteApi = api.injectEndpoints({
         url: `${farmNoteUrl}/${id}`,
         method: 'DELETE',
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+      async onQueryStarted(id, { dispatch, queryFulfilled, getState }) {
         const patchResult = dispatch(
           farmNoteApi.util.updateQueryData('getFarmNotes', undefined, (draft) => {
             const noteIndex = draft.findIndex((note) => note.id === id);
@@ -173,7 +183,12 @@ export const farmNoteApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error: any) {
           if (isNetworkError(error)) {
-            dispatch(enqueueSuccessSnackbar(i18n.t('message:FARM_NOTE.SYNC.DELETE.ONLINE')));
+            const isOffline = isOfflineSelector(getState() as RootState);
+            const message = isOffline
+              ? i18n.t('message:FARM_NOTE.SYNC.DELETE.ONLINE')
+              : i18n.t('message:FARM_NOTE.SYNC.DELETE.NETWORK_ERROR');
+
+            dispatch(enqueueSuccessSnackbar(message));
           } else {
             // Server error: rollback the deletion
             patchResult.undo();

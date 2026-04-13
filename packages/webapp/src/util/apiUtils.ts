@@ -17,5 +17,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 export type QueryResult<T> = { data: T } | { error: FetchBaseQueryError };
 
-// In RTK Query, network errors result in undefined status or specific error structure
-export const isNetworkError = (error: any) => !error.status || error.status === 'FETCH_ERROR';
+export const isNetworkError = (error: any) => {
+  const status = error?.error?.status ?? error?.status;
+  return status === 'FETCH_ERROR';
+};

@@ -31,6 +31,7 @@ import FarmNotesFloatingButton from '../../components/FarmNotes/FarmNotesFloatin
 import DeleteFarmNoteModal from '../../components/Modals/DeleteFarmNoteModal';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import ImageLightbox from '../../components/ImageLightbox';
+import { useAppUIContext } from '../../contexts/appContext';
 import styles from './styles.module.scss';
 import type { UserFarm } from '../../types';
 
@@ -48,18 +49,20 @@ export default function FarmNotes() {
   const { data: farmNotesRead } = useGetFarmNotesReadQuery();
   const [markFarmNotesRead] = useMarkFarmNotesReadMutation();
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+  const isDrawerOpen = activeDrawer === 'farmNotes';
+
   const [formState, setFormState] = useState<FormState>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [noteToDelete, setNoteToDelete] = useState<FarmNote | null>(null);
 
   const handleOpenDrawer = () => {
-    setIsDrawerOpen(true);
+    setActiveDrawer('farmNotes');
     markFarmNotesRead();
   };
 
   const handleCloseDrawer = () => {
-    setIsDrawerOpen(false);
+    setActiveDrawer(null);
     setFormState(null);
   };
 

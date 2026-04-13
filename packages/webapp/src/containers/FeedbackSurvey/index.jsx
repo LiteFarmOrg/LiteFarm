@@ -25,10 +25,9 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function FeedbackSurvey() {
   const { t } = useTranslation();
-  const {
-    feedback: { isFeedbackSurveyOpen: isSurveyOpen, setFeedbackSurveyOpen: setIsSurveyOpen },
-  } = useAppUIContext();
-  const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
+  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+  const isSurveyOpen = activeDrawer === 'feedbackSurvey';
+  const toggleSurveyOpen = () => setActiveDrawer(isSurveyOpen ? null : 'feedbackSurvey');
   const isOffline = useIsOffline();
 
   const title = (
@@ -40,7 +39,7 @@ export default function FeedbackSurvey() {
 
   const drawerContent = (
     <div className={styles.content}>
-      <HelpRequest closeDrawer={() => setIsSurveyOpen(false)} />
+      <HelpRequest closeDrawer={() => setActiveDrawer(null)} />
     </div>
   );
 
@@ -54,7 +53,7 @@ export default function FeedbackSurvey() {
       </TextButton>
       <Drawer
         isOpen={isSurveyOpen}
-        onClose={() => setIsSurveyOpen(false)}
+        onClose={() => setActiveDrawer(null)}
         title={title}
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}

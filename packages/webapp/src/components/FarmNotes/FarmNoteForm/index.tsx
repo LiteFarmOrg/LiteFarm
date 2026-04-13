@@ -127,6 +127,7 @@ export default function FarmNoteForm({
         onCancel={onCancel}
         onConfirm={handleFormSubmit}
         isDisabled={isSaveDisabled}
+        isCancelDisabled={isSubmitting || isLoading}
       />
     </div>
   );

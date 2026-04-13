@@ -17,7 +17,7 @@ import { NextFunction, Response } from 'express';
 import { LiteFarmRequest } from '../../types.js';
 
 export interface FarmNoteReadBody {
-  read_through: string;
+  read_up_to: string;
 }
 
 export const checkFarmNotesRead = async (
@@ -25,13 +25,13 @@ export const checkFarmNotesRead = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { read_through } = req.body;
+  const { read_up_to } = req.body;
 
-  if (!read_through) {
-    return res.status(400).json({ error: 'read_through is required' });
+  if (!read_up_to) {
+    return res.status(400).json({ error: 'read_up_to is required' });
   }
-  if (isNaN(Date.parse(read_through))) {
-    return res.status(400).json({ error: 'Invalid read_through' });
+  if (isNaN(Date.parse(read_up_to))) {
+    return res.status(400).json({ error: 'Invalid read_up_to' });
   }
 
   next();

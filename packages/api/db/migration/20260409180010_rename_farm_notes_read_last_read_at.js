@@ -19,7 +19,7 @@
  */
 export const up = async function (knex) {
   return knex.schema.alterTable('farm_notes_read', (table) => {
-    table.renameColumn('last_read_at', 'read_through');
+    table.renameColumn('last_read_at', 'read_up_to');
   });
 };
 
@@ -29,6 +29,6 @@ export const up = async function (knex) {
  */
 export const down = async function (knex) {
   return knex.schema.table('farm_notes_read', (table) => {
-    table.renameColumn('read_through', 'last_read_at');
+    table.renameColumn('read_up_to', 'last_read_at');
   });
 };

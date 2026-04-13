@@ -27,11 +27,11 @@ class FarmNotesReadModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'farm_id', 'read_through'],
+      required: ['user_id', 'farm_id', 'read_up_to'],
       properties: {
         user_id: { type: 'string' },
         farm_id: { type: 'string' },
-        read_through: { type: 'string', format: 'date-time' },
+        read_up_to: { type: 'string', format: 'date-time' },
       },
     };
   }

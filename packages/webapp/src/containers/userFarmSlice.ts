@@ -103,6 +103,7 @@ const userFarmSlice = createSlice({
     onLoadingUserFarmsFail: onLoadingFail,
     loginSuccess: (state, { payload: { user_id } }) => {
       state.user_id = user_id;
+      state.farm_id = undefined;
     },
     selectFarmSuccess: (state, { payload: { farm_id } }) => {
       state.farm_id = farm_id;

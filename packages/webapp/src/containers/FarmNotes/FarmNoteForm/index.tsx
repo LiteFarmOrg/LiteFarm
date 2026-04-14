@@ -32,8 +32,8 @@ interface FarmNoteFormContainerProps {
 export default function FarmNoteFormContainer({ note, onClose }: FarmNoteFormContainerProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [addFarmNote] = useAddFarmNoteMutation();
-  const [editFarmNote] = useEditFarmNoteMutation();
+  const [addFarmNote, { isLoading: isAdding }] = useAddFarmNoteMutation();
+  const [editFarmNote, { isLoading: isEditing }] = useEditFarmNoteMutation();
 
   const isEditMode = !!note;
 
@@ -87,6 +87,11 @@ export default function FarmNoteFormContainer({ note, onClose }: FarmNoteFormCon
   };
 
   return (
-    <PureFarmNoteForm defaultValues={defaultValues} onSubmit={handleSubmit} onCancel={onClose} />
+    <PureFarmNoteForm
+      defaultValues={defaultValues}
+      onSubmit={handleSubmit}
+      onCancel={onClose}
+      isLoading={isAdding || isEditing}
+    />
   );
 }

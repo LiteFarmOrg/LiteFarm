@@ -38,9 +38,15 @@ export type FarmNoteFormProps = {
   defaultValues?: Partial<FarmNoteFormValues> & { image_url?: string };
   onSubmit: (data: FarmNoteFormValues, imageFile: File | null | undefined) => void;
   onCancel: () => void;
+  isLoading: boolean;
 };
 
-export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: FarmNoteFormProps) {
+export default function FarmNoteForm({
+  defaultValues,
+  onSubmit,
+  onCancel,
+  isLoading,
+}: FarmNoteFormProps) {
   const { t } = useTranslation();
   const {
     register,
@@ -71,7 +77,7 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
     setImageChanged(true);
   };
 
-  const isSaveDisabled = !isValid || (!isDirty && !imageChanged) || isSubmitting;
+  const isSaveDisabled = !isValid || (!isDirty && !imageChanged) || isSubmitting || isLoading;
 
   const handleFormSubmit = handleSubmit((data) => {
     onSubmit(data, imageFile);
@@ -121,6 +127,7 @@ export default function FarmNoteForm({ defaultValues, onSubmit, onCancel }: Farm
         onCancel={onCancel}
         onConfirm={handleFormSubmit}
         isDisabled={isSaveDisabled}
+        isCancelDisabled={isSubmitting || isLoading}
       />
     </div>
   );

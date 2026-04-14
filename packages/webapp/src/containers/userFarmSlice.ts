@@ -321,3 +321,7 @@ export const userDisplayNameMapSelector = createSelector(userFarmsByFarmSelector
     return userMap;
   }, {});
 });
+
+export const currentFarmIdSelector = createSelector(userFarmSelector, (userFarm) =>
+  'farm_id' in userFarm ? (userFarm?.farm_id as string) : undefined,
+);

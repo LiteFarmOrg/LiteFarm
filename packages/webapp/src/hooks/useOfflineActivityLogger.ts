@@ -23,15 +23,15 @@ import {
   storeActivity,
   updateOfflineSessionOnline,
 } from '../util/offlineEventLogger';
-import { userFarmSelector } from '../containers/userFarmSlice';
+import { currentFarmIdSelector } from '../containers/userFarmSlice';
 import { useIsOffline } from '../containers/hooks/useOfflineDetector/useIsOffline';
 
 const useOfflineActivityLogger = () => {
   const isOffline = useIsOffline();
   const location = useLocation();
 
-  const farm: { farm_id?: string } = useSelector(userFarmSelector);
-  const farmIdRef = useRef(farm?.farm_id);
+  const farmId = useSelector(currentFarmIdSelector);
+  const farmIdRef = useRef(farmId);
 
   const flushLogs = async () => {
     const activities = getActivities();
@@ -52,10 +52,10 @@ const useOfflineActivityLogger = () => {
   };
 
   useEffect(() => {
-    if (farm.farm_id) {
-      farmIdRef.current = farm.farm_id;
+    if (farmId) {
+      farmIdRef.current = farmId;
     }
-  }, [farm?.farm_id]);
+  }, [farmId]);
 
   useEffect(() => {
     if (isOffline) {

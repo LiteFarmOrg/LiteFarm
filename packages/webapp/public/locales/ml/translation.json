@@ -978,7 +978,6 @@
         "TITLE": "ഒരു വര വരയ്ക്കുക"
       }
     },
-    "TUTORIALS": "മാപ്പ് ട്യൂട്ടോറിയലുകൾ",
     "UNABLE_TO_RETIRE": {
       "BODY": "സജീവമായതോ ആസൂത്രിതമായതോ ആയ വിളകളോ മൃഗങ്ങളോ ജോലികളോ ഇല്ലാത്ത ലൊക്കേഷനുകൾ മാത്രമേ നിങ്ങൾക്ക് റിട്ടയർ ചെയ്യാൻ കഴിയൂ.",
       "TITLE": "സ്ഥലം മാറാൻ സാധിക്കുന്നില്ല"
@@ -1003,6 +1002,27 @@
       "TITLE": "ജലപാത ചേർക്കുക",
       "WIDTH": "ജലപാതയുടെ വീതി"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "",
+    "ATTACH_PHOTO": "",
+    "CANCEL": "",
+    "COLLAPSE": "",
+    "DELETE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "DELETE_NOTE": "",
+    "EDIT_NOTE": "",
+    "EMPTY_STATE": "",
+    "EXPIRATION_WARNING": "",
+    "FARM_NOTES": "",
+    "HAS_UNREAD_NOTES": "",
+    "NEW_NOTE": "",
+    "NOTE_LABEL": "",
+    "NOTE_PLACEHOLDER": "",
+    "PRIVATE_NOTE": "",
+    "SAVE_NOTE": ""
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1089,7 +1109,7 @@
     "OVER_255_CHARS": "വാചകം 255 ക്യാറക്‌ടറിൽ കവിയാൻ പാടില്ല"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "സ്ക്രീൻഷോട്ടോ ഫയലോ അപ്ലോഡ് ചെയ്യുക",
+    "ATTACHMENT_LABEL": "",
     "EMAIL": "ഇമെയിൽ",
     "FEEDBACK_INVITATION": "സഹായം നേടുക അല്ലെങ്കിൽ ഞങ്ങൾക്ക് പ്രതികരണം നൽകുക",
     "MESSAGE_LABEL": "സന്ദേശം",
@@ -1114,6 +1134,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} മറ്റ്",
     "PLUS_OTHERS_COUNT_many": "+ മറ്റ് {{count}}",
     "PLUS_OTHERS_COUNT_other": "+ മറ്റ് {{count}}"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": ""
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "",
+    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1165,7 +1192,9 @@
     "TAPE": {
       "COMPLETED": "പൂർത്തിയായി – നിങ്ങളുടെ ഫലങ്ങൾ കാണുക",
       "IN_PROGRESS": "പുരോഗമിക്കുന്നു",
+      "LOAD_ERROR": "",
       "NOT_FILLED": "പൂരിപ്പിച്ചിട്ടില്ല",
+      "RESULTS_LOAD_ERROR": "",
       "RESULTS_TITLE": "അഗ്രോഇക്കോളജിക്കൽ ട്രാൻസിഷൻസ് (CAET) സ്‌കോറുകളുടെ വിവരണം",
       "TITLE": "ടേപ്പ് സർവേ (അഗ്രോഇക്കോളജി പ്രകടന വിലയിരുത്തൽ ഉപകരണം)",
       "UPDATE_ANSWERS": "നിങ്ങളുടെ ഉത്തരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്യുക"
@@ -2199,6 +2228,7 @@
     "CLICK_TO_UPLOAD": "അപ്‌ലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
     "DRAG_DROP": "അല്ലെങ്കിൽ വലിച്ചിടുക",
     "REMOVE_IMAGE": "ചിത്രം നീക്കം ചെയ്യുക",
+    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക"
   },
   "WAGE": {

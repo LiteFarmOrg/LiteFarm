@@ -88,6 +88,38 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "ऐड-ऑन सफलतापूर्वक डिस्कनेक्ट हो गया"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "FAILED": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "आपके फीडबैक को सबमिट करते समय कुछ गलत हो गया। कृपया पुनः प्रयास करें।"

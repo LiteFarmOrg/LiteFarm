@@ -133,7 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
     "DUPLICATE_NAME": "Um produto com este nome já existe. Por favor escolha outro.",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
-    "EDIT_TASK_WAGE": "Editar salário da tarefa",
+    "EDIT_TASK_WAGE": "",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",
       "TYPE": {
@@ -154,7 +154,7 @@
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOURLY_WAGE": {
-      "ASSIGNEE_CURRENT_WAGE": "O salário horário de {{name}} é {{wage}} /hr",
+      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
       "FOR_THIS_TASK": "Sim, somente para esta tarefa",
@@ -211,22 +211,22 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Por favor, descreva a finalidade deste movimento"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Você precisará de uma localização ou área onde os animais podem ser movidos. Vá ao mapa para criar uma localização do animal.",
-    "NEED_IRRIGATION_LOCATION": "Para criar uma tarefa de irrigação, primeiro você precisa de uma localização que apoie as culturas. Vá para o mapa para criar um, como um campo, uma estufa ou uma zona tampão.",
-    "NEED_IRRIGATION_LOCATION_WORKER": "Você precisará gerir para criar um local que possa apoiar culturas antes de criar uma tarefa de irrigação.",
+    "NEED_IRRIGATION_LOCATION": "",
+    "NEED_IRRIGATION_LOCATION_WORKER": "",
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NEED_SOIL_AMENDMENT_PRODUCTS": "Parece que você não tem um produto de correção de solo ainda. Vá ao inventário para adicionar um antes de criar sua tarefa de correção de solo.",
     "NEED_SOIL_SAMPLE_LOCATION": "Você precisará de um local específico designado para fazer a amostragem do solo. Vá para o mapa para criar um local de amostragem do solo.",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "Você precisará de gerenciamento para criar pelo menos um local de amostra do solo antes de criar uma tarefa de amostra do solo.",
     "NO_ANIMAL_LOCATION": "Nenhum local elegível para animais",
-    "NO_IRRIGATION_LOCATIONS": "Não há locais disponíveis para irrigação",
+    "NO_IRRIGATION_LOCATIONS": "",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
     "NO_SOIL_AMENDMENT_PRODUCTS": "Adicione primeiro um produto com correção de solo",
     "NO_SOIL_SAMPLE_LOCATION": "Nenhum local de amostra de solo elegível",
     "NOTES_LABEL": "Algo específico para adicionar relacionado a esta tarefa?",
     "NOTES_PLACEHOLDER": "Adicione quaisquer instruções ou especificações para o responsável",
     "OFFLINE_NOTICE": {
-      "CANNOT_ADD_NEW": "Você pode usar locais existentes, culturas e produtos em suas tarefas, mas você não pode adicionar novos estando offline.",
-      "YOURE_OFFLINE": "Você está offline"
+      "CANNOT_ADD_NEW": "",
+      "YOURE_OFFLINE": ""
     },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
@@ -296,11 +296,11 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "TASK_SPECIFIC_HOURLY_WAGE": "Salário horário específico para tarefas",
+    "TASK_SPECIFIC_HOURLY_WAGE": "",
     "TASK_WAGE": {
-      "NO_TASK_WAGE": "Não há salário definido para esta tarefa",
-      "TASK_WAGE_SET": "O salário horário para esta tarefa é definido como <strong>{{wage}} por hora</strong>",
-      "WANT_TO_SET_HOURLY_WAGE": "Defina um salário por hora só para esta tarefa?"
+      "NO_TASK_WAGE": "",
+      "TASK_WAGE_SET": "",
+      "WANT_TO_SET_HOURLY_WAGE": ""
     },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
@@ -978,7 +978,6 @@
         "TITLE": "Desenhe uma linha"
       }
     },
-    "TUTORIALS": "Tutoriais de mapas",
     "UNABLE_TO_RETIRE": {
       "BODY": "Você só pode remover áreas que não tenham cultivos, tarefas ativas ou planejadas.",
       "TITLE": "Não é possível retirar"
@@ -1003,6 +1002,27 @@
       "TITLE": "Adicionar curso d'água",
       "WIDTH": "Largura do curso d'água"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "",
+    "ATTACH_PHOTO": "",
+    "CANCEL": "",
+    "COLLAPSE": "",
+    "DELETE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "DELETE_NOTE": "",
+    "EDIT_NOTE": "",
+    "EMPTY_STATE": "",
+    "EXPIRATION_WARNING": "",
+    "FARM_NOTES": "",
+    "HAS_UNREAD_NOTES": "",
+    "NEW_NOTE": "",
+    "NOTE_LABEL": "",
+    "NOTE_PLACEHOLDER": "",
+    "PRIVATE_NOTE": "",
+    "SAVE_NOTE": ""
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1089,7 +1109,7 @@
     "OVER_255_CHARS": "O texto não pode exceder 255 caracteres"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
+    "ATTACHMENT_LABEL": "",
     "EMAIL": "E-mail",
     "FEEDBACK_INVITATION": "Obtenha ajuda ou nos dê a sua opinião",
     "MESSAGE_LABEL": "Mensagem",
@@ -1114,6 +1134,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} outro",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} outros",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} outros"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": ""
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "",
+    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1163,12 +1190,14 @@
       "TITLE": "Matéria Orgânica do Solo"
     },
     "TAPE": {
-      "COMPLETED": "Concluído - Veja os seus resultados",
-      "IN_PROGRESS": "Em progresso",
-      "NOT_FILLED": "Não preenchido",
-      "RESULTS_TITLE": "Caracterização das Pontuações das Transições Agroecológicas (CAET)",
-      "TITLE": "Levantamento TAPE (Ferramenta para Avaliação do Desempenho em Agroecologia)",
-      "UPDATE_ANSWERS": "Atualizar as suas respostas"
+      "COMPLETED": "",
+      "IN_PROGRESS": "",
+      "LOAD_ERROR": "",
+      "NOT_FILLED": "",
+      "RESULTS_LOAD_ERROR": "",
+      "RESULTS_TITLE": "",
+      "TITLE": "",
+      "UPDATE_ANSWERS": ""
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
@@ -1179,7 +1208,7 @@
   },
   "INVENTORY": {
     "PRODUCT_NAME": "Nome do Produto",
-    "PRODUCT_TYPE": "Tipo de Produto",
+    "PRODUCT_TYPE": "",
     "REMOVE_CONFIRMATION": {
       "BODY": "Tem certeza que deseja remover o produto <strong>{{name}}</strong> do inventário?",
       "TITLE": "Remover produto do inventário?"
@@ -1238,7 +1267,7 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "Profundidade do aplicativo",
     "APPROVE_AND_CREATE_TASK": "Ao aprovar, você criará uma tarefa de irrigação",
-    "AVAILABLE_SOIL_MOISTURE": "Humidade de solo disponível",
+    "AVAILABLE_SOIL_MOISTURE": "",
     "DATA_FROM": "Dados de",
     "ESTIMATED_WATER_CONSUMPTION": "Consumo estimado de água",
     "ET_RATE": "Taxa ET",
@@ -1477,7 +1506,7 @@
     "AGREE_WITH_TERMS": "Ao compartilhar seus dados com {{ partner }}, você concorda com os <3>Termos de Um</3>",
     "COMPLETE_PROFILE": "Complete seu perfil abaixo para começar e promover seus produtos. Você só precisa passar por este processo uma vez. Você pode atualizar seus dados compartilhados e desativar a qualquer momento.",
     "CONSENT": {
-      "ALMOST_READY": "Você está quase pronto para ser publicado! Basta preencher os detalhes ausentes no formulário de informação do diretório de Mercado acima primeiro.",
+      "ALMOST_READY": "",
       "CONSENT_TO_SHARE_INFORMATION": "Eu concordo em compartilhar as informações acima com diretórios de parceiros confiáveis. Posso revogar o consentimento a qualquer momento.<br />O consentimento revogará a LiteFarm de sincronizar seus dados. Suas informações ainda podem existir no diretório de parceiros — talvez você precise solicitar a remoção diretamente.",
       "I_AGREE": "Concordo",
       "SEE_ALL_DATA": "Ver todos os dados que serão compartilhados",
@@ -1500,7 +1529,7 @@
       "INVALID_ADDRESS": "Endereço inválido",
       "INVALID_USERNAME_OR_URL": "Formato inválido para {{social}}",
       "INVALID_WEBSITE": "Site inválido",
-      "ONLINE_PRESENCE": "Presença online",
+      "ONLINE_PRESENCE": "",
       "PHONE_NUMBER": "Número de telefone",
       "PRIVATE_INFO_NOTE": "Campos privados serão compartilhados com parceiros do diretório, mas não serão publicados",
       "PRODUCT_CATEGORY": "Categoria de produto",
@@ -1516,7 +1545,7 @@
       "PRODUCTS_AND_SERVICES": "Produtos e Serviços",
       "PRODUCTS_CATEGORIES": "Categoria de produto"
     },
-    "KNOW_A_MARKETPLACE": "Sabe de um mercado que devemos apoiar?<br />Compartilhe-o conosco.",
+    "KNOW_A_MARKETPLACE": "",
     "MARKET_DIRECTORIES": "Diretórios de mercado",
     "MARKET_DIRECTORY_INFO": "Pasta do mercado",
     "NO_PARTNER": "Não temos nenhum parceiro em sua localização por enquanto.",
@@ -1623,23 +1652,23 @@
     }
   },
   "OFFLINE": {
-    "ARE_OFFLINE": "Você está offline. Algumas ações estão indisponíveis.",
+    "ARE_OFFLINE": "",
     "BADGE": {
-      "TITLE": "Offline",
-      "TOOLTIP_CONTENT": "Não podemos acessar a rede agora.<br><br>Você pode continuar no modo offline. Algumas seções serão apenas visualizadas, mas as tarefas estão totalmente disponíveis."
+      "TITLE": "",
+      "TOOLTIP_CONTENT": ""
     },
-    "CHANGES_WILL_SYNC": "Qualquer alteração que fizer será sincronizada quando estiver online.",
+    "CHANGES_WILL_SYNC": "",
     "LOG_OUT_MODAL": {
-      "INFO": "Você não poderá fazer login novamente enquanto estiver offline. Todas as alterações feitas enquanto offline serão perdidas após o logout.",
-      "TITLE": "Tem certeza que deseja realizar o logout?"
+      "INFO": "",
+      "TITLE": ""
     },
     "NOT_READY_BADGE": {
-      "TITLE": "Informação",
-      "TOOLTIP_CONTENT": "LiteFarm precisa baixar dados para trabalhar off-line.<br><br>Complete este processo quando estiver online."
+      "TITLE": "",
+      "TOOLTIP_CONTENT": ""
     },
-    "NOT_READY_WARNING": "LiteFarm não terminou de preparar dados offline.",
-    "PREPARE_TO_WORK_OFFLINE": "Prepare o LiteFarm para trabalhar offline na próxima vez.",
-    "REFRESH": "Atualizar"
+    "NOT_READY_WARNING": "",
+    "PREPARE_TO_WORK_OFFLINE": "",
+    "REFRESH": ""
   },
   "OUTRO": {
     "ALL_DONE": "Excelente. Pronto para sujar as mãos?",
@@ -1835,7 +1864,7 @@
   },
   "REVISION_PROMPT": {
     "FIX_IT_NOW": "Corrigir agora",
-    "NOTICED_SOMETHING_OFF": "Você notou alguma coisa estranha?",
+    "NOTICED_SOMETHING_OFF": "",
     "UPDATE_THIS_TASK": "Você pode revisitar e atualizar as informações que você enviou para esta tarefa."
   },
   "ROLE_SELECTION": {
@@ -2178,7 +2207,7 @@
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
     "UPLOAD_LAB_DOCUMENT": "Carregar documento do laboratório",
-    "WILL_SAVE_ONLINE": "Será salvo quando estiver online"
+    "WILL_SAVE_ONLINE": ""
   },
   "UNIT": {
     "TIME": {
@@ -2199,13 +2228,14 @@
     "CLICK_TO_UPLOAD": "Clique para enviar",
     "DRAG_DROP": "ou arraste e solte",
     "REMOVE_IMAGE": "Remover imagem",
+    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "Enviar imagem"
   },
   "WAGE": {
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",
     "HOURLY_WAGE_RANGE_ERROR": "O salário por hora deve ser um número positivo menor que 999.999.999",
-    "HOURLY_WAGE_TOOLTIP": "Este salário específico de tarefas substituirá o salário padrão do atribuído. Salários padrão de trabalhadores podem ser gerenciados na aba pessoas."
+    "HOURLY_WAGE_TOOLTIP": ""
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

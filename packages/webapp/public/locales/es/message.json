@@ -88,6 +88,38 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Addon desconectado con éxito"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "FAILED": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo ha fallado al enviar su comentario. Por favor, inténtelo de nuevo."

@@ -23,6 +23,7 @@
 }
 
 .noteMeta {
+  @include fontFamily();
   display: flex;
   align-items: center;
   gap: 8px;
@@ -131,6 +132,7 @@
 }
 
 .notePreview {
+  @include fontFamily();
   height: 48px;
   font-size: 16px;
   font-weight: 400;

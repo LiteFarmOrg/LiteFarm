@@ -978,6 +978,7 @@
         "TITLE": "Dibuja una linea"
       }
     },
+    "TUTORIALS": "Tutoriales de mapas",
     "UNABLE_TO_RETIRE": {
       "BODY": "Sólo puedes retirar ubicaciones que no tengan cultivos activos o previstos, ni animales o tareas.",
       "TITLE": "No se pudo retirar"
@@ -1002,27 +1003,6 @@
       "TITLE": "Agregar arroyo",
       "WIDTH": "Ancho de arroyo"
     }
-  },
-  "FARM_NOTE": {
-    "ADD_A_NOTE": "",
-    "ATTACH_PHOTO": "",
-    "CANCEL": "",
-    "COLLAPSE": "",
-    "DELETE_CONFIRMATION": {
-      "BODY": "",
-      "TITLE": ""
-    },
-    "DELETE_NOTE": "",
-    "EDIT_NOTE": "",
-    "EMPTY_STATE": "",
-    "EXPIRATION_WARNING": "",
-    "FARM_NOTES": "",
-    "HAS_UNREAD_NOTES": "",
-    "NEW_NOTE": "",
-    "NOTE_LABEL": "",
-    "NOTE_PLACEHOLDER": "",
-    "PRIVATE_NOTE": "",
-    "SAVE_NOTE": ""
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1109,7 +1089,7 @@
     "OVER_255_CHARS": "El texto no puede superar los 255 caracteres"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "",
+    "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
     "FEEDBACK_INVITATION": "Obtenga ayuda o envíenos sus comentarios",
     "MESSAGE_LABEL": "Mensaje",
@@ -1134,13 +1114,6 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} otro",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} otros",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} otros"
-  },
-  "IMAGE_LIGHTBOX": {
-    "ESC_TO_CLOSE": ""
-  },
-  "IMAGE_UPLOAD_CAPTURE": {
-    "PHOTO_LIBRARY": "",
-    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1192,9 +1165,7 @@
     "TAPE": {
       "COMPLETED": "Completado - Ver tus resultados",
       "IN_PROGRESS": "En progreso",
-      "LOAD_ERROR": "",
       "NOT_FILLED": "Sin rellenar",
-      "RESULTS_LOAD_ERROR": "",
       "RESULTS_TITLE": "Caracterización de las Transiciones Agroecológicas (CAET) Puntaje",
       "TITLE": "Encuesta TAPE (Herramienta para la Evaluación del Rendimiento de la Agroecología)",
       "UPDATE_ANSWERS": "Actualiza tus respuestas"
@@ -2228,7 +2199,6 @@
     "CLICK_TO_UPLOAD": "Haga click para cargar",
     "DRAG_DROP": "o arrastre y suelte",
     "REMOVE_IMAGE": "Eliminar imagen",
-    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "Subir imagen"
   },
   "WAGE": {

@@ -88,38 +88,6 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Extensão desconectada com sucesso"
   },
-  "FARM_NOTE": {
-    "ERROR": {
-      "ADD": "",
-      "DELETE": "",
-      "EDIT": ""
-    },
-    "SUCCESS": {
-      "ADD": "",
-      "DELETE": "",
-      "EDIT": ""
-    },
-    "SYNC": {
-      "ADD": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "DELETE": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "EDIT": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "FAILED": "",
-      "NOT_FOUND": "",
-      "UNAUTHORIZED": ""
-    }
-  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo deu errado ao enviar seu feedback. Por favor, tente novamente."
@@ -251,48 +219,48 @@
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa abandonada com sucesso",
       "SYNC": {
-        "ONLINE": "",
-        "SUCCESS": ""
+        "ONLINE": "Tarefa abandonada. Será salva quando estiver online",
+        "SUCCESS": "Tarefa abandonada offline foi salva com sucesso"
       }
     },
     "COMPLETE": {
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa concluída com sucesso",
       "SYNC": {
-        "ONLINE": "",
-        "SUCCESS": ""
+        "ONLINE": "Tarefa concluída. Salva quando estiver online",
+        "SUCCESS": "Tarefa concluída offline foi salva com sucesso"
       }
     },
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
       "SUCCESS": "Tarefa criada com sucesso",
       "SYNC": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua tarefa automaticamente",
+        "ONLINE": "Tarefa criada. Aparecerá quando estiver online",
+        "SUCCESS": "A tarefa criada offline foi salva com sucesso"
       }
     },
     "DELETE": {
       "SYNC": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
+        "NETWORK_ERROR": "Desculpe, nós estamos desligados no momento. Nós vamos tentar a sua remoção de tarefa automaticamente",
+        "ONLINE": "Tarefa excluída. Será salva quando estiver online",
+        "SUCCESS": "Tarefa abandonada offline foi salva com sucesso"
       }
     },
     "SYNC": {
-      "FAILED": "",
-      "LOCATION_DELETED": "",
-      "NETWORK_ERROR": "",
-      "NOT_FOUND": "",
-      "UNAUTHORIZED": ""
+      "FAILED": "Falha ao salvar alterações na tarefa",
+      "LOCATION_DELETED": "Falha ao salvar a tarefa: localização foi aposentada",
+      "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos automaticamente",
+      "NOT_FOUND": "Falha ao salvar a tarefa: tarefa não existe mais",
+      "UNAUTHORIZED": "Falha ao salvar tarefa: permissões insuficientes"
     },
     "UPDATE": {
       "FAILED": "Falha ao atualizar a tarefa",
-      "SUCCESS": "",
+      "SUCCESS": "Tarefa atualizada com sucesso",
       "SYNC": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a atualização de sua tarefa automaticamente",
+        "ONLINE": "Tarefa atualizada. Será salva quando estiver online",
+        "SUCCESS": "A tarefa atualizada offline foi salva com sucesso"
       }
     }
   },

@@ -37,7 +37,7 @@ class FarmNoteModel extends BaseModel {
         id: { type: 'string' },
         farm_id: { type: 'string' },
         user_id: { type: 'string' },
-        note: { type: 'string' },
+        note: { type: 'string', maxLength: 3000 },
         is_private: { type: 'boolean' },
         image_url: { type: ['string', 'null'] },
         ...this.baseProperties,

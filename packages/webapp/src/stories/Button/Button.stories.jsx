@@ -45,6 +45,18 @@ SecondaryCTA.args = {
   children: 'Secondary-CTA',
 };
 
+export const SecondaryRed = Template.bind({});
+SecondaryRed.args = {
+  color: 'secondary-red',
+  children: 'Secondary-Red',
+};
+
+export const LinkBtn = Template.bind({});
+LinkBtn.args = {
+  color: 'link-btn',
+  children: 'Link-btn',
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   color: 'primary',

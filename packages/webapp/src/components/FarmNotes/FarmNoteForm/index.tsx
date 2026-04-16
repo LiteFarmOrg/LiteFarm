@@ -21,6 +21,9 @@ import TextArea from '../../Form/TextArea';
 import Switch from '../../Form/Switch';
 import InFormButtons from '../../Form/InFormButtons';
 import ImageUploadCapture from '../../ImageUploadCapture';
+import { getInputErrors } from '../../Form/Input';
+import { Error } from '../../Typography';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
 import styles from './styles.module.scss';
 
@@ -51,7 +54,7 @@ export default function FarmNoteForm({
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isValid, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting, errors },
     setValue,
     watch,
   } = useForm<FarmNoteFormValues>({
@@ -83,19 +86,25 @@ export default function FarmNoteForm({
     onSubmit(data, imageFile);
   });
 
+  const noteError = getInputErrors(errors, FARM_NOTE_FIELDS.NOTE);
+
   return (
     <div className={styles.container}>
       <div className={styles.body}>
-        {/* @ts-expect-error */}
-        <TextArea
-          label={t('FARM_NOTE.NOTE_LABEL')}
-          placeholder={t('FARM_NOTE.NOTE_PLACEHOLDER')}
-          hookFormRegister={register(FARM_NOTE_FIELDS.NOTE, {
-            required: true,
-            setValueAs: (value) => value.trim(),
-          })}
-          rows={5}
-        />
+        <div className={styles.textAreaContainer}>
+          {/* @ts-expect-error */}
+          <TextArea
+            label={t('FARM_NOTE.NOTE_LABEL')}
+            placeholder={t('FARM_NOTE.NOTE_PLACEHOLDER')}
+            hookFormRegister={register(FARM_NOTE_FIELDS.NOTE, {
+              required: true,
+              setValueAs: (value) => value.trim(),
+              maxLength: hookFormMaxCharsValidation(3000),
+            })}
+            rows={5}
+          />
+          {noteError ? <Error>{noteError}</Error> : null}
+        </div>
 
         <ImageUploadCapture
           label={t('FARM_NOTE.ATTACH_PHOTO')}

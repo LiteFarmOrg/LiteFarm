@@ -29,13 +29,13 @@ import {
 
 export type ShapeCapture = {
   setMode: (locationType: string | null) => void;
-  onFinish: (callback: (result: DrawnOverlay) => void) => void;
   destroy: () => void;
 };
 
 export const createShapeCapture = (
   map: google.maps.Map,
   maps: typeof google.maps,
+  onFinish: (result: DrawnOverlay) => void,
 ): ShapeCapture => {
   const adapter = new TerraDrawGoogleMapsAdapter({ lib: maps, map });
 
@@ -61,7 +61,6 @@ export const createShapeCapture = (
   draw.start();
   draw.setMode('static');
 
-  let finishCallback: ((result: DrawnOverlay) => void) | null = null;
   let currentLocationType: string | null = null;
 
   draw.on('finish', (id) => {
@@ -71,8 +70,8 @@ export const createShapeCapture = (
     }
     const result = terraFeatureToOverlay(feature, map, maps, currentLocationType);
     draw.clear();
-    if (result && finishCallback) {
-      finishCallback(result);
+    if (result) {
+      onFinish(result);
     }
   });
 
@@ -98,9 +97,6 @@ export const createShapeCapture = (
 
   return {
     setMode,
-    onFinish: (cb) => {
-      finishCallback = cb;
-    },
     destroy: () => {
       draw.stop();
     },

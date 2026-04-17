@@ -30,7 +30,7 @@ import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useDrawingManager from './useDrawingManager';
-import { createShapeCapture } from './useShapeCapture';
+import { createShapeCapture } from './createShapeCapture';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
@@ -236,9 +236,7 @@ export default function Map({ isCompactSideMenu }) {
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
 
-    const capture = createShapeCapture(map, maps);
-
-    capture.onFinish((drawing) => {
+    const handleShapeFinished = (drawing) => {
       if (drawing.type === 'polygon') {
         const polygonAreaCheck = (path) => {
           if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
@@ -278,7 +276,9 @@ export default function Map({ isCompactSideMenu }) {
       finishDrawing(drawing, maps, map);
       capture.setMode(null);
       dispatch(setMapAddDrawerHide(farm_id));
-    });
+    };
+
+    const capture = createShapeCapture(map, maps, handleShapeFinished);
 
     initDrawingState(map, maps, capture);
 

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
@@ -54,6 +54,12 @@ export default function FarmNotes() {
   const [markFarmNotesRead] = useMarkFarmNotesReadMutation();
 
   const { isOpen: isDrawerOpen, openDrawer, closeDrawer } = useDrawerState('farmNotes');
+
+  useEffect(() => {
+    return () => {
+      closeDrawer();
+    };
+  }, []);
 
   const [formState, setFormState] = useState<FormState>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);

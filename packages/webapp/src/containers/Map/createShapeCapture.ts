@@ -37,13 +37,17 @@ export const createShapeCapture = (
   maps: typeof google.maps,
   onFinish: (result: DrawnOverlay) => void,
 ): ShapeCapture => {
-  const adapter = new TerraDrawGoogleMapsAdapter({ lib: maps, map });
+  const adapter = new TerraDrawGoogleMapsAdapter({ lib: maps, map, coordinatePrecision: 9 });
 
   const draw = new TerraDraw({
     adapter,
     modes: [
-      new TerraDrawPolygonMode(),
-      new TerraDrawLineStringMode(),
+      new TerraDrawPolygonMode({
+        showCoordinatePoints: true,
+      }),
+      new TerraDrawLineStringMode({
+        showCoordinatePoints: true,
+      }),
       new TerraDrawPointMode(),
       new TerraDrawRenderMode({
         modeName: 'static',

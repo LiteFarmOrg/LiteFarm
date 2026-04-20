@@ -76,6 +76,12 @@ export default function ProductInventory() {
     dispatch(getProducts());
   }, []);
 
+  useEffect(() => {
+    return () => {
+      closeFormDrawer();
+    };
+  }, []);
+
   const productInventory = useSelector(productInventorySelector);
 
   const inventory = productInventory

@@ -63,6 +63,7 @@ import {
   cleanupGeometryListeners,
   cleanupInstanceListeners,
 } from '../../util/google-maps/cleanupListeners';
+import { createShapeCapture } from '../../util/google-maps/shapeCapture';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
 export default function Map({ isCompactSideMenu }) {
@@ -209,7 +210,7 @@ export default function Map({ isCompactSideMenu }) {
         cleanupInstanceListeners(markerClusterRef.current, gMaps);
       }
       if (drawingState.drawingManager) {
-        cleanupInstanceListeners(drawingState.drawingManager, gMaps);
+        drawingState.drawingManager.destroy();
       }
     };
   }, [gMaps]);
@@ -235,66 +236,50 @@ export default function Map({ isCompactSideMenu }) {
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
 
-    // Create drawing manager
-    let drawingManagerInit = new maps.drawing.DrawingManager({
-      drawingMode: null,
-      drawingControl: false,
-      drawingControlOptions: {
-        position: maps.ControlPosition.TOP_CENTER,
-        drawingModes: [
-          maps.drawing.OverlayType.POLYGON,
-          maps.drawing.OverlayType.POLYLINE,
-          maps.drawing.OverlayType.MARKER,
-        ],
-      },
-      map: map,
-    });
+    // Replaces `google.maps.drawing.DrawingManager`, which Google is removing
+    // from the Maps JavaScript API in May 2026.
+    const capture = createShapeCapture(map, maps);
 
-    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
-      const polygonAreaCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
-          setZeroAreaWarning(true);
-          setShowAdjustAreaSpotlightModal(false);
-        } else setZeroAreaWarning(false);
-      };
-      const path = polygon.getPath();
-      polygonAreaCheck(path);
-      maps.event.addListener(path, 'set_at', function () {
-        polygonAreaCheck(this);
-      });
-      maps.event.addListener(path, 'insert_at', function () {
-        polygonAreaCheck(this);
-      });
-    });
-    maps.event.addListener(drawingManagerInit, 'polylinecomplete', function (polyline) {
-      const polylineLengthCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
-          setShowZeroLengthWarning(true);
-          setShowAdjustLineSpotlightModal(false);
-        } else {
-          setShowZeroLengthWarning(false);
-        }
-      };
-      const path = polyline.getPath();
-      polylineLengthCheck(path);
-      maps.event.addListener(path, 'set_at', function () {
-        polylineLengthCheck(this);
-      });
-      maps.event.addListener(path, 'insert_at', function () {
-        polylineLengthCheck(this);
-      });
-    });
-    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+    capture.onComplete((drawing) => {
+      if (drawing.type === 'polygon') {
+        const polygonAreaCheck = (path) => {
+          if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
+            setZeroAreaWarning(true);
+            setShowAdjustAreaSpotlightModal(false);
+          } else setZeroAreaWarning(false);
+        };
+        const path = drawing.overlay.getPath();
+        polygonAreaCheck(path);
+        maps.event.addListener(path, 'set_at', function () {
+          polygonAreaCheck(this);
+        });
+        maps.event.addListener(path, 'insert_at', function () {
+          polygonAreaCheck(this);
+        });
+      } else if (drawing.type === 'polyline') {
+        const polylineLengthCheck = (path) => {
+          if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
+            setShowZeroLengthWarning(true);
+            setShowAdjustLineSpotlightModal(false);
+          } else {
+            setShowZeroLengthWarning(false);
+          }
+        };
+        const path = drawing.overlay.getPath();
+        polylineLengthCheck(path);
+        maps.event.addListener(path, 'set_at', function () {
+          polylineLengthCheck(this);
+        });
+        maps.event.addListener(path, 'insert_at', function () {
+          polylineLengthCheck(this);
+        });
+      }
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
-      this.setDrawingMode();
       dispatch(setMapAddDrawerHide(farm_id));
     });
-    initDrawingState(map, maps, drawingManagerInit, {
-      POLYGON: maps.drawing.OverlayType.POLYGON,
-      POLYLINE: maps.drawing.OverlayType.POLYLINE,
-      MARKER: maps.drawing.OverlayType.MARKER,
-    });
+
+    initDrawingState(map, maps, capture);
 
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');

@@ -651,10 +651,6 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimalUses.initiate()),
   ]);
 
-  const {
-    data: { farm_token },
-  } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
-  localStorage.setItem('farm_token', farm_token);
   const appVersion = yield select(appVersionSelector);
   if (appVersion !== APP_VERSION) {
     yield put(setAppVersion());
@@ -672,11 +668,27 @@ export function* clearOldFarmStateSaga() {
   yield put(setIsFetchingData(true));
 }
 
+export const selectFarm = createAction('selectFarmSaga');
+
+export function* selectFarmSaga({ payload: { farm_id } }) {
+  yield put(selectFarmSuccess({ farm_id }));
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, header);
+    localStorage.setItem('farm_token', farm_token);
+  } catch (e) {
+    console.error('failed to fetch farm token', e);
+  }
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
-    yield put(selectFarmSuccess(farm));
+    yield call(selectFarmSaga, { payload: farm });
     const userFarm = yield select(userFarmSelector);
     if (!userFarm.has_consent) return history.push('/consent');
     history.push({ pathname: '/' });
@@ -718,6 +730,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getManagementPlans.type, getManagementPlansSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
+  yield takeLatest(selectFarm.type, selectFarmSaga);
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);

@@ -166,6 +166,9 @@
       "trim@<0.0.3": ">=0.0.3",
       "glob-parent@<5.1.2": ">=5.1.2",
       "semver@<7.5.2": ">=7.5.2"
+    },
+    "patchedDependencies": {
+      "terra-draw@1.28.8": "patches/terra-draw@1.28.8.patch"
     }
   }
 }

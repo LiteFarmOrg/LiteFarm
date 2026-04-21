@@ -23,6 +23,7 @@ import {
 import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
+import { farmNoteApi } from '../../store/api/farmNoteApi';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
 import { getFeedbackMessages, resolveAreaFromUrl, SyncArea } from './utils';
 
@@ -46,6 +47,7 @@ export function useServiceWorkerListener() {
   const { t } = useTranslation();
 
   const logTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pendingFarmNoteRequestRef = useRef<{ abort: () => void } | null>(null);
   const logBufferRef = useRef<OfflineEventBuffer>({
     logs: [],
     auth: '',
@@ -67,6 +69,26 @@ export function useServiceWorkerListener() {
     }
 
     recordOfflineEvent({ auth, farmId, logs });
+  };
+
+  // RTK Query deduplicates in-flight requests, so if a previous getFarmNotes request is still
+  // in-flight when a new SW sync message arrives, the new request would subscribe to the old one
+  // instead of firing a fresh fetch — potentially returning stale data that predates the latest sync.
+  // To avoid this, we abort the in-flight request and await its settlement before firing a new one.
+  // RTK Query does not natively support aborting in-flight requests on invalidation (as of 2026).
+  // See: https://github.com/reduxjs/redux-toolkit/issues/2444
+  const refreshFarmNotes = async () => {
+    const pending = pendingFarmNoteRequestRef.current;
+    pendingFarmNoteRequestRef.current = null;
+    if (pending) {
+      pending.abort(); // trigger cancellation
+      try {
+        await (pending as any); // wait for cancellation to complete
+      } catch {}
+    }
+    pendingFarmNoteRequestRef.current = dispatch(
+      farmNoteApi.endpoints.getFarmNotes.initiate(undefined, { forceRefetch: true }),
+    ) as unknown as { abort: () => void };
   };
 
   const syncConfig = useMemo(
@@ -105,9 +127,9 @@ export function useServiceWorkerListener() {
         },
         refresh: () => dispatch(getTasks()),
       },
-      'farm_notes.create': { refresh: () => dispatch(invalidateTags(['FarmNote'])) },
-      'farm_notes.edit': { refresh: () => dispatch(invalidateTags(['FarmNote'])) },
-      'farm_notes.delete': { refresh: () => dispatch(invalidateTags(['FarmNote'])) },
+      'farm_notes.create': { refresh: () => refreshFarmNotes() },
+      'farm_notes.edit': { refresh: () => refreshFarmNotes() },
+      'farm_notes.delete': { refresh: () => refreshFarmNotes() },
       'farm_notes.patch': { refresh: () => dispatch(invalidateTags(['FarmNotesRead'])) },
     }),
     [dispatch],

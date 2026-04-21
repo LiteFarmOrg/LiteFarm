@@ -40,6 +40,7 @@ const farmNoteController = {
           .where('updated_at', '>', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) // last 30 days
           .orderBy('updated_at', 'desc');
 
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         return res.status(200).json(notes);
       } catch (error: unknown) {
         console.error(error);

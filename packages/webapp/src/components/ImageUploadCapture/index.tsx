@@ -102,7 +102,7 @@ export default function ImageUploadCapture({
     let imageFile: File = file;
 
     if (file.size > 5e6) {
-      if (true) {
+      if (option?.compress) {
         try {
           const blob = await compressImage(file);
 
@@ -112,9 +112,6 @@ export default function ImageUploadCapture({
           }
 
           imageFile = new File([blob], file.name, { type: blob.type });
-          console.log(
-            `Image compressed from ${(file.size / 1e6).toFixed(2)} MB to ${(imageFile.size / 1e6).toFixed(2)} MB`,
-          );
         } catch {
           console.error('Image compression failed');
           return;

@@ -229,17 +229,9 @@
 
   button {
     min-width: 0;
-    display: flex;
     flex: 1 1 0;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--Colors-Neutral-Neutral-500);
 
     span {
-      @include fontFamily();
       @include truncateText();
     }
   }

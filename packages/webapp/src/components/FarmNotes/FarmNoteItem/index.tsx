@@ -96,10 +96,10 @@ export default function FarmNoteItem({
         {/* Author actions */}
         {isAuthor && (
           <div className={styles.actions}>
-            <TextButton className={styles.deleteButton} type="button" onClick={onDelete}>
+            <Button color="link-btn" type="button" onClick={onDelete} sm>
               <TrashIcon />
               <span>{t('translation:FARM_NOTE.DELETE_NOTE')}</span>
-            </TextButton>
+            </Button>
             <Button color="secondary" type="button" onClick={onEdit} sm>
               <EditIcon />
               <span>{t('translation:FARM_NOTE.EDIT_NOTE')}</span>

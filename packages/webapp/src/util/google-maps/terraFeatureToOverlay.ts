@@ -58,14 +58,12 @@ export const terraFeatureToOverlay = (
     return { type: 'polyline', overlay };
   }
 
-  if (geometry.type === 'Point') {
+  if (geometry.type === 'Point' && drawingOptions?.markerOptions) {
     const position = toLatLng(geometry.coordinates);
     const overlay = new maps.Marker({
       position,
       map,
-      icon: (icons as Record<string, string | undefined>)[locationType],
-      draggable: true,
-      crossOnDrag: false,
+      ...drawingOptions.markerOptions,
     });
     return { type: 'marker', overlay };
   }

@@ -15,7 +15,6 @@
 
 import type { GeoJSONStoreFeatures, GeoJSONStoreGeometries } from 'terra-draw';
 import { getDrawingOptions } from '../../containers/Map/useDrawingManager';
-import { icons } from '../../containers/Map/mapStyles';
 
 type PolygonOverlay = { type: 'polygon'; overlay: google.maps.Polygon };
 type PolylineOverlay = { type: 'polyline'; overlay: google.maps.Polyline };

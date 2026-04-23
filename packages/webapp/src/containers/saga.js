@@ -690,9 +690,14 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
     yield call(selectFarmSaga, { payload: farm });
     const userFarm = yield select(userFarmSelector);
-    if (!userFarm.has_consent) return history.push('/consent');
-    history.push({ pathname: '/' });
     yield call(clearOldFarmStateSaga);
+    if (!userFarm.has_consent) {
+      // has_consent is derived in the userFarmSelector from DB has_consent && consent_version === CONSENT_VERSION
+      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted, or when an admin has changed the user's role (userFarmController.updateRole resets has_consent but leaves status='Active')
+      // Status 'Invited' farms do not use selectFarmAndFetchAllSaga, but instead use patchUserFarmStatusWithIdTokenUrl
+      return history.push('/consent');
+    }
+    history.push({ pathname: '/' });
     yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);

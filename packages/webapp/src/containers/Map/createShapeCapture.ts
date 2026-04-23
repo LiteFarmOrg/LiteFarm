@@ -93,8 +93,6 @@ export const createShapeCapture = (
       draw.updateModeOptions<typeof TerraDrawLineStringMode>('linestring', {
         styles: config.styles,
       });
-    } else {
-      draw.updateModeOptions<typeof TerraDrawPointMode>('point', { styles: config.styles });
     }
     draw.setMode(config.mode);
   };

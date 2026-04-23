@@ -37,18 +37,11 @@ type LineStringConfig = {
 
 type PointConfig = {
   mode: 'point';
-  styles: {
-    pointColor: HexColor;
-    pointWidth: number;
-    pointOutlineColor: HexColor;
-    pointOutlineWidth: number;
-  };
 };
 
 export type TerraDrawModeConfig = PolygonConfig | LineStringConfig | PointConfig;
 
 const FALLBACK_COLOUR: HexColor = '#000000';
-const WHITE: HexColor = '#ffffff';
 
 const asHexColor = (value: unknown): HexColor => {
   return typeof value === 'string' && value.startsWith('#') ? (value as HexColor) : FALLBACK_COLOUR;
@@ -85,11 +78,5 @@ export const getTerraDrawModeConfig = (locationType: string): TerraDrawModeConfi
 
   return {
     mode: 'point',
-    styles: {
-      pointColor: FALLBACK_COLOUR,
-      pointWidth: 6,
-      pointOutlineColor: WHITE,
-      pointOutlineWidth: 2,
-    },
   };
 };

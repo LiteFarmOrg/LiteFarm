@@ -49,6 +49,19 @@ export const FilterMultiSelectV2 = ({
     }
   }, [shouldReset]);
 
+  // Re-sync internal selection when the set of default-selected options changes
+  // externally (e.g. Redux filter reset, or KPI-driven type selection on mobile).
+  // On mobile the enclosing Drawer keeps this component mounted across open/close,
+  // so useState's one-time initializer is not enough to pick up new defaults.
+  const defaultValuesKey = JSON.stringify(
+    options.filter((option) => option.default).map((option) => option.value),
+  );
+
+  useEffect(() => {
+    setValue(options.filter((option) => option.default));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValuesKey]);
+
   const defaultFilterState = useMemo(() => {
     return options.reduce(
       (defaultFilterState: Record<string, { active: boolean; label: string }>, option) => {

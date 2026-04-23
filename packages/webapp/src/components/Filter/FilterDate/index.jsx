@@ -26,6 +26,14 @@ export function FilterDate({ defaultValue, onChange, subject, shouldReset, props
     }
   }, [shouldReset]);
 
+  // Re-sync internal state when the default value changes externally
+  // (e.g. Redux filter reset). On mobile the enclosing Drawer keeps this
+  // component mounted across open/close, so useState's one-time initializer
+  // is not enough to reflect new defaults.
+  useEffect(() => {
+    setDate(defaultValue ?? '');
+  }, [defaultValue]);
+
   const handleDateChange = (e) => {
     setDate(e.target.value);
     onChange(e.target.value);

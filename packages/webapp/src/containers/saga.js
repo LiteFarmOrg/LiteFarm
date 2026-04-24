@@ -736,7 +736,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
   yield takeLatest(selectFarm.type, selectFarmSaga);
-  yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
+  yield takeLeading(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   yield takeLatest(getDocuments.type, getDocumentsSaga);

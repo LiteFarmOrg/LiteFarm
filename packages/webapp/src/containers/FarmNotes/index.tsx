@@ -68,6 +68,7 @@ export default function FarmNotes() {
   const readUpTo = farmNotesRead?.read_up_to;
   const latestOtherUserNote = farmNotes?.find((note) => note.user_id !== userFarm?.user_id);
   const hasUnread =
+    farmNotesRead !== undefined &&
     !!latestOtherUserNote &&
     (!readUpTo || new Date(latestOtherUserNote.updated_at) > new Date(readUpTo));
 

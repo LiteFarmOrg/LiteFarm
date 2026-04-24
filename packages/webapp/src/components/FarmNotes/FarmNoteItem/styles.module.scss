@@ -141,6 +141,7 @@
   color: var(--Colors-Neutral-Neutral-900);
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: pre-line;
 
   // 2-line clamp
   display: -webkit-box;
@@ -216,6 +217,7 @@
   font-weight: 400;
   line-height: 24px;
   color: var(--Colors-Neutral-Neutral-900);
+  white-space: pre-line;
 }
 
 /* ── Author actions ────────────────────────────── */

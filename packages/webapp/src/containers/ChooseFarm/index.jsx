@@ -36,6 +36,7 @@ function ChooseFarm() {
   const dispatch = useDispatch();
 
   const [selectedFarmId, setFarmId] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { farm_id: currentFarmId, user_id } = useSelector(loginSelector);
   const [filter, setFilter] = useState();
   const userFarmEntities = useSelector(userFarmEntitiesSelector);
@@ -63,6 +64,7 @@ function ChooseFarm() {
 
   const onProceed = () => {
     const farm = userFarmEntities[selectedFarmId][user_id];
+    setIsSubmitting(true);
     if (farm.status === 'Active') {
       if (currentFarmId) {
         dispatch(startSwitchFarmModal(selectedFarmId));
@@ -109,6 +111,7 @@ function ChooseFarm() {
       onFilterChange={onFilterChange}
       isSearchable={farms.length > 5}
       disabled={!selectedFarmId}
+      isSubmitting={isSubmitting}
       title={currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
     />
   ) : (

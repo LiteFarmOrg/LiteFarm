@@ -16,7 +16,7 @@ import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 import React, { useState } from 'react';
 import useCropSaleInputs, {
-  getCustomFormChildrenDefaultValues,
+  getCropSaleDefaultValues,
 } from '../../containers/Finances/useCropSaleInputs';
 
 const cropSale = {
@@ -106,7 +106,7 @@ const GeneralRevenueWithState = (props) => {
         buttonText={isEditing ? 'Save' : 'Edit'}
         useCustomFormChildren={useCropSaleInputs}
         customFormChildrenDefaultValues={
-          selectedRevenueType.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
+          selectedRevenueType.crop_generated ? getCropSaleDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}

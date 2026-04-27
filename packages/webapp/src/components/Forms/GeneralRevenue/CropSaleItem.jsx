@@ -14,81 +14,43 @@
  */
 
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
-import { harvestAmounts } from '../../../util/convert-units/unit';
-import {
-  CROP_VARIETY_SALE,
-  CROP_VARIETY_ID,
-  SALE_VALUE,
-  QUANTITY,
-  QUANTITY_UNIT,
-} from './constants';
-import Unit from '../../Form/Unit';
-import Input, { getInputErrors } from '../../Form/Input';
-import { useTranslation } from 'react-i18next';
+import { CROP_VARIETY_ID } from './constants';
+import SaleLineItem from './SaleLineItem';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 
 function CropSaleItem({
-  managementPlan,
+  option,
   system,
   currency,
   reactHookFormFunctions,
-  cropVarietyId,
+  formKey,
   disabledInput,
 }) {
-  const { t } = useTranslation();
-  const { management_plan_id, firstTaskDate, status } = managementPlan;
-  const {
-    control,
-    register,
-    getValues,
-    setValue,
-    watch,
-    formState: { errors },
-  } = reactHookFormFunctions;
-  const saleValueRegisterName = `${CROP_VARIETY_SALE}.${cropVarietyId}.${SALE_VALUE}`;
-  const cropVarietyIdRegisterName = `${CROP_VARIETY_SALE}.${cropVarietyId}.${CROP_VARIETY_ID}`;
+  const { management_plan_id, firstTaskDate, status } = option.data;
+  const { register } = reactHookFormFunctions;
 
-  register(cropVarietyIdRegisterName, {
+  register(`${formKey}.${option.value}.${CROP_VARIETY_ID}`, {
     required: true,
-    value: cropVarietyId,
+    value: option.value,
   });
 
   return (
     <div className={styles.saleItemContainer}>
       <PureManagementPlanTile
         key={management_plan_id}
-        managementPlan={managementPlan}
+        managementPlan={option.data}
         date={firstTaskDate}
         status={status}
       />
       <div className={styles.saleItemInputGroup}>
-        <Unit
-          label={t('common:QUANTITY')}
-          register={register}
-          name={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY}`}
-          displayUnitName={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY_UNIT}`}
-          unitType={harvestAmounts}
+        <SaleLineItem
+          formKey={formKey}
+          entityId={option.value}
           system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFromWatch={watch}
-          control={control}
-          required
-          disabled={disabledInput}
-        />
-        <Input
-          label={`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currency})`}
-          type="number"
-          hookFormRegister={register(saleValueRegisterName, {
-            required: true,
-            valueAsNumber: true,
-            min: { value: 0, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
-            max: { value: 999999999, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
-          })}
           currency={currency}
-          errors={getInputErrors(errors, saleValueRegisterName)}
-          disabled={disabledInput}
+          reactHookFormFunctions={reactHookFormFunctions}
+          disabledInput={disabledInput}
         />
       </div>
     </div>
@@ -96,11 +58,15 @@ function CropSaleItem({
 }
 
 CropSaleItem.propTypes = {
-  managementPlan: PropTypes.object.isRequired,
+  option: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
+  }).isRequired,
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   reactHookFormFunctions: PropTypes.object.isRequired,
-  cropVarietyId: PropTypes.string.isRequired,
+  formKey: PropTypes.string.isRequired,
   disabledInput: PropTypes.bool.isRequired,
 };
 

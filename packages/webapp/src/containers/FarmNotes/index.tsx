@@ -27,6 +27,7 @@ import type { FarmNote } from '../../store/api/types';
 import { ReactComponent as MessageTextSquareIcon } from '../../assets/images/message-text-square-02.svg';
 import FarmNoteFormContainer from './FarmNoteForm';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList/';
+import Spinner from '../../components/Spinner';
 import FarmNotesFloatingButton from '../../components/FarmNotes/FarmNotesFloatingButton/';
 import DeleteFarmNoteModal from '../../components/Modals/DeleteFarmNoteModal';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
@@ -47,7 +48,7 @@ export default function FarmNotes() {
   const userDisplayNameMap = useSelector(userDisplayNameMapSelector);
   const isOffline = useIsOffline();
 
-  const { data: farmNotes } = useGetFarmNotesQuery();
+  const { data: farmNotes, isLoading: isLoadingNotes } = useGetFarmNotesQuery();
   const [deleteFarmNote, { isLoading }] = useDeleteFarmNoteMutation();
 
   const { data: farmNotesRead } = useGetFarmNotesReadQuery();
@@ -138,6 +139,10 @@ export default function FarmNotes() {
             note={isEditState ? formState.note : undefined}
             onClose={() => setFormState(null)}
           />
+        ) : isLoadingNotes ? (
+          <div className={styles.spinnerWrapper}>
+            <Spinner />
+          </div>
         ) : (
           <FarmNoteList
             notes={farmNotes || []}

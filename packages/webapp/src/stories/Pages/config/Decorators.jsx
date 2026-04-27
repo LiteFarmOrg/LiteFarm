@@ -10,7 +10,7 @@ const setIdToken = () => {
 
 export default [
   (story) => {
-    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+    const [activeDrawer, setActiveDrawer] = useState(null);
     setIdToken();
     return (
       <div
@@ -23,7 +23,8 @@ export default [
       >
         <AppUIContext.Provider
           value={{
-            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            activeDrawer,
+            setActiveDrawer,
             maps: { isLoaded: true },
           }}
         >
@@ -48,7 +49,7 @@ export default [
 
 export const authenticatedDecorators = [
   (story) => {
-    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+    const [activeDrawer, setActiveDrawer] = useState(null);
     setIdToken();
     return (
       <div
@@ -61,7 +62,8 @@ export const authenticatedDecorators = [
       >
         <AppUIContext.Provider
           value={{
-            feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+            activeDrawer,
+            setActiveDrawer,
             maps: { isLoaded: true },
           }}
         >
@@ -126,12 +128,12 @@ export const v2TableDecorator = [
 
 export const navMenuControlDecorator = [
   (story) => {
-    const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+    const [activeDrawer, setActiveDrawer] = useState(null);
     return (
       <AppUIContext.Provider
         value={{
-          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
-          maps: { isLoaded: true },
+          activeDrawer,
+          setActiveDrawer,
         }}
       >
         {story()}

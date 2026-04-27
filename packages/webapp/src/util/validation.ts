@@ -59,3 +59,9 @@ const isValidDomainNameFormat = (domain: string): boolean => {
     !!topLevelDomain && topLevelDomain.length >= 2 && labels.every((label) => label.length > 0)
   );
 };
+
+// Restrict to formats supported by h2non/imaginary
+export const isImageFile = (file: File) => {
+  if (file.type) return /^image\/.*/.test(file.type);
+  return /\.(png|jpe?g|gif|webp|svg|tiff?)$/i.test(file.name);
+};

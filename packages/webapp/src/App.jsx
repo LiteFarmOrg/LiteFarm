@@ -32,7 +32,7 @@ import useOfflineActivityLogger from './hooks/useOfflineActivityLogger';
 function App() {
   const location = useLocation();
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
-  const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
+  const [activeDrawer, setActiveDrawer] = useState(null);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) =>
     matchPath({ path, end: false }, location.pathname),
@@ -46,7 +46,8 @@ function App() {
     <div className={clsx(styles.container)}>
       <AppUIContext.Provider
         value={{
-          feedback: { isFeedbackSurveyOpen, setFeedbackSurveyOpen },
+          activeDrawer,
+          setActiveDrawer,
           maps: { isLoaded },
         }}
       >

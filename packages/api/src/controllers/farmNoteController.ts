@@ -37,6 +37,7 @@ const farmNoteController = {
           .where((builder: any) => {
             builder.where('is_private', false).orWhere('user_id', user_id);
           })
+          .where('updated_at', '>', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) // last 30 days
           .orderBy('updated_at', 'desc');
 
         return res.status(200).json(notes);

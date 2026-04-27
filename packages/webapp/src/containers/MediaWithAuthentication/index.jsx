@@ -12,7 +12,6 @@ export function MediaWithAuthentication({
   const { mediaUrl, zipContent } = useMediaWithAuthentication({
     fileUrls,
     title,
-    extensionName,
     mediaType,
   });
 

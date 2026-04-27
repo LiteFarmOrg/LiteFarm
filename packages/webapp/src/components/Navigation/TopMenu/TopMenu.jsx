@@ -37,6 +37,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
+import { useDrawerState } from '../../../contexts/appContext';
 import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
 import { storeActivity } from '../../../util/offlineEventLogger';
 
@@ -49,16 +50,13 @@ const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const sectionHeader = useSectionHeader(location.pathname);
+  const {
+    isOpen: openMenu,
+    toggleDrawer: toggleMenu,
+    closeDrawer: closeMenu,
+  } = useDrawerState('profileMenu');
 
-  const [openMenu, setOpenMenu] = useState(false);
   const [showOfflineLogoutWarning, setShowOfflineLogoutWarning] = useState(false);
-
-  const toggleMenu = () => {
-    setOpenMenu((prev) => !prev);
-  };
-  const closeMenu = () => {
-    setOpenMenu(false);
-  };
 
   const handleClick = (link) => {
     closeMenu();
@@ -184,7 +182,7 @@ const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
     <Drawer
       anchor={'bottom'}
       open={openMenu}
-      onClose={() => setOpenMenu(false)}
+      onClose={closeMenu}
       classes={{ paper: styles.drawerMenuPaper }}
     >
       <MenuList
@@ -196,7 +194,7 @@ const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
         classes={{ list: styles.drawerMenuList, paper: styles.drawerMenuPaper }}
       >
         <ListSubheader classes={{ root: styles.drawerListSubheader }}>
-          <CloseX onClick={() => setOpenMenu(false)} />
+          <CloseX onClick={closeMenu} />
         </ListSubheader>
         {menuItems}
       </MenuList>

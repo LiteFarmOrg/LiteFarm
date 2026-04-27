@@ -15,12 +15,13 @@
 
 import { Response } from 'express';
 import FarmNotesReadModel from '../models/farmNotesReadModel.js';
+import { FarmNoteReadBody } from '../middleware/validation/checkFarmNotesRead.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 
 interface FarmNotesReadModelType {
   user_id: string;
   farm_id: string;
-  last_read_at: string;
+  read_up_to: string;
 }
 
 const farmNotesReadController = {
@@ -34,7 +35,7 @@ const farmNotesReadController = {
           | FarmNotesReadModelType
           | undefined;
 
-        return res.status(200).json({ last_read_at: row ? row.last_read_at : null });
+        return res.status(200).json({ read_up_to: row ? row.read_up_to : null });
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;
@@ -45,16 +46,20 @@ const farmNotesReadController = {
   },
 
   markFarmNotesRead() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (
+      req: LiteFarmRequest<unknown, unknown, unknown, FarmNoteReadBody>,
+      res: Response,
+    ) => {
       try {
         const { user_id } = req.auth!;
         const { farm_id } = req.headers;
+        const { read_up_to } = req.body;
 
         await FarmNotesReadModel.query()
           .insert({
             user_id,
             farm_id,
-            last_read_at: new Date().toISOString(),
+            read_up_to: new Date(read_up_to).toISOString(),
           })
           .onConflict(['user_id', 'farm_id'])
           .merge();

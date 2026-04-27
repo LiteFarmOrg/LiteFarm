@@ -16,7 +16,7 @@
 import { expect, describe, test } from 'vitest';
 import _ from 'lodash-es';
 import { descendingComparator, getComparator, animalDescendingComparator } from '../util/sort';
-import { chooseIdentification } from '../containers/Animals/Inventory/useAnimalInventory';
+import { chooseIdentification } from '../containers/Animals/utils';
 
 describe('Sort test', () => {
   describe('descendingComparator test', () => {

@@ -978,7 +978,6 @@
         "TITLE": "Dessinez une ligne"
       }
     },
-    "TUTORIALS": "Vidéos d'instructions",
     "UNABLE_TO_RETIRE": {
       "BODY": "Vous ne pouvez désactiver que les emplacements sans cultures actives ou prévues, sans animaux et sans tâches.",
       "TITLE": "Incapable à retirer"
@@ -1003,6 +1002,27 @@
       "TITLE": "Ajouter un cours d'eau",
       "WIDTH": "Largeur du cours d'eau"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "Ajouter une note",
+    "ATTACH_PHOTO": "Joignez une photo",
+    "CANCEL": "Annuler",
+    "COLLAPSE": "Réduire la note",
+    "DELETE_CONFIRMATION": {
+      "BODY": "Êtes-vous sûr de vouloir supprimer cette note ? Cette action ne peut pas être annulée.",
+      "TITLE": "Supprimer la note"
+    },
+    "DELETE_NOTE": "Supprimer la note",
+    "EDIT_NOTE": "Modifier la note",
+    "EMPTY_STATE": "Vous n'avez aucune note",
+    "EXPIRATION_WARNING": "Les notes seront supprimées automatiquement après 30 jours",
+    "FARM_NOTES": "Nom de l'exploitation",
+    "HAS_UNREAD_NOTES": "A des notes non lues",
+    "NEW_NOTE": "Nouvelle note",
+    "NOTE_LABEL": "Note",
+    "NOTE_PLACEHOLDER": "Saisissez votre note",
+    "PRIVATE_NOTE": "Note privée",
+    "SAVE_NOTE": "Enregistrer note"
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1089,7 +1109,7 @@
     "OVER_255_CHARS": "Le texte ne peut pas dépasser 255 caractères"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
+    "ATTACHMENT_LABEL": "Charger une photo",
     "EMAIL": "Courriel",
     "FEEDBACK_INVITATION": "Obtenez de l'aide ou donnez-nous votre avis",
     "MESSAGE_LABEL": "Message",
@@ -1114,6 +1134,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} autre",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} autres",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} autres"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": "Ou appuyez sur \"Esc\" pour fermer"
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "Bibliothèque photo",
+    "TAKE_PHOTO": "Prendre une photo"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1165,7 +1192,9 @@
     "TAPE": {
       "COMPLETED": "Terminé - Voir vos résultats",
       "IN_PROGRESS": "En cours",
+      "LOAD_ERROR": "Impossible de charger l'enquête. Veuillez réessayer plus tard.",
       "NOT_FILLED": "Non rempli",
+      "RESULTS_LOAD_ERROR": "Impossible de charger les résultats. Veuillez réessayer plus tard.",
       "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
       "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
       "UPDATE_ANSWERS": "Mettre à jour vos réponses"
@@ -2199,6 +2228,7 @@
     "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
     "DRAG_DROP": "ou glisser déposer",
     "REMOVE_IMAGE": "Supprimer image",
+    "UNSUPPORTED_FILE_TYPE": "Veuillez télécharger une image PNG, JPG, GIF, ou WebP",
     "UPLOAD_IMAGE": "Ajouter une image"
   },
   "WAGE": {

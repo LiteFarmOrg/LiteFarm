@@ -169,9 +169,10 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task update
       yield put(putTaskSuccess({ assignee_user_id, task_id }));
@@ -230,9 +231,10 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task update
       yield put(putTaskSuccess({ due_date, task_id }));
@@ -259,9 +261,10 @@ export function* changeTaskWageSaga({
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task wage update
       yield put(putTaskSuccess({ ...patchData, task_id }));
@@ -725,9 +728,10 @@ export function* createTaskSaga({ payload }) {
     } else if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueuePersistentSuccessSnackbar(i18n.t('message:TASK.CREATE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.CREATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.CREATE.SYNC.NETWORK_ERROR');
+      yield put(enqueuePersistentSuccessSnackbar(message));
 
       // No optimistic update for task creation
 
@@ -913,9 +917,10 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task completion
       const optimisticTaskData = taskData.task // i.e. harvest tasks
@@ -956,9 +961,10 @@ export function* abandonTaskSaga({ payload: data }) {
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.ABANDON.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task abandonment
       yield put(
@@ -1105,9 +1111,10 @@ export function* deleteTaskSaga({ payload: data }) {
     if (e.code === 'ERR_NETWORK') {
       const isOffline = yield select(isOfflineSelector);
 
-      if (isOffline) {
-        yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.DELETE.SYNC.ONLINE')));
-      }
+      const message = isOffline
+        ? i18n.t('message:TASK.DELETE.SYNC.ONLINE')
+        : i18n.t('message:TASK.DELETE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
 
       // Optimistic update for task deletion
 

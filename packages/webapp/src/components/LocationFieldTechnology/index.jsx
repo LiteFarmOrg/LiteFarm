@@ -23,7 +23,7 @@ import List from '../List';
 import SensorListItem from '../List/ListItems/IconDescription/SensorListItem';
 import { Status } from '../StatusIndicatorPill';
 import { isLessThanTwelveHrsAgo } from '../../util/date-migrate-TS';
-import { getDeviceType } from '../Sensor/v2/constants';
+import { getSensorDeviceTypeLabel } from '../Sensor/v2/constants';
 import { Variant } from '../RouterTab/Tab';
 import { locationEnum } from '../../containers/Map/constants';
 import ManageESciSection from '../ManageESciSection';
@@ -79,7 +79,7 @@ export default function PureLocationFieldTechnology({ location, fieldTechnology,
               label={isAddonSensor ? sensor.id : sensor.name || sensor.location_id}
               sensorContent={{
                 name: isAddonSensor
-                  ? getDeviceType(sensor.deviceTypeKey)
+                  ? getSensorDeviceTypeLabel(sensor.deviceTypeKey)
                   : sensor.model || sensor.brand_name,
                 status: isAddonSensor && {
                   status: isOnline ? Status.ONLINE : Status.OFFLINE,

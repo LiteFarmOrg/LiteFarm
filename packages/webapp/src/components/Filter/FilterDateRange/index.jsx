@@ -43,6 +43,15 @@ export function FilterDateRange({
   }, [shouldReset]);
 
   const [showDateFilter, setShowDateFilter] = useState(!!(defaultFromDate || defaultToDate));
+
+  // Re-sync internal state when defaults change externally (e.g. Redux filter
+  // reset). On mobile the enclosing Drawer keeps this component mounted across
+  // open/close, so useState's one-time initializers miss later default changes.
+  useEffect(() => {
+    setFromDate(defaultFromDate ?? '');
+    setToDate(defaultToDate ?? '');
+    setShowDateFilter(!!(defaultFromDate || defaultToDate));
+  }, [defaultFromDate, defaultToDate]);
   const onSwitchClick = () => {
     setDirty?.();
     let fromDate;

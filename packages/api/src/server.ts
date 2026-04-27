@@ -365,7 +365,7 @@ app
   .use('/market_directory_partners', marketDirectoryPartnerRoute)
   .use('/offline_event_log', offlineEventLogRoute)
   .use('/tape_survey', tapeSurveyRoute)
-  .use('/farm_note', farmNoteRoute)
+  .use('/farm_notes', farmNoteRoute)
   .use('/farm_notes_read', farmNotesReadRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data

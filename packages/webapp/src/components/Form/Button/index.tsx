@@ -23,6 +23,8 @@ export type ButtonProps = {
     | 'secondary'
     | 'secondary-2'
     | 'secondary-cta'
+    | 'secondary-red'
+    | 'link-btn'
     | 'accent'
     | 'warning'
     | 'error'

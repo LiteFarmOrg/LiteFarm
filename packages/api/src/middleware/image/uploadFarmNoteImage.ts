@@ -69,7 +69,7 @@ export default function uploadFarmNoteImage() {
       console.error(error);
 
       const err = error as HttpError;
-      const status = err.status || err.code || 500;
+      const status = err.status ?? (typeof err.code === 'number' ? err.code : 500);
       return res.status(status).json({ error: err.message || err });
     }
   };

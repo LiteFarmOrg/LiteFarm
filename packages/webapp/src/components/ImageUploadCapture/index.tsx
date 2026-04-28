@@ -35,17 +35,7 @@ const compressImage = async (file: File): Promise<Blob> => {
     return file;
   }
 
-  let quality = 0.8;
-  let compressedFile: Blob = file;
-
-  while (quality > 0) {
-    compressedFile = await compressImageWithQuality(file, quality);
-    if (compressedFile.size < 5e6) {
-      return compressedFile;
-    }
-    quality -= 0.2;
-  }
-  return compressedFile; // return the best effort compressed image even if it still exceeds max size
+  return compressImageWithQuality(file, 0.8); // best-effort compression
 };
 
 const compressImageWithQuality = async (file: File, quality: number): Promise<Blob> => {
@@ -53,6 +43,9 @@ const compressImageWithQuality = async (file: File, quality: number): Promise<Bl
   return new Promise((resolve, reject) => {
     new Compressor(file, {
       quality,
+      maxWidth: 1920,
+      maxHeight: 1920,
+      checkOrientation: false,
       success: resolve,
       error: reject,
     });

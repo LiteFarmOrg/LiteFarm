@@ -14,7 +14,6 @@
  */
 
 import Model from './baseFormatModel.js';
-import saleModel from './saleModel.js';
 import animalModel from './animalModel.js';
 import animalBatchModel from './animalBatchModel.js';
 
@@ -47,14 +46,6 @@ class AnimalSale extends Model {
 
   static get relationMappings() {
     return {
-      sale: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: saleModel,
-        join: {
-          from: 'animal_sale.sale_id',
-          to: 'sale.sale_id',
-        },
-      },
       animal: {
         relation: Model.BelongsToOneRelation,
         modelClass: animalModel,

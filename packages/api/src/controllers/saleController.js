@@ -18,6 +18,7 @@ import baseController from '../controllers/baseController.js';
 import SaleModel from '../models/saleModel.js';
 import RevenueTypeModel from '../models/revenueTypeModel.js';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
+import AnimalSaleModel from '../models/animalSaleModel.js';
 import { transaction, Model } from 'objection';
 
 const SaleController = {
@@ -52,6 +53,7 @@ const SaleController = {
         note,
         revenue_type_id,
         crop_variety_sale,
+        animal_sale,
       } = req.body;
       const saleData = {
         customer_name,
@@ -67,12 +69,15 @@ const SaleController = {
         const newRevenueType = revenue_type_id
           ? await RevenueTypeModel.query(trx).findById(revenue_type_id)
           : oldRevenueType;
-        const isCropSale = Boolean(newRevenueType.crop_generated);
-        const wasCropSale = Boolean(oldRevenueType.crop_generated);
 
-        if (isCropSale && value) {
+        const isCropSale = newRevenueType.entity_type === 'crop';
+        const wasCropSale = oldRevenueType.entity_type === 'crop';
+        const isAnimalSale = newRevenueType.entity_type === 'animal';
+        const wasAnimalSale = oldRevenueType.entity_type === 'animal';
+
+        if ((isCropSale || isAnimalSale) && value) {
           await trx.rollback();
-          return res.status(400).send('cannot add value to crop sale');
+          return res.status(400).send('cannot add value to line-item sale');
         }
         if (!isCropSale && crop_variety_sale) {
           await trx.rollback();
@@ -84,9 +89,17 @@ const SaleController = {
           await trx.rollback();
           return res.status(400).send('crop sales cannot be empty');
         }
+        if (!isAnimalSale && animal_sale) {
+          await trx.rollback();
+          return res.status(400).send('must be animal revenue type to add animal sale');
+        }
+        if (isAnimalSale && animal_sale && !animal_sale.length) {
+          await trx.rollback();
+          return res.status(400).send('animal sales cannot be empty');
+        }
 
-        // Value lives on the Sale model, crop sales are handled differently
-        if (!isCropSale) {
+        // Value lives on the Sale model; line-item sales (crop or animal) handle totals differently
+        if (!isCropSale && !isAnimalSale) {
           saleData.value = value;
         }
 
@@ -115,7 +128,7 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        // Hard delete previous crop variety sales
+        // Hard delete previous crop variety sales when updating or transitioning away
         if ((wasCropSale && isCropSale && crop_variety_sale) || (wasCropSale && !isCropSale)) {
           const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
             .where('sale_id', sale_id)
@@ -126,11 +139,24 @@ const SaleController = {
           }
         }
 
+        // Hard delete previous animal sales when updating or transitioning away
+        if ((wasAnimalSale && isAnimalSale && animal_sale) || (wasAnimalSale && !isAnimalSale)) {
+          await AnimalSaleModel.query(trx).where('sale_id', sale_id).delete();
+        }
+
         // Add back updated crop variety sales
         if (isCropSale && crop_variety_sale) {
           for (const cvs of crop_variety_sale) {
             cvs.sale_id = parseInt(sale_id);
             await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+          }
+        }
+
+        // Add back updated animal sales
+        if (isAnimalSale && animal_sale) {
+          for (const as of animal_sale) {
+            as.sale_id = parseInt(sale_id);
+            await AnimalSaleModel.query(trx).insert(as);
           }
         }
 
@@ -154,19 +180,11 @@ const SaleController = {
         const sales = await SaleModel.query()
           .whereNotDeleted()
           .where({ farm_id })
-          .withGraphFetched('crop_variety_sale');
+          .withGraphFetched('[crop_variety_sale, animal_sale]');
         if (!sales.length) {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
           res.status(200).send([]);
         } else {
-          // for (const sale of sales) {
-          //   // load related prices and yields of this sale
-          //   await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
-          //     getFarm: (builder) => {
-          //       builder.where('farm_id', farm_id);
-          //     },
-          //   });
-          // }
           res.status(200).send(sales);
         }
       } catch (error) {

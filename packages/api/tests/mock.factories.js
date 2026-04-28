@@ -2362,8 +2362,12 @@ async function populateDefaultRevenueTypes() {
     {
       revenue_name: 'Crop Sale',
       revenue_translation_key: 'CROP_SALE',
-      agriculture_associated: null,
-      crop_generated: true,
+      entity_type: 'crop',
+    },
+    {
+      revenue_name: 'Animal Sale',
+      revenue_translation_key: 'ANIMAL_SALE',
+      entity_type: 'animal',
     },
   ];
   for (const type of types) {
@@ -2372,7 +2376,7 @@ async function populateDefaultRevenueTypes() {
     });
     if (!revenueTypeInDb) {
       const base = baseProperties(1);
-      return knex('revenue_type')
+      await knex('revenue_type')
         .insert({ ...type, ...base })
         .returning('*');
     }

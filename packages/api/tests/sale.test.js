@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import saleModel from '../src/models/saleModel.js';
 import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
+import animalSaleModel from '../src/models/animalSaleModel.js';
 import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
@@ -546,7 +547,7 @@ describe('Sale Tests', () => {
       const testGeneralSale = async (userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
-          properties: { agriculture_associated: null, crop_generated: false },
+          properties: { entity_type: 'none' },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;
@@ -823,6 +824,174 @@ describe('Sale Tests', () => {
             expect(res.status).toBe(403);
           },
         );
+      });
+    });
+  });
+
+  describe('Animal sale', () => {
+    let animalSaleRevenueType;
+    let animal;
+
+    beforeEach(async () => {
+      animalSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Animal Sale')
+        .first();
+      [animal] = await mocks.animalFactory({ promisedFarm: [farm] });
+    });
+
+    test('POST sale with animal_sale array creates animal_sale rows', async () => {
+      const saleBody = {
+        ...mocks.fakeSale(),
+        farm_id: farm.farm_id,
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [
+          {
+            animal_id: animal.id,
+            animal_batch_id: null,
+            quantity: 2,
+            quantity_unit: 'count',
+            sale_value: 150,
+          },
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        expect(sales.length).toBe(1);
+        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal.id);
+        expect(animalSales[0].quantity).toBe(2);
+        expect(animalSales[0].sale_value).toBe(150);
+      });
+    });
+
+    test('GET response includes animal_sale nested on animal-type sales', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await knex('animal_sale').insert({
+        sale_id: sale.sale_id,
+        animal_id: animal.id,
+        animal_batch_id: null,
+        quantity: 3,
+        quantity_unit: 'count',
+        sale_value: 200,
+      });
+
+      await getRequest({ user_id: owner.user_id }, (_err, res) => {
+        expect(res.status).toBe(200);
+        const found = res.body.find((s) => s.sale_id === sale.sale_id);
+        expect(found).toBeDefined();
+        expect(found.animal_sale).toBeDefined();
+        expect(found.animal_sale.length).toBe(1);
+        expect(found.animal_sale[0].animal_id).toBe(animal.id);
+      });
+    });
+
+    test('PATCH replaces existing animal_sale rows rather than appending', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await knex('animal_sale').insert({
+        sale_id: sale.sale_id,
+        animal_id: animal.id,
+        animal_batch_id: null,
+        quantity: 1,
+        quantity_unit: 'count',
+        sale_value: 50,
+      });
+
+      const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const patchBody = {
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [
+          {
+            animal_id: animal2.id,
+            animal_batch_id: null,
+            quantity: 5,
+            quantity_unit: 'count',
+            sale_value: 300,
+          },
+        ],
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal2.id);
+      });
+    });
+
+    test('PATCH from animal sale to general sale deletes animal_sale rows', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await knex('animal_sale').insert({
+        sale_id: sale.sale_id,
+        animal_id: animal.id,
+        animal_batch_id: null,
+        quantity: 1,
+        quantity_unit: 'count',
+        sale_value: 50,
+      });
+
+      const [generalRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'none' },
+      });
+      const patchBody = {
+        revenue_type_id: generalRevenueType.revenue_type_id,
+        value: 99,
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(0);
+      });
+    });
+
+    test('PATCH from crop sale to animal sale deletes crop_variety_sale rows and creates animal_sale rows', async () => {
+      const cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.crop_variety_saleFactory({
+        promisedCropVariety: [cropVariety],
+        promisedSale: [sale],
+      });
+
+      const patchBody = {
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [
+          {
+            animal_id: animal.id,
+            animal_batch_id: null,
+            quantity: 2,
+            quantity_unit: 'count',
+            sale_value: 100,
+          },
+        ],
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const cvSales = await cropVarietySaleModel.query().where('sale_id', sale.sale_id);
+        expect(cvSales.length).toBe(0);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal.id);
       });
     });
   });

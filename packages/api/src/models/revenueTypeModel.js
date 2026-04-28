@@ -35,15 +35,14 @@ class RevenueType extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['revenue_name', 'farm_id', 'agriculture_associated', 'crop_generated'],
+      required: ['revenue_name', 'farm_id', 'entity_type'],
 
       properties: {
         revenue_type_id: { type: 'integer' },
         revenue_name: { type: 'string', minLength: 1, maxLength: 100 },
         farm_id: { type: 'string' },
         revenue_translation_key: { type: 'string' },
-        agriculture_associated: { type: 'null' },
-        crop_generated: { type: 'boolean' },
+        entity_type: { type: 'string', enum: ['none', 'crop', 'animal'] },
         custom_description: { type: ['string', 'null'], minLength: 1, maxLength: 125 },
         retired: { type: 'boolean' },
         ...this.baseProperties,

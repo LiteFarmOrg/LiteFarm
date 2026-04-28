@@ -43,8 +43,8 @@ const compressImageWithQuality = async (file: File, quality: number): Promise<Bl
   return new Promise((resolve, reject) => {
     new Compressor(file, {
       quality,
-      maxWidth: 1920,
-      maxHeight: 1920,
+      maxWidth: 2560,
+      maxHeight: 2560,
       checkOrientation: false,
       success: resolve,
       error: reject,

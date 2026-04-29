@@ -25,19 +25,9 @@ export interface CropVarietySaleTileData {
 
 interface CropVarietySaleTileProps {
   cropVariety: CropVarietySaleTileData;
-  className?: string;
-  onClick?: () => void;
-  style?: React.CSSProperties;
-  isSelected?: boolean;
 }
 
-export default function CropVarietySaleTile({
-  cropVariety,
-  className,
-  onClick,
-  style,
-  isSelected,
-}: CropVarietySaleTileProps) {
+export default function CropVarietySaleTile({ cropVariety }: CropVarietySaleTileProps) {
   const { t } = useTranslation();
   const { crop_variety_name, crop_translation_key, crop_variety_photo_url } = cropVariety;
   const translatedCropName = t(`crop:${crop_translation_key}`);
@@ -45,19 +35,15 @@ export default function CropVarietySaleTile({
 
   return (
     <PureCropTile
-      className={className}
-      onClick={onClick}
-      style={style}
       src={crop_variety_photo_url ?? undefined}
       alt={crop_translation_key.toLowerCase()}
       title={title}
-      isSelected={isSelected}
     >
-      {crop_variety_name ? (
-        <div className={styles.infoBody} style={{ margin: '2px 0' }}>
-          <div style={{ fontSize: '12px' }}>{translatedCropName}</div>
+      {crop_variety_name && (
+        <div className={styles.cropSubtitle}>
+          <div className={styles.cropSubtitleText}>{translatedCropName}</div>
         </div>
-      ) : null}
+      )}
     </PureCropTile>
   );
 }

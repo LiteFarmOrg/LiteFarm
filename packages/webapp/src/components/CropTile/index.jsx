@@ -19,7 +19,7 @@ export default function PureCropTile({
   isPastVariety,
   isCropTemplate,
   children,
-  isSelected,
+  isSelected = false,
   status,
 }) {
   const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;

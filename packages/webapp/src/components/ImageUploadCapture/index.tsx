@@ -30,29 +30,17 @@ import getDeviceType from '../../util/getDeviceType';
 import { isImageFile } from '../../util/validation';
 import styles from './styles.module.scss';
 
+const COMPRESSION_THRESHOLD = 5e6; // 5MB
+const MAX_ACCEPTED_FILE_SIZE = 50e6; // 50MB for orignal file, matching high MP images from most phones
+
 const compressImage = async (file: File): Promise<Blob> => {
-  if (file.size <= 5e6) {
-    return file;
-  }
-
-  let quality = 0.8;
-  let compressedFile: Blob = file;
-
-  while (quality > 0) {
-    compressedFile = await compressImageWithQuality(file, quality);
-    if (compressedFile.size < 5e6) {
-      return compressedFile;
-    }
-    quality -= 0.2;
-  }
-  return compressedFile; // return the best effort compressed image even if it still exceeds max size
-};
-
-const compressImageWithQuality = async (file: File, quality: number): Promise<Blob> => {
   const Compressor = await import('compressorjs').then((compressor) => compressor.default);
   return new Promise((resolve, reject) => {
     new Compressor(file, {
-      quality,
+      quality: 0.8,
+      maxWidth: 2560,
+      maxHeight: 2560,
+      checkOrientation: false,
       success: resolve,
       error: reject,
     });
@@ -93,44 +81,40 @@ export default function ImageUploadCapture({
     };
   }, [localUrl]);
 
-  const handleFile = async (file: File, option?: { compress?: boolean }) => {
+  const handleFile = async (file: File) => {
     if (!isImageFile(file)) {
       dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
       return;
     }
 
+    if (file.size > MAX_ACCEPTED_FILE_SIZE) {
+      setShowFileSizeExceedsModal(true);
+      return;
+    }
+
     let imageFile: File = file;
 
-    if (file.size > 5e6) {
-      if (option?.compress) {
-        try {
-          const blob = await compressImage(file);
-
-          if (blob.size > 5e6) {
-            setShowFileSizeExceedsModal(true);
-            return;
-          }
-
-          imageFile = new File([blob], file.name, { type: blob.type });
-        } catch {
-          console.error('Image compression failed');
-          return;
-        }
-      } else {
-        setShowFileSizeExceedsModal(true);
+    if (file.size > COMPRESSION_THRESHOLD) {
+      try {
+        const blob = await compressImage(file);
+        imageFile = new File([blob], file.name, { type: blob.type });
+      } catch {
+        // Compression fails for e.g. DNG (RAW) or HEIC on non-Safari browsers
+        dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
         return;
       }
     }
+
     const url = URL.createObjectURL(imageFile);
     setLocalUrl(url);
     onSelectImage(imageFile);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, option?: { compress?: boolean }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) {
       return;
     }
-    handleFile(e.target.files[0], option);
+    handleFile(e.target.files[0]);
     e.target.value = '';
   };
 
@@ -157,7 +141,7 @@ export default function ImageUploadCapture({
   return (
     <>
       {showFileSizeExceedsModal && (
-        <FileSizeExceedModal size={5} dismissModal={() => setShowFileSizeExceedsModal(false)} />
+        <FileSizeExceedModal size={50} dismissModal={() => setShowFileSizeExceedsModal(false)} />
       )}
 
       <div className={styles.section}>
@@ -217,7 +201,7 @@ export default function ImageUploadCapture({
                 <PureFilePickerWrapper
                   accept="image/*"
                   capture="environment"
-                  onChange={(e) => handleChange(e, { compress: true })}
+                  onChange={handleChange}
                   className={styles.photoBtnWrapper}
                 >
                   <div className={styles.photoBtn}>

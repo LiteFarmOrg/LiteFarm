@@ -92,7 +92,7 @@ export default function PureCropTile({
   );
 }
 
-PureCropTile.prototype = {
+PureCropTile.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   style: PropTypes.object,

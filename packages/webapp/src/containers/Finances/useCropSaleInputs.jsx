@@ -69,18 +69,24 @@ export default function useCropSaleInputs(
     if (!managementPlans?.length) {
       return [];
     }
-    const seen = new Set();
+    const cropVarietySet = new Set();
     const result = [];
     for (const mp of managementPlans) {
-      if (!seen.has(mp.crop_variety_id)) {
+      if (!cropVarietySet.has(mp.crop_variety_id)) {
         result.push({
           label: mp.crop_variety_name
             ? `${mp.crop_variety_name}, ${t(`crop:${mp.crop_translation_key}`)}`
             : t(`crop:${mp.crop_translation_key}`),
           value: mp.crop_variety_id,
-          data: mp,
+          // Management plans determine which crop varieties are sale-eligible,
+          // but the sale row itself represents a crop variety rather than a plan.
+          data: {
+            crop_variety_name: mp.crop_variety_name,
+            crop_translation_key: mp.crop_translation_key,
+            crop_variety_photo_url: mp.crop_variety_photo_url,
+          },
         });
-        seen.add(mp.crop_variety_id);
+        cropVarietySet.add(mp.crop_variety_id);
       }
     }
     result.sort((a, b) => a.label.localeCompare(b.label));

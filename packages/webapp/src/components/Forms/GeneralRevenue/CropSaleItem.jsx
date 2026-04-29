@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
+import CropVarietySaleTile from '../../CropTile/CropVarietySaleTile';
 import { CROP_VARIETY_ID } from './constants';
 import SaleLineItem from './SaleLineItem';
 import styles from './styles.module.scss';
@@ -27,7 +27,6 @@ function CropSaleItem({
   fieldPrefix,
   disabledInput,
 }) {
-  const { management_plan_id, firstTaskDate, status } = option.data;
   const { register } = reactHookFormFunctions;
 
   register(`${fieldPrefix}.${option.value}.${CROP_VARIETY_ID}`, {
@@ -37,12 +36,7 @@ function CropSaleItem({
 
   return (
     <div className={styles.saleItemContainer}>
-      <PureManagementPlanTile
-        key={management_plan_id}
-        managementPlan={option.data}
-        date={firstTaskDate}
-        status={status}
-      />
+      <CropVarietySaleTile cropVariety={option.data} />
       <div className={styles.saleItemInputGroup}>
         <SaleLineItem
           fieldPrefix={fieldPrefix}
@@ -61,7 +55,11 @@ CropSaleItem.propTypes = {
   option: PropTypes.shape({
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.shape({
+      crop_variety_name: PropTypes.string,
+      crop_translation_key: PropTypes.string.isRequired,
+      crop_variety_photo_url: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,

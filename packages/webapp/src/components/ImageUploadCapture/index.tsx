@@ -30,19 +30,14 @@ import getDeviceType from '../../util/getDeviceType';
 import { isImageFile } from '../../util/validation';
 import styles from './styles.module.scss';
 
+const COMPRESSION_THRESHOLD = 5e6; // 5MB
+const MAX_ACCEPTED_FILE_SIZE = 50e6; // 50MB for orignal file, matching high MP images from most phones
+
 const compressImage = async (file: File): Promise<Blob> => {
-  if (file.size <= 5e6) {
-    return file;
-  }
-
-  return compressImageWithQuality(file, 0.8); // best-effort compression
-};
-
-const compressImageWithQuality = async (file: File, quality: number): Promise<Blob> => {
   const Compressor = await import('compressorjs').then((compressor) => compressor.default);
   return new Promise((resolve, reject) => {
     new Compressor(file, {
-      quality,
+      quality: 0.8,
       maxWidth: 2560,
       maxHeight: 2560,
       checkOrientation: false,
@@ -92,25 +87,22 @@ export default function ImageUploadCapture({
       return;
     }
 
-    let imageFile: File = file;
-
-    if (file.size > 5e6) {
-      try {
-        const blob = await compressImage(file);
-
-        if (blob.size > 5e6) {
-          setShowFileSizeExceedsModal(true);
-          return;
-        }
-
-        imageFile = new File([blob], file.name, { type: blob.type });
-      } catch {
-        console.error('Image compression failed');
-        return;
-      }
-    } else {
+    if (file.size > MAX_ACCEPTED_FILE_SIZE) {
       setShowFileSizeExceedsModal(true);
       return;
+    }
+
+    let imageFile: File = file;
+
+    if (file.size > COMPRESSION_THRESHOLD) {
+      try {
+        const blob = await compressImage(file);
+        imageFile = new File([blob], file.name, { type: blob.type });
+      } catch {
+        // Compression fails for e.g. DNG (RAW) or HEIC on non-Safari browsers
+        dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
+        return;
+      }
     }
 
     const url = URL.createObjectURL(imageFile);
@@ -149,7 +141,7 @@ export default function ImageUploadCapture({
   return (
     <>
       {showFileSizeExceedsModal && (
-        <FileSizeExceedModal size={5} dismissModal={() => setShowFileSizeExceedsModal(false)} />
+        <FileSizeExceedModal size={50} dismissModal={() => setShowFileSizeExceedsModal(false)} />
       )}
 
       <div className={styles.section}>

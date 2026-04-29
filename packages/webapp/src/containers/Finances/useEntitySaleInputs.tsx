@@ -15,6 +15,7 @@
 
 import { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
 import { MultiValue } from 'react-select';
+import { useTranslation } from 'react-i18next';
 import {
   QUANTITY,
   QUANTITY_UNIT,
@@ -49,7 +50,6 @@ interface UseEntitySaleInputsParams {
   entityIdFieldKey: string;
   ItemComponent: ComponentType<EntitySaleItemProps>;
   system: string;
-  emptyMessage: string;
   placeholder?: string;
 }
 
@@ -64,14 +64,15 @@ export default function useEntitySaleInputs({
   entityIdFieldKey,
   ItemComponent,
   system,
-  emptyMessage,
   placeholder,
 }: UseEntitySaleInputsParams): ReactNode {
+  const { t } = useTranslation();
   const { register, unregister, getValues, setValue } = reactHookFormFunctions;
 
   const [selectedOptions, setSelectedOptions] = useState<EntitySaleOption[]>(() =>
     options.filter((opt) => savedSalesById?.[opt.value] !== undefined),
   );
+  const [isSelectionValid, setIsSelectionValid] = useState(true);
 
   const prevSelectedOptionsRef = useRef(selectedOptions);
 
@@ -107,7 +108,9 @@ export default function useEntitySaleInputs({
   }
 
   const handleChange = (newValue: MultiValue<SelectOption>) => {
-    setSelectedOptions(newValue as EntitySaleOption[]);
+    const newOptions = newValue as EntitySaleOption[];
+    setSelectedOptions(newOptions);
+    setIsSelectionValid(newOptions.length > 0);
   };
 
   return (
@@ -119,9 +122,9 @@ export default function useEntitySaleInputs({
         isDisabled={disabledInput}
         placeholder={placeholder}
       />
-      {selectedOptions.length === 0 && (
-        <Error style={{ marginBottom: '32px' }}>{emptyMessage}</Error>
-      )}
+      <div className={styles.selectionErrorZone}>
+        {!isSelectionValid && <Error>{t('common:REQUIRED')}</Error>}
+      </div>
       <hr className={styles.thinHr} />
       {selectedOptions.map((option) => (
         <ItemComponent

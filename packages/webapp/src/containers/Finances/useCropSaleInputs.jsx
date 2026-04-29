@@ -109,7 +109,6 @@ export default function useCropSaleInputs(
     entityIdFieldKey: CROP_VARIETY_ID,
     ItemComponent: CropSaleItem,
     system,
-    emptyMessage: t('SALE.ADD_SALE.CROP_REQUIRED'),
     placeholder: t('SALE.ADD_SALE.CROP_VARIETY'),
   });
 }

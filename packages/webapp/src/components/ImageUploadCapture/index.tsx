@@ -86,7 +86,7 @@ export default function ImageUploadCapture({
     };
   }, [localUrl]);
 
-  const handleFile = async (file: File, option?: { compress?: boolean }) => {
+  const handleFile = async (file: File) => {
     if (!isImageFile(file)) {
       dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
       return;
@@ -95,35 +95,34 @@ export default function ImageUploadCapture({
     let imageFile: File = file;
 
     if (file.size > 5e6) {
-      if (option?.compress) {
-        try {
-          const blob = await compressImage(file);
+      try {
+        const blob = await compressImage(file);
 
-          if (blob.size > 5e6) {
-            setShowFileSizeExceedsModal(true);
-            return;
-          }
-
-          imageFile = new File([blob], file.name, { type: blob.type });
-        } catch {
-          console.error('Image compression failed');
+        if (blob.size > 5e6) {
+          setShowFileSizeExceedsModal(true);
           return;
         }
-      } else {
-        setShowFileSizeExceedsModal(true);
+
+        imageFile = new File([blob], file.name, { type: blob.type });
+      } catch {
+        console.error('Image compression failed');
         return;
       }
+    } else {
+      setShowFileSizeExceedsModal(true);
+      return;
     }
+
     const url = URL.createObjectURL(imageFile);
     setLocalUrl(url);
     onSelectImage(imageFile);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, option?: { compress?: boolean }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) {
       return;
     }
-    handleFile(e.target.files[0], option);
+    handleFile(e.target.files[0]);
     e.target.value = '';
   };
 
@@ -210,7 +209,7 @@ export default function ImageUploadCapture({
                 <PureFilePickerWrapper
                   accept="image/*"
                   capture="environment"
-                  onChange={(e) => handleChange(e, { compress: true })}
+                  onChange={handleChange}
                   className={styles.photoBtnWrapper}
                 >
                   <div className={styles.photoBtn}>

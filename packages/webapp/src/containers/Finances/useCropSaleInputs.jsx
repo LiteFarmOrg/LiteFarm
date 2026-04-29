@@ -22,27 +22,8 @@ import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../userFarmSlice';
-import {
-  allManagementPlansSelector,
-  currentAndPlannedManagementPlansSelector,
-} from '../managementPlanSlice';
-import { createSelector } from 'reselect';
+import { selectManagementPlansForSale } from '../managementPlanSlice';
 import useEntitySaleInputs from './useEntitySaleInputs';
-
-const selectManagementPlans = createSelector(
-  [
-    allManagementPlansSelector,
-    currentAndPlannedManagementPlansSelector,
-    (_, cropVarietySale = []) => cropVarietySale,
-  ],
-  (allManagementPlans, currentAndPlannedManagementPlans, cropVarietySale) => {
-    const cropVarietyIds = new Set([
-      ...cropVarietySale.map((sale) => sale.crop_variety_id),
-      ...currentAndPlannedManagementPlans.map((mp) => mp.crop_variety_id),
-    ]);
-    return allManagementPlans.filter((mp) => cropVarietyIds.has(mp.crop_variety_id));
-  },
-);
 
 export const getCropSaleDefaultValues = (sale) => {
   const existingSales = sale?.crop_variety_sale?.reduce(
@@ -72,7 +53,7 @@ export default function useCropSaleInputs(
 ) {
   const { t } = useTranslation();
   const managementPlans = useSelector((state) =>
-    selectManagementPlans(state, sale?.crop_variety_sale),
+    selectManagementPlansForSale(state, sale?.crop_variety_sale),
   );
   const system = useSelector(measurementSelector);
 

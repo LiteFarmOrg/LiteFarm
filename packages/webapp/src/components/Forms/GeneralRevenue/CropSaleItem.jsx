@@ -24,13 +24,13 @@ function CropSaleItem({
   system,
   currency,
   reactHookFormFunctions,
-  formKey,
+  fieldPrefix,
   disabledInput,
 }) {
   const { management_plan_id, firstTaskDate, status } = option.data;
   const { register } = reactHookFormFunctions;
 
-  register(`${formKey}.${option.value}.${CROP_VARIETY_ID}`, {
+  register(`${fieldPrefix}.${option.value}.${CROP_VARIETY_ID}`, {
     required: true,
     value: option.value,
   });
@@ -45,7 +45,7 @@ function CropSaleItem({
       />
       <div className={styles.saleItemInputGroup}>
         <SaleLineItem
-          formKey={formKey}
+          fieldPrefix={fieldPrefix}
           entityId={option.value}
           system={system}
           currency={currency}
@@ -66,7 +66,7 @@ CropSaleItem.propTypes = {
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   reactHookFormFunctions: PropTypes.object.isRequired,
-  formKey: PropTypes.string.isRequired,
+  fieldPrefix: PropTypes.string.isRequired,
   disabledInput: PropTypes.bool.isRequired,
 };
 

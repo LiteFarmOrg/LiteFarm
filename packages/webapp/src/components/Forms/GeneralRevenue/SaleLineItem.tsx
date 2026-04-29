@@ -20,7 +20,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 
 interface SaleLineItemProps {
-  formKey: string;
+  fieldPrefix: string;
   entityId: string;
   system: string;
   currency: string;
@@ -29,7 +29,7 @@ interface SaleLineItemProps {
 }
 
 function SaleLineItem({
-  formKey,
+  fieldPrefix,
   entityId,
   system,
   currency,
@@ -45,7 +45,7 @@ function SaleLineItem({
     watch,
     formState: { errors },
   } = reactHookFormFunctions;
-  const saleValueName = `${formKey}.${entityId}.${SALE_VALUE}`;
+  const saleValueName = `${fieldPrefix}.${entityId}.${SALE_VALUE}`;
 
   return (
     <>
@@ -53,8 +53,8 @@ function SaleLineItem({
       <Unit
         label={t('common:QUANTITY')}
         register={register}
-        name={`${formKey}.${entityId}.${QUANTITY}`}
-        displayUnitName={`${formKey}.${entityId}.${QUANTITY_UNIT}`}
+        name={`${fieldPrefix}.${entityId}.${QUANTITY}`}
+        displayUnitName={`${fieldPrefix}.${entityId}.${QUANTITY_UNIT}`}
         unitType={harvestAmounts}
         system={system}
         hookFormSetValue={setValue}

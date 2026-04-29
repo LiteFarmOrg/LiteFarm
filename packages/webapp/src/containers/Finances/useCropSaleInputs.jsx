@@ -106,7 +106,7 @@ export default function useCropSaleInputs(
     return result;
   }, [managementPlans, t]);
 
-  const existingDataMap = sale?.crop_variety_sale?.reduce(
+  const savedSalesById = sale?.crop_variety_sale?.reduce(
     (acc, cur) => ({ ...acc, [cur.crop_variety_id]: cur }),
     {},
   );
@@ -117,8 +117,8 @@ export default function useCropSaleInputs(
     disabledInput,
     isActive,
     options,
-    existingDataMap,
-    formKey: CROP_VARIETY_SALE,
+    savedSalesById,
+    fieldPrefix: CROP_VARIETY_SALE,
     entityIdFieldKey: CROP_VARIETY_ID,
     ItemComponent: CropSaleItem,
     system,

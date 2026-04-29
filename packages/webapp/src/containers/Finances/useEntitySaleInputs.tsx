@@ -34,7 +34,7 @@ export interface EntitySaleItemProps {
   system: string;
   currency: string;
   reactHookFormFunctions: Record<string, any>;
-  formKey: string;
+  fieldPrefix: string;
   disabledInput: boolean;
 }
 
@@ -44,8 +44,8 @@ interface UseEntitySaleInputsParams {
   disabledInput: boolean;
   isActive: boolean;
   options: EntitySaleOption[];
-  existingDataMap: Record<string | number, unknown> | null | undefined;
-  formKey: string;
+  savedSalesById: Record<string | number, unknown> | null | undefined;
+  fieldPrefix: string;
   entityIdFieldKey: string;
   ItemComponent: ComponentType<EntitySaleItemProps>;
   system: string;
@@ -59,8 +59,8 @@ export default function useEntitySaleInputs({
   disabledInput,
   isActive,
   options,
-  existingDataMap,
-  formKey,
+  savedSalesById,
+  fieldPrefix,
   entityIdFieldKey,
   ItemComponent,
   system,
@@ -70,17 +70,17 @@ export default function useEntitySaleInputs({
   const { register, unregister, getValues, setValue } = reactHookFormFunctions;
 
   const [selectedOptions, setSelectedOptions] = useState<EntitySaleOption[]>(() =>
-    options.filter((opt) => existingDataMap?.[opt.value] !== undefined),
+    options.filter((opt) => savedSalesById?.[opt.value] !== undefined),
   );
 
   const prevSelectedOptionsRef = useRef(selectedOptions);
 
-  // Re-register the top-level formKey field when isActive changes, updating its 'required' constraint
+  // Re-register the top-level fieldPrefix field when isActive changes, updating its 'required' constraint
   useEffect(() => {
-    const currentValue = getValues(formKey);
-    unregister(formKey);
-    register(formKey, { required: isActive });
-    setValue(formKey, currentValue);
+    const currentValue = getValues(fieldPrefix);
+    unregister(fieldPrefix);
+    register(fieldPrefix, { required: isActive });
+    setValue(fieldPrefix, currentValue);
   }, [isActive]);
 
   // Unregister fields for options removed from the selection
@@ -91,11 +91,11 @@ export default function useEntitySaleInputs({
 
     removedOptions.forEach((o) => {
       unregister([
-        `${formKey}.${o.value}.${entityIdFieldKey}`,
-        `${formKey}.${o.value}.${QUANTITY}`,
-        `${formKey}.${o.value}.${QUANTITY_UNIT}`,
-        `${formKey}.${o.value}.${SALE_VALUE}`,
-        `${formKey}.${o.value}`,
+        `${fieldPrefix}.${o.value}.${entityIdFieldKey}`,
+        `${fieldPrefix}.${o.value}.${QUANTITY}`,
+        `${fieldPrefix}.${o.value}.${QUANTITY_UNIT}`,
+        `${fieldPrefix}.${o.value}.${SALE_VALUE}`,
+        `${fieldPrefix}.${o.value}`,
       ]);
     });
 
@@ -130,7 +130,7 @@ export default function useEntitySaleInputs({
           system={system}
           currency={currency}
           reactHookFormFunctions={reactHookFormFunctions}
-          formKey={formKey}
+          fieldPrefix={fieldPrefix}
           disabledInput={disabledInput}
         />
       ))}

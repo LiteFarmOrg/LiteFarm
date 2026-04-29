@@ -16,6 +16,8 @@
 import { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { measurementSelector } from '../userFarmSlice';
 import {
   QUANTITY,
   QUANTITY_UNIT,
@@ -25,6 +27,7 @@ import { CheckboxMultiSelect } from '../../components/Form/ReactSelect/CheckboxM
 import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
 import { Error } from '../../components/Typography';
 import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
+import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 
 export interface EntitySaleOption extends SelectOption {
   data?: unknown;
@@ -41,7 +44,6 @@ export interface EntitySaleItemProps {
 
 interface UseEntitySaleInputsParams {
   reactHookFormFunctions: Record<string, any>;
-  currency: string;
   disabledInput: boolean;
   isActive: boolean;
   options: EntitySaleOption[];
@@ -49,13 +51,11 @@ interface UseEntitySaleInputsParams {
   fieldPrefix: string;
   entityIdFieldKey: string;
   ItemComponent: ComponentType<EntitySaleItemProps>;
-  system: string;
   placeholder?: string;
 }
 
 export default function useEntitySaleInputs({
   reactHookFormFunctions,
-  currency,
   disabledInput,
   isActive,
   options,
@@ -63,10 +63,11 @@ export default function useEntitySaleInputs({
   fieldPrefix,
   entityIdFieldKey,
   ItemComponent,
-  system,
   placeholder,
 }: UseEntitySaleInputsParams): ReactNode {
   const { t } = useTranslation();
+  const system = useSelector(measurementSelector);
+  const currency = useCurrencySymbol();
   const { register, unregister, getValues, setValue } = reactHookFormFunctions;
 
   const [selectedOptions, setSelectedOptions] = useState<EntitySaleOption[]>(() =>

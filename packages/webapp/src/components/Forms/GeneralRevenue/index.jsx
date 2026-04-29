@@ -105,7 +105,6 @@ const GeneralRevenue = ({
   const customChildren = useCustomFormChildren(
     reactHookFormFunctions,
     sale,
-    currency,
     disabledInput,
     revenueTypes,
     selectedTypeOption,

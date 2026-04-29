@@ -21,7 +21,6 @@ import {
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { measurementSelector } from '../userFarmSlice';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
 import useEntitySaleInputs from './useEntitySaleInputs';
 
@@ -46,7 +45,6 @@ export const getCropSaleDefaultValues = (sale) => {
 export default function useCropSaleInputs(
   reactHookFormFunctions,
   sale,
-  currency,
   disabledInput,
   revenueTypes,
   selectedTypeOption,
@@ -55,7 +53,6 @@ export default function useCropSaleInputs(
   const managementPlans = useSelector((state) =>
     selectManagementPlansForSale(state, sale?.crop_variety_sale),
   );
-  const system = useSelector(measurementSelector);
 
   const selectedRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
@@ -100,7 +97,6 @@ export default function useCropSaleInputs(
 
   return useEntitySaleInputs({
     reactHookFormFunctions,
-    currency,
     disabledInput,
     isActive,
     options,
@@ -108,7 +104,6 @@ export default function useCropSaleInputs(
     fieldPrefix: CROP_VARIETY_SALE,
     entityIdFieldKey: CROP_VARIETY_ID,
     ItemComponent: CropSaleItem,
-    system,
     placeholder: t('SALE.ADD_SALE.CROP_VARIETY'),
   });
 }

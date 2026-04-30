@@ -15,11 +15,11 @@
 
 import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
+export type DrawerName = 'feedbackSurvey' | 'farmNotes' | 'productForm' | 'profileMenu';
+
 export type AppUIData = {
-  feedback: {
-    isFeedbackSurveyOpen: boolean;
-    setFeedbackSurveyOpen: Dispatch<SetStateAction<boolean>>;
-  };
+  activeDrawer: DrawerName | null;
+  setActiveDrawer: Dispatch<SetStateAction<DrawerName | null>>;
   maps: {
     isLoaded: boolean;
   };
@@ -34,4 +34,27 @@ export const useAppUIContext = () => {
   } else {
     return AppUIData;
   }
+};
+
+export const useDrawerState = (drawerName: DrawerName) => {
+  const { activeDrawer, setActiveDrawer } = useAppUIContext();
+
+  const isOpen = activeDrawer === drawerName;
+
+  const openDrawer = () => setActiveDrawer(drawerName);
+
+  /**
+   * Safely closes this specific drawer.
+   * Can safely be used even as the onClose triggered by ClickAway listeners
+   * because it verifies it is still the active drawer before applying `null`.
+   */
+  const closeDrawer = () => {
+    setActiveDrawer((prev) => (prev === drawerName ? null : prev));
+  };
+
+  const toggleDrawer = () => {
+    setActiveDrawer((prev) => (prev === drawerName ? null : drawerName));
+  };
+
+  return { isOpen, openDrawer, closeDrawer, toggleDrawer };
 };

@@ -31,10 +31,7 @@ import {
   DefaultAnimalBreed,
   DefaultAnimalType,
 } from '../../../store/api/types';
-import {
-  chooseAnimalBreedLabel,
-  chooseAnimalTypeLabel,
-} from '../../../containers/Animals/Inventory/useAnimalInventory';
+import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../../../containers/Animals/utils';
 import styles from './styles.module.scss';
 import navStyles from '@navStyles';
 

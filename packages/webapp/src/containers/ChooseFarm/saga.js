@@ -28,7 +28,7 @@ import {
   spotlightLoading,
 } from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { axios, getHeader } from '../saga';
+import { axios, clearOldFarmStateSaga, getHeader } from '../saga';
 import history from '../../history';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
 
@@ -57,6 +57,7 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
     const header = getHeader(user_id, farm_id);
     const result = yield call(axios.patch, patchUserFarmStatusWithIdTokenUrl(farm_id), {}, header);
     const { user: resUserFarm } = result.data;
+    yield call(clearOldFarmStateSaga);
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
     history.push('/consent');

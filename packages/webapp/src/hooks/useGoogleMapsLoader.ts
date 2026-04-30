@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-export const ALL_LIBRARIES = ['maps', 'places', 'drawing', 'geometry', 'geocoding', 'marker'];
+export const ALL_LIBRARIES = ['maps', 'places', 'geometry', 'geocoding', 'marker'];
 
 let optionsInitialized = false;
 if (!optionsInitialized) {

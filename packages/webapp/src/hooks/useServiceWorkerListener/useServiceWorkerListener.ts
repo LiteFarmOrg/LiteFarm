@@ -23,43 +23,14 @@ import {
 import { getProducts, getTasks } from '../../containers/Task/saga';
 import { getManagementPlans } from '../../containers/saga';
 import { invalidateTags } from '../../store/api/apiSlice';
+import { farmNoteApi } from '../../store/api/farmNoteApi';
 import { OfflineEventPayload, recordOfflineEvent } from '../../util/offlineEventLogger';
-
-type SyncArea =
-  | 'tasks.create'
-  | 'tasks.complete'
-  | 'tasks.abandon'
-  | 'tasks.update' // Generic fallback; use for patching date and assignee as well
-  | 'tasks.delete';
+import { getFeedbackMessages, resolveAreaFromUrl, SyncArea } from './utils';
 
 type SyncConfig = {
-  successMessage: string;
-  errors: Record<number, string>;
   onSuccess?: (response: any) => any;
   refresh: () => any;
 };
-
-/**
- * Resolve specific kinds of task operations from the URL and HTTP method.
- */
-function resolveAreaFromUrl(method: string, url: string): SyncArea {
-  if (method === 'POST') {
-    return 'tasks.create';
-  }
-
-  if (method === 'DELETE') {
-    return 'tasks.delete';
-  }
-
-  if (url.includes('/task/complete/')) {
-    return 'tasks.complete';
-  }
-  if (url.includes('/task/abandon/')) {
-    return 'tasks.abandon';
-  }
-
-  return 'tasks.update';
-}
 
 const LOG_BATCH_SIZE = 10;
 const LOG_BATCH_TIMEOUT_MS = 2000;
@@ -76,6 +47,7 @@ export function useServiceWorkerListener() {
   const { t } = useTranslation();
 
   const logTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pendingFarmNoteRequestRef = useRef<{ abort: () => void } | null>(null);
   const logBufferRef = useRef<OfflineEventBuffer>({
     logs: [],
     auth: '',
@@ -99,13 +71,29 @@ export function useServiceWorkerListener() {
     recordOfflineEvent({ auth, farmId, logs });
   };
 
+  // RTK Query deduplicates in-flight requests, so if a previous getFarmNotes request is still
+  // in-flight when a new SW sync message arrives, the new request would subscribe to the old one
+  // instead of firing a fresh fetch — potentially returning stale data that predates the latest sync.
+  // To avoid this, we abort the in-flight request and await its settlement before firing a new one.
+  // RTK Query does not natively support aborting in-flight requests on invalidation (as of 2026).
+  // See: https://github.com/reduxjs/redux-toolkit/issues/2444
+  const refreshFarmNotes = async () => {
+    const pending = pendingFarmNoteRequestRef.current;
+    pendingFarmNoteRequestRef.current = null;
+    if (pending) {
+      pending.abort(); // trigger cancellation
+      try {
+        await (pending as any); // wait for cancellation to complete
+      } catch {}
+    }
+    pendingFarmNoteRequestRef.current = dispatch(
+      farmNoteApi.endpoints.getFarmNotes.initiate(undefined, { forceRefetch: true }),
+    ) as unknown as { abort: () => void };
+  };
+
   const syncConfig = useMemo(
     (): Record<SyncArea, SyncConfig> => ({
       'tasks.create': {
-        successMessage: t('message:TASK.CREATE.SYNC.SUCCESS'),
-        errors: {
-          409: t('message:TASK.SYNC.LOCATION_DELETED'),
-        },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
             return invalidateTags(['IrrigationPrescriptions']);
@@ -118,12 +106,6 @@ export function useServiceWorkerListener() {
         },
       },
       'tasks.complete': {
-        successMessage: t('message:TASK.COMPLETE.SYNC.SUCCESS'),
-        errors: {
-          403: t('message:TASK.SYNC.UNAUTHORIZED'),
-          404: t('message:TASK.SYNC.NOT_FOUND'),
-          409: t('message:TASK.SYNC.LOCATION_DELETED'),
-        },
         onSuccess: (response) => {
           // taskType not returned in the completion API response
           if (response?.animal_movement_task) {
@@ -135,26 +117,9 @@ export function useServiceWorkerListener() {
           dispatch(getTasks());
         },
       },
-      'tasks.abandon': {
-        successMessage: t('message:TASK.ABANDON.SYNC.SUCCESS'),
-        errors: {
-          404: t('message:TASK.SYNC.NOT_FOUND'),
-        },
-        refresh: () => dispatch(getTasks()),
-      },
-      'tasks.update': {
-        successMessage: t('message:TASK.UPDATE.SYNC.SUCCESS'),
-        errors: {
-          403: t('message:TASK.SYNC.UNAUTHORIZED'),
-          404: t('message:TASK.SYNC.NOT_FOUND'),
-        },
-        refresh: () => dispatch(getTasks()),
-      },
+      'tasks.abandon': { refresh: () => dispatch(getTasks()) },
+      'tasks.update': { refresh: () => dispatch(getTasks()) },
       'tasks.delete': {
-        successMessage: t('message:TASK.DELETE.SYNC.SUCCESS'),
-        errors: {
-          404: t('message:TASK.SYNC.NOT_FOUND'),
-        },
         onSuccess: (response) => {
           if (response?.taskType?.task_translation_key === 'IRRIGATION_TASK') {
             return invalidateTags(['IrrigationPrescriptions']);
@@ -162,8 +127,12 @@ export function useServiceWorkerListener() {
         },
         refresh: () => dispatch(getTasks()),
       },
+      'farm_notes.create': { refresh: () => refreshFarmNotes() },
+      'farm_notes.edit': { refresh: () => refreshFarmNotes() },
+      'farm_notes.delete': { refresh: () => refreshFarmNotes() },
+      'farm_notes.patch': { refresh: () => dispatch(invalidateTags(['FarmNotesRead'])) },
     }),
-    [t, dispatch],
+    [dispatch],
   );
 
   useEffect(() => {
@@ -174,28 +143,27 @@ export function useServiceWorkerListener() {
 
       const { method, status, url, queuedAt, auth, farm_id } = payload || {};
       const area = resolveAreaFromUrl(method, url);
+      const { successMessage, errors, retryMessage } = getFeedbackMessages()[area];
 
       if (type === 'SYNC_ITEM_SUCCESS') {
         const handler = syncConfig[area as SyncArea];
         if (!handler) return;
 
-        const { successMessage, errors, refresh, onSuccess } = handler;
+        const { refresh, onSuccess } = handler;
         const isSuccess = status >= 200 && status < 400;
 
         if (isSuccess) {
-          dispatch(enqueueSuccessSnackbar(successMessage));
+          if (successMessage) {
+            dispatch(enqueueSuccessSnackbar(successMessage));
+          }
 
           const onSuccessAction = onSuccess?.(payload.response);
           if (onSuccessAction) {
             dispatch(onSuccessAction);
           }
-        } else {
-          const errorMessage = errors[status];
-          if (errorMessage) {
-            dispatch(enqueueErrorSnackbar(errorMessage));
-          } else {
-            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.FAILED')));
-          }
+        } else if (errors !== null) {
+          const errorMessage = errors?.[status] || t('message:TASK.SYNC.FAILED');
+          dispatch(enqueueErrorSnackbar(errorMessage));
         }
 
         // Refresh data regardless of success/failure
@@ -219,20 +187,9 @@ export function useServiceWorkerListener() {
          * This indicates a failure to reach the server (e.g. API down). It should be rare.
          * We will manually replay when the app is re-rendered.
          */
-        switch (area) {
-          case 'tasks.create':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.CREATE.SYNC.NETWORK_ERROR')));
-            break;
-          case 'tasks.delete':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.DELETE.SYNC.NETWORK_ERROR')));
-            break;
-          case 'tasks.complete':
-          case 'tasks.abandon':
-          case 'tasks.update':
-            dispatch(enqueueErrorSnackbar(t('message:TASK.UPDATE.SYNC.NETWORK_ERROR')));
-            break;
-          default:
-            dispatch(enqueueErrorSnackbar(t('message:TASK.SYNC.NETWORK_ERROR')));
+        if (retryMessage !== null) {
+          const message = retryMessage || t('message:TASK.SYNC.NETWORK_ERROR');
+          dispatch(enqueueErrorSnackbar(message));
         }
       }
     };

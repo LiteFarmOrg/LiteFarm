@@ -26,7 +26,15 @@
   background-color: var(--Colors-Accent---singles-Blue-light);
   @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      width: 48px;
+      background-color: var(--Colors-Accent---singles-Blue-full);
+      @include svgColorFill(var(--White));
+    }
+  }
+
+  &:active {
     width: 48px;
     background-color: var(--Colors-Accent---singles-Blue-full);
     @include svgColorFill(var(--White));

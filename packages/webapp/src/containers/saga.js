@@ -510,11 +510,15 @@ export function* getManagementPlansSaga() {
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
     yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
-    console.log(e);
-    yield put(onLoadingManagementPlanFail(e));
-    yield put(onLoadingCropManagementPlanFail(e));
-    yield put(onLoadingPlantingManagementPlanFail(e));
-    console.log('failed to fetch field crops from db');
+    if (e.response?.status === 404) {
+      yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: [] });
+    } else {
+      console.log(e);
+      yield put(onLoadingManagementPlanFail(e));
+      yield put(onLoadingCropManagementPlanFail(e));
+      yield put(onLoadingPlantingManagementPlanFail(e));
+      console.log('failed to fetch management plans from db');
+    }
   }
 }
 
@@ -535,8 +539,12 @@ export function* getManagementPlansByDateSaga() {
     );
     yield put(getManagementPlansSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingManagementPlanFail());
-    console.log('failed to fetch field crops by date');
+    if (e.response?.status === 404) {
+      yield put(getManagementPlansSuccess([]));
+    } else {
+      yield put(onLoadingManagementPlanFail());
+      console.log('failed to fetch management plans by date');
+    }
   }
 }
 
@@ -643,10 +651,6 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimalUses.initiate()),
   ]);
 
-  const {
-    data: { farm_token },
-  } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
-  localStorage.setItem('farm_token', farm_token);
   const appVersion = yield select(appVersionSelector);
   if (appVersion !== APP_VERSION) {
     yield put(setAppVersion());
@@ -664,15 +668,36 @@ export function* clearOldFarmStateSaga() {
   yield put(setIsFetchingData(true));
 }
 
+export const selectFarm = createAction('selectFarmSaga');
+
+export function* selectFarmSaga({ payload: { farm_id } }) {
+  yield put(selectFarmSuccess({ farm_id }));
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, header);
+    localStorage.setItem('farm_token', farm_token);
+  } catch (e) {
+    console.error('failed to fetch farm token', e);
+  }
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
-    yield put(selectFarmSuccess(farm));
+    yield call(selectFarmSaga, { payload: farm });
     const userFarm = yield select(userFarmSelector);
-    if (!userFarm.has_consent) return history.push('/consent');
-    history.push({ pathname: '/' });
     yield call(clearOldFarmStateSaga);
+    if (!userFarm.has_consent) {
+      // has_consent is derived in the userFarmSelector from DB has_consent && consent_version === CONSENT_VERSION
+      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted, or when an admin has changed the user's role (userFarmController.updateRole resets has_consent but leaves status='Active')
+      // Status 'Invited' farms do not use selectFarmAndFetchAllSaga, but instead use patchUserFarmStatusWithIdTokenUrl
+      return history.push('/consent');
+    }
+    history.push({ pathname: '/' });
     yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);
@@ -710,7 +735,8 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getManagementPlans.type, getManagementPlansSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
-  yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
+  yield takeLatest(selectFarm.type, selectFarmSaga);
+  yield takeLeading(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   yield takeLatest(getDocuments.type, getDocumentsSaga);

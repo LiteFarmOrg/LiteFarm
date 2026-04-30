@@ -88,6 +88,38 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Extension déconnectée avec succès"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Impossible d'enregistrer la note",
+      "DELETE": "Impossible de supprimer la note",
+      "EDIT": "Impossible de mettre à jour la note"
+    },
+    "SUCCESS": {
+      "ADD": "Note enregistrée avec succès",
+      "DELETE": "Note supprimée avec succès",
+      "EDIT": "Note mise à jour avec succès"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons recommencer la création de votre note automatiquement",
+        "ONLINE": "Note créée. Apparaîtra lorsque vous serez de retour en ligne",
+        "SUCCESS": "La note créée hors ligne a été enregistrée avec succès"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons recommencer la suppression de votre note automatiquement",
+        "ONLINE": "Note supprimée. Enregistrera quand vous serez de retour en ligne",
+        "SUCCESS": "Note supprimée hors ligne a été enregistrée avec succès"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons recommencer la mise à jour de votre note automatiquement",
+        "ONLINE": "Note mise à jour. Sauvegardera quand vous serez de retour en ligne",
+        "SUCCESS": "La note mise à jour hors ligne a été enregistrée avec succès"
+      },
+      "FAILED": "Échec de l'enregistrement des modifications de la note",
+      "NOT_FOUND": "La note n'a pas pu être sauvegardée: la note n'existe plus",
+      "UNAUTHORIZED": "La note n'a pas pu être enregistrée: permissions insuffisantes"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Une erreur s'est produite lors de l'envoi de votre commentaire. Veuillez réessayer."

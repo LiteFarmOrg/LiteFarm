@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
 import EntitySaleInputs from './EntitySaleInputs';
+import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 
 export const getCropSaleDefaultValues = (sale) => {
   const existingSales = sale?.crop_variety_sale?.reduce(
@@ -31,7 +32,12 @@ export const getCropSaleDefaultValues = (sale) => {
       [cur.crop_variety_id]: {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
-        quantity_unit: cur.quantity_unit,
+        quantity_unit: cur.quantity_unit
+          ? (getUnitOptionMap()[cur.quantity_unit] ?? {
+              label: cur.quantity_unit,
+              value: cur.quantity_unit,
+            })
+          : undefined,
         sale_value: cur.sale_value,
       },
     }),

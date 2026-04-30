@@ -10,7 +10,7 @@ export const SUPPORT_EMAIL = 'support@litefarm.org';
 // Changing this forces logout and updates the new release card
 export const APP_VERSION = '3.11.0';
 export const VERSION_RELEASE_NOTES_LINK =
-  'https://www.litefarm.org/post/no-signal-no-problem-litefarm-goes-offline';
+  'https://www.litefarm.org/post/farm-notes-the-quickest-way-to-keep-your-team-in-the-loop';
 
 export const CONSENT_VERSION = '7.1';
 

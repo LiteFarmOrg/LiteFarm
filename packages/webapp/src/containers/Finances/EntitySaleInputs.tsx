@@ -14,6 +14,7 @@
  */
 
 import { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -37,13 +38,11 @@ export interface EntitySaleItemProps {
   option: EntitySaleOption;
   system: string;
   currency: string;
-  reactHookFormFunctions: Record<string, any>;
   fieldPrefix: string;
   disabledInput: boolean;
 }
 
-interface UseEntitySaleInputsParams {
-  reactHookFormFunctions: Record<string, any>;
+interface EntitySaleInputsProps {
   disabledInput: boolean;
   isActive: boolean;
   options: EntitySaleOption[];
@@ -54,8 +53,7 @@ interface UseEntitySaleInputsParams {
   placeholder?: string;
 }
 
-export default function useEntitySaleInputs({
-  reactHookFormFunctions,
+export default function EntitySaleInputs({
   disabledInput,
   isActive,
   options,
@@ -64,11 +62,11 @@ export default function useEntitySaleInputs({
   entityIdFieldKey,
   ItemComponent,
   placeholder,
-}: UseEntitySaleInputsParams): ReactNode {
+}: EntitySaleInputsProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
-  const { register, unregister, getValues, setValue } = reactHookFormFunctions;
+  const { register, unregister, getValues, setValue } = useFormContext();
 
   const [selectedOptions, setSelectedOptions] = useState<EntitySaleOption[]>(() =>
     options.filter((opt) => savedSalesById?.[opt.value] !== undefined),
@@ -133,7 +131,6 @@ export default function useEntitySaleInputs({
           option={option}
           system={system}
           currency={currency}
-          reactHookFormFunctions={reactHookFormFunctions}
           fieldPrefix={fieldPrefix}
           disabledInput={disabledInput}
         />

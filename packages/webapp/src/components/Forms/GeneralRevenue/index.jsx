@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import Button from '../../Form/Button';
@@ -49,7 +49,7 @@ const GeneralRevenue = ({
   onTypeChange,
   buttonText,
   customFormChildrenDefaultValues,
-  useCustomFormChildren = () => {},
+  CustomFormChildren,
   revenueTypes,
   onRetire,
 }) => {
@@ -102,14 +102,6 @@ const GeneralRevenue = ({
   // TODO: LF-3680 fix isDirty for dynamic fields
   // const disabledButton = (!isValid || !isDirty) && !readonly;
 
-  const customChildren = useCustomFormChildren(
-    reactHookFormFunctions,
-    sale,
-    disabledInput,
-    revenueTypes,
-    selectedTypeOption,
-  );
-
   // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
   const noSubmitButton = (
     <Button
@@ -129,117 +121,124 @@ const GeneralRevenue = ({
   );
 
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      buttonGroup={
-        <>
-          {onClick && noSubmitButton}
-          {onSubmit && submitButton}
-        </>
-      }
-    >
-      <PageTitle
-        title={title}
-        onGoBack={() => {
-          handleGoBack();
-        }}
-        style={{ marginBottom: '24px' }}
-      />
-      <Input
-        label={t('SALE.DETAIL.CUSTOMER_NAME')}
-        hookFormRegister={register(CUSTOMER_NAME, { required: true })}
-        style={{ marginBottom: '40px' }}
-        errors={getInputErrors(errors, CUSTOMER_NAME)}
-        type={'text'}
-        disabled={disabledInput}
-      />
-      <Input
-        label={t('FINANCES.DATE')}
-        hookFormRegister={register(SALE_DATE, { required: true })}
-        style={{ marginBottom: '40px' }}
-        type={'date'}
-        errors={getInputErrors(errors, SALE_DATE)}
-        disabled={disabledInput}
-      />
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t('LOG_COMMON.NOTES')}
-        optional={true}
-        hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
-        name={NOTE}
-        errors={getInputErrors(errors, NOTE)}
-        disabled={disabledInput}
-      />
-      {view != 'add' && (
-        <Controller
-          control={control}
-          name={REVENUE_TYPE_OPTION}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ReactSelect
-              data-cy="generalRevenue-typeSelect"
-              label={t('REVENUE.EDIT_REVENUE.REVENUE_TYPE')}
-              options={revenueTypeOptions}
-              style={{ marginBottom: '40px' }}
-              onChange={(e) => {
-                onTypeChange(e.value, setValue);
-                onChange(e);
-              }}
-              value={value}
-              isDisabled={disabledInput}
-            />
-          )}
+    <FormProvider {...reactHookFormFunctions}>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        buttonGroup={
+          <>
+            {onClick && noSubmitButton}
+            {onSubmit && submitButton}
+          </>
+        }
+      >
+        <PageTitle
+          title={title}
+          onGoBack={() => {
+            handleGoBack();
+          }}
+          style={{ marginBottom: '24px' }}
         />
-      )}
-      {customChildren ? (
-        customChildren
-      ) : (
         <Input
-          label={t('SALE.DETAIL.VALUE')}
-          type="number"
-          hookFormRegister={register(VALUE, {
-            required: customChildren ? false : true,
-            valueAsNumber: true,
-          })}
-          currency={currency}
+          label={t('SALE.DETAIL.CUSTOMER_NAME')}
+          hookFormRegister={register(CUSTOMER_NAME, { required: true })}
           style={{ marginBottom: '40px' }}
-          errors={getInputErrors(errors, VALUE)}
+          errors={getInputErrors(errors, CUSTOMER_NAME)}
+          type={'text'}
           disabled={disabledInput}
         />
-      )}
-      <div style={{ marginTop: 'auto' }}>
-        {readonly && !isDeleting && (
-          <IconLink
-            style={{ color: 'var(--grey600)' }}
-            icon={
-              <TrashIcon
-                style={{
-                  fill: 'var(--grey600)',
-                  stroke: 'var(--grey600)',
-                  transform: 'translate(0px, 6px)',
+        <Input
+          label={t('FINANCES.DATE')}
+          hookFormRegister={register(SALE_DATE, { required: true })}
+          style={{ marginBottom: '40px' }}
+          type={'date'}
+          errors={getInputErrors(errors, SALE_DATE)}
+          disabled={disabledInput}
+        />
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('LOG_COMMON.NOTES')}
+          optional={true}
+          hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
+          name={NOTE}
+          errors={getInputErrors(errors, NOTE)}
+          disabled={disabledInput}
+        />
+        {view != 'add' && (
+          <Controller
+            control={control}
+            name={REVENUE_TYPE_OPTION}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <ReactSelect
+                data-cy="generalRevenue-typeSelect"
+                label={t('REVENUE.EDIT_REVENUE.REVENUE_TYPE')}
+                options={revenueTypeOptions}
+                style={{ marginBottom: '40px' }}
+                onChange={(e) => {
+                  onTypeChange(e.value, setValue);
+                  onChange(e);
                 }}
+                value={value}
+                isDisabled={disabledInput}
               />
-            }
-            onClick={() => setIsDeleting(true)}
-            isIconClickable
-          >
-            {t('REVENUE.DELETE.LINK')}
-          </IconLink>
-        )}
-
-        {isDeleting && (
-          <DeleteBox
-            color="error"
-            onOk={onRetire}
-            onCancel={() => setIsDeleting(false)}
-            header={t('REVENUE.DELETE.HEADER')}
-            headerIcon={<TrashIcon />}
-            message={t('REVENUE.DELETE.MESSAGE')}
-            primaryButtonLabel={t('REVENUE.DELETE.CONFIRM')}
+            )}
           />
         )}
-      </div>
-    </Form>
+        {CustomFormChildren ? (
+          <CustomFormChildren
+            sale={sale}
+            disabledInput={disabledInput}
+            revenueTypes={revenueTypes}
+            selectedTypeOption={selectedTypeOption}
+          />
+        ) : (
+          <Input
+            label={t('SALE.DETAIL.VALUE')}
+            type="number"
+            hookFormRegister={register(VALUE, {
+              required: true,
+              valueAsNumber: true,
+            })}
+            currency={currency}
+            style={{ marginBottom: '40px' }}
+            errors={getInputErrors(errors, VALUE)}
+            disabled={disabledInput}
+          />
+        )}
+        <div style={{ marginTop: 'auto' }}>
+          {readonly && !isDeleting && (
+            <IconLink
+              style={{ color: 'var(--grey600)' }}
+              icon={
+                <TrashIcon
+                  style={{
+                    fill: 'var(--grey600)',
+                    stroke: 'var(--grey600)',
+                    transform: 'translate(0px, 6px)',
+                  }}
+                />
+              }
+              onClick={() => setIsDeleting(true)}
+              isIconClickable
+            >
+              {t('REVENUE.DELETE.LINK')}
+            </IconLink>
+          )}
+
+          {isDeleting && (
+            <DeleteBox
+              color="error"
+              onOk={onRetire}
+              onCancel={() => setIsDeleting(false)}
+              header={t('REVENUE.DELETE.HEADER')}
+              headerIcon={<TrashIcon />}
+              message={t('REVENUE.DELETE.MESSAGE')}
+              primaryButtonLabel={t('REVENUE.DELETE.CONFIRM')}
+            />
+          )}
+        </div>
+      </Form>
+    </FormProvider>
   );
 };
 
@@ -257,7 +256,7 @@ GeneralRevenue.propTypes = {
   onTypeChange: PropTypes.func,
   buttonText: PropTypes.string.isRequired,
   customFormChildrenDefaultValues: PropTypes.object,
-  useCustomFormChildren: PropTypes.func,
+  CustomFormChildren: PropTypes.elementType,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
 };

@@ -22,7 +22,7 @@ import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
-import useEntitySaleInputs from './useEntitySaleInputs';
+import EntitySaleInputs from './EntitySaleInputs';
 
 export const getCropSaleDefaultValues = (sale) => {
   const existingSales = sale?.crop_variety_sale?.reduce(
@@ -42,13 +42,7 @@ export const getCropSaleDefaultValues = (sale) => {
   };
 };
 
-export default function useCropSaleInputs(
-  reactHookFormFunctions,
-  sale,
-  disabledInput,
-  revenueTypes,
-  selectedTypeOption,
-) {
+export default function CropSaleInputs({ sale, disabledInput, revenueTypes, selectedTypeOption }) {
   const { t } = useTranslation();
   const managementPlans = useSelector((state) =>
     selectManagementPlansForSale(state, sale?.crop_variety_sale),
@@ -95,15 +89,16 @@ export default function useCropSaleInputs(
     {},
   );
 
-  return useEntitySaleInputs({
-    reactHookFormFunctions,
-    disabledInput,
-    isActive,
-    options,
-    savedSalesById,
-    fieldPrefix: CROP_VARIETY_SALE,
-    entityIdFieldKey: CROP_VARIETY_ID,
-    ItemComponent: CropSaleItem,
-    placeholder: t('SALE.ADD_SALE.CROP_VARIETY'),
-  });
+  return (
+    <EntitySaleInputs
+      disabledInput={disabledInput}
+      isActive={isActive}
+      options={options}
+      savedSalesById={savedSalesById}
+      fieldPrefix={CROP_VARIETY_SALE}
+      entityIdFieldKey={CROP_VARIETY_ID}
+      ItemComponent={CropSaleItem}
+      placeholder={t('SALE.ADD_SALE.CROP_VARIETY')}
+    />
+  );
 }

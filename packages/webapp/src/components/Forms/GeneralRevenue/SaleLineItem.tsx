@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useFormContext } from 'react-hook-form';
 import { harvestAmounts } from '../../../util/convert-units/unit';
 import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
 import Unit from '../../Form/Unit';
@@ -24,7 +25,6 @@ interface SaleLineItemProps {
   entityId: string;
   system: string;
   currency: string;
-  reactHookFormFunctions: Record<string, any>;
   disabledInput: boolean;
 }
 
@@ -33,7 +33,6 @@ function SaleLineItem({
   entityId,
   system,
   currency,
-  reactHookFormFunctions,
   disabledInput,
 }: SaleLineItemProps) {
   const { t } = useTranslation();
@@ -44,7 +43,7 @@ function SaleLineItem({
     setValue,
     watch,
     formState: { errors },
-  } = reactHookFormFunctions;
+  } = useFormContext();
   const saleValueName = `${fieldPrefix}.${entityId}.${SALE_VALUE}`;
 
   return (

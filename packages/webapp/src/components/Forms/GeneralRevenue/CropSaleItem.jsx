@@ -13,21 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useFormContext } from 'react-hook-form';
 import CropVarietySaleTile from '../../CropTile/CropVarietySaleTile';
 import { CROP_VARIETY_ID } from './constants';
 import SaleLineItem from './SaleLineItem';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 
-function CropSaleItem({
-  option,
-  system,
-  currency,
-  reactHookFormFunctions,
-  fieldPrefix,
-  disabledInput,
-}) {
-  const { register } = reactHookFormFunctions;
+function CropSaleItem({ option, system, currency, fieldPrefix, disabledInput }) {
+  const { register } = useFormContext();
 
   register(`${fieldPrefix}.${option.value}.${CROP_VARIETY_ID}`, {
     required: true,
@@ -43,7 +37,6 @@ function CropSaleItem({
           entityId={option.value}
           system={system}
           currency={currency}
-          reactHookFormFunctions={reactHookFormFunctions}
           disabledInput={disabledInput}
         />
       </div>
@@ -63,7 +56,6 @@ CropSaleItem.propTypes = {
   }).isRequired,
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  reactHookFormFunctions: PropTypes.object.isRequired,
   fieldPrefix: PropTypes.string.isRequired,
   disabledInput: PropTypes.bool.isRequired,
 };

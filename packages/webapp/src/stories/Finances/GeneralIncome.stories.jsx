@@ -15,9 +15,7 @@
 import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 import React, { useState } from 'react';
-import useCropSaleInputs, {
-  getCropSaleDefaultValues,
-} from '../../containers/Finances/useCropSaleInputs';
+import CropSaleInputs, { getCropSaleDefaultValues } from '../../containers/Finances/CropSaleInputs';
 
 const cropSale = {
   sale_id: 17,
@@ -104,7 +102,7 @@ const GeneralRevenueWithState = (props) => {
         handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
         onClick={isEditing ? undefined : () => setIsEditing(true)}
         buttonText={isEditing ? 'Save' : 'Edit'}
-        useCustomFormChildren={useCropSaleInputs}
+        CustomFormChildren={CropSaleInputs}
         customFormChildrenDefaultValues={
           selectedRevenueType.crop_generated ? getCropSaleDefaultValues(sale) : undefined
         }
@@ -132,7 +130,7 @@ AddCropSale.args = {
   dateLabel: 'Date',
   //useHookFormPersist: () => ({}),
   currency: '$',
-  useCustomFormChildren: useCropSaleInputs,
+  CustomFormChildren: CropSaleInputs,
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',

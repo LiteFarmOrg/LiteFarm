@@ -77,10 +77,13 @@ function useExternalLocations(
 
 function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = {}): any {
   const {
-    data: sensorData,
+    data: rawSensorData,
     isLoading: isLoadingSensors,
     isFetching: isFetchingSensors,
   } = useGetSensorsQuery();
+
+  // Deep clone to prevent mutating original data from cache
+  const sensorData = structuredClone(rawSensorData);
 
   const isLoading = isLoadingSensors;
   const isFetching = isFetchingSensors;

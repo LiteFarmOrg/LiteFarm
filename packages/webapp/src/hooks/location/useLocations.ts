@@ -76,21 +76,20 @@ export const clean = (location: InternalMapLocation): any => {
 };
 
 export const flatten = (location: any): FlattenedInternalMapLocation => {
-  const clone: InternalMapLocation = { ...location };
   let flattened = {} as any;
-  const locationType = clone.figure.type;
-  const figureType = getFigureType(clone.figure);
+  const locationType = location.figure.type;
+  const figureType = getFigureType(location.figure);
 
   // Copy over core values
-  for (const [key, value] of Object.entries(clone)) {
+  for (const [key, value] of Object.entries(location)) {
     if (key !== locationType && key !== 'figure') {
       flattened[key] = value;
     }
   }
 
   // Flatten location type payload (e.g. barn, field)
-  if (locationType && clone[locationType]) {
-    const payload = clone[locationType];
+  if (locationType && location[locationType]) {
+    const payload = location[locationType];
 
     // Keep properties, skipping location_id
     for (const [key, value] of Object.entries(payload)) {
@@ -101,8 +100,8 @@ export const flatten = (location: any): FlattenedInternalMapLocation => {
   }
 
   // Flatten figure into top level
-  if (clone.figure) {
-    const figure = clone.figure;
+  if (location.figure) {
+    const figure = location.figure;
     for (const [key, value] of Object.entries(figure)) {
       if (key !== figureType && key !== 'location_id') {
         flattened[key] = value;
@@ -168,7 +167,10 @@ function useLocations(
 function useLocations(
   { filterBy, groupBy, deleted }: UseInternalLocationProps = { deleted: false },
 ): any {
-  const { data: locations, isLoading, isFetching } = useGetLocationsQuery();
+  const { data: rawLocations, isLoading, isFetching } = useGetLocationsQuery();
+
+  // Deep clone to prevent mutating original data from cache
+  const locations = rawLocations?.map((rawLocation) => structuredClone(rawLocation));
 
   if (isLoading || !locations?.length) {
     return { locations, isLoading, isFetching };

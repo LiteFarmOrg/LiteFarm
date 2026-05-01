@@ -76,7 +76,7 @@ export const clean = (location: InternalMapLocation): any => {
 };
 
 export const flatten = (location: any): FlattenedInternalMapLocation => {
-  let flattened = {} as any;
+  const flattened = {} as any;
   const locationType = location.figure.type;
   const figureType = getFigureType(location.figure);
 

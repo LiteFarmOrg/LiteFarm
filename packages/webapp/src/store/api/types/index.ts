@@ -453,7 +453,7 @@ export enum TotalAreaUnit {
   AC = 'ac',
 }
 
-export enum PerimiterUnit {
+export enum PerimeterUnit {
   M = 'm',
   KM = 'km',
   FT = 'ft',
@@ -474,7 +474,7 @@ export interface Area {
   total_area: number;
   total_area_unit: TotalAreaUnit;
   perimeter: number;
-  perimeter_unit: PerimiterUnit;
+  perimeter_unit: PerimeterUnit;
 }
 
 export type AreaFigureDetails = WithFigureId<Area>;

@@ -17,14 +17,14 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { componentDecorators } from '../../config/Decorators';
 import AddSoilAmendmentProducts, {
-  type AddSoilAmendmentProductsProps,
+  AddSoilAmendmentProductsProps,
 } from '../../../../components/Task/AddSoilAmendmentProducts';
 import { soilAmendmentProductDetailsDefaultValues as defaultValues } from '../../../../containers/ProductInventory/ProductForm/constants';
 import { products } from './products';
 import {
   FigureType,
   InternalMapLocationType,
-  PerimiterUnit,
+  PerimeterUnit,
   TotalAreaUnit,
 } from '../../../../store/api/types';
 
@@ -92,7 +92,7 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
           },
         ],
         perimeter: 217,
-        perimeter_unit: PerimiterUnit.M,
+        perimeter_unit: PerimeterUnit.M,
         figure_id: '6caeac93-73b6-11ed-ac0f-7bd8b506ce4c',
         location_defaults: null,
         deleted: false,

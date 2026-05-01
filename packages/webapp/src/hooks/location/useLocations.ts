@@ -170,7 +170,7 @@ function useLocations(
   const { data: rawLocations, isLoading, isFetching } = useGetLocationsQuery();
 
   // Deep clone to prevent mutating original data from cache
-  const locations = rawLocations?.map((rawLocation) => structuredClone(rawLocation));
+  const locations = structuredClone(rawLocations);
 
   if (isLoading || !locations?.length) {
     return { locations, isLoading, isFetching };

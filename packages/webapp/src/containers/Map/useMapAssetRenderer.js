@@ -39,7 +39,7 @@ import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 import useLocations from '../../hooks/location/useLocations';
 import useExternalLocations from '../../hooks/location/useExternalLocations';
-import { GroupByOptions } from 'src/hooks/location/types';
+import { GroupByOptions } from '../../hooks/location/types';
 
 /**
  *

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { groupBy as lodashGroupBy } from 'lodash-es';
 import { useGetLocationsQuery } from '../../store/api/locationApi';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import {
@@ -27,6 +28,9 @@ import {
   UseLocationsPropsWithGroupBy,
   UseLocationsReturn,
 } from './types';
+
+// Polyfill for tests and older browsers
+const groupByFn = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
 
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
@@ -194,23 +198,27 @@ function useLocations(
   }
 
   if (groupBy === GroupByOptions.TYPE) {
-    const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedLocations = groupByFn(flattenedLocations, ({ type }) => type);
     return { locations: groupedLocations, isLoading, isFetching };
   }
 
   if (groupBy === GroupByOptions.FIGURE) {
-    const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedLocations = groupByFn(flattenedLocations, ({ figure_type }) => figure_type);
     return { locations: groupedLocations, isLoading, isFetching };
   }
 
   if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
     // First: group by figure type (area, line, point)
-    const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedByFigure = groupByFn(flattenedLocations, ({ figure_type }) => figure_type);
 
     // Second: for each figure group, group by location type
     const groupedLocations = Object.fromEntries(
       Object.entries(groupedByFigure).map(([figureType, locations]) => {
-        const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
+        // @ts-expect-error - todo - fix type inference for groupByFn
+        const groupedByLocationType = groupByFn(locations, ({ type }) => type);
         return [figureType, groupedByLocationType];
       }),
     );

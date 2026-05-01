@@ -121,10 +121,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     isLoading: isLoadingExternalLocations,
     isFetching: isFetchingExternalLocations,
   } = useExternalLocations({ groupBy: 'figure_and_type' });
-  const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
-  const isLocationsFetching = [isFetchingInternalLocations, isFetchingExternalLocations].some(
-    Boolean,
-  );
+  const isLocationsLoading = isLoadingInternalLocations || isLoadingExternalLocations;
+  const isLocationsFetching = isFetchingInternalLocations || isFetchingExternalLocations;
 
   const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };
   const lineAssets = { ...internalLocations?.line, ...externalLocations?.line };

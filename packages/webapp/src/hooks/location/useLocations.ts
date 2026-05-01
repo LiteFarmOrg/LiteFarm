@@ -166,63 +166,59 @@ function useLocations(
 ): any {
   const { data: locations, isLoading, isFetching } = useGetLocationsQuery();
 
-  if (isLoading) {
+  if (isLoading || !locations?.length) {
     return { locations, isLoading, isFetching };
   }
 
-  if (locations && locations.length) {
-    const activeLocations = deleted
-      ? locations
-      : locations.filter(({ deleted }) => deleted === false);
-    const cleanedLocations = activeLocations.map(clean);
-    const flattenedLocations = cleanedLocations.map(flatten);
+  const activeLocations = deleted
+    ? locations
+    : locations.filter(({ deleted }) => deleted === false);
+  const cleanedLocations = activeLocations.map(clean);
+  const flattenedLocations = cleanedLocations.map(flatten);
 
-    if (Array.isArray(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (filterBy && allLocationTypes.includes(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (filterBy && allFigureTypes.includes(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(
-        ({ figure_type }) => figure_type === filterBy,
-      );
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.TYPE) {
-      const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE) {
-      const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
-      // First: group by figure type (area, line, point)
-      const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
-
-      // Second: for each figure group, group by location type
-      const groupedLocations = Object.fromEntries(
-        Object.entries(groupedByFigure).map(([figureType, locations]) => {
-          const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
-          return [figureType, groupedByLocationType];
-        }),
-      );
-
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    return { locations: flattenedLocations, isLoading, isFetching };
+  if (Array.isArray(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
+    return { locations: filteredLocations, isLoading, isFetching };
   }
 
-  return { locations, isLoading, isFetching };
+  if (filterBy && allLocationTypes.includes(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
+    return { locations: filteredLocations, isLoading, isFetching };
+  }
+
+  if (filterBy && allFigureTypes.includes(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(
+      ({ figure_type }) => figure_type === filterBy,
+    );
+    return { locations: filteredLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.TYPE) {
+    const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE) {
+    const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
+    // First: group by figure type (area, line, point)
+    const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
+
+    // Second: for each figure group, group by location type
+    const groupedLocations = Object.fromEntries(
+      Object.entries(groupedByFigure).map(([figureType, locations]) => {
+        const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
+        return [figureType, groupedByLocationType];
+      }),
+    );
+
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  return { locations: flattenedLocations, isLoading, isFetching };
 }
 
 export default useLocations;

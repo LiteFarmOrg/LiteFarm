@@ -39,6 +39,7 @@ import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 import useLocations from '../../hooks/location/useLocations';
 import useExternalLocations from '../../hooks/location/useExternalLocations';
+import { GroupByOptions } from 'src/hooks/location/types';
 
 /**
  *
@@ -114,13 +115,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     isLoading: isLoadingInternalLocations,
     isFetching: isFetchingInternalLocations,
   } = useLocations({
-    groupBy: 'figure_and_type',
+    groupBy: GroupByOptions.FIGURE_AND_TYPE,
   });
   const {
     locations: externalLocations,
     isLoading: isLoadingExternalLocations,
     isFetching: isFetchingExternalLocations,
-  } = useExternalLocations({ groupBy: 'figure_and_type' });
+  } = useExternalLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
   const isLocationsLoading = isLoadingInternalLocations || isLoadingExternalLocations;
   const isLocationsFetching = isFetchingInternalLocations || isFetchingExternalLocations;
 

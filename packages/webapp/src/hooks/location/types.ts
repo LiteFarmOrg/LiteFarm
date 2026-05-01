@@ -189,6 +189,7 @@ export type UseLocationsPropsWithGroupBy = {
 export type UseLocationsReturn<T> = {
   locations: T;
   isLoading: boolean;
+  isFetching: boolean;
 };
 
 type MapLocation = FlattenedInternalMapLocation | ExternalMapLocation;

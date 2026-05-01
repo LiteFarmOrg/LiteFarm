@@ -38,10 +38,10 @@ function useLocationsById(
     | undefined,
   options: useLocationsByIdOptions = { deleted: false },
 ): UseLocationsReturn<FlattenedInternalMapLocation[] | FlattenedInternalMapLocation | undefined> {
-  const { locations, isLoading } = useLocations({ deleted: options.deleted });
+  const { locations, isLoading, isFetching } = useLocations({ deleted: options.deleted });
 
   if (isLoading || !locations || !locationIds) {
-    return { locations, isLoading };
+    return { locations, isLoading, isFetching };
   }
 
   const filteredLocations = locations.filter(({ location_id }) =>
@@ -51,6 +51,7 @@ function useLocationsById(
   return {
     locations: Array.isArray(locationIds) ? filteredLocations : filteredLocations?.[0],
     isLoading,
+    isFetching,
   };
 }
 

@@ -1,9 +1,8 @@
-import React from 'react';
 import PureCropManagement from '../../../components/Crop/Management';
 import decorator from '../config/Decorators';
 import { Abandoned, Active, Completed, Planned } from '../../Card/ManagementPlanCard.stories';
 import { chromaticSmallScreen } from '../config/chromatic';
-import { commonArgs, planBaseContents } from '../../Modal/CropPlansModal.stories';
+import { commonArgs, planBaseContents } from '../../Modal/constants';
 
 export default {
   title: 'Form/Crop/Management',

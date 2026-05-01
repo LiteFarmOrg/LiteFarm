@@ -1005,6 +1005,27 @@
       "WIDTH": "Watercourse width"
     }
   },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "Add a note",
+    "ATTACH_PHOTO": "Attach a photo",
+    "CANCEL": "Cancel",
+    "COLLAPSE": "Collapse note",
+    "DELETE_CONFIRMATION": {
+      "BODY": "Are you sure you want to delete this note? This action cannot be undone.",
+      "TITLE": "Delete note"
+    },
+    "DELETE_NOTE": "Delete note",
+    "EDIT_NOTE": "Edit note",
+    "EMPTY_STATE": "You do not have any notes",
+    "EXPIRATION_WARNING": "Notes will be deleted automatically after 30 days",
+    "FARM_NOTES": "Farm notes",
+    "HAS_UNREAD_NOTES": "Has unread notes",
+    "NEW_NOTE": "New note",
+    "NOTE_LABEL": "Note",
+    "NOTE_PLACEHOLDER": "Type in your note",
+    "PRIVATE_NOTE": "Private note",
+    "SAVE_NOTE": "Save note"
+  },
   "FARM_SETTINGS": {
     "TABS": {
       "ADDONS": "Addons",
@@ -1090,7 +1111,7 @@
     "OVER_255_CHARS": "Text cannot exceed 255 characters"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Upload screenshot or file",
+    "ATTACHMENT_LABEL": "Upload screenshot",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
     "MESSAGE_LABEL": "Message",
@@ -1115,6 +1136,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} others",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": "Or press \"Esc\" to close"
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "Photo library",
+    "TAKE_PHOTO": "Take photo"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1166,7 +1194,9 @@
     "TAPE": {
       "COMPLETED": "Completed - See your results",
       "IN_PROGRESS": "In progress",
+      "LOAD_ERROR": "Failed to load survey. Please try again later.",
       "NOT_FILLED": "Not filled",
+      "RESULTS_LOAD_ERROR": "Failed to load results. Please try again later.",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
@@ -2200,6 +2230,7 @@
     "CLICK_TO_UPLOAD": "Click to upload",
     "DRAG_DROP": "or drag and drop",
     "REMOVE_IMAGE": "Remove Image",
+    "UNSUPPORTED_FILE_TYPE": "Please upload a PNG, JPG, GIF, or WebP image",
     "UPLOAD_IMAGE": "Upload Image"
   },
   "WAGE": {

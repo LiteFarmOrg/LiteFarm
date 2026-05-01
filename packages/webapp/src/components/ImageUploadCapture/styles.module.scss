@@ -1,0 +1,148 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* picker tiles row */
+.body {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 4px;
+  background: var(--Box-bg);
+}
+
+/* desktop drop zone (no preview) */
+.dragDropZone {
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
+/* when an image is selected */
+.bodyWithPreview {
+  gap: 16px;
+  justify-content: stretch;
+}
+
+/* active drag-over highlight */
+.dropContainerActive {
+  background-color: var(--teal100);
+  border: 1px solid var(--teal500);
+}
+
+/* "or drag and drop" label (desktop only) */
+.dragDropLabel {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: center;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+/* individual tile */
+.photoBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 104px;
+  min-height: 88px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+/* icon box */
+.photoBtnIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background-color: var(--White);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-600));
+}
+
+.photoBtnWrapper:hover .photoBtnIcon {
+  background-color: var(--Colors-Primary-Primary-teal-200);
+  border-color: var(--Colors-Primary-Primary-teal-50);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+}
+
+.photoBtnWrapper:active .photoBtnIcon {
+  background-color: var(--Colors-Primary-Primary-teal-700);
+  border-color: var(--Colors-Primary-Primary-teal-700);
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-200));
+}
+
+.photoBtnLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--Colors-Primary-Primary-teal-600);
+  text-align: center;
+  line-height: 24px;
+}
+
+.preview {
+  min-width: 108px;
+  max-width: 154px;
+  max-height: 154px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-300);
+}
+
+.previewActions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  height: 48px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--Colors-Primary-Primary-teal-50);
+
+  @include fontFamily();
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  color: var(--Colors-Neutral-Neutral-900);
+  @include svgColorFill(var(--Colors-Neutral-Neutral-900));
+}

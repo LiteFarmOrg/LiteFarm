@@ -36,10 +36,12 @@
   --border: 1px solid var(--Colors-Neutral-Neutral-200);
   --color: var(--Colors-Neutral-Neutral-500);
 
+  --hover-background: var(--White);
   --hover-border: 1px solid var(--Colors-Neutral-Neutral-500);
   --hover-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
   --hover-color: var(--Colors-Neutral-Neutral-500);
 
+  --active-background: var(--White);
   --active-border: 1px solid var(--Colors-Neutral-Neutral-900);
   --active-color: var(--Colors-Neutral-Neutral-900);
 
@@ -75,6 +77,38 @@
   --active-color: var(--Colors-Accent-Accent-yellow-100);
 
   --focus-outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
+  --focus-box-shadow: none;
+}
+
+.btn.secondary-red {
+  --background: var(--White);
+  --border: 1px solid #ffa9a6;
+  --color: var(--Colors-Accent---singles-Red-full);
+
+  --hover-background: var(--White);
+  --hover-border: 1px solid var(--Colors-Accent---singles-Red-full);
+  --hover-box-shadow: 0px 1px 2px 0px var(--Colors-Neutral-Neutral-500);
+  --hover-color: var(--Colors-Accent---singles-Red-full);
+
+  --active-background: var(--Colors-Accent---singles-Red-light, #ffdad9);
+  --active-border: 1px solid var(--Colors-Accent---singles-Red-full);
+  --active-color: var(--Colors-Accent---singles-Red-full);
+
+  --focus-border: 1px solid #ffa9a6;
+  --focus-outline: none;
+  --focus-box-shadow: none;
+}
+
+.btn.link-btn {
+  --background: none;
+  --border: none;
+  --color: var(--Colors-Neutral-Neutral-500);
+
+  --hover-color: var(--Colors-Neutral-Neutral-800);
+
+  --active-color: var(--Colors-Neutral-Neutral-900);
+
+  --focus-outline: 2px solid var(--Colors-Neutral-Neutral-500, #66738a);
   --focus-box-shadow: none;
 }
 

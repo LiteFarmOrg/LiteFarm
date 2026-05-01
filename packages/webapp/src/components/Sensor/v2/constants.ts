@@ -30,6 +30,6 @@ export const SUPPORTED_DEVICE_TYPES = [
 // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
 // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
 
-export const getDeviceType = (key: string) => {
+export const getSensorDeviceTypeLabel = (key: string) => {
   return SUPPORTED_DEVICE_TYPES.includes(key) ? i18n.t(`SENSOR.DEVICE_TYPES.${key}`) : key;
 };

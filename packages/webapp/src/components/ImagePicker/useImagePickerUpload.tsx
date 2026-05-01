@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { uploadImage } from '../../containers/ImagePickerWrapper/saga';
+import { isImageFile } from '../../util/validation';
 import { FileEvent, OnFileUpload } from '.';
 
 export type GetOnFileUpload = (
@@ -75,9 +76,8 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
         const onUploadFail = getOnUploadFail(onLoading);
         const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage);
 
-        const isNotImage = !/^image\/.*/.test(blob.type);
-        if (isNotImage) {
-          dispatch(enqueueErrorSnackbar(t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+        if (!isImageFile(blob)) {
+          dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
           onUploadFail('Not an image file');
         } else {
           if (blob.size > 5e6) {

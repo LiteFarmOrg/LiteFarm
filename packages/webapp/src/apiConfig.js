@@ -101,6 +101,9 @@ export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
 export const supportTicketUrl = `${URI}/support_ticket`;
 export const logUserInfoUrl = `${URI}/userLog`;
 export const offlineEventLogUrl = `${URI}/offline_event_log`;
+export const tapeSurveyUrl = `${URI}/tape_survey`;
+export const farmNoteUrl = `${URI}/farm_notes`;
+export const farmNotesReadUrl = `${URI}/farm_notes_read`;
 
 export const url = URI;
 
@@ -167,5 +170,7 @@ export default {
   weatherUrl,
   marketDirectoryInfoUrl,
   marketDirectoryPartnersUrl,
+  farmNoteUrl,
+  farmNotesReadUrl,
   url,
 };

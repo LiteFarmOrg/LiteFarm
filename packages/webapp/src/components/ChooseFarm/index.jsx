@@ -17,6 +17,7 @@ export default function PureChooseFarmScreen({
   onFilterChange,
   isSearchable,
   disabled,
+  isSubmitting,
   title = 'Choose your farm',
 }) {
   const { t } = useTranslation(['translation', 'common']);
@@ -35,11 +36,16 @@ export default function PureChooseFarmScreen({
       buttonGroup={
         <>
           {!isOnBoarding && (
-            <Button onClick={onGoBack} color={'secondary'} fullLength>
+            <Button onClick={onGoBack} color={'secondary'} fullLength disabled={isSubmitting}>
               {t('common:GO_BACK')}
             </Button>
           )}
-          <Button data-cy="chooseFarm-proceed" onClick={onProceed} fullLength disabled={disabled}>
+          <Button
+            data-cy="chooseFarm-proceed"
+            onClick={onProceed}
+            fullLength
+            disabled={disabled || isSubmitting}
+          >
             {t('common:PROCEED')}
           </Button>
         </>
@@ -106,5 +112,6 @@ PureChooseFarmScreen.prototype = {
   isSearchable: PropTypes.bool,
   onFilterChange: PropTypes.func,
   disabled: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   title: PropTypes.string,
 };

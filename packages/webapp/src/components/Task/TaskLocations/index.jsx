@@ -173,7 +173,12 @@ export default function PureTaskLocations({
             classes={{ container: styles.switchContainer }}
           />
         )}
-        <div className={styles.dropdownLocationPickerContainer}>
+        <div
+          className={clsx(
+            styles.dropdownLocationPickerContainer,
+            isAnimalTask && styles.fullWidthPadding,
+          )}
+        >
           <DropdownLocationPicker
             locations={locations}
             isMulti={isMulti}

@@ -29,7 +29,7 @@ import {
   AnimalSummary,
   BatchSummary,
 } from '../../../components/Animals/AddAnimalsSummaryCard/types';
-import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../Inventory/useAnimalInventory';
+import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../utils';
 
 export const ANIMAL_COUNT_LIMIT = 1000;
 export const BATCH_COUNT_LIMIT = 1000000000;

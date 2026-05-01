@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import type { RootState } from '../store/store';
 import { AxiosError } from 'axios';
 import { CONSENT_VERSION } from '../util/constants';
+import { getFirstNameWithLastInitial } from '../util';
 
 export interface Units {
   currency: string;
@@ -102,6 +103,7 @@ const userFarmSlice = createSlice({
     onLoadingUserFarmsFail: onLoadingFail,
     loginSuccess: (state, { payload: { user_id } }) => {
       state.user_id = user_id;
+      state.farm_id = undefined;
     },
     selectFarmSuccess: (state, { payload: { farm_id } }) => {
       state.farm_id = farm_id;
@@ -313,3 +315,14 @@ export const getUserFarmSelector = (farmId: string, userId: string) => {
     byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {},
   );
 };
+
+export const userDisplayNameMapSelector = createSelector(userFarmsByFarmSelector, (users) => {
+  return users.reduce<Record<UserFarm['user_id'], string>>((userMap, user) => {
+    userMap[user.user_id] = getFirstNameWithLastInitial(user);
+    return userMap;
+  }, {});
+});
+
+export const currentFarmIdSelector = createSelector(userFarmSelector, (userFarm) =>
+  'farm_id' in userFarm ? (userFarm?.farm_id as string) : undefined,
+);

@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 
 COPY ./webapp/package.json ./webapp/.npmrc ./webapp/pnpm-lock.yaml /usr/src/app/
 
+COPY ./webapp/patches/ /usr/src/app/patches/
+
 RUN npm install pnpm@10.6.5 -g && pnpm install
 
 COPY ./webapp/ /usr/src/app/

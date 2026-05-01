@@ -20,34 +20,27 @@
   gap: 48px;
 }
 
-.sectionContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.titleText {
-  padding-inline: 32px;
+.chartContainerWrapper {
+  overflow-x: auto;
 }
 
 .chartContainer {
   height: 500px;
-  width: 100%;
+  width: calc(100% - 4px); // This makes the chart responsive
+  min-width: 400px;
+  margin-top: 24px;
 }
 
-.buttonContainer {
-  padding-inline: 32px;
+.tapeSurveyContainer {
+  height: 100%;
 
-  .editIcon {
-    margin-left: 4px;
-    width: 16px;
+  &.compactSideMenu {
+    :global(.sv-save-data_root) {
+      margin-left: calc(var(--global-compact-side-menu-width) / 2);
+    }
   }
-}
 
-.stepTwoButtonContainer {
-  padding-left: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
+  :global(.sv-save-data_root) {
+    margin-left: calc(var(--global-side-menu-width) / 2);
+  }
 }

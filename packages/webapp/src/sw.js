@@ -19,7 +19,8 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, NetworkOnly } from 'workbox-strategies';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
 
@@ -47,6 +48,30 @@ async function validatePrecacheIntegrity() {
     return { isComplete: false };
   }
 }
+
+// Assets omitted from precache, but cached on first fetch for fast subsequent loads
+registerRoute(
+  ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
+  new CacheFirst({ cacheName: 'dynamic-chunks' }),
+);
+
+// Farm note images served through the Cloudflare Worker proxy (beta/prod) or minio (dev)
+registerRoute(
+  ({ url, request }) =>
+    request.method === 'GET' &&
+    (url.hostname === 'images.litefarm.workers.dev' || url.pathname.includes('minio')) &&
+    url.pathname.includes('/farm_note/'),
+  new CacheFirst({
+    cacheName: 'farm-note-images',
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
 
 // SPA navigation handler
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
@@ -124,6 +149,23 @@ const RETRY_ROUTES = [
   {
     matcher: ({ url }) => url.pathname.includes('/task/'),
     method: 'DELETE',
+  },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_notes'),
+    method: 'POST',
+  },
+  {
+    // This matcher will include farm_notes/{uuid} paths
+    matcher: ({ url }) => url.pathname.includes('/farm_notes/'),
+    method: 'PATCH',
+  },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_notes/'),
+    method: 'DELETE',
+  },
+  {
+    matcher: ({ url }) => url.pathname.includes('/farm_notes_read'),
+    method: 'PATCH',
   },
 ];
 

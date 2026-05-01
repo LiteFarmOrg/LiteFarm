@@ -408,6 +408,21 @@ export interface SupportTicketData {
   };
 }
 
+export interface FarmNote {
+  id: string;
+  farm_id: string;
+  user_id: string;
+  note: string;
+  is_private: boolean;
+  image_url?: string | null;
+  updated_at: string;
+  to_sync?: boolean; // client-only flag for offline-queued notes
+}
+
+export interface FarmNotesRead {
+  read_up_to: string | null;
+}
+
 export enum InternalMapLocationType {
   BARN = 'barn',
   BUFFER_ZONE = 'buffer_zone',

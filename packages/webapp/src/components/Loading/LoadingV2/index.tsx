@@ -93,7 +93,6 @@ export function LoadingBackdrop({
         top: 'var(--global-navbar-height)',
         zIndex: (theme: any) => theme.zIndex.appBar + 2,
         backgroundColor: 'rgba(246, 251, 250, 0.80)',
-        pointerEvents: 'none', // ← remove if you want to block clicks
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

@@ -79,10 +79,10 @@ export function LoadingBackdrop({
 
   const customStyles = isCompactSideMenu
     ? {
-        width: 'calc(100vw + var(--global-compact-side-menu-width))',
+        paddingLeft: 'var(--global-compact-side-menu-width)',
       }
     : {
-        width: 'calc(100vw + var(--global-side-menu-width))',
+        paddingLeft: 'var(--global-side-menu-width)',
       };
 
   return (

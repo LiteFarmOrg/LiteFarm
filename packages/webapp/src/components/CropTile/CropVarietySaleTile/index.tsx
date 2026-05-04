@@ -18,9 +18,9 @@ import PureCropTile from '../index';
 import styles from '../styles.module.scss';
 
 export interface CropVarietySaleTileData {
-  crop_variety_name?: string | null;
+  crop_variety_name: string;
   crop_translation_key: string;
-  crop_variety_photo_url?: string | null;
+  crop_variety_photo_url: string;
 }
 
 interface CropVarietySaleTileProps {
@@ -35,7 +35,7 @@ export default function CropVarietySaleTile({ cropVariety }: CropVarietySaleTile
 
   return (
     <PureCropTile src={crop_variety_photo_url} alt={title} title={title}>
-      {crop_variety_name && <span className={styles.cropSubtitle}>{translatedCropName}</span>}
+      <span className={styles.cropSubtitle}>{translatedCropName}</span>
     </PureCropTile>
   );
 }

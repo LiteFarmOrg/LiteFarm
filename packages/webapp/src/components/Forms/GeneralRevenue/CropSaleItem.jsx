@@ -46,9 +46,9 @@ function CropSaleItem({
 
 CropSaleItem.propTypes = {
   cropVariety: PropTypes.shape({
-    crop_variety_name: PropTypes.string,
+    crop_variety_name: PropTypes.string.isRequired,
     crop_translation_key: PropTypes.string.isRequired,
-    crop_variety_photo_url: PropTypes.string,
+    crop_variety_photo_url: PropTypes.string.isRequired,
   }).isRequired,
   entityId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   system: PropTypes.string.isRequired,

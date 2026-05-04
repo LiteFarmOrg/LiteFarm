@@ -13,18 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { addTableEnumConstraintSql, dropTableEnumConstraintSql } from '../util.js';
+
 export const up = async function (knex) {
   // Step 1: Add entity_type column with default 'none'
   await knex.schema.alterTable('revenue_type', (table) => {
-    table.string('entity_type', 8).notNullable().defaultTo('none');
+    table.string('entity_type').notNullable().defaultTo('none');
   });
 
   // Step 2: Backfill entity_type for existing crop-generated revenue types
   await knex('revenue_type').where({ crop_generated: true }).update({ entity_type: 'crop' });
 
   // Step 3: Add CHECK constraint and drop the old columns
+  await knex.raw(
+    addTableEnumConstraintSql('revenue_type', 'entity_type', ['none', 'crop', 'animal']),
+  );
   await knex.schema.alterTable('revenue_type', (table) => {
-    table.check(`entity_type in ('none', 'crop', 'animal')`, [], 'entity_type_check');
     table.dropColumn('crop_generated');
     table.dropColumn('agriculture_associated');
   });
@@ -55,7 +59,7 @@ export const up = async function (knex) {
     table.integer('animal_id').nullable().references('id').inTable('animal');
     table.integer('animal_batch_id').nullable().references('id').inTable('animal_batch');
     table.float('quantity');
-    table.string('quantity_unit', 32);
+    table.enu('quantity_unit', ['kg', 'mt', 'lb', 't']).defaultTo('kg');
     table.float('sale_value');
     table.check(
       `(animal_id IS NOT NULL AND animal_batch_id IS NULL) OR (animal_id IS NULL AND animal_batch_id IS NOT NULL)`,
@@ -82,9 +86,7 @@ export const down = async function (knex) {
   await knex('revenue_type').where({ entity_type: 'crop' }).update({ crop_generated: true });
 
   // Step 5: Drop entity_type CHECK constraint and column
-  await knex.schema.alterTable('revenue_type', (table) => {
-    table.dropChecks('entity_type_check');
-  });
+  await knex.raw(dropTableEnumConstraintSql('revenue_type', 'entity_type'));
   await knex.schema.alterTable('revenue_type', (table) => {
     table.dropColumn('entity_type');
   });

@@ -81,11 +81,11 @@
 
 .icon {
   margin-right: 4px;
-  fill: var(--teal700)
+  fill: var(--teal700);
 }
 
 .pastIcon {
-  fill: var(--teal900)
+  fill: var(--teal900);
 }
 
 .cropCountContainer {
@@ -112,12 +112,7 @@
 }
 
 .cropSubtitle {
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 16px;
-  margin: 2px 0;
-}
-
-.cropSubtitleText {
   font-size: 12px;
+  line-height: 16px;
+  margin: 4px 0;
 }

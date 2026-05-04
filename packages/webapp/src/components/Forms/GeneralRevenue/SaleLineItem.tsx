@@ -48,7 +48,7 @@ function SaleLineItem({
 
   return (
     <>
-      {/* @ts-expect-error Unit is a legacy JS component without complete type declarations */}
+      {/* @ts-expect-error */}
       <Unit
         label={t('common:QUANTITY')}
         register={register}

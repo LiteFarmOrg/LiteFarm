@@ -34,16 +34,8 @@ export default function CropVarietySaleTile({ cropVariety }: CropVarietySaleTile
   const title = crop_variety_name || translatedCropName;
 
   return (
-    <PureCropTile
-      src={crop_variety_photo_url ?? undefined}
-      alt={crop_translation_key.toLowerCase()}
-      title={title}
-    >
-      {crop_variety_name && (
-        <div className={styles.cropSubtitle}>
-          <div className={styles.cropSubtitleText}>{translatedCropName}</div>
-        </div>
-      )}
+    <PureCropTile src={crop_variety_photo_url} alt={title} title={title}>
+      {crop_variety_name && <span className={styles.cropSubtitle}>{translatedCropName}</span>}
     </PureCropTile>
   );
 }

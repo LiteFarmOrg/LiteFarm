@@ -115,26 +115,26 @@ describe('Revenue Type Tests', () => {
     return { mainFarm, user };
   }
 
-  async function returnRevenueType(mainFarm) {
+  async function returnRevenueType(mainFarm, entity_type = 'none') {
     const [revenue_type] = await mocks.revenue_typeFactory({
       promisedFarm: [mainFarm],
-      properties: { entity_type: 'none' },
+      properties: { entity_type },
     });
     return { revenue_type };
   }
 
-  async function returnDefaultRevenueType() {
+  async function returnDefaultRevenueType(entity_type = 'none') {
     const defaultFarm = mocks.farmFactory();
     defaultFarm.farm_id = null;
     const [revenue_type] = await mocks.revenue_typeFactory({
       promisedFarm: [defaultFarm],
-      properties: { entity_type: 'none' },
+      properties: { entity_type },
     });
     return { revenue_type };
   }
 
-  function getFakeRevenueType(farm_id) {
-    const revenue = mocks.fakeRevenueType({ entity_type: 'none' });
+  function getFakeRevenueType(farm_id, entity_type = 'none') {
+    const revenue = mocks.fakeRevenueType({ entity_type });
     return { ...revenue, farm_id };
   }
 
@@ -151,40 +151,57 @@ describe('Revenue Type Tests', () => {
 
   // POST TESTS
   describe('Post revenue type tests', () => {
-    test('Owner should post revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue_type = getFakeRevenueType(mainFarm.farm_id);
+    test('Admin users should post revenue type', async () => {
+      const roles = [1, 2, 5];
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const revenue_type = getFakeRevenueType(mainFarm.farm_id);
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
-        user_id: user.user_id,
-        farm_id: mainFarm.farm_id,
-      });
+        const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
 
-      expect(res.status).toBe(201);
-      const revenue_types = await revenueTypeModel
-        .query()
-        .context({ showHidden: true })
-        .where('farm_id', mainFarm.farm_id);
-      expect(revenue_types.length).toBe(1);
-      expect(revenue_types[0].value).toBe(revenue_type.value);
+        expect(res.status).toBe(201);
+        const revenue_types = await revenueTypeModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', mainFarm.farm_id);
+        expect(revenue_types.length).toBe(1);
+        expect(revenue_types[0].value).toBe(revenue_type.value);
+      }
     });
 
-    test('Manager should post revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(2);
-      const revenue_type = getFakeRevenueType(mainFarm.farm_id);
+    test('Accepts entity_type none, crop, and animal', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      for (const entity_type of ['none', 'crop', 'animal']) {
+        const revenue_type = {
+          ...mocks.fakeRevenueType({ entity_type }),
+          farm_id: mainFarm.farm_id,
+        };
+        const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+        expect(res.status).toBe(201);
+        expect(res.body.entity_type).toBe(entity_type);
+      }
+    });
+
+    test('Rejects invalid entity_type value with 400', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const revenue_type = {
+        ...mocks.fakeRevenueType({ entity_type: 'invalid_value' }),
+        farm_id: mainFarm.farm_id,
+      };
 
       const res = await postRevenueTypeRequestAsPromise(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
 
-      expect(res.status).toBe(201);
-      const revenue_types = await revenueTypeModel
-        .query()
-        .context({ showHidden: true })
-        .where('farm_id', mainFarm.farm_id);
-      expect(revenue_types.length).toBe(1);
-      expect(revenue_types[0].value).toBe(revenue_type.value);
+      expect(res.status).toBe(400);
     });
 
     test('Worker should get 403 if they try to post revenue type', async () => {
@@ -221,30 +238,30 @@ describe('Revenue Type Tests', () => {
 
   // GET TESTS
   describe('Get revenue type tests', () => {
-    test('Owner should get revenue type by farm id (or null)', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue = await returnRevenueType(mainFarm);
+    test('Admin users should get revenue type by farm id (or null)', async () => {
+      const roles = [1, 2, 5];
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const revenue = await returnRevenueType(mainFarm);
 
-      const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
-      expect(res.status).toBe(200);
-      const farmType = res.body.find(
-        (rt) => rt.revenue_type_id === revenue.revenue_type.revenue_type_id,
-      );
-      expect(farmType).toBeDefined();
-      expect(farmType.farm_id).toBe(revenue.revenue_type.farm_id);
+        const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+        expect(res.status).toBe(200);
+        const farmType = res.body.find(
+          (rt) => rt.revenue_type_id === revenue.revenue_type.revenue_type_id,
+        );
+        expect(farmType).toBeDefined();
+        expect(farmType.farm_id).toBe(revenue.revenue_type.farm_id);
+      }
     });
 
-    test('manager should get revenue type by farm id (or null)', async () => {
-      const { mainFarm, user } = await returnUserFarms(2);
-      const revenue = await returnRevenueType(mainFarm);
+    test('Response includes entity_type', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      await returnRevenueType(mainFarm);
 
       const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+
       expect(res.status).toBe(200);
-      const farmType = res.body.find(
-        (rt) => rt.revenue_type_id === revenue.revenue_type.revenue_type_id,
-      );
-      expect(farmType).toBeDefined();
-      expect(farmType.farm_id).toBe(revenue.revenue_type.farm_id);
+      expect(res.body[0]).toHaveProperty('entity_type');
     });
 
     test('Worker should get revenue type by farm id (or null)', async () => {
@@ -449,40 +466,25 @@ describe('Revenue Type Tests', () => {
 
   // Update revenue type
   describe('Update revenue type tests', () => {
-    test('Owner should update revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue = await returnRevenueType(mainFarm);
+    test('Admin users should update revenue type', async () => {
+      const roles = [1, 2, 5];
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const revenue = await returnRevenueType(mainFarm);
 
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
-        user_id: user.user_id,
-        farm_id: mainFarm.farm_id,
-      });
+        const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
 
-      expect(res.status).toBe(204);
-      const revenue_types = await revenueTypeModel
-        .query()
-        .context({ showHidden: true })
-        .where('farm_id', mainFarm.farm_id);
-      expect(revenue_types.length).toBe(1);
-      expect(revenue_types[0].value).toBe(revenue.revenue_type.value);
-    });
-
-    test('Manager should update revenue type', async () => {
-      const { mainFarm, user } = await returnUserFarms(2);
-      const revenue = await returnRevenueType(mainFarm);
-
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
-        user_id: user.user_id,
-        farm_id: mainFarm.farm_id,
-      });
-
-      expect(res.status).toBe(204);
-      const revenue_types = await revenueTypeModel
-        .query()
-        .context({ showHidden: true })
-        .where('farm_id', mainFarm.farm_id);
-      expect(revenue_types.length).toBe(1);
-      expect(revenue_types[0].value).toBe(revenue.revenue_type.value);
+        expect(res.status).toBe(204);
+        const revenue_types = await revenueTypeModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', mainFarm.farm_id);
+        expect(revenue_types.length).toBe(1);
+        expect(revenue_types[0].value).toBe(revenue.revenue_type.value);
+      }
     });
 
     test('Worker should get 403 if they try to update revenue type', async () => {
@@ -515,49 +517,18 @@ describe('Revenue Type Tests', () => {
         'User does not have the following permission(s): edit:revenue_types',
       );
     });
-  });
 
-  describe('entity_type field tests', () => {
-    test('GET response includes entity_type and not crop_generated', async () => {
+    test.only('entity_type should not be updated', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
-      await returnRevenueType(mainFarm);
+      const revenue = await returnRevenueType(mainFarm, 'crop');
 
-      const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
-
-      expect(res.status).toBe(200);
-      expect(res.body[0]).toHaveProperty('entity_type');
-      expect(res.body[0]).not.toHaveProperty('crop_generated');
-      expect(res.body[0]).not.toHaveProperty('agriculture_associated');
-    });
-
-    test('POST accepts entity_type none, crop, and animal', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-
-      for (const entity_type of ['none', 'crop', 'animal']) {
-        const revenue_type = {
-          ...mocks.fakeRevenueType({ entity_type }),
-          farm_id: mainFarm.farm_id,
-        };
-        const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await patchRevenueTypeRequestAsPromise(
+        { ...revenue.revenue_type, entity_type: 'animal' },
+        {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-        });
-        expect(res.status).toBe(201);
-        expect(res.body.entity_type).toBe(entity_type);
-      }
-    });
-
-    test('POST rejects invalid entity_type value with 400', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue_type = {
-        ...mocks.fakeRevenueType({ entity_type: 'invalid_value' }),
-        farm_id: mainFarm.farm_id,
-      };
-
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
-        user_id: user.user_id,
-        farm_id: mainFarm.farm_id,
-      });
+        },
+      );
 
       expect(res.status).toBe(400);
     });

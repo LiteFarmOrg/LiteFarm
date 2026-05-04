@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
-import { CROP_VARIETY_SALE } from '../../components/Forms/GeneralRevenue/constants';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -45,9 +44,8 @@ Primary.args = {
     crop_variety_photo_url:
       'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apple.webp',
   },
-  entityId: '51cee7c8-58b9-11ee-8cb8-ce0b8496eaaa',
+  cropVarietyId: '51cee7c8-58b9-11ee-8cb8-ce0b8496eaaa',
   system: 'metric',
   currency: '$',
-  fieldPrefix: CROP_VARIETY_SALE,
   disabledInput: false,
 };

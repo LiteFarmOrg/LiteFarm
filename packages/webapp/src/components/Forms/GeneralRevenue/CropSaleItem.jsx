@@ -15,26 +15,19 @@
 
 import CropVarietySaleTile from '../../CropTile/CropVarietySaleTile';
 import SaleLineItem from './SaleLineItem';
+import { CROP_VARIETY_SALE, CROP_VARIETY_ID } from './constants';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 
-function CropSaleItem({
-  cropVariety,
-  entityId,
-  system,
-  currency,
-  fieldPrefix,
-  entityIdFieldKey,
-  disabledInput,
-}) {
+function CropSaleItem({ cropVariety, cropVarietyId, system, currency, disabledInput }) {
   return (
     <div className={styles.saleItemContainer}>
       <CropVarietySaleTile cropVariety={cropVariety} />
       <div className={styles.saleItemInputGroup}>
         <SaleLineItem
-          fieldPrefix={fieldPrefix}
-          entityId={entityId}
-          entityIdFieldKey={entityIdFieldKey}
+          fieldPrefix={CROP_VARIETY_SALE}
+          entityId={cropVarietyId}
+          entityIdFieldKey={CROP_VARIETY_ID}
           system={system}
           currency={currency}
           disabledInput={disabledInput}
@@ -50,11 +43,9 @@ CropSaleItem.propTypes = {
     crop_translation_key: PropTypes.string.isRequired,
     crop_variety_photo_url: PropTypes.string.isRequired,
   }).isRequired,
-  entityId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  cropVarietyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  fieldPrefix: PropTypes.string.isRequired,
-  entityIdFieldKey: PropTypes.string.isRequired,
   disabledInput: PropTypes.bool.isRequired,
 };
 

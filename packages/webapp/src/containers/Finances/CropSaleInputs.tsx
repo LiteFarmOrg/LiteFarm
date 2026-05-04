@@ -14,26 +14,30 @@
  */
 
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   CROP_VARIETY_SALE,
   CROP_VARIETY_ID,
 } from '../../components/Forms/GeneralRevenue/constants';
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
-import EntitySaleInputs from './EntitySaleInputs';
+import EntitySaleInputs, { EntitySaleOption } from './EntitySaleInputs';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
+import type { RevenueType } from './types';
+import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect/index';
 
-export const getCropSaleDefaultValues = (sale) => {
-  const existingSales = sale?.crop_variety_sale?.reduce(
+export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
+  const existingSales = sale?.crop_variety_sale?.reduce<
+    Record<number, Omit<CropVarietySaleRecord, 'quantity_unit'> & { quantity_unit?: SelectOption }>
+  >(
     (acc, cur) => ({
       ...acc,
       [cur.crop_variety_id]: {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
         quantity_unit: cur.quantity_unit
-          ? (getUnitOptionMap()[cur.quantity_unit] ?? {
+          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
               label: cur.quantity_unit,
               value: cur.quantity_unit,
             })
@@ -48,7 +52,30 @@ export const getCropSaleDefaultValues = (sale) => {
   };
 };
 
-export default function CropSaleInputs({ sale, disabledInput, revenueTypes, selectedTypeOption }) {
+interface CropVarietySaleRecord {
+  crop_variety_id: number;
+  quantity: number;
+  quantity_unit: string | undefined;
+  sale_value: number;
+}
+
+interface CropSale {
+  crop_variety_sale?: CropVarietySaleRecord[];
+}
+
+interface CropSaleInputsProps {
+  sale?: CropSale;
+  disabledInput: boolean;
+  revenueTypes?: RevenueType[];
+  selectedTypeOption?: SelectOption;
+}
+
+export default function CropSaleInputs({
+  sale,
+  disabledInput,
+  revenueTypes,
+  selectedTypeOption,
+}: CropSaleInputsProps) {
   const { t } = useTranslation();
   const managementPlans = useSelector((state) =>
     selectManagementPlansForSale(state, sale?.crop_variety_sale),
@@ -62,12 +89,12 @@ export default function CropSaleInputs({ sale, disabledInput, revenueTypes, sele
   // will switch to entity_type === 'crop' in the animal sale wire-up PR (LF-5274).
   const isActive = !!selectedRevenueType?.crop_generated;
 
-  const options = useMemo(() => {
+  const options = useMemo<EntitySaleOption[]>(() => {
     if (!managementPlans?.length) {
       return [];
     }
-    const cropVarietySet = new Set();
-    const result = [];
+    const cropVarietySet = new Set<number>();
+    const result: EntitySaleOption[] = [];
     for (const mp of managementPlans) {
       if (!cropVarietySet.has(mp.crop_variety_id)) {
         result.push({
@@ -86,11 +113,11 @@ export default function CropSaleInputs({ sale, disabledInput, revenueTypes, sele
         cropVarietySet.add(mp.crop_variety_id);
       }
     }
-    result.sort((a, b) => a.label.localeCompare(b.label));
+    result.sort((a, b) => String(a.label).localeCompare(String(b.label)));
     return result;
   }, [managementPlans, t]);
 
-  const savedSalesById = sale?.crop_variety_sale?.reduce(
+  const savedSalesById = sale?.crop_variety_sale?.reduce<Record<number, CropVarietySaleRecord>>(
     (acc, cur) => ({ ...acc, [cur.crop_variety_id]: cur }),
     {},
   );

@@ -22,7 +22,8 @@ import {
 } from '../../components/Forms/GeneralRevenue/constants';
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
-import EntitySaleInputs, { EntitySaleOption } from './EntitySaleInputs';
+import EntitySaleInputs from './EntitySaleInputs';
+import type { CropVarietySaleTileData } from '../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import type { RevenueType } from './types';
 import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect/index';
@@ -89,32 +90,28 @@ export default function CropSaleInputs({
   // will switch to entity_type === 'crop' in the animal sale wire-up PR (LF-5274).
   const isActive = !!selectedRevenueType?.crop_generated;
 
-  const options = useMemo<EntitySaleOption[]>(() => {
-    if (!managementPlans?.length) {
-      return [];
-    }
-    const cropVarietySet = new Set<number>();
-    const result: EntitySaleOption[] = [];
-    for (const mp of managementPlans) {
-      if (!cropVarietySet.has(mp.crop_variety_id)) {
-        result.push({
+  // Management plans determine which crop varieties are sale-eligible,
+  // but the sale row itself represents a crop variety rather than a plan.
+  const { options, cropVarietyTileDataById } = useMemo(() => {
+    const tileDataById: Record<number, CropVarietySaleTileData> = {};
+    const optionList: SelectOption[] = [];
+    for (const mp of managementPlans ?? []) {
+      if (!(mp.crop_variety_id in tileDataById)) {
+        tileDataById[mp.crop_variety_id] = {
+          crop_variety_name: mp.crop_variety_name,
+          crop_translation_key: mp.crop_translation_key,
+          crop_variety_photo_url: mp.crop_variety_photo_url,
+        };
+        optionList.push({
           label: mp.crop_variety_name
             ? `${mp.crop_variety_name}, ${t(`crop:${mp.crop_translation_key}`)}`
             : t(`crop:${mp.crop_translation_key}`),
           value: mp.crop_variety_id,
-          // Management plans determine which crop varieties are sale-eligible,
-          // but the sale row itself represents a crop variety rather than a plan.
-          data: {
-            crop_variety_name: mp.crop_variety_name,
-            crop_translation_key: mp.crop_translation_key,
-            crop_variety_photo_url: mp.crop_variety_photo_url,
-          },
         });
-        cropVarietySet.add(mp.crop_variety_id);
       }
     }
-    result.sort((a, b) => String(a.label).localeCompare(String(b.label)));
-    return result;
+    optionList.sort((a, b) => String(a.label).localeCompare(String(b.label)));
+    return { options: optionList, cropVarietyTileDataById: tileDataById };
   }, [managementPlans, t]);
 
   const savedSalesById = sale?.crop_variety_sale?.reduce<Record<number, CropVarietySaleRecord>>(
@@ -130,8 +127,20 @@ export default function CropSaleInputs({
       savedSalesById={savedSalesById}
       fieldPrefix={CROP_VARIETY_SALE}
       entityIdFieldKey={CROP_VARIETY_ID}
-      ItemComponent={CropSaleItem}
       placeholder={t('SALE.ADD_SALE.CROP_VARIETY')}
-    />
+    >
+      {({ option, system, currency, fieldPrefix, disabledInput }) => (
+        <CropSaleItem
+          key={option.value}
+          cropVariety={cropVarietyTileDataById[option.value as number]}
+          entityId={option.value}
+          system={system}
+          currency={currency}
+          fieldPrefix={fieldPrefix}
+          entityIdFieldKey={CROP_VARIETY_ID}
+          disabledInput={disabledInput}
+        />
+      )}
+    </EntitySaleInputs>
   );
 }

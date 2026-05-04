@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ComponentType, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
@@ -30,12 +30,8 @@ import { Error } from '../../components/Typography';
 import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 
-export interface EntitySaleOption extends SelectOption {
-  data?: unknown;
-}
-
 export interface EntitySaleItemProps {
-  option: EntitySaleOption;
+  option: SelectOption;
   system: string;
   currency: string;
   fieldPrefix: string;
@@ -45,12 +41,12 @@ export interface EntitySaleItemProps {
 interface EntitySaleInputsProps {
   disabledInput: boolean;
   isActive: boolean;
-  options: EntitySaleOption[];
+  options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
   fieldPrefix: string;
   entityIdFieldKey: string;
-  ItemComponent: ComponentType<EntitySaleItemProps>;
   placeholder?: string;
+  children: (props: EntitySaleItemProps) => ReactNode;
 }
 
 export default function EntitySaleInputs({
@@ -60,15 +56,15 @@ export default function EntitySaleInputs({
   savedSalesById,
   fieldPrefix,
   entityIdFieldKey,
-  ItemComponent,
   placeholder,
+  children,
 }: EntitySaleInputsProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
   const { register, unregister, getValues, setValue } = useFormContext();
 
-  const [selectedOptions, setSelectedOptions] = useState<EntitySaleOption[]>(() =>
+  const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>(() =>
     options.filter((opt) => savedSalesById?.[opt.value] !== undefined),
   );
   const [isSelectionValid, setIsSelectionValid] = useState(true);
@@ -107,7 +103,7 @@ export default function EntitySaleInputs({
   }
 
   const handleChange = (newValue: MultiValue<SelectOption>) => {
-    const newOptions = newValue as EntitySaleOption[];
+    const newOptions = [...newValue];
     setSelectedOptions(newOptions);
     setIsSelectionValid(newOptions.length > 0);
   };
@@ -125,16 +121,15 @@ export default function EntitySaleInputs({
         {!isSelectionValid && <Error>{t('common:REQUIRED')}</Error>}
       </div>
       <hr className={styles.thinHr} />
-      {selectedOptions.map((option) => (
-        <ItemComponent
-          key={option.value}
-          option={option}
-          system={system}
-          currency={currency}
-          fieldPrefix={fieldPrefix}
-          disabledInput={disabledInput}
-        />
-      ))}
+      {selectedOptions.map((option) =>
+        children({
+          option,
+          system,
+          currency,
+          fieldPrefix,
+          disabledInput,
+        }),
+      )}
     </>
   );
 }

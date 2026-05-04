@@ -14,20 +14,27 @@
  */
 
 import CropVarietySaleTile from '../../CropTile/CropVarietySaleTile';
-import { CROP_VARIETY_ID } from './constants';
 import SaleLineItem from './SaleLineItem';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 
-function CropSaleItem({ option, system, currency, fieldPrefix, disabledInput }) {
+function CropSaleItem({
+  cropVariety,
+  entityId,
+  system,
+  currency,
+  fieldPrefix,
+  entityIdFieldKey,
+  disabledInput,
+}) {
   return (
     <div className={styles.saleItemContainer}>
-      <CropVarietySaleTile cropVariety={option.data} />
+      <CropVarietySaleTile cropVariety={cropVariety} />
       <div className={styles.saleItemInputGroup}>
         <SaleLineItem
           fieldPrefix={fieldPrefix}
-          entityId={option.value}
-          entityIdFieldKey={CROP_VARIETY_ID}
+          entityId={entityId}
+          entityIdFieldKey={entityIdFieldKey}
           system={system}
           currency={currency}
           disabledInput={disabledInput}
@@ -38,18 +45,16 @@ function CropSaleItem({ option, system, currency, fieldPrefix, disabledInput }) 
 }
 
 CropSaleItem.propTypes = {
-  option: PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    data: PropTypes.shape({
-      crop_variety_name: PropTypes.string,
-      crop_translation_key: PropTypes.string.isRequired,
-      crop_variety_photo_url: PropTypes.string,
-    }).isRequired,
+  cropVariety: PropTypes.shape({
+    crop_variety_name: PropTypes.string,
+    crop_translation_key: PropTypes.string.isRequired,
+    crop_variety_photo_url: PropTypes.string,
   }).isRequired,
+  entityId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   system: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   fieldPrefix: PropTypes.string.isRequired,
+  entityIdFieldKey: PropTypes.string.isRequired,
   disabledInput: PropTypes.bool.isRequired,
 };
 

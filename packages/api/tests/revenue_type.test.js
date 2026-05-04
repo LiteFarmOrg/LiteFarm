@@ -518,7 +518,7 @@ describe('Revenue Type Tests', () => {
       );
     });
 
-    test.only('entity_type should not be updated', async () => {
+    test('entity_type should not be updated', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue = await returnRevenueType(mainFarm, 'crop');
 

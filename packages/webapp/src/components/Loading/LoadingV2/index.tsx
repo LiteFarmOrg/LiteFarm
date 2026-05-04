@@ -91,7 +91,7 @@ export function LoadingBackdrop({
       sx={{
         ...customStyles,
         top: 'var(--global-navbar-height)',
-        zIndex: (theme: any) => theme.zIndex.appBar + 2,
+        zIndex: (theme: any) => theme.zIndex.appBar - 2,
         backgroundColor: 'rgba(246, 251, 250, 0.80)',
         display: 'flex',
         alignItems: 'center',

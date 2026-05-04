@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useFormContext } from 'react-hook-form';
 import CropVarietySaleTile from '../../CropTile/CropVarietySaleTile';
 import { CROP_VARIETY_ID } from './constants';
 import SaleLineItem from './SaleLineItem';
@@ -21,13 +20,6 @@ import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 
 function CropSaleItem({ option, system, currency, fieldPrefix, disabledInput }) {
-  const { register } = useFormContext();
-
-  register(`${fieldPrefix}.${option.value}.${CROP_VARIETY_ID}`, {
-    required: true,
-    value: option.value,
-  });
-
   return (
     <div className={styles.saleItemContainer}>
       <CropVarietySaleTile cropVariety={option.data} />
@@ -35,6 +27,7 @@ function CropSaleItem({ option, system, currency, fieldPrefix, disabledInput }) 
         <SaleLineItem
           fieldPrefix={fieldPrefix}
           entityId={option.value}
+          entityIdFieldKey={CROP_VARIETY_ID}
           system={system}
           currency={currency}
           disabledInput={disabledInput}

@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 interface SaleLineItemProps {
   fieldPrefix: string;
   entityId: string;
+  entityIdFieldKey: string;
   system: string;
   currency: string;
   disabledInput: boolean;
@@ -31,6 +32,7 @@ interface SaleLineItemProps {
 function SaleLineItem({
   fieldPrefix,
   entityId,
+  entityIdFieldKey,
   system,
   currency,
   disabledInput,
@@ -45,6 +47,11 @@ function SaleLineItem({
     formState: { errors },
   } = useFormContext();
   const saleValueName = `${fieldPrefix}.${entityId}.${SALE_VALUE}`;
+
+  register(`${fieldPrefix}.${entityId}.${entityIdFieldKey}`, {
+    required: true,
+    value: entityId,
+  });
 
   return (
     <>

@@ -58,11 +58,6 @@ export function LoadingBackdrop({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-
     if (isOpen) {
       timerRef.current = setTimeout(() => setIsVisible(true), showDelay);
     } else {

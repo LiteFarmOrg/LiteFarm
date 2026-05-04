@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2026 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@ class AnimalSale extends Model {
         sale_id: { type: 'integer' },
         animal_id: { type: ['integer', 'null'] },
         animal_batch_id: { type: ['integer', 'null'] },
-        quantity: { type: ['number', 'null'], format: 'float' },
-        quantity_unit: { type: ['string', 'null'] },
-        sale_value: { type: ['number', 'null'], format: 'float' },
+        quantity: { type: 'number', format: 'float' },
+        quantity_unit: { type: 'string' },
+        sale_value: { type: 'number', format: 'float' },
       },
       additionalProperties: false,
     };

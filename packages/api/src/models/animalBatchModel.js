@@ -298,6 +298,13 @@ class AnimalBatchModel extends baseModel {
 
     return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
+
+  static async batchesBelongToFarm(batchIds, farmId) {
+    const batches = await AnimalBatchModel.query()
+      .whereIn('id', batchIds)
+      .andWhere('farm_id', farmId);
+    return batches.length === batchIds.length;
+  }
 }
 
 export default AnimalBatchModel;

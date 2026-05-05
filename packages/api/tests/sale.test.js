@@ -41,6 +41,9 @@ describe('Sale Tests', () => {
   let ownerFarm;
   let crop;
   let cropVariety;
+  let animalSaleRevenueType;
+  let animal;
+  let animalBatch;
 
   beforeAll(() => {
     _token = global.token;
@@ -62,8 +65,10 @@ describe('Sale Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function getRequest(
@@ -75,8 +80,10 @@ describe('Sale Tests', () => {
       .get(`/sale/${farm_id_in_params}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function deleteRequest(
@@ -88,8 +95,10 @@ describe('Sale Tests', () => {
       .delete(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function patchRequest(
@@ -104,8 +113,10 @@ describe('Sale Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   function fakeUserFarm(role = 1) {
@@ -124,6 +135,12 @@ describe('Sale Tests', () => {
     );
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
+    animalSaleRevenueType = await revenueTypeModel
+      .query()
+      .where('revenue_name', 'Animal Sale')
+      .first();
+    [animal] = await mocks.animalFactory({ promisedFarm: [farm] });
+    [animalBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
   });
 
   afterAll(async () => {
@@ -683,6 +700,52 @@ describe('Sale Tests', () => {
       });
     });
 
+    test('Should return 400 if more than one animal_sale with duplicate sale_id and animal_id pair', async () => {
+      const data = {
+        animal_sale: [
+          {
+            animal_id: animal.id,
+            quantity: 20,
+            quantity_unit: 'kg',
+            sale_value: 100,
+          },
+          {
+            animal_id: animal.id,
+            quantity: 20,
+            quantity_unit: 'kg',
+            sale_value: 100,
+          },
+        ],
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+      };
+      await patchRequest(data, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
+    test('Should return 400 if more than one animal_sale with duplicate sale_id and animal_batch_id pair', async () => {
+      const data = {
+        animal_sale: [
+          {
+            animal_id: animalBatch.id,
+            quantity: 20,
+            quantity_unit: 'kg',
+            sale_value: 100,
+          },
+          {
+            animal_id: animalBatch.id,
+            quantity: 20,
+            quantity_unit: 'kg',
+            sale_value: 100,
+          },
+        ],
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+      };
+      await patchRequest(data, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
     test('Should return 400 if there are no crop variety sales in patch data', async () => {
       patchData.crop_variety_sale = [];
       await patchRequest(patchData, sale.sale_id, {}, async (_err, res) => {
@@ -850,7 +913,7 @@ describe('Sale Tests', () => {
             animal_id: animal.id,
             animal_batch_id: null,
             quantity: 2,
-            quantity_unit: 'count',
+            quantity_unit: 'kg',
             sale_value: 150,
           },
         ],
@@ -878,7 +941,7 @@ describe('Sale Tests', () => {
         animal_id: animal.id,
         animal_batch_id: null,
         quantity: 3,
-        quantity_unit: 'count',
+        quantity_unit: 'kg',
         sale_value: 200,
       });
 
@@ -902,7 +965,7 @@ describe('Sale Tests', () => {
         animal_id: animal.id,
         animal_batch_id: null,
         quantity: 1,
-        quantity_unit: 'count',
+        quantity_unit: 'kg',
         sale_value: 50,
       });
 
@@ -914,7 +977,7 @@ describe('Sale Tests', () => {
             animal_id: animal2.id,
             animal_batch_id: null,
             quantity: 5,
-            quantity_unit: 'count',
+            quantity_unit: 'kg',
             sale_value: 300,
           },
         ],
@@ -938,7 +1001,7 @@ describe('Sale Tests', () => {
         animal_id: animal.id,
         animal_batch_id: null,
         quantity: 1,
-        quantity_unit: 'count',
+        quantity_unit: 'kg',
         sale_value: 50,
       });
 
@@ -979,7 +1042,7 @@ describe('Sale Tests', () => {
             animal_id: animal.id,
             animal_batch_id: null,
             quantity: 2,
-            quantity_unit: 'count',
+            quantity_unit: 'kg',
             sale_value: 100,
           },
         ],

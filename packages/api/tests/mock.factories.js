@@ -1968,6 +1968,43 @@ async function crop_variety_saleFactory(
     .returning('*');
 }
 
+function fakeAnimalSale(defaultData = {}) {
+  return {
+    sale_value: faker.datatype.number(1000),
+    quantity: faker.datatype.number(1000),
+    quantity_unit: faker.helpers.arrayElement(['kg', 'mt', 'lb', 't']),
+    ...defaultData,
+  };
+}
+
+async function animal_saleFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedSale = saleFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  animalSale = fakeAnimalSale(),
+) {
+  const [farm, sale] = await Promise.all([promisedFarm, promisedSale]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  const [{ sale_id }] = sale;
+
+  return knex('animal_sale')
+    .insert({
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      sale_id,
+      ...animalSale,
+    })
+    .returning('*');
+}
+
 function fakeSupportTicket(farm_id, defaultData = {}) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
@@ -2994,6 +3031,8 @@ export default {
   fakePrice,
   fakeCropVarietySale,
   crop_variety_saleFactory,
+  fakeAnimalSale,
+  animal_saleFactory,
   farmExpenseTypeFactory,
   fakeExpenseType,
   farmExpenseFactory,

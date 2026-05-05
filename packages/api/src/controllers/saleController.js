@@ -64,39 +64,7 @@ const SaleController = {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const oldSale = await SaleModel.query(trx).findById(sale_id);
-        const oldRevenueType = await RevenueTypeModel.query(trx).findById(oldSale.revenue_type_id);
-        const newRevenueType = revenue_type_id
-          ? await RevenueTypeModel.query(trx).findById(revenue_type_id)
-          : oldRevenueType;
-
-        const isCropSale = newRevenueType.entity_type === 'crop';
-        const wasCropSale = oldRevenueType.entity_type === 'crop';
-        const isAnimalSale = newRevenueType.entity_type === 'animal';
-        const wasAnimalSale = oldRevenueType.entity_type === 'animal';
-
-        if ((isCropSale || isAnimalSale) && value) {
-          await trx.rollback();
-          return res.status(400).send('cannot add value to line-item sale');
-        }
-        if (!isCropSale && crop_variety_sale) {
-          await trx.rollback();
-          return res
-            .status(400)
-            .send('must be crop generated revenue type to add crop variety sale');
-        }
-        if (isCropSale && crop_variety_sale && !crop_variety_sale.length) {
-          await trx.rollback();
-          return res.status(400).send('crop sales cannot be empty');
-        }
-        if (!isAnimalSale && animal_sale) {
-          await trx.rollback();
-          return res.status(400).send('must be animal revenue type to add animal sale');
-        }
-        if (isAnimalSale && animal_sale && !animal_sale.length) {
-          await trx.rollback();
-          return res.status(400).send('animal sales cannot be empty');
-        }
+        const { isCropSale, wasCropSale, isAnimalSale, wasAnimalSale } = res.locals;
 
         // Value lives on the Sale model; line-item sales (crop or animal) handle totals differently
         if (!isCropSale && !isAnimalSale) {
@@ -125,7 +93,7 @@ const SaleController = {
           .returning('*');
         if (!newSale) {
           await trx.rollback();
-          return res.status(400).send('failed to patch data');
+          return res.status(500).send('failed to patch data');
         }
 
         // Hard delete previous crop variety sales when updating or transitioning away
@@ -135,13 +103,19 @@ const SaleController = {
             .delete();
           if (!deletedExistingCropVarietySales) {
             await trx.rollback();
-            return res.status(400).send('failed to delete existing crop variety sales');
+            return res.status(500).send('failed to delete existing crop variety sales');
           }
         }
 
         // Hard delete previous animal sales when updating or transitioning away
         if ((wasAnimalSale && isAnimalSale && animal_sale) || (wasAnimalSale && !isAnimalSale)) {
-          await AnimalSaleModel.query(trx).where('sale_id', sale_id).delete();
+          const deletedExistingAnimalSales = await AnimalSaleModel.query(trx)
+            .where('sale_id', sale_id)
+            .delete();
+          if (!deletedExistingAnimalSales) {
+            await trx.rollback();
+            return res.status(500).send('failed to delete existing animal sales');
+          }
         }
 
         // Add back updated crop variety sales

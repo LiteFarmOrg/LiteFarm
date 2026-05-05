@@ -67,9 +67,7 @@ const SaleController = {
         const { isCropSale, wasCropSale, isAnimalSale, wasAnimalSale } = res.locals;
 
         // Value lives on the Sale model; line-item sales (crop or animal) handle totals differently
-        if (!isCropSale && !isAnimalSale) {
-          saleData.value = value;
-        }
+        saleData.value = !isCropSale && !isAnimalSale ? value : null;
 
         // do not allow updates to deleted records
         if (await baseController.isDeleted(trx, SaleModel, { sale_id })) {

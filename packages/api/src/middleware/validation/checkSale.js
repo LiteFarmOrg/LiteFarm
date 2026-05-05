@@ -44,7 +44,14 @@ export function checkSaleBody(operation = 'add') {
       const isCropSale = revenueType.entity_type === 'crop';
       const isAnimalSale = revenueType.entity_type === 'animal';
 
-      if (operation === 'update') {
+      if (operation === 'add') {
+        if (isCropSale && !crop_variety_sale) {
+          return res.status(400).send('crop sales are required for crop revenue type');
+        }
+        if (isAnimalSale && !animal_sale) {
+          return res.status(400).send('animal sales are required for animal revenue type');
+        }
+      } else if (operation === 'update') {
         res.locals.isCropSale = isCropSale;
         res.locals.isAnimalSale = isAnimalSale;
 
@@ -73,8 +80,12 @@ export function checkSaleBody(operation = 'add') {
       if (isAnimalSale && animal_sale && !animal_sale.length) {
         return res.status(400).send('animal sales cannot be empty');
       }
-      if (!isCropSale && !isAnimalSale && (value === undefined || value === null)) {
-        return res.status(400).send('must have value for non line-item sale');
+      if (!isCropSale && !isAnimalSale) {
+        const wasGeneralSale =
+          operation === 'update' && !res.locals.wasCropSale && !res.locals.wasAnimalSale;
+        if (!wasGeneralSale && (value === undefined || value === null)) {
+          return res.status(400).send('must have value for non line-item sale');
+        }
       }
 
       if (isAnimalSale && animal_sale) {
@@ -116,6 +127,9 @@ const getUniqueAnimalAndBatchIdsFromAnimalSale = (animalSale) => {
   const batchIdsSet = new Set();
 
   for (const { animal_id, animal_batch_id } of animalSale) {
+    if (!animal_id && !animal_batch_id) {
+      throw new Error('animal_sale item must have either animal_id or animal_batch_id');
+    }
     if (animal_id && animal_batch_id) {
       throw new Error('cannot have both animal_id and animal_batch_id in same animal_sale item');
     }

@@ -88,6 +88,38 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Addon desconectado con éxito"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Error al guardar la nota",
+      "DELETE": "Error al eliminar la tarea",
+      "EDIT": "No se pudo actualizar la nota"
+    },
+    "SUCCESS": {
+      "ADD": "Nota agregada con éxito",
+      "DELETE": "Nota borrada exitosamente",
+      "EDIT": "Nota actualizada exitosamente"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar su creación de tareas automáticamente",
+        "ONLINE": "Nota creada. Aparecerá cuando te vuelvas a conectar",
+        "SUCCESS": "La nota creada sin conexión se ha guardado correctamente"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar borra la nota automáticamente",
+        "ONLINE": "Nota eliminada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea eliminada sin conexión se ha guardado correctamente"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar su actualización de tarea automáticamente",
+        "ONLINE": "Nota actualizada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La nota actualizada sin conexión se ha guardado correctamente"
+      },
+      "FAILED": "No se pudieron guardar los cambios de la nota",
+      "NOT_FOUND": "No se pudo guardar la nota: la nota ya no existe",
+      "UNAUTHORIZED": "No se pudo guardar la nota: permisos insuficientes"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo ha fallado al enviar su comentario. Por favor, inténtelo de nuevo."

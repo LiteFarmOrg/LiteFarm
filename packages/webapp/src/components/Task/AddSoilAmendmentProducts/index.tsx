@@ -23,7 +23,7 @@ import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
-import { Location } from './QuantityApplicationRate';
+import { FlattenedInternalArea } from '../../../hooks/location/types';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
@@ -32,7 +32,7 @@ export type AddSoilAmendmentProductsProps = Pick<
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
-  locations: Location[];
+  locations: FlattenedInternalArea[];
 };
 
 interface ProductFields {

@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -31,7 +32,7 @@ export function* postResidenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(postResidenceSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),
@@ -73,7 +74,7 @@ export function* editResidenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(editResidenceSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),
@@ -108,6 +109,7 @@ export function* deleteResidenceLocationSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteResidenceSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),

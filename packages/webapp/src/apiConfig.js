@@ -39,6 +39,8 @@ export const farmUrl = `${URI}/farm`;
 export const inviteUserUrl = `${URI}/user/invite`;
 //export const fieldURL = `${URI}/field`;
 export const locationURL = `${URI}/location`;
+export const getLocationsByFarmIdUrl = (farm_id) => `${locationURL}/farm/${farm_id}`;
+export const checkDeleteLocationUrl = `${locationURL}/check_delete`;
 export const cropURL = `${URI}/crop`;
 export const cropVarietyURL = `${URI}/crop_variety`;
 export const logURL = `${URI}/log`;
@@ -97,6 +99,7 @@ export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
 export const marketProductCategoryUrl = `${URI}/market_product_categories`;
 export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
 export const supportTicketUrl = `${URI}/support_ticket`;
+export const logUserInfoUrl = `${URI}/userLog`;
 export const offlineEventLogUrl = `${URI}/offline_event_log`;
 export const tapeSurveyUrl = `${URI}/tape_survey`;
 export const farmNoteUrl = `${URI}/farm_notes`;
@@ -109,8 +112,10 @@ export default {
   pseudoUserUrl,
   farmUrl,
   inviteUserUrl,
+  logUserInfoUrl,
   //fieldURL,
   locationURL,
+  getLocationsByFarmIdUrl,
   cropURL,
   cropVarietyURL,
   logURL,

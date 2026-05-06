@@ -24,7 +24,5 @@ const COUNTRY_VERSIONS = ['AU'];
  * 2. Add a country_code to `COUNTRY_VERSIONS`.
  */
 export const getSurveyVersion = (countryCode: string | undefined): string | undefined => {
-  return countryCode && COUNTRY_VERSIONS.includes(countryCode)
-    ? countryCode.toLowerCase()
-    : undefined;
+  return countryCode && COUNTRY_VERSIONS.includes(countryCode) ? countryCode.toLowerCase() : 'fao';
 };

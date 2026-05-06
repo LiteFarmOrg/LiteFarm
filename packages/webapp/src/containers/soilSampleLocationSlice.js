@@ -107,10 +107,3 @@ export const soilSampleLocationsSelector = createSelector(
 
 export const soilSampleLocationSelector = (location_id) =>
   createSelector(soilSampleLocationEntitiesSelector, (entities) => entities[location_id]);
-
-export const soilSampleLocationStatusSelector = createSelector(
-  [soilSampleLocationReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

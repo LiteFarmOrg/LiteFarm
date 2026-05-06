@@ -26,7 +26,6 @@ import peopleSaga from './containers/Profile/People/saga';
 import signUpSaga from './containers/CustomSignUp/saga';
 import resetUserPasswordSaga from './containers/PasswordResetAccount/saga';
 import outroSaga from './containers/Outro/saga';
-import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
 import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/saga';
@@ -86,7 +85,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.10.1',
+    release: '3.11.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -100,7 +99,6 @@ sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(signUpSaga);
 sagaMiddleware.run(resetUserPasswordSaga);
 sagaMiddleware.run(outroSaga);
-sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
 sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);

@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+// import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
 import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import { addNullstoMissingFields } from './utils';
@@ -35,7 +35,6 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
-import { locationsSelector } from '../../locationSlice';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
@@ -46,8 +45,9 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
-import { CustomRouteComponentProps, Location } from '../../../types';
+import { CustomRouteComponentProps } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
+import useLocations from '../../../hooks/location/useLocations';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -93,7 +93,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
 
   // Form setup
   const dispatch = useDispatch();
-  const locations: Location[] = useSelector(locationsSelector);
+  const { locations } = useLocations();
 
   const getFormSteps = () => [
     {

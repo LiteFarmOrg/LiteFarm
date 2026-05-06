@@ -18,13 +18,6 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import {
-  areaSelector,
-  lineSelector,
-  pointSelector,
-  externalPointSelector,
-  sortedAreaSelector,
-} from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -44,6 +37,9 @@ import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
 import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
+import useLocations from '../../hooks/location/useLocations';
+import useExternalLocations from '../../hooks/location/useExternalLocations';
+import { GroupByOptions } from '../../hooks/location/types';
 
 /**
  *
@@ -114,11 +110,25 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [isClickable]);
 
-  const areaAssets = useSelector(areaSelector);
-  const lineAssets = useSelector(lineSelector);
-  const internalPoints = useSelector(pointSelector);
-  const externalPoints = useSelector(externalPointSelector);
-  const pointAssets = { ...internalPoints, ...externalPoints };
+  const {
+    locations: internalLocations,
+    isLoading: isLoadingInternalLocations,
+    isFetching: isFetchingInternalLocations,
+  } = useLocations({
+    groupBy: GroupByOptions.FIGURE_AND_TYPE,
+  });
+  const {
+    locations: externalLocations,
+    isLoading: isLoadingExternalLocations,
+    isFetching: isFetchingExternalLocations,
+  } = useExternalLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
+  const isLocationsLoading = isLoadingInternalLocations || isLoadingExternalLocations;
+  const isLocationsFetching = isFetchingInternalLocations || isFetchingExternalLocations;
+
+  const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };
+  const lineAssets = { ...internalLocations?.line, ...externalLocations?.line };
+  const pointAssets = { ...internalLocations?.point, ...externalLocations?.point };
+
   const { grid_points } = useSelector(userFarmSelector);
 
   useEffect(() => {
@@ -152,6 +162,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     filterSettings?.water_valve,
     filterSettings?.soil_sample_location,
     filterSettings?.sensor,
+    filterSettings?.sensor_array,
   ]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
@@ -291,6 +302,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       ...assetGeometries.water_valve,
       ...assetGeometries.soil_sample_location,
       ...assetGeometries.sensor,
+      ...assetGeometries.sensor_array,
     ];
 
     createMarkerClusters(maps, map, pointsArray);
@@ -582,6 +594,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     drawLine,
     assetGeometriesRef,
     markerClusterRef,
+    isLocationsLoading,
+    isLocationsFetching,
   };
 };
 

@@ -13,12 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import FilterGroup from '../../../components/Filter/FilterGroup';
 import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
-import { Location } from '../../../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -29,10 +27,10 @@ import {
 } from '../../../store/api/apiSlice';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { useVisibleBreeds } from './useVisibleBreeds';
-import { locationsSelector } from '../../locationSlice';
 import { AnimalsFilterKeys } from './types';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
+import useLocations from '../../../hooks/location/useLocations';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
@@ -47,7 +45,7 @@ const AnimalsFilterContent = ({
 }: AnimalsFilterContentProps) => {
   const { t } = useTranslation(['translation', 'filter']);
 
-  const locations: Location[] = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
 
   const { data: defaultTypes = [] } = useGetDefaultAnimalTypesQuery();
   const { data: customTypes = [] } = useGetCustomAnimalTypesQuery();

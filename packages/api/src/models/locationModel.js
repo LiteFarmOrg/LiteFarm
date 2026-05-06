@@ -268,7 +268,7 @@ class Location extends baseModel {
     }
   }
 
-  /* Mirrors cropLocationsSelector but without buffer zone (which does not return a polygon) */
+  /* Mirrors useCropLocations hook but without buffer zone (which does not return a polygon) */
   static async getCropSupportingLocationsByFarmId(farm_id, trx) {
     return Location.query(trx)
       .where({ 'location.farm_id': farm_id })

@@ -295,7 +295,11 @@ class Animal extends baseModel {
   }
 
   static async animalsBelongToFarm(animalIds, farmId) {
-    const animals = await Animal.query().whereIn('id', animalIds).andWhere('farm_id', farmId);
+    const animals = await Animal.query()
+      .whereIn('id', animalIds)
+      .andWhere('farm_id', farmId)
+      .andWhere('removal_date', null)
+      .whereNotDeleted();
     return animals.length === animalIds.length;
   }
 }

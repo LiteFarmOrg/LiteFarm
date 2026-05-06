@@ -453,6 +453,27 @@ describe('Sale Tests', () => {
       };
     });
 
+    test('animal_sale array should create animal_sale rows', async () => {
+      const fakeAnimalSale = mocks.fakeAnimalSale({ animal_id: animal.id });
+      const saleBody = {
+        ...mocks.fakeSale(),
+        farm_id: farm.farm_id,
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [fakeAnimalSale],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        expect(sales.length).toBe(1);
+        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal.id);
+        expect(animalSales[0].quantity).toBe(fakeAnimalSale.quantity);
+        expect(animalSales[0].sale_value).toBe(fakeAnimalSale.sale_value);
+      });
+    });
+
     test('Should return 400 if crop_variety_sale is undefined', async () => {
       sampleReqBody.crop_variety_sale = undefined;
       await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
@@ -484,6 +505,48 @@ describe('Sale Tests', () => {
     test('Should return 400 if revenue_type_id is missing', async () => {
       await postSaleRequest(
         { ...sampleReqBody, revenue_type_id: undefined },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 if revenue_type_id is invalid', async () => {
+      const [deletedRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', deletedRevenueType.revenue_type_id)
+        .update({ deleted: true });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: deletedRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      const [retiredRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', retiredRevenueType.revenue_type_id)
+        .update({ retired: true });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: retiredRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+      const [otherFarmsRevenueType] = await mocks.revenue_typeFactory({
+        properties: { entity_type: 'crop' },
+      });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: otherFarmsRevenueType.revenue_type_id },
         {},
         async (_err, res) => {
           expect(res.status).toBe(400);
@@ -577,32 +640,52 @@ describe('Sale Tests', () => {
       );
     });
 
-    test('Should return 400 if animal is not on the farm', async () => {
+    test('Should return 400 if animalId/animalBatchId is invalid', async () => {
       const [animalOnAnotherFarm] = await mocks.animalFactory();
-      await postSaleRequest(
-        {
-          ...commonSampleReqBody,
-          animal_sale: [mocks.fakeAnimalSale({ animal_id: animalOnAnotherFarm.id })],
-          revenue_type_id: animalSaleRevenueType.revenue_type_id,
-        },
-        {},
-        async (_err, res) => {
-          expect(res.status).toBe(400);
-        },
-      );
-
       const [animalBatchOnAnotherFarm] = await mocks.animal_batchFactory();
-      await postSaleRequest(
-        {
-          ...commonSampleReqBody,
-          animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: animalBatchOnAnotherFarm.id })],
-          revenue_type_id: animalSaleRevenueType.revenue_type_id,
-        },
-        {},
-        async (_err, res) => {
-          expect(res.status).toBe(400);
-        },
-      );
+      const [deletedAnimal] = await mocks.animalFactory();
+      await knex('animal').where('id', deletedAnimal.id).update({ deleted: true });
+      const [deletedAnimalBatch] = await mocks.animal_batchFactory();
+      await knex('animal_batch').where('id', deletedAnimalBatch.id).update({ deleted: true });
+      const [removedAnimal] = await mocks.animalFactory();
+      const [removedBatch] = await mocks.animal_batchFactory();
+      const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      await knex('animal').where('id', removedAnimal.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+      await knex('animal_batch').where('id', removedBatch.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+
+      for (const invalidAnimal of [animalOnAnotherFarm, deletedAnimal, removedAnimal]) {
+        await postSaleRequest(
+          {
+            ...commonSampleReqBody,
+            animal_sale: [mocks.fakeAnimalSale({ animal_id: invalidAnimal.id })],
+            revenue_type_id: animalSaleRevenueType.revenue_type_id,
+          },
+          {},
+          async (_err, res) => {
+            expect(res.status).toBe(400);
+          },
+        );
+      }
+
+      for (const invalidBatch of [animalBatchOnAnotherFarm, deletedAnimalBatch, removedBatch]) {
+        await postSaleRequest(
+          {
+            ...commonSampleReqBody,
+            animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: invalidBatch.id })],
+            revenue_type_id: animalSaleRevenueType.revenue_type_id,
+          },
+          {},
+          async (_err, res) => {
+            expect(res.status).toBe(400);
+          },
+        );
+      }
     });
 
     test('Should return 400 if animal_sale item does not have either animal_id or animal_batch_id', async () => {
@@ -640,27 +723,6 @@ describe('Sale Tests', () => {
       // Should not allow upsertGraph to post new farm/crop/managementPlan through post sale request
       await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
-      });
-    });
-
-    test('animal_sale array should create animal_sale rows', async () => {
-      const fakeAnimalSale = mocks.fakeAnimalSale({ animal_id: animal.id });
-      const saleBody = {
-        ...mocks.fakeSale(),
-        farm_id: farm.farm_id,
-        revenue_type_id: animalSaleRevenueType.revenue_type_id,
-        animal_sale: [fakeAnimalSale],
-      };
-
-      await postSaleRequest(saleBody, {}, async (_err, res) => {
-        expect(res.status).toBe(201);
-        const sales = await saleModel.query().where('farm_id', farm.farm_id);
-        expect(sales.length).toBe(1);
-        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
-        expect(animalSales.length).toBe(1);
-        expect(animalSales[0].animal_id).toBe(animal.id);
-        expect(animalSales[0].quantity).toBe(fakeAnimalSale.quantity);
-        expect(animalSales[0].sale_value).toBe(fakeAnimalSale.sale_value);
       });
     });
 

@@ -302,7 +302,9 @@ class AnimalBatchModel extends baseModel {
   static async batchesBelongToFarm(batchIds, farmId) {
     const batches = await AnimalBatchModel.query()
       .whereIn('id', batchIds)
-      .andWhere('farm_id', farmId);
+      .andWhere('farm_id', farmId)
+      .andWhere('removal_date', null)
+      .whereNotDeleted();
     return batches.length === batchIds.length;
   }
 }

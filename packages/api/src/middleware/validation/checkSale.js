@@ -41,8 +41,14 @@ export function checkSaleBody(operation = 'add') {
       }
 
       const revenueType = await RevenueTypeModel.query().findById(revenueTypeId);
+
+      if (revenue_type_id && !isValidRevenueType(revenueType, farm_id)) {
+        return res.status(400).send('invalid revenue type id');
+      }
+
       const isCropSale = revenueType.entity_type === 'crop';
       const isAnimalSale = revenueType.entity_type === 'animal';
+      const isGeneralSale = !isCropSale && !isAnimalSale;
 
       if (operation === 'add') {
         if (isCropSale && !crop_variety_sale) {
@@ -80,15 +86,18 @@ export function checkSaleBody(operation = 'add') {
       if (isAnimalSale && animal_sale && !animal_sale.length) {
         return res.status(400).send('animal sales cannot be empty');
       }
-      if (!isCropSale && !isAnimalSale) {
-        const wasGeneralSale =
-          operation === 'update' && !res.locals.wasCropSale && !res.locals.wasAnimalSale;
-        if (!wasGeneralSale && (value === undefined || value === null)) {
+      if (isGeneralSale) {
+        const isTransitioningToGeneral =
+          operation === 'update' && (res.locals.wasCropSale || res.locals.wasAnimalSale);
+        if (
+          (operation === 'add' || isTransitioningToGeneral) &&
+          (value === undefined || value === null)
+        ) {
           return res.status(400).send('must have value for non line-item sale');
         }
       }
 
-      if (isAnimalSale && animal_sale) {
+      if (animal_sale) {
         let animalIds = [];
         let batchIds = [];
 
@@ -121,6 +130,15 @@ export function checkSaleBody(operation = 'add') {
     }
   };
 }
+
+const isValidRevenueType = (revenueType, farmId) => {
+  return (
+    revenueType &&
+    !revenueType.deleted &&
+    !revenueType.retired &&
+    (!revenueType.farm_id || revenueType.farm_id === farmId)
+  );
+};
 
 const getUniqueAnimalAndBatchIdsFromAnimalSale = (animalSale) => {
   const animalIdsSet = new Set();

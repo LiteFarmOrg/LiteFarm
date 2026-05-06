@@ -3031,8 +3031,6 @@ export default {
   fakePrice,
   fakeCropVarietySale,
   crop_variety_saleFactory,
-  fakeAnimalSale,
-  animal_saleFactory,
   farmExpenseTypeFactory,
   fakeExpenseType,
   farmExpenseFactory,
@@ -3120,5 +3118,7 @@ export default {
   market_directory_partner_permissionsFactory,
   fakeFarmNote,
   farm_noteFactory,
+  fakeAnimalSale,
+  animal_saleFactory,
   baseProperties,
 };

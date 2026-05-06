@@ -1017,6 +1017,76 @@ describe('Sale Tests', () => {
       });
     });
 
+    test('Without revenue_type_id in body, falls back to existing revenue type', async () => {
+      const [animalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [animalSale], promisedAnimal: [animal] });
+
+      const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const patchBody = { animal_sale: [mocks.fakeAnimalSale({ animal_id: animal2.id })] };
+
+      await patchRequest(patchBody, animalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', animalSale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal2.id);
+      });
+    });
+
+    test('General sale with same revenue_type_id updates value', async () => {
+      const [generalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: generalRevenueType.revenue_type_id, value: 50 }),
+      );
+
+      const patchBody = {
+        revenue_type_id: generalRevenueType.revenue_type_id,
+        value: 99,
+      };
+
+      await patchRequest(patchBody, generalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updatedSale = await saleModel.query().findById(generalSale.sale_id);
+        expect(updatedSale.value).toBe(99);
+      });
+    });
+
+    test('Updates customer_name without revenue_type_id across all revenue types', async () => {
+      const patchBody = { customer_name: 'updated customer name' };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(sale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+      });
+
+      const [animalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [animalSale], promisedAnimal: [animal] });
+
+      await patchRequest(patchBody, animalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(animalSale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+      });
+
+      const [generalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: generalRevenueType.revenue_type_id }),
+      );
+
+      await patchRequest(patchBody, generalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(generalSale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+        expect(updated.value).toBe(generalSale.value);
+      });
+    });
+
     describe('Patch sale authorization tests', () => {
       let worker;
       let workerFarm;

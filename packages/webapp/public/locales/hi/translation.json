@@ -978,7 +978,6 @@
         "TITLE": "एक लाइन बनाएं"
       }
     },
-    "TUTORIALS": "नक्शे के ट्यूटोरियल",
     "UNABLE_TO_RETIRE": {
       "BODY": "आप केवल उन स्थानों को सेवानिवृत्त कर सकते हैं जहां कोई सक्रिय या नियोजित फसलें, जानवर या कार्य नहीं हैं।",
       "TITLE": "सेवानिवृत्त करने में असमर्थ"
@@ -1003,6 +1002,27 @@
       "TITLE": "जलधारा जोड़ें",
       "WIDTH": "जलधारा की चौड़ाई"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "नोट जोड़ें",
+    "ATTACH_PHOTO": "फ़ोटो संलग्न करें",
+    "CANCEL": "रद्द करें",
+    "COLLAPSE": "नोट को संक्षिप्त करें",
+    "DELETE_CONFIRMATION": {
+      "BODY": "क्या आप वाकई इस नोट को हटाना चाहते हैं? यह कार्रवाई वापस नहीं की जा सकती।",
+      "TITLE": "नोट हटाएँ"
+    },
+    "DELETE_NOTE": "नोट हटाएँ",
+    "EDIT_NOTE": "नोट संपादित करें",
+    "EMPTY_STATE": "आपके पास कोई नोट नहीं है",
+    "EXPIRATION_WARNING": "नोट 30 दिनों के बाद अपने आप हटाए जाएंगे",
+    "FARM_NOTES": "खेत के नोट्स",
+    "HAS_UNREAD_NOTES": "अभी तक न पढ़े गए नोट्स हैं",
+    "NEW_NOTE": "नया नोट",
+    "NOTE_LABEL": "नोट",
+    "NOTE_PLACEHOLDER": "अपना नोट लिखें",
+    "PRIVATE_NOTE": "निजी नोट",
+    "SAVE_NOTE": "नोट सहेजें"
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1089,7 +1109,7 @@
     "OVER_255_CHARS": "टेक्स्ट 255 अक्षरों से अधिक नहीं हो सकता"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "स्क्रीनशॉट या फाइल अपलोड करें",
+    "ATTACHMENT_LABEL": "स्क्रीनशॉट अपलोड करें",
     "EMAIL": "ईमेल",
     "FEEDBACK_INVITATION": "मदद प्राप्त करें या हमें प्रतिक्रिया दें",
     "MESSAGE_LABEL": "संदेश",
@@ -1114,6 +1134,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} अन्य",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} अन्य",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} अन्य"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": "या बंद करने के लिए \"Esc\" दबाएँ"
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "फ़ोटो लाइब्रेरी",
+    "TAKE_PHOTO": "फ़ोटो लें"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1165,7 +1192,9 @@
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
       "IN_PROGRESS": "प्रगति में",
+      "LOAD_ERROR": "सर्वे लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "NOT_FILLED": "भरा नहीं गया",
+      "RESULTS_LOAD_ERROR": "परिणाम लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "RESULTS_TITLE": "कृषि-पारिस्थितिक संक्रमणों का चरित्रांकन (CAET) स्कोर",
       "TITLE": "TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
       "UPDATE_ANSWERS": "अपने उत्तर अपडेट करें"
@@ -2199,6 +2228,7 @@
     "CLICK_TO_UPLOAD": "अपलोड करने के लिए क्लिक करें",
     "DRAG_DROP": "या खींचकर छोड़ें",
     "REMOVE_IMAGE": "चित्र हटाएं",
+    "UNSUPPORTED_FILE_TYPE": "कृपया PNG, JPG, GIF या WebP फ़ॉर्मेट की छवि अपलोड करें",
     "UPLOAD_IMAGE": "चित्र अपलोड करें"
   },
   "WAGE": {

@@ -88,6 +88,38 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "Extensão desconectada com sucesso"
   },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Não foi possível salvar nota",
+      "DELETE": "Não foi possível remover a nota",
+      "EDIT": "Falha de atualizar nota"
+    },
+    "SUCCESS": {
+      "ADD": "Salva com sucesso",
+      "DELETE": "Nota removida com sucesso",
+      "EDIT": "Nota atualizada com sucesso"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua tarefa automaticamente",
+        "ONLINE": "Nota criada. Aparecerá quando estiver online",
+        "SUCCESS": "A nota criada offline foi salva com sucesso"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua nota automaticamente",
+        "ONLINE": "Nota excluída. Será salva quando estiver online",
+        "SUCCESS": "Nota excluída offline foi salva com sucesso"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a atualização de sua nota automaticamente",
+        "ONLINE": "Nota atualizada. Será salva quando estiver online",
+        "SUCCESS": "Nota atualizada offline foi salva com sucesso"
+      },
+      "FAILED": "Falha ao salvar alterações na nota",
+      "NOT_FOUND": "Falha ao salvar a nota: nota não existe mais",
+      "UNAUTHORIZED": "Falha ao salvar nota: permissões insuficientes"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo deu errado ao enviar seu feedback. Por favor, tente novamente."

@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -31,7 +32,7 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(postCeremonialSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
@@ -70,7 +71,7 @@ export function* editCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(editCeremonialSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
@@ -102,6 +103,7 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
   try {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteCeremonialSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );

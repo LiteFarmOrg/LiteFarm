@@ -86,10 +86,3 @@ export const fencesSelector = createSelector(
 
 export const fenceSelector = (location_id) =>
   createSelector(fenceEntitiesSelector, (entities) => entities[location_id]);
-
-export const fenceStatusSelector = createSelector(
-  [fenceReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

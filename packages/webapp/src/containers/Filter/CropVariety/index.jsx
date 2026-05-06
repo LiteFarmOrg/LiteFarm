@@ -17,7 +17,6 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
-import { cropLocationsSelector } from '../../locationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ABANDONED,
@@ -36,12 +35,13 @@ import {
 } from '../../filterSlice';
 import { suppliersByCropIdSelector } from '../../cropVarietySlice';
 import { FilterType } from '../../../components/Filter/types';
+import useCropLocations from '../../../hooks/location/useCropLocations';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
 const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const cropEnabledLocations = useSelector(cropLocationsSelector);
+  const { locations: cropEnabledLocations } = useCropLocations();
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
   const suppliers = useSelector(suppliersByCropIdSelector(cropId));
   const dispatch = useDispatch();

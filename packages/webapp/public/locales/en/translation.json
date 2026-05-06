@@ -788,6 +788,7 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "ASSETS_LOADING": "Assets are loading...",
     "BARN": {
       "ANIMALS": "Is this area used for housing animals?",
       "COLD_STORAGE": "Does this barn have cold storage?",
@@ -906,6 +907,7 @@
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SENSOR": "Sensor",
+      "SENSOR_ARRAY": "Sensor array",
       "SHOW_ALL": "Show all",
       "SOIL_SAMPLE_LOCATION": "Soil sample location",
       "SURFACE_WATER": "Surface water",

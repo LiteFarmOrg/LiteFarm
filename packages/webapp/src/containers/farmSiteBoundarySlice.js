@@ -92,10 +92,3 @@ export const farmSiteBoundarysSelector = createSelector(
 
 export const farmSiteBoundarySelector = (location_id) =>
   createSelector(farmSiteBoundaryEntitiesSelector, (entities) => entities[location_id]);
-
-export const farmSiteBoundaryStatusSelector = createSelector(
-  [farmSiteBoundaryReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

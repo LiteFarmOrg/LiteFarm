@@ -86,10 +86,3 @@ export const barnsSelector = createSelector(
 
 export const barnSelector = (location_id) =>
   createSelector(barnEntitiesSelector, (entities) => entities[location_id]);
-
-export const barnStatusSelector = createSelector(
-  [barnReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

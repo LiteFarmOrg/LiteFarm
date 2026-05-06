@@ -14,7 +14,10 @@ export const getLocationObjectFromGarden = (data) => {
     },
     garden: {
       ...pick(data, gardenProperties),
-      organic_history: { effective_date: getDateInputFormat(), organic_status: data.organic_status },
+      organic_history: {
+        effective_date: getDateInputFormat(),
+        organic_status: data.organic_status,
+      },
     },
     ...pick(data, locationProperties),
   };
@@ -92,10 +95,3 @@ export const gardensSelector = createSelector(
 
 export const gardenSelector = (location_id) =>
   createSelector(gardenEntitiesSelector, (entities) => entities[location_id]);
-
-export const gardenStatusSelector = createSelector(
-  [gardenReducerSelector],
-  ({ loading, error, loaded }) => {
-    return { loading, error, loaded };
-  },
-);

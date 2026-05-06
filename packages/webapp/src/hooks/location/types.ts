@@ -1,0 +1,209 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import {
+  AreaFigureDetails,
+  BarnDetails,
+  FenceDetails,
+  FieldDetails,
+  Figure,
+  FigureType,
+  GardenDetails,
+  GreenhouseDetails,
+  InternalMapLocationType,
+  LineFigureDetails,
+  Location,
+  PointFigureDetails,
+  Sensor,
+  SensorArray,
+  SurfaceWaterDetails,
+  WatercourseDetails,
+  WaterValveDetails,
+  WithFigureId,
+  WithLocationId,
+} from '../../store/api/types';
+
+// Internal Locations
+type FigurePayloadMap = {
+  [FigureType.AREA]: AreaFigureDetails;
+  [FigureType.LINE]: LineFigureDetails;
+  [FigureType.POINT]: PointFigureDetails;
+};
+
+type FlattenedFigureWithType<T extends FigureType> = { figure_type: T } & FigurePayloadMap[T] &
+  Omit<WithFigureId<Figure>, 'location_id'>;
+
+export type FlattenedBarn = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA> &
+  BarnDetails;
+export type FlattenedBufferZone = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.LINE>;
+export type FlattenedCeremonialArea = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA>;
+export type FlattenedFarmSiteBoundary = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA>;
+export type FlattenedFence = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.LINE> &
+  FenceDetails;
+export type FlattenedField = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA> &
+  FieldDetails;
+export type FlattenedGarden = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA> &
+  GardenDetails;
+export type FlattenedGate = WithLocationId<Location> & FlattenedFigureWithType<FigureType.POINT>;
+export type FlattenedGreenhouse = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA> &
+  GreenhouseDetails;
+export type FlattenedNaturalArea = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA>;
+export type FlattenedResidence = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA>;
+export type FlattenedSoilSampleLocation = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.POINT>;
+export type FlattenedSurfaceWater = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.AREA> &
+  SurfaceWaterDetails;
+export type FlattenedWatercourse = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.LINE> &
+  WatercourseDetails;
+export type FlattenedWaterValve = WithLocationId<Location> &
+  FlattenedFigureWithType<FigureType.POINT> &
+  WaterValveDetails;
+
+export type FlattenedInternalArea =
+  | FlattenedBarn
+  | FlattenedCeremonialArea
+  | FlattenedFarmSiteBoundary
+  | FlattenedField
+  | FlattenedGarden
+  | FlattenedGreenhouse
+  | FlattenedNaturalArea
+  | FlattenedResidence
+  | FlattenedSurfaceWater;
+
+export type FlattenedInternalLine = FlattenedBufferZone | FlattenedFence | FlattenedWatercourse;
+
+export type FlattenedInternalPoint =
+  | FlattenedGate
+  | FlattenedSoilSampleLocation
+  | FlattenedWaterValve;
+
+export type FlattenedInternalMapLocation =
+  | FlattenedInternalArea
+  | FlattenedInternalLine
+  | FlattenedInternalPoint;
+
+export type FigureTypeToFlattened = {
+  [FigureType.AREA]: FlattenedInternalArea;
+  [FigureType.LINE]: FlattenedInternalLine;
+  [FigureType.POINT]: FlattenedInternalPoint;
+};
+
+export type FlattenedMapLocationByType = {
+  [InternalMapLocationType.BARN]: FlattenedBarn;
+  [InternalMapLocationType.CEREMONIAL_AREA]: FlattenedCeremonialArea;
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: FlattenedFarmSiteBoundary;
+  [InternalMapLocationType.FIELD]: FlattenedField;
+  [InternalMapLocationType.GARDEN]: FlattenedGarden;
+  [InternalMapLocationType.GREENHOUSE]: FlattenedGreenhouse;
+  [InternalMapLocationType.NATURAL_AREA]: FlattenedNaturalArea;
+  [InternalMapLocationType.RESIDENCE]: FlattenedResidence;
+  [InternalMapLocationType.SURFACE_WATER]: FlattenedSurfaceWater;
+  [InternalMapLocationType.BUFFER_ZONE]: FlattenedBufferZone;
+  [InternalMapLocationType.FENCE]: FlattenedFence;
+  [InternalMapLocationType.WATERCOURSE]: FlattenedWatercourse;
+  [InternalMapLocationType.GATE]: FlattenedGate;
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: FlattenedSoilSampleLocation;
+  [InternalMapLocationType.WATER_VALVE]: FlattenedWaterValve;
+};
+// External Locations
+export enum ExternalMapLocationType {
+  SENSOR = 'sensor',
+  SENSOR_ARRAY = 'sensor_array',
+}
+
+export type ExternalLocationWithType<T> = T & {
+  type: ExternalMapLocationType;
+  figure_type: FigureType;
+};
+
+export interface ExternalSensorWithType extends ExternalLocationWithType<Sensor> {
+  isAddonSensor: boolean;
+}
+
+export interface ExternalSensorArrayWithType extends ExternalLocationWithType<SensorArray> {
+  isAddonSensor: boolean;
+}
+
+export type ExternalMapLocation = ExternalSensorWithType | ExternalSensorArrayWithType;
+
+export type ExternalMapLocationByType = {
+  [ExternalMapLocationType.SENSOR]: Sensor;
+  [ExternalMapLocationType.SENSOR_ARRAY]: SensorArray;
+};
+
+type FlattenedExternalArea = never;
+type FlattenedExternalLine = never;
+type FlattenedExternalPoint = Sensor | SensorArray;
+
+export type FigureTypeToExternal = {
+  [FigureType.AREA]: FlattenedExternalArea;
+  [FigureType.LINE]: FlattenedExternalLine;
+  [FigureType.POINT]: FlattenedExternalPoint;
+};
+
+// Shared
+export enum GroupByOptions {
+  TYPE = 'type',
+  FIGURE = 'figure',
+  FIGURE_AND_TYPE = 'figure_and_type',
+}
+
+type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
+
+export type UseLocationsPropsWithFilterBy<AvailableLocationType extends MapLocationType> = {
+  filterBy?: AvailableLocationType[] | AvailableLocationType | FigureType;
+  groupBy?: never;
+  deleted?: boolean;
+};
+
+export type UseLocationsPropsWithGroupBy = {
+  filterBy?: never;
+  groupBy?: GroupByOptions;
+  deleted?: boolean;
+};
+
+export type UseLocationsReturn<T> = {
+  locations: T;
+  isLoading: boolean;
+  isFetching: boolean;
+};
+
+type MapLocation = FlattenedInternalMapLocation | ExternalMapLocation;
+
+export type LocationsGroupedByType<K extends MapLocationType, V extends MapLocation> = {
+  [LocationType in K]: V[];
+};
+
+export type LocationsGroupedByFigure<V extends MapLocation> = {
+  [Figure in FigureType]: V[];
+};
+
+export type LocationsGroupedByFigureAndType<K extends MapLocationType, V extends MapLocation> = {
+  [Figure in FigureType]: {
+    [LocationType in K]: V[];
+  };
+};

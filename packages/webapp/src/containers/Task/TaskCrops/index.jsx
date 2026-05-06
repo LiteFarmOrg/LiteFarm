@@ -7,10 +7,10 @@ import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
 } from './useManagementPlanTilesByLocationIds';
-import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
+import useCropLocations from '../../../hooks/location/useCropLocations';
 
 export default function ManagementPlanSelector() {
   const history = useHistory();
@@ -25,7 +25,7 @@ export default function ManagementPlanSelector() {
 }
 
 function TransplantManagementPlansSelector({ history, location }) {
-  const locations = useSelector(cropLocationsSelector);
+  const { locations } = useCropLocations();
   const onContinuePath = '/add_task/task_locations';
   const goBackPath = '/add_task/task_date';
   return (

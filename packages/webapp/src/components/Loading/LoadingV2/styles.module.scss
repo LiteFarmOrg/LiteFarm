@@ -1,0 +1,78 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+ 
+@use '@assets/mixin' as *;
+
+.spinner {
+  rect {
+    fill: #DAE3E1;
+    transition: fill 0.3s ease;
+  }
+
+  // Start animation from the second rect so it doesn't begin at full grey
+  rect:nth-child(1) { animation: cycle 0.96s infinite steps(8); }
+  rect:nth-child(2) { animation: cycle 0.96s infinite steps(8) -0.12s; }
+  rect:nth-child(3) { animation: cycle 0.96s infinite steps(8) -0.24s; }
+  rect:nth-child(4) { animation: cycle 0.96s infinite steps(8) -0.36s; }
+  rect:nth-child(5) { animation: cycle 0.96s infinite steps(8) -0.48s; }
+  rect:nth-child(6) { animation: cycle 0.96s infinite steps(8) -0.60s; }
+  rect:nth-child(7) { animation: cycle 0.96s infinite steps(8) -0.72s; }
+  rect:nth-child(8) { animation: cycle 0.96s infinite steps(8) -0.84s; }
+}
+
+@keyframes cycle {
+  0%   { fill: #89D1C7; }
+  12.5% { fill: #89D1C7; }
+  12.6% { fill: #DAE3E1; }
+  100%  { fill: #DAE3E1; }
+}
+
+.loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min-content;
+}
+
+.loadingText {
+  @include fontFamily();
+  color: black;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}
+
+.loadingDialog {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 0 1px 0 rgba(43, 48, 58, 0.30);
+}
+
+.sitBackText {
+  @include fontFamily();
+  color: black;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}

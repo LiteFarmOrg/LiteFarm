@@ -978,7 +978,6 @@
         "TITLE": "Dibuja una linea"
       }
     },
-    "TUTORIALS": "Tutoriales de mapas",
     "UNABLE_TO_RETIRE": {
       "BODY": "Sólo puedes retirar ubicaciones que no tengan cultivos activos o previstos, ni animales o tareas.",
       "TITLE": "No se pudo retirar"
@@ -1003,6 +1002,27 @@
       "TITLE": "Agregar arroyo",
       "WIDTH": "Ancho de arroyo"
     }
+  },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "Añadir una nota",
+    "ATTACH_PHOTO": "Adjuntar una foto",
+    "CANCEL": "Cancelar",
+    "COLLAPSE": "Colapsar nota",
+    "DELETE_CONFIRMATION": {
+      "BODY": "¿Está seguro que desea eliminar esta nota? Esta acción no se puede deshacer.",
+      "TITLE": "Eliminar nota"
+    },
+    "DELETE_NOTE": "Eliminar nota",
+    "EDIT_NOTE": "Editar nota",
+    "EMPTY_STATE": "No tienes ninguna nota",
+    "EXPIRATION_WARNING": "Las notas se eliminarán automáticamente después de 30 días",
+    "FARM_NOTES": "Notas de la granja",
+    "HAS_UNREAD_NOTES": "Tiene notas sin leer",
+    "NEW_NOTE": "Nueva nota",
+    "NOTE_LABEL": "Nota",
+    "NOTE_PLACEHOLDER": "Escribe tu nota",
+    "PRIVATE_NOTE": "Nota privada",
+    "SAVE_NOTE": "Guardar nota"
   },
   "FARM_SETTINGS": {
     "TABS": {
@@ -1089,7 +1109,7 @@
     "OVER_255_CHARS": "El texto no puede superar los 255 caracteres"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
+    "ATTACHMENT_LABEL": "Subir captura de pantalla",
     "EMAIL": "Correo electrónico",
     "FEEDBACK_INVITATION": "Obtenga ayuda o envíenos sus comentarios",
     "MESSAGE_LABEL": "Mensaje",
@@ -1114,6 +1134,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} otro",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} otros",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} otros"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": "O presione \"Esc\" para cerrar"
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "Biblioteca de fotos",
+    "TAKE_PHOTO": "Tomar foto"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1165,7 +1192,9 @@
     "TAPE": {
       "COMPLETED": "Completado - Ver tus resultados",
       "IN_PROGRESS": "En progreso",
+      "LOAD_ERROR": "Error al cargar la encuesta. Inténtalo de nuevo más tarde.",
       "NOT_FILLED": "Sin rellenar",
+      "RESULTS_LOAD_ERROR": "Error al cargar la encuesta. Inténtalo de nuevo más tarde.",
       "RESULTS_TITLE": "Caracterización de las Transiciones Agroecológicas (CAET) Puntaje",
       "TITLE": "Encuesta TAPE (Herramienta para la Evaluación del Rendimiento de la Agroecología)",
       "UPDATE_ANSWERS": "Actualiza tus respuestas"
@@ -2199,6 +2228,7 @@
     "CLICK_TO_UPLOAD": "Haga click para cargar",
     "DRAG_DROP": "o arrastre y suelte",
     "REMOVE_IMAGE": "Eliminar imagen",
+    "UNSUPPORTED_FILE_TYPE": "Por favor, sube una imagen PNG, JPG, GIF o WebP",
     "UPLOAD_IMAGE": "Subir imagen"
   },
   "WAGE": {

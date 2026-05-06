@@ -155,20 +155,20 @@ describe('Revenue Type Tests', () => {
       const roles = [1, 2, 5];
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const revenue_type = getFakeRevenueType(mainFarm.farm_id);
+        const revenueType = getFakeRevenueType(mainFarm.farm_id);
 
-        const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+        const res = await postRevenueTypeRequestAsPromise(revenueType, {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
 
         expect(res.status).toBe(201);
-        const revenue_types = await revenueTypeModel
+        const revenueTypes = await revenueTypeModel
           .query()
           .context({ showHidden: true })
           .where('farm_id', mainFarm.farm_id);
-        expect(revenue_types.length).toBe(1);
-        expect(revenue_types[0].value).toBe(revenue_type.value);
+        expect(revenueTypes.length).toBe(1);
+        expect(revenueTypes[0].revenue_name).toBe(revenueType.revenue_name);
       }
     });
 
@@ -176,11 +176,11 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
       for (const entity_type of ['none', 'crop', 'animal']) {
-        const revenue_type = {
+        const revenueType = {
           ...mocks.fakeRevenueType({ entity_type }),
           farm_id: mainFarm.farm_id,
         };
-        const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+        const res = await postRevenueTypeRequestAsPromise(revenueType, {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -191,12 +191,12 @@ describe('Revenue Type Tests', () => {
 
     test('Rejects invalid entity_type value with 400', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
-      const revenue_type = {
+      const revenueType = {
         ...mocks.fakeRevenueType({ entity_type: 'invalid_value' }),
         farm_id: mainFarm.farm_id,
       };
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await postRevenueTypeRequestAsPromise(revenueType, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -478,12 +478,12 @@ describe('Revenue Type Tests', () => {
         });
 
         expect(res.status).toBe(204);
-        const revenue_types = await revenueTypeModel
+        const revenueTypes = await revenueTypeModel
           .query()
           .context({ showHidden: true })
           .where('farm_id', mainFarm.farm_id);
-        expect(revenue_types.length).toBe(1);
-        expect(revenue_types[0].value).toBe(revenue.revenue_type.value);
+        expect(revenueTypes.length).toBe(1);
+        expect(revenueTypes[0].revenue_name).toBe(revenue.revenue_type.revenue_name);
       }
     });
 

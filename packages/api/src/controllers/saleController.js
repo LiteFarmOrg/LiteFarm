@@ -91,7 +91,7 @@ const SaleController = {
           .returning('*');
         if (!newSale) {
           await trx.rollback();
-          return res.status(500).send('failed to patch data');
+          return res.status(400).send('failed to patch data');
         }
 
         // Hard delete previous crop variety sales when updating or transitioning away

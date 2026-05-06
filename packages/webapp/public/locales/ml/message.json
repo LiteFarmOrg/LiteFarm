@@ -88,38 +88,6 @@
     },
     "SUCCESS_DISCONNECT_ADDON": "ആഡ്ഓൺ വിജയകരമായി വിച്ഛേദിച്ചു"
   },
-  "FARM_NOTE": {
-    "ERROR": {
-      "ADD": "",
-      "DELETE": "",
-      "EDIT": ""
-    },
-    "SUCCESS": {
-      "ADD": "",
-      "DELETE": "",
-      "EDIT": ""
-    },
-    "SYNC": {
-      "ADD": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "DELETE": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "EDIT": {
-        "NETWORK_ERROR": "",
-        "ONLINE": "",
-        "SUCCESS": ""
-      },
-      "FAILED": "",
-      "NOT_FOUND": "",
-      "UNAUTHORIZED": ""
-    }
-  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "നിങ്ങളുടെ ഫീഡ്‌ബാക്ക് സമർപ്പിക്കുമ്പോൾ എന്തോ കുഴപ്പം സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക."

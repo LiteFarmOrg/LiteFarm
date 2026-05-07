@@ -369,7 +369,7 @@ export function* getRevenueTypesSaga() {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
 
     // TODO LF-5272: Use result.data directly once the UI is updated to use the entity_type field instead of crop_generated
-    // Filter out ANIMAL_SALE to hide it from the UI since it's not supported yet
+    // TODO LF-5274: Remove filter when ANIMAL_SALE is supported
     const formattedResult = result.data
       .filter(({ farm_id, revenue_translation_key }) => {
         return !!farm_id || revenue_translation_key !== 'ANIMAL_SALE';

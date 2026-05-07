@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { groupBy as lodashGroupBy } from 'lodash-es';
 import { useGetLocationsQuery } from '../../store/api/locationApi';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import {
@@ -27,6 +28,9 @@ import {
   UseLocationsPropsWithGroupBy,
   UseLocationsReturn,
 } from './types';
+
+// Polyfill for tests and older browsers
+const groupByFn = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
 
 const allLocationTypes = Object.values(InternalMapLocationType) as readonly string[];
 const allFigureTypes = Object.values(FigureType) as readonly string[];
@@ -72,21 +76,20 @@ export const clean = (location: InternalMapLocation): any => {
 };
 
 export const flatten = (location: any): FlattenedInternalMapLocation => {
-  const clone: InternalMapLocation = { ...location };
-  let flattened = {} as any;
-  const locationType = clone.figure.type;
-  const figureType = getFigureType(clone.figure);
+  const flattened = {} as any;
+  const locationType = location.figure.type;
+  const figureType = getFigureType(location.figure);
 
   // Copy over core values
-  for (const [key, value] of Object.entries(clone)) {
+  for (const [key, value] of Object.entries(location)) {
     if (key !== locationType && key !== 'figure') {
       flattened[key] = value;
     }
   }
 
   // Flatten location type payload (e.g. barn, field)
-  if (locationType && clone[locationType]) {
-    const payload = clone[locationType];
+  if (locationType && location[locationType]) {
+    const payload = location[locationType];
 
     // Keep properties, skipping location_id
     for (const [key, value] of Object.entries(payload)) {
@@ -97,8 +100,8 @@ export const flatten = (location: any): FlattenedInternalMapLocation => {
   }
 
   // Flatten figure into top level
-  if (clone.figure) {
-    const figure = clone.figure;
+  if (location.figure) {
+    const figure = location.figure;
     for (const [key, value] of Object.entries(figure)) {
       if (key !== figureType && key !== 'location_id') {
         flattened[key] = value;
@@ -164,65 +167,68 @@ function useLocations(
 function useLocations(
   { filterBy, groupBy, deleted }: UseInternalLocationProps = { deleted: false },
 ): any {
-  const { data: locations, isLoading, isFetching } = useGetLocationsQuery();
+  const { data: rawLocations, isLoading, isFetching } = useGetLocationsQuery();
 
-  if (isLoading) {
+  // Deep clone to prevent mutating original data from cache
+  const locations = structuredClone(rawLocations);
+
+  if (isLoading || !locations?.length) {
     return { locations, isLoading, isFetching };
   }
 
-  if (locations && locations.length) {
-    const activeLocations = deleted
-      ? locations
-      : locations.filter(({ deleted }) => deleted === false);
-    const cleanedLocations = activeLocations.map(clean);
-    const flattenedLocations = cleanedLocations.map(flatten);
+  const activeLocations = deleted
+    ? locations
+    : locations.filter(({ deleted }) => deleted === false);
+  const cleanedLocations = activeLocations.map(clean);
+  const flattenedLocations = cleanedLocations.map(flatten);
 
-    if (Array.isArray(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (filterBy && allLocationTypes.includes(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (filterBy && allFigureTypes.includes(filterBy)) {
-      const filteredLocations = flattenedLocations.filter(
-        ({ figure_type }) => figure_type === filterBy,
-      );
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.TYPE) {
-      const groupedLocations = Object.groupBy(flattenedLocations, ({ type }) => type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE) {
-      const groupedLocations = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
-      // First: group by figure type (area, line, point)
-      const groupedByFigure = Object.groupBy(flattenedLocations, ({ figure_type }) => figure_type);
-
-      // Second: for each figure group, group by location type
-      const groupedLocations = Object.fromEntries(
-        Object.entries(groupedByFigure).map(([figureType, locations]) => {
-          const groupedByLocationType = Object.groupBy(locations, ({ type }) => type);
-          return [figureType, groupedByLocationType];
-        }),
-      );
-
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    return { locations: flattenedLocations, isLoading, isFetching };
+  if (Array.isArray(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(({ type }) => filterBy.includes(type));
+    return { locations: filteredLocations, isLoading, isFetching };
   }
 
-  return { locations, isLoading, isFetching };
+  if (filterBy && allLocationTypes.includes(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(({ type }) => type === filterBy);
+    return { locations: filteredLocations, isLoading, isFetching };
+  }
+
+  if (filterBy && allFigureTypes.includes(filterBy)) {
+    const filteredLocations = flattenedLocations.filter(
+      ({ figure_type }) => figure_type === filterBy,
+    );
+    return { locations: filteredLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.TYPE) {
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedLocations = groupByFn(flattenedLocations, ({ type }) => type);
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE) {
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedLocations = groupByFn(flattenedLocations, ({ figure_type }) => figure_type);
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
+    // First: group by figure type (area, line, point)
+    // @ts-expect-error - todo - fix type inference for groupByFn
+    const groupedByFigure = groupByFn(flattenedLocations, ({ figure_type }) => figure_type);
+
+    // Second: for each figure group, group by location type
+    const groupedLocations = Object.fromEntries(
+      Object.entries(groupedByFigure).map(([figureType, locations]) => {
+        // @ts-expect-error - todo - fix type inference for groupByFn
+        const groupedByLocationType = groupByFn(locations, ({ type }) => type);
+        return [figureType, groupedByLocationType];
+      }),
+    );
+
+    return { locations: groupedLocations, isLoading, isFetching };
+  }
+
+  return { locations: flattenedLocations, isLoading, isFetching };
 }
 
 export default useLocations;

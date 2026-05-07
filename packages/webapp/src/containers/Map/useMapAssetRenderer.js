@@ -39,6 +39,7 @@ import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
 import useLocations from '../../hooks/location/useLocations';
 import useExternalLocations from '../../hooks/location/useExternalLocations';
+import { GroupByOptions } from '../../hooks/location/types';
 
 /**
  *
@@ -114,17 +115,15 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     isLoading: isLoadingInternalLocations,
     isFetching: isFetchingInternalLocations,
   } = useLocations({
-    groupBy: 'figure_and_type',
+    groupBy: GroupByOptions.FIGURE_AND_TYPE,
   });
   const {
     locations: externalLocations,
     isLoading: isLoadingExternalLocations,
     isFetching: isFetchingExternalLocations,
-  } = useExternalLocations({ groupBy: 'figure_and_type' });
-  const isLocationsLoading = [isLoadingInternalLocations, isLoadingExternalLocations].some(Boolean);
-  const isLocationsFetching = [isFetchingInternalLocations, isFetchingExternalLocations].some(
-    Boolean,
-  );
+  } = useExternalLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
+  const isLocationsLoading = isLoadingInternalLocations || isLoadingExternalLocations;
+  const isLocationsFetching = isFetchingInternalLocations || isFetchingExternalLocations;
 
   const areaAssets = { ...internalLocations?.area, ...externalLocations?.area };
   const lineAssets = { ...internalLocations?.line, ...externalLocations?.line };
@@ -150,8 +149,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-      ? drawLine
-      : drawPoint;
+        ? drawLine
+        : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();

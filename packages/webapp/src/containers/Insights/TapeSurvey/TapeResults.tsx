@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
@@ -25,72 +26,18 @@ import {
   Filler,
   Tooltip,
 } from 'chart.js';
-import { tapeSurveySelector, reopenSurvey } from './tapeSurveySlice';
 import styles from './styles.module.scss';
+import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
-import TapeQuestions from './tapeQuestions.json';
 import { roundToOne } from '../../../util/rounding';
-import Button from '../../../components/Form/Button';
-import { ReactComponent as EditIcon } from '../../../assets/images/edit.svg';
+import { useGetTapeSurveyQuery } from '../../../store/api/tapeSurveyApi';
+import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
 const CHART_FILL_COLOR = 'rgba(85, 143, 112, 0.2)'; // reduced opacity
 const MAX_SCORE = 100;
-
-const STEP_TWO_SURVEY_NAMES = [
-  'Qualitative economic indicator',
-  'Land tenure',
-  'Food and nutrition',
-  'Dietary diversity',
-  'Youth employment and aspiration',
-  'Soil health',
-];
-
-const getChartTitleFromSurveyTitle = (surveyTitle: unknown) => {
-  if (!surveyTitle || typeof surveyTitle !== 'string') return '';
-
-  // Remove the section number from the title
-  const titleWithoutSectionNumber = surveyTitle.split(/\s+/).slice(1).join(' ');
-
-  if (titleWithoutSectionNumber === '') return '';
-
-  return (
-    titleWithoutSectionNumber.charAt(0).toUpperCase() +
-    titleWithoutSectionNumber.slice(1).toLowerCase()
-  );
-};
-
-const getAnswerKeys = (element: any): string[] => {
-  if (Array.isArray(element.elements)) {
-    return element.elements.flatMap(getAnswerKeys);
-  }
-  return element.name ? [element.name] : [];
-};
-
-const CHOSEN_SECTION_NAMES = [
-  'diversity',
-  'synergy',
-  'recycling',
-  'efficiency',
-  'resilience',
-  'culture_and_food',
-  'cocreation_and_knowledge',
-  'human_and_social',
-  'responsible_governance',
-];
-
-const CHART_SECTION_DATA = TapeQuestions.pages.reduce<ChartSection[]>((acc, cv) => {
-  if (CHOSEN_SECTION_NAMES.includes(cv.name)) {
-    acc.push({
-      dimension: getChartTitleFromSurveyTitle(cv.title),
-      answerKeys: getAnswerKeys(cv),
-      maxScore: MAX_SCORE,
-    });
-    return acc;
-  }
-  return acc;
-}, []);
+const RAW_MAX_SCORE = 4;
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
@@ -105,9 +52,26 @@ function TAPEResults() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { surveyData } = useSelector(tapeSurveySelector);
+  const { data: surveyData, error: surveyDataError } = useGetTapeSurveyQuery();
+  const { survey_response } = surveyData || {};
+  const notifications: { message: string }[] = useSelector(snackbarSelector);
 
-  const tapeData = analyzeTAPEData(surveyData);
+  useEffect(() => {
+    // Redirect back to survey page if no saved survey data is found
+    // (e.g. if user tries to access results page directly without completing survey)
+    if (surveyDataError && 'status' in surveyDataError && surveyDataError?.status === 404) {
+      history.replace('/Insights/tape');
+    } else if (surveyDataError) {
+      const activeError = notifications.find(
+        ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),
+      );
+      if (!activeError) {
+        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
+      }
+    }
+  }, [surveyDataError]);
+
+  const tapeData = survey_response ? analyzeTAPEData(survey_response) : [];
 
   const chartData = {
     labels: tapeData.map((d) => d.dimension),
@@ -140,6 +104,13 @@ function TAPEResults() {
           font: {
             size: 14,
           },
+          // Splits labels into a maximum of 2 lines (assumes English labels)
+          callback: (label: any) => {
+            const words = label.split(' ');
+            const splitIndex = words.length === 1 ? 1 : Math.floor(words.length / 2);
+
+            return [words.slice(0, splitIndex).join(' '), words.slice(splitIndex).join(' ')];
+          },
         },
       },
     },
@@ -152,65 +123,56 @@ function TAPEResults() {
     },
   };
 
-  const returnToSurvey = () => {
-    dispatch(reopenSurvey());
-    history.push('/insights/tape');
-  };
-
   return (
-    <>
+    <div className={insightStyles.insightContainer}>
       <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
       <div className={styles.resultsContainer}>
         <div className={styles.sectionContainer}>
-          <div className={styles.buttonContainer}>
-            <Button sm color="secondary-2" onClick={returnToSurvey}>
-              {t('INSIGHTS.TAPE.UPDATE_ANSWERS')}
-              <EditIcon className={styles.editIcon} />
-            </Button>
-          </div>
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
-          {tapeData && tapeData.length > 0 && (
-            <div className={styles.chartContainer}>
-              <Radar data={chartData} options={options} />
-            </div>
-          )}
-        </div>
-        <div className={styles.sectionContainer}>
-          <Semibold className={styles.titleText}>Step 2 - Core Criteria of Performance</Semibold>
-          <div className={styles.stepTwoButtonContainer}>
-            {
-              /* Placeholders for Step 2 content. Ultimately these will link to distinct surveys for each section */
-              STEP_TWO_SURVEY_NAMES.map((name) => (
-                <Button key={name} sm color="secondary">
-                  {name}
-                </Button>
-              ))
-            }
+          <div className={styles.chartContainerWrapper}>
+            {tapeData && tapeData.length > 0 && (
+              <div className={styles.chartContainer}>
+                <Radar data={chartData} options={options} />
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
-interface ChartSection {
-  dimension: string;
-  answerKeys: string[];
-  maxScore: number;
-}
+
+const DIMENSION_MAPPING = {
+  Diversity: 'diversity_1',
+  Synergy: 'synergy_2',
+  Recycling: 'recycling_3',
+  Efficiency: 'efficiency_4',
+  Resilience: 'resilience_5',
+  'Culture and food traditions': 'culture_6',
+  'Co-creation and sharing of knowledge': 'knowledge_7',
+  'Human and social values': 'human_8',
+  'Circular economy and solidarity': 'circular_9',
+  'Responsible governance': 'governance_10',
+};
 
 const analyzeTAPEData = (data: any): TAPEDimension[] => {
   if (!data) return [];
 
-  return CHART_SECTION_DATA.map(({ dimension, answerKeys, maxScore }) => {
+  return Object.entries(DIMENSION_MAPPING).map(([dimension, prefix]) => {
+    const scores = Object.keys(data)
+      .filter((key) => key.startsWith(prefix))
+      .map((key) => Number(data[key]) || 0);
+
+    if (!scores.length) {
+      return { dimension, score: 0, maxScore: MAX_SCORE };
+    }
+
+    const averageRawScore = scores.reduce((sum, value) => sum + value, 0) / scores.length;
+
     return {
       dimension,
-      score:
-        25 *
-        (answerKeys.reduce<number>((acc, cv) => {
-          return data[cv] ? acc + Number(data[cv]) : acc;
-        }, 0) /
-          answerKeys.length), // simple average
-      maxScore,
+      score: (averageRawScore / RAW_MAX_SCORE) * MAX_SCORE,
+      maxScore: MAX_SCORE,
     };
   });
 };

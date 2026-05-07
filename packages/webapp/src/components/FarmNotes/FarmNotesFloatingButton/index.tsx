@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,27 +14,27 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as MessageTextSquareIcon } from '../../../assets/images/message-text-square-02.svg';
 import styles from './styles.module.scss';
-import { Main } from '../../Typography';
-import { Loading } from '../../Loading/Loading';
-import { Dialog } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((_theme) => ({
-  paper: (_props) => ({
-    overflow: 'inherit',
-  }),
-}));
+interface FarmNotesFloatingButtonProps {
+  onClick: () => void;
+  hasUnread: boolean;
+}
 
-export default function LoadingMapModal({ isOpen }: { isOpen: boolean }) {
+export default function FarmNotesFloatingButton({
+  onClick,
+  hasUnread,
+}: FarmNotesFloatingButtonProps) {
   const { t } = useTranslation();
-  const classes = useStyles();
+
   return (
-    <Dialog PaperProps={{ className: classes.paper }} open={isOpen} scroll="paper">
-      <div className={styles.container}>
-        <Loading />
-        <Main>{t('FARM_MAP.ASSETS_LOADING')}</Main>
-      </div>
-    </Dialog>
+    <button className={styles.button} onClick={onClick} type="button">
+      <MessageTextSquareIcon className={styles.icon} />
+      <span className={styles.label}>{t('FARM_NOTE.FARM_NOTES')}</span>
+      {hasUnread && (
+        <span className={styles.unreadDot} aria-label={t('FARM_NOTE.HAS_UNREAD_NOTES')} />
+      )}
+    </button>
   );
 }

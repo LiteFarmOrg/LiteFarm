@@ -78,7 +78,7 @@ import { API_TAGS, ApiTag } from './apiTags';
  */
 export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
 
-const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket']);
+const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket', 'addFarmNote', 'editFarmNote']);
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({

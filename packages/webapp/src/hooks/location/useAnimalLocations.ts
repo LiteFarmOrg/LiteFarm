@@ -42,7 +42,7 @@ type AnimalLocations =
   | FlattenedWatercourse;
 
 function useAnimalLocations(): UseLocationsReturn<AnimalLocations[] | undefined> {
-  const { locations, isLoading } = useLocations({
+  const { locations, isLoading, isFetching } = useLocations({
     filterBy: [
       InternalMapLocationType.BARN,
       InternalMapLocationType.CEREMONIAL_AREA,
@@ -60,6 +60,7 @@ function useAnimalLocations(): UseLocationsReturn<AnimalLocations[] | undefined>
   return {
     locations,
     isLoading,
+    isFetching,
   };
 }
 

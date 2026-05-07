@@ -174,8 +174,8 @@ export enum GroupByOptions {
 
 type MapLocationType = InternalMapLocationType | ExternalMapLocationType;
 
-export type UseLocationsPropsWithFilterBy<AvailableLocationTypes extends MapLocationType> = {
-  filterBy?: AvailableLocationTypes[] | AvailableLocationTypes | FigureType;
+export type UseLocationsPropsWithFilterBy<AvailableLocationType extends MapLocationType> = {
+  filterBy?: AvailableLocationType[] | AvailableLocationType | FigureType;
   groupBy?: never;
   deleted?: boolean;
 };
@@ -189,6 +189,7 @@ export type UseLocationsPropsWithGroupBy = {
 export type UseLocationsReturn<T> = {
   locations: T;
   isLoading: boolean;
+  isFetching: boolean;
 };
 
 type MapLocation = FlattenedInternalMapLocation | ExternalMapLocation;

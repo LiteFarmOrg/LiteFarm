@@ -117,6 +117,15 @@ const theme = createTheme({
       defaultProps: {
         disableRipple: true,
       },
+      styleOverrides: {
+        // disableRipple removes MUI's default :focus-visible styling
+        // https://mui.com/material-ui/api/button-base/#button-base-prop-disableRipple
+        root: {
+          '&:focus-visible': {
+            outline: `3px solid ${colors.teal500}`,
+          },
+        },
+      },
     },
     MuiCssBaseline: {
       styleOverrides: {
@@ -133,6 +142,9 @@ const theme = createTheme({
           boxSizing: 'border-box',
           margin: 0,
           padding: 0,
+        },
+        ':focus-visible': {
+          outlineColor: colors.teal500, // --Form-focus
         },
       },
     },

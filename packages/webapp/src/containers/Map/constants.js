@@ -174,6 +174,7 @@ export const MAP_LOCATION_TYPE_BY_FIGURE = {
   [FigureType.AREA]: [
     InternalMapLocationType.BARN,
     InternalMapLocationType.CEREMONIAL_AREA,
+    InternalMapLocationType.FARM_SITE_BOUNDARY,
     InternalMapLocationType.FIELD,
     InternalMapLocationType.GARDEN,
     InternalMapLocationType.GREENHOUSE,

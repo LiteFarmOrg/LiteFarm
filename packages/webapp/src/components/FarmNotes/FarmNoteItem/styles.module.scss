@@ -1,0 +1,248 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.card {
+  background: var(--White);
+  border-radius: 8px;
+  width: 100%;
+  text-align: left;
+}
+
+.noteMeta {
+  @include fontFamily();
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .nameAndIcons {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 8px;
+    @include truncateText();
+  }
+
+  .authorName {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #000;
+    white-space: nowrap;
+    @include truncateText();
+  }
+
+  .icons {
+    display: flex;
+    gap: 4px;
+
+    @include svgColorFill(#000);
+  }
+
+  .photoIcon {
+    display: flex;
+    align-items: center;
+  }
+
+  .date {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-bottom: solid 1px var(--Colors-Primary-Primary-teal-700);
+    padding-bottom: 1px;
+    color: var(--Colors-Neutral-Neutral-900);
+  }
+
+  .today {
+    font-size: 12px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 4px;
+    color: var(--Colors-Accent---singles-Red-full);
+    background: var(--Colors-Accent---singles-Red-light);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &.isExpanded {
+    .authorName {
+      font-weight: 400;
+    }
+  }
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: none;
+
+  &.chevronDown {
+    color: var(--Colors-Neutral-Neutral-600);
+  }
+
+  &.chevronUp {
+    color: var(--Colors-Neutral-Neutral-900);
+    background: var(--Colors-Primary-Primary-teal-50);
+  }
+}
+
+/* ── Collapsed ─────────────────────────────────── */
+
+.collapsed {
+  padding: 8px 16px;
+  border: 1px solid rgba(151, 166, 162, 0.1);
+  background: #fff;
+  box-shadow: 0px 1px 0px 0px rgba(182, 191, 189, 0.3);
+  cursor: pointer;
+
+  &.pending {
+    pointer-events: none;
+    border: 1px solid var(--Colors-Secondary-Secondary-green-100);
+    background: var(--Box-bg);
+
+    .notePreview {
+      color: var(--Colors-Neutral-Neutral-400);
+    }
+
+    .chevronDown {
+      color: var(--Colors-Neutral-Neutral-100);
+      background: var(--Colors-Neutral-Neutral-50);
+    }
+
+    .authorName {
+      color: var(--Colors-Neutral-Neutral-400);
+    }
+  }
+}
+
+.notePreview {
+  @include fontFamily();
+  height: 48px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-line;
+
+  // 2-line clamp
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ── Expanded ──────────────────────────────────── */
+
+.expanded {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--Brand-Accents-colors-and-overlays-Accent-green-light);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.expandedHeader {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+
+  /* ──── Focus outline styles ──── */
+  border-radius: 8px;
+}
+
+.expandedBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 8px;
+}
+
+.imageWrapper {
+  img {
+    margin-bottom: 4px;
+  }
+}
+
+.thumbnail {
+  width: auto;
+  height: auto;
+  max-width: 175px;
+  max-height: 175px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-300);
+  cursor: pointer;
+}
+
+.enlargeLink {
+  @include fontFamily();
+  color: var(--Colors-Neutral-Neutral-300);
+  font-size: 12px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  /* ──── Focus outline styles ──── */
+  padding-right: 4px;
+
+  &:focus-visible {
+    border-radius: 4px;
+  }
+}
+
+.noteText {
+  padding: 8px 0;
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-900);
+  white-space: pre-line;
+}
+
+/* ── Author actions ────────────────────────────── */
+
+.actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  button {
+    min-width: 0;
+    flex: 1 1 0;
+
+    span {
+      @include truncateText();
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+
+    path {
+      stroke: currentColor;
+    }
+  }
+}

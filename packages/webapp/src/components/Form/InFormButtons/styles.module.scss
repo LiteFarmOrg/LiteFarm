@@ -45,6 +45,13 @@
   gap: 16px;
 }
 
+.equalWidth {
+  > * {
+    flex: 1;
+    text-align: center;
+  }
+}
+
 .button {
   min-height: 32px;
   height: 32px;

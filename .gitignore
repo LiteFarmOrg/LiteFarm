@@ -19,3 +19,8 @@ packages/webapp/cypress/integration/1-getting-started
 packages/webapp/cypress/integration/2-advanced-examples
 ngrok/ngrok.yml
 docker-compose.override.yml
+
+# AI settings
+.claude
+CLAUDE.md
+.copilot

@@ -1,0 +1,85 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--White);
+  border: 1px solid var(--Colors-Primary-Primary-teal-600);
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: var(--Colors-Primary-Primary-teal-600);
+  cursor: pointer;
+  height: 48px;
+
+  &:hover {
+    color: var(--Colors-Primary-Primary-teal-50);
+    border: 1px solid var(--Colors-Primary-Primary-teal-50);
+    background: var(--Colors-Primary-Primary-teal-700);
+  }
+
+  &:active {
+    color: var(--Colors-Primary-Primary-teal-600);
+    border: 1px solid var(--Colors-Primary-Primary-teal-600);
+    background: var(--Colors-Primary-Primary-teal-50);
+  }
+
+  @include md-breakpoint {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border-width: 2px;
+
+    .label {
+      @include visually-hidden();
+    }
+
+    .unreadDot {
+      top: 11px;
+      right: 12px;
+    }
+  }
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.label {
+  @include fontFamily();
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.unreadDot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--Brand-Accents-colors-and-overlays-Accent-red);
+}

@@ -35,18 +35,3 @@ export interface RevenueType {
   custom_description: string | null;
   retired: boolean;
 }
-
-export interface AnimalSaleItem {
-  animal_id: number;
-  sale_value: number;
-}
-
-export interface FarmExpenseCropVariety {
-  crop_variety_id: number;
-  value: number;
-}
-
-export interface FarmExpenseAnimal {
-  animal_id: number;
-  value: number;
-}

@@ -37,10 +37,10 @@ export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
         quantity_unit: cur.quantity_unit
-          ? (getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
+          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
               label: cur.quantity_unit,
               value: cur.quantity_unit,
-            }
+            })
           : undefined,
         sale_value: cur.sale_value,
       },

@@ -54,7 +54,7 @@ export const up = async function (knex) {
     table.integer('animal_id').nullable().references('id').inTable('animal');
     table.integer('animal_batch_id').nullable().references('id').inTable('animal_batch');
     table.float('quantity');
-    table.enu('quantity_unit', ['kg', 'mt', 'lb', 't']).defaultTo('kg');
+    table.enu('quantity_unit', ['kg', 'mt', 'lb', 't']);
     table.float('sale_value');
     table.check(
       `(animal_id IS NOT NULL AND animal_batch_id IS NULL) OR (animal_id IS NULL AND animal_batch_id IS NOT NULL)`,

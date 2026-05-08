@@ -37,7 +37,7 @@ class AnimalSale extends Model {
         animal_id: { type: ['integer', 'null'] },
         animal_batch_id: { type: ['integer', 'null'] },
         quantity: { type: 'number', format: 'float' },
-        quantity_unit: { type: 'string' },
+        quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
         sale_value: { type: 'number', format: 'float' },
       },
       additionalProperties: false,

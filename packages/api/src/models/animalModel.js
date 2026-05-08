@@ -293,6 +293,19 @@ class Animal extends baseModel {
 
     return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
+
+  static async animalsBelongToFarm({ animalIds, farmId, includeRemoved = true }) {
+    const animals = await Animal.query()
+      .whereIn('id', animalIds)
+      .andWhere('farm_id', farmId)
+      .modify((queryBuilder) => {
+        if (!includeRemoved) {
+          queryBuilder.andWhere('removal_date', null);
+        }
+      })
+      .whereNotDeleted();
+    return animals.length === animalIds.length;
+  }
 }
 
 export default Animal;

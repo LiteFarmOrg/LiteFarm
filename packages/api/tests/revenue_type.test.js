@@ -115,7 +115,7 @@ describe('Revenue Type Tests', () => {
     return { mainFarm, user };
   }
 
-  async function returnRevenueType(mainFarm, entity_type = 'none') {
+  async function returnRevenueType(mainFarm, entity_type) {
     const [revenue_type] = await mocks.revenue_typeFactory({
       promisedFarm: [mainFarm],
       properties: { entity_type },
@@ -123,7 +123,7 @@ describe('Revenue Type Tests', () => {
     return { revenue_type };
   }
 
-  async function returnDefaultRevenueType(entity_type = 'none') {
+  async function returnDefaultRevenueType(entity_type) {
     const defaultFarm = mocks.farmFactory();
     defaultFarm.farm_id = null;
     const [revenue_type] = await mocks.revenue_typeFactory({
@@ -133,7 +133,7 @@ describe('Revenue Type Tests', () => {
     return { revenue_type };
   }
 
-  function getFakeRevenueType(farm_id, entity_type = 'none') {
+  function getFakeRevenueType(farm_id, entity_type) {
     const revenue = mocks.fakeRevenueType({ entity_type });
     return { ...revenue, farm_id };
   }
@@ -172,10 +172,10 @@ describe('Revenue Type Tests', () => {
       }
     });
 
-    test('Accepts entity_type none, crop, and animal', async () => {
+    test('Accepts entity_type crop, animal, null, undefined', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
-      for (const entity_type of ['none', 'crop', 'animal']) {
+      for (const entity_type of ['crop', 'animal', null, undefined]) {
         const revenueType = {
           ...mocks.fakeRevenueType({ entity_type }),
           farm_id: mainFarm.farm_id,
@@ -185,8 +185,19 @@ describe('Revenue Type Tests', () => {
           farm_id: mainFarm.farm_id,
         });
         expect(res.status).toBe(201);
-        expect(res.body.entity_type).toBe(entity_type);
+        expect(res.body.entity_type).toBe(entity_type || null);
       }
+
+      const revenueType = {
+        ...mocks.fakeRevenueType(),
+        farm_id: mainFarm.farm_id,
+      };
+      const res = await postRevenueTypeRequestAsPromise(revenueType, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      expect(res.body.entity_type).toBe(null);
     });
 
     test('Rejects invalid entity_type value with 400', async () => {

@@ -13,21 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { addTableEnumConstraintSql, dropTableEnumConstraintSql } from '../util.js';
-
 export const up = async function (knex) {
-  // Step 1: Add entity_type column with default 'none'
+  // Step 1: Add entity_type column with default null
   await knex.schema.alterTable('revenue_type', (table) => {
-    table.string('entity_type').notNullable().defaultTo('none');
+    table.enu('entity_type', ['crop', 'animal']).defaultTo(null);
   });
 
   // Step 2: Backfill entity_type for existing crop-generated revenue types
   await knex('revenue_type').where({ crop_generated: true }).update({ entity_type: 'crop' });
 
-  // Step 3: Add CHECK constraint and drop the old columns
-  await knex.raw(
-    addTableEnumConstraintSql('revenue_type', 'entity_type', ['none', 'crop', 'animal']),
-  );
+  // Step 3: Drop the old columns
   await knex.schema.alterTable('revenue_type', (table) => {
     table.dropColumn('crop_generated');
     table.dropColumn('agriculture_associated');
@@ -85,8 +80,7 @@ export const down = async function (knex) {
   // Step 4: Restore crop_generated data from entity_type
   await knex('revenue_type').where({ entity_type: 'crop' }).update({ crop_generated: true });
 
-  // Step 5: Drop entity_type CHECK constraint and column
-  await knex.raw(dropTableEnumConstraintSql('revenue_type', 'entity_type'));
+  // Step 5: Drop entity_type column
   await knex.schema.alterTable('revenue_type', (table) => {
     table.dropColumn('entity_type');
   });

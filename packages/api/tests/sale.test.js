@@ -142,7 +142,6 @@ describe('Sale Tests', () => {
       .first();
     [generalRevenueType] = await mocks.revenue_typeFactory({
       promisedFarm: [farm],
-      properties: { entity_type: 'none' },
     });
     [animal] = await mocks.animalFactory({ promisedFarm: [farm] });
     [animalBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
@@ -815,7 +814,6 @@ describe('Sale Tests', () => {
       const testGeneralSale = async (userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
-          properties: { entity_type: 'none' },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;
@@ -1015,7 +1013,6 @@ describe('Sale Tests', () => {
 
       const [generalRevenueType] = await mocks.revenue_typeFactory({
         promisedFarm: [farm],
-        properties: { entity_type: 'none' },
       });
       const patchBody = {
         revenue_type_id: generalRevenueType.revenue_type_id,

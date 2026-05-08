@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import useCropSaleInputs, { getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
+import CropSaleInputs, { getCropSaleDefaultValues } from '../CropSaleInputs';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import {
   isCropSale,
@@ -88,9 +88,9 @@ function RevenueDetail() {
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
-      useCustomFormChildren={useCropSaleInputs}
+      CustomFormChildren={CropSaleInputs}
       customFormChildrenDefaultValues={
-        isCropSale(revenueType) ? getCustomFormChildrenDefaultValues(sale) : undefined
+        isCropSale(revenueType) ? getCropSaleDefaultValues(sale) : undefined
       }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}

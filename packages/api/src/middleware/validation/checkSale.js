@@ -77,8 +77,20 @@ export function checkSaleBody(operation = 'add') {
       if (!isCropSale && crop_variety_sale) {
         return res.status(400).send('must be crop revenue type to add crop variety sale');
       }
-      if (isCropSale && crop_variety_sale && !crop_variety_sale.length) {
-        return res.status(400).send('crop sales cannot be empty');
+      if (isCropSale && crop_variety_sale) {
+        if (!crop_variety_sale.length) {
+          return res.status(400).send('crop sales cannot be empty');
+        }
+        for (const singleCropVarietySale of crop_variety_sale) {
+          if (
+            !singleCropVarietySale.crop_variety_id ||
+            singleCropVarietySale.managementPlan ||
+            singleCropVarietySale.farm ||
+            singleCropVarietySale.crop_variety
+          ) {
+            return res.status(400).send('Crop is required');
+          }
+        }
       }
       if (!isAnimalSale && animal_sale) {
         return res.status(400).send('must be animal revenue type to add animal sale');

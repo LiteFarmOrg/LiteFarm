@@ -23,7 +23,7 @@ export interface ExpenseType {
   retired: boolean;
 }
 
-export type EntityType = 'none' | 'crop' | 'animal';
+export type EntityType = 'crop' | 'animal' | null;
 
 export interface RevenueType {
   revenue_type_id: number;

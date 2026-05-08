@@ -35,13 +35,8 @@ function CustomRevenueRadios({ control, view }) {
         value={field.value}
         onChange={field.onChange}
         isDisabled={view === 'edit' || view === 'read-only'}
-        label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')}
-        optional
       />
       {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
-      {view === 'read-only' && !field.value && (
-        <Main>{t('REVENUE.ENTITY_ASSOCIATION.NOT_ASSOCIATED')}</Main>
-      )}
     </>
   );
 }

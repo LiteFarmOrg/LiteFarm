@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -19,23 +19,55 @@ import { useTranslation } from 'react-i18next';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
 import { ReactComponent as CropIcon } from '../../../assets/images/nav/crops.svg';
 import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
+import { EntityType } from '../../../containers/Finances/types';
 import styles from './styles.module.scss';
 
-interface EntityToggleButtonProps {
+type EntityTypeOption = Exclude<EntityType, null>;
+
+export interface EntityAssociationToggleProps {
+  value: EntityType;
+  onChange?: (value: EntityType) => void;
+  isDisabled?: boolean;
+}
+
+function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociationToggleProps) {
+  const { t } = useTranslation();
+
+  const handleClick = (clicked: EntityTypeOption) => {
+    onChange?.(value === clicked ? null : clicked);
+  };
+
+  const generateEntityTypeButtonProps = (type: EntityTypeOption) => ({
+    selected: value === type,
+    onClick: () => handleClick(type),
+    disabled: isDisabled,
+  });
+
+  return (
+    <fieldset className={styles.wrapper}>
+      <InputBaseLabel label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')} optional={true} />
+      <div className={styles.buttonGroup}>
+        <EntityTypeButton {...generateEntityTypeButtonProps('crop')}>
+          <CropIcon className={styles.icon} />
+          {t('MENU.CROPS')}
+        </EntityTypeButton>
+        <EntityTypeButton {...generateEntityTypeButtonProps('animal')}>
+          <AnimalIcon className={styles.icon} />
+          {t('MENU.ANIMALS')}
+        </EntityTypeButton>
+      </div>
+    </fieldset>
+  );
+}
+
+interface EntityTypeButtonProps {
   selected: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
-  icon: ReactNode;
   children: ReactNode;
 }
 
-function EntityToggleButton({
-  selected,
-  onClick,
-  disabled,
-  icon,
-  children,
-}: EntityToggleButtonProps) {
+function EntityTypeButton({ selected, onClick, disabled, children }: EntityTypeButtonProps) {
   return (
     <button
       type="button"
@@ -43,57 +75,8 @@ function EntityToggleButton({
       onClick={onClick}
       className={clsx(styles.button, selected && styles.selected)}
     >
-      {icon}
       {children}
     </button>
-  );
-}
-
-export type EntityValue = 'crop' | 'animal';
-
-export interface EntityAssociationToggleProps {
-  value: EntityValue | null;
-  onChange: (value: EntityValue | null) => void;
-  isDisabled?: boolean;
-  label?: string;
-  optional?: boolean;
-}
-
-function EntityAssociationToggle({
-  value,
-  onChange,
-  isDisabled,
-  label,
-  optional,
-}: EntityAssociationToggleProps) {
-  const { t } = useTranslation();
-
-  const handleClick = (clicked: EntityValue) => {
-    if (!isDisabled) onChange(value === clicked ? null : clicked);
-  };
-
-  return (
-    <div className={styles.wrapper}>
-      {label && <InputBaseLabel label={label} optional={optional} />}
-      <div className={styles.buttonGroup}>
-        <EntityToggleButton
-          selected={value === 'crop'}
-          onClick={() => handleClick('crop')}
-          disabled={isDisabled}
-          icon={<CropIcon className={styles.icon} />}
-        >
-          {t('REVENUE.ENTITY_ASSOCIATION.CROPS')}
-        </EntityToggleButton>
-        <EntityToggleButton
-          selected={value === 'animal'}
-          onClick={() => handleClick('animal')}
-          disabled={isDisabled}
-          icon={<AnimalIcon className={styles.icon} />}
-        >
-          {t('REVENUE.ENTITY_ASSOCIATION.ANIMALS')}
-        </EntityToggleButton>
-      </div>
-    </div>
   );
 }
 

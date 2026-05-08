@@ -1850,11 +1850,6 @@
       "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another.",
       "ENTITY_ASSOCIATION_LABEL": "Is this revenue associated with animals or crop?"
     },
-    "ENTITY_ASSOCIATION": {
-      "ANIMALS": "Animals",
-      "CROPS": "Crops",
-      "NOT_ASSOCIATED": "Not associated"
-    },
     "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",

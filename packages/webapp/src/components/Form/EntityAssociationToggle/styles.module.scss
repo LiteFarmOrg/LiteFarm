@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,16 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border: none;
 }
 
 .buttonGroup {
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  gap: 8px;
 }
 
 .button {
@@ -30,32 +32,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   padding: 10px 16px;
   border-radius: 8px;
-  border: 1px solid var(--Colors-Primary-Primary-teal-50, #ebf5f4);
-  background: var(--White, #fff);
-  color: var(--Colors-Primary-Primary-teal-700, #266f68);
-  font-family: 'Open Sans', sans-serif;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background: var(--White);
+  color: var(--Colors-Primary-Primary-teal-700);
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
   cursor: pointer;
+  @include fontFamily();
 
   &.selected {
-    border-color: var(--Colors-Primary-Primary-teal-300, #78bdb6);
-    background: var(--Colors-Primary-Primary-teal-100, #c0e1dd);
+    border-color: var(--Colors-Primary-Primary-teal-300);
+    background: var(--Colors-Primary-Primary-teal-100);
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
   }
 
   &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+    cursor: default;
+    opacity: 0.6; // TODO: confirm the disabled state design and update styles accordingly
   }
 }
 
 .icon {
   width: 20px;
   height: 20px;
-  color: var(--Colors-Primary-Primary-teal-700, #266f68);
 }

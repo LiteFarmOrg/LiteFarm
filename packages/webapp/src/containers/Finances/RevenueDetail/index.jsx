@@ -86,7 +86,7 @@ function RevenueDetail() {
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}
       customFormChildrenDefaultValues={
-        revenueType?.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
+        revenueType?.entity_type === 'crop' ? getCustomFormChildrenDefaultValues(sale) : undefined
       }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}

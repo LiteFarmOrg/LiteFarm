@@ -174,8 +174,7 @@ const testData = {
       revenue_translation_key: 'CROP_SALE',
       farm_id: null,
       deleted: false,
-      agriculture_associated: true,
-      crop_generated: true,
+      entity_type: 'crop',
     },
     {
       revenue_type_id: 2,
@@ -183,8 +182,7 @@ const testData = {
       revenue_translation_key: 'CUSTOM_TYPE',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       deleted: false,
-      agriculture_associated: false,
-      crop_generated: false,
+      entity_type: 'none',
     },
   ],
   cropVarieties: [

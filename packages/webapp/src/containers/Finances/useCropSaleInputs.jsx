@@ -240,7 +240,7 @@ export default function useCropSaleInputs(
     (t) => t.revenue_type_id === selectedTypeOption?.value,
   );
 
-  const isCropSale = selectedRevenueType?.crop_generated;
+  const isCropSale = selectedRevenueType?.entity_type === 'crop';
 
   // Re-register to update 'required'
   useEffect(() => {

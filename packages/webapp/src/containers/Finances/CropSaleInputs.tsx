@@ -25,7 +25,6 @@ import { selectManagementPlansForSale } from '../managementPlanSlice';
 import EntitySaleInputs from './EntitySaleInputs';
 import type { CropVarietySaleTileData } from '../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import type { RevenueType } from './types';
 import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect/index';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
@@ -67,26 +66,13 @@ interface CropSale {
 interface CropSaleInputsProps {
   sale?: CropSale;
   disabledInput: boolean;
-  revenueTypes?: RevenueType[];
-  selectedTypeOption?: SelectOption;
 }
 
-export default function CropSaleInputs({
-  sale,
-  disabledInput,
-  revenueTypes,
-  selectedTypeOption,
-}: CropSaleInputsProps) {
+export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsProps) {
   const { t } = useTranslation();
   const managementPlans = useSelector((state) =>
     selectManagementPlansForSale(state, sale?.crop_variety_sale),
   );
-
-  const selectedRevenueType = revenueTypes?.find(
-    (rt) => rt.revenue_type_id === selectedTypeOption?.value,
-  );
-
-  const isActive = selectedRevenueType?.entity_type === 'crop';
 
   // Management plans determine which crop varieties are sale-eligible,
   // but the sale row itself represents a crop variety rather than a plan.
@@ -120,7 +106,6 @@ export default function CropSaleInputs({
   return (
     <EntitySaleInputs
       disabledInput={disabledInput}
-      isActive={isActive}
       options={options}
       savedSalesById={savedSalesById}
       fieldPrefix={CROP_VARIETY_SALE}

@@ -40,7 +40,6 @@ export interface EntitySaleItemProps {
 
 interface EntitySaleInputsProps {
   disabledInput: boolean;
-  isActive: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
   fieldPrefix: string;
@@ -51,7 +50,6 @@ interface EntitySaleInputsProps {
 
 export default function EntitySaleInputs({
   disabledInput,
-  isActive,
   options,
   savedSalesById,
   fieldPrefix,
@@ -69,17 +67,12 @@ export default function EntitySaleInputs({
   );
   const [isSelectionValid, setIsSelectionValid] = useState(true);
 
-  // Re-register the top-level fieldPrefix field when isActive changes, updating its 'required' constraint
   useEffect(() => {
     const currentValue = getValues(fieldPrefix);
     unregister(fieldPrefix);
-    register(fieldPrefix, { required: isActive });
+    register(fieldPrefix, { required: true });
     setValue(fieldPrefix, currentValue);
-  }, [isActive]);
-
-  if (!isActive) {
-    return null;
-  }
+  }, []);
 
   const handleChange = (newValue: MultiValue<SelectOption>) => {
     const newOptions = [...newValue];

@@ -178,6 +178,7 @@ DetailCropSale.args = {
   //useHookFormPersist: () => ({}),
   currency: '$',
   sale: cropSale,
+  CustomFormChildren: CropSaleInputs,
   revenueTypeOptions,
   onRetire: () => {},
   revenueType: revenueTypes[0],

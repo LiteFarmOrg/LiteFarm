@@ -19,7 +19,6 @@ const router = express.Router();
 import RevenueTypeController from '../controllers/revenueTypeController.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import { checkEntityTypeImmutable } from '../middleware/validation/checkFinanceType.js';
 
 router.post(
   '/',
@@ -49,7 +48,6 @@ router.patch(
   '/:revenue_type_id',
   hasFarmAccess({ params: 'revenue_type_id' }),
   checkScope(['edit:revenue_types']),
-  checkEntityTypeImmutable,
   RevenueTypeController.updateRevenueType(),
 );
 

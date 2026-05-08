@@ -528,20 +528,5 @@ describe('Revenue Type Tests', () => {
         'User does not have the following permission(s): edit:revenue_types',
       );
     });
-
-    test('entity_type should not be updated', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const revenue = await returnRevenueType(mainFarm, 'crop');
-
-      const res = await patchRevenueTypeRequestAsPromise(
-        { ...revenue.revenue_type, entity_type: 'animal' },
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-      );
-
-      expect(res.status).toBe(400);
-    });
   });
 });

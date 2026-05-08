@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
@@ -69,8 +69,6 @@ export default function EntitySaleInputs({
   );
   const [isSelectionValid, setIsSelectionValid] = useState(true);
 
-  const prevSelectedOptionsRef = useRef(selectedOptions);
-
   // Re-register the top-level fieldPrefix field when isActive changes, updating its 'required' constraint
   useEffect(() => {
     const currentValue = getValues(fieldPrefix);
@@ -79,11 +77,14 @@ export default function EntitySaleInputs({
     setValue(fieldPrefix, currentValue);
   }, [isActive]);
 
-  // Unregister fields for options removed from the selection
-  useEffect(() => {
-    const prevOptions = prevSelectedOptionsRef.current;
-    const currentValues = new Set(selectedOptions.map((o) => o.value));
-    const removedOptions = prevOptions.filter((o) => !currentValues.has(o.value));
+  if (!isActive) {
+    return null;
+  }
+
+  const handleChange = (newValue: MultiValue<SelectOption>) => {
+    const newOptions = [...newValue];
+    const nextValues = new Set(newOptions.map((o) => o.value));
+    const removedOptions = selectedOptions.filter((o) => !nextValues.has(o.value));
 
     removedOptions.forEach((o) => {
       unregister([
@@ -95,15 +96,6 @@ export default function EntitySaleInputs({
       ]);
     });
 
-    prevSelectedOptionsRef.current = selectedOptions;
-  }, [selectedOptions]);
-
-  if (!isActive) {
-    return null;
-  }
-
-  const handleChange = (newValue: MultiValue<SelectOption>) => {
-    const newOptions = [...newValue];
     setSelectedOptions(newOptions);
     setIsSelectionValid(newOptions.length > 0);
   };

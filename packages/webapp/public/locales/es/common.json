@@ -23,6 +23,7 @@
   "CHAR_LIMIT_ERROR": "El límite es de {{value}} caracteres.",
   "CLEAR_ACTIVE_FILTERS": "Borrar filtros activos",
   "CLEAR_SELECTION": "Borrar selección",
+  "CLICK_TO_ENLARGE": "Haga clic para agrandar",
   "CLONE": "Clon",
   "CLOSE": "Cerrar",
   "CONFIRM": "Confirmar",

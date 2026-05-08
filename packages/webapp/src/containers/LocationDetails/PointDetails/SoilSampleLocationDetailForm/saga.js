@@ -14,6 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import i18n from '../../../../locales/i18n';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { axios, getHeader } from '../../../saga';
@@ -48,7 +49,7 @@ export function* postSoilSampleLocationLocationSaga({ payload: data }) {
     );
     yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(postSoilSampleLocationSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),
@@ -94,7 +95,7 @@ export function* editSoilSampleLocationLocationSaga({ payload: data }) {
       header,
     );
     yield put(editSoilSampleLocationSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),
@@ -132,6 +133,7 @@ export function* deleteSoilSampleLocationLocationSaga({ payload: data }) {
     yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(deleteSoilSampleLocationSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),

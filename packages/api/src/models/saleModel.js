@@ -17,6 +17,7 @@ import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import cropVarietySaleModel from './cropVarietySaleModel.js';
+import animalSaleModel from './animalSaleModel.js';
 
 class Sale extends baseModel {
   static get tableName() {
@@ -73,6 +74,14 @@ class Sale extends baseModel {
         join: {
           from: 'sale.sale_id',
           to: 'crop_variety_sale.sale_id',
+        },
+      },
+      animal_sale: {
+        relation: Model.HasManyRelation,
+        modelClass: animalSaleModel,
+        join: {
+          from: 'sale.sale_id',
+          to: 'animal_sale.sale_id',
         },
       },
     };

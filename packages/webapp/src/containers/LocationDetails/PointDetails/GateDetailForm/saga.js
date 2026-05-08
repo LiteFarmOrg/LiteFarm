@@ -1,4 +1,5 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { invalidateTags } from '../../../../store/api/apiSlice';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
@@ -33,7 +34,7 @@ export function* postGateLocationSaga({ payload: data }) {
     );
     yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(postGateSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
@@ -72,7 +73,7 @@ export function* editGateLocationSaga({ payload: data }) {
       header,
     );
     yield put(editGateSuccess(result.data));
-
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );
@@ -105,6 +106,7 @@ export function* deleteGateLocationSaga({ payload: data }) {
     const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(setMapCache({ maxZoom: undefined, farm_id }));
     yield put(deleteGateSuccess(location_id));
+    yield put(invalidateTags(['Locations']));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );

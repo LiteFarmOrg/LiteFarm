@@ -150,9 +150,10 @@ const buildRevenueTransactions = ({
     return {
       icon: revenueType?.farm_id ? 'CUSTOM' : (revenueType?.revenue_translation_key ?? 'CUSTOM'),
       date: item.sale.sale_date,
-      transactionType: revenueType?.crop_generated
-        ? transactionTypeEnum.cropRevenue
-        : transactionTypeEnum.revenue,
+      transactionType:
+        revenueType?.entity_type === 'crop'
+          ? transactionTypeEnum.cropRevenue
+          : transactionTypeEnum.revenue,
       typeLabel: getRevenueTypeLabel(revenueType),
       amount: item.totalAmount,
       note: item.sale.customer_name,

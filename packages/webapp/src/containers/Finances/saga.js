@@ -368,16 +368,10 @@ export function* getRevenueTypesSaga() {
   try {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
 
-    // TODO LF-5272: Use result.data directly once the UI is updated to use the entity_type field instead of crop_generated
     // TODO LF-5274: Remove filter when ANIMAL_SALE is supported
-    const formattedResult = result.data
-      .filter(({ farm_id, revenue_translation_key }) => {
-        return !!farm_id || revenue_translation_key !== 'ANIMAL_SALE';
-      })
-      .map((type) => {
-        const cropGenerated = type.entity_type === 'crop';
-        return { ...type, crop_generated: cropGenerated, agriculture_associated: null };
-      });
+    const formattedResult = result.data.filter(({ farm_id, revenue_translation_key }) => {
+      return !!farm_id || revenue_translation_key !== 'ANIMAL_SALE';
+    });
 
     yield put(getRevenueTypesSuccess(formattedResult));
   } catch (e) {
@@ -417,8 +411,7 @@ export function* addRevenueTypeSaga({
   const body = {
     revenue_name,
     // TODO LF-5272: Fix once the UI is updated to use the entity_type field instead of crop_generated
-    // agriculture_associated: null,
-    entity_type: crop_generated ? 'crop' : 'none',
+    entity_type: crop_generated ? 'crop' : null,
     farm_id: farm_id,
     custom_description,
   };

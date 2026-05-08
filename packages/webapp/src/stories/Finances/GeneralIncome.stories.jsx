@@ -15,9 +15,7 @@
 import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 import React, { useState } from 'react';
-import useCropSaleInputs, {
-  getCustomFormChildrenDefaultValues,
-} from '../../containers/Finances/useCropSaleInputs';
+import CropSaleInputs, { getCropSaleDefaultValues } from '../../containers/Finances/CropSaleInputs';
 
 const cropSale = {
   sale_id: 17,
@@ -61,7 +59,7 @@ const revenueTypes = [
     revenue_translation_key: 'CROP_SALE',
     farm_id: null,
     deleted: false,
-    crop_generated: true,
+    entity_type: 'crop',
   },
   {
     revenue_type_id: 2,
@@ -69,7 +67,7 @@ const revenueTypes = [
     revenue_translation_key: 'GENERAL_SALE',
     farm_id: 1,
     deleted: false,
-    crop_generated: false,
+    entity_type: null,
   },
 ];
 const revenueTypeOptions = [
@@ -94,7 +92,8 @@ const GeneralRevenueWithState = (props) => {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
   if (view === 'add') {
-    return <GeneralRevenue {...props} />;
+    // TODO LF-5274 update passed component
+    return <GeneralRevenue CustomFormChildren={CropSaleInputs} {...props} />;
   } else {
     return (
       <GeneralRevenue
@@ -104,9 +103,10 @@ const GeneralRevenueWithState = (props) => {
         handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
         onClick={isEditing ? undefined : () => setIsEditing(true)}
         buttonText={isEditing ? 'Save' : 'Edit'}
-        useCustomFormChildren={useCropSaleInputs}
+        // TODO LF-5274 update passed component
+        CustomFormChildren={CropSaleInputs}
         customFormChildrenDefaultValues={
-          selectedRevenueType.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
+          selectedRevenueType.entity_type === 'crop' ? getCropSaleDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}
@@ -132,7 +132,6 @@ AddCropSale.args = {
   dateLabel: 'Date',
   //useHookFormPersist: () => ({}),
   currency: '$',
-  useCustomFormChildren: useCropSaleInputs,
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',

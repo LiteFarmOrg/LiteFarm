@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRevenueType } from '../saga';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
+import { CUSTOM_REVENUE_NAME, ENTITY_TYPE } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
@@ -30,7 +30,7 @@ function ReadOnlyCustomRevenue() {
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
-  const { revenue_name, crop_generated, farm_id, custom_description, revenue_translation_key } =
+  const { revenue_name, entity_type, farm_id, custom_description, revenue_translation_key } =
     selectedCustomRevenueType;
   const translatedCustomDescription = farm_id
     ? custom_description
@@ -71,7 +71,7 @@ function ReadOnlyCustomRevenue() {
           <CustomRevenueRadios control={control} watch={watch} view="read-only" />
         )}
         customFieldsDefaultValues={{
-          [CROP_GENERATED]: crop_generated,
+          [ENTITY_TYPE]: entity_type === 'none' ? null : entity_type,
         }}
       />
     </HookFormPersistProvider>

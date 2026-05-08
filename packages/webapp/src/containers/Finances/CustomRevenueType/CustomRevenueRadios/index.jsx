@@ -13,25 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import styles from './styles.module.scss';
-import { Main, Info } from '../../../../components/Typography';
-import RadioGroup from '../../../../components/Form/RadioGroup';
+import { useController } from 'react-hook-form';
+import { Info, Main } from '../../../../components/Typography';
+import EntityAssociationToggle from '../../../../components/Form/EntityAssociationToggle';
 import { useTranslation } from 'react-i18next';
-import { CROP_GENERATED } from '../constants';
+import { ENTITY_TYPE } from '../constants';
 import PropTypes from 'prop-types';
 
-/**
- * Radio groups for setting and viewing the custom revenue type properties
- *
- * @param {Object} control - control object from React Hook Form
- * @param {function} watch - watch method from React Hook Form
- * @param {string} view - The view mode ('read-only', 'add' or 'edit')
- * @returns {JSX.Element}
- */
-
-function CustomRevenueRadios({ control, watch, view }) {
+function CustomRevenueRadios({ control, view }) {
   const { t } = useTranslation();
+  const { field } = useController({ control, name: ENTITY_TYPE });
 
   const CANNOT_CHANGE_WARNING = {
     add: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED_LATER',
@@ -40,30 +31,23 @@ function CustomRevenueRadios({ control, watch, view }) {
 
   return (
     <>
-      <Main className={styles.cropGeneratedQuestion}>
-        {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
-      </Main>
-      <RadioGroup
-        hookFormControl={control}
-        name={CROP_GENERATED}
-        radios={[
-          {
-            label: t('common:YES'),
-            value: true,
-          },
-          { label: t('common:NO'), value: false },
-        ]}
-        required={true}
-        disabled={view === 'edit' || view === 'read-only'}
+      <EntityAssociationToggle
+        value={field.value}
+        onChange={field.onChange}
+        isDisabled={view === 'edit' || view === 'read-only'}
+        label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')}
+        optional
       />
       {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
+      {view === 'read-only' && !field.value && (
+        <Main>{t('REVENUE.ENTITY_ASSOCIATION.NOT_ASSOCIATED')}</Main>
+      )}
     </>
   );
 }
 
 CustomRevenueRadios.propTypes = {
   control: PropTypes.object.isRequired,
-  watch: PropTypes.func.isRequired,
   view: PropTypes.oneOf(['add', 'edit', 'read-only']).isRequired,
 };
 

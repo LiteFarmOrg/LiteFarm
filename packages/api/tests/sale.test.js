@@ -473,6 +473,44 @@ describe('Sale Tests', () => {
       });
     });
 
+    test('Should allow animal sales with retired animals or animal batches', async () => {
+      const [removedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const [removedBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
+      const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      await knex('animal').where('id', removedAnimal.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+      await knex('animal_batch').where('id', removedBatch.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_id: removedAnimal.id })],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(201);
+        },
+      );
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: removedBatch.id })],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(201);
+        },
+      );
+    });
+
     test('Should return 400 if crop_variety_sale is undefined', async () => {
       sampleReqBody.crop_variety_sale = undefined;
       await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
@@ -643,23 +681,12 @@ describe('Sale Tests', () => {
     test('Should return 400 if animalId/animalBatchId is invalid', async () => {
       const [animalOnAnotherFarm] = await mocks.animalFactory();
       const [animalBatchOnAnotherFarm] = await mocks.animal_batchFactory();
-      const [deletedAnimal] = await mocks.animalFactory();
+      const [deletedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
       await knex('animal').where('id', deletedAnimal.id).update({ deleted: true });
-      const [deletedAnimalBatch] = await mocks.animal_batchFactory();
+      const [deletedAnimalBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
       await knex('animal_batch').where('id', deletedAnimalBatch.id).update({ deleted: true });
-      const [removedAnimal] = await mocks.animalFactory();
-      const [removedBatch] = await mocks.animal_batchFactory();
-      const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
-      await knex('animal').where('id', removedAnimal.id).update({
-        removal_date: new Date().toISOString(),
-        animal_removal_reason_id: animalRemovalReason.id,
-      });
-      await knex('animal_batch').where('id', removedBatch.id).update({
-        removal_date: new Date().toISOString(),
-        animal_removal_reason_id: animalRemovalReason.id,
-      });
 
-      for (const invalidAnimal of [animalOnAnotherFarm, deletedAnimal, removedAnimal]) {
+      for (const invalidAnimal of [animalOnAnotherFarm, deletedAnimal]) {
         await postSaleRequest(
           {
             ...commonSampleReqBody,
@@ -673,7 +700,7 @@ describe('Sale Tests', () => {
         );
       }
 
-      for (const invalidBatch of [animalBatchOnAnotherFarm, deletedAnimalBatch, removedBatch]) {
+      for (const invalidBatch of [animalBatchOnAnotherFarm, deletedAnimalBatch]) {
         await postSaleRequest(
           {
             ...commonSampleReqBody,

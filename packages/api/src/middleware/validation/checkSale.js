@@ -179,7 +179,7 @@ const hasInvalidAnimalIds = async (animalIds, farmId) => {
     return false;
   }
 
-  return !(await AnimalModel.animalsBelongToFarm(animalIds, farmId));
+  return !(await AnimalModel.animalsBelongToFarm({ animalIds, farmId, includeRemoved: true }));
 };
 
 const hasInvalidBatchIds = async (batchIds, farmId) => {
@@ -187,5 +187,5 @@ const hasInvalidBatchIds = async (batchIds, farmId) => {
     return false;
   }
 
-  return !(await AnimalBatchModel.batchesBelongToFarm(batchIds, farmId));
+  return !(await AnimalBatchModel.batchesBelongToFarm({ batchIds, farmId, includeRemoved: true }));
 };

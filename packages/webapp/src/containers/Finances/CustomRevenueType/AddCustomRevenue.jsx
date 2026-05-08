@@ -55,9 +55,7 @@ function AddCustomRevenue() {
           messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
           messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}
-        customFormFields={({ control, watch }) => (
-          <CustomRevenueRadios control={control} watch={watch} view="add" />
-        )}
+        customFormFields={({ control }) => <CustomRevenueRadios control={control} view="add" />}
       />
     </HookFormPersistProvider>
   );

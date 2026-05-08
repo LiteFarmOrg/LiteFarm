@@ -25,7 +25,11 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import useCropSaleInputs, { getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
+import {
+  isCropSale,
+  mapRevenueFormDataToApiCallFormat,
+  mapRevenueTypesToReactSelectOptions,
+} from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
@@ -86,7 +90,7 @@ function RevenueDetail() {
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}
       customFormChildrenDefaultValues={
-        revenueType?.entity_type === 'crop' ? getCustomFormChildrenDefaultValues(sale) : undefined
+        isCropSale(revenueType) ? getCustomFormChildrenDefaultValues(sale) : undefined
       }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}

@@ -34,6 +34,7 @@ import {
   currentAndPlannedManagementPlansSelector,
 } from '../managementPlanSlice';
 import { createSelector } from 'reselect';
+import { isCropSale as checkIsCropSale } from './util';
 
 /**
  * Reformat the sale data for ease of use with react-hook-forms.
@@ -240,7 +241,7 @@ export default function useCropSaleInputs(
     (t) => t.revenue_type_id === selectedTypeOption?.value,
   );
 
-  const isCropSale = selectedRevenueType?.entity_type === 'crop';
+  const isCropSale = checkIsCropSale(selectedRevenueType);
 
   // Re-register to update 'required'
   useEffect(() => {

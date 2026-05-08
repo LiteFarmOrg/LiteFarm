@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import useCropSaleInputs, {
   getCustomFormChildrenDefaultValues,
 } from '../../containers/Finances/useCropSaleInputs';
+import { isCropSale } from '../../containers/Finances/util';
 
 const cropSale = {
   sale_id: 17,
@@ -106,9 +107,7 @@ const GeneralRevenueWithState = (props) => {
         buttonText={isEditing ? 'Save' : 'Edit'}
         useCustomFormChildren={useCropSaleInputs}
         customFormChildrenDefaultValues={
-          selectedRevenueType.entity_type === 'crop'
-            ? getCustomFormChildrenDefaultValues(sale)
-            : undefined
+          isCropSale(selectedRevenueType) ? getCustomFormChildrenDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}

@@ -289,3 +289,5 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
     : i18n.t(`${typeCategory}:${type[translationKey]}.CUSTOM_DESCRIPTION`);
   return [typeName, description].filter(Boolean).join(' ');
 };
+
+export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';

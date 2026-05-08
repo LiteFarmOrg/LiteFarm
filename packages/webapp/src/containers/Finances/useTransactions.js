@@ -27,7 +27,7 @@ import { taskTypesSelector } from '../taskTypeSlice';
 import { userFarmsByFarmSelector } from '../userFarmSlice';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
-import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
+import { isCropSale, mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 
 export const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -150,10 +150,9 @@ const buildRevenueTransactions = ({
     return {
       icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key ?? 'CUSTOM',
       date: item.sale.sale_date,
-      transactionType:
-        revenueType?.entity_type === 'crop'
-          ? transactionTypeEnum.cropRevenue
-          : transactionTypeEnum.revenue,
+      transactionType: isCropSale(revenueType)
+        ? transactionTypeEnum.cropRevenue
+        : transactionTypeEnum.revenue,
       typeLabel: getRevenueTypeLabel(revenueType),
       amount: item.totalAmount,
       note: item.sale.customer_name,

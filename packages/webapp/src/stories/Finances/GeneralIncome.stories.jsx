@@ -59,7 +59,7 @@ const revenueTypes = [
     revenue_translation_key: 'CROP_SALE',
     farm_id: null,
     deleted: false,
-    crop_generated: true,
+    entity_type: 'crop',
   },
   {
     revenue_type_id: 2,
@@ -67,7 +67,7 @@ const revenueTypes = [
     revenue_translation_key: 'GENERAL_SALE',
     farm_id: 1,
     deleted: false,
-    crop_generated: false,
+    entity_type: null,
   },
 ];
 const revenueTypeOptions = [
@@ -104,7 +104,7 @@ const GeneralRevenueWithState = (props) => {
         buttonText={isEditing ? 'Save' : 'Edit'}
         CustomFormChildren={CropSaleInputs}
         customFormChildrenDefaultValues={
-          selectedRevenueType.crop_generated ? getCropSaleDefaultValues(sale) : undefined
+          selectedRevenueType.entity_type === 'crop' ? getCropSaleDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}

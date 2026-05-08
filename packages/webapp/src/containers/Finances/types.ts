@@ -30,7 +30,7 @@ export interface RevenueType {
   farm_id: string | null;
   deleted: boolean;
   agriculture_associated: boolean | null;
-  crop_generated: boolean;
+  entity_type: 'crop' | 'animal' | null;
   custom_description: string | null;
   retired: boolean;
 }

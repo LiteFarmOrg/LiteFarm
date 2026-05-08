@@ -86,9 +86,7 @@ export default function CropSaleInputs({
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
 
-  // Uses crop_generated until the backend migration (LF-5270/LF-5271) is merged;
-  // will switch to entity_type === 'crop' in the animal sale wire-up PR (LF-5274).
-  const isActive = !!selectedRevenueType?.crop_generated;
+  const isActive = selectedRevenueType?.entity_type === 'crop';
 
   // Management plans determine which crop varieties are sale-eligible,
   // but the sale row itself represents a crop variety rather than a plan.

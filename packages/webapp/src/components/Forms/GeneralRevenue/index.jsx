@@ -84,6 +84,9 @@ const GeneralRevenue = ({
   } = reactHookFormFunctions;
 
   const selectedTypeOption = watch(REVENUE_TYPE_OPTION);
+  const selectedRevenueType = revenueTypes?.find(
+    (rt) => rt.revenue_type_id === selectedTypeOption?.value,
+  );
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -184,7 +187,7 @@ const GeneralRevenue = ({
             )}
           />
         )}
-        {CustomFormChildren ? (
+        {CustomFormChildren && selectedRevenueType?.entity_type ? (
           <CustomFormChildren
             sale={sale}
             disabledInput={disabledInput}

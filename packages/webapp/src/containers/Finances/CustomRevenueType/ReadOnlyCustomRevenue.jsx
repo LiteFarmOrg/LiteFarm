@@ -71,7 +71,7 @@ function ReadOnlyCustomRevenue() {
           <CustomRevenueRadios control={control} watch={watch} view="read-only" />
         )}
         customFieldsDefaultValues={{
-          [ENTITY_TYPE]: entity_type === 'none' ? null : entity_type,
+          [ENTITY_TYPE]: entity_type,
         }}
       />
     </HookFormPersistProvider>

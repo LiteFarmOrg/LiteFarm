@@ -410,7 +410,7 @@ export function* addRevenueTypeSaga({
 
   const body = {
     revenue_name,
-    entity_type: entity_type ?? 'none',
+    entity_type,
     farm_id: farm_id,
     custom_description,
   };

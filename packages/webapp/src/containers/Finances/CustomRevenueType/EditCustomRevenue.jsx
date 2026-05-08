@@ -73,7 +73,7 @@ function EditCustomRevenue() {
           <CustomRevenueRadios control={control} watch={watch} view="edit" />
         )}
         customFieldsDefaultValues={{
-          [ENTITY_TYPE]: entity_type === 'none' ? null : entity_type,
+          [ENTITY_TYPE]: entity_type,
         }}
       />
     </HookFormPersistProvider>

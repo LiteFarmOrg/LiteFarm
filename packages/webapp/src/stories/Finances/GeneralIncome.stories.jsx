@@ -69,7 +69,7 @@ const revenueTypes = [
     revenue_translation_key: 'GENERAL_SALE',
     farm_id: 1,
     deleted: false,
-    entity_type: 'none',
+    entity_type: null,
   },
 ];
 const revenueTypeOptions = [

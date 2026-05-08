@@ -182,7 +182,7 @@ const testData = {
       revenue_translation_key: 'CUSTOM_TYPE',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       deleted: false,
-      entity_type: 'none',
+      entity_type: null,
     },
   ],
   cropVarieties: [

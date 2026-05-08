@@ -95,7 +95,9 @@ export function calcActualRevenueFromRevenueItems(revenueItems) {
 }
 
 export const getRevenueFormType = (revenueType) => {
-  return revenueType?.crop_generated ? REVENUE_FORM_TYPES.CROP_SALE : REVENUE_FORM_TYPES.GENERAL;
+  return revenueType?.entity_type === 'crop'
+    ? REVENUE_FORM_TYPES.CROP_SALE
+    : REVENUE_FORM_TYPES.GENERAL;
 };
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
@@ -160,7 +162,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
     );
-    if (revenueType?.crop_generated) {
+    if (revenueType?.entity_type === 'crop') {
       const quantityUnit = getMassUnit();
       const cropVarietySale = sale.crop_variety_sale;
       return {
@@ -230,7 +232,7 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   const revenueType = revenueTypes.find(
     (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
   );
-  if (revenueType?.crop_generated) {
+  if (revenueType?.entity_type === 'crop') {
     sale.value = undefined;
     sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
       return {

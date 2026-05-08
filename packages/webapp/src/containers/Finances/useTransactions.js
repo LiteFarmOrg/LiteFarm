@@ -116,7 +116,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
       return {
-        icon: expenseType?.farm_id ? 'OTHER' : (expenseType?.expense_translation_key ?? 'OTHER'),
+        icon: expenseType?.farm_id ? 'OTHER' : expenseType?.expense_translation_key ?? 'OTHER',
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
         typeLabel: getExpenseTypeLabel(expenseType),
@@ -148,11 +148,12 @@ const buildRevenueTransactions = ({
       (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
-      icon: revenueType?.farm_id ? 'CUSTOM' : (revenueType?.revenue_translation_key ?? 'CUSTOM'),
+      icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key ?? 'CUSTOM',
       date: item.sale.sale_date,
-      transactionType: revenueType?.crop_generated
-        ? transactionTypeEnum.cropRevenue
-        : transactionTypeEnum.revenue,
+      transactionType:
+        revenueType?.entity_type === 'crop'
+          ? transactionTypeEnum.cropRevenue
+          : transactionTypeEnum.revenue,
       typeLabel: getRevenueTypeLabel(revenueType),
       amount: item.totalAmount,
       note: item.sale.customer_name,

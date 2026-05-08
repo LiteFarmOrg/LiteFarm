@@ -92,7 +92,8 @@ const GeneralRevenueWithState = (props) => {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
   if (view === 'add') {
-    return <GeneralRevenue {...props} />;
+    // TODO LF-5274 update passed component
+    return <GeneralRevenue CustomFormChildren={CropSaleInputs} {...props} />;
   } else {
     return (
       <GeneralRevenue
@@ -102,6 +103,7 @@ const GeneralRevenueWithState = (props) => {
         handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
         onClick={isEditing ? undefined : () => setIsEditing(true)}
         buttonText={isEditing ? 'Save' : 'Edit'}
+        // TODO LF-5274 update passed component
         CustomFormChildren={CropSaleInputs}
         customFormChildrenDefaultValues={
           selectedRevenueType.entity_type === 'crop' ? getCropSaleDefaultValues(sale) : undefined
@@ -130,7 +132,6 @@ AddCropSale.args = {
   dateLabel: 'Date',
   //useHookFormPersist: () => ({}),
   currency: '$',
-  CustomFormChildren: CropSaleInputs,
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',
@@ -178,7 +179,6 @@ DetailCropSale.args = {
   //useHookFormPersist: () => ({}),
   currency: '$',
   sale: cropSale,
-  CustomFormChildren: CropSaleInputs,
   revenueTypeOptions,
   onRetire: () => {},
   revenueType: revenueTypes[0],

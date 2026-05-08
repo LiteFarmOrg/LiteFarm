@@ -42,7 +42,7 @@ export function checkSaleBody(operation = 'add') {
 
       const revenueType = await RevenueTypeModel.query().findById(revenueTypeId);
 
-      if (revenue_type_id && !isValidRevenueType(revenueType, farm_id)) {
+      if (revenue_type_id && !isValidRevenueType(revenueType, farm_id, operation)) {
         return res.status(400).send('invalid revenue type id');
       }
 
@@ -131,11 +131,11 @@ export function checkSaleBody(operation = 'add') {
   };
 }
 
-const isValidRevenueType = (revenueType, farmId) => {
+const isValidRevenueType = (revenueType, farmId, operation) => {
   return (
     revenueType &&
     !revenueType.deleted &&
-    !revenueType.retired &&
+    !(operation === 'add' && revenueType.retired) &&
     (!revenueType.farm_id || revenueType.farm_id === farmId)
   );
 };

@@ -541,6 +541,7 @@ describe('Sale Tests', () => {
           expect(res.status).toBe(400);
         },
       );
+
       const [otherFarmsRevenueType] = await mocks.revenue_typeFactory({
         properties: { entity_type: 'crop' },
       });
@@ -927,6 +928,54 @@ describe('Sale Tests', () => {
         ],
         revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
+    });
+
+    test('Should allow patching a sale with a retired revenue type', async () => {
+      const [retiredRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', retiredRevenueType.revenue_type_id)
+        .update({ retired: true });
+      await patchRequest(
+        { revenue_type_id: retiredRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(200);
+        },
+      );
+    });
+
+    test('Should return 400 if revenue_type_id is invalid', async () => {
+      const [deletedRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', deletedRevenueType.revenue_type_id)
+        .update({ deleted: true });
+      await patchRequest(
+        { revenue_type_id: deletedRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      const [otherFarmsRevenueType] = await mocks.revenue_typeFactory({
+        properties: { entity_type: 'crop' },
+      });
+      await patchRequest(
+        { revenue_type_id: otherFarmsRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
     });
 
     test('Should return 400 if more than one crop_variety_sale with duplicate sale_id and crop_variety_id pair (pkey violation)', async () => {

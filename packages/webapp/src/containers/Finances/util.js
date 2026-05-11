@@ -17,6 +17,8 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import {
+  ANIMAL_KEY,
+  ANIMAL_SALE,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
   CUSTOMER_NAME,
@@ -28,6 +30,7 @@ import {
   SALE_VALUE,
   VALUE,
 } from '../../components/Forms/GeneralRevenue/constants';
+import { chooseIdentification } from '../Animals/utils';
 import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { isSameDay } from '../../util/date-migrate-TS';
@@ -95,9 +98,13 @@ export function calcActualRevenueFromRevenueItems(revenueItems) {
 }
 
 export const getRevenueFormType = (revenueType) => {
-  return revenueType?.entity_type === 'crop'
-    ? REVENUE_FORM_TYPES.CROP_SALE
-    : REVENUE_FORM_TYPES.GENERAL;
+  if (revenueType?.entity_type === 'crop') {
+    return REVENUE_FORM_TYPES.CROP_SALE;
+  }
+  if (revenueType?.entity_type === 'animal') {
+    return REVENUE_FORM_TYPES.ANIMAL_SALE;
+  }
+  return REVENUE_FORM_TYPES.GENERAL;
 };
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
@@ -157,7 +164,13 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   return labourItemGroups;
 };
 
-export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+export const mapSalesToRevenueItems = (
+  sales,
+  revenueTypes,
+  cropVarieties,
+  animals = [],
+  animalBatches = [],
+) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
@@ -185,6 +198,33 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             quantity: convertedQuantity,
             quantityUnit,
             amount: cvs.sale_value,
+          };
+        }),
+      };
+    } else if (revenueType?.entity_type === 'animal') {
+      const quantityUnit = getMassUnit();
+      const animalSale = sale.animal_sale ?? [];
+      return {
+        sale,
+        totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
+        financeItemsProps: animalSale.map((row) => {
+          const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
+          const matched =
+            row.animal_id != null
+              ? animals.find((a) => a.id === row.animal_id)
+              : animalBatches.find((b) => b.id === row.animal_batch_id);
+          const title = matched
+            ? chooseIdentification(matched)
+            : (row.animal_id ?? row.animal_batch_id);
+          const key =
+            row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
+          return {
+            key,
+            title,
+            subtitle: `${convertedQuantity} ${quantityUnit}`,
+            quantity: convertedQuantity,
+            quantityUnit,
+            amount: row.sale_value,
           };
         }),
       };
@@ -240,6 +280,20 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
         quantity: c[QUANTITY],
         quantity_unit: c[QUANTITY_UNIT].label,
         crop_variety_id: c[CROP_VARIETY_ID],
+      };
+    });
+  } else if (revenueType?.entity_type === 'animal') {
+    sale.value = undefined;
+    sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
+      const key = a[ANIMAL_KEY];
+      const isBatch = typeof key === 'string' && key.startsWith('batch_');
+      const id = parseInt(String(key).split('_')[1], 10);
+      return {
+        sale_value: a[SALE_VALUE],
+        quantity: a[QUANTITY],
+        quantity_unit: a[QUANTITY_UNIT].label,
+        animal_id: isBatch ? null : id,
+        animal_batch_id: isBatch ? id : null,
       };
     });
   } else {

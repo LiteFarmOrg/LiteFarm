@@ -52,7 +52,14 @@
 
   &:disabled {
     cursor: default;
-    opacity: 0.6; // TODO: confirm the disabled state design and update styles accordingly
+    color: var(--Colors-Neutral-Neutral-300);
+    background: var(--Btn-primary-disabled);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+    @include svgColorFill(var(--Colors-Neutral-Neutral-300));
+
+    &.selected {
+      // TODO: confirm the design for disabled + selected state
+    }
   }
 }
 

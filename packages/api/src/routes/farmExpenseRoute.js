@@ -21,6 +21,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
 import isCreator from '../middleware/acl/isCreator.js';
+import { checkFarmExpenseBody } from '../middleware/validation/checkFarmExpense.js';
 
 router.get(
   '/farm/:farm_id',
@@ -33,6 +34,7 @@ router.post(
   '/farm/:farm_id',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:expenses']),
+  checkFarmExpenseBody(),
   farmExpenseController.addFarmExpense(),
 );
 
@@ -45,6 +47,7 @@ router.patch(
       isCreator({ params: 'farm_expense_id' }),
       hasFarmAccess({ params: 'farm_expense_id' }),
     )(req, res, next),
+  checkFarmExpenseBody(),
   farmExpenseController.updateFarmExpense(),
 );
 

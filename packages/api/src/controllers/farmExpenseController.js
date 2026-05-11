@@ -16,6 +16,8 @@
 import baseController from '../controllers/baseController.js';
 
 import FarmExpenseModel from '../models/farmExpenseModel.js';
+import FarmExpenseCropVarietyModel from '../models/farmExpenseCropVarietyModel.js';
+import FarmExpenseAnimalModel from '../models/farmExpenseAnimalModel.js';
 import ExpenseType from '../models/expenseTypeModel.js';
 import { transaction, Model } from 'objection';
 
@@ -30,7 +32,9 @@ const farmExpenseController = {
         }
         const resultArray = [];
         for (const e of expenses) {
-          const result = await baseController.post(FarmExpenseModel, e, req, { trx });
+          const result = await baseController.insertGraphWithResponse(FarmExpenseModel, e, req, {
+            trx,
+          });
           resultArray.push(result);
         }
         await trx.commit();
@@ -68,13 +72,14 @@ const farmExpenseController = {
       .select('*')
       .from('farmExpense')
       .where('farmExpense.farm_id', farm_id)
-      .whereNotDeleted();
+      .whereNotDeleted()
+      .withGraphFetched('[farm_expense_animal, farm_expense_crop_variety]');
     return expenses;
   },
 
   updateFarmExpense() {
     return async (req, res) => {
-      const data = req.body;
+      const { farm_expense_animal, farm_expense_crop_variety, ...data } = req.body;
       const { farm_expense_id } = req.params;
       const { user_id } = req.auth;
 
@@ -106,6 +111,30 @@ const farmExpenseController = {
         if (!result) {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
+        }
+
+        if (farm_expense_crop_variety !== undefined) {
+          await FarmExpenseCropVarietyModel.query(trx)
+            .where('farm_expense_id', farm_expense_id)
+            .delete();
+          for (const item of farm_expense_crop_variety) {
+            await FarmExpenseCropVarietyModel.query(trx).insert({
+              ...item,
+              farm_expense_id,
+            });
+          }
+        }
+
+        if (farm_expense_animal !== undefined) {
+          await FarmExpenseAnimalModel.query(trx)
+            .where('farm_expense_id', farm_expense_id)
+            .delete();
+          for (const item of farm_expense_animal) {
+            await FarmExpenseAnimalModel.query(trx).insert({
+              ...item,
+              farm_expense_id,
+            });
+          }
         }
 
         await trx.commit();

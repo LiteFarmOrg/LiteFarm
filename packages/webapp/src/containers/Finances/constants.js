@@ -35,6 +35,7 @@ export const SET_IS_FETCHING_DATA = 'SET_IS_FETCHING_DATA';
 
 export const REVENUE_FORM_TYPES = {
   CROP_SALE: 'crop_sale',
+  ANIMAL_SALE: 'animal_sale',
   GENERAL: 'general',
 };
 

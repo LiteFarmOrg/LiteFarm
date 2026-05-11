@@ -108,22 +108,34 @@
 .sale {
   display: flex;
 }
+.entitySaleRows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.selectorGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.saleItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 8px;
+}
+
 .saleItemContainer {
   display: flex;
-  margin-top: 32px;
-  margin-bottom: 32px;
+  gap: 24px;
 }
 
 .saleItemInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   min-width: 200px;
   flex-grow: 1;
-  margin-left: 24px;
-}
-
-.saleItemInputGroup > * {
-  margin-bottom: 40px;
-}
-
-.selectionErrorZone {
-  height: 32px;
 }

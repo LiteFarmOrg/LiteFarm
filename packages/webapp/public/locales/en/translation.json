@@ -1881,11 +1881,14 @@
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
       "ANIMAL": "Animal",
+      "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
       "ANIMAL_REQUIRED": "Required",
+      "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
+      "NOTES_PLACEHOLDER": "Sale description",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "TOTAL": "Total"

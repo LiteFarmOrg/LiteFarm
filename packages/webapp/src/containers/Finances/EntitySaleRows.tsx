@@ -94,27 +94,28 @@ export default function EntitySaleRows({
   };
 
   return (
-    <>
-      <CheckboxMultiSelect
-        options={options}
-        value={selectedOptions}
-        onChange={handleChange}
-        isDisabled={disabledInput}
-        placeholder={placeholder}
-      />
-      <div className={styles.selectionErrorZone}>
+    <div className={styles.entitySaleRows}>
+      <div className={styles.selectorGroup}>
+        <CheckboxMultiSelect
+          options={options}
+          value={selectedOptions}
+          onChange={handleChange}
+          isDisabled={disabledInput}
+          placeholder={placeholder}
+        />
         {!isSelectionValid && <Error>{t('common:REQUIRED')}</Error>}
       </div>
-      <hr className={styles.thinHr} />
-      {selectedOptions.map((option) =>
-        children({
-          option,
-          system,
-          currency,
-          fieldPrefix,
-          disabledInput,
-        }),
-      )}
-    </>
+      <div className={styles.saleItemList}>
+        {selectedOptions.map((option) =>
+          children({
+            option,
+            system,
+            currency,
+            fieldPrefix,
+            disabledInput,
+          }),
+        )}
+      </div>
+    </div>
   );
 }

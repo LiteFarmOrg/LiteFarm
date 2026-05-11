@@ -88,6 +88,17 @@ const GeneralRevenue = ({
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
 
+  const notesPlaceholder = (() => {
+    const maxCharsSuffix = ` - ${t('common:MAX_CHARS', { value: 125 })}`;
+    if (selectedRevenueType?.entity_type === 'crop') {
+      return t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER') + maxCharsSuffix;
+    }
+    if (selectedRevenueType?.entity_type === 'animal') {
+      return t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER') + maxCharsSuffix;
+    }
+    return t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+  })();
+
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
       setValue(
@@ -161,8 +172,10 @@ const GeneralRevenue = ({
           style={{ marginBottom: '40px' }}
           label={t('LOG_COMMON.NOTES')}
           optional={true}
-          hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
+          hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(125) })}
           name={NOTE}
+          placeholder={notesPlaceholder}
+          minRows={5}
           errors={getInputErrors(errors, NOTE)}
           disabled={disabledInput}
         />

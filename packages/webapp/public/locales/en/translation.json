@@ -1880,6 +1880,8 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
+      "ANIMAL": "Animal",
+      "ANIMAL_REQUIRED": "Required",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",

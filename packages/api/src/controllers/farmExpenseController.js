@@ -53,11 +53,7 @@ const farmExpenseController = {
         const farm_id = req.params.farm_id;
         const rows = await farmExpenseController.getByForeignKey(farm_id);
 
-        if (!rows.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(rows);
-        }
+        res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({

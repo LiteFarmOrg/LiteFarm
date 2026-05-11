@@ -38,7 +38,7 @@ export interface EntitySaleItemProps {
   disabledInput: boolean;
 }
 
-interface EntitySaleInputsProps {
+interface EntitySaleRowsProps {
   disabledInput: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
@@ -48,7 +48,7 @@ interface EntitySaleInputsProps {
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
-export default function EntitySaleInputs({
+export default function EntitySaleRows({
   disabledInput,
   options,
   savedSalesById,
@@ -56,7 +56,7 @@ export default function EntitySaleInputs({
   entityIdFieldKey,
   placeholder,
   children,
-}: EntitySaleInputsProps): ReactNode {
+}: EntitySaleRowsProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();

@@ -22,7 +22,7 @@ import {
 } from '../../components/Forms/GeneralRevenue/constants';
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { selectManagementPlansForSale } from '../managementPlanSlice';
-import EntitySaleInputs from './EntitySaleInputs';
+import EntitySaleRows from './EntitySaleRows';
 import type { CropVarietySaleTileData } from '../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
 import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect/index';
@@ -104,7 +104,7 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
   );
 
   return (
-    <EntitySaleInputs
+    <EntitySaleRows
       disabledInput={disabledInput}
       options={options}
       savedSalesById={savedSalesById}
@@ -122,6 +122,6 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
           disabledInput={disabledInput}
         />
       )}
-    </EntitySaleInputs>
+    </EntitySaleRows>
   );
 }

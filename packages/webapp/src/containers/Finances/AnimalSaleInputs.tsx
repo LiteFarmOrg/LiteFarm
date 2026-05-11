@@ -17,7 +17,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ANIMAL_KEY, ANIMAL_SALE } from '../../components/Forms/GeneralRevenue/constants';
 import AnimalSaleItem from '../../components/Forms/GeneralRevenue/AnimalSaleItem';
-import EntitySaleInputs from './EntitySaleInputs';
+import EntitySaleRows from './EntitySaleRows';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../store/api/apiSlice';
 import { chooseIdentification } from '../Animals/utils';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
@@ -96,7 +96,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
   );
 
   return (
-    <EntitySaleInputs
+    <EntitySaleRows
       disabledInput={disabledInput}
       options={options}
       savedSalesById={savedSalesById}
@@ -116,6 +116,6 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
           disabledInput={disabledInput}
         />
       )}
-    </EntitySaleInputs>
+    </EntitySaleRows>
   );
 }

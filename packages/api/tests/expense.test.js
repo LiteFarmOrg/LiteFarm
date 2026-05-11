@@ -31,11 +31,18 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 jest.mock('../src/jobs/station_sync/mapping.js');
 import mocks from './mock.factories.js';
 import farmExpenseModel from '../src/models/farmExpenseModel.js';
+import farmExpenseCropVarietyModel from '../src/models/farmExpenseCropVarietyModel.js';
+import farmExpenseAnimalModel from '../src/models/farmExpenseAnimalModel.js';
 
 describe('Expense Tests', () => {
   let _token;
   let farm;
-  let newOwner;
+  let mainFarm;
+  let owner;
+  let expenseType;
+  let cropVariety;
+  let animal;
+  let animalBatch;
 
   beforeAll(() => {
     _token = global.token;
@@ -43,37 +50,33 @@ describe('Expense Tests', () => {
 
   // FUNCTIONS
 
-  function postExpenseRequest(
-    data,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postExpenseRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    const chain = chai
       .request(server)
       .post(`/expense/farm/${farm_id}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
+    return callback ? chain.end(callback) : chain;
   }
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    const chain = chai
       .request(server)
       .get(`/expense/farm/${farm_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
+    return callback ? chain.end(callback) : chain;
   }
 
   function deleteRequest(
     farm_expense_id,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
+    { user_id = owner.user_id, farm_id = farm.farm_id },
     callback,
   ) {
     chai
@@ -87,16 +90,16 @@ describe('Expense Tests', () => {
   function patchRequest(
     data,
     farm_expense_id,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
+    { user_id = owner.user_id, farm_id = farm.farm_id },
     callback,
   ) {
-    chai
+    const chain = chai
       .request(server)
       .patch(`/expense/${farm_expense_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
+    return callback ? chain.end(callback) : chain;
   }
 
   async function returnUserFarms(role) {
@@ -133,9 +136,30 @@ describe('Expense Tests', () => {
     return { expense };
   }
 
+  function makeExpenseBody(overrides = {}) {
+    return [
+      {
+        ...mocks.fakeExpense({
+          expense_type_id: expenseType.expense_type_id,
+          farm_id: farm.farm_id,
+        }),
+        ...overrides,
+      },
+    ];
+  }
+
   beforeEach(async () => {
-    [farm] = await mocks.farmFactory();
-    [newOwner] = await mocks.usersFactory();
+    ({ mainFarm, user: owner } = await returnUserFarms(1));
+    farm = mainFarm;
+
+    [expenseType] = await mocks.farmExpenseTypeFactory({ promisedFarm: [mainFarm] });
+    const [crop] = await mocks.cropFactory({ promisedFarm: [mainFarm] });
+    [cropVariety] = await mocks.crop_varietyFactory({
+      promisedFarm: [mainFarm],
+      promisedCrop: [crop],
+    });
+    [animal] = await mocks.animalFactory({ promisedFarm: [mainFarm] });
+    [animalBatch] = await mocks.animal_batchFactory({ promisedFarm: [mainFarm] });
   });
 
   afterAll(async () => {
@@ -212,6 +236,155 @@ describe('Expense Tests', () => {
       );
     });
 
+    test('farm_expense_animal array creates linked rows', async () => {
+      const body = makeExpenseBody({
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+      });
+
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      const expenses = await farmExpenseModel.query().where('farm_id', farm.farm_id);
+      expect(expenses.length).toBe(1);
+      const animalRows = await farmExpenseAnimalModel
+        .query()
+        .where('farm_expense_id', expenses[0].farm_expense_id);
+      expect(animalRows.length).toBe(1);
+      expect(animalRows[0].animal_id).toBe(animal.id);
+    });
+
+    test('farm_expense_crop_variety array creates linked rows', async () => {
+      const body = makeExpenseBody({
+        farm_expense_crop_variety: [
+          mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+        ],
+      });
+
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      const expenses = await farmExpenseModel.query().where('farm_id', farm.farm_id);
+      expect(expenses.length).toBe(1);
+      const cvRows = await farmExpenseCropVarietyModel
+        .query()
+        .where('farm_expense_id', expenses[0].farm_expense_id);
+      expect(cvRows.length).toBe(1);
+      expect(cvRows[0].crop_variety_id).toBe(cropVariety.crop_variety_id);
+    });
+
+    test('Returns 400 if expense has both non-empty farm_expense_animal and farm_expense_crop_variety', async () => {
+      const body = makeExpenseBody({
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+        farm_expense_crop_variety: [
+          mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+        ],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if farm_expense_animal item has both animal_id and animal_batch_id', async () => {
+      const body = makeExpenseBody({
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, animal_batch_id: animalBatch.id }),
+        ],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if farm_expense_animal item has neither animal_id nor animal_batch_id', async () => {
+      const body = makeExpenseBody({
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal()],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if duplicate animal_id in farm_expense_animal', async () => {
+      const body = makeExpenseBody({
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id }),
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id }),
+        ],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if animal_id does not belong to the farm', async () => {
+      const [outsideAnimal] = await mocks.animalFactory();
+      const body = makeExpenseBody({
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: outsideAnimal.id })],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if crop_variety_id is missing from farm_expense_crop_variety item', async () => {
+      const body = makeExpenseBody({
+        farm_expense_crop_variety: [mocks.fakeFarmExpenseCropVariety()],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Returns 400 if crop_variety_id does not belong to the farm', async () => {
+      const [outsideCropVariety] = await mocks.crop_varietyFactory();
+      const body = makeExpenseBody({
+        farm_expense_crop_variety: [
+          mocks.fakeFarmExpenseCropVariety({
+            crop_variety_id: outsideCropVariety.crop_variety_id,
+          }),
+        ],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(400);
+    });
+
+    test('Allows removed animals in allocations', async () => {
+      const [removedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      await knex('animal').where('id', removedAnimal.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+
+      const body = makeExpenseBody({
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: removedAnimal.id })],
+      });
+      const res = await postExpenseRequest(body, {
+        user_id: owner.user_id,
+        farm_id: farm.farm_id,
+      });
+      expect(res.status).toBe(201);
+    });
+
     test('Should return 403 when unauthorized user tries to post expense', async () => {
       const { mainFarm, _user } = await returnUserFarms(1);
       const { expense_type } = await returnExpenseType(mainFarm);
@@ -273,6 +446,44 @@ describe('Expense Tests', () => {
         expect(res.status).toBe(403);
         expect(res.error.text).toBe('User does not have the following permission(s): get:expenses');
       });
+    });
+
+    test('Response includes farm_expense_animal when allocations exist', async () => {
+      const [expense] = await mocks.farmExpenseFactory({
+        promisedExpenseType: [expenseType],
+        promisedUserFarm: [{ user_id: owner.user_id, farm_id: farm.farm_id }],
+      });
+      await mocks.farm_expense_animalFactory({
+        promisedExpense: [expense],
+        promisedAnimal: [animal],
+      });
+
+      const res = await getRequest({ user_id: owner.user_id, farm_id: farm.farm_id });
+      expect(res.status).toBe(200);
+      const found = res.body.find((e) => e.farm_expense_id === expense.farm_expense_id);
+      expect(found).toBeDefined();
+      expect(found.farm_expense_animal).toBeDefined();
+      expect(found.farm_expense_animal.length).toBe(1);
+      expect(found.farm_expense_animal[0].animal_id).toBe(animal.id);
+    });
+
+    test('Response includes farm_expense_crop_variety when allocations exist', async () => {
+      const [expense] = await mocks.farmExpenseFactory({
+        promisedExpenseType: [expenseType],
+        promisedUserFarm: [{ user_id: owner.user_id, farm_id: farm.farm_id }],
+      });
+      await mocks.farm_expense_crop_varietyFactory({
+        promisedExpense: [expense],
+        promisedCropVariety: [cropVariety],
+      });
+
+      const res = await getRequest({ user_id: owner.user_id, farm_id: farm.farm_id });
+      expect(res.status).toBe(200);
+      const found = res.body.find((e) => e.farm_expense_id === expense.farm_expense_id);
+      expect(found).toBeDefined();
+      expect(found.farm_expense_crop_variety).toBeDefined();
+      expect(found.farm_expense_crop_variety.length).toBe(1);
+      expect(found.farm_expense_crop_variety[0].crop_variety_id).toBe(cropVariety.crop_variety_id);
     });
   });
 
@@ -579,6 +790,141 @@ describe('Expense Tests', () => {
           );
         },
       );
+    });
+
+    describe('PATCH with allocation arrays', () => {
+      let expense;
+
+      beforeEach(async () => {
+        ({ expense } = await returnExpense(owner, mainFarm));
+      });
+
+      test('farm_expense_animal array replaces existing rows', async () => {
+        await mocks.farm_expense_animalFactory({
+          promisedExpense: [expense],
+          promisedAnimal: [animal],
+        });
+        const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+
+        const res = await patchRequest(
+          { farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal2.id })] },
+          expense.farm_expense_id,
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+        );
+        expect(res.status).toBe(200);
+        const rows = await farmExpenseAnimalModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(rows.length).toBe(1);
+        expect(rows[0].animal_id).toBe(animal2.id);
+      });
+
+      test('farm_expense_crop_variety array replaces existing rows', async () => {
+        await mocks.farm_expense_crop_varietyFactory({
+          promisedExpense: [expense],
+          promisedCropVariety: [cropVariety],
+        });
+        const [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
+        const [cropVariety2] = await mocks.crop_varietyFactory({
+          promisedFarm: [farm],
+          promisedCrop: [crop2],
+        });
+
+        const res = await patchRequest(
+          {
+            farm_expense_crop_variety: [
+              mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety2.crop_variety_id }),
+            ],
+          },
+          expense.farm_expense_id,
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+        );
+        expect(res.status).toBe(200);
+        const rows = await farmExpenseCropVarietyModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(rows.length).toBe(1);
+        expect(rows[0].crop_variety_id).toBe(cropVariety2.crop_variety_id);
+      });
+
+      test('Omitting allocation arrays leaves existing allocations untouched', async () => {
+        await mocks.farm_expense_animalFactory({
+          promisedExpense: [expense],
+          promisedAnimal: [animal],
+        });
+
+        const res = await patchRequest({ note: 'patched note' }, expense.farm_expense_id, {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(200);
+        const rows = await farmExpenseAnimalModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(rows.length).toBe(1);
+      });
+
+      test('farm_expense_animal: [] removes all existing animal allocations', async () => {
+        await mocks.farm_expense_animalFactory({
+          promisedExpense: [expense],
+          promisedAnimal: [animal],
+        });
+
+        const res = await patchRequest({ farm_expense_animal: [] }, expense.farm_expense_id, {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(200);
+        const rows = await farmExpenseAnimalModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(rows.length).toBe(0);
+      });
+
+      test('farm_expense_crop_variety: [] removes all existing crop variety allocations', async () => {
+        await mocks.farm_expense_crop_varietyFactory({
+          promisedExpense: [expense],
+          promisedCropVariety: [cropVariety],
+        });
+
+        const res = await patchRequest({ farm_expense_crop_variety: [] }, expense.farm_expense_id, {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(200);
+        const rows = await farmExpenseCropVarietyModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(rows.length).toBe(0);
+      });
+
+      test('PATCH replaces existing animal rows with crop variety rows', async () => {
+        await mocks.farm_expense_animalFactory({
+          promisedExpense: [expense],
+          promisedAnimal: [animal],
+        });
+
+        const res = await patchRequest(
+          {
+            farm_expense_animal: [],
+            farm_expense_crop_variety: [
+              mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+            ],
+          },
+          expense.farm_expense_id,
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+        );
+        expect(res.status).toBe(200);
+        const animalRows = await farmExpenseAnimalModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(animalRows.length).toBe(0);
+        const cvRows = await farmExpenseCropVarietyModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(cvRows.length).toBe(1);
+        expect(cvRows[0].crop_variety_id).toBe(cropVariety.crop_variety_id);
+      });
     });
   });
 });

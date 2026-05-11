@@ -48,12 +48,12 @@ function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociat
       <InputBaseLabel label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')} optional={true} />
       <div className={styles.buttonGroup}>
         <EntityTypeButton {...generateEntityTypeButtonProps('crop')}>
-          <CropIcon className={styles.icon} />
-          {t('MENU.CROPS')}
+          <CropIcon />
+          <span>{t('MENU.CROPS')}</span>
         </EntityTypeButton>
         <EntityTypeButton {...generateEntityTypeButtonProps('animal')}>
-          <AnimalIcon className={styles.icon} />
-          {t('MENU.ANIMALS')}
+          <AnimalIcon />
+          <span>{t('MENU.ANIMALS')}</span>
         </EntityTypeButton>
       </div>
     </fieldset>

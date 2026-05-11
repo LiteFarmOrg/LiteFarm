@@ -99,7 +99,7 @@ export function checkFarmExpenseBody() {
       for (const expense of expenses) {
         const { farm_expense_animal, farm_expense_crop_variety } = expense;
 
-        if (farm_expense_animal && farm_expense_crop_variety) {
+        if (farm_expense_animal?.length && farm_expense_crop_variety?.length) {
           return res
             .status(400)
             .send('an expense cannot have both animal and crop variety allocations');

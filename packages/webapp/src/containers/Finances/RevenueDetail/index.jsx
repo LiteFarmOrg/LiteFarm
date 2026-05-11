@@ -23,13 +23,9 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import CropSaleInputs, { getCropSaleDefaultValues } from '../CropSaleInputs';
+import RevenueSaleInputs, { getRevenueSaleDefaultValues } from '../RevenueSaleInputs';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import {
-  isCropSale,
-  mapRevenueFormDataToApiCallFormat,
-  mapRevenueTypesToReactSelectOptions,
-} from '../util';
+import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
@@ -88,10 +84,8 @@ function RevenueDetail() {
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
-      CustomFormChildren={CropSaleInputs}
-      customFormChildrenDefaultValues={
-        isCropSale(revenueType) ? getCropSaleDefaultValues(sale) : undefined
-      }
+      CustomFormChildren={RevenueSaleInputs}
+      customFormChildrenDefaultValues={getRevenueSaleDefaultValues(sale, revenueType?.entity_type)}
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}
       onClick={isEditing ? undefined : handleEdit}

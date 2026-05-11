@@ -44,7 +44,7 @@ function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociat
   });
 
   return (
-    <fieldset className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <InputBaseLabel label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')} optional={true} />
       <div className={styles.buttonGroup}>
         <EntityTypeButton {...generateEntityTypeButtonProps('crop')}>
@@ -56,7 +56,7 @@ function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociat
           <span>{t('MENU.ANIMALS')}</span>
         </EntityTypeButton>
       </div>
-    </fieldset>
+    </div>
   );
 }
 

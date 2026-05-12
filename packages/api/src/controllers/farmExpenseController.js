@@ -117,10 +117,9 @@ const farmExpenseController = {
             .where('farm_expense_id', farm_expense_id)
             .delete();
           if (farm_expense_crop_variety?.length) {
-            const insertedRows = await FarmExpenseCropVarietyModel.query(trx).insert(
+            await FarmExpenseCropVarietyModel.query(trx).insert(
               farm_expense_crop_variety.map((item) => ({ ...item, farm_expense_id })),
             );
-            result.farm_expense_crop_variety = insertedRows;
           }
         }
 
@@ -129,15 +128,18 @@ const farmExpenseController = {
             .where('farm_expense_id', farm_expense_id)
             .delete();
           if (farm_expense_animal?.length) {
-            const insertedRows = await FarmExpenseAnimalModel.query(trx).insert(
+            await FarmExpenseAnimalModel.query(trx).insert(
               farm_expense_animal.map((item) => ({ ...item, farm_expense_id })),
             );
-            result.farm_expense_animal = insertedRows;
           }
         }
 
         await trx.commit();
-        return res.status(200).send(result);
+
+        const updatedExpense = await FarmExpenseModel.query()
+          .findById(farm_expense_id)
+          .withGraphFetched('[farm_expense_animal, farm_expense_crop_variety]');
+        return res.status(200).send(updatedExpense);
       } catch (error) {
         console.log(error);
         await trx.rollback();

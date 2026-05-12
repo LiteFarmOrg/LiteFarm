@@ -906,7 +906,6 @@ describe('Expense Tests', () => {
 
         const res = await patchRequest(
           {
-            farm_expense_animal: [],
             farm_expense_crop_variety: [
               mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
             ],
@@ -924,6 +923,31 @@ describe('Expense Tests', () => {
           .where('farm_expense_id', expense.farm_expense_id);
         expect(cvRows.length).toBe(1);
         expect(cvRows[0].crop_variety_id).toBe(cropVariety.crop_variety_id);
+      });
+
+      test('PATCH replaces existing crop variety rows with animal rows', async () => {
+        await mocks.farm_expense_crop_varietyFactory({
+          promisedExpense: [expense],
+          promisedCropVariety: [cropVariety],
+        });
+
+        const res = await patchRequest(
+          {
+            farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+          },
+          expense.farm_expense_id,
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+        );
+        expect(res.status).toBe(200);
+        const cvRows = await farmExpenseCropVarietyModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(cvRows.length).toBe(0);
+        const animalRows = await farmExpenseAnimalModel
+          .query()
+          .where('farm_expense_id', expense.farm_expense_id);
+        expect(animalRows.length).toBe(1);
+        expect(animalRows[0].animal_id).toBe(animal.id);
       });
     });
   });

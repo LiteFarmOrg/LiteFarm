@@ -109,22 +109,25 @@ const farmExpenseController = {
           return res.status(400).send('failed to patch data');
         }
 
-        if (farm_expense_crop_variety !== undefined) {
+        const isAddingCropVarietyExpense = !!farm_expense_crop_variety?.length;
+        const isAddingAnimalExpense = !!farm_expense_animal?.length;
+
+        if (farm_expense_crop_variety !== undefined || isAddingAnimalExpense) {
           await FarmExpenseCropVarietyModel.query(trx)
             .where('farm_expense_id', farm_expense_id)
             .delete();
-          if (farm_expense_crop_variety.length) {
+          if (farm_expense_crop_variety?.length) {
             await FarmExpenseCropVarietyModel.query(trx).insert(
               farm_expense_crop_variety.map((item) => ({ ...item, farm_expense_id })),
             );
           }
         }
 
-        if (farm_expense_animal !== undefined) {
+        if (farm_expense_animal !== undefined || isAddingCropVarietyExpense) {
           await FarmExpenseAnimalModel.query(trx)
             .where('farm_expense_id', farm_expense_id)
             .delete();
-          if (farm_expense_animal.length) {
+          if (farm_expense_animal?.length) {
             await FarmExpenseAnimalModel.query(trx).insert(
               farm_expense_animal.map((item) => ({ ...item, farm_expense_id })),
             );

@@ -19,7 +19,7 @@ import {
   getUniqueAnimalAndBatchIds,
   hasInvalidAnimalIds,
   hasInvalidBatchIds,
-} from '../../util/fiinance.js';
+} from '../../util/finance.js';
 
 export function checkSaleBody(operation = 'add') {
   return async (req, res, next) => {

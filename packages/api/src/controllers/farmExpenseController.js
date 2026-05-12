@@ -113,11 +113,10 @@ const farmExpenseController = {
           await FarmExpenseCropVarietyModel.query(trx)
             .where('farm_expense_id', farm_expense_id)
             .delete();
-          for (const item of farm_expense_crop_variety) {
-            await FarmExpenseCropVarietyModel.query(trx).insert({
-              ...item,
-              farm_expense_id,
-            });
+          if (farm_expense_crop_variety.length) {
+            await FarmExpenseCropVarietyModel.query(trx).insert(
+              farm_expense_crop_variety.map((item) => ({ ...item, farm_expense_id })),
+            );
           }
         }
 
@@ -125,11 +124,10 @@ const farmExpenseController = {
           await FarmExpenseAnimalModel.query(trx)
             .where('farm_expense_id', farm_expense_id)
             .delete();
-          for (const item of farm_expense_animal) {
-            await FarmExpenseAnimalModel.query(trx).insert({
-              ...item,
-              farm_expense_id,
-            });
+          if (farm_expense_animal.length) {
+            await FarmExpenseAnimalModel.query(trx).insert(
+              farm_expense_animal.map((item) => ({ ...item, farm_expense_id })),
+            );
           }
         }
 

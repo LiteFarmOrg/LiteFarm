@@ -38,7 +38,7 @@ export interface EntitySaleItemProps {
   disabledInput: boolean;
 }
 
-interface EntitySaleRowsProps {
+interface EntitySaleInputsProps {
   disabledInput: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
@@ -48,7 +48,7 @@ interface EntitySaleRowsProps {
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
-export default function EntitySaleRows({
+export default function EntitySaleInputs({
   disabledInput,
   options,
   savedSalesById,
@@ -56,7 +56,7 @@ export default function EntitySaleRows({
   entityIdFieldKey,
   placeholder,
   children,
-}: EntitySaleRowsProps): ReactNode {
+}: EntitySaleInputsProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
@@ -94,7 +94,7 @@ export default function EntitySaleRows({
   };
 
   return (
-    <div className={styles.entitySaleRows}>
+    <div className={styles.EntitySaleInputs}>
       <div className={styles.selectorGroup}>
         <CheckboxMultiSelect
           options={options}

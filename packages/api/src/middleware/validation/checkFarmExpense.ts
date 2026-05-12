@@ -14,13 +14,17 @@
  */
 
 import { NextFunction, Response } from 'express';
-import AnimalModel from '../../models/animalModel.js';
-import AnimalBatchModel from '../../models/animalBatchModel.js';
 import CropVarietyModel from '../../models/cropVarietyModel.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
+import { BaseProperties } from '../../models/types.js';
+import {
+  getUniqueAnimalAndBatchIds,
+  hasInvalidAnimalIds,
+  hasInvalidBatchIds,
+} from '../../util/finance.js';
 
 interface AnimalExpenseItem {
-  id: number;
+  id?: number;
   farm_expense_id: number;
   animal_id?: number | null;
   animal_batch_id?: number | null;
@@ -29,54 +33,21 @@ interface AnimalExpenseItem {
 
 interface CropVarietyExpenseItem {
   farm_expense_id: number;
-  crop_variety_id?: string | null;
+  crop_variety_id: string | null;
   allocated_value: number;
 }
 
-interface ExpenseBody {
+interface ExpenseBody extends BaseProperties {
+  farm_expense_id?: number;
+  farm_id?: string;
+  expense_type_id?: string;
+  expense_date?: string;
+  note?: string;
   value?: number;
+  picture?: string;
   farm_expense_animal?: AnimalExpenseItem[];
   farm_expense_crop_variety?: CropVarietyExpenseItem[];
-  [key: string]: unknown;
 }
-
-const getUniqueAnimalAndBatchIds = (farmExpenseAnimal: AnimalExpenseItem[]) => {
-  const animalIdsSet = new Set<number>();
-  const batchIdsSet = new Set<number>();
-
-  for (const { animal_id, animal_batch_id } of farmExpenseAnimal) {
-    if (!animal_id && !animal_batch_id) {
-      throw new Error('farm_expense_animal item must have either animal_id or animal_batch_id');
-    }
-    if (animal_id && animal_batch_id) {
-      throw new Error(
-        'cannot have both animal_id and animal_batch_id in same farm_expense_animal item',
-      );
-    }
-    if (animal_id) {
-      animalIdsSet.add(animal_id);
-    }
-    if (animal_batch_id) {
-      batchIdsSet.add(animal_batch_id);
-    }
-  }
-
-  return { animalIds: [...animalIdsSet], batchIds: [...batchIdsSet] };
-};
-
-const hasInvalidAnimalIds = async (animalIds: number[], farmId: string) => {
-  if (!animalIds.length) {
-    return false;
-  }
-  return !(await AnimalModel.animalsBelongToFarm({ animalIds, farmId, includeRemoved: true }));
-};
-
-const hasInvalidBatchIds = async (batchIds: number[], farmId: string) => {
-  if (!batchIds.length) {
-    return false;
-  }
-  return !(await AnimalBatchModel.batchesBelongToFarm({ batchIds, farmId, includeRemoved: true }));
-};
 
 const hasInvalidCropVarietyIds = async (cropVarietyIds: string[], farmId: string) => {
   if (!cropVarietyIds.length) {
@@ -105,14 +76,17 @@ export function checkFarmExpenseBody() {
             .send('an expense cannot have both animal and crop variety allocations');
         }
 
-        if (farm_expense_animal) {
+        if (farm_expense_animal?.length) {
           let animalIds: number[] = [];
           let batchIds: number[] = [];
 
           try {
-            ({ animalIds, batchIds } = getUniqueAnimalAndBatchIds(farm_expense_animal));
-          } catch (e: unknown) {
-            return res.status(400).send((e as Error).message);
+            ({ animalIds, batchIds } = getUniqueAnimalAndBatchIds(
+              farm_expense_animal,
+              'farm_expense_animal',
+            ));
+          } catch (error: unknown) {
+            return res.status(400).send((error as Error).message);
           }
 
           if (animalIds.length + batchIds.length !== farm_expense_animal.length) {
@@ -129,7 +103,7 @@ export function checkFarmExpenseBody() {
           }
         }
 
-        if (farm_expense_crop_variety) {
+        if (farm_expense_crop_variety?.length) {
           const cropVarietyIds = farm_expense_crop_variety.map((item) => item.crop_variety_id);
 
           if (cropVarietyIds.some((id) => !id)) {

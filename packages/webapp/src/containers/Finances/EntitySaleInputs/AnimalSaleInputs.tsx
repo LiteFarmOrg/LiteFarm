@@ -15,14 +15,14 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ANIMAL_KEY, ANIMAL_SALE } from '../../components/Forms/GeneralRevenue/constants';
-import AnimalSaleItem from '../../components/Forms/GeneralRevenue/AnimalSaleItem';
-import EntitySaleInputs from './EntitySaleInputs';
-import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../store/api/apiSlice';
-import { chooseIdentification } from '../Animals/utils';
-import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import type { Animal, AnimalBatch } from '../../store/api/types';
-import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
+import { ANIMAL_KEY, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
+import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
+import EntitySaleEntries from '../../../components/Forms/RevenueForm/EntitySaleEntries';
+import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
+import { chooseIdentification } from '../../Animals/utils';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
+import type { Animal, AnimalBatch } from '../../../store/api/types';
+import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 
 interface AnimalSaleRecord {
   animal_id: number | null;
@@ -96,7 +96,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
   );
 
   return (
-    <EntitySaleInputs
+    <EntitySaleEntries
       disabledInput={disabledInput}
       options={options}
       savedSalesById={savedSalesById}
@@ -116,6 +116,6 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
           disabledInput={disabledInput}
         />
       )}
-    </EntitySaleInputs>
+    </EntitySaleEntries>
   );
 }

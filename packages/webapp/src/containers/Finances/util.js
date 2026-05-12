@@ -29,7 +29,7 @@ import {
   SALE_DATE,
   SALE_VALUE,
   VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
+} from '../../components/Forms/RevenueForm/constants';
 import { chooseIdentification } from '../Animals/utils';
 import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
@@ -345,3 +345,5 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 };
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
+export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
+export const isEntitySale = (revenueType) => isCropSale(revenueType) || isAnimalSale(revenueType);

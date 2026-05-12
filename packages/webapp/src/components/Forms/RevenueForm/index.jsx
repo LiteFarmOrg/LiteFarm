@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -35,8 +35,12 @@ import {
   REVENUE_TYPE_ID,
 } from './constants';
 import PropTypes from 'prop-types';
+import { isEntitySale } from '../../../containers/Finances/util';
+import EntitySaleInputs, {
+  getEntitySaleDefaultValues,
+} from '../../../containers/Finances/EntitySaleInputs';
 
-const GeneralRevenue = ({
+const RevenueForm = ({
   onSubmit,
   title,
   currency,
@@ -48,8 +52,6 @@ const GeneralRevenue = ({
   revenueTypeOptions,
   onTypeChange,
   buttonText,
-  customFormChildrenDefaultValues,
-  CustomFormChildren,
   revenueTypes,
   onRetire,
 }) => {
@@ -57,6 +59,11 @@ const GeneralRevenue = ({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const data = sale || persistedFormData;
+
+  const initialRevenueType = revenueTypes?.find(
+    (rt) => rt.revenue_type_id === data[REVENUE_TYPE_ID],
+  );
+  const entitySaleDefaults = getEntitySaleDefaultValues(sale, initialRevenueType?.entity_type);
 
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
@@ -70,7 +77,7 @@ const GeneralRevenue = ({
       }),
       [VALUE]: !isNaN(data[VALUE]) ? data[VALUE] : null,
       [NOTE]: data[NOTE] ?? null,
-      ...customFormChildrenDefaultValues,
+      ...entitySaleDefaults,
     },
   });
 
@@ -200,8 +207,8 @@ const GeneralRevenue = ({
             )}
           />
         )}
-        {CustomFormChildren && selectedRevenueType?.entity_type ? (
-          <CustomFormChildren
+        {isEntitySale(selectedRevenueType) ? (
+          <EntitySaleInputs
             sale={sale}
             disabledInput={disabledInput}
             revenueTypes={revenueTypes}
@@ -258,7 +265,7 @@ const GeneralRevenue = ({
   );
 };
 
-GeneralRevenue.propTypes = {
+RevenueForm.propTypes = {
   onSubmit: PropTypes.func,
   title: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
@@ -271,10 +278,8 @@ GeneralRevenue.propTypes = {
   revenueTypeOptions: PropTypes.array.isRequired,
   onTypeChange: PropTypes.func,
   buttonText: PropTypes.string.isRequired,
-  customFormChildrenDefaultValues: PropTypes.object,
-  CustomFormChildren: PropTypes.elementType,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
 };
 
-export default GeneralRevenue;
+export default RevenueForm;

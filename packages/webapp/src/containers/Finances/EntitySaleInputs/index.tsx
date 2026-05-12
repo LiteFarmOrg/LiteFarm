@@ -26,14 +26,14 @@ interface RevenueTypeOption {
   label: string;
 }
 
-interface SaleInputsByEntityTypeProps {
+interface EntitySaleInputsProps {
   sale?: any;
   disabledInput: boolean;
   revenueTypes?: RevenueType[];
   selectedTypeOption?: RevenueTypeOption;
 }
 
-export const getRevenueSaleDefaultValues = (
+export const getEntitySaleDefaultValues = (
   sale: any,
   entityType: RevenueType['entity_type'] | undefined,
 ) => {
@@ -46,21 +46,18 @@ export const getRevenueSaleDefaultValues = (
   return undefined;
 };
 
-export default function SaleInputsByEntityType({
+export default function EntitySaleInputs({
   sale,
   disabledInput,
   revenueTypes,
   selectedTypeOption,
-}: SaleInputsByEntityTypeProps) {
+}: EntitySaleInputsProps) {
   const entityType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   )?.entity_type;
 
-  if (entityType === 'crop') {
-    return <CropSaleInputs sale={sale} disabledInput={disabledInput} />;
-  }
   if (entityType === 'animal') {
     return <AnimalSaleInputs sale={sale} disabledInput={disabledInput} />;
   }
-  return null;
+  return <CropSaleInputs sale={sale} disabledInput={disabledInput} />;
 }

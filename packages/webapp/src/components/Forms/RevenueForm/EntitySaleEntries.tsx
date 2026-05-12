@@ -18,17 +18,13 @@ import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { measurementSelector } from '../userFarmSlice';
-import {
-  QUANTITY,
-  QUANTITY_UNIT,
-  SALE_VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
-import { CheckboxMultiSelect } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
-import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
-import { Error } from '../../components/Typography';
-import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
-import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
+import { measurementSelector } from '../../../containers/userFarmSlice';
+import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
+import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
+import type { SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
+import { Error } from '../../Typography';
+import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 export interface EntitySaleItemProps {
   option: SelectOption;
@@ -38,7 +34,7 @@ export interface EntitySaleItemProps {
   disabledInput: boolean;
 }
 
-interface EntitySaleInputsProps {
+interface EntitySaleEntriesProps {
   disabledInput: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
@@ -48,7 +44,7 @@ interface EntitySaleInputsProps {
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
-export default function EntitySaleInputs({
+export default function EntitySaleEntries({
   disabledInput,
   options,
   savedSalesById,
@@ -56,7 +52,7 @@ export default function EntitySaleInputs({
   entityIdFieldKey,
   placeholder,
   children,
-}: EntitySaleInputsProps): ReactNode {
+}: EntitySaleEntriesProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
@@ -94,7 +90,7 @@ export default function EntitySaleInputs({
   };
 
   return (
-    <div className={styles.EntitySaleInputs}>
+    <div className={styles.EntitySaleEntries}>
       <div className={styles.selectorGroup}>
         <CheckboxMultiSelect
           options={options}

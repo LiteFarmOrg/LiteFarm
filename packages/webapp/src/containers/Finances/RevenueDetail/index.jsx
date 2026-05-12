@@ -22,12 +22,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import SaleInputsByEntityType, { getRevenueSaleDefaultValues } from '../SaleInputsByEntityType';
+import RevenueForm from '../../../components/Forms/RevenueForm';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
-import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
+import { REVENUE_TYPE_OPTION } from '../../../components/Forms/RevenueForm/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail() {
@@ -78,14 +77,12 @@ function RevenueDetail() {
   };
 
   return (
-    <GeneralRevenue
+    <RevenueForm
       key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
-      CustomFormChildren={SaleInputsByEntityType}
-      customFormChildrenDefaultValues={getRevenueSaleDefaultValues(sale, revenueType?.entity_type)}
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}
       onClick={isEditing ? undefined : handleEdit}

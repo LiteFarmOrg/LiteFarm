@@ -19,13 +19,13 @@ import { useTranslation } from 'react-i18next';
 import {
   CROP_VARIETY_SALE,
   CROP_VARIETY_ID,
-} from '../../components/Forms/GeneralRevenue/constants';
-import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
-import { selectManagementPlansForSale } from '../managementPlanSlice';
-import EntitySaleInputs from './EntitySaleInputs';
-import type { CropVarietySaleTileData } from '../../components/CropTile/CropVarietySaleTile';
-import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect/index';
+} from '../../../components/Forms/RevenueForm/constants';
+import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
+import { selectManagementPlansForSale } from '../../managementPlanSlice';
+import EntitySaleEntries from '../../../components/Forms/RevenueForm/EntitySaleEntries';
+import type { CropVarietySaleTileData } from '../../../components/CropTile/CropVarietySaleTile';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
+import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/index';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
   const existingSales = sale?.crop_variety_sale?.reduce<
@@ -104,7 +104,7 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
   );
 
   return (
-    <EntitySaleInputs
+    <EntitySaleEntries
       disabledInput={disabledInput}
       options={options}
       savedSalesById={savedSalesById}
@@ -122,6 +122,6 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
           disabledInput={disabledInput}
         />
       )}
-    </EntitySaleInputs>
+    </EntitySaleEntries>
   );
 }

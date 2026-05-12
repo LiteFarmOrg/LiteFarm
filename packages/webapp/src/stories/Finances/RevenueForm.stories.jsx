@@ -12,11 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import GeneralRevenue from '../../components/Forms/GeneralRevenue';
+import { useState } from 'react';
+import RevenueForm from '../../components/Forms/RevenueForm';
 import { componentDecorators } from '../Pages/config/Decorators';
-import React, { useState } from 'react';
-import CropSaleInputs, { getCropSaleDefaultValues } from '../../containers/Finances/CropSaleInputs';
-import { isCropSale } from '../../containers/Finances/util';
 
 const cropSale = {
   sale_id: 17,
@@ -82,7 +80,7 @@ const revenueTypeOptions = [
   },
 ];
 
-const GeneralRevenueWithState = (props) => {
+const RevenueFormWithState = (props) => {
   const { view, sale, revenueType } = props;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -93,22 +91,16 @@ const GeneralRevenueWithState = (props) => {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
   if (view === 'add') {
-    // TODO LF-5274 update passed component
-    return <GeneralRevenue CustomFormChildren={CropSaleInputs} {...props} />;
+    return <RevenueForm {...props} />;
   } else {
     return (
-      <GeneralRevenue
+      <RevenueForm
         key={isEditing ? 'editing' : 'readonly'}
         onSubmit={isEditing ? console.log : undefined}
         view={isEditing ? 'edit' : 'read-only'}
         handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
         onClick={isEditing ? undefined : () => setIsEditing(true)}
         buttonText={isEditing ? 'Save' : 'Edit'}
-        // TODO LF-5274 update passed component
-        CustomFormChildren={CropSaleInputs}
-        customFormChildrenDefaultValues={
-          isCropSale(selectedRevenueType) ? getCropSaleDefaultValues(sale) : undefined
-        }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}
         {...props}
@@ -118,12 +110,12 @@ const GeneralRevenueWithState = (props) => {
 };
 
 export default {
-  title: 'Components/GeneralRevenue',
-  component: GeneralRevenueWithState,
+  title: 'Components/RevenueForm',
+  component: RevenueFormWithState,
   decorators: componentDecorators,
 };
 
-const Template = (args) => <GeneralRevenueWithState {...args} />;
+const Template = (args) => <RevenueFormWithState {...args} />;
 
 export const AddCropSale = Template.bind({});
 

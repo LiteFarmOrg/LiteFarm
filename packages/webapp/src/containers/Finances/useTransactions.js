@@ -28,7 +28,7 @@ import { userFarmsByFarmSelector } from '../userFarmSlice';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../store/api/apiSlice';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
-import { isCropSale, mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
+import { isAnimalSale, isCropSale, mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 
 export const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -133,7 +133,7 @@ const getRevenueTransactionType = (revenueType) => {
   if (isCropSale(revenueType)) {
     return transactionTypeEnum.cropRevenue;
   }
-  if (revenueType?.entity_type === 'animal') {
+  if (isAnimalSale(revenueType)) {
     return transactionTypeEnum.animalRevenue;
   }
   return transactionTypeEnum.revenue;

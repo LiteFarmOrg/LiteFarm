@@ -420,6 +420,90 @@ describe('Expense Tests', () => {
       expect(res.status).toBe(201);
     });
 
+    describe('Value validation', () => {
+      test('Returns 201 when multiple expenses each have matching allocation totals', async () => {
+        const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+        const [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
+        const [cropVariety2] = await mocks.crop_varietyFactory({
+          promisedFarm: [farm],
+          promisedCrop: [crop2],
+        });
+
+        const expense1 = makeExpenseBody({
+          value: 500,
+          farm_expense_animal: [
+            mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: 100 }),
+            mocks.fakeFarmExpenseAnimal({ animal_batch_id: animalBatch.id, allocated_value: 200 }),
+            mocks.fakeFarmExpenseAnimal({ animal_id: animal2.id, allocated_value: 200 }),
+          ],
+        });
+        const expense2 = makeExpenseBody({
+          value: 119.8,
+          farm_expense_crop_variety: [
+            mocks.fakeFarmExpenseCropVariety({
+              crop_variety_id: cropVariety.crop_variety_id,
+              allocated_value: 87,
+            }),
+            mocks.fakeFarmExpenseCropVariety({
+              crop_variety_id: cropVariety2.crop_variety_id,
+              allocated_value: 32.8,
+            }),
+          ],
+        });
+        const res = await postExpenseRequest([...expense1, ...expense2], {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+
+        expect(res.status).toBe(201);
+        const expenses = await farmExpenseModel.query().where('farm_id', farm.farm_id);
+        expect(expenses.length).toBe(2);
+      });
+
+      test('Returns 400 if value is missing', async () => {
+        const { value: _value, ...expenseWithoutValue } = mocks.fakeExpense({
+          expense_type_id: expenseType.expense_type_id,
+          farm_id: farm.farm_id,
+        });
+        const res = await postExpenseRequest([expenseWithoutValue], {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(400);
+      });
+
+      test('Returns 400 if value does not match animal allocation total', async () => {
+        const body = makeExpenseBody({
+          value: testValue,
+          farm_expense_animal: [
+            mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue / 2 }),
+          ],
+        });
+        const res = await postExpenseRequest(body, {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(400);
+      });
+
+      test('Returns 400 if value does not match crop variety allocation total', async () => {
+        const body = makeExpenseBody({
+          value: testValue,
+          farm_expense_crop_variety: [
+            mocks.fakeFarmExpenseCropVariety({
+              crop_variety_id: cropVariety.crop_variety_id,
+              allocated_value: testValue / 2,
+            }),
+          ],
+        });
+        const res = await postExpenseRequest(body, {
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+        });
+        expect(res.status).toBe(400);
+      });
+    });
+
     test('Should return 403 when unauthorized user tries to post expense', async () => {
       const { mainFarm, _user } = await returnUserFarms(1);
       const { expense_type } = await returnExpenseType(mainFarm);
@@ -968,6 +1052,80 @@ describe('Expense Tests', () => {
           .where('farm_expense_id', expense.farm_expense_id);
         expect(cvRows.length).toBe(1);
         expect(cvRows[0].crop_variety_id).toBe(cropVariety.crop_variety_id);
+      });
+
+      describe('Value validation', () => {
+        test('Returns 400 if updated value does not match existing animal allocations', async () => {
+          await mocks.farm_expense_animalFactory(
+            { promisedExpense: [expense], promisedAnimal: [animal] },
+            mocks.fakeFarmExpenseAnimal({ allocated_value: testValue }),
+          );
+
+          const res = await patchRequest({ value: testValue * 2 }, expense.farm_expense_id, {
+            user_id: owner.user_id,
+            farm_id: farm.farm_id,
+          });
+          expect(res.status).toBe(400);
+        });
+
+        test('Returns 400 if new animal allocations do not match existing expense value', async () => {
+          const res = await patchRequest(
+            {
+              farm_expense_animal: [
+                mocks.fakeFarmExpenseAnimal({
+                  animal_id: animal.id,
+                  allocated_value: testValue / 2,
+                }),
+              ],
+            },
+            expense.farm_expense_id,
+            { user_id: owner.user_id, farm_id: farm.farm_id },
+          );
+          expect(res.status).toBe(400);
+        });
+
+        test('Returns 400 if updated value and new animal allocations do not match each other', async () => {
+          const res = await patchRequest(
+            {
+              value: testValue * 2,
+              farm_expense_animal: [
+                mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue }),
+              ],
+            },
+            expense.farm_expense_id,
+            { user_id: owner.user_id, farm_id: farm.farm_id },
+          );
+          expect(res.status).toBe(400);
+        });
+
+        test('Returns 400 if updated value does not match existing crop variety allocations', async () => {
+          await mocks.farm_expense_crop_varietyFactory(
+            { promisedExpense: [expense], promisedCropVariety: [cropVariety] },
+            mocks.fakeFarmExpenseCropVariety({ allocated_value: testValue }),
+          );
+
+          const res = await patchRequest({ value: testValue * 2 }, expense.farm_expense_id, {
+            user_id: owner.user_id,
+            farm_id: farm.farm_id,
+          });
+          expect(res.status).toBe(400);
+        });
+
+        test('Returns 400 if new crop variety allocations do not match existing expense value', async () => {
+          const res = await patchRequest(
+            {
+              farm_expense_crop_variety: [
+                mocks.fakeFarmExpenseCropVariety({
+                  crop_variety_id: cropVariety.crop_variety_id,
+                  allocated_value: testValue / 2,
+                }),
+              ],
+            },
+            expense.farm_expense_id,
+            { user_id: owner.user_id, farm_id: farm.farm_id },
+          );
+          expect(res.status).toBe(400);
+        });
       });
 
       test('PATCH replaces existing crop variety rows with animal rows', async () => {

@@ -14,7 +14,7 @@
  */
 
 import { useController } from 'react-hook-form';
-import { Info, Main } from '../../../../components/Typography';
+import { Info } from '../../../../components/Typography';
 import EntityAssociationToggle from '../../../../components/Form/EntityAssociationToggle';
 import { useTranslation } from 'react-i18next';
 import { ENTITY_TYPE } from '../constants';
@@ -32,6 +32,7 @@ function CustomRevenueRadios({ control, view }) {
   return (
     <>
       <EntityAssociationToggle
+        label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')}
         value={field.value}
         onChange={field.onChange}
         isDisabled={view === 'edit' || view === 'read-only'}

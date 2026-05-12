@@ -34,7 +34,7 @@ router.post(
   '/farm/:farm_id',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:expenses']),
-  checkFarmExpenseBody(),
+  checkFarmExpenseBody('add'),
   farmExpenseController.addFarmExpense(),
 );
 
@@ -47,7 +47,7 @@ router.patch(
       isCreator({ params: 'farm_expense_id' }),
       hasFarmAccess({ params: 'farm_expense_id' }),
     )(req, res, next),
-  checkFarmExpenseBody(),
+  checkFarmExpenseBody('update'),
   farmExpenseController.updateFarmExpense(),
 );
 

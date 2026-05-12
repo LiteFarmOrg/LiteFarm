@@ -15,13 +15,14 @@
 
 import { NextFunction, Response } from 'express';
 import CropVarietyModel from '../../models/cropVarietyModel.js';
-import { HttpError, LiteFarmRequest } from '../../types.js';
-import { BaseProperties } from '../../models/types.js';
+import FarmExpenseModel from '../../models/farmExpenseModel.js';
 import {
   getUniqueAnimalAndBatchIds,
   hasInvalidAnimalIds,
   hasInvalidBatchIds,
 } from '../../util/finance.js';
+import { HttpError, LiteFarmRequest } from '../../types.js';
+import { BaseProperties } from '../../models/types.js';
 
 interface AnimalExpenseItem {
   id?: number;
@@ -49,6 +50,10 @@ interface ExpenseBody extends BaseProperties {
   farm_expense_crop_variety?: CropVarietyExpenseItem[];
 }
 
+interface ExpenseParams {
+  farm_expense_id?: string;
+}
+
 const hasInvalidCropVarietyIds = async (cropVarietyIds: string[], farmId: string) => {
   if (!cropVarietyIds.length) {
     return false;
@@ -56,9 +61,9 @@ const hasInvalidCropVarietyIds = async (cropVarietyIds: string[], farmId: string
   return !(await CropVarietyModel.cropVarietiesBelongToFarm({ cropVarietyIds, farmId }));
 };
 
-export function checkFarmExpenseBody() {
+export function checkFarmExpenseBody(operation: 'add' | 'update') {
   return async (
-    req: LiteFarmRequest<unknown, unknown, unknown, ExpenseBody | ExpenseBody[]>,
+    req: LiteFarmRequest<unknown, ExpenseParams, unknown, ExpenseBody | ExpenseBody[]>,
     res: Response,
     next: NextFunction,
   ) => {
@@ -74,6 +79,10 @@ export function checkFarmExpenseBody() {
           return res
             .status(400)
             .send('an expense cannot have both animal and crop variety allocations');
+        }
+
+        if (operation === 'add' && !expense.value) {
+          return res.status(400).send('value is required when creating a farm expense');
         }
 
         if (farm_expense_animal?.length) {
@@ -123,6 +132,12 @@ export function checkFarmExpenseBody() {
             return res.status(400).send('one or more crop varieties do not belong to the farm');
           }
         }
+
+        if (await hasInvalidAllocation(expense, req.params.farm_expense_id)) {
+          return res
+            .status(400)
+            .send('the sum of allocated values must equal the total expense value');
+        }
       }
 
       next();
@@ -137,3 +152,48 @@ export function checkFarmExpenseBody() {
     }
   };
 }
+
+const hasInvalidAllocation = async (expense: ExpenseBody, expenseId: string | undefined) => {
+  const { value: newValue, farm_expense_animal, farm_expense_crop_variety } = expense;
+  const isNewExpense = expenseId === undefined;
+  const isAddingAnimalExpense = !!farm_expense_animal?.length;
+  const isAddingCropVarietyExpense = !!farm_expense_crop_variety?.length;
+
+  if ((isNewExpense || !newValue) && !isAddingAnimalExpense && !isAddingCropVarietyExpense) {
+    return false;
+  }
+
+  let allocations: (AnimalExpenseItem | CropVarietyExpenseItem)[] = [];
+  if (isAddingAnimalExpense || isAddingCropVarietyExpense) {
+    allocations = isAddingAnimalExpense ? farm_expense_animal : farm_expense_crop_variety!;
+  }
+
+  if (newValue && allocations.length) {
+    return !valuesMatch(newValue, allocations);
+  }
+
+  /* @ts-expect-error known issue with models */
+  const oldExpense = await FarmExpenseModel.query()
+    .findById(expenseId)
+    .withGraphFetched('[farm_expense_animal, farm_expense_crop_variety]');
+
+  if (
+    !allocations.length &&
+    (oldExpense.farm_expense_animal?.length || oldExpense.farm_expense_crop_variety?.length)
+  ) {
+    allocations = oldExpense.farm_expense_animal?.length
+      ? oldExpense.farm_expense_animal
+      : oldExpense.farm_expense_crop_variety;
+  }
+
+  if (!allocations.length) {
+    return false;
+  }
+
+  return !valuesMatch(newValue ?? oldExpense.value, allocations);
+};
+
+const valuesMatch = (total: number, items: (AnimalExpenseItem | CropVarietyExpenseItem)[]) => {
+  const allocatedTotal = items.reduce((sum, item) => sum + item.allocated_value, 0);
+  return total === allocatedTotal;
+};

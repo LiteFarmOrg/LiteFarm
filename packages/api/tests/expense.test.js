@@ -34,6 +34,8 @@ import farmExpenseModel from '../src/models/farmExpenseModel.js';
 import farmExpenseCropVarietyModel from '../src/models/farmExpenseCropVarietyModel.js';
 import farmExpenseAnimalModel from '../src/models/farmExpenseAnimalModel.js';
 
+const testValue = 100;
+
 describe('Expense Tests', () => {
   let _token;
   let farm;
@@ -129,10 +131,13 @@ describe('Expense Tests', () => {
     const { farm_id } = mainFarm;
     const { user_id } = user;
     const [expense_type] = await mocks.farmExpenseTypeFactory({ promisedFarm: [{ farm_id }] });
-    const [expense] = await mocks.farmExpenseFactory({
-      promisedExpenseType: [expense_type],
-      promisedUserFarm: [{ user_id, farm_id }],
-    });
+    const [expense] = await mocks.farmExpenseFactory(
+      {
+        promisedExpenseType: [expense_type],
+        promisedUserFarm: [{ user_id, farm_id }],
+      },
+      mocks.fakeExpense({ value: testValue }),
+    );
     return { expense };
   }
 
@@ -238,9 +243,11 @@ describe('Expense Tests', () => {
 
     test('farm_expense_animal array creates linked rows', async () => {
       const body = makeExpenseBody({
-        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+        value: testValue,
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue }),
+        ],
       });
-
       const res = await postExpenseRequest(body, {
         user_id: owner.user_id,
         farm_id: farm.farm_id,
@@ -257,8 +264,12 @@ describe('Expense Tests', () => {
 
     test('farm_expense_crop_variety array creates linked rows', async () => {
       const body = makeExpenseBody({
+        value: testValue,
         farm_expense_crop_variety: [
-          mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+          mocks.fakeFarmExpenseCropVariety({
+            crop_variety_id: cropVariety.crop_variety_id,
+            allocated_value: testValue,
+          }),
         ],
       });
 
@@ -278,9 +289,15 @@ describe('Expense Tests', () => {
 
     test('Returns 400 if expense has both non-empty farm_expense_animal and farm_expense_crop_variety', async () => {
       const body = makeExpenseBody({
-        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+        value: testValue,
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue }),
+        ],
         farm_expense_crop_variety: [
-          mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+          mocks.fakeFarmExpenseCropVariety({
+            crop_variety_id: cropVariety.crop_variety_id,
+            allocated_value: testValue,
+          }),
         ],
       });
       const res = await postExpenseRequest(body, {
@@ -292,8 +309,13 @@ describe('Expense Tests', () => {
 
     test('Returns 400 if farm_expense_animal item has both animal_id and animal_batch_id', async () => {
       const body = makeExpenseBody({
+        value: testValue,
         farm_expense_animal: [
-          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, animal_batch_id: animalBatch.id }),
+          mocks.fakeFarmExpenseAnimal({
+            animal_id: animal.id,
+            animal_batch_id: animalBatch.id,
+            allocated_value: testValue,
+          }),
         ],
       });
       const res = await postExpenseRequest(body, {
@@ -305,7 +327,8 @@ describe('Expense Tests', () => {
 
     test('Returns 400 if farm_expense_animal item has neither animal_id nor animal_batch_id', async () => {
       const body = makeExpenseBody({
-        farm_expense_animal: [mocks.fakeFarmExpenseAnimal()],
+        value: testValue,
+        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ allocated_value: testValue })],
       });
       const res = await postExpenseRequest(body, {
         user_id: owner.user_id,
@@ -316,9 +339,10 @@ describe('Expense Tests', () => {
 
     test('Returns 400 if duplicate animal_id in farm_expense_animal', async () => {
       const body = makeExpenseBody({
+        value: testValue,
         farm_expense_animal: [
-          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id }),
-          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id }),
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue / 2 }),
+          mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue / 2 }),
         ],
       });
       const res = await postExpenseRequest(body, {
@@ -331,7 +355,10 @@ describe('Expense Tests', () => {
     test('Returns 400 if animal_id does not belong to the farm', async () => {
       const [outsideAnimal] = await mocks.animalFactory();
       const body = makeExpenseBody({
-        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: outsideAnimal.id })],
+        value: testValue,
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: outsideAnimal.id, allocated_value: testValue }),
+        ],
       });
       const res = await postExpenseRequest(body, {
         user_id: owner.user_id,
@@ -342,7 +369,10 @@ describe('Expense Tests', () => {
 
     test('Returns 400 if crop_variety_id is missing from farm_expense_crop_variety item', async () => {
       const body = makeExpenseBody({
-        farm_expense_crop_variety: [mocks.fakeFarmExpenseCropVariety()],
+        value: testValue,
+        farm_expense_crop_variety: [
+          mocks.fakeFarmExpenseCropVariety({ allocated_value: testValue }),
+        ],
       });
       const res = await postExpenseRequest(body, {
         user_id: owner.user_id,
@@ -354,9 +384,11 @@ describe('Expense Tests', () => {
     test('Returns 400 if crop_variety_id does not belong to the farm', async () => {
       const [outsideCropVariety] = await mocks.crop_varietyFactory();
       const body = makeExpenseBody({
+        value: testValue,
         farm_expense_crop_variety: [
           mocks.fakeFarmExpenseCropVariety({
             crop_variety_id: outsideCropVariety.crop_variety_id,
+            allocated_value: testValue,
           }),
         ],
       });
@@ -376,7 +408,10 @@ describe('Expense Tests', () => {
       });
 
       const body = makeExpenseBody({
-        farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: removedAnimal.id })],
+        value: testValue,
+        farm_expense_animal: [
+          mocks.fakeFarmExpenseAnimal({ animal_id: removedAnimal.id, allocated_value: testValue }),
+        ],
       });
       const res = await postExpenseRequest(body, {
         user_id: owner.user_id,
@@ -807,7 +842,11 @@ describe('Expense Tests', () => {
         const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
 
         const res = await patchRequest(
-          { farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal2.id })] },
+          {
+            farm_expense_animal: [
+              mocks.fakeFarmExpenseAnimal({ animal_id: animal2.id, allocated_value: testValue }),
+            ],
+          },
           expense.farm_expense_id,
           { user_id: owner.user_id, farm_id: farm.farm_id },
         );
@@ -833,7 +872,10 @@ describe('Expense Tests', () => {
         const res = await patchRequest(
           {
             farm_expense_crop_variety: [
-              mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety2.crop_variety_id }),
+              mocks.fakeFarmExpenseCropVariety({
+                crop_variety_id: cropVariety2.crop_variety_id,
+                allocated_value: testValue,
+              }),
             ],
           },
           expense.farm_expense_id,
@@ -907,7 +949,10 @@ describe('Expense Tests', () => {
         const res = await patchRequest(
           {
             farm_expense_crop_variety: [
-              mocks.fakeFarmExpenseCropVariety({ crop_variety_id: cropVariety.crop_variety_id }),
+              mocks.fakeFarmExpenseCropVariety({
+                crop_variety_id: cropVariety.crop_variety_id,
+                allocated_value: testValue,
+              }),
             ],
           },
           expense.farm_expense_id,
@@ -933,7 +978,9 @@ describe('Expense Tests', () => {
 
         const res = await patchRequest(
           {
-            farm_expense_animal: [mocks.fakeFarmExpenseAnimal({ animal_id: animal.id })],
+            farm_expense_animal: [
+              mocks.fakeFarmExpenseAnimal({ animal_id: animal.id, allocated_value: testValue }),
+            ],
           },
           expense.farm_expense_id,
           { user_id: owner.user_id, farm_id: farm.farm_id },

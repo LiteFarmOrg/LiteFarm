@@ -26,7 +26,7 @@ interface RevenueTypeOption {
   label: string;
 }
 
-interface RevenueSaleInputsProps {
+interface SaleInputsByEntityTypeProps {
   sale?: any;
   disabledInput: boolean;
   revenueTypes?: RevenueType[];
@@ -46,12 +46,12 @@ export const getRevenueSaleDefaultValues = (
   return undefined;
 };
 
-export default function RevenueSaleInputs({
+export default function SaleInputsByEntityType({
   sale,
   disabledInput,
   revenueTypes,
   selectedTypeOption,
-}: RevenueSaleInputsProps) {
+}: SaleInputsByEntityTypeProps) {
   const entityType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   )?.entity_type;

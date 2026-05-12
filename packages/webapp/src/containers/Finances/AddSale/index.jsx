@@ -15,7 +15,7 @@
 
 import React from 'react';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import RevenueSaleInputs from '../RevenueSaleInputs';
+import SaleInputsByEntityType from '../SaleInputsByEntityType';
 import { addSale } from '../actions';
 import { userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,7 +59,7 @@ function AddSale() {
           interpolation: { escapeValue: false },
         })}
         currency={useCurrencySymbol()}
-        CustomFormChildren={RevenueSaleInputs}
+        CustomFormChildren={SaleInputsByEntityType}
         view={'add'}
         handleGoBack={handleGoBack}
         buttonText={t('common:SAVE')}

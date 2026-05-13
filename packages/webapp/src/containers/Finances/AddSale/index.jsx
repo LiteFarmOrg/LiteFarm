@@ -22,7 +22,14 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
+import {
+  mapRevenueTypesToReactSelectOptions,
+  mapRevenueFormDataToApiCallFormat,
+  isCropSale,
+  isAnimalSale,
+} from '../util';
+import CropSaleInputs from '../EntitySaleInputs/CropSaleInputs';
+import AnimalSaleInputs from '../EntitySaleInputs/AnimalSaleInputs';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
 function AddSale() {
@@ -48,6 +55,12 @@ function AddSale() {
     history.back();
   };
 
+  const CustomFormChildren = isCropSale(revenueType)
+    ? CropSaleInputs
+    : isAnimalSale(revenueType)
+      ? AnimalSaleInputs
+      : null;
+
   return (
     <HookFormPersistProvider>
       <RevenueForm
@@ -62,6 +75,7 @@ function AddSale() {
         buttonText={t('common:SAVE')}
         revenueTypes={revenueTypes}
         revenueTypeOptions={revenueTypeReactSelectOptions}
+        CustomFormChildren={CustomFormChildren}
       />
     </HookFormPersistProvider>
   );

@@ -14,6 +14,12 @@
  */
 import { useState } from 'react';
 import RevenueForm from '../../components/Forms/RevenueForm';
+import CropSaleInputs, {
+  getCropSaleDefaultValues,
+} from '../../containers/Finances/EntitySaleInputs/CropSaleInputs';
+import AnimalSaleInputs, {
+  getAnimalSaleDefaultValues,
+} from '../../containers/Finances/EntitySaleInputs/AnimalSaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 const cropSale = {
@@ -157,6 +163,7 @@ AddCropSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 1 },
   revenueTypeOptions,
+  CustomFormChildren: CropSaleInputs,
 };
 
 export const AddAnimalSale = Template.bind({});
@@ -171,6 +178,7 @@ AddAnimalSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 3 },
   revenueTypeOptions,
+  CustomFormChildren: AnimalSaleInputs,
 };
 
 export const AddGeneralSale = Template.bind({});
@@ -187,9 +195,9 @@ AddGeneralSale.args = {
   revenueTypeOptions,
 };
 
-export const DetailGeneralSale = Template.bind({});
+export const GeneralSaleDetail = Template.bind({});
 
-DetailGeneralSale.args = {
+GeneralSaleDetail.args = {
   title: 'General sale detail',
   currency: '$',
   sale: generalSale,
@@ -206,6 +214,8 @@ CropSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
+  CustomFormChildren: CropSaleInputs,
+  customFormChildrenDefaultValues: getCropSaleDefaultValues(cropSale),
 };
 
 export const AnimalSaleDetail = Template.bind({});
@@ -216,4 +226,6 @@ AnimalSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
+  CustomFormChildren: AnimalSaleInputs,
+  customFormChildrenDefaultValues: getAnimalSaleDefaultValues(animalSale),
 };

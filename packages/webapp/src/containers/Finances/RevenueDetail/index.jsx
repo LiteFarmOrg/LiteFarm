@@ -24,8 +24,15 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import RevenueForm from '../../../components/Forms/RevenueForm';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
+import {
+  mapRevenueFormDataToApiCallFormat,
+  mapRevenueTypesToReactSelectOptions,
+  isCropSale,
+  isAnimalSale,
+} from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+import CropSaleInputs, { getCropSaleDefaultValues } from '../EntitySaleInputs/CropSaleInputs';
+import AnimalSaleInputs, { getAnimalSaleDefaultValues } from '../EntitySaleInputs/AnimalSaleInputs';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/RevenueForm/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
@@ -76,6 +83,18 @@ function RevenueDetail() {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
 
+  const CustomFormChildren = isCropSale(revenueType)
+    ? CropSaleInputs
+    : isAnimalSale(revenueType)
+      ? AnimalSaleInputs
+      : null;
+
+  const customFormChildrenDefaultValues = isCropSale(revenueType)
+    ? getCropSaleDefaultValues(sale)
+    : isAnimalSale(revenueType)
+      ? getAnimalSaleDefaultValues(sale)
+      : undefined;
+
   return (
     <RevenueForm
       key={isEditing ? 'editing' : 'readonly'}
@@ -91,6 +110,8 @@ function RevenueDetail() {
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
       onRetire={onRetire}
       revenueTypes={revenueTypesArray}
+      CustomFormChildren={CustomFormChildren}
+      customFormChildrenDefaultValues={customFormChildrenDefaultValues}
     />
   );
 }

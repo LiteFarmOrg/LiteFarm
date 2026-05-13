@@ -35,13 +35,7 @@ import {
   REVENUE_TYPE_ID,
 } from './constants';
 import PropTypes from 'prop-types';
-import { isAnimalSale, isCropSale, isGeneralSale } from '../../../containers/Finances/util';
-import AnimalSaleInputs, {
-  getAnimalSaleDefaultValues,
-} from '../../../containers/Finances/EntitySaleInputs/AnimalSaleInputs';
-import CropSaleInputs, {
-  getCropSaleDefaultValues,
-} from '../../../containers/Finances/EntitySaleInputs/CropSaleInputs';
+import { isAnimalSale, isCropSale } from '../../../containers/Finances/util';
 
 const RevenueForm = ({
   onSubmit,
@@ -57,20 +51,13 @@ const RevenueForm = ({
   buttonText,
   revenueTypes,
   onRetire,
+  CustomFormChildren,
+  customFormChildrenDefaultValues,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const data = sale || persistedFormData;
-
-  const initialRevenueType = revenueTypes?.find(
-    (rt) => rt.revenue_type_id === data[REVENUE_TYPE_ID],
-  );
-  const entitySaleDefaults = isCropSale(initialRevenueType)
-    ? getCropSaleDefaultValues(sale)
-    : isAnimalSale(initialRevenueType)
-      ? getAnimalSaleDefaultValues(sale)
-      : undefined;
 
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
@@ -84,7 +71,7 @@ const RevenueForm = ({
       }),
       [VALUE]: !isNaN(data[VALUE]) ? data[VALUE] : null,
       [NOTE]: data[NOTE] ?? null,
-      ...entitySaleDefaults,
+      ...customFormChildrenDefaultValues,
     },
   });
 
@@ -209,13 +196,9 @@ const RevenueForm = ({
             )}
           />
         )}
-        {isCropSale(selectedRevenueType) && (
-          <CropSaleInputs sale={sale} disabledInput={disabledInput} />
-        )}
-        {isAnimalSale(selectedRevenueType) && (
-          <AnimalSaleInputs sale={sale} disabledInput={disabledInput} />
-        )}
-        {isGeneralSale(selectedRevenueType) && (
+        {CustomFormChildren && selectedRevenueType?.entity_type ? (
+          <CustomFormChildren sale={sale} disabledInput={disabledInput} />
+        ) : (
           <Input
             label={t('SALE.DETAIL.VALUE')}
             type="number"
@@ -281,6 +264,8 @@ RevenueForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
+  CustomFormChildren: PropTypes.elementType,
+  customFormChildrenDefaultValues: PropTypes.object,
 };
 
 export default RevenueForm;

@@ -23,11 +23,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
-import CropSaleInputs from '../EntitySaleInputs/CropSaleInputs';
-import AnimalSaleInputs from '../EntitySaleInputs/AnimalSaleInputs';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
-
-const entityTypeComponents = { crop: CropSaleInputs, animal: AnimalSaleInputs };
 
 function AddSale() {
   const { t } = useTranslation(['translation', 'revenue', 'common']);
@@ -66,7 +62,6 @@ function AddSale() {
         buttonText={t('common:SAVE')}
         revenueTypes={revenueTypes}
         revenueTypeOptions={revenueTypeReactSelectOptions}
-        entityTypeComponents={entityTypeComponents}
       />
     </HookFormPersistProvider>
   );

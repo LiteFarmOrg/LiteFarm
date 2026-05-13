@@ -35,7 +35,7 @@ import {
   REVENUE_TYPE_ID,
 } from './constants';
 import PropTypes from 'prop-types';
-import { isAnimalSale, isCropSale } from '../../../containers/Finances/util';
+import EntitySaleInputs from '../../../containers/Finances/EntitySaleInputs';
 
 const RevenueForm = ({
   onSubmit,
@@ -51,7 +51,6 @@ const RevenueForm = ({
   buttonText,
   revenueTypes,
   onRetire,
-  entityTypeComponents,
   customFormChildrenDefaultValues,
 }) => {
   const { t } = useTranslation();
@@ -88,14 +87,15 @@ const RevenueForm = ({
   const selectedRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
+  const selectedEntityType = selectedRevenueType?.entity_type;
+  const isEntitySale = selectedEntityType === 'crop' || selectedEntityType === 'animal';
 
-  const DynamicChildren = entityTypeComponents?.[selectedRevenueType?.entity_type];
-
-  const notesPlaceholder = isCropSale(selectedRevenueType)
-    ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
-    : isAnimalSale(selectedRevenueType)
-      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
-      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+  const notesPlaceholder =
+    selectedEntityType === 'crop'
+      ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
+      : selectedEntityType === 'animal'
+        ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+        : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -198,8 +198,12 @@ const RevenueForm = ({
             )}
           />
         )}
-        {DynamicChildren ? (
-          <DynamicChildren sale={sale} disabledInput={disabledInput} />
+        {isEntitySale ? (
+          <EntitySaleInputs
+            sale={sale}
+            disabledInput={disabledInput}
+            entityType={selectedEntityType}
+          />
         ) : (
           <Input
             label={t('SALE.DETAIL.VALUE')}
@@ -266,7 +270,6 @@ RevenueForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
-  entityTypeComponents: PropTypes.objectOf(PropTypes.elementType),
   customFormChildrenDefaultValues: PropTypes.object,
 };
 

@@ -14,15 +14,11 @@
  */
 import { useState } from 'react';
 import RevenueForm from '../../components/Forms/RevenueForm';
-import CropSaleInputs, {
+import {
   getCropSaleDefaultValues,
-} from '../../containers/Finances/EntitySaleInputs/CropSaleInputs';
-import AnimalSaleInputs, {
   getAnimalSaleDefaultValues,
-} from '../../containers/Finances/EntitySaleInputs/AnimalSaleInputs';
+} from '../../containers/Finances/EntitySaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
-
-const entityTypeComponents = { crop: CropSaleInputs, animal: AnimalSaleInputs };
 
 const cropSale = {
   sale_id: 17,
@@ -165,7 +161,6 @@ AddCropSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 1 },
   revenueTypeOptions,
-  entityTypeComponents,
 };
 
 export const AddAnimalSale = Template.bind({});
@@ -180,7 +175,6 @@ AddAnimalSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 3 },
   revenueTypeOptions,
-  entityTypeComponents,
 };
 
 export const AddGeneralSale = Template.bind({});
@@ -216,7 +210,6 @@ CropSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  entityTypeComponents,
   customFormChildrenDefaultValues: getCropSaleDefaultValues(cropSale),
 };
 
@@ -228,6 +221,5 @@ AnimalSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  entityTypeComponents,
   customFormChildrenDefaultValues: getAnimalSaleDefaultValues(animalSale),
 };

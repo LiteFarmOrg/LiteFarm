@@ -20,7 +20,7 @@ import history from '../../../../history';
 import styles from './styles.module.scss';
 import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
 
-const getColumns = (t, titleLabel, mobileView, totalAmount, quantityTotal, currencySymbol) => [
+const getColumns = (t, titleLabel, mobileView, totalAmount, currencySymbol) => [
   {
     id: 'title',
     label: t(titleLabel),
@@ -38,7 +38,7 @@ const getColumns = (t, titleLabel, mobileView, totalAmount, quantityTotal, curre
     columnProps: {
       style: { padding: `0 ${mobileView ? 8 : 12}px` },
     },
-    Footer: mobileView ? null : t('FINANCES.TRANSACTION.DAILY_TOTAL'),
+    Footer: mobileView ? null : <div className={styles.uppercase}>{t('common:TOTAL')}</div>,
   },
   {
     id: mobileView ? null : 'quantity',
@@ -48,7 +48,6 @@ const getColumns = (t, titleLabel, mobileView, totalAmount, quantityTotal, curre
     columnProps: {
       style: { width: '100px' },
     },
-    Footer: mobileView ? null : <div className={styles.bold}>{quantityTotal}</div>,
   },
   {
     id: 'amount',
@@ -62,10 +61,9 @@ const getColumns = (t, titleLabel, mobileView, totalAmount, quantityTotal, curre
   },
 ];
 
-const FooterCell = ({ t, quantityTotal, totalAmount }) => (
+const FooterCell = ({ t, totalAmount }) => (
   <div className={styles.mobileCropSaleFooterCell}>
-    <div>{t('FINANCES.TRANSACTION.DAILY_TOTAL')}</div>
-    <div className={styles.bold}>{quantityTotal}</div>
+    <div className={styles.uppercase}>{t('common:TOTAL')}</div>
     <div className={styles.bold}>{totalAmount}</div>
   </div>
 );
@@ -73,9 +71,6 @@ const FooterCell = ({ t, quantityTotal, totalAmount }) => (
 export default function EntitySaleTable({ data, currencySymbol, mobileView, titleLabel }) {
   const { t } = useTranslation();
   const { items, amount, relatedId } = data;
-  const quantityUnit = items?.[0]?.quantityUnit;
-  const quantityTotal = items.reduce((total, { quantity }) => total + quantity, 0);
-  const quantityWithUnit = `${quantityTotal} ${quantityUnit}`;
   const totalAmount = `${currencySymbol}${amount.toFixed(2)}`;
 
   if (!items?.length) {
@@ -85,15 +80,11 @@ export default function EntitySaleTable({ data, currencySymbol, mobileView, titl
   return (
     <Table
       kind={TableKind.V2}
-      columns={getColumns(t, titleLabel, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
+      columns={getColumns(t, titleLabel, mobileView, totalAmount, currencySymbol)}
       data={items}
       minRows={10}
       shouldFixTableLayout={true}
-      FooterCell={
-        mobileView
-          ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityWithUnit} />
-          : null
-      }
+      FooterCell={mobileView ? () => <FooterCell t={t} totalAmount={totalAmount} /> : null}
       onClickMore={() => history.push(createRevenueDetailsUrl(relatedId))}
     />
   );

@@ -26,13 +26,17 @@ import type { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 
-interface AnimalSaleRecord {
+interface BaseAnimalSaleRecord<TQuantityUnit> {
   animal_id: number | null;
   animal_batch_id: number | null;
   quantity: number;
-  quantity_unit: string | undefined;
+  quantity_unit: TQuantityUnit;
   sale_value: number;
 }
+
+// API data returns a string for quantity_unit, but form data uses SelectOption
+type AnimalSaleRecord = BaseAnimalSaleRecord<string | undefined>;
+type AnimalSaleDefaultRecord = BaseAnimalSaleRecord<SelectOption | undefined>;
 
 export interface AnimalSale {
   animal_sale?: AnimalSaleRecord[];
@@ -52,26 +56,28 @@ const saleRecordToOptionKey = (record: AnimalSaleRecord) => {
 };
 
 export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
-  const existingSales = sale?.animal_sale?.reduce<
-    Record<string, Omit<AnimalSaleRecord, 'quantity_unit'> & { quantity_unit?: SelectOption }>
-  >((acc, cur) => {
-    const key = saleRecordToOptionKey(cur);
-    acc[key] = {
-      animal_id: cur.animal_id,
-      animal_batch_id: cur.animal_batch_id,
-      quantity: cur.quantity,
-      quantity_unit: cur.quantity_unit
-        ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
-            label: cur.quantity_unit,
-            value: cur.quantity_unit,
-          })
-        : undefined,
-      sale_value: cur.sale_value,
-    };
-    return acc;
-  }, {});
+  if (!sale?.animal_sale) {
+    return { [ANIMAL_SALE]: undefined };
+  }
+
+  const unitMap = getUnitOptionMap() as Record<string, SelectOption>;
+
+  const existingSales = Object.fromEntries(
+    sale.animal_sale.map((record) => {
+      const key = saleRecordToOptionKey(record);
+      const unit = record.quantity_unit;
+
+      const formattedEntry: AnimalSaleDefaultRecord = {
+        ...record,
+        quantity_unit: unit ? (unitMap[unit] ?? { label: unit, value: unit }) : undefined,
+      };
+
+      return [key, formattedEntry];
+    }),
+  );
+
   return {
-    [ANIMAL_SALE]: existingSales ?? undefined,
+    [ANIMAL_SALE]: existingSales,
   };
 };
 

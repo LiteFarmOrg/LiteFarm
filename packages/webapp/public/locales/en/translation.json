@@ -1881,12 +1881,10 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
-      "SELECT_ANIMALS": "Select animals",
       "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
-      "ANIMAL_REQUIRED": "Required",
       "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
-      "SELECT_CROPS": "Select crops",
+      "CROP_VARIETY": "Select crops",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
       "NOTES_PLACEHOLDER": "Sale description",

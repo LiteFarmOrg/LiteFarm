@@ -114,7 +114,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
       savedSalesById={savedSalesById}
       fieldPrefix={ANIMAL_SALE}
       entityIdFieldKey={ANIMAL_KEY}
-      placeholder={t('SALE.ADD_SALE.SELECT_ANIMALS')}
+      placeholder={t('TASK.SELECT_ANIMALS')}
     >
       {({ option, system, currency, disabledInput }) => (
         <AnimalSaleItem

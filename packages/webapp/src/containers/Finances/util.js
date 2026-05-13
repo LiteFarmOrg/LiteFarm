@@ -346,4 +346,4 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
-export const isEntitySale = (revenueType) => isCropSale(revenueType) || isAnimalSale(revenueType);
+export const isGeneralSale = (revenueType) => !revenueType?.entity_type;

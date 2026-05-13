@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-26 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -35,10 +35,13 @@ import {
   REVENUE_TYPE_ID,
 } from './constants';
 import PropTypes from 'prop-types';
-import { isEntitySale } from '../../../containers/Finances/util';
-import EntitySaleInputs, {
-  getEntitySaleDefaultValues,
-} from '../../../containers/Finances/EntitySaleInputs';
+import { isAnimalSale, isCropSale, isGeneralSale } from '../../../containers/Finances/util';
+import AnimalSaleInputs, {
+  getAnimalSaleDefaultValues,
+} from '../../../containers/Finances/EntitySaleInputs/AnimalSaleInputs';
+import CropSaleInputs, {
+  getCropSaleDefaultValues,
+} from '../../../containers/Finances/EntitySaleInputs/CropSaleInputs';
 
 const RevenueForm = ({
   onSubmit,
@@ -63,7 +66,11 @@ const RevenueForm = ({
   const initialRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === data[REVENUE_TYPE_ID],
   );
-  const entitySaleDefaults = getEntitySaleDefaultValues(sale, initialRevenueType?.entity_type);
+  const entitySaleDefaults = isCropSale(initialRevenueType)
+    ? getCropSaleDefaultValues(sale)
+    : isAnimalSale(initialRevenueType)
+      ? getAnimalSaleDefaultValues(sale)
+      : undefined;
 
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
@@ -207,14 +214,13 @@ const RevenueForm = ({
             )}
           />
         )}
-        {isEntitySale(selectedRevenueType) ? (
-          <EntitySaleInputs
-            sale={sale}
-            disabledInput={disabledInput}
-            revenueTypes={revenueTypes}
-            selectedTypeOption={selectedTypeOption}
-          />
-        ) : (
+        {isCropSale(selectedRevenueType) && (
+          <CropSaleInputs sale={sale} disabledInput={disabledInput} />
+        )}
+        {isAnimalSale(selectedRevenueType) && (
+          <AnimalSaleInputs sale={sale} disabledInput={disabledInput} />
+        )}
+        {isGeneralSale(selectedRevenueType) && (
           <Input
             label={t('SALE.DETAIL.VALUE')}
             type="number"

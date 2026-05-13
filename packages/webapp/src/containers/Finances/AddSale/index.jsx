@@ -22,15 +22,12 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import {
-  mapRevenueTypesToReactSelectOptions,
-  mapRevenueFormDataToApiCallFormat,
-  isCropSale,
-  isAnimalSale,
-} from '../util';
+import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
 import CropSaleInputs from '../EntitySaleInputs/CropSaleInputs';
 import AnimalSaleInputs from '../EntitySaleInputs/AnimalSaleInputs';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+
+const entityTypeComponents = { crop: CropSaleInputs, animal: AnimalSaleInputs };
 
 function AddSale() {
   const { t } = useTranslation(['translation', 'revenue', 'common']);
@@ -55,12 +52,6 @@ function AddSale() {
     history.back();
   };
 
-  const CustomFormChildren = isCropSale(revenueType)
-    ? CropSaleInputs
-    : isAnimalSale(revenueType)
-      ? AnimalSaleInputs
-      : null;
-
   return (
     <HookFormPersistProvider>
       <RevenueForm
@@ -75,7 +66,7 @@ function AddSale() {
         buttonText={t('common:SAVE')}
         revenueTypes={revenueTypes}
         revenueTypeOptions={revenueTypeReactSelectOptions}
-        CustomFormChildren={CustomFormChildren}
+        entityTypeComponents={entityTypeComponents}
       />
     </HookFormPersistProvider>
   );

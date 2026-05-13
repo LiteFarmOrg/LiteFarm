@@ -51,7 +51,7 @@ const RevenueForm = ({
   buttonText,
   revenueTypes,
   onRetire,
-  CustomFormChildren,
+  entityTypeComponents,
   customFormChildrenDefaultValues,
 }) => {
   const { t } = useTranslation();
@@ -88,6 +88,8 @@ const RevenueForm = ({
   const selectedRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
+
+  const DynamicChildren = entityTypeComponents?.[selectedRevenueType?.entity_type];
 
   const notesPlaceholder = isCropSale(selectedRevenueType)
     ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
@@ -196,8 +198,8 @@ const RevenueForm = ({
             )}
           />
         )}
-        {CustomFormChildren && selectedRevenueType?.entity_type ? (
-          <CustomFormChildren sale={sale} disabledInput={disabledInput} />
+        {DynamicChildren ? (
+          <DynamicChildren sale={sale} disabledInput={disabledInput} />
         ) : (
           <Input
             label={t('SALE.DETAIL.VALUE')}
@@ -264,7 +266,7 @@ RevenueForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
-  CustomFormChildren: PropTypes.elementType,
+  entityTypeComponents: PropTypes.objectOf(PropTypes.elementType),
   customFormChildrenDefaultValues: PropTypes.object,
 };
 

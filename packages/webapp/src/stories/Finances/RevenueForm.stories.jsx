@@ -22,6 +22,8 @@ import AnimalSaleInputs, {
 } from '../../containers/Finances/EntitySaleInputs/AnimalSaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
 
+const entityTypeComponents = { crop: CropSaleInputs, animal: AnimalSaleInputs };
+
 const cropSale = {
   sale_id: 17,
   customer_name: 'Name',
@@ -163,7 +165,7 @@ AddCropSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 1 },
   revenueTypeOptions,
-  CustomFormChildren: CropSaleInputs,
+  entityTypeComponents,
 };
 
 export const AddAnimalSale = Template.bind({});
@@ -178,7 +180,7 @@ AddAnimalSale.args = {
   revenueTypes,
   persistedFormData: { revenue_type_id: 3 },
   revenueTypeOptions,
-  CustomFormChildren: AnimalSaleInputs,
+  entityTypeComponents,
 };
 
 export const AddGeneralSale = Template.bind({});
@@ -214,7 +216,7 @@ CropSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  CustomFormChildren: CropSaleInputs,
+  entityTypeComponents,
   customFormChildrenDefaultValues: getCropSaleDefaultValues(cropSale),
 };
 
@@ -226,6 +228,6 @@ AnimalSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  CustomFormChildren: AnimalSaleInputs,
+  entityTypeComponents,
   customFormChildrenDefaultValues: getAnimalSaleDefaultValues(animalSale),
 };

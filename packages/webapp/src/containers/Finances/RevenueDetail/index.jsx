@@ -36,6 +36,8 @@ import AnimalSaleInputs, { getAnimalSaleDefaultValues } from '../EntitySaleInput
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/RevenueForm/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
+const entityTypeComponents = { crop: CropSaleInputs, animal: AnimalSaleInputs };
+
 function RevenueDetail() {
   const history = useHistory();
   const match = useRouteMatch();
@@ -83,12 +85,6 @@ function RevenueDetail() {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
 
-  const CustomFormChildren = isCropSale(revenueType)
-    ? CropSaleInputs
-    : isAnimalSale(revenueType)
-      ? AnimalSaleInputs
-      : null;
-
   const customFormChildrenDefaultValues = isCropSale(revenueType)
     ? getCropSaleDefaultValues(sale)
     : isAnimalSale(revenueType)
@@ -110,7 +106,7 @@ function RevenueDetail() {
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
       onRetire={onRetire}
       revenueTypes={revenueTypesArray}
-      CustomFormChildren={CustomFormChildren}
+      entityTypeComponents={entityTypeComponents}
       customFormChildrenDefaultValues={customFormChildrenDefaultValues}
     />
   );

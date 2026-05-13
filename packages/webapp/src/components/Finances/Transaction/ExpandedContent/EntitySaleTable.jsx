@@ -20,10 +20,10 @@ import history from '../../../../history';
 import styles from './styles.module.scss';
 import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
 
-const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) => [
+const getColumns = (t, titleLabel, mobileView, totalAmount, quantityTotal, currencySymbol) => [
   {
     id: 'title',
-    label: t('FINANCES.TRANSACTION.CROPS'),
+    label: t(titleLabel),
     format: (d) =>
       mobileView ? (
         <div className={styles.mobileCrops}>
@@ -70,7 +70,7 @@ const FooterCell = ({ t, quantityTotal, totalAmount }) => (
   </div>
 );
 
-export default function CropSaleTable({ data, currencySymbol, mobileView }) {
+export default function EntitySaleTable({ data, currencySymbol, mobileView, titleLabel }) {
   const { t } = useTranslation();
   const { items, amount, relatedId } = data;
   const quantityUnit = items?.[0]?.quantityUnit;
@@ -85,7 +85,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
   return (
     <Table
       kind={TableKind.V2}
-      columns={getColumns(t, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
+      columns={getColumns(t, titleLabel, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
       data={items}
       minRows={10}
       shouldFixTableLayout={true}

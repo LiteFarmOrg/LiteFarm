@@ -24,9 +24,9 @@ import {
   LABOUR_URL,
 } from '../../../../util/siteMapConstants';
 import TextButton from '../../../Form/Button/TextButton';
-import CropSaleTable from './CropSaleTable';
 import GeneralTransactionTable from './GeneralTransactionTable';
 import LabourTable from './LabourTable';
+import EntitySaleTable from './EntitySaleTable';
 import styles from './styles.module.scss';
 import navStyles from '@navStyles';
 
@@ -34,7 +34,10 @@ const components = {
   EXPENSE: (props) => <GeneralTransactionTable {...props} />,
   REVENUE: (props) => <GeneralTransactionTable {...props} />,
   LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
-  CROP_REVENUE: (props) => <CropSaleTable {...props} />,
+  CROP_REVENUE: (props) => <EntitySaleTable {...props} titleLabel="FINANCES.TRANSACTION.CROPS" />,
+  ANIMAL_REVENUE: (props) => (
+    <EntitySaleTable {...props} titleLabel="FINANCES.TRANSACTION.ANIMALS" />
+  ),
 };
 
 const getDetailPageLink = ({ transactionType, relatedId }) => {
@@ -43,6 +46,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
     EXPENSE: createExpenseDetailsUrl(relatedId),
     REVENUE: createRevenueDetailsUrl(relatedId),
     CROP_REVENUE: createRevenueDetailsUrl(relatedId),
+    ANIMAL_REVENUE: createRevenueDetailsUrl(relatedId),
   }[transactionType];
 };
 

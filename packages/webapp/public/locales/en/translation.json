@@ -1097,6 +1097,7 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "ANIMALS": "Animals",
       "CROPS": "Crops",
       "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",

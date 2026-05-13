@@ -81,7 +81,7 @@ export function checkFarmExpenseBody(operation: 'add' | 'update') {
             .send('an expense cannot have both animal and crop variety allocations');
         }
 
-        if (operation === 'add' && !expense.value) {
+        if (operation === 'add' && (expense.value === undefined || expense.value === null)) {
           return res.status(400).send('value is required when creating a farm expense');
         }
 
@@ -136,7 +136,7 @@ export function checkFarmExpenseBody(operation: 'add' | 'update') {
         if (await hasInvalidAllocation(expense, req.params.farm_expense_id)) {
           return res
             .status(400)
-            .send('the sum of allocated values must equal the total expense value');
+            .send('the sum of allocated values must not exceed the total expense value');
         }
       }
 
@@ -168,8 +168,8 @@ const hasInvalidAllocation = async (expense: ExpenseBody, expenseId: string | un
     allocations = isAddingAnimalExpense ? farm_expense_animal : farm_expense_crop_variety!;
   }
 
-  if (newValue && allocations.length) {
-    return !valuesMatch(newValue, allocations);
+  if ((newValue || newValue === 0) && allocations.length) {
+    return !totalCoversAllocated(newValue, allocations);
   }
 
   /* @ts-expect-error known issue with models */
@@ -190,10 +190,13 @@ const hasInvalidAllocation = async (expense: ExpenseBody, expenseId: string | un
     return false;
   }
 
-  return !valuesMatch(newValue ?? oldExpense.value, allocations);
+  return !totalCoversAllocated(newValue ?? oldExpense.value, allocations);
 };
 
-const valuesMatch = (total: number, items: (AnimalExpenseItem | CropVarietyExpenseItem)[]) => {
-  const allocatedTotal = items.reduce((sum, item) => sum + item.allocated_value, 0);
-  return total === allocatedTotal;
+const totalCoversAllocated = (
+  total: number,
+  items: (AnimalExpenseItem | CropVarietyExpenseItem)[],
+) => {
+  const allocatedTotal = items.reduce((sum, item) => sum + (item.allocated_value || 0), 0);
+  return total >= allocatedTotal;
 };

@@ -37,6 +37,8 @@ import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import { transactionTypeEnum } from './useTransactions';
+import { parseInventoryId } from '../../util/animal';
+import { AnimalOrBatchKeys } from '../Animals/types';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
@@ -284,10 +286,10 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
     });
   } else if (revenueType?.entity_type === 'animal') {
     sale.value = undefined;
+
     sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
-      const key = a[ANIMAL_KEY];
-      const isBatch = typeof key === 'string' && key.startsWith('batch_');
-      const id = parseInt(String(key).split('_')[1], 10);
+      const { kind, id } = parseInventoryId(a[ANIMAL_KEY]);
+      const isBatch = kind === AnimalOrBatchKeys.BATCH;
       return {
         sale_value: a[SALE_VALUE],
         quantity: a[QUANTITY],

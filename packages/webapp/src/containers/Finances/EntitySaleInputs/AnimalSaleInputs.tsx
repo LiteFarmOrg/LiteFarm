@@ -21,7 +21,9 @@ import EntitySaleEntries from '../../../components/Forms/RevenueForm/EntitySaleE
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
 import { chooseIdentification } from '../../Animals/utils';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
+import { generateInventoryId } from '../../../util/animal';
 import type { Animal, AnimalBatch } from '../../../store/api/types';
+import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 
 interface AnimalSaleRecord {
@@ -32,7 +34,7 @@ interface AnimalSaleRecord {
   sale_value: number;
 }
 
-interface AnimalSale {
+export interface AnimalSale {
   animal_sale?: AnimalSaleRecord[];
 }
 
@@ -41,13 +43,13 @@ interface AnimalSaleInputsProps {
   disabledInput: boolean;
 }
 
-const animalOptionKey = (id: number) => `animal_${id}`;
-const batchOptionKey = (id: number) => `batch_${id}`;
+const saleRecordToOptionKey = (record: AnimalSaleRecord) => {
+  const isAnimal = record.animal_id !== null;
+  const key = isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH;
+  const id = isAnimal ? record.animal_id : record.animal_batch_id;
 
-const saleRecordToOptionKey = (record: AnimalSaleRecord) =>
-  record.animal_id != null
-    ? animalOptionKey(record.animal_id)
-    : batchOptionKey(record.animal_batch_id as number);
+  return `${key}_${id}`;
+};
 
 export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
   const existingSales = sale?.animal_sale?.reduce<
@@ -79,15 +81,19 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
   const { data: animalBatches } = useGetAnimalBatchesQuery();
 
   const options = useMemo<SelectOption[]>(() => {
-    const list: SelectOption[] = [];
-    (animals ?? []).forEach((a: Animal) => {
-      list.push({ label: chooseIdentification(a), value: animalOptionKey(a.id) });
-    });
-    (animalBatches ?? []).forEach((b: AnimalBatch) => {
-      list.push({ label: chooseIdentification(b), value: batchOptionKey(b.id) });
-    });
-    list.sort((a, b) => String(a.label).localeCompare(String(b.label)));
-    return list;
+    const animalOptions = (animals ?? []).map((a: Animal) => ({
+      label: chooseIdentification(a),
+      value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, a),
+    }));
+
+    const batchOptions = (animalBatches ?? []).map((b: AnimalBatch) => ({
+      label: chooseIdentification(b),
+      value: generateInventoryId(AnimalOrBatchKeys.BATCH, b),
+    }));
+
+    return [...animalOptions, ...batchOptions].sort((a, b) =>
+      String(a.label).localeCompare(String(b.label)),
+    );
   }, [animals, animalBatches]);
 
   const savedSalesById = sale?.animal_sale?.reduce<Record<string, AnimalSaleRecord>>(

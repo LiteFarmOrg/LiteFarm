@@ -59,7 +59,7 @@ interface CropVarietySaleRecord {
   sale_value: number;
 }
 
-interface CropSale {
+export interface CropSale {
   crop_variety_sale?: CropVarietySaleRecord[];
 }
 

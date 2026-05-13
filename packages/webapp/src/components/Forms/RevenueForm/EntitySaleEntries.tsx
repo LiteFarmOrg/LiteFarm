@@ -90,7 +90,7 @@ export default function EntitySaleEntries({
   };
 
   return (
-    <div className={styles.EntitySaleEntries}>
+    <div className={styles.entitySaleEntries}>
       <div className={styles.selectorGroup}>
         <CheckboxMultiSelect
           options={options}

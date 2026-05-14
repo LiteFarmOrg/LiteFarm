@@ -14,10 +14,7 @@
  */
 import { useState } from 'react';
 import RevenueForm from '../../components/Forms/RevenueForm';
-import {
-  getCropSaleDefaultValues,
-  getAnimalSaleDefaultValues,
-} from '../../containers/Finances/EntitySaleInputs';
+import { getEntityTypeDefaultValues } from '../../containers/Finances/EntitySaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 const cropSale = {
@@ -210,7 +207,7 @@ CropSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  customFormChildrenDefaultValues: getCropSaleDefaultValues(cropSale),
+  entitySaleDefaultValues: getEntityTypeDefaultValues(cropSale, 'crop'),
 };
 
 export const AnimalSaleDetail = Template.bind({});
@@ -221,5 +218,5 @@ AnimalSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  customFormChildrenDefaultValues: getAnimalSaleDefaultValues(animalSale),
+  entitySaleDefaultValues: getEntityTypeDefaultValues(animalSale, 'animal'),
 };

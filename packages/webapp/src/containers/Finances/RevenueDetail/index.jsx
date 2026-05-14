@@ -77,10 +77,7 @@ function RevenueDetail() {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
 
-  const customFormChildrenDefaultValues = getEntityTypeDefaultValues(
-    sale,
-    revenueType?.entity_type,
-  );
+  const entitySaleDefaultValues = getEntityTypeDefaultValues(sale, revenueType?.entity_type);
 
   return (
     <RevenueForm
@@ -97,7 +94,7 @@ function RevenueDetail() {
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
       onRetire={onRetire}
       revenueTypes={revenueTypesArray}
-      customFormChildrenDefaultValues={customFormChildrenDefaultValues}
+      entitySaleDefaultValues={entitySaleDefaultValues}
     />
   );
 }

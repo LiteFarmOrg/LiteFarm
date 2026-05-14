@@ -51,7 +51,7 @@ const RevenueForm = ({
   buttonText,
   revenueTypes,
   onRetire,
-  customFormChildrenDefaultValues,
+  entitySaleDefaultValues,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -70,7 +70,7 @@ const RevenueForm = ({
       }),
       [VALUE]: !isNaN(data[VALUE]) ? data[VALUE] : null,
       [NOTE]: data[NOTE] ?? null,
-      ...customFormChildrenDefaultValues,
+      ...entitySaleDefaultValues,
     },
   });
 
@@ -270,7 +270,7 @@ RevenueForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
-  customFormChildrenDefaultValues: PropTypes.object,
+  entitySaleDefaultValues: PropTypes.object,
 };
 
 export default RevenueForm;

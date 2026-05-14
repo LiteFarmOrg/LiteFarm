@@ -23,6 +23,7 @@ import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
 import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import type { SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import { Error } from '../../Typography';
+import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
@@ -40,6 +41,7 @@ interface EntitySaleEntriesProps {
   savedSalesById: Record<string | number, unknown> | null | undefined;
   fieldPrefix: string;
   entityIdFieldKey: string;
+  label: string;
   placeholder?: string;
   children: (props: EntitySaleItemProps) => ReactNode;
 }
@@ -50,6 +52,7 @@ export default function EntitySaleEntries({
   savedSalesById,
   fieldPrefix,
   entityIdFieldKey,
+  label,
   placeholder,
   children,
 }: EntitySaleEntriesProps): ReactNode {
@@ -92,6 +95,7 @@ export default function EntitySaleEntries({
   return (
     <div className={styles.entitySaleEntries}>
       <div className={styles.selectorGroup}>
+        <InputBaseLabel label={label} />
         <CheckboxMultiSelect
           options={options}
           value={selectedOptions}

@@ -1884,11 +1884,12 @@
       "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
       "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
-      "CROP_VARIETY": "Select crops",
+      "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
       "NOTES_PLACEHOLDER": "Sale description",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
+      "SELECT_CROPS": "Select crops",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },

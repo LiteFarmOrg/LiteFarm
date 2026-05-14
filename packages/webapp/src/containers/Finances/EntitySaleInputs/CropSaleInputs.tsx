@@ -110,6 +110,7 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
       savedSalesById={savedSalesById}
       fieldPrefix={CROP_VARIETY_SALE}
       entityIdFieldKey={CROP_VARIETY_ID}
+      label={t('SALE.ADD_SALE.CROP_VARIETY')}
       placeholder={t('SALE.ADD_SALE.CROP_VARIETY')}
     >
       {({ option, system, currency, disabledInput }) => (

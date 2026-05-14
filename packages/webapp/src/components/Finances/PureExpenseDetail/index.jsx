@@ -28,7 +28,15 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import ReactSelect from '../../Form/ReactSelect';
 import { getDateInputFormat } from '../../../util/moment';
-import { NOTE, VALUE, DATE, TYPE } from '../AddExpense/constants';
+import {
+  NOTE,
+  VALUE,
+  DATE,
+  TYPE,
+  EXPENSE_CROP_VARIETY,
+  EXPENSE_ANIMAL,
+} from '../AddExpense/constants';
+import ExpenseEntitySection from '../ExpenseEntitySection';
 
 const PureExpenseDetail = ({
   pageTitle,
@@ -40,6 +48,8 @@ const PureExpenseDetail = ({
   inputMaxChars = 100,
   expense,
   expenseTypeReactSelectOptions,
+  cropVarietyOptions,
+  animalOptions,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -47,6 +57,10 @@ const PureExpenseDetail = ({
     handleSubmit,
     register,
     control,
+    watch,
+    setValue,
+    unregister,
+    trigger,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -57,6 +71,18 @@ const PureExpenseDetail = ({
         (option) => option.value === expense.expense_type_id,
       ),
       [VALUE]: expense.value,
+      [EXPENSE_CROP_VARIETY]: expense.farm_expense_crop_variety?.length
+        ? expense.farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => ({
+            id: crop_variety_id,
+            allocated_value,
+          }))
+        : undefined,
+      [EXPENSE_ANIMAL]: expense.farm_expense_animal?.length
+        ? expense.farm_expense_animal.map(({ animal_id, animal_batch_id, allocated_value }) => ({
+            id: animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`,
+            allocated_value,
+          }))
+        : undefined,
     },
   });
   const readonly = view === 'read-only';
@@ -124,6 +150,18 @@ const PureExpenseDetail = ({
         optional={false}
         disabled={disabledInput}
       />
+      <ExpenseEntitySection
+        control={control}
+        register={register}
+        unregister={unregister}
+        watch={watch}
+        setValue={setValue}
+        trigger={trigger}
+        fieldNamePrefix=""
+        cropVarietyOptions={cropVarietyOptions}
+        animalOptions={animalOptions}
+        disabled={disabledInput}
+      />
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -170,6 +208,8 @@ PureExpenseDetail.propTypes = {
   inputMaxChars: PropTypes.number,
   expense: PropTypes.object,
   expenseTypeReactSelectOptions: PropTypes.arrayOf(PropTypes.object),
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };
 
 export default PureExpenseDetail;

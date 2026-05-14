@@ -35,7 +35,7 @@ export interface EntitySaleItemProps {
   disabledInput: boolean;
 }
 
-interface EntitySaleEntriesProps {
+interface EntitySalePickerProps {
   disabledInput: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
@@ -46,7 +46,7 @@ interface EntitySaleEntriesProps {
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
-export default function EntitySaleEntries({
+export default function EntitySalePicker({
   disabledInput,
   options,
   savedSalesById,
@@ -55,7 +55,7 @@ export default function EntitySaleEntries({
   label,
   placeholder,
   children,
-}: EntitySaleEntriesProps): ReactNode {
+}: EntitySalePickerProps): ReactNode {
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
@@ -93,7 +93,7 @@ export default function EntitySaleEntries({
   };
 
   return (
-    <div className={styles.entitySaleEntries}>
+    <div className={styles.entitySalePickerContainer}>
       <div className={styles.selectorGroup}>
         <InputBaseLabel label={label} />
         <CheckboxMultiSelect

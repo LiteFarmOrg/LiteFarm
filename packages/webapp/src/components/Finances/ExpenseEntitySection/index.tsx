@@ -178,7 +178,7 @@ function ExpenseEntitySection({
               isDisabled={disabled}
             />
           </div>
-          {selectedOptions.length > 0 && (
+          {!disabled && selectedOptions.length > 0 && (
             <div className={styles.allocationSummary}>
               <span>{t('EXPENSE.ENTITY_SECTION.TOTAL_TO_ALLOCATE')}</span>
               <Badge remaining={remaining} currency={currency} />

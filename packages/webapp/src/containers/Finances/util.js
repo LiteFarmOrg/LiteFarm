@@ -210,7 +210,7 @@ export const mapSalesToRevenueItems = (
                 : animalBatches.find((b) => b.id === row.animal_batch_id);
             const title = matched
               ? chooseIdentification(matched)
-              : (row.animal_id ?? row.animal_batch_id);
+              : row.animal_id ?? row.animal_batch_id;
             const key =
               row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
             return {
@@ -341,3 +341,26 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
+
+const transformCropAllocations = (allocations) => {
+  return allocations.map(({ id, allocated_value }) => ({ crop_variety_id: id, allocated_value }));
+};
+
+const transformAnimalAllocations = (allocations) => {
+  return allocations.map(({ id, allocated_value }) => {
+    const { kind, id: animalId } = parseInventoryId(id);
+    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+    return { [idKey]: animalId, allocated_value };
+  });
+};
+
+export const transformExpenseAllocations = ({ farm_expense_crop_variety, farm_expense_animal }) => {
+  return {
+    farm_expense_crop_variety: farm_expense_crop_variety?.length
+      ? transformCropAllocations(farm_expense_crop_variety)
+      : [],
+    farm_expense_animal: farm_expense_animal?.length
+      ? transformAnimalAllocations(farm_expense_animal)
+      : [],
+  };
+};

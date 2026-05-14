@@ -13,17 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger,
-  UseFormUnregister,
-  UseFormWatch,
-  useFormState,
-} from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -39,12 +29,6 @@ import { EXPENSE_ANIMAL, EXPENSE_CROP_VARIETY, VALUE } from '../AddExpense/const
 import styles from './styles.module.scss';
 
 interface ExpenseEntitySectionProps {
-  control: Control;
-  register: UseFormRegister<any>;
-  unregister: UseFormUnregister<any>;
-  watch: UseFormWatch<any>;
-  setValue: UseFormSetValue<any>;
-  trigger: UseFormTrigger<any>;
   fieldNamePrefix: string;
   cropVarietyOptions: SelectOption[];
   animalOptions: SelectOption[];
@@ -54,10 +38,7 @@ interface ExpenseEntitySectionProps {
 interface EntityAllocationInputProps {
   inputName: string;
   option: SelectOption;
-  register: UseFormRegister<any>;
-  formErrors: FieldErrors;
   currency: string;
-  onChange?: () => void;
   disabled?: boolean;
 }
 
@@ -68,13 +49,14 @@ const sumAllocated = (allocations?: { allocated_value: number | undefined }[]) =
 function EntityAllocationInput({
   inputName,
   option,
-  register,
-  formErrors,
   currency,
-  onChange,
   disabled,
 }: EntityAllocationInputProps) {
   const { t } = useTranslation();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div key={option.value} className={styles.entityBlock}>
@@ -87,9 +69,8 @@ function EntityAllocationInput({
           required: true,
           valueAsNumber: true,
           min: { value: 0, message: '' },
-          onChange,
         })}
-        errors={getInputErrors(formErrors, inputName)}
+        errors={getInputErrors(errors, inputName)}
         disabled={disabled}
       />
     </div>
@@ -97,12 +78,6 @@ function EntityAllocationInput({
 }
 
 function ExpenseEntitySection({
-  control,
-  register,
-  unregister,
-  watch,
-  setValue,
-  trigger,
   fieldNamePrefix,
   cropVarietyOptions,
   animalOptions,
@@ -110,7 +85,7 @@ function ExpenseEntitySection({
 }: ExpenseEntitySectionProps) {
   const { t } = useTranslation();
   const currency = useCurrencySymbol();
-  const { errors: formErrors } = useFormState({ control });
+  const { unregister, watch, setValue, trigger, control } = useFormContext();
 
   const prefixField = (relative: string) =>
     fieldNamePrefix ? `${fieldNamePrefix}.${relative}` : relative;
@@ -199,10 +174,8 @@ function ExpenseEntitySection({
                 {selectedOptions.map((option, index) => (
                   <EntityAllocationInput
                     key={option.value}
-                    inputName={`${activeFieldName}.${index}.allocated_value`}
+                    inputName={`${activeFieldPath}.${index}.allocated_value`}
                     option={option}
-                    register={register}
-                    formErrors={formErrors}
                     currency={currency}
                     disabled={disabled}
                   />

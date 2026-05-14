@@ -15,42 +15,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import ExpenseEntitySection from '../ExpenseEntitySection';
 import { DATE, NOTE, VALUE } from './constants';
-import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import styles from './styles.module.scss';
 
 export default function ExpenseItemInputs({
-  register,
   onRemove,
-  getErrors,
   isRemovable,
-  control,
   fieldNamePrefix,
-  watch,
-  setValue,
-  unregister,
-  trigger,
   cropVarietyOptions,
   animalOptions,
 }) {
   const { t } = useTranslation();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div className={styles.expenseItem}>
       <Input
         label={t('common:DATE')}
         type={'date'}
-        hookFormRegister={register(DATE, { required: true })}
-        errors={getErrors(DATE)}
+        hookFormRegister={register(`${fieldNamePrefix}.${DATE}`, { required: true })}
+        errors={getInputErrors(errors, `${fieldNamePrefix}.${DATE}`)}
       />
       <Input
         label={t('EXPENSE.ITEM_NAME')}
-        errors={getErrors(NOTE)}
-        hookFormRegister={register(NOTE, {
+        errors={getInputErrors(errors, `${fieldNamePrefix}.${NOTE}`)}
+        hookFormRegister={register(`${fieldNamePrefix}.${NOTE}`, {
           required: true,
           maxLength: {
             value: 100,
@@ -61,8 +59,8 @@ export default function ExpenseItemInputs({
       <Input
         type="number"
         label={t('EXPENSE.VALUE')}
-        errors={getErrors(VALUE)}
-        hookFormRegister={register(VALUE, {
+        errors={getInputErrors(errors, `${fieldNamePrefix}.${VALUE}`)}
+        hookFormRegister={register(`${fieldNamePrefix}.${VALUE}`, {
           required: true,
           valueAsNumber: true,
           min: { value: 0 },
@@ -70,12 +68,6 @@ export default function ExpenseItemInputs({
         currency={useCurrencySymbol()}
       />
       <ExpenseEntitySection
-        control={control}
-        register={register}
-        unregister={unregister}
-        watch={watch}
-        setValue={setValue}
-        trigger={trigger}
         fieldNamePrefix={fieldNamePrefix}
         cropVarietyOptions={cropVarietyOptions}
         animalOptions={animalOptions}
@@ -96,16 +88,9 @@ export default function ExpenseItemInputs({
 }
 
 ExpenseItemInputs.propTypes = {
-  register: PropTypes.func,
   onRemove: PropTypes.func,
-  getErrors: PropTypes.func,
   isRemovable: PropTypes.bool,
-  control: PropTypes.object,
   fieldNamePrefix: PropTypes.string,
-  watch: PropTypes.func,
-  setValue: PropTypes.func,
-  unregister: PropTypes.func,
-  trigger: PropTypes.func,
   cropVarietyOptions: PropTypes.array,
   animalOptions: PropTypes.array,
 };

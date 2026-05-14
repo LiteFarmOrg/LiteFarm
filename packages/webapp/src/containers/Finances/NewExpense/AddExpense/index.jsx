@@ -7,6 +7,9 @@ import { withTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddExpense from '../../../../components/Finances/AddExpense';
 import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
+import { cropVarietyOptionsSelector } from '../../../cropVarietySlice';
+import { animalOptionsSelector } from '../../../../store/api/animalApi';
+import { transformExpenseAllocations } from '../../util';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -65,6 +68,7 @@ class AddExpense extends Component {
             value: value,
             expense_type_id: expenseTypeId,
             expense_date: expenseDate,
+            ...transformExpenseAllocations(expenseItem),
           });
         }
       }
@@ -88,6 +92,8 @@ class AddExpense extends Component {
           types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
           onGoBack={this.props.history.back}
           onSubmit={this.handleSubmit}
+          cropVarietyOptions={this.props.cropVarietyOptions}
+          animalOptions={this.props.animalOptions}
         />
       </HookFormPersistProvider>
     );
@@ -99,6 +105,8 @@ const mapStateToProps = (state) => {
     expenseTypes: expenseTypeSelector(state),
     selectedExpense: selectedExpenseSelector(state),
     farm: userFarmSelector(state),
+    cropVarietyOptions: cropVarietyOptionsSelector(state),
+    animalOptions: animalOptionsSelector(state),
   };
 };
 

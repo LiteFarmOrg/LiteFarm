@@ -18,11 +18,25 @@ import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import Input from '../../Form/Input';
+import ExpenseEntitySection from '../ExpenseEntitySection';
 import { DATE, NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-export default function ExpenseItemInputs({ register, onRemove, getErrors, isRemovable }) {
+export default function ExpenseItemInputs({
+  register,
+  onRemove,
+  getErrors,
+  isRemovable,
+  control,
+  fieldNamePrefix,
+  watch,
+  setValue,
+  unregister,
+  trigger,
+  cropVarietyOptions,
+  animalOptions,
+}) {
   const { t } = useTranslation();
 
   return (
@@ -55,6 +69,17 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors, isRem
         })}
         currency={useCurrencySymbol()}
       />
+      <ExpenseEntitySection
+        control={control}
+        register={register}
+        unregister={unregister}
+        watch={watch}
+        setValue={setValue}
+        trigger={trigger}
+        fieldNamePrefix={fieldNamePrefix}
+        cropVarietyOptions={cropVarietyOptions}
+        animalOptions={animalOptions}
+      />
       {isRemovable ? (
         <IconLink
           className={styles.iconLink}
@@ -73,7 +98,14 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors, isRem
 ExpenseItemInputs.propTypes = {
   register: PropTypes.func,
   onRemove: PropTypes.func,
-  onChange: PropTypes.func,
   getErrors: PropTypes.func,
   isRemovable: PropTypes.bool,
+  control: PropTypes.object,
+  fieldNamePrefix: PropTypes.string,
+  watch: PropTypes.func,
+  setValue: PropTypes.func,
+  unregister: PropTypes.func,
+  trigger: PropTypes.func,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

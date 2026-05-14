@@ -22,7 +22,19 @@ import { DATE, NOTE, VALUE, EXPENSE_DETAIL } from './constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemsForType({ type, register, control, getValues, errors }) {
+export default function ExpenseItemsForType({
+  type,
+  register,
+  control,
+  getValues,
+  errors,
+  watch,
+  setValue,
+  unregister,
+  trigger,
+  cropVarietyOptions,
+  animalOptions,
+}) {
   const { t } = useTranslation();
 
   const itemsQuantity = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
@@ -52,6 +64,14 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                   getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }
                 isRemovable={itemsQuantity > 1}
+                fieldNamePrefix={`${EXPENSE_DETAIL}.${type.id}.${index}`}
+                control={control}
+                watch={watch}
+                setValue={setValue}
+                unregister={unregister}
+                trigger={trigger}
+                cropVarietyOptions={cropVarietyOptions}
+                animalOptions={animalOptions}
               />
             );
           })}
@@ -74,4 +94,10 @@ ExpenseItemsForType.propTypes = {
   control: PropTypes.any,
   getValues: PropTypes.func,
   errors: PropTypes.object,
+  watch: PropTypes.func,
+  setValue: PropTypes.func,
+  unregister: PropTypes.func,
+  trigger: PropTypes.func,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

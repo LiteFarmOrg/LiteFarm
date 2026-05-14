@@ -73,6 +73,8 @@ export default function PureAddExpense({
   onSubmit,
   useHookFormPersist,
   persistedFormData,
+  cropVarietyOptions,
+  animalOptions,
 }) {
   const { t } = useTranslation();
 
@@ -81,6 +83,9 @@ export default function PureAddExpense({
     control,
     watch,
     getValues,
+    setValue,
+    unregister,
+    trigger,
     formState: { isValid, errors },
     handleSubmit,
   } = useForm({
@@ -125,6 +130,12 @@ export default function PureAddExpense({
             control={control}
             getValues={getValues}
             errors={errors}
+            watch={watch}
+            setValue={setValue}
+            unregister={unregister}
+            trigger={trigger}
+            cropVarietyOptions={cropVarietyOptions}
+            animalOptions={animalOptions}
           />
         );
       })}
@@ -142,4 +153,6 @@ PureAddExpense.propTypes = {
   onGoBack: PropTypes.func,
   onSubmit: PropTypes.func,
   useHookFormPersist: PropTypes.func,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

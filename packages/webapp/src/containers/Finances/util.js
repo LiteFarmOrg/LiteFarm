@@ -35,7 +35,7 @@ import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { transactionTypeEnum } from './useTransactions';
 import { parseInventoryId } from '../../util/animal';
 import { AnimalOrBatchKeys } from '../Animals/types';
@@ -98,16 +98,6 @@ export function calcActualRevenue(transactions) {
 export function calcActualRevenueFromRevenueItems(revenueItems) {
   return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
 }
-
-export const getRevenueFormType = (revenueType) => {
-  if (revenueType?.entity_type === 'crop') {
-    return REVENUE_FORM_TYPES.CROP_SALE;
-  }
-  if (revenueType?.entity_type === 'animal') {
-    return REVENUE_FORM_TYPES.ANIMAL_SALE;
-  }
-  return REVENUE_FORM_TYPES.GENERAL;
-};
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   const groupingOptions = [
@@ -286,7 +276,6 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
     });
   } else if (revenueType?.entity_type === 'animal') {
     sale.value = undefined;
-
     sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
       const { kind, id } = parseInventoryId(a[ANIMAL_KEY]);
       const isBatch = kind === AnimalOrBatchKeys.BATCH;
@@ -348,4 +337,3 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
-export const isGeneralSale = (revenueType) => !revenueType?.entity_type;

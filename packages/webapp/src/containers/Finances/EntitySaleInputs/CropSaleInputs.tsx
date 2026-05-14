@@ -28,6 +28,7 @@ import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePi
 import type { CropVarietySaleTileData } from '../../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/index';
+import { formatCropVarietyLabel } from '../../../util/crop';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
   const existingSales = sale?.crop_variety_sale?.reduce<
@@ -39,10 +40,10 @@ export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
         quantity_unit: cur.quantity_unit
-          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
+          ? (getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
               label: cur.quantity_unit,
               value: cur.quantity_unit,
-            })
+            }
           : undefined,
         sale_value: cur.sale_value,
       },
@@ -91,9 +92,7 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
           crop_variety_photo_url: mp.crop_variety_photo_url,
         };
         optionList.push({
-          label: mp.crop_variety_name
-            ? `${mp.crop_variety_name}, ${t(`crop:${mp.crop_translation_key}`)}`
-            : t(`crop:${mp.crop_translation_key}`),
+          label: formatCropVarietyLabel(mp),
           value: mp.crop_variety_id,
         });
       }

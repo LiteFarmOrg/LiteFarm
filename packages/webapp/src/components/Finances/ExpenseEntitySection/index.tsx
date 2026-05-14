@@ -199,12 +199,11 @@ function ExpenseEntitySection({
                 {selectedOptions.map((option, index) => (
                   <EntityAllocationInput
                     key={option.value}
-                    inputName={`${activeFieldPath}.${index}.allocated_value`}
+                    inputName={`${activeFieldName}.${index}.allocated_value`}
                     option={option}
                     register={register}
                     formErrors={formErrors}
                     currency={currency}
-                    onChange={() => trigger(activeFieldPath)}
                     disabled={disabled}
                   />
                 ))}

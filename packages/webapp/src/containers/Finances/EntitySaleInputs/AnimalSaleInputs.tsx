@@ -66,12 +66,10 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
     sale.animal_sale.map((record) => {
       const key = saleRecordToOptionKey(record);
       const unit = record.quantity_unit;
-
       const formattedEntry: AnimalSaleDefaultRecord = {
         ...record,
         quantity_unit: unit ? (unitMap[unit] ?? { label: unit, value: unit }) : undefined,
       };
-
       return [key, formattedEntry];
     }),
   );
@@ -91,12 +89,10 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
       label: chooseIdentification(a),
       value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, a),
     }));
-
     const batchOptions = (animalBatches ?? []).map((b: AnimalBatch) => ({
       label: chooseIdentification(b),
       value: generateInventoryId(AnimalOrBatchKeys.BATCH, b),
     }));
-
     return [...animalOptions, ...batchOptions].sort((a, b) =>
       String(a.label).localeCompare(String(b.label)),
     );

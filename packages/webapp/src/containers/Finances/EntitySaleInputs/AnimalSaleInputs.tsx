@@ -16,7 +16,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ANIMAL_KEY, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
+import { ANIMAL_INVENTORY_ID, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
@@ -114,7 +114,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
       options={options}
       savedSalesById={savedSalesById}
       fieldPrefix={ANIMAL_SALE}
-      entityIdFieldKey={ANIMAL_KEY}
+      entityIdFieldKey={ANIMAL_INVENTORY_ID}
       label={t('FINANCES.TRANSACTION.ANIMALS')}
       placeholder={t('TASK.SELECT_ANIMALS')}
       system={system}
@@ -128,7 +128,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
           system={system}
           currency={currency}
           fieldPrefix={ANIMAL_SALE}
-          entityIdFieldKey={ANIMAL_KEY}
+          entityIdFieldKey={ANIMAL_INVENTORY_ID}
           disabledInput={disabledInput}
         />
       )}

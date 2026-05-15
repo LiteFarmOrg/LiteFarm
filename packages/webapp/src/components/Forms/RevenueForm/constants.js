@@ -33,4 +33,4 @@ export const SALE_VALUE = 'sale_value';
 
 // animal sale
 export const ANIMAL_SALE = 'animal_sale';
-export const ANIMAL_KEY = 'animal_key';
+export const ANIMAL_INVENTORY_ID = 'animal_inventory_id';

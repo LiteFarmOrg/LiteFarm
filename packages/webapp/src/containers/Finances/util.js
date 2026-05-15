@@ -17,7 +17,7 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import {
-  ANIMAL_KEY,
+  ANIMAL_INVENTORY_ID,
   ANIMAL_SALE,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
@@ -277,7 +277,7 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   } else if (revenueType?.entity_type === 'animal') {
     sale.value = undefined;
     sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
-      const { kind, id } = parseInventoryId(a[ANIMAL_KEY]);
+      const { kind, id } = parseInventoryId(a[ANIMAL_INVENTORY_ID]);
       const isBatch = kind === AnimalOrBatchKeys.BATCH;
       return {
         sale_value: a[SALE_VALUE],

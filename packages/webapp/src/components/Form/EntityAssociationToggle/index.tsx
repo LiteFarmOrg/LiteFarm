@@ -25,12 +25,18 @@ import styles from './styles.module.scss';
 type EntityTypeOption = Exclude<EntityType, null>;
 
 export interface EntityAssociationToggleProps {
+  label: string;
   value: EntityType;
   onChange?: (value: EntityType) => void;
   isDisabled?: boolean;
 }
 
-function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociationToggleProps) {
+function EntityAssociationToggle({
+  label,
+  value,
+  onChange,
+  isDisabled,
+}: EntityAssociationToggleProps) {
   const { t } = useTranslation();
 
   const handleClick = (clicked: EntityTypeOption) => {
@@ -45,7 +51,7 @@ function EntityAssociationToggle({ value, onChange, isDisabled }: EntityAssociat
 
   return (
     <div className={styles.wrapper}>
-      <InputBaseLabel label={t('REVENUE.ADD_REVENUE.ENTITY_ASSOCIATION_LABEL')} optional={true} />
+      <InputBaseLabel label={label} optional={true} />
       <div className={styles.buttonGroup}>
         <EntityTypeButton {...generateEntityTypeButtonProps('crop')}>
           <CropIcon />

@@ -33,10 +33,10 @@
   justify-content: center;
   gap: 4px;
   padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--Colors-Primary-Primary-teal-50);
-  background: var(--White);
   color: var(--Colors-Primary-Primary-teal-700);
+  background: var(--White);
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
   line-height: 24px;
@@ -54,21 +54,36 @@
     @include truncateText();
   }
 
+  @media (hover: hover) {
+    &:hover {
+      color: var(--Colors-Primary-Primary-teal-50);
+      @include svgColorFill(var(--Colors-Primary-Primary-teal-50));
+      background: var(--Colors-Primary-Primary-teal-400);
+    }
+  }
+
   &.selected {
-    border-color: var(--Colors-Primary-Primary-teal-300);
+    color: var(--Colors-Primary-Primary-teal-700);
+    @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
     background: var(--Colors-Primary-Primary-teal-100);
+    border-color: var(--Colors-Primary-Primary-teal-300);
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
   }
 
   &:disabled {
     cursor: default;
-    color: var(--Colors-Neutral-Neutral-300);
-    background: var(--Btn-primary-disabled);
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+    color: var(--Colors-Neutral-Neutral-300);
     @include svgColorFill(var(--Colors-Neutral-Neutral-300));
+    background: var(--Btn-primary-disabled);
+    border-color: var(--Btn-primary-disabled);
 
     &.selected {
-      // TODO: confirm the design for disabled + selected state
+      color: var(--Colors-Neutral-Neutral-50);
+      @include svgColorFill(var(--Colors-Neutral-Neutral-50));
+      background: var(--Colors-Neutral-Neutral-300);
+      border-color: var(--Colors-Neutral-Neutral-300);
     }
   }
 

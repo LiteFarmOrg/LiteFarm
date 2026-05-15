@@ -1849,7 +1849,7 @@
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another.",
       "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another.",
-      "ENTITY_ASSOCIATION_LABEL": "Is this revenue associated with animals or crop?"
+      "ENTITY_ASSOCIATION_LABEL": "Is this revenue associated with animals or crops?"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {

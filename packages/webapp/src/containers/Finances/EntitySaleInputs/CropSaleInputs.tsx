@@ -22,6 +22,8 @@ import {
 } from '../../../components/Forms/RevenueForm/constants';
 import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
 import { selectManagementPlansForSale } from '../../managementPlanSlice';
+import { measurementSelector } from '../../userFarmSlice';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import type { CropVarietySaleTileData } from '../../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
@@ -70,6 +72,8 @@ interface CropSaleInputsProps {
 
 export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsProps) {
   const { t } = useTranslation();
+  const system = useSelector(measurementSelector);
+  const currency = useCurrencySymbol();
   const managementPlans = useSelector((state) =>
     selectManagementPlansForSale(state, sale?.crop_variety_sale),
   );
@@ -112,6 +116,8 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
       entityIdFieldKey={CROP_VARIETY_ID}
       label={t('SALE.ADD_SALE.CROP_VARIETY')}
       placeholder={t('SALE.ADD_SALE.SELECT_CROPS')}
+      system={system}
+      currency={currency}
     >
       {({ option, system, currency, disabledInput }) => (
         <CropSaleItem

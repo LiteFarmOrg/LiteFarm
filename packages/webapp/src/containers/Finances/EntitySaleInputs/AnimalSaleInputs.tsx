@@ -14,11 +14,14 @@
  */
 
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ANIMAL_KEY, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
+import { measurementSelector } from '../../userFarmSlice';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { chooseIdentification } from '../../Animals/utils';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import { generateInventoryId } from '../../../util/animal';
@@ -81,6 +84,8 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
 
 export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInputsProps) {
   const { t } = useTranslation();
+  const system = useSelector(measurementSelector);
+  const currency = useCurrencySymbol();
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
 
@@ -112,6 +117,8 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
       entityIdFieldKey={ANIMAL_KEY}
       label={t('FINANCES.TRANSACTION.ANIMALS')}
       placeholder={t('TASK.SELECT_ANIMALS')}
+      system={system}
+      currency={currency}
     >
       {({ option, system, currency, disabledInput }) => (
         <AnimalSaleItem

@@ -17,15 +17,12 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { measurementSelector } from '../../../containers/userFarmSlice';
 import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
 import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import type { SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import { Error } from '../../Typography';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import styles from './styles.module.scss';
-import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 export interface EntitySaleItemProps {
   option: SelectOption;
@@ -43,6 +40,8 @@ interface EntitySalePickerProps {
   entityIdFieldKey: string;
   label: string;
   placeholder?: string;
+  system: string;
+  currency: string;
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
@@ -54,11 +53,11 @@ export default function EntitySalePicker({
   entityIdFieldKey,
   label,
   placeholder,
+  system,
+  currency,
   children,
 }: EntitySalePickerProps): ReactNode {
   const { t } = useTranslation();
-  const system = useSelector(measurementSelector);
-  const currency = useCurrencySymbol();
   const { register, unregister, getValues, setValue } = useFormContext();
 
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>(() =>

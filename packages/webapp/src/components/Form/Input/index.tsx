@@ -35,8 +35,8 @@ import {
   MdKeyboardArrowUp,
   MdKeyboardArrowDown,
 } from 'react-icons/md';
-import { ReactComponent as SearchIcon } from '../../../assets/images/search.svg';
-import { ReactComponent as SearchClearIcon } from '../../../assets/images/search-close.svg';
+import SearchIcon from '../../../assets/images/search.svg?react';
+import SearchClearIcon from '../../../assets/images/search-close.svg?react';
 import TextButton from '../Button/TextButton';
 import useElementWidth from '../../hooks/useElementWidth';
 

@@ -15,9 +15,9 @@
 
 import { IconAndText } from '../../../components/IrrigationPrescriptionKPI/util';
 import { LabelSize } from '../../../components/Tile/DescriptionList';
-import { ReactComponent as WindIcon } from '../../../assets/images/weather/wind.svg';
-import { ReactComponent as RainfallIcon } from '../../../assets/images/weather/droplets.svg';
-import { ReactComponent as ThemometerWarmIcon } from '../../../assets/images/weather/thermometer-warm.svg';
+import WindIcon from '../../../assets/images/weather/wind.svg?react';
+import RainfallIcon from '../../../assets/images/weather/droplets.svg?react';
+import ThemometerWarmIcon from '../../../assets/images/weather/thermometer-warm.svg?react';
 import WeatherIcon from '../../../components/WeatherBoard/WeatherIcon';
 import PivotIcon from '../../../assets/images/irrigation/pivot-icon.svg';
 import ClockIcon from '../../../assets/images/clock-stopwatch.svg';

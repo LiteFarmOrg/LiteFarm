@@ -24,7 +24,7 @@ import ImageUploadCapture from '../../ImageUploadCapture';
 import { getInputErrors } from '../../Form/Input';
 import { Error } from '../../Typography';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
-import { ReactComponent as LockIcon } from '../../../assets/images/icon-privacy.svg';
+import LockIcon from '../../../assets/images/icon-privacy.svg?react';
 import styles from './styles.module.scss';
 
 export const FARM_NOTE_FIELDS = {

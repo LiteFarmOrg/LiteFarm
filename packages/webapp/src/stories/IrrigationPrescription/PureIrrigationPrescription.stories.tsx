@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from '@storybook/react/*';
+import { Meta, StoryObj } from '@storybook/react';
 import PureIrrigationPrescription from '../../components/IrrigationPrescription/';
 import { mockField, mockPivot, mockUriData, mockVriZones, mockVriZonesFive } from './mockData';
 import decorators from '../Pages/config/Decorators';

@@ -16,72 +16,72 @@
 import { FunctionComponent } from 'react';
 
 // Finances Carousel
-import { ReactComponent as ExpenseIcon } from '../../assets/images/finance/Expense-icn.svg';
-import { ReactComponent as CropIcon } from '../../assets/images/finance/Crop-icn.svg';
-import { ReactComponent as ProfitLossIcon } from '../../assets/images/finance/Profit-loss-icn.svg';
+import ExpenseIcon from '../../assets/images/finance/Expense-icn.svg?react';
+import CropIcon from '../../assets/images/finance/Crop-icn.svg?react';
+import ProfitLossIcon from '../../assets/images/finance/Profit-loss-icn.svg?react';
 
 // Revenue types
-import { ReactComponent as CropSaleIcon } from '../../assets/images/finance/Crop-sale-icn.svg';
-import { ReactComponent as CustomTypeIcon } from '../../assets/images/finance/Custom-revenue.svg';
+import CropSaleIcon from '../../assets/images/finance/Crop-sale-icn.svg?react';
+import CustomTypeIcon from '../../assets/images/finance/Custom-revenue.svg?react';
 
 // Expense types
-import { ReactComponent as EquipIcon } from '../../assets/images/finance/Equipment-icn.svg';
-import { ReactComponent as SoilAmendmentIcon } from '../../assets/images/finance/Soil-amendment-icn.svg';
-import { ReactComponent as PestIcon } from '../../assets/images/finance/Pest-icn.svg';
-import { ReactComponent as FuelIcon } from '../../assets/images/finance/Fuel-icn.svg';
-import { ReactComponent as MachineIcon } from '../../assets/images/finance/Machinery-icn.svg';
-import { ReactComponent as SeedIcon } from '../../assets/images/finance/Seeds-icn.svg';
-import { ReactComponent as OtherIcon } from '../../assets/images/finance/Custom-expense.svg';
-import { ReactComponent as LandIcon } from '../../assets/images/finance/Land-icn.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../assets/images/finance/Miscellaneous-icn.svg';
-import { ReactComponent as UtilitiesIcon } from '../../assets/images/finance/Utilities-icn.svg';
-import { ReactComponent as LabourIcon } from '../../assets/images/finance/Labour-icn.svg';
-import { ReactComponent as InfrastructureIcon } from '../../assets/images/finance/Infrastructure-icn.svg';
-import { ReactComponent as TransportationIcon } from '../../assets/images/finance/Transportation-icn.svg';
-import { ReactComponent as ServicesIcon } from '../../assets/images/finance/Services-icn.svg';
+import EquipIcon from '../../assets/images/finance/Equipment-icn.svg?react';
+import SoilAmendmentIcon from '../../assets/images/finance/Soil-amendment-icn.svg?react';
+import PestIcon from '../../assets/images/finance/Pest-icn.svg?react';
+import FuelIcon from '../../assets/images/finance/Fuel-icn.svg?react';
+import MachineIcon from '../../assets/images/finance/Machinery-icn.svg?react';
+import SeedIcon from '../../assets/images/finance/Seeds-icn.svg?react';
+import OtherIcon from '../../assets/images/finance/Custom-expense.svg?react';
+import LandIcon from '../../assets/images/finance/Land-icn.svg?react';
+import MiscellaneousIcon from '../../assets/images/finance/Miscellaneous-icn.svg?react';
+import UtilitiesIcon from '../../assets/images/finance/Utilities-icn.svg?react';
+import LabourIcon from '../../assets/images/finance/Labour-icn.svg?react';
+import InfrastructureIcon from '../../assets/images/finance/Infrastructure-icn.svg?react';
+import TransportationIcon from '../../assets/images/finance/Transportation-icn.svg?react';
+import ServicesIcon from '../../assets/images/finance/Services-icn.svg?react';
 
 // Animal Inventory
-import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon.svg';
-import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon.svg';
-import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon.svg';
-import { ReactComponent as BatchIcon } from '../../assets/images/animals/batch.svg';
-import { ReactComponent as BatchIconGreen } from '../../assets/images/animals/batch-green.svg';
-import { ReactComponent as CustomAnimalIcon } from '../../assets/images/animals/custom-animal-icon.svg';
-import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon.svg';
-import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
-import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
-import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
-import { ReactComponent as LocationIcon } from '../../assets/images/location.svg';
-import { ReactComponent as RemovedAnimalIcon } from '../../assets/images/animals/removed-animal-icon.svg';
+import CattleIcon from '../../assets/images/animals/cattle-icon.svg?react';
+import ChickenIcon from '../../assets/images/animals/chicken-icon.svg?react';
+import PigIcon from '../../assets/images/animals/pig-icon.svg?react';
+import BatchIcon from '../../assets/images/animals/batch.svg?react';
+import BatchIconGreen from '../../assets/images/animals/batch-green.svg?react';
+import CustomAnimalIcon from '../../assets/images/animals/custom-animal-icon.svg?react';
+import AlpacaIcon from '../../assets/images/animals/alpaca-icon.svg?react';
+import GoatIcon from '../../assets/images/animals/goat-icon.svg?react';
+import RabbitIcon from '../../assets/images/animals/rabbit-icon.svg?react';
+import SheepIcon from '../../assets/images/animals/sheep-icon.svg?react';
+import LocationIcon from '../../assets/images/location.svg?react';
+import RemovedAnimalIcon from '../../assets/images/animals/removed-animal-icon.svg?react';
 
 // Animal Inventory KPI
-import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
-import { ReactComponent as TaskCreationIcon } from '../../assets/images/create-task.svg';
-import { ReactComponent as CloneIcon } from '../../assets/images/clone.svg';
-import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/remove-animal.svg';
+import AddAnimalIcon from '../../assets/images/animals/add-animal.svg?react';
+import TaskCreationIcon from '../../assets/images/create-task.svg?react';
+import CloneIcon from '../../assets/images/clone.svg?react';
+import RemoveAnimalIcon from '../../assets/images/animals/remove-animal.svg?react';
 
 // Tasks
-import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
+import SoilAmendmentTask from '../../assets/images/task/SoilAmendment.svg?react';
 
 // System
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
-import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
-import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
-import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
-import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
-import { ReactComponent as ChevronLeft } from '../../assets/images/buttons/chevron-left.svg';
-import { ReactComponent as ClockFast } from '../../assets/images/clock-fast.svg';
-import { ReactComponent as Ruler } from '../../assets/images/ruler.svg';
+import ExternalLinkIcon from '../../assets/images/icon_external_link.svg?react';
+import MoreHorizontalIcon from '../../assets/images/more-horizontal.svg?react';
+import PlusCircleIcon from '../../assets/images/plus-circle.svg?react';
+import TrashIcon from '../../assets/images/animals/trash_icon_new.svg?react';
+import EditIcon from '../../assets/images/edit.svg?react';
+import ChevronLeft from '../../assets/images/buttons/chevron-left.svg?react';
+import ClockFast from '../../assets/images/clock-fast.svg?react';
+import Ruler from '../../assets/images/ruler.svg?react';
 
 // Input
-import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
-import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
+import LockedIcon from '../../assets/images/lock-03.svg?react';
+import CalendarIcon from '../../assets/images/task/Calendar.svg?react';
 
 // Devices
-import { ReactComponent as SensorIcon } from '../../assets/images/map/signal-01.svg';
+import SensorIcon from '../../assets/images/map/signal-01.svg?react';
 
 // Irrigation Prescription
-import { ReactComponent as Dot } from '../../assets/images/dot.svg';
+import Dot from '../../assets/images/dot.svg?react';
 
 // Animal type: icon map
 const animalTypeIcons = {

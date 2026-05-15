@@ -18,7 +18,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Button from '../Button';
 import styles from './styles.module.scss';
-import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/chevron-right.svg';
+import ChevronRight from '../../../assets/images/buttons/chevron-right.svg?react';
 
 export interface FormNavigationButtonsProps {
   isFirstStep?: boolean;

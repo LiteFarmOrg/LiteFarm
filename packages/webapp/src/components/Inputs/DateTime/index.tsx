@@ -21,8 +21,8 @@ import { TimePicker as MuiXTimePicker } from '@mui/x-date-pickers/TimePicker';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import InputBaseLabel, { InputBaseLabelProps } from '../../Form/InputBase/InputBaseLabel';
-import { ReactComponent as Calendar } from '../../../assets/images/dateInput/calendar.svg';
-import { ReactComponent as Clock } from '../../../assets/images/dateInput/clock.svg';
+import Calendar from '../../../assets/images/dateInput/calendar.svg?react';
+import Clock from '../../../assets/images/dateInput/clock.svg?react';
 import { getLocaleDateTimeFormats } from './utils';
 
 interface DateTimePickerProps extends InputBaseLabelProps {

@@ -17,7 +17,7 @@ import Dialog from '@mui/material/Dialog';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import TextButton from '../Form/Button/TextButton';
-import { ReactComponent as CloseIcon } from '../../assets/images/lightbox-close-x-icon.svg';
+import CloseIcon from '../../assets/images/lightbox-close-x-icon.svg?react';
 import getDeviceType from '../../util/getDeviceType';
 
 export type ImageLightboxProps = {

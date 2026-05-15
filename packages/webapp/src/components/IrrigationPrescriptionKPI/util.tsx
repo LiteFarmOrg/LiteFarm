@@ -16,8 +16,8 @@
 import { ReactElement } from 'react';
 import { TFunction } from 'i18next';
 import { LabelSize } from '../Tile/DescriptionList';
-import { ReactComponent as WindIcon } from '../../assets/images/weather/wind.svg';
-import { ReactComponent as RainfallIcon } from '../../assets/images/weather/droplets.svg';
+import WindIcon from '../../assets/images/weather/wind.svg?react';
+import RainfallIcon from '../../assets/images/weather/droplets.svg?react';
 import ThemometerWarmIcon from '../../assets/images/weather/thermometer-warm.svg';
 import WeatherIcon from '../WeatherBoard/WeatherIcon';
 import PivotIcon from '../../assets/images/irrigation/pivot-icon.svg';

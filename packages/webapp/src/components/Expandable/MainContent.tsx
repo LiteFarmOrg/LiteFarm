@@ -17,8 +17,8 @@ import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa';
 import { InlineWarning as InlineRemoveWarning, RemoveLink } from './InlineRemove';
-import { ReactComponent as CircledCheckIcon } from '../../assets/images/check-circle.svg';
-import { ReactComponent as WarningIcon } from '../../assets/images/warning.svg';
+import CircledCheckIcon from '../../assets/images/check-circle.svg?react';
+import WarningIcon from '../../assets/images/warning.svg?react';
 import styles from './styles.module.scss';
 
 export enum IconType {

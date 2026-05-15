@@ -18,8 +18,8 @@ import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
-import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
-import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
+import PlusSquareIcon from '../../../../../assets/images/plus-square.svg?react';
+import MinusSquareIcon from '../../../../../assets/images/minus-square.svg?react';
 import { MarketDirectoryInfo } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 

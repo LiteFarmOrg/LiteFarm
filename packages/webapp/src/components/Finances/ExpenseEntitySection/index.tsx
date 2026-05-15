@@ -124,7 +124,7 @@ function ExpenseEntitySection({
       return existingAllocation ?? { id, allocated_value: null };
     });
     setValue(activeFieldPath, newAllocations);
-    trigger(activeFieldPath);
+    // trigger(activeFieldPath);
   };
 
   return (
@@ -153,37 +153,42 @@ function ExpenseEntitySection({
               isDisabled={disabled}
             />
           </div>
-          {!disabled && selectedOptions.length > 0 && (
-            <div className={styles.allocationSummary}>
-              <span>{t('EXPENSE.ENTITY_SECTION.TOTAL_TO_ALLOCATE')}</span>
-              <Badge remaining={remaining} currency={currency} />
-            </div>
+
+          {selectedOptions.length > 0 && (
+            <>
+              {!disabled && (
+                <div className={styles.allocationSummary}>
+                  <span>{t('EXPENSE.ENTITY_SECTION.TOTAL_TO_ALLOCATE')}</span>
+                  <Badge remaining={remaining} currency={currency} />
+                </div>
+              )}
+              <Controller
+                key={activeFieldPath}
+                name={activeFieldPath}
+                control={control}
+                rules={{
+                  validate: (value) => {
+                    const sum = sumAllocated(value);
+                    return sum <= totalValue || t('EXPENSE.ENTITY_SECTION.EXCEEDED_ERROR');
+                  },
+                }}
+                render={({ fieldState }) => (
+                  <>
+                    {selectedOptions.map((option, index) => (
+                      <EntityAllocationInput
+                        key={option.value}
+                        inputName={`${activeFieldPath}.${index}.allocated_value`}
+                        option={option}
+                        currency={currency}
+                        disabled={disabled}
+                      />
+                    ))}
+                    {fieldState.error?.message && <Error>{fieldState.error?.message}</Error>}
+                  </>
+                )}
+              />
+            </>
           )}
-          <Controller
-            key={activeFieldPath}
-            name={activeFieldPath}
-            control={control}
-            rules={{
-              validate: (value) => {
-                const sum = sumAllocated(value);
-                return sum <= totalValue || t('EXPENSE.ENTITY_SECTION.EXCEEDED_ERROR');
-              },
-            }}
-            render={({ fieldState }) => (
-              <>
-                {selectedOptions.map((option, index) => (
-                  <EntityAllocationInput
-                    key={option.value}
-                    inputName={`${activeFieldPath}.${index}.allocated_value`}
-                    option={option}
-                    currency={currency}
-                    disabled={disabled}
-                  />
-                ))}
-                {fieldState.error?.message && <Error>{fieldState.error?.message}</Error>}
-              </>
-            )}
-          />
         </>
       )}
     </div>

@@ -21,7 +21,7 @@ import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import CustomRevenueRadios from './CustomRevenueRadios';
+import CustomRevenueRadios from './CustomRevenueEntityTypeSelector';
 
 function AddCustomRevenue() {
   const history = useHistory();

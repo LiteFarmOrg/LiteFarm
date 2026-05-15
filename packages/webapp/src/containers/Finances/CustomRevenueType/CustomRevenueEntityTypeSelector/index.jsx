@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { ENTITY_TYPE } from '../constants';
 import PropTypes from 'prop-types';
 
-function CustomRevenueRadios({ control, view }) {
+function CustomRevenueEntityTypeSelector({ control, view }) {
   const { t } = useTranslation();
   const { field } = useController({ control, name: ENTITY_TYPE });
 
@@ -42,9 +42,9 @@ function CustomRevenueRadios({ control, view }) {
   );
 }
 
-CustomRevenueRadios.propTypes = {
+CustomRevenueEntityTypeSelector.propTypes = {
   control: PropTypes.object.isRequired,
   view: PropTypes.oneOf(['add', 'edit', 'read-only']).isRequired,
 };
 
-export default CustomRevenueRadios;
+export default CustomRevenueEntityTypeSelector;

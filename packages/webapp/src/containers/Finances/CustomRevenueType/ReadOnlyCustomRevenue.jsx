@@ -21,7 +21,7 @@ import { deleteRevenueType } from '../saga';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, ENTITY_TYPE } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import CustomRevenueRadios from './CustomRevenueRadios';
+import CustomRevenueRadios from './CustomRevenueEntityTypeSelector';
 import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
 
 function ReadOnlyCustomRevenue() {

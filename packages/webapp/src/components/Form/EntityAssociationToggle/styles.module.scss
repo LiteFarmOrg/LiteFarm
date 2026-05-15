@@ -54,10 +54,12 @@
     @include truncateText();
   }
 
-  &:hover {
-    color: var(--Colors-Primary-Primary-teal-50);
-    @include svgColorFill(var(--Colors-Primary-Primary-teal-50));
-    background: var(--Colors-Primary-Primary-teal-400);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--Colors-Primary-Primary-teal-50);
+      @include svgColorFill(var(--Colors-Primary-Primary-teal-50));
+      background: var(--Colors-Primary-Primary-teal-400);
+    }
   }
 
   &.selected {

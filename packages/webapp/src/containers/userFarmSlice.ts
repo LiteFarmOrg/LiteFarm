@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { RootState } from '../store/store';
 import { AxiosError } from 'axios';
 import { CONSENT_VERSION } from '../util/constants';
-import { getFirstNameWithLastInitial } from '../util';
+import { getFirstNameWithLastInitial } from '../util/getFirstNameWithLastInitial';
 
 export interface Units {
   currency: string;

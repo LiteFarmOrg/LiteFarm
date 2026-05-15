@@ -16,6 +16,7 @@ import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 import React, { useState } from 'react';
 import CropSaleInputs, { getCropSaleDefaultValues } from '../../containers/Finances/CropSaleInputs';
+import { isCropSale } from '../../containers/Finances/util';
 
 const cropSale = {
   sale_id: 17,
@@ -106,7 +107,7 @@ const GeneralRevenueWithState = (props) => {
         // TODO LF-5274 update passed component
         CustomFormChildren={CropSaleInputs}
         customFormChildrenDefaultValues={
-          selectedRevenueType.entity_type === 'crop' ? getCropSaleDefaultValues(sale) : undefined
+          isCropSale(selectedRevenueType) ? getCropSaleDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
         revenueType={selectedRevenueType}

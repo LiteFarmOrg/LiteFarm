@@ -1,0 +1,99 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 16px;
+  color: var(--Colors-Primary-Primary-teal-700);
+  background: var(--White);
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  @include fontFamily();
+  @include truncateText();
+
+  svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    @include truncateText();
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--Colors-Primary-Primary-teal-50);
+      @include svgColorFill(var(--Colors-Primary-Primary-teal-50));
+      background: var(--Colors-Primary-Primary-teal-400);
+    }
+  }
+
+  &.selected {
+    color: var(--Colors-Primary-Primary-teal-700);
+    @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+    background: var(--Colors-Primary-Primary-teal-100);
+    border-color: var(--Colors-Primary-Primary-teal-300);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    cursor: default;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+    color: var(--Colors-Neutral-Neutral-300);
+    @include svgColorFill(var(--Colors-Neutral-Neutral-300));
+    background: var(--Btn-primary-disabled);
+    border-color: var(--Btn-primary-disabled);
+
+    &.selected {
+      color: var(--Colors-Neutral-Neutral-50);
+      @include svgColorFill(var(--Colors-Neutral-Neutral-50));
+      background: var(--Colors-Neutral-Neutral-300);
+      border-color: var(--Colors-Neutral-Neutral-300);
+    }
+  }
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    gap: 0;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

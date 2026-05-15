@@ -402,7 +402,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
 export function* addRevenueTypeSaga({
-  payload: { revenue_name, crop_generated, custom_description },
+  payload: { revenue_name, entity_type, custom_description },
 }) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -410,8 +410,7 @@ export function* addRevenueTypeSaga({
 
   const body = {
     revenue_name,
-    // TODO LF-5272: Fix once the UI is updated to use the entity_type field instead of crop_generated
-    entity_type: crop_generated ? 'crop' : null,
+    entity_type,
     farm_id: farm_id,
     custom_description,
   };
@@ -419,14 +418,7 @@ export function* addRevenueTypeSaga({
   try {
     const result = yield call(axios.post, revenueTypeUrl, body, header);
 
-    // TODO LF-5272: Use result.data directly once the UI is updated to use the entity_type field instead of crop_generated
-    const formattedResult = {
-      ...result.data,
-      crop_generated: result.data.entity_type === 'crop',
-      agriculture_associated: null,
-    };
-
-    yield put(postRevenueTypeSuccess(formattedResult));
+    yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
     history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {

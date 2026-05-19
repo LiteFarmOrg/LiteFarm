@@ -15,8 +15,11 @@
 
 import SaleModel from '../../models/saleModel.js';
 import RevenueTypeModel from '../../models/revenueTypeModel.js';
-import AnimalModel from '../../models/animalModel.js';
-import AnimalBatchModel from '../../models/animalBatchModel.js';
+import {
+  getUniqueAnimalAndBatchIds,
+  hasInvalidAnimalIds,
+  hasInvalidBatchIds,
+} from '../../util/finance.js';
 
 export function checkSaleBody(operation = 'add') {
   return async (req, res, next) => {
@@ -114,7 +117,7 @@ export function checkSaleBody(operation = 'add') {
         let batchIds = [];
 
         try {
-          ({ animalIds, batchIds } = getUniqueAnimalAndBatchIdsFromAnimalSale(animal_sale));
+          ({ animalIds, batchIds } = getUniqueAnimalAndBatchIds(animal_sale, 'animal_sale'));
         } catch (e) {
           return res.status(400).send(e.message);
         }
@@ -150,42 +153,4 @@ const isValidRevenueType = (revenueType, farmId, operation) => {
     !(operation === 'add' && revenueType.retired) &&
     (!revenueType.farm_id || revenueType.farm_id === farmId)
   );
-};
-
-const getUniqueAnimalAndBatchIdsFromAnimalSale = (animalSale) => {
-  const animalIdsSet = new Set();
-  const batchIdsSet = new Set();
-
-  for (const { animal_id, animal_batch_id } of animalSale) {
-    if (!animal_id && !animal_batch_id) {
-      throw new Error('animal_sale item must have either animal_id or animal_batch_id');
-    }
-    if (animal_id && animal_batch_id) {
-      throw new Error('cannot have both animal_id and animal_batch_id in same animal_sale item');
-    }
-    if (animal_id) {
-      animalIdsSet.add(animal_id);
-    }
-    if (animal_batch_id) {
-      batchIdsSet.add(animal_batch_id);
-    }
-  }
-
-  return { animalIds: [...animalIdsSet], batchIds: [...batchIdsSet] };
-};
-
-const hasInvalidAnimalIds = async (animalIds, farmId) => {
-  if (!animalIds.length) {
-    return false;
-  }
-
-  return !(await AnimalModel.animalsBelongToFarm({ animalIds, farmId, includeRemoved: true }));
-};
-
-const hasInvalidBatchIds = async (batchIds, farmId) => {
-  if (!batchIds.length) {
-    return false;
-  }
-
-  return !(await AnimalBatchModel.batchesBelongToFarm({ batchIds, farmId, includeRemoved: true }));
 };

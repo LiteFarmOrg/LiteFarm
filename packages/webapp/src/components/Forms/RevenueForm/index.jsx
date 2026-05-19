@@ -36,6 +36,7 @@ import {
 } from './constants';
 import PropTypes from 'prop-types';
 import EntitySaleInputs from '../../../containers/Finances/EntitySaleInputs';
+import { isAnimalSale, isCropSale } from '../../../containers/Finances/util';
 
 const RevenueForm = ({
   onSubmit,
@@ -87,15 +88,13 @@ const RevenueForm = ({
   const selectedRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
-  const selectedEntityType = selectedRevenueType?.entity_type;
-  const isEntitySale = selectedEntityType === 'crop' || selectedEntityType === 'animal';
+  const isEntitySale = isCropSale(selectedRevenueType) || isAnimalSale(selectedRevenueType);
 
-  const notesPlaceholder =
-    selectedEntityType === 'crop'
-      ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
-      : selectedEntityType === 'animal'
-        ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
-        : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+  const notesPlaceholder = isCropSale(selectedRevenueType)
+    ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
+    : isAnimalSale(selectedRevenueType)
+      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -202,7 +201,7 @@ const RevenueForm = ({
           <EntitySaleInputs
             sale={sale}
             disabledInput={disabledInput}
-            entityType={selectedEntityType}
+            entityType={selectedRevenueType?.entity_type}
           />
         ) : (
           <Input

@@ -61,7 +61,7 @@ export default function NumberInput<T extends FieldValues>({
 }: NumberInputProps<T>) {
   const { field, fieldState, formState } = useController({ name, control, rules, defaultValue });
   const { inputProps, numericValue, increment, decrement, clear } = useNumberInput({
-    initialValue: field.value || get(formState.defaultValues, name) || defaultValue,
+    initialValue: field.value ?? get(formState.defaultValues, name) ?? defaultValue,
     allowDecimal,
     decimalDigits,
     locale,

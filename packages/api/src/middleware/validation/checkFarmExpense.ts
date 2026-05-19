@@ -26,20 +26,20 @@ import { BaseProperties } from '../../models/types.js';
 
 interface AnimalExpenseItem {
   id?: number;
-  farm_expense_id: number;
+  farm_expense_id: string;
   animal_id?: number | null;
   animal_batch_id?: number | null;
   allocated_value: number;
 }
 
 interface CropVarietyExpenseItem {
-  farm_expense_id: number;
-  crop_variety_id: string | null;
+  farm_expense_id: string;
+  crop_variety_id: string;
   allocated_value: number;
 }
 
 interface ExpenseBody extends BaseProperties {
-  farm_expense_id?: number;
+  farm_expense_id?: string;
   farm_id?: string;
   expense_type_id?: string;
   expense_date?: string;

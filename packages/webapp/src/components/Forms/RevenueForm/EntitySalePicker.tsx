@@ -26,8 +26,6 @@ import styles from './styles.module.scss';
 
 export interface EntitySaleItemProps {
   option: SelectOption;
-  system: string;
-  currency: string;
   fieldPrefix: string;
   disabledInput: boolean;
 }
@@ -40,8 +38,6 @@ interface EntitySalePickerProps {
   entityIdFieldKey: string;
   label: string;
   placeholder?: string;
-  system: string;
-  currency: string;
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
@@ -53,8 +49,6 @@ export default function EntitySalePicker({
   entityIdFieldKey,
   label,
   placeholder,
-  system,
-  currency,
   children,
 }: EntitySalePickerProps): ReactNode {
   const { t } = useTranslation();
@@ -108,8 +102,6 @@ export default function EntitySalePicker({
         {selectedOptions.map((option) =>
           children({
             option,
-            system,
-            currency,
             fieldPrefix,
             disabledInput,
           }),

@@ -85,6 +85,13 @@ export function checkFarmExpenseBody(operation: 'add' | 'update') {
           return res.status(400).send('value is required when creating a farm expense');
         }
 
+        if (
+          (farm_expense_animal && !Array.isArray(farm_expense_animal)) ||
+          (farm_expense_crop_variety && !Array.isArray(farm_expense_crop_variety))
+        ) {
+          return res.status(400).send('allocation needs to be an array');
+        }
+
         if (farm_expense_animal?.length) {
           let animalIds: number[] = [];
           let batchIds: number[] = [];
@@ -159,7 +166,11 @@ const hasInvalidAllocation = async (expense: ExpenseBody, expenseId: string | un
   const isAddingAnimalExpense = !!farm_expense_animal?.length;
   const isAddingCropVarietyExpense = !!farm_expense_crop_variety?.length;
 
-  if ((isNewExpense || !newValue) && !isAddingAnimalExpense && !isAddingCropVarietyExpense) {
+  if (
+    (isNewExpense || newValue === undefined) &&
+    !isAddingAnimalExpense &&
+    !isAddingCropVarietyExpense
+  ) {
     return false;
   }
 

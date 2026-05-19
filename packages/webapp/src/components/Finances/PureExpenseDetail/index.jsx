@@ -63,17 +63,22 @@ const PureExpenseDetail = ({
       ),
       [VALUE]: expense.value,
       [EXPENSE_CROP_VARIETY]: expense.farm_expense_crop_variety?.length
-        ? expense.farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => ({
-            id: crop_variety_id,
-            allocated_value,
-          }))
-        : undefined,
+        ? expense.farm_expense_crop_variety.reduce(
+            (formatted, { crop_variety_id, allocated_value }) => {
+              return { ...formatted, [crop_variety_id]: { allocated_value } };
+            },
+            {},
+          )
+        : null,
       [EXPENSE_ANIMAL]: expense.farm_expense_animal?.length
-        ? expense.farm_expense_animal.map(({ animal_id, animal_batch_id, allocated_value }) => ({
-            id: animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`,
-            allocated_value,
-          }))
-        : undefined,
+        ? expense.farm_expense_animal.reduce(
+            (formatted, { animal_id, animal_batch_id, allocated_value }) => {
+              const key = animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`;
+              return { ...formatted, [key]: { allocated_value } };
+            },
+            {},
+          )
+        : null,
     },
   });
   const {

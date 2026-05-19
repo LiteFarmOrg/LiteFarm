@@ -117,7 +117,7 @@ export function checkSaleBody(operation = 'add') {
         let batchIds = [];
 
         try {
-          ({ animalIds, batchIds } = getUniqueAnimalAndBatchIds(animal_sale));
+          ({ animalIds, batchIds } = getUniqueAnimalAndBatchIds(animal_sale, 'animal_sale'));
         } catch (e) {
           return res.status(400).send(e.message);
         }

@@ -28,7 +28,7 @@ const farmExpenseController = {
       try {
         const expenses = req.body;
         if (!Array.isArray(expenses)) {
-          res.status(400).send('needs to be an array of expense items');
+          return res.status(400).send('needs to be an array of expense items');
         }
         const resultArray = [];
         for (const e of expenses) {
@@ -81,24 +81,24 @@ const farmExpenseController = {
 
       const trx = await transaction.start(Model.knex());
 
-      // do not allow updates to deleted records
-      if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
-        await trx.rollback();
-        return res.status(409).send('expense deleted');
-      }
-
-      // do not allow to change to deleted expense type
-      if (
-        'expense_type_id' in data &&
-        (await baseController.isDeleted(trx, ExpenseType, {
-          expense_type_id: data.expense_type_id,
-        }))
-      ) {
-        await trx.rollback();
-        return res.status(409).send('expense type deleted');
-      }
-
       try {
+        // do not allow updates to deleted records
+        if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
+          await trx.rollback();
+          return res.status(409).send('expense deleted');
+        }
+
+        // do not allow to change to deleted expense type
+        if (
+          'expense_type_id' in data &&
+          (await baseController.isDeleted(trx, ExpenseType, {
+            expense_type_id: data.expense_type_id,
+          }))
+        ) {
+          await trx.rollback();
+          return res.status(409).send('expense type deleted');
+        }
+
         const result = await FarmExpenseModel.query(trx)
           .context({ user_id })
           .where('farm_expense_id', farm_expense_id)

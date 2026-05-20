@@ -201,8 +201,8 @@ export const CheckboxMultiSelect = ({
   return (
     <div ref={ref}>
       <Select
-        noOptionsMessage={noOptionsMessage || (() => t('common:NO_OPTIONS'))}
         options={sortedOptions}
+        noOptionsMessage={noOptionsMessage || (() => t('common:NO_OPTIONS'))}
         value={value}
         isMulti
         isDisabled={isDisabled}

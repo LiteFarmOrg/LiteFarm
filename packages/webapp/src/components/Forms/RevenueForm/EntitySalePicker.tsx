@@ -19,7 +19,10 @@ import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
 import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
-import type { SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
+import type {
+  CheckboxMultiSelectProps,
+  SelectOption,
+} from '../../Form/ReactSelect/CheckboxMultiSelect';
 import { Error } from '../../Typography';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import styles from './styles.module.scss';
@@ -39,6 +42,7 @@ interface EntitySalePickerProps {
   label: string;
   placeholder?: string;
   children: (props: EntitySaleItemProps) => ReactNode;
+  noOptionsMessage: CheckboxMultiSelectProps['noOptionsMessage'];
 }
 
 export default function EntitySalePicker({
@@ -50,6 +54,7 @@ export default function EntitySalePicker({
   label,
   placeholder,
   children,
+  noOptionsMessage,
 }: EntitySalePickerProps): ReactNode {
   const { t } = useTranslation();
   const { register, unregister, getValues, setValue } = useFormContext();
@@ -95,6 +100,7 @@ export default function EntitySalePicker({
           onChange={handleChange}
           isDisabled={disabledInput}
           placeholder={placeholder}
+          noOptionsMessage={noOptionsMessage}
         />
         {!isSelectionValid && <Error>{t('common:REQUIRED')}</Error>}
       </div>

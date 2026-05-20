@@ -28,6 +28,7 @@ import { generateInventoryId } from '../../../util/animal';
 import type { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
+import { getNoOptionsMessage } from '../util';
 
 interface BaseAnimalSaleRecord<TQuantityUnit> {
   animal_id: number | null;
@@ -117,6 +118,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
       entityIdFieldKey={ANIMAL_INVENTORY_ID}
       label={t('FINANCES.TRANSACTION.ANIMALS')}
       placeholder={t('TASK.SELECT_ANIMALS')}
+      noOptionsMessage={getNoOptionsMessage('animal')}
     >
       {({ option, disabledInput }) => (
         <AnimalSaleItem

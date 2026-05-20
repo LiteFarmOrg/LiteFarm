@@ -1970,6 +1970,10 @@
     "ANIMALS_INVENTORY": "Animal inventory",
     "ANIMALS_LOCATION": "Animal locations"
   },
+  "SELECT": {
+    "NO_ACTIVE_CROP_PLANS": "You have no active crop plans",
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory"
+  },
   "SENSOR": {
     "ARRAY": "Array",
     "DAYS_AGO": "{{time}} day(s) ago",

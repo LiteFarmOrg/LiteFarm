@@ -29,6 +29,7 @@ import type { CropVarietySaleTileData } from '../../../components/CropTile/CropV
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/index';
 import { formatCropVarietyLabel } from '../../../util/crop';
+import { getNoOptionsMessage } from '../util';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
   const existingSales = sale?.crop_variety_sale?.reduce<
@@ -40,10 +41,10 @@ export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
         quantity_unit: cur.quantity_unit
-          ? (getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
+          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
               label: cur.quantity_unit,
               value: cur.quantity_unit,
-            }
+            })
           : undefined,
         sale_value: cur.sale_value,
       },
@@ -115,6 +116,7 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
       entityIdFieldKey={CROP_VARIETY_ID}
       label={t('SALE.ADD_SALE.CROP_VARIETY')}
       placeholder={t('SALE.ADD_SALE.SELECT_CROPS')}
+      noOptionsMessage={getNoOptionsMessage('crop')}
     >
       {({ option, disabledInput }) => (
         <CropSaleItem

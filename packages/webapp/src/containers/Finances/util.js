@@ -210,7 +210,7 @@ export const mapSalesToRevenueItems = (
                 : animalBatches.find((b) => b.id === row.animal_batch_id);
             const title = matched
               ? chooseIdentification(matched)
-              : row.animal_id ?? row.animal_batch_id;
+              : (row.animal_id ?? row.animal_batch_id);
             const key =
               row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
             return {
@@ -367,4 +367,11 @@ export const transformExpenseAllocations = ({ farm_expense_crop_variety, farm_ex
     farm_expense_crop_variety: transformCropAllocations(farm_expense_crop_variety),
     farm_expense_animal: transformAnimalAllocations(farm_expense_animal),
   };
+};
+
+export const getNoOptionsMessage = (entity) => {
+  return () =>
+    entity === 'crop'
+      ? i18n.t('SELECT.NO_ACTIVE_CROP_PLANS')
+      : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
 };

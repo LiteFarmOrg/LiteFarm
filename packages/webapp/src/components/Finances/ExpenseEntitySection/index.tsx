@@ -28,6 +28,7 @@ import { EntityType } from '../../../containers/Finances/types';
 import { roundToTwoDecimal } from '../../../util/convert-units/unit';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import { EXPENSE_ANIMAL, EXPENSE_CROP_VARIETY, VALUE } from '../AddExpense/constants';
+import { getNoOptionsMessage } from '../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
 interface ExpenseEntitySectionProps {
@@ -176,6 +177,7 @@ function ExpenseEntitySection({
               value={selectedOptions}
               onChange={handleSelectionChange}
               isDisabled={disabled}
+              noOptionsMessage={getNoOptionsMessage(entityType)}
             />
           </div>
           {Object.keys(activeAllocations).length > 0 && (

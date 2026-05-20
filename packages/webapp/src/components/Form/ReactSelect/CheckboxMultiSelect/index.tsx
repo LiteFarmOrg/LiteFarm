@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { MouseEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { MouseEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select, {
   ClearIndicatorProps,
@@ -42,6 +42,7 @@ export interface CheckboxMultiSelectProps {
   isDisabled?: boolean;
   placeholder?: string;
   showSelectionStatus?: boolean; // indicator with "Showing all" and partially or fully checked status; appropriate for filters
+  noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
 }
 
 const MultiValueRemove = (props: MultiValueRemoveProps) => (
@@ -136,6 +137,7 @@ export const CheckboxMultiSelect = ({
   isDisabled = false,
   placeholder,
   showSelectionStatus = false,
+  noOptionsMessage,
 }: CheckboxMultiSelectProps) => {
   const { t } = useTranslation();
   const defaultPlaceholder = t('common:SELECT') + '...';
@@ -199,6 +201,7 @@ export const CheckboxMultiSelect = ({
   return (
     <div ref={ref}>
       <Select
+        noOptionsMessage={noOptionsMessage || (() => t('common:NO_OPTIONS'))}
         options={sortedOptions}
         value={value}
         isMulti

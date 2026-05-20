@@ -30,3 +30,7 @@ export const CROP_VARIETY_ID = 'crop_variety_id';
 export const QUANTITY = 'quantity';
 export const QUANTITY_UNIT = 'quantity_unit';
 export const SALE_VALUE = 'sale_value';
+
+// animal sale
+export const ANIMAL_SALE = 'animal_sale';
+export const ANIMAL_INVENTORY_ID = 'animal_inventory_id';

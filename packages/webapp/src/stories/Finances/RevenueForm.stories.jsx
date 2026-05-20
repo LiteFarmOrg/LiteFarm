@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,11 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import GeneralRevenue from '../../components/Forms/GeneralRevenue';
+import { useState } from 'react';
+import RevenueForm from '../../components/Forms/RevenueForm';
+import { getEntityTypeDefaultValues } from '../../containers/Finances/EntitySaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
-import React, { useState } from 'react';
-import CropSaleInputs, { getCropSaleDefaultValues } from '../../containers/Finances/CropSaleInputs';
-import { isCropSale } from '../../containers/Finances/util';
 
 const cropSale = {
   sale_id: 17,
@@ -53,6 +52,31 @@ const generalSale = {
   note: 'hya',
 };
 
+const animalSale = {
+  sale_id: 23,
+  customer_name: 'Animal customer',
+  sale_date: '2023-10-15T04:00:00.000Z',
+  farm_id: null,
+  revenue_type_id: 3,
+  note: 'animal note',
+  animal_sale: [
+    {
+      animal_id: 101,
+      animal_batch_id: null,
+      quantity: 1,
+      sale_value: 250,
+      quantity_unit: 'unit',
+    },
+    {
+      animal_id: null,
+      animal_batch_id: 7,
+      quantity: 10,
+      sale_value: 500,
+      quantity_unit: 'unit',
+    },
+  ],
+};
+
 const revenueTypes = [
   {
     revenue_type_id: 1,
@@ -70,6 +94,14 @@ const revenueTypes = [
     deleted: false,
     entity_type: null,
   },
+  {
+    revenue_type_id: 3,
+    revenue_name: 'Animal Sale',
+    revenue_translation_key: 'ANIMAL_SALE',
+    farm_id: null,
+    deleted: false,
+    entity_type: 'animal',
+  },
 ];
 const revenueTypeOptions = [
   {
@@ -80,65 +112,65 @@ const revenueTypeOptions = [
     value: 2,
     label: 'General Sale',
   },
+  {
+    value: 3,
+    label: 'Animal Sale',
+  },
 ];
 
-const GeneralRevenueWithState = (props) => {
-  const { view, sale, revenueType } = props;
-
+const RevenueFormWithState = (props) => {
+  const { view } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedRevenueType, setSelectedRevenueType] = useState(revenueType);
 
-  const onTypeChange = (typeId, setValue, REVENUE_TYPE_OPTION) => {
-    const newType = revenueTypes.find((option) => option.value === typeId);
-    setValue(REVENUE_TYPE_OPTION, newType);
-  };
   if (view === 'add') {
-    // TODO LF-5274 update passed component
-    return <GeneralRevenue CustomFormChildren={CropSaleInputs} {...props} />;
-  } else {
-    return (
-      <GeneralRevenue
-        key={isEditing ? 'editing' : 'readonly'}
-        onSubmit={isEditing ? console.log : undefined}
-        view={isEditing ? 'edit' : 'read-only'}
-        handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
-        onClick={isEditing ? undefined : () => setIsEditing(true)}
-        buttonText={isEditing ? 'Save' : 'Edit'}
-        // TODO LF-5274 update passed component
-        CustomFormChildren={CropSaleInputs}
-        customFormChildrenDefaultValues={
-          isCropSale(selectedRevenueType) ? getCropSaleDefaultValues(sale) : undefined
-        }
-        onTypeChange={onTypeChange}
-        revenueType={selectedRevenueType}
-        {...props}
-      />
-    );
+    return <RevenueForm {...props} />;
   }
+  return (
+    <RevenueForm
+      key={isEditing ? 'editing' : 'readonly'}
+      onSubmit={isEditing ? console.log : undefined}
+      view={isEditing ? 'edit' : 'read-only'}
+      handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
+      onClick={isEditing ? undefined : () => setIsEditing(true)}
+      buttonText={isEditing ? 'Save' : 'Edit'}
+      {...props}
+    />
+  );
 };
 
 export default {
-  title: 'Components/GeneralRevenue',
-  component: GeneralRevenueWithState,
+  title: 'Components/RevenueForm',
+  component: RevenueFormWithState,
   decorators: componentDecorators,
 };
 
-const Template = (args) => <GeneralRevenueWithState {...args} />;
+const Template = (args) => <RevenueFormWithState {...args} />;
 
 export const AddCropSale = Template.bind({});
 
 AddCropSale.args = {
   onSubmit: console.log,
   title: 'Add crop sale',
-  dateLabel: 'Date',
-  //useHookFormPersist: () => ({}),
   currency: '$',
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',
-  revenueType: revenueTypes[0],
   revenueTypes,
   persistedFormData: { revenue_type_id: 1 },
+  revenueTypeOptions,
+};
+
+export const AddAnimalSale = Template.bind({});
+
+AddAnimalSale.args = {
+  onSubmit: console.log,
+  title: 'Add animal sale',
+  currency: '$',
+  view: 'add',
+  handleGoBack: () => {},
+  buttonText: 'Save',
+  revenueTypes,
+  persistedFormData: { revenue_type_id: 3 },
   revenueTypeOptions,
 };
 
@@ -147,41 +179,44 @@ export const AddGeneralSale = Template.bind({});
 AddGeneralSale.args = {
   onSubmit: console.log,
   title: 'Add general sale',
-  dateLabel: 'Date',
-  //useHookFormPersist: () => ({}),
   currency: '$',
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',
-  revenueType: revenueTypes[1],
   revenueTypes,
   persistedFormData: { revenue_type_id: 2 },
   revenueTypeOptions,
 };
 
-export const DetailGeneralSale = Template.bind({});
+export const GeneralSaleDetail = Template.bind({});
 
-DetailGeneralSale.args = {
+GeneralSaleDetail.args = {
   title: 'General sale detail',
-  dateLabel: 'Date',
-  //useHookFormPersist: () => ({}),
   currency: '$',
   sale: generalSale,
   revenueTypeOptions,
   onRetire: () => {},
-  revenueType: revenueTypes[1],
   revenueTypes,
 };
 
-export const DetailCropSale = Template.bind({});
-DetailCropSale.args = {
-  title: 'General sale detail',
-  dateLabel: 'Date',
-  //useHookFormPersist: () => ({}),
+export const CropSaleDetail = Template.bind({});
+CropSaleDetail.args = {
+  title: 'Crop sale detail',
   currency: '$',
   sale: cropSale,
   revenueTypeOptions,
   onRetire: () => {},
-  revenueType: revenueTypes[0],
   revenueTypes,
+  entitySaleDefaultValues: getEntityTypeDefaultValues(cropSale, 'crop'),
+};
+
+export const AnimalSaleDetail = Template.bind({});
+AnimalSaleDetail.args = {
+  title: 'Animal sale detail',
+  currency: '$',
+  sale: animalSale,
+  revenueTypeOptions,
+  onRetire: () => {},
+  revenueTypes,
+  entitySaleDefaultValues: getEntityTypeDefaultValues(animalSale, 'animal'),
 };

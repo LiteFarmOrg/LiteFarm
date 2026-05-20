@@ -17,6 +17,8 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import {
+  ANIMAL_INVENTORY_ID,
+  ANIMAL_SALE,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
   CUSTOMER_NAME,
@@ -27,13 +29,16 @@ import {
   SALE_DATE,
   SALE_VALUE,
   VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
+} from '../../components/Forms/RevenueForm/constants';
+import { chooseIdentification } from '../Animals/utils';
 import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { transactionTypeEnum } from './useTransactions';
+import { parseInventoryId } from '../../util/animal';
+import { AnimalOrBatchKeys } from '../Animals/types';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
@@ -94,12 +99,6 @@ export function calcActualRevenueFromRevenueItems(revenueItems) {
   return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
 }
 
-export const getRevenueFormType = (revenueType) => {
-  return revenueType?.entity_type === 'crop'
-    ? REVENUE_FORM_TYPES.CROP_SALE
-    : REVENUE_FORM_TYPES.GENERAL;
-};
-
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   const groupingOptions = [
     {
@@ -157,7 +156,13 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   return labourItemGroups;
 };
 
-export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+export const mapSalesToRevenueItems = (
+  sales,
+  revenueTypes,
+  cropVarieties,
+  animals = [],
+  animalBatches = [],
+) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
@@ -168,25 +173,56 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
       return {
         sale,
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
-        financeItemsProps: cropVarietySale.map((cvs) => {
-          const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const cropVariety = cropVarieties.find(
-            (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
-          );
-          const cropVarietyName = cropVariety?.crop_variety_name;
-          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
-          const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
-            : i18n.t(`crop:${cropTranslationKey}`);
-          return {
-            key: cvs.crop_variety_id,
-            title,
-            subtitle: `${convertedQuantity} ${quantityUnit}`,
-            quantity: convertedQuantity,
-            quantityUnit,
-            amount: cvs.sale_value,
-          };
-        }),
+        financeItemsProps: cropVarietySale
+          .map((cvs) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+            const cropVariety = cropVarieties.find(
+              (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
+            );
+            const cropVarietyName = cropVariety?.crop_variety_name;
+            const cropTranslationKey = cropVariety?.crop.crop_translation_key;
+            const title = cropVarietyName
+              ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
+              : i18n.t(`crop:${cropTranslationKey}`);
+            return {
+              key: cvs.crop_variety_id,
+              title,
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: cvs.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
+      };
+    } else if (revenueType?.entity_type === 'animal') {
+      const quantityUnit = getMassUnit();
+      const animalSale = sale.animal_sale ?? [];
+      return {
+        sale,
+        totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
+        financeItemsProps: animalSale
+          .map((row) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
+            const matched =
+              row.animal_id != null
+                ? animals.find((a) => a.id === row.animal_id)
+                : animalBatches.find((b) => b.id === row.animal_batch_id);
+            const title = matched
+              ? chooseIdentification(matched)
+              : (row.animal_id ?? row.animal_batch_id);
+            const key =
+              row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
+            return {
+              key,
+              title,
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: row.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else {
       return {
@@ -242,6 +278,19 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
         crop_variety_id: c[CROP_VARIETY_ID],
       };
     });
+  } else if (revenueType?.entity_type === 'animal') {
+    sale.value = undefined;
+    sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
+      const { kind, id } = parseInventoryId(a[ANIMAL_INVENTORY_ID]);
+      const isBatch = kind === AnimalOrBatchKeys.BATCH;
+      return {
+        sale_value: a[SALE_VALUE],
+        quantity: a[QUANTITY],
+        quantity_unit: a[QUANTITY_UNIT].label,
+        animal_id: isBatch ? null : id,
+        animal_batch_id: isBatch ? id : null,
+      };
+    });
   } else {
     sale.crop_variety_sale = undefined;
     sale.value = data[VALUE];
@@ -291,3 +340,4 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 };
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
+export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';

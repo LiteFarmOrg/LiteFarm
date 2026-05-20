@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -35,8 +35,10 @@ import {
   REVENUE_TYPE_ID,
 } from './constants';
 import PropTypes from 'prop-types';
+import EntitySaleInputs from '../../../containers/Finances/EntitySaleInputs';
+import { isAnimalSale, isCropSale } from '../../../containers/Finances/util';
 
-const GeneralRevenue = ({
+const RevenueForm = ({
   onSubmit,
   title,
   currency,
@@ -48,10 +50,9 @@ const GeneralRevenue = ({
   revenueTypeOptions,
   onTypeChange,
   buttonText,
-  customFormChildrenDefaultValues,
-  CustomFormChildren,
   revenueTypes,
   onRetire,
+  entitySaleDefaultValues,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -70,7 +71,7 @@ const GeneralRevenue = ({
       }),
       [VALUE]: !isNaN(data[VALUE]) ? data[VALUE] : null,
       [NOTE]: data[NOTE] ?? null,
-      ...customFormChildrenDefaultValues,
+      ...entitySaleDefaultValues,
     },
   });
 
@@ -87,6 +88,13 @@ const GeneralRevenue = ({
   const selectedRevenueType = revenueTypes?.find(
     (rt) => rt.revenue_type_id === selectedTypeOption?.value,
   );
+  const isEntitySale = isCropSale(selectedRevenueType) || isAnimalSale(selectedRevenueType);
+
+  const notesPlaceholder = isCropSale(selectedRevenueType)
+    ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
+    : isAnimalSale(selectedRevenueType)
+      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -161,8 +169,10 @@ const GeneralRevenue = ({
           style={{ marginBottom: '40px' }}
           label={t('LOG_COMMON.NOTES')}
           optional={true}
-          hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
+          hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(3000) })}
           name={NOTE}
+          placeholder={notesPlaceholder}
+          minRows={5}
           errors={getInputErrors(errors, NOTE)}
           disabled={disabledInput}
         />
@@ -187,12 +197,11 @@ const GeneralRevenue = ({
             )}
           />
         )}
-        {CustomFormChildren && selectedRevenueType?.entity_type ? (
-          <CustomFormChildren
+        {isEntitySale ? (
+          <EntitySaleInputs
             sale={sale}
             disabledInput={disabledInput}
-            revenueTypes={revenueTypes}
-            selectedTypeOption={selectedTypeOption}
+            entityType={selectedRevenueType?.entity_type}
           />
         ) : (
           <Input
@@ -245,7 +254,7 @@ const GeneralRevenue = ({
   );
 };
 
-GeneralRevenue.propTypes = {
+RevenueForm.propTypes = {
   onSubmit: PropTypes.func,
   title: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
@@ -258,10 +267,9 @@ GeneralRevenue.propTypes = {
   revenueTypeOptions: PropTypes.array.isRequired,
   onTypeChange: PropTypes.func,
   buttonText: PropTypes.string.isRequired,
-  customFormChildrenDefaultValues: PropTypes.object,
-  CustomFormChildren: PropTypes.elementType,
   revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
+  entitySaleDefaultValues: PropTypes.object,
 };
 
-export default GeneralRevenue;
+export default RevenueForm;

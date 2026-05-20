@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
+import CropSaleItem from '../../components/Forms/RevenueForm/CropSaleItem';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { FormProvider, useForm } from 'react-hook-form';
 

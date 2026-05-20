@@ -17,49 +17,41 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { measurementSelector } from '../userFarmSlice';
-import {
-  QUANTITY,
-  QUANTITY_UNIT,
-  SALE_VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
-import { CheckboxMultiSelect } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
-import type { SelectOption } from '../../components/Form/ReactSelect/CheckboxMultiSelect';
-import { Error } from '../../components/Typography';
-import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
-import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
+import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
+import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
+import type { SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
+import { Error } from '../../Typography';
+import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
+import styles from './styles.module.scss';
 
 export interface EntitySaleItemProps {
   option: SelectOption;
-  system: string;
-  currency: string;
   fieldPrefix: string;
   disabledInput: boolean;
 }
 
-interface EntitySaleInputsProps {
+interface EntitySalePickerProps {
   disabledInput: boolean;
   options: SelectOption[];
   savedSalesById: Record<string | number, unknown> | null | undefined;
   fieldPrefix: string;
   entityIdFieldKey: string;
+  label: string;
   placeholder?: string;
   children: (props: EntitySaleItemProps) => ReactNode;
 }
 
-export default function EntitySaleInputs({
+export default function EntitySalePicker({
   disabledInput,
   options,
   savedSalesById,
   fieldPrefix,
   entityIdFieldKey,
+  label,
   placeholder,
   children,
-}: EntitySaleInputsProps): ReactNode {
+}: EntitySalePickerProps): ReactNode {
   const { t } = useTranslation();
-  const system = useSelector(measurementSelector);
-  const currency = useCurrencySymbol();
   const { register, unregister, getValues, setValue } = useFormContext();
 
   const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>(() =>
@@ -94,27 +86,27 @@ export default function EntitySaleInputs({
   };
 
   return (
-    <>
-      <CheckboxMultiSelect
-        options={options}
-        value={selectedOptions}
-        onChange={handleChange}
-        isDisabled={disabledInput}
-        placeholder={placeholder}
-      />
-      <div className={styles.selectionErrorZone}>
+    <div className={styles.entitySalePickerContainer}>
+      <div className={styles.selectorGroup}>
+        <InputBaseLabel label={label} />
+        <CheckboxMultiSelect
+          options={options}
+          value={selectedOptions}
+          onChange={handleChange}
+          isDisabled={disabledInput}
+          placeholder={placeholder}
+        />
         {!isSelectionValid && <Error>{t('common:REQUIRED')}</Error>}
       </div>
-      <hr className={styles.thinHr} />
-      {selectedOptions.map((option) =>
-        children({
-          option,
-          system,
-          currency,
-          fieldPrefix,
-          disabledInput,
-        }),
-      )}
-    </>
+      <div className={styles.saleItemList}>
+        {selectedOptions.map((option) =>
+          children({
+            option,
+            fieldPrefix,
+            disabledInput,
+          }),
+        )}
+      </div>
+    </div>
   );
 }

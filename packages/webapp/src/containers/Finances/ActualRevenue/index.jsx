@@ -27,6 +27,7 @@ import {
   FINANCES_HOME_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
+import { useGetAnimalBatchesQuery, useGetAnimalsQuery } from '../../../store/api/apiSlice';
 
 export default function ActualRevenue() {
   const history = useHistory();
@@ -41,6 +42,8 @@ export default function ActualRevenue() {
   const sales = useSelector(salesSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
+  const { data: animals } = useGetAnimalsQuery();
+  const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { startDate: fromDate, endDate: toDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
 
   const filteredSales = useMemo(
@@ -48,8 +51,9 @@ export default function ActualRevenue() {
     [sales, fromDate, toDate],
   );
   const revenueItems = useMemo(
-    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
-    [filteredSales, allRevenueTypes, cropVarieties],
+    () =>
+      mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches),
+    [filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches],
   );
   const revenueForWholeFarm = useMemo(
     () => calcActualRevenueFromRevenueItems(revenueItems),

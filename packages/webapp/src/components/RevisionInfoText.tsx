@@ -14,7 +14,7 @@
  */
 
 import { Trans } from 'react-i18next';
-import { getFirstNameWithLastInitial } from '../util';
+import { getFirstNameWithLastInitial } from '../util/getFirstNameWithLastInitial';
 import { getIntlDate } from '../util/date-migrate-TS';
 
 /**

@@ -343,29 +343,27 @@ export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
 
 const transformCropAllocations = (allocations) => {
-  if (!allocations) {
-    return [];
-  }
-  return Object.entries(allocations).map(([id, { allocated_value }]) => {
-    return { crop_variety_id: id, allocated_value };
-  });
+  return allocations
+    ? allocations.map(({ id, allocated_value }) => {
+        return { crop_variety_id: id, allocated_value };
+      })
+    : [];
 };
 
 const transformAnimalAllocations = (allocations) => {
-  if (!allocations) {
-    return [];
-  }
-  return Object.entries(allocations).map(([id, { allocated_value }]) => {
-    const { kind, id: animalId } = parseInventoryId(id);
-    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
-    return { [idKey]: animalId, allocated_value };
-  });
+  return allocations
+    ? allocations.map(({ id, allocated_value }) => {
+        const { kind, id: animalId } = parseInventoryId(id);
+        const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+        return { [idKey]: animalId, allocated_value };
+      })
+    : [];
 };
 
-export const transformExpenseAllocations = ({ farm_expense_crop_variety, farm_expense_animal }) => {
+export const transformExpenseAllocations = ({ allocations, entityType }) => {
   return {
-    farm_expense_crop_variety: transformCropAllocations(farm_expense_crop_variety),
-    farm_expense_animal: transformAnimalAllocations(farm_expense_animal),
+    farm_expense_crop_variety: entityType === 'crop' ? transformCropAllocations(allocations) : [],
+    farm_expense_animal: entityType === 'animal' ? transformAnimalAllocations(allocations) : [],
   };
 };
 

@@ -28,15 +28,40 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import ReactSelect from '../../Form/ReactSelect';
 import { getDateInputFormat } from '../../../util/moment';
-import {
-  NOTE,
-  VALUE,
-  DATE,
-  TYPE,
-  EXPENSE_CROP_VARIETY,
-  EXPENSE_ANIMAL,
-} from '../AddExpense/constants';
+import { NOTE, VALUE, DATE, TYPE, ALLOCATIONS, ENTITY_TYPE } from '../AddExpense/constants';
 import ExpenseEntitySection from '../ExpenseEntitySection';
+
+const sortAllocations = (allocations, options) => {
+  return allocations.slice().sort((a, b) => {
+    const aLabel = options.find(({ value }) => value === a.id)?.label ?? '';
+    const bLabel = options.find(({ value }) => value === b.id)?.label ?? '';
+
+    return aLabel.localeCompare(bLabel);
+  });
+};
+
+const formatAllocations = (expense, cropVarietyOptions, animalOptions) => {
+  let allocations = [];
+  let entityType = null;
+  if (expense.farm_expense_crop_variety?.length) {
+    entityType = 'crop';
+    allocations = expense.farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => {
+      return { id: crop_variety_id, allocated_value };
+    });
+  } else if (expense.farm_expense_animal?.length) {
+    entityType = 'animal';
+    allocations = expense.farm_expense_animal.map(
+      ({ animal_id, animal_batch_id, allocated_value }) => {
+        const id = animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`;
+        return { id, allocated_value };
+      },
+    );
+  }
+  const sortedAllocations = entityType
+    ? sortAllocations(allocations, entityType === 'crop' ? cropVarietyOptions : animalOptions)
+    : [];
+  return { [ENTITY_TYPE]: entityType, [ALLOCATIONS]: sortedAllocations };
+};
 
 const PureExpenseDetail = ({
   pageTitle,
@@ -62,23 +87,7 @@ const PureExpenseDetail = ({
         (option) => option.value === expense.expense_type_id,
       ),
       [VALUE]: expense.value,
-      [EXPENSE_CROP_VARIETY]: expense.farm_expense_crop_variety?.length
-        ? expense.farm_expense_crop_variety.reduce(
-            (formatted, { crop_variety_id, allocated_value }) => {
-              return { ...formatted, [crop_variety_id]: { allocated_value } };
-            },
-            {},
-          )
-        : null,
-      [EXPENSE_ANIMAL]: expense.farm_expense_animal?.length
-        ? expense.farm_expense_animal.reduce(
-            (formatted, { animal_id, animal_batch_id, allocated_value }) => {
-              const key = animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`;
-              return { ...formatted, [key]: { allocated_value } };
-            },
-            {},
-          )
-        : null,
+      ...formatAllocations(expense, cropVarietyOptions, animalOptions),
     },
   });
   const {

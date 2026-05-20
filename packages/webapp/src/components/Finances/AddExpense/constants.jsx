@@ -20,3 +20,5 @@ export const EXPENSE_DETAIL = 'expenseDetail';
 export const TYPE = 'type';
 export const EXPENSE_CROP_VARIETY = 'farm_expense_crop_variety';
 export const EXPENSE_ANIMAL = 'farm_expense_animal';
+export const ENTITY_TYPE = 'entityType';
+export const ALLOCATIONS = 'allocations';

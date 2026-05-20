@@ -13,21 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import EntityAssociationToggle from '../../Form/EntityAssociationToggle';
 import { CheckboxMultiSelect, SelectOption } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import NumberInput from '../../Form/NumberInput';
-import { getInputErrors } from '../../Form/Input';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { Error, Main } from '../../Typography';
 import { EntityType } from '../../../containers/Finances/types';
 import { roundToTwoDecimal } from '../../../util/convert-units/unit';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
-import { EXPENSE_ANIMAL, EXPENSE_CROP_VARIETY, VALUE } from '../AddExpense/constants';
+import { ALLOCATIONS, ENTITY_TYPE, VALUE } from '../AddExpense/constants';
 import { getNoOptionsMessage } from '../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
@@ -45,13 +43,10 @@ interface EntityAllocationInputProps {
   disabled?: boolean;
 }
 
-type AllocationRecord = Record<string, { allocated_value?: number | null }>;
+type AllocationRecord = { id: string; allocated_value?: number | null };
 
-const sumAllocated = (allocations?: AllocationRecord) => {
-  return Object.values(allocations ?? {}).reduce(
-    (sum, item) => sum + (Number(item?.allocated_value) || 0),
-    0,
-  );
+const sumAllocated = (allocations: AllocationRecord[] = []) => {
+  return allocations.reduce((sum, item) => sum + (Number(item?.allocated_value) || 0), 0);
 };
 
 function EntityAllocationInput({
@@ -86,68 +81,65 @@ function ExpenseEntitySection({
 }: ExpenseEntitySectionProps) {
   const { t } = useTranslation();
   const currency = useCurrencySymbol();
-  const { register, unregister, watch, setValue, formState } = useFormContext();
+  const { watch, getValues, setValue } = useFormContext();
 
   const prefixField = (relative: string) =>
     fieldNamePrefix ? `${fieldNamePrefix}.${relative}` : relative;
 
-  const cropFieldPath = prefixField(EXPENSE_CROP_VARIETY);
-  const animalFieldPath = prefixField(EXPENSE_ANIMAL);
+  const allocationsFieldPath = `${prefixField(ALLOCATIONS)}`;
+  const entityTypePath = prefixField(ENTITY_TYPE);
+  const valuePath = prefixField(VALUE);
 
-  const cropAllocations: AllocationRecord | undefined = watch(cropFieldPath);
-  const animalAllocations: AllocationRecord | undefined = watch(animalFieldPath);
-  const entityType: EntityType = cropAllocations ? 'crop' : animalAllocations ? 'animal' : null;
+  const totalValue = Number(watch(valuePath)) || 0;
+  const entityType = watch(entityTypePath) || null;
+
+  // fields is used for rendering (stable keys); allocations reflects live form values
+  const { fields, append, remove } = useFieldArray({
+    keyName: 'fieldKey',
+    name: allocationsFieldPath,
+    rules: {
+      validate: (value) => {
+        if (!getValues(entityTypePath)) {
+          return true;
+        }
+        const sum = sumAllocated(value as AllocationRecord[]);
+        return value?.length > 0 && getValues(valuePath) >= sum;
+      },
+    },
+  });
+
   const isCropEntity = entityType === 'crop';
-
-  const activeAllocations = (isCropEntity ? cropAllocations : animalAllocations) || {};
+  const allocations: AllocationRecord[] = watch(allocationsFieldPath) || [];
   const activeOptions = isCropEntity ? cropVarietyOptions : animalOptions;
-  const activeFieldPath = isCropEntity ? cropFieldPath : animalFieldPath;
-  const validationFieldPath = `${activeFieldPath}_validation`;
+  const remaining = totalValue - sumAllocated(allocations);
 
-  const totalValue = Number(watch(prefixField(VALUE))) || 0;
-  const remaining = totalValue - sumAllocated(activeAllocations);
-  const allocationError = getInputErrors(formState.errors, validationFieldPath);
-
-  const selectedOptions = Object.keys(activeAllocations).map(
-    (id) => activeOptions.find((option) => String(option.value) === id)!,
-  );
+  const selectedOptions = allocations.map(({ id }) => {
+    return activeOptions.find((option) => String(option.value) === id) ?? { label: id, value: id };
+  });
 
   const handleToggle = (newValue: EntityType) => {
-    if (newValue === null) {
-      setValue(cropFieldPath, null, { shouldDirty: true });
-      setValue(animalFieldPath, null, { shouldDirty: true });
-    } else {
-      setValue(newValue === 'crop' ? cropFieldPath : animalFieldPath, {});
-      setValue(newValue === 'crop' ? animalFieldPath : cropFieldPath, null, { shouldDirty: true });
-    }
+    setValue(entityTypePath, newValue);
+    remove();
   };
 
   const handleSelectionChange = (newValue: MultiValue<SelectOption>) => {
+    if (!newValue?.length) {
+      remove();
+      return;
+    }
+    const oldIds = selectedOptions.map(({ value }) => String(value));
     const newIds = newValue.map(({ value }) => String(value));
-    const removedIds = Object.keys(activeAllocations).filter((id) => !newIds.includes(id));
-    const newAllocations: AllocationRecord = {};
-    if (newIds?.length) {
-      newIds.forEach((id) => {
-        newAllocations[id] = activeAllocations[id]
-          ? { ...activeAllocations[id] }
-          : { allocated_value: null };
-      });
-    }
-    setValue(activeFieldPath, newAllocations, { shouldDirty: true });
-    unregister(removedIds.map((id) => `${activeFieldPath}.${id}`));
+    const removedIndices = oldIds.flatMap((id, index) => {
+      return newIds.includes(id) ? [] : index;
+    });
+    remove(removedIndices);
+    newIds.forEach((id) => {
+      if (!oldIds.includes(id)) {
+        // Use empty string instead of null to prevent NumberInput from falling back to stale defaultValue
+        append({ id, allocated_value: '' });
+      }
+    });
   };
-
-  useEffect(() => {
-    let value: boolean | string;
-    if (!entityType) {
-      value = true;
-    } else if (!Object.keys(activeAllocations).length) {
-      value = false;
-    } else {
-      value = remaining >= 0 || t('EXPENSE.ENTITY_SECTION.EXCEEDED_ERROR');
-    }
-    setValue(validationFieldPath, value, { shouldValidate: true });
-  }, [entityType, Object.keys(activeAllocations).length, remaining]);
 
   return (
     <div className={styles.wrapper}>
@@ -157,11 +149,7 @@ function ExpenseEntitySection({
         onChange={handleToggle}
         isDisabled={disabled}
       />
-      <input
-        hidden
-        {...register(validationFieldPath, { shouldUnregister: true, validate: (value) => value })}
-      />
-      {entityType !== null && (
+      {entityType && (
         <>
           <div className={styles.selectWrapper}>
             <InputBaseLabel
@@ -180,7 +168,7 @@ function ExpenseEntitySection({
               noOptionsMessage={getNoOptionsMessage(entityType)}
             />
           </div>
-          {Object.keys(activeAllocations).length > 0 && (
+          {!!fields.length && (
             <>
               {!disabled && (
                 <div className={styles.allocationSummary}>
@@ -188,16 +176,16 @@ function ExpenseEntitySection({
                   <Badge remaining={remaining} currency={currency} />
                 </div>
               )}
-              {Object.keys(activeAllocations).map((id) => (
+              {fields.map((item, index) => (
                 <EntityAllocationInput
-                  key={id}
-                  inputName={`${activeFieldPath}.${id}.allocated_value`}
-                  option={activeOptions.find(({ value }) => id === value)!}
+                  key={item.fieldKey}
+                  inputName={`${allocationsFieldPath}.${index}.allocated_value`}
+                  option={selectedOptions[index]}
                   currency={currency}
                   disabled={disabled}
                 />
               ))}
-              {allocationError && <Error>{allocationError}</Error>}
+              {remaining < 0 && <Error>{t('EXPENSE.ENTITY_SECTION.EXCEEDED_ERROR')}</Error>}
             </>
           )}
         </>

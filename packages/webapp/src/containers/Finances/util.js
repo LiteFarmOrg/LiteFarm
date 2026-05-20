@@ -173,25 +173,27 @@ export const mapSalesToRevenueItems = (
       return {
         sale,
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
-        financeItemsProps: cropVarietySale.map((cvs) => {
-          const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const cropVariety = cropVarieties.find(
-            (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
-          );
-          const cropVarietyName = cropVariety?.crop_variety_name;
-          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
-          const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
-            : i18n.t(`crop:${cropTranslationKey}`);
-          return {
-            key: cvs.crop_variety_id,
-            title,
-            subtitle: `${convertedQuantity} ${quantityUnit}`,
-            quantity: convertedQuantity,
-            quantityUnit,
-            amount: cvs.sale_value,
-          };
-        }),
+        financeItemsProps: cropVarietySale
+          .map((cvs) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+            const cropVariety = cropVarieties.find(
+              (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
+            );
+            const cropVarietyName = cropVariety?.crop_variety_name;
+            const cropTranslationKey = cropVariety?.crop.crop_translation_key;
+            const title = cropVarietyName
+              ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
+              : i18n.t(`crop:${cropTranslationKey}`);
+            return {
+              key: cvs.crop_variety_id,
+              title,
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: cvs.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else if (revenueType?.entity_type === 'animal') {
       const quantityUnit = getMassUnit();
@@ -199,26 +201,28 @@ export const mapSalesToRevenueItems = (
       return {
         sale,
         totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
-        financeItemsProps: animalSale.map((row) => {
-          const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
-          const matched =
-            row.animal_id != null
-              ? animals.find((a) => a.id === row.animal_id)
-              : animalBatches.find((b) => b.id === row.animal_batch_id);
-          const title = matched
-            ? chooseIdentification(matched)
-            : (row.animal_id ?? row.animal_batch_id);
-          const key =
-            row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
-          return {
-            key,
-            title,
-            subtitle: `${convertedQuantity} ${quantityUnit}`,
-            quantity: convertedQuantity,
-            quantityUnit,
-            amount: row.sale_value,
-          };
-        }),
+        financeItemsProps: animalSale
+          .map((row) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
+            const matched =
+              row.animal_id != null
+                ? animals.find((a) => a.id === row.animal_id)
+                : animalBatches.find((b) => b.id === row.animal_batch_id);
+            const title = matched
+              ? chooseIdentification(matched)
+              : (row.animal_id ?? row.animal_batch_id);
+            const key =
+              row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
+            return {
+              key,
+              title,
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: row.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else {
       return {

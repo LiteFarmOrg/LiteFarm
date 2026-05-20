@@ -342,13 +342,19 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
 
-const transformCropAllocations = (allocations = {}) => {
+const transformCropAllocations = (allocations) => {
+  if (!allocations) {
+    return [];
+  }
   return Object.entries(allocations).map(([id, { allocated_value }]) => {
     return { crop_variety_id: id, allocated_value };
   });
 };
 
-const transformAnimalAllocations = (allocations = {}) => {
+const transformAnimalAllocations = (allocations) => {
+  if (!allocations) {
+    return [];
+  }
   return Object.entries(allocations).map(([id, { allocated_value }]) => {
     const { kind, id: animalId } = parseInventoryId(id);
     const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';

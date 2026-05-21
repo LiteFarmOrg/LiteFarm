@@ -40,16 +40,20 @@ const sortAllocations = (allocations, options) => {
   });
 };
 
-const formatAllocations = (expense, cropVarietyOptions, animalOptions) => {
+const getExpenseAllocationFormValues = (expense, cropVarietyOptions, animalOptions) => {
   let allocations = [];
   let entityType = null;
+  let options = [];
+
   if (expense.farm_expense_crop_variety?.length) {
     entityType = 'crop';
+    options = cropVarietyOptions;
     allocations = expense.farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => {
       return { id: crop_variety_id, allocated_value };
     });
   } else if (expense.farm_expense_animal?.length) {
     entityType = 'animal';
+    options = animalOptions;
     allocations = expense.farm_expense_animal.map(
       ({ animal_id, animal_batch_id, allocated_value }) => {
         const id = animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`;
@@ -57,9 +61,7 @@ const formatAllocations = (expense, cropVarietyOptions, animalOptions) => {
       },
     );
   }
-  const sortedAllocations = entityType
-    ? sortAllocations(allocations, entityType === 'crop' ? cropVarietyOptions : animalOptions)
-    : [];
+  const sortedAllocations = entityType ? sortAllocations(allocations, options) : [];
   return { [ENTITY_TYPE]: entityType, [ALLOCATIONS]: sortedAllocations };
 };
 
@@ -87,7 +89,7 @@ const PureExpenseDetail = ({
         (option) => option.value === expense.expense_type_id,
       ),
       [VALUE]: expense.value,
-      ...formatAllocations(expense, cropVarietyOptions, animalOptions),
+      ...getExpenseAllocationFormValues(expense, cropVarietyOptions, animalOptions),
     },
   });
   const {
@@ -163,7 +165,6 @@ const PureExpenseDetail = ({
           disabled={disabledInput}
         />
         <ExpenseEntitySection
-          fieldNamePrefix=""
           cropVarietyOptions={cropVarietyOptions}
           animalOptions={animalOptions}
           disabled={disabledInput}

@@ -343,21 +343,17 @@ export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
 
 const transformCropAllocations = (allocations) => {
-  return allocations
-    ? allocations.map(({ id, allocated_value }) => {
-        return { crop_variety_id: id, allocated_value };
-      })
-    : [];
+  return (allocations || []).map(({ id, allocated_value }) => {
+    return { crop_variety_id: id, allocated_value };
+  });
 };
 
 const transformAnimalAllocations = (allocations) => {
-  return allocations
-    ? allocations.map(({ id, allocated_value }) => {
-        const { kind, id: animalId } = parseInventoryId(id);
-        const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
-        return { [idKey]: animalId, allocated_value };
-      })
-    : [];
+  return (allocations || []).map(({ id, allocated_value }) => {
+    const { kind, id: animalId } = parseInventoryId(id);
+    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+    return { [idKey]: animalId, allocated_value };
+  });
 };
 
 export const transformExpenseAllocations = ({ allocations, entityType }) => {

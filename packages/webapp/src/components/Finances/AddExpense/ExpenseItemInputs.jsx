@@ -33,22 +33,25 @@ export default function ExpenseItemInputs({
 }) {
   const { t } = useTranslation();
   const {
-    register,
+    register: rhfRegister,
     formState: { errors },
   } = useFormContext();
+
+  const register = (fieldName, options) => rhfRegister(`${fieldNamePrefix}.${fieldName}`, options);
+  const getErrors = (fieldName) => getInputErrors(errors, `${fieldNamePrefix}.${fieldName}`);
 
   return (
     <div className={styles.expenseItem}>
       <Input
         label={t('common:DATE')}
         type={'date'}
-        hookFormRegister={register(`${fieldNamePrefix}.${DATE}`, { required: true })}
-        errors={getInputErrors(errors, `${fieldNamePrefix}.${DATE}`)}
+        hookFormRegister={register(DATE, { required: true })}
+        errors={getErrors(DATE)}
       />
       <Input
         label={t('EXPENSE.ITEM_NAME')}
-        errors={getInputErrors(errors, `${fieldNamePrefix}.${NOTE}`)}
-        hookFormRegister={register(`${fieldNamePrefix}.${NOTE}`, {
+        errors={getErrors(NOTE)}
+        hookFormRegister={register(NOTE, {
           required: true,
           maxLength: {
             value: 100,
@@ -59,8 +62,8 @@ export default function ExpenseItemInputs({
       <Input
         type="number"
         label={t('EXPENSE.VALUE')}
-        errors={getInputErrors(errors, `${fieldNamePrefix}.${VALUE}`)}
-        hookFormRegister={register(`${fieldNamePrefix}.${VALUE}`, {
+        errors={getErrors(VALUE)}
+        hookFormRegister={register(VALUE, {
           required: true,
           valueAsNumber: true,
           min: { value: 0 },

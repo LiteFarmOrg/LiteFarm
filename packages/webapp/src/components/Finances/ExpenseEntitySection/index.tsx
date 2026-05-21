@@ -29,29 +29,32 @@ import { ALLOCATIONS, ENTITY_TYPE, VALUE } from '../AddExpense/constants';
 import { getNoOptionsMessage } from '../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
+interface EntityAllocationInputProps {
+  inputName: string;
+  label: string;
+  currency: string;
+  disabled?: boolean;
+}
+
 interface ExpenseEntitySectionProps {
-  fieldNamePrefix: string;
+  fieldNamePrefix?: string;
   cropVarietyOptions: SelectOption[];
   animalOptions: SelectOption[];
   disabled?: boolean;
 }
 
-interface EntityAllocationInputProps {
-  inputName: string;
-  option: SelectOption;
-  currency: string;
-  disabled?: boolean;
+interface AllocationRecord {
+  id: string;
+  allocated_value?: number | null;
 }
 
-type AllocationRecord = { id: string; allocated_value?: number | null };
-
 const sumAllocated = (allocations: AllocationRecord[] = []) => {
-  return allocations.reduce((sum, item) => sum + (Number(item?.allocated_value) || 0), 0);
+  return allocations.reduce((sum, item) => sum + (Number(item.allocated_value) || 0), 0);
 };
 
 function EntityAllocationInput({
   inputName,
-  option,
+  label,
   currency,
   disabled,
 }: EntityAllocationInputProps) {
@@ -60,7 +63,7 @@ function EntityAllocationInput({
 
   return (
     <div className={styles.entityBlock}>
-      <Main className={styles.entityName}>{option.label}</Main>
+      <Main className={styles.entityName}>{label}</Main>
       <NumberInput
         currencySymbol={currency}
         name={inputName}
@@ -83,18 +86,19 @@ function ExpenseEntitySection({
   const currency = useCurrencySymbol();
   const { watch, getValues, setValue } = useFormContext();
 
-  const prefixField = (relative: string) =>
-    fieldNamePrefix ? `${fieldNamePrefix}.${relative}` : relative;
+  const prefixField = (fieldName: string) =>
+    fieldNamePrefix ? `${fieldNamePrefix}.${fieldName}` : fieldName;
 
-  const allocationsFieldPath = `${prefixField(ALLOCATIONS)}`;
+  const allocationsFieldPath = prefixField(ALLOCATIONS);
   const entityTypePath = prefixField(ENTITY_TYPE);
   const valuePath = prefixField(VALUE);
 
-  const totalValue = Number(watch(valuePath)) || 0;
-  const entityType = watch(entityTypePath) || null;
-
   // fields is used for rendering (stable keys); allocations reflects live form values
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields,
+    append: appendAssociation,
+    remove: removeAssociations,
+  } = useFieldArray({
     keyName: 'fieldKey',
     name: allocationsFieldPath,
     rules: {
@@ -103,13 +107,16 @@ function ExpenseEntitySection({
           return true;
         }
         const sum = sumAllocated(value as AllocationRecord[]);
-        return value?.length > 0 && getValues(valuePath) >= sum;
+        return value.length > 0 && getValues(valuePath) >= sum;
       },
     },
   });
 
-  const isCropEntity = entityType === 'crop';
   const allocations: AllocationRecord[] = watch(allocationsFieldPath) || [];
+  const totalValue = Number(watch(valuePath)) || 0;
+  const entityType = watch(entityTypePath) || null;
+
+  const isCropEntity = entityType === 'crop';
   const activeOptions = isCropEntity ? cropVarietyOptions : animalOptions;
   const remaining = totalValue - sumAllocated(allocations);
 
@@ -119,24 +126,22 @@ function ExpenseEntitySection({
 
   const handleToggle = (newValue: EntityType) => {
     setValue(entityTypePath, newValue);
-    remove();
+    removeAssociations();
   };
 
   const handleSelectionChange = (newValue: MultiValue<SelectOption>) => {
     if (!newValue?.length) {
-      remove();
+      removeAssociations();
       return;
     }
     const oldIds = selectedOptions.map(({ value }) => String(value));
     const newIds = newValue.map(({ value }) => String(value));
-    const removedIndices = oldIds.flatMap((id, index) => {
-      return newIds.includes(id) ? [] : index;
-    });
-    remove(removedIndices);
+    const removedIndices = oldIds.flatMap((id, index) => (newIds.includes(id) ? [] : index));
+    removeAssociations(removedIndices);
     newIds.forEach((id) => {
       if (!oldIds.includes(id)) {
         // Use empty string instead of null to prevent NumberInput from falling back to stale defaultValue
-        append({ id, allocated_value: '' });
+        appendAssociation({ id, allocated_value: '' });
       }
     });
   };
@@ -158,7 +163,6 @@ function ExpenseEntitySection({
                   ? t('SALE.ADD_SALE.CROP_VARIETY')
                   : t('EXPENSE.ENTITY_SECTION.SELECT_ANIMALS')
               }
-              optional={false}
             />
             <CheckboxMultiSelect
               options={activeOptions}
@@ -180,7 +184,7 @@ function ExpenseEntitySection({
                 <EntityAllocationInput
                   key={item.fieldKey}
                   inputName={`${allocationsFieldPath}.${index}.allocated_value`}
-                  option={selectedOptions[index]}
+                  label={selectedOptions[index]?.label}
                   currency={currency}
                   disabled={disabled}
                 />

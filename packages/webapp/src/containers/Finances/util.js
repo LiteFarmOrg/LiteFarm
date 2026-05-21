@@ -90,7 +90,8 @@ export function calcActualRevenue(transactions) {
     .filter(
       ({ transactionType }) =>
         transactionType === transactionTypeEnum.revenue ||
-        transactionType === transactionTypeEnum.cropRevenue,
+        transactionType === transactionTypeEnum.cropRevenue ||
+        transactionType === transactionTypeEnum.animalRevenue,
     )
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }

@@ -151,7 +151,10 @@ const RevenueForm = ({
         />
         <Input
           label={t('SALE.DETAIL.CUSTOMER_NAME')}
-          hookFormRegister={register(CUSTOMER_NAME, { required: true })}
+          hookFormRegister={register(CUSTOMER_NAME, {
+            required: true,
+            maxLength: hookFormMaxCharsValidation(255),
+          })}
           style={{ marginBottom: '40px' }}
           errors={getInputErrors(errors, CUSTOMER_NAME)}
           type={'text'}

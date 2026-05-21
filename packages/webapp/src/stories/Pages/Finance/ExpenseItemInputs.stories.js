@@ -33,8 +33,8 @@ export const Primary = {
     onGoBack: () => ({}),
     onSubmit: () => ({}),
     useHookFormPersist: () => ({}),
-    // cropVarietyOptions,
-    // animalOptions,
+    cropVarietyOptions,
+    animalOptions,
   },
   parameters: { ...chromaticSmallScreen },
 };

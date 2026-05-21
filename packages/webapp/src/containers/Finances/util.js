@@ -366,6 +366,6 @@ export const transformExpenseAllocations = ({ allocations, entityType }) => {
 export const getNoOptionsMessage = (entity) => {
   return () =>
     entity === 'crop'
-      ? i18n.t('SELECT.NO_ACTIVE_CROP_PLANS')
+      ? i18n.t('SELECT.NO_CROP_VARIETIES')
       : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
 };

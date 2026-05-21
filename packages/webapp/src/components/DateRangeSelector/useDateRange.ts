@@ -20,7 +20,9 @@ import { MONDAY, SUNDAY } from '../../util/dateRange';
 
 /**
  * Returns startDate and endDate in state (local or Redux).
- * If they are not defined initially, set them using the DateRange utility class.
+ * For any semantic option (e.g. YEAR_TO_DATE), the dates are recomputed on mount
+ * from the current date so they do not go stale when the underlying state is
+ * persisted (e.g. via Redux Persist) across days. CUSTOM ranges are left as-is.
  */
 
 interface useDateRangeProps {
@@ -40,9 +42,9 @@ export default function useDateRange({
   const option = dateRange.option || defaultOption;
 
   useEffect(() => {
-    if ((!dateRange.startDate || !dateRange.endDate) && option !== DateRangeOptions.CUSTOM) {
+    if (option !== DateRangeOptions.CUSTOM) {
       const { startDate, endDate } = dateRangeUtil.getDates(option);
-      updateDateRange({ option: option, startDate, endDate });
+      updateDateRange({ option, startDate, endDate });
     }
   }, []);
 

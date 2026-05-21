@@ -31,7 +31,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import { NOTE, VALUE, DATE, TYPE, ALLOCATIONS, ENTITY_TYPE } from '../AddExpense/constants';
 import ExpenseEntitySection from '../ExpenseEntitySection';
 
-const sortAllocations = (allocations, options) => {
+export const sortAllocations = (allocations, options) => {
   return allocations.slice().sort((a, b) => {
     const aLabel = options.find(({ value }) => value === a.id)?.label ?? '';
     const bLabel = options.find(({ value }) => value === b.id)?.label ?? '';

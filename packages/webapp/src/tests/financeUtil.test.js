@@ -15,6 +15,7 @@
 import { expect, describe, test } from 'vitest';
 import i18n from '../locales/i18n';
 import { formatTransactionDate } from '../containers/Finances/util';
+import { sortAllocations } from '../components/Finances/PureExpenseDetail/index.jsx';
 
 describe('Finance utility tests', () => {
   describe('format transaction date in English', () => {
@@ -30,6 +31,30 @@ describe('Finance utility tests', () => {
     test('"2024-01-01" should be "January 1, 2024"', () => {
       const date = new Date(2024, 0, 1);
       expect(formatTransactionDate(date, 'en')).toBe('January 1, 2024');
+    });
+  });
+
+  describe('sort allocations', () => {
+    test('should sort allocations by label', () => {
+      const allocations = [
+        { id: '4B', allocated_value: 10 },
+        { id: '5A', allocated_value: 20 },
+        { id: '2D', allocated_value: 30 },
+        { id: '1E', allocated_value: 40 },
+      ];
+      const options = [
+        { value: '5A', label: 'A' },
+        { value: '4B', label: 'B' },
+        { value: '3C', label: 'C' },
+        { value: '2D', label: 'D' },
+        { value: '1E', label: 'E' },
+      ];
+      expect(sortAllocations(allocations, options)).toEqual([
+        { id: '5A', allocated_value: 20 },
+        { id: '4B', allocated_value: 10 },
+        { id: '2D', allocated_value: 30 },
+        { id: '1E', allocated_value: 40 },
+      ]);
     });
   });
 });

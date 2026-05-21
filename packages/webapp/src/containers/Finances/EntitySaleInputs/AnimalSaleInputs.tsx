@@ -13,19 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ANIMAL_INVENTORY_ID, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
-import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { chooseIdentification } from '../../Animals/utils';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
-import { generateInventoryId } from '../../../util/animal';
-import type { Animal, AnimalBatch } from '../../../store/api/types';
+import { animalOptionsSelector } from '../../../store/api/animalApi';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 import { getNoOptionsMessage } from '../util';
@@ -87,22 +83,7 @@ export default function AnimalSaleInputs({ sale, disabledInput }: AnimalSaleInpu
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
-  const { data: animals } = useGetAnimalsQuery();
-  const { data: animalBatches } = useGetAnimalBatchesQuery();
-
-  const options = useMemo<SelectOption[]>(() => {
-    const animalOptions = (animals ?? []).map((a: Animal) => ({
-      label: chooseIdentification(a),
-      value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, a),
-    }));
-    const batchOptions = (animalBatches ?? []).map((b: AnimalBatch) => ({
-      label: chooseIdentification(b),
-      value: generateInventoryId(AnimalOrBatchKeys.BATCH, b),
-    }));
-    return [...animalOptions, ...batchOptions].sort((a, b) =>
-      String(a.label).localeCompare(String(b.label)),
-    );
-  }, [animals, animalBatches]);
+  const options = useSelector(animalOptionsSelector);
 
   const savedSalesById = sale?.animal_sale?.reduce<Record<string, AnimalSaleRecord>>(
     (acc, cur) => ({ ...acc, [saleRecordToOptionKey(cur)]: cur }),

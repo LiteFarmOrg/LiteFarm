@@ -55,7 +55,7 @@ function RevenueDetail() {
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypesArray);
 
   const onSubmit = (data) => {
-    const editedSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, null);
+    const editedSale = mapRevenueFormDataToApiCallFormat(data, revenueTypesArray, sale_id, null);
     dispatch(updateSale(editedSale));
   };
 

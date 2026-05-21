@@ -29,9 +29,11 @@ export const animalOptionsSelector = createSelector(
       value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
       label: generateSelectOptionLabel(animal),
     })),
-    ...animalBatches.map((batch) => ({
-      value: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-      label: generateSelectOptionLabel(batch),
-    })),
+    ...animalBatches
+      .map((batch) => ({
+        value: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
+        label: generateSelectOptionLabel(batch),
+      }))
+      .sort((a, b) => String(a.label).localeCompare(String(b.label))),
   ],
 );

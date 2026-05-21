@@ -17,7 +17,7 @@ import { createSelector } from 'reselect';
 import { api } from './apiSlice';
 import { AnimalOrBatchKeys } from '../../containers/Animals/types';
 import { generateInventoryId } from '../../util/animal';
-import { chooseIdentification } from '../../containers/Animals/utils';
+import { generateSelectOptionLabel } from '../../containers/Animals/utils';
 
 const selectAnimalsResult = api.endpoints.getAnimals.select();
 const selectAnimalBatchesResult = api.endpoints.getAnimalBatches.select();
@@ -27,11 +27,11 @@ export const animalOptionsSelector = createSelector(
   ({ data: animals = [] }, { data: animalBatches = [] }) => [
     ...animals.map((animal) => ({
       value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
-      label: chooseIdentification(animal),
+      label: generateSelectOptionLabel(animal),
     })),
     ...animalBatches.map((batch) => ({
       value: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-      label: chooseIdentification(batch),
+      label: generateSelectOptionLabel(batch),
     })),
   ],
 );

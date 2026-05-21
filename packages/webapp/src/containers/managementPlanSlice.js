@@ -285,23 +285,6 @@ export const currentAndPlannedManagementPlansSelector = createSelector(
   },
 );
 
-// Returns all management plans relevant to a sale form: current/planned plans (selectable) plus
-// any plan already recorded on the sale (needed to display existing selections in edit/read-only views).
-export const selectManagementPlansForSale = createSelector(
-  [
-    allManagementPlansSelector,
-    currentAndPlannedManagementPlansSelector,
-    (_, cropVarietySale = []) => cropVarietySale,
-  ],
-  (allManagementPlans, currentAndPlannedManagementPlans, cropVarietySale) => {
-    const cropVarietyIds = new Set([
-      ...cropVarietySale.map((sale) => sale.crop_variety_id),
-      ...currentAndPlannedManagementPlans.map((mp) => mp.crop_variety_id),
-    ]);
-    return allManagementPlans.filter((mp) => cropVarietyIds.has(mp.crop_variety_id));
-  },
-);
-
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
   [managementPlansSelector, cropVarietiesSelector],
   (managementPlans, cropVarieties) => {

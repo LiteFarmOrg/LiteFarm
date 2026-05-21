@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherForecast } from './types';
+import type { Meta, StoryObj } from '@storybook/react';
+import FrostBanner from '../../components/WeatherForecast/FrostBanner';
+import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeatherForecast: build.query<WeatherForecast, void>({
-      query: () => weatherUrl,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200,
-    }),
-  }),
-});
+const meta: Meta<typeof FrostBanner> = {
+  title: 'Components/WeatherForecast/FrostBanner',
+  component: FrostBanner,
+  decorators: componentDecoratorsWithoutPadding,
+};
+export default meta;
 
-export const { useGetWeatherForecastQuery } = weatherApi;
+type Story = StoryObj<typeof FrostBanner>;
+
+export const Metric: Story = { args: { thresholdLabel: '<2°C' } };
+export const Imperial: Story = { args: { thresholdLabel: '<36°F' } };

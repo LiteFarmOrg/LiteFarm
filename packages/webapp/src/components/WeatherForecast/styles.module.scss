@@ -1,0 +1,20 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding: 32px;
+  background-color: var(--White);
+  border-radius: 4px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.title {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--Colors-Neutral-Neutral-900);
+  letter-spacing: 0.02em;
+}

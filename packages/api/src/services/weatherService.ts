@@ -20,38 +20,63 @@ import endpoints from '../endPoints.js';
 interface WeatherParams {
   lat: number;
   lon: number;
-  units?: string;
 }
 
-interface WeatherData {
+export interface WeatherForecastSlot {
+  dt: number;
+  tempC: number;
+  tempMinC: number;
+  iconCode: string;
+  pop: number;
+  rainMm3h: number;
+  windMs: number;
   humidity: number;
-  icon: string;
-  date: number;
-  temp: number;
-  wind: number;
-  city: string;
-  measurement: string;
+}
+
+export interface WeatherForecast {
+  city: { name: string; timezoneOffsetSeconds: number };
+  slots: WeatherForecastSlot[];
+}
+
+interface OpenWeatherListEntry {
+  dt: number;
+  main: { temp: number; temp_min: number; humidity: number };
+  weather: { icon: string }[];
+  wind: { speed: number };
+  rain?: { '3h'?: number };
+  pop?: number;
+}
+
+interface OpenWeatherForecastResponse {
+  list: OpenWeatherListEntry[];
+  city: { name: string; timezone: number };
 }
 
 const OPEN_WEATHER_APP_ID = credentials.OPEN_WEATHER_APP_ID;
 const openWeatherAPI = endpoints.openWeatherAPI;
 
 export const weatherService = {
-  async getWeather({ lat, lon, units = 'metric' }: WeatherParams): Promise<WeatherData> {
+  async getWeather({ lat, lon }: WeatherParams): Promise<WeatherForecast> {
     try {
-      const url = `${openWeatherAPI}?units=${units}&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en&cnt=1`;
-      const response = await axios.get(url);
-
-      const data = await response.data;
+      const url = `${openWeatherAPI}?units=metric&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
+      const response = await axios.get<OpenWeatherForecastResponse>(url);
+      const data = response.data;
 
       return {
-        humidity: data.main.humidity,
-        icon: data.weather[0].icon,
-        date: data.dt,
-        temp: Math.round(data.main.temp),
-        wind: data.wind.speed,
-        city: data.name,
-        measurement: units,
+        city: {
+          name: data.city.name,
+          timezoneOffsetSeconds: data.city.timezone,
+        },
+        slots: data.list.map((entry) => ({
+          dt: entry.dt,
+          tempC: entry.main.temp,
+          tempMinC: entry.main.temp_min,
+          iconCode: entry.weather[0].icon,
+          pop: entry.pop ?? 0,
+          rainMm3h: entry.rain?.['3h'] ?? 0,
+          windMs: entry.wind.speed,
+          humidity: entry.main.humidity,
+        })),
       };
     } catch (error) {
       const axiosError = error as AxiosError;

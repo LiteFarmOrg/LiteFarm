@@ -299,14 +299,20 @@ export interface SensorReadings {
   readings: SensorDatapoint[];
 }
 
-export interface WeatherData {
+export interface WeatherForecastSlot {
+  dt: number;
+  tempC: number;
+  tempMinC: number;
+  iconCode: string;
+  pop: number;
+  rainMm3h: number;
+  windMs: number;
   humidity: number;
-  icon: string;
-  date: number;
-  temp: number;
-  wind: number;
-  city: string;
-  measurement: string;
+}
+
+export interface WeatherForecast {
+  city: { name: string; timezoneOffsetSeconds: number };
+  slots: WeatherForecastSlot[];
 }
 export interface IrrigationPrescription {
   id: number;

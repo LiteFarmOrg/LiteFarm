@@ -13,18 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherForecast } from './types';
+import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeatherForecast: build.query<WeatherForecast, void>({
-      query: () => weatherUrl,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200,
-    }),
-  }),
-});
+interface FrostBannerProps {
+  thresholdLabel: string;
+}
 
-export const { useGetWeatherForecastQuery } = weatherApi;
+const FrostBanner = ({ thresholdLabel }: FrostBannerProps) => {
+  const { t } = useTranslation();
+  return (
+    <div className={styles.banner} role="status">
+      {t('WEATHER.FROST_EXPECTED', { threshold: thresholdLabel })}
+    </div>
+  );
+};
+
+export default FrostBanner;

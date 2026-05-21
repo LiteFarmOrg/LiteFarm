@@ -29,13 +29,12 @@ const weatherController = {
         return res.sendStatus(404);
       }
 
-      const weatherData = await weatherService.getWeather({
+      const weatherForecast = await weatherService.getWeather({
         lat: row.grid_points.lat,
         lon: row.grid_points.lng,
-        units: row.units.measurement,
       });
 
-      res.status(200).send(weatherData);
+      res.status(200).send(weatherForecast);
     } catch (error: unknown) {
       console.error(error);
       res.status((error as HttpError).status || 500).json({ error });

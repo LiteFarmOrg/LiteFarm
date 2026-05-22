@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,12 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const NOTE = 'note';
-export const VALUE = 'value';
-export const DATE = 'date';
-export const EXPENSE_DETAIL = 'expenseDetail';
-export const TYPE = 'type';
-export const EXPENSE_CROP_VARIETY = 'farm_expense_crop_variety';
-export const EXPENSE_ANIMAL = 'farm_expense_animal';
-export const ENTITY_TYPE = 'entityType';
-export const ALLOCATIONS = 'allocations';
+import i18n from '../locales/i18n';
+
+export const formatCropVarietyLabel = ({
+  crop_variety_name,
+  crop_translation_key,
+}: {
+  crop_variety_name?: string | null;
+  crop_translation_key: string;
+}) => {
+  return crop_variety_name
+    ? `${crop_variety_name}, ${i18n.t(`crop:${crop_translation_key}`)}`
+    : i18n.t(`crop:${crop_translation_key}`);
+};

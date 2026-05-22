@@ -769,6 +769,12 @@
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
     },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "Is this expense associated with animals or crops?",
+      "EXCEEDED_ERROR": "Amount used cannot exceed the total amount to allocate",
+      "SELECT_ANIMALS": "Select animals from your inventory",
+      "TOTAL_TO_ALLOCATE": "Total amount to allocate"
+    },
     "ITEM_NAME": "Item Name",
     "NO_EXPENSE": "No expense found",
     "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
@@ -1963,6 +1969,10 @@
     "ANIMALS_GROUPS": "Animal groups",
     "ANIMALS_INVENTORY": "Animal inventory",
     "ANIMALS_LOCATION": "Animal locations"
+  },
+  "SELECT": {
+    "NO_CROP_VARIETIES": "You have no crop varieties",
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory"
   },
   "SENSOR": {
     "ARRAY": "Array",

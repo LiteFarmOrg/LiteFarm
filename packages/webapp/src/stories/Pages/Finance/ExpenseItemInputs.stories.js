@@ -15,6 +15,7 @@
 import AddExpense from '../../../components/Finances/AddExpense';
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
+import { animalOptions, cropVarietyOptions } from './mockData';
 
 export default {
   title: 'Page/Finance/AddExpense',
@@ -32,6 +33,8 @@ export const Primary = {
     onGoBack: () => ({}),
     onSubmit: () => ({}),
     useHookFormPersist: () => ({}),
+    cropVarietyOptions,
+    animalOptions,
   },
   parameters: { ...chromaticSmallScreen },
 };

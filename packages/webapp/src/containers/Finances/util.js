@@ -342,3 +342,31 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
 export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
+
+const transformCropAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    return { crop_variety_id: id, allocated_value };
+  });
+};
+
+const transformAnimalAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    const { kind, id: animalId } = parseInventoryId(id);
+    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+    return { [idKey]: animalId, allocated_value };
+  });
+};
+
+export const transformExpenseAllocations = ({ allocations, entityType }) => {
+  return {
+    farm_expense_crop_variety: entityType === 'crop' ? transformCropAllocations(allocations) : [],
+    farm_expense_animal: entityType === 'animal' ? transformAnimalAllocations(allocations) : [],
+  };
+};
+
+export const getNoOptionsMessage = (entity) => {
+  return () =>
+    entity === 'crop'
+      ? i18n.t('SELECT.NO_CROP_VARIETIES')
+      : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
+};

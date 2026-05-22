@@ -15,15 +15,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
+import ExpenseEntitySection from '../ExpenseEntitySection';
 import { DATE, NOTE, VALUE } from './constants';
-import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import styles from './styles.module.scss';
 
-export default function ExpenseItemInputs({ register, onRemove, getErrors, isRemovable }) {
+export default function ExpenseItemInputs({
+  onRemove,
+  isRemovable,
+  fieldNamePrefix,
+  cropVarietyOptions,
+  animalOptions,
+}) {
   const { t } = useTranslation();
+  const {
+    register: rhfRegister,
+    formState: { errors },
+  } = useFormContext();
+
+  const register = (fieldName, options) => rhfRegister(`${fieldNamePrefix}.${fieldName}`, options);
+  const getErrors = (fieldName) => getInputErrors(errors, `${fieldNamePrefix}.${fieldName}`);
 
   return (
     <div className={styles.expenseItem}>
@@ -55,6 +70,11 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors, isRem
         })}
         currency={useCurrencySymbol()}
       />
+      <ExpenseEntitySection
+        fieldNamePrefix={fieldNamePrefix}
+        cropVarietyOptions={cropVarietyOptions}
+        animalOptions={animalOptions}
+      />
       {isRemovable ? (
         <IconLink
           className={styles.iconLink}
@@ -71,9 +91,9 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors, isRem
 }
 
 ExpenseItemInputs.propTypes = {
-  register: PropTypes.func,
   onRemove: PropTypes.func,
-  onChange: PropTypes.func,
-  getErrors: PropTypes.func,
   isRemovable: PropTypes.bool,
+  fieldNamePrefix: PropTypes.string,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

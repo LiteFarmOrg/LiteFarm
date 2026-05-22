@@ -199,8 +199,10 @@ export const cropVarietiesByCropIdSelector = (cropId) => {
 };
 
 export const cropVarietyOptionsSelector = createSelector([cropVarietiesSelector], (cropVarieties) =>
-  cropVarieties.map((cropVariety) => ({
-    value: cropVariety.crop_variety_id,
-    label: formatCropVarietyLabel(cropVariety),
-  })),
+  cropVarieties
+    .map((cropVariety) => ({
+      value: cropVariety.crop_variety_id,
+      label: formatCropVarietyLabel(cropVariety),
+    }))
+    .sort((a, b) => String(a.label).localeCompare(String(b.label))),
 );

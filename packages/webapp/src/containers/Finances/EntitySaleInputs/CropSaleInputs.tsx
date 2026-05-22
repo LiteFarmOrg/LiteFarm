@@ -21,14 +21,13 @@ import {
   CROP_VARIETY_ID,
 } from '../../../components/Forms/RevenueForm/constants';
 import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
-import { cropVarietiesSelector } from '../../cropVarietySlice';
+import { cropVarietiesSelector, cropVarietyOptionsSelector } from '../../cropVarietySlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import type { CropVarietySaleTileData } from '../../../components/CropTile/CropVarietySaleTile';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/index';
-import { formatCropVarietyLabel } from '../../../util/crop';
 import { getNoOptionsMessage } from '../util';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
@@ -76,29 +75,23 @@ export default function CropSaleInputs({ sale, disabledInput }: CropSaleInputsPr
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
   const currency = useCurrencySymbol();
+  const options = useSelector(cropVarietyOptionsSelector);
   const farmCropVarieties = useSelector(cropVarietiesSelector);
 
-  // Management plans determine which crop varieties are sale-eligible,
-  // but the sale row itself represents a crop variety rather than a plan.
-  const { options, cropVarietyTileDataById } = useMemo(() => {
-    const tileDataById: Record<number, CropVarietySaleTileData> = {};
-    const optionList: SelectOption[] = [];
-    for (const cv of farmCropVarieties ?? []) {
-      if (!(cv.crop_variety_id in tileDataById)) {
-        tileDataById[cv.crop_variety_id] = {
-          crop_variety_name: cv.crop_variety_name,
-          crop_translation_key: cv.crop_translation_key,
-          crop_variety_photo_url: cv.crop_variety_photo_url,
-        };
-        optionList.push({
-          label: formatCropVarietyLabel(cv),
-          value: cv.crop_variety_id,
-        });
-      }
-    }
-    optionList.sort((a, b) => String(a.label).localeCompare(String(b.label)));
-    return { options: optionList, cropVarietyTileDataById: tileDataById };
-  }, [farmCropVarieties, t]);
+  const cropVarietyTileDataById: Record<number, CropVarietySaleTileData> = useMemo(
+    () =>
+      Object.fromEntries(
+        (farmCropVarieties ?? []).map((cv) => [
+          cv.crop_variety_id,
+          {
+            crop_variety_name: cv.crop_variety_name,
+            crop_translation_key: cv.crop_translation_key,
+            crop_variety_photo_url: cv.crop_variety_photo_url,
+          },
+        ]),
+      ),
+    [farmCropVarieties],
+  );
 
   const savedSalesById = sale?.crop_variety_sale?.reduce<Record<number, CropVarietySaleRecord>>(
     (acc, cur) => ({ ...acc, [cur.crop_variety_id]: cur }),

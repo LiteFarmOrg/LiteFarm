@@ -101,13 +101,12 @@ export function formatDayPillLabel(
 
 export function formatLongDate(day: ForecastDay, locale: string): string {
   const date = parseLocalYmdAsUtcNoon(day.localYmd);
-  const weekday = date.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' });
-  const monthDay = date.toLocaleDateString(locale, {
+  return date.toLocaleDateString(locale, {
+    weekday: 'short',
     month: 'long',
     day: 'numeric',
     timeZone: 'UTC',
   });
-  return `${weekday}, ${monthDay}`;
 }
 
 export function formatTimeChipLabel(

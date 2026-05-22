@@ -14,7 +14,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { api } from './apiSlice';
+import { api } from '../api/apiSlice';
 import { AnimalOrBatchKeys } from '../../containers/Animals/types';
 import { generateInventoryId } from '../../util/animal';
 import { generateSelectOptionLabel } from '../../containers/Animals/utils';
@@ -24,16 +24,15 @@ const selectAnimalBatchesResult = api.endpoints.getAnimalBatches.select();
 
 export const animalOptionsSelector = createSelector(
   [selectAnimalsResult, selectAnimalBatchesResult],
-  ({ data: animals = [] }, { data: animalBatches = [] }) => [
-    ...animals.map((animal) => ({
-      value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
-      label: generateSelectOptionLabel(animal),
-    })),
-    ...animalBatches
-      .map((batch) => ({
+  ({ data: animals = [] }, { data: animalBatches = [] }) =>
+    [
+      ...animals.map((animal) => ({
+        value: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
+        label: generateSelectOptionLabel(animal),
+      })),
+      ...animalBatches.map((batch) => ({
         value: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
         label: generateSelectOptionLabel(batch),
-      }))
-      .sort((a, b) => String(a.label).localeCompare(String(b.label))),
-  ],
+      })),
+    ].sort((a, b) => String(a.label).localeCompare(String(b.label))),
 );

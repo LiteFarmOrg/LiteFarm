@@ -16,7 +16,7 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 import { cropVarietyOptionsSelector } from '../../cropVarietySlice';
-import { animalOptionsSelector } from '../../../store/api/animalApi';
+import { animalOptionsSelector } from '../../../store/selectors/animals';
 import { transformExpenseAllocations } from '../util';
 
 const ExpenseDetail = () => {

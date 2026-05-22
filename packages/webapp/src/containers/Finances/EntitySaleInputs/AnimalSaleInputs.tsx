@@ -21,7 +21,7 @@ import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePi
 import { measurementSelector } from '../../userFarmSlice';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
-import { animalOptionsSelector } from '../../../store/api/animalApi';
+import { animalOptionsSelector } from '../../../store/selectors/animals';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 import { getNoOptionsMessage } from '../util';

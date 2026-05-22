@@ -8,7 +8,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import PureAddExpense from '../../../../components/Finances/AddExpense';
 import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
 import { cropVarietyOptionsSelector } from '../../../cropVarietySlice';
-import { animalOptionsSelector } from '../../../../store/api/animalApi';
+import { animalOptionsSelector } from '../../../../store/selectors/animals';
 import { transformExpenseAllocations } from '../../util';
 
 class AddExpense extends Component {

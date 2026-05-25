@@ -95,25 +95,25 @@ const EntityProfitTable = ({
     {
       id: 'label',
       label: firstColumnLabel(entityTab, labels),
-      format: (props: any) => renderLabel(props.row.original ?? props.row),
+      format: renderLabel,
     },
     {
       id: 'revenue',
       label: labels.revenue,
       align: Alignment.RIGHT,
-      format: (props: any) => renderRevenue(props.row.original ?? props.row),
+      format: renderRevenue,
     },
     {
       id: 'expense',
       label: labels.expense,
       align: Alignment.RIGHT,
-      format: (props: any) => renderExpense(props.row.original ?? props.row),
+      format: renderExpense,
     },
     {
       id: 'netProfit',
       label: labels.netProfit,
       align: Alignment.RIGHT,
-      format: (props: any) => renderNetProfit(props.row.original ?? props.row),
+      format: renderNetProfit,
     },
   ];
 

@@ -18,6 +18,7 @@ import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import FarmNotes from '../FarmNotes';
+import ProfitabilityWidget from './ProfitabilityWidget';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -48,6 +49,7 @@ export default function Home() {
       <FarmNotes />
 
       {userFarm ? <WeatherBoard /> : null}
+      {userFarm ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}

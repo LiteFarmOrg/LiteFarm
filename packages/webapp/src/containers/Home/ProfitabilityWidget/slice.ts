@@ -14,18 +14,19 @@
  */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Moment } from 'moment';
 import { DateRangeOptions } from '../../../components/DateRangeSelector/types';
 import DateRange from '../../../util/dateRange';
 
 interface CustomRange {
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | Moment;
+  endDate?: string | Moment;
 }
 
 export interface ProfitabilityDateRangeState {
   option: DateRangeOptions | string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | Moment;
+  endDate?: string | Moment;
   customRange?: CustomRange;
 }
 

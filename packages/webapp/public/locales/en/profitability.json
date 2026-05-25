@@ -36,6 +36,7 @@
     "CROPS": "Crops"
   },
   "TOP_EXPENSE_CATEGORIES": "Top expense categories",
+  "WIDGET_TITLE": "Profitability",
   "DATE_RANGE": {
     "YEAR_LABEL": "{{year}}"
   }

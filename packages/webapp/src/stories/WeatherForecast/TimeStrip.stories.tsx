@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import TimeStrip from '../../components/WeatherForecast/TimeStrip';
-import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
+import { componentDecorators } from '../Pages/config/Decorators';
 import { buildMockForecast } from './mockData';
 
 const forecast = buildMockForecast();
@@ -24,7 +24,7 @@ const forecast = buildMockForecast();
 const meta: Meta<typeof TimeStrip> = {
   title: 'Components/WeatherForecast/TimeStrip',
   component: TimeStrip,
-  decorators: componentDecoratorsWithoutPadding,
+  decorators: componentDecorators,
 };
 export default meta;
 

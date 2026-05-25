@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 .strip {
   display: flex;
   align-items: center;
@@ -19,7 +34,7 @@
   background: transparent;
   border: 0;
   border-radius: 4px;
-  color: var(--Colors-Primary-Primary-teal-700);
+  color: var(--Colors-Primary-Primary-teal-900);
   cursor: pointer;
 
   svg {
@@ -65,7 +80,7 @@
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1;
+  line-height: normal;
   color: var(--Colors-Primary-Primary-teal-900);
   font-family: inherit;
   cursor: pointer;
@@ -81,4 +96,6 @@
   background-color: var(--Colors-Primary-Primary-teal-700);
   color: var(--Colors-Primary-Primary-teal-50);
   border-color: var(--Colors-Primary-Primary-teal-400);
+  font-weight: 700;
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 }

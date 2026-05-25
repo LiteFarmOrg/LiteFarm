@@ -26,5 +26,5 @@ export default meta;
 
 type Story = StoryObj<typeof FrostBanner>;
 
-export const Metric: Story = { args: { thresholdLabel: '< 2°C' } };
-export const Imperial: Story = { args: { thresholdLabel: '< 36°F' } };
+export const Metric: Story = { args: { measurement: 'metric' } };
+export const Imperial: Story = { args: { measurement: 'imperial' } };

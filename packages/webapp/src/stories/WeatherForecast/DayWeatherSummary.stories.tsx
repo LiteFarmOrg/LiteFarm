@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import DayWeatherSummary from '../../components/WeatherForecast/DayWeatherSummary';
-import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
+import { componentDecorators } from '../Pages/config/Decorators';
 import { groupSlotsByLocalDay } from '../../containers/WeatherForecast/selectors';
 import { buildMockForecast } from './mockData';
 
@@ -25,7 +25,7 @@ const days = groupSlotsByLocalDay(forecast);
 const meta: Meta<typeof DayWeatherSummary> = {
   title: 'Components/WeatherForecast/DayWeatherSummary',
   component: DayWeatherSummary,
-  decorators: componentDecoratorsWithoutPadding,
+  decorators: componentDecorators,
 };
 export default meta;
 
@@ -36,7 +36,7 @@ export const Default: Story = {
     day: days[0],
     selectedSlot: forecast.slots[days[0].slotIndices[0]],
     measurement: 'metric',
-    locale: 'en-US',
+    locale: 'en',
   },
 };
 
@@ -45,7 +45,7 @@ export const WithFrostBanner: Story = {
     day: days[2],
     selectedSlot: forecast.slots[days[2].slotIndices[0]],
     measurement: 'metric',
-    locale: 'en-US',
+    locale: 'en',
   },
 };
 
@@ -54,6 +54,6 @@ export const Imperial: Story = {
     day: days[0],
     selectedSlot: forecast.slots[days[0].slotIndices[0]],
     measurement: 'imperial',
-    locale: 'en-US',
+    locale: 'en',
   },
 };

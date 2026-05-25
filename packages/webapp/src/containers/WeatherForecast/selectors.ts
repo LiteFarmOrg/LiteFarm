@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { convert } from '../../util/convert-units/convert';
 import type { WeatherForecast, WeatherForecastSlot } from '../../store/api/types';
 
 export type Measurement = 'metric' | 'imperial';
@@ -130,37 +131,24 @@ export function formatTimeChipLabel(
     .replace(/\s*PM$/i, 'pm')
     .trim();
 }
-
-export function convertTempForDisplay(
-  tempC: number,
-  measurement: Measurement,
-): { value: number; unit: '°C' | '°F' } {
-  if (measurement === 'imperial') {
-    return { value: Math.round((tempC * 9) / 5 + 32), unit: '°F' };
-  }
-  return { value: Math.round(tempC), unit: '°C' };
+export function convertTempForDisplay(tempC: number, measurement: Measurement): string {
+  const value = Math.round(measurement === 'metric' ? tempC : convert(tempC).from('C').to('F'));
+  const unit = measurement === 'metric' ? '°C' : '°F';
+  return `${value}${unit}`;
 }
 
-export function convertWindForDisplay(
-  windMs: number,
-  measurement: Measurement,
-): { value: number; unit: 'km/h' | 'mph' } {
-  if (measurement === 'imperial') {
-    return { value: Math.round(windMs * 2.237), unit: 'mph' };
-  }
-  return { value: Math.round(windMs * 3.6), unit: 'km/h' };
+export function convertWindForDisplay(windMs: number, measurement: Measurement): string {
+  const unit = measurement === 'metric' ? 'km/h' : 'mph';
+  const value = Math.round(convert(windMs).from('m/s').to(unit));
+  return `${value} ${unit}`;
 }
 
-export function convertPrecipitationForDisplay(
-  rainMm: number,
-  measurement: Measurement,
-): { value: number; unit: 'mm' | 'in' } {
-  if (measurement === 'imperial') {
-    return { value: Number((rainMm * 0.0394).toFixed(2)), unit: 'in' };
-  }
-  return { value: Math.round(rainMm), unit: 'mm' };
+export function convertPrecipitationForDisplay(rainMm: number, measurement: Measurement): string {
+  const unit = measurement === 'imperial' ? 'in' : 'mm';
+  const value = Math.round(convert(rainMm).from('mm').to(unit));
+  return `${value} ${unit}`;
 }
 
 export function frostThresholdLabel(measurement: Measurement): string {
-  return measurement === 'imperial' ? '<36°F' : '<2°C';
+  return measurement === 'imperial' ? '< 36°F' : '< 2°C';
 }

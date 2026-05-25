@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -20,7 +20,6 @@ import {
   convertTempForDisplay,
   convertWindForDisplay,
   formatLongDate,
-  frostThresholdLabel,
 } from '../../../containers/WeatherForecast/selectors';
 import type { WeatherForecastSlot } from '../../../store/api/types';
 import DescriptionList, { LabelSize } from '../../Tile/DescriptionList';
@@ -40,18 +39,15 @@ const DayWeatherSummary = ({ day, selectedSlot, measurement, locale }: DayWeathe
   const { t } = useTranslation();
   const temp = convertTempForDisplay(selectedSlot.tempC, measurement);
   const wind = convertWindForDisplay(selectedSlot.windMs, measurement);
-  const precip = convertPrecipitationForDisplay(selectedSlot.rainMm3h, measurement);
+  const precipitation = convertPrecipitationForDisplay(selectedSlot.rainMm3h, measurement);
 
   return (
     <div className={styles.summary}>
-      {day.isFrost && <FrostBanner thresholdLabel={frostThresholdLabel(measurement)} />}
+      {day.isFrost && <FrostBanner measurement={measurement} />}
       <div className={styles.titleRow}>
         <span className={styles.date}>{formatLongDate(day, locale)}</span>
         <div className={styles.tempBlock}>
-          <span className={styles.temp}>
-            {temp.value}
-            {temp.unit}
-          </span>
+          <span className={styles.temp}>{temp}</span>
           <WeatherIcon name={weatherBoardUtil.getIcon(selectedSlot.iconCode)} />
         </div>
       </div>
@@ -60,7 +56,7 @@ const DayWeatherSummary = ({ day, selectedSlot, measurement, locale }: DayWeathe
         descriptionListTilesProps={[
           {
             label: t('WEATHER.PRECIPITATION'),
-            data: `${precip.value} ${precip.unit}`,
+            data: precipitation,
             labelSize: LabelSize.SMALL,
           },
           {
@@ -70,7 +66,7 @@ const DayWeatherSummary = ({ day, selectedSlot, measurement, locale }: DayWeathe
           },
           {
             label: t('WEATHER.WIND_SPEED'),
-            data: `${wind.value} ${wind.unit}`,
+            data: wind,
             labelSize: LabelSize.SMALL,
           },
         ]}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import DayPillRow from '../../components/WeatherForecast/DayPillRow';
-import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
+import { componentDecorators } from '../Pages/config/Decorators';
 import {
   formatDayPillLabel,
   groupSlotsByLocalDay,
@@ -30,12 +30,12 @@ const todayYmd = localYmdFromUtcMs(
   forecast.slots[0].dt * 1000,
   forecast.city.timezoneOffsetSeconds,
 );
-const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en-US', 'Today'));
+const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en', 'Today'));
 
 const meta: Meta<typeof DayPillRow> = {
   title: 'Components/WeatherForecast/DayPillRow',
   component: DayPillRow,
-  decorators: componentDecoratorsWithoutPadding,
+  decorators: componentDecorators,
 };
 export default meta;
 
@@ -48,7 +48,6 @@ const Wrapper = (args: { initialIndex: number }) => {
       days={days}
       labels={labels}
       selectedDayIndex={selectedDayIndex}
-      frostLabel="Frost risk"
       onDayClick={setSelectedDayIndex}
     />
   );

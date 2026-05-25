@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,6 +14,7 @@
  */
 
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import type { ForecastDay } from '../../../containers/WeatherForecast/selectors';
 import styles from './styles.module.scss';
 
@@ -21,17 +22,12 @@ export interface DayPillRowProps {
   days: ForecastDay[];
   selectedDayIndex: number;
   labels: string[];
-  frostLabel: string;
   onDayClick: (dayIndex: number) => void;
 }
 
-const DayPillRow = ({
-  days,
-  selectedDayIndex,
-  labels,
-  frostLabel,
-  onDayClick,
-}: DayPillRowProps) => {
+const DayPillRow = ({ days, selectedDayIndex, labels, onDayClick }: DayPillRowProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.row}>
       {days.map((day, index) => {
@@ -44,14 +40,8 @@ const DayPillRow = ({
             className={clsx(styles.pill, selected && styles.selected)}
             onClick={() => onDayClick(index)}
           >
-            <span className={styles.label}>{labels[index]}</span>
-            {day.isFrost && (
-              <>
-                <span aria-hidden="true" className={styles.divider} />
-                <span className={styles.frostLabel}>{frostLabel}</span>
-                <span className={styles.visuallyHidden}>{frostLabel}</span>
-              </>
-            )}
+            <span>{labels[index]}</span>
+            {day.isFrost && <span className={styles.frostLabel}>{t('WEATHER.FROST_RISK')}</span>}
           </button>
         );
       })}

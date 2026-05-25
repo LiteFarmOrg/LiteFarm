@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -15,16 +15,16 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import FrostBanner from '../../components/WeatherForecast/FrostBanner';
-import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 const meta: Meta<typeof FrostBanner> = {
   title: 'Components/WeatherForecast/FrostBanner',
   component: FrostBanner,
-  decorators: componentDecoratorsWithoutPadding,
+  decorators: componentDecorators,
 };
 export default meta;
 
 type Story = StoryObj<typeof FrostBanner>;
 
-export const Metric: Story = { args: { thresholdLabel: '<2°C' } };
-export const Imperial: Story = { args: { thresholdLabel: '<36°F' } };
+export const Metric: Story = { args: { thresholdLabel: '< 2°C' } };
+export const Imperial: Story = { args: { thresholdLabel: '< 36°F' } };

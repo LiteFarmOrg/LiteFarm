@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -24,7 +24,10 @@ const FrostBanner = ({ thresholdLabel }: FrostBannerProps) => {
   const { t } = useTranslation();
   return (
     <div className={styles.banner} role="status">
-      {t('WEATHER.FROST_EXPECTED', { threshold: thresholdLabel })}
+      {t('WEATHER.FROST_EXPECTED', {
+        threshold: thresholdLabel,
+        interpolation: { escapeValue: false },
+      })}
     </div>
   );
 };

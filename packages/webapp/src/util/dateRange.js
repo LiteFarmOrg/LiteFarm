@@ -101,12 +101,20 @@ export default class DateRange {
     return getStartAndEndDateOfMonth(lastMonthDate);
   }
 
+  getLast12MonthsDateRange() {
+    return {
+      startDate: getLocalDateInYYYYDDMM(addDaysToDate(this.baseDate, -365)),
+      endDate: getLocalDateInYYYYDDMM(this.baseDate),
+    };
+  }
+
   getDates(range) {
     return {
       [options.YEAR_TO_DATE]: () => getStartAndEndDateOfYearToDate(this.baseDate),
       [options.LAST_7_DAYS]: () => this.getLastDaysOptionDateRange(6),
       [options.LAST_14_DAYS]: () => this.getLastDaysOptionDateRange(13),
       [options.LAST_30_DAYS]: () => this.getLastDaysOptionDateRange(29),
+      [options.LAST_12_MONTHS]: () => this.getLast12MonthsDateRange(),
       [options.THIS_WEEK]: () => getStartAndEndDateOfWeek(this.baseDate, this.weekStartDay),
       [options.LAST_WEEK]: () => this.getLastWeekDateRange(),
       [options.THIS_MONTH]: () => getStartAndEndDateOfMonth(this.baseDate),

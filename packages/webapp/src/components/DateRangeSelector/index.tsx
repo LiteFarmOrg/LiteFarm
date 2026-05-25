@@ -17,9 +17,10 @@ import clsx from 'clsx';
 import moment, { Moment } from 'moment';
 import DateRange, { SUNDAY, MONDAY } from '../../util/dateRange';
 import DateRangeInput from './DateRangeInput';
+import { findDynamicDateRange, isStaticDateRangeOption } from './helpers';
 import { DateRangeOptions } from './types';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
-import { DateRangeData } from './types';
+import { DateRangeData, DynamicDateRangeOption } from './types';
 import styles from './styles.module.scss';
 
 /**
@@ -48,6 +49,20 @@ interface DateRangeSelectorProps {
   className?: string;
   defaultValue: DateRangeOptions;
   weekStartDate?: typeof SUNDAY | typeof MONDAY;
+
+  /**
+   * Optional explicit allowlist of built-in options to render, in the order
+   * given. When omitted, the dropdown renders the same options it did before
+   * this prop existed.
+   */
+  allowedOptions?: DateRangeOptions[];
+
+  /**
+   * Optional caller-supplied entries to render between the static options and
+   * the `CUSTOM` row. Selecting one persists the entry's `value` and pre-baked
+   * `startDate` / `endDate` into the date-range state.
+   */
+  dynamicOptions?: DynamicDateRangeOption[];
 }
 
 const isDateValid = (date: string | Moment | undefined): boolean => {
@@ -61,6 +76,8 @@ const DateRangeSelector = ({
   className,
   defaultValue = DateRangeOptions.YEAR_TO_DATE,
   weekStartDate = SUNDAY,
+  allowedOptions,
+  dynamicOptions,
 }: DateRangeSelectorProps) => {
   const { option, customRange = {} } = dateRange;
   const initialOption = option || defaultValue;
@@ -81,15 +98,22 @@ const DateRangeSelector = ({
     updateDateRange(newDateRange);
   };
 
-  const onChangeDateRangeOption = (value: DateRangeOptions) => {
+  const onChangeDateRangeOption = (value: DateRangeOptions | string) => {
     let newDateRange: DateRangeData = { option: value };
-    if (value !== DateRangeOptions.CUSTOM) {
+    if (value === DateRangeOptions.CUSTOM) {
+      if (
+        Object.keys(customRange).length === 2 &&
+        Object.values(customRange).every((date) => date && isDateValid(date))
+      ) {
+        newDateRange = { ...newDateRange, ...customRange };
+      }
+    } else if (isStaticDateRangeOption(value)) {
       newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
-    } else if (
-      Object.keys(customRange).length === 2 &&
-      Object.values(customRange).every((date) => date && isDateValid(date))
-    ) {
-      newDateRange = { ...newDateRange, ...customRange };
+    } else {
+      const dynamic = findDynamicDateRange(value, dynamicOptions);
+      if (dynamic) {
+        newDateRange = { ...newDateRange, ...dynamic };
+      }
     }
 
     updateDateRange(newDateRange);
@@ -103,6 +127,8 @@ const DateRangeSelector = ({
         onChangeDateRangeOption={onChangeDateRangeOption}
         changeDateRangeMethod={changeDateRange}
         onValidityChange={onValidityChange}
+        allowedOptions={allowedOptions}
+        dynamicOptions={dynamicOptions}
       />
     </div>
   );

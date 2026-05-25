@@ -1,0 +1,33 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+export const TOP_EXPENSE_CATEGORIES_COUNT = 5;
+
+export const FARM_GENERAL_ROW_ID = 'farm_general';
+
+export enum EntityTab {
+  CROPS = 'crops',
+  ANIMALS = 'animals',
+  ALL = 'all',
+}
+
+export enum KpiVariant {
+  NET_PROFIT = 'net_profit',
+  REVENUE = 'revenue',
+  EXPENSES = 'expenses',
+  MARGIN = 'margin',
+}
+
+export type TrendDirection = 'up' | 'down' | 'flat';

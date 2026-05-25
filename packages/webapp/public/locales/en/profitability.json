@@ -1,0 +1,42 @@
+{
+  "EMPTY_BANNER": {
+    "CTA": "Add transactions",
+    "TEXT": "Add a sale or expense to see your farm's profitability."
+  },
+  "KPI": {
+    "MARGIN": "Margin",
+    "NET_PROFIT": "Net profit",
+    "TOTAL_EXPENSES": "Total expenses",
+    "TOTAL_REVENUE": "Total revenue",
+    "YOY_TOOLTIP": "Comparison against the same-length range immediately preceding the selected one.",
+    "YOY_TREND": "vs last year"
+  },
+  "LABOUR": "Labour",
+  "LESS_DATA": "Less data",
+  "MORE_DATA": "More data",
+  "REVENUE_GROUP": {
+    "ANIMAL_SALES": "Animal sales",
+    "CROP_SALES": "Crop sales",
+    "FARM_GENERAL": "Farm-general revenues"
+  },
+  "REVENUE_SOURCES": "Revenue sources",
+  "TABLE": {
+    "ANIMAL": "Animal",
+    "ENTITY": "Entity",
+    "EXPENSE": "Expense",
+    "FARM_GENERATED_EXPENSES": "Farm-generated expenses",
+    "NET_PROFIT": "Net profit",
+    "NOT_YET": "Not yet",
+    "REVENUE": "Revenue",
+    "VARIETY": "Variety"
+  },
+  "TABS": {
+    "ALL": "All",
+    "ANIMALS": "Animals",
+    "CROPS": "Crops"
+  },
+  "TOP_EXPENSE_CATEGORIES": "Top expense categories",
+  "DATE_RANGE": {
+    "YEAR_LABEL": "{{year}}"
+  }
+}

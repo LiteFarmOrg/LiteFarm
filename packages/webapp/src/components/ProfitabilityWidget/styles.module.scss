@@ -1,0 +1,323 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+/* ── KpiCard ────────────────────────────────────────────── */
+
+.kpiCard {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: transparent;
+}
+
+.kpiCard.hero {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpiBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpiLabel {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #66738a;
+}
+
+.kpiValue {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.kpiTrend {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kpiTrend .suffix {
+  color: #66738a;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Variants */
+.netProfit {
+  background-color: rgba(0, 160, 175, 0.05);
+  border-color: rgba(0, 160, 175, 0.2);
+}
+.netProfit .kpiValue {
+  color: #00a0af;
+}
+.netProfit .kpiTrend {
+  color: #00727d;
+}
+
+.revenue {
+  border-color: rgba(192, 225, 221, 0.8);
+}
+.revenue .kpiValue {
+  color: #308f85;
+}
+.revenue.expanded {
+  background-color: rgba(48, 143, 133, 0.05);
+}
+
+.expenses {
+  border-color: rgba(235, 96, 52, 0.2);
+}
+.expenses .kpiValue {
+  color: #eb6034;
+}
+.expenses.expanded {
+  background-color: rgba(235, 96, 52, 0.05);
+}
+
+.margin {
+  border-color: #f4e8ff;
+}
+.margin .kpiValue {
+  color: #3a0070;
+}
+.margin.expanded {
+  background-color: rgba(58, 0, 112, 0.05);
+}
+
+/* ── KpiSection ─────────────────────────────────────────── */
+
+.kpiSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kpiCompactRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* ── RevenueExpenseBars ─────────────────────────────────── */
+
+.revenueExpenseBars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.barsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.barsColumnHeading {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #434843;
+}
+
+.barRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.barRowHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #1f2934;
+}
+
+.barRowValue {
+  font-weight: 600;
+}
+
+/* ── EntityProfitTable ──────────────────────────────────── */
+
+.entityProfitTable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profitabilityTableHeader {
+  background-color: #fbf9f6;
+  border-bottom: 1px solid #f4efe4;
+  color: #434843;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+}
+
+.cellRevenue {
+  color: #308f85;
+  text-align: right;
+}
+.cellRevenueNotYet {
+  color: #1f2934;
+  text-align: right;
+}
+.cellExpense {
+  color: #eb6034;
+  text-align: right;
+}
+.cellNetProfit {
+  color: #00a0af;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ── ExpandableSection ──────────────────────────────────── */
+
+.expandableSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.expandableSection.expanded {
+  border: 1px solid #e9f3ff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.expandableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0669e1;
+}
+
+.expandableSection.expanded .expandableHeader {
+  background-color: #f7fbff;
+}
+
+.expandableChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background-color: #e9f3ff;
+  border: 1px solid #bad9ff;
+}
+
+.expandableBody {
+  padding: 16px;
+}
+
+/* ── EmptyTransactionsBanner ────────────────────────────── */
+
+.emptyBanner {
+  background-color: #f2faf5;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.emptyBannerText {
+  font-size: 14px;
+  color: #1f2934;
+}
+
+.emptyBannerButton {
+  border: 1px solid #308f85;
+  color: #308f85;
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.emptyBannerButton:hover {
+  background-color: rgba(48, 143, 133, 0.05);
+}
+
+/* ── Skeleton ───────────────────────────────────────────── */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonPlaceholder {
+  background-color: #f0f1f3;
+  border-radius: 6px;
+}
+
+.skeletonHeader {
+  height: 24px;
+}
+
+.skeletonKpiHero {
+  height: 80px;
+}
+
+.skeletonKpiCompactRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.skeletonKpiCompact {
+  height: 64px;
+}
+
+.skeletonBarsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.skeletonBar {
+  height: 48px;
+}
+
+.skeletonTable {
+  height: 200px;
+}

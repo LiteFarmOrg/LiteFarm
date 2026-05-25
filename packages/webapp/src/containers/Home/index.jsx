@@ -48,7 +48,7 @@ export default function Home() {
     >
       <FarmNotes />
 
-      {userFarm ? <WeatherBoard /> : null}
+      {/* {userFarm ? <WeatherBoard /> : null} */}
       {userFarm ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 

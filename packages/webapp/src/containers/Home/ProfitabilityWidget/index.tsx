@@ -147,8 +147,6 @@ const ProfitabilityWidget = () => {
           trend: {
             percent: data.yoyTrend.percent,
             direction: data.yoyTrend.direction,
-            suffixLabel: t('KPI.YOY_TREND'),
-            tooltip: t('KPI.YOY_TOOLTIP'),
           },
         }}
         totalRevenue={{

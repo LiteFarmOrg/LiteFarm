@@ -26,7 +26,7 @@ const kpiProps = {
   netProfit: {
     label: 'Net profit',
     value: '$12,450.00',
-    trend: { percent: 18.5, direction: 'up' as const, suffixLabel: 'vs last year' },
+    trend: { percent: 18.5, direction: 'up' as const },
   },
   totalRevenue: { label: 'Total revenue', value: '$24,800' },
   totalExpenses: { label: 'Total expenses', value: '$12,350' },
@@ -57,7 +57,7 @@ export const TrendDown = {
         netProfit={{
           label: 'Net profit',
           value: '-$3,200.00',
-          trend: { percent: 12, direction: 'down', suffixLabel: 'vs last year' },
+          trend: { percent: 12, direction: 'down' },
         }}
       />
     </div>

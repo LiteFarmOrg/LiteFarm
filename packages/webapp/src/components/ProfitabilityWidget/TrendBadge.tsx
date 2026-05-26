@@ -14,14 +14,13 @@
  */
 
 import { Tooltip } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { TrendDirection } from './constants';
 import styles from './styles.module.scss';
 
 export interface TrendBadgeProps {
   percent: number;
   direction: TrendDirection;
-  suffixLabel: string;
-  tooltip?: string;
 }
 
 const directionArrow = (direction: TrendDirection): string => {
@@ -30,17 +29,21 @@ const directionArrow = (direction: TrendDirection): string => {
   return '→';
 };
 
-const TrendBadge = ({ percent, direction, suffixLabel, tooltip }: TrendBadgeProps) => (
-  <Tooltip title={tooltip ?? ''} placement="top" arrow disableHoverListener={!tooltip}>
-    <span className={styles.trendBadge}>
-      <span aria-hidden="true">{directionArrow(direction)}</span>
-      <span>
-        {direction === 'up' ? '+' : direction === 'down' ? '-' : ''}
-        {percent}%
+const TrendBadge = ({ percent, direction }: TrendBadgeProps) => {
+  const { t } = useTranslation('profitability');
+
+  return (
+    <Tooltip title={t('KPI.YOY_TOOLTIP')} placement="top" arrow>
+      <span className={styles.trendBadge}>
+        <span aria-hidden="true">{directionArrow(direction)}</span>
+        <span>
+          {direction === 'up' ? '+' : direction === 'down' ? '-' : ''}
+          {percent}%
+        </span>
+        <span className={styles.trendSuffix}>{t('KPI.YOY_TREND')}</span>
       </span>
-      <span className={styles.trendSuffix}>{suffixLabel}</span>
-    </span>
-  </Tooltip>
-);
+    </Tooltip>
+  );
+};
 
 export default TrendBadge;

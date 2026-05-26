@@ -11,7 +11,7 @@
     "TOTAL_EXPENSES": "Total expenses",
     "TOTAL_REVENUE": "Total revenue",
     "YOY_TOOLTIP": "Comparison against the same-length range immediately preceding the selected one.",
-    "YOY_TREND": "vs last year"
+    "YOY_TREND": "vs previous year"
   },
   "LABOUR": "Labour",
   "LESS_DATA": "Less data",

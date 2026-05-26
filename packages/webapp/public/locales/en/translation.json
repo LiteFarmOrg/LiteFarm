@@ -2216,6 +2216,10 @@
     "UPLOAD_LAB_DOCUMENT": "Upload lab document",
     "WILL_SAVE_ONLINE": "Will save when online"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Next time slot",
+    "PREVIOUS_TIME_SLOT": "Previous time slot"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "days",
@@ -2248,9 +2252,7 @@
     "FROST_EXPECTED": "⚠️ Frost Expected (Low {{threshold}})",
     "FROST_RISK": "Frost risk",
     "HUMIDITY": "Humidity",
-    "NEXT_TIME_SLOT": "Next time slot",
     "PRECIPITATION": "Precipitation",
-    "PREVIOUS_TIME_SLOT": "Previous time slot",
     "TITLE": "Weather & conditions",
     "WIND": "Wind",
     "WIND_SPEED": "Wind speed"

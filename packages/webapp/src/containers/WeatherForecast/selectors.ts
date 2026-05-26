@@ -118,23 +118,6 @@ export function formatLongDate(day: ForecastDay, locale: string): string {
   });
 }
 
-export function formatTimeChipLabel(utcMs: number, offsetSeconds: number, locale: string): string {
-  const localMs = (utcMs + offsetSeconds) * 1000;
-  const date = new Date(localMs);
-  const formatter = new Intl.DateTimeFormat(locale, {
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: 'UTC',
-  });
-  let label = formatter.format(date);
-  if (date.getUTCMinutes() === 0) {
-    label = label.replace(/:00/, '');
-  }
-  return label
-    .replace(/\s*AM$/i, 'am')
-    .replace(/\s*PM$/i, 'pm')
-    .trim();
-}
 export function convertTempForDisplay(tempC: number, measurement: Measurement): string {
   const value = Math.round(measurement === 'metric' ? tempC : convert(tempC).from('C').to('F'));
   const unit = measurement === 'metric' ? '°C' : '°F';

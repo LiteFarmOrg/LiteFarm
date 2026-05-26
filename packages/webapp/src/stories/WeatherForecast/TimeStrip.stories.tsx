@@ -17,9 +17,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import TimeStrip from '../../components/WeatherForecast/TimeStrip';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { buildMockForecast } from './mockData';
-
-const forecast = buildMockForecast();
 
 const meta: Meta<typeof TimeStrip> = {
   title: 'Components/WeatherForecast/TimeStrip',
@@ -30,29 +27,34 @@ export default meta;
 
 type Story = StoryObj<typeof TimeStrip>;
 
+const date = new Date(2000, 1, 1, 0, 0, 0, 0);
+const slots = Array.from({ length: 8 }, (_, index) => ({
+  dt: date.getTime() / 1000 + index * 3 * 3600,
+}));
+
 const Wrapper = (args: { initialIndex: number }) => {
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(args.initialIndex);
   const isFirstindex = selectedSlotIndex === 0;
-  const isLastIndex = selectedSlotIndex === forecast.slots.length - 1;
+  const isLastIndex = selectedSlotIndex === slots.length - 1;
   return (
     <TimeStrip
-      slots={forecast.slots}
+      slots={slots}
       selectedSlotIndex={selectedSlotIndex}
-      offsetSeconds={forecast.city.timezoneOffsetSeconds}
+      offsetSeconds={-(date.getTimezoneOffset() * 60)}
       locale="en-US"
       onSelect={setSelectedSlotIndex}
       onPrev={isFirstindex ? undefined : () => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
       onNext={
         isLastIndex
           ? undefined
-          : () => setSelectedSlotIndex((i) => Math.min(forecast.slots.length - 1, i + 1))
+          : () => setSelectedSlotIndex((i) => Math.min(slots.length - 1, i + 1))
       }
     />
   );
 };
 
 export const FirstSlotSelected: Story = { render: () => <Wrapper initialIndex={0} /> };
-export const MiddleSlotSelected: Story = { render: () => <Wrapper initialIndex={20} /> };
+export const MiddleSlotSelected: Story = { render: () => <Wrapper initialIndex={4} /> };
 export const LastSlotSelected: Story = {
-  render: () => <Wrapper initialIndex={forecast.slots.length - 1} />,
+  render: () => <Wrapper initialIndex={slots.length - 1} />,
 };

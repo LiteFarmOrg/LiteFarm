@@ -18,12 +18,10 @@ import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { formatTimeChipLabel } from '../../../containers/WeatherForecast/selectors';
-import type { WeatherForecastSlot } from '../../../store/api/types';
 import styles from './styles.module.scss';
 
 interface TimeStripProps {
-  slots: WeatherForecastSlot[];
+  slots: { dt: number }[];
   selectedSlotIndex: number;
   offsetSeconds: number;
   locale: string;
@@ -59,7 +57,7 @@ const TimeStrip = ({
         className={styles.chevron}
         onClick={onPrev}
         disabled={!onPrev}
-        aria-label={t('WEATHER.PREVIOUS_TIME_SLOT')}
+        aria-label={t('TIME_STRIP.PREVIOUS_TIME_SLOT')}
       >
         <ChevronLeft />
       </button>
@@ -87,12 +85,30 @@ const TimeStrip = ({
         className={styles.chevron}
         onClick={onNext}
         disabled={!onNext}
-        aria-label={t('WEATHER.NEXT_TIME_SLOT')}
+        aria-label={t('TIME_STRIP.NEXT_TIME_SLOT')}
       >
         <ChevronRight />
       </button>
     </div>
   );
 };
+
+export function formatTimeChipLabel(utcMs: number, offsetSeconds: number, locale: string): string {
+  const localMs = (utcMs + offsetSeconds) * 1000;
+  const date = new Date(localMs);
+  const formatter = new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  });
+  let label = formatter.format(date);
+  if (date.getUTCMinutes() === 0) {
+    label = label.replace(/:00/, '');
+  }
+  return label
+    .replace(/\s*AM$/i, 'am')
+    .replace(/\s*PM$/i, 'pm')
+    .trim();
+}
 
 export default TimeStrip;

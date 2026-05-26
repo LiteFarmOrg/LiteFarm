@@ -15,11 +15,11 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import TimeStrip from '../../components/WeatherForecast/TimeStrip';
+import TimeStrip from '../../components/TimeStrip';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 const meta: Meta<typeof TimeStrip> = {
-  title: 'Components/WeatherForecast/TimeStrip',
+  title: 'Components/TimeStrip',
   component: TimeStrip,
   decorators: componentDecorators,
 };

@@ -18,7 +18,7 @@ import type { ForecastDay, Measurement } from '../../containers/WeatherForecast/
 import type { WeatherForecastSlot } from '../../store/api/types';
 import DayPillRow from './DayPillRow';
 import DayWeatherSummary from './DayWeatherSummary';
-import TimeStrip from './TimeStrip';
+import TimeStrip from '../TimeStrip';
 import { LoadingSpinner } from '../Loading/LoadingV2';
 import styles from './styles.module.scss';
 

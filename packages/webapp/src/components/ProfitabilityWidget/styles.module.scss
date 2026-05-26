@@ -18,7 +18,7 @@
 .kpiSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 /* Hero tile — nesting under .kpiHero gives (0,2,0) specificity,
@@ -29,10 +29,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 8px 16px;
   border: 1px solid rgba(0, 160, 175, 0.2);
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: rgba(0, 160, 175, 0.05);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
 
   .kpiHeroTile {
     height: auto;
@@ -41,14 +42,15 @@
 
     dt {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      color: #66738a;
+      color: #00a0af;
     }
 
     dd {
       color: #00a0af;
+      text-shadow: 1px 1px 0 white;
     }
   }
 }
@@ -56,8 +58,8 @@
 /* ── TrendBadge ────────────────────────────────────────── */
 
 .trendBadge {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -65,8 +67,8 @@
 }
 
 .trendSuffix {
-  color: #66738a;
-  font-weight: 400;
+  color: #00727d;
+  font-weight: 600;
   margin-left: 4px;
 }
 
@@ -76,38 +78,42 @@
 .kpiCompactRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 8px;
 
   .kpiTile {
     height: auto;
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 4px;
+    padding: 8px 16px;
     background-color: transparent;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
 
     dt {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      color: #66738a;
+    }
+
+    dd {
+      text-shadow: 1px 1px 0 white;
     }
   }
 
   .kpiTile.revenue {
     border-color: rgba(192, 225, 221, 0.8);
-    dd { color: #308f85; }
+    color: #308f85;
     &.expanded { background-color: rgba(48, 143, 133, 0.05); }
   }
 
   .kpiTile.expenses {
     border-color: rgba(235, 96, 52, 0.2);
-    dd { color: #eb6034; }
+    color: #eb6034;
     &.expanded { background-color: rgba(235, 96, 52, 0.05); }
   }
 
   .kpiTile.margin {
     border-color: #f4e8ff;
-    dd { color: #3a0070; }
+    color: #3a0070;
     &.expanded { background-color: rgba(58, 0, 112, 0.05); }
   }
 }

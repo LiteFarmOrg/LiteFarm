@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import {
 } from './selectors';
 
 export default function WeatherForecast() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const measurement = useSelector(measurementSelector) as Measurement;
   const { data, isLoading } = useGetWeatherForecastQuery();
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
@@ -37,28 +37,22 @@ export default function WeatherForecast() {
 
   const days = useMemo(() => (data ? groupSlotsByLocalDay(data) : []), [data]);
 
-  const todayLocalYmd = useMemo(
-    () => localYmdFromUtcMs(Date.now(), offsetSeconds),
-    [offsetSeconds],
-  );
-
-  const dayPillLabels = useMemo(
-    () => days.map((d) => formatDayPillLabel(d, todayLocalYmd, i18n.language, t('WEATHER.TODAY'))),
-    [days, todayLocalYmd, i18n.language, t],
-  );
+  const dayPillLabels = useMemo(() => {
+    const todayLocalYmd = localYmdFromUtcMs(Date.now(), offsetSeconds);
+    return days.map((d) => formatDayPillLabel(d, todayLocalYmd, i18n.language));
+  }, [days, offsetSeconds, i18n.language]);
 
   const selectedDayIndex = useMemo(
     () => days.findIndex((d) => d.slotIndices.includes(selectedSlotIndex)),
     [days, selectedSlotIndex],
   );
 
-  if (isLoading || !data || data.slots.length === 0) {
-    return null;
-  }
-
-  const selectedSlot = data.slots[selectedSlotIndex];
+  const selectedSlot = data?.slots[selectedSlotIndex];
 
   const onDayClick = (dayIndex: number) => {
+    if (!selectedSlot) {
+      return;
+    }
     const currentHour = localHourOfSlot(selectedSlot, offsetSeconds);
     const target = days[dayIndex];
     const match = target.slotIndices.find(
@@ -67,21 +61,29 @@ export default function WeatherForecast() {
     setSelectedSlotIndex(match ?? target.slotIndices[0]);
   };
 
+  const onNext = () => {
+    if (!data?.slots?.length) {
+      return;
+    }
+    setSelectedSlotIndex((i) => Math.min(data.slots.length - 1, i + 1));
+  };
+
   return (
     <PureWeatherForecast
+      isLoading={isLoading}
       days={days}
       dayPillLabels={dayPillLabels}
       selectedDayIndex={selectedDayIndex}
       selectedSlot={selectedSlot}
       selectedSlotIndex={selectedSlotIndex}
-      slots={data.slots}
+      slots={data?.slots}
       offsetSeconds={offsetSeconds}
       measurement={measurement}
       locale={i18n.language}
       onDayClick={onDayClick}
       onSelectSlot={setSelectedSlotIndex}
       onPrev={() => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
-      onNext={() => setSelectedSlotIndex((i) => Math.min(data.slots.length - 1, i + 1))}
+      onNext={onNext}
     />
   );
 }

@@ -19,15 +19,17 @@ import type { WeatherForecastSlot } from '../../store/api/types';
 import DayPillRow from './DayPillRow';
 import DayWeatherSummary from './DayWeatherSummary';
 import TimeStrip from './TimeStrip';
+import { LoadingSpinner } from '../Loading/LoadingV2';
 import styles from './styles.module.scss';
 
 export interface PureWeatherForecastProps {
+  isLoading: boolean;
   days: ForecastDay[];
   dayPillLabels: string[];
   selectedDayIndex: number;
-  selectedSlot: WeatherForecastSlot;
+  selectedSlot?: WeatherForecastSlot;
   selectedSlotIndex: number;
-  slots: WeatherForecastSlot[];
+  slots?: WeatherForecastSlot[];
   offsetSeconds: number;
   measurement: Measurement;
   locale: string;
@@ -38,6 +40,7 @@ export interface PureWeatherForecastProps {
 }
 
 const PureWeatherForecast = ({
+  isLoading,
   days,
   dayPillLabels,
   selectedDayIndex,
@@ -56,27 +59,36 @@ const PureWeatherForecast = ({
   return (
     <section className={styles.card}>
       <h2 className={styles.title}>{t('WEATHER.TITLE')}</h2>
-      <DayPillRow
-        days={days}
-        labels={dayPillLabels}
-        selectedDayIndex={selectedDayIndex}
-        onDayClick={onDayClick}
-      />
-      <DayWeatherSummary
-        day={days[selectedDayIndex]}
-        selectedSlot={selectedSlot}
-        measurement={measurement}
-        locale={locale}
-      />
-      <TimeStrip
-        slots={slots}
-        selectedSlotIndex={selectedSlotIndex}
-        offsetSeconds={offsetSeconds}
-        locale={locale}
-        onSelect={onSelectSlot}
-        onPrev={onPrev}
-        onNext={onNext}
-      />
+      {isLoading && (
+        <div className={styles.spinner}>
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && selectedSlot && slots && (
+        <>
+          <DayPillRow
+            days={days}
+            labels={dayPillLabels}
+            selectedDayIndex={selectedDayIndex}
+            onDayClick={onDayClick}
+          />
+          <DayWeatherSummary
+            day={days[selectedDayIndex]}
+            selectedSlot={selectedSlot}
+            measurement={measurement}
+            locale={locale}
+          />
+          <TimeStrip
+            slots={slots}
+            selectedSlotIndex={selectedSlotIndex}
+            offsetSeconds={offsetSeconds}
+            locale={locale}
+            onSelect={onSelectSlot}
+            onPrev={onPrev}
+            onNext={onNext}
+          />
+        </>
+      )}
     </section>
   );
 };

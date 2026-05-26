@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -39,10 +39,12 @@ const Wrapper = ({
   frostDayIndex,
   initialSlotIndex,
   measurement = 'metric',
+  isLoading = false,
 }: {
   frostDayIndex?: number;
   initialSlotIndex: number;
   measurement?: Measurement;
+  isLoading?: boolean;
 }) => {
   const forecast = useMemo(() => buildMockForecast({ frostDayIndex }), [frostDayIndex]);
   const days = useMemo(() => groupSlotsByLocalDay(forecast), [forecast]);
@@ -51,7 +53,7 @@ const Wrapper = ({
     forecast.slots[0].dt * 1000,
     forecast.city.timezoneOffsetSeconds,
   );
-  const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en-US', 'Today'));
+  const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en-US'));
   const selectedDayIndex = days.findIndex((d) => d.slotIndices.includes(selectedSlotIndex));
   const selectedSlot = forecast.slots[selectedSlotIndex];
 
@@ -67,6 +69,7 @@ const Wrapper = ({
 
   return (
     <PureWeatherForecast
+      isLoading={isLoading}
       days={days}
       dayPillLabels={labels}
       selectedDayIndex={selectedDayIndex}
@@ -96,4 +99,8 @@ export const FrostDaySelected: Story = {
 
 export const Imperial: Story = {
   render: () => <Wrapper initialSlotIndex={0} measurement="imperial" />,
+};
+
+export const Loading: Story = {
+  render: () => <Wrapper initialSlotIndex={0} isLoading={true} />,
 };

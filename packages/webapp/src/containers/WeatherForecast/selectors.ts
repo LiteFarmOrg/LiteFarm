@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,8 +14,10 @@
  */
 
 import { convert } from '../../util/convert-units/convert';
+import i18n from '../../locales/i18n';
 import type { WeatherForecast, WeatherForecastSlot } from '../../store/api/types';
 
+// TODO: Use System
 export type Measurement = 'metric' | 'imperial';
 
 export type ForecastDay = {
@@ -87,14 +89,14 @@ function parseLocalYmdAsUtcNoon(localYmd: string): Date {
   return new Date(Date.UTC(y, m - 1, d, 12));
 }
 
+// TODO: Confirm how to handle timezones
 export function formatDayPillLabel(
   day: ForecastDay,
   todayLocalYmd: string,
   locale: string,
-  todayLabel: string,
 ): string {
   if (day.localYmd === todayLocalYmd) {
-    return todayLabel;
+    return i18n.t('common:TODAY');
   }
   const date = parseLocalYmdAsUtcNoon(day.localYmd);
   return date.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' });

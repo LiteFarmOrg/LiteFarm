@@ -56,6 +56,17 @@ const PureWeatherForecast = ({
   onNext,
 }: PureWeatherForecastProps) => {
   const { t } = useTranslation();
+
+  const activeSlotIndices = days[selectedDayIndex]?.slotIndices ?? [];
+  const visibleSlots =
+    slots && activeSlotIndices.length
+      ? slots.slice(activeSlotIndices[0], activeSlotIndices[activeSlotIndices.length - 1] + 1)
+      : [];
+  const relativeSelectedSlotIndex = activeSlotIndices.length
+    ? activeSlotIndices.findIndex((index) => selectedSlotIndex === index)
+    : 0;
+  const handleSelectSlot = (slotIndex: number) => onSelectSlot(activeSlotIndices[slotIndex]);
+
   return (
     <section className={styles.card}>
       <h2 className={styles.title}>{t('WEATHER.TITLE')}</h2>
@@ -64,7 +75,7 @@ const PureWeatherForecast = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && selectedSlot && slots && (
+      {!isLoading && selectedSlot && !!visibleSlots.length && (
         <>
           <DayPillRow
             days={days}
@@ -79,13 +90,13 @@ const PureWeatherForecast = ({
             locale={locale}
           />
           <TimeStrip
-            slots={slots}
-            selectedSlotIndex={selectedSlotIndex}
+            slots={visibleSlots}
+            selectedSlotIndex={relativeSelectedSlotIndex!}
             offsetSeconds={offsetSeconds}
             locale={locale}
-            onSelect={onSelectSlot}
-            onPrev={onPrev}
-            onNext={onNext}
+            onSelect={handleSelectSlot}
+            onPrev={selectedSlotIndex === 0 ? undefined : onPrev}
+            onNext={!slots?.length || selectedSlotIndex === slots.length - 1 ? undefined : onNext}
           />
         </>
       )}

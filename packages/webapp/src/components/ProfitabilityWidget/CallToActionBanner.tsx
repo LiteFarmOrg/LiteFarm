@@ -16,21 +16,17 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import styles from './styles.module.scss';
 
-export interface EmptyTransactionsBannerProps {
+export interface CallToActionBannerProps {
   message: string;
   ctaLabel: string;
   onAddTransactions: () => void;
 }
 
-const EmptyTransactionsBanner = ({
-  message,
-  ctaLabel,
-  onAddTransactions,
-}: EmptyTransactionsBannerProps) => {
+const CallToActionBanner = ({ message, ctaLabel, onAddTransactions }: CallToActionBannerProps) => {
   return (
-    <div className={styles.emptyBanner}>
-      <span className={styles.emptyBannerText}>{message}</span>
-      <button type="button" className={styles.emptyBannerButton} onClick={onAddTransactions}>
+    <div className={styles.ctaBanner}>
+      <span className={styles.ctaBannerText}>{message}</span>
+      <button type="button" className={styles.ctaBannerButton} onClick={onAddTransactions}>
         <AddCircleOutlineIcon fontSize="small" />
         {ctaLabel}
       </button>
@@ -38,4 +34,4 @@ const EmptyTransactionsBanner = ({
   );
 };
 
-export default EmptyTransactionsBanner;
+export default CallToActionBanner;

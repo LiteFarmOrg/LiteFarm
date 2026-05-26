@@ -14,16 +14,19 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import StateTab from '../RouterTab/StateTab';
+import { Variant } from '../RouterTab/Tab';
 import ExpandableSection from './ExpandableSection';
-import EmptyTransactionsBanner from './EmptyTransactionsBanner';
+import { EntityTab } from './constants';
 import styles from './styles.module.scss';
 
 const PLACEHOLDER_BAR_COUNT = 3;
 const PLACEHOLDER_TABLE_ROW_COUNT = 5;
 
 export interface ProfitabilityWidgetSkeletonProps {
-  onAddTransactions?: () => void;
+  omitHeader?: boolean;
 }
 
 const PlaceholderBarRow = () => (
@@ -53,10 +56,16 @@ const PlaceholderTableRow = () => (
   </div>
 );
 
-const ProfitabilityWidgetSkeleton = ({
-  onAddTransactions = () => {},
-}: ProfitabilityWidgetSkeletonProps) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+const ProfitabilityWidgetSkeleton = (_props: ProfitabilityWidgetSkeletonProps) => {
+  const { t } = useTranslation('profitability');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState(EntityTab.CROPS);
+
+  const tabs = [
+    { key: EntityTab.CROPS, label: t('TABS.CROPS') },
+    { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
+    { key: EntityTab.ALL, label: t('TABS.ALL') },
+  ];
 
   return (
     <div className={styles.skeleton} aria-label="Profitability widget empty state">
@@ -64,7 +73,7 @@ const ProfitabilityWidgetSkeleton = ({
       <div className={styles.skeletonKpiSection}>
         <div className={clsx(styles.skeletonKpiCard, styles.skeletonKpiHero)}>
           <div>
-            <div className={styles.skeletonKpiLabel}>Net profit</div>
+            <div className={styles.skeletonKpiLabel}>{t('KPI.NET_PROFIT')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiTrend}>
@@ -76,15 +85,15 @@ const ProfitabilityWidgetSkeleton = ({
 
         <div className={styles.skeletonKpiCompactRow}>
           <div className={styles.skeletonKpiCard}>
-            <div className={styles.skeletonKpiLabel}>Total revenue</div>
+            <div className={styles.skeletonKpiLabel}>{t('KPI.TOTAL_REVENUE')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiCard}>
-            <div className={styles.skeletonKpiLabel}>Total expenses</div>
+            <div className={styles.skeletonKpiLabel}>{t('KPI.TOTAL_EXPENSES')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiCard}>
-            <div className={styles.skeletonKpiLabel}>Margin</div>
+            <div className={styles.skeletonKpiLabel}>{t('KPI.MARGIN')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
         </div>
@@ -94,14 +103,14 @@ const ProfitabilityWidgetSkeleton = ({
       <ExpandableSection
         isExpanded={isExpanded}
         onToggle={() => setIsExpanded((prev) => !prev)}
-        expandedLabel="Less data"
-        collapsedLabel="More data"
+        expandedLabel={t('LESS_DATA')}
+        collapsedLabel={t('MORE_DATA')}
       >
         <div className={styles.skeletonExpandedContent}>
           {/* Revenue & Expense bars */}
           <div className={styles.skeletonBarsSection}>
             <div className={styles.skeletonBarsColumn}>
-              <div className={styles.skeletonBarsHeading}>Revenue sources</div>
+              <div className={styles.barsColumnHeading}>{t('REVENUE_SOURCES')}</div>
               <div className={styles.skeletonBarsGroup}>
                 {Array.from({ length: PLACEHOLDER_BAR_COUNT }, (_, i) => (
                   <PlaceholderBarRow key={i} />
@@ -109,7 +118,7 @@ const ProfitabilityWidgetSkeleton = ({
               </div>
             </div>
             <div className={styles.skeletonBarsColumn}>
-              <div className={styles.skeletonBarsHeading}>Expense categories</div>
+              <div className={styles.barsColumnHeading}>{t('TOP_EXPENSE_CATEGORIES')}</div>
               <div className={styles.skeletonBarsGroup}>
                 {Array.from({ length: PLACEHOLDER_BAR_COUNT }, (_, i) => (
                   <PlaceholderBarRow key={i} />
@@ -120,21 +129,22 @@ const ProfitabilityWidgetSkeleton = ({
 
           {/* Entity profit table */}
           <div className={styles.skeletonTableSection}>
-            <div className={styles.skeletonTabs}>
-              <div className={clsx(styles.skeletonTab, styles.skeletonTabActive)}>Crops</div>
-              <div className={styles.skeletonTab}>Animals</div>
-              <div className={styles.skeletonTab}>All</div>
-            </div>
+            <StateTab
+              variant={Variant.UNDERLINE}
+              tabs={tabs}
+              state={activeTab}
+              setState={(key) => setActiveTab(key as EntityTab)}
+            />
             <div className={styles.skeletonTableHeader}>
-              <div className={styles.skeletonTableHeaderCell}>Variety</div>
+              <div className={styles.skeletonTableHeaderCell}>{t('TABLE.VARIETY')}</div>
               <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                Revenue
+                {t('TABLE.REVENUE')}
               </div>
               <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                Expense
+                {t('TABLE.EXPENSE')}
               </div>
               <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                Net profit
+                {t('TABLE.NET_PROFIT')}
               </div>
             </div>
             {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
@@ -143,13 +153,6 @@ const ProfitabilityWidgetSkeleton = ({
           </div>
         </div>
       </ExpandableSection>
-
-      {/* Empty state banner */}
-      <EmptyTransactionsBanner
-        message="Start recording your revenue and expenses to track profitability across your crops and animals."
-        ctaLabel="Add transactions"
-        onAddTransactions={onAddTransactions}
-      />
     </div>
   );
 };

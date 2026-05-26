@@ -242,9 +242,9 @@
   padding: 16px;
 }
 
-/* ── EmptyTransactionsBanner ────────────────────────────── */
+/* ── CallToActionBanner ─────────────────────────────────── */
 
-.emptyBanner {
+.ctaBanner {
   background-color: #f2faf5;
   border-radius: 8px;
   padding: 16px;
@@ -254,12 +254,12 @@
   gap: 16px;
 }
 
-.emptyBannerText {
+.ctaBannerText {
   font-size: 14px;
   color: #1f2934;
 }
 
-.emptyBannerButton {
+.ctaBannerButton {
   border: 1px solid #308f85;
   color: #308f85;
   background-color: transparent;
@@ -273,7 +273,7 @@
   white-space: nowrap;
 }
 
-.emptyBannerButton:hover {
+.ctaBannerButton:hover {
   background-color: rgba(48, 143, 133, 0.05);
 }
 
@@ -366,13 +366,6 @@
   gap: 16px;
 }
 
-.skeletonBarsHeading {
-  font-size: 14px;
-  font-weight: 700;
-  color: #2b303a;
-  line-height: 24px;
-}
-
 .skeletonBarsGroup {
   display: flex;
   flex-direction: column;
@@ -410,26 +403,6 @@
 .skeletonTableSection {
   display: flex;
   flex-direction: column;
-}
-
-.skeletonTabs {
-  display: flex;
-  background-color: white;
-  border-bottom: 1px solid #f4efe4;
-  padding: 0 8px;
-}
-
-.skeletonTab {
-  padding: 8px 16px;
-  font-size: 13px;
-  color: #2b303a;
-  line-height: 18px;
-  cursor: default;
-}
-
-.skeletonTabActive {
-  color: #266f68;
-  border-bottom: 2px solid #266f68;
 }
 
 .skeletonTableHeader {

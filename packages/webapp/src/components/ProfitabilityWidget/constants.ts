@@ -21,11 +21,4 @@ export enum EntityTab {
   ALL = 'all',
 }
 
-export enum KpiVariant {
-  NET_PROFIT = 'net_profit',
-  REVENUE = 'revenue',
-  EXPENSES = 'expenses',
-  MARGIN = 'margin',
-}
-
 export type TrendDirection = 'up' | 'down' | 'flat';

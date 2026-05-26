@@ -197,8 +197,7 @@ describe('calcKpis', () => {
 });
 
 describe('calcYoYTrend', () => {
-  test('returns up when current period net profit beats the immediately preceding period of same length', () => {
-    // July 2025 (current) vs June 2025 (previous) — same-length non-overlapping windows.
+  test('returns up when current period net profit beats the same dates one year prior', () => {
     const currentRange = { startDate: '2025-07-01', endDate: '2025-07-31' };
     const localSales = [
       {
@@ -210,13 +209,13 @@ describe('calcYoYTrend', () => {
       {
         sale_id: 2,
         revenue_type_id: 1,
-        sale_date: '2025-06-10',
+        sale_date: '2024-07-10',
         crop_variety_sale: [{ crop_variety_id: 1, sale_value: 100 }],
       },
     ];
     const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
     expect(trend.direction).toBe('up');
-    expect(trend.percent).toBeGreaterThan(0);
+    expect(trend.percent).toBe(100);
   });
 
   test('returns flat when both periods are zero', () => {

@@ -180,10 +180,9 @@ export function calcKpis({
 }
 
 /**
- * Computes the year-over-year-style trend by comparing KPIs over the selected
- * range against the same-length range immediately preceding it. The plan
- * notes the comparison window for non-YTD selections is approximate; this is
- * the documented default until UX confirms otherwise.
+ * Computes the year-over-year trend by comparing KPIs over the selected range
+ * against the same calendar dates one year prior (e.g. Mar–Apr 2025 vs
+ * Mar–Apr 2024).
  */
 export function calcYoYTrend(
   args: Omit<CalcKpisInput, 'dateFilter'>,
@@ -191,10 +190,9 @@ export function calcYoYTrend(
 ): YoYTrend {
   const start = moment(currentRange.startDate);
   const end = moment(currentRange.endDate);
-  const lengthDays = end.diff(start, 'days');
 
-  const prevEnd = start.clone().subtract(1, 'day');
-  const prevStart = prevEnd.clone().subtract(lengthDays, 'days');
+  const prevStart = start.clone().subtract(1, 'year');
+  const prevEnd = end.clone().subtract(1, 'year');
 
   const current = calcKpis({ ...args, dateFilter: currentRange });
   const previous = calcKpis({

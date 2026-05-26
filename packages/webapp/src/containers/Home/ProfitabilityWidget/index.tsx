@@ -20,9 +20,9 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getExpense, getFarmExpenseType } from '../../Finances/actions';
 import { getRevenueTypes, getSales } from '../../Finances/saga';
-import { FINANCES_URL } from '../../../util/siteMapConstants';
+import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 import DateRangeDropdown from '../../../components/ProfitabilityWidget/DateRangeDropdown';
-import EmptyTransactionsBanner from '../../../components/ProfitabilityWidget/EmptyTransactionsBanner';
+import CallToActionBanner from '../../../components/ProfitabilityWidget/CallToActionBanner';
 import EntityProfitTable, {
   EntityProfitTableRow,
 } from '../../../components/ProfitabilityWidget/EntityProfitTable';
@@ -91,20 +91,21 @@ const ProfitabilityWidget = () => {
     </div>
   );
 
+  const ctaMessage = data.isEmpty
+    ? t('CTA_BANNER.NO_TRANSACTIONS')
+    : data.revenueGroups.some((g) => g.total > 0 && g.kind !== 'farm_general')
+      ? t('CTA_BANNER.DEFAULT')
+      : t('CTA_BANNER.NO_ATTRIBUTIONS');
+
   if (data.isEmpty) {
-    // Farm has never recorded a sale or expense. Keep the header live (the
-    // dropdown is still functional, though the range it picks will be just
-    // as empty) and show the skeleton layout under it to indicate "this is
-    // what the widget will look like once you have transactions", with the
-    // CTA banner directing the user into Finances.
     return (
       <div className={styles.widget}>
         {header}
         <ProfitabilityWidgetSkeleton omitHeader />
-        <EmptyTransactionsBanner
-          message={t('EMPTY_BANNER.TEXT')}
-          ctaLabel={t('EMPTY_BANNER.CTA')}
-          onAddTransactions={() => history.push(FINANCES_URL)}
+        <CallToActionBanner
+          message={ctaMessage}
+          ctaLabel={t('CTA_BANNER.CTA')}
+          onAddTransactions={() => history.push(FINANCES_HOME_URL)}
         />
       </div>
     );
@@ -205,6 +206,12 @@ const ProfitabilityWidget = () => {
           />
         </div>
       </ExpandableSection>
+
+      <CallToActionBanner
+        message={ctaMessage}
+        ctaLabel={t('CTA_BANNER.CTA')}
+        onAddTransactions={() => history.push(FINANCES_HOME_URL)}
+      />
     </div>
   );
 };

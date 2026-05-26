@@ -13,100 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* ── KpiCard ────────────────────────────────────────────── */
-
-.kpiCard {
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background-color: transparent;
-}
-
-.kpiCard.hero {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.kpiBody {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.kpiLabel {
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: #66738a;
-}
-
-.kpiValue {
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.kpiTrend {
-  font-size: 14px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.kpiTrend .suffix {
-  color: #66738a;
-  font-weight: 400;
-  margin-left: 4px;
-}
-
-/* Variants */
-.netProfit {
-  background-color: rgba(0, 160, 175, 0.05);
-  border-color: rgba(0, 160, 175, 0.2);
-}
-.netProfit .kpiValue {
-  color: #00a0af;
-}
-.netProfit .kpiTrend {
-  color: #00727d;
-}
-
-.revenue {
-  border-color: rgba(192, 225, 221, 0.8);
-}
-.revenue .kpiValue {
-  color: #308f85;
-}
-.revenue.expanded {
-  background-color: rgba(48, 143, 133, 0.05);
-}
-
-.expenses {
-  border-color: rgba(235, 96, 52, 0.2);
-}
-.expenses .kpiValue {
-  color: #eb6034;
-}
-.expenses.expanded {
-  background-color: rgba(235, 96, 52, 0.05);
-}
-
-.margin {
-  border-color: #f4e8ff;
-}
-.margin .kpiValue {
-  color: #3a0070;
-}
-.margin.expanded {
-  background-color: rgba(58, 0, 112, 0.05);
-}
-
 /* ── KpiSection ─────────────────────────────────────────── */
 
 .kpiSection {
@@ -115,10 +21,95 @@
   gap: 12px;
 }
 
+/* Hero tile — nesting under .kpiHero gives (0,2,0) specificity,
+   which reliably beats DescriptionListTile's .dlTile (0,1,0)
+   regardless of stylesheet load order. */
+
+.kpiHero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid rgba(0, 160, 175, 0.2);
+  border-radius: 8px;
+  background-color: rgba(0, 160, 175, 0.05);
+
+  .kpiHeroTile {
+    height: auto;
+    border: none;
+    padding: 0;
+
+    dt {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #66738a;
+    }
+
+    dd {
+      color: #00a0af;
+    }
+  }
+}
+
+/* ── TrendBadge ────────────────────────────────────────── */
+
+.trendBadge {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #00727d;
+}
+
+.trendSuffix {
+  color: #66738a;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Compact tiles — nesting under .kpiCompactRow for the same
+   specificity reason as the hero tile above. */
+
 .kpiCompactRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+
+  .kpiTile {
+    height: auto;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: transparent;
+
+    dt {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #66738a;
+    }
+  }
+
+  .kpiTile.revenue {
+    border-color: rgba(192, 225, 221, 0.8);
+    dd { color: #308f85; }
+    &.expanded { background-color: rgba(48, 143, 133, 0.05); }
+  }
+
+  .kpiTile.expenses {
+    border-color: rgba(235, 96, 52, 0.2);
+    dd { color: #eb6034; }
+    &.expanded { background-color: rgba(235, 96, 52, 0.05); }
+  }
+
+  .kpiTile.margin {
+    border-color: #f4e8ff;
+    dd { color: #3a0070; }
+    &.expanded { background-color: rgba(58, 0, 112, 0.05); }
+  }
 }
 
 /* ── RevenueExpenseBars ─────────────────────────────────── */

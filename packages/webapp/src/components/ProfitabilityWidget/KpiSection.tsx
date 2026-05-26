@@ -13,9 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import KpiCard, { KpiTrend } from './KpiCard';
-import { KpiVariant } from './constants';
+import clsx from 'clsx';
+import DescriptionList from '../Tile/DescriptionList';
+import { DescriptionListTile } from '../Tile/DescriptionList';
+import TrendBadge, { TrendBadgeProps } from './TrendBadge';
 import styles from './styles.module.scss';
+
+export type KpiTrend = TrendBadgeProps;
 
 export interface KpiSectionProps {
   netProfit: { label: string; value: string; trend?: KpiTrend };
@@ -34,34 +38,34 @@ const KpiSection = ({
 }: KpiSectionProps) => {
   return (
     <div className={styles.kpiSection}>
-      <KpiCard
-        variant={KpiVariant.NET_PROFIT}
-        label={netProfit.label}
-        value={netProfit.value}
-        trend={netProfit.trend}
-        size="hero"
-        expanded={expanded}
-      />
-      <div className={styles.kpiCompactRow}>
-        <KpiCard
-          variant={KpiVariant.REVENUE}
-          label={totalRevenue.label}
-          value={totalRevenue.value}
-          expanded={expanded}
+      <div className={styles.kpiHero}>
+        <DescriptionListTile
+          label={netProfit.label}
+          data={netProfit.value}
+          className={styles.kpiHeroTile}
         />
-        <KpiCard
-          variant={KpiVariant.EXPENSES}
-          label={totalExpenses.label}
-          value={totalExpenses.value}
-          expanded={expanded}
-        />
-        <KpiCard
-          variant={KpiVariant.MARGIN}
-          label={margin.label}
-          value={margin.value}
-          expanded={expanded}
-        />
+        {netProfit.trend && <TrendBadge {...netProfit.trend} />}
       </div>
+      <DescriptionList
+        descriptionListTilesProps={[
+          {
+            label: totalRevenue.label,
+            data: totalRevenue.value,
+            className: clsx(styles.kpiTile, styles.revenue, expanded && styles.expanded),
+          },
+          {
+            label: totalExpenses.label,
+            data: totalExpenses.value,
+            className: clsx(styles.kpiTile, styles.expenses, expanded && styles.expanded),
+          },
+          {
+            label: margin.label,
+            data: margin.value,
+            className: clsx(styles.kpiTile, styles.margin, expanded && styles.expanded),
+          },
+        ]}
+        className={styles.kpiCompactRow}
+      />
     </div>
   );
 };

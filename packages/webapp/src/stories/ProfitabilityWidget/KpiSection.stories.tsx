@@ -22,19 +22,52 @@ export default {
   decorators: componentDecorators,
 };
 
+const kpiProps = {
+  netProfit: {
+    label: 'Net profit',
+    value: '$12,450.00',
+    trend: { percent: 18.5, direction: 'up' as const, suffixLabel: 'vs last year' },
+  },
+  totalRevenue: { label: 'Total revenue', value: '$24,800' },
+  totalExpenses: { label: 'Total expenses', value: '$12,350' },
+  margin: { label: 'Margin', value: '50%' },
+};
+
 export const Default = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
+      <KpiSection {...kpiProps} />
+    </div>
+  ),
+};
+
+export const Expanded = {
+  render: () => (
+    <div style={{ maxWidth: 720 }}>
+      <KpiSection {...kpiProps} expanded />
+    </div>
+  ),
+};
+
+export const TrendDown = {
+  render: () => (
+    <div style={{ maxWidth: 720 }}>
       <KpiSection
+        {...kpiProps}
         netProfit={{
           label: 'Net profit',
-          value: '$12,450.00',
-          trend: { percent: 18.5, direction: 'up', suffixLabel: 'vs last year' },
+          value: '-$3,200.00',
+          trend: { percent: 12, direction: 'down', suffixLabel: 'vs last year' },
         }}
-        totalRevenue={{ label: 'Total revenue', value: '$24,800' }}
-        totalExpenses={{ label: 'Total expenses', value: '$12,350' }}
-        margin={{ label: 'Margin', value: '50%' }}
       />
+    </div>
+  ),
+};
+
+export const NoTrend = {
+  render: () => (
+    <div style={{ maxWidth: 720 }}>
+      <KpiSection {...kpiProps} netProfit={{ label: 'Net profit', value: '$12,450.00' }} />
     </div>
   ),
 };

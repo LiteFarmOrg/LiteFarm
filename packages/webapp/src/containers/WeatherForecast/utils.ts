@@ -133,7 +133,3 @@ export function convertPrecipitationForDisplay(rainMm: number, system: System): 
   const value = Math.round(convert(rainMm).from('mm').to(unit));
   return `${value} ${unit}`;
 }
-
-export function frostThresholdLabel(system: System): string {
-  return system === 'imperial' ? '< 36°F' : '< 2°C';
-}

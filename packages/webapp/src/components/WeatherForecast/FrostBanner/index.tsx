@@ -14,12 +14,15 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { frostThresholdLabel } from '../../../containers/WeatherForecast/utils';
 import type { System } from '../../../types';
 import styles from './styles.module.scss';
 
 interface FrostBannerProps {
   system: System;
+}
+
+export function frostThresholdLabel(system: System): string {
+  return system === 'imperial' ? '< 36°F' : '< 2°C';
 }
 
 const FrostBanner = ({ system }: FrostBannerProps) => {

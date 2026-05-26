@@ -65,7 +65,7 @@ const DayWeatherSummary = ({ day, selectedSlot, measurement, locale }: DayWeathe
             labelSize: LabelSize.SMALL,
           },
           {
-            label: t('WEATHER.WIND_SPEED'),
+            label: t('SENSOR.READING.WIND_SPEED'),
             data: wind,
             labelSize: LabelSize.SMALL,
           },

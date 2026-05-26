@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -28,8 +28,8 @@ interface TimeStripProps {
   offsetSeconds: number;
   locale: string;
   onSelect: (slotIndex: number) => void;
-  onPrev: () => void;
-  onNext: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 const TimeStrip = ({
@@ -58,7 +58,7 @@ const TimeStrip = ({
         type="button"
         className={styles.chevron}
         onClick={onPrev}
-        disabled={selectedSlotIndex === 0}
+        disabled={!onPrev}
         aria-label={t('WEATHER.PREVIOUS_TIME_SLOT')}
       >
         <ChevronLeft />
@@ -86,7 +86,7 @@ const TimeStrip = ({
         type="button"
         className={styles.chevron}
         onClick={onNext}
-        disabled={selectedSlotIndex === slots.length - 1}
+        disabled={!onNext}
         aria-label={t('WEATHER.NEXT_TIME_SLOT')}
       >
         <ChevronRight />

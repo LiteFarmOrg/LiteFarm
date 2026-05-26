@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { action } from '@storybook/addon-actions';
 import ProfitabilityWidgetSkeleton from '../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
 import { componentDecorators } from '../Pages/config/Decorators';
 
@@ -26,7 +25,7 @@ export default {
 export const Default = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
-      <ProfitabilityWidgetSkeleton onAddTransactions={action('onAddTransactions')} />
+      <ProfitabilityWidgetSkeleton />
     </div>
   ),
 };

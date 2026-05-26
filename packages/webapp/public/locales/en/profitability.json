@@ -1,7 +1,9 @@
 {
-  "EMPTY_BANNER": {
+  "CTA_BANNER": {
     "CTA": "Add transactions",
-    "TEXT": "Add a sale or expense to see your farm's profitability."
+    "DEFAULT": "Add your latest transactions for accurate insights",
+    "NO_ATTRIBUTIONS": "Attribute your transactions to crops and animal groups to unlock the per-variety breakdown",
+    "NO_TRANSACTIONS": "Start recording your revenues and expenses to track profitability across your crops and animals"
   },
   "KPI": {
     "MARGIN": "Margin",

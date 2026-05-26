@@ -30,7 +30,8 @@ const todayYmd = localYmdFromUtcMs(
   forecast.slots[0].dt * 1000,
   forecast.city.timezoneOffsetSeconds,
 );
-const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en'));
+const offsetMatch = true; // show "Today" label (assumes browser timezone matches farm)
+const labels = days.map((d) => formatDayPillLabel(d, todayYmd, offsetMatch, 'en'));
 
 const meta: Meta<typeof DayPillRow> = {
   title: 'Components/WeatherForecast/DayPillRow',

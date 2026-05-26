@@ -39,7 +39,9 @@ export default function WeatherForecast() {
 
   const dayPillLabels = useMemo(() => {
     const todayLocalYmd = localYmdFromUtcMs(Date.now(), offsetSeconds);
-    return days.map((d) => formatDayPillLabel(d, todayLocalYmd, i18n.language));
+    const browserTimezoneOffsetSeconds = -new Date().getTimezoneOffset() * 60;
+    const offsetMatch = offsetSeconds === browserTimezoneOffsetSeconds;
+    return days.map((d) => formatDayPillLabel(d, todayLocalYmd, offsetMatch, i18n.language));
   }, [days, offsetSeconds, i18n.language]);
 
   const selectedDayIndex = useMemo(

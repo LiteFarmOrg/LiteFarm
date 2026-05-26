@@ -53,7 +53,8 @@ const Wrapper = ({
     forecast.slots[0].dt * 1000,
     forecast.city.timezoneOffsetSeconds,
   );
-  const labels = days.map((d) => formatDayPillLabel(d, todayYmd, 'en-US'));
+  const offsetMatch = true; // show "Today" label (assumes browser timezone matches farm)
+  const labels = days.map((d) => formatDayPillLabel(d, todayYmd, offsetMatch, 'en-US'));
   const selectedDayIndex = days.findIndex((d) => d.slotIndices.includes(selectedSlotIndex));
   const selectedSlot = forecast.slots[selectedSlotIndex];
 

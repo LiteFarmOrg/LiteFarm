@@ -513,7 +513,7 @@ export function aggregateByEntity({
       id: FARM_GENERAL_ROW_ID,
       kind: 'farm_general',
       label: '',
-      revenue: farmGeneralRevenue === 0 && farmGeneralExpense > 0 ? null : farmGeneralRevenue,
+      revenue: farmGeneralRevenue || null,
       expense: farmGeneralExpense,
       netProfit: farmGeneralRevenue - farmGeneralExpense,
     });

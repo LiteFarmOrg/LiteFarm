@@ -23,9 +23,7 @@ import { getRevenueTypes, getSales } from '../../Finances/saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 import DateRangeDropdown from '../../../components/ProfitabilityWidget/DateRangeDropdown';
 import CallToActionBanner from '../../../components/ProfitabilityWidget/CallToActionBanner';
-import EntityProfitTable, {
-  EntityProfitTableRow,
-} from '../../../components/ProfitabilityWidget/EntityProfitTable';
+import EntityProfitTable from '../../../components/ProfitabilityWidget/EntityProfitTable';
 import ExpandableSection from '../../../components/ProfitabilityWidget/ExpandableSection';
 import KpiSection from '../../../components/ProfitabilityWidget/KpiSection';
 import ProfitabilityWidgetSkeleton from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
@@ -125,7 +123,7 @@ const ProfitabilityWidget = () => {
     percentOfMax: category.percentOfMax,
   }));
 
-  const tableRows: EntityProfitTableRow[] = data.entityRows.map((row) => ({
+  const tableRows = data.entityRows.map((row) => ({
     id: row.id,
     kind: row.kind,
     label:
@@ -136,22 +134,6 @@ const ProfitabilityWidget = () => {
     expense: row.expense,
     netProfit: row.netProfit,
   }));
-
-  const tableLabels = {
-    variety: t('TABLE.VARIETY'),
-    animal: t('TABLE.ANIMAL'),
-    entity: t('TABLE.ENTITY'),
-    revenue: t('TABLE.REVENUE'),
-    expense: t('TABLE.EXPENSE'),
-    netProfit: t('TABLE.NET_PROFIT'),
-    notYet: t('TABLE.NOT_YET'),
-    farmGeneral: t('TABLE.FARM_GENERATED_EXPENSES'),
-    tabs: {
-      crops: t('TABS.CROPS'),
-      animals: t('TABS.ANIMALS'),
-      all: t('TABS.ALL'),
-    },
-  };
 
   return (
     <div className={styles.widget}>
@@ -202,7 +184,6 @@ const ProfitabilityWidget = () => {
             entityTab={entityTab}
             onTabChange={setEntityTab}
             currencySymbol={currencySymbol}
-            labels={tableLabels}
           />
         </div>
       </ExpandableSection>

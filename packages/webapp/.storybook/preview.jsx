@@ -56,6 +56,7 @@ export const decorators = [
         'role',
         'harvest_uses',
         'soil',
+        'profitability',
       ],
       { useSuspense: false },
     );

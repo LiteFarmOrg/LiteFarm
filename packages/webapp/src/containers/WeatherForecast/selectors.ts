@@ -16,9 +16,7 @@
 import { convert } from '../../util/convert-units/convert';
 import i18n from '../../locales/i18n';
 import type { WeatherForecast, WeatherForecastSlot } from '../../store/api/types';
-
-// TODO: Use System
-export type Measurement = 'metric' | 'imperial';
+import type { System } from '../../types';
 
 export type ForecastDay = {
   localYmd: string;
@@ -118,24 +116,24 @@ export function formatLongDate(day: ForecastDay, locale: string): string {
   });
 }
 
-export function convertTempForDisplay(tempC: number, measurement: Measurement): string {
-  const value = Math.round(measurement === 'metric' ? tempC : convert(tempC).from('C').to('F'));
-  const unit = measurement === 'metric' ? '°C' : '°F';
+export function convertTempForDisplay(tempC: number, system: System): string {
+  const value = Math.round(system === 'metric' ? tempC : convert(tempC).from('C').to('F'));
+  const unit = system === 'metric' ? '°C' : '°F';
   return `${value}${unit}`;
 }
 
-export function convertWindForDisplay(windMs: number, measurement: Measurement): string {
-  const unit = measurement === 'metric' ? 'km/h' : 'mph';
+export function convertWindForDisplay(windMs: number, system: System): string {
+  const unit = system === 'metric' ? 'km/h' : 'mph';
   const value = Math.round(convert(windMs).from('m/s').to(unit));
   return `${value} ${unit}`;
 }
 
-export function convertPrecipitationForDisplay(rainMm: number, measurement: Measurement): string {
-  const unit = measurement === 'imperial' ? 'in' : 'mm';
+export function convertPrecipitationForDisplay(rainMm: number, system: System): string {
+  const unit = system === 'imperial' ? 'in' : 'mm';
   const value = Math.round(convert(rainMm).from('mm').to(unit));
   return `${value} ${unit}`;
 }
 
-export function frostThresholdLabel(measurement: Measurement): string {
-  return measurement === 'imperial' ? '< 36°F' : '< 2°C';
+export function frostThresholdLabel(system: System): string {
+  return system === 'imperial' ? '< 36°F' : '< 2°C';
 }

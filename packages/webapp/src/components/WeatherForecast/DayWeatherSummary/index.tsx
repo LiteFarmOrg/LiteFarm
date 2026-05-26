@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import type { ForecastDay, Measurement } from '../../../containers/WeatherForecast/selectors';
+import type { ForecastDay } from '../../../containers/WeatherForecast/selectors';
 import {
   convertPrecipitationForDisplay,
   convertTempForDisplay,
@@ -26,24 +26,25 @@ import DescriptionList, { LabelSize } from '../../Tile/DescriptionList';
 import WeatherIcon from '../../WeatherBoard/WeatherIcon';
 import weatherBoardUtil from '../../../containers/WeatherBoard/utils';
 import FrostBanner from '../FrostBanner';
+import type { System } from '../../../types';
 import styles from './styles.module.scss';
 
 interface DayWeatherSummaryProps {
   day: ForecastDay;
   selectedSlot: WeatherForecastSlot;
-  measurement: Measurement;
+  system: System;
   locale: string;
 }
 
-const DayWeatherSummary = ({ day, selectedSlot, measurement, locale }: DayWeatherSummaryProps) => {
+const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSummaryProps) => {
   const { t } = useTranslation();
-  const temp = convertTempForDisplay(selectedSlot.tempC, measurement);
-  const wind = convertWindForDisplay(selectedSlot.windMs, measurement);
-  const precipitation = convertPrecipitationForDisplay(selectedSlot.rainMm3h, measurement);
+  const temp = convertTempForDisplay(selectedSlot.tempC, system);
+  const wind = convertWindForDisplay(selectedSlot.windMs, system);
+  const precipitation = convertPrecipitationForDisplay(selectedSlot.rainMm3h, system);
 
   return (
     <div className={styles.summary}>
-      {day.isFrost && <FrostBanner measurement={measurement} />}
+      {day.isFrost && <FrostBanner system={system} />}
       <div className={styles.titleRow}>
         <span className={styles.date}>{formatLongDate(day, locale)}</span>
         <div className={styles.tempBlock}>

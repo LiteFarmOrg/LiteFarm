@@ -35,7 +35,7 @@ export const Default: Story = {
   args: {
     day: days[0],
     selectedSlot: forecast.slots[days[0].slotIndices[0]],
-    measurement: 'metric',
+    system: 'metric',
     locale: 'en',
   },
 };
@@ -44,7 +44,7 @@ export const WithFrostBanner: Story = {
   args: {
     day: days[2],
     selectedSlot: forecast.slots[days[2].slotIndices[0]],
-    measurement: 'metric',
+    system: 'metric',
     locale: 'en',
   },
 };
@@ -53,7 +53,7 @@ export const Imperial: Story = {
   args: {
     day: days[0],
     selectedSlot: forecast.slots[days[0].slotIndices[0]],
-    measurement: 'imperial',
+    system: 'imperial',
     locale: 'en',
   },
 };

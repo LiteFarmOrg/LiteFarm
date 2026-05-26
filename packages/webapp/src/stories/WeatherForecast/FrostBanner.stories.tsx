@@ -26,5 +26,5 @@ export default meta;
 
 type Story = StoryObj<typeof FrostBanner>;
 
-export const Metric: Story = { args: { measurement: 'metric' } };
-export const Imperial: Story = { args: { measurement: 'imperial' } };
+export const Metric: Story = { args: { system: 'metric' } };
+export const Imperial: Story = { args: { system: 'imperial' } };

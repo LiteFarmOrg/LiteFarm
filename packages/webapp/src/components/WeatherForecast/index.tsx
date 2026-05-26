@@ -14,12 +14,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import type { ForecastDay, Measurement } from '../../containers/WeatherForecast/selectors';
+import type { ForecastDay } from '../../containers/WeatherForecast/selectors';
 import type { WeatherForecastSlot } from '../../store/api/types';
 import DayPillRow from './DayPillRow';
 import DayWeatherSummary from './DayWeatherSummary';
 import TimeStrip from '../TimeStrip';
 import { LoadingSpinner } from '../Loading/LoadingV2';
+import type { System } from '../../types';
 import styles from './styles.module.scss';
 
 export interface PureWeatherForecastProps {
@@ -31,7 +32,7 @@ export interface PureWeatherForecastProps {
   selectedSlotIndex: number;
   slots?: WeatherForecastSlot[];
   offsetSeconds: number;
-  measurement: Measurement;
+  system: System;
   locale: string;
   onDayClick: (dayIndex: number) => void;
   onSelectSlot: (slotIndex: number) => void;
@@ -48,7 +49,7 @@ const PureWeatherForecast = ({
   selectedSlotIndex,
   slots,
   offsetSeconds,
-  measurement,
+  system,
   locale,
   onDayClick,
   onSelectSlot,
@@ -86,7 +87,7 @@ const PureWeatherForecast = ({
           <DayWeatherSummary
             day={days[selectedDayIndex]}
             selectedSlot={selectedSlot}
-            measurement={measurement}
+            system={system}
             locale={locale}
           />
           <TimeStrip

@@ -14,19 +14,20 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { frostThresholdLabel, Measurement } from '../../../containers/WeatherForecast/selectors';
+import { frostThresholdLabel } from '../../../containers/WeatherForecast/selectors';
+import type { System } from '../../../types';
 import styles from './styles.module.scss';
 
 interface FrostBannerProps {
-  measurement: Measurement;
+  system: System;
 }
 
-const FrostBanner = ({ measurement }: FrostBannerProps) => {
+const FrostBanner = ({ system }: FrostBannerProps) => {
   const { t } = useTranslation();
   return (
     <div className={styles.banner} role="status">
       {t('WEATHER.FROST_EXPECTED', {
-        threshold: frostThresholdLabel(measurement),
+        threshold: frostThresholdLabel(system),
         interpolation: { escapeValue: false },
       })}
     </div>

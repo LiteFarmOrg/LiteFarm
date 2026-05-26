@@ -24,12 +24,12 @@ import {
   groupSlotsByLocalDay,
   localHourOfSlot,
   localYmdFromUtcMs,
-  type Measurement,
 } from './selectors';
+import type { System } from '../../types';
 
 export default function WeatherForecast() {
   const { i18n } = useTranslation();
-  const measurement = useSelector(measurementSelector) as Measurement;
+  const system = useSelector(measurementSelector) as System;
   const { data, isLoading } = useGetWeatherForecastQuery();
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
 
@@ -80,7 +80,7 @@ export default function WeatherForecast() {
       selectedSlotIndex={selectedSlotIndex}
       slots={data?.slots}
       offsetSeconds={offsetSeconds}
-      measurement={measurement}
+      system={system}
       locale={i18n.language}
       onDayClick={onDayClick}
       onSelectSlot={setSelectedSlotIndex}

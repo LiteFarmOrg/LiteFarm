@@ -22,9 +22,9 @@ import {
   groupSlotsByLocalDay,
   localHourOfSlot,
   localYmdFromUtcMs,
-  type Measurement,
 } from '../../containers/WeatherForecast/selectors';
 import { buildMockForecast } from './mockData';
+import type { System } from '../../types';
 
 const meta: Meta<typeof PureWeatherForecast> = {
   title: 'Components/WeatherForecast/PureWeatherForecast',
@@ -38,12 +38,12 @@ type Story = StoryObj<typeof PureWeatherForecast>;
 const Wrapper = ({
   frostDayIndex,
   initialSlotIndex,
-  measurement = 'metric',
+  system = 'metric',
   isLoading = false,
 }: {
   frostDayIndex?: number;
   initialSlotIndex: number;
-  measurement?: Measurement;
+  system?: System;
   isLoading?: boolean;
 }) => {
   const forecast = useMemo(() => buildMockForecast({ frostDayIndex }), [frostDayIndex]);
@@ -78,7 +78,7 @@ const Wrapper = ({
       selectedSlotIndex={selectedSlotIndex}
       slots={forecast.slots}
       offsetSeconds={forecast.city.timezoneOffsetSeconds}
-      measurement={measurement}
+      system={system}
       locale="en-US"
       onDayClick={onDayClick}
       onSelectSlot={setSelectedSlotIndex}
@@ -99,7 +99,7 @@ export const FrostDaySelected: Story = {
 };
 
 export const Imperial: Story = {
-  render: () => <Wrapper initialSlotIndex={0} measurement="imperial" />,
+  render: () => <Wrapper initialSlotIndex={0} system="imperial" />,
 };
 
 export const Loading: Story = {

@@ -14,13 +14,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import type { ForecastDay } from '../../../containers/WeatherForecast/selectors';
+import type { ForecastDay } from '../../../containers/WeatherForecast/utils';
 import {
   convertPrecipitationForDisplay,
   convertTempForDisplay,
   convertWindForDisplay,
   formatLongDate,
-} from '../../../containers/WeatherForecast/selectors';
+} from '../../../containers/WeatherForecast/utils';
 import type { WeatherForecastSlot } from '../../../store/api/types';
 import DescriptionList, { LabelSize } from '../../Tile/DescriptionList';
 import WeatherIcon from '../../WeatherBoard/WeatherIcon';

@@ -24,7 +24,7 @@ import {
   groupSlotsByLocalDay,
   localHourOfSlot,
   localYmdFromUtcMs,
-} from './selectors';
+} from './utils';
 import type { System } from '../../types';
 
 export default function WeatherForecast() {

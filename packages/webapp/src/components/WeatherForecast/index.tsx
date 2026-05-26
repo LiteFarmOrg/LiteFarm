@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import type { ForecastDay } from '../../containers/WeatherForecast/selectors';
+import type { ForecastDay } from '../../containers/WeatherForecast/utils';
 import type { WeatherForecastSlot } from '../../store/api/types';
 import DayPillRow from './DayPillRow';
 import DayWeatherSummary from './DayWeatherSummary';

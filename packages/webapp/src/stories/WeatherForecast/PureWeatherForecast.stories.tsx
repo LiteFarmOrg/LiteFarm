@@ -22,7 +22,7 @@ import {
   groupSlotsByLocalDay,
   localHourOfSlot,
   localYmdFromUtcMs,
-} from '../../containers/WeatherForecast/selectors';
+} from '../../containers/WeatherForecast/utils';
 import { buildMockForecast } from './mockData';
 import type { System } from '../../types';
 

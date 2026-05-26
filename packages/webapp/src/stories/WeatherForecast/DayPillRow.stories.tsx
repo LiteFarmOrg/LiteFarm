@@ -21,7 +21,7 @@ import {
   formatDayPillLabel,
   groupSlotsByLocalDay,
   localYmdFromUtcMs,
-} from '../../containers/WeatherForecast/selectors';
+} from '../../containers/WeatherForecast/utils';
 import { buildMockForecast } from './mockData';
 
 const forecast = buildMockForecast({ frostDayIndex: 2 });

@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { frostThresholdLabel } from '../../../containers/WeatherForecast/selectors';
+import { frostThresholdLabel } from '../../../containers/WeatherForecast/utils';
 import type { System } from '../../../types';
 import styles from './styles.module.scss';
 

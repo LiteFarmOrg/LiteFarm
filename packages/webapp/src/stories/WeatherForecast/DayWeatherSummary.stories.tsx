@@ -16,7 +16,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DayWeatherSummary from '../../components/WeatherForecast/DayWeatherSummary';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { groupSlotsByLocalDay } from '../../containers/WeatherForecast/selectors';
+import { groupSlotsByLocalDay } from '../../containers/WeatherForecast/utils';
 import { buildMockForecast } from './mockData';
 
 const forecast = buildMockForecast({ frostDayIndex: 2 });

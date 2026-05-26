@@ -15,7 +15,7 @@
 
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import type { ForecastDay } from '../../../containers/WeatherForecast/selectors';
+import type { ForecastDay } from '../../../containers/WeatherForecast/utils';
 import styles from './styles.module.scss';
 
 export interface DayPillRowProps {

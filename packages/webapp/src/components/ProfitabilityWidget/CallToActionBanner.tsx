@@ -14,6 +14,7 @@
  */
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Button from '../Form/Button';
 import styles from './styles.module.scss';
 
 export interface CallToActionBannerProps {
@@ -26,10 +27,16 @@ const CallToActionBanner = ({ message, ctaLabel, onAddTransactions }: CallToActi
   return (
     <div className={styles.ctaBanner}>
       <span className={styles.ctaBannerText}>{message}</span>
-      <button type="button" className={styles.ctaBannerButton} onClick={onAddTransactions}>
+      <Button
+        type="button"
+        color="secondary-2"
+        className={styles.ctaBannerAction}
+        onClick={onAddTransactions}
+        sm
+      >
         <AddCircleOutlineIcon fontSize="small" />
         {ctaLabel}
-      </button>
+      </Button>
     </div>
   );
 };

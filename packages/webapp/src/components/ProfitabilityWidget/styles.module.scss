@@ -250,24 +250,12 @@
 .ctaBannerText {
   font-size: 14px;
   color: #1f2934;
+  text-align: start;
 }
 
-.ctaBannerButton {
-  border: 1px solid #308f85;
-  color: #308f85;
-  background-color: transparent;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.ctaBannerAction {
+  flex-shrink: 0;
   white-space: nowrap;
-}
-
-.ctaBannerButton:hover {
-  background-color: rgba(48, 143, 133, 0.05);
 }
 
 /* ── Skeleton (Empty State) ─────────────────────────────── */

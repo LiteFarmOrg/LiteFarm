@@ -277,47 +277,217 @@
   background-color: rgba(48, 143, 133, 0.05);
 }
 
-/* ── Skeleton ───────────────────────────────────────────── */
+/* ── Skeleton (Empty State) ─────────────────────────────── */
 
 .skeleton {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
-.skeletonPlaceholder {
-  background-color: #f0f1f3;
-  border-radius: 6px;
+.skeletonKpiSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.skeletonHeader {
-  height: 24px;
+.skeletonKpiCard {
+  border: 1px solid #d0d4db;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 65px;
 }
 
 .skeletonKpiHero {
-  height: 80px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeletonKpiLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #b9bfc9;
+}
+
+.skeletonKpiValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #d0d4db;
+  text-shadow: 1px 1px 0 white;
+}
+
+.skeletonKpiTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #b9bfc9;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.skeletonKpiTrendSuffix {
+  font-weight: 600;
 }
 
 .skeletonKpiCompactRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  display: flex;
+  gap: 8px;
+
+  .skeletonKpiCard {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
-.skeletonKpiCompact {
-  height: 64px;
+.skeletonPlaceholder {
+  background-color: #eaeaea;
+  border-radius: 4px;
 }
 
-.skeletonBarsRow {
+.skeletonExpandedContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skeletonBarsSection {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 16px;
 }
 
-.skeletonBar {
-  height: 48px;
+.skeletonBarsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.skeletonTable {
-  height: 200px;
+.skeletonBarsHeading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2b303a;
+  line-height: 24px;
+}
+
+.skeletonBarsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonBarRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonBarRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeletonBarLabel {
+  width: 94px;
+  height: 16px;
+}
+
+.skeletonBarValue {
+  width: 45px;
+  height: 16px;
+}
+
+.skeletonBarTrack {
+  height: 8px;
+  border-radius: 12px;
+  background-color: #f0f1f3;
+}
+
+.skeletonTableSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonTabs {
+  display: flex;
+  background-color: white;
+  border-bottom: 1px solid #f4efe4;
+  padding: 0 8px;
+}
+
+.skeletonTab {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #2b303a;
+  line-height: 18px;
+  cursor: default;
+}
+
+.skeletonTabActive {
+  color: #266f68;
+  border-bottom: 2px solid #266f68;
+}
+
+.skeletonTableHeader {
+  display: flex;
+  background-color: #fbf9f6;
+  border-bottom: 1px solid #f4efe4;
+}
+
+.skeletonTableHeaderCell {
+  flex: 1;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #434843;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+}
+
+.skeletonTableRow {
+  display: flex;
+
+  &:nth-child(even) {
+    background-color: #f7fbff;
+  }
+
+  &:not(:first-child) {
+    border-top: 1px solid rgba(195, 200, 193, 0.5);
+  }
+}
+
+.skeletonTableCell {
+  flex: 1;
+  padding: 8.5px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.skeletonAlignRight {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.skeletonCellLabel {
+  width: 94px;
+  height: 16px;
+}
+
+.skeletonCellRevenue {
+  width: 49px;
+  height: 16px;
+}
+
+.skeletonCellExpense {
+  width: 59px;
+  height: 16px;
+}
+
+.skeletonCellNetProfit {
+  width: 63px;
+  height: 16px;
 }

@@ -50,7 +50,7 @@ const TimeStrip = ({
       inline: 'center',
       block: 'nearest',
     });
-  }, [selectedSlotIndex]);
+  }, [slots, selectedSlotIndex]);
 
   return (
     <div className={styles.strip}>
@@ -76,7 +76,7 @@ const TimeStrip = ({
                 className={clsx(styles.chip, selected && styles.selected)}
                 onClick={() => onSelect(index)}
               >
-                {formatTimeChipLabel(slot, offsetSeconds, locale)}
+                {formatTimeChipLabel(slot.dt, offsetSeconds, locale)}
               </button>
             );
           })}

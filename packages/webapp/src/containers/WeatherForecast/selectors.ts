@@ -118,12 +118,8 @@ export function formatLongDate(day: ForecastDay, locale: string): string {
   });
 }
 
-export function formatTimeChipLabel(
-  slot: WeatherForecastSlot,
-  offsetSeconds: number,
-  locale: string,
-): string {
-  const localMs = (slot.dt + offsetSeconds) * 1000;
+export function formatTimeChipLabel(utcMs: number, offsetSeconds: number, locale: string): string {
+  const localMs = (utcMs + offsetSeconds) * 1000;
   const date = new Date(localMs);
   const formatter = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',

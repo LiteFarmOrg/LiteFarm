@@ -32,6 +32,8 @@ type Story = StoryObj<typeof TimeStrip>;
 
 const Wrapper = (args: { initialIndex: number }) => {
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(args.initialIndex);
+  const isFirstindex = selectedSlotIndex === 0;
+  const isLastIndex = selectedSlotIndex === forecast.slots.length - 1;
   return (
     <TimeStrip
       slots={forecast.slots}
@@ -39,8 +41,12 @@ const Wrapper = (args: { initialIndex: number }) => {
       offsetSeconds={forecast.city.timezoneOffsetSeconds}
       locale="en-US"
       onSelect={setSelectedSlotIndex}
-      onPrev={() => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
-      onNext={() => setSelectedSlotIndex((i) => Math.min(forecast.slots.length - 1, i + 1))}
+      onPrev={isFirstindex ? undefined : () => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
+      onNext={
+        isLastIndex
+          ? undefined
+          : () => setSelectedSlotIndex((i) => Math.min(forecast.slots.length - 1, i + 1))
+      }
     />
   );
 };

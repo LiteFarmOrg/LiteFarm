@@ -15,8 +15,6 @@
 
 export const TOP_EXPENSE_CATEGORIES_COUNT = 5;
 
-export const FARM_GENERAL_ROW_ID = 'farm_general';
-
 export enum EntityTab {
   CROPS = 'crops',
   ANIMALS = 'animals',

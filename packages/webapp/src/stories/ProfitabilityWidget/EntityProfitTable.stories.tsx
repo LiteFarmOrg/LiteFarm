@@ -24,18 +24,6 @@ export default {
   decorators: componentDecorators,
 };
 
-const labels = {
-  variety: 'Variety',
-  animal: 'Animal',
-  entity: 'Entity',
-  revenue: 'Revenue',
-  expense: 'Expense',
-  netProfit: 'Net profit',
-  notYet: 'Not yet',
-  farmGeneral: 'Farm-generated expenses',
-  tabs: { crops: 'Crops', animals: 'Animals', all: 'All' },
-};
-
 const allRows = [
   {
     id: 'crop_100',
@@ -58,8 +46,8 @@ const allRows = [
     kind: 'crop' as const,
     label: 'Heirloom Tomato',
     revenue: null,
-    expense: 240,
-    netProfit: -240,
+    expense: null,
+    netProfit: null,
   },
   {
     id: 'animal_50',
@@ -79,34 +67,26 @@ const allRows = [
   },
 ];
 
-export const AllTab = {
-  render: () => {
-    const [tab, setTab] = useState(EntityTab.ALL);
-    return (
-      <div style={{ maxWidth: 720 }}>
-        <EntityProfitTable
-          rows={allRows}
-          entityTab={tab}
-          onTabChange={setTab}
-          currencySymbol="$"
-          labels={labels}
-        />
-      </div>
-    );
-  },
+const filterByTab = (tab: EntityTab) => {
+  if (tab === EntityTab.CROPS) {
+    return allRows.filter((r) => r.kind === 'crop');
+  }
+  if (tab === EntityTab.ANIMALS) {
+    return allRows.filter((r) => r.kind === 'animal');
+  }
+  return allRows;
 };
 
-export const CropsTab = {
+export const Default = {
   render: () => {
     const [tab, setTab] = useState(EntityTab.CROPS);
     return (
       <div style={{ maxWidth: 720 }}>
         <EntityProfitTable
-          rows={allRows.filter((r) => r.kind === 'crop')}
+          rows={filterByTab(tab)}
           entityTab={tab}
           onTabChange={setTab}
           currencySymbol="$"
-          labels={labels}
         />
       </div>
     );

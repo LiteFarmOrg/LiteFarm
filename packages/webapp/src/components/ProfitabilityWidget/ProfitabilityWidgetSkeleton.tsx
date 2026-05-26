@@ -146,7 +146,13 @@ const ProfitabilityWidgetSkeleton = (_props: ProfitabilityWidgetSkeletonProps) =
               setState={(key) => setActiveTab(key as EntityTab)}
             />
             <div className={styles.skeletonTableHeader}>
-              <div className={styles.skeletonTableHeaderCell}>{t('TABLE.VARIETY')}</div>
+              <div className={styles.skeletonTableHeaderCell}>
+                {activeTab === EntityTab.CROPS
+                  ? t('TABLE.VARIETY')
+                  : activeTab === EntityTab.ANIMALS
+                    ? t('TABLE.ANIMAL')
+                    : t('TABLE.ENTITY')}
+              </div>
               <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
                 {t('TABLE.REVENUE')}
               </div>

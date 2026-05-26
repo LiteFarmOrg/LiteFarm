@@ -14,6 +14,7 @@
  */
 
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import StateTab from '../RouterTab/StateTab';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
@@ -26,20 +27,8 @@ export interface EntityProfitTableRow {
   kind: 'crop' | 'animal' | 'farm_general';
   label: string;
   revenue: number | null;
-  expense: number;
-  netProfit: number;
-}
-
-export interface EntityProfitTableLabels {
-  variety: string;
-  animal: string;
-  entity: string;
-  revenue: string;
-  expense: string;
-  netProfit: string;
-  notYet: string;
-  farmGeneral: string;
-  tabs: { crops: string; animals: string; all: string };
+  expense: number | null;
+  netProfit: number | null;
 }
 
 export interface EntityProfitTableProps {
@@ -47,80 +36,92 @@ export interface EntityProfitTableProps {
   entityTab: EntityTab;
   onTabChange: (tab: EntityTab) => void;
   currencySymbol: string;
-  labels: EntityProfitTableLabels;
 }
-
-const firstColumnLabel = (entityTab: EntityTab, labels: EntityProfitTableLabels): string => {
-  if (entityTab === EntityTab.CROPS) return labels.variety;
-  if (entityTab === EntityTab.ANIMALS) return labels.animal;
-  return labels.entity;
-};
 
 const EntityProfitTable = ({
   rows,
   entityTab,
   onTabChange,
   currencySymbol,
-  labels,
 }: EntityProfitTableProps) => {
+  const { t } = useTranslation('profitability');
+
   const formatCurrency = (value: number): string =>
     `${currencySymbol}${Math.abs(value).toFixed(2)}`;
 
+  const firstColumnLabel = (): string => {
+    if (entityTab === EntityTab.CROPS) {
+      return t('TABLE.VARIETY');
+    }
+    if (entityTab === EntityTab.ANIMALS) {
+      return t('TABLE.ANIMAL');
+    }
+    return t('TABLE.ENTITY');
+  };
+
   const renderLabel = (row: EntityProfitTableRow): ReactNode => {
     if (row.kind === 'farm_general') {
-      return labels.farmGeneral;
+      return t('TABLE.FARM_GENERAL');
     }
     return row.label;
   };
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
     if (row.revenue == null) {
-      return <span className={styles.cellRevenueNotYet}>{labels.notYet}</span>;
+      return '-';
     }
     return <span className={styles.cellRevenue}>{formatCurrency(row.revenue)}</span>;
   };
 
-  const renderExpense = (row: EntityProfitTableRow): ReactNode => (
-    <span className={styles.cellExpense}>{formatCurrency(row.expense)}</span>
-  );
+  const renderExpense = (row: EntityProfitTableRow): ReactNode => {
+    if (row.expense == null) {
+      return '-';
+    }
+    return <span className={styles.cellExpense}>{formatCurrency(row.expense)}</span>;
+  };
 
-  const renderNetProfit = (row: EntityProfitTableRow): ReactNode => (
-    <span className={styles.cellNetProfit}>
-      {row.netProfit < 0 ? '-' : ''}
-      {formatCurrency(row.netProfit)}
-    </span>
-  );
+  const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {
+    if (row.netProfit == null) {
+      return '-';
+    }
+    return (
+      <span className={styles.cellNetProfit}>
+        {row.netProfit < 0 ? '-' : ''}
+        {formatCurrency(row.netProfit)}
+      </span>
+    );
+  };
 
   const columns: TableV2Column[] = [
     {
       id: 'label',
-      label: firstColumnLabel(entityTab, labels),
+      label: firstColumnLabel(),
       format: renderLabel,
     },
     {
       id: 'revenue',
-      label: labels.revenue,
+      label: t('TABLE.REVENUE'),
       align: Alignment.RIGHT,
       format: renderRevenue,
     },
     {
       id: 'expense',
-      label: labels.expense,
+      label: t('TABLE.EXPENSE'),
       align: Alignment.RIGHT,
       format: renderExpense,
     },
     {
       id: 'netProfit',
-      label: labels.netProfit,
+      label: t('TABLE.NET_PROFIT'),
       align: Alignment.RIGHT,
       format: renderNetProfit,
     },
   ];
 
   const tabs = [
-    { key: EntityTab.CROPS, label: labels.tabs.crops },
-    { key: EntityTab.ANIMALS, label: labels.tabs.animals },
-    { key: EntityTab.ALL, label: labels.tabs.all },
+    { key: EntityTab.CROPS, label: t('TABS.CROPS') },
+    { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
+    { key: EntityTab.ALL, label: t('TABS.ALL') },
   ];
 
   return (

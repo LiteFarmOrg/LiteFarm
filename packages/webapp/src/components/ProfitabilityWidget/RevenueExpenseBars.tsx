@@ -20,7 +20,7 @@ export interface GroupBar {
   id: string;
   label: string;
   total: number;
-  percentOfMax: number;
+  percentOfTotal: number;
 }
 
 export interface RevenueExpenseBarsProps {
@@ -46,7 +46,7 @@ const BarRow = ({ group, fillColor, trackColor, formatValue }: BarRowProps) => (
     </div>
     <LinearProgress
       variant="determinate"
-      value={Math.max(0, Math.min(100, group.percentOfMax))}
+      value={Math.max(0, Math.min(100, group.percentOfTotal))}
       sx={{
         height: 8,
         borderRadius: 4,

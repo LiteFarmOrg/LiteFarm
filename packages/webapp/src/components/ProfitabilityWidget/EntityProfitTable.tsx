@@ -26,9 +26,9 @@ export interface EntityProfitTableRow {
   id: string;
   kind: 'crop' | 'animal' | 'farm_general';
   label: string;
-  revenue: number | null;
-  expense: number | null;
-  netProfit: number | null;
+  revenue: number;
+  expense: number;
+  netProfit: number;
 }
 
 export interface EntityProfitTableProps {
@@ -67,23 +67,14 @@ const EntityProfitTable = ({
   };
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
-    if (row.revenue == null) {
-      return '-';
-    }
     return <span className={styles.cellRevenue}>{formatCurrency(row.revenue)}</span>;
   };
 
   const renderExpense = (row: EntityProfitTableRow): ReactNode => {
-    if (row.expense == null) {
-      return '-';
-    }
     return <span className={styles.cellExpense}>{formatCurrency(row.expense)}</span>;
   };
 
   const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {
-    if (row.netProfit == null) {
-      return '-';
-    }
     return (
       <span className={styles.cellNetProfit}>
         {row.netProfit < 0 ? '-' : ''}

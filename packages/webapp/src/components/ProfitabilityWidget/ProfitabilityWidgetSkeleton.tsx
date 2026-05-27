@@ -22,27 +22,13 @@ import ExpandableSection from './ExpandableSection';
 import { EntityTab } from './constants';
 import styles from './styles.module.scss';
 
-export interface ProfitabilityWidgetSkeletonProps {
-  /**
-   * When true, omits the top header placeholder. Used by the empty-state
-   * branch of the widget, which keeps the live header (title + date-range
-   * dropdown) above the skeletoned content so the user can still change the
-   * range without leaving the empty view.
-   */
-  omitHeader?: boolean;
-}
-
 const PLACEHOLDER_BAR_COUNT = 3;
 const PLACEHOLDER_TABLE_ROW_COUNT = 5;
 
-export interface ProfitabilityWidgetSkeletonProps {
-  omitHeader?: boolean;
-}
-
-const PlaceholderBarRow = ({ omitHeader = false }: ProfitabilityWidgetSkeletonProps) => (
+const PlaceholderBarRow = () => (
   <div className={styles.skeletonBarRow}>
     <div className={styles.skeletonBarRowHeader}>
-      {!omitHeader && <div className={clsx(styles.skeletonPlaceholder, styles.skeletonBarLabel)} />}
+      <div className={clsx(styles.skeletonPlaceholder, styles.skeletonBarLabel)} />
       <div className={clsx(styles.skeletonPlaceholder, styles.skeletonBarValue)} />
     </div>
     <div className={styles.skeletonBarTrack} />
@@ -66,7 +52,7 @@ const PlaceholderTableRow = () => (
   </div>
 );
 
-const ProfitabilityWidgetSkeleton = (_props: ProfitabilityWidgetSkeletonProps) => {
+const ProfitabilityWidgetSkeleton = () => {
   const { t } = useTranslation('profitability');
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState(EntityTab.CROPS);

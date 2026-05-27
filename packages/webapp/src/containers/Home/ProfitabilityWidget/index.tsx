@@ -27,9 +27,8 @@ import EntityProfitTable from '../../../components/ProfitabilityWidget/EntityPro
 import ExpandableSection from '../../../components/ProfitabilityWidget/ExpandableSection';
 import KpiSection from '../../../components/ProfitabilityWidget/KpiSection';
 import ProfitabilityWidgetSkeleton from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
-import RevenueExpenseBars, {
-  GroupBar,
-} from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
+import RevenueExpenseBars from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
+import type { GroupBar } from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
 import { EntityTab } from '../../../components/ProfitabilityWidget/constants';
 import { DateRangeData } from '../../../components/DateRangeSelector/types';
 import useProfitabilityData from './useProfitabilityData';
@@ -91,7 +90,7 @@ const ProfitabilityWidget = () => {
 
   const ctaMessage = data.isEmpty
     ? t('CTA_BANNER.NO_TRANSACTIONS')
-    : data.revenueGroups.some((g) => g.total > 0 && g.kind !== 'farm_general')
+    : data.hasAttributedRevenue
       ? t('CTA_BANNER.DEFAULT')
       : t('CTA_BANNER.NO_ATTRIBUTIONS');
 
@@ -109,11 +108,11 @@ const ProfitabilityWidget = () => {
     );
   }
 
-  const localisedRevenueGroups: GroupBar[] = data.revenueGroups.map((group) => ({
-    id: group.kind,
-    label: t(`REVENUE_GROUP.${group.label}`),
-    total: group.total,
-    percentOfTotal: group.percentOfTotal,
+  const localisedRevenueTypes: GroupBar[] = data.topRevenueTypes.map((type) => ({
+    id: type.id,
+    label: type.labelKey ? t(type.labelKey) : type.label,
+    total: type.total,
+    percentOfTotal: type.percentOfTotal,
   }));
 
   const localisedExpenseCategories: GroupBar[] = data.topExpenseCategories.map((category) => ({
@@ -175,7 +174,7 @@ const ProfitabilityWidget = () => {
           <RevenueExpenseBars
             revenueHeading={t('REVENUE_SOURCES')}
             expenseHeading={t('TOP_EXPENSE_CATEGORIES')}
-            revenueGroups={localisedRevenueGroups}
+            revenueGroups={localisedRevenueTypes}
             expenseCategories={localisedExpenseCategories}
             formatValue={(v) => formatCurrencyValue(currencySymbol, v)}
           />

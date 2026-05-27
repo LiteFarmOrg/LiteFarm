@@ -21,16 +21,35 @@ import {
   filterTasksByDateRange,
   formatYearOption,
   getAvailableYears,
-  groupRevenueByEntityType,
+  hasAttributedRevenue,
   topNExpenseCategories,
+  topNRevenueTypes,
 } from '../containers/Home/ProfitabilityWidget/utils';
 
 const dateFilter = { startDate: '2025-01-01', endDate: '2025-12-31' };
 
 const revenueTypes = [
-  { revenue_type_id: 1, entity_type: 'crop', revenue_name: 'Crop Sale' },
-  { revenue_type_id: 2, entity_type: 'animal', revenue_name: 'Animal Sale' },
-  { revenue_type_id: 3, entity_type: null, revenue_name: 'Farm tour' },
+  {
+    revenue_type_id: 1,
+    farm_id: null,
+    entity_type: 'crop',
+    revenue_name: 'Crop Sale',
+    revenue_translation_key: 'CROP_SALE',
+  },
+  {
+    revenue_type_id: 2,
+    farm_id: null,
+    entity_type: 'animal',
+    revenue_name: 'Animal Sale',
+    revenue_translation_key: 'ANIMAL_SALE',
+  },
+  {
+    revenue_type_id: 3,
+    farm_id: 'farm-1',
+    entity_type: null,
+    revenue_name: 'Farm tour',
+    revenue_translation_key: 'FARM_TOUR',
+  },
 ];
 
 const expenseTypes = [
@@ -253,20 +272,51 @@ describe('calcYoYTrend', () => {
   });
 });
 
-describe('groupRevenueByEntityType', () => {
-  test('groups sales by entity type and excludes empty buckets', () => {
-    const result = groupRevenueByEntityType(sales, revenueTypes, dateFilter);
-    const byKind = Object.fromEntries(result.map((r) => [r.kind, r.total]));
-    expect(byKind).toEqual({ crop: 200, animal: 300, farm_general: 45 });
-    // percentOfTotal: sum = 545. animal 300/545 ≈ 55%.
-    const animal = result.find((r) => r.kind === 'animal');
-    expect(animal.percentOfTotal).toBe(55);
+describe('topNRevenueTypes', () => {
+  test('groups sales by revenue_type_id and returns the highest-total types first', () => {
+    const result = topNRevenueTypes(sales, revenueTypes, 5, dateFilter);
+    // type 2 (Animal Sale): 200+100 = 300, type 1 (Crop Sale): 120+80 = 200, type 3 (Farm tour): 45
+    expect(result.map((r) => r.id)).toEqual(['revenue_2', 'revenue_1', 'revenue_3']);
+    expect(result.find((r) => r.id === 'revenue_2').total).toBe(300);
+    expect(result.find((r) => r.id === 'revenue_1').total).toBe(200);
+    expect(result.find((r) => r.id === 'revenue_3').total).toBe(45);
   });
 
-  test('uses i18n sub-keys for labels (component owns localisation)', () => {
-    const result = groupRevenueByEntityType(sales, revenueTypes, dateFilter);
-    const labels = result.map((r) => r.label).sort();
-    expect(labels).toEqual(['ANIMAL_SALES', 'CROP_SALES', 'FARM_GENERAL']);
+  test('computes percentOfTotal across returned types', () => {
+    const result = topNRevenueTypes(sales, revenueTypes, 5, dateFilter);
+    // sum = 545. Animal Sale 300/545 ≈ 55%.
+    expect(result.find((r) => r.id === 'revenue_2').percentOfTotal).toBe(55);
+  });
+
+  test('labels system types with i18n key and custom types with revenue_name', () => {
+    const result = topNRevenueTypes(sales, revenueTypes, 5, dateFilter);
+    const cropSale = result.find((r) => r.id === 'revenue_1');
+    const farmTour = result.find((r) => r.id === 'revenue_3');
+    expect(cropSale).toMatchObject({ label: '', labelKey: 'revenue:CROP_SALE.REVENUE_NAME' });
+    expect(farmTour).toMatchObject({ label: 'Farm tour', labelKey: null });
+  });
+
+  test('truncates to top N', () => {
+    const result = topNRevenueTypes(sales, revenueTypes, 1, dateFilter);
+    expect(result).toHaveLength(1);
+    expect(result[0].total).toBe(300);
+  });
+});
+
+describe('hasAttributedRevenue', () => {
+  test('returns true when a sale has a revenue type with non-null entity_type', () => {
+    expect(hasAttributedRevenue(sales, revenueTypes, dateFilter)).toBe(true);
+  });
+
+  test('returns false when all in-range sales are farm-general', () => {
+    const farmGeneralSales = [
+      { sale_id: 3, revenue_type_id: 3, sale_date: '2025-08-01', value: 45 },
+    ];
+    expect(hasAttributedRevenue(farmGeneralSales, revenueTypes, dateFilter)).toBe(false);
+  });
+
+  test('returns false when there are no sales in range', () => {
+    expect(hasAttributedRevenue([], revenueTypes, dateFilter)).toBe(false);
   });
 });
 

@@ -27,17 +27,19 @@ import {
   EntityProfitRow,
   ExpenseCategoryBar,
   KpiResult,
-  RevenueGroupBar,
+  RevenueTypeBar,
   YoYTrend,
   aggregateByEntity,
   calcKpis,
   calcYoYTrend,
   getAvailableYears,
-  groupRevenueByEntityType,
+  hasAttributedRevenue,
   topNExpenseCategories,
+  topNRevenueTypes,
 } from './utils';
 import { EntityTab } from '../../../components/ProfitabilityWidget/constants';
 
+const TOP_REVENUE_TYPES_COUNT = 5;
 const TOP_EXPENSE_CATEGORIES_COUNT = 5;
 
 interface UseProfitabilityDataInput {
@@ -49,7 +51,8 @@ interface UseProfitabilityDataInput {
 export interface UseProfitabilityDataResult {
   kpis: KpiResult;
   yoyTrend: YoYTrend | null;
-  revenueGroups: RevenueGroupBar[];
+  topRevenueTypes: RevenueTypeBar[];
+  hasAttributedRevenue: boolean;
   topExpenseCategories: ExpenseCategoryBar[];
   entityRows: EntityProfitRow[];
   availableYears: number[];
@@ -106,7 +109,8 @@ export default function useProfitabilityData({
       return {
         kpis: EMPTY_KPIS,
         yoyTrend: EMPTY_TREND,
-        revenueGroups: [] as RevenueGroupBar[],
+        topRevenueTypes: [] as RevenueTypeBar[],
+        hasAttributedRevenue: false,
         topExpenseCategories: [] as ExpenseCategoryBar[],
         entityRows: [] as EntityProfitRow[],
         availableYears: [] as number[],
@@ -115,7 +119,13 @@ export default function useProfitabilityData({
 
     const kpis = calcKpis({ sales, expenses, tasks, dateFilter });
     const yoyTrend = calcYoYTrend({ sales, expenses, tasks }, dateFilter);
-    const revenueGroups = groupRevenueByEntityType(sales, revenueTypes, dateFilter);
+    const topRevenueTypesResult = topNRevenueTypes(
+      sales,
+      revenueTypes,
+      TOP_REVENUE_TYPES_COUNT,
+      dateFilter,
+    );
+    const hasAttributedRevenueResult = hasAttributedRevenue(sales, revenueTypes, dateFilter);
     const topExpenseCategoriesResult = topNExpenseCategories(
       expenses,
       expenseTypes,
@@ -139,7 +149,8 @@ export default function useProfitabilityData({
     return {
       kpis,
       yoyTrend,
-      revenueGroups,
+      topRevenueTypes: topRevenueTypesResult,
+      hasAttributedRevenue: hasAttributedRevenueResult,
       topExpenseCategories: topExpenseCategoriesResult,
       entityRows,
       availableYears,

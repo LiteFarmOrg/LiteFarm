@@ -34,9 +34,10 @@ export interface YoYTrend {
   direction: 'up' | 'down' | 'flat';
 }
 
-export interface RevenueGroupBar {
-  kind: 'crop' | 'animal' | 'farm_general';
+export interface RevenueTypeBar {
+  id: string;
   label: string;
+  labelKey: string | null;
   total: number;
   percentOfTotal: number;
 }
@@ -235,45 +236,68 @@ function withPercentOfTotal<T extends { total: number }>(
 }
 
 /**
- * Groups sales revenue into three buckets by `revenue_type.entity_type`:
- * `crop`, `animal`, and `farm_general` (anything without an entity type).
- * Returns one bar per non-empty bucket. Labels are returned as i18n sub-keys
- * (e.g. `'CROP_SALES'`); the consuming component owns localisation under the
- * `REVENUE_GROUP` namespace.
+ * Returns the top N revenue types by total value within the date range.
+ *
+ * For custom revenue types (`farm_id` is set), `label` is the user-supplied
+ * `revenue_name` and `labelKey` is `null`. For system revenue types,
+ * `label` is empty and `labelKey` is the i18n key
+ * (e.g. `'revenue:CROP_SALE.REVENUE_NAME'`).
  */
-export function groupRevenueByEntityType(
+export function topNRevenueTypes(
+  sales: any[] | undefined,
+  revenueTypes: any[] | undefined,
+  n: number,
+  dateFilter: DateFilter,
+): RevenueTypeBar[] {
+  const filtered = filterSalesByDateRange(sales ?? [], dateFilter.startDate, dateFilter.endDate);
+
+  const totalsByType = new Map<number, number>();
+  for (const sale of filtered) {
+    if (sale.revenue_type_id == null) {
+      continue;
+    }
+    const cur = totalsByType.get(sale.revenue_type_id) ?? 0;
+    totalsByType.set(sale.revenue_type_id, cur + sumSaleValue(sale));
+  }
+
+  const typeLookup = revenueTypes ?? [];
+  const categories: Omit<RevenueTypeBar, 'percentOfTotal'>[] = [];
+
+  for (const [typeId, total] of totalsByType.entries()) {
+    const type = typeLookup.find((t: any) => t.revenue_type_id === typeId);
+    if (!type) {
+      continue;
+    }
+    const isCustom = type.farm_id != null;
+    categories.push({
+      id: `revenue_${typeId}`,
+      label: isCustom ? (type.revenue_name ?? '') : '',
+      labelKey: isCustom ? null : `revenue:${type.revenue_translation_key}.REVENUE_NAME`,
+      total,
+    });
+  }
+
+  categories.sort((a, b) => b.total - a.total);
+  return withPercentOfTotal(categories.slice(0, n));
+}
+
+/**
+ * Returns true when at least one sale in the date range belongs to a
+ * revenue type with a non-null `entity_type` (crop or animal) and carries
+ * a positive value. Used by the CTA banner to distinguish "no attributions"
+ * from "has attributions".
+ */
+export function hasAttributedRevenue(
   sales: any[] | undefined,
   revenueTypes: any[] | undefined,
   dateFilter: DateFilter,
-): RevenueGroupBar[] {
+): boolean {
   const filtered = filterSalesByDateRange(sales ?? [], dateFilter.startDate, dateFilter.endDate);
   const types = revenueTypes ?? [];
-  const totals = { crop: 0, animal: 0, farm_general: 0 };
-
-  for (const sale of filtered) {
-    const revenueType = types.find((rt: any) => rt.revenue_type_id === sale.revenue_type_id);
-    const entityType = revenueType?.entity_type ?? null;
-    const value = sumSaleValue(sale);
-    if (entityType === 'crop') {
-      totals.crop += value;
-    } else if (entityType === 'animal') {
-      totals.animal += value;
-    } else {
-      totals.farm_general += value;
-    }
-  }
-
-  const rows: Omit<RevenueGroupBar, 'percentOfTotal'>[] = (
-    [
-      { kind: 'crop', label: 'CROP_SALES', total: totals.crop },
-      { kind: 'animal', label: 'ANIMAL_SALES', total: totals.animal },
-      { kind: 'farm_general', label: 'FARM_GENERAL', total: totals.farm_general },
-    ] as const
-  )
-    .filter((row) => row.total > 0)
-    .map((row) => ({ kind: row.kind, label: row.label, total: row.total }));
-
-  return withPercentOfTotal(rows);
+  return filtered.some((sale) => {
+    const rt = types.find((t: any) => t.revenue_type_id === sale.revenue_type_id);
+    return rt?.entity_type != null && sumSaleValue(sale) > 0;
+  });
 }
 
 /**

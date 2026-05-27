@@ -38,6 +38,9 @@ export default function WeatherForecast() {
   const days = useMemo(() => (data ? groupSlotsByLocalDay(data) : []), [data]);
 
   const dayPillLabels = useMemo(() => {
+    if (!days.length) {
+      return [];
+    }
     const todayLocalYmd = localYmdFromUtcMs(Date.now(), offsetSeconds);
     const browserTimezoneOffsetSeconds = -new Date().getTimezoneOffset() * 60;
     const offsetMatch = offsetSeconds === browserTimezoneOffsetSeconds;
@@ -64,23 +67,15 @@ export default function WeatherForecast() {
     setSelectedSlotIndex(activeSlotIndices[slotIndex]);
 
   const onDayClick = (dayIndex: number) => {
-    if (!selectedSlot) {
-      return;
-    }
-    const currentTime = localTimeOfDay(selectedSlot.dt, offsetSeconds);
     const target = days[dayIndex];
-    const match = target.slotIndices.find(
-      (i) => localTimeOfDay(data.slots[i].dt, offsetSeconds) === currentTime,
-    );
+    const currentTime = selectedSlot ? localTimeOfDay(selectedSlot.dt, offsetSeconds) : undefined;
+    const match =
+      currentTime !== undefined
+        ? target.slotIndices.find(
+            (i) => localTimeOfDay(data!.slots[i].dt, offsetSeconds) === currentTime,
+          )
+        : undefined;
     setSelectedSlotIndex(match ?? target.slotIndices[0]);
-  };
-
-  const onPrev = () => setSelectedSlotIndex((i) => Math.max(0, i - 1));
-  const onNext = () => {
-    if (!data?.slots?.length) {
-      return;
-    }
-    setSelectedSlotIndex((i) => Math.min(data.slots.length - 1, i + 1));
   };
 
   return (
@@ -97,9 +92,11 @@ export default function WeatherForecast() {
       locale={i18n.language}
       onDayClick={onDayClick}
       onSelectSlot={handleSelectSlot}
-      onPrev={selectedSlotIndex === 0 ? undefined : onPrev}
+      onPrev={selectedSlotIndex === 0 ? undefined : () => setSelectedSlotIndex((i) => i - 1)}
       onNext={
-        !data?.slots?.length || selectedSlotIndex === data.slots.length - 1 ? undefined : onNext
+        !data?.slots?.length || selectedSlotIndex === data.slots.length - 1
+          ? undefined
+          : () => setSelectedSlotIndex((i) => i + 1)
       }
     />
   );

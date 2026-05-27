@@ -347,6 +347,7 @@ export function topNExpenseCategories(
 interface AggregateByEntityInput {
   sales?: any[];
   expenses?: any[];
+  tasks?: any[];
   revenueTypes?: any[];
   cropVarieties?: any[];
   animals?: any[];
@@ -370,6 +371,7 @@ interface AggregateByEntityInput {
 export function aggregateByEntity({
   sales = [],
   expenses = [],
+  tasks = [],
   revenueTypes = [],
   cropVarieties = [],
   animals = [],
@@ -383,6 +385,7 @@ export function aggregateByEntity({
     dateFilter.startDate,
     dateFilter.endDate,
   );
+  const filteredTasks = filterTasksByDateRange(tasks, dateFilter.startDate, dateFilter.endDate);
 
   const cropTotals = new Map<
     string,
@@ -471,6 +474,9 @@ export function aggregateByEntity({
     }
   }
 
+  const labourTotal = filteredTasks.reduce((sum, task) => sum + taskLabourCost(task), 0);
+  farmGeneralExpense += labourTotal;
+
   const cropRows: EntityProfitRow[] = [...cropTotals.values()].map((entry) => {
     const cropVariety = cropVarieties.find((cv: any) => cv.crop_variety_id === entry.cropVarietyId);
     return {
@@ -524,33 +530,59 @@ export function aggregateByEntity({
 }
 
 /**
- * Returns the distinct calendar years present in sales+expenses data,
- * sorted descending, excluding the year of `baseDate` (covered by YTD).
+ * Returns a continuous descending range of calendar years from
+ * `currentYear - 1` down to the earliest year present in sales, expenses,
+ * or wage-bearing tasks. Years with no transactions appear in the range so
+ * the dropdown never has gaps.
+ *
+ * A task is "wage-bearing" when `taskLabourCost` returns a positive value
+ * (i.e. both `duration` and `wage_at_moment` are non-zero), matching the
+ * condition under which `useTransactions` creates a LABOUR_EXPENSE entry.
  */
 export function getAvailableYears(
   sales: any[] | undefined,
   expenses: any[] | undefined,
+  tasks?: any[] | undefined,
   baseDate: Date = new Date(),
 ): number[] {
   const currentYear = baseDate.getFullYear();
-  const years = new Set<number>();
+  let earliestYear = Infinity;
+
   for (const sale of sales ?? []) {
     if (sale.sale_date) {
       const y = new Date(sale.sale_date).getFullYear();
-      if (y < currentYear) {
-        years.add(y);
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
       }
     }
   }
   for (const expense of expenses ?? []) {
     if (expense.expense_date) {
       const y = new Date(expense.expense_date).getFullYear();
-      if (y < currentYear) {
-        years.add(y);
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
       }
     }
   }
-  return [...years].sort((a, b) => b - a);
+  for (const task of tasks ?? []) {
+    const effectiveDate = task.complete_date ?? task.abandon_date;
+    if (effectiveDate && taskLabourCost(task) > 0) {
+      const y = new Date(effectiveDate).getFullYear();
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
+      }
+    }
+  }
+
+  if (earliestYear === Infinity) {
+    return [];
+  }
+
+  const years: number[] = [];
+  for (let y = currentYear - 1; y >= earliestYear; y--) {
+    years.push(y);
+  }
+  return years;
 }
 
 /**

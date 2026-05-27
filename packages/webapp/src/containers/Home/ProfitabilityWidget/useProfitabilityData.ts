@@ -126,6 +126,7 @@ export default function useProfitabilityData({
     const entityRows = aggregateByEntity({
       sales,
       expenses,
+      tasks,
       revenueTypes,
       cropVarieties,
       animals,
@@ -133,7 +134,7 @@ export default function useProfitabilityData({
       dateFilter,
       entityTab: entityTab as unknown as 'crops' | 'animals' | 'all',
     });
-    const availableYears = getAvailableYears(sales ?? [], expenses ?? []);
+    const availableYears = getAvailableYears(sales ?? [], expenses ?? [], tasks ?? []);
 
     return {
       kpis,

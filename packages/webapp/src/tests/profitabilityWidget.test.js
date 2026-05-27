@@ -371,6 +371,55 @@ describe('aggregateByEntity', () => {
     expect(rows.find((r) => r.id === 'farm_general')).toBeUndefined();
   });
 
+  test('all tab includes labour in the farm_general expense', () => {
+    const rows = aggregateByEntity({
+      sales,
+      expenses,
+      tasks,
+      revenueTypes,
+      cropVarieties,
+      animals,
+      animalBatches,
+      dateFilter,
+      entityTab: 'all',
+    });
+    const farmGeneral = rows.find((r) => r.id === 'farm_general');
+    // Unallocated expenses: 25. Labour: 20 + 30 + 5 = 55. Total: 80.
+    expect(farmGeneral).toMatchObject({
+      kind: 'farm_general',
+      revenue: 45,
+      expense: 80,
+      netProfit: 45 - 80,
+    });
+  });
+
+  test('crops and animals tabs do not include labour', () => {
+    const cropRows = aggregateByEntity({
+      sales,
+      expenses,
+      tasks,
+      revenueTypes,
+      cropVarieties,
+      animals,
+      animalBatches,
+      dateFilter,
+      entityTab: 'crops',
+    });
+    const animalRows = aggregateByEntity({
+      sales,
+      expenses,
+      tasks,
+      revenueTypes,
+      cropVarieties,
+      animals,
+      animalBatches,
+      dateFilter,
+      entityTab: 'animals',
+    });
+    expect(cropRows.find((r) => r.id === 'farm_general')).toBeUndefined();
+    expect(animalRows.find((r) => r.id === 'farm_general')).toBeUndefined();
+  });
+
   test('resolves crop variety label and translation key from the lookup', () => {
     const rows = aggregateByEntity({
       sales,
@@ -389,7 +438,7 @@ describe('aggregateByEntity', () => {
 });
 
 describe('getAvailableYears', () => {
-  test('returns distinct years across sales and expenses, descending, excluding current', () => {
+  test('returns a continuous descending range from currentYear-1 to the earliest year', () => {
     const baseDate = new Date(2026, 0, 15);
     const result = getAvailableYears(
       [
@@ -398,14 +447,81 @@ describe('getAvailableYears', () => {
         { sale_date: '2026-01-02' }, // current year — excluded
       ],
       [{ expense_date: '2024-05-10' }, { expense_date: '2025-11-30' }],
+      undefined,
       baseDate,
     );
     expect(result).toEqual([2025, 2024, 2023]);
   });
 
+  test('fills gaps between the earliest year and currentYear-1', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [{ sale_date: '2022-06-01' }],
+      [{ expense_date: '2025-11-30' }],
+      undefined,
+      baseDate,
+    );
+    expect(result).toEqual([2025, 2024, 2023, 2022]);
+  });
+
+  test('includes years from wage-bearing tasks', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [{ sale_date: '2025-03-15' }],
+      [],
+      [{ complete_date: '2023-07-01', duration: '60', wage_at_moment: 20 }],
+      baseDate,
+    );
+    expect(result).toEqual([2025, 2024, 2023]);
+  });
+
+  test('includes years from abandoned tasks with wage data', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [],
+      [],
+      [{ abandon_date: '2024-04-01', duration: '30', wage_at_moment: 10 }],
+      baseDate,
+    );
+    expect(result).toEqual([2025, 2024]);
+  });
+
+  test('excludes tasks with no wage_at_moment', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [{ sale_date: '2025-06-01' }],
+      [],
+      [{ complete_date: '2022-07-01', duration: '60', wage_at_moment: 0 }],
+      baseDate,
+    );
+    expect(result).toEqual([2025]);
+  });
+
+  test('excludes tasks with no duration', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [{ sale_date: '2025-06-01' }],
+      [],
+      [{ complete_date: '2022-07-01', duration: null, wage_at_moment: 20 }],
+      baseDate,
+    );
+    expect(result).toEqual([2025]);
+  });
+
+  test('excludes tasks with no effective date', () => {
+    const baseDate = new Date(2026, 0, 1);
+    const result = getAvailableYears(
+      [{ sale_date: '2025-06-01' }],
+      [],
+      [{ duration: '60', wage_at_moment: 20 }],
+      baseDate,
+    );
+    expect(result).toEqual([2025]);
+  });
+
   test('handles empty inputs', () => {
-    expect(getAvailableYears([], [], new Date(2026, 0, 1))).toEqual([]);
-    expect(getAvailableYears(undefined, undefined, new Date(2026, 0, 1))).toEqual([]);
+    expect(getAvailableYears([], [], [], new Date(2026, 0, 1))).toEqual([]);
+    expect(getAvailableYears(undefined, undefined, undefined, new Date(2026, 0, 1))).toEqual([]);
   });
 });
 

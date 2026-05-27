@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DateRangeData, DateRangeOptions } from '../../../components/DateRangeSelector/types';
 import useDateRange from '../../../components/DateRangeSelector/useDateRange';
 import { MONDAY, SUNDAY } from '../../../util/dateRange';
+import { tasksSelector } from '../../taskSlice';
 import { expenseSelector, salesSelector } from '../../Finances/selectors';
 import {
   ProfitabilityDateRangeState,
@@ -47,6 +48,7 @@ export default function useProfitabilityDateRange({
   const dateRange = useSelector(profitabilityDateRangeDataSelector);
   const sales = useSelector(salesSelector);
   const expenses = useSelector(expenseSelector);
+  const tasks = useSelector(tasksSelector);
 
   const dispatchUpdate = useCallback(
     (newDateRange: Partial<ProfitabilityDateRangeState>) => {
@@ -63,8 +65,8 @@ export default function useProfitabilityDateRange({
   });
 
   const availableYears = useMemo(
-    () => getAvailableYears(sales ?? [], expenses ?? []),
-    [sales, expenses],
+    () => getAvailableYears(sales ?? [], expenses ?? [], tasks ?? []),
+    [sales, expenses, tasks],
   );
 
   return {

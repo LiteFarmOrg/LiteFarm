@@ -40,7 +40,7 @@ export interface WeatherForecast {
 
 interface OpenWeatherListEntry {
   dt: number;
-  main: { temp: number; temp_min: number; humidity: number };
+  main: { temp: number; humidity: number };
   weather: { icon: string }[];
   wind: { speed: number };
   rain?: { '3h'?: number };

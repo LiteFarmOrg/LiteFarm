@@ -56,7 +56,7 @@ export type EntityProfitRow =
       cropVarietyId: number;
       label: string;
       cropTranslationKey?: string | null;
-      revenue: number | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     }
@@ -66,7 +66,7 @@ export type EntityProfitRow =
       animalId: number | null;
       batchId: number | null;
       label: string;
-      revenue: number | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     }
@@ -74,7 +74,7 @@ export type EntityProfitRow =
       id: string;
       kind: 'farm_general';
       label: string;
-      revenue: number | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     };
@@ -364,9 +364,6 @@ interface AggregateByEntityInput {
  * For the `'other'` tab, returns only the synthetic `farm_general` row
  * (sales whose revenue type has no entity type + expenses with no entity
  * allocations).
- *
- * Revenue is returned as `null` when an entity has expense allocations within
- * the date range but no sales — the component renders this as `'Not yet'`.
  */
 export function aggregateByEntity({
   sales = [],
@@ -485,7 +482,7 @@ export function aggregateByEntity({
       cropVarietyId: entry.cropVarietyId,
       label: cropVariety?.crop_variety_name ?? '',
       cropTranslationKey: cropVariety?.crop?.crop_translation_key ?? null,
-      revenue: entry.revenue === 0 && entry.expense > 0 ? null : entry.revenue,
+      revenue: entry.revenue,
       expense: entry.expense,
       netProfit: entry.revenue - entry.expense,
     };
@@ -503,7 +500,7 @@ export function aggregateByEntity({
       animalId: entry.animalId,
       batchId: entry.batchId,
       label,
-      revenue: entry.revenue === 0 && entry.expense > 0 ? null : entry.revenue,
+      revenue: entry.revenue,
       expense: entry.expense,
       netProfit: entry.revenue - entry.expense,
     };
@@ -521,7 +518,7 @@ export function aggregateByEntity({
         id: FARM_GENERAL_ROW_ID,
         kind: 'farm_general',
         label: '',
-        revenue: farmGeneralRevenue || null,
+        revenue: farmGeneralRevenue,
         expense: farmGeneralExpense,
         netProfit: farmGeneralRevenue - farmGeneralExpense,
       },

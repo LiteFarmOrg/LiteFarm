@@ -22,35 +22,16 @@ export type ForecastDay = {
   localYmd: string;
   slotIndices: number[];
   isFrost: boolean;
-  dayLowC: number;
-  summaryIconCode: string;
 };
 
 export function localYmdFromUtcMs(utcMs: number, offsetSeconds: number): string {
   return new Date(utcMs + offsetSeconds * 1000).toISOString().slice(0, 10);
 }
 
-export function localHourOfSlot(slot: WeatherForecastSlot, offsetSeconds: number): number {
-  const localMs = (slot.dt + offsetSeconds) * 1000;
+export function localTimeOfDay(utcMs: number, offsetSeconds: number): number {
+  const localMs = (utcMs + offsetSeconds) * 1000;
   const d = new Date(localMs);
   return d.getUTCHours() + d.getUTCMinutes() / 60;
-}
-
-function pickSummaryIconCode(
-  slots: WeatherForecastSlot[],
-  slotIndices: number[],
-  offsetSeconds: number,
-): string {
-  let bestIndex = slotIndices[0];
-  let bestDist = Infinity;
-  for (const i of slotIndices) {
-    const dist = Math.abs(localHourOfSlot(slots[i], offsetSeconds) - 12);
-    if (dist < bestDist) {
-      bestDist = dist;
-      bestIndex = i;
-    }
-  }
-  return slots[bestIndex].iconCode;
 }
 
 export function groupSlotsByLocalDay(forecast: WeatherForecast): ForecastDay[] {
@@ -75,8 +56,6 @@ export function groupSlotsByLocalDay(forecast: WeatherForecast): ForecastDay[] {
       localYmd,
       slotIndices,
       isFrost: dayLowC < 2,
-      dayLowC,
-      summaryIconCode: pickSummaryIconCode(slots, slotIndices, offsetSeconds),
     });
   }
   return days;

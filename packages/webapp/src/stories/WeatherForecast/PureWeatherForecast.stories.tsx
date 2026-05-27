@@ -20,7 +20,7 @@ import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
 import {
   formatDayPillLabel,
   groupSlotsByLocalDay,
-  localHourOfSlot,
+  localTimeOfDay,
   localYmdFromUtcMs,
 } from '../../containers/WeatherForecast/utils';
 import { buildMockForecast } from './mockData';
@@ -59,11 +59,11 @@ const Wrapper = ({
   const selectedSlot = forecast.slots[selectedSlotIndex];
 
   const onDayClick = (dayIndex: number) => {
-    const currentHour = localHourOfSlot(selectedSlot, forecast.city.timezoneOffsetSeconds);
+    const currentHour = localTimeOfDay(selectedSlot.dt, forecast.city.timezoneOffsetSeconds);
     const target = days[dayIndex];
     const match = target.slotIndices.find(
       (i) =>
-        localHourOfSlot(forecast.slots[i], forecast.city.timezoneOffsetSeconds) === currentHour,
+        localTimeOfDay(forecast.slots[i].dt, forecast.city.timezoneOffsetSeconds) === currentHour,
     );
     setSelectedSlotIndex(match ?? target.slotIndices[0]);
   };

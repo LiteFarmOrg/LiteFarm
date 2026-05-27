@@ -92,7 +92,7 @@ const PureWeatherForecast = ({
           />
           <TimeStrip
             slots={visibleSlots}
-            selectedSlotIndex={relativeSelectedSlotIndex!}
+            selectedSlotIndex={relativeSelectedSlotIndex}
             offsetSeconds={offsetSeconds}
             locale={locale}
             onSelect={handleSelectSlot}

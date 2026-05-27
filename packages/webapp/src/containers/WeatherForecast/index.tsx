@@ -22,7 +22,7 @@ import { measurementSelector } from '../userFarmSlice';
 import {
   formatDayPillLabel,
   groupSlotsByLocalDay,
-  localHourOfSlot,
+  localTimeOfDay,
   localYmdFromUtcMs,
 } from './utils';
 import type { System } from '../../types';
@@ -55,10 +55,10 @@ export default function WeatherForecast() {
     if (!selectedSlot) {
       return;
     }
-    const currentHour = localHourOfSlot(selectedSlot, offsetSeconds);
+    const currentTime = localTimeOfDay(selectedSlot.dt, offsetSeconds);
     const target = days[dayIndex];
     const match = target.slotIndices.find(
-      (i) => localHourOfSlot(data.slots[i], offsetSeconds) === currentHour,
+      (i) => localTimeOfDay(data.slots[i].dt, offsetSeconds) === currentTime,
     );
     setSelectedSlotIndex(match ?? target.slotIndices[0]);
   };

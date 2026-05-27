@@ -31,14 +31,14 @@ export const Default = {
         revenueHeading="Revenue sources"
         expenseHeading="Top expense categories"
         revenueGroups={[
-          { id: 'crop', label: 'Crop sales', total: 14200, percentOfMax: 100 },
-          { id: 'animal', label: 'Animal sales', total: 8400, percentOfMax: 59 },
-          { id: 'farm_general', label: 'Farm-general revenues', total: 2100, percentOfMax: 15 },
+          { id: 'crop', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
+          { id: 'animal', label: 'Animal sales', total: 8400, percentOfTotal: 34 },
+          { id: 'farm_general', label: 'Farm-general revenues', total: 2100, percentOfTotal: 9 },
         ]}
         expenseCategories={[
-          { id: 'labour', label: 'Labour', total: 6200, percentOfMax: 100 },
-          { id: 'expense_1', label: 'Seeds', total: 2800, percentOfMax: 45 },
-          { id: 'expense_2', label: 'Diesel', total: 1900, percentOfMax: 31 },
+          { id: 'labour', label: 'Labour', total: 6200, percentOfTotal: 57 },
+          { id: 'expense_1', label: 'Seeds', total: 2800, percentOfTotal: 26 },
+          { id: 'expense_2', label: 'Diesel', total: 1900, percentOfTotal: 17 },
         ]}
         formatValue={formatValue}
       />

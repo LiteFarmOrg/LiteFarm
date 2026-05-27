@@ -79,7 +79,7 @@ export type EntityProfitRow =
       netProfit: number;
     };
 
-export type EntityTab = 'crops' | 'animals' | 'all';
+export type EntityTab = 'crops' | 'animals' | 'other';
 
 export const FARM_GENERAL_ROW_ID = 'farm_general';
 
@@ -361,9 +361,9 @@ interface AggregateByEntityInput {
  * (`farm_expense_crop_variety` / `farm_expense_animal`) to attribute revenue
  * and expense per-entity. Returns rows shaped for the entity-profit table.
  *
- * For the `'all'` tab, includes a synthetic `farm_general` row aggregating
- * sales whose revenue type has no entity type and expenses with no entity
- * allocations.
+ * For the `'other'` tab, returns only the synthetic `farm_general` row
+ * (sales whose revenue type has no entity type + expenses with no entity
+ * allocations).
  *
  * Revenue is returned as `null` when an entity has expense allocations within
  * the date range but no sales — the component renders this as `'Not yet'`.
@@ -515,18 +515,19 @@ export function aggregateByEntity({
   if (entityTab === 'animals') {
     return animalRows;
   }
-  const allRows: EntityProfitRow[] = [...cropRows, ...animalRows];
   if (farmGeneralRevenue > 0 || farmGeneralExpense > 0) {
-    allRows.push({
-      id: FARM_GENERAL_ROW_ID,
-      kind: 'farm_general',
-      label: '',
-      revenue: farmGeneralRevenue || null,
-      expense: farmGeneralExpense,
-      netProfit: farmGeneralRevenue - farmGeneralExpense,
-    });
+    return [
+      {
+        id: FARM_GENERAL_ROW_ID,
+        kind: 'farm_general',
+        label: '',
+        revenue: farmGeneralRevenue || null,
+        expense: farmGeneralExpense,
+        netProfit: farmGeneralRevenue - farmGeneralExpense,
+      },
+    ];
   }
-  return allRows;
+  return [];
 }
 
 /**

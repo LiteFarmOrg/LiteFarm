@@ -337,7 +337,7 @@ describe('aggregateByEntity', () => {
     expect(byId.batch_60).toMatchObject({ revenue: 100, expense: 0, netProfit: 100 });
   });
 
-  test('all tab includes a farm_general synthetic row aggregating unallocated revenue and expenses', () => {
+  test('other tab returns only the farm_general synthetic row', () => {
     const rows = aggregateByEntity({
       sales,
       expenses,
@@ -346,10 +346,10 @@ describe('aggregateByEntity', () => {
       animals,
       animalBatches,
       dateFilter,
-      entityTab: 'all',
+      entityTab: 'other',
     });
-    const farmGeneral = rows.find((r) => r.id === 'farm_general');
-    expect(farmGeneral).toMatchObject({
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({
       kind: 'farm_general',
       revenue: 45,
       expense: 25,
@@ -371,7 +371,7 @@ describe('aggregateByEntity', () => {
     expect(rows.find((r) => r.id === 'farm_general')).toBeUndefined();
   });
 
-  test('all tab includes labour in the farm_general expense', () => {
+  test('other tab includes labour in the farm_general expense', () => {
     const rows = aggregateByEntity({
       sales,
       expenses,
@@ -381,11 +381,11 @@ describe('aggregateByEntity', () => {
       animals,
       animalBatches,
       dateFilter,
-      entityTab: 'all',
+      entityTab: 'other',
     });
-    const farmGeneral = rows.find((r) => r.id === 'farm_general');
+    expect(rows).toHaveLength(1);
     // Unallocated expenses: 25. Labour: 20 + 30 + 5 = 55. Total: 80.
-    expect(farmGeneral).toMatchObject({
+    expect(rows[0]).toMatchObject({
       kind: 'farm_general',
       revenue: 45,
       expense: 80,

@@ -18,7 +18,7 @@ export const TOP_EXPENSE_CATEGORIES_COUNT = 5;
 export enum EntityTab {
   CROPS = 'crops',
   ANIMALS = 'animals',
-  ALL = 'all',
+  OTHER = 'other',
 }
 
 export type TrendDirection = 'up' | 'down' | 'flat';

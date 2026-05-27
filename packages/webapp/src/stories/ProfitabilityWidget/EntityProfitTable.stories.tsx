@@ -74,7 +74,7 @@ const filterByTab = (tab: EntityTab) => {
   if (tab === EntityTab.ANIMALS) {
     return allRows.filter((r) => r.kind === 'animal');
   }
-  return allRows;
+  return allRows.filter((r) => r.kind === 'farm_general');
 };
 
 export const Default = {

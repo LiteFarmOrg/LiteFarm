@@ -64,6 +64,21 @@ export const TrendDown = {
   ),
 };
 
+export const TrendFlat = {
+  render: () => (
+    <div style={{ maxWidth: 720 }}>
+      <KpiSection
+        {...kpiProps}
+        netProfit={{
+          label: 'Net profit',
+          value: '$12,450.00',
+          trend: { percent: 0, direction: 'flat' as const },
+        }}
+      />
+    </div>
+  ),
+};
+
 export const NoTrend = {
   render: () => (
     <div style={{ maxWidth: 720 }}>

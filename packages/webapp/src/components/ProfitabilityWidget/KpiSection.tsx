@@ -44,7 +44,15 @@ const KpiSection = ({
           data={netProfit.value}
           className={styles.kpiHeroTile}
         />
-        {netProfit.trend && <TrendBadge {...netProfit.trend} />}
+        {netProfit.trend ? (
+          <TrendBadge {...netProfit.trend} />
+        ) : (
+          <span className={styles.skeletonKpiTrend}>
+            <span>-%</span>
+            <span aria-hidden="true">&rarr;</span>
+            <span className={styles.skeletonKpiTrendSuffix}>y/y</span>
+          </span>
+        )}
       </div>
       <DescriptionList
         descriptionListTilesProps={[

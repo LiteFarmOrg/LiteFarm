@@ -45,9 +45,9 @@ const allRows = [
     id: 'crop_102',
     kind: 'crop' as const,
     label: 'Heirloom Tomato',
-    revenue: null,
-    expense: null,
-    netProfit: null,
+    revenue: 0,
+    expense: 0,
+    netProfit: 0,
   },
   {
     id: 'animal_50',

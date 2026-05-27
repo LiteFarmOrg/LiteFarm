@@ -93,15 +93,9 @@ export function formatDayPillLabel(
   offsetMatch: boolean,
   locale: string,
 ): string {
-  // TODO: Confirm how to handle timezones
-  // 1. Do not show "Today" when the browser's offset and farm's offset do not match
   if (offsetMatch && day.localYmd === todayLocalYmd) {
     return i18n.t('common:TODAY');
   }
-  // 2. Display "Today" based on farm's time offset
-  // if (day.localYmd === todayLocalYmd) {
-  //   return i18n.t('common:TODAY');
-  // }
   const date = parseLocalYmdAsUtcNoon(day.localYmd);
   return date.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' });
 }

@@ -28,6 +28,7 @@ export interface WeatherForecastSlot {
   iconCode: string;
   pop: number;
   rainMm3h: number;
+  snowMm3h: number;
   windMs: number;
   humidity: number;
 }
@@ -43,6 +44,7 @@ interface OpenWeatherListEntry {
   weather: { icon: string }[];
   wind: { speed: number };
   rain?: { '3h'?: number };
+  snow?: { '3h'?: number };
   pop?: number;
 }
 
@@ -72,6 +74,7 @@ export const weatherService = {
           iconCode: entry.weather[0].icon,
           pop: entry.pop ?? 0,
           rainMm3h: entry.rain?.['3h'] ?? 0,
+          snowMm3h: entry.snow?.['3h'] ?? 0,
           windMs: entry.wind.speed,
           humidity: entry.main.humidity,
         })),

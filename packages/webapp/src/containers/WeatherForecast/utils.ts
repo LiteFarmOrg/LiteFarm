@@ -122,8 +122,15 @@ export function convertWindForDisplay(windMs: number, system: System): string {
   return `${value} ${unit}`;
 }
 
-export function convertPrecipitationForDisplay(rainMm: number, system: System): string {
-  const unit = system === 'imperial' ? 'in' : 'mm';
-  const value = Math.round(convert(rainMm).from('mm').to(unit));
-  return `${value} ${unit}`;
+export function convertPrecipitationForDisplay(
+  rainMm: number,
+  snowMm: number,
+  system: System,
+): string {
+  const unit = system === 'metric' ? 'mm' : 'in';
+  const value = convert(rainMm + snowMm)
+    .from('mm')
+    .to(unit);
+  const displayValue = system === 'metric' ? Math.round(value) : Math.round(value * 10) / 10;
+  return `${displayValue} ${unit}`;
 }

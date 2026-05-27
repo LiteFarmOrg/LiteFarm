@@ -305,6 +305,7 @@ export interface WeatherForecastSlot {
   iconCode: string;
   pop: number;
   rainMm3h: number;
+  snowMm3h: number;
   windMs: number;
   humidity: number;
 }

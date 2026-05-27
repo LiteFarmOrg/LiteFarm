@@ -38,9 +38,10 @@ interface DayWeatherSummaryProps {
 
 const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSummaryProps) => {
   const { t } = useTranslation();
-  const temp = convertTempForDisplay(selectedSlot.tempC, system);
-  const wind = convertWindForDisplay(selectedSlot.windMs, system);
-  const precipitation = convertPrecipitationForDisplay(selectedSlot.rainMm3h, system);
+  const { tempC, windMs, rainMm3h, snowMm3h, humidity, iconCode } = selectedSlot;
+  const temp = convertTempForDisplay(tempC, system);
+  const wind = convertWindForDisplay(windMs, system);
+  const precipitation = convertPrecipitationForDisplay(rainMm3h, snowMm3h, system);
 
   return (
     <div className={styles.summary}>
@@ -49,7 +50,7 @@ const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSumm
         <span className={styles.date}>{formatLongDate(day, locale)}</span>
         <div className={styles.tempBlock}>
           <span className={styles.temp}>{temp}</span>
-          <WeatherIcon name={weatherBoardUtil.getIcon(selectedSlot.iconCode)} />
+          <WeatherIcon name={weatherBoardUtil.getIcon(iconCode)} />
         </div>
       </div>
       <DescriptionList
@@ -62,7 +63,7 @@ const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSumm
           },
           {
             label: t('WEATHER.HUMIDITY'),
-            data: `${selectedSlot.humidity}%`,
+            data: `${humidity}%`,
             labelSize: LabelSize.SMALL,
           },
           {

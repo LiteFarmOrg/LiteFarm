@@ -29,14 +29,14 @@ import FrostBanner from '../FrostBanner';
 import type { System } from '../../../types';
 import styles from './styles.module.scss';
 
-interface DayWeatherSummaryProps {
+interface WeatherDetailProps {
   day: ForecastDay;
   selectedSlot: WeatherForecastSlot;
   system: System;
   locale: string;
 }
 
-const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSummaryProps) => {
+const WeatherDetail = ({ day, selectedSlot, system, locale }: WeatherDetailProps) => {
   const { t } = useTranslation();
   const { tempC, windMs, rainMm3h, snowMm3h, humidity, iconCode } = selectedSlot;
   const temp = convertTempForDisplay(tempC, system);
@@ -77,4 +77,4 @@ const DayWeatherSummary = ({ day, selectedSlot, system, locale }: DayWeatherSumm
   );
 };
 
-export default DayWeatherSummary;
+export default WeatherDetail;

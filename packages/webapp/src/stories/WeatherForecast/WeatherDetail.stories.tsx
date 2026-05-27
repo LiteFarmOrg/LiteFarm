@@ -14,7 +14,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import DayWeatherSummary from '../../components/WeatherForecast/DayWeatherSummary';
+import WeatherDetail from '../../components/WeatherForecast/WeatherDetail';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { groupSlotsByLocalDay } from '../../containers/WeatherForecast/utils';
 import { buildMockForecast } from './mockData';
@@ -22,14 +22,14 @@ import { buildMockForecast } from './mockData';
 const forecast = buildMockForecast({ frostDayIndex: 2 });
 const days = groupSlotsByLocalDay(forecast);
 
-const meta: Meta<typeof DayWeatherSummary> = {
-  title: 'Components/WeatherForecast/DayWeatherSummary',
-  component: DayWeatherSummary,
+const meta: Meta<typeof WeatherDetail> = {
+  title: 'Components/WeatherForecast/WeatherDetail',
+  component: WeatherDetail,
   decorators: componentDecorators,
 };
 export default meta;
 
-type Story = StoryObj<typeof DayWeatherSummary>;
+type Story = StoryObj<typeof WeatherDetail>;
 
 export const Default: Story = {
   args: {

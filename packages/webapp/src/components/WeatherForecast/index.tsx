@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import type { ForecastDay } from '../../containers/WeatherForecast/utils';
 import type { WeatherForecastSlot } from '../../store/api/types';
 import DayPillRow from './DayPillRow';
-import DayWeatherSummary from './DayWeatherSummary';
+import DayWeatherSummary from './WeatherDetail';
 import TimeStrip from '../TimeStrip';
 import { LoadingSpinner } from '../Loading/LoadingV2';
 import type { System } from '../../types';

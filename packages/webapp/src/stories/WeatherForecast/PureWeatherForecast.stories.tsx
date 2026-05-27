@@ -58,6 +58,18 @@ const Wrapper = ({
   const selectedDayIndex = days.findIndex((d) => d.slotIndices.includes(selectedSlotIndex));
   const selectedSlot = forecast.slots[selectedSlotIndex];
 
+  const activeSlotIndices = days[selectedDayIndex].slotIndices;
+  const visibleSlots = forecast.slots.slice(
+    activeSlotIndices[0],
+    activeSlotIndices[activeSlotIndices.length - 1] + 1,
+  );
+  const relativeSelectedSlotIndex = activeSlotIndices.findIndex(
+    (index) => selectedSlotIndex === index,
+  );
+
+  const handleSelectSlot = (slotIndex: number) =>
+    setSelectedSlotIndex(activeSlotIndices[slotIndex]);
+
   const onDayClick = (dayIndex: number) => {
     const currentHour = localTimeOfDay(selectedSlot.dt, forecast.city.timezoneOffsetSeconds);
     const target = days[dayIndex];
@@ -75,15 +87,21 @@ const Wrapper = ({
       dayPillLabels={labels}
       selectedDayIndex={selectedDayIndex}
       selectedSlot={selectedSlot}
-      selectedSlotIndex={selectedSlotIndex}
-      slots={forecast.slots}
+      selectedSlotIndex={relativeSelectedSlotIndex}
+      slots={visibleSlots}
       offsetSeconds={forecast.city.timezoneOffsetSeconds}
       system={system}
       locale="en-US"
       onDayClick={onDayClick}
-      onSelectSlot={setSelectedSlotIndex}
-      onPrev={() => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
-      onNext={() => setSelectedSlotIndex((i) => Math.min(forecast.slots.length - 1, i + 1))}
+      onSelectSlot={handleSelectSlot}
+      onPrev={
+        selectedSlotIndex === 0 ? undefined : () => setSelectedSlotIndex((i) => Math.max(0, i - 1))
+      }
+      onNext={
+        selectedSlotIndex === forecast.slots.length - 1
+          ? undefined
+          : () => setSelectedSlotIndex((i) => Math.min(forecast.slots.length - 1, i + 1))
+      }
     />
   );
 };

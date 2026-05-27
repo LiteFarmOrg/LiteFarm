@@ -30,14 +30,14 @@ export interface PureWeatherForecastProps {
   selectedDayIndex: number;
   selectedSlot?: WeatherForecastSlot;
   selectedSlotIndex: number;
-  slots?: WeatherForecastSlot[];
+  slots: WeatherForecastSlot[];
   offsetSeconds: number;
   system: System;
   locale: string;
   onDayClick: (dayIndex: number) => void;
   onSelectSlot: (slotIndex: number) => void;
-  onPrev: () => void;
-  onNext: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 const PureWeatherForecast = ({
@@ -57,17 +57,6 @@ const PureWeatherForecast = ({
   onNext,
 }: PureWeatherForecastProps) => {
   const { t } = useTranslation();
-
-  const activeSlotIndices = days[selectedDayIndex]?.slotIndices ?? [];
-  const visibleSlots =
-    slots && activeSlotIndices.length
-      ? slots.slice(activeSlotIndices[0], activeSlotIndices[activeSlotIndices.length - 1] + 1)
-      : [];
-  const relativeSelectedSlotIndex = activeSlotIndices.length
-    ? activeSlotIndices.findIndex((index) => selectedSlotIndex === index)
-    : 0;
-  const handleSelectSlot = (slotIndex: number) => onSelectSlot(activeSlotIndices[slotIndex]);
-
   return (
     <section className={styles.card}>
       <h2 className={styles.title}>{t('WEATHER.TITLE')}</h2>
@@ -76,7 +65,7 @@ const PureWeatherForecast = ({
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && selectedSlot && !!visibleSlots.length && (
+      {!isLoading && selectedSlot && (
         <>
           <DayPillRow
             days={days}
@@ -91,13 +80,13 @@ const PureWeatherForecast = ({
             locale={locale}
           />
           <TimeStrip
-            slots={visibleSlots}
-            selectedSlotIndex={relativeSelectedSlotIndex}
+            slots={slots}
+            selectedSlotIndex={selectedSlotIndex}
             offsetSeconds={offsetSeconds}
             locale={locale}
-            onSelect={handleSelectSlot}
-            onPrev={selectedSlotIndex === 0 ? undefined : onPrev}
-            onNext={!slots?.length || selectedSlotIndex === slots.length - 1 ? undefined : onNext}
+            onSelect={onSelectSlot}
+            onPrev={onPrev}
+            onNext={onNext}
           />
         </>
       )}

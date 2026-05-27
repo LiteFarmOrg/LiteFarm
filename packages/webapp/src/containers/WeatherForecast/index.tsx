@@ -51,6 +51,18 @@ export default function WeatherForecast() {
 
   const selectedSlot = data?.slots[selectedSlotIndex];
 
+  const activeSlotIndices = days[selectedDayIndex]?.slotIndices ?? [];
+  const visibleSlots =
+    data?.slots && activeSlotIndices.length
+      ? data.slots.slice(activeSlotIndices[0], activeSlotIndices[activeSlotIndices.length - 1] + 1)
+      : [];
+  const relativeSelectedSlotIndex = activeSlotIndices.length
+    ? activeSlotIndices.findIndex((index) => selectedSlotIndex === index)
+    : 0;
+
+  const handleSelectSlot = (slotIndex: number) =>
+    setSelectedSlotIndex(activeSlotIndices[slotIndex]);
+
   const onDayClick = (dayIndex: number) => {
     if (!selectedSlot) {
       return;
@@ -63,6 +75,7 @@ export default function WeatherForecast() {
     setSelectedSlotIndex(match ?? target.slotIndices[0]);
   };
 
+  const onPrev = () => setSelectedSlotIndex((i) => Math.max(0, i - 1));
   const onNext = () => {
     if (!data?.slots?.length) {
       return;
@@ -77,15 +90,17 @@ export default function WeatherForecast() {
       dayPillLabels={dayPillLabels}
       selectedDayIndex={selectedDayIndex}
       selectedSlot={selectedSlot}
-      selectedSlotIndex={selectedSlotIndex}
-      slots={data?.slots}
+      selectedSlotIndex={relativeSelectedSlotIndex}
+      slots={visibleSlots}
       offsetSeconds={offsetSeconds}
       system={system}
       locale={i18n.language}
       onDayClick={onDayClick}
-      onSelectSlot={setSelectedSlotIndex}
-      onPrev={() => setSelectedSlotIndex((i) => Math.max(0, i - 1))}
-      onNext={onNext}
+      onSelectSlot={handleSelectSlot}
+      onPrev={selectedSlotIndex === 0 ? undefined : onPrev}
+      onNext={
+        !data?.slots?.length || selectedSlotIndex === data.slots.length - 1 ? undefined : onNext
+      }
     />
   );
 }

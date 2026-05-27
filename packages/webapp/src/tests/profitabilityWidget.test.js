@@ -229,9 +229,9 @@ describe('groupRevenueByEntityType', () => {
     const result = groupRevenueByEntityType(sales, revenueTypes, dateFilter);
     const byKind = Object.fromEntries(result.map((r) => [r.kind, r.total]));
     expect(byKind).toEqual({ crop: 200, animal: 300, farm_general: 45 });
-    // percentOfMax: largest = animal (300). 200/300 ≈ 67, 45/300 = 15.
+    // percentOfTotal: sum = 545. animal 300/545 ≈ 55%.
     const animal = result.find((r) => r.kind === 'animal');
-    expect(animal.percentOfMax).toBe(100);
+    expect(animal.percentOfTotal).toBe(55);
   });
 
   test('uses i18n sub-keys for labels (component owns localisation)', () => {

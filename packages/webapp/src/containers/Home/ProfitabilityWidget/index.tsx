@@ -113,14 +113,14 @@ const ProfitabilityWidget = () => {
     id: group.kind,
     label: t(`REVENUE_GROUP.${group.label}`),
     total: group.total,
-    percentOfMax: group.percentOfMax,
+    percentOfTotal: group.percentOfTotal,
   }));
 
   const localisedExpenseCategories: GroupBar[] = data.topExpenseCategories.map((category) => ({
     id: category.id,
     label: category.labelKey ? t(category.labelKey) : category.label,
     total: category.total,
-    percentOfMax: category.percentOfMax,
+    percentOfTotal: category.percentOfTotal,
   }));
 
   const tableRows = data.entityRows.map((row) => ({

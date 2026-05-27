@@ -38,7 +38,7 @@ export interface RevenueGroupBar {
   kind: 'crop' | 'animal' | 'farm_general';
   label: string;
   total: number;
-  percentOfMax: number;
+  percentOfTotal: number;
 }
 
 export interface ExpenseCategoryBar {
@@ -46,7 +46,7 @@ export interface ExpenseCategoryBar {
   label: string;
   labelKey: string | null;
   total: number;
-  percentOfMax: number;
+  percentOfTotal: number;
 }
 
 export type EntityProfitRow =
@@ -220,13 +220,13 @@ export function calcYoYTrend(
   return { percent: Math.abs(rounded), direction };
 }
 
-function withPercentOfMax<T extends { total: number }>(
+function withPercentOfTotal<T extends { total: number }>(
   rows: T[],
-): (T & { percentOfMax: number })[] {
-  const max = rows.reduce((m, row) => (row.total > m ? row.total : m), 0);
+): (T & { percentOfTotal: number })[] {
+  const sum = rows.reduce((s, row) => s + row.total, 0);
   return rows.map((row) => ({
     ...row,
-    percentOfMax: max > 0 ? Math.round((row.total / max) * 100) : 0,
+    percentOfTotal: sum > 0 ? Math.round((row.total / sum) * 100) : 0,
   }));
 }
 
@@ -259,7 +259,7 @@ export function groupRevenueByEntityType(
     }
   }
 
-  const rows: Omit<RevenueGroupBar, 'percentOfMax'>[] = (
+  const rows: Omit<RevenueGroupBar, 'percentOfTotal'>[] = (
     [
       { kind: 'crop', label: 'CROP_SALES', total: totals.crop },
       { kind: 'animal', label: 'ANIMAL_SALES', total: totals.animal },
@@ -269,7 +269,7 @@ export function groupRevenueByEntityType(
     .filter((row) => row.total > 0)
     .map((row) => ({ kind: row.kind, label: row.label, total: row.total }));
 
-  return withPercentOfMax(rows);
+  return withPercentOfTotal(rows);
 }
 
 /**
@@ -310,7 +310,7 @@ export function topNExpenseCategories(
   }
 
   const typeLookup = expenseTypes ?? [];
-  const categories: Omit<ExpenseCategoryBar, 'percentOfMax'>[] = [];
+  const categories: Omit<ExpenseCategoryBar, 'percentOfTotal'>[] = [];
 
   for (const [typeId, total] of totalsByType.entries()) {
     const type = typeLookup.find((t: any) => t.expense_type_id === typeId);
@@ -337,7 +337,7 @@ export function topNExpenseCategories(
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfMax(categories.slice(0, n));
+  return withPercentOfTotal(categories.slice(0, n));
 }
 
 interface AggregateByEntityInput {

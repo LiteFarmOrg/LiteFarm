@@ -99,7 +99,7 @@ const ProfitabilityWidget = () => {
     return (
       <div className={styles.widget}>
         {header}
-        <ProfitabilityWidgetSkeleton omitHeader />
+        <ProfitabilityWidgetSkeleton />
         <CallToActionBanner
           message={ctaMessage}
           ctaLabel={t('CTA_BANNER.CTA')}

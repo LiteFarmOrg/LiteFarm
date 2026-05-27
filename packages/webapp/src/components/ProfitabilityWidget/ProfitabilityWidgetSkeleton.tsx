@@ -60,7 +60,7 @@ const ProfitabilityWidgetSkeleton = () => {
   const tabs = [
     { key: EntityTab.CROPS, label: t('TABS.CROPS') },
     { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
-    { key: EntityTab.ALL, label: t('TABS.ALL') },
+    { key: EntityTab.OTHER, label: t('common:OTHER') },
   ];
 
   return (

@@ -25,7 +25,6 @@ interface WeatherParams {
 export interface WeatherForecastSlot {
   dt: number;
   tempC: number;
-  tempMinC: number;
   iconCode: string;
   pop: number;
   rainMm3h: number;
@@ -70,7 +69,6 @@ export const weatherService = {
         slots: data.list.map((entry) => ({
           dt: entry.dt,
           tempC: entry.main.temp,
-          tempMinC: entry.main.temp_min,
           iconCode: entry.weather[0].icon,
           pop: entry.pop ?? 0,
           rainMm3h: entry.rain?.['3h'] ?? 0,

@@ -70,7 +70,7 @@ export function groupSlotsByLocalDay(forecast: WeatherForecast): ForecastDay[] {
 
   const days: ForecastDay[] = [];
   for (const [localYmd, slotIndices] of byYmd) {
-    const dayLowC = Math.min(...slotIndices.map((i) => slots[i].tempMinC));
+    const dayLowC = Math.min(...slotIndices.map((i) => slots[i].tempC));
     days.push({
       localYmd,
       slotIndices,

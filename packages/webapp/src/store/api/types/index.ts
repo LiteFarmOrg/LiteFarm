@@ -302,7 +302,6 @@ export interface SensorReadings {
 export interface WeatherForecastSlot {
   dt: number;
   tempC: number;
-  tempMinC: number;
   iconCode: string;
   pop: number;
   rainMm3h: number;

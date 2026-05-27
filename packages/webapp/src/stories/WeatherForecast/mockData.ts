@@ -24,7 +24,6 @@ function buildSlot(
   return {
     dt: dtUtcSeconds,
     tempC: 12,
-    tempMinC: 10,
     iconCode: '02d',
     pop: 0.1,
     rainMm3h: 0,
@@ -47,7 +46,6 @@ export function buildMockForecast({
       slots.push(
         buildSlot(dt, {
           tempC: baseTemp,
-          tempMinC: baseTemp - 1.5,
           iconCode: step >= 3 && step <= 5 ? '10d' : '02d',
           rainMm3h: step === 4 ? 1.4 : 0,
           windMs: 2 + (step % 3),

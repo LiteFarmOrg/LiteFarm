@@ -218,9 +218,38 @@ describe('calcYoYTrend', () => {
     expect(trend.percent).toBe(100);
   });
 
-  test('returns flat when both periods are zero', () => {
-    const trend = calcYoYTrend({ sales: [], expenses: [], tasks: [] }, dateFilter);
+  test('returns flat when both periods have equal net profit', () => {
+    const currentRange = { startDate: '2025-07-01', endDate: '2025-07-31' };
+    const localSales = [
+      {
+        sale_id: 1,
+        revenue_type_id: 1,
+        sale_date: '2025-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 100 }],
+      },
+      {
+        sale_id: 2,
+        revenue_type_id: 1,
+        sale_date: '2024-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 100 }],
+      },
+    ];
+    const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
     expect(trend).toEqual({ percent: 0, direction: 'flat' });
+  });
+
+  test('returns null when previous year has no transactions', () => {
+    const currentRange = { startDate: '2025-07-01', endDate: '2025-07-31' };
+    const localSales = [
+      {
+        sale_id: 1,
+        revenue_type_id: 1,
+        sale_date: '2025-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 200 }],
+      },
+    ];
+    const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
+    expect(trend).toBeNull();
   });
 });
 

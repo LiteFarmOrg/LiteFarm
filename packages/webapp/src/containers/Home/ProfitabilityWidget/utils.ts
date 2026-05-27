@@ -187,7 +187,7 @@ export function calcKpis({
 export function calcYoYTrend(
   args: Omit<CalcKpisInput, 'dateFilter'>,
   currentRange: DateFilter,
-): YoYTrend {
+): YoYTrend | null {
   const start = moment(currentRange.startDate);
   const end = moment(currentRange.endDate);
 
@@ -202,6 +202,10 @@ export function calcYoYTrend(
       endDate: prevEnd.format('YYYY-MM-DD'),
     },
   });
+
+  if (previous.totalRevenue === 0 && previous.totalExpenses === 0) {
+    return null;
+  }
 
   if (previous.netProfit === 0) {
     if (current.netProfit === 0) {

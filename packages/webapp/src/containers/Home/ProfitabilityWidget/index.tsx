@@ -144,10 +144,12 @@ const ProfitabilityWidget = () => {
         netProfit={{
           label: t('KPI.NET_PROFIT'),
           value: formatCurrencyValue(currencySymbol, data.kpis.netProfit),
-          trend: {
-            percent: data.yoyTrend.percent,
-            direction: data.yoyTrend.direction,
-          },
+          ...(data.yoyTrend && {
+            trend: {
+              percent: data.yoyTrend.percent,
+              direction: data.yoyTrend.direction,
+            },
+          }),
         }}
         totalRevenue={{
           label: t('KPI.TOTAL_REVENUE'),

@@ -48,7 +48,7 @@ interface UseProfitabilityDataInput {
 
 export interface UseProfitabilityDataResult {
   kpis: KpiResult;
-  yoyTrend: YoYTrend;
+  yoyTrend: YoYTrend | null;
   revenueGroups: RevenueGroupBar[];
   topExpenseCategories: ExpenseCategoryBar[];
   entityRows: EntityProfitRow[];
@@ -64,7 +64,7 @@ const EMPTY_KPIS: KpiResult = {
   margin: 0,
 };
 
-const EMPTY_TREND: YoYTrend = { percent: 0, direction: 'flat' };
+const EMPTY_TREND: YoYTrend | null = null;
 
 export default function useProfitabilityData({
   startDate,

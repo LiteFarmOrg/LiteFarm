@@ -367,8 +367,8 @@ describe('aggregateByEntity', () => {
     expect(byId.crop_100).toMatchObject({ revenue: 120, expense: 40, netProfit: 80 });
     // 101: revenue 80, no expense → profit 80
     expect(byId.crop_101).toMatchObject({ revenue: 80, expense: 0, netProfit: 80 });
-    // 102: no revenue, expense 20 → revenue 'Not yet' (null)
-    expect(byId.crop_102).toMatchObject({ revenue: null, expense: 20, netProfit: -20 });
+    // 102: no revenue, expense 20 → profit -20
+    expect(byId.crop_102).toMatchObject({ revenue: 0, expense: 20, netProfit: -20 });
   });
 
   test('animals tab aggregates per animal_id and per animal_batch_id separately', () => {

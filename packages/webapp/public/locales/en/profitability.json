@@ -10,7 +10,7 @@
     "NET_PROFIT": "Net profit",
     "TOTAL_EXPENSES": "Total expenses",
     "TOTAL_REVENUE": "Total revenue",
-    "YOY_TOOLTIP": "Comparison against the same-length range immediately preceding the selected one.",
+    "YOY_TOOLTIP": "Compared to the same date range in the previous year.",
     "YOY_TREND": "vs previous year"
   },
   "LABOUR": "Labour",

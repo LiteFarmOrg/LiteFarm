@@ -15,6 +15,7 @@
 
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import StateTab from '../RouterTab/StateTab';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
@@ -26,6 +27,7 @@ export interface EntityProfitTableRow {
   id: string;
   kind: 'crop' | 'animal' | 'farm_general';
   label: string;
+  isTotal?: boolean;
   revenue: number;
   expense: number;
   netProfit: number;
@@ -60,18 +62,24 @@ const EntityProfitTable = ({
   };
 
   const renderLabel = (row: EntityProfitTableRow): ReactNode => {
-    if (row.kind === 'farm_general') {
-      return t('TABLE.FARM_GENERAL');
-    }
-    return row.label;
+    const text = row.kind === 'farm_general' ? t('TABLE.FARM_GENERAL') : row.label;
+    return <span className={clsx(row.isTotal && styles.cellTotal)}>{text}</span>;
   };
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
-    return <span className={styles.cellRevenue}>{formatCurrency(row.revenue)}</span>;
+    return (
+      <span className={clsx(styles.cellRevenue, row.isTotal && styles.cellTotal)}>
+        {formatCurrency(row.revenue)}
+      </span>
+    );
   };
 
   const renderExpense = (row: EntityProfitTableRow): ReactNode => {
-    return <span className={styles.cellExpense}>{formatCurrency(row.expense)}</span>;
+    return (
+      <span className={clsx(styles.cellExpense, row.isTotal && styles.cellTotal)}>
+        {formatCurrency(row.expense)}
+      </span>
+    );
   };
 
   const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {

@@ -58,6 +58,23 @@ const allRows = [
     netProfit: 1700,
   },
   {
+    id: 'batch_60',
+    kind: 'animal' as const,
+    label: 'Spring Calves',
+    revenue: 1200,
+    expense: 150,
+    netProfit: 1050,
+  },
+  {
+    id: 'default_type_1',
+    kind: 'animal' as const,
+    isTotal: true,
+    label: 'Cattle total',
+    revenue: 3200,
+    expense: 450,
+    netProfit: 2750,
+  },
+  {
     id: 'farm_general',
     kind: 'farm_general' as const,
     label: '',

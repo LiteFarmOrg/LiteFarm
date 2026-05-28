@@ -13,34 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TFunction } from 'i18next';
 import { DateRangeOptions, DynamicDateRangeOption } from './types';
-
-type TranslateFn = (key: string) => string;
+import i18n from '../../locales/i18n';
 
 export interface DateRangeOptionEntry {
   value: string;
   label: string;
 }
 
-const STATIC_OPTION_LABEL_KEYS: Record<DateRangeOptions, string> = {
-  [DateRangeOptions.YEAR_TO_DATE]: 'DATE_RANGE_SELECTOR.YEAR_TO_DATE',
-  [DateRangeOptions.LAST_7_DAYS]: 'DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS',
-  [DateRangeOptions.LAST_14_DAYS]: 'DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS',
-  [DateRangeOptions.LAST_30_DAYS]: 'DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS',
-  [DateRangeOptions.LAST_12_MONTHS]: 'DATE_RANGE_SELECTOR.LAST_12_MONTHS',
-  [DateRangeOptions.THIS_WEEK]: 'DATE_RANGE_SELECTOR.THIS_WEEK',
-  [DateRangeOptions.LAST_WEEK]: 'DATE_RANGE_SELECTOR.LAST_WEEK',
-  [DateRangeOptions.THIS_MONTH]: 'DATE_RANGE_SELECTOR.THIS_MONTH',
-  [DateRangeOptions.LAST_MONTH]: 'DATE_RANGE_SELECTOR.LAST_MONTH',
-  [DateRangeOptions.CUSTOM]: 'DATE_RANGE_SELECTOR.CUSTOM_RANGE',
-};
+const getStaticLabels: () => Record<DateRangeOptions, string> = () => ({
+  [DateRangeOptions.YEAR_TO_DATE]: i18n.t('DATE_RANGE_SELECTOR.YEAR_TO_DATE'),
+  [DateRangeOptions.LAST_7_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS'),
+  [DateRangeOptions.LAST_14_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS'),
+  [DateRangeOptions.LAST_30_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS'),
+  [DateRangeOptions.LAST_12_MONTHS]: i18n.t('DATE_RANGE_SELECTOR.LAST_12_MONTHS'),
+  [DateRangeOptions.THIS_WEEK]: i18n.t('DATE_RANGE_SELECTOR.THIS_WEEK'),
+  [DateRangeOptions.LAST_WEEK]: i18n.t('DATE_RANGE_SELECTOR.LAST_WEEK'),
+  [DateRangeOptions.THIS_MONTH]: i18n.t('DATE_RANGE_SELECTOR.THIS_MONTH'),
+  [DateRangeOptions.LAST_MONTH]: i18n.t('DATE_RANGE_SELECTOR.LAST_MONTH'),
+  [DateRangeOptions.CUSTOM]: i18n.t('DATE_RANGE_SELECTOR.CUSTOM_RANGE'),
+});
 
 /**
- * Default static-option order rendered when no `allowedOptions` prop is
- * supplied. Preserves the pre-`allowedOptions` rendering order so existing
- * call sites are unaffected. `LAST_12_MONTHS` is intentionally omitted here:
- * it is available only when callers explicitly include it via
- * `allowedOptions`.
+ * Default static-option order rendered when no `allowedOptions` prop
+ * is supplied. `LAST_12_MONTHS` is intentionally omitted here: it is
+ * available only when callers explicitly include it via`allowedOptions`.
  */
 const DEFAULT_OPTION_ORDER: DateRangeOptions[] = [
   DateRangeOptions.YEAR_TO_DATE,
@@ -63,14 +61,15 @@ const DEFAULT_OPTION_ORDER: DateRangeOptions[] = [
  *   the `CUSTOM` entry (or appended if no `CUSTOM` entry is present).
  */
 export function buildDateRangeOptions(
-  t: TranslateFn,
+  t: TFunction,
   allowedOptions?: DateRangeOptions[],
   dynamicOptions?: DynamicDateRangeOption[],
 ): DateRangeOptionEntry[] {
   const staticKeys = allowedOptions ?? DEFAULT_OPTION_ORDER;
+  const staticLabels = getStaticLabels();
   const staticEntries: DateRangeOptionEntry[] = staticKeys.map((key) => ({
     value: key,
-    label: t(STATIC_OPTION_LABEL_KEYS[key]),
+    label: staticLabels[key],
   }));
 
   if (!dynamicOptions?.length) {

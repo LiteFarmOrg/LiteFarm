@@ -52,8 +52,7 @@ interface DateRangeSelectorProps {
 
   /**
    * Optional explicit allowlist of built-in options to render, in the order
-   * given. When omitted, the dropdown renders the same options it did before
-   * this prop existed.
+   * given. When omitted, the dropdown renders DEFAULT_OPTION_ORDER.
    */
   allowedOptions?: DateRangeOptions[];
 

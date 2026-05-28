@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .summary {
   display: flex;
   flex-direction: column;
@@ -55,13 +57,26 @@
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   color: var(--Colors-Primary-Primary-teal-900);
   letter-spacing: 0.4px;
   text-align: left;
 
   dd {
     font-size: 16px;
+  }
+
+  > div {
+    &:nth-child(1) {
+      border-right: none;
+    }
+    &:nth-child(2) {
+      border-left: none;
+    }
+  }
+
+  @include md-breakpoint {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

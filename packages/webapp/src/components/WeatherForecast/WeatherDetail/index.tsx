@@ -38,7 +38,7 @@ interface WeatherDetailProps {
 
 const WeatherDetail = ({ day, selectedSlot, system, locale }: WeatherDetailProps) => {
   const { t } = useTranslation();
-  const { tempC, windMs, rainMm3h, snowMm3h, humidity, iconCode } = selectedSlot;
+  const { tempC, windMs, rainMm3h, snowMm3h, humidity, pop, iconCode } = selectedSlot;
   const temp = convertTempForDisplay(tempC, system);
   const wind = convertWindForDisplay(windMs, system);
   const precipitation = convertPrecipitationForDisplay(rainMm3h, snowMm3h, system);
@@ -59,6 +59,11 @@ const WeatherDetail = ({ day, selectedSlot, system, locale }: WeatherDetailProps
           {
             label: t('WEATHER.PRECIPITATION'),
             data: precipitation,
+            labelSize: LabelSize.SMALL,
+          },
+          {
+            label: t('common:PROBABILITY'),
+            data: `${Math.floor(pop * 100)}%`,
             labelSize: LabelSize.SMALL,
           },
           {

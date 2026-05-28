@@ -110,6 +110,6 @@ export function convertPrecipitationForDisplay(
   const value = convert(rainMm + snowMm)
     .from('mm')
     .to(unit);
-  const displayValue = system === 'metric' ? Math.round(value) : Math.round(value * 10) / 10;
+  const displayValue = system === 'metric' ? value : Math.round(value * 1000) / 1000;
   return `${displayValue} ${unit}`;
 }
